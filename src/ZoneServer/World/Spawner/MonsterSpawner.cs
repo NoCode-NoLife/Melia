@@ -41,21 +41,21 @@ namespace Melia.Zone.World.Spawner
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
-		/// List of spawn points this spawner can spawn monsters in.
-		/// The spawn point is chosen at random each time there are
-		/// monsters to be spawned.
+		/// The spawn point collection this spawner uses to respawn mobs.
+		/// This is updated on runtime according to the spawnPointCollectionIdentifier.
 		/// </summary>
-		private List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
+		private MonsterSpawnPointCollection _spawnPointCollection;
+
+		/// <summary>
+		/// The name of the spawn point collection this spawner will use
+		/// to spawn monsters.
+		/// </summary>
+		public string SpawnPointCollectionName { get; }
 
 		/// <summary>
 		/// Returns the unique id of this spawner.
 		/// </summary>
 		public int Id { get; }
-
-		/// <summary>
-		/// Returns the name identifier for this spawner.
-		/// </summary>
-		public string Name { get; set; }
 
 		/// <summary>
 		/// Returns the min amount of monsters this spawner spawns at a time.
@@ -109,7 +109,6 @@ namespace Melia.Zone.World.Spawner
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
-		/// <param name="name"></param>
 		/// <param name="monsterClassId"></param>
 		/// <param name="minAmount"></param>
 		/// <param name="maxAmount"></param>
@@ -118,20 +117,20 @@ namespace Melia.Zone.World.Spawner
 		/// <param name="maxRespawnDelay"></param>
 		/// <param name="tendency"></param>
 		/// <param name="propertyOverrides"></param>
-		public MonsterSpawner(string name, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string spawnPointCollectionName, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
-				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
+				throw new ArgumentException($"MonsterSpawner: No monster data found for '{monsterClassId}'.");
 
 			maxAmount = Math.Max(1, maxAmount);
 			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
 			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
 			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
 
-			this.Name = name;
 			this.Id = Interlocked.Increment(ref Ids);
 			this.MinAmount = minAmount;
 			this.MaxAmount = maxAmount;
+			this.SpawnPointCollectionName = spawnPointCollectionName;
 			this.FlexAmount = this.MinAmount;
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
@@ -140,37 +139,6 @@ namespace Melia.Zone.World.Spawner
 			this.PropertyOverrides = propertyOverrides;
 
 			_flexSpawnDelay = this.InitialDelay;
-		}
-
-		/// <summary>
-		/// Adds a spawn point where this spawner can generate mobs into.
-		/// </summary>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		public MonsterSpawnPoint AddSpawnPoint(string mapClassName, IShape area)
-		{
-			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
-				throw new ArgumentException($"Map '{mapClassName}' not found.");
-
-			var spawnPoint = new MonsterSpawnPoint(map, area);
-			_spawnPoints.Add(spawnPoint);
-
-			return spawnPoint;
-		}
-
-		/// <summary>
-		/// Gets all spawn points of this spawner that are in a specific
-		/// map. Returns copy of list with matching spawn points, or null
-		/// if none are found.
-		/// </summary>
-		/// <param name="map"></param>
-		/// <returns></returns>
-		public List<MonsterSpawnPoint> GetSpawnPointsInMap(Map map)
-		{
-			List<MonsterSpawnPoint> ls = null;
-			ls = _spawnPoints.FindAll(p => p.Map.ClassName.Equals(map.ClassName));
-			return ls;
 		}
 
 		/// <summary>
@@ -186,15 +154,15 @@ namespace Melia.Zone.World.Spawner
 		/// </summary>
 		public void Spawn(int amount)
 		{
-			// Gets random spawn point
-			var index = _rnd.Next(0, _spawnPoints.Count);
-			var spawnPoint = _spawnPoints[index];
+			// Gets random spawn point in our spawn point collection
+			if (!_spawnPointCollection.GetRandomSpawnPoint(out var spawnPoint))
+				return;
 
 			for (var i = 0; i < amount; ++i)
 			{
 				if (!spawnPoint.TryGetRandomPosition(out var pos))
 				{
-					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.ClassName}'.");
+					Log.Warning($"MonsterSpawner.Spawn: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.ClassName}'.");
 					continue;
 				}
 
@@ -261,6 +229,16 @@ namespace Melia.Zone.World.Spawner
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			// Updates spawn point collection reference at runtime
+			if (_spawnPointCollection == null)
+			{
+				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByName(this.SpawnPointCollectionName, out _spawnPointCollection))
+				{
+					Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{0}' found for spawner '{1}'.", this.SpawnPointCollectionName, this.Id);
+					return;
+				}
+			}
+
 			this.RespawnMonsters(elapsed);
 			this.FlexSpawnMonsters(elapsed);
 			this.BalanceSpawnAmounts(elapsed);

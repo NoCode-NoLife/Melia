@@ -27,7 +27,8 @@ namespace Melia.Zone.World
 
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
-		private readonly Dictionary<string, MonsterSpawner> _spawnersName = new Dictionary<string, MonsterSpawner>();
+		private readonly Dictionary<int, MonsterSpawner> _spawnersId = new Dictionary<int, MonsterSpawner>();
+		private readonly Dictionary<string, MonsterSpawnPointCollection> _spawnPointCollectionsName = new Dictionary<string, MonsterSpawnPointCollection>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -163,14 +164,14 @@ namespace Melia.Zone.World
 				foreach (var map in _mapsId.Values)
 					map.RemoveScriptedEntities();
 			}
-			lock (_spawnersName)
+			lock (_spawnersId)
 			{
-				foreach (var spawner in _spawnersName)
+				foreach (var spawner in _spawnersId)
 				{
 					spawner.Value.InitializePopulation();
 					this.Heartbeat.Remove(spawner.Value);
 				}
-				_spawnersName.Clear();
+				_spawnersId.Clear();
 			}
 		}
 
@@ -196,19 +197,13 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Adds a monster spawner object to the world
 		/// </summary>
+		/// <param name="spawner"></param>
 		public void AddSpawner(MonsterSpawner spawner)
 		{
-			// Assertive
-			if (this.TryGetSpawnerByName(spawner.Name, out var sp))
-			{
-				Log.Warning($"AddSpawner: Duplicated spawner name '{spawner.Name}' cannot be added.");
-				return;
-			}
-
-			lock (_spawnersName)
+			lock (_spawnersId)
 			{
 				// Adds spawner to our dictionary
-				_spawnersName.Add(spawner.Name, spawner);
+				_spawnersId.Add(spawner.Id, spawner);
 
 				// Adds spawner to updater
 				this.Heartbeat.Add(spawner);
@@ -216,16 +211,37 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Returns by out a spawner with a given name if it exists in the world.
-		/// Returns true if found, false otherwise.
+		/// Adds a spawn point collection object to the world.
+		/// Note that the name string must be unique.
+		/// </summary>
+		/// <param name="spawnPointCollection"></param>
+		public void AddSpawnPointCollection(MonsterSpawnPointCollection spawnPointCollection)
+		{
+			// Assertive
+			if (this.TryGetSpawnPointCollectionByName(spawnPointCollection.Name, out var spc))
+			{
+				Log.Warning($"WorldManager.AddSpawnPointCollection: Duplicated spawn point collection name '{spawnPointCollection.Name}' cannot be added.");
+				return;
+			}
+
+			lock (_spawnPointCollectionsName)
+			{
+				// Adds collection to our dictionary
+				_spawnPointCollectionsName.Add(spawnPointCollection.Name, spawnPointCollection);
+			}
+		}
+
+		/// <summary>
+		/// Returns by out a spawn point collection with a given name
+		/// if it exists in the world. Returns true if found, false otherwise.
 		/// </summary>
 		/// <param name="identifier"></param>
 		/// <param name="spawner"></param>
 		/// <returns></returns>
-		public bool TryGetSpawnerByName(string name, out MonsterSpawner spawner)
+		public bool TryGetSpawnPointCollectionByName(string name, out MonsterSpawnPointCollection spawnPointCollection)
 		{
-			lock (_spawnersName)
-				return _spawnersName.TryGetValue(name, out spawner);
+			lock (_spawnPointCollectionsName)
+				return _spawnPointCollectionsName.TryGetValue(name, out spawnPointCollection);
 		}
 
 		/// <summary>
@@ -235,8 +251,19 @@ namespace Melia.Zone.World
 		/// <returns></returns>
 		public MonsterSpawner[] GetSpawners()
 		{
-			lock (_spawnersName)
-				return _spawnersName.Values.ToArray();
+			lock (_spawnersId)
+				return _spawnersId.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Gets all spawn point collections that currently exist in the world.
+		/// Returns it as an array.
+		/// </summary>
+		/// <returns></returns>
+		public MonsterSpawnPointCollection[] GetSpawnPointCollections()
+		{
+			lock (_spawnersId)
+				return _spawnPointCollectionsName.Values.ToArray();
 		}
 
 		/// <summary>

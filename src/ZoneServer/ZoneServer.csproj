@@ -248,6 +248,7 @@
     <Compile Include="World\Quests\Rewards\SilverReward.cs" />
     <Compile Include="World\Quests\Rewards\ItemReward.cs" />
     <Compile Include="World\Spawner\MonsterSpawnPoint.cs" />
+    <Compile Include="World\Spawner\MonsterSpawnPointCollection.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>

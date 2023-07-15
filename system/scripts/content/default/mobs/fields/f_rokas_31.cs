@@ -21,47 +21,47 @@ public class FRokas31MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner("Spawner1.f_rokas_31", MonsterId.Warleader_Hogma, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("Spawner2.f_rokas_31", MonsterId.Rootcrystal_03, 4, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("Spawner3.f_rokas_31", MonsterId.Tontulia, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("Spawner4.f_rokas_31", MonsterId.Warleader_Hogma, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("Spawner5.f_rokas_31", MonsterId.Repusbunny_Mage, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Warleader_Hogma, 5, "SpawnPointCollection1.f_rokas_31", TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Rootcrystal_03, 4, "SpawnPointCollection2.f_rokas_31", TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Tontulia, 15, "SpawnPointCollection3.f_rokas_31", TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Warleader_Hogma, 3, "SpawnPointCollection4.f_rokas_31", TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Repusbunny_Mage, 5, "SpawnPointCollection5.f_rokas_31", TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
 		// Warleader_Hogma Spawn Points
-		AddSpawnPoint("f_rokas_31", Spot(-661.9323, 6.6517134, 9999), "Spawner1.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-661.9323, 6.6517134, 9999), "SpawnPointCollection1.f_rokas_31");
 
 		// Rootcrystal_03 Spawn Points
-		AddSpawnPoint("f_rokas_31", Spot(-30, -489, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-621.8926, -984.72217, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(869.9075, -1061.6787, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(513.6644, -1375.4624, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(507.52057, -37.26681, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-565.5139, -343.06253, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-695.4375, 150.73772, 30), "Spawner2.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-917.90125, 387.19186, 30), "Spawner2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-30, -489, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-621.8926, -984.72217, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(869.9075, -1061.6787, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(513.6644, -1375.4624, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(507.52057, -37.26681, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-565.5139, -343.06253, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-695.4375, 150.73772, 30), "SpawnPointCollection2.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-917.90125, 387.19186, 30), "SpawnPointCollection2.f_rokas_31");
 
 		// Tontulia Spawn Points
-		AddSpawnPoint("f_rokas_31", Spot(373.95923, -942.1163, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-845.2819, 271.82907, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-697.2455, -983.0076, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-537.3152, -1100.8308, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-417.83844, -882.71295, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-579.6922, -248.38739, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-417.93225, -12.539894, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-700.0269, 84.44062, 40), "Spawner3.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-271.88046, -1040.361, 40), "Spawner3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(373.95923, -942.1163, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-845.2819, 271.82907, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-697.2455, -983.0076, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-537.3152, -1100.8308, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-417.83844, -882.71295, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-579.6922, -248.38739, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-417.93225, -12.539894, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-700.0269, 84.44062, 40), "SpawnPointCollection3.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-271.88046, -1040.361, 40), "SpawnPointCollection3.f_rokas_31");
 
 		// Warleader_Hogma Spawn Points
-		AddSpawnPoint("f_rokas_31", Spot(-73.18795, -581.4615, 400), "Spawner4.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-73.18795, -581.4615, 400), "SpawnPointCollection4.f_rokas_31");
 
 		// Repusbunny_Mage Spawn Points
-		AddSpawnPoint("f_rokas_31", Spot(-582.158, -1092.7369, 40), "Spawner5.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-548.96716, -939.43567, 40), "Spawner5.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-22.125946, -545.1729, 40), "Spawner5.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-441.24307, -103.70015, 40), "Spawner5.f_rokas_31");
-		AddSpawnPoint("f_rokas_31", Spot(-750.4022, 174.83809, 40), "Spawner5.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-582.158, -1092.7369, 40), "SpawnPointCollection5.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-548.96716, -939.43567, 40), "SpawnPointCollection5.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-22.125946, -545.1729, 40), "SpawnPointCollection5.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-441.24307, -103.70015, 40), "SpawnPointCollection5.f_rokas_31");
+		AddSpawnPoint("f_rokas_31", Spot(-750.4022, 174.83809, 40), "SpawnPointCollection5.f_rokas_31");
 
 	}
 }

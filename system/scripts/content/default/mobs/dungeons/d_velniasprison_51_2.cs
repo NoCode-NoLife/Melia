@@ -22,111 +22,111 @@ public class DVelniasprison512MobScript : GeneralScript
 
 		// Monster Spawners --------------------------------
 
-		AddSpawner("Spawner1.d_velniasprison_51_2", MonsterId.Defender_Spider, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("Spawner2.d_velniasprison_51_2", MonsterId.Nuka, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("Spawner3.d_velniasprison_51_2", MonsterId.Defender_Spider, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("Spawner4.d_velniasprison_51_2", MonsterId.Harugal, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("Spawner5.d_velniasprison_51_2", MonsterId.Rootcrystal_05, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("Spawner6.d_velniasprison_51_2", MonsterId.Nuka, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("Spawner7.d_velniasprison_51_2", MonsterId.Elet, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Defender_Spider, 30, "SpawnPointCollection1.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Nuka, 30, "SpawnPointCollection2.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Defender_Spider, 40, "SpawnPointCollection3.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Harugal, 20, "SpawnPointCollection4.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Rootcrystal_05, 18, "SpawnPointCollection5.d_velniasprison_51_2", TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner(MonsterId.Nuka, 40, "SpawnPointCollection6.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner(MonsterId.Elet, 30, "SpawnPointCollection7.d_velniasprison_51_2", TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 
 		// Defender_Spider Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1517.2578, -147.41678, 150), "Spawner1.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-796.7133, 1020.4454, 150), "Spawner1.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1517.2578, -147.41678, 150), "SpawnPointCollection1.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-796.7133, 1020.4454, 150), "SpawnPointCollection1.d_velniasprison_51_2");
 
 		// Nuka Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1491.3463, 908.13, 200), "Spawner2.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.64, -235.51997, 200), "Spawner2.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1491.3463, 908.13, 200), "SpawnPointCollection2.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.64, -235.51997, 200), "SpawnPointCollection2.d_velniasprison_51_2");
 
 		// Defender_Spider Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1555.7273, 984.9888, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.32513, 964.68585, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-596.7037, 985.5314, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-933.0949, 1132.0486, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-754.4216, 421.24573, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1371.2996, 380.41028, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1683.3671, -1444.2179, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1686.3563, -1703.522, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1337.7809, -1526.8472, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(896.94495, -1582.2196, 30), "Spawner3.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(743.69495, -1731.0402, 30), "Spawner3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1555.7273, 984.9888, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.32513, 964.68585, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-596.7037, 985.5314, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-933.0949, 1132.0486, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-754.4216, 421.24573, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1371.2996, 380.41028, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1683.3671, -1444.2179, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1686.3563, -1703.522, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1337.7809, -1526.8472, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(896.94495, -1582.2196, 30), "SpawnPointCollection3.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(743.69495, -1731.0402, 30), "SpawnPointCollection3.d_velniasprison_51_2");
 
 		// Harugal Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1515.9467, 1210.2925, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1565.4038, -148.39145, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-740.0637, -282.5994, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-774.8517, 923.75946, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-726.09216, 407.8715, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1551.7423, 406.85352, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(534.91516, -1475.7618, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(733.32904, -1729.7272, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1498.8826, -1439.0999, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1593.7744, -1694.5508, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1471.9419, 1088.5211, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1631.7762, 1044.5078, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1543.2443, 866.25806, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1429.952, 817.8611, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1704.2794, -60.117588, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1647.2191, -280.81284, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1450.0082, -163.14827, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1461.6193, 18.161314, 100), "Spawner4.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1532.9011, 724.5559, 100), "Spawner4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1515.9467, 1210.2925, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1565.4038, -148.39145, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-740.0637, -282.5994, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-774.8517, 923.75946, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-726.09216, 407.8715, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1551.7423, 406.85352, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(534.91516, -1475.7618, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(733.32904, -1729.7272, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1498.8826, -1439.0999, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1593.7744, -1694.5508, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1471.9419, 1088.5211, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1631.7762, 1044.5078, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1543.2443, 866.25806, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1429.952, 817.8611, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1704.2794, -60.117588, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1647.2191, -280.81284, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1450.0082, -163.14827, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1461.6193, 18.161314, 100), "SpawnPointCollection4.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1532.9011, 724.5559, 100), "SpawnPointCollection4.d_velniasprison_51_2");
 
 		// Rootcrystal_05 Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1498.4769, 929.05255, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1644.3247, -75.78589, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-752.5351, 428.85812, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1540.2426, 425.38504, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-745.9282, 911.60986, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-708.451, -224.58575, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1288.8779, 402.80035, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1195.1626, 1618.8412, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1656.3468, -1352.1024, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1532.1694, -1650.4843, 200), "Spawner5.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(756.80225, -1615.3208, 200), "Spawner5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1498.4769, 929.05255, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1644.3247, -75.78589, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-752.5351, 428.85812, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1540.2426, 425.38504, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-745.9282, 911.60986, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-708.451, -224.58575, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1288.8779, 402.80035, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1195.1626, 1618.8412, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1656.3468, -1352.1024, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1532.1694, -1650.4843, 200), "SpawnPointCollection5.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(756.80225, -1615.3208, 200), "SpawnPointCollection5.d_velniasprison_51_2");
 
 		// Nuka Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-421.49496, 397.8806, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-805.4449, -387.37796, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-735.5212, -267.16705, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-593.1514, -284.01346, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-951.7225, -260.27066, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1546.3917, 1017.3377, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1512.2864, 21.911163, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-952.6666, 1029.9617, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-658.19977, 1057.1178, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-688.1462, -144.15942, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1709.6115, -82.689, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1609.3818, -328.67987, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-746.059, 864.6704, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1574.9001, 854.99084, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.0079, 418.921, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1591.8014, 429.917, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1078.209, 433.10028, 30), "Spawner6.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-819.0254, -130.24094, 30), "Spawner6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-421.49496, 397.8806, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-805.4449, -387.37796, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-735.5212, -267.16705, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-593.1514, -284.01346, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-951.7225, -260.27066, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1546.3917, 1017.3377, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1512.2864, 21.911163, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-952.6666, 1029.9617, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-658.19977, 1057.1178, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-688.1462, -144.15942, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1709.6115, -82.689, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1609.3818, -328.67987, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-746.059, 864.6704, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1574.9001, 854.99084, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-776.0079, 418.921, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1591.8014, 429.917, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1078.209, 433.10028, 30), "SpawnPointCollection6.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-819.0254, -130.24094, 30), "SpawnPointCollection6.d_velniasprison_51_2");
 
 		// Elet Spawn Points
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1519.7975, -141.95331, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-652.9177, -159.94432, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-711.3224, -445.24005, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1410.5492, -5.024622, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1459.9315, -324.93637, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1650.4149, -201.56013, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1629.7535, 6.9627295, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-1539.2941, 594.49976, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(629.6681, -1728.9021, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(671.4549, -1483.1122, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1068.3556, -1536.1779, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1568.8419, -1796.5476, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(1655.9474, -1352.7814, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-887.4362, 910.33826, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-662.4496, 969.9564, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-908.34814, 1085.8877, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-782.97644, 1074.8644, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-849.28455, -104.57232, 30), "Spawner7.d_velniasprison_51_2");
-		AddSpawnPoint("d_velniasprison_51_2", Spot(-964.95, -282.4911, 30), "Spawner7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1519.7975, -141.95331, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-652.9177, -159.94432, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-711.3224, -445.24005, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1410.5492, -5.024622, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1459.9315, -324.93637, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1650.4149, -201.56013, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1629.7535, 6.9627295, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-1539.2941, 594.49976, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(629.6681, -1728.9021, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(671.4549, -1483.1122, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1068.3556, -1536.1779, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1568.8419, -1796.5476, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(1655.9474, -1352.7814, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-887.4362, 910.33826, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-662.4496, 969.9564, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-908.34814, 1085.8877, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-782.97644, 1074.8644, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-849.28455, -104.57232, 30), "SpawnPointCollection7.d_velniasprison_51_2");
+		AddSpawnPoint("d_velniasprison_51_2", Spot(-964.95, -282.4911, 30), "SpawnPointCollection7.d_velniasprison_51_2");
 
 	}
 }

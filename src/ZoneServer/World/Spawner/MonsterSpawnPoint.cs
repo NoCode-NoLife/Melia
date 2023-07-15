@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.World;
 using Melia.Zone.World.Maps;
@@ -17,6 +18,13 @@ namespace Melia.Zone.World.Spawner
 	/// </summary>
 	public class MonsterSpawnPoint
 	{
+		private static int Ids;
+
+		/// <summary>
+		/// Returns the unique id of this spawn point.
+		/// </summary>
+		public int Id { get; }
+
 		/// <summary>
 		/// How many attempts we should make when trying
 		/// to get a random position within the spawn point's
@@ -40,10 +48,15 @@ namespace Melia.Zone.World.Spawner
 		/// </summary>
 		/// <param name="map"></param>
 		/// <param name="area"></param>
-		public MonsterSpawnPoint(Map map, IShape area)
+		public MonsterSpawnPoint(string mapClassName, IShape area)
 		{
+			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
+				throw new ArgumentException($"MonsterSpawnPoint: Map '{mapClassName}' not found.");
+
 			this.Map = map;
 			this.Area = area;
+
+			this.Id = Interlocked.Increment(ref Ids);
 		}
 
 		/// <summary>
