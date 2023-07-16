@@ -98,6 +98,9 @@ namespace Melia.Shared
 			this.Conf.Load();
 			Log.SetFilter(this.Conf.Log.Filter);
 
+			if (this.Conf.Inter.Password == "change_me")
+				Log.Warning("You're using the default password for inter-server communication. You can change it in inter.conf.");
+
 			return this.Conf;
 		}
 

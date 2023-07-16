@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Files\Log.cs" />
+    <Compile Include="Configuration\Files\Inter.cs" />
     <Compile Include="ConsoleHeader.cs" />
     <Compile Include="Configuration\ConfFiles.cs" />
     <Compile Include="Configuration\Files\Commands.cs" />
