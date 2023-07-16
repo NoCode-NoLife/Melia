@@ -5,6 +5,7 @@ using System.Threading;
 using Melia.Shared.Network;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Spawner;
 using Yggdrasil.Logging;
@@ -286,6 +287,42 @@ namespace Melia.Zone.World
 		{
 			lock (_mapsLock)
 				return _mapsId.Values.SelectMany(a => a.GetCharacters()).ToArray();
+		}
+
+		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// on any map via out. Returns false if no matching monster was
+		/// found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					if (map.TryGetMonster(predicate, out var m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Returns the total number of player characters across all maps.
+		/// </summary>
+		/// <returns></returns>
+		public int GetCharacterCount()
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.Sum(a => a.CharacterCount);
 		}
 
 		/// <summary>

@@ -313,7 +313,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					if (!quest.TryGetProgress(objectiveIdent, out var progress))
 						continue;
 
-					if (progress.Unlocked && !progress.Done)
+					if (!progress.Done)
 					{
 						progress.SetDone();
 						this.UpdateClient_UpdateQuest(quest);
@@ -335,7 +335,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				for (var i = 0; i < _quests.Count; i++)
 				{
 					var quest = _quests[i];
-					if (!quest.InProgress || quest.Data.Id != questId || !quest.ObjectivesCompleted)
+					quest.CompleteObjectives();
+
+					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
 					this.Complete(quest);

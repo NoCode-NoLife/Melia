@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
@@ -7,7 +8,10 @@ using Melia.Barracks.Util;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
+using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 
@@ -24,6 +28,12 @@ namespace Melia.Barracks
 		public readonly static BarracksServer Instance = new BarracksServer();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
+		private readonly Dictionary<string, int> _zoneServerNames = new Dictionary<string, int>();
+
+		/// <summary>
+		/// Returns the server's inter-server communicator.
+		/// </summary>
+		public Communicator Communicator { get; private set; }
 
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
@@ -46,33 +56,104 @@ namespace Melia.Barracks
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Barracks", ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Barracks ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
+
+			Log.Init("BarracksServer" + serverId);
 
 			this.NavigateToRoot();
 
-			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.LoadData(ServerType.Barracks);
-			this.LoadServerList(this.Data.ServerDb);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Barracks, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
 
-			// Get server data
-			var serverId = this.GetServerId(args);
-			var serverInfo = this.GetServerInfo(ServerType.Barracks, serverId);
+			this.StartCommunicator();
+			this.StartAcceptor();
 
-			// Start listener
-			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(serverInfo.Port);
+			ConsoleUtil.RunningTitle();
+			new BarracksConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Starts accepting connections.
+		/// </summary>
+		private void StartAcceptor()
+		{
+			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(this.ServerInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
+		}
 
-			ConsoleUtil.RunningTitle();
-			new BarracksConsoleCommands().Wait();
+		/// <summary>
+		/// Starts the communicator and waits for connections from other
+		/// servers.
+		/// </summary>
+		private void StartCommunicator()
+		{
+			var commName = "" + this.ServerInfo.Type + this.ServerInfo.Id;
+
+			this.Communicator = new Communicator(commName);
+			this.Communicator.ClientConnected += this.Communicator_OnClientConnected;
+			this.Communicator.ClientDisconnected += this.Communicator_OnClientDisconnected;
+			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
+
+			this.Communicator.Listen(this.ServerInfo.InterPort);
+		}
+
+		/// <summary>
+		/// Called when a server connected via the communicator.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnClientConnected(string commName)
+		{
+			Log.Info("Accepted connection from server {0}.", commName);
+		}
+
+		/// <summary>
+		/// Called when a server disconnected from the communicator.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnClientDisconnected(string commName)
+		{
+			Log.Info("Lost connection from server {0}.", commName);
+
+			if (_zoneServerNames.TryGetValue(commName, out var serverId))
+			{
+				var serverUpdateMessage = new ServerUpdateMessage(ServerType.Zone, serverId, 0, ServerStatus.Offline);
+
+				this.ServerList.Update(serverUpdateMessage);
+				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+			}
+		}
+
+		/// <summary>
+		/// Called when a message is received from a server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
+		{
+			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			if (message is ServerUpdateMessage serverUpdateMessage)
+			{
+				if (serverUpdateMessage.ServerType == ServerType.Zone)
+					_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+
+				this.ServerList.Update(serverUpdateMessage);
+				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+
+				Send.BC_NORMAL.ZoneTraffic();
+			}
 		}
 
 		/// <summary>
@@ -123,6 +204,28 @@ namespace Melia.Barracks
 			// This should be pretty rare though, and we can improve
 			// it once the servers talk to each other. TODO.
 			this.Database.ClearLoginStates();
+		}
+
+		/// <summary>
+		/// Returns a list of all active connections.
+		/// </summary>
+		/// <returns></returns>
+		public BarracksConnection[] GetAllConnections()
+			=> _acceptor.GetAllConnections();
+
+		/// <summary>
+		/// Broadcasts the packet to all logged in connections.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			var connections = this.GetAllConnections();
+
+			foreach (var conn in connections)
+			{
+				if (conn.LoggedIn)
+					conn.Send(packet);
+			}
 		}
 	}
 }

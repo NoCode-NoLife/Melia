@@ -236,6 +236,8 @@ namespace Melia.Zone.World.Maps
 				lock (_combatEntities)
 					_combatEntities[character.Handle] = character;
 			}
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -251,6 +253,8 @@ namespace Melia.Zone.World.Maps
 				_combatEntities.Remove(character.Handle);
 
 			character.Map = null;
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -478,6 +482,31 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// via out. Returns false if no monster was found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_monsters)
+			{
+				foreach (var m in _monsters.Values)
+				{
+					if (predicate(m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
 		}
 
 		/// <summary>

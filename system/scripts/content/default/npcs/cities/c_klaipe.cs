@@ -14,7 +14,7 @@ public class CKlaipeNpcScript : GeneralScript
 		// Equipment Merchant
 		//-------------------------------------------------------------------------
 
-		AddNpc(20111, "[Equipment Merchant] Dunkel", "c_Klaipe", 394, -475, 90.0, async dialog =>
+		AddNpc(20111, "[Equipment Merchant] Dunkel", "Dunkel", "c_Klaipe", 394, -475, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Dunkel");
 			dialog.SetPortrait("KLAPEDA_Akalabeth_basic28");
@@ -34,19 +34,23 @@ public class CKlaipeNpcScript : GeneralScript
 		// Accessory Merchant
 		//-------------------------------------------------------------------------
 
-		AddNpc(20104, "[Accessory Merchant] Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>
+		AddNpc(20104, "[Accessory Merchant] Ronesa", "Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Ronesa");
 			dialog.SetPortrait("Alfonso_Select_1");
 
-			await dialog.Msg("Welcome.{nl}Only hard-to-find stuff here.");
+			if (await dialog.Hooks("BeforeDialog"))
+				await dialog.Msg("While you're here, do you need anything?{nl}I've got some hard-to-find stuff.");
+			else
+				await dialog.Msg("Welcome.{nl}Only hard-to-find stuff here.");
+
 			await dialog.OpenShop("Klapeda_Accessory");
 		});
 
 		// Klaipeda Girl
 		//-------------------------------------------------------------------------
 
-		AddNpc(20104, "Klaipeda Girl", "c_Klaipe", -225.8313, -848.0712, 90.0, async dialog =>
+		AddNpc(20104, "Klaipeda Girl", "KlaipedaGirl", "c_Klaipe", -225.8313, -848.0712, 90.0, async dialog =>
 		{
 			dialog.SetPortrait("KLAFEDA_NPC_05_basic01");
 
@@ -60,7 +64,7 @@ public class CKlaipeNpcScript : GeneralScript
 		// Tells stories about the various goddesses.
 		//-------------------------------------------------------------------------
 
-		AddNpc(20147, "Worried Wife", "c_Klaipe", -107.036, -749.1073, 180.0, async dialog =>
+		AddNpc(20147, "Worried Wife", "WorriedWife", "c_Klaipe", -107.036, -749.1073, 180.0, async dialog =>
 		{
 			dialog.SetPortrait("KLAPEDA_NPC_04_basic01");
 
@@ -105,7 +109,7 @@ public class CKlaipeNpcScript : GeneralScript
 		// Swordsman ability trainer.
 		//-------------------------------------------------------------------------
 
-		AddNpc(20023, "[Swordsman Master] Rashua", "c_Klaipe", -92, 784, -45.0, async dialog =>
+		AddNpc(20023, "[Swordsman Master] Rashua", "Rashua", "c_Klaipe", -92, 784, -45.0, async dialog =>
 		{
 			dialog.SetTitle("Rashua");
 			dialog.SetPortrait("MASTER_SWORDMAN_basic2");

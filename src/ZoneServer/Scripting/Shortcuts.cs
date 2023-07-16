@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
@@ -21,6 +22,8 @@ namespace Melia.Zone.Scripting
 {
 	public static class Shortcuts
 	{
+		private static long UniqueNpcNameId = 0;
+
 		/// <summary>
 		/// A function that initializes a shop.
 		/// </summary>
@@ -89,8 +92,31 @@ namespace Melia.Zone.Scripting
 		/// <exception cref="ArgumentException"></exception>
 		public static Npc AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
+			var uniqueId = Interlocked.Increment(ref UniqueNpcNameId);
+			var uniqueName = $"__NPC{uniqueId}__";
+
+			return AddNpc(monsterId, name, uniqueName, map, x, z, direction, dialog);
+		}
+
+		/// <summary>
+		/// Adds new NPC to the world.
+		/// </summary>
+		/// <param name="monsterId"></param>
+		/// <param name="name"></param>
+		/// <param name="uniqueName"></param>
+		/// <param name="map"></param>
+		/// <param name="x"></param>
+		/// <param name="z"></param>
+		/// <param name="direction"></param>
+		/// <param name="dialog"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddNpc(int monsterId, string name, string uniqueName, string map, double x, double z, double direction, DialogFunc dialog = null)
+		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
+
+			if (ZoneServer.Instance.World.TryGetMonster(a => a.UniqueName == uniqueName, out _))
+				throw new ArgumentException($"An NPC with the unique name '{uniqueName}' already exists.");
 
 			var pos = new Position((float)x, 0, (float)z);
 			if (mapObj.Ground.TryGetHeightAt(pos, out var height))
@@ -117,6 +143,7 @@ namespace Melia.Zone.Scripting
 			var dir = new Direction(direction);
 
 			var monster = new Npc(monsterId, name, location, dir);
+			monster.UniqueName = uniqueName;
 
 			if (dialog != null)
 				monster.SetClickTrigger("DYNAMIC_DIALOG", dialog);
