@@ -104,6 +104,26 @@ namespace Melia.Web
 					var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
 					File.Copy(productionIniFilePath, iniFilePath);
 
+					string phpConfigContent = File.ReadAllText(iniFilePath);
+
+					string extensionToEnable = "extension=fileinfo";
+					int extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
+
+					if (extensionIndex != -1)
+					{
+						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
+						File.WriteAllText(phpConfigFilePath, phpConfigContent);
+					}
+
+					extensionToEnable = "extension=zip";
+					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
+
+					if (extensionIndex != -1)
+					{
+						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
+						File.WriteAllText(phpConfigFilePath, phpConfigContent);
+					}
+
 					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 				}
 				catch (Exception)

@@ -174,3 +174,24 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 *.lnk
+
+# Melia GUI WebApp
+/system/web-optional/MeliaGUI/.phpunit.cache
+/system/web-optional/MeliaGUI/node_modules
+/system/web-optional/MeliaGUI/public/build
+/system/web-optional/MeliaGUI/public/hot
+/system/web-optional/MeliaGUI/public/storage
+/system/web-optional/MeliaGUI/storage/*.key
+/system/web-optional/MeliaGUI/vendor
+/system/web-optional/MeliaGUI/.env
+/system/web-optional/MeliaGUI/.env.backup
+/system/web-optional/MeliaGUI/.env.production
+/system/web-optional/MeliaGUI/.phpunit.result.cache
+/system/web-optional/MeliaGUI/Homestead.json
+/system/web-optional/MeliaGUI/Homestead.yaml
+/system/web-optional/MeliaGUI/auth.json
+/system/web-optional/MeliaGUI/npm-debug.log
+/system/web-optional/MeliaGUI/yarn-error.log
+/system/web-optional/MeliaGUI/.fleet
+/system/web-optional/MeliaGUI/.idea
+/system/web-optional/MeliaGUI/.vscode
