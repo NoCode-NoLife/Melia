@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using Melia.Shared.Database;
+using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
@@ -75,6 +76,7 @@ namespace Melia.Zone.Network
 				character.Buffs.RemoveAll(a => !a.Data.Save);
 
 				ZoneServer.Instance.Database.SaveCharacter(character);
+				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
 			}
 		}
 	}

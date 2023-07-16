@@ -422,6 +422,14 @@
 { jobId: 3022, skillId: 32204, skillName: "Outbrave", unlockLevel: 16, maxLevel: 5 },
 { jobId: 3022, skillId: 32205, skillName: "Brotherhood", unlockLevel: 16, maxLevel: 10 },
 { jobId: 3022, skillId: 32206, skillName: "Dancing Arrow", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3023, skillId: 32208, skillName: "Flame Turret", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3023, skillId: 32210, skillName: "Arrow Turret", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3023, skillId: 32211, skillName: "Retrieve", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 3023, skillId: 32209, skillName: "Frozen Turret", unlockLevel: 16, maxLevel: 1 },
+{ jobId: 3023, skillId: 32212, skillName: "Lightning Turret", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3023, skillId: 32214, skillName: "King Mecha V", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3023, skillId: 32215, skillName: "Fix Kit", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3023, skillId: 32213, skillName: "Buff Turret", unlockLevel: 31, maxLevel: 5 },
 
 // Cleric
 //---------------------------------------------------------------------------

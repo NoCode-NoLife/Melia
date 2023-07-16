@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
@@ -33,7 +34,9 @@ namespace Melia.Zone.World.Actors.Characters
 		private readonly object _hpLock = new object();
 		private IMonster[] _visibleMonsters = new IMonster[0];
 		private Character[] _visibleCharacters = new Character[0];
-		private ITriggerableArea[] _triggerAreas = new ITriggerableArea[0];
+
+		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
+		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
 
 		/// <summary>
 		/// Connection this character uses.
@@ -145,19 +148,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public Direction HeadDirection { get; set; }
 
 		/// <summary>
-		/// Gets or sets whether the character is moving.
-		/// </summary>
-		public bool IsMoving { get; set; }
-
-		/// <summary>
 		/// Gets or sets whether the character is sitting.
 		/// </summary>
 		public bool IsSitting { get; set; }
-
-		/// <summary>
-		/// Gets or sets whether the character is standing on the ground.
-		/// </summary>
-		public bool IsGrounded { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the character is currently
@@ -279,11 +272,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsDead => (this.Hp == 0);
 
 		/// <summary>
-		/// Returns the character's move speed via its MSPD property.
-		/// </summary>
-		public float MoveSpeed => this.Properties.GetFloat(PropertyName.MSPD);
-
-		/// <summary>
 		/// Returns the character's component collection.
 		/// </summary>
 		public ComponentCollection Components { get; } = new ComponentCollection();
@@ -307,6 +295,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Character's buffs.
 		/// </summary>
 		public BuffComponent Buffs { get; }
+
+		/// <summary>
+		/// Returns the character's quests manager.
+		/// </summary>
+		public QuestComponent Quests { get; }
+
+		/// <summary>
+		/// Returns the character's movement component.
+		/// </summary>
+		public MovementComponent Movement { get; }
 
 		/// <summary>
 		/// Character's properties.
@@ -352,6 +350,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new RecoveryComponent(this));
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
+			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 
@@ -420,46 +420,36 @@ namespace Melia.Zone.World.Actors.Characters
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
-
-			// TODO: Add Movement to Character and do this there, where
-			//   it belongs. That will also technically allow monsters
-			//   to enter trigger areas, which we'll likely need.
-			this.UpdateTriggerAreas();
+			this.UpdateResurrection(elapsed);
 		}
 
 		/// <summary>
-		/// Updates trigger areas and triggers relevant ones.
+		/// Sends the resurrection dialog as nexessary.
 		/// </summary>
-		private void UpdateTriggerAreas()
+		/// <param name="elapsed"></param>
+		private void UpdateResurrection(TimeSpan elapsed)
 		{
-			var prevTriggerAreas = _triggerAreas;
-			var triggerAreas = this.Map.GetTriggerableAreasAt(this.Position);
-
-			if (prevTriggerAreas.Length == 0 && triggerAreas.Length == 0)
-				return;
-
-			var enteredTriggerAreas = triggerAreas.Except(prevTriggerAreas);
-			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
-
-			foreach (var triggerArea in enteredTriggerAreas)
+			// Why are we sending the resurrection dialog over and over on
+			// the update? Well, because certain packets sent to the client,
+			// such as hits, can cause it to close this dialog, which then
+			// leaves players with having to relog to get it again to be
+			// able to resurrect. Spamming isn't a great hotfix, but it is
+			// an effective one, as it will ensure that the dialog is always
+			// there when it should be. And of course, as you would expect,
+			// it appears that this is normal, based on the packet logs.
+			if (this.IsDead)
 			{
-				if (triggerArea.EnterFunc == null)
-					continue;
+				_resurrectDialogTimer -= elapsed;
+				if (_resurrectDialogTimer <= TimeSpan.Zero)
+				{
+					// TODO: Get a list of the appropriate resurrection
+					//   options and save them, to sanity check the coming
+					//   resurrection request.
 
-				var dialog = new Dialog(this, triggerArea);
-				triggerArea.EnterFunc.Invoke(dialog);
+					Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
+					_resurrectDialogTimer = ResurrectDialogDelay;
+				}
 			}
-
-			foreach (var triggerArea in leftTriggerAreas)
-			{
-				if (triggerArea.LeaveFunc == null)
-					continue;
-
-				var dialog = new Dialog(this, triggerArea);
-				triggerArea.LeaveFunc.Invoke(dialog);
-			}
-
-			_triggerAreas = triggerAreas;
 		}
 
 		/// <summary>
@@ -521,59 +511,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public void SetHeadDirection(Direction dir)
 		{
 			this.HeadDirection = dir;
-		}
-
-		/// <summary>
-		/// Makes character jump into the air.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		/// <param name="unkFloat"></param>
-		/// <param name="unkByte"></param>
-		public void Jump(Position pos, Direction dir, float unkFloat, byte unkByte)
-		{
-			//this.SetPosition(pos);
-			//this.SetDirection(dir);
-			//this.IsMoving = true;
-
-			var staminaUsage = (int)this.Properties.GetFloat(PropertyName.Sta_Jump);
-			this.UseStamina(staminaUsage);
-
-			Send.ZC_JUMP(this, pos, dir, unkFloat, unkByte);
-		}
-
-		/// <summary>
-		/// Starts movement.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		/// <param name="unkFloat"></param>
-		public void Move(Position pos, Direction dir, float unkFloat)
-		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = true;
-
-			Send.ZC_MOVE_DIR(this, pos, dir, unkFloat);
-		}
-
-		/// <summary>
-		/// Stops movement.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		public void StopMove(Position pos, Direction dir)
-		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = false;
-
-			// Sending ZC_MOVE_STOP works as well, but it doesn't have
-			// a direction, so the character stops and looks north
-			// on others' screens.
-			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
-
-			this.Buffs.Remove(BuffId.DashRun);
 		}
 
 		/// <summary>
@@ -679,7 +616,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", 3, "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
 		}
 
@@ -696,7 +633,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Heal();
 
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_joblevel_up", 3);
 		}
 
@@ -796,7 +733,12 @@ namespace Melia.Zone.World.Actors.Characters
 			abilityPoints += amount;
 			this.Properties.SetString(PropertyName.AbilityPoint, abilityPoints.ToString());
 
-			Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
+			// For some reason the client no longer reads the ability
+			// point property when updating the amount. Instead there's
+			// the commander info now.
+
+			//Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
+			Send.ZC_CUSTOM_COMMANDER_INFO(this, CommanderInfoType.AbilityPoints, abilityPoints);
 		}
 
 		/// <summary>
@@ -891,8 +833,19 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
+					if (monster.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in monster.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
+					}
+
 					if (monster is ICombatEntity entity)
+					{
 						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
+
+						if (entity.Components.Get<BuffComponent>()?.Count != 0)
+							Send.ZC_BUFF_LIST(this.Connection, entity);
+					}
 				}
 
 				foreach (var monster in disappearMonsters)
@@ -900,7 +853,18 @@ namespace Melia.Zone.World.Actors.Characters
 
 				// Characters
 				foreach (var character in appearCharacters)
+				{
 					Send.ZC_ENTER_PC(this.Connection, character);
+
+					if (character.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in character.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
+					}
+
+					if (character.Components.Get<BuffComponent>()?.Count != 0)
+						Send.ZC_BUFF_LIST(this.Connection, character);
+				}
 
 				foreach (var character in disappearCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
@@ -1191,6 +1155,32 @@ namespace Melia.Zone.World.Actors.Characters
 			//this.Died?.Invoke(this, killer);
 
 			Send.ZC_DEAD(this);
+
+			_resurrectDialogTimer = ResurrectDialogDelay;
+		}
+
+		/// <summary>
+		/// Resurrects the character if its dead.
+		/// </summary>
+		/// <param name="option"></param>
+		public void Resurrect(ResurrectOptions option)
+		{
+			var startHp = this.Properties.GetFloat(PropertyName.MHP) * 0.50f;
+			this.Heal(startHp, 0);
+
+			switch (option)
+			{
+				default:
+				case ResurrectOptions.NearestRevivalPoint:
+				{
+					var safePos = this.Map.GetSafePositionNear(this.Position, true);
+					this.Warp(this.MapId, safePos);
+					break;
+				}
+			}
+
+			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
+			Send.ZC_RESURRECT(this);
 		}
 
 		/// <summary>
@@ -1305,16 +1295,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public void PlayEffect(string packetString)
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
-		}
-
-		/// <summary>
-		/// Reduces character's stamina and updates the client.
-		/// </summary>
-		/// <param name="staminaUsage"></param>
-		private void UseStamina(int staminaUsage)
-		{
-			var stamina = (this.Properties.Stamina -= staminaUsage);
-			Send.ZC_STAMINA(this, stamina);
 		}
 	}
 }

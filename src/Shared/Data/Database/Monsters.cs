@@ -13,10 +13,10 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public string LocalKey { get; set; }
 
 		public ElementType Element { get; set; }
 		public RaceType Race { get; set; }
+		public ArmorMaterialType ArmorMaterial { get; set; }
 		public SizeType Size { get; set; }
 		public FactionType Faction { get; set; }
 
@@ -36,13 +36,13 @@ namespace Melia.Shared.Data.Database
 		public int MagicalAttackMax { get; set; }
 		public int PhysicalDefense { get; set; }
 		public int MagicalDefense { get; set; }
-		public int HitRatio { get; set; }
-		public int BlockBreak { get; set; }
-		public int BlockRate { get; set; }
-		public int CritAttack { get; set; }
-		public int CritDefenseRate { get; set; }
-		public int CritHitRate { get; set; }
+		public int HitRate { get; set; }
 		public int DodgeRate { get; set; }
+		public int BlockRate { get; set; }
+		public int BlockBreakRate { get; set; }
+		public int CritHitRate { get; set; }
+		public int CritDodgeRate { get; set; }
+		public int CritAttack { get; set; }
 
 		public List<DropData> Drops { get; set; } = new List<DropData>();
 		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
@@ -78,7 +78,20 @@ namespace Melia.Shared.Data.Database
 		public MonsterData Find(string name)
 		{
 			name = name.ToLower();
-			return this.Entries.FirstOrDefault(a => a.Value.Name.ToLower() == name).Value;
+			return this.Entries.Values.FirstOrDefault(a => a.Name.ToLower() == name);
+		}
+
+		/// <summary>
+		/// Returns the monster with the given class name via out. Returns
+		/// false if no match was found.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public bool TryFind(string className, out MonsterData data)
+		{
+			data = this.Entries.Values.FirstOrDefault(a => a.ClassName == className);
+			return data != null;
 		}
 
 		/// <summary>
@@ -90,7 +103,24 @@ namespace Melia.Shared.Data.Database
 		public List<MonsterData> FindAll(string searchString)
 		{
 			searchString = searchString.ToLower();
-			return this.Entries.Where(a => a.Value.Name.ToLower().Contains(searchString)).Select(a => a.Value).ToList();
+			return this.Entries.Values.Where(a => a.Name.ToLower().Contains(searchString)).ToList();
+		}
+
+		/// <summary>
+		/// Returns a list of all monsters whose name contains the given
+		/// string. If there is an exact match, only that one is returned.
+		/// </summary>
+		/// <param name="searchString">String to search for (case-insensitive)</param>
+		/// <returns></returns>
+		public List<MonsterData> FindAllPreferExact(string searchString)
+		{
+			searchString = searchString.ToLower();
+
+			var exactMatches = this.Entries.Values.Where(a => a.Name.ToLower() == searchString);
+			if (exactMatches.Any())
+				return exactMatches.ToList();
+
+			return this.FindAll(searchString);
 		}
 
 		/// <summary>
@@ -99,17 +129,17 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "localKey", "level", "exp", "classExp", "element", "race", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense");
+			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "element", "race", "armor", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
 
 			var data = new MonsterData();
 
 			data.Id = entry.ReadInt("monsterId");
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
-			data.LocalKey = entry.ReadString("localKey");
 
 			data.Element = entry.ReadEnum<ElementType>("element");
 			data.Race = entry.ReadEnum<RaceType>("race");
+			data.ArmorMaterial = entry.ReadEnum<ArmorMaterialType>("armor");
 			data.Size = entry.ReadEnum<SizeType>("size");
 			data.Faction = entry.ReadEnum<FactionType>("faction");
 
@@ -129,13 +159,13 @@ namespace Melia.Shared.Data.Database
 			data.MagicalAttackMax = entry.ReadInt("mAttackMax");
 			data.PhysicalDefense = entry.ReadInt("pDefense");
 			data.MagicalDefense = entry.ReadInt("mDefense");
-			data.HitRatio = entry.ReadInt("mDefense");
-			data.BlockBreak = entry.ReadInt("mDefense");
-			data.BlockRate = entry.ReadInt("mDefense");
-			data.CritAttack = entry.ReadInt("mDefense");
-			data.CritDefenseRate = entry.ReadInt("mDefense");
-			data.CritHitRate = entry.ReadInt("mDefense");
-			data.DodgeRate = entry.ReadInt("mDefense");
+			data.HitRate = entry.ReadInt("hitRate");
+			data.DodgeRate = entry.ReadInt("dodgeRate");
+			data.BlockRate = entry.ReadInt("blockRate");
+			data.BlockBreakRate = entry.ReadInt("blockBreakRate");
+			data.CritHitRate = entry.ReadInt("critHitRate");
+			data.CritDodgeRate = entry.ReadInt("critDodgeRate");
+			data.CritAttack = entry.ReadInt("critAttack");
 
 			if (entry.ContainsKey("skills"))
 			{
@@ -162,8 +192,8 @@ namespace Melia.Shared.Data.Database
 
 					dropData.ItemId = dropEntry.ReadInt("itemId");
 					dropData.DropChance = dropEntry.ReadFloat("chance");
-					dropData.MinAmount = dropEntry.ReadInt("minQuantity", 1);
-					dropData.MaxAmount = dropEntry.ReadInt("maxQuantity", 1);
+					dropData.MinAmount = dropEntry.ReadInt("minAmount", 1);
+					dropData.MaxAmount = dropEntry.ReadInt("maxAmount", 1);
 
 					if (dropData.MaxAmount < dropData.MinAmount)
 						dropData.MaxAmount = dropData.MinAmount;

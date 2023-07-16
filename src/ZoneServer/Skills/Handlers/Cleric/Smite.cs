@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
@@ -10,7 +11,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
@@ -37,17 +37,12 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
-			caster.Components.Get<BuffComponent>().Start(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
+			caster.StartBuff(BuffId.Smite_Buff, TimeSpan.FromSeconds(60));
 
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-
-			var height = skill.Properties.GetFloat(PropertyName.WaveLength);
-			var width = height / 2;
-			originPos = caster.Position;
-			farPos = originPos.GetRelative(caster.Direction, height);
-			var splashArea = new Square(originPos, caster.Direction, height, width);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 30, width: 40, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -68,22 +63,19 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 
 			await Task.Delay(damageDelay);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			foreach (var target in targets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var damage = SCR_CalculateDamage(caster, target, skill);
-
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				if (target.Race == RaceType.Paramune || target.Race == RaceType.Velnias)
-					damage *= 1.5f;
+					skillHitResult.Damage *= 1.5f;
 
-				target.TakeDamage(damage, caster);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-				hits.Add(hit);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

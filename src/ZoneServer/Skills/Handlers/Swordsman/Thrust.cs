@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
@@ -40,25 +37,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
-			// Get splash area
-			// It's currently unknown where exactly these values are coming
-			// from. The width might be skill.SkillSR, but nothing matches
-			// the presumed height of 60. WaveLength is 40, and there's
-			// a client file that lists a length value of 50, but neither
-			// seems quite right, so we'll hardcode it for now, making it
-			// a bit higher than a normal attack a bit narrower.
-			var splashAreaHeight = 60;
-			var splashAreaWidth = 14;
-
-			// We'll ignore the data sent by the client and get the
-			// positions ourselves, because players are dirty cheaters
-			// who can't be trusted.
-			originPos = caster.Position;
-			farPos = originPos.GetRelative(caster.Direction, splashAreaHeight);
-
-			var splashArea = new Square(originPos, caster.Direction, splashAreaHeight, splashAreaWidth);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 75, width: 20, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -87,18 +69,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			await Task.Delay(hitTime);
 
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
-
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			foreach (var target in targets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var damage = SCR_CalculateDamage(caster, target, skill);
-				target.TakeDamage(damage, caster);
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-				hits.Add(hit);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

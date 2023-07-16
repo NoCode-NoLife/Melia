@@ -75,6 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Files\Log.cs" />
     <Compile Include="ConsoleHeader.cs" />
     <Compile Include="Configuration\ConfFiles.cs" />
     <Compile Include="Configuration\Files\Commands.cs" />
@@ -83,11 +84,14 @@
     <Compile Include="Configuration\Files\Barracks.cs" />
     <Compile Include="Configuration\Files\Web.cs" />
     <Compile Include="Configuration\Files\World.cs" />
+    <Compile Include="Database\LoginState.cs" />
     <Compile Include="Data\Database\AccountOptions.cs" />
     <Compile Include="Data\Database\NormalTx.cs" />
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />
     <Compile Include="Data\Database\DialogTx.cs" />
+    <Compile Include="Data\Database\ResurrectionPoints.cs" />
+    <Compile Include="Data\Database\Recipes.cs" />
     <Compile Include="Data\Database\SystemMessages.cs" />
     <Compile Include="IES\IesModClass.cs" />
     <Compile Include="IES\IesModGroup.cs" />
@@ -101,10 +105,13 @@
     <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
     <Compile Include="Tos\Const\AbilityId.cs" />
+    <Compile Include="Tos\Const\ArmorMaterialType.cs" />
     <Compile Include="Tos\Const\BuffId.cs" />
     <Compile Include="Tos\Const\AnimationId.cs" />
     <Compile Include="Tos\Const\Character.cs" />
+    <Compile Include="Tos\Const\CommanderInfoType.cs" />
     <Compile Include="Tos\Const\CooldownId.cs" />
+    <Compile Include="Tos\Const\HitType.cs" />
     <Compile Include="Tos\Const\MapType.cs" />
     <Compile Include="Tos\Const\MoveType.cs" />
     <Compile Include="Tos\Const\ElementType.cs" />
@@ -122,6 +129,7 @@
     <Compile Include="Tos\Const\PropertyName.cs" />
     <Compile Include="Tos\Const\QuickSlotType.cs" />
     <Compile Include="Tos\Const\RaceType.cs" />
+    <Compile Include="Tos\Const\ResurrectOptions.cs" />
     <Compile Include="Tos\Const\SessionObjects.cs" />
     <Compile Include="Tos\Const\SizeType.cs" />
     <Compile Include="Tos\Const\SkillId.cs" />

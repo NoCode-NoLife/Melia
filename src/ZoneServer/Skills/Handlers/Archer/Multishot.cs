@@ -15,16 +15,37 @@ using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Cleric
+namespace Melia.Zone.Skills.Handlers.Archer
 {
 	/// <summary>
 	/// Handler for the Archer skill Multishot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_Multishot)]
-	public class Multishot : IGroundSkillHandler
+	public class Multishot : IGroundSkillHandler, IDynamicCasted
 	{
+		private const float SplashRadius = 30;
 		private const int TotalHits = 10;
 		private readonly static TimeSpan DelayBetweenHits = TimeSpan.FromMilliseconds(120);
+
+		/// <summary>
+		/// Called when the user starts casting the skill.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void StartDynamicCast(Skill skill, ICombatEntity caster)
+		{
+			Send.ZC_PLAY_SOUND(caster, "voice_archer_multishot_cast");
+		}
+
+		/// <summary>
+		/// Called when the user stops casting the skill.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		public void EndDynamicCast(Skill skill, ICombatEntity caster)
+		{
+			Send.ZC_STOP_SOUND(caster, "voice_archer_multishot_cast");
+		}
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -41,20 +62,20 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 				return;
 			}
 
-			var maxRange = skill.Properties.GetFloat(PropertyName.MaxR);
-			if (!caster.Position.InRange2D(farPos, maxRange))
+			if (!caster.InSkillUseRange(skill, farPos))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				return;
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.TurnTowards(farPos);
+			caster.SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			var splashArea = new Circle(farPos, 30);
+			var splashArea = new Circle(farPos, SplashRadius);
 			this.Attack(skill, caster, splashArea);
 		}
 
@@ -83,13 +104,13 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 						if (!caster.CanAttack(target))
 							continue;
 
-						var damage = SCR_CalculateDamage(caster, target, skill);
+						var skillHitResult = SCR_SkillHit(caster, target, skill);
 
-						target.TakeDamage(damage, caster);
+						target.TakeDamage(skillHitResult.Damage, caster);
 						targetPos = target.Position;
 
-						var hitInfo = new HitInfo(damage, target.Hp, target.HpChangeCounter, HitResultType.Hit);
-						Send.ZC_HIT_INFO(caster, target, skill, hitInfo);
+						var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result);
+						Send.ZC_HIT_INFO(caster, target, skill, hit);
 					}
 
 					// It seems like the game uses ZC_SYNC_* packets

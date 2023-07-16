@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
@@ -156,7 +157,7 @@ namespace Melia.Zone.World
 			{
 				if (!this.TryGetRandomPosition(out var pos))
 				{
-					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{_map.Name}'.");
+					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{_map.ClassName}'.");
 					continue;
 				}
 
@@ -198,28 +199,7 @@ namespace Melia.Zone.World
 					return;
 			}
 
-			foreach (var propertyOverride in propertyOverrides)
-			{
-				var propertyName = propertyOverride.Key;
-
-				switch (propertyOverride.Value)
-				{
-					case int intValue:
-						monster.Properties.SetFloat(propertyName, intValue);
-						break;
-
-					case float floatValue:
-						monster.Properties.SetFloat(propertyName, floatValue);
-						break;
-
-					case string stringValue:
-						monster.Properties.SetString(propertyName, stringValue);
-						break;
-				}
-			}
-
-			monster.Properties.InvalidateAll();
-			monster.Properties.SetFloat(PropertyName.HP, monster.Properties.GetFloat(PropertyName.MHP));
+			monster.ApplyOverrides(propertyOverrides);
 		}
 
 		/// <summary>

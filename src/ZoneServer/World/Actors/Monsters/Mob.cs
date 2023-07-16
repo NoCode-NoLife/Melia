@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -29,6 +31,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns the monster's race.
 		/// </summary>
 		public RaceType Race => this.Data.Race;
+
+		/// <summary>
+		/// Returns the monster's element.
+		/// </summary>
+		public ElementType Element => this.Data.Element;
 
 		/// <summary>
 		/// Returns the monster's mode of movement.
@@ -176,7 +183,17 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
-		public Properties Properties { get; protected set; }
+		public MonsterProperties Properties { get; protected set; }
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IPropertyHolder.Properties => this.Properties;
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IMonsterBase.Properties => this.Properties;
 
 		/// <summary>
 		/// Returns the monster's component collection.
@@ -187,6 +204,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Monster's buffs.
 		/// </summary>
 		public BuffComponent Buffs { get; }
+
+		/// <summary>
+		/// Return the monster's temporary variables.
+		/// </summary>
+		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
 		/// Creates new NPC.
@@ -217,7 +239,21 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
+			this.InitProperties();
+		}
+
+		/// <summary>
+		/// Initializes monster's properties.
+		/// </summary>
+		private void InitProperties()
+		{
 			this.Properties = new MonsterProperties(this);
+
+			this.Properties.InitAutoUpdates();
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 
 		/// <summary>
@@ -244,10 +280,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			if (this.Components.TryGet<AiComponent>(out var ai))
-			{
-				var attackerHandle = attacker?.Handle ?? 0;
-				ai.Script.QueueEventAlert(new HitEventAlert(this.Handle, attackerHandle, damage));
-			}
+				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
 
 			return false;
 		}
@@ -281,8 +314,55 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Calculates the drop chance rate for the given item based
+		/// on its own property, the server's configuration, as well
+		/// as other factors.
+		/// </summary>
+		/// <param name="dropEntry">The drop data to get the adjusted drop rate for.</param>
+		/// <returns></returns>
+		public static float GetAdjustedDropRate(DropData dropEntry)
+		{
+			var itemData = ZoneServer.Instance.Data.ItemDb.Find(dropEntry.ItemId);
+
+			// Don't drop items that don't exist in the database
+			if (itemData == null)
+				return -1;
+
+			var worldConf = ZoneServer.Instance.Conf.World;
+			var dropChance = dropEntry.DropChance;
+
+			if (itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold)
+			{
+				dropChance *= worldConf.SilverDropRate / 100f;
+			}
+			else if (itemData.Type == ItemType.Equip || itemData.Type == ItemType.PetArmor || itemData.Type == ItemType.PetWeapon)
+			{
+				dropChance *= worldConf.EquipmentDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("BlueOrb_"))
+			{
+				dropChance *= worldConf.BlueOrbDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("RedOrb_"))
+			{
+				dropChance *= worldConf.RedOrbDropRate / 100f;
+			}
+			else if (itemData.Group == ItemGroup.Gem)
+			{
+				dropChance *= worldConf.GemDropRate / 100f;
+			}
+			else
+			{
+				dropChance *= worldConf.GeneralDropRate / 100f;
+			}
+
+			return dropChance;
 		}
 
 		/// <summary>
@@ -299,8 +379,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			foreach (var dropItemData in this.Data.Drops)
 			{
-				var dropChance = dropItemData.DropChance;
-				dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
+				var dropChance = GetAdjustedDropRate(dropItemData);
 
 				var dropSuccess = rnd.NextDouble() < dropChance / 100f;
 				if (!dropSuccess)
@@ -313,7 +392,16 @@ namespace Melia.Zone.World.Actors.Monsters
 				}
 
 				var dropItem = new Item(itemData.Id);
-				dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+				var minAmount = dropItemData.MinAmount;
+				var maxAmount = dropItemData.MaxAmount;
+
+				if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
+				{
+					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+				}
+
+				dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
 
 				if (killer == null || dropChance > autoloot)
 				{
@@ -394,6 +482,45 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.HpChangeCounter++;
 
 			Send.ZC_UPDATE_ALL_STATUS(this, this.HpChangeCounter);
+		}
+
+		/// <summary>
+		/// Overrides the monster's properties with the given values.
+		/// </summary>
+		/// <param name="overrides"></param>
+		public void ApplyOverrides(PropertyOverrides overrides)
+		{
+			foreach (var propertyOverride in overrides)
+			{
+				var propertyName = propertyOverride.Key;
+
+				// Since calculated properties can't be overridden directly,
+				// we swap to the override properties that the calculation
+				// functions use for each property as necessary.
+				var properties = this.Properties as Properties;
+				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+					properties = this.Properties.Overrides;
+
+				switch (propertyOverride.Value)
+				{
+					case int intValue:
+						properties.SetFloat(propertyName, intValue);
+						break;
+
+					case float floatValue:
+						properties.SetFloat(propertyName, floatValue);
+						break;
+
+					case string stringValue:
+						properties.SetString(propertyName, stringValue);
+						break;
+				}
+			}
+
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 	}
 }

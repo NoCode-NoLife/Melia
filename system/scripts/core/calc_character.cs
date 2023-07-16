@@ -5,11 +5,15 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Tos.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -19,11 +23,10 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_STR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_STR(Character character)
 	{
 		var properties = character.Properties;
-		var jobs = character.Jobs.GetList();
 
 		var byJob = properties.GetFloat(PropertyName.STR_JOB);
 		var byStat = properties.GetFloat(PropertyName.STR_STAT);
@@ -42,7 +45,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CON")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CON(Character character)
 	{
 		var properties = character.Properties;
@@ -64,7 +67,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_INT")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_INT(Character character)
 	{
 		var properties = character.Properties;
@@ -86,7 +89,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MNA")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MNA(Character character)
 	{
 		var properties = character.Properties;
@@ -108,7 +111,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_DEX")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_DEX(Character character)
 	{
 		var properties = character.Properties;
@@ -130,18 +133,14 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_STR_ADD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_STR_ADD(Character character)
 	{
 		var properties = character.Properties;
 
-		var byItem = 0; // TODO
-
-		// Buffs: "STR_BM"
-		var byBuffs = 0;
-
-		// "STR_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.STR);
+		var byBuffs = properties.GetFloat(PropertyName.STR_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.STR_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -153,16 +152,14 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CON_ADD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CON_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "CON_BM"
-		var byBuffs = 0;
-
-		// "CON_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.CON);
+		var byBuffs = properties.GetFloat(PropertyName.CON_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.CON_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -174,16 +171,14 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_INT_ADD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_INT_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "INT_BM"
-		var byBuffs = 0;
-
-		// "INT_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.INT);
+		var byBuffs = properties.GetFloat(PropertyName.INT_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.INT_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -195,16 +190,14 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MNA_ADD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MNA_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "SPR_BM"
-		var byBuffs = 0;
-
-		// "SPR_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.MNA);
+		var byBuffs = properties.GetFloat(PropertyName.MNA_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.MNA_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -216,16 +209,14 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_DEX_ADD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_DEX_ADD(Character character)
 	{
-		var byItem = 0; // TODO
+		var properties = character.Properties;
 
-		// Buffs: "DEX_BM"
-		var byBuffs = 0;
-
-		// "DEX_ITEM_BM" Item Awakening/Enchantment ?
-		var byItemBuff = 0;
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.DEX);
+		var byBuffs = properties.GetFloat(PropertyName.DEX_BM);
+		var byItemBuff = properties.GetFloat(PropertyName.DEX_ITEM_BM);
 
 		var value = byItem + byBuffs + byItemBuff;
 
@@ -237,16 +228,16 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_STR_JOB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_STR_JOB(Character character)
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Str ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.StrRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.STR);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -259,16 +250,16 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CON_JOB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CON_JOB(Character character)
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Con ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.ConRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.CON);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -281,16 +272,16 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_INT_JOB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_INT_JOB(Character character)
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Int ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.IntRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.INT);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -303,16 +294,16 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MNA_JOB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MNA_JOB(Character character)
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Spr ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.SprRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.MNA);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -325,16 +316,16 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_DEX_JOB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_DEX_JOB(Character character)
 	{
 		var properties = character.Properties;
 		var jobs = character.Jobs.GetList();
-		var level = properties.GetFloat(PropertyName.Lv);
 
 		var baseValue = character.Job?.Data.Dex ?? 1;
 
-		var totalRatio = jobs.Sum(a => a.Data.DexRatio);
+		var level = properties.GetFloat(PropertyName.Lv);
+		var totalRatio = GetJobStatRatioSum(character, jobs, PropertyName.DEX);
 		var byJobs = (float)Math.Floor((level - 1) * (totalRatio / jobs.Length / 100f));
 
 		var value = baseValue + byJobs;
@@ -343,11 +334,54 @@ public class CharacterCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
+	/// Returns the total ratio for the given stat from all of the
+	/// character's jobs.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="propertyName"></param>
+	/// <returns></returns>
+	private static float GetJobStatRatioSum(Character character, IEnumerable<Job> jobs, string propertyName)
+	{
+		// Prior to Re:Build (?) there was no distinction between stat and
+		// stat ratio. Each job had a value assigned to each stat and that
+		// was used as the ratio. The old ratio later became the default
+		// stat value for the job and a new ratio was added to compensate
+		// for the loss of free stat point assignment. We'll implement
+		// the classic system by simply choosing the default stat values
+		// as the ratio.
+
+		if (!Feature.IsEnabled("IncreasedStatRatio"))
+		{
+			switch (propertyName)
+			{
+				case PropertyName.STR: return jobs.Sum(a => a.Data.Str);
+				case PropertyName.CON: return jobs.Sum(a => a.Data.Con);
+				case PropertyName.INT: return jobs.Sum(a => a.Data.Int);
+				case PropertyName.MNA: return jobs.Sum(a => a.Data.Spr);
+				case PropertyName.DEX: return jobs.Sum(a => a.Data.Dex);
+			}
+		}
+		else
+		{
+			switch (propertyName)
+			{
+				case PropertyName.STR: return jobs.Sum(a => a.Data.StrRatio);
+				case PropertyName.CON: return jobs.Sum(a => a.Data.ConRatio);
+				case PropertyName.INT: return jobs.Sum(a => a.Data.IntRatio);
+				case PropertyName.MNA: return jobs.Sum(a => a.Data.SprRatio);
+				case PropertyName.DEX: return jobs.Sum(a => a.Data.DexRatio);
+			}
+		}
+
+		throw new ArgumentException($"Unsupported property '{propertyName}'.");
+	}
+
+	/// <summary>
 	/// Returns the character's maximum HP.
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MHP")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MHP(Character character)
 	{
 		var properties = character.Properties;
@@ -379,7 +413,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MSP")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MSP(Character character)
 	{
 		var properties = character.Properties;
@@ -410,7 +444,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MaxSta")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MaxSta(Character character)
 	{
 		var properties = character.Properties;
@@ -434,7 +468,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_RunStart")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_RunStart(Character character)
 	{
 		return 0;
@@ -445,7 +479,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_Run")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_Run(Character character)
 	{
 		var properties = character.Properties;
@@ -480,7 +514,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_Recover")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_Recover(Character character)
 	{
 		var properties = character.Properties;
@@ -504,7 +538,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_R_Delay")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_R_Delay(Character character)
 	{
 		return 1000;
@@ -515,7 +549,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_Runable")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_Runable(Character character)
 	{
 		return 250;
@@ -526,7 +560,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_Jump")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_Jump(Character character)
 	{
 		if (Feature.IsEnabled("FreeJumping"))
@@ -540,7 +574,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_Sta_Step")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_Sta_Step(Character character)
 	{
 		return 2500;
@@ -551,7 +585,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_RHP")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_RHP(Character character)
 	{
 		var properties = character.Properties;
@@ -564,6 +598,10 @@ public class CharacterCalculationsScript : GeneralScript
 		var byBuffs = properties.GetFloat(PropertyName.RHP_BM);
 
 		var value = (byDefault + byItems + byBuffs);
+
+		if (character.Buffs.Has(BuffId.Rest))
+			value *= 2;
+
 		return (float)Math.Max(0, value);
 	}
 
@@ -572,7 +610,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_RHPTIME")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_RHPTIME(Character character)
 	{
 		var properties = character.Properties;
@@ -600,7 +638,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_RSP")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_RSP(Character character)
 	{
 		var properties = character.Properties;
@@ -621,7 +659,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_RSPTIME")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_RSPTIME(Character character)
 	{
 		var properties = character.Properties;
@@ -644,16 +682,30 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MaxWeight")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MaxWeight(Character character)
 	{
 		var properties = character.Properties;
 
-		// TODO: Add feature check to optionall use the old formula.
-		// At release: Base 5000, plus 5 for each Str/Con.
-		// Now: Base 8000 plus bonuses?
+		var value = 5000f;
 
-		return 8000;
+		if (Feature.IsEnabled("IncreasedMaxWeight"))
+			value = 8000f;
+
+		if (Feature.IsEnabled("StaticInventoryWeight"))
+		{
+			var con = properties.GetFloat(PropertyName.CON);
+			var str = properties.GetFloat(PropertyName.STR);
+
+			var byStats = (con * 5) + (str * 5);
+			value += byStats;
+		}
+
+		var byBuffs = properties.GetFloat(PropertyName.MaxWeight_BM);
+		var byBonus = properties.GetFloat(PropertyName.MaxWeight_Bonus);
+		value += byBuffs + byBonus;
+
+		return value;
 	}
 
 	/// <summary>
@@ -661,7 +713,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_NowWeight")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_NowWeight(Character character)
 	{
 		return character.Inventory.GetNowWeight();
@@ -672,12 +724,15 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_StatPoint")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_StatPoint(Character character)
 	{
 		var properties = character.Properties;
 
-		var byLevel = (int)properties.GetFloat(PropertyName.StatByLevel);
+		var byLevel = 0;
+		if (!Feature.IsEnabled("NoStatByLevel"))
+			byLevel = (int)properties.GetFloat(PropertyName.StatByLevel);
+
 		var byBonus = (int)properties.GetFloat(PropertyName.StatByBonus);
 		var usedStat = (int)properties.GetFloat(PropertyName.UsedStat);
 
@@ -689,7 +744,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MINPATK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MINPATK(Character character)
 	{
 		var SCR_Get_Character_MAXPATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK");
@@ -735,7 +790,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MAXPATK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MAXPATK(Character character)
 	{
 		var properties = character.Properties;
@@ -778,7 +833,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MINPATK_SUB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MINPATK_SUB(Character character)
 	{
 		var SCR_Get_Character_MAXPATK_SUB = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXPATK_SUB");
@@ -823,7 +878,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MAXPATK_SUB")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MAXPATK_SUB(Character character)
 	{
 		var properties = character.Properties;
@@ -862,7 +917,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MINMATK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MINMATK(Character character)
 	{
 		var SCR_Get_Character_MAXMATK = ScriptableFunctions.Character.Get("SCR_Get_Character_MAXMATK");
@@ -878,9 +933,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MINATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MINATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
@@ -904,7 +959,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MAXMATK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MAXMATK(Character character)
 	{
 		var properties = character.Properties;
@@ -918,19 +973,19 @@ public class CharacterCalculationsScript : GeneralScript
 		var byStat = (stat * 2f) + ((float)Math.Floor(stat / 10f) * (byLevel * 0.05f));
 
 		var byItem = 0f;
-		byItem += character.Inventory.GetEquipProperties("MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MATK");
-		byItem += character.Inventory.GetEquipProperties("ADD_MAXATK");
+		byItem += character.Inventory.GetEquipProperties(PropertyName.MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MATK);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_MAXATK);
 
 		var value = (baseValue + byLevel + byStat + byItem);
 
 		var byBuffs = 0f;
 		byBuffs += properties.GetFloat(PropertyName.MATK_BM);
-		byBuffs += properties.GetFloat(PropertyName.MINMATK_BM);
+		byBuffs += properties.GetFloat(PropertyName.MAXMATK_BM);
 
 		var byRateBuffs = 0f;
 		byRateBuffs += properties.GetFloat(PropertyName.MATK_RATE_BM);
-		byRateBuffs += properties.GetFloat(PropertyName.MINMATK_RATE_BM);
+		byRateBuffs += properties.GetFloat(PropertyName.MAXMATK_RATE_BM);
 		byRateBuffs = (value * byRateBuffs);
 
 		value += byBuffs + byRateBuffs;
@@ -943,7 +998,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_DEF")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_DEF(Character character)
 	{
 		var properties = character.Properties;
@@ -952,15 +1007,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "DEF" "DEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.DEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "DEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.DEF_BM);
 
-		// Rate buffs: "DEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.DEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -973,7 +1026,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MDEF")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MDEF(Character character)
 	{
 		var properties = character.Properties;
@@ -982,15 +1035,13 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level;
-		var byItem = 0f; // TODO: "MDEF" "MDEF_Rate"
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.MDEF);
 
 		var value = baseValue + byLevel + byItem;
 
-		// Buffs: "MDEF_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.MDEF_BM);
 
-		// Rate buffs: "MDEF_RATE_BM"
-		var rate = 0;
+		var rate = properties.GetFloat(PropertyName.MDEF_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1003,7 +1054,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CRTATK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CRTATK(Character character)
 	{
 		var properties = character.Properties;
@@ -1032,7 +1083,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CRTHR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CRTHR(Character character)
 	{
 		var properties = character.Properties;
@@ -1044,11 +1095,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byItem;
 
-		// Buffs: "CRTHR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.CRTHR_BM);
 
-		// Rate buffs:
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.CRTHR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1061,7 +1110,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CRTDR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CRTDR(Character character)
 	{
 		var properties = character.Properties;
@@ -1073,11 +1122,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byItem;
 
-		// Buffs: "CRTDR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.CRTDR_BM);
 
-		// Rate buffs:
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.CRTDR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1090,7 +1137,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_HR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_HR(Character character)
 	{
 		var properties = character.Properties;
@@ -1104,11 +1151,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "HR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.HR_BM);
 
-		// Rate buffs: HR_RATE_BM
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.HR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1121,7 +1166,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_DR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_DR(Character character)
 	{
 		var properties = character.Properties;
@@ -1135,11 +1180,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "DR_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.DR_BM);
 
-		// Rate buffs: "ADD_DR"
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.DR_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1152,7 +1195,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_BLK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_BLK(Character character)
 	{
 		var properties = character.Properties;
@@ -1171,11 +1214,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "BLK_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.BLK_BM);
 
-		// Rate buffs: BlockRate
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.BLK_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1188,7 +1229,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_BLK_BREAK")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_BLK_BREAK(Character character)
 	{
 		var properties = character.Properties;
@@ -1202,11 +1243,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byLevel + byStat + byItem;
 
-		// Buffs: "BLK_BREAK_BM"
-		var byBuffs = 0;
+		var byBuffs = character.Properties.GetFloat(PropertyName.BLK_BREAK_BM);
 
-		// Rate buffs: 
-		var rate = 0;
+		var rate = character.Properties.GetFloat(PropertyName.BLK_BREAK_RATE_BM);
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
 		value += byBuffs + byRateBuffs;
@@ -1215,11 +1254,11 @@ public class CharacterCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns the character's splash rate?
+	/// Returns the character's AoE Attack Ratio?
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_SR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_SR(Character character)
 	{
 		var properties = character.Properties;
@@ -1231,37 +1270,35 @@ public class CharacterCalculationsScript : GeneralScript
 		else if (character.Jobs.Has(JobId.Archer, JobCircle.First))
 			baseValue = 0;
 
-		var byItem = 0f; // TODO
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SR);
+		var byBuffs = character.Properties.GetFloat(PropertyName.SR_BM);
 
-		var value = baseValue + byItem;
-
-		// Buffs: "SR_BM"
-		var byBuffs = 0;
-
-		value += byBuffs;
+		var value = baseValue + byItem + byBuffs;
 
 		return (int)value;
 	}
 
 	/// <summary>
-	/// Returns skill defense ratio?
+	/// Returns character's AoE Defense Ratio.
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_SDR")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_SDR(Character character)
 	{
+		if (character.Properties.TryGetFloat(PropertyName.FixedMinSDR_BM, out var fixedSDR))
+		{
+			if (fixedSDR != 0)
+				return 1;
+		}
+
 		var baseValue = 1;
-		var byItem = 0f; // TODO
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SDR);
+		var byBuffs = character.Properties.GetFloat(PropertyName.SDR_BM);
 
-		var value = baseValue + byItem;
+		var value = baseValue + byItem + byBuffs;
 
-		// Buffs: "SDR_BM"
-		var byBuffs = 0;
-
-		value += byBuffs;
-
-		return (int)value;
+		return (int)Math.Max(1, value);
 	}
 
 	/// <summary>
@@ -1269,7 +1306,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_MSPD")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_MSPD(Character character)
 	{
 		var properties = character.Properties;
@@ -1291,7 +1328,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_JumpPower")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_JumpPower(Character character)
 	{
 		return 350;
@@ -1302,7 +1339,7 @@ public class CharacterCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="character"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_Character_CastingSpeed")]
+	[ScriptableFunction]
 	public float SCR_Get_Character_CastingSpeed(Character character)
 	{
 		var properties = character.Properties;
@@ -1312,5 +1349,52 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var result = baseStat + byBuff;
 		return (float)Math.Floor(Math2.Clamp(10, 200, result));
+	}
+
+	/// <summary>
+	/// Returns 1 if the character is able to shoot while moving.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_MovingShotable(Character character)
+	{
+		return character.JobClass == JobClass.Archer ? 1 : 0;
+	}
+
+	/// <summary>
+	/// Returns movement speed for while shooting.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_MovingShot(Character character)
+	{
+		var canMoveWhileShooting = character.Properties.GetFloat(PropertyName.MovingShotable) == 1;
+		if (!canMoveWhileShooting)
+			return 0;
+
+		var byJob = (character.JobClass == JobClass.Archer ? 0.8f : 0);
+		var byBuff = character.Properties.GetFloat(PropertyName.MovingShot_BM);
+
+		var value = byJob + byBuff;
+
+		return Math.Min(5, value);
+	}
+
+	/// <summary>
+	/// Returns character's skill range, which adds potentially to the
+	/// skill's splash range.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_SkillRange(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.SkillRange);
+		var byBuff = character.Properties.GetFloat(PropertyName.SkillRange_BM);
+
+		var value = byItem + byBuff;
+		return value;
 	}
 }

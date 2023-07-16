@@ -66,9 +66,29 @@ namespace Melia.Shared.World
 		public static Direction North => new Direction(0, 1);
 
 		/// <summary>
+		/// Returns a direction that points west.
+		/// </summary>
+		public static Direction NorthWest => new Direction(-0.7071068f, 0.7071068f);
+
+		/// <summary>
+		/// Returns a direction that points east.
+		/// </summary>
+		public static Direction NorthEast => new Direction(0.7071068f, 0.7071068f);
+
+		/// <summary>
 		/// Returns a direction that points south.
 		/// </summary>
 		public static Direction South => new Direction(0, -1);
+
+		/// <summary>
+		/// Returns a direction that points south west.
+		/// </summary>
+		public static Direction SouthWest => new Direction(-0.7071068f, -0.7071068f);
+
+		/// <summary>
+		/// Returns a direction that points south east.
+		/// </summary>
+		public static Direction SouthEast => new Direction(0.7071068f, -0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points east.
@@ -82,15 +102,21 @@ namespace Melia.Shared.World
 
 		/// <summary>
 		/// Returns a direction that, relative to this direction,
-		/// points left.
+		/// points right.
 		/// </summary>
-		public Direction Left => new Direction(this.DegreeAngle - 90);
+		public Direction Right => new Direction(this.DegreeAngle - 90);
 
 		/// <summary>
 		/// Returns a direction that, relative to this direction,
-		/// points right.
+		/// points left.
 		/// </summary>
-		public Direction Right => new Direction(this.DegreeAngle + 90);
+		public Direction Left => new Direction(this.DegreeAngle + 90);
+
+		/// <summary>
+		/// Returns a direction that points in the opposite direction from
+		/// this direction.
+		/// </summary>
+		public Direction Backwards => new Direction(this.DegreeAngle + 180);
 
 		/// <summary>
 		/// Creates new direction from values.

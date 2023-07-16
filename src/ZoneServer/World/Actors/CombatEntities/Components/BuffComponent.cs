@@ -316,6 +316,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Stops the buff with the given id.
+		/// </summary>
+		/// <param name="buffId"></param>
+		public void Stop(BuffId buffId)
+		{
+			if (this.TryGet(buffId, out var buff))
+				this.Remove(buff);
+		}
+
+		/// <summary>
 		/// Check buffs and remove expired buffs
 		/// </summary>
 		public void Update(TimeSpan elapsed)

@@ -22,9 +22,10 @@
 		Hit = 3,
 
 		/// <summary>
-		/// Yellow damage text accompanied by a high-pitched sound.
+		/// A critical hit, indicated by a yellow damage text that's
+		/// accompanied by a high-pitched sound.
 		/// </summary>
-		Unk4 = 4,
+		Crit = 4,
 
 		/// <summary>
 		/// Displays damage and "Dodge" text banner.

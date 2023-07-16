@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_PROPERTY_COMPARE.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i339415
 //   Purpose: 
 //  Category: 
@@ -10,66 +10,16 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 //#define PROPERTY_NAMES
 #include "inc/common.bt"
-
-ServerHeaderDynamic header;
-
-typedef struct
-{
-    char name[65];
-    int64 characterId;
-    int64 accountId;
-    byte bin[6];
-    int adventurerIndex; // -1 if Index = 0
-    int adventurerRank; // -1 if unranked
-    int achievementCount;
-    int i0;
-    char team[64];
-}
-COMPARE_APPEARANCE_PC;
-
-typedef struct
-{
-    char name[64];
-    short s1; // 0
-    short jobId1;
-    int jobId2;
-    int barrackMapId;
-    short s2;
-    short s3; // 11
-    short s4;
-    float f1;
-    float f2;
-    int l3; // 0
-    short s5;
-    short s6;
-    short s7;
-    int i1; // Map ID? 1003
-    int i2; // 10
-
-    // Up until i171032 we had these as "pose" and "team id",
-    // but they actually contain the visible hats, so we either
-    // had them wrong, or they changed. This was first noticed in
-    // i170175.
-    //short pose;
-    //int teamId;
-    byte b2;
-    byte hat1Visible;
-    byte hat2Visible;
-    byte hat3Visible;
-    short jobIds[4];
-    int64 l3;
-    short etcProps;
-    short propertySize;
-}
-COMPARE_APPEARANCE_PC2;
 
 typedef struct
 {
     lpString optionName;
     byte b1;
-    switch(b1) {
+    switch(b1)
+    {
         case 0:
             int optionValue;
             break;
@@ -77,25 +27,31 @@ typedef struct
             lpString optionValue;
             break;
     }
-} SealOption <optimize=false>;
+}
+SealOption <optimize=false>;
 
 typedef struct
 {
-    short s1; // 0
-    int64 worldId1;
-    int i1; // 0
-    int i2; // 0
-    int itemId1; // 744070
-    int i4; // 0
-    int i5; // 1
-    short s2; // 0
-    int64 worldId2;
-    int i6; // 0
-    int i7; // 0
-    int itemId2; // 744070
-    int i8; // 0
-    int i9; // 1 
-} GemInfo <optimize=false>;
+    lpString str1;
+    lpString str1;
+    int i1;
+}
+GemInfoUnk1 <optimize=false>;
+
+typedef struct
+{
+    short index;
+    int64 objectId;
+    int i1;
+    int i2;
+    int itemClassId;
+    int i4;
+    int i5;
+    
+    int gemInfoUnk1Count;
+    GemInfoUnk1 gemInfoUnk1[gemInfoUnk1Count];
+}
+GemInfo <optimize=false>;
 
 typedef struct
 {
@@ -106,17 +62,21 @@ typedef struct
     int slot;
     int i1;
     short s1;
-    if (propertiesSize > 0) {
+
+    if (propertiesSize > 0)
+    {
         getProperties(propertiesSize);
+
         short sealOptionsSize;
-        if (sealOptionsSize > 0) {
+        if (sealOptionsSize > 0)
             SealOption sealOptions[sealOptionsSize];
-        }
+
         int64 worldId2;
+
         short gemCount;
-        if (gemCount > 0) {
-            GemInfo data[gemCount];
-        }
+        if (gemCount > 0)
+            // All gems appear to get sent twice?
+            GemInfo data[gemCount * 2];
     }
 }
 EquipItem2 <read=readEquipItem2, optimize=false>;
@@ -128,25 +88,64 @@ string readEquipItem2(EquipItem2 &v)
     return result;
 }
 
-typedef struct {
-    int jobId;
-    int i1; // 0
-    int i[8];
-} JobData <optimize=false>;
-
-typedef struct {
-    int handle;
-    COMPARE_APPEARANCE_PC compareAppearancePc;
-    COMPARE_APPEARANCE_PC2 compareAppearancePc2;
-    APPEARANCE_PC appearancePc;
-    getProperties(compareAppearancePc2.etcProps);
-    getProperties(compareAppearancePc2.propertySize);
-    EquipItem2 item[EquipSlotCount];
-    short count;
-    if (count > 0)
-        JobData data[count];
-    int achievementIds[compareAppearancePc.achievementCount];
+typedef struct
+{
+    short jobId;
+    short s1;
+    int i1;
+    int i2;
+    int i3;
+    int i4;
+    int i5;
+    int i6;
+    int i7;
+    int i8;
+    int i9;
 }
-COMPARE_COMMANDER;
+JobData <optimize=false>;
 
-COMPARE_COMMANDER commander;
+ServerHeaderDynamic header;
+
+int handle;
+char name[65];
+int64 characterId;
+int64 accountId;
+int i3;
+byte comparing;
+byte addLike;
+int adventurerIndex; // -1 if Index = 0
+int adventurerRank; // -1 if unranked
+int achievementCount;
+int i1;
+
+char teamName[64];
+char name2[65];
+byte b1;
+short jobId;
+int i2;
+byte gender;
+short s2;
+byte bin1[25];
+short serverGroupId;
+
+short s1;
+int level;
+byte unk2[4];
+short jobIds[4];
+int64 l1;
+short propertySize;
+short etcPropertySize;
+
+APPEARANCE_PC appearance;
+
+getProperties(propertySize);
+getProperties(etcPropertySize);
+
+EquipItem2 item[EquipSlotCount];
+
+short jobCount;
+if (jobCount > 0)
+    JobData data[jobCount];
+
+if (achievementCount > 0)
+    int achievementIds[achievementCount];

@@ -32,7 +32,7 @@ short s1;
 int64 socialInfoId;
 byte pose; // ?
 float moveSpeed;
-int i2;
+float movingShot;
 int hp;
 int maxHp;
 short sp;

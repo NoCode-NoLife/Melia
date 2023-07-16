@@ -15,7 +15,7 @@ using Yggdrasil.Logging;
 
 public class NormalTxFunctionsScript : GeneralScript
 {
-	[ScriptableFunction("SCR_TX_PROPERTY_ACTIVE_TOGGLE")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_PROPERTY_ACTIVE_TOGGLE(Character character, string strArg)
 	{
 		var className = strArg;
@@ -26,7 +26,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[ScriptableFunction("GUIDE_QUEST_OPEN_UI")]
+	[ScriptableFunction]
 	public NormalTxResult GUIDE_QUEST_OPEN_UI(Character character, string strArg)
 	{
 		switch (strArg)
@@ -49,7 +49,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Fail;
 	}
 
-	[ScriptableFunction("SCR_TX_STAT_UP")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_STAT_UP(Character character, int[] numArgs)
 	{
 		// Check amount of parameters
@@ -84,7 +84,7 @@ public class NormalTxFunctionsScript : GeneralScript
 			}
 		}
 
-		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP);
+		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_STAT_UP, 0, null);
 
 		// Official doesn't update UsedStat with this packet,
 		// but presumably the PROP_UPDATE below. Why send more
@@ -104,7 +104,7 @@ public class NormalTxFunctionsScript : GeneralScript
 		return NormalTxResult.Okay;
 	}
 
-	[ScriptableFunction("SCR_TX_SKILL_UP")]
+	[ScriptableFunction]
 	public NormalTxResult SCR_TX_SKILL_UP(Character character, int[] numArgs)
 	{
 		var jobId = (JobId)numArgs[0];
@@ -155,7 +155,7 @@ public class NormalTxFunctionsScript : GeneralScript
 			if (newLevel > maxLevel)
 			{
 				// Don't warn about this, since the client doesn't
-				// check the max level for skill's with unlock levels.
+				// check the max level for skills with unlock levels.
 				// The player can try, but nothing should happen.
 				//Log.Warning("SCR_TX_SKILL_UP: User '{0}' tried to level '{1}' past the max level ({2} > {3}).", character.Username, skillId, newLevel, maxLevel);
 				continue;
@@ -175,9 +175,11 @@ public class NormalTxFunctionsScript : GeneralScript
 			}
 
 			job.SkillPoints -= addLevels;
+
+			ZoneServer.Instance.ServerEvents.OnPlayerSkillLevelChanged(character, skill);
 		}
 
-		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP);
+		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP, 0, null);
 		Send.ZC_JOB_PTS(character, job);
 		//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
 

@@ -35,6 +35,12 @@ namespace Melia.Zone.World.Actors.Characters
 		public int MaxStamina => (int)this.GetFloat(PropertyName.MaxSta);
 
 		/// <summary>
+		/// Returns the character's ability points based on the string
+		/// property "AbilityPoint".
+		/// </summary>
+		public int AbilityPoints => int.Parse(this.GetString(PropertyName.AbilityPoint, "0"));
+
+		/// <summary>
 		/// Creates new instance for the character.
 		/// </summary>
 		/// <param name="character"></param>
@@ -127,9 +133,13 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.JumpPower, "SCR_Get_Character_JumpPower");
 			this.Create(PropertyName.CastingSpeed, "SCR_Get_Character_CastingSpeed");
 
+			this.Create(PropertyName.MovingShotable, "SCR_Get_Character_MovingShotable");
+			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
+
+			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
+
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?
-			this.Create(new FloatProperty(PropertyName.MovingShotable, 0));
 			this.Create(new FloatProperty(PropertyName.HPDrain, 2));
 			this.Create(new FloatProperty(PropertyName.BOOST, 1));
 			this.Create(new FloatProperty(PropertyName.Const, 1.909859f));
@@ -145,42 +155,44 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </remarks>
 		public void InitAutoUpdates()
 		{
-			this.AutoUpdate("STR", new[] { "Lv", "STR_ADD", "STR_STAT", "STR_JOB" });
-			this.AutoUpdate("CON", new[] { "Lv", "CON_ADD", "CON_STAT", "CON_JOB" });
-			this.AutoUpdate("INT", new[] { "Lv", "INT_ADD", "INT_STAT", "INT_JOB" });
-			this.AutoUpdate("MNA", new[] { "Lv", "MNA_ADD", "MNA_STAT", "MNA_JOB" });
-			this.AutoUpdate("DEX", new[] { "Lv", "DEX_ADD", "DEX_STAT", "DEX_JOB" });
-			this.AutoUpdate("STR_JOB", new[] { "Lv" });
-			this.AutoUpdate("CON_JOB", new[] { "Lv" });
-			this.AutoUpdate("INT_JOB", new[] { "Lv" });
-			this.AutoUpdate("MNA_JOB", new[] { "Lv" });
-			this.AutoUpdate("DEX_JOB", new[] { "Lv" });
-			this.AutoUpdate("MHP", new[] { "Lv", "CON", "MHP_BM", "MHP_Bonus" });
-			this.AutoUpdate("MSP", new[] { "Lv", "MNA", "MSP_BM", "MSP_Bonus" });
-			this.AutoUpdate("StatPoint", new[] { "StatByLevel", "StatByBonus", "UsedStat" });
-			this.AutoUpdate("MSPD", new[] { "MSPD_BM", "MSPD_Bonus" });
-			this.AutoUpdate("CastingSpeed", new[] { "CastingSpeed_BM" });
-			this.AutoUpdate("DEF", new[] { "Lv", "DEF_BM", "DEF_RATE_BM" });
-			this.AutoUpdate("MDEF", new[] { "Lv", "MDEF_BM", "MDEF_RATE_BM" });
-			this.AutoUpdate("CRTATK", new[] { "CRTATK_BM" });
-			this.AutoUpdate("CRTHR", new[] { "Lv", "CRTHR_BM" });
-			this.AutoUpdate("CRTDR", new[] { "Lv", "CRTDR_BM" });
-			this.AutoUpdate("HR", new[] { "Lv", "STR", "HR_BM", "HR_RATE_BM" });
-			this.AutoUpdate("DR", new[] { "Lv", "DEX", "DR_BM", "DR_RATE_BM" });
-			this.AutoUpdate("BLK", new[] { "Lv", "CON", "BLK_BM", "BLK_RATE_BM" });
-			this.AutoUpdate("BLK_BREAK", new[] { "Lv", "DEX", "BLK_BREAK_BM", "BLK_BREAK_RATE_BM" });
-			this.AutoUpdate("SR", new[] { "SR_BM" });
-			this.AutoUpdate("SDR", new[] { "SDR_BM" });
-			this.AutoUpdate("MaxSta", new[] { "CON", "MAXSTA_Bonus", "MaxSta_BM" });
-			this.AutoUpdate("Sta_Run", new[] { "DashRun" });
-			this.AutoUpdate("Sta_Recover", new[] { "REST_BM", "RSta_BM" });
-			this.AutoUpdate("MINPATK", new[] { "Lv", "STR", "PATK_BM", "MINPATK_BM", "PATK_MAIN_BM", "MINPATK_MAIN_BM", "PATK_RATE_BM", "MINPATK_RATE_BM", "PATK_MAIN_RATE_BM", "MINPATK_MAIN_RATE_BM" });
-			this.AutoUpdate("MAXPATK", new[] { "Lv", "STR", "PATK_BM", "MAXPATK_BM", "PATK_MAIN_BM", "MAXPATK_MAIN_BM", "PATK_RATE_BM", "MAXPATK_RATE_BM", "PATK_MAIN_RATE_BM", "MAXPATK_MAIN_RATE_BM" });
-			this.AutoUpdate("MINMATK", new[] { "Lv", "INT", "MATK_BM", "MINMATK_BM", "MATK_RATE_BM", "MINMATK_RATE_BM" });
-			this.AutoUpdate("MAXMATK", new[] { "Lv", "INT", "MATK_BM", "MAXMATK_BM", "MATK_RATE_BM", "MAXMATK_RATE_BM" });
+			this.AutoUpdate(PropertyName.STR, new[] { PropertyName.Lv, PropertyName.STR_ADD, PropertyName.STR_STAT, PropertyName.STR_JOB });
+			this.AutoUpdate(PropertyName.CON, new[] { PropertyName.Lv, PropertyName.CON_ADD, PropertyName.CON_STAT, PropertyName.CON_JOB });
+			this.AutoUpdate(PropertyName.INT, new[] { PropertyName.Lv, PropertyName.INT_ADD, PropertyName.INT_STAT, PropertyName.INT_JOB });
+			this.AutoUpdate(PropertyName.MNA, new[] { PropertyName.Lv, PropertyName.MNA_ADD, PropertyName.MNA_STAT, PropertyName.MNA_JOB });
+			this.AutoUpdate(PropertyName.DEX, new[] { PropertyName.Lv, PropertyName.DEX_ADD, PropertyName.DEX_STAT, PropertyName.DEX_JOB });
+			this.AutoUpdate(PropertyName.STR_JOB, new[] { PropertyName.Lv });
+			this.AutoUpdate(PropertyName.CON_JOB, new[] { PropertyName.Lv });
+			this.AutoUpdate(PropertyName.INT_JOB, new[] { PropertyName.Lv });
+			this.AutoUpdate(PropertyName.MNA_JOB, new[] { PropertyName.Lv });
+			this.AutoUpdate(PropertyName.DEX_JOB, new[] { PropertyName.Lv });
+			this.AutoUpdate(PropertyName.MHP, new[] { PropertyName.Lv, PropertyName.CON, PropertyName.MHP_BM, PropertyName.MHP_Bonus });
+			this.AutoUpdate(PropertyName.MSP, new[] { PropertyName.Lv, PropertyName.MNA, PropertyName.MSP_BM, PropertyName.MSP_Bonus });
+			this.AutoUpdate(PropertyName.StatPoint, new[] { PropertyName.StatByLevel, PropertyName.StatByBonus, PropertyName.UsedStat });
+			this.AutoUpdate(PropertyName.MSPD, new[] { PropertyName.MSPD_BM, PropertyName.MSPD_Bonus });
+			this.AutoUpdate(PropertyName.CastingSpeed, new[] { PropertyName.CastingSpeed_BM });
+			this.AutoUpdate(PropertyName.DEF, new[] { PropertyName.Lv, PropertyName.DEF_BM, PropertyName.DEF_RATE_BM });
+			this.AutoUpdate(PropertyName.MDEF, new[] { PropertyName.Lv, PropertyName.MDEF_BM, PropertyName.MDEF_RATE_BM });
+			this.AutoUpdate(PropertyName.CRTATK, new[] { PropertyName.CRTATK_BM });
+			this.AutoUpdate(PropertyName.CRTHR, new[] { PropertyName.Lv, PropertyName.CRTHR_BM });
+			this.AutoUpdate(PropertyName.CRTDR, new[] { PropertyName.Lv, PropertyName.CRTDR_BM });
+			this.AutoUpdate(PropertyName.HR, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.HR_BM, PropertyName.HR_RATE_BM });
+			this.AutoUpdate(PropertyName.DR, new[] { PropertyName.Lv, PropertyName.DEX, PropertyName.DR_BM, PropertyName.DR_RATE_BM });
+			this.AutoUpdate(PropertyName.BLK, new[] { PropertyName.Lv, PropertyName.CON, PropertyName.BLK_BM, PropertyName.BLK_RATE_BM });
+			this.AutoUpdate(PropertyName.BLK_BREAK, new[] { PropertyName.Lv, PropertyName.DEX, PropertyName.BLK_BREAK_BM, PropertyName.BLK_BREAK_RATE_BM });
+			this.AutoUpdate(PropertyName.SR, new[] { PropertyName.SR_BM });
+			this.AutoUpdate(PropertyName.SDR, new[] { PropertyName.FixedMinSDR_BM, PropertyName.SDR_BM });
+			this.AutoUpdate(PropertyName.MaxSta, new[] { PropertyName.CON, PropertyName.MAXSTA_Bonus, PropertyName.MaxSta_BM });
+			this.AutoUpdate(PropertyName.Sta_Run, new[] { PropertyName.DashRun });
+			this.AutoUpdate(PropertyName.Sta_Recover, new[] { PropertyName.REST_BM, PropertyName.RSta_BM });
+			this.AutoUpdate(PropertyName.MINPATK, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MINPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MINPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MINPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MINPATK_MAIN_RATE_BM });
+			this.AutoUpdate(PropertyName.MAXPATK, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MAXPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MAXPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MAXPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MAXPATK_MAIN_RATE_BM });
+			this.AutoUpdate(PropertyName.MINMATK, new[] { PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MINMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MINMATK_RATE_BM });
+			this.AutoUpdate(PropertyName.MAXMATK, new[] { PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MAXMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MAXMATK_RATE_BM });
+			this.AutoUpdate(PropertyName.MaxWeight, new[] { PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus });
+			this.AutoUpdate(PropertyName.MovingShot, new[] { PropertyName.MovingShot_BM });
 
-			this.AutoUpdateMax("HP", "MHP");
-			this.AutoUpdateMax("SP", "MSP");
+			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
+			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);
 		}
 
 		/// <summary>
@@ -191,7 +203,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
-			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+			this.Character.SitStatusChanged += this.SitStatusChanged;
 
 			// Subscribe to equipment changes, as any number of properties
 			// might make use of equipment stats
@@ -239,10 +251,20 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Recalculates and updates HP and SP recovery time properties.
 		/// </summary>
 		/// <param name="character"></param>
-		private void UpdateRecoveryTimes(Character character)
+		private void SitStatusChanged(Character character)
 		{
 			this.Invalidate(PropertyName.RHPTIME, PropertyName.RSPTIME);
 			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.RHPTIME, PropertyName.RSPTIME);
+
+			if (character.IsSitting)
+			{
+				character.Buffs.Start(BuffId.Rest, TimeSpan.Zero);
+			}
+			else
+			{
+				character.Buffs.Stop(BuffId.Rest);
+				character.Buffs.Stop(BuffId.campfire_Buff);
+			}
 		}
 
 		/// <summary>

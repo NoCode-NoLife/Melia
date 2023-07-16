@@ -22,11 +22,12 @@ int i2;
 float shootTime;
 float f2;
 int i3;
-int i4;
+int forceId;
 float f5;
 int i5;
+
 position pos;
-short hitCount; // ?
+short hitCount;
 
 if (hitCount > 0)
     SkillHitInfo hits[hitCount];

@@ -4,4 +4,6 @@
 
 mobs/**/*
 npcs/**/*
+other/**/*
+quests/**/*
 warps/**/*

@@ -13,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 	/// <summary>
 	/// Handles ranged skills that target a single entity.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack)]
+	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
 	public class TargetSkill : ITargetSkillHandler
 	{
 		/// <summary>
@@ -32,34 +32,27 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(target);
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			//Send.ZC_SKILL_READY(caster, skill, target.Position, Position.Zero);
 			//Send.ZC_NORMAL.Unkown_1c(caster, target.Handle, target.Position, caster.Position.GetDirection(target.Position), Position.Zero);
 
 			if (target == null)
 			{
-				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, 0, null);
+				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				return;
 			}
-
-			// This value needs to be set on both the skill hits and
-			// ZC_SKILL_FORCE_TARGET for the client to connect the
-			// pieces and stop arrows from flying past the targets.
-			// We'll just set this to whatever for now, but it
-			// probably needs to be a sequential id.
-			var unkForceId = 179069;
 
 			var damageDelay = TimeSpan.FromMilliseconds(500);
 			var skillHitDelay = skill.Properties.HitDelay;
 
-			var damage = SCR_CalculateDamage(caster, target, skill);
-			target.TakeDamage(damage, caster);
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var hit = new SkillHitInfo(caster, target, skill, damage, damageDelay, skillHitDelay);
-			hit.UnkForceId = unkForceId;
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			skillHit.ForceId = ForceId.GetNew();
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, unkForceId, new[] { hit });
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 		}
 	}
 }

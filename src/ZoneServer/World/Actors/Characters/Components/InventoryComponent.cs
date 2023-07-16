@@ -289,6 +289,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="addType"></param>
 		public void Add(Item item, InventoryAddType addType)
 		{
+			var amountToAdd = item.Amount;
+
 			var left = this.FillStacks(item, addType, false);
 			if (left > 0)
 			{
@@ -302,6 +304,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// to are sometimes wrong, a full updates fixes that. Maybe
 			// ZC_ITEM_ADD needs an update.
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
+
+			ZoneServer.Instance.ServerEvents.OnPlayerAddedItem(this.Character, item.Id, amountToAdd);
 		}
 
 		/// <summary>
@@ -578,18 +582,26 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					return InventoryResult.ItemNotFound;
 			}
 
+			int amountRemoved;
+
 			// Remove or reduce
 			if (item.Amount <= amount)
 			{
 				this.Remove(item);
+				amountRemoved = item.Amount;
 			}
 			else
 			{
 				item.Amount -= amount;
+				amountRemoved = amount;
 
 				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, amount, msg, InventoryType.Inventory);
-				Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
+
+				this.Character.Properties.Invalidate(PropertyName.NowWeight);
+				Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.NowWeight);
 			}
+
+			ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, item.Id, amountRemoved);
 
 			return InventoryResult.Success;
 		}
@@ -605,7 +617,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (amount == 0)
 				return 0;
 
-			var result = 0;
+			var amountRemoved = 0;
 
 			// Potential optimization: don't search every category. However,
 			// technically any item can be in any category.
@@ -619,7 +631,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				item.Amount -= reduce;
 				amount -= reduce;
-				result += reduce;
+				amountRemoved += reduce;
 
 				if (reduce == itemAmount)
 				{
@@ -636,10 +648,13 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 			}
 
-			if (result != 0)
+			if (amountRemoved != 0)
+			{
 				Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
+				ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, itemId, amountRemoved);
+			}
 
-			return result;
+			return amountRemoved;
 		}
 
 		/// <summary>

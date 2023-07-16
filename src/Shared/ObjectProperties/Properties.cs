@@ -149,6 +149,25 @@ namespace Melia.Shared.ObjectProperties
 		}
 
 		/// <summary>
+		/// Returns the value of the given property via out. Returns false
+		/// if the property wasn't set yet.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool TryGetFloat(string propertyName, out float value)
+		{
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+			{
+				value = 0;
+				return false;
+			}
+
+			value = property.Value;
+			return true;
+		}
+
+		/// <summary>
 		/// Returns the value of the given property, or the default value
 		/// if the property wasn't defined.
 		/// </summary>

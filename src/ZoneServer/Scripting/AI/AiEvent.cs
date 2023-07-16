@@ -1,4 +1,6 @@
-﻿namespace Melia.Zone.Scripting.AI
+﻿using Melia.Zone.World.Actors;
+
+namespace Melia.Zone.Scripting.AI
 {
 	/// <summary>
 	/// An alert about an event that happend to or around an AI's entity.
@@ -13,14 +15,14 @@
 	public class HitEventAlert : IAiEventAlert
 	{
 		/// <summary>
-		/// Returns the handle of the target.
+		/// Returns the target.
 		/// </summary>
-		public int TargetHandle { get; }
+		public ICombatEntity Target { get; }
 
 		/// <summary>
-		/// Returns the handle of the attacker.
+		/// Returns the attacker.
 		/// </summary>
-		public int AttackerHandle { get; }
+		public ICombatEntity Attacker { get; }
 
 		/// <summary>
 		/// Returns the damage dealt.
@@ -30,14 +32,31 @@
 		/// <summary>
 		/// Creates new event.
 		/// </summary>
-		/// <param name="targetHandle"></param>
-		/// <param name="attackerHandler"></param>
+		/// <param name="target"></param>
+		/// <param name="attacker"></param>
 		/// <param name="damage"></param>
-		public HitEventAlert(int targetHandle, int attackerHandler, float damage)
+		public HitEventAlert(ICombatEntity target, ICombatEntity attacker, float damage)
 		{
-			this.TargetHandle = targetHandle;
-			this.AttackerHandle = attackerHandler;
+			this.Target = target;
+			this.Attacker = attacker;
 			this.Damage = damage;
+		}
+	}
+
+	public class HateResetAlert : IAiEventAlert
+	{
+		/// <summary>
+		/// Returns the entity for which the hate was reset.
+		/// </summary>
+		public ICombatEntity Target { get; }
+
+		/// <summary>
+		/// Creates new event.
+		/// </summary>
+		/// <param name="target"></param>
+		public HateResetAlert(ICombatEntity target)
+		{
+			this.Target = target;
 		}
 	}
 }

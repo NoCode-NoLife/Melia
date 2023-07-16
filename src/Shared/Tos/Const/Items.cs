@@ -329,8 +329,18 @@ namespace Melia.Shared.Tos.Const
 		Hat, // HAT_T
 		Lens, // LENS
 		Wing, // WING
-		SpecialCostume, // ?
-		EffectCostume, // ?
+		SpecialCostume, // SPECIAL_COSTUME
+		EffectCostume, // EFFECT_COSTUME
+		Seal, // SEAL
+		Doll, // DOLL
+		Ark, // ARK
+		Trinket, // TRINKET
+		Relic, // RELIC
+		RightHandSub, // RH_SUB
+		LeftHandSub, // LH_SUB
+		Earring, // EARRING
+		Belt, // BELT
+		Shoulder, // SHOULDER
 	}
 
 	public enum InventoryItemRemoveMsg : byte

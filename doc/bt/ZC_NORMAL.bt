@@ -245,11 +245,11 @@ switch (type)
         float f5;
         float f6;
         float f7;
-        float f8;
+        int i2;
         float f9;
         float f10;
         float f11;
-        float f12;
+        int i3;
         break;
 
     case 0x1B:
@@ -792,6 +792,18 @@ switch (type)
         float f5;
         break;
 
+    // Leap Jump
+    case 0xC2:
+        int handle;
+        position targetPos;
+        float jumpHeight;
+        float f2;
+        float f3;
+        float f4;
+        float f5;
+        float f6;
+        break;
+
     case 0xC6:
         int handle; // 231902
         byte b1; // 1
@@ -865,13 +877,16 @@ switch (type)
         byte b1;
         break;
 
-    case 0xE1:
-        int characterHandle;
+    case 0xE3:
         int targetHandle;
-        int animationId; // 2562693 : SHOW_BUFF_TEXT
-        float f1; // 160008
-        short s1; // -1
-        int64 l1;
+        int characterHandle;
+        int packetStringId;
+        float argNum;
+        short argStrLen; // -1
+        if (argStrLen > -1)
+            char argStr[argStrLen]; // defaults to "None"
+        int i1;
+        int i2;
         break;
     
     // ?

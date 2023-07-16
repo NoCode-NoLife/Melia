@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using Melia.Shared.Data.Database;
+using System.Threading;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.Handlers.General;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -102,10 +101,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <exception cref="ArgumentException"></exception>
 		protected IEnumerable Emoticon(string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var data))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-			Send.ZC_SHOW_EMOTICON(this.Entity, data.Id, TimeSpan.FromSeconds(2));
+			Send.ZC_SHOW_EMOTICON(this.Entity, packetString, TimeSpan.FromSeconds(2));
 			yield break;
 		}
 
@@ -137,7 +133,7 @@ namespace Melia.Zone.Scripting.AI
 			// Should we give monsters a skill manager? We might not
 			// actually need it, though we should probably at least
 			// cache the skills if we create them on demand.
-			skill = new Skill(null, rndSkillId, 1);
+			skill = new Skill(this.Entity, rndSkillId, 1);
 
 			return true;
 		}
@@ -161,7 +157,8 @@ namespace Melia.Zone.Scripting.AI
 
 			handler.Handle(skill, this.Entity, target);
 
-			yield return this.Wait(2000);
+			var useTime = skill.Properties.ShootTime;
+			yield return this.Wait(useTime);
 		}
 
 		/// <summary>
@@ -173,6 +170,104 @@ namespace Melia.Zone.Scripting.AI
 		{
 			Send.ZC_PLAY_ANI(this.Entity, packetString);
 			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity keep following the given target.
+		/// </summary>
+		/// <param name="followTarget">The target to follow.</param>
+		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
+		/// <param name="matchSpeed">If true, the entity's speed will be changed to match the target's.</param>
+		/// <returns></returns>
+		protected IEnumerable Follow(ICombatEntity followTarget, float minDistance = 50, bool matchSpeed = false)
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+			var targetWasInRange = false;
+			var targetWasMoving = false;
+			var keepFollowing = false;
+
+			if (matchSpeed)
+			{
+				var targetMspd = followTarget.Properties.GetFloat(PropertyName.MSPD);
+
+				// It's currently unknown why, but for the monster speed to
+				// match a character's speed it needs to be multiplied by 2.4.
+				// Setting them to the exact same value does not work.
+				if (followTarget is Character character)
+					targetMspd *= 2.4f;
+
+				this.SetFixedMoveSpeed(targetMspd);
+			}
+			else
+			{
+				this.SetRunning(true);
+			}
+
+			while (true)
+			{
+				if (followTarget.Map.Id != this.Entity.Map.Id)
+				{
+					movement.Stop();
+
+					// If the target is no longer on the same map, blue orb
+					// monsters simply freeze, so we'll do the same and let
+					// them get stuck in a loop. Unless the follow warp option
+					// is set, in which case we'll remove the monster and
+					// recreate it on the other side, from the summoning
+					// script. All this could need a clean up.
+
+					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+					{
+						while (true)
+							yield return this.Wait(10000);
+					}
+					else
+					{
+						if (this.Entity is Mob mob)
+							this.Entity.Map.RemoveMonster(mob);
+						yield break;
+					}
+				}
+
+				var teleportDistance = minDistance * 4;
+				var distance = followTarget.Position.Get2DDistance(this.Entity.Position);
+
+				if (distance > teleportDistance)
+				{
+					movement.Stop();
+
+					this.Entity.Position = followTarget.Position;
+					Send.ZC_SET_POS(this.Entity);
+				}
+
+				var isTargetMoving = followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
+				var stoppedMoving = (!isTargetMoving && targetWasMoving);
+
+				var isTargetInRange = followTarget.Position.InRange2D(this.Entity.Position, minDistance);
+				var targetLeftRange = (targetWasInRange && !isTargetInRange);
+
+				if (targetLeftRange)
+					keepFollowing = true;
+
+				if (stoppedMoving)
+					keepFollowing = false;
+
+				var catchUp = !isTargetInRange || keepFollowing;
+
+				if (catchUp)
+				{
+					var closePos = this.Entity.Position.GetRelative(followTarget.Position, 50);
+					yield return this.MoveTo(closePos, false);
+				}
+				else if (movement.IsMoving)
+				{
+					yield return this.StopMove();
+				}
+
+				targetWasInRange = isTargetInRange;
+				targetWasMoving = isTargetMoving;
+				yield return true;
+			}
 		}
 	}
 }

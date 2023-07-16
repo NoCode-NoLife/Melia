@@ -9,22 +9,104 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 
 public class SkillCalculationsScript : GeneralScript
 {
 	/// <summary>
-	/// Returns skill's splash range.
+	/// Returns skill's AoE Attack Ratio?
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_GET_SR_LV")]
+	[ScriptableFunction]
 	public float SCR_GET_SR_LV(Skill skill)
 	{
 		var baseValue = skill.Properties.GetFloat(PropertyName.SklSR);
-		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SR);
 
-		return baseValue + byOwner;
+		var byOwner = 0f;
+		if (skill.Owner is Character character)
+			byOwner += character.Properties.GetFloat(PropertyName.SR);
+
+		return Math.Max(1, baseValue + byOwner);
+	}
+
+	/// <summary>
+	/// Returns skill's skill factor, which in most cases in equivilant
+	/// to the skill's damage in percentage.
+	/// </summary>
+	/// <example>
+	/// var damage = SCR_GetRandomAtk(attacker, target, skill) * SCR_Get_SkillFactor(skill) / 100f;
+	/// </example>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_SkillFactor(Skill skill)
+	{
+		var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
+
+		var sklFactor = skill.Properties.GetFloat(PropertyName.SklFactor);
+		var sklFactorByLevel = skill.Properties.GetFloat(PropertyName.SklFactorByLevel);
+
+		var value = sklFactor + (sklFactorByLevel * (skill.Level - 1));
+
+		var byReinforceRate = SCR_Get_AbilityReinforceRate(skill);
+		value += value * byReinforceRate;
+
+		return value;
+	}
+
+	/// <summary>
+	/// Returns the reinforce ability rate for the skill.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_AbilityReinforceRate(Skill skill)
+	{
+		if (skill.Data.ReinforceAbility == 0)
+			return 0;
+
+		if (!skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			return 0;
+
+		if (!abilities.TryGetActive(skill.Data.ReinforceAbility, out var reinforceAbility))
+			return 0;
+
+		var byAbility = reinforceAbility.Level * 0.005f;
+
+		if (reinforceAbility.Level == 100)
+			byAbility += 0.10f;
+
+		var byHidden = 0f;
+		if (skill.Data.HiddenReinforceAbility != 0 && abilities.TryGetActive(skill.Data.HiddenReinforceAbility, out var hiddenReinforceAbility))
+		{
+			var level = hiddenReinforceAbility.Level;
+			var factorByLevel = skill.Data.HiddenReinforceAbilityFactorByLevel;
+
+			byHidden = level * factorByLevel / 100f;
+		}
+
+		return byAbility + byHidden;
+	}
+
+	/// <summary>
+	/// Returns skill's bonus damage.
+	/// </summary>
+	/// <example>
+	/// var damage = SCR_GetRandomAtk(attacker, target, skill) + SCR_Get_SkillAtkAdd(skill);
+	/// </example>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_SkillAtkAdd(Skill skill)
+	{
+		var sklAtkAdd = skill.Properties.GetFloat(PropertyName.SklAtkAdd);
+		var sklAtkAddByLevel = skill.Properties.GetFloat(PropertyName.SklAtkAddByLevel);
+
+		return sklAtkAdd + (sklAtkAddByLevel * (skill.Level - 1));
 	}
 
 	/// <summary>
@@ -32,14 +114,14 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP")]
+	[ScriptableFunction]
 	public float SCR_Get_SpendSP(Skill skill)
 	{
 		var baseValue = skill.Data.BasicSp;
 		if (baseValue == 0)
 			return 0;
 
-		var ownerLevel = skill.Character.Level;
+		var ownerLevel = skill.Owner.Level;
 		var levelCorrection = ownerLevel - 300f;
 
 		// The value starts at ~18% at level 1 and keeps going up as the
@@ -59,30 +141,11 @@ public class SkillCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SpendSP_Cleric_Heal")]
-	public float SCR_Get_SpendSP_Cleric_Heal(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		// Not sure if this is correct in any shape or form
-		var value = SCR_Get_SpendSP(skill);
-
-		var overloadBuffCount = skill.Character.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
-
-		return value;
-	}
-
-	/// <summary>
 	/// Returns the amount of stamina spent when using the skill.
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Skill_STA")]
+	[ScriptableFunction]
 	public float SCR_Skill_STA(Skill skill)
 	{
 		var baseValue = skill.Data.BasicStamina;
@@ -103,16 +166,16 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_WaveLength")]
+	[ScriptableFunction]
 	public float SCR_Get_WaveLength(Skill skill)
 	{
-		var baseValue = skill.Data.WaveLength;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklWaveLength);
 
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Square)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillRange);
-			byOwner += skill.Character.Properties.GetFloat(skill.Data.AttackType + "_Range");
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillRange);
+			byOwner += skill.Owner.Properties.GetFloat(skill.Data.AttackType + "_Range");
 		}
 
 		return baseValue + byOwner;
@@ -124,14 +187,14 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_SPLANGLE")]
+	[ScriptableFunction]
 	public float SCR_SPLANGLE(Skill skill)
 	{
 		if (skill.Data.SplashType != SplashType.Fan)
-			return skill.Data.SplashAngle;
+			return skill.Properties.GetFloat(PropertyName.SklSplAngle);
 
-		var baseValue = skill.Data.SplashAngle;
-		var byOwner = skill.Character.Properties.GetFloat(PropertyName.SkillAngle);
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplAngle);
+		var byOwner = skill.Owner.Properties.GetFloat(PropertyName.SkillAngle);
 
 		return baseValue + byOwner;
 	}
@@ -142,22 +205,138 @@ public class SkillCalculationsScript : GeneralScript
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	[ScriptableFunction("SCR_Get_SplRange")]
+	[ScriptableFunction]
 	public float SCR_Get_SplRange(Skill skill)
 	{
-		var baseValue = skill.Data.SplashRange;
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSplRange);
 
 		var byOwner = 0f;
 		if (skill.Data.SplashType == SplashType.Fan)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillRange);
-			byOwner += skill.Character.Properties.GetFloat(skill.Data.AttackType + "_Range");
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillRange);
+			byOwner += skill.Owner.Properties.GetFloat(skill.Data.AttackType + "_Range");
 		}
 		else if (skill.Data.SplashType == SplashType.Square)
 		{
-			byOwner += skill.Character.Properties.GetFloat(PropertyName.SkillAngle);
+			byOwner += skill.Owner.Properties.GetFloat(PropertyName.SkillAngle);
 		}
 
 		return baseValue + byOwner;
+	}
+
+	/// <summary>
+	/// Returns the skill's delay time, which appears to be used as the
+	/// delay until a monster can use a skill again.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_DELAY_TIME(Skill skill)
+	{
+		if (!(skill.Owner is IMonster monster))
+			return skill.Properties.GetFloat(PropertyName.DelayTime);
+
+		if (skill.Data.ClassType == SkillClassType.Missile || skill.Data.UseType == SkillUseType.Force || skill.Data.UseType == SkillUseType.ForceGround)
+		{
+			if (monster.Level < 75)
+				return 3000;
+			else if (monster.Level < 170)
+				return 2500;
+			else if (monster.Level < 220)
+				return 2000;
+			else
+				return 1500;
+		}
+		else
+		{
+			if (monster.Level < 40)
+				return 3000;
+			else if (monster.Level < 75)
+				return 2500;
+			else if (monster.Level < 170)
+				return 2000;
+			else if (monster.Level < 220)
+				return 1500;
+			else
+				return 1000;
+		}
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's speed rate.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_SklSpdRate(Skill skill)
+	{
+		// Formulas based on player accounts and experimentation. They're
+		// not 100% accurate, but the goal was to get them close to the
+		// values seen in the skill packets, and the result kinda works.
+		// And isn't that all that matters? Yes. Yes it is. ^__^
+		//
+		// https://forum.treeofsavior.com/t/attack-speed-formula/395989
+		// 
+		// We can see the skill speed rate in the skill packets, and we
+		// can see it change with the dex stat, so this is definitely a
+		// factor, and the formulas found by the community somewhat match
+		// the logged values.
+		// The bonuses from skills and buffs seem weird at first glance
+		// (for example, Hasisas adds "175 Attack Speed"), but given our
+		// formula this value actually makes sense, as Hasisas was logged
+		// to increase the speed rate by ~0.18, which is a close match
+		// for bonus/1000.
+		// 
+		// Theory on how attack speed works:
+		// Every skill, including normal attack skills, have a "shoot time",
+		// which seems to be the time until the skill can be used again.
+		// For example, if you have a skill speed rate of 1 and you use
+		// a skill with a shoot time of 1000, the client will use the
+		// skill every ~1000ms. If you then raise the skill speed rate,
+		// the client will use the skill every ~1000ms divided by the
+		// speed rate. This means you'd reach a hit rate of 2 hits per
+		// second if you get your speed rate to 2.
+		// For a skill with a much lower shoot time you attack faster
+		// out of the gate and higher speed rates will have a lower
+		// impact on your hits/second. For example, the default shoot
+		// time of the dagger attack skill is 400ms, which would be
+		// lowered to 200ms with a speed rate of 2.
+		// It's currently unknown whether there's a speed cap, though
+		// the hits get a little unrealiable at higher values, above a
+		// speed rate of 3. It's safe to assume that there is a limit
+		// somewhere in the 2~3 speed rate range. But for now we'll
+		// leave it like this for funsies.
+
+		var baseValue = skill.Properties.GetFloat(PropertyName.SklSpdRateValue);
+		var byDex = 0f;
+		var byBuff = 0f;
+
+		if (skill.Data.SpeedRateAffectedByDex)
+		{
+			var dex = skill.Owner.Properties.GetFloat(PropertyName.DEX);
+			byDex = (float)Math.Pow(dex / 500f, 0.46f);
+		}
+
+		if (skill.Data.SpeedRateAffectedByBuff)
+		{
+			var spdBm = skill.Owner.Properties.GetFloat(PropertyName.SPD_BM, 0);
+			byBuff = spdBm / 1000f;
+		}
+
+		return (float)(baseValue + byDex + byBuff);
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's speed rate.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_ShootTime(Skill skill)
+	{
+		var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+		var defShootTime = skill.Data.ShootTime.TotalMilliseconds;
+
+		return (float)(defShootTime / sklSpdRate);
 	}
 }

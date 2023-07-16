@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text.RegularExpressions;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
@@ -14,8 +13,10 @@ using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Quests;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -45,6 +46,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveVariables(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.SaveProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.SaveChatMacros(account);
 			this.SaveRevealedMaps(account);
 
@@ -83,8 +85,10 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadVars(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.LoadProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.LoadChatMacros(account);
 			this.LoadRevealedMaps(account);
+
 			return account;
 		}
 
@@ -157,6 +161,8 @@ namespace Melia.Zone.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
+			this.LoadCooldowns(character);
+			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			// Initialize the properties to trigger calculated properties
@@ -226,8 +232,10 @@ namespace Melia.Zone.Database
 						{
 							var abilityId = (AbilityId)reader.GetInt32("id");
 							var level = reader.GetInt32("level");
+							var active = reader.GetBoolean("active");
 
 							var ability = new Ability(abilityId, level);
+							ability.Active = active;
 
 							character.Abilities.AddSilent(ability);
 						}
@@ -400,6 +408,8 @@ namespace Melia.Zone.Database
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
+			this.SaveCooldowns(character);
+			this.SaveQuests(character);
 
 			return false;
 		}
@@ -460,6 +470,8 @@ namespace Melia.Zone.Database
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", ability.Id);
 						cmd.Set("level", ability.Level);
+						cmd.Set("active", ability.Active);
+
 						cmd.Execute();
 					}
 
@@ -528,7 +540,7 @@ namespace Melia.Zone.Database
 						// Check item, in case its data was removed
 						if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 						{
-							Log.Warning("ChannelDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
+							Log.Warning("ZoneDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
 							continue;
 						}
 
@@ -624,7 +636,7 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Saves owner's variables in database.
+		/// Saves variables in database.
 		/// </summary>
 		/// <param name="vars"></param>
 		/// <param name="tableName"></param>
@@ -632,76 +644,91 @@ namespace Melia.Zone.Database
 		/// <param name="ownerId"></param>
 		public void SaveVariables(Variables vars, string tableName, string ownerField, long ownerId)
 		{
-			var checkOwner = ownerField != null;
-			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
-
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE {where}", conn, trans))
+				this.SaveVariables(conn, trans, vars, tableName, ownerField, ownerId);
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Saves owner's variables in database.
+		/// </summary>
+		/// <param name="vars"></param>
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
+		protected void SaveVariables(MySqlConnection conn, MySqlTransaction trans, Variables vars, string tableName, string ownerField, long ownerId)
+		{
+			var checkOwner = ownerField != null;
+			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
+
+			using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE {where}", conn, trans))
+			{
+				if (checkOwner)
+					mc.Parameters.AddWithValue("@ownerId", ownerId);
+				mc.ExecuteNonQuery();
+			}
+
+			foreach (var var in vars.GetList())
+			{
+				if (var.Value == null)
+					continue;
+
+				// Get type
+				string type;
+				if (var.Value is byte) type = "1u";
+				else if (var.Value is ushort) type = "2u";
+				else if (var.Value is uint) type = "4u";
+				else if (var.Value is ulong) type = "8u";
+				else if (var.Value is sbyte) type = "1";
+				else if (var.Value is short) type = "2";
+				else if (var.Value is int) type = "4";
+				else if (var.Value is long) type = "8";
+				else if (var.Value is float) type = "f";
+				else if (var.Value is double) type = "d";
+				else if (var.Value is bool) type = "b";
+				else if (var.Value is string) type = "s";
+				else if (var.Value is DateTime) type = "dt";
+				else if (var.Value is TimeSpan) type = "ts";
+				else
+				{
+					Log.Warning("SaveVars: Skipping variable '{0}', unsupported type '{1}'.", var.Key, var.Value.GetType().Name);
+					continue;
+				}
+
+				// Get value
+				var val = "";
+				switch (type)
+				{
+					case "f": val = ((float)var.Value).ToString(CultureInfo.InvariantCulture); break;
+					case "d": val = ((double)var.Value).ToString(CultureInfo.InvariantCulture); break;
+					case "dt": val = ((DateTime)var.Value).Ticks.ToString(); break;
+					case "ts": val = ((TimeSpan)var.Value).Ticks.ToString(); break;
+					default: val = var.Value.ToString(); break;
+				}
+
+				// Make sure value isn't too big for the mediumtext field
+				// (unlikely as it may be). Size: 16,777,215
+				if (val.Length > (1 << 24) - 1)
+				{
+					Log.Warning("SaveVars: Skipping variable '{0}', it's too big.", var.Key);
+					continue;
+				}
+
+				// Save
+				using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
 				{
 					if (checkOwner)
-						mc.Parameters.AddWithValue("@ownerId", ownerId);
-					mc.ExecuteNonQuery();
+						cmd.Set(ownerField, ownerId);
+
+					cmd.Set("name", var.Key);
+					cmd.Set("type", type);
+					cmd.Set("value", val);
+
+					cmd.Execute();
 				}
-
-				foreach (var var in vars.GetList())
-				{
-					if (var.Value == null)
-						continue;
-
-					// Get type
-					string type;
-					if (var.Value is byte) type = "1u";
-					else if (var.Value is ushort) type = "2u";
-					else if (var.Value is uint) type = "4u";
-					else if (var.Value is ulong) type = "8u";
-					else if (var.Value is sbyte) type = "1";
-					else if (var.Value is short) type = "2";
-					else if (var.Value is int) type = "4";
-					else if (var.Value is long) type = "8";
-					else if (var.Value is float) type = "f";
-					else if (var.Value is double) type = "d";
-					else if (var.Value is bool) type = "b";
-					else if (var.Value is string) type = "s";
-					else
-					{
-						Log.Warning("SaveVars: Skipping variable '{0}', unsupported type '{1}'.", var.Key, var.Value.GetType().Name);
-						continue;
-					}
-
-					// Get value
-					var val = "";
-					switch (type)
-					{
-						case "f": val = ((float)var.Value).ToString(CultureInfo.InvariantCulture); break;
-						case "d": val = ((double)var.Value).ToString(CultureInfo.InvariantCulture); break;
-						default: val = var.Value.ToString(); break;
-					}
-
-					// Make sure value isn't too big for the mediumtext field
-					// (unlikely as it may be). Size: 16,777,215
-					if (val.Length > (1 << 24) - 1)
-					{
-						Log.Warning("SaveVars: Skipping variable '{0}', it's too big.", var.Key);
-						continue;
-					}
-
-					// Save
-					using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
-					{
-						if (checkOwner)
-							cmd.Set(ownerField, ownerId);
-
-						cmd.Set("name", var.Key);
-						cmd.Set("type", type);
-						cmd.Set("value", val);
-
-						cmd.Execute();
-					}
-				}
-
-				trans.Commit();
 			}
 		}
 
@@ -715,10 +742,24 @@ namespace Melia.Zone.Database
 		/// <returns></returns>
 		public void LoadVars(Variables vars, string tableName, string ownerField, long ownerId)
 		{
+			using (var conn = this.GetConnection())
+				this.LoadVars(conn, vars, tableName, ownerField, ownerId);
+		}
+
+		/// <summary>
+		/// Loads owner's variables into the variable manager.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="vars"></param>
+		/// <param name="tableName"></param>
+		/// <param name="ownerField"></param>
+		/// <param name="ownerId"></param>
+		/// <returns></returns>
+		protected void LoadVars(MySqlConnection conn, Variables vars, string tableName, string ownerField, long ownerId)
+		{
 			var checkOwner = ownerField != null;
 			var where = checkOwner ? $"`{ownerField}` = @ownerId" : "1";
 
-			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand($"SELECT * FROM `{tableName}` WHERE {where}", conn))
 			{
 				if (checkOwner)
@@ -751,6 +792,8 @@ namespace Melia.Zone.Database
 								case "d": vars.Set(name, double.Parse(val, CultureInfo.InvariantCulture)); break;
 								case "b": vars.Set(name, bool.Parse(val)); break;
 								case "s": vars.Set(name, val); break;
+								case "dt": vars.Set(name, new DateTime(long.Parse(val))); break;
+								case "ts": vars.Set(name, new TimeSpan(long.Parse(val))); break;
 
 								default:
 									Log.Warning("LoadVars: Unknown variable type '{0}'.", type);
@@ -894,6 +937,8 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void SaveBuffs(Character character)
 		{
+			var buffs = new Dictionary<long, Buff>();
+
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
@@ -905,6 +950,8 @@ namespace Melia.Zone.Database
 
 				foreach (var buff in character.Buffs.GetList())
 				{
+					var lastId = 0L;
+
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
@@ -914,7 +961,10 @@ namespace Melia.Zone.Database
 						cmd.Set("remainingDuration", buff.RemainingDuration);
 
 						cmd.Execute();
+						lastId = cmd.LastId;
 					}
+
+					this.SaveVariables(conn, trans, buff.Vars, "vars_buffs", "buffId", lastId);
 				}
 
 				trans.Commit();
@@ -927,8 +977,79 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void LoadBuffs(Character character)
 		{
+			var buffs = new Dictionary<long, Buff>();
+
 			using (var conn = this.GetConnection())
-			using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
+			{
+				using (var cmd = new MySqlCommand("SELECT * FROM `buffs` WHERE `characterId` = @characterId", conn))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var dbId = reader.GetInt64("buffId");
+							var classId = (BuffId)reader.GetInt32("classId");
+							var numArg1 = reader.GetInt32("numArg1");
+							var numArg2 = reader.GetInt32("numArg2");
+							var remainingDuration = reader.GetTimeSpan("remainingDuration");
+
+							var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
+							buffs.Add(dbId, buff);
+						}
+					}
+				}
+
+				foreach (var buff in buffs)
+				{
+					this.LoadVars(conn, buff.Value.Vars, "vars_buffs", "buffId", buff.Key);
+					character.Buffs.Restore(buff.Value);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves character's cooldowns.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveCooldowns(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `cooldowns` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.Parameters.AddWithValue("@characterId", character.DbId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var cooldown in character.Components.Get<CooldownComponent>().GetAll())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `cooldowns` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("classId", cooldown.Id);
+						cmd.Set("remaining", cooldown.Remaining);
+						cmd.Set("duration", cooldown.Duration);
+						cmd.Set("startTime", cooldown.StartTime);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads cooldowns for the character.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadCooldowns(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `cooldowns` WHERE `characterId` = @characterId", conn))
 			{
 				cmd.Parameters.AddWithValue("@characterId", character.DbId);
 
@@ -936,14 +1057,147 @@ namespace Melia.Zone.Database
 				{
 					while (reader.Read())
 					{
-						var classId = (BuffId)reader.GetInt32("classId");
-						var numArg1 = reader.GetInt32("numArg1");
-						var numArg2 = reader.GetInt32("numArg2");
-						var remainingDuration = reader.GetTimeSpan("remainingDuration");
+						// We load and save the remaining duration because
+						// the game has the capability to freeze cooldowns
+						// while logged out. That's not currently used by
+						// any cooldowns, but this way we're prepared.
 
-						var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
+						var classId = (CooldownId)reader.GetInt32("classId");
+						var remaining = reader.GetTimeSpan("remaining");
+						var duration = reader.GetTimeSpan("duration");
+						var startTime = reader.GetDateTimeSafe("startTime");
 
-						character.Buffs.Restore(buff);
+						var endTime = startTime + duration;
+						var updatedRemaining = Math2.Max(TimeSpan.Zero, endTime - DateTime.Now);
+
+						if (updatedRemaining == TimeSpan.Zero)
+							continue;
+
+						var cooldown = new Cooldown(classId, updatedRemaining, duration, startTime);
+						character.Components.Get<CooldownComponent>().Restore(cooldown);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves the character's quests to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="InvalidOperationException"></exception>
+		private void SaveQuests(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId", conn, trans))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var quest in character.Quests.GetList())
+				{
+					var questId = 0L;
+
+					using (var cmd = new InsertCommand("INSERT INTO `quests` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("classId", quest.Data.Id);
+						cmd.Set("status", (int)quest.Status);
+						cmd.Set("startTime", quest.StartTime);
+						cmd.Set("completeTime", quest.CompleteTime);
+
+						cmd.Execute();
+
+						questId = cmd.LastId;
+					}
+
+					foreach (var progress in quest.Progresses)
+					{
+						using (var cmd = new InsertCommand("INSERT INTO `quests_progress` {0}", conn, trans))
+						{
+							cmd.Set("questId", questId);
+							cmd.Set("characterId", character.DbId);
+							cmd.Set("ident", progress.Objective.Ident);
+							cmd.Set("count", progress.Count);
+							cmd.Set("done", progress.Done);
+							cmd.Set("unlocked", progress.Unlocked);
+
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads the character's quests from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadQuests(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				var loadedQuests = new Dictionary<long, Quest>();
+
+				using (var cmd = new MySqlCommand("SELECT * FROM `quests` WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var questDbId = reader.GetInt64("questId");
+							var questClassId = reader.GetInt32("classId");
+							var status = (QuestStatus)reader.GetInt32("status");
+							var startTime = reader.GetDateTimeSafe("startTime");
+							var completeTime = reader.GetDateTimeSafe("completeTime");
+
+							var quest = Quest.Create(questClassId);
+							quest.Status = status;
+							quest.StartTime = startTime;
+							quest.CompleteTime = completeTime;
+
+							character.Quests.AddSilent(quest);
+							loadedQuests.Add(questDbId, quest);
+						}
+					}
+				}
+
+				using (var cmd = new MySqlCommand("SELECT * FROM `quests_progress` WHERE `characterId` = @characterId", conn))
+				{
+					cmd.AddParameter("@characterId", character.DbId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var questDbId = reader.GetInt64("questId");
+							var ident = reader.GetStringSafe("ident");
+							var count = reader.GetInt32("count");
+							var done = reader.GetBoolean("done");
+							var unlocked = reader.GetBoolean("unlocked");
+
+							if (!loadedQuests.TryGetValue(questDbId, out var quest))
+							{
+								Log.Warning("ZoneDb.LoadQuests: Progress '{0}' loaded for a quest that doesn't exist.", ident);
+								continue;
+							}
+
+							if (!quest.TryGetProgress(ident, out var progress))
+							{
+								Log.Warning("ZoneDb.LoadQuests: Progress '{0}' loaded for quest '{1}', but the objective doesn't exist.", ident, quest.Data.Id);
+								continue;
+							}
+
+							progress.Count = count;
+							progress.Done = done;
+							progress.Unlocked = unlocked;
+						}
 					}
 				}
 			}

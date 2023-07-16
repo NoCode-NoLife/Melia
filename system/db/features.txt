@@ -37,6 +37,29 @@
 		// between classes and synergy between players."
 		//{ name: "JobTreeReassignment", enabled: true },
 	]},
+	
+	// Enables changes to the way max weight is calculated
+	{ name: "InventoryWeightRevamp", enabled: true, children: [
+		// Raises default max weight
+		{ name: "IncreasedMaxWeight", enabled: true },
+		
+		// Removes stats adding to the max weight
+		{ name: "StaticInventoryWeight", enabled: true },
+	]},
+	
+	// Enables changes to how player stats are calculated
+	{ name: "PlayerStatsRevamp", enabled: true, children: [
+		// Disables stat points per level, removing the ability to freely
+		// assign points to stats
+		{ name: "NoStatByLevel", enabled: true },
+		
+		// Enables increased base stats per job and level, increasing
+		// stats automatically over time
+		{ name: "IncreasedStatRatio", enabled: true },
+	]},
+	
+	// Lowers ability costs
+	{ name: "AbilityCostRevamp", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet

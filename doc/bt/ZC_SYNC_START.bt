@@ -14,5 +14,5 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int handle;
-float f1; // 1
+int key;
+float f1;

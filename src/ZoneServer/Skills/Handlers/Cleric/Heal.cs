@@ -4,7 +4,6 @@ using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -40,12 +39,11 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			}
 
 			skill.IncreaseOverheat();
-			caster.Components.Get<CombatComponent>().SetAttackState(true);
+			caster.SetAttackState(true);
 
 			this.ExecuteHeal(caster, target, skill);
 
-			var overloadDuration = TimeSpan.FromSeconds(3);
-			caster.Components.Get<BuffComponent>().Start(BuffId.Heal_Overload_Buff, overloadDuration);
+			caster.StartBuff(BuffId.Heal_Overload_Buff, TimeSpan.FromSeconds(3));
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
@@ -61,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			if (!Feature.IsEnabled("DirectClericHeal"))
 				this.TriggerHeal(caster, skill);
 			else
-				this.BuffHeal(target, skill);
+				this.BuffHeal(caster, target, skill);
 		}
 
 		/// <summary>
@@ -70,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		private void BuffHeal(ICombatEntity target, Skill skill)
+		private void BuffHeal(ICombatEntity caster, ICombatEntity target, Skill skill)
 		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
@@ -79,7 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			var ratio2 = 150f + (skill.Level - 1) * 103f;
 			var healDuration = TimeSpan.FromSeconds(1);
 
-			target.Components.Get<BuffComponent>().Start(BuffId.Heal_Buff, ratio2, 0, healDuration, skill.Character);
+			target.StartBuff(BuffId.Heal_Buff, ratio2, 0, healDuration, caster);
 		}
 
 		/// <summary>
@@ -92,17 +90,18 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		{
 			Send.ZC_NORMAL.PlayEffect(target, "F_cleric_heal_active_ground_new");
 
-			// According to the description of the old version of Heal,
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+			// According to the description of the old version of Heal
 			// the Attack amount was equal to the Heal Factor, so we'll
 			// simply copy the formula for the heal buff amount for now.
 			var rate = 150f + (skill.Level - 1) * 103f;
+			skillHitResult.Damage *= rate / 100f;
 
-			var damage = SCR_GetRandomAtk(caster, target, skill);
-			damage *= rate / 100f;
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-			target.TakeDamage(damage, caster);
-
-			Send.ZC_SKILL_HIT_INFO(target, new SkillHitInfo(caster, target, skill, damage, TimeSpan.Zero, TimeSpan.Zero));
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, TimeSpan.Zero, TimeSpan.Zero);
+			Send.ZC_SKILL_HIT_INFO(target, skillHit);
 		}
 
 		/// <summary>
@@ -142,7 +141,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 					if (level < minLevel)
 						continue;
 
-					var pos = refPos.GetRelative(caster.Direction.Right, (xi - 2) * size);
+					var pos = refPos.GetRelative(caster.Direction.Left, (xi - 2) * size);
 					pos = pos.GetRelative(caster.Direction, yi * size);
 
 					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
@@ -188,7 +187,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			{
 				if (initiator is Character)
 				{
-					this.BuffHeal(initiator, skill);
+					this.BuffHeal(caster, initiator, skill);
 				}
 				else
 				{

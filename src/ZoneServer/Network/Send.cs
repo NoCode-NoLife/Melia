@@ -15,6 +15,7 @@ using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -136,8 +137,8 @@ namespace Melia.Zone.Network
 			packet.PutShort(0);
 			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
-			packet.PutFloat(character.MoveSpeed);
-			packet.PutInt(0);
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MovingShot));
 			packet.PutInt(character.Hp);
 			packet.PutInt(character.MaxHp);
 			packet.PutShort(character.Sp);
@@ -203,7 +204,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_ENTER_MONSTER);
 			packet.AddMonster(monster);
 
-			monster.Map.Broadcast(packet);
+			monster.Map.Broadcast(packet, monster);
 		}
 
 		/// <summary>
@@ -375,10 +376,33 @@ namespace Melia.Zone.Network
 		/// <param name="entity"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="unkForceId"></param>
 		/// <param name="hits"></param>
-		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int unkForceId, IEnumerable<SkillHitInfo> hits)
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, params SkillHitInfo[] hits)
+			=> ZC_SKILL_FORCE_TARGET(entity, target, skill, (IEnumerable<SkillHitInfo>)hits);
+
+		/// <summary>
+		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, IEnumerable<SkillHitInfo> hits)
+			=> ZC_SKILL_FORCE_TARGET(entity, target, skill, hits?.FirstOrDefault()?.ForceId ?? 0, hits);
+
+		/// <summary>
+		/// Shows skill use for character, by sending ZC_SKILL_FORCE_TARGET to its connection.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET(ICombatEntity entity, ICombatEntity target, Skill skill, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
@@ -386,11 +410,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat(550.7403f); // Delay until next attack?
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(unkForceId);
-			packet.PutFloat(1.089443f); // Bow Attack: 1.089443f Wand: 1.054772
+			packet.PutInt(forceId);
+			packet.PutFloat(sklSpdRate);
+
 			packet.PutInt(0);
 			packet.PutInt(target?.Handle ?? 0);
 			packet.PutInt(0);
@@ -404,23 +429,32 @@ namespace Melia.Zone.Network
 					packet.AddSkillHitInfo(hit);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
 		/// Shows entity using the skill.
 		/// </summary>
-		/// <remarks>
-		/// In some cases this packet contains the hit information,
-		/// while they're sent with ZC_SKILL_HIT_INFO in others.
-		/// Why this is is yet to be determined.
-		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="skill"></param>
 		/// <param name="targetPos"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, IEnumerable<SkillHitInfo> hits)
+			=> ZC_SKILL_MELEE_GROUND(entity, skill, targetPos, hits?.FirstOrDefault()?.ForceId ?? 0, hits);
+
+		/// <summary>
+		/// Shows entity using the skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
@@ -428,11 +462,11 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 			packet.PutInt(1);
-			packet.PutFloat((float)skill.Data.ShootTime.TotalMilliseconds);
+			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt((int)skill.ObjectId); // Attacker Handle? Nope. Half of a skill obj id? No... Why did we even try that? No. This number keeps going up. Maybe a sequential attack id.
-			packet.PutFloat(1.083666f);
+			packet.PutInt(forceId);
+			packet.PutFloat(sklSpdRate);
 
 			// This does _not_ look like a handle to me... And sending a
 			// single target handle for an AoE skill packet doesn't make
@@ -442,9 +476,7 @@ namespace Melia.Zone.Network
 			//else
 			packet.PutInt(0);
 
-			packet.PutFloat(targetPos.X);
-			packet.PutFloat(targetPos.Y);
-			packet.PutFloat(targetPos.Z);
+			packet.PutPosition(targetPos);
 
 			packet.PutShort((short)(hits?.Count() ?? 0));
 			if (hits != null)
@@ -453,7 +485,53 @@ namespace Melia.Zone.Network
 					packet.AddSkillHitInfo(hit);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Shows entity using the skill on the target.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="target"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_TARGET(ICombatEntity entity, Skill skill, ICombatEntity target, IEnumerable<SkillHitInfo> hits)
+		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+			var forceId = hits?.FirstOrDefault()?.ForceId ?? 0;
+
+			var packet = new Packet(Op.ZC_SKILL_MELEE_TARGET);
+
+			packet.PutInt((int)skill.Id);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(shootTime);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(forceId);
+			packet.PutFloat(sklSpdRate);
+
+			// This does _not_ look like a handle to me... And sending a
+			// single target handle for an AoE skill packet doesn't make
+			// sense either. Let's send 0 for now.
+			//if (targets != null && targetCount == 1)
+			//	packet.PutInt(targets.First().Handle);
+			//else
+			packet.PutInt(0);
+
+			packet.PutInt(target.Handle);
+
+			packet.PutByte((byte)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
+
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -684,18 +762,56 @@ namespace Melia.Zone.Network
 
 			foreach (var ability in abilities)
 			{
-				var propertyList = ability.Properties.GetAll();
-				var propertiesSize = propertyList.GetByteCount();
+				//var propertyList = ability.Properties.GetAll();
+				//var propertiesSize = propertyList.GetByteCount();
 
 				packet.PutLong(ability.ObjectId);
 				packet.PutInt((int)ability.Id);
-				packet.PutShort(propertiesSize);
+				packet.PutShort(0); // propertiesSize
 				packet.PutShort(0);
 
-				if (propertiesSize > 0)
-					packet.AddProperties(propertyList);
-				else
+				// The ability properties are weird. Not only do they
+				// seem to use a count instead of a size now and include
+				// some byte, but they also don't appear unless one of
+				// them has a non-default value? Without properties the
+				// ability is displayed as level 1.
+
+				//if (propertiesSize > 0)
+				//	packet.AddProperties(propertyList);
+
+				var sendProperties = ability.Level > 1 || !ability.Active;
+
+				if (!sendProperties)
+				{
 					packet.PutInt(0);
+				}
+				else
+				{
+					var propertyList = ability.Properties.GetAll();
+
+					packet.PutInt(propertyList.Count);
+					foreach (var property in propertyList)
+					{
+						var propertyId = PropertyTable.GetId("Ability", property.Ident);
+
+						packet.PutInt(propertyId);
+						packet.PutByte(0);
+
+						switch (property)
+						{
+							case FloatProperty floatProperty:
+								packet.PutFloat(floatProperty.Value);
+								break;
+
+							case StringProperty stringProperty:
+								packet.PutLpString(stringProperty.Value);
+								break;
+
+							default:
+								throw new ArgumentException($"Unknown property type: {property.GetType().Name}");
+						}
+					}
+				}
 			}
 
 			character.Connection.Send(packet);
@@ -710,8 +826,8 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_MOVE_SPEED);
 
 			packet.PutInt(character.Handle);
-			packet.PutFloat(character.MoveSpeed);
-			packet.PutFloat(0);
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutFloat(character.Properties.GetFloat(PropertyName.MovingShot));
 
 			// [i11257 (2016-03-25)]
 			{
@@ -1200,20 +1316,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_SET_POS in range of character, updating its position.
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_SET_POS(Character character)
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor)
+			=> ZC_SET_POS(actor, actor.Position);
+
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
+		/// </summary>
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.Position.X);
-			packet.PutFloat(character.Position.Y);
-			packet.PutFloat(character.Position.Z);
+			packet.PutInt(actor.Handle);
+			packet.PutPosition(pos);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet, character);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1533,7 +1654,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(actor.Handle);
 			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
 
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -1569,10 +1690,90 @@ namespace Melia.Zone.Network
 		public static void ZC_DEAD(IActor actor)
 		{
 			var packet = new Packet(Op.ZC_DEAD);
+
 			packet.PutInt(actor.Handle);
+			packet.PutByte(0);
+			packet.PutByte(0); // expInfoCount
+			packet.PutByte(false); // isOverkill
+			packet.PutByte(false); // specialDrop
+			packet.PutPosition(actor.Position);
 			packet.PutInt(0);
 
+			//for expInfoCount:
+			//{
+			//	packet.PutInt(handle);
+			//	packet.PutInt(0);
+			//	packet.PutLong(exp);
+			//	packet.PutLong(jobExp);
+			//	packet.PutLong(exp);
+			//}
+
+			// The overkill amount is the percentage displayed on the
+			// client. It needs to be at least 100 for the overkill
+			// effect to appear.
+			//if (isOverkill)
+			//	packet.PutByte((byte)overkillAmount);
+
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Opens resurrection dialog on character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="options"></param>
+		public static void ZC_RESURRECT_DIALOG(Character character, ResurrectOptions options)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_DIALOG);
+
+			packet.PutInt((int)options);
+			packet.PutString("", 512);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_SAVE_POINT_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_SAVE_POINT_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Acknowledges the character's resurrection request and toggles
+		/// the dialog off.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT_HERE_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_RESURRECT_HERE_ACK);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Resurrects the character for all clients in range.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_RESURRECT(Character character)
+		{
+			var hp = character.Properties.GetFloat(PropertyName.HP);
+			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
+
+			var packet = new Packet(Op.ZC_RESURRECT);
+			packet.PutInt(character.Handle);
+			packet.PutInt((int)hp);
+			packet.PutInt((int)maxHp);
+
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -1596,7 +1797,7 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutInt(0);
 			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(hitInfo.ForceId);
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.PutFloat(0);
@@ -1606,7 +1807,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutInt(0);
 
-			target.Map.Broadcast(packet);
+			target.Map.Broadcast(packet, target);
 		}
 
 		/// <summary>
@@ -1634,7 +1835,7 @@ namespace Melia.Zone.Network
 			foreach (var skillHit in hits)
 				packet.AddSkillHitInfo(skillHit);
 
-			attacker.Map.Broadcast(packet);
+			attacker.Map.Broadcast(packet, attacker);
 		}
 
 		/// <summary>
@@ -1723,20 +1924,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg, string parameter = null)
-		{
-			ZC_ADDON_MSG(character, 0, msg, parameter);
-		}
-
-		/// <summary>
-		/// Executes Lua addon function.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="duration">Duration that messages are displayed in seconds?</param>
-		/// <param name="msg"></param>
-		/// <param name="parameter"></param>
-		public static void ZC_ADDON_MSG(Character character, int duration, string msg, string parameter = null)
+		/// <param name="argNum"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_ADDON_MSG(Character character, string msg, int argNum, string argStr)
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
@@ -1745,12 +1935,12 @@ namespace Melia.Zone.Network
 				throw new ArgumentException($"Message is too long with {msgByteLength} bytes. The maximum length is {byte.MaxValue}.");
 
 			packet.PutByte((byte)msgByteLength);
-			packet.PutInt(duration);
+			packet.PutInt(argNum);
 			packet.PutByte(0);
 			packet.PutRawString(msg);
 
-			if (parameter != null)
-				packet.PutRawString(parameter);
+			if (argStr != null)
+				packet.PutRawString(argStr);
 
 			character.Connection.Send(packet);
 		}
@@ -1775,18 +1965,21 @@ namespace Melia.Zone.Network
 		/// Shows emoticon for actor on nearby clients.
 		/// </summary>
 		/// <remarks>
-		/// For available emoticons, search the packet string data for
+		/// For some available emoticons, search the packet string data for
 		/// entries with "_emo_" in their names, such as "I_emo_fear".
 		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetStringId">Id of the string for the emoticon from the packet string data.</param>
+		/// <param name="packetString"></param>
 		/// <param name="duration">Time to show to the emoticon for.</param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, int packetStringId, TimeSpan duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, string packetString, TimeSpan duration)
 		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringId);
+			packet.PutInt(packetStringData.Id);
 			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
@@ -1879,36 +2072,35 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_MOVE_DIR in range of character, informing other
-		/// characters about the movement.
+		/// Makes entity move in the given direction for clients in range.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
 		/// <param name="unkFloat"></param>
-		public static void ZC_MOVE_DIR(Character character, Position pos, Direction dir, float unkFloat)
+		public static void ZC_MOVE_DIR(ICombatEntity entity, Position pos, Direction dir, float unkFloat)
 		{
 			var packet = new Packet(Op.ZC_MOVE_DIR);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutPosition(pos);
 			packet.PutDirection(dir);
 			packet.PutByte(1); // 0 = reduced movement speed... walk mode?
-			packet.PutFloat(character.MoveSpeed);
+			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutFloat(unkFloat);
 			packet.PutEmptyBin(24);
 			packet.PutInt(6);
 			packet.PutInt(0);
 			packet.PutByte(1);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
 		/// Broadcasts ZC_MOVE_STOP in range of character, informing other
 		/// characters about the movement stop.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		public static void ZC_MOVE_STOP(ICombatEntity entity, Position pos)
 		{
@@ -1922,24 +2114,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_PC_MOVE_STOP in range of character, informing other
-		/// characters about the movement stop.
+		/// Makes player character stop moving on clients in range of it.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		/// <param name="pos"></param>
 		/// <param name="dir"></param>
-		public static void ZC_PC_MOVE_STOP(Character character, Position pos, Direction dir)
+		public static void ZC_PC_MOVE_STOP(ICombatEntity entity, Position pos, Direction dir)
 		{
 			var packet = new Packet(Op.ZC_PC_MOVE_STOP);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutPosition(pos);
 			packet.PutByte(1);
 			packet.PutDirection(dir);
 			packet.PutFloat(228787.3f); // timestamp
 			packet.PutEmptyBin(24);
 
-			character.Map.Broadcast(packet, character);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2112,7 +2303,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(entity.Handle);
 			packet.PutByte(inAttackState);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2207,7 +2398,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)type); // !0 = blue text
 			packet.PutInt(0);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -2220,7 +2411,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(character.Stance);
 
-			character.Map.Broadcast(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -2701,17 +2892,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_SET_DAYLIGHT_INFO to character (dummy).
+		/// Updates the daylight settings for the given character.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_DAYLIGHT_FIXED(Character character)
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(Character character, bool enabled, DaylightParameters parameters)
 		{
 			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
 
-			packet.PutInt(0);
+			packet.PutInt(enabled ? 1 : 0);
 			packet.PutByte(0);
-			for (var i = 0; i < 5; i++)
-				packet.PutFloat(1);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
 
 			// [i361296]
 			{
@@ -2719,6 +2915,91 @@ namespace Melia.Zone.Network
 			}
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the daylight settings for all characters on all maps.
+		/// </summary>
+		/// <param name="enabled"></param>
+		/// <param name="parameters"></param>
+		public static void ZC_DAYLIGHT_FIXED(bool enabled, DaylightParameters parameters)
+		{
+			var packet = new Packet(Op.ZC_DAYLIGHT_FIXED);
+
+			packet.PutInt(enabled ? 1 : 0);
+			packet.PutByte(0);
+			packet.PutFloat(parameters.FR);
+			packet.PutFloat(parameters.FG);
+			packet.PutFloat(parameters.FB);
+			packet.PutFloat(parameters.MapLightStrength);
+			packet.PutFloat(parameters.ModelLightStrength);
+
+			// [i361296]
+			{
+				packet.PutByte(0);
+			}
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Plays sound for character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(Character character, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Plays sound for clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_PLAY_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+			packet.PutByte(0);
+			packet.PutFloat(-1);
+			packet.PutByte(0);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Stops the sound for all clients in range of the actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetString"></param>
+		public static void ZC_STOP_SOUND(IActor actor, string packetString)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_STOP_SOUND);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringData.Id);
+
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -2869,34 +3150,34 @@ namespace Melia.Zone.Network
 		/// Updates character's movement speed.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_MSPD(Character character)
+		public static void ZC_MSPD(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 
-			packet.PutInt(character.Handle);
-			packet.PutFloat(character.MoveSpeed);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
-			character.Connection.Send(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
-		/// Sends ZC_CUSTOM_COMMANDER_INFO to character (dummy).
+		/// Updates the given value on the character's client.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="type"></param>
-		/// <param name="amount"></param>
-		public static void ZC_CUSTOM_COMMANDER_INFO(IZoneConnection conn, int type = 3, int amount = 0)
+		/// <param name="value"></param>
+		public static void ZC_CUSTOM_COMMANDER_INFO(Character character, CommanderInfoType type, int value)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_COMMANDER_INFO);
 
 			packet.PutLong(0);
 			packet.PutInt(0);
-			packet.PutShort(type); // Attribute Points = 3
-			packet.PutInt(amount);
+			packet.PutShort((short)type);
+			packet.PutInt(value);
 			packet.PutInt(0);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -2963,7 +3244,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(actor.Handle);
 
 			// TODO: Does this actually need to be broadcasted?
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -3152,63 +3433,83 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_START(Character character, int skillActorId, float f1)
+		public static void ZC_SYNC_START(Character character, int key, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_START);
 
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 			packet.PutFloat(f1);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_END(Character character, int skillActorId, float f1)
+		public static void ZC_SYNC_END(Character character, int key, float f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_END);
 
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 			packet.PutFloat(f1);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
+		/// <param name="key"></param>
 		/// <param name="f1"></param>
-		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int skillActorId, TimeSpan f1)
+		public static void ZC_SYNC_EXEC_BY_SKILL_TIME(Character character, int key, TimeSpan f1)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC_BY_SKILL_TIME);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(skillActorId);
-			packet.PutFloat((float)f1.TotalMilliseconds);
+			packet.PutInt(key);
+			packet.PutInt((int)f1.TotalMilliseconds);
 
 			character.Connection.Send(packet);
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Exact purpose unknown, presumed to be related to keeping
+		/// skills, hits, animations, and/or effects in sync somehow.
 		/// </summary>
+		/// <remarks>
+		/// The key identifies the sync-procedure across the different
+		/// sync packets.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="skillActorId"></param>
-		public static void ZC_SYNC_EXEC(Character character, int skillActorId)
+		/// <param name="key"></param>
+		public static void ZC_SYNC_EXEC(Character character, int key)
 		{
 			var packet = new Packet(Op.ZC_SYNC_EXEC);
-			packet.PutInt(skillActorId);
+			packet.PutInt(key);
 
 			character.Connection.Send(packet);
 		}
@@ -3282,126 +3583,103 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// When view another player's character view the submenu
+		/// Display's a character's information in a side-panel.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
 		public static void ZC_PROPERTY_COMPARE(IZoneConnection conn, Character character)
 		{
-			// TODO: This method is in desperate need of a cleanup.
+			var jobs = character.Jobs.GetList();
+			var properties = character.Properties.GetAll();
+			var propertiesSize = properties.GetByteCount();
+			var equipItems = character.Inventory.GetEquip();
 
 			var packet = new Packet(Op.ZC_PROPERTY_COMPARE);
-
-			//var propertyList = character.Properties.GetAll();
-			//var propertiesSize = propertyList.GetSize();
-			var equip = character.Inventory.GetEquip();
 
 			packet.PutInt(character.Handle);
 			packet.PutString(character.Name, 65);
 			packet.PutLong(character.ObjectId);
 			packet.PutLong(character.AccountId);
-			packet.PutEmptyBin(5);
-			packet.PutByte(1);
-			packet.PutInt(1624);
-			packet.PutLong(1624);
-			packet.PutString(character.TeamName, 64);
+			packet.PutInt(0);
+			packet.PutByte(1); // needs to be 1 for the character info to display?
+			packet.PutByte(0);
+			packet.PutInt(-1); // adventurerIndex
+			packet.PutInt(0); // adventurerRank
+			packet.PutInt(0); // achievementCount
+			packet.PutInt(0);
 
-			packet.PutString(character.Name, 64);
-			packet.PutShort(0);
+			packet.PutString(character.TeamName, 64);
+			packet.PutString(character.Name, 65);
+			packet.PutByte(0);
 			packet.PutShort((short)character.JobId);
-			packet.PutInt((int)character.JobId);
-			packet.PutInt(11);
-			packet.PutShort(1);
-			packet.PutLong(11);
+			packet.PutInt(0);
+			packet.PutByte((byte)character.Gender);
+			packet.PutShort(0);
+			packet.PutEmptyBin(25);
+			packet.PutShort(1001); // serverGroupId
+
+			packet.PutShort(0);
+			packet.PutInt(character.Level);
+			packet.PutInt(0);
+
+			for (var i = 0; i < 4; ++i)
+			{
+				if (i < jobs.Length)
+					packet.PutShort((short)jobs[i].Id);
+				else
+					packet.PutShort(0);
+			}
+
 			packet.PutLong(0);
-			packet.PutEmptyBin(6);
-			packet.PutInt(1003);
-			packet.PutInt(10); // ?
-			packet.PutByte(0x80);
-			packet.PutByte(0x80);
-			packet.PutByte(0x80);
-			packet.PutByte(0xFF);
-			packet.PutLong((long)character.JobId);
-			packet.PutLong(0);
-			packet.PutShort(1490);
-			packet.PutShort(215);
+			packet.PutShort(propertiesSize);
+			packet.PutShort(0); // etcPropertySize
 
 			packet.AddAppearancePc(character);
-			//packet.AddProperties(properties);
-			packet.PutBinFromHex("F39A010000000000FB1B000000000000981B000000001041F49A010000000000041B00000000AF43271C0000000020417E1B000000000000FB9A0100000000008A92010000000000F12C0000000000006F1B000000000000CF1B000000000000F092010000000000751B000000000000059B010000000000DE2C000000000000891B000000000000B91B0000000000004D1B0000000000000A9B010000000000031B0000000000408D1B000000000000FA1B000000000842E32C000000000000F89A0100000000009B1B000000000000DC2C000000000000F21B00000000803F8E92010000000000A398010000000000701B000000002041AD1B000000000000831B0000000000009D1B00000000803FCE8D010000000000D01B00000000803F191C000000007A44CD1B00000000803FFC9B0100000000001F1B00000000803F771B000000000000DD2C00000000000091920100000000009392010000000000E82C000000000000201B0000000000005D1B000000000000E02C000000000000DB1B0000000000009492010000000000141C000000000000051C000000005C43A21B000000000000261B0000EBC99840ED1A00000000F041089B010000000000CE1B0000080043686172325F31008892010000000000DE1A000034B33A437D1B000000000000431B00004AA40A48021C000000000842541B00000000803F8D92010000000000DC1A000000008041E792010000002842DF1A000000000040761B0000000030412F87000000000000121C00000000803F861B000000002842A51B000000000000EA2C000000000000B21B000000000000481B000000000000101C000000000000D08D0100000000009E1B000000000000E42C000000000000E12C000000000000931B00000000B643581B000000007A44991B000000009041DC1B000000000000EE2C0000000000008F92010000000000EF9201000000C842F02C0000000000001A1C0000000000008B1B000000000000F81A00000000C0406C1B00000000000092920100000000007C1B000000004040D31A0000000040403F7F00000600313034343900DF2C000000000000E71A000000008040ED92010000000000A298010000000000AC1B000000000000EB2C000000000000371B000000000842E72C000000000000A81B000000000000721B000000000000971B000000000000BB1B000000000000F01B000000007842E6920100000000003387000000000000B61B000000000000291B000000000000871B000000000000F192010000000000F41A00000050C346B01B000000000000921B000000000000A0980100000000001F8D0100000000009092010000000000D41A000000002041311C00000000803FE62C000000000000E92C000000000000B81B000000000000FD9B010000000000E01B000000000000E51B000000000000B11B0000000000009692010000000000FA1A000000008041049B010000000000A31B000000002041E52C0000000000008C920100000000009A1B0000004072446D1B00000000803F1E8D010000000000951B000000008042A198010000000000C51B00000000FA431B1B000000000842711B000000000000F51B000000007842E22C000000000000781B000000000000F51A00000000FA45EC2C000000000000A71B0000000000007B1B000000000000201C000000000000F91A000000409C46E499010000000000FA9A010000000000821B0000000000008B920100000000009F98010000000000AB1B000000002041CC8D010000000000F59A010000000000A61B000000007041D61B00000000FA43ED2C0000000000000F1C0000000030419C98010000000000A91B000000000000FD9A0100000000003087000000000000E98F010000008442251C000000401C45811B000000004041EF2C000000000000FC1B00000000000032870000000000009C1B00000000803FB51B000000000041531B000000000000959201000000000089920100000000008792010000000000A41B000000000000F81B000000000243231C000000000000069B0100000000000D2000000000803FE30F000000409D46A392010005003230303100052000000000803F459701000A00736B696E746F6E653200480F000046329A4B092000000000803F112000000000803F6F0F000000007B44262700000700526567656E7400F69201000000803F21A801000000803F6B9601000000803FA50F000000C07D44FF9201000000803F570F00004900635F4B6C616970652F2D39352E3737343430363433333130352F3134392E32303334363036393333362F3137352E35373734393933383936352F6974656D6275666672657061697200");
 
-			foreach (var equipItem in equip)
+			packet.AddProperties(properties);
+			//packet.AddProperties(etcProperties);
+
+			foreach (var equipItemKv in equipItems)
 			{
-				if (equipItem.Value.Id == 521101)
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
-				}
-				else if (equipItem.Value.Id == 101101)
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3331f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MINATK, 36f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MAXATK, 38f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 0f));
-				}
-				else if (equipItem.Value.Id == 141101)
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3331f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MATK, 37f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 0f));
-				}
-				else if (equipItem.Value.Id == 531101)
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
-				}
-				else if (equipItem.Value.Id == 521101)
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.Dur, 3963f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MDEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.DEF, 19f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.MaxSocket, 1f));
-				}
-				else if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
-				{
+				var equipSlot = equipItemKv.Key;
+				var equipItem = equipItemKv.Value;
 
-				}
-				else
-				{
-					equipItem.Value.Properties.Create(new FloatProperty(PropertyName.CoolDown, 0f));
-				}
+				var equipItemProperties = equipItem.Properties.GetAll();
+				var equipItemPropertiesSize = equipItemProperties.GetByteCount();
 
-				var propertyList = equipItem.Value.Properties.GetAll();
-				var propertiesSize = propertyList.GetByteCount();
-
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutInt(propertiesSize);
-
-				if ((equipItem.Value.Id >= 2 && equipItem.Value.Id <= 10) || equipItem.Value.Id == 10000 || equipItem.Value.Id == 11000 || equipItem.Value.Id == 12101 || equipItem.Value.Id == 9999996)
-					packet.PutLong(0);
-				else
-					packet.PutLong(equipItem.Value.ObjectId);
-
-				packet.PutInt((int)equipItem.Key);
+				packet.PutInt(equipItem.Id);
+				packet.PutShort(equipItemPropertiesSize);
+				packet.PutShort(equipItem.Amount);
+				packet.PutLong(equipItem.ObjectId);
+				packet.PutInt((int)equipSlot);
 				packet.PutInt(0);
 				packet.PutShort(0);
-				packet.AddProperties(propertyList);
 
-				if (propertiesSize > 0)
+				if (equipItemPropertiesSize > 0)
 				{
-					packet.PutShort(0);
-					packet.PutLong(equipItem.Value.ObjectId);
-					packet.PutShort(0);
+					packet.AddProperties(equipItemProperties);
+
+					packet.PutShort(0); // sealOptionSize
+					packet.PutLong(equipItem.ObjectId);
+					packet.PutShort(0); // gemCount
 				}
+			}
+
+			packet.PutShort(jobs.Length);
+			foreach (var job in jobs)
+			{
+				packet.PutShort((short)job.Id);
+				packet.PutByte(0x00);
+				packet.PutByte(0xB1);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutInt(0);
 			}
 
 			conn.Send(packet);
@@ -3433,7 +3711,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_BUFF_ADD);
 			packet.AddTargetedBuff(buff);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3446,7 +3724,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_BUFF_UPDATE);
 			packet.AddTargetedBuff(buff);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3464,11 +3742,34 @@ namespace Melia.Zone.Network
 			packet.PutInt(buff.Handle);
 			packet.PutByte(0);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
-		/// Buff list, sent when a entity spawns?
+		/// Updates the entity's buffs on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="entity"></param>
+		public static void ZC_BUFF_LIST(IZoneConnection conn, ICombatEntity entity)
+		{
+			var buffs = entity.Components.Get<BuffComponent>();
+			var buffCount = buffs?.Count ?? 0;
+
+			var packet = new Packet(Op.ZC_BUFF_LIST);
+
+			packet.PutInt(entity.Handle);
+			packet.PutByte((byte)buffCount);
+			if (buffCount > 0)
+			{
+				foreach (var buff in buffs.GetList())
+					packet.AddBuff(buff);
+			}
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the entity's buffs on all clients in range.
 		/// </summary>
 		/// <param name="entity"></param>
 		public static void ZC_BUFF_LIST(ICombatEntity entity)
@@ -3486,7 +3787,7 @@ namespace Melia.Zone.Network
 					packet.AddBuff(buff);
 			}
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3501,7 +3802,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(entity.Handle);
 			packet.PutByte(1);
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3536,7 +3837,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)buff.Id);
 			packet.PutInt(0); // Increasing Value?
 
-			entity.Map.Broadcast(packet);
+			entity.Map.Broadcast(packet, entity);
 		}
 
 		/// <summary>
@@ -3552,7 +3853,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(itemMonster.Handle);
 			packet.PutInt(1);
 
-			character.Map.Broadcast(packet);
+			character.Map.Broadcast(packet, character);
 		}
 
 		/// <summary>
@@ -3583,7 +3884,7 @@ namespace Melia.Zone.Network
 			//packet.PutFloat(0);
 			packet.PutByte(0);
 
-			actor.Map.Broadcast(packet);
+			actor.Map.Broadcast(packet, actor);
 		}
 
 		/// <summary>
@@ -3708,8 +4009,59 @@ namespace Melia.Zone.Network
 			character.Connection.Send(packet);
 		}
 
-		public static void DUMMY(IZoneConnection conn)
+		/// <summary>
+		/// Toggles character's fluting stance.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="enabled"></param>
+		public static void ZC_READY_FLUTING(Character character, bool enabled)
 		{
+			var packet = new Packet(Op.ZC_READY_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte(enabled);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Makes character play a note on their flute.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="note"></param>
+		/// <param name="octave"></param>
+		/// <param name="semitone"></param>
+		/// <param name="animate"></param>
+		public static void ZC_PLAY_FLUTING(Character character, int note, int octave, bool semitone, bool animate)
+		{
+			var packet = new Packet(Op.ZC_PLAY_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(note);
+			packet.PutInt(octave);
+			packet.PutByte(semitone);
+			packet.PutByte(animate);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Stops character playing the current note on their flute.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="note"></param>
+		/// <param name="octave"></param>
+		/// <param name="semitone"></param>
+		public static void ZC_STOP_FLUTING(Character character, int note, int octave, bool semitone)
+		{
+			var packet = new Packet(Op.ZC_STOP_FLUTING);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(note);
+			packet.PutInt(octave);
+			packet.PutByte(semitone);
+
+			character.Map.Broadcast(packet, character);
 		}
 	}
 }
