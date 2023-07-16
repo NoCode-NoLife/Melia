@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\r1\scripts.txt" />
+    <Content Include="content\test\scripts.txt" />
     <Content Include="scripts_custom.txt" />
     <Content Include="scripts_content.txt" />
     <Content Include="scripts_zone.txt" />
@@ -342,10 +343,6 @@
     <Compile Include="content\r1\mobs\instances\mission_gele_01.cs" />
     <Compile Include="content\r1\mobs\instances\raid_siauliai1.cs" />
     <Compile Include="content\r1\mobs\others\test_zone.cs" />
-    <Compile Include="content\r1\npcs\cities\c_klaipe.cs" />
-    <Compile Include="content\r1\npcs\fields\f_siauliai_west.cs" />
-    <Compile Include="content\r1\other\char_start.cs" />
-    <Compile Include="content\r1\quests\kill_onions.cs" />
     <Compile Include="content\r1\warps\city\c_fedimian.cs" />
     <Compile Include="content\r1\warps\city\c_firemage.cs" />
     <Compile Include="content\r1\warps\city\c_highlander.cs" />
@@ -574,6 +571,11 @@
     <Compile Include="content\r1\warps\other\mission_test.cs" />
     <Compile Include="content\r1\warps\other\p_catacomb_1.cs" />
     <Compile Include="content\r1\warps\other\p_cathedral_1.cs" />
+    <Compile Include="content\test\mobs\fields\f_siauliai_west.cs" />
+    <Compile Include="content\test\npcs\cities\c_klaipe.cs" />
+    <Compile Include="content\test\npcs\fields\f_siauliai_west.cs" />
+    <Compile Include="content\test\other\char_start.cs" />
+    <Compile Include="content\test\quests\kill_onions.cs" />
     <Compile Include="core\ability_price.cs" />
     <Compile Include="core\ability_unlock.cs" />
     <Compile Include="core\calc_monster.cs" />
