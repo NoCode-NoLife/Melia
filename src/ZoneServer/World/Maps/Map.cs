@@ -533,6 +533,31 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// via out. Returns false if no monster was found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_monsters)
+			{
+				foreach (var m in _monsters.Values)
+				{
+					if (predicate(m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
+		}
+
+		/// <summary>
 		/// Returns combat entity by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
