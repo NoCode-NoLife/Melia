@@ -12,6 +12,7 @@ class Character extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'characterId';
     protected $table = 'characters';
 
     /**

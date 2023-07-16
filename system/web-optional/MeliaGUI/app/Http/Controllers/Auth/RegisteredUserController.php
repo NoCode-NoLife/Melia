@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
@@ -56,15 +55,21 @@ class RegisteredUserController extends Controller
             ]);
         }
 
+        $hash = bcrypt(strtoupper(md5($request->password)));
+
+        if (substr($hash, 0, 4) == '$2y$') {
+            $hash = '$2a$' . substr($hash, 4);
+        }
+
         $account = Account::create([
             'name' => $request->login,
-            'password' => Hash::make($request->password),
+            'password' => $hash,
             'settings' => '',
         ]);
 
         $user = User::create([
             'email' => $request->email,
-            'account_id' => $account->id
+            'account_id' => $account->accountId
         ]);
 
         event(new Registered($user));

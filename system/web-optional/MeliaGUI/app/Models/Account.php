@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Account extends Model
 {
@@ -12,6 +13,7 @@ class Account extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'accountId';
     protected $table = 'accounts';
 
     /**
@@ -36,4 +38,18 @@ class Account extends Model
         'loginState',
         'loginCharacter',
     ];
+
+        /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'account_id', 'accountId');
+    }
 }
