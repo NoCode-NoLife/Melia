@@ -213,7 +213,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="area"></param>
 		/// <param name="respawn"></param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan respawn)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShape area)
 			=> AddSpawner(monsterClassId, -1, maxAmount, mapClassName, area, respawn, TendencyType.Peaceful, null);
 
 		/// <summary>
@@ -404,7 +404,7 @@ namespace Melia.Zone.Scripting
 			var initialSpawnDelay = TimeSpan.FromSeconds(0);
 			var minRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn);
 			var maxRespawnDelay = minRespawnDelay.Multiply(3);
-			
+
 			// Creates spawner
 			var spawner = AddSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
 
