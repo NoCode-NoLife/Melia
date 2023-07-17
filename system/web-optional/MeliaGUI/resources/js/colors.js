@@ -10,7 +10,7 @@ export const colorsBgLight = {
   success: "bg-emerald-500 border-emerald-500 text-white",
   danger: "bg-red-500 border-red-500 text-white",
   warning: "bg-yellow-500 border-yellow-500 text-white",
-  info: "bg-blue-500 border-blue-500 text-white",
+  info: "bg-blue-500 border-blue-500 text-black dark:text-white",
 };
 
 export const colorsText = {
@@ -20,7 +20,7 @@ export const colorsText = {
   success: "text-emerald-500",
   danger: "text-red-500",
   warning: "text-yellow-500",
-  info: "text-blue-500",
+  info: "text-black dark:text-white",
 };
 
 export const colorsOutline = {
@@ -48,7 +48,7 @@ export const getButtonColor = (
       success: "ring-emerald-300 dark:ring-emerald-700",
       danger: "ring-red-300 dark:ring-red-700",
       warning: "ring-yellow-300 dark:ring-yellow-700",
-      info: "ring-blue-300 dark:ring-blue-700",
+      info: "ring-blue-300 dark:ring-blue-700 text-black dark:text-white",
     },
     active: {
       white: "bg-gray-100",
@@ -98,7 +98,7 @@ export const getButtonColor = (
       success: "text-emerald-600 dark:text-emerald-500",
       danger: "text-red-600 dark:text-red-500",
       warning: "text-yellow-600 dark:text-yellow-500",
-      info: "text-blue-600 dark:text-blue-500",
+      info: "text-black dark:text-white",
     },
     outlineHover: {
       contrast:
@@ -109,7 +109,7 @@ export const getButtonColor = (
         "hover:bg-red-600 hover:text-white hover:text-white hover:dark:text-white hover:dark:border-red-600",
       warning:
         "hover:bg-yellow-600 hover:text-white hover:text-white hover:dark:text-white hover:dark:border-yellow-600",
-      info: "hover:bg-blue-600 hover:text-white hover:dark:text-white hover:dark:border-blue-600",
+      info: "hover:bg-blue-600 hover:text-white hover:dark:text-white hover:dark:border-blue-600 text-black dark:text-white",
     },
   };
 

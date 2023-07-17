@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Account;
 
 class Character extends Model
 {
@@ -67,4 +68,9 @@ class Character extends Model
         'silver',
         'equipVisibility',
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'accountId');
+    }
 }

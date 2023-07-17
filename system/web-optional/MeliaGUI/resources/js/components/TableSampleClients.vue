@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from "vue";
-import { mdiEye, mdiAccount, mdiTrashCan } from "@mdi/js";
+import { computed, ref, getCurrentInstance } from "vue";
+import { mdiEye, mdiAccount, mdiTrashCan, mdiCancel } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
@@ -10,14 +10,11 @@ import UserAvatar from "@/components/UserAvatar.vue";
 
 defineProps({
   checkable: Boolean,
+  items: {
+    type: Array,
+    required: true
+  }
 });
-
-const items = computed(() => [
-  { id: 19, avatar: "https://avatars.dicebear.com/v2/gridy/Howell-Hand.svg", login: "percy64", name: "Howell Hand", company: "Kiehn-Green", city: "Emelyside", progress: 70, created: "Mar 3, 2021" },
-  { id: 11, avatar: "https://avatars.dicebear.com/v2/gridy/Hope-Howe.svg", login: "dare.concepcion", name: "Hope Howe", company: "Nolan Inc", city: "Paristown", progress: 68, created: "Dec 1, 2021" },
-  { id: 32, avatar: "https://avatars.dicebear.com/v2/gridy/Nelson-Jerde.svg", login: "geovanni.kessler", name: "Nelson Jerde", company: "Nitzsche LLC", city: "Jailynbury", progress: 49, created: "May 18, 2021"},
-  { id: 22, avatar: "https://avatars.dicebear.com/v2/gridy/Kim-Weimann.svg", login: "macejkovic.dashawn", name: "Kim Weimann", company: "Brown-Lueilwitz", city: "New Emie", progress: 38, created: "May 4, 2021" }
-]);
 
 const isModalActive = ref(false);
 
@@ -29,14 +26,16 @@ const currentPage = ref(0);
 
 const checkedRows = ref([]);
 
+const instance = getCurrentInstance();
+
 const itemsPaginated = computed(() =>
-  items.value.slice(
-    perPage.value * currentPage.value,
-    perPage.value * (currentPage.value + 1)
-  )
+    instance.props.items.slice(
+        perPage.value * currentPage.value,
+        perPage.value * (currentPage.value + 1)
+    )
 );
 
-const numPages = computed(() => Math.ceil(items.value.length / perPage.value));
+const numPages = computed(() => Math.ceil(instance.props.items.length / perPage.value));
 
 const currentPageHuman = computed(() => currentPage.value + 1);
 
@@ -62,13 +61,27 @@ const remove = (arr, cb) => {
   return newArr;
 };
 
-const checked = (isChecked, client) => {
+const bannedAccount = ref(null);
+const detailAccount = ref(null);
+
+const banAccountWarning = (userAccount) => {
+    bannedAccount.value = userAccount;
+    isModalDangerActive.value = true;
+};
+
+const showAccountDetail = (userAccount) => {
+    detailAccount.value = userAccount;
+    console.log(detailAccount.value);
+    isModalActive.value = true;
+};
+
+const checked = (isChecked, userAccount) => {
   if (isChecked) {
-    checkedRows.value.push(client);
+    checkedRows.value.push(userAccount);
   } else {
     checkedRows.value = remove(
       checkedRows.value,
-      (row) => row.id === client.id
+      (row) => row.id === userAccount.id
     );
   }
 };
@@ -76,18 +89,17 @@ const checked = (isChecked, client) => {
 
 <template>
   <CardBoxModal v-model="isModalActive" title="Sample modal">
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <p v-if="detailAccount">account {{detailAccount.name}} {{ detailAccount.teamName != null ? "with the TeamName " + detailAccount.teamName : ""}} has {{ detailAccount.characters }} characters.</p>
+    <p v-if="detailAccount && detailAccount.highestCharacterLevel != 0">The highest character level is <b>{{  detailAccount.highestCharacterName }}</b> wich has level <b>{{ detailAccount.highestCharacterLevel }}</b></p>
   </CardBoxModal>
 
   <CardBoxModal
     v-model="isModalDangerActive"
-    title="Please confirm"
+    title="Do you want to ban the account?"
     button="danger"
     has-cancel
   >
-    <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
-    <p>This is sample modal</p>
+    <p v-if="bannedAccount">Once you press the button, the account <b class="text-lg">{{ bannedAccount.name }}</b>{{ bannedAccount.teamName != null ? ' and Team Name ' : '' }}<b class="text-lg">{{ bannedAccount.teamName != null ? bannedAccount.teamName : '' }}</b> will be banned from the server.</p>
   </CardBoxModal>
 
   <div v-if="checkedRows.length" class="p-3 bg-gray-100/50 dark:bg-slate-800">
@@ -105,19 +117,18 @@ const checked = (isChecked, client) => {
       <tr>
         <th v-if="checkable" />
         <th />
-        <th>Name</th>
-        <th>Company</th>
-        <th>City</th>
-        <th>Progress</th>
+        <th>Login</th>
+        <th>TeamName</th>
+        <th>Medals</th>
         <th>Created</th>
         <th />
       </tr>
     </thead>
     <tbody>
-      <tr v-for="client in itemsPaginated" :key="client.id">
+      <tr v-for="userAccount in itemsPaginated" :key="userAccount.id">
         <TableCheckboxCell
           v-if="checkable"
-          @checked="checked($event, client)"
+          @checked="checked($event, userAccount)"
         />
         <td class="border-b-0 lg:w-6 before:hidden">
           <UserAvatar
@@ -126,28 +137,19 @@ const checked = (isChecked, client) => {
           />
         </td>
         <td data-label="Name">
-          {{ client.name }}
+          {{ userAccount.name }}
         </td>
-        <td data-label="Company">
-          {{ client.company }}
+        <td data-label="TeamName">
+          {{ userAccount.teamName }}
         </td>
-        <td data-label="City">
-          {{ client.city }}
-        </td>
-        <td data-label="Progress" class="lg:w-32">
-          <progress
-            class="flex w-2/5 self-center lg:w-full"
-            max="100"
-            :value="client.progress"
-          >
-            {{ client.progress }}
-          </progress>
+        <td data-label="Medals">
+          {{ userAccount.medals }}
         </td>
         <td data-label="Created" class="lg:w-1 whitespace-nowrap">
           <small
             class="text-gray-500 dark:text-slate-400"
-            :title="client.created"
-            >{{ client.created }}</small
+            :title="userAccount.created_at"
+            >{{ new Date(userAccount.created_at).toLocaleString() }}</small
           >
         </td>
         <td class="before:hidden lg:w-1 whitespace-nowrap">
@@ -156,13 +158,13 @@ const checked = (isChecked, client) => {
               color="info"
               :icon="mdiEye"
               small
-              @click="isModalActive = true"
+              @click="showAccountDetail(userAccount)"
             />
             <BaseButton
               color="danger"
-              :icon="mdiTrashCan"
+              :icon="mdiCancel"
               small
-              @click="isModalDangerActive = true"
+              @click="banAccountWarning(userAccount)"
             />
           </BaseButtons>
         </td>
@@ -171,17 +173,22 @@ const checked = (isChecked, client) => {
   </table>
   <div class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
     <BaseLevel>
-      <BaseButtons>
-        <BaseButton
-          v-for="page in pagesList"
-          :key="page"
-          :active="page === currentPage"
-          :label="page + 1"
-          :color="page === currentPage ? 'lightDark' : 'whiteDark'"
-          small
-          @click="currentPage = page"
-        />
-      </BaseButtons>
+        <BaseButtons>
+            <BaseButton
+                v-for="page in pagesList"
+                :key="page"
+                :active="page === currentPage"
+                :label="page + 1"
+                :color="page === currentPage ? 'lightDark' : 'whiteDark'"
+                small
+                @click="currentPage = page"
+            />
+            <button
+                class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-white dark:border-slate-900 ring-gray-200 dark:ring-gray-500 bg-white text-black dark:bg-slate-900 dark:text-white hover:bg-gray-100 hover:dark:bg-slate-800 text-sm p-1 mr-3 last:mr-0 mb-3"
+            >
+                <span class="px-2 m-0 p-0 mr-0 mb-0">...</span>
+            </button>
+        </BaseButtons>
       <small>Page {{ currentPageHuman }} of {{ numPages }}</small>
     </BaseLevel>
   </div>

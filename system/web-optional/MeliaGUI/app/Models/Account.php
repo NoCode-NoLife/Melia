@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Character;
 
 class Account extends Model
 {
@@ -50,6 +51,11 @@ class Account extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'account_id', 'accountId');
+        return $this->hasOne(User::class, 'account_id');
+    }
+
+    public function characters()
+    {
+        return $this->hasMany(Character::class, 'characterId');
     }
 }
