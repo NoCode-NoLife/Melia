@@ -4052,5 +4052,21 @@ namespace Melia.Zone.Network
 
 			character.Map.Broadcast(packet, character);
 		}
+
+		/// <summary>
+		/// Broadcasts text to all players in the world.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="text"></param>
+		public static void ZC_TEXT(NoticeTextType type, string text)
+		{
+			var packet = new Packet(Op.ZC_TEXT);
+
+			packet.PutByte((byte)type);
+			packet.PutByte(0);
+			packet.PutString(text);
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
 	}
 }
