@@ -91,6 +91,11 @@ namespace Melia.Zone.World.Spawning
 		public int Amount { get; private set; }
 
 		/// <summary>
+		/// Returns the amount of monsters queued up for respawning.
+		/// </summary>
+		public int QueuedAmount { get { lock (_respawnDelays) return _respawnDelays.Count; } }
+
+		/// <summary>
 		/// Returns the initial delay before the first spawn.
 		/// </summary>
 		public TimeSpan InitialDelay { get; }
@@ -236,9 +241,10 @@ namespace Melia.Zone.World.Spawning
 		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
 			this.Amount--;
-
-			_respawnDelays.Add(this.GetRandomRespawnDelay());
 			_flexMeter += FlexMeterIncreasePerDeath;
+
+			lock (_respawnDelays)
+				_respawnDelays.Add(this.GetRandomRespawnDelay());
 		}
 
 		/// <summary>
@@ -276,17 +282,22 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="elapsed"></param>
 		private void RespawnMonsters(TimeSpan elapsed)
 		{
-			for (var i = 0; i < _respawnDelays.Count; ++i)
+			int expiredDelayCount;
+
+			lock (_respawnDelays)
 			{
-				var spawnDelay = _respawnDelays[i];
-				_respawnDelays[i] = spawnDelay - elapsed;
+				for (var i = 0; i < _respawnDelays.Count; ++i)
+				{
+					var spawnDelay = _respawnDelays[i];
+					_respawnDelays[i] = spawnDelay - elapsed;
+				}
+
+				expiredDelayCount = _respawnDelays.Count(d => d <= TimeSpan.Zero);
+				if (expiredDelayCount == 0)
+					return;
+
+				_respawnDelays.RemoveAll(d => d <= TimeSpan.Zero);
 			}
-
-			var expiredDelayCount = _respawnDelays.Count(d => d <= TimeSpan.Zero);
-			if (expiredDelayCount == 0)
-				return;
-
-			_respawnDelays.RemoveAll(d => d <= TimeSpan.Zero);
 
 			var spawnAmount = Math.Min(expiredDelayCount, this.FlexAmount - this.Amount);
 			if (spawnAmount <= 0)
@@ -309,7 +320,7 @@ namespace Melia.Zone.World.Spawning
 
 			var targetAmount = this.FlexAmount;
 			var currentAmount = this.Amount;
-			var queuedAmount = _respawnDelays.Count;
+			var queuedAmount = this.QueuedAmount;
 
 			var potentialSpawnAmount = Math.Max(0, targetAmount - currentAmount - queuedAmount);
 			if (potentialSpawnAmount > 0)
