@@ -3,6 +3,7 @@ using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Zone.Buffs;
@@ -201,6 +202,16 @@ namespace Melia.Zone
 				case NoticeTextMessage noticeTextMessage:
 				{
 					Send.ZC_TEXT(noticeTextMessage.Type, noticeTextMessage.Text);
+					break;
+				}
+				case KickMessage kickMessage:
+				{
+					var character = this.World.GetCharacterByTeamName(kickMessage.TargetName);
+					if (character == null)
+						break;
+
+					character.MsgBox(Localization.Get("You were kicked by {0}."), kickMessage.OriginName);
+					character.Connection.Close(100);
 					break;
 				}
 			}

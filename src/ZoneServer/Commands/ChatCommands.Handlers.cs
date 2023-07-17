@@ -78,6 +78,7 @@ namespace Melia.Zone.Commands
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
+			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1892,6 +1893,31 @@ namespace Melia.Zone.Commands
 
 			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, text);
 			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Kicks a player if they're online.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult HandleKick(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var teamName = args.Get(0);
+
+			var commMessage = new KickMessage(target.TeamName, teamName);
+			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+			sender.ServerMessage(Localization.Get("Request for kicking '{0}' sent."), teamName);
 
 			return CommandResult.Okay;
 		}
