@@ -11,6 +11,9 @@ using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters.Components;
 using Yggdrasil.Logging;
 using Yggdrasil.Geometry.Shapes;
+using g3;
+using Mysqlx.Datatypes;
+using Mysqlx.Expr;
 
 namespace Melia.Zone.World.Actors.Characters.Components
 {
@@ -21,8 +24,33 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	{
 		private readonly object _syncLock = new object();
 
-		// Items in storage, key is item's world Id
-		private Dictionary<long, Item> _itemsWorldIndex = new Dictionary<long, Item>();
+		// Items in storage
+		// Key: Item's object ID
+		// Value: Item Storage object
+		private Dictionary<long, StorageItem> _storageItems = new Dictionary<long, StorageItem>();
+
+		// Storage occupied positions.
+		// True if position is occupied
+		private bool[] _occupiedPositions = new bool[60];
+
+		// How many positions the storage has.
+		private int _maxStorage = 60;
+
+		/// <summary>
+		/// Gets the first available position in storage
+		/// </summary>
+		private int FindAvailablePosition()
+		{
+			for (int i = 0; i < _occupiedPositions.Length; i++)
+			{
+				if (!_occupiedPositions[i])
+				{
+					return i;
+				}
+			}
+
+			throw new Exception("PersonalStorageComponent.FindAvailablePosition: Storage data structures mismatch expected storage size");
+		}
 
 		/// <summary>
 		/// Creates a new storage component
@@ -30,54 +58,59 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="account"></param>
 		public PersonalStorageComponent(Character character) : base(character)
 		{
-			Item i1 = new Item(221111);
-			Item i2 = new Item(221112);
 
-			// Test
-			_itemsWorldIndex.Add(i1.ObjectId, i1);
-			_itemsWorldIndex.Add(i2.ObjectId, i2);
 		}
 
 		/// <summary>
-		/// Stores an item to storage
+		/// Stores an item to storage. The item is identified by its
+		/// object id.
 		/// </summary>
-		/// <param name="item"></param>
-		public StorageResult StoreItem(long worldId)
+		/// <param name="objectId"></param>
+		/// <returns></returns>
+		public StorageResult StoreItem(long objectId)
 		{
-			Item item;
-			lock (_syncLock)
+			if (_storageItems.Count() < _maxStorage)
 			{
-				// Checks item is in inventory
-				item = this.Character.Inventory.GetItem(worldId);
-				if (item == null || item is DummyEquipItem)
-					return StorageResult.ItemNotFound;
+				lock (_syncLock)
+				{
+					// Checks item is in inventory
+					var item = this.Character.Inventory.GetItem(objectId);
+					if (item == null || item is DummyEquipItem)
+						return StorageResult.ItemNotFound;
 
-				// Remove from player inventory
-				// Note: Storages are like stores, so this is a sell transaction
-				this.Character.Inventory.Remove(item.ObjectId);
+					// Remove from player inventory
+					// Note: Storages are like stores, so this is a sell transaction
+					this.Character.Inventory.Remove(item.ObjectId);
 
-				// Adds to storage
-				_itemsWorldIndex.Add(item.ObjectId, item);
+					// Adds to storage
+					var availablePosition = this.FindAvailablePosition();
+					this.Add(item, availablePosition);
+
+					// Add item to storage in client
+					Send.ZC_ITEM_ADD(this.Character, item, availablePosition, item.Amount, InventoryAddType.Sell, InventoryType.Warehouse);
+				}
+
+				return StorageResult.Success;
 			}
-
-			// Add item to storage in client
-			Send.ZC_ITEM_ADD(this.Character, item, 1, 1, InventoryAddType.Sell, InventoryType.Warehouse);
-
-			return StorageResult.Success;
+			else
+			{
+				// Storage is full
+				return StorageResult.InvalidOperation;
+			}
 		}
 
 		/// <summary>
 		/// Removes an item from storage and places in character's
-		/// inventory. The item is identified by its worldId.
+		/// inventory. The item is identified by its object id.
 		/// </summary>
 		/// <returns></returns>
-		public StorageResult RetrieveItem(long worldId)
+		public StorageResult RetrieveItem(long objectId)
 		{
 			Item item;
 			lock (_syncLock)
 			{
 				// Checks item is in storage
-				item = this.GetItem(worldId);
+				item = this.GetItem(objectId).Item;
 				if (item == null || item is DummyEquipItem)
 					return StorageResult.ItemNotFound;
 
@@ -85,40 +118,75 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				this.Character.Inventory.Add(item, InventoryAddType.New);
 
 				// Remove from storage
-				_itemsWorldIndex.Remove(worldId);
+				this.Remove(item);
+				
+				// Remove item from storage in client
+				Send.ZC_ITEM_REMOVE(this.Character, objectId, item.Amount, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);
 			}
-
-			// Remove item from storage in client
-			Send.ZC_ITEM_REMOVE(this.Character, worldId, 1, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);
 
 			return StorageResult.Success;
 		}
 
 		/// <summary>
-		/// Returns list of items in storage.
+		/// Adds a new item to the storage.
 		/// </summary>
-		/// <returns></returns>
-		public List<Item> GetItems()
+		/// <param name="item"></param>
+		/// <param name="position"></param>
+		public void Add(Item item, int position)
 		{
-			List<Item> items;
-			lock (_syncLock)
-				items = _itemsWorldIndex.Values.ToList();
+			// Handles item stacking
+			if (_storageItems.TryGetValue(item.ObjectId, out var storageItem))
+			{
+				if ((storageItem.Item.Amount + item.Amount) < storageItem.Item.Data.MaxStack)
+					storageItem.Item.Amount += item.Amount;
 
-			return items;
+				return;
+			}
+
+			_occupiedPositions[position] = true;
+			_storageItems.Add(item.ObjectId, new StorageItem(item, position));
 		}
 
 		/// <summary>
-		/// Returns item by world id, or null if it doesn't exist.
+		/// Removes an item from storage.
 		/// </summary>
-		/// <param name="worldId"></param>
-		/// <returns></returns>
-		public Item GetItem(long worldId)
+		/// <param name="item"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Remove(Item item)
 		{
-			Item item;
-			lock (_syncLock)
-				_itemsWorldIndex.TryGetValue(worldId, out item);
+			if (!_storageItems.TryGetValue(item.ObjectId, out var storageItem))
+				throw new ArgumentException($"PersonalStorageComponent.Remove: Item {item.ObjectId} not found in storage items.");
+			_occupiedPositions[storageItem.Position] = false;
+			_storageItems.Remove(item.ObjectId);
+		}
 
-			return item;
+		/// <summary>
+		/// Returns all storage items.
+		/// </summary>
+		/// <returns></returns>
+		public Dictionary<long, StorageItem> GetItems()
+		{
+			return _storageItems;
+		}
+
+		/// <summary>
+		/// Returns specific storage item, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="objectId"></param>
+		/// <returns></returns>
+		public StorageItem GetItem(long objectId)
+		{
+			lock (_syncLock)
+			{
+				if (_storageItems.TryGetValue(objectId, out var item))
+				{
+					return item;
+				}
+				else
+				{
+					return null;
+				}
+			}
 		}
 	}
 }

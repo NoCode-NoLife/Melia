@@ -229,6 +229,7 @@
     <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
     <Compile Include="World\Actors\Monsters\Monster.cs" />
     <Compile Include="World\Actors\Monsters\Mob.cs" />
+    <Compile Include="World\Items\StorageItem.cs" />
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
     <Compile Include="World\MonsterSpawner.cs" />

@@ -1389,7 +1389,7 @@ namespace Melia.Zone.Network
 				// Server allowance check
 				if (personalStorageEnabled)
 				{
-					var items = conn.SelectedCharacter.PersonalStorage.GetItems();
+					var items = conn.SelectedCharacter.PersonalStorage.GetItems().Values.Select(p => p.Item).ToList();
 					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
 				}
 			}
@@ -1407,7 +1407,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when attempting to retrieve storage items.
+		/// Sent when attempting to access storage items.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
