@@ -1,0 +1,297 @@
+//--- Melia Script -----------------------------------------------------------
+// ep13_2_d_prison_2
+//
+//--- Description -----------------------------------------------------------
+// Sets up the ep13_2_d_prison_2 mobs.
+//---------------------------------------------------------------------------
+
+using System;
+using Melia.Zone.Scripting;
+using Melia.Shared.Tos.Const;
+using static Melia.Zone.Scripting.Shortcuts;
+
+public class Ep132DPrison2MobScript : GeneralScript
+{
+	public override void Load()
+	{
+
+		// Monster Spawners --------------------------------
+
+		AddSpawner("ep13_2_d_prison_2.Id1", MonsterId.Mokslas_Researcher, 90, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("ep13_2_d_prison_2.Id2", MonsterId.Mokslas_Fumigation, 29, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("ep13_2_d_prison_2.Id3", MonsterId.Mokslas_Doctor, 120, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("ep13_2_d_prison_2.Id4", MonsterId.Rootcrystal_01, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+
+		// Monster Spawn Points -----------------------------
+
+		// Mokslas_Researcher Spawn Points
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-359.66626, -1930.6384, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-349.83636, -1710.5582, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-210.99023, -1520.2893, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-108.14911, -1704.5421, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-174.89812, -1754.3878, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-215.03206, -860.57697, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-4.7401137, -927.6847, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(9.193852, -1064.3381, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-219.13464, -1223.1964, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-224.12253, -1332.9092, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-119.29212, -639.0124, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-122.15192, -558.92334, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(869.701, -1152.6095, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(723.0988, -975.97174, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(755.6093, -934.4902, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(852.1149, -812.683, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(821.20935, -597.3452, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(910.3112, -141.4718, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(900.42755, -212.20924, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(867.4726, 81.40931, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1517.9303, -233.10042, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1798.4177, -217.76372, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1682.4056, -225.27094, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1479.6929, -77.80905, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1538.8362, 32.61074, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(804.40985, 248.04816, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(804.5996, 426.48404, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(878.2568, 693.8047, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(694.9906, 1076.474, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(870.94867, 845.0116, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(703.9742, 883.65704, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(696.4728, 673.6154, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1458.6743, 621.9496, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1246.9, 690.5912, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1248.4537, 857.1233, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1524.0841, 1045.4088, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1363.8909, 1099.8806, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(1376.3434, 1272.2944, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(806.60754, 1363.0916, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(682.1582, 1691.2346, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(396.68573, 1686.2831, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(192.60959, 1724.8782, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(364.02997, 1531.7789, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(242.42621, 1288.7094, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(417.65298, 1301.5702, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(152.49644, 1435.9825, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(269.86005, 847.3692, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-168.50488, 615.8489, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-54.0306, 830.42615, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(35.86918, 653.377, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-157.30707, 1087.8961, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-210.4946, 1052.7626, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-8.101772, 1351.6632, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-603.3783, 1208.0682, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-304.13727, 1494.5776, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-601.9053, 1569.4552, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-315.85568, 1699.4829, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-466.80853, 1629.2489, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-685.63586, 1644.7893, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-228.18193, 879.58716, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-201.8197, 842.8586, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-179.62584, 906.21454, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-337.47406, 123.5555, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-289.36148, 190.46155, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(35.63116, 234.64307, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(167.44373, -65.57358, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-85.902405, -92.8475, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-35.20501, -243.01332, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-189.02553, -307.73907, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-340.5905, -74.827995, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1094.9606, -228.40831, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1153.0897, -191.76273, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1236.0186, 66.22923, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1087.4747, 87.32967, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-957.5569, 22.373728, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1762.2554, -1130.0856, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1581.3779, -1161.1481, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1694.5764, -958.99115, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1707.8977, -793.0617, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1481.3079, 444.9588, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1364.3967, 359.7132, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1528.1364, 680.6141, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1764.2465, 580.4747, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1668.4061, 886.49884, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1565.6339, 932.77655, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1449.2198, 977.65576, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1594.968, 1532.0397, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1721.3605, 1537.2245, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1745.0194, 1783.2264, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id1", "ep13_2_d_prison_2", Spot(-1552.2344, 1775.2747, 40));
+
+		// Mokslas_Fumigation Spawn Points
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1704.9254, -939.82367, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1796.9376, -1081.1205, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1209.577, -74.604385, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-193.75124, -1725.8597, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1154.7295, 20.118427, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-122.37749, -1005.1975, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-7.870886, 102.39604, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-228.70972, -180.06673, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(785.0405, -1082.4276, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(748.47675, -883.71106, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(733.7751, -157.67511, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1651.1589, 1628.0311, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(875.3047, 30.817436, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(1560.4991, -27.98957, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(1705.6873, -166.89389, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(1445.2051, 940.7226, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(1313.7637, 721.36176, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(791.77094, 755.2937, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(791.2294, 1034.1776, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(311.37247, 1342.0111, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(352.7357, 1575.0588, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-365.81516, 1560.0554, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-566.2878, 1614.8259, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-130.29811, 962.91205, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-62.343376, 835.3903, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1540.8363, 1709.8822, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1554.5502, 788.4646, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-1528.9856, 689.9386, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id2", "ep13_2_d_prison_2", Spot(-286.16025, -1840.7284, 40));
+
+		// Mokslas_Doctor Spawn Points
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(679.3225, -1196.8704, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(834.70636, -1213.4183, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(921.02734, -1013.6431, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(867.9087, -733.02594, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(848.33826, -180.71478, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(723.1902, -221.95532, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(713.77734, -78.14469, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(925.6875, 8.358116, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(731.35535, -20.862785, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(795.1417, -541.42487, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1564.4808, -174.75804, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1764.0214, -176.79498, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1802.5144, -132.52628, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1557.4005, -120.23406, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1479.1649, 30.998081, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1442.3761, 687.3223, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1278.5558, 660.04663, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1289.2241, 865.914, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1489.6165, 956.3154, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1483.7936, 1072.188, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1320.4504, 1063.0311, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(912.3457, 662.0493, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(874.5739, 639.0474, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(709.0573, 822.8912, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(695.7025, 1012.7729, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(931.4006, 1072.177, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(858.09644, 941.6814, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(538.8059, 864.9491, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(469.339, 876.9614, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(242.85333, 890.77014, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(795.6932, 1312.5696, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(806.80426, 1532.2495, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(637.6263, 1665.1119, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(596.9142, 1699.3855, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(424.35214, 1244.9231, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(277.37924, 1330.5131, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(401.45236, 1475.5018, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(353.83884, 1424.0251, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(248.49925, 1687.585, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(443.54062, 1710.5446, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(317.38095, 1476.7584, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(187.15942, 1469.6553, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-600.52783, 1030.3698, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-377.50296, 1502.0865, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-509.363, 1430.8479, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-363.07773, 1733.5248, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-427.0351, 1602.707, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-572.66425, 1554.3148, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-730.2064, 1684.7487, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-740.9153, 1512.4934, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-693.24225, 1497.8043, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-89.68979, 870.21484, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-43.139584, 615.57794, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-14.717577, 678.5132, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(57.318798, 1008.4908, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(12.223793, 1025.6293, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-40.455185, 883.9955, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(46.15739, -201.87044, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(19.81553, -296.86072, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-198.22018, -254.38644, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-269.56262, -109.84647, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-293.21243, -39.943466, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-101.73935, -35.183987, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(7.2035007, 166.22038, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(82.39828, 157.68237, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(165.57664, 10.1954, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(115.13686, -42.684055, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-302.18655, -242.94362, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-265.6143, -324.3963, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-364.40573, 195.85223, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(410.07602, 98.63196, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(500.06412, 154.93102, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-54.745014, -1029.2195, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-168.96915, -1095.1345, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-261.45062, -911.51013, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-140.9314, -879.5459, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-76.651596, -109.15056, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-208.677, -1030.5889, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-6.7470016, -1825.3948, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-35.880993, -1942.2213, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-301.87885, -1965.8767, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-401.57733, -1668.5574, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-206.03177, -1728.5024, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-264.48117, -1527.7596, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-48.448723, -1562.1761, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1535.7587, 1514.89, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1643.045, 1575.4595, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1681.478, 1472.8241, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1762.3755, 1480.2854, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1787.9535, 1599.5059, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1787.09, 1777.8755, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1674.2133, 1723.3412, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1521.0703, 1787.5593, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1454.297, 1505.5186, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1500.8467, 1016.2613, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1493.2062, 716.5024, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1657.275, 678.0851, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1838.4816, 626.13727, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1787.4314, 990.8256, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1649.2677, 809.82385, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1705.7356, 982.84296, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1661.6359, 971.17944, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1453.7767, 366.04266, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1291.4128, 347.07098, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1191.5687, 141.16571, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1237.4573, -239.36363, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1227.5409, -167.49545, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1150.3062, -265.31836, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1025.4956, -233.9496, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1274.7755, -4.425335, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1305.2491, -131.4683, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1011.6901, 77.40072, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1529.7059, -1200.1934, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1766.627, -1176.5481, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1719.122, -1029.7712, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1579.7758, -724.6763, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1523.302, -932.7516, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1523.6244, -865.1266, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(-1788.9463, -795.2041, 40));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id3", "ep13_2_d_prison_2", Spot(1172.0009, -85.370865, 40));
+
+		// Rootcrystal_01 Spawn Points
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(1590.5306, 17.824066, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(1755.714, -154.22464, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(802.5957, -49.907127, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(795.99097, -987.2716, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(1368.684, 870.8121, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(804.93555, 750.00024, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(808.6399, 1020.2638, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-114.06696, 1010.2298, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-119.36839, 740.7622, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-121.07322, -196.52716, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(65.67126, 78.70784, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-248.0369, 126.57674, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-121.61504, -962.4207, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1193.9807, -59.379932, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1667.9124, -1109.0454, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1659.612, -808.2741, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1698.2427, 731.1224, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1538.3638, 907.2891, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-1585.9741, 1575.6715, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-502.91617, 1598.0573, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(333.41922, 1473.3049, 100));
+		AddSpawnPoint( "ep13_2_d_prison_2.Id4", "ep13_2_d_prison_2", Spot(-226.17017, -1717.3163, 100));
+
+	}
+}

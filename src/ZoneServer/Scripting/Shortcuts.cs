@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
@@ -8,18 +9,19 @@ using Melia.Shared.World;
 using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Extensions;
+using Melia.Zone.World.Spawning;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting
 {
-	public static class Shortcuts
+	public static partial class Shortcuts
 	{
+		private static long UniqueNpcNameId = 0;
+
 		/// <summary>
 		/// A function that initializes a shop.
 		/// </summary>
@@ -88,8 +90,31 @@ namespace Melia.Zone.Scripting
 		/// <exception cref="ArgumentException"></exception>
 		public static Npc AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
+			var uniqueId = Interlocked.Increment(ref UniqueNpcNameId);
+			var uniqueName = $"__NPC{uniqueId}__";
+
+			return AddNpc(monsterId, name, uniqueName, map, x, z, direction, dialog);
+		}
+
+		/// <summary>
+		/// Adds new NPC to the world.
+		/// </summary>
+		/// <param name="monsterId"></param>
+		/// <param name="name"></param>
+		/// <param name="uniqueName"></param>
+		/// <param name="map"></param>
+		/// <param name="x"></param>
+		/// <param name="z"></param>
+		/// <param name="direction"></param>
+		/// <param name="dialog"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddNpc(int monsterId, string name, string uniqueName, string map, double x, double z, double direction, DialogFunc dialog = null)
+		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
+
+			if (ZoneServer.Instance.World.TryGetMonster(a => a.UniqueName == uniqueName, out _))
+				throw new ArgumentException($"An NPC with the unique name '{uniqueName}' already exists.");
 
 			var pos = new Position((float)x, 0, (float)z);
 			if (mapObj.Ground.TryGetHeightAt(pos, out var height))
@@ -116,6 +141,7 @@ namespace Melia.Zone.Scripting
 			var dir = new Direction(direction);
 
 			var monster = new Npc(monsterId, name, location, dir);
+			monster.UniqueName = uniqueName;
 
 			if (dialog != null)
 				monster.SetClickTrigger("DYNAMIC_DIALOG", dialog);
@@ -147,114 +173,6 @@ namespace Melia.Zone.Scripting
 			fromMap.AddMonster(monster);
 
 			return monster;
-		}
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassName"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		//public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides = null)
-		//{
-		//	if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out var monsterData))
-		//		throw new ArgumentException($"Monster '{monsterClassName}' not found.");
-
-		//	return AddSpawner(monsterData.Id, amount, respawn, map, area, tendency, propertyOverrides);
-		//}
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area)
-			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, TendencyType.Peaceful, null);
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, TendencyType tendency)
-			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, tendency, null);
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, PropertyOverrides propertyOverrides)
-			=> AddSpawner(monsterClassId, maxAmount, respawn, map, area, TendencyType.Peaceful, propertyOverrides);
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
-		{
-			var initialSpawnDelay = TimeSpan.FromSeconds(0);
-			var minRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn);
-			var maxRespawnDelay = minRespawnDelay.Multiply(3);
-			var minAmount = Math.Max(1, (int)(maxAmount * 0.05));
-
-			return AddSpawner(monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, map, area, tendency, propertyOverrides);
-		}
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="initialSpawnDelay"></param>
-		/// <param name="minRespawnDelay"></param>
-		/// <param name="maxRespawnDelay"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, string map, IShape area, TendencyType tendency, PropertyOverrides propertyOverrides)
-		{
-			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
-				throw new ArgumentException($"Map '{map}' not found.");
-
-			var spawner = new MonsterSpawner(monsterClassId, minAmount, maxAmount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
-			mapObj.AddSpawner(spawner);
-
-			return spawner;
 		}
 
 		/// <summary>
@@ -314,17 +232,23 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Returns a rectangular shape with the given coordinates and radius.
+		/// Returns a rectangular shape at the given coordinates.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
+		/// <remarks>
+		/// The rectangle is created centered around the given coordinates,
+		/// stretching out in all directions based on the width and height
+		/// arguments.
+		/// </remarks>
+		/// <param name="x">X-coordinate of the shape's center.</param>
+		/// <param name="y">Z-Coordinate of the shape's center.</param>
+		/// <param name="width">Width of the rectangle.</param>
+		/// <param name="height">Height of the rectangle. Defaults to width.</param>
 		/// <returns></returns>
 		public static IShape Rectangle(double x, double y, double width, double height = 0)
 		{
 			var center = new Vector2((int)x, (int)y);
 			var size = new Vector2((int)width, (int)(height != 0 ? height : width));
+
 			return Yggdrasil.Geometry.Shapes.Rectangle.Centered(center, size);
 		}
 

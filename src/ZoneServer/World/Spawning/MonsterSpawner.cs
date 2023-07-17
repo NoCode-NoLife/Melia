@@ -3,55 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
-using Yggdrasil.Geometry;
 using Yggdrasil.Logging;
+using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World
+namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
 	/// Spawns and respawns monsters.
 	/// </summary>
-	public class MonsterSpawner
+	public class MonsterSpawner : IUpdateable
 	{
-		private const int MaxValidPositionTries = 50;
-
 		private const float FlexIncreaseLimit = 100;
 		private const float FlexDecreaseLimit = -100;
 		private const float FlexMeterDefault = 0;
 		private const float FlexMeterIncreasePerDeath = 10;
 		private const float FlexMeterDecreasePerSecond = 0.5f;
+		private readonly static TimeSpan FlexSpawnInterval = TimeSpan.FromSeconds(5);
 
 		private static int Ids;
 
 		private readonly MonsterData _monsterData;
-		private readonly Map _map;
 
+		private bool _initialSpawnDone;
 		private float _flexMeter = 0;
 		private TimeSpan _flexSpawnDelay = TimeSpan.MaxValue;
 		private readonly List<TimeSpan> _respawnDelays = new List<TimeSpan>();
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
+		private SpawnAreaCollection _spawnAreas;
+		private bool _spawnPointsLoadFailed;
+
+		/// <summary>
+		/// The identifier of the spawn areas collection this spawner will
+		/// use to find spawn locations.
+		/// </summary>
+		public string SpawnPointsIdent { get; }
+
 		/// <summary>
 		/// Returns the unique id of this spawner.
 		/// </summary>
 		public int Id { get; }
-
-		/// <summary>
-		/// Returns the class name of the map the monsters are to be
-		/// spawned on
-		/// </summary>
-		public string MapClassName { get; }
 
 		/// <summary>
 		/// Returns the min amount of monsters this spawner spawns at a time.
@@ -76,9 +76,9 @@ namespace Melia.Zone.World
 		public int Amount { get; private set; }
 
 		/// <summary>
-		/// Returns the area in which the monsters are spawned.
+		/// Returns the amount of monsters queued up for respawning.
 		/// </summary>
-		public IShape Area { get; }
+		public int QueuedAmount { get { lock (_respawnDelays) return _respawnDelays.Count; } }
 
 		/// <summary>
 		/// Returns the initial delay before the first spawn.
@@ -105,30 +105,28 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Returns overrides for the spawn monsters' properties.
 		/// </summary>
-		public PropertyOverrides PropertyOverrides { get; }
+		public PropertyOverrides PropertyOverrides { get; set; }
 
 		/// <summary>
-		/// Creates new instance.
+		/// Creates a new monster spawner.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="initialSpawnDelay"></param>
-		/// <param name="minRespawnDelay"></param>
-		/// <param name="maxRespawnDelay"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
-		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		/// <param name="monsterClassId">Id of the monsters spawned by this instance.</param>
+		/// <param name="minAmount">The minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">The maximum amount of monsters to spawn at a time.</param>
+		/// <param name="spawnPointsIdent">The identifier for the spawn areas collection, for locations to spawn monsters in.</param>
+		/// <param name="initialSpawnDelay">The initial delay before the spawner starts spawning monsters.</param>
+		/// <param name="minRespawnDelay">The minimum delay before a monster is respawned after death.</param>
+		/// <param name="maxRespawnDelay">The maximum delay before a monster is respawned after death.</param>
+		/// <param name="tendency">Defines the spawned monsters' aggressive tendencies.</param>
+		/// <exception cref="ArgumentException"></exception>
+		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string spawnPointsIdent, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
-				throw new ArgumentException($"No monster data found for '{monsterClassId}'.");
+				throw new ArgumentException($"MonsterSpawner: No monster data found for '{monsterClassId}'.");
 
-			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out _map))
-				throw new ArgumentException($"Map '{mapClassName}' not found.");
+			minAmount = Math.Max(1, minAmount);
+			maxAmount = Math.Max(minAmount, maxAmount);
 
-			maxAmount = Math.Max(1, maxAmount);
 			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
 			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
 			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
@@ -136,30 +134,34 @@ namespace Melia.Zone.World
 			this.Id = Interlocked.Increment(ref Ids);
 			this.MinAmount = minAmount;
 			this.MaxAmount = maxAmount;
+			this.SpawnPointsIdent = spawnPointsIdent;
 			this.FlexAmount = this.MinAmount;
-			this.MapClassName = mapClassName;
-			this.Area = area;
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
 			this.MaxRespawnDelay = maxRespawnDelay;
 			this.Tendency = tendency;
-			this.PropertyOverrides = propertyOverrides;
 
 			_flexSpawnDelay = this.InitialDelay;
 		}
 
 		/// <summary>
-		/// Spawns the given number of monsters.
+		/// Initializes the population by setting current monster amount to zero
 		/// </summary>
+		public void InitializePopulation()
+		{
+			this.Amount = 0;
+		}
+
+		/// <summary>
+		/// Spawns the given number of monsters in a random spawn area.
+		/// </summary>
+		/// <param name="amount"></param>
 		public void Spawn(int amount)
 		{
 			for (var i = 0; i < amount; ++i)
 			{
-				if (!this.TryGetRandomPosition(out var pos))
-				{
-					Log.Warning($"MonsterSpawner: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{_map.ClassName}'.");
-					continue;
-				}
+				if (!_spawnAreas.TryGetRandomLocation(out var map, out var pos))
+					return;
 
 				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
 				monster.Position = pos;
@@ -167,12 +169,12 @@ namespace Melia.Zone.World
 				monster.Tendency = this.Tendency;
 				monster.Died += this.OnMonsterDied;
 
-				this.OverrideProperties(monster);
+				this.OverrideProperties(monster, map);
 
 				monster.Components.Add(new MovementComponent(monster));
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
-				_map.AddMonster(monster);
+				map.AddMonster(monster);
 			}
 
 			this.Amount += amount;
@@ -180,10 +182,15 @@ namespace Melia.Zone.World
 
 		/// <summary>
 		/// Overrides monster's properties with the ones defined for
-		/// this spawner.
+		/// this spawner or on the map.
 		/// </summary>
-		/// <param name="monster"></param>
-		private void OverrideProperties(Mob monster)
+		/// <remarks>
+		/// The overrides on the spawner take precedence over the ones
+		/// on the maps.
+		/// </remarks>
+		/// <param name="monster">The monster to override properties on.</param>
+		/// <param name="map">The map to check for overrides.</param>
+		private void OverrideProperties(Mob monster, Map map)
 		{
 			// Don't override anything if the feature is disabled
 			if (!Feature.IsEnabled("SpawnPropertyOverrides"))
@@ -195,7 +202,7 @@ namespace Melia.Zone.World
 			var propertyOverrides = this.PropertyOverrides;
 			if (propertyOverrides == null)
 			{
-				if (!_map.TryGetPropertyOverrides(_monsterData.Id, out propertyOverrides))
+				if (!map.TryGetPropertyOverrides(_monsterData.Id, out propertyOverrides))
 					return;
 			}
 
@@ -211,9 +218,10 @@ namespace Melia.Zone.World
 		private void OnMonsterDied(Mob monster, ICombatEntity killer)
 		{
 			this.Amount--;
-
-			_respawnDelays.Add(this.GetRandomRespawnDelay());
 			_flexMeter += FlexMeterIncreasePerDeath;
+
+			lock (_respawnDelays)
+				_respawnDelays.Add(this.GetRandomRespawnDelay());
 		}
 
 		/// <summary>
@@ -222,9 +230,37 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (!this.ValidateSpawnPointCollection())
+				return;
+
 			this.RespawnMonsters(elapsed);
 			this.FlexSpawnMonsters(elapsed);
 			this.BalanceSpawnAmounts(elapsed);
+		}
+
+		/// <summary>
+		/// Checks the spawn areas collection and attempts to load it
+		/// if necessary. Returns true if the spawn areas are ready
+		/// to be used.
+		/// </summary>
+		/// <returns></returns>
+		private bool ValidateSpawnPointCollection()
+		{
+			if (_spawnAreas != null)
+				return true;
+
+			if (_spawnPointsLoadFailed)
+				return false;
+
+			if (!ZoneServer.Instance.World.TryGetSpawnAreas(this.SpawnPointsIdent, out _spawnAreas))
+			{
+				Log.Warning($"MonsterSpawner: Spawn areas '{this.SpawnPointsIdent}' for '{_monsterData.ClassName}' spawner not found.");
+
+				_spawnPointsLoadFailed = true;
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>
@@ -234,17 +270,22 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		private void RespawnMonsters(TimeSpan elapsed)
 		{
-			for (var i = 0; i < _respawnDelays.Count; ++i)
+			int expiredDelayCount;
+
+			lock (_respawnDelays)
 			{
-				var spawnDelay = _respawnDelays[i];
-				_respawnDelays[i] = spawnDelay - elapsed;
+				for (var i = 0; i < _respawnDelays.Count; ++i)
+				{
+					var spawnDelay = _respawnDelays[i];
+					_respawnDelays[i] = spawnDelay - elapsed;
+				}
+
+				expiredDelayCount = _respawnDelays.Count(d => d <= TimeSpan.Zero);
+				if (expiredDelayCount == 0)
+					return;
+
+				_respawnDelays.RemoveAll(d => d <= TimeSpan.Zero);
 			}
-
-			var expiredDelayCount = _respawnDelays.Count(d => d <= TimeSpan.Zero);
-			if (expiredDelayCount == 0)
-				return;
-
-			_respawnDelays.RemoveAll(d => d <= TimeSpan.Zero);
 
 			var spawnAmount = Math.Min(expiredDelayCount, this.FlexAmount - this.Amount);
 			if (spawnAmount <= 0)
@@ -263,11 +304,27 @@ namespace Melia.Zone.World
 			if (_flexSpawnDelay > TimeSpan.Zero)
 				return;
 
-			_flexSpawnDelay = this.GetRandomRespawnDelay();
+			_flexSpawnDelay = FlexSpawnInterval;
 
-			var potentialSpawnAmount = Math.Max(0, this.FlexAmount - this.Amount - _respawnDelays.Count);
+			var targetAmount = this.FlexAmount;
+			var currentAmount = this.Amount;
+			var queuedAmount = this.QueuedAmount;
+
+			var potentialSpawnAmount = Math.Max(0, targetAmount - currentAmount - queuedAmount);
 			if (potentialSpawnAmount > 0)
-				this.Spawn(1);
+			{
+				var spawnAmount = 1;
+
+				// Spawn the full amount on the first flex spawn to get up
+				// to the flex amount without delay.
+				if (!_initialSpawnDone)
+				{
+					spawnAmount = potentialSpawnAmount;
+					_initialSpawnDone = true;
+				}
+
+				this.Spawn(spawnAmount);
+			}
 		}
 
 		/// <summary>
@@ -302,68 +359,5 @@ namespace Melia.Zone.World
 		/// <returns></returns>
 		private TimeSpan GetRandomRespawnDelay()
 			=> _rnd.Between(this.MinRespawnDelay, this.MaxRespawnDelay);
-
-		/// <summary>
-		/// Attempts to find a valid random position within the spawn
-		/// area and returns it via out. Returns false if no valid
-		/// position could be found within a reasonable amount of
-		/// tries.
-		/// </summary>
-		/// <returns></returns>
-		private bool TryGetRandomPosition(out Position pos)
-		{
-			// Since we have no way of knowing what kinds of spawn areas
-			// users will create, we have no other choice but to try a
-			// a couple of positions and see if we can find a valid one.
-			// If we can't, we have to fail the attempt because even the
-			// area's center or edge points might be invalid.
-
-			for (var i = 0; i < MaxValidPositionTries; ++i)
-			{
-				var rndVector = this.Area.GetRandomPoint(_rnd);
-				if (this.TryGetPositionFromPoint(rndVector, out pos))
-					return true;
-			}
-
-			// If all tries failed, try the area's center point
-			if (this.TryGetPositionFromPoint(this.Area.Center, out pos))
-				return true;
-
-			// No dice? Okay... What about the edge points?
-			foreach (var edgePoint in this.Area.GetEdgePoints().OrderBy(_ => _rnd.Next()))
-			{
-				if (this.TryGetPositionFromPoint(edgePoint, out pos))
-					return true;
-			}
-
-			// TODO: The game has spawns that span entire maps, which makes
-			//   it difficult to find spawn positions randomly. We don't
-			//   *have* to support this, but I understand why someone
-			//   would want it, so we should find a way to handle them.
-
-			// Well, we gave our best. Kind of.
-			pos = Position.Zero;
-			return false;
-		}
-
-		/// <summary>
-		/// Tries to turn point into a valid position and returns it via
-		/// out. Returns false if the point was not a valid position.
-		/// </summary>
-		/// <param name="point"></param>
-		/// <param name="pos"></param>
-		/// <returns></returns>
-		private bool TryGetPositionFromPoint(Vector2 point, out Position pos)
-		{
-			pos = new Position(point.X, 0, point.Y);
-			if (_map.Ground.TryGetHeightAt(pos, out var height))
-			{
-				pos.Y = height;
-				return true;
-			}
-
-			pos = Position.Zero;
-			return false;
-		}
 	}
 }

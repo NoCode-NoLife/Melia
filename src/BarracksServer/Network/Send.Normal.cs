@@ -307,6 +307,24 @@ namespace Melia.Barracks.Network
 
 				conn.Send(packet);
 			}
+
+			/// <summary>
+			/// Informs client that a connection attempt to a zone server
+			/// has failed.
+			/// </summary>
+			/// <remarks>
+			/// This packet needs to be sent when cancelling a connection
+			/// attempt or the client won't react to any further attempts
+			/// until the user relogged.
+			/// </remarks>
+			/// <param name="conn"></param>
+			public static void StartGameFailed(IBarracksConnection conn)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.StartGameFailed);
+
+				conn.Send(packet);
+			}
 		}
 	}
 }

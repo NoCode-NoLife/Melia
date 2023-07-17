@@ -12,6 +12,7 @@
 			public const int SetBarrack = 0x05;
 			public const int TeamUI = 0x0C;
 			public const int ZoneTraffic = 0x0D;
+			public const int StartGameFailed = 0x0F;
 			public const int Run = 0x10;
 			public const int Message = 0x11;
 			public const int PostBoxState = 0x12;

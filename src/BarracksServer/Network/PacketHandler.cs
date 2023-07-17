@@ -444,6 +444,13 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			if (zoneServerInfo.Status != ServerStatus.Online)
+			{
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This channel appears to be offline. Please choose another or try again later."));
+				Send.BC_NORMAL.StartGameFailed(conn);
+				return;
+			}
+
 			conn.Account.SelectedCharacterSlot = character.Index;
 
 			Send.BC_START_GAMEOK(conn, character, channelId, zoneServerInfo.Ip, zoneServerInfo.Port);

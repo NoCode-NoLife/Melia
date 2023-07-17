@@ -129,6 +129,9 @@
     <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
     <Compile Include="Scripting\ClientScript.cs" />
     <Compile Include="Scripting\DelegateCollection.cs" />
+    <Compile Include="Scripting\Hooking\DialogHook.cs" />
+    <Compile Include="Scripting\Hooking\HookResult.cs" />
+    <Compile Include="Scripting\Hooking\ScriptHook.cs" />
     <Compile Include="Scripting\LuaTable.cs" />
     <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptableFunctions.cs" />
@@ -141,7 +144,9 @@
     <Compile Include="Scripting\GeneralScript.cs" />
     <Compile Include="Scripting\DialogTxScripts.cs" />
     <Compile Include="Scripting\ItemScripts.cs" />
+    <Compile Include="Scripting\Hooking\ScriptHooks.cs" />
     <Compile Include="Scripting\ShopBuilder.cs" />
+    <Compile Include="Scripting\Shortcuts.Spawners.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="Skills\Combat\Extensions.cs" />
@@ -229,7 +234,7 @@
     <Compile Include="World\Actors\Monsters\Mob.cs" />
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
-    <Compile Include="World\MonsterSpawner.cs" />
+    <Compile Include="World\Spawning\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
     <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
     <Compile Include="World\Quests\Objectives\KillObjective.cs" />
@@ -249,6 +254,8 @@
     <Compile Include="World\Quests\Rewards\ExpReward.cs" />
     <Compile Include="World\Quests\Rewards\SilverReward.cs" />
     <Compile Include="World\Quests\Rewards\ItemReward.cs" />
+    <Compile Include="World\Spawning\SpawnArea.cs" />
+    <Compile Include="World\Spawning\SpawnAreaCollection.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>
