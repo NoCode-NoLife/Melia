@@ -188,18 +188,13 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static MonsterSpawnPoint AddSpawnPoint(string identifier, string mapClassName, IShape area)
 		{
-			// If spawn point collection with this identifier exists
-			if (ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(identifier, out var spc))
+			if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(identifier, out var spc))
 			{
-				return spc.AddSpawnPoint(mapClassName, area);
+				spc = new MonsterSpawnPointCollection(identifier);
+				ZoneServer.Instance.World.AddSpawnPointCollection(spc);
 			}
-			// Otherwise, create new spawn point collection
-			else
-			{
-				var spawnPointCollection = new MonsterSpawnPointCollection(identifier);
-				ZoneServer.Instance.World.AddSpawnPointCollection(spawnPointCollection);
-				return spawnPointCollection.AddSpawnPoint(mapClassName, area);
-			}
+
+			return spc.AddSpawnPoint(mapClassName, area);
 		}
 
 		/// <summary>
@@ -438,7 +433,7 @@ namespace Melia.Zone.Scripting
 
 			var maxSpawnAmount = Math.Max(1, maxAmount);
 
-			var spawner = new MonsterSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
+			var spawner = new MonsterSpawner(monsterClassId, minAmount, maxAmount, identifier, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
 
 			ZoneServer.Instance.World.AddSpawner(spawner);
 

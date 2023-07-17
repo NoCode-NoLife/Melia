@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Melia.Shared.World;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry;
@@ -18,7 +15,10 @@ namespace Melia.Zone.World.Spawner
 	/// </summary>
 	public class MonsterSpawnPoint
 	{
+		private const int MaxValidPositionTries = 50;
 		private static int Ids;
+
+		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Returns the unique id of this spawn point.
@@ -26,27 +26,20 @@ namespace Melia.Zone.World.Spawner
 		public int Id { get; }
 
 		/// <summary>
-		/// How many attempts we should make when trying
-		/// to get a random position within the spawn point's
-		/// area.
+		/// Returns a reference to the map this spawn point lives on.
 		/// </summary>
-		private const int MaxValidPositionTries = 50;
+		public Map Map { get; }
 
 		/// <summary>
-		/// Random generator
+		/// Returns the area in which the spawn point looks for valid
+		/// spawn locations.
 		/// </summary>
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
-
-		// The map this spawn point is in
-		public Map Map { get; set; }
-
-		// The area of this spawn point
-		public IShape Area { get; set; }
+		public IShape Area { get; }
 
 		/// <summary>
-		/// Creates a new spawn point
+		/// Creates a new spawn point.
 		/// </summary>
-		/// <param name="map"></param>
+		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
 		public MonsterSpawnPoint(string mapClassName, IShape area)
 		{

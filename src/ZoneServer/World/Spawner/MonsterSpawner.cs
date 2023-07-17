@@ -3,16 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
-using Yggdrasil.Geometry;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
@@ -22,7 +19,7 @@ namespace Melia.Zone.World.Spawner
 	/// <summary>
 	/// Spawns and respawns monsters.
 	/// </summary>
-	public class MonsterSpawner :IUpdateable
+	public class MonsterSpawner : IUpdateable
 	{
 		private const float FlexIncreaseLimit = 100;
 		private const float FlexDecreaseLimit = -100;
@@ -53,16 +50,17 @@ namespace Melia.Zone.World.Spawner
 		private int _spawnPointCollectionReferenceFailureCounter = 0;
 
 		/// <summary>
-		/// The spawn point collection this spawner uses to respawn mobs.
-		/// This is updated on runtime according to the spawnPointCollectionIdentifier.
+		/// The spawn point collection this spawner uses to find potential
+		/// spawn locations. This is updated at run-time based on the
+		/// spawn points identifier.
 		/// </summary>
 		private MonsterSpawnPointCollection _spawnPointCollection;
 
 		/// <summary>
-		/// The name of the spawn point collection this spawner will use
-		/// to spawn monsters.
+		/// The identifier of the spawn point collection this spawner will
+		/// use to find spawn locations.
 		/// </summary>
-		public string SpawnPointCollectionIdentifier { get; }
+		public string SpawnPointsIdent { get; }
 
 		/// <summary>
 		/// Returns the unique id of this spawner.
@@ -119,19 +117,19 @@ namespace Melia.Zone.World.Spawner
 		public PropertyOverrides PropertyOverrides { get; }
 
 		/// <summary>
-		/// Creates new instance associated to a spawn point collection by name.
+		/// Creates a new monster spawner.
 		/// </summary>
-		/// <param name="spawnPointCollectionIdentifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="initialSpawnDelay"></param>
-		/// <param name="minRespawnDelay"></param>
-		/// <param name="maxRespawnDelay"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
+		/// <param name="monsterClassId">Id of the monsters spawned by this instance.</param>
+		/// <param name="minAmount">The minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">The maximum amount of monsters to spawn at a time.</param>
+		/// <param name="spawnPointsIdent">The identifier for the spawn point collection, for locations to spawn monsters in.</param>
+		/// <param name="initialSpawnDelay">The initial delay before the spawner starts spawning monsters.</param>
+		/// <param name="minRespawnDelay">The minimum delay before a monster is respawned after death.</param>
+		/// <param name="maxRespawnDelay">The maximum delay before a monster is respawned after death.</param>
+		/// <param name="tendency">Defines the spawned monsters' aggressive tendencies.</param>
+		/// <param name="propertyOverrides">Applies overrides to spawned monsters if set. Use null for no overrides.</param>
 		/// <exception cref="ArgumentException"></exception>
-		public MonsterSpawner(string spawnPointCollectionIdentifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
+		public MonsterSpawner(int monsterClassId, int minAmount, int maxAmount, string spawnPointsIdent, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"MonsterSpawner: No monster data found for '{monsterClassId}'.");
@@ -144,7 +142,7 @@ namespace Melia.Zone.World.Spawner
 			this.Id = Interlocked.Increment(ref Ids);
 			this.MinAmount = minAmount;
 			this.MaxAmount = maxAmount;
-			this.SpawnPointCollectionIdentifier = spawnPointCollectionIdentifier;
+			this.SpawnPointsIdent = spawnPointsIdent;
 			this.FlexAmount = this.MinAmount;
 			this.InitialDelay = initialSpawnDelay;
 			this.MinRespawnDelay = minRespawnDelay;
@@ -168,7 +166,6 @@ namespace Melia.Zone.World.Spawner
 		/// </summary>
 		public void Spawn(int amount)
 		{
-			// Gets random spawn point in our spawn point collection
 			if (!_spawnPointCollection.GetRandomSpawnPoint(out var spawnPoint))
 				return;
 
@@ -199,11 +196,14 @@ namespace Melia.Zone.World.Spawner
 
 		/// <summary>
 		/// Overrides monster's properties with the ones defined for
-		/// this spawner. Receives map to verify if there are map
-		/// overrides as well.
+		/// this spawner or on the map.
 		/// </summary>
-		/// <param name="monster"></param>
-		/// <param name="map"></param>
+		/// <remarks>
+		/// The overrides on the spawner take precedence over the ones
+		/// on the maps.
+		/// </remarks>
+		/// <param name="monster">The monster to override properties on.</param>
+		/// <param name="map">The map to check for overrides.</param>
 		private void OverrideProperties(Mob monster, Map map)
 		{
 			// Don't override anything if the feature is disabled
@@ -248,11 +248,11 @@ namespace Melia.Zone.World.Spawner
 			// we start showing a warning.
 			if (_spawnPointCollection == null)
 			{
-				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointCollectionIdentifier, out _spawnPointCollection))
+				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointsIdent, out _spawnPointCollection))
 				{
 					if (_spawnPointCollectionReferenceFailureCounter > SpawnPointCollectionReferenceMaxAttempts)
 					{
-						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointCollectionIdentifier}' found for spawner '{this.Id}'.");
+						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointsIdent}' found for spawner '{this.Id}'.");
 					}
 					_spawnPointCollectionReferenceFailureCounter++;
 					return;
