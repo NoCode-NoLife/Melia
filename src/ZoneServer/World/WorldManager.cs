@@ -79,29 +79,47 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Initializes world.
+		/// Initializes world, creating maps and setting up events.
 		/// </summary>
-		public void Initialize()
+		internal void Initialize()
 		{
-			// Create maps based on map data
+			this.CreateMaps();
+			this.InitUpdatables();
+		}
+
+		/// <summary>
+		/// Populates world mit maps based on the map data and adds them
+		/// to the heartbeat.
+		/// </summary>
+		private void CreateMaps()
+		{
 			foreach (var entry in ZoneServer.Instance.Data.MapDb.Entries.Values)
 			{
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
 				_mapsName.Add(map.ClassName, map);
 
-				// Add maps to heartbeat's update scheduling
 				this.Heartbeat.Add(map);
 			}
+		}
 
-			// Set up updatables
+		/// <summary>
+		/// Initializes updatable world objects, such as event raisers.
+		/// </summary>
+		private void InitUpdatables()
+		{
 			this.Heartbeat.Add(new TimeEventRaiser());
 
 			this.DayNightCycle = new DayNightCycle();
 			if (ZoneServer.Instance.Conf.World.EnableDayNightCycle)
 				this.Heartbeat.Add(this.DayNightCycle);
+		}
 
-			// Start hearbeat loop and updates
+		/// <summary>
+		/// Starts the world's heartbeat if it isn't already running.
+		/// </summary>
+		internal void Start()
+		{
 			this.Heartbeat.Start();
 		}
 
