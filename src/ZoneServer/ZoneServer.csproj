@@ -146,6 +146,7 @@
     <Compile Include="Scripting\ItemScripts.cs" />
     <Compile Include="Scripting\Hooking\ScriptHooks.cs" />
     <Compile Include="Scripting\ShopBuilder.cs" />
+    <Compile Include="Scripting\Shortcuts.Spawners.cs" />
     <Compile Include="Scripting\Shortcuts.cs" />
     <Compile Include="Skills\Ability.cs" />
     <Compile Include="Skills\Combat\Extensions.cs" />
