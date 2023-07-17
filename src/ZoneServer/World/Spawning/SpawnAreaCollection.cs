@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Shared.World;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
@@ -97,6 +98,30 @@ namespace Melia.Zone.World.Spawning
 
 				return true;
 			}
+		}
+
+		/// <summary>
+		/// Returns a random location from any of the collection's spawn
+		/// areas via out. Returns false if no valid location could be
+		/// found.
+		/// </summary>
+		/// <param name="map"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public bool TryGetRandomLocation(out Map map, out Position pos)
+		{
+			map = null;
+			pos = Position.Zero;
+
+			if (!this.TryGetRandom(out var spawnArea))
+				return false;
+
+			map = spawnArea.Map;
+
+			if (!spawnArea.TryGetRandomPosition(out pos))
+				return false;
+
+			return true;
 		}
 	}
 }

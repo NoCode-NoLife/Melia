@@ -160,14 +160,8 @@ namespace Melia.Zone.World.Spawning
 		{
 			for (var i = 0; i < amount; ++i)
 			{
-				if (!_spawnAreas.TryGetRandom(out var spawnArea))
+				if (!_spawnAreas.TryGetRandomLocation(out var map, out var pos))
 					return;
-
-				if (!spawnArea.TryGetRandomPosition(out var pos))
-				{
-					Log.Warning($"MonsterSpawner.Spawn: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnArea.Map.ClassName}'.");
-					continue;
-				}
 
 				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
 				monster.Position = pos;
@@ -175,12 +169,12 @@ namespace Melia.Zone.World.Spawning
 				monster.Tendency = this.Tendency;
 				monster.Died += this.OnMonsterDied;
 
-				this.OverrideProperties(monster, spawnArea.Map);
+				this.OverrideProperties(monster, map);
 
 				monster.Components.Add(new MovementComponent(monster));
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
-				spawnArea.Map.AddMonster(monster);
+				map.AddMonster(monster);
 			}
 
 			this.Amount += amount;
