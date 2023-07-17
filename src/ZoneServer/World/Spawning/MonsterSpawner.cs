@@ -134,7 +134,9 @@ namespace Melia.Zone.World.Spawning
 			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterClassId, out _monsterData))
 				throw new ArgumentException($"MonsterSpawner: No monster data found for '{monsterClassId}'.");
 
-			maxAmount = Math.Max(1, maxAmount);
+			minAmount = Math.Max(1, minAmount);
+			maxAmount = Math.Max(minAmount, maxAmount);
+
 			initialSpawnDelay = Math2.Max(TimeSpan.Zero, initialSpawnDelay);
 			minRespawnDelay = Math2.Max(TimeSpan.Zero, minRespawnDelay);
 			maxRespawnDelay = Math2.Max(TimeSpan.Zero, maxRespawnDelay);
