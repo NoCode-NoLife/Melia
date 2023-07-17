@@ -39,24 +39,8 @@ namespace Melia.Zone.World.Spawning
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
-		/// <summary>
-		/// How many times we can attempt to get the spawn point collection
-		/// before we start showing errors.
-		/// </summary>
-		private const int SpawnPointCollectionReferenceMaxAttempts = 12;
-
-		/// <summary>
-		/// Increments everytime we attempt to get the spawn point collection
-		/// object reference from its name but fail.
-		/// </summary>
-		private int _spawnPointCollectionReferenceFailureCounter = 0;
-
-		/// <summary>
-		/// The spawn point collection this spawner uses to find potential
-		/// spawn locations. This is updated at run-time based on the
-		/// spawn points identifier.
-		/// </summary>
 		private SpawnPointCollection _spawnPointCollection;
+		private bool _spawnPointsLoadFailed;
 
 		/// <summary>
 		/// The identifier of the spawn point collection this spawner will
@@ -254,26 +238,36 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			// Attempts to get the spawn point collection object reference
-			// at runtime. If the reference is not found after N heartbeats,
-			// we start showing a warning.
-			if (_spawnPointCollection == null)
-			{
-				if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointsIdent, out _spawnPointCollection))
-				{
-					if (_spawnPointCollectionReferenceFailureCounter > SpawnPointCollectionReferenceMaxAttempts)
-					{
-						Log.Warning($"MonsterSpawner.Update: No spawn point collection of name '{this.SpawnPointsIdent}' found for spawner '{this.Id}'.");
-					}
-					_spawnPointCollectionReferenceFailureCounter++;
-					return;
-				}
-			}
+			if (!this.ValidateSpawnPointCollection())
+				return;
 
-			_spawnPointCollectionReferenceFailureCounter = 0;
 			this.RespawnMonsters(elapsed);
 			this.FlexSpawnMonsters(elapsed);
 			this.BalanceSpawnAmounts(elapsed);
+		}
+
+		/// <summary>
+		/// Checks the spawn point collection and returns true if it's
+		/// ready to be used.
+		/// </summary>
+		/// <returns></returns>
+		private bool ValidateSpawnPointCollection()
+		{
+			if (_spawnPointCollection != null)
+				return true;
+
+			if (_spawnPointsLoadFailed)
+				return false;
+
+			if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointsIdent, out _spawnPointCollection))
+			{
+				Log.Warning($"MonsterSpawner: Spawn point collection '{this.SpawnPointsIdent}' for '{_monsterData.ClassName}' spawner not found.");
+
+				_spawnPointsLoadFailed = true;
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>

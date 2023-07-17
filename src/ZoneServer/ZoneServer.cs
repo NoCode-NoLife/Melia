@@ -230,9 +230,8 @@ namespace Melia.Zone
 		/// </summary>
 		private void StartWorld()
 		{
-			Log.Info("Starting world...");
+			Log.Info("Starting world update...");
 			this.World.Start();
-			Log.Info("  done.");
 		}
 
 		/// <summary>
