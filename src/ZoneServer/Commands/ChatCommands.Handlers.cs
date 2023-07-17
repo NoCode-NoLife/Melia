@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -14,9 +11,6 @@ using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
-using Melia.Zone.Skills;
-using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -24,6 +18,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -1896,7 +1891,7 @@ namespace Melia.Zone.Commands
 			var text = string.Format("{0} : {1}", target.TeamName, string.Join(" ", args.GetAll()));
 
 			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, text);
-			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage);
+			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
 
 			return CommandResult.Okay;
 		}

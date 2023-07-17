@@ -157,12 +157,6 @@ namespace Melia.Barracks
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
 				}
-				case NoticeTextMessage noticeTextMessage:
-				{
-					Log.Debug(noticeTextMessage.Text);
-					this.Communicator.Broadcast("AllZones", noticeTextMessage);
-					break;
-				}
 			}
 		}
 

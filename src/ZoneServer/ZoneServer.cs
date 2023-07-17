@@ -198,9 +198,9 @@ namespace Melia.Zone
 					this.ServerList.Update(serverUpdateMessage);
 					break;
 				}
-				case NoticeTextMessage broadcastTextMessage:
+				case NoticeTextMessage noticeTextMessage:
 				{
-					Send.ZC_TEXT(broadcastTextMessage.Type, broadcastTextMessage.Text);
+					Send.ZC_TEXT(noticeTextMessage.Type, noticeTextMessage.Text);
 					break;
 				}
 			}
