@@ -1,22 +1,19 @@
 ﻿using System;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.World.Spawning;
-using Yggdrasil.Extensions;
 using Yggdrasil.Geometry;
-using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting
 {
 	public static partial class Shortcuts
 	{
 		/// <summary>
-		/// Adds a spawn point to an existing spawner.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawn point to the collection with the given identifier,
+		/// creating it if it doesn't exist yet.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
 		public static MonsterSpawnPoint AddSpawnPoint(string identifier, string mapClassName, IShape area)
 		{
@@ -30,228 +27,184 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area without
-		/// minAmount, property overrides or tendency.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="respawn"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShape area)
 			=> AddSpawner(monsterClassId, -1, maxAmount, mapClassName, area, respawn, TendencyType.Peaceful, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area without
-		/// minAmount or property overrides.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan respawn, TendencyType tendency)
 			=> AddSpawner(monsterClassId, -1, maxAmount, mapClassName, area, respawn, tendency, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area without
-		/// minAmount.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
+		/// <param name="propertyOverrides">Overrides for the monster's properties. Use null for none.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, string mapClassName, IShape area, TimeSpan respawn, TendencyType tendency, PropertyOverrides propertyOverrides)
 			=> AddSpawner(monsterClassId, -1, maxAmount, mapClassName, area, respawn, tendency, propertyOverrides);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area without
-		/// property overrides or tendency.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="respawn"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan respawn)
 			=> AddSpawner(monsterClassId, minAmount, maxAmount, mapClassName, area, respawn, TendencyType.Peaceful, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area without
-		/// property overrides
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="mapClassName"></param>
-		/// <param name="area"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="area">Area in which to spawn monsters in.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan respawn, TendencyType tendency)
 			=> AddSpawner(monsterClassId, minAmount, maxAmount, mapClassName, area, respawn, tendency, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay, map and area.
-		/// This will internally create an identifier
-		/// and the spawn point.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
+		/// <param name="propertyOverrides">Overrides for the monster's properties. Use null for none.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, string mapClassName, IShape area, TimeSpan respawn, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
-			// Assigns a new auto-generated identifier
-			var collectionIdentifier = ZoneServer.Instance.World.GetSpawnPointCollections().Length.ToString();
-			var spawner = AddSpawner(collectionIdentifier, monsterClassId, minAmount, maxAmount, respawn, tendency, propertyOverrides);
-			AddSpawnPoint(collectionIdentifier, mapClassName, area);
+			var count = ZoneServer.Instance.World.GetSpawnPointCollections().Length;
+			var identifier = "__GeneratedCollection" + count + "__";
+			AddSpawnPoint(identifier, mapClassName, area);
+
+			var spawner = AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, tendency, propertyOverrides);
 			return spawner;
 		}
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay without
-		/// minAmount, property overrides or tendency.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int maxAmount, TimeSpan respawn)
 			=> AddSpawner(identifier, monsterClassId, -1, maxAmount, respawn, TendencyType.Peaceful, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay without
-		/// minAmount or property overrides.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int maxAmount, TimeSpan respawn, TendencyType tendency)
 			=> AddSpawner(identifier, monsterClassId, -1, maxAmount, respawn, tendency, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay without
-		/// minAmount.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int maxAmount, TimeSpan respawn, TendencyType tendency, PropertyOverrides propertyOverrides)
 			=> AddSpawner(identifier, monsterClassId, -1, maxAmount, respawn, tendency, propertyOverrides);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay without property
-		/// overrides or tendency.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn)
 			=> AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, TendencyType.Peaceful, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay without
-		/// property overrides.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, TendencyType tendency)
 			=> AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, tendency, null);
 
 		/// <summary>
-		/// Adds a monster spawner to the world using
-		/// arbitrary respawn delay.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
+		/// <param name="propertyOverrides">Overrides for the monster's properties. Use null for none.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
-			// These delays are arbitrary
-			var initialSpawnDelay = TimeSpan.FromSeconds(0);
-			var minRespawnDelay = Math2.Max(TimeSpan.FromSeconds(3), respawn);
-			var maxRespawnDelay = minRespawnDelay.Multiply(3);
+			var initialSpawnDelay = TimeSpan.Zero;
+			var minRespawnDelay = respawn;
+			var maxRespawnDelay = respawn;
 
-			// Creates spawner
 			var spawner = AddSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
-
 			return spawner;
 		}
 
 		/// <summary>
-		/// Adds a monster spawner to the world.
-		/// The identifier is responsible for linking together any
-		/// spawner object.
+		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier"></param>
-		/// <param name="monsterClassId"></param>
-		/// <param name="minAmount"></param>
-		/// <param name="maxAmount"></param>
-		/// <param name="initialSpawnDelay"></param>
-		/// <param name="minRespawnDelay"></param>
-		/// <param name="maxRespawnDelay"></param>
-		/// <param name="tendency"></param>
-		/// <param name="propertyOverrides"></param>
+		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="initialSpawnDelay">Initial delay before monsters are spawned.</param>
+		/// <param name="minRespawnDelay">Minimum delay before killed monsters are respawned.</param>
+		/// <param name="maxRespawnDelay">Maximum delay before killed monsters are respawned.</param>
+		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
+		/// <param name="propertyOverrides">Overrides for the monster's properties. Use null for none.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
