@@ -232,17 +232,23 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Returns a rectangular shape with the given coordinates and radius.
+		/// Returns a rectangular shape at the given coordinates.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
+		/// <remarks>
+		/// The rectangle is created centered around the given coordinates,
+		/// stretching out in all directions based on the width and height
+		/// arguments.
+		/// </remarks>
+		/// <param name="x">X-coordinate of the shape's center.</param>
+		/// <param name="y">Z-Coordinate of the shape's center.</param>
+		/// <param name="width">Width of the rectangle.</param>
+		/// <param name="height">Height of the rectangle. Defaults to width.</param>
 		/// <returns></returns>
 		public static IShape Rectangle(double x, double y, double width, double height = 0)
 		{
 			var center = new Vector2((int)x, (int)y);
 			var size = new Vector2((int)width, (int)(height != 0 ? height : width));
+
 			return Yggdrasil.Geometry.Shapes.Rectangle.Centered(center, size);
 		}
 
