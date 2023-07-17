@@ -47,7 +47,7 @@ class LoginRequest extends FormRequest
 
         $user = Auth::getProvider()->retrieveByCredentials($email);
 
-        if (!$user || !password_verify($credentials['password'], substr($user->account->password, 4))) {
+        if (!$user || !password_verify(strtoupper(md5($credentials['password'])), $user->account->password)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
