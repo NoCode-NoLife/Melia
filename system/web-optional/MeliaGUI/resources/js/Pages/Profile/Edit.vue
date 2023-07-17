@@ -11,13 +11,17 @@ defineProps({
     status: {
         type: String,
     },
+    account: {
+        type: Object,
+        required: true,
+    }
 });
 </script>
 
 <template>
     <Head title="Profile" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :account="account">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
         </template>

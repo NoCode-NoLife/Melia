@@ -41,13 +41,13 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = $this->only('email');
-        $credentialsWithpass = $this->only('email', 'password');
+        $email = $this->only('email');
+        $credentials = $this->only('password');
         $remember = $this->boolean('remember');
 
-        $user = Auth::getProvider()->retrieveByCredentials($credentials);
+        $user = Auth::getProvider()->retrieveByCredentials($email);
 
-        if (!$user || !password_verify($credentialsWithpass['password'], $user->getAuthPassword())) {
+        if (!$user || !password_verify($credentials['password'], substr($user->account->password, 4))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

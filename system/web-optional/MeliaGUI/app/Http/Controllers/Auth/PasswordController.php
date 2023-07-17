@@ -20,8 +20,14 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
+        $hashedPass = bcrypt(strtoupper(md5($validated['password'])));
+
+        if (substr($hashedPass, 0, 4) == '$2y$') {
+            $hashedPass = '$2a$' . substr($hashedPass, 4);
+        }
+
         $request->user()->update([
-            'password' => Hash::make($validated['password']),
+            'password' => $hashedPass,
         ]);
 
         return back();

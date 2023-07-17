@@ -41,7 +41,7 @@ defineProps({
                                 </NavLink>
                             </div>
 
-                            <div v-if="authorization >= 50" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div v-if="account.authority >= 50" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('admin.dashboard')">
                                     Admin Dashboard
                                 </NavLink>
@@ -58,7 +58,7 @@ defineProps({
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {{ account.teamName != undefined ? account.teamName : account.name }}
+                                                {{ account.teamName != null ? account.teamName : account.name }}
 
                                                 <svg
                                                     class="ml-2 -mr-0.5 h-4 w-4"
@@ -134,7 +134,7 @@ defineProps({
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
                             <div class="font-medium text-base text-gray-800">
-                                {{ account.teamName != undefined ? account.teamName : account.name }}
+                                {{ account.teamName != null ? account.teamName : account.name }}
                             </div>
                             <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
                         </div>

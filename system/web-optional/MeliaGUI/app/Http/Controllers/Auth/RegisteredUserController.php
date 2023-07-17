@@ -55,15 +55,15 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        $hash = bcrypt(strtoupper(md5($request->password)));
+        $hashedPass = bcrypt(strtoupper(md5($request->password)));
 
-        if (substr($hash, 0, 4) == '$2y$') {
-            $hash = '$2a$' . substr($hash, 4);
+        if (substr($hashedPass, 0, 4) == '$2y$') {
+            $hashedPass = '$2a$' . substr($hashedPass, 4);
         }
 
         $account = Account::create([
             'name' => $request->login,
-            'password' => $hash,
+            'password' => $hashedPass,
             'settings' => '',
         ]);
 
