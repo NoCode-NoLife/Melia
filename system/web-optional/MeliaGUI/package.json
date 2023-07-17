@@ -26,6 +26,7 @@
         "@mdi/js": "^7.2.96",
         "chart.js": "^4.3.0",
         "numeral": "^2.0.6",
-        "tailwindcss": "^3.3.3"
+        "tailwindcss": "^3.3.3",
+        "vuex": "^4.1.0"
     }
 }

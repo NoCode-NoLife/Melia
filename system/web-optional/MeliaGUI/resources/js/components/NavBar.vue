@@ -10,7 +10,7 @@ defineProps({
   menu: {
     type: Array,
     required: true,
-  },
+  }
 });
 
 const emit = defineEmits(["menu-click"]);

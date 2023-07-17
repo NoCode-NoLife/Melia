@@ -5,7 +5,6 @@ import menuAside from "@/menuAside.js";
 import menuNavBar from "@/menuNavBar.js";
 import { useStyle } from "@/style.js";
 import BaseIcon from "@/components/BaseIcon.vue";
-import FormControl from "@/components/FormControl.vue";
 import NavBar from "@/components/NavBar.vue";
 import NavBarItemPlain from "@/components/NavBarItemPlain.vue";
 import AsideMenu from "@/components/AsideMenu.vue";

@@ -21,7 +21,7 @@ defineProps({
 <template>
     <Head title="Profile" />
 
-    <AuthenticatedLayout :account="account">
+    <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
         </template>

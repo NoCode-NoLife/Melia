@@ -6,15 +6,23 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import { useStore } from 'vuex';
 
 const showingNavigationDropdown = ref(false);
+const authority = account.authority;
+</script>
 
-defineProps({
-    account: {
-        type: Object,
-        required: true,
+<script>
+export default {
+  setup () {
+    const store = useStore()
+
+    return {
+      // access a state in computed function
+      account: computed(() => store.state.account),
     }
-});
+  }
+}
 </script>
 
 <template>
@@ -41,7 +49,7 @@ defineProps({
                                 </NavLink>
                             </div>
 
-                            <div v-if="account.authority >= 50" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div v-if="authority >= 50" class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('admin.dashboard')">
                                     Admin Dashboard
                                 </NavLink>

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
-import { mdiEye, mdiTrashCan } from "@mdi/js";
+import { mdiEye, mdiAccount, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
@@ -121,7 +121,7 @@ const checked = (isChecked, client) => {
         />
         <td class="border-b-0 lg:w-6 before:hidden">
           <UserAvatar
-            :username="client.name"
+            :icon="mdiAccount"
             class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
           />
         </td>

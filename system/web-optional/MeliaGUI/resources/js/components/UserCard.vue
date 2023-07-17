@@ -10,6 +10,13 @@ import PillTag from "@/components/PillTag.vue";
 const userName = computed(() => mainStore.userName);
 
 const userSwitchVal = ref(false);
+
+defineProps({
+    userName: {
+        type: Object,
+        required: true,
+    }
+});
 </script>
 
 <template>

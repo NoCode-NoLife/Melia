@@ -32,7 +32,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/admin/dashboard', function () {
-    return Inertia::render('HomeView', [
+    return Inertia::render('AdminDashboard', [
         'account' => auth()->user()->account,
     ]);
 })->middleware(['auth', 'verified'])->name('admin.dashboard');

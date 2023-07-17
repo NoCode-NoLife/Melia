@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { mdiTrendingDown, mdiTrendingUp, mdiTrendingNeutral } from "@mdi/js";
+import { mdiTrendingDown, mdiTrendingUp, mdiAccount,mdiTrendingNeutral } from "@mdi/js";
 import CardBox from "@/components/CardBox.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
 import PillTag from "@/components/PillTag.vue";
@@ -68,7 +68,7 @@ const pillText = computed(() => props.text ?? `${props.progress}%`);
   <CardBox class="mb-6 last:mb-0" is-hoverable>
     <BaseLevel>
       <BaseLevel type="justify-start">
-        <UserAvatar class="w-12 h-12 mr-6" :username="name" />
+        <UserAvatar class="w-12 h-12 mr-6" :icon="mdiAccount"/>
         <div class="text-center md:text-left overflow-hidden">
           <h4 class="text-xl text-ellipsis">
             {{ name }}
