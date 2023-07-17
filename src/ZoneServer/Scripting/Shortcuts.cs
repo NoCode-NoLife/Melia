@@ -423,18 +423,10 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency, PropertyOverrides propertyOverrides)
 		{
-			// If negative min amount is given
-			if (minAmount < 0)
-			{
-				// The default behavior is setting minAmount
-				// equal to maxAmount
-				minAmount = maxAmount;
-			}
-
-			var maxSpawnAmount = Math.Max(1, maxAmount);
+			minAmount = Math.Max(1, minAmount);
+			maxAmount = Math.Max(minAmount, maxAmount);
 
 			var spawner = new MonsterSpawner(monsterClassId, minAmount, maxAmount, identifier, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency, propertyOverrides);
-
 			ZoneServer.Instance.World.AddSpawner(spawner);
 
 			return spawner;

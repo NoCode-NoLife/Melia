@@ -164,6 +164,7 @@ namespace Melia.Zone.World.Spawning
 		/// <summary>
 		/// Spawns the given number of monsters in a random spawn point.
 		/// </summary>
+		/// <param name="amount"></param>
 		public void Spawn(int amount)
 		{
 			if (!_spawnPointCollection.GetRandomSpawnPoint(out var spawnPoint))
