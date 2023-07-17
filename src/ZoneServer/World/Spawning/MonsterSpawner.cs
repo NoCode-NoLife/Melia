@@ -26,6 +26,7 @@ namespace Melia.Zone.World.Spawning
 		private const float FlexMeterDefault = 0;
 		private const float FlexMeterIncreasePerDeath = 10;
 		private const float FlexMeterDecreasePerSecond = 0.5f;
+		private readonly static TimeSpan FlexSpawnInterval = TimeSpan.FromSeconds(5);
 
 		private static int Ids;
 
@@ -304,9 +305,13 @@ namespace Melia.Zone.World.Spawning
 			if (_flexSpawnDelay > TimeSpan.Zero)
 				return;
 
-			_flexSpawnDelay = this.GetRandomRespawnDelay();
+			_flexSpawnDelay = FlexSpawnInterval;
 
-			var potentialSpawnAmount = Math.Max(0, this.FlexAmount - this.Amount - _respawnDelays.Count);
+			var targetAmount = this.FlexAmount;
+			var currentAmount = this.Amount;
+			var queuedAmount = _respawnDelays.Count;
+
+			var potentialSpawnAmount = Math.Max(0, targetAmount - currentAmount - queuedAmount);
 			if (potentialSpawnAmount > 0)
 				this.Spawn(1);
 		}
