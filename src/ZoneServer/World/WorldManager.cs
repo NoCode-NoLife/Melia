@@ -176,6 +176,9 @@ namespace Melia.Zone.World
 
 				_spawners.Clear();
 			}
+
+			lock (_spawnPointCollections)
+				_spawnPointCollections.Clear();
 		}
 
 		/// <summary>
