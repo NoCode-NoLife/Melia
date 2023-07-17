@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -81,6 +82,7 @@ namespace Melia.Zone.Commands
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
+			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1872,6 +1874,29 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
 			else
 				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Broadcasts a message to all players.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleBroadcast(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var joinedArgs = string.Join(" ", args.GetAll());
+			var text = string.Format("{0} : {1}", target.TeamName, string.Join(" ", args.GetAll()));
+
+			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, text);
+			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage);
 
 			return CommandResult.Okay;
 		}

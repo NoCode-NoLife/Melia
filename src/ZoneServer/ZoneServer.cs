@@ -152,6 +152,9 @@ namespace Melia.Zone
 				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
 				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+				this.Communicator.Subscribe("Coordinator", "AllServers");
+				this.Communicator.Subscribe("Coordinator", "AllZones");
+
 				this.UpdateServerInfo();
 
 				Log.Info("Successfully connected to coordinator.");
@@ -186,9 +189,20 @@ namespace Melia.Zone
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
 
-			if (message is ServerUpdateMessage serverUpdateMessage)
+			// TODO: Would be nice to have a proper message handler system.
+
+			switch (message)
 			{
-				this.ServerList.Update(serverUpdateMessage);
+				case ServerUpdateMessage serverUpdateMessage:
+				{
+					this.ServerList.Update(serverUpdateMessage);
+					break;
+				}
+				case NoticeTextMessage broadcastTextMessage:
+				{
+					Send.ZC_TEXT(broadcastTextMessage.Type, broadcastTextMessage.Text);
+					break;
+				}
 			}
 		}
 
