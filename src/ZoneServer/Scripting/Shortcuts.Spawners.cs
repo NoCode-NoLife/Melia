@@ -8,31 +8,31 @@ namespace Melia.Zone.Scripting
 	public static partial class Shortcuts
 	{
 		/// <summary>
-		/// Generates an identifier for a spawn point collection.
+		/// Generates an identifier for a spawn area collection.
 		/// </summary>
 		/// <returns></returns>
-		private static string GenerateSpawnPointIdent()
+		private static string GenerateSpawnAreaIdent()
 		{
-			var count = ZoneServer.Instance.World.GetSpawnPointCollections().Length;
+			var count = ZoneServer.Instance.World.GetSpawnAreas().Length;
 			var identifier = "__GeneratedCollection" + count + "__";
 
 			return identifier;
 		}
 
 		/// <summary>
-		/// Adds a spawn point to the collection with the given identifier,
+		/// Adds a spawn area to the collection with the given identifier,
 		/// creating it if it doesn't exist yet.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
-		public static SpawnPoint AddSpawnPoint(string identifier, string mapClassName, IShape area)
+		public static SpawnArea AddSpawnPoint(string identifier, string mapClassName, IShape area)
 		{
-			if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(identifier, out var spc))
+			if (!ZoneServer.Instance.World.TryGetSpawnAreas(identifier, out var spc))
 			{
-				spc = new SpawnPointCollection(identifier);
-				ZoneServer.Instance.World.AddSpawnPointCollection(spc);
+				spc = new SpawnAreaCollection(identifier);
+				ZoneServer.Instance.World.AddSpawnAreas(spc);
 			}
 
 			return spc.AddSpawnPoint(mapClassName, area);
@@ -96,7 +96,7 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShape area, TendencyType tendency)
 		{
-			var identifier = GenerateSpawnPointIdent();
+			var identifier = GenerateSpawnAreaIdent();
 			AddSpawnPoint(identifier, mapClassName, area);
 
 			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, tendency);
@@ -117,7 +117,7 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, string mapClassName, IShape area, TendencyType tendency)
 		{
-			var identifier = GenerateSpawnPointIdent();
+			var identifier = GenerateSpawnAreaIdent();
 			AddSpawnPoint(identifier, mapClassName, area);
 
 			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency);
@@ -126,7 +126,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
@@ -137,7 +137,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
@@ -156,7 +156,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
@@ -168,7 +168,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
@@ -187,7 +187,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
-		/// <param name="identifier">Spawn point collection identifier.</param>
+		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>

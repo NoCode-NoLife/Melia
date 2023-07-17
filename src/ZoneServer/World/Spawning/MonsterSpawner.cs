@@ -39,11 +39,11 @@ namespace Melia.Zone.World.Spawning
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
-		private SpawnPointCollection _spawnPointCollection;
+		private SpawnAreaCollection _spawnAreas;
 		private bool _spawnPointsLoadFailed;
 
 		/// <summary>
-		/// The identifier of the spawn point collection this spawner will
+		/// The identifier of the spawn areas collection this spawner will
 		/// use to find spawn locations.
 		/// </summary>
 		public string SpawnPointsIdent { get; }
@@ -113,7 +113,7 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="monsterClassId">Id of the monsters spawned by this instance.</param>
 		/// <param name="minAmount">The minimum amount of monsters to spawn at a time.</param>
 		/// <param name="maxAmount">The maximum amount of monsters to spawn at a time.</param>
-		/// <param name="spawnPointsIdent">The identifier for the spawn point collection, for locations to spawn monsters in.</param>
+		/// <param name="spawnPointsIdent">The identifier for the spawn areas collection, for locations to spawn monsters in.</param>
 		/// <param name="initialSpawnDelay">The initial delay before the spawner starts spawning monsters.</param>
 		/// <param name="minRespawnDelay">The minimum delay before a monster is respawned after death.</param>
 		/// <param name="maxRespawnDelay">The maximum delay before a monster is respawned after death.</param>
@@ -153,19 +153,19 @@ namespace Melia.Zone.World.Spawning
 		}
 
 		/// <summary>
-		/// Spawns the given number of monsters in a random spawn point.
+		/// Spawns the given number of monsters in a random spawn area.
 		/// </summary>
 		/// <param name="amount"></param>
 		public void Spawn(int amount)
 		{
-			if (!_spawnPointCollection.TryGetRandomSpawnPoint(out var spawnPoint))
+			if (!_spawnAreas.TryGetRandom(out var spawnArea))
 				return;
 
 			for (var i = 0; i < amount; ++i)
 			{
-				if (!spawnPoint.TryGetRandomPosition(out var pos))
+				if (!spawnArea.TryGetRandomPosition(out var pos))
 				{
-					Log.Warning($"MonsterSpawner.Spawn: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnPoint.Map.ClassName}'.");
+					Log.Warning($"MonsterSpawner.Spawn: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnArea.Map.ClassName}'.");
 					continue;
 				}
 
@@ -175,12 +175,12 @@ namespace Melia.Zone.World.Spawning
 				monster.Tendency = this.Tendency;
 				monster.Died += this.OnMonsterDied;
 
-				this.OverrideProperties(monster, spawnPoint.Map);
+				this.OverrideProperties(monster, spawnArea.Map);
 
 				monster.Components.Add(new MovementComponent(monster));
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
-				spawnPoint.Map.AddMonster(monster);
+				spawnArea.Map.AddMonster(monster);
 			}
 
 			this.Amount += amount;
@@ -245,21 +245,22 @@ namespace Melia.Zone.World.Spawning
 		}
 
 		/// <summary>
-		/// Checks the spawn point collection and returns true if it's
-		/// ready to be used.
+		/// Checks the spawn areas collection and attempts to load it
+		/// if necessary. Returns true if the spawn areas are ready
+		/// to be used.
 		/// </summary>
 		/// <returns></returns>
 		private bool ValidateSpawnPointCollection()
 		{
-			if (_spawnPointCollection != null)
+			if (_spawnAreas != null)
 				return true;
 
 			if (_spawnPointsLoadFailed)
 				return false;
 
-			if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(this.SpawnPointsIdent, out _spawnPointCollection))
+			if (!ZoneServer.Instance.World.TryGetSpawnAreas(this.SpawnPointsIdent, out _spawnAreas))
 			{
-				Log.Warning($"MonsterSpawner: Spawn point collection '{this.SpawnPointsIdent}' for '{_monsterData.ClassName}' spawner not found.");
+				Log.Warning($"MonsterSpawner: Spawn areas '{this.SpawnPointsIdent}' for '{_monsterData.ClassName}' spawner not found.");
 
 				_spawnPointsLoadFailed = true;
 				return false;

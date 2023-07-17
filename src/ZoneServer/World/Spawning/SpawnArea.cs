@@ -9,9 +9,10 @@ using Yggdrasil.Util;
 namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
-	/// Defined an area on a map where monsters can be spawned.
+	/// Defines an area on a map where monsters or other entites can be
+	/// spawned.
 	/// </summary>
-	public class SpawnPoint
+	public class SpawnArea
 	{
 		private const int MaxValidPositionTries = 50;
 		private static int Ids;
@@ -19,40 +20,38 @@ namespace Melia.Zone.World.Spawning
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
 
 		/// <summary>
-		/// Returns the unique id of this spawn point.
+		/// Returns the unique id of this spawn area.
 		/// </summary>
-		public int Id { get; }
+		public int Id { get; } = Interlocked.Increment(ref Ids);
 
 		/// <summary>
-		/// Returns a reference to the map this spawn point lives on.
+		/// Returns a reference to the map this spawn area lives on.
 		/// </summary>
 		public Map Map { get; }
 
 		/// <summary>
-		/// Returns the area in which the spawn point looks for valid
+		/// Returns the area in which the spawn area looks for valid
 		/// spawn locations.
 		/// </summary>
 		public IShape Area { get; }
 
 		/// <summary>
-		/// Creates a new spawn point.
+		/// Creates a new spawn area.
 		/// </summary>
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
-		public SpawnPoint(string mapClassName, IShape area)
+		public SpawnArea(string mapClassName, IShape area)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
-				throw new ArgumentException($"SpawnPoint: Map '{mapClassName}' not found.");
+				throw new ArgumentException($"SpawnArea: Map '{mapClassName}' not found.");
 
 			this.Map = map;
 			this.Area = area;
-
-			this.Id = Interlocked.Increment(ref Ids);
 		}
 
 		/// <summary>
 		/// Attempts to find a valid random position within this spawn
-		/// point and returns it via out. Returns false if no valid
+		/// area and returns it via out. Returns false if no valid
 		/// position could be found within a reasonable amount of
 		/// tries.
 		/// </summary>

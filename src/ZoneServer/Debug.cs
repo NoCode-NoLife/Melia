@@ -150,20 +150,15 @@ namespace Melia.Zone
 					var brush = new SolidBrush(Color.FromArgb(128, 255, 0, 0));
 					var pen = new Pen(Color.FromArgb(255, 255, 0, 0));
 
-					// Gets all spawn point collections in the world
-					var allCollections = ZoneServer.Instance.World.GetSpawnPointCollections();
-
-					// Gets all spawn point collections that have at
-					// least one spawn point in our map
-					var collectionsInMap = allCollections.Where(spc => spc.GetSpawnPointsInMap(map).Any()).ToList();
+					var spawnAreasList = ZoneServer.Instance.World.GetSpawnAreas();
+					var collectionsInMap = spawnAreasList.Where(a => a.GetAllOnMap(map).Any()).ToList();
 
 					foreach (var collection in collectionsInMap)
 					{
-						// Draw the area of each spawn point
-						var spawnPoints = collection.GetSpawnPointsInMap(map);
-						foreach (var spawnPoint in spawnPoints)
+						var spawnAreas = collection.GetAllOnMap(map);
+						foreach (var spawnArea in spawnAreas)
 						{
-							var points = spawnPoint.Area.GetEdgePoints().Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
+							var points = spawnArea.Area.GetEdgePoints().Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
 							gfx.FillPolygon(brush, points);
 							gfx.DrawPolygon(pen, points);
 

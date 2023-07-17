@@ -29,7 +29,7 @@ namespace Melia.Zone.World
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
 		private readonly Dictionary<int, MonsterSpawner> _spawners = new Dictionary<int, MonsterSpawner>();
-		private readonly Dictionary<string, SpawnPointCollection> _spawnPointCollections = new Dictionary<string, SpawnPointCollection>();
+		private readonly Dictionary<string, SpawnAreaCollection> _spawnAreaCollections = new Dictionary<string, SpawnAreaCollection>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -195,8 +195,8 @@ namespace Melia.Zone.World
 				_spawners.Clear();
 			}
 
-			lock (_spawnPointCollections)
-				_spawnPointCollections.Clear();
+			lock (_spawnAreaCollections)
+				_spawnAreaCollections.Clear();
 		}
 
 		/// <summary>
@@ -226,38 +226,46 @@ namespace Melia.Zone.World
 		{
 			lock (_spawners)
 			{
-				// Adds spawner to our dictionary
 				_spawners.Add(spawner.Id, spawner);
-
-				// Adds spawner to updater
 				this.Heartbeat.Add(spawner);
 			}
 		}
 
 		/// <summary>
-		/// Adds a spawn point collection to the world.
+		/// Adds a spawn area collection to the world.
 		/// </summary>
-		/// <param name="spawnPointCollection"></param>
-		public void AddSpawnPointCollection(SpawnPointCollection spawnPointCollection)
+		/// <param name="spawnAreas"></param>
+		public void AddSpawnAreas(SpawnAreaCollection spawnAreas)
 		{
 			// Just replace the old one if it exists, since users might
-			// want to override existing spawn points.
+			// want to override existing spawn areas.
 
-			lock (_spawnPointCollections)
-				_spawnPointCollections[spawnPointCollection.Identifier] = spawnPointCollection;
+			lock (_spawnAreaCollections)
+				_spawnAreaCollections[spawnAreas.Identifier] = spawnAreas;
 		}
 
 		/// <summary>
-		/// Returns by out a spawn point collection with a given identifier
+		/// Returns by out a spawn area collection with a given identifier
 		/// if it exists in the world. Returns true if found, false otherwise.
 		/// </summary>
 		/// <param name="identifier"></param>
 		/// <param name="spawner"></param>
 		/// <returns></returns>
-		public bool TryGetSpawnPointCollectionByIdentifier(string identifier, out SpawnPointCollection spawnPointCollection)
+		public bool TryGetSpawnAreas(string identifier, out SpawnAreaCollection spawnAreas)
 		{
-			lock (_spawnPointCollections)
-				return _spawnPointCollections.TryGetValue(identifier, out spawnPointCollection);
+			lock (_spawnAreaCollections)
+				return _spawnAreaCollections.TryGetValue(identifier, out spawnAreas);
+		}
+
+		/// <summary>
+		/// Returns a list of all spawn areas that currently exist in the
+		/// world. Returns it as an array.
+		/// </summary>
+		/// <returns></returns>
+		public SpawnAreaCollection[] GetSpawnAreas()
+		{
+			lock (_spawners)
+				return _spawnAreaCollections.Values.ToArray();
 		}
 
 		/// <summary>
@@ -268,17 +276,6 @@ namespace Melia.Zone.World
 		{
 			lock (_spawners)
 				return _spawners.Values.ToArray();
-		}
-
-		/// <summary>
-		/// Gets all spawn point collections that currently exist in the world.
-		/// Returns it as an array.
-		/// </summary>
-		/// <returns></returns>
-		public SpawnPointCollection[] GetSpawnPointCollections()
-		{
-			lock (_spawners)
-				return _spawnPointCollections.Values.ToArray();
 		}
 
 		/// <summary>
