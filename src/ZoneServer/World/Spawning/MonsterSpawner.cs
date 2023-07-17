@@ -158,7 +158,7 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="amount"></param>
 		public void Spawn(int amount)
 		{
-			if (!_spawnPointCollection.GetRandomSpawnPoint(out var spawnPoint))
+			if (!_spawnPointCollection.TryGetRandomSpawnPoint(out var spawnPoint))
 				return;
 
 			for (var i = 0; i < amount; ++i)

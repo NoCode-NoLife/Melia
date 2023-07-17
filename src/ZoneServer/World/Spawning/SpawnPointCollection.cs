@@ -87,7 +87,7 @@ namespace Melia.Zone.World.Spawning
 		/// Returns false if collection has no spawn points.
 		/// </summary>
 		/// <returns></returns>
-		public bool GetRandomSpawnPoint(out SpawnPoint spawnPoint)
+		public bool TryGetRandomSpawnPoint(out SpawnPoint spawnPoint)
 		{
 			spawnPoint = null;
 
