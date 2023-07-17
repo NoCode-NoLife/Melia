@@ -15,11 +15,11 @@ namespace Melia.Zone.Scripting
 		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
-		public static MonsterSpawnPoint AddSpawnPoint(string identifier, string mapClassName, IShape area)
+		public static SpawnPoint AddSpawnPoint(string identifier, string mapClassName, IShape area)
 		{
 			if (!ZoneServer.Instance.World.TryGetSpawnPointCollectionByIdentifier(identifier, out var spc))
 			{
-				spc = new MonsterSpawnPointCollection(identifier);
+				spc = new SpawnPointCollection(identifier);
 				ZoneServer.Instance.World.AddSpawnPointCollection(spc);
 			}
 

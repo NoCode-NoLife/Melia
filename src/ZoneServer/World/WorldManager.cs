@@ -29,7 +29,7 @@ namespace Melia.Zone.World
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
 		private readonly Dictionary<int, MonsterSpawner> _spawners = new Dictionary<int, MonsterSpawner>();
-		private readonly Dictionary<string, MonsterSpawnPointCollection> _spawnPointCollections = new Dictionary<string, MonsterSpawnPointCollection>();
+		private readonly Dictionary<string, SpawnPointCollection> _spawnPointCollections = new Dictionary<string, SpawnPointCollection>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -220,7 +220,7 @@ namespace Melia.Zone.World
 		/// Adds a spawn point collection to the world.
 		/// </summary>
 		/// <param name="spawnPointCollection"></param>
-		public void AddSpawnPointCollection(MonsterSpawnPointCollection spawnPointCollection)
+		public void AddSpawnPointCollection(SpawnPointCollection spawnPointCollection)
 		{
 			// Just replace the old one if it exists, since users might
 			// want to override existing spawn points.
@@ -236,7 +236,7 @@ namespace Melia.Zone.World
 		/// <param name="identifier"></param>
 		/// <param name="spawner"></param>
 		/// <returns></returns>
-		public bool TryGetSpawnPointCollectionByIdentifier(string identifier, out MonsterSpawnPointCollection spawnPointCollection)
+		public bool TryGetSpawnPointCollectionByIdentifier(string identifier, out SpawnPointCollection spawnPointCollection)
 		{
 			lock (_spawnPointCollections)
 				return _spawnPointCollections.TryGetValue(identifier, out spawnPointCollection);
@@ -257,7 +257,7 @@ namespace Melia.Zone.World
 		/// Returns it as an array.
 		/// </summary>
 		/// <returns></returns>
-		public MonsterSpawnPointCollection[] GetSpawnPointCollections()
+		public SpawnPointCollection[] GetSpawnPointCollections()
 		{
 			lock (_spawners)
 				return _spawnPointCollections.Values.ToArray();

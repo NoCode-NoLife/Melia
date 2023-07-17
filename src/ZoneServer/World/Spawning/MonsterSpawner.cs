@@ -54,7 +54,7 @@ namespace Melia.Zone.World.Spawning
 		/// spawn locations. This is updated at run-time based on the
 		/// spawn points identifier.
 		/// </summary>
-		private MonsterSpawnPointCollection _spawnPointCollection;
+		private SpawnPointCollection _spawnPointCollection;
 
 		/// <summary>
 		/// The identifier of the spawn point collection this spawner will

@@ -9,11 +9,9 @@ using Yggdrasil.Util;
 namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
-	/// The spawn point is a location of map and area where the
-	/// monster can spawn, but it depends on other classes
-	/// such as the MonsterSpawner to actually spawn it.
+	/// Defined an area on a map where monsters can be spawned.
 	/// </summary>
-	public class MonsterSpawnPoint
+	public class SpawnPoint
 	{
 		private const int MaxValidPositionTries = 50;
 		private static int Ids;
@@ -41,10 +39,10 @@ namespace Melia.Zone.World.Spawning
 		/// </summary>
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
-		public MonsterSpawnPoint(string mapClassName, IShape area)
+		public SpawnPoint(string mapClassName, IShape area)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
-				throw new ArgumentException($"MonsterSpawnPoint: Map '{mapClassName}' not found.");
+				throw new ArgumentException($"SpawnPoint: Map '{mapClassName}' not found.");
 
 			this.Map = map;
 			this.Area = area;

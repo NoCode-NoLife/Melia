@@ -12,12 +12,12 @@ namespace Melia.Zone.World.Spawning
 	/// This class stores a collection of spawn points, identified by
 	/// its identifier string.
 	/// </summary>
-	public class MonsterSpawnPointCollection
+	public class SpawnPointCollection
 	{
 		private static int Ids;
 
 		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
-		private readonly List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
+		private readonly List<SpawnPoint> _spawnPoints = new List<SpawnPoint>();
 
 		/// <summary>
 		/// Returns the unique id of this spawn point collection.
@@ -33,10 +33,10 @@ namespace Melia.Zone.World.Spawning
 		/// Creates an empty spawn point collection.
 		/// </summary>
 		/// <param name="identifier"></param>
-		public MonsterSpawnPointCollection(string identifier)
+		public SpawnPointCollection(string identifier)
 		{
 			if (string.IsNullOrWhiteSpace(identifier))
-				throw new ArgumentException($"MonsterSpawnPointCollection: Invalid name.");
+				throw new ArgumentException($"SpawnPointCollection: Invalid name.");
 
 			this.Identifier = identifier;
 
@@ -49,9 +49,9 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
-		public MonsterSpawnPoint AddSpawnPoint(string mapClassName, IShape area)
+		public SpawnPoint AddSpawnPoint(string mapClassName, IShape area)
 		{
-			var spawnPoint = new MonsterSpawnPoint(mapClassName, area);
+			var spawnPoint = new SpawnPoint(mapClassName, area);
 
 			lock (_spawnPoints)
 				_spawnPoints.Add(spawnPoint);
@@ -65,7 +65,7 @@ namespace Melia.Zone.World.Spawning
 		/// </summary>
 		/// <param name="map"></param>
 		/// <returns></returns>
-		public MonsterSpawnPoint[] GetSpawnPointsInMap(Map map)
+		public SpawnPoint[] GetSpawnPointsInMap(Map map)
 		{
 			lock (_spawnPoints)
 				return _spawnPoints.Where(a => a.Map.ClassName == map.ClassName).ToArray();
@@ -76,7 +76,7 @@ namespace Melia.Zone.World.Spawning
 		/// in different maps.
 		/// </summary>
 		/// <returns></returns>
-		public MonsterSpawnPoint[] GetSpawnPoints()
+		public SpawnPoint[] GetSpawnPoints()
 		{
 			lock (_spawnPoints)
 				return _spawnPoints.ToArray();
@@ -87,7 +87,7 @@ namespace Melia.Zone.World.Spawning
 		/// Returns false if collection has no spawn points.
 		/// </summary>
 		/// <returns></returns>
-		public bool GetRandomSpawnPoint(out MonsterSpawnPoint spawnPoint)
+		public bool GetRandomSpawnPoint(out SpawnPoint spawnPoint)
 		{
 			spawnPoint = null;
 
