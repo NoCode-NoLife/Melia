@@ -9,7 +9,7 @@ using Melia.Shared.World;
 using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.World.Spawner;
+using Melia.Zone.World.Spawning;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Extensions;

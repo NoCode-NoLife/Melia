@@ -8,7 +8,7 @@ using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World.Spawner
+namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
 	/// This class stores a collection of spawn points.

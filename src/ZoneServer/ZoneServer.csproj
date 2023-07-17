@@ -233,7 +233,7 @@
     <Compile Include="World\Actors\Monsters\Mob.cs" />
     <Compile Include="World\Maps\Ground.cs" />
     <Compile Include="World\Maps\Map.cs" />
-    <Compile Include="World\Spawner\MonsterSpawner.cs" />
+    <Compile Include="World\Spawning\MonsterSpawner.cs" />
     <Compile Include="World\Maps\RevealedMap.cs" />
     <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
     <Compile Include="World\Quests\Objectives\KillObjective.cs" />
@@ -253,8 +253,8 @@
     <Compile Include="World\Quests\Rewards\ExpReward.cs" />
     <Compile Include="World\Quests\Rewards\SilverReward.cs" />
     <Compile Include="World\Quests\Rewards\ItemReward.cs" />
-    <Compile Include="World\Spawner\MonsterSpawnPoint.cs" />
-    <Compile Include="World\Spawner\MonsterSpawnPointCollection.cs" />
+    <Compile Include="World\Spawning\MonsterSpawnPoint.cs" />
+    <Compile Include="World\Spawning\MonsterSpawnPointCollection.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="ZoneServer.cs" />
   </ItemGroup>

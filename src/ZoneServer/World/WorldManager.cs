@@ -7,7 +7,7 @@ using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
-using Melia.Zone.World.Spawner;
+using Melia.Zone.World.Spawning;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 

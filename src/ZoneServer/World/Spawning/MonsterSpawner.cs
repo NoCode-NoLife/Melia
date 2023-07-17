@@ -14,7 +14,7 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World.Spawner
+namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
 	/// Spawns and respawns monsters.
