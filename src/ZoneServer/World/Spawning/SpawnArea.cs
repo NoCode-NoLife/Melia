@@ -33,14 +33,14 @@ namespace Melia.Zone.World.Spawning
 		/// Returns the area in which the spawn area looks for valid
 		/// spawn locations.
 		/// </summary>
-		public IShape Area { get; }
+		public IShapeF Area { get; }
 
 		/// <summary>
 		/// Creates a new spawn area.
 		/// </summary>
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
-		public SpawnArea(string mapClassName, IShape area)
+		public SpawnArea(string mapClassName, IShapeF area)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
 				throw new ArgumentException($"SpawnArea: Map '{mapClassName}' not found.");
@@ -102,9 +102,10 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="point"></param>
 		/// <param name="pos"></param>
 		/// <returns></returns>
-		private bool TryGetPositionFromPoint(Vector2 point, out Position pos)
+		private bool TryGetPositionFromPoint(Vector2F point, out Position pos)
 		{
 			pos = new Position(point.X, 0, point.Y);
+
 			if (this.Map.Ground.TryGetHeightAt(pos, out var height))
 			{
 				pos.Y = height;

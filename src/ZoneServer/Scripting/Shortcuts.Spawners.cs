@@ -27,7 +27,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
-		public static SpawnArea AddSpawnPoint(string identifier, string mapClassName, IShape area)
+		public static SpawnArea AddSpawnPoint(string identifier, string mapClassName, IShapeF area)
 		{
 			if (!ZoneServer.Instance.World.TryGetSpawnAreas(identifier, out var spc))
 			{
@@ -47,7 +47,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShape area)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area)
 			=> AddSpawner(monsterClassId, maxAmount, respawn, mapClassName, area, TendencyType.Peaceful);
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShape area, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area, TendencyType tendency)
 		{
 			// Use half of the max amount as the minimum, since spawning
 			// the max amount, based on the client files, appears to be
@@ -80,7 +80,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShape area)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area)
 			=> AddSpawner(monsterClassId, minAmount, maxAmount, respawn, mapClassName, area, TendencyType.Peaceful);
 
 		/// <summary>
@@ -94,7 +94,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShape area, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area, TendencyType tendency)
 		{
 			var identifier = GenerateSpawnAreaIdent();
 			AddSpawnPoint(identifier, mapClassName, area);
@@ -115,7 +115,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, string mapClassName, IShape area, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, string mapClassName, IShapeF area, TendencyType tendency)
 		{
 			var identifier = GenerateSpawnAreaIdent();
 			AddSpawnPoint(identifier, mapClassName, area);
