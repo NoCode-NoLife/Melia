@@ -158,11 +158,11 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="amount"></param>
 		public void Spawn(int amount)
 		{
-			if (!_spawnAreas.TryGetRandom(out var spawnArea))
-				return;
-
 			for (var i = 0; i < amount; ++i)
 			{
+				if (!_spawnAreas.TryGetRandom(out var spawnArea))
+					return;
+
 				if (!spawnArea.TryGetRandomPosition(out var pos))
 				{
 					Log.Warning($"MonsterSpawner.Spawn: Couldn't find a valid spawn position for monster '{_monsterData.ClassName}' on map '{spawnArea.Map.ClassName}'.");
