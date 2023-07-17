@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
@@ -11,13 +9,15 @@ using Yggdrasil.Util;
 namespace Melia.Zone.World.Spawning
 {
 	/// <summary>
-	/// This class stores a collection of spawn points.
-	/// Each collection can be identified by its identifier
-	/// string.
+	/// This class stores a collection of spawn points, identified by
+	/// its identifier string.
 	/// </summary>
 	public class MonsterSpawnPointCollection
 	{
 		private static int Ids;
+
+		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
 
 		/// <summary>
 		/// Returns the unique id of this spawn point collection.
@@ -25,32 +25,18 @@ namespace Melia.Zone.World.Spawning
 		public int Id { get; }
 
 		/// <summary>
-		/// Random generator
-		/// </summary>
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
-
-		/// <summary>
-		/// List of spawn points this collection contains.
-		/// </summary>
-		private List<MonsterSpawnPoint> _spawnPoints = new List<MonsterSpawnPoint>();
-
-		/// <summary>
 		/// Returns the name identifier for this spawn point collection.
 		/// </summary>
 		public string Identifier { get; set; }
 
 		/// <summary>
-		/// Creates an empty spawn point collection. Note that the identifier
-		/// must be unique in the world.
+		/// Creates an empty spawn point collection.
 		/// </summary>
 		/// <param name="identifier"></param>
 		public MonsterSpawnPointCollection(string identifier)
 		{
-			// If no name is given
-			if (String.IsNullOrWhiteSpace(identifier))
-			{
+			if (string.IsNullOrWhiteSpace(identifier))
 				throw new ArgumentException($"MonsterSpawnPointCollection: Invalid name.");
-			}
 
 			this.Identifier = identifier;
 
@@ -65,13 +51,12 @@ namespace Melia.Zone.World.Spawning
 		/// <returns></returns>
 		public MonsterSpawnPoint AddSpawnPoint(string mapClassName, IShape area)
 		{
+			var spawnPoint = new MonsterSpawnPoint(mapClassName, area);
+
 			lock (_spawnPoints)
-			{
-				var spawnPoint = new MonsterSpawnPoint(mapClassName, area);
 				_spawnPoints.Add(spawnPoint);
 
-				return spawnPoint;
-			}
+			return spawnPoint;
 		}
 
 		/// <summary>
@@ -83,7 +68,7 @@ namespace Melia.Zone.World.Spawning
 		public MonsterSpawnPoint[] GetSpawnPointsInMap(Map map)
 		{
 			lock (_spawnPoints)
-				return _spawnPoints.FindAll(p => p.Map.ClassName.Equals(map.ClassName)).ToArray();
+				return _spawnPoints.Where(a => a.Map.ClassName == map.ClassName).ToArray();
 		}
 
 		/// <summary>
@@ -106,13 +91,14 @@ namespace Melia.Zone.World.Spawning
 		{
 			spawnPoint = null;
 
-			if (_spawnPoints.Count == 0)
-				return false;
-
 			lock (_spawnPoints)
 			{
+				if (_spawnPoints.Count == 0)
+					return false;
+
 				var index = _rnd.Next(_spawnPoints.Count);
 				spawnPoint = _spawnPoints[index];
+
 				return true;
 			}
 		}
