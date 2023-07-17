@@ -131,13 +131,40 @@ Parameters:
 
 Caches a chunk of data received from the server.
 
+Parameters:
 - key (any) The key used to identify this transaction.
 - data (any) The data received from the server.
 
-### Melia.Comm.Recv
+### Melia.Comm.Exec
 
--- Ends receival of data from the server and passes it to the callback.
+Calls the callback with the data object collected under the key.
+
+Parameters:
+- key (any) The key used to identify this transaction.
+- callback (function) Reference to the function to call.
+
+The object passed to the callback has the following format:
+```lua
+{ ['key'] = ..., ['data'] = { ... } }
+```
+
+### Melia.Comm.ExecData
+
+Calls the callback with the data collected under the key.
+
+Parameters:
+- key (any) The key used to identify this transaction.
+- callback (function) Reference to the function to call.
+
+The object passed to the callback has the following format:
+```lua
+{ ... }
+```
+
+### Melia.Comm.EndRecv
+
+Ends receival of data from the server and clears the data collected
+under the key.
 
 Parameters:
 - key (any): The key used to identify this transaction.
-- callback (string): The function to call the data with.
