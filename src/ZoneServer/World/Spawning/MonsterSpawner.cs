@@ -32,6 +32,7 @@ namespace Melia.Zone.World.Spawning
 
 		private readonly MonsterData _monsterData;
 
+		private bool _initialSpawnDone;
 		private float _flexMeter = 0;
 		private TimeSpan _flexSpawnDelay = TimeSpan.MaxValue;
 		private readonly List<TimeSpan> _respawnDelays = new List<TimeSpan>();
@@ -324,7 +325,19 @@ namespace Melia.Zone.World.Spawning
 
 			var potentialSpawnAmount = Math.Max(0, targetAmount - currentAmount - queuedAmount);
 			if (potentialSpawnAmount > 0)
-				this.Spawn(1);
+			{
+				var spawnAmount = 1;
+
+				// Spawn the full amount on the first flex spawn to get up
+				// to the flex amount without delay.
+				if (!_initialSpawnDone)
+				{
+					spawnAmount = potentialSpawnAmount;
+					_initialSpawnDone = true;
+				}
+
+				this.Spawn(spawnAmount);
+			}
 		}
 
 		/// <summary>
