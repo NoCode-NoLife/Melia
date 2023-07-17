@@ -11,13 +11,13 @@
         "@tailwindcss/forms": "^0.5.3",
         "@vitejs/plugin-vue": "^4.0.0",
         "@vue/server-renderer": "^3.2.31",
-        "autoprefixer": "^10.4.12",
+        "autoprefixer": "^10.4.14",
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
         "laravel-vite-plugin": "^0.7.5",
-        "postcss": "^8.4.18",
+        "postcss": "^8.4.26",
         "sass": "^1.56.1",
-        "tailwindcss": "^3.2.1",
+        "tailwindcss": "^3.3.3",
         "vite": "^4.0.0",
         "vue": "^3.2.41"
     },
@@ -26,7 +26,7 @@
         "@mdi/js": "^7.2.96",
         "chart.js": "^4.3.0",
         "numeral": "^2.0.6",
-        "tailwindcss": "^3.3.3",
+        "postcss-import": "^15.1.0",
         "vuex": "^4.1.0"
     }
 }

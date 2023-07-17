@@ -1,5 +1,8 @@
 <script setup>
 import BaseIcon from "@/components/BaseIcon.vue";
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 defineProps({
   label: {

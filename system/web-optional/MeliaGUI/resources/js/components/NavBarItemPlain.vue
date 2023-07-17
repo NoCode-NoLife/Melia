@@ -1,5 +1,5 @@
 <script setup>
-import { useStyle } from "@/style.js";
+import { useStore } from 'vuex';
 
 defineProps({
   display: {
@@ -9,15 +9,15 @@ defineProps({
   useMargin: Boolean,
 });
 
-const styleStore = useStyle;
+const store = useStore();
 </script>
 
 <template>
   <div
     :class="[
       display,
-      styleStore.navBarItemLabelStyle,
-      styleStore.navBarItemLabelHoverStyle,
+      store.state.navBarItemLabelStyle,
+      store.state.navBarItemLabelHoverStyle,
       useMargin ? 'my-2 mx-3' : 'py-2 px-3',
     ]"
     class="items-center cursor-pointer dark:text-white dark:hover:text-slate-400"

@@ -2,7 +2,7 @@
 import { computed, ref, onMounted, toRef, getCurrentInstance } from "vue";
 import {
   mdiAccountMultiple,
-  mdiCartOutline,
+  mdiAccountMultipleCheck,
   mdiChartTimelineVariant,
   mdiMonitorCellphone,
   mdiReload,
@@ -25,6 +25,14 @@ import { useStore } from 'vuex';
 defineProps({
     account: {
         type: Object,
+        required: true
+    },
+    onlineAccounts: {
+        type: Number,
+        required: true
+    },
+    totalAccounts: {
+        type: Number,
         required: true
     }
 })
@@ -62,19 +70,18 @@ const transactionBarItems = computed(() => {});
         <CardBoxWidget
           trend="12%"
           trend-type="up"
-          color="text-emerald-500"
-          :icon="mdiAccountMultiple"
-          :number="512"
-          label="Accounts"
+          color="text-green-500"
+          :icon="mdiAccountMultipleCheck"
+          :number="onlineAccounts"
+          label="Online"
         />
         <CardBoxWidget
           trend="12%"
-          trend-type="down"
-          color="text-blue-500"
-          :icon="mdiCartOutline"
-          :number="7770"
-          prefix="$"
-          label="Sales"
+          trend-type="up"
+          color="text-gray-500"
+          :icon="mdiAccountMultiple"
+          :number="totalAccounts"
+          label="Accounts"
         />
         <CardBoxWidget
           trend="Overflow"

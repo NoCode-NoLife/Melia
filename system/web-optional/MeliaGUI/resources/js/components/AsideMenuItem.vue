@@ -1,10 +1,10 @@
 <script setup>
 import { ref, computed } from "vue";
-import { useStyle } from "@/style.js";
 import { mdiMinus, mdiPlus } from "@mdi/js";
 import { getButtonColor } from "@/colors.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import AsideMenuList from "@/components/AsideMenuList.vue";
+import { useStore } from 'vuex';
 
 const props = defineProps({
   item: {
@@ -14,14 +14,14 @@ const props = defineProps({
   isDropdownList: Boolean,
 });
 
-const emit = defineEmits(["menu-click"]);
+const store = useStore();
 
-const styleStore = useStyle;
+const emit = defineEmits(["menu-click"]);
 
 const hasColor = computed(() => props.item && props.item.color);
 
 const asideMenuItemActiveStyle = computed(() =>
-  hasColor.value ? "" : styleStore.asideMenuItemActiveStyle
+  hasColor.value ? "" : store.state.asideMenuItemActiveStyle
 );
 
 const isDropdownActive = ref(false);
@@ -30,7 +30,7 @@ const componentClass = computed(() => [
   props.isDropdownList ? "py-3 px-6 text-sm" : "py-3",
   hasColor.value
     ? getButtonColor(props.item.color, false, true)
-    : `${styleStore.asideMenuItemStyle} dark:text-slate-300 dark:hover:text-white`,
+    : `${store.state.asideMenuItemStyle} dark:text-slate-300 dark:hover:text-white`,
 ]);
 
 const hasDropdown = computed(() => !!props.item.menu);
@@ -59,13 +59,13 @@ const menuClick = (event) => {
       <BaseIcon
         v-if="item.icon"
         :path="item.icon"
-        class="flex-none"
+        class="flex-none text-white dark:text-gray-500"
         :class="[vSlot && vSlot.isExactActive ? asideMenuItemActiveStyle : '']"
         w="w-16"
         :size="18"
       />
       <span
-        class="grow text-ellipsis line-clamp-1"
+        class="grow text-ellipsis line-clamp-1 text-white"
         :class="[
           { 'pr-12': !hasDropdown },
           vSlot && vSlot.isExactActive ? asideMenuItemActiveStyle : '',
@@ -75,7 +75,7 @@ const menuClick = (event) => {
       <BaseIcon
         v-if="hasDropdown"
         :path="isDropdownActive ? mdiMinus : mdiPlus"
-        class="flex-none"
+        class="flex-none text-white dark:text-gray-500"
         :class="[vSlot && vSlot.isExactActive ? asideMenuItemActiveStyle : '']"
         w="w-12"
       />
@@ -84,7 +84,7 @@ const menuClick = (event) => {
       v-if="hasDropdown"
       :menu="item.menu"
       :class="[
-        styleStore.asideMenuDropdownStyle,
+        store.state.asideMenuDropdownStyle,
         isDropdownActive ? 'block dark:bg-slate-800/50' : 'hidden',
       ]"
       is-dropdown-list

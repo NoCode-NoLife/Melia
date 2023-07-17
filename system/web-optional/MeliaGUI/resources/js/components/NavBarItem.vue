@@ -1,7 +1,6 @@
 <script setup>
 import { mdiChevronUp, mdiChevronDown } from "@mdi/js";
 import { computed, ref, onMounted, onBeforeUnmount } from "vue";
-import { useStyle } from "@/style.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
 import NavBarMenuList from "@/components/NavBarMenuList.vue";
@@ -33,21 +32,19 @@ const is = computed(() => {
   return "div";
 });
 
-const styleStore = useStyle;
-
 const componentClass = computed(() => {
-  const base = [
-    isDropdownActive.value
-      ? `${styleStore.navBarItemLabelActiveColorStyle} dark:text-slate-400`
-      : `${styleStore.navBarItemLabelStyle} dark:text-white dark:hover:text-slate-400 ${styleStore.navBarItemLabelHoverStyle}`,
-    props.item.menu ? "lg:py-2 lg:px-3" : "py-2 px-3",
-  ];
+    const base = [
+        isDropdownActive.value
+            ? `${store.state.navBarItemLabelActiveColorStyle} dark:text-slate-400`
+            : `${store.state.navBarItemLabelStyle} dark:text-white dark:hover:text-slate-400 ${store.state.navBarItemLabelHoverStyle}`,
+        props.item.menu ? "lg:py-2 lg:px-3" : "py-2 px-3",
+    ];
 
-  if (props.item.isDesktopNoLabel) {
-    base.push("lg:w-16", "lg:justify-center");
-  }
+    if (props.item.isDesktopNoLabel) {
+        base.push("lg:w-16", "lg:justify-center");
+    }
 
-  return base;
+    return base;
 });
 
 const itemLabel = computed(() => {

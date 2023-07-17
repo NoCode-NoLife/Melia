@@ -15,7 +15,7 @@ const authority = account.authority;
 <script>
 export default {
   setup () {
-    const store = useStore()
+    const store = useStore();
 
     return {
       // access a state in computed function

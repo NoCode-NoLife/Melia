@@ -1,5 +1,5 @@
 <script setup>
-import { useStyle } from "@/style.js";
+import { useStore } from 'vuex';
 
 defineProps({
   zIndex: {
@@ -18,7 +18,7 @@ const overlayClick = (event) => {
   emit("overlay-click", event);
 };
 
-const styleStore = useStyle;
+const store = useStore();
 </script>
 
 <template>
@@ -36,7 +36,7 @@ const styleStore = useStyle;
     >
       <div
         class="absolute inset-0 bg-gradient-to-tr opacity-90 dark:from-gray-700 dark:via-gray-900 dark:to-gray-700"
-        :class="styleStore.overlayStyle"
+        :class="store.state.overlayStyle"
         @click="overlayClick"
       />
     </transition>

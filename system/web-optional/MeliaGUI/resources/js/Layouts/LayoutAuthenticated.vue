@@ -1,35 +1,48 @@
 <script setup>
 import { mdiForwardburger, mdiBackburger, mdiMenu } from "@mdi/js";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import menuAside from "@/menuAside.js";
 import menuNavBar from "@/menuNavBar.js";
-import { useStyle } from "@/style.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import NavBar from "@/components/NavBar.vue";
 import NavBarItemPlain from "@/components/NavBarItemPlain.vue";
 import AsideMenu from "@/components/AsideMenu.vue";
 import FooterBar from "@/components/FooterBar.vue";
+import { useStore } from 'vuex';
+import { darkModeKey, styleKey } from "@/config";
 
 const layoutAsidePadding = "xl:pl-60";
 
 const isAsideMobileExpanded = ref(false);
 const isAsideLgActive = ref(false);
+const store = useStore();
+
+/* App style */
+store.commit('setStyle', localStorage[styleKey] ?? "basic");
+
+/* Dark mode */
+if ((!localStorage[darkModeKey] && window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+  localStorage[darkModeKey] === "1"
+) {
+  store.commit('setDarkMode', true);
+}
 
 const menuClick = (event, item) => {
-  if (item.isToggleLightDark) {
-    useStyle.setDarkMode();
-  }
+    if (item.isToggleLightDark) {
+        store.commit('setDarkMode', !store.state.darkMode);
+        console.log(store.state.darkMode);
+    }
 
-  if (item.isLogout) {
-    //
-  }
+    if (item.isLogout) {
+        //
+    }
 };
 </script>
 
 <template>
   <div
     :class="{
-      dark: useStyle.darkMode,
+      dark: store.state.darkMode,
       'overflow-hidden lg:overflow-visible': isAsideMobileExpanded,
     }"
   >
