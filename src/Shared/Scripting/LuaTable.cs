@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Melia.Zone.Scripting
+namespace Melia.Shared.Scripting
 {
 	/// <summary>
 	/// An entry in a Lua table.
@@ -43,6 +43,14 @@ namespace Melia.Zone.Scripting
 		private readonly List<LuaTableEntry> _indexedEntries = new List<LuaTableEntry>();
 		private readonly List<LuaTableEntry> _namedEntries = new List<LuaTableEntry>();
 
+		private string _serialized;
+		private bool _dirty = true;
+
+		/// <summary>
+		/// Returns the string size of the serialized table.
+		/// </summary>
+		public int SerializedSize => this.Serialize().Length;
+
 		/// <summary>
 		/// Adds value to the end of the table with a numeric index.
 		/// </summary>
@@ -50,7 +58,9 @@ namespace Melia.Zone.Scripting
 		public void Insert(object value)
 		{
 			var key = _indexedEntries.Count + 1;
+
 			_indexedEntries.Add(new LuaTableEntry(key, value));
+			_dirty = true;
 		}
 
 		/// <summary>
@@ -64,6 +74,8 @@ namespace Melia.Zone.Scripting
 
 			for (var i = index; i < _indexedEntries.Count; ++i)
 				_indexedEntries[i].Key = i + 1;
+
+			_dirty = true;
 		}
 
 		/// <summary>
@@ -74,6 +86,7 @@ namespace Melia.Zone.Scripting
 		public void Insert(string key, object value)
 		{
 			_namedEntries.Add(new LuaTableEntry(key, value));
+			_dirty = true;
 		}
 
 		/// <summary>
@@ -83,6 +96,8 @@ namespace Melia.Zone.Scripting
 		{
 			_indexedEntries.Clear();
 			_namedEntries.Clear();
+
+			_dirty = true;
 		}
 
 		/// <summary>
@@ -129,30 +144,43 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public string Serialize()
 		{
-			var sb = new StringBuilder();
-
-			sb.Append("{ ");
-
-			foreach (var entry in _indexedEntries)
+			if (_dirty || _serialized == null)
 			{
-				var index = (int)entry.Key;
-				var value = this.SerializeValue(entry.Value);
+				var sb = new StringBuilder();
 
-				sb.AppendFormat("[{0}] = {1}, ", index, value);
+				if (_indexedEntries.Count == 0 && _namedEntries.Count == 0)
+				{
+					sb.Append("{}");
+				}
+				else
+				{
+					sb.Append("{ ");
+
+					foreach (var entry in _indexedEntries)
+					{
+						var index = (int)entry.Key;
+						var value = this.SerializeValue(entry.Value);
+
+						sb.AppendFormat("[{0}] = {1}, ", index, value);
+					}
+
+					foreach (var entry in _namedEntries)
+					{
+						var index = entry.Key.ToString();
+						var value = this.SerializeValue(entry.Value);
+
+						sb.AppendFormat("[\"{0}\"] = {1}, ", index, value);
+					}
+
+					sb.Remove(sb.Length - 2, 2);
+					sb.Append(" }");
+				}
+
+				_serialized = sb.ToString();
+				_dirty = false;
 			}
 
-			foreach (var entry in _namedEntries)
-			{
-				var index = entry.Key.ToString();
-				var value = this.SerializeValue(entry.Value);
-
-				sb.AppendFormat("[\"{0}\"] = {1}, ", index, value);
-			}
-
-			sb.Remove(sb.Length - 2, 2);
-			sb.Append(" }");
-
-			return sb.ToString();
+			return _serialized;
 		}
 
 		/// <summary>

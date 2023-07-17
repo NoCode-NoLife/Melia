@@ -132,7 +132,6 @@
     <Compile Include="Scripting\Hooking\DialogHook.cs" />
     <Compile Include="Scripting\Hooking\HookResult.cs" />
     <Compile Include="Scripting\Hooking\ScriptHook.cs" />
-    <Compile Include="Scripting\LuaTable.cs" />
     <Compile Include="Scripting\QuestScript.cs" />
     <Compile Include="Scripting\ScriptableFunctions.cs" />
     <Compile Include="Scripting\CustomCommandScripts.cs" />

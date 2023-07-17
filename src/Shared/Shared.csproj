@@ -105,6 +105,7 @@
     <Compile Include="Network\Inter\Messages\NoticeTextMessage.cs" />
     <Compile Include="Network\Inter\Messages\ServerUpdateMessage.cs" />
     <Compile Include="ObjectProperties\PropertyObject.cs" />
+    <Compile Include="Scripting\LuaTable.cs" />
     <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
     <Compile Include="Tos\Const\AbilityId.cs" />
