@@ -29,12 +29,16 @@ namespace Melia.Web
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Web", ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Web ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
 			this.NavigateToRoot();
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
 			this.CheckDependencies();
 
 			this.StartWebServer();
@@ -125,7 +129,8 @@ namespace Melia.Web
 		{
 			try
 			{
-				var url = string.Format("http://*:{0}/", this.Conf.Web.Port);
+				var serverInfo = this.ServerInfo;
+				var url = string.Format("http://*:{0}/", serverInfo.Port);
 
 				Swan.Logging.Logger.NoLogging();
 				Swan.Logging.Logger.RegisterLogger(new YggdrasilLogger(this.Conf.Log.Filter));
