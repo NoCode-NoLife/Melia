@@ -1,6 +1,6 @@
 <script setup>
 import { mdiForwardburger, mdiBackburger, mdiMenu } from "@mdi/js";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import menuAside from "@/menuAside.js";
 import menuNavBar from "@/menuNavBar.js";
 import BaseIcon from "@/components/BaseIcon.vue";

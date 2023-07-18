@@ -4,16 +4,13 @@ import {
   mdiAccountMultiple,
   mdiAccountMultipleCheck,
   mdiChartTimelineVariant,
-  mdiReload,
-  mdiChartPie,
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config.js";
-import LineChart from "@/components/Charts/LineChart.vue";
 import SectionMain from "@/components/SectionMain.vue";
 import CardBoxWidget from "@/components/CardBoxWidget.vue";
 import CardBox from "@/components/CardBox.vue";
-import TableSampleClients from "@/components/TableSampleClients.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import TableAccounts from "@/components/TableAccounts.vue";
+import TableProcesses from "@/components/TableProcesses.vue";
 import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
 import { useStore } from 'vuex';
@@ -34,7 +31,15 @@ defineProps({
     lastAccounts: {
         type: Array,
         required: true
-    }
+    },
+    processes: {
+        type: Array,
+        required: true
+    },
+    totalCpuUsage: {
+        type: Number,
+        required: true
+    },
 })
 
 const chartData = ref(null);
@@ -81,34 +86,25 @@ onMounted(() => {
           label="Accounts"
         />
         <CardBoxWidget
-          trend="Overflow"
-          trend-type="alert"
+
           color="text-red-500"
           :icon="mdiChartTimelineVariant"
-          :number="256"
+          :number="totalCpuUsage"
           suffix="%"
-          label="Performance"
+          label="Total CPU Usage"
         />
       </div>
 
-      <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview">
-        <BaseButton
-          :icon="mdiReload"
-          color="whiteDark"
-          @click="fillChartData"
-        />
-      </SectionTitleLineWithButton>
+      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Server's Processes" />
 
-      <CardBox class="mb-6">
-        <div v-if="chartData">
-          <line-chart :data="chartData" class="h-96" />
-        </div>
+      <CardBox has-table>
+        <TableProcesses :items="processes" />
       </CardBox>
 
       <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Last Accounts" />
 
       <CardBox has-table>
-        <TableSampleClients :items="lastAccounts" />
+        <TableAccounts :items="lastAccounts" />
       </CardBox>
     </SectionMain>
   </LayoutAuthenticated>

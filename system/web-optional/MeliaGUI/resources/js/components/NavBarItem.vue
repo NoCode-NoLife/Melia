@@ -6,6 +6,7 @@ import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
 import NavBarMenuList from "@/components/NavBarMenuList.vue";
 import BaseDivider from "@/components/BaseDivider.vue";
 import { useStore } from 'vuex';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     item: {
@@ -22,11 +23,11 @@ const emit = defineEmits(["menu-click"]);
 
 const is = computed(() => {
   if (props.item.href) {
-    return "a";
+    return Link;
   }
 
   if (props.item.to) {
-    return "a";
+    return Link;
   }
 
   return "div";

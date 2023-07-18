@@ -8,7 +8,7 @@ namespace Melia.Shared.Network.Inter.Messages
 	/// Contains updated information about a server.
 	/// </summary>
 	[Serializable]
-	public class ServerInformationMessage : ICommMessage
+	public class ResServerInformationMessage : ICommMessage
 	{
 		/// <summary>
 		/// Returns the type of the server.
@@ -67,7 +67,7 @@ namespace Melia.Shared.Network.Inter.Messages
 		/// <param name="processRamUsage"></param>
 		/// <param name="totalRAM"></param>
 		/// <param name="serverIp"></param>
-		public ServerInformationMessage(ServerType serverType, int processId, int serverId, string processName, ServerStatus status, float cpuUsagePercentage, float processRamUsage, ulong totalRAM, string serverIp)
+		public ResServerInformationMessage(ServerType serverType, int processId, int serverId, string processName, ServerStatus status, float cpuUsagePercentage, float processRamUsage, ulong totalRAM, string serverIp)
 		{
 			this.ServerType = serverType;
 			this.ProcessId = processId;

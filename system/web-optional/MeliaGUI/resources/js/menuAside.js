@@ -2,85 +2,23 @@ import {
   mdiAccountCircle,
   mdiMonitor,
   mdiGithub,
-  mdiLock,
-  mdiAlertCircle,
-  mdiSquareEditOutline,
-  mdiTable,
-  mdiViewList,
-  mdiTelevisionGuide,
-  mdiResponsive,
-  mdiPalette,
-  mdiReact,
 } from "@mdi/js";
 
 export default [
   {
-    to: "",
+    href: "/admin/dashboard",
     icon: mdiMonitor,
     label: "Dashboard",
   },
   {
-    to: "",
-    label: "Tables",
-    icon: mdiTable,
-  },
-  {
-    to: "",
-    label: "Forms",
-    icon: mdiSquareEditOutline,
-  },
-  {
-    to: "",
-    label: "UI",
-    icon: mdiTelevisionGuide,
-  },
-  {
-    to: "",
-    label: "Responsive",
-    icon: mdiResponsive,
-  },
-  {
-    to: "",
-    label: "Styles",
-    icon: mdiPalette,
-  },
-  {
-    to: "",
+    href: "/profile",
     label: "Profile",
     icon: mdiAccountCircle,
   },
   {
-    to: "",
-    label: "Login",
-    icon: mdiLock,
-  },
-  {
-    to: "",
-    label: "Error",
-    icon: mdiAlertCircle,
-  },
-  {
-    label: "Dropdown",
-    icon: mdiViewList,
-    menu: [
-      {
-        label: "Item One",
-      },
-      {
-        label: "Item Two",
-      },
-    ],
-  },
-  {
-    href: "https://github.com/justboil/admin-one-vue-tailwind",
+    href: "https://github.com/NoCode-NoLife/melia",
     label: "GitHub",
     icon: mdiGithub,
-    target: "_blank",
-  },
-  {
-    href: "https://github.com/justboil/admin-one-react-tailwind",
-    label: "React version",
-    icon: mdiReact,
     target: "_blank",
   },
 ];

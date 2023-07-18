@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
@@ -108,6 +109,7 @@ namespace Melia.Zone
 
 			this.StartCommunicator();
 			this.StartAcceptor();
+			this.BroadcastProcessInformation();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
@@ -190,10 +192,6 @@ namespace Melia.Zone
 			{
 				case ServerUpdateMessage serverUpdateMessage:
 					this.ServerList.Update(serverUpdateMessage);
-					break;
-				case AskForServerInformationMessage askForServerInformationMessage:
-					Log.Debug("Message received from '{0}': {1}", sender, message);
-					this.BroadcastProcessInformation();
 					break;
 				default:
 					break;
@@ -278,11 +276,11 @@ namespace Melia.Zone
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
 		}
 
-		private void BroadcastProcessInformation()
+		private async void BroadcastProcessInformation()
 		{
 			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 			cpuCounter.NextValue();
-			System.Threading.Thread.Sleep(1000);
+			Thread.Sleep(1000);
 			var cpuUsage = cpuCounter.NextValue();
 
 			var processRamCounter = new PerformanceCounter("Process", "Working Set", Process.GetCurrentProcess().ProcessName);
@@ -290,12 +288,15 @@ namespace Melia.Zone
 			var totalRam = new ComputerInfo().TotalPhysicalMemory;
 			var processRamUsage = processRamCounter.NextValue();
 
-			var serverInformationMessage = new ServerInformationMessage(
+			var serverInformationMessage = new ResServerInformationMessage(
 				this.ServerInfo.Type, Process.GetCurrentProcess().Id, this.ServerInfo.Id,
 				Process.GetCurrentProcess().ProcessName, this.ServerInfo.Status,
 				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
 			);
-			this.Communicator.Broadcast("ServerUpdates", serverInformationMessage);
+
+			this.Communicator.Send("Coordinator", serverInformationMessage);
+
+			await Task.Delay(TimeSpan.FromMinutes(5));
 		}
 	}
 }

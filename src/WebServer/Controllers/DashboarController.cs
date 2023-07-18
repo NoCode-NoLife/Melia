@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using Melia.Shared.Network.Inter.Messages;
-using System.Threading;
 using Newtonsoft.Json;
 
 namespace Melia.Web.Controllers
@@ -24,17 +21,8 @@ namespace Melia.Web.Controllers
 		[Route(HttpVerbs.Get, "/server/info")]
 		public void GetServerProcessInformation()
 		{
-			WebServer.Instance.ServerInformationMessages.Clear();
-
-			var message = new AskForServerInformationMessage();
-			WebServer.Instance.Communicator.Send("Coordinator", message);
-
-			while (WebServer.Instance.ServerInformationMessages.Count < 1)
-			{
-				Thread.Sleep(100);
-			}
-			
-			this.SendText("application/json", JsonConvert.SerializeObject(WebServer.Instance.ServerInformationMessages));
+			var list = WebServer.Instance.ServerInformationMessages.Values.ToArray().ToList();
+			this.SendText("application/json", JsonConvert.SerializeObject(list));
 		}
 
 		private void SendText(string mimeType, string content)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -39,7 +40,7 @@ namespace Melia.Web
 		/// <summary>
 		/// List containing Server Information Messages
 		/// </summary>
-		public List<ServerInformationMessage> ServerInformationMessages { get; private set; } = new List<ServerInformationMessage>();
+		public Dictionary<int, ResServerInformationMessage> ServerInformationMessages { get; private set; } = new Dictionary<int, ResServerInformationMessage>();
 
 		/// <summary>
 		/// Runs the server.
@@ -138,15 +139,17 @@ namespace Melia.Web
 		/// <param name="message"></param>
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
-			//Log.Debug("Message received from '{0}': {1}", sender, message);
-
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
 					this.ServerList.Update(serverUpdateMessage);
 					break;
-				case ServerInformationMessage serverInformationMessage:
-					this.ServerInformationMessages.Add(serverInformationMessage);
+				case ResServerInformationMessage serverInformationMessage:
+					if (this.ServerInformationMessages.ContainsKey(serverInformationMessage.ProcessId))
+					{
+						this.ServerInformationMessages.Remove(serverInformationMessage.ProcessId);
+					}
+					this.ServerInformationMessages.Add(serverInformationMessage.ProcessId, serverInformationMessage);
 					break;
 				default:
 					break;

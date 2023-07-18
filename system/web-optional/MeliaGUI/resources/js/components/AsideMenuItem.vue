@@ -5,6 +5,7 @@ import { getButtonColor } from "@/colors.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import AsideMenuList from "@/components/AsideMenuList.vue";
 import { useStore } from 'vuex';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   item: {
@@ -47,7 +48,7 @@ const menuClick = (event) => {
 <template>
   <li>
     <component
-      :is="item.to ? item.to : 'a'"
+      :is="item.to ? Link : 'a'"
       v-slot="vSlot"
       :to="item.to ?? null"
       :href="item.href ?? null"

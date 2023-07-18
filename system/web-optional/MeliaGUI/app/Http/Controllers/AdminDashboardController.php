@@ -52,29 +52,35 @@ class AdminDashboardController extends Controller
             $account['highestCharacterName'] = $highestCharacterName;
         });
 
+        $response = $this->client->request('GET', '/dashboard/server/info' );
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+
+        $processes = [];
+        $totalCpuUsage = 0;
+
+        if ($statusCode == 200) {
+            $processesInternal = json_decode($body);
+
+            foreach ($processesInternal as $process) {
+                $ramUsage = ($process->ProcessRamUsage / $process->TotalRAM) * 100;
+                $processInternal['ProcessId'] = $process->ProcessId;
+                $processInternal['ProcessName'] = $process->ProcessName;
+                $processInternal['CpuUsage'] = number_format($process->CpuUsagePercentage, 2);
+                $processInternal['RamUsage'] = number_format($ramUsage, 2);
+                $processInternal['ServerIp'] = $process->ServerIp;
+                $totalCpuUsage += number_format($process->CpuUsagePercentage);
+                $processes[] = $processInternal;
+            }
+        }
+
         return Inertia::render('AdminDashboard', [
             'account' => auth()->user()->account,
             'totalAccounts' => $totalAccounts,
             'onlineAccounts' => $onlineAccounts,
             'lastAccounts' => $lastAccounts,
-        ]);
-    }
-
-    public function serverInfo()
-    {
-        $response = $this->client->request('GET', '/dashboard/server/info' );
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-
-        $serverInfo = null;
-
-        if ($statusCode == 200) {
-            $serverInfo = json_decode($body);
-        }
-
-        return Inertia::render('AdminDashboard', [
-            'account' => auth()->user()->account,
-            'serverInfo' => $serverInfo
+            'processes' => $processes,
+            'totalCpuUsage' => $totalCpuUsage
         ]);
     }
 }

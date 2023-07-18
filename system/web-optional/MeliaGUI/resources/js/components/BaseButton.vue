@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { getButtonColor } from "@/colors.js";
 import BaseIcon from "@/components/BaseIcon.vue";
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   label: {
@@ -53,11 +54,11 @@ const is = computed(() => {
   }
 
   if (props.to) {
-    return "a";
+    return Link;
   }
 
   if (props.href) {
-    return "a";
+    return Link;
   }
 
   return "button";

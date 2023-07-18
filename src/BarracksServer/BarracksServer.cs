@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
@@ -78,6 +80,7 @@ namespace Melia.Barracks
 
 			this.StartCommunicator();
 			this.StartAcceptor();
+			this.BroadcastProcessInformation();
 
 			ConsoleUtil.RunningTitle();
 			new BarracksConsoleCommands().Wait();
@@ -157,8 +160,8 @@ namespace Melia.Barracks
 
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
-				case AskForServerInformationMessage askForServerInformationMessage:
-					this.BroadcastProcessInformation();
+				case ResServerInformationMessage resServerInformationMessage:
+					this.Communicator.Send("Web1", resServerInformationMessage);
 					break;
 				default:
 					break;
@@ -237,11 +240,12 @@ namespace Melia.Barracks
 			}
 		}
 
-		private void BroadcastProcessInformation()
+
+		private async void BroadcastProcessInformation()
 		{
 			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 			cpuCounter.NextValue();
-			System.Threading.Thread.Sleep(1000);
+			Thread.Sleep(1000);
 			var cpuUsage = cpuCounter.NextValue();
 
 			var processRamCounter = new PerformanceCounter("Process", "Working Set", Process.GetCurrentProcess().ProcessName);
@@ -249,12 +253,15 @@ namespace Melia.Barracks
 			var totalRam = new ComputerInfo().TotalPhysicalMemory;
 			var processRamUsage = processRamCounter.NextValue();
 
-			var serverInformationMessage = new ServerInformationMessage(
+			var serverInformationMessage = new ResServerInformationMessage(
 				this.ServerInfo.Type, Process.GetCurrentProcess().Id, this.ServerInfo.Id,
 				Process.GetCurrentProcess().ProcessName, this.ServerInfo.Status,
 				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
 			);
-			this.Communicator.Broadcast("ServerUpdates", serverInformationMessage);
+
+			this.Communicator.Send("Web1", serverInformationMessage);
+
+			await Task.Delay(TimeSpan.FromMinutes(5));
 		}
 	}
 }
