@@ -16,3 +16,11 @@ Melia.Serialize = function(obj)
 
 	return s .. "}"
 end
+
+Melia.DicID = function(str)
+	return "@dicID_^*$"..str.."$*^"
+end
+
+function DicID(str)
+	return Melia.DicID(str)
+end
