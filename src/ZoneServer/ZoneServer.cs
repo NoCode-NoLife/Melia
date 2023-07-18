@@ -198,7 +198,6 @@ namespace Melia.Zone
 
 			switch (message)
 			{
-					this.ServerList.Update(serverUpdateMessage);
 				case ServerUpdateMessage serverUpdateMessage:
 				{
 					this.ServerList.Update(serverUpdateMessage);

@@ -11,11 +11,14 @@ using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Melia.Web.Network;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
+using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -75,82 +78,6 @@ namespace Melia.Web
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
-		}
-
-		/// <summary>
-		/// Starts the communicator and attempts to connect to the
-		/// coordinator.
-		/// </summary>
-		private void StartCommunicator()
-		{
-			Log.Info("Attempting to connect to coordinator...");
-
-			var commName = "" + this.ServerInfo.Type + this.ServerInfo.Id;
-
-			this.Communicator = new Communicator(commName);
-			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
-			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
-
-			this.ConnectToCoordinator();
-		}
-
-		/// <summary>
-		/// Attempts to establish a connection to the coordinator.
-		/// </summary>
-		private void ConnectToCoordinator()
-		{
-			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
-
-			try
-			{
-				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
-
-				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
-				Log.Info("Successfully connected to the coordinator.");
-			}
-			catch
-			{
-				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
-				Thread.Sleep(5000);
-
-				this.ConnectToCoordinator();
-			}
-		}
-
-		/// <summary>
-		/// Called when the connection to the coordinator was lost.
-		/// </summary>
-		/// <param name="commName"></param>
-		private void Communicator_OnDisconnected(string commName)
-		{
-			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
-			Thread.Sleep(5000);
-
-			this.ConnectToCoordinator();
-		}
-
-		/// <summary>
-		/// Called when a message was received from the coordinator.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="message"></param>
-		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
-		{
-			switch (message)
-			{
-				case ServerUpdateMessage serverUpdateMessage:
-					this.ServerList.Update(serverUpdateMessage);
-					break;
-				case ResServerInformationMessage serverInformationMessage:
-					if (this.ServerInformationMessages.ContainsKey(serverInformationMessage.ProcessId))
-					{
-						this.ServerInformationMessages.Remove(serverInformationMessage.ProcessId);
-					}
-					this.ServerInformationMessages.Add(serverInformationMessage.ProcessId, serverInformationMessage);
-					break;
-				default:
-					break;
-			}
 		}
 
 		/// <summary>
@@ -319,15 +246,20 @@ namespace Melia.Web
 		/// <param name="message"></param>
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
-			//Log.Debug("Message received from '{0}': {1}", sender, message);
-
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
-				{
 					this.ServerList.Update(serverUpdateMessage);
 					break;
-				}
+				case ResServerInformationMessage serverInformationMessage:
+					if (this.ServerInformationMessages.ContainsKey(serverInformationMessage.ProcessId))
+					{
+						this.ServerInformationMessages.Remove(serverInformationMessage.ProcessId);
+					}
+					this.ServerInformationMessages.Add(serverInformationMessage.ProcessId, serverInformationMessage);
+					break;
+				default:
+					break;
 			}
 		}
 

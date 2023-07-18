@@ -148,13 +148,13 @@ namespace Melia.Barracks
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
-
-            if (serverUpdateMessage.ServerType == ServerType.Zone)
-                _zoneServerNames[sender] = serverUpdateMessage.ServerId;
                     
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
+					if (serverUpdateMessage.ServerType == ServerType.Zone)
+						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+
 					this.ServerList.Update(serverUpdateMessage);
 					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
