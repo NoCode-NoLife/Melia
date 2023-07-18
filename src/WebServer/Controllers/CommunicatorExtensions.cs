@@ -10,7 +10,7 @@ namespace Melia.Web.Controllers
 	internal static class CommunicatorExtensions
 	{
 		/// <summary>
-		/// Sends a request to the coordinater and waits for a response.
+		/// Sends a request to the receiver and waits for a response.
 		/// Returns either the response or null if the request failed.
 		/// </summary>
 		/// <remarks>
@@ -22,7 +22,7 @@ namespace Melia.Web.Controllers
 		/// <param name="comm"></param>
 		/// <param name="reqMessage"></param>
 		/// <returns></returns>
-		internal static async Task<TMessage> RequestResponse<TMessage>(this Communicator comm, ICommMessage reqMessage) where TMessage : ICommMessage
+		internal static async Task<TMessage> RequestResponse<TMessage>(this Communicator comm, string receiver, ICommMessage reqMessage) where TMessage : ICommMessage
 		{
 			var waitResponseType = typeof(TMessage);
 			var responseMessage = default(ICommMessage);
@@ -38,7 +38,7 @@ namespace Melia.Web.Controllers
 
 			try
 			{
-				comm.Send("Coordinator", reqMessage);
+				comm.Send(receiver, reqMessage);
 			}
 			catch
 			{

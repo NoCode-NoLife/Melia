@@ -20,24 +20,17 @@ namespace Melia.Web.Controllers
 		[Route(HttpVerbs.Get, "/info/playercount")]
 		public async Task GetPlayerCount()
 		{
-			try
-			{
-				var commMessage = new ReqPlayerCountMessage();
-				var resPlayerCountMessage = await WebServer.Instance.Communicator.RequestResponse<ResPlayerCountMessage>(commMessage);
+			var commMessage = new ReqPlayerCountMessage();
+			var resPlayerCountMessage = await WebServer.Instance.Communicator.RequestResponse<ResPlayerCountMessage>("Coordinator", commMessage);
 
-				if (resPlayerCountMessage == null)
-				{
-					this.SendText("text/json", "{ \"error\": \"Communicator timeout.\" }");
-					return;
-				}
-
-				var playerCount = resPlayerCountMessage.PlayerCount;
-				this.SendText("text/json", $"{{ \"playerCount\": {playerCount} }}");
-			}
-			catch (Exception ex)
+			if (resPlayerCountMessage == null)
 			{
-				Log.Error(ex);
+				this.SendText("text/json", "{ \"error\": \"Communicator timeout.\" }");
+				return;
 			}
+
+			var playerCount = resPlayerCountMessage.PlayerCount;
+			this.SendText("text/json", $"{{ \"playerCount\": {playerCount} }}");
 		}
 	}
 }
