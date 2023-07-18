@@ -65,6 +65,15 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Returns a list with the information of all servers of the
+		/// given type.
+		/// </summary>
+		/// <param name="serverType"></param>
+		/// <returns></returns>
+		public ServerInfo[] GetAll(ServerType serverType)
+			=> _servers.Where(a => a.Type == serverType).ToArray();
+
+		/// <summary>
 		/// Returns the zone server with the given index that serves the
 		/// given map via out. Returns false if no matching server was found.
 		/// </summary>

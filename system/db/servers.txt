@@ -1,10 +1,22 @@
 // Melia
 // Database file
+// 
+// This database contains a list of server groups. Each group may be
+// considered one "game world", each with a variable amount of barracks,
+// zones, and other types of servers. Servers must have an entry in this
+// list to be able to launch and their connection parameters are shared
+// with the clients to inform them how they can reach any given server.
+// 
+// The example entries are only suitable for playing on the hosting machine.
+// To enable connections over the network or internet, override this data
+// (ideally from the user folder) to assign your network/public IP to the
+// server IPs and ensure that the respective ports are opened.
 //---------------------------------------------------------------------------
 
 [
 { groupId: 1001, name: "Melia", servers: [
 	{ type: "Barracks", id: 1, ip: "127.0.0.1", port: 2000, interPort: 6001 },
+	{ type: "Web", id: 1, ip: "127.0.0.1", port: 80 },
 	{ type: "Zone", id: 1, ip: "127.0.0.1", port: 7001, maps: "all" },
 	{ type: "Zone", id: 2, ip: "127.0.0.1", port: 7002, maps: "all" },
 	{ type: "Web", id: 1, ip: "127.0.0.1", port: 7003 },

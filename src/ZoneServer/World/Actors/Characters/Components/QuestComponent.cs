@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Melia.Shared.Scripting;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Quests;
@@ -514,6 +515,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			var questTable = new LuaTable();
+
 			questTable.Insert("ObjectId", "0x" + quest.ObjectId.ToString("X16"));
 			questTable.Insert("ClassId", quest.Data.Id);
 			questTable.Insert("Name", quest.Data.Name);

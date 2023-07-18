@@ -47,7 +47,7 @@ namespace Melia.Zone.World.Spawning
 		/// <param name="mapClassName"></param>
 		/// <param name="area"></param>
 		/// <returns></returns>
-		public SpawnArea AddSpawnPoint(string mapClassName, IShape area)
+		public SpawnArea AddSpawnPoint(string mapClassName, IShapeF area)
 		{
 			var spawnPoint = new SpawnArea(mapClassName, area);
 

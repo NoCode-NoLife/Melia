@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,14 +11,11 @@ using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Melia.Web.Network;
 using Yggdrasil.Logging;
-using Yggdrasil.Network.Communication;
-using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -38,29 +35,29 @@ namespace Melia.Web
 		public Communicator Communicator { get; private set; }
 
 		/// <summary>
+		/// <summary>
 		/// List containing Server Information Messages
 		/// </summary>
 		public Dictionary<int, ResServerInformationMessage> ServerInformationMessages { get; private set; } = new Dictionary<int, ResServerInformationMessage>();
-
-		/// <summary>
-		/// Runs the server.
+		
+        /// Runs the server.
 		/// </summary>
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
 			this.GetServerId(args, out var groupId, out var serverId);
-
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Web", ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			var title = string.Format("Web ({0}, {1})", groupId, serverId);
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
 			this.NavigateToRoot();
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
-			this.CheckDependencies();
 			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
+			this.CheckDependencies();			
 			this.StartWebServer();
 
-			this.StartCommunicator();
+            this.StartCommunicator();
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
@@ -262,13 +259,87 @@ namespace Melia.Web
 		}
 
 		/// <summary>
+		/// Starts the communicator and attempts to connect to the
+		/// coordinator.
+		/// </summary>
+		private void StartCommunicator()
+		{
+			Log.Info("Attempting to connect to coordinator...");
+
+			var commName = ServerType.Barracks.ToString();
+
+			this.Communicator = new Communicator(commName);
+			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
+			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Attempts to establish a connection to the coordinator.
+		/// </summary>
+		private void ConnectToCoordinator()
+		{
+			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
+
+			try
+			{
+				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
+
+				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+				this.Communicator.Subscribe("Coordinator", "AllServers");
+
+				Log.Info("Successfully connected to coordinator.");
+			}
+			catch
+			{
+				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
+				Thread.Sleep(5000);
+
+				this.ConnectToCoordinator();
+			}
+		}
+
+		/// <summary>
+		/// Called when the connection to the coordinator was lost.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnDisconnected(string commName)
+		{
+			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
+			Thread.Sleep(5000);
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Called when a message was received from the coordinator.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
+		{
+			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			switch (message)
+			{
+				case ServerUpdateMessage serverUpdateMessage:
+				{
+					this.ServerList.Update(serverUpdateMessage);
+					break;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Starts web server.
 		/// </summary>
 		private void StartWebServer()
 		{
 			try
 			{
-				var url = string.Format("http://*:{0}/", this.Conf.Web.Port);
+				var serverInfo = this.ServerInfo;
+				var url = string.Format("http://*:{0}/", serverInfo.Port);
 
 				Swan.Logging.Logger.NoLogging();
 				Swan.Logging.Logger.RegisterLogger(new YggdrasilLogger(this.Conf.Log.Filter));
@@ -285,6 +356,7 @@ namespace Melia.Web
 				//   adding a pre-processor.
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
+				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
 
 				_server.WithWebApi("/dashboard", m => m.WithController<DashboarController>());
 

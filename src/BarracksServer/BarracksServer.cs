@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -149,21 +149,23 @@ namespace Melia.Barracks
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
 
+            if (serverUpdateMessage.ServerType == ServerType.Zone)
+                _zoneServerNames[sender] = serverUpdateMessage.ServerId;
+                    
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
-					if (serverUpdateMessage.ServerType == ServerType.Zone)
-						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
-
 					this.ServerList.Update(serverUpdateMessage);
 					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
 					Send.BC_NORMAL.ZoneTraffic();
+					break;				
+				case ReqPlayerCountMessage reqPlayerCountMessage:				
+					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
+					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
 					break;
 				case ResServerInformationMessage resServerInformationMessage:
 					this.Communicator.Send("Web1", resServerInformationMessage);
-					break;
-				default:
 					break;
 			}
 		}

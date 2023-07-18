@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Zone.Buffs;
@@ -156,6 +157,9 @@ namespace Melia.Zone
 				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
 				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+				this.Communicator.Subscribe("Coordinator", "AllServers");
+				this.Communicator.Subscribe("Coordinator", "AllZones");
+
 				this.UpdateServerInfo();
 
 				Log.Info("Successfully connected to coordinator.");
@@ -188,13 +192,33 @@ namespace Melia.Zone
 		/// <param name="message"></param>
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
+			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			// TODO: Would be nice to have a proper message handler system.
+
 			switch (message)
 			{
+					this.ServerList.Update(serverUpdateMessage);
 				case ServerUpdateMessage serverUpdateMessage:
+				{
 					this.ServerList.Update(serverUpdateMessage);
 					break;
-				default:
+				}
+				case NoticeTextMessage noticeTextMessage:
+				{
+					Send.ZC_TEXT(noticeTextMessage.Type, noticeTextMessage.Text);
 					break;
+				}
+				case KickMessage kickMessage:
+				{
+					var character = this.World.GetCharacterByTeamName(kickMessage.TargetName);
+					if (character == null)
+						break;
+
+					character.MsgBox(Localization.Get("You were kicked by {0}."), kickMessage.OriginName);
+					character.Connection.Close(100);
+					break;
+				}
 			}
 		}
 

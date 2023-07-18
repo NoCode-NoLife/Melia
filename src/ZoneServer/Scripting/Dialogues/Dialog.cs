@@ -544,7 +544,8 @@ namespace Melia.Zone.Scripting.Dialogues
 				}
 
 				// End receival of the shop data and set it
-				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.ExecData('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop')");
 
 				// Open the shop
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");

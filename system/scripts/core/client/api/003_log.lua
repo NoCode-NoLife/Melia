@@ -16,7 +16,7 @@ Melia.Log.Write = function(errorCode, format, ...)
 	local argCount = select("#", ...)
 	
 	if argCount == 0 then
-		IMC_LOG(errorCode, Melia.Serialize(format))
+		IMC_LOG(errorCode, Melia.Util.Serialize(format))
 		return
 	end
 
@@ -24,7 +24,7 @@ Melia.Log.Write = function(errorCode, format, ...)
 
 	for i = 1, argCount do
 		local indexStr = "{" .. (i - 1) .. "}"
-		local replacement = Melia.Serialize(select(i, ...))
+		local replacement = Melia.Util.Serialize(select(i, ...))
 
 		text = string.gsub(text, indexStr, replacement)
 	end

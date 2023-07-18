@@ -2754,6 +2754,19 @@
             A message sent via a communicator.
             </summary>
         </member>
+        <member name="T:Yggdrasil.Network.Communication.ICommMessageExtensions">
+            <summary>
+            Extensions for communicator messages.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.ICommMessageExtensions.BroadcastTo(Yggdrasil.Network.Communication.ICommMessage,System.String)">
+            <summary>
+            Wraps the message in a broadcast message.
+            </summary>
+            <param name="message"></param>
+            <param name="channelName"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Network.Communication.Connection">
             <summary>
             A connection from a client to a communicator.
@@ -2792,6 +2805,28 @@
             Sends object to the connected communicator.
             </summary>
             <param name="buffer"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.BroadcastMessage">
+            <summary>
+            A message that is broadcasted to all subscribers of a channel.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.BroadcastMessage.ChannelName">
+            <summary>
+            Returns the name of the channel to broadcast on.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.BroadcastMessage.Message">
+            <summary>
+            Returns the message to be broadcasted.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.BroadcastMessage.#ctor(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Creates new broadcast message.
+            </summary>
+            <param name="channelName"></param>
+            <param name="message"></param>
         </member>
         <member name="T:Yggdrasil.Network.Communication.Messages.HelloMessage">
             <summary>

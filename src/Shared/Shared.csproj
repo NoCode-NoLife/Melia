@@ -102,8 +102,12 @@
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
     <Compile Include="Network\Helpers\IesHelper.cs" />
     <Compile Include="Network\Inter\Messages\ResServerInformationMessage.cs" />
+    <Compile Include="Network\Inter\Messages\PlayerCountMessage.cs" />
+    <Compile Include="Network\Inter\Messages\KickMessage.cs" />
+    <Compile Include="Network\Inter\Messages\NoticeTextMessage.cs" />
     <Compile Include="Network\Inter\Messages\ServerUpdateMessage.cs" />
     <Compile Include="ObjectProperties\PropertyObject.cs" />
+    <Compile Include="Scripting\LuaTable.cs" />
     <Compile Include="Scripting\OnAttribute.cs" />
     <Compile Include="Scripting\VariablesContainer.cs" />
     <Compile Include="Tos\Const\AbilityId.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="Tos\Const\Job.cs" />
     <Compile Include="Tos\Const\Message.cs" />
     <Compile Include="Tos\Const\Misc.cs" />
+    <Compile Include="Tos\Const\NoticeTextType.cs" />
     <Compile Include="Tos\Const\NpcState.cs" />
     <Compile Include="Tos\Const\MonsterType.cs" />
     <Compile Include="Tos\Const\PropertyName.cs" />

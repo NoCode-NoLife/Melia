@@ -11,7 +11,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Spawning;
 using Yggdrasil.Geometry;
 using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
@@ -200,7 +199,7 @@ namespace Melia.Zone.Scripting
 		/// <example>
 		/// Area(0, 0, 0, 10, 10, 10, 10, 0) // 10x10 square
 		/// </example>
-		public static IShape Area(params double[] coordinates)
+		public static IShapeF Area(params double[] coordinates)
 		{
 			if (coordinates.Length == 0 || coordinates.Length % 2 != 0)
 				throw new ArgumentException("Expected an even amount of coordinates for area.");
@@ -208,14 +207,14 @@ namespace Melia.Zone.Scripting
 			if (coordinates.Length < 3)
 				throw new ArgumentException("Needs at least 3 points (6 X/Y coordinates).");
 
-			var points = new List<Vector2>();
+			var points = new List<Vector2F>();
 			for (var i = 0; i < coordinates.Length;)
 			{
-				var point = new Vector2((int)coordinates[i++], (int)coordinates[i++]);
+				var point = new Vector2F((float)coordinates[i++], (float)coordinates[i++]);
 				points.Add(point);
 			}
 
-			return new Polygon(points);
+			return new PolygonF(points);
 		}
 
 		/// <summary>
@@ -225,10 +224,10 @@ namespace Melia.Zone.Scripting
 		/// <param name="y"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public static IShape Spot(double x, double y, double radius = 0)
+		public static IShapeF Spot(double x, double y, double radius = 0)
 		{
-			var center = new Vector2((int)x, (int)y);
-			return new Yggdrasil.Geometry.Shapes.Circle(center, (int)radius);
+			var center = new Vector2F((float)x, (float)y);
+			return new CircleF(center, (int)radius);
 		}
 
 		/// <summary>
@@ -244,12 +243,12 @@ namespace Melia.Zone.Scripting
 		/// <param name="width">Width of the rectangle.</param>
 		/// <param name="height">Height of the rectangle. Defaults to width.</param>
 		/// <returns></returns>
-		public static IShape Rectangle(double x, double y, double width, double height = 0)
+		public static IShapeF Rectangle(double x, double y, double width, double height = 0)
 		{
-			var center = new Vector2((int)x, (int)y);
-			var size = new Vector2((int)width, (int)(height != 0 ? height : width));
+			var center = new Vector2F((float)x, (float)y);
+			var size = new Vector2F((float)width, (float)(height != 0 ? height : width));
 
-			return Yggdrasil.Geometry.Shapes.Rectangle.Centered(center, size);
+			return RectangleF.Centered(center, size);
 		}
 
 		/// <summary>
