@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Social.Network;
 
 namespace Melia.Social.Database
@@ -36,12 +32,7 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Gets or sets account's team name and updates all characters.
 		/// </summary>
-		public string TeamName
-		{
-			get { return _teamName; }
-			set { _teamName = value; }
-		}
-		private string _teamName;
+		public string TeamName { get; set; }
 
 		/// <summary>
 		/// Loads account with given name from database
@@ -88,9 +79,7 @@ namespace Melia.Social.Database
 		public Friend GetFriend(long accountId)
 		{
 			lock (_friends)
-			{
 				return _friends.FirstOrDefault(f => f.AccountId == accountId);
-			}
 		}
 
 		/// <summary>

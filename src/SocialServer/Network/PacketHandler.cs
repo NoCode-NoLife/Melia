@@ -73,6 +73,7 @@ namespace Melia.Social.Network
 				Send.SC_NORMAL.SystemMessage(conn, 101080, 1, 0);
 				return;
 			}
+
 			var friendRequestConn = SocialServer.Instance.AccountManager.GetSocialConnection(teamName);
 			var targetAccount = friendRequestConn?.Account ?? SocialServer.Instance.Database.GetAccountByTeamName(teamName);
 
@@ -291,7 +292,7 @@ namespace Melia.Social.Network
 			conn.Account.RemoveChatRoom(chatId);
 
 			chatRoom.RemoveMember(conn.Account);
-			if (chatRoom.MemberCount() == 0)
+			if (chatRoom.MemberCount == 0)
 			{
 				chatRoom.Owner = null;
 				SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
@@ -323,6 +324,11 @@ namespace Melia.Social.Network
 			Send.SC_FROM_INTEGRATE(conn, 1);
 		}
 
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CS_ADD_RELATION_SCORE)]
 		public void CS_ADD_RELATION_SCORE(ISocialConnection conn, Packet packet)
 		{

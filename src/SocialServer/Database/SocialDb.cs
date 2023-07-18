@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Melia.Shared.Database;
 using Melia.Shared.Tos.Const;
 using MySql.Data.MySqlClient;
-using Yggdrasil.Security.Hashing;
 
 namespace Melia.Social.Database
 {
@@ -27,6 +26,7 @@ namespace Melia.Social.Database
 						return null;
 
 					var account = new Account();
+
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
@@ -84,6 +84,7 @@ namespace Melia.Social.Database
 						while (reader.Read())
 						{
 							var friend = new Friend();
+
 							friend.Id = reader.GetInt64("friendId");
 							friend.CharacterId = reader.GetInt64("characterId");
 							friend.AccountId = reader.GetInt64("accountId");
@@ -158,6 +159,7 @@ namespace Melia.Social.Database
 			using (var cmd = new UpdateCommand("UPDATE `friends` SET {0} WHERE `friendId` = @friendId", conn))
 			{
 				cmd.AddParameter("@friendId", friend.Id);
+
 				cmd.Set("state", (byte)friend.State);
 				cmd.Set("group", friend.Group);
 				cmd.Set("note", friend.Note);

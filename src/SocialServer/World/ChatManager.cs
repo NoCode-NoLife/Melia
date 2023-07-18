@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Melia.Social.Database;
 using Melia.Social.Network;
-using Yggdrasil.Geometry.Shapes;
 
 namespace Melia.Social.World
 {
@@ -22,7 +18,8 @@ namespace Melia.Social.World
 		/// <summary>
 		/// Generate a unique id for chat rooms.
 		/// </summary>
-		public long GetNewChatId => Interlocked.Increment(ref ChatId);
+		public long GetNewChatId()
+			=> Interlocked.Increment(ref ChatId);
 
 		/// <summary>
 		/// Add a chat room
@@ -75,21 +72,11 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public ChatRoom CreateChatRoom(Account owner)
 		{
-			var chatRoom = new ChatRoom()
-			{
-				Id = this.GetNewChatId,
-				Owner = owner
-			};
+			var chatRoom = new ChatRoom(owner);
 			chatRoom.AddMember(owner);
 			this.AddChatRoom(chatRoom);
 
-			var chatMessage = new ChatMessage()
-			{
-				Sender = owner,
-				Message = "!@#$NewRoomHasBeenCreated#@!",
-				TimeStamp = DateTime.Now,
-				Recipient = null,
-			};
+			var chatMessage = new ChatMessage(owner, "!@#$NewRoomHasBeenCreated#@!");
 			chatRoom.AddMessage(chatMessage);
 
 			//Send.SC_NORMAL.ChatRoomMessage(owner.Connection, chatRoom, chatMessage);

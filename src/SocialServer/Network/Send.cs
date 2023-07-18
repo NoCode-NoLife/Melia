@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.Network;
-using Melia.Social.Database;
+﻿using Melia.Shared.Network;
 
 namespace Melia.Social.Network
 {

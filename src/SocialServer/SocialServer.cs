@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Network;
 using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;

@@ -24,6 +24,7 @@ namespace Melia.Social.Network
 	public class SocialConnection : Connection, ISocialConnection
 	{
 		protected new readonly TosSocialFramer _framer = new TosSocialFramer(1024 * 50);
+
 		/// <summary>
 		/// Gets or sets the account associated with the connection.
 		/// </summary>
@@ -55,8 +56,7 @@ namespace Melia.Social.Network
 		{
 			var packet = new Packet(buffer);
 
-			// Check login state
-			if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CB_LOGIN_BY_PASSPORT && packet.Op != Op.CZ_CONNECT && packet.Op != Op.CS_LOGIN && !this.LoggedIn)
+			if (packet.Op != Op.CS_LOGIN && !this.LoggedIn)
 			{
 				Log.Warning("Non-login packet ({0:X4}) sent before login from '{1}'. Killing connection.", packet.Op, this.Address);
 				this.Close();
