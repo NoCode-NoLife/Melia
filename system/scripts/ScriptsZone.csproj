@@ -613,7 +613,6 @@
     <None Include="core\client\api\006_004_sysmenu_func2.lua" />
     <None Include="core\client\api\006_009_sysmenu_create.lua" />
     <None Include="core\client\api\006_003_sysmenu_func1.lua" />
-    <None Include="core\client\api\006_002_sysmenu_setup.lua" />
     <None Include="core\client\api\006_001_ui.lua" />
     <None Include="core\client\api\005_communication.lua" />
     <None Include="core\client\api\004_execution.lua" />

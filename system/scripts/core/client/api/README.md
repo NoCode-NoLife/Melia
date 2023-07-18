@@ -235,3 +235,19 @@ Removes all buttons from the button menu on the bottom right of the screen.
 
 Parameters:
 - None
+
+### Melia.Ui.SysMenu.SuspendRefresh
+
+Temporarily suspends the refresh of the menu. This is reccomended for
+when multiple buttons are added or removed at once, as every change
+requires a removal and recreation of the entire menu.
+
+Parameters:
+- None
+
+### Melia.Ui.SysMenu.ResumeRefresh
+
+Enables refreshes of the menu again and executes one right away.
+
+Parameters:
+- None
