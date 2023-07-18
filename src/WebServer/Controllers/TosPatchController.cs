@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using EmbedIO;
 using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using Melia.Shared.Data.Database;
 
 namespace Melia.Web.Controllers
@@ -13,10 +10,8 @@ namespace Melia.Web.Controllers
 	/// <summary>
 	/// Controller for the files the client downloads on launch.
 	/// </summary>
-	public class TosPatchController : WebApiController
+	public class TosPatchController : BaseController
 	{
-		private readonly Encoding _encoding = new UTF8Encoding(false);
-
 		/// <summary>
 		/// Serves a list of barrack servers.
 		/// </summary>
@@ -85,25 +80,6 @@ namespace Melia.Web.Controllers
 
 			var staticConfig = string.Join("\r\n", options.Select(a => $"{a.Key}={a.Value}"));
 			this.SendText("text/plain", staticConfig);
-		}
-
-		private void SendText(string mimeType, string content)
-		{
-			var contentLength = _encoding.GetByteCount(content);
-
-			this.Response.StatusCode = 200;
-			this.Response.ContentType = mimeType;
-			this.Response.ContentLength64 = contentLength;
-
-			using (var stream = this.Response.OutputStream)
-			using (var sw = new StreamWriter(stream, _encoding))
-				sw.Write(content);
-		}
-
-		private class Utf8StringWriter : StringWriter
-		{
-			private readonly Encoding _encoding = new UTF8Encoding(false);
-			public override Encoding Encoding => _encoding;
 		}
 	}
 }
