@@ -51,9 +51,6 @@ onMounted(() => {
   fillChartData();
   store.commit('setAccount', accountRef.value);
 });
-
-const clientBarItems = computed(() =>{});
-const transactionBarItems = computed(() => {});
 </script>
 
 <template>

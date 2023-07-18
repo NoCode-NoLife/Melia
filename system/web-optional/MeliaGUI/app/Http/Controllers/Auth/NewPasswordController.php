@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
@@ -40,6 +39,12 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        if (!password_verify(strtoupper(md5($request->password)), auth()->user()->account->password)) {
+            throw ValidationException::withMessages([
+                'password' => trans('auth.incorrect.password'),
+            ]);
+        }
+
         $hashedPass = bcrypt(strtoupper(md5($request->password)));
 
         if (substr($hashedPass, 0, 4) == '$2y$') {
@@ -51,7 +56,7 @@ class NewPasswordController extends Controller
         // database. Otherwise we will parse the error and return the response.
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user) use ($request, $hashedPass) {
+            function ($user) use ($hashedPass) {
                 $user->forceFill([
                     'password' => $hashedPass,
                     'remember_token' => Str::random(60),

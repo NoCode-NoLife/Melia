@@ -15,4 +15,6 @@ return [
     'login.failed' => 'The account login cannot contain white spaces or special characters.',
     'login.exists' => 'An account with that name already exists.',
     'email.exists' => 'An account with that email already exists.',
+    'incorrect.password' => 'The current Password is incorrect.',
+    'incorrect.password.confirmation' => 'Wrong password confirmation.'
 ];
