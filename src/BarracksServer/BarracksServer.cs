@@ -157,6 +157,12 @@ namespace Melia.Barracks
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
 				}
+				case ReqPlayerCountMessage reqPlayerCountMessage:
+				{
+					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
+					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
+					break;
+				}
 			}
 		}
 

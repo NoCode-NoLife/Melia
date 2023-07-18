@@ -101,6 +101,7 @@
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
     <Compile Include="Network\Helpers\IesHelper.cs" />
+    <Compile Include="Network\Inter\Messages\PlayerCountMessage.cs" />
     <Compile Include="Network\Inter\Messages\KickMessage.cs" />
     <Compile Include="Network\Inter\Messages\NoticeTextMessage.cs" />
     <Compile Include="Network\Inter\Messages\ServerUpdateMessage.cs" />
