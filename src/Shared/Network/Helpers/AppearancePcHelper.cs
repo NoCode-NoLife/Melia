@@ -26,7 +26,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte((byte)appearancePc.Gender);
 			packet.PutByte(0);
 			packet.PutInt(appearancePc.Level);
-			packet.PutInt(1022); // i1
+			packet.PutInt(1022); // i1. 5001 on Scout, maybe display job?
 			packet.PutByte(0x80); //128
 			packet.PutByte(0x80); //128
 			packet.PutByte(0x80); //128
@@ -70,14 +70,20 @@ namespace Melia.Shared.Network.Helpers
 				//packet.PutInt(0); // Team ID
 
 				packet.PutByte(0);
-				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat1) != 0);
-				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat2) != 0);
-				packet.PutByte((appearancePc.VisibleHats & HatVisibleStates.Hat3) != 0);
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Headgear1) != 0);
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Headgear2) != 0);
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Headgear3) != 0);
 				packet.PutByte(0);
-				packet.PutByte(1);
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.Wig) != 0);
 			}
 
-			packet.PutEmptyBin(8); // [i373230 (2023-05-10)] Might've been added before
+			// [i373230 (2023-05-10)] Might've been added before
+			// Depending on what was added when, the sub-weapon visibility
+			// might have been part of the above byte block.
+			{
+				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.SubWeapon) != 0);
+				packet.PutEmptyBin(7);
+			}
 		}
 	}
 
@@ -127,9 +133,10 @@ namespace Melia.Shared.Network.Helpers
 		int Hair { get; }
 
 		/// <summary>
-		/// Returns whether to display the character's hats.
+		/// Returns a bitmask specifying the visibility of certain
+		/// equipment items.
 		/// </summary>
-		HatVisibleStates VisibleHats { get; }
+		VisibleEquip VisibleEquip { get; }
 
 		/// <summary>
 		/// Returns the ids of the character's equipment.

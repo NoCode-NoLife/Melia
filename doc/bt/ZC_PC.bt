@@ -1,0 +1,47 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: ZC_PC.bt
+//   Authors: exec
+//   Version: i373766
+//   Purpose: Updates certain character properties?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+enum ZcPcType
+{
+    ZcPcType_Name = 0,
+    ZcPcType_Unk1 = 1,
+    ZcPcType_Job = 2,
+    ZcPcType_TeamName = 3,
+};
+
+ServerHeaderDynamic header;
+
+int handle;
+ZcPcType type;
+
+switch (type)
+{
+    case ZcPcType_Name:
+    case ZcPcType_TeamName:
+        int arg1;
+        int arg2;
+        lpString newName;
+        break;
+
+    case ZcPcType_Job:
+        int jobId;
+        int circle; // ?
+        break;
+
+    default:
+        int arg1;
+        int arg2;
+        break;
+}

@@ -3,7 +3,7 @@
 //
 //      File: ZC_PARTY_LIST.bt
 //   Authors: Salman T. Khan
-//   Version: i336041
+//   Version: i339932
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -12,20 +12,11 @@
 //------------------------------------------------
 #include "inc/common.bt"
 
-typedef struct
-{
-    int64 partyId;
-    lpString partyName;
-    byte bin[30];
-    short propertiesSize;
-    if (propertiesSize > 0)
-        getProperties(propertiesSize);
-} Party;
-
 ServerHeaderDynamic header;
-int i1;
-int i2;
-int64 id;
 
-while(!FEof())
-    Party party;
+int64 l1; // 0
+PartyType partyType; // 0 = Party, 1 = Guild
+int64 partyId;
+byte count;
+
+PartyMember party[count];

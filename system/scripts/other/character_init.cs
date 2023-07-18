@@ -42,12 +42,48 @@ public class CharacterInitializationScript : GeneralScript
 		}
 	}
 
+	private static void InitCommon(Character character)
+	{
+		LearnSkill(character, SkillId.Default);
+		LearnSkill(character, SkillId.Common_shovel);
+		LearnSkill(character, SkillId.Common_otlflag);
+		LearnSkill(character, SkillId.Common_dumbbell);
+		LearnSkill(character, SkillId.Common_vuvuzela);
+		LearnSkill(character, SkillId.Common_snowspray);
+		LearnSkill(character, SkillId.Common_balloonpipe);
+
+		LearnAbility(character, AbilityId.Cloth);
+		LearnAbility(character, AbilityId.Leather);
+		LearnAbility(character, AbilityId.Iron);
+		LearnAbility(character, AbilityId.SwapWeapon);
+
+		GiveItem(character, ItemId.Drug_HP1_Q, 20);
+		GiveItem(character, ItemId.Drug_SP1_Q, 20);
+		GiveItem(character, ItemId.Drug_STA1_Q, 20);
+		GiveItem(character, ItemId.Escape_Orb, 1);
+		GiveItem(character, ItemId.EscapeStone_Klaipeda, 1);
+
+		if (!Feature.IsEnabled("GrowthEquipOnStart"))
+		{
+			EquipItem(character, EquipSlot.Top, ItemId.TOP01_101);
+			EquipItem(character, EquipSlot.Pants, ItemId.LEG01_101);
+		}
+		else
+		{
+			EquipItem(character, EquipSlot.Top, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_TOP);
+			EquipItem(character, EquipSlot.Pants, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_LEG);
+			EquipItem(character, EquipSlot.Shoes, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_FOOT);
+			EquipItem(character, EquipSlot.Gloves, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_HAND);
+		}
+	}
+
 	private static void InitSwordsman(Character character)
 	{
 		LearnSkill(character, SkillId.Normal_Attack);
 		LearnSkill(character, SkillId.Normal_Attack_TH);
 		LearnSkill(character, SkillId.Warrior_Guard);
 		LearnSkill(character, SkillId.Pistol_Attack);
+		LearnSkill(character, SkillId.Common_DaggerAries);
 
 		LearnAbility(character, AbilityId.Sword);
 		LearnAbility(character, AbilityId.Staff);
@@ -149,8 +185,14 @@ public class CharacterInitializationScript : GeneralScript
 
 		if (!Feature.IsEnabled("GrowthEquipOnStart"))
 		{
+			// It's difficult to find information on what kind of
+			// equipment Scout got by default before growth items,
+			// but the data mentions "Practice Pistol" and "Training
+			// Kris Dagger", so we'll equip the dagger and give the
+			// pistol for now.
+
 			EquipItem(character, EquipSlot.RightHand, ItemId.DAG01_113);
-			EquipItem(character, EquipSlot.LeftHand, ItemId.SWD01_101);
+			GiveItem(character, ItemId.PST01_111, 1);
 		}
 		else
 		{
@@ -159,40 +201,11 @@ public class CharacterInitializationScript : GeneralScript
 		}
 	}
 
-	private static void InitCommon(Character character)
-	{
-		LearnSkill(character, SkillId.Default);
-		LearnSkill(character, SkillId.Common_shovel);
-		LearnSkill(character, SkillId.Common_otlflag);
-		LearnSkill(character, SkillId.Common_dumbbell);
-		LearnSkill(character, SkillId.Common_vuvuzela);
-		LearnSkill(character, SkillId.Common_snowspray);
-		LearnSkill(character, SkillId.Common_balloonpipe);
-
-		LearnAbility(character, AbilityId.Cloth);
-		LearnAbility(character, AbilityId.Leather);
-		LearnAbility(character, AbilityId.Iron);
-		LearnAbility(character, AbilityId.SwapWeapon);
-
-		GiveItem(character, ItemId.Drug_HP1_Q, 20);
-		GiveItem(character, ItemId.Drug_SP1_Q, 20);
-		GiveItem(character, ItemId.Drug_STA1_Q, 20);
-		GiveItem(character, ItemId.Escape_Orb, 1);
-		GiveItem(character, ItemId.EscapeStone_Klaipeda, 1);
-
-		if (!Feature.IsEnabled("GrowthEquipOnStart"))
-		{
-			EquipItem(character, EquipSlot.Top, ItemId.TOP01_101);
-			EquipItem(character, EquipSlot.Pants, ItemId.LEG01_101);
-		}
-		else
-		{
-			EquipItem(character, EquipSlot.Top, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_TOP);
-			EquipItem(character, EquipSlot.Pants, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_LEG);
-			EquipItem(character, EquipSlot.Shoes, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_FOOT);
-			EquipItem(character, EquipSlot.Gloves, ItemId.GROWTH_REINFORCE_TIER1_LEATHER_HAND);
-		}
-	}
+	// Use silent adders in these functions, so no data is sent to the
+	// client right after the first login. That could work as well, but
+	// there's no reason to start with spam, and the player doesn't
+	// need to see a wall of information about what kinds of items were
+	// just added to the inventory.
 
 	private static void GiveItem(Character character, int itemId, int amount)
 	{

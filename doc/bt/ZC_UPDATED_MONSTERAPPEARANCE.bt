@@ -18,10 +18,10 @@ ServerHeaderFixed header;
 short size;
 int handle;
 MONSTER monster;
-int i2;
 int namesSize;
 lpString name;
 lpString uniqueName;
 lpString dialogName;
 lpString warpName;
 lpString str3;
+

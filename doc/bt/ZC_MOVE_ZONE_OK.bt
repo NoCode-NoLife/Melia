@@ -2,13 +2,14 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_MOVE_ZONE_OK.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i373230
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+// - i373230: position has been replaced by i2-i4, and renamed to posX, posY, posZ, renamed b1 to channelId
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -21,12 +22,10 @@ int port;
 int mapId;
 float cameraX;
 float cameraY;
-float f1;
-float f2;
-float f3;
-int i2;
-int i3;
-int i4;
+position pos;
+int posX;
+int posY;
+int posZ;
 short s1;
-byte b1;
+byte channelId;
 int64 characterId;

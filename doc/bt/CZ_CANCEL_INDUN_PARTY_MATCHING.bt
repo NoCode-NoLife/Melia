@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_CANCEL_INDUN_PARTY_MATCHING.bt
+//   Authors: Salman T. Khan
+//   Version: i367446
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

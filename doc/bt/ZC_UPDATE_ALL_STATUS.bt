@@ -3,13 +3,12 @@
 //
 //      File: ZC_UPDATE_ALL_STATUS.bt
 //   Authors: exec, Salman T. Khan
-//   Version: i336041
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i336041: sp and maxSp is an int
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -21,4 +20,4 @@ int hp;
 int maxHp;
 int sp;
 int maxSp;
-int i1; // 19, 0
+int hpPriority;

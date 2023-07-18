@@ -68,8 +68,8 @@ namespace Melia.Barracks.Network
 			packet.PutInt(characterCount);
 			packet.PutLong(conn.Account.Id);
 
+			packet.PutByte((byte)conn.Account.SelectedCharacterSlot);
 			packet.PutByte(0);
-			packet.PutByte(characterCount != 0);
 			packet.PutByte(1);
 
 			foreach (var character in characters)

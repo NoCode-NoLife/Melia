@@ -16,7 +16,9 @@ namespace Melia.Zone.Scripting
 		public bool Init()
 		{
 			this.Load();
+
 			OnAttribute.Load(this, ZoneServer.Instance.ServerEvents);
+			ScriptableFunctions.Load(this);
 
 			return true;
 		}

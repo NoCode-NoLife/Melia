@@ -19,6 +19,6 @@ ServerHeaderFixed header;
 
 int handle;
 float speed;
-float f1;
+float movingShot;
 byte b1;
 int64 characterId;

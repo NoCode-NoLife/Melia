@@ -14,6 +14,8 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-short count;
-ushort s[count];
-int i1; // 0?
+
+byte b1; // 2
+byte b2; // 0 or 1 (Premium State?)
+int i1;
+int itemId; // 490011

@@ -1,0 +1,26 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ANCIENT_CARD_UPDATE.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+int i1;
+int i2;
+int i3;
+int i4;
+int count;
+
+if (!checkCompression())
+{
+    AncientCard card;
+}

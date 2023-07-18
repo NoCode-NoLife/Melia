@@ -17,11 +17,38 @@ ServerHeaderDynamic header;
 
 typedef struct
 {
-    int64 l1;
+    short index;
+    int64 worldId;
+    int i1;
+    int i2;
+    int i3;
+    int i4;
     short s1;
-} GEMINFO;
+    short propertiesSize;
+    int i5;
+    if (i5 > 0)
+    {
+        local int i = 0;
+        for (i = 0; i < i5; i++)
+        {
+            lpString str1;
+            lpString str2;
+            int i6;
+        }
+    }
+} SocketInfo <optimize=false>;
 
-byte b1;
-int count;
-short s1;
+typedef struct
+{
+    int64 itemWorldId; // 535067025737486
+    short s1; // 0, might be properties size?
+    if (s1 > 0)
+    {
+        SocketInfo sockets[s1];
+    }
+} GEMINFO <optimize=false>;
+
+byte b1; // 0
+int count; // 1
+short s1; // 0
 GEMINFO info[count];

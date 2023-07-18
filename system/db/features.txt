@@ -3,30 +3,86 @@
 //---------------------------------------------------------------------------
 
 [
-{ name: "ReBuild", enabled: false, children: [
+// Second Closed Beta Phase
+{ name: "iCBT2", enabled: true, children: [
+	// Removes Centurion from the Swordman job tree
+	{ name: "CenturionRemoved", enabled: true },
+]},
 
-	// Movement-related changes
+// Re:Build was a large update in late 2018, most notably changing how
+// the class system worked.
+{ name: "ReBuild", enabled: true, children: [
+
+	// Enables movement-related changes
 	{ name: "MovementRevamp", enabled: true, children: [
 		// Disables stamina drain while running
 		{ name: "FreeRunning", enabled: true },
 		
-		// Disables stamina drain while dashing
-		{ name: "FreeDashing", enabled: true },
+		// Disables stamina drain while dashing in cities
+		{ name: "FreeDashingInCities", enabled: true },
 		
 		// Enables dashing for all classes
 		{ name: "DashingForAll", enabled: true },
+		
+		// Disables jumping costing stamina
+		{ name: "FreeJumping", enabled: true },
 	]},
 	
+	// Enables job-related changes
+	{ name: "JobRevamp", enabled: true, children: [
+		// Enables the Scout job as an option for character creation
+		{ name: "ScoutJob", enabled: true },
+		
+		// Shuffles jobs and skills around to, quote, "maximize compatibility
+		// between classes and synergy between players."
+		//{ name: "JobTreeReassignment", enabled: true },
+	]},
+	
+	// Enables changes to the way max weight is calculated
+	{ name: "InventoryWeightRevamp", enabled: true, children: [
+		// Raises default max weight
+		{ name: "IncreasedMaxWeight", enabled: true },
+		
+		// Removes stats adding to the max weight
+		{ name: "StaticInventoryWeight", enabled: true },
+	]},
+	
+	// Enables changes to how player stats are calculated
+	{ name: "PlayerStatsRevamp", enabled: true, children: [
+		// Disables stat points per level, removing the ability to freely
+		// assign points to stats
+		{ name: "NoStatByLevel", enabled: true },
+		
+		// Enables increased base stats per job and level, increasing
+		// stats automatically over time
+		{ name: "IncreasedStatRatio", enabled: true },
+	]},
+	
+	// Lowers ability costs
+	{ name: "AbilityCostRevamp", enabled: true },
 ]},
 
-{ name: "Misc", enabled: false, children: [
+// Miscellaneous changes that don't belong to a specific update or are yet
+// to get categorized.
+{ name: "Misc", enabled: true, children: [
 
 	// Enables new characters receiving growth equipment
 	{ name: "GrowthEquipOnStart", enabled: true },
 	
+	// Enables overriding properties of monsters added via spawners
+	{ name: "SpawnPropertyOverrides", enabled: true },
+	
+	// Enables direct healing for the Cleric Heal skill instead of
+	// spawning heal pads on the ground
+	{ name: "DirectClericHeal", enabled: true, children: [
+		// Switches Heal from getting casted instantly to using a party
+		// member target selection wheel
+		{ name: "ClericHealPartySelect", enabled: true },
+	]},
+	
 ]},
 
-// Let's enable certain features by default for now, as them being missing
-// could confuse some users.
-{ name: "DashingForAll", enabled: true },
+// Let's disable certain features for now to hide things that aren't
+// fully implemented
+{ name: "GrowthEquipOnStart", enabled: false },
 ]

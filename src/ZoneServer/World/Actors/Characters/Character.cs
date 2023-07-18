@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
@@ -8,13 +9,12 @@ using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
@@ -24,7 +24,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, INamedActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 		private int _destinationChannelId;
@@ -34,26 +34,33 @@ namespace Melia.Zone.World.Actors.Characters
 		private IMonster[] _visibleMonsters = new IMonster[0];
 		private Character[] _visibleCharacters = new Character[0];
 
+		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
+		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
+
 		/// <summary>
 		/// Connection this character uses.
 		/// </summary>
 		public IZoneConnection Connection { get; set; }
 
 		/// <summary>
-		/// Character's unique id.
+		/// Returns the name of the character's account.
 		/// </summary>
-		public long Id { get; set; }
+		public string Username => this.Connection.Account.Name;
 
 		/// <summary>
-		/// Character's globally unique id.
+		/// Gets or sets the character's unique database id.
 		/// </summary>
-		/// <remarks>
-		/// This is basically the same as Id... but until we're entirely
-		/// sure this object business works the way we think it does,
-		/// I'll leave it as a reference. At least it seems like the
-		/// id doesn't change across play sessions.
-		/// </remarks>
-		public long ObjectId => this.Id;
+		public long DbId { get; set; }
+
+		/// <summary>
+		/// Returns the character's globally unique id.
+		/// </summary>
+		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
+
+		/// <summary>
+		/// Returns the character's globally unique id on the social server.
+		/// </summary>
+		public long SocialUserId => ObjectIdRanges.SocialUser + this.DbId;
 
 		/// <summary>
 		/// Id of the character's account.
@@ -66,9 +73,19 @@ namespace Melia.Zone.World.Actors.Characters
 		public FactionType Faction => FactionType.Law;
 
 		/// <summary>
+		/// Returns the character's race.
+		/// </summary>
+		public RaceType Race => RaceType.None;
+
+		/// <summary>
+		/// Returns the character's mode of movement.
+		/// </summary>
+		public MoveType MoveType => MoveType.Normal;
+
+		/// <summary>
 		/// Character's name.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Character's team name.
@@ -76,29 +93,33 @@ namespace Melia.Zone.World.Actors.Characters
 		public string TeamName { get; set; }
 
 		/// <summary>
-		/// Character's base job's id.
+		/// Gets or sets the character's current job id.
 		/// </summary>
+		/// <remarks>
+		/// This should essentially and presumably alwas be the id of the
+		/// last job the character changed to.
+		/// </remarks>
 		public JobId JobId { get; set; }
 
 		/// <summary>
-		/// Character's base job's class.
+		/// Returns the class of the character's current job.
 		/// </summary>
 		public JobClass JobClass => this.JobId.ToClass();
 
 		/// <summary>
-		/// Returns reference to character's base job, based on JobId.
+		/// Returns the character's current job.
 		/// </summary>
 		public Job Job => this.Jobs.Get(this.JobId);
 
 		/// <summary>
-		/// Character's jobs.
+		/// Returns a reference to the character's job list.
 		/// </summary>
 		/// <remarks>
-		/// A character has one base job which determines, for example,
+		/// A character has one main job which determines, for example,
 		/// what items they can equip, but they can have various jobs,
 		/// that all come with their own skills and abilities.
 		/// </remarks>
-		public Jobs Jobs { get; }
+		public JobComponent Jobs { get; }
 
 		/// <summary>
 		/// Character's gender.
@@ -126,24 +147,14 @@ namespace Melia.Zone.World.Actors.Characters
 		public Direction HeadDirection { get; set; }
 
 		/// <summary>
-		/// Gets or sets whether the character is moving.
-		/// </summary>
-		public bool IsMoving { get; set; }
-
-		/// <summary>
 		/// Gets or sets whether the character is sitting.
 		/// </summary>
 		public bool IsSitting { get; set; }
 
 		/// <summary>
-		/// Gets or sets whether the character is standing on the ground.
-		/// </summary>
-		public bool IsGrounded { get; set; }
-
-		/// <summary>
 		/// The character's inventory.
 		/// </summary>
-		public Inventory Inventory { get; }
+		public InventoryComponent Inventory { get; }
 
 		/// <summary>
 		/// Gets or set the character's greeting message.
@@ -152,7 +163,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 		/// <summary>
 		/// Holds the order of successive changes in character HP.
-		/// A higher value indicates the latest damage taken.
+		/// A higher value indicates the latest HP amount.
 		/// </summary>
 		/// TODO: I'm not sure when this gets rolled over;
 		///   More investigation is needed.
@@ -172,20 +183,17 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Specifies which hats are visible on the character.
 		/// </summary>
-		/// <remarks>
-		/// TODO: Handle toggling and save/load with character.
-		/// </remarks>
-		public HatVisibleStates VisibleHats => HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3;
+		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 
 		/// <summary>
 		/// Current experience points.
 		/// </summary>
-		public int Exp { get; set; }
+		public long Exp { get; set; }
 
 		/// <summary>
 		/// Current maximum experience points.
 		/// </summary>
-		public int MaxExp { get; set; }
+		public long MaxExp { get; set; }
 
 		/// <summary>
 		/// Total number of accumulated experience points.
@@ -193,7 +201,8 @@ namespace Melia.Zone.World.Actors.Characters
 		public long TotalExp { get; set; }
 
 		/// <summary>
-		/// Character's class level.
+		/// Returns the character's current class level, which is
+		/// equivalent to their current job's level.
 		/// </summary>
 		public int ClassLevel
 		{
@@ -245,11 +254,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsDead => (this.Hp == 0);
 
 		/// <summary>
-		/// Returns the character's move speed via its MSPD property.
-		/// </summary>
-		public float MoveSpeed => this.Properties.GetFloat(PropertyName.MSPD);
-
-		/// <summary>
 		/// Returns the character's component collection.
 		/// </summary>
 		public ComponentCollection Components { get; } = new ComponentCollection();
@@ -262,17 +266,27 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Character's skills.
 		/// </summary>
-		public CharacterSkills Skills { get; }
+		public SkillComponent Skills { get; }
 
 		/// <summary>
 		/// Character's abilities.
 		/// </summary>
-		public Abilities Abilities { get; }
+		public AbilityComponent Abilities { get; }
 
 		/// <summary>
 		/// Character's buffs.
 		/// </summary>
-		public BuffCollection Buffs { get; }
+		public BuffComponent Buffs { get; }
+
+		/// <summary>
+		/// Returns the character's quests manager.
+		/// </summary>
+		public QuestComponent Quests { get; }
+
+		/// <summary>
+		/// Returns the character's movement component.
+		/// </summary>
+		public MovementComponent Movement { get; }
 
 		/// <summary>
 		/// Character's properties.
@@ -309,12 +323,17 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public Character() : base()
 		{
-			this.Components.Add(this.Inventory = new Inventory(this));
-			this.Components.Add(this.Jobs = new Jobs(this));
-			this.Components.Add(this.Skills = new CharacterSkills(this));
-			this.Components.Add(this.Abilities = new Abilities(this));
-			this.Components.Add(this.Buffs = new BuffCollection(this));
-			this.Components.Add(new Recovery(this));
+			this.Components.Add(this.Inventory = new InventoryComponent(this));
+			this.Components.Add(this.Jobs = new JobComponent(this));
+			this.Components.Add(this.Skills = new SkillComponent(this));
+			this.Components.Add(this.Abilities = new AbilityComponent(this));
+			this.Components.Add(this.Buffs = new BuffComponent(this));
+			this.Components.Add(new RecoveryComponent(this));
+			this.Components.Add(new CombatComponent(this));
+			this.Components.Add(new CooldownComponent(this));
+			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 
@@ -350,27 +369,29 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// We need something to check whether the properties were
 			// already initialized. Let's just use a variable for that.
-			if (!this.Variables.Perm.Has("PropertiesInitialized"))
+			if (!this.Variables.Perm.Has("Melia.PropertiesInitialized"))
 			{
-				this.Properties.SetFloat("Lv", 1);
 				this.Exp = 0;
 				this.TotalExp = 0;
 				this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(1);
 
-				this.Properties.SetFloat("STR_JOB", this.Job.Data.Str);
-				this.Properties.SetFloat("CON_JOB", this.Job.Data.Con);
-				this.Properties.SetFloat("INT_JOB", this.Job.Data.Int);
-				this.Properties.SetFloat("MNA_JOB", this.Job.Data.Spr);
-				this.Properties.SetFloat("DEX_JOB", this.Job.Data.Dex);
-				this.Properties.SetFloat("HP", this.Properties.CFloat("MHP").Recalculate());
-				this.Properties.SetFloat("SP", this.Properties.CFloat("MSP").Recalculate());
+				// Invalidate max properties so we get the correct values
+				// when using them here
+				this.Properties.Invalidate(PropertyName.MHP, PropertyName.MSP, PropertyName.MaxSta);
 
-				this.Properties.Stamina = (int)this.Properties.CFloat("MaxSta").Recalculate();
+				// Set HP, SP and stamina to max
+				this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+				this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
+				this.Properties.Stamina = (int)this.Properties.GetFloat(PropertyName.MaxSta);
 
-				this.Variables.Perm.SetBool("PropertiesInitialized", true);
+				// Only do this once, as we will have saved property values
+				// next time we come here
+				this.Variables.Perm.SetBool("Melia.PropertiesInitialized", true);
 			}
 
-			this.Properties.RecalculateAll();
+			// Invalidate all properties so they get updated and then set
+			// up the auto-updates
+			this.Properties.InvalidateAll();
 			this.Properties.InitAutoUpdates();
 		}
 
@@ -381,6 +402,36 @@ namespace Melia.Zone.World.Actors.Characters
 		public void Update(TimeSpan elapsed)
 		{
 			this.Components.Update(elapsed);
+			this.UpdateResurrection(elapsed);
+		}
+
+		/// <summary>
+		/// Sends the resurrection dialog as nexessary.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateResurrection(TimeSpan elapsed)
+		{
+			// Why are we sending the resurrection dialog over and over on
+			// the update? Well, because certain packets sent to the client,
+			// such as hits, can cause it to close this dialog, which then
+			// leaves players with having to relog to get it again to be
+			// able to resurrect. Spamming isn't a great hotfix, but it is
+			// an effective one, as it will ensure that the dialog is always
+			// there when it should be. And of course, as you would expect,
+			// it appears that this is normal, based on the packet logs.
+			if (this.IsDead)
+			{
+				_resurrectDialogTimer -= elapsed;
+				if (_resurrectDialogTimer <= TimeSpan.Zero)
+				{
+					// TODO: Get a list of the appropriate resurrection
+					//   options and save them, to sanity check the coming
+					//   resurrection request.
+
+					Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
+					_resurrectDialogTimer = ResurrectDialogDelay;
+				}
+			}
 		}
 
 		/// <summary>
@@ -442,56 +493,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public void SetHeadDirection(Direction dir)
 		{
 			this.HeadDirection = dir;
-		}
-
-		/// <summary>
-		/// Starts movement.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		/// <param name="unkFloat"></param>
-		/// <param name="unkByte"></param>
-		public void Jump(Position pos, Direction dir, float unkFloat, byte unkByte)
-		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = true;
-
-			Send.ZC_JUMP(this, pos, dir, unkFloat, unkByte);
-		}
-
-		/// <summary>
-		/// Starts movement.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		/// <param name="unkFloat"></param>
-		public void Move(Position pos, Direction dir, float unkFloat)
-		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = true;
-
-			Send.ZC_MOVE_DIR(this, pos, dir, unkFloat);
-		}
-
-		/// <summary>
-		/// Stops movement.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		public void StopMove(Position pos, Direction dir)
-		{
-			this.SetPosition(pos);
-			this.SetDirection(dir);
-			this.IsMoving = false;
-
-			// Sending ZC_MOVE_STOP works as well, but it doesn't have
-			// a direction, so the character stops and looks north
-			// on others' screens.
-			Send.ZC_PC_MOVE_STOP(this, this.Position, this.Direction);
-
-			this.Buffs.Remove(BuffId.DashRun);
 		}
 
 		/// <summary>
@@ -568,8 +569,6 @@ namespace Melia.Zone.World.Actors.Characters
 
 			_warping = false;
 
-			ZoneServer.Instance.Database.SaveCharacter(this);
-
 			// Get channel
 			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(this.MapId);
 			if (availableZones.Length == 0)
@@ -590,18 +589,17 @@ namespace Melia.Zone.World.Actors.Characters
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			var newLevel = this.Properties.Modify("Lv", amount);
-			this.Properties.Modify("StatByLevel", amount);
+			var newLevel = this.Properties.Modify(PropertyName.Lv, amount);
+			this.Properties.Modify(PropertyName.StatByLevel, amount);
 
 			this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
 			this.Heal();
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
-			Send.ZC_UPDATE_ALL_STATUS(this);
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_base", "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
-			Send.ZC_NORMAL.LevelUp(this);
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", 3, "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
 		}
 
 		/// <summary>
@@ -617,8 +615,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Heal();
 
 			Send.ZC_OBJECT_PROPERTY(this);
-			Send.ZC_ADDON_MSG(this, 3, "NOTICE_Dm_levelup_skill", "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
-			Send.ZC_NORMAL.ClassLevelUp(this);
+			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
+			Send.ZC_NORMAL.PlayEffect(this, "F_pc_joblevel_up", 3);
 		}
 
 		/// <summary>
@@ -627,10 +625,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public void Heal()
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
+			var maxHp = this.Properties.GetFloat(PropertyName.MHP);
+			var maxSp = this.Properties.GetFloat(PropertyName.MSP);
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			this.Heal(maxHp, maxSp);
 		}
 
 		/// <summary>
@@ -644,10 +642,34 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			this.Properties.Modify("HP", hpAmount);
-			this.Properties.Modify("SP", spAmount);
+			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
+			this.Properties.Modify(PropertyName.SP, spAmount);
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			Send.ZC_UPDATE_ALL_STATUS(this, priority);
+		}
+
+		/// <summary>
+		/// Modifies character's HP by the given amount without updating
+		/// the client. Returns the new HP value and the priority number
+		/// of this modification.
+		/// </summary>
+		/// <remarks>
+		/// There are several packets in this game that require the HP
+		/// to be set synchronized, to ensure that it's only set from
+		/// one source and to identify the latest amount based on the
+		/// "priority".
+		/// </remarks>
+		/// <param name="amount"></param>
+		public void ModifyHpSafe(float amount, out float newHp, out int priority)
+		{
+			// Make sure it's not possible for two calls to interfere
+			// with each other, so that the correct amount makes it to
+			// the client, with the correct priority.
+			lock (_hpLock)
+			{
+				newHp = (int)this.Properties.Modify(PropertyName.HP, amount);
+				priority = (this.HpChangeCounter += 1);
+			}
 		}
 
 		/// <summary>
@@ -657,19 +679,8 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="amount"></param>
 		public void ModifyHp(int amount)
 		{
-			int hp, priority;
-			var negative = (amount < 0);
-
-			// Make sure it's not possible for two calls to interfere
-			// with each other, so that the correct amount makes it to
-			// the client, with the correct priority.
-			lock (_hpLock)
-			{
-				hp = (int)this.Properties.Modify("HP", amount);
-				priority = (this.HpChangeCounter += 1);
-			}
-
-			Send.ZC_ADD_HP(this, amount, negative, hp, priority);
+			this.ModifyHpSafe(amount, out var hp, out var priority);
+			Send.ZC_ADD_HP(this, amount, hp, priority);
 		}
 
 		/// <summary>
@@ -677,10 +688,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// client with ZC_UPDATE_SP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void ModifySp(int amount)
+		public void ModifySp(float amount)
 		{
-			var sp = (int)this.Properties.Modify("SP", amount);
-			Send.ZC_UPDATE_SP(this, sp);
+			var sp = this.Properties.Modify(PropertyName.SP, amount);
+			Send.ZC_UPDATE_SP(this, sp, true);
 		}
 
 		/// <summary>
@@ -702,9 +713,14 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var abilityPoints = int.Parse(this.Properties.GetString(PropertyName.AbilityPoint));
 			abilityPoints += amount;
-			this.Properties.SetString("AbilityPoint", abilityPoints.ToString());
+			this.Properties.SetString(PropertyName.AbilityPoint, abilityPoints.ToString());
 
-			Send.ZC_OBJECT_PROPERTY(this, "AbilityPoint");
+			// For some reason the client no longer reads the ability
+			// point property when updating the amount. Instead there's
+			// the commander info now.
+
+			//Send.ZC_OBJECT_PROPERTY(this, PropertyName.AbilityPoint);
+			Send.ZC_CUSTOM_COMMANDER_INFO(this, CommanderInfoType.AbilityPoints, abilityPoints);
 		}
 
 		/// <summary>
@@ -713,7 +729,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="exp"></param>
 		/// <param name="classExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(int exp, int classExp, IMonster monster)
+		public void GiveExp(long exp, long classExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;
@@ -722,29 +738,45 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
 			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
 
-			while (this.Exp >= this.MaxExp)
+			var level = this.Level;
+			var levelUps = 0;
+			var maxExp = this.MaxExp;
+			var maxLevel = ZoneServer.Instance.Data.ExpDb.GetMaxLevel();
+
+			// Consume EXP as many times as possible to reach new levels
+			while (this.Exp >= maxExp && level < maxLevel)
 			{
-				this.Exp -= this.MaxExp;
-				this.LevelUp();
+				this.Exp -= maxExp;
+
+				level++;
+				levelUps++;
+				maxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(level);
 			}
 
+			// Execute level up only once to avoid client lag on multiple
+			// level ups. Leveling up a thousand times in a loop is not
+			// fun for the client =D"
+			if (levelUps > 0)
+				this.LevelUp(levelUps);
+
 			// Class EXP
+			// Increase the total EXP and check whether the class level,
+			// which is calculcated from that value, has changed.
 			var classLevel = this.ClassLevel;
 			var rank = this.Jobs.GetCurrentRank();
 			var job = this.Job;
-			var maxTotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, 15);
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.
-			job.TotalExp = (int)Math.Min(maxTotalExp, ((long)job.TotalExp + classExp));
+			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + classExp));
 
 			var newClassLevel = this.ClassLevel;
-			var diff = (newClassLevel - classLevel);
+			var classLevelsGained = (newClassLevel - classLevel);
 
 			Send.ZC_JOB_EXP_UP(this, classExp);
 
-			if (diff > 0)
-				this.ClassLevelUp(diff);
+			if (classLevelsGained > 0)
+				this.ClassLevelUp(classLevelsGained);
 		}
 
 		/// <summary>
@@ -783,8 +815,19 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
+					if (monster.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in monster.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
+					}
+
 					if (monster is ICombatEntity entity)
+					{
 						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
+
+						if (entity.Components.Get<BuffComponent>()?.Count != 0)
+							Send.ZC_BUFF_LIST(this.Connection, entity);
+					}
 				}
 
 				foreach (var monster in disappearMonsters)
@@ -792,7 +835,18 @@ namespace Melia.Zone.World.Actors.Characters
 
 				// Characters
 				foreach (var character in appearCharacters)
+				{
 					Send.ZC_ENTER_PC(this.Connection, character);
+
+					if (character.AttachableEffects.Count != 0)
+					{
+						foreach (var effect in character.AttachableEffects)
+							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
+					}
+
+					if (character.Components.Get<BuffComponent>()?.Count != 0)
+						Send.ZC_BUFF_LIST(this.Connection, character);
+				}
 
 				foreach (var character in disappearCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
@@ -867,7 +921,7 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Sends server message to character.
+		/// Displays server message in character's chat.
 		/// </summary>
 		/// <remarks>
 		/// Abuses a certain system message that takes two parameters,
@@ -877,6 +931,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// improvement over using ZC_CHAT.
 		/// </remarks>
 		/// <param name="format"></param>
+		/// <param name="args"></param>
 		public void ServerMessage(string format, params object[] args)
 		{
 			if (args.Length > 0)
@@ -886,7 +941,20 @@ namespace Melia.Zone.World.Actors.Characters
 			// messages, we're abusing clientmessage 21254, which has the
 			// format "X:Y", where we replace X and Y with a prefix and
 			// our custom message.
-			Send.ZC_SYSTEM_MSG(this, 21254, new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
+			this.SystemMessage("{Hour}:{Min}", new MsgParameter("Hour", "Server "), new MsgParameter("Min", " " + format));
+		}
+
+		/// <summary>
+		/// Displays system message in character's chat.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="args"></param>
+		public void SystemMessage(string className, params MsgParameter[] args)
+		{
+			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(className, out var sysMsgData))
+				throw new ArgumentException($"System message '{className}' not found.");
+
+			Send.ZC_SYSTEM_MSG(this, sysMsgData.ClassId, args);
 		}
 
 		/// <summary>
@@ -914,8 +982,8 @@ namespace Melia.Zone.World.Actors.Characters
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be negative.");
 
-			this.Properties.Modify("StatByBonus", amount);
-			Send.ZC_OBJECT_PROPERTY(this, "StatByBonus");
+			this.Properties.Modify(PropertyName.StatByBonus, amount);
+			Send.ZC_OBJECT_PROPERTY(this, PropertyName.StatByBonus);
 		}
 
 		/// <summary>
@@ -942,34 +1010,43 @@ namespace Melia.Zone.World.Actors.Characters
 			// that went into the *_JOB properties, which we'll just add
 			// to StatByBonus.
 
-			var jobStatPoints = character.Properties.Sum("STR_JOB", "CON_JOB", "INT_JOB", "MNA_JOB", "DEX_JOB") - 5;
-			character.Properties.Modify("StatByBonus", jobStatPoints);
+			var jobStatPoints = character.Properties.Sum(PropertyName.STR_JOB, PropertyName.CON_JOB, PropertyName.INT_JOB, PropertyName.MNA_JOB, PropertyName.DEX_JOB) - 5;
+			character.Properties.Modify(PropertyName.StatByBonus, jobStatPoints);
 
-			character.Properties.SetFloat("UsedStat", 0);
+			character.Properties.SetFloat(PropertyName.UsedStat, 0);
 
-			character.Properties.SetFloat("STR_STAT", 0);
-			character.Properties.SetFloat("CON_STAT", 0);
-			character.Properties.SetFloat("INT_STAT", 0);
-			character.Properties.SetFloat("MNA_STAT", 0);
-			character.Properties.SetFloat("DEX_STAT", 0);
+			character.Properties.SetFloat(PropertyName.STR_STAT, 0);
+			character.Properties.SetFloat(PropertyName.CON_STAT, 0);
+			character.Properties.SetFloat(PropertyName.INT_STAT, 0);
+			character.Properties.SetFloat(PropertyName.MNA_STAT, 0);
+			character.Properties.SetFloat(PropertyName.DEX_STAT, 0);
 
-			character.Properties.SetFloat("STR_JOB", 1);
-			character.Properties.SetFloat("CON_JOB", 1);
-			character.Properties.SetFloat("INT_JOB", 1);
-			character.Properties.SetFloat("MNA_JOB", 1);
-			character.Properties.SetFloat("DEX_JOB", 1);
+			character.Properties.SetFloat(PropertyName.STR_JOB, 1);
+			character.Properties.SetFloat(PropertyName.CON_JOB, 1);
+			character.Properties.SetFloat(PropertyName.INT_JOB, 1);
+			character.Properties.SetFloat(PropertyName.MNA_JOB, 1);
+			character.Properties.SetFloat(PropertyName.DEX_JOB, 1);
 
 			// TODO: Add semi-automatic updating of all properties that
 			//   changed.
-			Send.ZC_OBJECT_PROPERTY(character,
-				"STR", "STR_STAT", "STR_JOB", "CON", "CON_STAT", "CON_JOB",
-				"INT", "INT_STAT", "INT_JOB", "MNA", "MNA_STAT", "MNA_JOB",
-				"DEX", "DEX_STAT", "DEX_JOB",
-				"UsedStat", "StatByLevel", "StatByBonus",
-				"MINPATK", "MAXPATK", "MINMATK", "MAXMATK", "MINPATK_SUB", "MAXPATK_SUB",
-				"CRTATK", "HR", "DR", "BLK_BREAK", "BLK", "RHP",
-				"RSP", "MHP", "MSP"
-			);
+			//Send.ZC_OBJECT_PROPERTY(character,
+			//	"STR", "STR_STAT", "STR_JOB", "CON", "CON_STAT", "CON_JOB",
+			//	"INT", "INT_STAT", "INT_JOB", "MNA", "MNA_STAT", "MNA_JOB",
+			//	"DEX", "DEX_STAT", "DEX_JOB",
+			//	"UsedStat", "StatByLevel", "StatByBonus",
+			//	"MINPATK", "MAXPATK", "MINMATK", "MAXMATK", "MINPATK_SUB", "MAXPATK_SUB",
+			//	"CRTATK", "HR", "DR", "BLK_BREAK", "BLK", "RHP",
+			//	"RSP", "MHP", "MSP"
+			//);
+
+			// I don't trust that we will always get the updated properties
+			// right and creating semi-auto updating is difficult with this
+			// game's property system, so we'll just update all of them
+			// That might not actually be necessary in all cases, but it's
+			// much simpler and safer. It's also not like we reset characters
+			// all the time anyway.
+			character.Properties.InvalidateAll();
+			Send.ZC_OBJECT_PROPERTY(character);
 		}
 
 		/// <summary>
@@ -1008,48 +1085,6 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Returns a random physical attack damage value.
-		/// </summary>
-		/// <returns></returns>
-		public int GetRandomPAtk()
-		{
-			var rnd = RandomProvider.Get();
-
-			var min = (int)this.Properties.GetFloat(PropertyName.MINPATK);
-			var max = (int)this.Properties.GetFloat(PropertyName.MAXPATK);
-
-			return rnd.Next(min, max + 1);
-		}
-
-		/// <summary>
-		/// Returns a random magic attack damage value.
-		/// </summary>
-		/// <returns></returns>
-		public int GetRandomMAtk()
-		{
-			var rnd = RandomProvider.Get();
-
-			var min = (int)this.Properties.GetFloat(PropertyName.MINMATK);
-			var max = (int)this.Properties.GetFloat(PropertyName.MAXMATK);
-
-			return rnd.Next(min, max + 1);
-		}
-
-		/// <summary>
-		/// Returns a random physical or magic attack damage value,
-		/// for usage with the given skill.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <returns></returns>
-		public int GetRandomAtk(Skill skill)
-		{
-			if (skill.Data.ClassType <= SkillClassType.Missile)
-				return this.GetRandomPAtk();
-			else
-				return this.GetRandomMAtk();
-		}
-
-		/// <summary>
 		/// These should be reference properties?
 		/// PCETC Properties
 		/// </summary>
@@ -1071,11 +1106,75 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns true if the character is dead.
 		/// </summary>
 		/// <param name="damage"></param>
-		/// <param name="from"></param>
+		/// <param name="attacker"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character from)
+		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
-			throw new NotImplementedException();
+			// Don't hit an already dead monster
+			if (this.IsDead)
+				return true;
+
+			this.Components.Get<CombatComponent>().SetAttackState(true);
+			this.ModifyHpSafe(-damage, out _, out _);
+
+			// Kill monster if it reached 0 HP.
+			if (this.Hp == 0)
+			{
+				this.Kill(attacker);
+				return true;
+			}
+
+			return this.IsDead;
+		}
+
+		/// <summary>
+		/// Kills character.
+		/// </summary>
+		/// <param name="killer"></param>
+		public void Kill(ICombatEntity killer)
+		{
+			this.Properties.SetFloat(PropertyName.HP, 0);
+			//this.Died?.Invoke(this, killer);
+
+			Send.ZC_DEAD(this);
+
+			_resurrectDialogTimer = ResurrectDialogDelay;
+		}
+
+		/// <summary>
+		/// Resurrects the character if its dead.
+		/// </summary>
+		/// <param name="option"></param>
+		public void Resurrect(ResurrectOptions option)
+		{
+			var startHp = this.Properties.GetFloat(PropertyName.MHP) * 0.50f;
+			this.Heal(startHp, 0);
+
+			switch (option)
+			{
+				default:
+				case ResurrectOptions.NearestRevivalPoint:
+				{
+					var safePos = this.Map.GetSafePositionNear(this.Position, true);
+					this.Warp(this.MapId, safePos);
+					break;
+				}
+			}
+
+			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
+			Send.ZC_RESURRECT(this);
+		}
+
+		/// <summary>
+		/// Returns true if the character can attack others.
+		/// </summary>
+		/// <returns></returns>
+		public bool CanFight()
+		{
+			if (this.IsDead)
+				return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -1085,9 +1184,19 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
+			if (entity == this)
+				return false;
+
+			if (entity.IsDead)
+				return false;
+
 			// For now, let's specify that characters can attack actual
 			// monsters.
-			return (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
+			var isHostileMonster = (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
+			if (!isHostileMonster)
+				return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -1121,6 +1230,15 @@ namespace Melia.Zone.World.Actors.Characters
 			this.SitStatusChanged?.Invoke(this);
 
 			Send.ZC_REST_SIT(this);
+		}
+
+		/// <summary>
+		/// Plays effect for the character.
+		/// </summary>
+		/// <param name="packetString"></param>
+		public void PlayEffect(string packetString)
+		{
+			Send.ZC_NORMAL.PlayEffect(this, packetString);
 		}
 	}
 }

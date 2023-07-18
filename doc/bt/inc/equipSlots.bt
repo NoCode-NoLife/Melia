@@ -17,6 +17,8 @@
 //   - i336041: EquipSlotCount increased to 30, Updated lpString cases
 //   - i339415: EquipSlotCount increased to 32
 //   - i354444: EquipSlotCount increased to 33
+//   - i365941: EquipSlotCount increased to 34
+//   - i365941: EquipSlotCount increased to 35
 //------------------------------------------------
 
 const int EquipSlotCount = 35;
@@ -48,6 +50,8 @@ string GetEquipSlotName(int slotId)
         case 20: return "Hat";
         case 21: return "Lens";
         case 22: return "Wing";
+        case 33: return "Belt";
+        case 34: return "Shoulder";
         default: return "Unknown";
     }
 }

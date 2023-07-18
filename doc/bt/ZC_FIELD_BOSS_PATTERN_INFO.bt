@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_FIELD_BOSS_PATTERN_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i363295
+//   Purpose: Joint Strike Raid Boss Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+char bossName[51]; // Field_boss_diena
+char attribute[20]; // Poison
+char area[20]; // Klaida
+char defenseType[20]; // Leather
+int i1; // 4
+int i2; // 1
+int i[6]; // [11216, 310, 311, 306, 323, 301]

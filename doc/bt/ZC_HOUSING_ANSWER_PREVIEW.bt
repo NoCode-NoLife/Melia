@@ -1,0 +1,29 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_HOUSING_ANSWER_PREVIEW.bt
+//   Authors: Salman T. Khan
+//   Version: i355874
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+typedef struct
+{
+    int i1;
+    position pos;
+    byte b1;
+} HousingAnswer <optimize=false>;
+
+ServerHeaderDynamic header;
+
+int64 i1;
+int mapId;
+int count;
+if (count > 0)
+    HousingAnswer housing[count];

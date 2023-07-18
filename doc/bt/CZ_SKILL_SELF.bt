@@ -1,21 +1,22 @@
 //------------------------------------------------
-//--- 010 Editor v11.0.1 Binary Template
+//--- 010 Editor v12.0 Binary Template
 //
 //      File: CZ_SKILL_SELF.bt
 //   Authors: Salman T. Khan
-//   Version: i340313
-//   Purpose: 
+//   Version: i341551
+//   Purpose: A self cast skill
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ClientHeaderFixed header;
-byte b1;
+
+byte b1; // 0
 int skillId;
 position pos;
 direction dir;
-byte b2;
+byte b2; // 1

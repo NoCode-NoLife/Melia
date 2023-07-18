@@ -14,4 +14,4 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-byte state; // 0 = not friendly?
+byte state; // 0 = friendly, 1 = not friendly

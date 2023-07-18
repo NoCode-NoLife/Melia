@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_START.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Trade Start
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+char characterName[65];
+byte b1;

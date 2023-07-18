@@ -3,7 +3,7 @@
 //
 //      File: CZ_CLIENT_HIT_LIST.bt
 //   Authors: exec
-//   Version: i170175
+//   Version: i373766
 //   Purpose: List of melee attack targets.
 //  Category: 
 // File Mask: 
@@ -17,7 +17,7 @@
 ClientHeaderDynamic header;
 
 int i1;
-int count; // How many targets
+int targetHandleCount;
 
 position attackerPos;
 
@@ -31,11 +31,10 @@ position targetPos;
 direction targetDir;
 
 int skillId;
-byte bin1[5]; // 01 00...
+byte b1;
+float f3;
 float f1;
+float f2;
 
-if (count > 0)
-{
-    float f2;
-    int targetHandles[count];
-}
+if (targetHandleCount > 0)
+    int targetHandles[targetHandleCount];

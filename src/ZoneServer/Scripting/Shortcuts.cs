@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
+using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
@@ -16,8 +17,10 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting
 {
-	public static class Shortcuts
+	public static partial class Shortcuts
 	{
+		private static long UniqueNpcNameId = 0;
+
 		/// <summary>
 		/// A function that initializes a shop.
 		/// </summary>
@@ -86,8 +89,31 @@ namespace Melia.Zone.Scripting
 		/// <exception cref="ArgumentException"></exception>
 		public static Npc AddNpc(int monsterId, string name, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
+			var uniqueId = Interlocked.Increment(ref UniqueNpcNameId);
+			var uniqueName = $"__NPC{uniqueId}__";
+
+			return AddNpc(monsterId, name, uniqueName, map, x, z, direction, dialog);
+		}
+
+		/// <summary>
+		/// Adds new NPC to the world.
+		/// </summary>
+		/// <param name="monsterId"></param>
+		/// <param name="name"></param>
+		/// <param name="uniqueName"></param>
+		/// <param name="map"></param>
+		/// <param name="x"></param>
+		/// <param name="z"></param>
+		/// <param name="direction"></param>
+		/// <param name="dialog"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public static Npc AddNpc(int monsterId, string name, string uniqueName, string map, double x, double z, double direction, DialogFunc dialog = null)
+		{
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
 				throw new ArgumentException($"Map '{map}' not found.");
+
+			if (ZoneServer.Instance.World.TryGetMonster(a => a.UniqueName == uniqueName, out _))
+				throw new ArgumentException($"An NPC with the unique name '{uniqueName}' already exists.");
 
 			var pos = new Position((float)x, 0, (float)z);
 			if (mapObj.Ground.TryGetHeightAt(pos, out var height))
@@ -113,7 +139,12 @@ namespace Melia.Zone.Scripting
 			var location = new Location(mapObj.Id, pos);
 			var dir = new Direction(direction);
 
-			var monster = new Npc(monsterId, name, location, dir, dialog);
+			var monster = new Npc(monsterId, name, location, dir);
+			monster.UniqueName = uniqueName;
+
+			if (dialog != null)
+				monster.SetClickTrigger("DYNAMIC_DIALOG", dialog);
+
 			mapObj.AddMonster(monster);
 
 			return monster;
@@ -135,12 +166,8 @@ namespace Melia.Zone.Scripting
 			if (!ZoneServer.Instance.World.TryGetMap(to.MapId, out var toMap))
 				throw new ArgumentException($"Map '{to.MapId}' not found.");
 
-			// Get name, preferably a localization key
-			var targetLocationName = toMap.Name;
-			if (toMap.Data.LocalKey != "?")
-				targetLocationName = Dialog.WrapLocalizationKey(toMap.Data.LocalKey);
+			var targetLocationName = Localization.Get(toMap.Data.Name);
 
-			// Create a "warp monster"...
 			var monster = new WarpMonster(warpName, targetLocationName, from, to, new Direction(direction));
 			fromMap.AddMonster(monster);
 
@@ -148,46 +175,20 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Adds monster spawner to the world.
+		/// Adds an override for the properties of a monster on a specific
+		/// map. These override the stats of monsters spawned via spawners
+		/// if no property overrides are specified for the spawner itself.
 		/// </summary>
-		/// <param name="monsterClassName"></param>
-		/// <param name="amount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
+		/// <param name="mapClassName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
 		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(string monsterClassName, int amount, TimeSpan respawn, string map, IShape area)
+		public static void AddPropertyOverrides(string mapClassName, int monsterClassId, PropertyOverrides propertyOverrides)
 		{
-			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(a => a.ClassName == monsterClassName, out var monsterData))
-				throw new ArgumentException($"Monster '{monsterClassName}' not found.");
+			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
+				throw new ArgumentException($"Map '{mapClassName}' not found.");
 
-			return AddSpawner(monsterData.Id, amount, respawn, map, area);
-		}
-
-		/// <summary>
-		/// Adds monster spawner to the world.
-		/// </summary>
-		/// <param name="monsterClassName"></param>
-		/// <param name="amount"></param>
-		/// <param name="respawn"></param>
-		/// <param name="map"></param>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShape area)
-		{
-			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
-				throw new ArgumentException($"Map '{map}' not found.");
-
-			var initialSpawnDelay = TimeSpan.Zero;
-			var minRespawnDelay = respawn;
-			var maxRespawnDelay = respawn.Add(TimeSpan.FromMilliseconds(2000));
-
-			var spawner = new MonsterSpawner(monsterClassId, amount, map, area, initialSpawnDelay, minRespawnDelay, maxRespawnDelay);
-			mapObj.AddSpawner(spawner);
-
-			return spawner;
+			map.AddPropertyOverrides(monsterClassId, propertyOverrides);
 		}
 
 		/// <summary>
@@ -198,7 +199,7 @@ namespace Melia.Zone.Scripting
 		/// <example>
 		/// Area(0, 0, 0, 10, 10, 10, 10, 0) // 10x10 square
 		/// </example>
-		public static IShape Area(params double[] coordinates)
+		public static IShapeF Area(params double[] coordinates)
 		{
 			if (coordinates.Length == 0 || coordinates.Length % 2 != 0)
 				throw new ArgumentException("Expected an even amount of coordinates for area.");
@@ -206,14 +207,14 @@ namespace Melia.Zone.Scripting
 			if (coordinates.Length < 3)
 				throw new ArgumentException("Needs at least 3 points (6 X/Y coordinates).");
 
-			var points = new List<Vector2>();
+			var points = new List<Vector2F>();
 			for (var i = 0; i < coordinates.Length;)
 			{
-				var point = new Vector2((int)coordinates[i++], (int)coordinates[i++]);
+				var point = new Vector2F((float)coordinates[i++], (float)coordinates[i++]);
 				points.Add(point);
 			}
 
-			return new Polygon(points);
+			return new PolygonF(points);
 		}
 
 		/// <summary>
@@ -223,10 +224,72 @@ namespace Melia.Zone.Scripting
 		/// <param name="y"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public static IShape Spot(double x, double y, double radius = 0)
+		public static IShapeF Spot(double x, double y, double radius = 0)
 		{
-			var center = new Vector2((int)x, (int)y);
-			return new Yggdrasil.Geometry.Shapes.Circle(center, (int)radius);
+			var center = new Vector2F((float)x, (float)y);
+			return new CircleF(center, (int)radius);
+		}
+
+		/// <summary>
+		/// Returns a rectangular shape at the given coordinates.
+		/// </summary>
+		/// <remarks>
+		/// The rectangle is created centered around the given coordinates,
+		/// stretching out in all directions based on the width and height
+		/// arguments.
+		/// </remarks>
+		/// <param name="x">X-coordinate of the shape's center.</param>
+		/// <param name="y">Z-Coordinate of the shape's center.</param>
+		/// <param name="width">Width of the rectangle.</param>
+		/// <param name="height">Height of the rectangle. Defaults to width.</param>
+		/// <returns></returns>
+		public static IShapeF Rectangle(double x, double y, double width, double height = 0)
+		{
+			var center = new Vector2F((float)x, (float)y);
+			var size = new Vector2F((float)width, (float)(height != 0 ? height : width));
+
+			return RectangleF.Centered(center, size);
+		}
+
+		/// <summary>
+		/// Returns a list of named properties based on a list of key/value
+		/// pairs.
+		/// </summary>
+		/// <example>
+		/// Properties("MHP", 1000, "EXP", 5) // { "MHP": 1000, "EXP": 5 }
+		/// </example>
+		/// <param name="properties"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static PropertyOverrides Properties(params object[] properties)
+		{
+			var result = new PropertyOverrides();
+
+			if (properties.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of arguments for key/value pairs.");
+
+			for (var i = 0; i < properties.Length; i += 2)
+			{
+				var propertyNameObj = properties[i];
+				var propertyValueObj = properties[i + 1];
+
+				if (!(propertyNameObj is string propertyName))
+					throw new ArgumentException($"Expected a string for key, got '{propertyValueObj.GetType().Name}'.");
+
+				switch (propertyValueObj)
+				{
+					case int _:
+					case float _:
+					case string _:
+						result[propertyName] = propertyValueObj;
+						break;
+
+					default:
+						throw new ArgumentException($"Expected an int, float or string for value, got '{propertyValueObj.GetType().Name}'.");
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -338,5 +401,29 @@ namespace Melia.Zone.Scripting
 			//   and intervals with entities.
 			_ = Task.Delay(TimeSpan.FromMinutes(1)).ContinueWith(_ => npc.SetState(NpcState.Normal));
 		}
+
+		/// <summary>
+		/// Adds or overrides a command, making it available to players
+		/// who have the given authority levels.
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="usage"></param>
+		/// <param name="description"></param>
+		/// <param name="auth"></param>
+		/// <param name="targetAuth"></param>
+		/// <param name="func"></param>
+		public static void AddChatCommand(string command, string usage, string description, int auth, int targetAuth, ChatCommandFunc func)
+		{
+			ZoneServer.Instance.ChatCommands.Add(command, usage, description, func);
+			ZoneServer.Instance.Conf.Commands.CommandLevels[command] = new CommandAuthLevels(auth, targetAuth);
+		}
+	}
+
+	/// <summary>
+	/// A list of properties that can be used to override default values
+	/// for spawned monsters.
+	/// </summary>
+	public class PropertyOverrides : Dictionary<string, object>
+	{
 	}
 }

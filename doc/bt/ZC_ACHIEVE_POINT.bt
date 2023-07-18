@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_ACHIEVE_POINT
+//      File: ZC_ACHIEVE_POINT.bt
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
@@ -15,6 +15,6 @@
 
 ServerHeaderFixed header;
 
-int achievementId; // Achievement ID
+int achievementPointId; // Achievement ID
 int value; // Value?
-int i3; // Unused?
+int i3; // Achievement Unlocked? 101004

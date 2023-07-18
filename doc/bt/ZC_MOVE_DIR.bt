@@ -19,9 +19,9 @@ int handle;
 position pos;
 direction dir;
 byte b1; // 1
-float speed; // 33f
+float speed; // 33f or 30f
 float f1;
 byte bin[24];
-int f2;
-int f3;
-byte b3;
+int i1; // 6
+int i2; // 0
+byte b2; // 1

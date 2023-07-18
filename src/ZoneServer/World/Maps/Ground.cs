@@ -2,6 +2,7 @@
 using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World;
+using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Maps
@@ -11,6 +12,8 @@ namespace Melia.Zone.World.Maps
 	/// </summary>
 	public class Ground
 	{
+		private const float RayOriginHeight = 20000;
+
 		private GroundData _data;
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
@@ -106,7 +109,7 @@ namespace Melia.Zone.World.Maps
 				return false;
 			}
 
-			var origin = new Vector3f(pos.X, 1000, pos.Z);
+			var origin = new Vector3f(pos.X, RayOriginHeight, pos.Z);
 			var ray = new Ray3f(origin, new Vector3f(0, -1, 0));
 
 			var hitId = _spatial.FindNearestHitTriangle(ray);
@@ -119,7 +122,7 @@ namespace Melia.Zone.World.Maps
 			var intersection = MeshQueries.TriangleIntersection(_mesh, hitId, ray);
 			var hitDistance = origin.Distance(ray.PointAt((float)intersection.RayParameter));
 
-			height = (1000 - hitDistance);
+			height = (RayOriginHeight - hitDistance);
 			return true;
 		}
 
@@ -168,7 +171,7 @@ namespace Melia.Zone.World.Maps
 			}
 
 			cellIndex = -1;
-			return true;
+			return false;
 		}
 
 		/// <summary>
@@ -216,6 +219,36 @@ namespace Melia.Zone.World.Maps
 
 			pos = Position.Zero;
 			return false;
+		}
+
+		/// <summary>
+		/// Returns the last valid position on the path between origin and
+		/// destination. If there are no obstacles between the two positions,
+		/// the position returned is the destination.
+		/// </summary>
+		/// <param name="origin"></param>
+		/// <param name="destination"></param>
+		/// <returns></returns>
+		public Position GetLastValidPosition(Position origin, Position destination)
+		{
+			var dir = origin.GetDirection(destination);
+
+			var stepSize = 10;
+			var currentPos = origin;
+			var lastValidPos = currentPos;
+
+			while (currentPos.Get2DDistance(destination) > stepSize)
+			{
+				currentPos = currentPos.GetRelative(dir, stepSize);
+
+				if (!this.TryGetHeightAt(currentPos, out var height))
+					return lastValidPos;
+
+				lastValidPos = currentPos;
+				lastValidPos.Y = height;
+			}
+
+			return destination;
 		}
 	}
 }

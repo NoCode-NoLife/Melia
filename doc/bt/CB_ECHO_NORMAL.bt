@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CB_ECHO_NORMAL.bt
+//   Authors: Salman T. Khan
+//   Version: i373230
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderDynamic header;
+
+int type;
+int64 l1;
+byte b1; // 3 (Attacker Slot?)
+int64 l2;
+byte b2; // 0 (Target Slot?)
+int i4; // 4 (Skill Id?)

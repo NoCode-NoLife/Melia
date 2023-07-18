@@ -1,0 +1,21 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_PARTY_MEMBER_SKILL_USE.bt
+//   Authors: Salman T. Khan
+//   Version: i370069
+//   Purpose: Use guild skills?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+short s1;
+PartyType type;
+int skillId;
+int level;
+int64 l1;

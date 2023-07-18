@@ -1,0 +1,29 @@
+//------------------------------------------------
+//--- 010 Editor v13.0 Binary Template
+//
+//      File: ZC_HOUSING_READY_ARRANGED_FURNITURE.bt
+//   Authors: Salman T. Khan
+//   Version: i364542
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+byte bin[68]; // 0
+byte b1; // 1
+int count; // 1
+int furnitureId;
+int furnitureHandle;
+int64 accountId;
+int64 characterId;
+position pos;
+byte dir;
+int usedCellCount; // ?
+if (usedCellCount > 0)
+    int usedCell[usedCellCount];

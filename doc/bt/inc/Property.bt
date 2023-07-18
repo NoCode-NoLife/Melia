@@ -37,13 +37,13 @@ string propertyRead(property &p)
     
 #ifdef OPN
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING: SPrintf(ret, "%s : \"%s\"",   getPropertyName(p.id), p.val.text); break;
+        case OBJP_STRING: SPrintf(ret, "%s : %s",   getPropertyName(p.id), p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%s : %.0f", getPropertyName(p.id), p.val); break;
         case OBJP_FILETIME:  SPrintf(ret, "%s : %s", getPropertyName(p.id), FileTimeToString(p.val)); break;
     }
 #else
     switch(getPropertyType(p.id)) {
-        case OBJP_STRING: SPrintf(ret, "%d : \"%s\"",   p.id, p.val.text); break;
+        case OBJP_STRING: SPrintf(ret, "%d : %s",   p.id, p.val.text); break;
         case OBJP_FLOAT:  SPrintf(ret, "%d : %.0f", p.id, p.val); break;
         case OBJP_FILETIME:  SPrintf(ret, "%d : %s", p.id, FileTimeToString(p.val)); break;
     }
@@ -95,12 +95,18 @@ int getPropertyType(int id)
 {
     switch(id) {
         case 3:
-        case 4:
+        //case 4:
         case 5:
         case 41:
+        case 48:
+        case 60:
+        case 421:
+        case 449:
+        case 705:
         case 1328:
         case 1967:
         case 3927:
+        case 3970:
         case 4591:
         case 6303:
         case 7118:
@@ -112,7 +118,11 @@ int getPropertyType(int id)
         case 7488:
         case 7491:
         case 7494:
+        case 7692:
+        case 8907:
         case 8993:
+        //case 8997:
+        //case 9004:
         case 10022:
         case 10100:
         case 10618: // coordinates? (-1246/-648)
@@ -122,14 +132,24 @@ int getPropertyType(int id)
         case 10992:
         case 31587:
         case 31625:
+        case 32311:
         case 32315:
         case 32316:
+        case 32319:
         case 32575:
         case 32593:
         case 32594:
         case 33612: // YES
+        case 33674:
+        case 33681:
+        case 33684:
+        case 33688:
+        case 33691:
         case 100896:
+        case 100964:
         case 101000:
+        //case 101209: // 1
+        case 101229: // None
         case 101242:
         case 101243:
         case 101244:
@@ -146,61 +166,168 @@ int getPropertyType(int id)
         case 101257:
         case 101691:
         case 101692:
+        case 101693:
         case 101822:
         case 101859:
+        case 101941:
+        case 102025: // d_thorn_39_1
         case 102050:
         case 102231:
         case 102232:
         case 102315:
+        case 102318:
+        case 102319:
         case 102969:
         case 103075:
+        case 103096:
+        case 103116:
+        case 103139:
+        case 103168:
         case 103180:
         case 103216:
         case 103224:
         case 103245:
+        case 103327:
+        case 103328:
+        case 103329:
+        case 103330:
+        case 103331:
+        case 103332:
+        case 103333:
+        case 103334:
+        case 103335:
+        case 103336:
         case 103382:
+        case 103383:
+        case 103385:
+        case 103386:
         case 103387:
         case 103948:
+        case 104082:
+        case 104084:
+        case 104085:
+        case 104086:
+        case 104088:
         case 104261:
         case 104283:
         case 104310:
         case 104363:
+        case 104369:
         case 104407:
         case 104411:
         case 104471:
         case 104893:
         case 104895:
         case 104897:
+        case 105017:
         case 105083:
+        case 105084:
         case 105178:
+        case 105193:
         case 105365:
+        case 105561:
+        case 105563:
+        case 105564:
+        case 105565:
+        case 105569:
+        case 105570:
+        case 105571:
+        case 105572:
         case 105651:
         case 105652:
+        case 106467:
+        case 106468:
+        case 106470:
+        case 106826:
         case 107234:
         case 107259:
+        case 107574:
+        case 107577:
+        case 107579:
         case 108117:
+        case 108384:
+        case 108385:
+        case 108388:
+        case 108393:
         case 108399:
         case 108496:
         case 108749:
         case 109090:
+        case 109130:
+        case 109143:
+        case 109145:
+        case 109148:
         case 109150:
+        case 109153:
+        case 109159:
+        case 109160:
         case 109163:
+        case 109179:
+        case 109185:
         case 109195:
+        case 109197:
+        case 109199:
+        case 109201:
+        case 109202:
+        case 109206:
+        case 109207:
+        case 109208:
         case 109215:
+        case 109217:
+        case 109218:
+        case 109222:
+        case 109225:
+        case 109226:
         case 109227:
+        case 109231:
+        case 109235:
+        case 109237:
         case 109238:
-        case 109271:
-        case 109276:
+        case 109241:
         case 109242:
         case 109249:
+        case 109250:
+        case 109252:
+        case 109253:
+        case 109262:
+        case 109263:
         case 109266:
+        case 109271:
+        case 109276:
+        case 109278:
+        case 109286:
         case 109288:
+        case 109293:
+        case 109300:
         case 109314:
+        case 109322:
         case 109324:
+        case 109330:
+        case 109331:
+        case 109334:
+        case 109335:
+        case 109336:
+        case 109338:
+        case 109344:
         case 109354:
+        case 109355:
+        case 109356:
         case 109364:
+        case 109366:
+        case 109372:
         case 109375:
         case 109377:
+        case 109378:
+        case 109380:
+        case 109384:
+        case 109390:
+        case 109391:
+        case 109398:
+        case 109455:
+        case 109456:
+        case 109490:
+        case 109491:
+        case 109551:
         case 109553:
         case 109554:
         case 109555:
@@ -218,9 +345,127 @@ int getPropertyType(int id)
         case 109567:
         case 109568:
         case 109569:
+        case 109587:
+        case 109631:
         case 109827:
         case 109829:
+        case 110709: // GuideQuest_7
         case 110719:
+        case 110932: // Char2_20
+        case 110936:
+        case 110958:
+        case 110960:
+        case 111023:
+        case 111055:
+        case 111084:
+        case 111091:
+        case 111192: // None
+        case 111333: // None
+        case 111334:
+        case 111338: // None
+        case 111339: // None
+        case 112205: // None
+        // GUIDE_STEPXXXX
+        case 112315: // InProgress
+        case 112332:
+        case 112295:
+        case 112365:
+        case 112300:
+        case 112270:
+        case 112410:
+        case 112356:
+        case 112848:
+        // Class Snapshot (Title/Ability/Skill)
+        case 113127:
+        case 113128:
+        case 113129:
+        case 113130:
+        case 113131:
+        case 113132:
+        case 113133:
+        case 113134:
+        case 113135:
+        case 113136:
+        case 113137:
+        case 113138:
+        case 113139:
+        case 113140:
+        case 113141:
+        case 113142:
+        case 113143:
+        case 113144:
+        case 113145:
+        case 113146:
+        case 113147:
+        case 113148:
+        case 113149:
+        case 113150:
+        case 113151:
+        case 113152:
+        case 113153:
+        case 113154:
+        case 113155:
+        case 113156:
+        case 113157:
+        case 113158:
+        case 113159:
+        case 113160:
+        case 113161:
+        case 113162:
+        case 113163:
+        case 113164:
+        case 113165:
+        case 113166:
+        case 113167:
+        case 113168:
+        case 113169:
+        case 113170:
+        case 113171:
+        case 113172:
+        case 113173:
+        case 113174:
+        case 113175:
+        case 113176:
+        case 113177:
+        case 113178:
+        case 113179:
+        case 113180:
+        case 113181:
+        case 113182:
+        case 113183:
+        case 113184:
+        case 113185:
+        case 113186:
+        case 113187:
+        case 113188:
+        case 113189:
+        case 113190:
+        case 113191:
+        case 113192:
+        case 113193:
+        case 113194:
+        case 113195:
+        case 113196:
+        case 113197:
+        case 113198:
+        case 113199:
+        case 113200:
+        case 113201:
+        case 113202:
+        case 113203:
+        case 113204:
+        case 113205:
+        case 113206:
+        case 113207:
+        case 113208:
+        case 113209:
+        case 113210:
+        case 113211:
+        case 113212:
+        case 113213:
+        case 113214:
+        case 113215:
+        case 113216:
             return OBJP_STRING;
             break;
         case 107249:

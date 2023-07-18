@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_DIALOG_TX.bt
-//   Authors: 
-//   Version: 
+//   Authors: Salman T. Khan, exec
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -13,12 +13,26 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixed header;
-short s1;
-int i1;
-int i2;
-short s2;
-int64 worldId;
-int i3;
-int i4; // Item ID
-float f1;
+typedef struct
+{
+    int64 itemObjectId;
+    int amount;
+    int itemClassId;
+}
+TxItem;
+
+ClientHeaderDynamic header;
+
+int type; // classId in tx_item
+short itemCount;
+short numArgCount;
+short strArgCount;
+
+if (itemCount > 0)
+    TxItem items[itemCount];
+
+if (numArgCount > 0)
+    int numArgs[numArgCount];
+
+if (strArgCount > 0)
+    lpString strArgs[strArgCount];

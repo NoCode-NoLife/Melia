@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_RESET_BOX.bt
+//   Authors: Salman T. Khan
+//   Version: i357733
+//   Purpose: Reset Box?
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;

@@ -1,30 +1,33 @@
 //------------------------------------------------
-//--- 010 Editor v11.0.1 Binary Template
+//--- 010 Editor v12.0 Binary Template
 //
 //      File: ZC_SKILL_MELEE_TARGET.bt
-//   Authors: Salman T. Khan
-//   Version: i340313
-//   Purpose: Skill related sent in response to CZ_SKILL_SELF
+//   Authors: Salman T. Khan, exec
+//   Version: i374541
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
 
-#include "common.bt"
+#include "inc/common.bt"
 
 ServerHeaderDynamic header;
 
 int skillId;
 int casterHandle;
-float f0; // Could be direction?
-int i0;
-int i1;
-float f1;
-float f2;
+direction dir;
 int i2;
+float shootTime;
+float f2;
 int i3;
-float f3;
-int i4;
+int forceId;
+float f5;
+int i5;
+
 int targetHandle;
-byte b1;
+byte hitCount;
+
+if (hitCount > 0)
+    SkillHitInfo hits[hitCount];

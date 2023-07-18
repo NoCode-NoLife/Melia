@@ -1,0 +1,15 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_MOVE_BARRACK.bt
+//   Authors: Salman T. Khan
+//   Version: i351431
+//   Purpose: Move client from channel to barrack
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "inc/common.bt"
+
+ServerHeaderFixed header;

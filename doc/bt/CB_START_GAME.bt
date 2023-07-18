@@ -3,7 +3,7 @@
 //
 //      File: CB_START_GAME.bt
 //   Authors: exec
-//   Version: i373230
+//   Version: i374541
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,4 +16,5 @@
 ClientHeaderFixed header;
 
 short channelId;
-short characterIndex;
+byte characterIndex;
+byte b1;

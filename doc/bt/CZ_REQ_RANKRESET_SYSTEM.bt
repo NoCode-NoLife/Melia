@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_REQ_RANKRESET_SYSTEM.bt
+//   Authors: Salman T. Khan
+//   Version: i351431
+//   Purpose: Reset Job
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+short oldJob; // 1006
+short newJob; // 1007
+//int i1;

@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_ENTER_MONSTER.bt
-//   Authors: exec
-//   Version: i171140
+//   Authors: exec, Salman T. Khan
+//   Version: i355874
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,6 +16,7 @@
 //   - i171960: i1 was added (make up your mind!!!)
 //   - i174236: i1 was removed... *sigh*
 //   - i175477: i1 was added (at this point they can only be trolling)
+//   - i355874: f1 was in the wrong place, turns out it's walkSpeed from Db
 //   - i364857: i7 was added
 //------------------------------------------------
 
@@ -23,31 +24,50 @@
 
 ServerHeaderDynamic header;
 
+// MONSTER_BASE
+//------------------------
 int handle;
 position pos;
 direction dir;
 byte type; // 0~2,  0: friendly?, 1: monster, 2: NPC
-byte b1; // bool?
+byte fromGround; // bool?
 int hp, maxHp;
 short s1;
 short s2;
 int i7;
-float f1;
+float walkSpeed;
+
+// MONSTER_APPEARANCE_BASE
+//------------------------
 MONSTER monster;
-int i4; // npc state?
-byte unk1[8];
-int namesSize;
+
+// ?
+//------------------------
+int namesSize; // 5
+
+byte b2;
+byte b4;
+byte b5;
+byte b6;
+
+int namesSize; // aka size of "MonsterAppearance", 5 length-prefixed strings
 short propertiesSize;
-int i3;
-int i5;
+
+int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
+int ownerHandle;
+
 short i6;
 byte b7;
 
+// MONSTER_APPEARANCE
+//------------------------
 lpString name;
 lpString uniqueName;
 lpString dialogName;
 lpString warpName; // ?
 lpString str3;
 
+// Properties
+//------------------------
 if(propertiesSize > 0)
     getProperties(propertiesSize);

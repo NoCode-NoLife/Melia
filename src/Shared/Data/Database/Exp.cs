@@ -8,6 +8,13 @@ using Yggdrasil.Data.JSON;
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
+	public class BaseExpData
+	{
+		public int Level { get; set; }
+		public long Exp { get; set; }
+	}
+
+	[Serializable]
 	public class ClassExpData
 	{
 		public int Rank { get; set; }
@@ -20,7 +27,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ExpDb : DatabaseJson<object>
 	{
-		private readonly List<int> _exp = new List<int>();
+		private readonly List<BaseExpData> _exp = new List<BaseExpData>();
 		private readonly List<ClassExpData> _classExp = new List<ClassExpData>();
 
 		/// <summary>
@@ -34,7 +41,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="level"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException">Thrown if level is invalid (< 1).</exception>
-		public int GetNextExp(int level)
+		public long GetNextExp(int level)
 		{
 			if (level < 1)
 				throw new ArgumentException("Invalid level (too low).");
@@ -45,7 +52,7 @@ namespace Melia.Shared.Data.Database
 			var index = level - 1;
 			var exp = _exp[index];
 
-			return exp;
+			return exp.Exp;
 		}
 
 		/// <summary>
@@ -55,7 +62,7 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public long GetTotalExp(int level)
 		{
-			var result = 0;
+			var result = 0L;
 			for (var i = 1; i < level; ++i)
 				result += this.GetNextExp(i);
 
@@ -97,6 +104,15 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
+		/// Returns the max level.
+		/// </summary>
+		/// <returns></returns>
+		public int GetMaxLevel()
+		{
+			return _exp.Where(a => a.Exp > 0).Max(a => a.Level);
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <remarks>
@@ -124,9 +140,12 @@ namespace Melia.Shared.Data.Database
 			{
 				entry.AssertNotMissing("level", "exp");
 
-				var exp = entry.ReadLong("exp");
+				var data = new BaseExpData();
 
-				_exp.Add((int)exp);
+				data.Level = entry.ReadInt("level");
+				data.Exp = entry.ReadLong("exp");
+
+				_exp.Add(data);
 			}
 		}
 

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_PARTY_MEMBER_SKILL_ACCEPT.bt
+//   Authors: Salman T. Khan
+//   Version: i370069
+//   Purpose: Send response to accepting guild skill invite.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int64 senderAccountId; // 76561198023169014
+int skillId; // 11501
+byte b1; // 1?

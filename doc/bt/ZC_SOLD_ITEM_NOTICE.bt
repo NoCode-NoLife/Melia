@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_SOLD_ITEM_NOTICE.bt
+//   Authors: Salman T. Khan
+//   Version: i372854
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+char characterName[128];
+int64 accountId;
+int itemAmount;
+int itemId;
+int i2;

@@ -1,0 +1,35 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_WEEKLY_BOSS_RANK_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    int rank;
+    int64 accountId;
+    lpString teamName;
+    int64 guildId;
+    lpString characterName;
+    int64 maxDamage;
+}
+BossRankInfo <optimize=false>;
+
+int i0; // 90, rank week?
+int64 count; // count
+int64 l2; // 0
+int i1;
+int jobId;
+
+BossRankInfo rankers[count];

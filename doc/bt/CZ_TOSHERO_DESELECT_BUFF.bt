@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_TOSHERO_DESELECT_BUFF.bt
+//   Authors: SalmanTKhan
+//   Version: i368377
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

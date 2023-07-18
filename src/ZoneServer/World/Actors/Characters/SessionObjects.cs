@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.ObjectProperties;
 
 namespace Melia.Zone.World.Actors.Characters
@@ -84,10 +85,12 @@ namespace Melia.Zone.World.Actors.Characters
 	/// </remarks>
 	public class SessionObject : IPropertyObject
 	{
+		private static long ObjectIds = ObjectIdRanges.SessionObjects;
+
 		/// <summary>
 		/// The object's unique, global id.
 		/// </summary>
-		public long ObjectId { get; } = ZoneServer.Instance.World.CreateSessionObjectId();
+		public long ObjectId { get; } = Interlocked.Increment(ref ObjectIds);
 
 		/// <summary>
 		/// The object's id.

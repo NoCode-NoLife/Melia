@@ -1,0 +1,85 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: Party.bt
+//   Authors: Salman T. Khan
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int64 partyId;
+    lpString partyName;
+    byte bin[30];
+    short propertiesSize;
+    if (propertiesSize > 0)
+        getProperties(propertiesSize);
+} Party <optimize=false>;
+
+typedef struct
+{
+    int64 accountId;   
+    char teamName[64];
+    int64 l1;
+    int i11;
+    int i0;
+    int i1;
+    int handle;
+    char teamName1[64];
+    char characterName[64];
+    byte b1;
+    byte b2;
+    short currentJob1;
+    short baseJob1;
+    ushort s10;
+    int jobLevel;
+    short s5;
+    int i5;
+    byte bin[18];
+    int mapId; // removed s12 and merged, it was a 0
+    int level;
+    byte b1;
+    byte b2;
+    byte b3;
+    byte b4;
+    short baseJob2;
+    short job2;
+    short job3;
+    short job4;
+    byte bin1[4];
+    short s13;
+    short s14;
+    int level;
+    position pos;
+    int sp;
+    int hp;
+    int maxSp;
+    int maxHp;
+    int i8;
+    int level;
+    short s6;
+    if (s6 > 0)
+        getProperties(s6);
+} PartyMember <optimize=false>;
+
+typedef struct
+{
+    int64 accountId;
+    position pos;
+    int currentSp;
+    int currentHp;
+    int maxSp;
+    int maxHp;
+    int i1;
+    int level;
+} PartyMemberInfo<optimize=false>;
+
+typedef enum <byte> {
+    IsParty,
+    IsGuild
+} PartyType;

@@ -72,6 +72,12 @@ namespace Melia.Barracks.Database
 		public int SelectedBarrackLayer { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the slot number of the character that was last
+		/// selected. Controls which character is selected upon login.
+		/// </summary>
+		public int SelectedCharacterSlot { get; set; }
+
+		/// <summary>
 		/// Returns a list of themas available to the account.
 		/// </summary>
 		public HashSet<int> Themas { get; } = new HashSet<int>() { 11 };

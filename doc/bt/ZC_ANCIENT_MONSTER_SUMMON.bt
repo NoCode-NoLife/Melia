@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ANCIENT_MONSTER_SUMMON.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int i1; // 0
+int i2; // 0
+int i3; // 0
+int index; // index? 0 or 1 thus far
+int handle; // 232541 Handle?
+int monsterId; // monster ancient class Id (2600030)
+int hp; // hp 394
+int i8; // 1 Summoned?

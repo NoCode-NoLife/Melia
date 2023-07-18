@@ -4,7 +4,7 @@
 //      File: CZ_RUN_GAMEEXIT_TIMER.bt
 //   Authors: celophi, exec
 //   Version: i373230
-//   Purpose: Starts exit timer after which the game can be exited.
+//   Purpose: Starts exit timer, after which the game can be exited.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -17,4 +17,4 @@
 ClientHeaderFixed header;
 
 char destination[32];
-char parameter[32]; // None
+char parameter[32];

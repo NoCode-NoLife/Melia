@@ -15,5 +15,6 @@
 ServerHeaderDynamic header;
 
 int handle;
-byte b1;
-BuffData buffs[b1];
+byte count;
+if (count > 0)
+    BuffData buffs[count];

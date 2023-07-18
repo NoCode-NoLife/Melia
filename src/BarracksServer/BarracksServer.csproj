@@ -36,7 +36,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=8.0.29.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+    <Reference Include="MySql.Data, Version=8.0.32.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MySql.Data.dll</HintPath>
     </Reference>
@@ -68,6 +68,7 @@
     <Compile Include="Database\Character.cs" />
     <Compile Include="Database\EquipItem.cs" />
     <Compile Include="Database\BarracksDb.cs" />
+    <Compile Include="Feature.cs" />
     <Compile Include="Network\BarracksConnection.cs" />
     <Compile Include="Network\Helpers\AppearanceBarrackPcHelper.cs" />
     <Compile Include="Network\Helpers\BarrackPcHelper.cs" />

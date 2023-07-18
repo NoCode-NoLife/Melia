@@ -1,0 +1,38 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_RESPONSE_RANK_SYSTEM_RANK_LIST.bt
+//   Authors: Salman T. Khan
+//   Version: i358882
+//   Purpose: Pilgrim Info
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+typedef struct
+{
+    int64 l1; // Date as an int? or int64 (20221114)
+    int64 l2;
+    int64 l3;
+    int64 l4; // 224948912369217
+    char name[64]; // GimbapFansClub
+    char guild[64]; // Yorozuya
+    int jobId; // 5001
+    int rank; // 1
+    int64 l5; // 0
+    int64 l6;
+    int i4;
+    ShortDate date;
+    int i5;
+} Ranker <optimize=false>;
+
+int i1;
+int i2;
+int i3;
+Ranker rankers[i1];

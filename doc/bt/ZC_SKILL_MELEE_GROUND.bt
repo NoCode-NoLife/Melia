@@ -14,18 +14,20 @@
 #include "inc/common.bt"
 
 ServerHeaderDynamic header;
+
 int skillId;
-int characterHandle;
+int casterHandle;
 direction dir;
 int i2;
 float shootTime;
 float f2;
 int i3;
-int attackerHandle;
+int forceId;
 float f5;
-int targetHandle;
+int i5;
+
 position pos;
-short hitCount; // ?
+short hitCount;
 
 if (hitCount > 0)
-    Attack attacks[hitCount];
+    SkillHitInfo hits[hitCount];

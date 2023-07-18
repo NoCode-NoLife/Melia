@@ -63,10 +63,10 @@ namespace Melia.Barracks.Database
 		public HashSet<JobId> Jobs { get; } = new HashSet<JobId>();
 
 		/// <summary>
-		/// Returns a bitmask that specifies which hats are visible on
-		/// the character.
+		/// Returns a bitmask that specifies which equip items are visible
+		/// on the character.
 		/// </summary>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+		public VisibleEquip VisibleEquip { get; set; } = VisibleEquip.All;
 
 		/// <summary>
 		/// Gets or sets the character's level.
@@ -192,7 +192,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Returns the max EXP for the character's current level.
 		/// </summary>
-		public int MaxExp => BarracksServer.Instance.Data.ExpDb.GetNextExp(this.Level);
+		public long MaxExp => BarracksServer.Instance.Data.ExpDb.GetNextExp(this.Level);
 
 		/// <summary>
 		/// Creates a new character with default values.

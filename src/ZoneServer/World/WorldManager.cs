@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Melia.Shared.Network;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Spawning;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -22,19 +26,10 @@ namespace Melia.Zone.World
 
 		private int _genTypes = 1_000_000;
 
-		// These are object id range starting points. The skill objects I
-		// saw in-game so far were above 0x54B600000000 for example,
-		// while the session and ability objects were above 0xE1A900000000.
-		// In some games, ids have to to be in specific ranges, or nothing
-		// will work. You might not be able to login, or interact with the
-		// world, etc. I haven't seen any indication that this is the case in
-		// ToS yet, but I'd rather be on the safe side for now, until we can
-		// confirm that it's unnecessary.
-		private long _sessionObjectIds = 0x0000E1A900000000;
-		private long _skillObjectIds = 0x000054B600000000;
-
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
 		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
+		private readonly Dictionary<int, MonsterSpawner> _spawners = new Dictionary<int, MonsterSpawner>();
+		private readonly Dictionary<string, SpawnAreaCollection> _spawnAreaCollections = new Dictionary<string, SpawnAreaCollection>();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -47,6 +42,11 @@ namespace Melia.Zone.World
 		/// occurring events.
 		/// </summary>
 		public Heartbeat Heartbeat { get; } = new Heartbeat(4);
+
+		/// <summary>
+		/// Returns the world's day/night cycle manager.
+		/// </summary>
+		public DayNightCycle DayNightCycle { get; private set; }
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -79,47 +79,47 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
-		/// Returns a new object id that can be used for a session object.
+		/// Initializes world, creating maps and setting up events.
 		/// </summary>
-		/// <returns></returns>
-		public long CreateSessionObjectId()
+		internal void Initialize()
 		{
-			// XXX: How exactly do these unique ids work? Do they all come
-			// from the same pool? Are there ranges? Do they have to be
-			// unique between multiple types? Can we use one getter for
-			// all "objects"?
-			return Interlocked.Increment(ref _sessionObjectIds);
+			this.CreateMaps();
+			this.InitUpdatables();
 		}
 
 		/// <summary>
-		/// Returns a new object id that can be used for a skill object.
+		/// Populates world mit maps based on the map data and adds them
+		/// to the heartbeat.
 		/// </summary>
-		/// <returns></returns>
-		public long CreateSkillObjectId()
+		private void CreateMaps()
 		{
-			return Interlocked.Increment(ref _skillObjectIds);
-		}
-
-		/// <summary>
-		/// Initializes world.
-		/// </summary>
-		public void Initialize()
-		{
-			// Create maps based on map data
 			foreach (var entry in ZoneServer.Instance.Data.MapDb.Entries.Values)
 			{
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
-				_mapsName.Add(map.Name, map);
+				_mapsName.Add(map.ClassName, map);
 
-				// Add maps to heartbeat's update scheduling
 				this.Heartbeat.Add(map);
 			}
+		}
 
-			// Set up time event raiser
+		/// <summary>
+		/// Initializes updatable world objects, such as event raisers.
+		/// </summary>
+		private void InitUpdatables()
+		{
 			this.Heartbeat.Add(new TimeEventRaiser());
 
-			// Start hearbeat loop and updates
+			this.DayNightCycle = new DayNightCycle();
+			if (ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				this.Heartbeat.Add(this.DayNightCycle);
+		}
+
+		/// <summary>
+		/// Starts the world's heartbeat if it isn't already running.
+		/// </summary>
+		internal void Start()
+		{
 			this.Heartbeat.Start();
 		}
 
@@ -183,6 +183,20 @@ namespace Melia.Zone.World
 				foreach (var map in _mapsId.Values)
 					map.RemoveScriptedEntities();
 			}
+
+			lock (_spawners)
+			{
+				foreach (var spawner in _spawners.Values)
+				{
+					spawner.InitializePopulation();
+					this.Heartbeat.Remove(spawner);
+				}
+
+				_spawners.Clear();
+			}
+
+			lock (_spawnAreaCollections)
+				_spawnAreaCollections.Clear();
 		}
 
 		/// <summary>
@@ -202,6 +216,66 @@ namespace Melia.Zone.World
 			}
 
 			return null;
+		}
+
+		/// <summary>
+		/// Adds a monster spawner object to the world
+		/// </summary>
+		/// <param name="spawner"></param>
+		public void AddSpawner(MonsterSpawner spawner)
+		{
+			lock (_spawners)
+			{
+				_spawners.Add(spawner.Id, spawner);
+				this.Heartbeat.Add(spawner);
+			}
+		}
+
+		/// <summary>
+		/// Adds a spawn area collection to the world.
+		/// </summary>
+		/// <param name="spawnAreas"></param>
+		public void AddSpawnAreas(SpawnAreaCollection spawnAreas)
+		{
+			// Just replace the old one if it exists, since users might
+			// want to override existing spawn areas.
+
+			lock (_spawnAreaCollections)
+				_spawnAreaCollections[spawnAreas.Identifier] = spawnAreas;
+		}
+
+		/// <summary>
+		/// Returns by out a spawn area collection with a given identifier
+		/// if it exists in the world. Returns true if found, false otherwise.
+		/// </summary>
+		/// <param name="identifier"></param>
+		/// <param name="spawner"></param>
+		/// <returns></returns>
+		public bool TryGetSpawnAreas(string identifier, out SpawnAreaCollection spawnAreas)
+		{
+			lock (_spawnAreaCollections)
+				return _spawnAreaCollections.TryGetValue(identifier, out spawnAreas);
+		}
+
+		/// <summary>
+		/// Returns a list of all spawn areas that currently exist in the
+		/// world. Returns it as an array.
+		/// </summary>
+		/// <returns></returns>
+		public SpawnAreaCollection[] GetSpawnAreas()
+		{
+			lock (_spawners)
+				return _spawnAreaCollections.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Returns a list of all spawners that currently exist in the world.
+		/// </summary>
+		/// <returns></returns>
+		public MonsterSpawner[] GetSpawners()
+		{
+			lock (_spawners)
+				return _spawners.Values.ToArray();
 		}
 
 		/// <summary>
@@ -227,12 +301,61 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// on any map via out. Returns false if no matching monster was
+		/// found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					if (map.TryGetMonster(predicate, out var m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Returns the total number of player characters across all maps.
+		/// </summary>
+		/// <returns></returns>
+		public int GetCharacterCount()
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.Sum(a => a.CharacterCount);
+		}
+
+		/// <summary>
 		/// Returns all online characters that match the given predicate.
 		/// </summary>
 		public Character[] GetCharacters(Func<Character, bool> predicate)
 		{
 			lock (_mapsLock)
 				return _mapsId.Values.SelectMany(a => a.GetCharacters(predicate)).ToArray();
+		}
+
+		/// <summary>
+		/// Broadcasts packet on all maps.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+					map.Broadcast(packet);
+			}
 		}
 	}
 }

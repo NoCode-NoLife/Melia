@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_SEND_BEAUTYSHOP_TRYITON_CANCEL.bt
+//   Authors: Salman T. Khan
+//   Version: i342416
+//   Purpose: Beauty Shop Try It on List
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

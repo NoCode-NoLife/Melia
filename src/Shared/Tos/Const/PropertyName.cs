@@ -8188,6 +8188,57 @@
 		public const string HUD_SKIN_DATE_UNIQUE_GRADE = "HUD_SKIN_DATE_UNIQUE_GRADE";
 		public const string HUD_SKIN_SELECT_GRADE = "HUD_SKIN_SELECT_GRADE";
 		public const string HUD_SKIN_DATE_NORMAL_GRADE = "HUD_SKIN_DATE_NORMAL_GRADE";
+		public const string RidePet_18 = "RidePet_18";
+		public const string UnlockQuest_Char3_23 = "UnlockQuest_Char3_23";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_4 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_4";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job_4 = "AchieveReward_UQ_Char3_23_Unlock_Job_4";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume_4 = "AchieveReward_UQ_Char3_23_Unlock_Costume_4";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_1 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_1";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job = "AchieveReward_UQ_Char3_23_Unlock_Job";
+		public const string dress_ep15unicorn01_1 = "dress_ep15unicorn01_1";
+		public const string UQ_Char3_23_PRE2 = "UQ_Char3_23_PRE2";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_5 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_5";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_4 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_4";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_2 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_2";
+		public const string TBW04_126_7_cabinet_upgrade = "TBW04_126_7_cabinet_upgrade";
+		public const string dress_ep15unicorn01_2 = "dress_ep15unicorn01_2";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job_5 = "AchieveReward_UQ_Char3_23_Unlock_Job_5";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_1 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_1";
+		public const string AchieveReward_UQ_Char3_23_AllClear = "AchieveReward_UQ_Char3_23_AllClear";
+		public const string GEM_Engineer_KingMechaV_cabinet = "GEM_Engineer_KingMechaV_cabinet";
+		public const string TBW04_126_7_cabinet = "TBW04_126_7_cabinet";
+		public const string ContentsTotalShop_2306_1 = "ContentsTotalShop_2306_1";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job_1 = "AchieveReward_UQ_Char3_23_Unlock_Job_1";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume = "AchieveReward_UQ_Char3_23_Unlock_Costume";
+		public const string AchieveUnlockQuest_UQ_Char3_23_AllClear = "AchieveUnlockQuest_UQ_Char3_23_AllClear";
+		public const string GEM_Engineer_FlameTurret_cabinet = "GEM_Engineer_FlameTurret_cabinet";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job_3 = "AchieveReward_UQ_Char3_23_Unlock_Job_3";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume_5 = "AchieveReward_UQ_Char3_23_Unlock_Costume_5";
+		public const string UQ_Char3_23_PRE1 = "UQ_Char3_23_PRE1";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_3 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job_3";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Job_2 = "AchieveReward_UQ_Char3_23_Unlock_Job_2";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_96 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_96";
+		public const string dress_ep15unicorn02_1 = "dress_ep15unicorn02_1";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Job = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Job";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_2 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_2";
+		public const string dress_ep15unicorn02_2 = "dress_ep15unicorn02_2";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume_1 = "AchieveReward_UQ_Char3_23_Unlock_Costume_1";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume_2 = "AchieveReward_UQ_Char3_23_Unlock_Costume_2";
+		public const string ep15unicorn_theme = "ep15unicorn_theme";
+		public const string GEM_Engineer_BuffTurret_cabinet = "GEM_Engineer_BuffTurret_cabinet";
+		public const string AchieveReward_UQ_Char3_23_Unlock_Costume_3 = "AchieveReward_UQ_Char3_23_Unlock_Costume_3";
+		public const string GEM_Engineer_RepairKit_cabinet = "GEM_Engineer_RepairKit_cabinet";
+		public const string GEM_Engineer_LightningTurret_cabinet = "GEM_Engineer_LightningTurret_cabinet";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_5 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_5";
+		public const string AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_3 = "AchieveUnlockQuest_UQ_Char3_23_Unlock_Costume_3";
+		public const string GEM_Engineer_ArrowTurret_cabinet = "GEM_Engineer_ArrowTurret_cabinet";
+		public const string ep15unicorn_cannon_cabinet = "ep15unicorn_cannon_cabinet";
+		public const string ep15unicorn_mace_cabinet = "ep15unicorn_mace_cabinet";
+		public const string ep15unicorn_shield_cabinet = "ep15unicorn_shield_cabinet";
+		public const string ep15unicorn_bow_cabinet = "ep15unicorn_bow_cabinet";
+		public const string PAPAYA_BLESSED_GACHA_125284 = "PAPAYA_BLESSED_GACHA_125284";
+		public const string RidePet_19 = "RidePet_19";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -8500,6 +8551,9 @@
 		public const string GuildEvent_Baubas_Count = "GuildEvent_Baubas_Count";
 		public const string GuildEvent_Baubas_Reset = "GuildEvent_Baubas_Reset";
 		public const string GuildEvent_Baubas_Reset_Hour = "GuildEvent_Baubas_Reset_Hour";
+		public const string PAPAYA_GUILDEVENT_TOTAL_CLEAR_COUNT_125346 = "PAPAYA_GUILDEVENT_TOTAL_CLEAR_COUNT_125346";
+		public const string PAPAYA_GUILDEVENT_WEEKLY_CLEAR_COUNT_125346 = "PAPAYA_GUILDEVENT_WEEKLY_CLEAR_COUNT_125346";
+		public const string PAPAYA_GUILDEVENT_NEXT_RESET_125346 = "PAPAYA_GUILDEVENT_NEXT_RESET_125346";
 
 		// GuildMember
 		public const string Contribution = "Contribution";
@@ -18886,6 +18940,7 @@
 		public const string Kill_BW_boss_Foculus = "Kill_BW_boss_Foculus";
 		public const string Kill_BW_boss_Pinscher = "Kill_BW_boss_Pinscher";
 		public const string Kill_bridge_wailing_hidden_npc = "Kill_bridge_wailing_hidden_npc";
+		public const string HiddenJob_Char3_23 = "HiddenJob_Char3_23";
 
 		// SessionObject
 		public const string PosX = "PosX";

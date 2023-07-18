@@ -1,0 +1,24 @@
+//------------------------------------------------
+//--- 010 Editor v13.0 Binary Template
+//
+//      File: ZC_PCBANG_SHOP_POINTSHOP_BUY_COUNT.bt
+//   Authors: Salman T. Khan
+//   Version: i366660
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+int count; // 0
+if (count > 0)
+{
+    int64 accountId;
+    int id;
+    int amount;
+    ShortDate date;
+}

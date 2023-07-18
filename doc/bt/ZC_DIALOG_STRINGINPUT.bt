@@ -15,5 +15,5 @@
 
 ServerHeaderDynamic header;
 
-int i1;
+int handle;
 string message;

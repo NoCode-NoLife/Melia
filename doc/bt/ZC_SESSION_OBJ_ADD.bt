@@ -16,4 +16,4 @@
 
 ServerHeaderDynamic header;
 
-SessionObject object;
+AddSessionObject object;

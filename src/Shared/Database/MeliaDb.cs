@@ -6,6 +6,7 @@ using Melia.Shared.ObjectProperties;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
+using Melia.Shared.Network.Helpers;
 
 namespace Melia.Shared.Database
 {
@@ -239,8 +240,9 @@ namespace Melia.Shared.Database
 		protected void SaveProperties(string databaseName, string idName, long id, Properties properties)
 		{
 			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn))
+				using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn, trans))
 				{
 					cmd.Parameters.AddWithValue("@id", id);
 					cmd.ExecuteNonQuery();
@@ -251,7 +253,7 @@ namespace Melia.Shared.Database
 					var typeStr = property is FloatProperty ? "f" : "s";
 					var valueStr = property.Serialize();
 
-					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn))
+					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn, trans))
 					{
 						cmd.Set(idName, id);
 						cmd.Set("name", property.Ident);
@@ -261,6 +263,64 @@ namespace Melia.Shared.Database
 						cmd.Execute();
 					}
 				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Updates the login state of the given account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="characterDbId"></param>
+		/// <param name="state"></param>
+		public void UpdateLoginState(long accountId, long characterDbId, LoginState state)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+				cmd.Set("loginState", (int)state);
+				cmd.Set("loginCharacter", characterDbId);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the given account is logged in.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		public bool IsLoggedIn(long accountId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT `loginState` FROM `accounts` WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (!reader.Read())
+						return false;
+
+					var loginState = (LoginState)reader.GetInt32("loginState");
+					return loginState != LoginState.LoggedOut;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Resets the login states of all accounts.
+		/// </summary>
+		public void ClearLoginStates()
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0}", conn))
+			{
+				cmd.Set("loginState", (int)LoginState.LoggedOut);
+				cmd.Set("loginCharacter", 0);
+				cmd.Execute();
 			}
 		}
 	}

@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: ZC_CHARGING_GAUGE_END.bt
+//   Authors: Salman T. Khan
+//   Version: i372198
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int i1; // 0
+byte b1; // 0

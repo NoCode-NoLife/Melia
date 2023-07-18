@@ -7,18 +7,18 @@ using System.Text;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -40,7 +40,6 @@ namespace Melia.Zone.Commands
 			// Official
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
-			this.Add("learnpcabil", "<ability class name>", "", this.HandleLearnPcAbil);
 
 			// Custom
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -49,6 +48,7 @@ namespace Melia.Zone.Commands
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
+			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
 
 			// VIP
@@ -65,16 +65,20 @@ namespace Melia.Zone.Commands
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
+			this.Add("whodrops", "<name>", "Finds monsters that drop a given item", this.HandleWhoDrops);
 			this.Add("go", "<destination>", "Warps to certain pre-defined destinations.", this.HandleGo);
 			this.Add("goto", "<team name>", "Warps to another character.", this.HandleGoTo);
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
+			this.Add("heal", "[hp] [sp] [stamina]", "Heals the character's HP, SP, and Stamina.", this.HandleHeal);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
+			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
+			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -84,6 +88,7 @@ namespace Melia.Zone.Commands
 			this.Add("ai", "[ai name]", "Activates AI for character.", this.HandleAi);
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
+			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -120,9 +125,28 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleWhere(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (sender == target)
-				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.Direction.DegreeAngle);
+				sender.ServerMessage("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.ClassName, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.Name, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+				sender.ServerMessage("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)", target.Map.ClassName, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Displays the current server and game time.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleTime(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var now = GameTime.Now;
+
+			target.ServerMessage(Localization.Get("Server Time: {0:yyyy-MM-dd HH:mm}"), now.DateTime);
+			target.ServerMessage(Localization.Get("Game Time: {0:y-M-dd HH:mm}"), now);
 
 			return CommandResult.Okay;
 		}
@@ -221,7 +245,7 @@ namespace Melia.Zone.Commands
 		{
 			Position newPos;
 
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				if (!sender.Map.Ground.TryGetRandomPosition(out var rndPos))
 				{
@@ -270,7 +294,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleWarp(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// Get map id
@@ -351,23 +375,32 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleItem(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.IndexedCount == 0)
 				return CommandResult.InvalidArgument;
 
-			var amount = 1;
-
-			// Get and check id
 			if (!int.TryParse(args.Get(0), out var itemId))
-				return CommandResult.InvalidArgument;
+			{
+				var itemName = args.Get(0);
 
-			if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				if (classNameMatches.Length == 0)
+				{
+					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
+					return CommandResult.Okay;
+				}
+
+				var rankedMatches = classNameMatches.OrderBy(a => a.ClassName.GetLevenshteinDistance(itemName, false));
+				itemId = rankedMatches.First().Id;
+			}
+			else if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 			{
 				sender.ServerMessage("Item not found.");
 				return CommandResult.Okay;
 			}
 
 			// Get amount
-			if (args.Count > 2)
+			var amount = 1;
+			if (args.IndexedCount >= 2)
 			{
 				if (!int.TryParse(args.Get(1), out amount) || amount < 1)
 					return CommandResult.InvalidArgument;
@@ -395,7 +428,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSilver(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var modifier) || modifier == 0)
@@ -449,7 +482,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSpawn(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.IndexedCount == 0)
 				return CommandResult.InvalidArgument;
 
 			MonsterData monsterData;
@@ -480,7 +513,7 @@ namespace Melia.Zone.Commands
 			}
 
 			var amount = 1;
-			if (args.Count > 2 && !int.TryParse(args.Get(1), out amount))
+			if (args.IndexedCount >= 2 && !int.TryParse(args.Get(1), out amount))
 				return CommandResult.InvalidArgument;
 
 			amount = Math2.Clamp(1, 100, amount);
@@ -505,8 +538,23 @@ namespace Melia.Zone.Commands
 
 				monster.Position = pos;
 				monster.Direction = dir;
-				monster.Components.Add(new Movement(monster));
-				//monster.Components.Add(new EntityAi(monster, "test"));
+				monster.Components.Add(new MovementComponent(monster));
+
+				if (args.TryGet("hp", out var hpStr))
+				{
+					if (!int.TryParse(hpStr, out var hp))
+					{
+						sender.ServerMessage("Invalid HP amount.");
+						return CommandResult.Okay;
+					}
+
+					monster.Properties.Overrides.SetFloat(PropertyName.MHP, hp);
+					monster.Properties.Invalidate(PropertyName.MHP);
+					monster.Properties.SetFloat(PropertyName.HP, hp);
+				}
+
+				if (args.TryGet("ai", out var aiName))
+					monster.Components.Add(new AiComponent(monster, aiName));
 
 				target.Map.AddMonster(monster);
 			}
@@ -566,7 +614,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleName(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var newName = args.Get(0);
@@ -583,7 +631,7 @@ namespace Melia.Zone.Commands
 			}
 
 			target.Name = newName;
-			Send.ZC_PC(target, PcUpdateType.Name, newName);
+			Send.ZC_PC(target, PcUpdateType.Name, 0, 0, newName);
 
 			sender.ServerMessage("Name changed.", target.Position);
 			if (sender != target)
@@ -665,7 +713,7 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleLevelUp(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var levels = 1;
-			if (args.Count > 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
+			if (args.Count >= 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
 				return CommandResult.InvalidArgument;
 
 			// Set exp to 0, ZC_MAX_EXP_CHANGED apparently doesn't update the
@@ -698,7 +746,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleSpeed(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!float.TryParse(args.Get(0), out var speed))
@@ -734,26 +782,25 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleItemInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			var search = command.Substring(command.IndexOf(" ")).Trim();
+			var search = string.Join(" ", args.GetAll());
 			var items = ZoneServer.Instance.Data.ItemDb.FindAll(search);
+
 			if (items.Count == 0)
 			{
 				sender.ServerMessage("No items found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
-			var eItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
-			for (var i = 0; eItems.MoveNext() && i < max; ++i)
-			{
-				var item = eItems.Current;
-				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
-			}
+			var maxItemCount = 20;
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, max);
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemCount);
+
+			var matchingItems = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var item in matchingItems.Take(maxItemCount))
+				sender.ServerMessage("{0}: {1}, Category: {2}", item.Id, item.Name, item.Category);
 
 			return CommandResult.Okay;
 		}
@@ -769,26 +816,161 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleMonsterInfo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			var monsterRaces = new[] { "Unknown", "Insect", "Mutant", "Plant", "Demon", "Beast", "Item" };
+			var monsterElements = new[] { "None", "Fire", "Ice", "Poison", "Earth", "Melee", "Psychokinesis", "Lightning", "Holy", "Dark" };
+			var monsterArmors = new[] { "None", "Cloth", "Leather", "Iron", "Chain", "Ghost", "Shield", "Aries" };
+			var monsterSizes = new[] { "None", "Hidden", "S", "M", "L", "XL", "XXL" };
+
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			var search = command.Substring(command.IndexOf(" ")).Trim();
-			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAll(search);
+			var search = string.Join(" ", args.GetAll());
+
+			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAllPreferExact(search);
 			if (monsters.Count == 0)
 			{
 				sender.ServerMessage("No monsters found for '{0}'.", search);
 				return CommandResult.Okay;
 			}
 
-			var entries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id).GetEnumerator();
-			var max = 20;
-			for (var i = 0; entries.MoveNext() && i < max; ++i)
+			var maxMonsterCount = 20;
+
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, maxMonsterCount);
+
+			var monsterEntries = monsters.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var monsterData in monsterEntries.Take(maxMonsterCount))
 			{
-				var current = entries.Current;
-				sender.ServerMessage("{0}: {1}", current.Id, current.Name);
+				var monsterEntry = new StringBuilder();
+
+				monsterEntry.AppendFormat("{{nl}}----- {0} ({1}, {2}) -----{{nl}}", monsterData.Name, monsterData.Id, monsterData.ClassName);
+				monsterEntry.AppendFormat("{0} / {1} / {2} / {3}{{nl}}", monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Element], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
+				monsterEntry.AppendFormat("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}", monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}", monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
+
+				if (monsterData.Drops.Count != 0)
+				{
+					monsterEntry.Append("Drops:");
+
+					foreach (var currentDrop in monsterData.Drops)
+					{
+						var itemData = ZoneServer.Instance.Data.ItemDb.Find(currentDrop.ItemId);
+						if (itemData == null)
+							continue;
+
+						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
+
+						var minAmount = currentDrop.MinAmount;
+						var maxAmount = currentDrop.MaxAmount;
+						var hasAmount = (minAmount > 1 || maxAmount > 1);
+
+						if (isMoney)
+						{
+							minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+							maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						}
+
+						var displayAmount = isMoney || hasAmount;
+
+						if (displayAmount)
+						{
+							if (minAmount == maxAmount)
+								monsterEntry.AppendFormat("{{nl}}- {0} {1} ({2:0.####}%)", minAmount, itemData.Name, dropChance);
+							else
+								monsterEntry.AppendFormat("{{nl}}- {0}~{1} {2} ({3:0.####}%)", minAmount, maxAmount, itemData.Name, dropChance);
+						}
+						else
+						{
+							monsterEntry.AppendFormat("{{nl}}- {0} ({1:0.####}%)", itemData.Name, dropChance);
+						}
+					}
+				}
+				else
+				{
+					monsterEntry.Append("This monster has no drops.");
+				}
+
+				sender.ServerMessage(monsterEntry.ToString());
 			}
 
-			sender.ServerMessage("Results: {0} (Max. {1} shown)", monsters.Count, max);
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Searches monster database to find out who drops a given item, and returns a list of the best sources of that item
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleWhoDrops(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var search = string.Join(" ", args.GetAll());
+
+			var items = ZoneServer.Instance.Data.ItemDb.FindAllPreferExact(search);
+			if (items.Count == 0)
+			{
+				sender.ServerMessage("No items found for '{0}'.", search);
+				return CommandResult.Okay;
+			}
+
+			var maxItemResultCount = 5;
+			var maxDropperCount = 100;
+			var maxDropResultCount = 10;
+
+			sender.ServerMessage("Results: {0} (Max. {1} shown)", items.Count, maxItemResultCount);
+
+			var itemEntries = items.OrderBy(a => a.Name.GetLevenshteinDistance(search)).ThenBy(a => a.Id);
+			foreach (var currentItem in itemEntries.Take(maxItemResultCount))
+			{
+				var whoDropsEntry = new StringBuilder();
+
+				whoDropsEntry.AppendFormat("{{nl}}----- {0} -----{{nl}}", currentItem.Name);
+
+				MonsterData[] droppers;
+
+				if (currentItem.Id == ItemId.Silver || (droppers = ZoneServer.Instance.Data.MonsterDb.FindAll(a => a.Drops.Any(b => b.ItemId == currentItem.Id))).Length > maxDropperCount)
+				{
+					whoDropsEntry.Append("Too many enemies drop this.");
+				}
+				else if (droppers.Length == 0)
+				{
+					whoDropsEntry.Append("This item is not dropped by any monsters");
+				}
+				else
+				{
+					var bestDroppers = new List<KeyValuePair<MonsterData, float>>();
+
+					foreach (var monsterData in droppers)
+					{
+						var dropDatas = monsterData.Drops.Where(a => a.ItemId == currentItem.Id);
+
+						foreach (var dropData in dropDatas)
+						{
+							var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(dropData));
+							bestDroppers.Add(new KeyValuePair<MonsterData, float>(monsterData, dropChance));
+						}
+					}
+
+					whoDropsEntry.AppendFormat("Listing up to {0} best sources of this item:", maxDropResultCount);
+
+					var dropEntries = bestDroppers.OrderByDescending(a => a.Value).ThenBy(a => a.Key.Level);
+					foreach (var dropDataKV in dropEntries.Take(maxDropResultCount))
+					{
+						var dropData = dropDataKV.Key;
+						var dropChance = dropDataKV.Value;
+
+						whoDropsEntry.AppendFormat("{{nl}}{0} ({1}, {2}) - {3:0.####}%", dropData.Name, dropData.Id, dropData.ClassName, dropChance);
+					}
+				}
+
+				sender.ServerMessage(whoDropsEntry.ToString());
+			}
 
 			return CommandResult.Okay;
 		}
@@ -804,7 +986,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleGo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				sender.ServerMessage("Destinations: klaipeda, orsha, start");
 				return CommandResult.InvalidArgument;
@@ -843,7 +1025,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleGoTo(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
@@ -883,7 +1065,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRecall(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			// TODO: Once we have support for more than one map server,
@@ -926,7 +1108,7 @@ namespace Melia.Zone.Commands
 			// TODO: Once we have support for channels and map servers,
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				// Search for map by name and id
 				if (int.TryParse(args.Get(0), out var mapId))
@@ -967,9 +1149,6 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRecallAll(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count > 1)
-				return CommandResult.InvalidArgument;
-
 			// TODO: Once we have support for channels and map servers,
 			//   add warp from other servers and restrict recall to
 			//   channel's max player count.
@@ -1012,6 +1191,94 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage("You have called {0} characters to target's location.", characters.Length);
 				target.ServerMessage("{1} called {0} characters to your location.", characters.Length, sender.TeamName);
 			}
+		}
+
+		/// <summary>
+		/// Heals the target hp and optionally sp.
+		/// If no argument is given, heals fully.
+		/// Can also heal negative values.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleHeal(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count > 3)
+				return CommandResult.InvalidArgument;
+
+			// TODO: Maybe refactor to take indexed arguments, named
+			//   ones, or combinations, so you can, for example, heal
+			//   stamina without specifying HP and SP like so:
+			//   >heal sp:10
+
+			// Fully heal HP and SP if no arguments are given
+			if (args.Count == 0)
+			{
+				target.ModifyHp(target.MaxHp);
+				target.ModifySp(target.MaxSp);
+
+				sender.ServerMessage("Healed HP and SP.");
+				if (sender != target)
+					target.ServerMessage("Your HP and SP were healed by {0}.", sender.TeamName);
+			}
+			// Modify only HP if one argument is given
+			else if (args.Count == 1)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
+
+				target.ModifyHp(hpAmount);
+
+				sender.ServerMessage("Healed HP by {0} points.", hpAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1} points.", sender.TeamName, hpAmount);
+			}
+			// Modify HP and SP if two arguments are given
+			else if (args.Count == 2)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(1), out var spAmount))
+					return CommandResult.InvalidArgument;
+
+				target.ModifyHp(hpAmount);
+				target.ModifySp(spAmount);
+
+				sender.ServerMessage("Healed HP by {0} and SP by {1} points.", hpAmount, spAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1} and your SP by {2} points.", sender.TeamName, hpAmount, spAmount);
+			}
+			// Modify HP, SP, and Stamina if three arguments are given
+			else if (args.Count >= 3)
+			{
+				if (!int.TryParse(args.Get(0), out var hpAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(1), out var spAmount))
+					return CommandResult.InvalidArgument;
+
+				if (!int.TryParse(args.Get(2), out var staminaAmount))
+					return CommandResult.InvalidArgument;
+
+				// Adjust Stamina to match the game's display value, since
+				// most users of this command wouldn't be aware of this
+				// property's value being 1000 times larger than displayed.
+				staminaAmount *= 1000;
+
+				target.ModifyHp(hpAmount);
+				target.ModifySp(spAmount);
+				target.ModifyStamina(staminaAmount);
+
+				sender.ServerMessage("Healed HP by {0}, SP by {1}, and Stamina by {2} points.", hpAmount, spAmount, staminaAmount);
+				if (sender != target)
+					target.ServerMessage("{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points.", sender.TeamName, hpAmount, spAmount, staminaAmount);
+			}
+
+			return CommandResult.Okay;
 		}
 
 		/// <summary>
@@ -1082,140 +1349,19 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var cost = (amount * 1000);
+			var costPerPoint = ZoneServer.Instance.Conf.World.AbilityPointCost;
+			var totalCost = (amount * costPerPoint);
 			var silver = sender.Inventory.CountItem(ItemId.Silver);
-			if (silver < cost)
+			if (silver < totalCost)
 			{
 				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", sender.Connection.Account.Name);
 				return CommandResult.Okay;
 			}
 
-			sender.Inventory.Remove(ItemId.Silver, cost, InventoryItemRemoveMsg.Given);
+			sender.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
 			sender.ModifyAbilityPoints(amount);
 
-			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, "BLANK");
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
-		/// Official slash command to learn abilities.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleLearnPcAbil(Character sender, Character target, string message, string command, Arguments args)
-		{
-			// Since this command is sent via UI interactions, we'll not
-			// use any automated command result messages, but we'll leave
-			// debug messages for now, in case of unexpected values.
-
-			if (args.Count != 3 || !int.TryParse(args.Get(1), out var levels) || levels < 1)
-			{
-				Log.Debug("HandleLearnPcAbil: Invalid call by user '{0}': {1}", sender.Connection.Account.Name, command);
-				return CommandResult.Okay;
-			}
-
-			var className = args.Get(0);
-
-			var abilityData = ZoneServer.Instance.Data.AbilityDb.Find(className);
-			if (abilityData == null)
-			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn non-existent ability '{1}'.", sender.Connection.Account.Name, className);
-				return CommandResult.Okay;
-			}
-
-			// All we get here is the ability name, but whether it can
-			// be learned or not potentially depends on any of the job's
-			// ability tree's entries. We have to check whether the ability
-			// can be learned by any of the character's jobs.
-
-			var abilityId = abilityData.Id;
-			var canLearn = false;
-			var jobs = sender.Jobs.GetList();
-
-			AbilityTreeData abilityTreeData = null;
-			foreach (var job in jobs)
-			{
-				// An ability can be learned by a job if there's an entry
-				// for it in the tree and an unlock condition is given.
-				var jobAbilityTreeData = ZoneServer.Instance.Data.AbilityTreeDb.Find(job.Id, abilityId);
-				if (jobAbilityTreeData != null && jobAbilityTreeData.HasUnlock)
-				{
-					var unlocked = AbilityUnlock.IsUnlocked(sender, abilityData, jobAbilityTreeData);
-					if (unlocked)
-					{
-						canLearn = true;
-						abilityTreeData = jobAbilityTreeData;
-						break;
-					}
-				}
-			}
-
-			if (!canLearn)
-			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to learn ability '{1}', which they can't learn (yet).", sender.Connection.Account.Name, className);
-				return CommandResult.Okay;
-			}
-
-			var ability = sender.Abilities.Get(abilityId);
-			var currentLevel = (ability == null ? 0 : ability.Level);
-			var newLevel = (currentLevel + levels);
-			var maxLevel = abilityTreeData.MaxLevel;
-
-			if (newLevel > maxLevel)
-			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' tried to increase ability '{1}'s level past the max level of {2}.", sender.Connection.Account.Name, className, maxLevel);
-				return CommandResult.Okay;
-			}
-
-			// Price and time can come either from the actual values,
-			// or from functions that return both.
-
-			var price = abilityTreeData.Price;
-			var time = abilityTreeData.Time;
-
-			if (abilityTreeData.HasPriceTime)
-			{
-				price = 0;
-
-				for (var i = currentLevel + 1; i <= newLevel; ++i)
-				{
-					AbilityPriceTime.Get(sender, abilityData, abilityTreeData, i, out var addPrice, out time);
-					price += addPrice;
-				}
-			}
-
-			var points = sender.Properties.GetFloat(PropertyName.AbilityPoint);
-			if (points < price)
-			{
-				Log.Debug("HandleLearnPcAbil: User '{0}' didn't have enough points.", sender.Connection.Account.Name);
-				return CommandResult.Okay;
-			}
-
-			//Log.Debug("Learn: {0}", abilityData.EngName);
-			//Log.Debug("- From: {0}", currentLevel);
-			//Log.Debug("- To: {0}", newLevel);
-			//Log.Debug("- Price: {0}", price);
-			//Log.Debug("- Time: {0}", time);
-
-			// Add ability if character doesn't have it yet
-			if (ability == null)
-			{
-				ability = new Ability(abilityId, 0);
-				sender.Abilities.Add(ability);
-			}
-
-			// Update ability
-			ability.Level += levels;
-			Send.ZC_OBJECT_PROPERTY(sender.Connection, ability);
-
-			sender.ModifyAbilityPoints(-price);
-			Send.ZC_ADDON_MSG(sender, AddonMessage.RESET_ABILITY_UP, "Ability_" + abilityTreeData.Category);
-			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_LEARN_ABILITY, abilityTreeData.Category);
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, 0, "BLANK");
 
 			return CommandResult.Okay;
 		}
@@ -1231,7 +1377,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAddJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var iJobId))
@@ -1244,14 +1390,14 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var circle = Circle.First;
+			var circle = JobCircle.First;
 
-			if (args.Count > 2)
+			if (args.Count >= 2)
 			{
-				if (!short.TryParse(args.Get(1), out var iCircle) || iCircle < (short)Circle.First || !Enum.IsDefined(typeof(Circle), iCircle))
+				if (!int.TryParse(args.Get(1), out var iCircle) || iCircle < (int)JobCircle.First || !Enum.IsDefined(typeof(JobCircle), iCircle))
 					return CommandResult.InvalidArgument;
 
-				circle = (Circle)iCircle;
+				circle = (JobCircle)iCircle;
 			}
 
 			var job = target.Jobs.Get(jobId);
@@ -1262,7 +1408,11 @@ namespace Melia.Zone.Commands
 			}
 
 			if (job == null)
+			{
+				Send.ZC_PC(target, PcUpdateType.Job, (int)jobId, (int)circle);
+				target.JobId = jobId;
 				target.Jobs.Add(new Job(target, jobId, circle));
+			}
 			else
 				target.Jobs.ChangeCircle(jobId, circle);
 
@@ -1284,7 +1434,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleRemoveJob(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var iJobId))
@@ -1363,7 +1513,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleStatPoints(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(0), out var amount) || amount < 1)
@@ -1399,7 +1549,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 			{
 				Send.ZC_EXEC_CLIENT_SCP(target.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
 				return CommandResult.Okay;
@@ -1484,7 +1634,7 @@ namespace Melia.Zone.Commands
 			// If we got an argument, use it as the max drop chance of
 			// items that are to be autolooted. Without an argument,
 			// toggle autolooting completely on or off.
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				if (!int.TryParse(args.Get(0), out autoloot))
 					return CommandResult.InvalidArgument;
@@ -1523,26 +1673,26 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAi(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (target.Components.Has<EntityAi>())
+			if (target.Components.Has<AiComponent>())
 			{
 				Send.ZC_NORMAL.Cutscene(target, false, false, false);
 
-				target.Components.Remove<Movement>();
-				target.Components.Remove<EntityAi>();
+				target.Components.Remove<MovementComponent>();
+				target.Components.Remove<AiComponent>();
 
-				if (args.Count < 1)
+				if (args.Count == 0)
 				{
 					sender.ServerMessage("Disabled AI.");
 					return CommandResult.Okay;
 				}
 			}
-			else if (args.Count < 1)
+			else if (args.Count == 0)
 			{
 				sender.ServerMessage("No AI active.");
 				return CommandResult.Okay;
 			}
 
-			if (args.Count > 1)
+			if (args.Count >= 1)
 			{
 				var aiName = args.Get(0);
 
@@ -1551,8 +1701,8 @@ namespace Melia.Zone.Commands
 				// packets.
 				Send.ZC_NORMAL.Cutscene(target, true, false, false);
 
-				target.Components.Add(new Movement(target));
-				//target.Components.Add(new EntityAi(target, aiName));
+				target.Components.Add(new MovementComponent(target));
+				target.Components.Add(new AiComponent(target, aiName));
 
 				sender.ServerMessage("Enabled '{0}' AI.", aiName);
 			}
@@ -1613,7 +1763,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleUpdateDataCom(Character sender, Character target, string message, string commandName, Arguments args)
 		{
-			if (args.Count < 1)
+			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
 			var tmpFilePath = "user/tmp/updatedata/itemmonsters.txt";
@@ -1687,6 +1837,87 @@ namespace Melia.Zone.Commands
 					break;
 				}
 			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Enables or disables features.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleFeature(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 2)
+				return CommandResult.InvalidArgument;
+
+			var featureName = args.Get(0);
+			var enabled = args.Get(1) == "true";
+
+			if (!ZoneServer.Instance.Data.FeatureDb.TryFind(featureName, out var feature))
+			{
+				sender.ServerMessage(Localization.Get("Feature '{0}' not found."), featureName);
+				return CommandResult.Okay;
+			}
+
+			feature.Enable(enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
+			else
+				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Broadcasts a message to all players.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleBroadcast(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var joinedArgs = string.Join(" ", args.GetAll());
+			var text = string.Format("{0} : {1}", target.TeamName, string.Join(" ", args.GetAll()));
+
+			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, text);
+			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Kicks a player if they're online.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult HandleKick(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var teamName = args.Get(0);
+
+			var commMessage = new KickMessage(target.TeamName, teamName);
+			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+			sender.ServerMessage(Localization.Get("Request for kicking '{0}' sent."), teamName);
 
 			return CommandResult.Okay;
 		}

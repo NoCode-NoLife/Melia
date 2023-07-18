@@ -3,20 +3,23 @@
 //
 //      File: ZC_MOVE_PATH_MATH.bt
 //   Authors: Salman T. Khan
-//   Version: 
+//   Version: i346841
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//		i372317: z added
 //------------------------------------------------
 
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle; //40852
 int i1; //-174
 int i2; //-102
 int i3; //107
-float x; // 3.2
-float y; // 1.0
+float x; // 3.2f
+float y; // 1f
+float z; // 0f

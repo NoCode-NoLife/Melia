@@ -149,6 +149,25 @@ namespace Melia.Shared.ObjectProperties
 		}
 
 		/// <summary>
+		/// Returns the value of the given property via out. Returns false
+		/// if the property wasn't set yet.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool TryGetFloat(string propertyName, out float value)
+		{
+			if (!this.TryGet<FloatProperty>(propertyName, out var property))
+			{
+				value = 0;
+				return false;
+			}
+
+			value = property.Value;
+			return true;
+		}
+
+		/// <summary>
 		/// Returns the value of the given property, or the default value
 		/// if the property wasn't defined.
 		/// </summary>
@@ -335,20 +354,32 @@ namespace Melia.Shared.ObjectProperties
 		}
 
 		/// <summary>
-		/// Triggers recalculation of all calculated properties.
+		/// Invalidates the given property.
 		/// </summary>
-		/// <remarks>
-		/// Recalculations should generally happen automatically and
-		/// should only be done manually if necessary.
-		/// </remarks>
-		public void RecalculateAll()
+		/// <param name="propertyName"></param>
+		public void Invalidate(params string[] propertyNames)
+		{
+			foreach (var propertyName in propertyNames)
+			{
+				if (!this.TryGet<CFloatProperty>(propertyName, out var property))
+					return;
+
+				property.Invalidate();
+			}
+		}
+
+		/// <summary>
+		/// Invalidates all calculated properties, to update them when
+		/// they're accessed next.
+		/// </summary>
+		public void InvalidateAll()
 		{
 			var properties = this.GetAll();
 
 			foreach (var property in properties)
 			{
 				if (property is CFloatProperty calcProperty)
-					calcProperty.Recalculate();
+					calcProperty.Invalidate();
 			}
 		}
 	}

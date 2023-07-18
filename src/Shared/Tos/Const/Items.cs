@@ -329,8 +329,18 @@ namespace Melia.Shared.Tos.Const
 		Hat, // HAT_T
 		Lens, // LENS
 		Wing, // WING
-		SpecialCostume, // ?
-		EffectCostume, // ?
+		SpecialCostume, // SPECIAL_COSTUME
+		EffectCostume, // EFFECT_COSTUME
+		Seal, // SEAL
+		Doll, // DOLL
+		Ark, // ARK
+		Trinket, // TRINKET
+		Relic, // RELIC
+		RightHandSub, // RH_SUB
+		LeftHandSub, // LH_SUB
+		Earring, // EARRING
+		Belt, // BELT
+		Shoulder, // SHOULDER
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -406,10 +416,16 @@ namespace Melia.Shared.Tos.Const
 	/// Specifies which hats are visible for a character.
 	/// </summary>
 	[Flags]
-	public enum HatVisibleStates : byte
+	public enum VisibleEquip
 	{
-		Hat1 = 0x01,
-		Hat2 = 0x02,
-		Hat3 = 0x04,
+		None = 0x00,
+
+		Headgear1 = 0x01,
+		Headgear2 = 0x02,
+		Headgear3 = 0x04,
+		Wig = 0x08,
+		SubWeapon = 0x10,
+
+		All = 0xFFFF,
 	}
 }

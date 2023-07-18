@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v12.0 Binary Template
+//
+//      File: CB_OS_INFO.bt
+//   Authors: Salman T. Khan
+//   Version: i343298
+//   Purpose: Client sends OS type and client type
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+byte osType; // 0 = x86, 1 = x64
+byte clientType; // 0 = x86 (32bit), 1 = x64 (64bit)

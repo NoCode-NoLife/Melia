@@ -7,7 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Hooking;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 
@@ -22,21 +25,48 @@ namespace Melia.Zone.Scripting.Dialogues
 		private const string NpcNameSeperator = "*@*";
 		private const string NpcDialogTextSeperator = "\\";
 		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-		private const int ClientScriptMaxSize = 2048;
 
 		private string _response;
 		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
 		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
 
 		/// <summary>
+		/// Returns a reference to the actor that initiated the trigger.
+		/// </summary>
+		public IActor Initiator { get; }
+
+		/// <summary>
+		/// Returns a reference to the actor that was triggered.
+		/// </summary>
+		public IActor Trigger { get; }
+
+		/// <summary>
 		/// Returns a reference to the character that initiated the dialog.
 		/// </summary>
-		public Character Player { get; }
+		public Character Player
+		{
+			get
+			{
+				if (!(this.Initiator is Character character))
+					throw new InvalidOperationException($"The triggerer is not of type Character, but {this.Initiator.GetType().Name}.");
+
+				return character;
+			}
+		}
 
 		/// <summary>
 		/// Returns a reference to the NPC the player is talking to.
 		/// </summary>
-		public Npc Npc { get; }
+		public Npc Npc
+		{
+			get
+			{
+				if (!(this.Trigger is Npc npc))
+					throw new InvalidOperationException($"The trigger is not of type Npc, but {this.Initiator.GetType().Name}.");
+
+				return npc;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the dialog's current state.
@@ -60,15 +90,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		public string Portrait { get; private set; }
 
 		/// <summary>
-		/// Creates and prepares a new dialog between the player and
-		/// the NPC.
+		/// Creates and prepares a new dialog between the initiator
+		/// and the trigger.
 		/// </summary>
-		/// <param name="player"></param>
-		/// <param name="npc"></param>
-		public Dialog(Character player, Npc npc)
+		/// <param name="initiator"></param>
+		/// <param name="trigger"></param>
+		public Dialog(IActor initiator, IActor trigger)
 		{
-			this.Player = player;
-			this.Npc = npc;
+			this.Initiator = initiator;
+			this.Trigger = trigger;
 		}
 
 		/// <summary>
@@ -379,6 +409,68 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string animationName, TimeSpan duration)
+			=> await this.TimeAction(displayText, "None", animationName, duration);
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="buttonText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string buttonText, string animationName, TimeSpan duration)
+		{
+			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
+			return await this.Player.Components.Get<TimeActionComponent>().StartAsync(displayText, buttonText, animationName, duration);
+		}
+
+		/// <summary>
+		/// Executes the given hooks, if any, and returns true if any were
+		/// executed.
+		/// </summary>
+		/// <param name="hookName"></param>
+		/// <returns></returns>
+		public async Task<bool> Hooks(string hookName)
+		{
+			var hooks = ScriptHooks.GetAll<DialogHook>(this.Npc.UniqueName, hookName);
+			if (hooks.Length == 0)
+				return false;
+
+			var wasHooked = false;
+
+			foreach (var hook in hooks)
+			{
+				var result = await hook.Func(this);
+
+				switch (result)
+				{
+					case HookResult.Skip:
+						continue;
+
+					case HookResult.Continue:
+						wasHooked = true;
+						continue;
+
+					case HookResult.Break:
+						wasHooked = true;
+						break;
+				}
+			}
+
+			return wasHooked;
+		}
+
+		/// <summary>
 		/// Waits for the client to respond and returns the response.
 		/// </summary>
 		/// <returns></returns>
@@ -425,23 +517,37 @@ namespace Melia.Zone.Scripting.Dialogues
 			// by executing some custom Lua code.
 			if (shopData.IsCustom)
 			{
-				var sb = new StringBuilder();
-				sb.Append("M_SET_CUSTOM_SHOP({");
+				// Start receival of the shop data
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.BeginRecv('CustomShop')");
 
+				// Append products and send them in intervals when the calls
+				// get too close to the max script length
+				var sb = new StringBuilder();
 				foreach (var productData in shopData.Products.Values)
 				{
-					sb.AppendFormat("{{{0},{1},{2},{3}}},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
+					sb.AppendFormat("{{ {0},{1},{2},{3} }},", productData.Id, productData.ItemId, productData.Amount, productData.PriceMultiplier);
 
-					// One script call can only hold so many items,
-					// but we could split it up into multiple calls
-					// if necessary.
-					if (sb.Length > ClientScriptMaxSize)
-						throw new InvalidOperationException($"Shop '{shopData.Name}' contains too many items.");
+					if (sb.Length > ClientScript.ScriptMaxLength * 0.8)
+					{
+						Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomShop', {{ {sb} }})");
+						sb.Clear();
+					}
 				}
 
-				sb.Append("})");
+				// Send remaining products, which will cover all items
+				// if the max script length wasn't exceeded, and the
+				// remaining ones that weren't sent yet.
+				if (sb.Length > 0)
+				{
+					Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomShop', {{ {sb} }})");
+					sb.Clear();
+				}
 
-				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, sb.ToString());
+				// End receival of the shop data and set it
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.ExecData('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop')");
+
+				// Open the shop
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");
 			}
 			else

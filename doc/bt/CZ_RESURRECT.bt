@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: CZ_RESURRECT.bt
-//   Authors: celophi
-//   Version: i171140
+//   Authors: celophi, exec
+//   Version: i3755263
 //   Purpose: Request to revive the character.
 //  Category: 
 // File Mask: 
@@ -15,5 +15,5 @@
 
 ClientHeaderFixed header;
 
-byte command;
-byte reserved[8];   // Reserved bytes possibly for future use.
+byte selectedOption;
+int64 l1;

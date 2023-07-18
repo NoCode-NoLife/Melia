@@ -15,4 +15,4 @@
 
 ServerHeaderFixed header;
 
-int handle;
+int monsterId; // 40120 = Statue of Goddess Vakarine, 20026 = HiddenTrigger6

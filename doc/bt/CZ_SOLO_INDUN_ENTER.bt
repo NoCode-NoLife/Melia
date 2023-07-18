@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_SOLO_INDUN_ENTER.bt
+//   Authors: Salman T. Khan
+//   Version: i347755
+//   Purpose: Request to enter ToS Heroic Tale
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+
+int i1; // 202
+int i2; // 1
+int i3; // 0

@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EMOTICON.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc\common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+int packetString; // 230059 = I_emo_infection
+int i3; // 0

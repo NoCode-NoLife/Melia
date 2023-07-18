@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Scripting;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Maps
@@ -44,9 +46,9 @@ namespace Melia.Zone.World.Maps
 		private readonly Dictionary<int, IMonster> _monsters = new Dictionary<int, IMonster>();
 
 		/// <summary>
-		/// Collection of monster spawners.
+		/// Collection of trigger areas on the map.
 		/// </summary>
-		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
+		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
@@ -64,12 +66,17 @@ namespace Melia.Zone.World.Maps
 		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
 
 		/// <summary>
-		/// Map name.
+		/// List of property overrides for monsters spawned on this map.
 		/// </summary>
-		public string Name { get; protected set; }
+		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new Dictionary<int, PropertyOverrides>();
 
 		/// <summary>
-		/// Map id.
+		/// Returns the map's unique class name.
+		/// </summary>
+		public string ClassName { get; protected set; }
+
+		/// <summary>
+		/// Returns the map's class id.
 		/// </summary>
 		public int Id { get; protected set; }
 
@@ -105,7 +112,7 @@ namespace Melia.Zone.World.Maps
 		public Map(int id, string name)
 		{
 			this.Id = id;
-			this.Name = name;
+			this.ClassName = name;
 
 			this.Load();
 		}
@@ -118,7 +125,7 @@ namespace Melia.Zone.World.Maps
 			this.Data = ZoneServer.Instance.Data.MapDb.Find(this.Id);
 
 			// A few maps don't seem to have any ground data.
-			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.Name, out var groundData))
+			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.ClassName, out var groundData))
 				this.Ground.Load(groundData);
 		}
 
@@ -131,7 +138,6 @@ namespace Melia.Zone.World.Maps
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.UpdateEntities(elapsed);
-			this.UpdateSpawners(elapsed);
 		}
 
 		/// <summary>
@@ -193,6 +199,9 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		private void UpdateVisibility()
 		{
+			// TODO: Someone remind me why we're doing this here...
+			//   Why is this not inside Character.Update?
+
 			// Same challenge as in UpdateEntities, LookAround queries
 			// the visible characters while locking them to iterate
 			// them, which can cause a deadlock if another thread
@@ -227,6 +236,8 @@ namespace Melia.Zone.World.Maps
 				lock (_combatEntities)
 					_combatEntities[character.Handle] = character;
 			}
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -242,6 +253,8 @@ namespace Melia.Zone.World.Maps
 				_combatEntities.Remove(character.Handle);
 
 			character.Map = null;
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -299,34 +312,6 @@ namespace Melia.Zone.World.Maps
 			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
-		/// Adds the spawner to the map.
-		/// </summary>
-		/// <param name="spawner"></param>
-		public void AddSpawner(MonsterSpawner spawner)
-		{
-			lock (_spawners)
-				_spawners.Add(spawner);
-		}
-
-		/// <summary>
-		/// Removes all spawners from the map.
-		/// </summary>
-		public void RemoveSpawners()
-		{
-			lock (_spawners)
-				_spawners.Clear();
-		}
-
-		public void UpdateSpawners(TimeSpan elapsed)
-		{
-			lock (_spawners)
-			{
-				foreach (var spawner in _spawners)
-					spawner.Update(elapsed);
-			}
-		}
-
-		/// <summary>
 		/// Adds monster to map.
 		/// </summary>
 		/// <param name="monster"></param>
@@ -341,6 +326,12 @@ namespace Melia.Zone.World.Maps
 			{
 				lock (_combatEntities)
 					_combatEntities[monster.Handle] = entity;
+			}
+
+			if (monster is ITriggerableArea trigger)
+			{
+				lock (_triggerableAreas)
+					_triggerableAreas[monster.Handle] = trigger;
 			}
 
 			// Update visibily after adding the monster, so it gets sent
@@ -365,8 +356,23 @@ namespace Melia.Zone.World.Maps
 			lock (_combatEntities)
 				_combatEntities.Remove(monster.Handle);
 
+			lock (_combatEntities)
+				_triggerableAreas.Remove(monster.Handle);
+
 			monster.Map = null;
 			this.UpdateVisibility();
+		}
+
+		/// <summary>
+		/// Returns all triggerable areas that overlap with the given
+		/// position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public ITriggerableArea[] GetTriggerableAreasAt(Position pos)
+		{
+			lock (_triggerableAreas)
+				return _triggerableAreas.Values.Where(a => a.Area?.IsInside(pos) ?? false).ToArray();
 		}
 
 		/// <summary>
@@ -375,7 +381,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="position"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, int radius)
+		public List<ICombatEntity> GetAttackableEntitiesInRange(ICombatEntity attacker, Position position, float radius)
 		{
 			var result = new List<ICombatEntity>();
 
@@ -394,18 +400,9 @@ namespace Melia.Zone.World.Maps
 		/// <param name="attacker"></param>
 		/// <param name="shape"></param>
 		/// <returns></returns>
-		public List<ICombatEntity> GetAttackableEntitiesIn(ICombatEntity attacker, IShape shape)
+		public List<ICombatEntity> GetAttackableEntitiesIn(ICombatEntity attacker, IShapeF shape)
 		{
 			var result = new List<ICombatEntity>();
-
-			// Debugging
-			//foreach (var point in shape.GetEdgePoints())
-			//{
-			//	var monster = new MonsterLegacy(10005, MonsterType.Friendly);
-			//	monster.Position = new Position(point.X, attacker.Position.Y, point.Y);
-			//	monster.DisappearTime = DateTime.Now.AddSeconds(5);
-			//	attacker.Map.AddMonster(monster);
-			//}
 
 			lock (_combatEntities)
 			{
@@ -414,10 +411,47 @@ namespace Melia.Zone.World.Maps
 					if (!attacker.CanAttack(entity))
 						continue;
 
-					if (!shape.IsInside(new Vector2((int)entity.Position.X, (int)entity.Position.Z)))
+					if (!shape.IsInside(entity.Position))
 						continue;
 
 					result.Add(entity);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns all actors with the given type in the area.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
+		{
+			// Searching through both characters and monsters isn't the
+			// most efficient way to get actors of a specific type in an
+			// area, but it is simple and convenient, and it doesn't require
+			// us to create dozens of getters for various actor types.
+			// We can optimize this later if necessary.
+
+			var result = new List<TActor>();
+
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (monster is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
+
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
 				}
 			}
 
@@ -448,6 +482,31 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// via out. Returns false if no monster was found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_monsters)
+			{
+				foreach (var m in _monsters.Values)
+				{
+					if (predicate(m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
 		}
 
 		/// <summary>
@@ -483,6 +542,37 @@ namespace Melia.Zone.World.Maps
 		{
 			entity = this.GetCombatEntity(handle);
 			return entity != null;
+		}
+
+		/// <summary>
+		/// Returns the actor with the given handle via out. Returns false
+		/// if not matching actor was found.
+		/// </summary>
+		/// <param name="handle"></param>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		public bool TryGetActor(int handle, out IActor actor)
+		{
+			lock (_monsters)
+			{
+				if (_monsters.TryGetValue(handle, out var monster))
+				{
+					actor = monster;
+					return true;
+				}
+			}
+
+			lock (_characters)
+			{
+				if (_characters.TryGetValue(handle, out var character))
+				{
+					actor = character;
+					return true;
+				}
+			}
+
+			actor = null;
+			return false;
 		}
 
 		/// <summary>
@@ -526,8 +616,6 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
-
-			this.RemoveSpawners();
 		}
 
 		/// <summary>
@@ -541,6 +629,52 @@ namespace Melia.Zone.World.Maps
 
 			lock (_monsters)
 				return _monsters.Values.OfType<WarpMonster>().FirstOrDefault(a => a.Position.InRange2D(pos, 35));
+		}
+
+		/// <summary>
+		/// Sets the property overrides for the given monster on this map.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		public void AddPropertyOverrides(int monsterClassId, PropertyOverrides propertyOverrides)
+		{
+			lock (_monsterPropertyOverrides)
+				_monsterPropertyOverrides[monsterClassId] = propertyOverrides;
+		}
+
+		/// <summary>
+		/// Returns the property overrides for the given monster via out.
+		/// Returns false if no overrides were defined.
+		/// </summary>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <returns></returns>
+		public bool TryGetPropertyOverrides(int monsterClassId, out PropertyOverrides propertyOverrides)
+		{
+			lock (_monsterPropertyOverrides)
+				return _monsterPropertyOverrides.TryGetValue(monsterClassId, out propertyOverrides);
+		}
+
+		/// <summary>
+		/// Returns the closest safe position near the given one. If
+		/// resurrection points are favored and one exists, they will
+		/// always be returned first over the map's default position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <param name="favorResurrectionPoints"></param>
+		/// <returns></returns>
+		public Position GetSafePositionNear(Position pos, bool favorResurrectionPoints)
+		{
+			var positions = ZoneServer.Instance.Data.ResurrectionPointDb.FindPositions(this.ClassName);
+
+			if (positions.Count == 0)
+				return this.Data.DefaultPosition;
+
+			if (!favorResurrectionPoints)
+				positions.Add(this.Data.DefaultPosition);
+
+			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
+			return closestPos;
 		}
 
 		/// <summary>

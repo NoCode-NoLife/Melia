@@ -2,14 +2,15 @@
 using System.Linq;
 using System.Text;
 using Melia.Barracks.Database;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Database;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
-using System.Threading.Tasks;
 
 namespace Melia.Barracks.Network
 {
@@ -31,10 +32,22 @@ namespace Melia.Barracks.Network
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
 			var unk1 = packet.GetBin(285);
-			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_START_BARRACK
+			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
 			Send.BC_DISCONNECT_PACKET_LOG_COUNT(conn);
+
+			// If TAIWAN is set as the service nation, the client doesn't
+			// send the account name and password, but something else.
+			// We might be able to handle this, but for the time being
+			// we'll just require the GLOBAL service nation, which gives
+			// us the login packet we expect.
+			if (serviceNation == "TAIWAN")
+			{
+				Send.BC_MESSAGE(conn, "The TAIWAN service nation login is currently not supported. Please use the GLOBAL service nation instead.");
+				conn.Close(100);
+				return;
+			}
 
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
@@ -61,9 +74,22 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			// Check login state
+			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
+			{
+				// The official message, DuplicationLoginByOtherWorld,
+				// aka DoubleLogin, is so badly translated that we'll
+				// send a custom message for now.
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account is already logged in."));
+				conn.Close(100);
+				return;
+			}
+
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+
+			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 
@@ -107,9 +133,9 @@ namespace Melia.Barracks.Network
 		public void CB_START_BARRACK(IBarracksConnection conn, Packet packet)
 		{
 			var unkByte = packet.GetByte();
-			var str1 = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before, same as CB_LOGIN
+			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
-			var socialServers = BarracksServer.Instance.ServerList.GetSocialServers();
+			var socialServers = BarracksServer.Instance.ServerList.GetAll(ServerType.Social);
 
 			Send.BC_IES_MODIFY_LIST(conn);
 			if (socialServers.Length >= 2)
@@ -280,6 +306,12 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			if (jobData.JobClassId == JobClass.Scout && !Feature.IsEnabled("ScoutJob"))
+			{
+				Send.BC_MESSAGE(conn, Localization.Get("This job has been disabled on this server."));
+				return;
+			}
+
 			// Get map data
 			var startMapName = BarracksServer.Instance.Conf.Barracks.StartMap;
 			var startPosition = BarracksServer.Instance.Conf.Barracks.StartPosition;
@@ -400,7 +432,8 @@ namespace Melia.Barracks.Network
 		public void CB_START_GAME(IBarracksConnection conn, Packet packet)
 		{
 			var channelId = packet.GetShort();
-			var characterIndex = packet.GetShort();
+			var characterIndex = packet.GetByte();
+			var b1 = packet.GetByte();
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(characterIndex);
@@ -416,6 +449,15 @@ namespace Melia.Barracks.Network
 				Log.Error("CB_START_GAME: Zone server serving map '{0}' with index '{1}' not found.", character.MapId, channelId);
 				return;
 			}
+
+			if (zoneServerInfo.Status != ServerStatus.Online)
+			{
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This channel appears to be offline. Please choose another or try again later."));
+				Send.BC_NORMAL.StartGameFailed(conn);
+				return;
+			}
+
+			conn.Account.SelectedCharacterSlot = character.Index;
 
 			Send.BC_START_GAMEOK(conn, character, channelId, zoneServerInfo.Ip, zoneServerInfo.Port);
 		}

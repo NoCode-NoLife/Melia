@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_PROPERTY_COMPARE.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i339415
 //   Purpose: 
 //  Category: 
@@ -10,69 +10,73 @@
 //  ID Bytes: 
 //   History: 
 //------------------------------------------------
+
 //#define PROPERTY_NAMES
 #include "inc/common.bt"
 
-ServerHeaderDynamic header;
+typedef struct
+{
+    lpString optionName;
+    byte b1;
+    switch(b1)
+    {
+        case 0:
+            int optionValue;
+            break;
+        case 1:
+            lpString optionValue;
+            break;
+    }
+}
+SealOption <optimize=false>;
 
 typedef struct
 {
-    char name[65];
-    int64 characterId;
-    int64 accountId;
-    byte bin[6];
-    int i1; // Property Count ?
-    int64 i2;
-    char team[64];
+    lpString str1;
+    lpString str1;
+    int i1;
 }
-COMPARE_APPEARANCE_PC;
+GemInfoUnk1 <optimize=false>;
 
 typedef struct
 {
-    char name[64];
-    short s1; // 0
-    short jobId1;
-    int jobId2;
-    int barrackMapId;
-    short s2;
-    short s3; // 11
-    ushort s4;
-    int i12; // 11
-    int64 l2; // 0
-    byte bin[6];
-    int i1; // Map ID? 1003
-    int i2; // 10
-
-    // Up until i171032 we had these as "pose" and "team id",
-    // but they actually contain the visible hats, so we either
-    // had them wrong, or they changed. This was first noticed in
-    // i170175.
-    //short pose;
-    //int teamId;
-    byte b2;
-    byte hat1Visible;
-    byte hat2Visible;
-    byte hat3Visible;
-    int64 jobId3;
-    int64 l3;
-    short s3;
-    short s4;
+    short index;
+    int64 objectId;
+    int i1;
+    int i2;
+    int itemClassId;
+    int i4;
+    int i5;
+    
+    int gemInfoUnk1Count;
+    GemInfoUnk1 gemInfoUnk1[gemInfoUnk1Count];
 }
-COMPARE_APPEARANCE_PC2;
+GemInfo <optimize=false>;
 
 typedef struct
 {
     int itemId;
-    int propertiesSize;
+    short propertiesSize;
+    short amount;
     int64 worldId;
     int slot;
     int i1;
     short s1;
-    if (propertiesSize > 0) {
+
+    if (propertiesSize > 0)
+    {
         getProperties(propertiesSize);
-        short s2;
+
+        short sealOptionsSize;
+        if (sealOptionsSize > 0)
+            SealOption sealOptions[sealOptionsSize];
+
         int64 worldId2;
-        short s3;
+
+        short gemCount;
+        if (gemCount > 0)
+            // All gems appear to get sent twice?
+            GemInfo data[gemCount * 2];
     }
 }
 EquipItem2 <read=readEquipItem2, optimize=false>;
@@ -84,14 +88,64 @@ string readEquipItem2(EquipItem2 &v)
     return result;
 }
 
-typedef struct {
-    int handle;
-    COMPARE_APPEARANCE_PC compareAppearancePc;
-    COMPARE_APPEARANCE_PC2 compareAppearancePc2;
-    APPEARANCE_PC appearancePc;
-    getProperties(compareAppearancePc.i1);
-    EquipItem2 item[32];
+typedef struct
+{
+    short jobId;
+    short s1;
+    int i1;
+    int i2;
+    int i3;
+    int i4;
+    int i5;
+    int i6;
+    int i7;
+    int i8;
+    int i9;
 }
-COMPARE_COMMANDER;
+JobData <optimize=false>;
 
-COMPARE_COMMANDER commander;
+ServerHeaderDynamic header;
+
+int handle;
+char name[65];
+int64 characterId;
+int64 accountId;
+int i3;
+byte comparing;
+byte addLike;
+int adventurerIndex; // -1 if Index = 0
+int adventurerRank; // -1 if unranked
+int achievementCount;
+int i1;
+
+char teamName[64];
+char name2[65];
+byte b1;
+short jobId;
+int i2;
+byte gender;
+short s2;
+byte bin1[25];
+short serverGroupId;
+
+short s1;
+int level;
+byte unk2[4];
+short jobIds[4];
+int64 l1;
+short propertySize;
+short etcPropertySize;
+
+APPEARANCE_PC appearance;
+
+getProperties(propertySize);
+getProperties(etcPropertySize);
+
+EquipItem2 item[EquipSlotCount];
+
+short jobCount;
+if (jobCount > 0)
+    JobData data[jobCount];
+
+if (achievementCount > 0)
+    int achievementIds[achievementCount];

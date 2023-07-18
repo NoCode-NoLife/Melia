@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_ANCIENT_CARD_LOAD.bt
+//   Authors: Salman T. Khan
+//   Version: i348906
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderDynamic header;
+
+if (!checkCompression())
+{
+    int count; // count/index?
+    AncientCard cards[count];
+}

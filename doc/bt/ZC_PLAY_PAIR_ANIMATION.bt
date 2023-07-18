@@ -1,0 +1,25 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_PLAY_PAIR_ANIMATION.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History:
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+int handle;
+char animation[64];
+char animationName[128]; //BARRACK_SIT
+char parameter1[64]; // None
+char parameter2[64]; // None
+int i1;
+short s1;
+byte b1;

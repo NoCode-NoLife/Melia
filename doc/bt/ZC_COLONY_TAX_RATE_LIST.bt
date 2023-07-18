@@ -16,7 +16,16 @@ ServerHeaderDynamic header;
 
 typedef struct
 {
-    int bin[21];
+    int mapId;
+    ShortDate startDate;
+    int i1;
+    int64 guildId;
+    ShortDate endDate;
+    int i2;
+    int i3;
+    ShortDate captureDate;
+    int64 i[1];
+    int i4;
     lpString name;
     byte b1;
 } Owner <optimize=false>;

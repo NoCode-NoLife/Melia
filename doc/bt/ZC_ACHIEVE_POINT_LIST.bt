@@ -18,9 +18,19 @@ typedef struct
     int id;
     int count;
 }
-Entry <optimize=false>;
+Entry <read=entryRead, optimize=false>;
+
+string entryRead(Entry &v)
+{
+    local char ret[];
+    SPrintf(ret, "Achievement Id: %d: Points: %d", v.id, v.count);
+    return ret;
+}
 
 ServerHeaderDynamic header;
 
-int count;
+short count;
+short titleCount; // 1
 Entry entries[count];
+if (titleCount > 0)
+	int titles[titleCount];

@@ -1,0 +1,18 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: ZC_EXCHANGE_AGREE_ACK.bt
+//   Authors: Salman T. Khan
+//   Version: i346841
+//   Purpose: Trade 1st confirmation acknowledgement
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ServerHeaderFixed header;
+
+byte b1; // 0 = Current Player? 1 = Other Player?

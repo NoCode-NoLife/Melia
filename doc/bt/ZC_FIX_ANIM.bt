@@ -5,7 +5,7 @@
 //   Authors: Salman T. Khan
 //   Version: i336041
 //   Purpose: 
-//  Category: 
+//  Category: Might be to set animation after movement
 // File Mask: 
 //  ID Bytes: 
 //   History: 
@@ -14,5 +14,6 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
+
 int handle;
-char animationName[64];
+char animationName[64]; // event_loop, event_sit, event_idle

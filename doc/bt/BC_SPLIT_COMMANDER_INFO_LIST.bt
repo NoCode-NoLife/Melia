@@ -3,12 +3,13 @@
 //
 //      File: BC_SPLIT_COMMANDER_INFO_LIST.bt
 //   Authors: Salman T. Khan, exec
-//   Version: i35444
+//   Version: i370844
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i370844: Socket/Equip Properties (Options) initial structure figured out
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -19,7 +20,21 @@ typedef struct
     if (propertiesSize > 0) {
         getProperties(propertiesSize);
         int64 l1;
-        short s1;
+        short optionSize;
+        if (optionSize > 0)
+        {
+            local int halfCount = optionSize / 2;
+            local int i = 0;
+            for (i = 0; i < halfCount; i++)
+            {
+                lpString optionName; // SealOption_2
+                byte b1; // 1
+                lpString optionType; // MATK;PATK
+                lpString optionValue; // SealOptionValue_2
+                byte b2; // 0
+                int value; // 357
+            }
+        }
     }
 }
 EquipProperties <optimize=false>;
@@ -39,10 +54,76 @@ ResetTimeEntry <optimize=false>;
 
 typedef struct
 {
+    short index;
+    int64 worldId;
+    int i1;
+    int i2;
+    int i3;
+    int i4;
+    short s1;
+    short propertiesSize;
+    int i5;
+    if (i5 > 0)
+    {
+        local int i = 0;
+        for (i = 0; i < i5; i++)
+        {
+            lpString str1;
+            lpString str2;
+            int i6;
+        }
+    }
+} SocketInfo <optimize=false>;
+
+typedef struct
+{
+    int64 worldId;
+    int i1;
+    int i2;
+    int i3;
+    int i4;
+    short s1;
+    short propertiesSize;
+    int i5;
+    if (i5 > 0)
+    {
+        local int i = 0;
+        for (i = 0; i < i5; i++)
+        {
+            lpString str1;
+            lpString str2;
+            int i6;
+        }
+    }
+} SocketInfoEnd <optimize=false>;
+
+typedef struct
+{
+    int64 l1;
+    short count;
+    //byte bin[count*30];
+    SocketInfo socketInfo[count];
+}
+Socket <optimize=false>;
+
+typedef struct
+{
     APPEARANCE_BARRACK_PC abpc;
     Equip equip;
     //byte bin[8];
-    short s1;
+    short socketCount;
+    if (socketCount > 0)
+    {
+        switch(socketCount)
+        {
+            case 1:
+                Socket socket;
+                break;
+            default:
+                Socket sockets[socketCount];
+                break;
+        }
+    }
     byte b1;
     byte b2;
     byte b3;

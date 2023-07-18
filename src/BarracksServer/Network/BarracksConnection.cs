@@ -1,4 +1,5 @@
 ﻿using Melia.Barracks.Database;
+using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Yggdrasil.Network.TCP;
 
@@ -42,7 +43,11 @@ namespace Melia.Barracks.Network
 		{
 			base.OnClosed(type);
 
-			this.Account?.Save();
+			if (this.Account != null)
+			{
+				this.Account.Save();
+				BarracksServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
+			}
 		}
 	}
 }

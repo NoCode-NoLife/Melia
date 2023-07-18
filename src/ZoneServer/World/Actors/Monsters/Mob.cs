@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
@@ -24,6 +26,26 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Gets or sets the monster's faction.
 		/// </summary>
 		public FactionType Faction { get; set; } = FactionType.Peaceful;
+
+		/// <summary>
+		/// Returns the monster's race.
+		/// </summary>
+		public RaceType Race => this.Data.Race;
+
+		/// <summary>
+		/// Returns the monster's element.
+		/// </summary>
+		public ElementType Element => this.Data.Element;
+
+		/// <summary>
+		/// Returns the monster's mode of movement.
+		/// </summary>
+		public MoveType MoveType => this.Data.MoveType;
+
+		/// <summary>
+		/// Gets or sets the monster's tendency
+		/// </summary>
+		public TendencyType Tendency { get; set; } = TendencyType.Peaceful;
 
 		/// <summary>
 		/// Monster ID in database.
@@ -46,14 +68,14 @@ namespace Melia.Zone.World.Actors.Monsters
 			= ZoneServer.Instance.World.CreateGenType();
 
 		/// <summary>
-		/// What kind of NPC the monster is.
+		/// Gets or sets what kind of "monster" the mob is.
 		/// </summary>
 		public MonsterType MonsterType { get; set; }
 
 		/// <summary>
-		/// Monster's name, leave empty for default.
+		/// Gets or sets monster's name, leave empty for default.
 		/// </summary>
-		public string Name { get; set; }
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets monster's unique name.
@@ -94,39 +116,24 @@ namespace Melia.Zone.World.Actors.Monsters
 		public string LeaveName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the NPC's dialog function.
+		/// Gets or sets the mob's level.
 		/// </summary>
-		public DialogFunc DialogFunc { get; set; }
+		public int Level => (int)this.Properties.GetFloat(PropertyName.Level);
 
 		/// <summary>
-		/// Location to warp to.
+		/// Gets or sets the mob's AoE Defense Ratio.
 		/// </summary>
-		public Location WarpLocation { get; set; }
+		public float SDR => this.Properties.GetFloat(PropertyName.SDR);
 
 		/// <summary>
-		/// Level.
+		/// Returns the mob's current HP.
 		/// </summary>
-		public int Level { get; set; } = 1;
+		public int Hp => (int)this.Properties.GetFloat(PropertyName.HP);
 
 		/// <summary>
-		/// AoE Defense Ratio
+		/// Returns the mob's maximum HP.
 		/// </summary>
-		public float SDR { get; set; } = 1;
-
-		/// <summary>
-		/// Gets or sets the monster's HP, capped to 0~MaxHp.
-		/// </summary>
-		public int Hp
-		{
-			get { return _hp; }
-			private set { _hp = Math2.Clamp(0, this.MaxHp, value); }
-		}
-		private int _hp = 100;
-
-		/// <summary>
-		/// Maximum health points.
-		/// </summary>
-		public int MaxHp { get; private set; } = 100;
+		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
 		/// Physical defense.
@@ -168,14 +175,25 @@ namespace Melia.Zone.World.Actors.Monsters
 		public bool FromGround { get; set; }
 
 		/// <summary>
-		/// Gets or sets the monster's state.
+		/// Holds the order of successive changes in character HP.
+		/// A higher value indicates the latest HP amount.
 		/// </summary>
-		public NpcState State { get; set; }
+		public int HpChangeCounter { get; private set; }
 
 		/// <summary>
 		/// Returns the monster's property collection.
 		/// </summary>
-		public Properties Properties { get; protected set; }
+		public MonsterProperties Properties { get; protected set; }
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IPropertyHolder.Properties => this.Properties;
+
+		/// <summary>
+		/// Returns the monster's property collection.
+		/// </summary>
+		Properties IMonsterBase.Properties => this.Properties;
 
 		/// <summary>
 		/// Returns the monster's component collection.
@@ -185,7 +203,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Monster's buffs.
 		/// </summary>
-		public BuffCollection Buffs { get; }
+		public BuffComponent Buffs { get; }
+
+		/// <summary>
+		/// Return the monster's temporary variables.
+		/// </summary>
+		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
 		/// Creates new NPC.
@@ -195,7 +218,8 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Id = id;
 			this.MonsterType = type;
 
-			this.Components.Add(this.Buffs = new BuffCollection(this));
+			this.Components.Add(this.Buffs = new BuffComponent(this));
+			this.Components.Add(new CombatComponent(this));
 
 			this.LoadData();
 		}
@@ -212,11 +236,24 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Hp = this.MaxHp = this.Data.Hp;
 			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
+			this.InitProperties();
+		}
+
+		/// <summary>
+		/// Initializes monster's properties.
+		/// </summary>
+		private void InitProperties()
+		{
 			this.Properties = new MonsterProperties(this);
+
+			this.Properties.InitAutoUpdates();
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 
 		/// <summary>
@@ -226,13 +263,14 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="damage"></param>
 		/// <param name="attacker"></param>
 		/// <returns></returns>
-		public bool TakeDamage(int damage, Character attacker)
+		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
 
-			this.Hp -= damage;
+			this.Properties.Modify(PropertyName.HP, -damage);
+			this.HpChangeCounter++;
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
@@ -241,8 +279,8 @@ namespace Melia.Zone.World.Actors.Monsters
 				return true;
 			}
 
-			//if (this.Components.TryGet<EntityAi>(out var ai))
-			//	ai.QueueEvent(new HitEvent(attacker?.Handle ?? 0));
+			if (this.Components.TryGet<AiComponent>(out var ai))
+				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
 
 			return false;
 		}
@@ -251,29 +289,80 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Kills monster.
 		/// </summary>
 		/// <param name="killer"></param>
-		public void Kill(Character killer)
+		public void Kill(ICombatEntity killer)
 		{
-			this.Hp = 0;
+			this.Properties.SetFloat(PropertyName.HP, 0);
+			this.Components.Get<MovementComponent>()?.Stop();
 
-			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100;
-			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100;
+			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
+			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
 
-			var exp = 0;
-			var classExp = 0;
+			var exp = 0L;
+			var classExp = 0L;
 
 			if (this.Data.Exp > 0)
-				exp = (int)Math.Max(1, this.Data.Exp * expRate);
+				exp = (long)Math.Max(1, this.Data.Exp * expRate);
 			if (this.Data.ClassExp > 0)
-				classExp = (int)Math.Max(1, this.Data.ClassExp * classExpRate);
+				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			this.DropItems(killer);
+			if (killer is Character characterKiller)
+			{
+				this.DropItems(characterKiller);
+				characterKiller?.GiveExp(exp, classExp, this);
+			}
 
-			killer?.GiveExp(exp, classExp, this);
 			this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Calculates the drop chance rate for the given item based
+		/// on its own property, the server's configuration, as well
+		/// as other factors.
+		/// </summary>
+		/// <param name="dropEntry">The drop data to get the adjusted drop rate for.</param>
+		/// <returns></returns>
+		public static float GetAdjustedDropRate(DropData dropEntry)
+		{
+			var itemData = ZoneServer.Instance.Data.ItemDb.Find(dropEntry.ItemId);
+
+			// Don't drop items that don't exist in the database
+			if (itemData == null)
+				return -1;
+
+			var worldConf = ZoneServer.Instance.Conf.World;
+			var dropChance = dropEntry.DropChance;
+
+			if (itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold)
+			{
+				dropChance *= worldConf.SilverDropRate / 100f;
+			}
+			else if (itemData.Type == ItemType.Equip || itemData.Type == ItemType.PetArmor || itemData.Type == ItemType.PetWeapon)
+			{
+				dropChance *= worldConf.EquipmentDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("BlueOrb_"))
+			{
+				dropChance *= worldConf.BlueOrbDropRate / 100f;
+			}
+			else if (itemData.ClassName.StartsWith("RedOrb_"))
+			{
+				dropChance *= worldConf.RedOrbDropRate / 100f;
+			}
+			else if (itemData.Group == ItemGroup.Gem)
+			{
+				dropChance *= worldConf.GemDropRate / 100f;
+			}
+			else
+			{
+				dropChance *= worldConf.GeneralDropRate / 100f;
+			}
+
+			return dropChance;
 		}
 
 		/// <summary>
@@ -290,10 +379,10 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			foreach (var dropItemData in this.Data.Drops)
 			{
-				var dropChance = dropItemData.DropChance;
-				dropChance *= ZoneServer.Instance.Conf.World.DropRate / 100f;
+				var dropChance = GetAdjustedDropRate(dropItemData);
 
-				if (rnd.NextDouble() > dropChance / 100f)
+				var dropSuccess = rnd.NextDouble() < dropChance / 100f;
+				if (!dropSuccess)
 					continue;
 
 				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
@@ -303,7 +392,16 @@ namespace Melia.Zone.World.Actors.Monsters
 				}
 
 				var dropItem = new Item(itemData.Id);
-				dropItem.Amount = rnd.Next(dropItemData.MinAmount, dropItemData.MaxAmount + 1);
+				var minAmount = dropItemData.MinAmount;
+				var maxAmount = dropItemData.MaxAmount;
+
+				if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
+				{
+					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+				}
+
+				dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
 
 				if (killer == null || dropChance > autoloot)
 				{
@@ -322,14 +420,44 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
+		/// Returns true if the character can attack others.
+		/// </summary>
+		/// <returns></returns>
+		public bool CanFight()
+		{
+			if (this.IsDead)
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns true if the monster can attack the entity.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
 		public bool CanAttack(ICombatEntity entity)
 		{
-			// For now, let's specify that monsters can attack characters.
-			return (entity is Character);
+			if (entity == this)
+				return false;
+
+			if (entity.IsDead)
+				return false;
+
+			// For now, let's specify that mobs can attack any combat
+			// entities, since we want them them to be able to attack
+			// both characters and other mobs.
+			//return (entity is ICombatEntity);
+
+			// New plan. Let's say that mobs can attack those entities
+			// they're hostile towards. That allows AoEs to ignore
+			// friendly entities. If the mob doesn't have an AI,
+			// it shouldn't need to be able to attack anything,
+			// so we return false in that case.
+			if (!this.Components.TryGet<AiComponent>(out var ai))
+				return false;
+
+			return ai.Script.IsHostileTowards(entity);
 		}
 
 		/// <summary>
@@ -348,10 +476,51 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.SetFloat("HP", this.Properties.GetFloat(PropertyName.MHP));
-			this.Properties.SetFloat("SP", this.Properties.GetFloat(PropertyName.MSP));
+			this.Properties.Modify(PropertyName.HP, hpAmount);
+			this.Properties.Modify(PropertyName.SP, spAmount);
 
-			Send.ZC_UPDATE_ALL_STATUS(this);
+			this.HpChangeCounter++;
+
+			Send.ZC_UPDATE_ALL_STATUS(this, this.HpChangeCounter);
+		}
+
+		/// <summary>
+		/// Overrides the monster's properties with the given values.
+		/// </summary>
+		/// <param name="overrides"></param>
+		public void ApplyOverrides(PropertyOverrides overrides)
+		{
+			foreach (var propertyOverride in overrides)
+			{
+				var propertyName = propertyOverride.Key;
+
+				// Since calculated properties can't be overridden directly,
+				// we swap to the override properties that the calculation
+				// functions use for each property as necessary.
+				var properties = this.Properties as Properties;
+				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+					properties = this.Properties.Overrides;
+
+				switch (propertyOverride.Value)
+				{
+					case int intValue:
+						properties.SetFloat(propertyName, intValue);
+						break;
+
+					case float floatValue:
+						properties.SetFloat(propertyName, floatValue);
+						break;
+
+					case string stringValue:
+						properties.SetString(propertyName, stringValue);
+						break;
+				}
+			}
+
+			this.Properties.InvalidateAll();
+
+			this.Properties.SetFloat(PropertyName.HP, this.Properties.GetFloat(PropertyName.MHP));
+			this.Properties.SetFloat(PropertyName.SP, this.Properties.GetFloat(PropertyName.MSP));
 		}
 	}
 }

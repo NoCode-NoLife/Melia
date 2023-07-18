@@ -18,6 +18,7 @@ namespace Melia.Shared.Data
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public CooldownDb CooldownDb = new CooldownDb();
 		public DialogDb DialogDb = new DialogDb();
+		public DialogTxDb DialogTxDb = new DialogTxDb();
 		public ExpDb ExpDb = new ExpDb();
 		public FeatureDb FeatureDb = new FeatureDb();
 		public FactionDb FactionDb = new FactionDb();
@@ -28,14 +29,18 @@ namespace Melia.Shared.Data
 		public JobDb JobDb = new JobDb();
 		public MapDb MapDb = new MapDb();
 		public MonsterDb MonsterDb = new MonsterDb();
+		public NormalTxDb NormalTxDb = new NormalTxDb();
 		public PacketStringDb PacketStringDb = new PacketStringDb();
 		public PropertiesDb PropertiesDb = new PropertiesDb();
+		public RecipeDb RecipeDb = new RecipeDb();
+		public ResurrectionPointDb ResurrectionPointDb = new ResurrectionPointDb();
 		public ServerDb ServerDb;
 		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
 		public StanceConditionDb StanceConditionDb = new StanceConditionDb();
+		public SystemMessageDb SystemMessageDb = new SystemMessageDb();
 		public HelpDb HelpDb = new HelpDb();
 
 		public MeliaData()

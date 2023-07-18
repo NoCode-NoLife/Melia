@@ -1,0 +1,45 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: QuickSlots.bt
+//   Authors: exec
+//   Version: i373766
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef enum<byte>
+{
+    QST_None = 0,
+    QST_Action = 1,
+    QST_Skill = 2,
+    QST_Item = 3,
+}
+QuickSlotType;
+
+typedef struct
+{
+	QuickSlotType type;
+    int classId;
+    int64 l1; // some object id maybe?
+}
+QuickSlotInfo <read=readQuickSlotInfo>;
+
+string readQuickSlotInfo(QuickSlotInfo& val)
+{
+    local string result;
+
+    switch(val.type)
+    {
+        case QST_None: SPrintf(result, "None"); break;
+        case QST_Skill: SPrintf(result, "Action: %d", val.classId); break;
+        case QST_Skill: SPrintf(result, "Skill: %d", val.classId); break;
+        case QST_Item: SPrintf(result, "Item: %d", val.classId); break;
+        default: SPrintf(result, "Unknown: %d", val.classId); break;
+    }
+
+    return result;
+}

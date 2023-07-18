@@ -27,6 +27,11 @@ namespace Melia.Shared
 	public abstract class Server
 	{
 		/// <summary>
+		/// Returns this server's server info.
+		/// </summary>
+		public ServerInfo ServerInfo { get; private set; }
+
+		/// <summary>
 		/// Returns a reference to all conf files.
 		/// </summary>
 		public ConfFiles Conf { get; } = new ConfFiles();
@@ -91,6 +96,7 @@ namespace Melia.Shared
 			Log.Info("Loading configuration...");
 
 			this.Conf.Load();
+			Log.SetFilter(this.Conf.Log.Filter);
 
 			return this.Conf;
 		}
@@ -220,6 +226,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
+					this.LoadDb(this.Data.DialogTxDb, "db/dialog_tx_scripts.txt");
 					this.LoadDb(this.Data.ExpDb, "db/exp.txt");
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
 					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
@@ -231,20 +238,27 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.JobDb, "db/jobs.txt");
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.MonsterDb, "db/monsters.txt");
+					this.LoadDb(this.Data.NormalTxDb, "db/normal_tx_scripts.txt");
 					this.LoadDb(this.Data.PacketStringDb, "db/packetstrings.txt");
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.RecipeDb, "db/recipes.txt");
+					this.LoadDb(this.Data.ResurrectionPointDb, "db/resurrection_points.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 					this.LoadDb(this.Data.SessionObjectDb, "db/sessionobjects.txt");
 					this.LoadDb(this.Data.ShopDb, "db/shops.txt");
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
+					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}
 				else if (serverType == ServerType.Social)
 				{
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+				}
+				else if (serverType == ServerType.Web)
+				{
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 				}
 
@@ -445,29 +459,37 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads the server list from given database.
+		/// Loads the server list from the database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		protected void LoadServerList(ServerDb serverDb)
+		/// <param name="serverType"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
+		protected void LoadServerList(ServerDb serverDb, ServerType serverType, int groupId, int serverId)
 		{
 			Log.Info("Loading server list...");
 
-			this.ServerList.Load(serverDb);
+			this.ServerList.Load(serverDb, groupId);
+			this.ServerInfo = this.GetServerInfo(serverType, serverId);
 		}
 
 		/// <summary>
 		/// Reads the server id from the arguments and returns it.
 		/// </summary>
 		/// <param name="args"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
 		/// <returns></returns>
-		protected int GetServerId(string[] args)
+		protected void GetServerId(string[] args, out int groupId, out int serverId)
 		{
-			var serverId = 1;
+			groupId = 1001;
+			serverId = 1;
 
-			if (args.Length > 0 && int.TryParse(args[0], out var id))
-				serverId = id;
+			if (args.Length > 0 && int.TryParse(args[0], out var gid))
+				groupId = gid;
 
-			return serverId;
+			if (args.Length > 1 && int.TryParse(args[1], out var sid))
+				serverId = sid;
 		}
 
 		/// <summary>

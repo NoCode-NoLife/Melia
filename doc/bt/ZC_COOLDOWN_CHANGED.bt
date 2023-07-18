@@ -1,7 +1,7 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_COOLDOWN_CHANGED
+//      File: ZC_COOLDOWN_CHANGED.bt
 //   Authors: exec
 //   Version: i336041
 //   Purpose: 
@@ -17,7 +17,7 @@
 ServerHeaderFixed header;
 
 int64 characterId;
-int i1;
-int coolDown;
-int i3;
+int classId;
+int remainingMs;
+int totalMs;
 byte b1;

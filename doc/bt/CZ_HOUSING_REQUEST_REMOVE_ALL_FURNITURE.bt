@@ -1,0 +1,16 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.1 Binary Template
+//
+//      File: CZ_HOUSING_REQUEST_REMOVE_ALL_FURNITURE.bt
+//   Authors: Salman T. Khan
+//   Version: i370431
+//   Purpose: Remove all furniture in personal house.
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;

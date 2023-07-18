@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.2 Binary Template
+//
+//      File: CS_ADD_RELATION_SCORE.bt
+//   Authors: Salman T. Khan
+//   Version: i373230
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixedOld header;
+
+byte bin[14]; // 0s
+char teamName[64];
+int64 l1; // 2

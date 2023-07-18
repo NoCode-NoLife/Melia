@@ -2,8 +2,8 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_HIT_INFO.bt
-//   Authors: exec
-//   Version: i11XXX
+//   Authors: exec, Salman T. Khan
+//   Version: i373766
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,21 +16,25 @@
 ServerHeaderFixed header;
 
 int targetHandle;
-int attackerHandle; // ?
+int attackerHandle;
 int skillId;
-int damage;
-int hpLeft;
+
+// This is a sub-struct that also appears in ZC_SKILL_INFO.
+// As of i373766 it's 24 bytes in size.
+HitInfo hit;
+
+// This structure following the hit info should be correct
+// as of time of writing, though some of these bytes might
+// be padding.
+byte b7;
+int type;
 int i1;
-int i2; // ?
-byte b1; // ?
-byte b2; // ?
-short s1;
-byte b3;
-byte b4;
-int64 l1;
-int i3;
-int i4;
-byte b5;
+int i2; // same weird integer as in ZC_SKILL_FORCE_TARGET and ZC_SKILL_HIT_INFO?
+byte b8;
+byte b9;
 float f1;
-int64 l2;
-int64 l3;
+float f2;
+int attackCount;
+byte align1;
+float f3;
+int i3;

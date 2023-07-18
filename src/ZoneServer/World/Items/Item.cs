@@ -18,9 +18,7 @@ namespace Melia.Zone.World.Items
 	/// </summary>
 	public class Item : IPropertyObject
 	{
-		private static long WorldId = 0x0050000000000000;
-
-		private int _amount;
+		private static long ObjectIds = ObjectIdRanges.Items;
 
 		/// <summary>
 		/// Returns the item's class id.
@@ -45,6 +43,7 @@ namespace Melia.Zone.World.Items
 				_amount = Math2.Clamp(1, max, value);
 			}
 		}
+		private int _amount;
 
 		/// <summary>
 		/// Returns true if item's MaxStack is higher than 1, indicating
@@ -53,9 +52,9 @@ namespace Melia.Zone.World.Items
 		public bool IsStackable => this.Data.MaxStack > 1;
 
 		/// <summary>
-		/// Gets or sets item's globally unique object id.
+		/// Returns the globally unique object id.
 		/// </summary>
-		public long ObjectId { get; set; }
+		public virtual long ObjectId { get; } = Interlocked.Increment(ref ObjectIds);
 
 		/// <summary>
 		/// Returns item's buy price.
@@ -105,11 +104,11 @@ namespace Melia.Zone.World.Items
 		/// <param name="amount"></param>
 		public Item(int itemId, int amount = 1)
 		{
-			// Set id and load data, so we have data to work with.
 			this.Id = itemId;
 			this.LoadData();
 
-			this.ObjectId = Interlocked.Increment(ref WorldId);
+			// Set amount after loading the data so we can clamp it
+			// to the max stack size
 			this.Amount = amount;
 		}
 

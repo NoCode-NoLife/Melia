@@ -131,7 +131,7 @@ namespace Melia.Shared.Network
 		public string GetString(int length)
 		{
 			var bytes = _buffer.Read(length);
-			var val = Encoding.UTF8.GetString(bytes);
+			var val = DefaultEncoding.GetString(bytes);
 
 			// Relatively fast way to get rid of null bytes.
 			var nullIndex = val.IndexOf((char)0);
@@ -237,6 +237,24 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Reads the given number of values from the packet using the
+		/// getter function and returns them as an array.
+		/// </summary>
+		/// <typeparam name="TListItem"></typeparam>
+		/// <param name="count"></param>
+		/// <param name="getter"></param>
+		/// <returns></returns>
+		public TListItem[] GetList<TListItem>(int count, Func<TListItem> getter)
+		{
+			var result = new TListItem[count];
+
+			for (var i = 0; i < count; i++)
+				result[i] = getter();
+
+			return result;
+		}
+
+		/// <summary>
 		/// Writes byte to buffer.
 		/// </summary>
 		/// <param name="val"></param>
@@ -286,8 +304,8 @@ namespace Melia.Shared.Network
 			=> _buffer.WriteFloat(val);
 
 		/// <summary>
-		/// Writes string to packet, padding it with zeroes to reach the
-		/// given byte length.
+		/// Writes fixed-sized string to packet, padding it with zeroes
+		/// to reach the given byte length.
 		/// </summary>
 		/// <remarks>
 		/// Commonly used for fixed-sized strings as used in C.
@@ -309,7 +327,7 @@ namespace Melia.Shared.Network
 		/// </exception>
 		public void PutString(string val, int byteLength)
 		{
-			var bytes = Encoding.UTF8.GetBytes(val ?? "");
+			var bytes = DefaultEncoding.GetBytes(val ?? "");
 
 			if (bytes.Length > byteLength)
 				throw new ArgumentException($"Byte length of string ({bytes.Length}) is longer than given length ({byteLength}).");
@@ -336,13 +354,24 @@ namespace Melia.Shared.Network
 			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			var bytes = Encoding.UTF8.GetBytes(val);
+			var bytes = DefaultEncoding.GetBytes(val);
+			this.PutBin(bytes);
+		}
+
+		/// <summary>
+		/// Writes raw string to buffer, without null terminator or
+		/// length prefix.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutRawString(string val)
+		{
+			var bytes = DefaultEncoding.GetBytes(val ?? "");
 			this.PutBin(bytes);
 		}
 
 		/// <summary>
 		/// Writes string to buffer, incl. null terminator, and prefixed
-		/// with a short describing its length.
+		/// with a short specifiying the string's byte length.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutLpString(string val)
@@ -354,7 +383,7 @@ namespace Melia.Shared.Network
 			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
 				val += '\0';
 
-			var bytes = Encoding.UTF8.GetBytes(val);
+			var bytes = DefaultEncoding.GetBytes(val);
 			this.PutShort(bytes.Length);
 			this.PutBin(bytes);
 		}
@@ -485,6 +514,57 @@ namespace Melia.Shared.Network
 				this.PutShort(0xFA8D); // zlib header
 				this.PutCompressedBin(buffer, len);
 			}
+		}
+
+		/// <summary>
+		/// Calls the given callback to write data into a temporary
+		/// packet and returns the written data in compressed form.
+		/// </summary>
+		/// <param name="packetFunc"></param>
+		/// <returns></returns>
+		public byte[] CompressData(Action<Packet> packetFunc)
+		{
+			var subPacket = new Packet(this.Op);
+			packetFunc(subPacket);
+
+			var buffer = subPacket._buffer.Copy();
+
+			using (var ms = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
+					ds.Write(buffer, 0, buffer.Length);
+
+				var compressed = ms.ToArray();
+				return compressed;
+			}
+		}
+
+		/// <summary>
+		/// Reads the given amount of bytes from the packet, uncompresses
+		/// them, and adds the data to a temporary packet that is passed
+		/// to the call-back to read the data.
+		/// </summary>
+		/// <param name="compressedSize"></param>
+		/// <param name="packetFunc"></param>
+		public void UncompressData(int compressedSize, Action<Packet> packetFunc)
+		{
+			var compressed = this.GetBin(compressedSize);
+
+			byte[] uncompressed;
+			using (var msIn = new MemoryStream(compressed))
+			using (var msOut = new MemoryStream())
+			{
+				using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+					ds.CopyTo(msOut);
+
+				uncompressed = msOut.ToArray();
+			}
+
+			var packet = new Packet(this.Op);
+			packet.PutBin(uncompressed);
+			packet.Rewind();
+
+			packetFunc(packet);
 		}
 
 		/// <summary>

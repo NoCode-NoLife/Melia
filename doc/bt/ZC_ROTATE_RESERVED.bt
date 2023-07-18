@@ -16,5 +16,4 @@
 ServerHeaderFixed header;
 
 int handle;
-float dcos;
-float dsin;
+direction dir;

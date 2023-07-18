@@ -4,11 +4,12 @@
 //      File: ZC_TO_CLIENT.bt
 //   Authors: Salman T. Khan
 //   Version: i339415
-//   Purpose: 
+//   Purpose: Guild related packets usually?
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//      - i370069: 0x13 proper structure, byte + int64 (guild id), lpString
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -22,15 +23,16 @@ switch (type)
         lpString message;
         break;
     case 0x11:
-        lpString message;
-        lpString params;
-        int i1; // 2084 or 0? 
+        lpString message; //NOTICE_Dm_scroll
+        lpString params;// !@#$GUILD_SYSTEM_MSG5$*$SELF$*$Shayaan$*$NUM$*$10,000#@! | !@#$GUILD_SYSTEM_MSG9$*$SELF$*$Shayaan$*$NUM$*$4#@!
+        int i1; // 2084 or 0? | 10
         break;
     case 0x13:
-        int handle; // Guild Id?
-        byte b1;
-        int id; // Guild Property Id?
-        lpString message;
+        PartyType type; // 1, could be a byte for another thing
+        //int handle; // Guild Id?
+        //int id; // Guild Property Id?
+        int64 guildId; // Guild Id
+        lpString message; // !@#$GUILD_SYSTEM_MSG5$*$SELF$*$Shayaan$*$NUM$*$10,000#@! | !@#$GUILD_SYSTEM_MSG9$*$SELF$*$Shayaan$*$NUM$*$4#@!
         break;
 }
 

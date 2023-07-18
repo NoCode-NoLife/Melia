@@ -1,0 +1,27 @@
+//------------------------------------------------
+//--- 010 Editor v11.0.1 Binary Template
+//
+//      File: CZ_BUY_AUTOSELLER_ITEMS.bt
+//   Authors: Salman T. Khan
+//   Version: i339415
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderDynamic header;
+int i1; // 0
+int buyerHandle; // 8519
+int itemCount; // 1
+local int i;
+for (i = 0; i < itemCount; i++)
+{
+    int index;
+    int64 worldId; // Item World Id?
+    int amount;
+    int i0;
+}

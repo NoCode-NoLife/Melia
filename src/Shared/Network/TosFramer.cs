@@ -87,8 +87,8 @@ namespace Melia.Shared.Network
 				// rather not do that.
 				if (packetSize > tableSize)
 				{
-					Log.Warning("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})", op, fixHeaderSize, tableSize, Op.GetName(op));
-					throw new Exception("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})");
+					Log.Warning("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})", op, packetSize, tableSize, Op.GetName(op));
+					throw new ArgumentException("Packet is bigger than specified in the packet size table.");
 				}
 
 				// If the packet is smaller than the table size we might

@@ -3,8 +3,8 @@
 //
 //      File: CZ_QUICKSLOT_LIST.bt
 //   Authors: exec
-//   Version: i339427
-//   Purpose: 
+//   Version: i373766
+//   Purpose: List of current hotkeys for the server to save.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -12,41 +12,22 @@
 //------------------------------------------------
 
 #include "inc/common.bt"
+#include "inc/QuickSlots.bt"
 
 ClientHeaderDynamic header;
 
 int compressedSize;
-byte data[compressedSize];
 
-/*
-enum<byte> QuickSlotType
+local int expectedPacketSize = (compressedSize + sizeof(ClientHeaderDynamic) + sizeof(short) + 10);
+if (expectedPacketSize > FileSize())
 {
-    QST_Skill = 2,
-    QST_Item = 3,
-};
-
-typedef struct
-{
-    byte b1;
-    QuickSlotType type;
-    int id;
-    byte bin1[7];
+    byte data[compressedSize];
 }
-QuickSlotEntry <read=readQuickSlotEntry>;
-
-string readQuickSlotEntry(QuickSlotEntry& val)
+else
 {
-    local string result;
-
-    switch(val.type)
-    {
-        case QST_Skill: SPrintf(result, "Skill: %d", val.id); break;
-        case QST_Item: SPrintf(result, "Item: %d", val.id); break;
-        default: SPrintf(result, "Unknown: %d", val.id); break;
-    }
-
-    return result;
+    byte b2;
+    QuickSlotInfo quickSlots[50];
+    QuickSlotInfo unkSlots1[4];
+    byte b3;
+    byte b4;
 }
-
-QuickSlotEntry entries[54];
-*/

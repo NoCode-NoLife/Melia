@@ -13,6 +13,7 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int64 l1;
-int i1;
-int i2;
+
+int64 characterId; // 526335357223014
+int cooldownId; // 2344
+int time; // 15000
