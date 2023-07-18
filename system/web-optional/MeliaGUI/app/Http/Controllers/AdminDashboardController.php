@@ -22,11 +22,6 @@ class AdminDashboardController extends Controller
     public function get(Request $request)
     {
         $totalAccounts = Account::all()->count();
-        $onlineAccounts = Account::where('loginState', 1)
-                                    ->orWhere('loginState', 2)
-                                    ->get()
-                                    ->count();
-
         $lastAccounts = Account::query()
                         ->orderByDesc('accountId')
                         ->limit(20)
@@ -52,26 +47,43 @@ class AdminDashboardController extends Controller
             $account['highestCharacterName'] = $highestCharacterName;
         });
 
-        $response = $this->client->request('GET', '/dashboard/server/info' );
-        $statusCode = $response->getStatusCode();
-        $body = $response->getBody()->getContents();
-
         $processes = [];
         $totalCpuUsage = 0;
 
-        if ($statusCode == 200) {
-            $processesInternal = json_decode($body);
+        try {
+            $resProcesses = $this->client->request('GET', '/api/info/processes' );
+            $statusCodeProcesses = $resProcesses->getStatusCode();
+            $bodyProcesses = $resProcesses->getBody()->getContents();
 
-            foreach ($processesInternal as $process) {
-                $ramUsage = ($process->ProcessRamUsage / $process->TotalRAM) * 100;
-                $processInternal['ProcessId'] = $process->ProcessId;
-                $processInternal['ProcessName'] = $process->ProcessName;
-                $processInternal['CpuUsage'] = number_format($process->CpuUsagePercentage, 2);
-                $processInternal['RamUsage'] = number_format($ramUsage, 2);
-                $processInternal['ServerIp'] = $process->ServerIp;
-                $totalCpuUsage += number_format($process->CpuUsagePercentage);
-                $processes[] = $processInternal;
+            if ($statusCodeProcesses == 200) {
+                $processesInternal = json_decode($bodyProcesses);
+
+                foreach ($processesInternal as $process) {
+                    $ramUsage = ($process->ProcessRamUsage / $process->TotalRAM) * 100;
+                    $processInternal['ProcessId'] = $process->ProcessId;
+                    $processInternal['ProcessName'] = $process->ProcessName;
+                    $processInternal['CpuUsage'] = number_format($process->CpuUsagePercentage, 2);
+                    $processInternal['RamUsage'] = number_format($ramUsage, 2);
+                    $processInternal['ServerIp'] = $process->ServerIp;
+                    $totalCpuUsage += number_format($process->CpuUsagePercentage);
+                    $processes[] = $processInternal;
+                }
             }
+        } catch (\Exception $e) {
+        }
+
+        $onlineAccounts = 0;
+
+        try {
+            $resPlayerCount = $this->client->request('GET', '/api/info/playercount' );
+            $statusCodePlayerCount = $resPlayerCount->getStatusCode();
+            $bodyPlayerCount = $resPlayerCount->getBody()->getContents();
+
+            if ($statusCodePlayerCount == 200) {
+                $playerCountJson = json_decode($bodyPlayerCount);
+                $onlineAccounts = $playerCountJson->playerCount;
+            }
+        } catch (\Exception $e) {
         }
 
         return Inertia::render('AdminDashboard', [

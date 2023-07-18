@@ -317,7 +317,13 @@ namespace Melia.Zone
 				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
 			);
 
-			this.Communicator.Send("Coordinator", serverInformationMessage);
+			try
+			{
+				this.Communicator.Send("Coordinator", serverInformationMessage);
+			}
+			catch (Exception)
+			{
+			}
 
 			await Task.Delay(TimeSpan.FromMinutes(5));
 		}

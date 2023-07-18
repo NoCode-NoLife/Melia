@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -57,10 +56,10 @@ namespace Melia.Web
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
 			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
-			this.CheckDependencies();			
+			this.CheckDependencies();
+			this.StartCommunicator();
 			this.StartWebServer();
 
-            this.StartCommunicator();
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
@@ -73,7 +72,7 @@ namespace Melia.Web
 		/// </summary>
 		private void StartAcceptor()
 		{
-			_acceptor = new TcpConnectionAcceptor<WebServerConnection>(this.ServerInfo.Port);
+			_acceptor = new TcpConnectionAcceptor<WebServerConnection>(this.ServerInfo.InterPort);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
 			_acceptor.Listen();
 
@@ -193,7 +192,7 @@ namespace Melia.Web
 		{
 			Log.Info("Attempting to connect to coordinator...");
 
-			var commName = ServerType.Barracks.ToString();
+			var commName = ServerType.Web.ToString();
 
 			this.Communicator = new Communicator(commName);
 			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
@@ -288,9 +287,7 @@ namespace Melia.Web
 				//   adding a pre-processor.
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
-				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
-
-				_server.WithWebApi("/dashboard", m => m.WithController<DashboarController>());
+				_server.WithWebApi("/api/", m => m.WithController<ApiController>());;
 
 				_server.WithModule(new PhpModule("/"));
 

@@ -159,13 +159,13 @@ namespace Melia.Barracks
 					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
 					Send.BC_NORMAL.ZoneTraffic();
-					break;				
+					break;
 				case ReqPlayerCountMessage reqPlayerCountMessage:				
 					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
 					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
 					break;
 				case ResServerInformationMessage resServerInformationMessage:
-					this.Communicator.Send("Web1", resServerInformationMessage);
+					this.Communicator.Send("Web", resServerInformationMessage);
 					break;
 			}
 		}
@@ -242,7 +242,6 @@ namespace Melia.Barracks
 			}
 		}
 
-
 		private async void BroadcastProcessInformation()
 		{
 			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
@@ -261,8 +260,12 @@ namespace Melia.Barracks
 				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
 			);
 
-			this.Communicator.Send("Web1", serverInformationMessage);
-
+			try {
+				this.Communicator.Send("Web", serverInformationMessage);
+			} catch (Exception)
+			{
+			}
+			
 			await Task.Delay(TimeSpan.FromMinutes(5));
 		}
 	}
