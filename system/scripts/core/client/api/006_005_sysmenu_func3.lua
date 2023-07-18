@@ -15,12 +15,10 @@ Melia.Ui.SysMenu.HideNoticeTexts = function()
 end
 
 Melia.Ui.SysMenu.CreateButton = function(index, name, icon, tooltip, onClick)
-	local newBtn = sysmenuFrame:CreateControl("button", name, 0, 0, 38, 44)
-	AUTO_CAST(newBtn)
-
 	local marginRight = index * 38
 
-	newBtn:CloneFrom(Melia.Ui.SysMenu.ButtonTemplate)
+	local newBtn = sysmenuFrame:CreateControl("button", name, 0, 0, 38, 44)
+	AUTO_CAST(newBtn)
 	newBtn:SetMargin(0, 0, marginRight, 10)
 	newBtn:SetGravity(ui.RIGHT, ui.BOTTOM)
 	newBtn:SetImage(icon)
