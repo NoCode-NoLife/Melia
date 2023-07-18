@@ -60,7 +60,7 @@ namespace Melia.Social.Database
 		/// Returns a bitmask that specifies which hats are visible on
 		/// the character.
 		/// </summary>
-		public HatVisibleStates VisibleHats { get { return HatVisibleStates.Hat1 | HatVisibleStates.Hat2 | HatVisibleStates.Hat3; } }
+		public VisibleEquip VisibleHats => VisibleEquip.Headgear1 | VisibleEquip.Headgear2 | VisibleEquip.Headgear3;
 
 		/// <summary>
 		/// Gets or sets the character's level.

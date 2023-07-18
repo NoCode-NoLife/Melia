@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
@@ -54,55 +56,38 @@ namespace Melia.Social
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Social", ConsoleColor.DarkGreen, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Social ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkCyan, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
-			// Set up social server specific logging or we might run into
-			// issues with multiple servers trying to write files at the
-			// same time.
-			if (args.Length != 0)
-			{
-				var serverId = this.GetServerId(args);
-				Log.Init("SocialServer" + serverId);
-			}
+			Log.Init($"SocialServer_{groupId}_{serverId}");
 
 			this.NavigateToRoot();
 
-			// Load data
 			this.LoadConf();
 			this.LoadLocalization(this.Conf);
 			this.LoadData(ServerType.Social);
-			this.LoadServerList(this.Data.ServerDb);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Social, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 
-			// Get server data
-			if (args.Length != 0)
-			{
-				var serverId = this.GetServerId(args);
-				var serverInfo = this.GetServerInfo(ServerType.Social, serverId);
-
-				// Start listener
-				_acceptor = new TcpConnectionAcceptor<SocialConnection>(serverInfo.Ip, serverInfo.Port);
-				_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
-				_acceptor.Listen();
-
-				Log.Status("Server ready, listening on {0}.", _acceptor.Address);
-			}
-			else
-			{
-				foreach (var serverInfo in this.ServerList.GetSocialServers())
-				{
-					// Start listener
-					_acceptor = new TcpConnectionAcceptor<SocialConnection>(serverInfo.Ip, serverInfo.Port);
-					_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
-					_acceptor.Listen();
-
-					Log.Status("Server ready, listening on {0}.", _acceptor.Address);
-				}
-			}
+			this.StartAcceptors();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Starts the server's TCP connection acceptors.
+		/// </summary>
+		private void StartAcceptors()
+		{
+			_acceptor = new TcpConnectionAcceptor<SocialConnection>(this.ServerInfo.Port);
+			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+			_acceptor.Listen();
+
+			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
 		}
 
 		/// <summary>

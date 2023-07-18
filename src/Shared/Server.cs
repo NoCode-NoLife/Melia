@@ -256,6 +256,7 @@ namespace Melia.Shared
 				else if (serverType == ServerType.Social)
 				{
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 				}
 				else if (serverType == ServerType.Web)
 				{
