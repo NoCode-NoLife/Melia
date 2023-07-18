@@ -1,19 +1,5 @@
 -- Create system button to toggle buy-in shop creation window.
-local frame = ui.GetFrame("sysmenu")
-
-frame:RemoveChild("BuyInShopBtn")
-
-local otherBtn = frame:GetChild("pcbang_shop")
-local margin = otherBtn:GetMargin();
-
-local shopBtn = frame:CreateControl("button", "BuyInShopBtn", 0, 0, 38, 44)
-shopBtn:CloneFrom(otherBtn)
-AUTO_CAST(shopBtn)
-
-shopBtn:SetMargin(0, 0, margin.right + 38, 10)
-shopBtn:SetImage("sysmenu_wugushi")
-shopBtn:SetTextTooltip("{@st59}Create Buy-in Shop");
-shopBtn:SetEventScript(ui.LBUTTONUP, "M_TOGGLE_PERSONAL_SHOP()", true);
+Melia.Ui.SysMenu.AddButton("BtnBuyInShop", "sysmenu_wugushi", "Create Buy-in Shop", "M_TOGGLE_PERSONAL_SHOP()")
 
 function M_TOGGLE_PERSONAL_SHOP()
 

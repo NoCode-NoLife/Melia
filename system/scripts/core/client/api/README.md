@@ -168,3 +168,60 @@ under the key.
 
 Parameters:
 - key (any): The key used to identify this transaction.
+
+## UI Functions
+
+Functions for customizing the UI.
+
+### Melia.Ui.SysMenu.AddButton
+
+Adds a button to the button menu on the bottom right of the screen.
+
+Parameters:
+- name (string): The button element's name. Must be unique.
+- icon (string): The image to use for the button, e.g. "sysmenu_skill".
+- tooltip (string): The tooltip to display when hovering over the button.
+- callback (string): The function to call when the button is clicked.
+
+### Melia.Ui.SysMenu.InsertButton
+
+Inserts a button into the button menu on the bottom right of the screen.
+
+Parameters:
+- pos (number): The position to insert the button at.
+- name (string): The button element's name. Must be unique.
+- icon (string): The image to use for the button, e.g. "sysmenu_skill".
+- tooltip (string): The tooltip to display when hovering over the button.
+- callback (string): The function to call when the button is clicked.
+
+### Melia.Ui.SysMenu.RemoveButton
+
+Removes a button from the button menu on the bottom right of the screen.
+
+Parameters:
+- name (string): The name of the button to remove.
+
+Default Buttons:
+- BtnSystem
+- BtnCollection
+- BtnInstantDungeon
+- BtnPet
+- BtnMacro
+- BtnFriends
+- BtnParty
+- BtnQuests
+- BtnJournal
+- BtnSkills
+- BtnInventory
+- BtnStatus
+- BtnAdvancement
+- BtnFishing
+- BtnGuildPromo
+- BtnPcBang
+
+### Melia.Ui.SysMenu.Clear
+
+Removes all buttons from the button menu on the bottom right of the screen.
+
+Parameters:
+- None
