@@ -4,6 +4,7 @@ import {
   mdiAccountMultiple,
   mdiAccountMultipleCheck,
   mdiChartTimelineVariant,
+  mdiCpu64Bit
 } from "@mdi/js";
 import * as chartConfig from "@/components/Charts/chart.config.js";
 import SectionMain from "@/components/SectionMain.vue";
@@ -95,7 +96,7 @@ onMounted(() => {
         />
       </div>
 
-      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Server's Processes" />
+      <SectionTitleLineWithButton :icon="mdiCpu64Bit" title="Server's Processes" />
 
       <CardBox has-table>
         <TableProcesses :items="processes" />

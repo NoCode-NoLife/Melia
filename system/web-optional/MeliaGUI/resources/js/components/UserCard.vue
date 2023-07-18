@@ -1,13 +1,9 @@
 <script setup>
-import { computed, ref } from "vue";
-import { mdiCheckDecagram } from "@mdi/js";
+import { ref } from "vue";
 import BaseLevel from "@/components/BaseLevel.vue";
-import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
 import CardBox from "@/components/CardBox.vue";
-import FormCheckRadio from "@/components/FormCheckRadio.vue";
-import PillTag from "@/components/PillTag.vue";
 import { useStore } from 'vuex';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 
 
 const store = useStore();

@@ -4,6 +4,7 @@ import { computed } from "vue";
 import AsideMenuList from "@/components/AsideMenuList.vue";
 import AsideMenuItem from "@/components/AsideMenuItem.vue";
 import BaseIcon from "@/components/BaseIcon.vue";
+import { router } from '@inertiajs/vue3';
 import { useStore } from 'vuex';
 
 defineProps({
@@ -25,7 +26,11 @@ const logoutItem = computed(() => ({
 }));
 
 const menuClick = (event, item) => {
-  emit("menu-click", event, item);
+    emit("menu-click", event, item);
+
+    if (item.isLogout) {
+        router.post(route('logout'));
+    }
 };
 
 const asideLgCloseClick = (event) => {

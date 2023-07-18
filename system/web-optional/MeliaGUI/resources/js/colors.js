@@ -48,7 +48,7 @@ export const getButtonColor = (
       success: "ring-emerald-300 dark:ring-emerald-700",
       danger: "ring-red-300 dark:ring-red-700",
       warning: "ring-yellow-300 dark:ring-yellow-700",
-      info: "ring-blue-300 dark:ring-blue-700 text-black dark:text-white",
+      info: "text-black dark:text-white ring-blue-300 dark:ring-blue-700",
     },
     active: {
       white: "bg-gray-100",
@@ -68,20 +68,21 @@ export const getButtonColor = (
       success: "bg-emerald-600 dark:bg-emerald-500 text-white",
       danger: "bg-red-600 dark:bg-red-500 text-white",
       warning: "bg-yellow-600 dark:bg-yellow-500 text-white",
-      info: "bg-blue-600 dark:bg-blue-500 text-white",
+      info: "bg-blue-600 dark:bg-blue-500 text-black dark:text-white",
     },
     bgHover: {
-      white: "hover:bg-gray-100",
-      whiteDark: "hover:bg-gray-100 hover:dark:bg-slate-800",
-      lightDark: "hover:bg-gray-200 hover:dark:bg-slate-700",
-      contrast: "hover:bg-gray-700 hover:dark:bg-slate-100",
-      success:
-        "hover:bg-emerald-700 hover:border-emerald-700 hover:dark:bg-emerald-600 hover:dark:border-emerald-600",
-      danger:
-        "hover:bg-red-700 hover:border-red-700 hover:dark:bg-red-600 hover:dark:border-red-600",
-      warning:
-        "hover:bg-yellow-700 hover:border-yellow-700 hover:dark:bg-yellow-600 hover:dark:border-yellow-600",
-      info: "hover:bg-blue-700 hover:border-blue-700 hover:dark:bg-blue-600 hover:dark:border-blue-600",
+        white: "hover:bg-gray-100",
+        whiteDark: "hover:bg-gray-100 hover:dark:bg-slate-800",
+        lightDark: "hover:bg-gray-200 hover:dark:bg-slate-700",
+        contrast: "hover:bg-gray-700 hover:dark:bg-slate-100",
+        success:
+            "hover:bg-emerald-700 hover:border-emerald-700 hover:dark:bg-emerald-600 hover:dark:border-emerald-600",
+        danger:
+            "hover:bg-red-700 hover:border-red-700 hover:dark:bg-red-600 hover:dark:border-red-600",
+        warning:
+            "hover:bg-yellow-700 hover:border-yellow-700 hover:dark:bg-yellow-600 hover:dark:border-yellow-600",
+        info:
+         "hover:bg-blue-700 hover:border-blue-700 hover:dark:bg-blue-600 hover:dark:border-blue-600",
     },
     borders: {
       white: "border-white",
@@ -109,7 +110,7 @@ export const getButtonColor = (
         "hover:bg-red-600 hover:text-white hover:text-white hover:dark:text-white hover:dark:border-red-600",
       warning:
         "hover:bg-yellow-600 hover:text-white hover:text-white hover:dark:text-white hover:dark:border-yellow-600",
-      info: "hover:bg-blue-600 hover:text-white hover:dark:text-white hover:dark:border-blue-600 text-black dark:text-white",
+      info: "hover:bg-blue-600 hover:text-blue hover:dark:text-blue hover:dark:border-blue-600 text-black dark:text-white",
     },
   };
 

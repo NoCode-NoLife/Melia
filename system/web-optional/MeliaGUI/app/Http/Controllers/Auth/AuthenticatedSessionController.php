@@ -19,7 +19,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Login', [
+        return Inertia::render('LoginView', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);
@@ -33,6 +33,10 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        if (auth()->user() && auth()->user()->account->authority >= 99) {
+            return redirect()->intended(route('admin.dashboard'));
+        }
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

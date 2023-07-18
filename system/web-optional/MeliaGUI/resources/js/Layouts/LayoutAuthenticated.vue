@@ -10,6 +10,7 @@ import AsideMenu from "@/components/AsideMenu.vue";
 import FooterBar from "@/components/FooterBar.vue";
 import { useStore } from 'vuex';
 import { darkModeKey, styleKey } from "@/config";
+import { router } from '@inertiajs/vue3';
 
 const layoutAsidePadding = "xl:pl-60";
 
@@ -34,7 +35,7 @@ const menuClick = (event, item) => {
     }
 
     if (item.isLogout) {
-        //
+        router.post(route('logout'));
     }
 };
 </script>

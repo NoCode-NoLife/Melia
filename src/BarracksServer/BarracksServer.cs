@@ -80,7 +80,7 @@ namespace Melia.Barracks
 
 			this.StartCommunicator();
 			this.StartAcceptor();
-			this.BroadcastProcessInformation();
+			this.SendProcessInformation();
 
 			ConsoleUtil.RunningTitle();
 			new BarracksConsoleCommands().Wait();
@@ -242,7 +242,10 @@ namespace Melia.Barracks
 			}
 		}
 
-		private async void BroadcastProcessInformation()
+		/// <summary>
+		/// Send the information about the process to the coordinator.
+		/// </summary>
+		private async void SendProcessInformation()
 		{
 			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 			cpuCounter.NextValue();

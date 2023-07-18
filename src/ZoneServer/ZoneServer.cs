@@ -110,7 +110,7 @@ namespace Melia.Zone
 
 			this.StartCommunicator();
 			this.StartAcceptor();
-			this.BroadcastProcessInformation();
+			this.SendProcessInformation();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
@@ -299,7 +299,10 @@ namespace Melia.Zone
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
 		}
 
-		private async void BroadcastProcessInformation()
+		/// <summary>
+		/// Send the information about the process to the coordinator.
+		/// </summary>
+		private async void SendProcessInformation()
 		{
 			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
 			cpuCounter.NextValue();

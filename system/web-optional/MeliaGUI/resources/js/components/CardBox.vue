@@ -17,6 +17,7 @@ const props = defineProps({
   isForm: Boolean,
   isHoverable: Boolean,
   isModal: Boolean,
+  marginbottomzero: Boolean,
 });
 
 const emit = defineEmits(["submit"]);
@@ -39,6 +40,8 @@ const componentClass = computed(() => {
   return base;
 });
 
+const classExtended = props.marginbottomzero ? 'pb-0' : '';
+
 const submit = (event) => {
   emit("submit", event);
 };
@@ -52,8 +55,8 @@ const submit = (event) => {
     @submit="submit"
   >
     <slot v-if="hasComponentLayout" />
-    <template v-else>
-      <CardBoxComponentBody :no-padding="hasTable">
+    <template  v-else>
+      <CardBoxComponentBody :class="classExtended" :no-padding="hasTable">
         <slot />
       </CardBoxComponentBody>
       <CardBoxComponentFooter v-if="hasFooterSlot">
