@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
@@ -10,6 +11,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.IES;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
+using Microsoft.VisualBasic.Devices;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
@@ -144,15 +146,22 @@ namespace Melia.Barracks
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
 
-			if (message is ServerUpdateMessage serverUpdateMessage)
+			switch (message)
 			{
-				if (serverUpdateMessage.ServerType == ServerType.Zone)
-					_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+				case ServerUpdateMessage serverUpdateMessage:
+					if (serverUpdateMessage.ServerType == ServerType.Zone)
+						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
 
-				this.ServerList.Update(serverUpdateMessage);
-				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+					this.ServerList.Update(serverUpdateMessage);
+					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
-				Send.BC_NORMAL.ZoneTraffic();
+					Send.BC_NORMAL.ZoneTraffic();
+					break;
+				case AskForServerInformationMessage askForServerInformationMessage:
+					this.BroadcastProcessInformation();
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -226,6 +235,26 @@ namespace Melia.Barracks
 				if (conn.LoggedIn)
 					conn.Send(packet);
 			}
+		}
+
+		private void BroadcastProcessInformation()
+		{
+			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+			cpuCounter.NextValue();
+			System.Threading.Thread.Sleep(1000);
+			var cpuUsage = cpuCounter.NextValue();
+
+			var processRamCounter = new PerformanceCounter("Process", "Working Set", Process.GetCurrentProcess().ProcessName);
+
+			var totalRam = new ComputerInfo().TotalPhysicalMemory;
+			var processRamUsage = processRamCounter.NextValue();
+
+			var serverInformationMessage = new ServerInformationMessage(
+				this.ServerInfo.Type, Process.GetCurrentProcess().Id, this.ServerInfo.Id,
+				Process.GetCurrentProcess().ProcessName, this.ServerInfo.Status,
+				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
+			);
+			this.Communicator.Broadcast("ServerUpdates", serverInformationMessage);
 		}
 	}
 }

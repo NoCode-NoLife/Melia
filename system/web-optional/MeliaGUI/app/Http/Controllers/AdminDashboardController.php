@@ -6,9 +6,19 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Account;
 use App\Models\Character;
+use GuzzleHttp\Client;
 
 class AdminDashboardController extends Controller
 {
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new Client([
+            'base_uri' => config('webserver.host') . ":" . config('webserver.port'),
+        ]);
+    }
+
     public function get(Request $request)
     {
         $totalAccounts = Account::all()->count();
@@ -47,6 +57,24 @@ class AdminDashboardController extends Controller
             'totalAccounts' => $totalAccounts,
             'onlineAccounts' => $onlineAccounts,
             'lastAccounts' => $lastAccounts,
+        ]);
+    }
+
+    public function serverInfo()
+    {
+        $response = $this->client->request('GET', '/dashboard/server/info' );
+        $statusCode = $response->getStatusCode();
+        $body = $response->getBody()->getContents();
+
+        $serverInfo = null;
+
+        if ($statusCode == 200) {
+            $serverInfo = json_decode($body);
+        }
+
+        return Inertia::render('AdminDashboard', [
+            'account' => auth()->user()->account,
+            'serverInfo' => $serverInfo
         ]);
     }
 }

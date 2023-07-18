@@ -101,6 +101,8 @@
     <Compile Include="Network\Crypto\BlowFish.cs" />
     <Compile Include="Network\Crypto\TOSCrypto.cs" />
     <Compile Include="Network\Helpers\IesHelper.cs" />
+    <Compile Include="Network\Inter\Messages\AskForServerInformationMessage.cs" />
+    <Compile Include="Network\Inter\Messages\ServerInformationMessage.cs" />
     <Compile Include="Network\Inter\Messages\ServerUpdateMessage.cs" />
     <Compile Include="ObjectProperties\PropertyObject.cs" />
     <Compile Include="Scripting\OnAttribute.cs" />

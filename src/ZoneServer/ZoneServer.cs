@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
@@ -12,6 +13,7 @@ using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers;
 using Melia.Zone.World;
+using Microsoft.VisualBasic.Devices;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
@@ -184,11 +186,17 @@ namespace Melia.Zone
 		/// <param name="message"></param>
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
-			//Log.Debug("Message received from '{0}': {1}", sender, message);
-
-			if (message is ServerUpdateMessage serverUpdateMessage)
+			switch (message)
 			{
-				this.ServerList.Update(serverUpdateMessage);
+				case ServerUpdateMessage serverUpdateMessage:
+					this.ServerList.Update(serverUpdateMessage);
+					break;
+				case AskForServerInformationMessage askForServerInformationMessage:
+					Log.Debug("Message received from '{0}': {1}", sender, message);
+					this.BroadcastProcessInformation();
+					break;
+				default:
+					break;
 			}
 		}
 
@@ -268,6 +276,26 @@ namespace Melia.Zone
 		private void OnConnectionAccepted(ZoneConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
+		}
+
+		private void BroadcastProcessInformation()
+		{
+			var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+			cpuCounter.NextValue();
+			System.Threading.Thread.Sleep(1000);
+			var cpuUsage = cpuCounter.NextValue();
+
+			var processRamCounter = new PerformanceCounter("Process", "Working Set", Process.GetCurrentProcess().ProcessName);
+
+			var totalRam = new ComputerInfo().TotalPhysicalMemory;
+			var processRamUsage = processRamCounter.NextValue();
+
+			var serverInformationMessage = new ServerInformationMessage(
+				this.ServerInfo.Type, Process.GetCurrentProcess().Id, this.ServerInfo.Id,
+				Process.GetCurrentProcess().ProcessName, this.ServerInfo.Status,
+				cpuUsage, processRamUsage, totalRam, this.ServerInfo.Ip
+			);
+			this.Communicator.Broadcast("ServerUpdates", serverInformationMessage);
 		}
 	}
 }

@@ -26,6 +26,14 @@ export const useStore = createStore({
     setAccount(state, newValue) {
         state.account = newValue;
     },
+    setAccountWithPayload(state, payload) {
+        if (payload.name) {
+            state.account.name = payload.name;
+        }
+        if (payload.email) {
+            state.account.email = payload.email;
+        }
+    },
     setStyle(state, payload) {
         if (!styles[payload]) {
             return;
