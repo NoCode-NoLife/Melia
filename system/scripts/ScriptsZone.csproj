@@ -571,6 +571,7 @@
     <Compile Include="content\r1\warps\other\mission_test.cs" />
     <Compile Include="content\r1\warps\other\p_catacomb_1.cs" />
     <Compile Include="content\r1\warps\other\p_cathedral_1.cs" />
+    <Compile Include="custom\client\concise_sysmenu\main.cs" />
     <Compile Include="content\test\mobs\fields\f_siauliai_west.cs" />
     <Compile Include="content\test\npcs\cities\c_klaipe.cs" />
     <Compile Include="content\test\npcs\fields\f_siauliai_west.cs" />
@@ -608,6 +609,7 @@
     <Compile Include="other\character_init.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="custom\client\concise_sysmenu\001.lua" />
     <None Include="core\client\api\002_util.lua" />
     <None Include="core\client\api\006_005_sysmenu_func3.lua" />
     <None Include="core\client\api\006_004_sysmenu_func2.lua" />
