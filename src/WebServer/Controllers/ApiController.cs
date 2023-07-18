@@ -3,11 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
-using Melia.Shared.Data.Database;
-using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Newtonsoft.Json;
-using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 
 namespace Melia.Web.Controllers
 {
@@ -45,6 +43,18 @@ namespace Melia.Web.Controllers
 		{
 			var list = WebServer.Instance.ServerInformationMessages.Values.ToArray().ToList();
 			this.SendText("application/json", JsonConvert.SerializeObject(list));
+		}
+
+		/// <summary>
+		/// Show the server process information
+		/// </summary>
+		[Route(HttpVerbs.Get, "/kick/all")]
+		public void KickAllPlayers()
+		{
+			var kickAllMessage = new KickAllMessage();
+			WebServer.Instance.Communicator.Send("Coordinator", kickAllMessage.BroadcastTo("AllZones"));
+
+			this.SendText("text/json", "{ \"status\": \"success.\" }");
 		}
 	}
 }

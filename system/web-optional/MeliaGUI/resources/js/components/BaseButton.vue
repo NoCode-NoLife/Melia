@@ -42,6 +42,7 @@ const props = defineProps({
     default: null,
   },
   small: Boolean,
+  big: Boolean,
   outline: Boolean,
   active: Boolean,
   disabled: Boolean,
@@ -99,6 +100,10 @@ const componentClass = computed(() => {
   } else {
     base.push("py-2", props.roundedFull ? "px-6" : "px-3");
   }
+
+    if (props.big) {
+        base.push("text-xl", props.roundedFull ? "p-3" : "p-3");
+    }
 
   if (props.disabled) {
     base.push(props.outline ? "opacity-50" : "opacity-70");

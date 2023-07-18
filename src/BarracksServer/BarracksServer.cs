@@ -152,6 +152,7 @@ namespace Melia.Barracks
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
+				{
 					if (serverUpdateMessage.ServerType == ServerType.Zone)
 						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
 
@@ -160,13 +161,18 @@ namespace Melia.Barracks
 
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
-				case ReqPlayerCountMessage reqPlayerCountMessage:				
+				}
+				case ReqPlayerCountMessage reqPlayerCountMessage:
+				{
 					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
 					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
 					break;
+				}
 				case ResServerInformationMessage resServerInformationMessage:
+				{
 					this.Communicator.Send("Web", resServerInformationMessage);
 					break;
+				}
 			}
 		}
 
