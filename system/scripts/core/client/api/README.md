@@ -63,7 +63,7 @@ Returns:
 
 Miscellaneous utility functions.
 
-### Melia.Serialize
+### Melia.Util.Serialize
 
 Serializes the given object into a string. Supports serializing tables.
 
@@ -72,6 +72,16 @@ Parameters:
 
 Returns:
 - (string): The serialized string.
+
+### Melia.Util.DicID
+
+Wraps the given dictionary ID in dicID markup.
+
+Parameters:
+- dicId (string): The string to wrap, e.g. "UI_20150317_000736".
+
+Returns:
+- (string): The wrapped string, e.g. "@dicID_^*$UI_20150317_000736$*^".
 
 ## Logging Functions
 
