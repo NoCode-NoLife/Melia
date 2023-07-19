@@ -55,6 +55,17 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
+		/// Social Game Start?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_NORMAL_GAME_START)]
+		public void CS_NORMAL_GAME_START(ISocialConnection conn, Packet packet)
+		{
+			Send.SC_FROM_INTEGRATE(conn, 1);
+		}
+
+		/// <summary>
 		/// Request to add a friend
 		/// </summary>
 		/// <param name="conn"></param>

@@ -170,31 +170,5 @@ namespace Melia.Social.Network
 		{
 			var jobName = packet.GetString(16);
 		}
-
-		/// <summary>
-		/// Social Game Start?
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CS_NORMAL_GAME_START)]
-		public void CS_NORMAL_GAME_START(ISocialConnection conn, Packet packet)
-		{
-			Send.SC_FROM_INTEGRATE(conn, 1);
-		}
-
-		///// <summary>
-		///// ?
-		///// </summary>
-		///// <param name="conn"></param>
-		///// <param name="packet"></param>
-		//[PacketHandler(Op.CS_ADD_RELATION_SCORE)]
-		//public void CS_ADD_RELATION_SCORE(ISocialConnection conn, Packet packet)
-		//{
-		//	var extra = packet.GetBin(14);
-		//	var teamName = packet.GetString(64);
-		//	var l1 = packet.GetLong();
-
-		//	Send.SC_NORMAL.Unknown_01(conn);
-		//}
 	}
 }

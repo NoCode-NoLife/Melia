@@ -37,7 +37,8 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Get a social connection with a given team name.
+		/// Returns the connection with the given account id via out.
+		/// returns false if no matching connection was found.
 		/// </summary>
 		/// <param name="accountId"></param>
 		/// <returns></returns>
