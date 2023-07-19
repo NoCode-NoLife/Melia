@@ -43,8 +43,7 @@ namespace Melia.Social.Commands
 
 			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
 			{
-				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(user.Connection, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(user.Connection, "TargetUserNotExist", 1, 0);
 				return CommandResult.Okay;
 			}
 
@@ -97,8 +96,7 @@ namespace Melia.Social.Commands
 
 			if (!long.TryParse(args.Get(0), out var chatId))
 			{
-				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(user.Connection, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(user.Connection, "TargetUserNotExist", 1, 0);
 				return CommandResult.Okay;
 			}
 

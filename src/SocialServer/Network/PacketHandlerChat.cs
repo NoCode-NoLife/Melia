@@ -75,8 +75,7 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
 			{
-				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(conn, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
 				return;
 			}
 
@@ -95,8 +94,7 @@ namespace Melia.Social.Network
 				conn.User.Friends.CreateFriend(friend);
 			}
 
-			// Send client message 122030 = AckReqAddFriend
-			Send.SC_NORMAL.SystemMessage(conn, 122030, 1, 0);
+			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
 			Send.SC_NORMAL.FriendRequested(conn, friend.AccountId);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 		}
@@ -113,8 +111,7 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
 			{
-				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(conn, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
 				return;
 			}
 

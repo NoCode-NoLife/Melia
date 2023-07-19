@@ -50,6 +50,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ChatCommand.cs" />

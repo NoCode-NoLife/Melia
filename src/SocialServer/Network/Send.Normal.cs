@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using System;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 
 namespace Melia.Social.Network
@@ -144,15 +145,18 @@ namespace Melia.Social.Network
 			/// Sends a message to client using client message ids.
 			/// </summary>
 			/// <param name="conn"></param>
-			/// <param name="clientMessageId"></param>
+			/// <param name="systemMessageIdent"></param>
 			/// <param name="s1"></param>
 			/// <param name="b1"></param>
-			public static void SystemMessage(ISocialConnection conn, int clientMessageId, short s1, byte b1)
+			public static void SystemMessage(ISocialConnection conn, string systemMessageIdent, short s1, byte b1)
 			{
+				if (!SocialServer.Instance.Data.SystemMessageDb.TryFind(systemMessageIdent, out var systemMessageId))
+					throw new ArgumentException($"Client message '{systemMessageIdent}' not found.");
+
 				var packet = new Packet(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.SystemMessage);
 
-				packet.PutInt(clientMessageId);
+				packet.PutInt(systemMessageId.ClassId);
 				packet.PutShort(s1);
 				packet.PutByte(b1);
 
