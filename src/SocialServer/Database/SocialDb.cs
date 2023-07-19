@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Melia.Shared.Database;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using MySql.Data.MySqlClient;
 
@@ -31,6 +32,7 @@ namespace Melia.Social.Database
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
 					account.Password = reader.GetStringSafe("password");
+					account.CharacterId = reader.GetInt64("loginCharacter") | ObjectIdRanges.Characters;
 
 					return account;
 				}

@@ -9,6 +9,9 @@ namespace Melia.Social.Database
 		private readonly List<Friend> _friends = new List<Friend>();
 		private readonly Dictionary<long, ChatRoom> _chatRooms = new Dictionary<long, ChatRoom>();
 
+		// Temporary solution for testing liking
+		private readonly Dictionary<long, int> _likes = new Dictionary<long, int>();
+
 		/// <summary>
 		/// Connection this account uses.
 		/// </summary>
@@ -33,6 +36,11 @@ namespace Melia.Social.Database
 		/// Gets or sets account's team name and updates all characters.
 		/// </summary>
 		public string TeamName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the id of the character that is currently logged in.
+		/// </summary>
+		public long CharacterId { get; set; }
 
 		/// <summary>
 		/// Loads account with given name from database
@@ -169,6 +177,52 @@ namespace Melia.Social.Database
 			{
 				foreach (var friend in _friends)
 					SocialServer.Instance.Database.SaveFriend(friend);
+			}
+		}
+
+		/// <summary>
+		/// Adds a like to the given character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		public void AddLike(long characterId)
+		{
+			lock (_likes)
+			{
+				if (!_likes.TryGetValue(characterId, out var likes))
+					_likes[characterId] = 0;
+
+				_likes[characterId]++;
+			}
+		}
+
+		/// <summary>
+		/// Removes a like for the given character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		public void RemoveLike(long characterId)
+		{
+			lock (_likes)
+			{
+				if (!_likes.TryGetValue(characterId, out var likes))
+					_likes[characterId] = 0;
+
+				_likes[characterId]--;
+			}
+		}
+
+		/// <summary>
+		/// Returns the number of likes the given character received.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		public int GetLikes(long characterId)
+		{
+			lock (_likes)
+			{
+				if (!_likes.TryGetValue(characterId, out var likes))
+					return 0;
+
+				return likes;
 			}
 		}
 	}

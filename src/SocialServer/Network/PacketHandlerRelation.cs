@@ -218,5 +218,80 @@ namespace Melia.Social.Network
 
 			Send.SC_NORMAL.Unknown_01(conn);
 		}
+
+		/// <summary>
+		/// Request to receive a character's number of likes.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_GET_LIKE_COUNT)]
+		public void CS_GET_LIKE_COUNT(ISocialConnection conn, Packet packet)
+		{
+			var i1 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var accountId = packet.GetLong();
+
+			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			{
+				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who isn't online.", conn.Account.Name);
+				return;
+			}
+
+			var characterId = otherConn.Account.CharacterId;
+			var likeCount = otherConn.Account.GetLikes(characterId);
+
+			Send.SC_NORMAL.LikeCount(conn, accountId, likeCount);
+		}
+
+		/// <summary>
+		/// Request to like a character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_LIKE_IT)]
+		public void CS_LIKE_IT(ISocialConnection conn, Packet packet)
+		{
+			var i1 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var accountId = packet.GetLong();
+			var characterId = packet.GetLong();
+			var str1 = packet.GetString(64);
+
+			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			{
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who isn't online.", conn.Account.Name);
+				return;
+			}
+
+			var account = otherConn.Account;
+			account.AddLike(characterId);
+
+			Send.SC_NORMAL.LikeSuccess(conn, account.Id, account.TeamName);
+		}
+
+		/// <summary>
+		/// Request to rescind a like from a character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_UNLIKE_IT)]
+		public void CS_UNLIKE_IT(ISocialConnection conn, Packet packet)
+		{
+			var i1 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var accountId = packet.GetLong();
+			var characterId = packet.GetLong();
+
+			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			{
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who isn't online.", conn.Account.Name);
+				return;
+			}
+
+			var account = otherConn.Account;
+			account.RemoveLike(characterId);
+
+			Send.SC_NORMAL.UnlikeSuccess(conn, account.Id, account.TeamName);
+		}
 	}
 }

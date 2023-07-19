@@ -281,7 +281,69 @@ namespace Melia.Social.Network
 
 				conn.Send(packet);
 			}
+
+			/// <summary>
+			/// Response to a like count request from the client.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="accountId"></param>
+			/// <param name="count"></param>
+			public static void LikeCount(ISocialConnection conn, long accountId, int count)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikeCount);
+
+				packet.PutLong(accountId);
+				packet.PutInt(count);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Notification that a like request succeeded.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="accountId"></param>
+			/// <param name="teamName"></param>
+			public static void LikeSuccess(ISocialConnection conn, long accountId, string teamName)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikeSuccess);
+
+				packet.PutLong(accountId);
+				packet.PutLpString(teamName);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Notification that an unlike request succeeded.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="accountId"></param>
+			/// <param name="teamName"></param>
+			public static void UnlikeSuccess(ISocialConnection conn, long accountId, string teamName)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.UnlikeSuccess);
+
+				packet.PutLong(accountId);
+				packet.PutLpString(teamName);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Notification that a like request failed.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void LikeFailed(ISocialConnection conn)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikeFailed);
+
+				conn.Send(packet);
+			}
 		}
 	}
-
 }
