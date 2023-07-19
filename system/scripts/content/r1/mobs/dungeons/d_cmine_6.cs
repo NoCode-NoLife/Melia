@@ -49,7 +49,7 @@ public class DCmine6MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-687, -125, 10));
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-715, 12, 10));
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-609, 140, 10));
-		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-949.68506, -94.36801, 10));
+		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-949, -94, 10));
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-838, 238, 10));
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(-1079, 176, 10));
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(49, -1133, 10));
@@ -67,43 +67,43 @@ public class DCmine6MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_6.Id1", "d_cmine_6", Rectangle(2012, 1711, 10));
 
 		// 'Quartz_Weaver' GenType 502 Spawn Points
-		AddSpawnPoint("d_cmine_6.Id2", "d_cmine_6", Rectangle(-1067.9858, -1262.6368, 2000));
+		AddSpawnPoint("d_cmine_6.Id2", "d_cmine_6", Rectangle(-1067, -1262, 2000));
 
 		// 'Bubbe_Mage_Priest' GenType 510 Spawn Points
-		AddSpawnPoint("d_cmine_6.Id3", "d_cmine_6", Rectangle(-851.20337, -1298.5792, 2000));
+		AddSpawnPoint("d_cmine_6.Id3", "d_cmine_6", Rectangle(-851, -1298, 2000));
 
 		// 'GoblinWarrior' GenType 521 Spawn Points
-		AddSpawnPoint("d_cmine_6.Id4", "d_cmine_6", Rectangle(-819.628, -1192.3961, 2000));
+		AddSpawnPoint("d_cmine_6.Id4", "d_cmine_6", Rectangle(-819, -1192, 2000));
 
 		// 'Quartz_Weaver' GenType 537 Spawn Points
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-1158.4915, -1571.4525, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-1155.641, -1281.355, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-794.7901, -1203.5465, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-454.9373, -1489.2084, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(53.28093, -1008.2537, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-663.6857, -859.00183, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(16.954464, -1267.2732, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-869.7694, -194.795, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-630.5578, -247.6927, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-632.376, 85.749115, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-187.01031, -83.010796, 40));
-		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-375.92035, -516.4829, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-1158, -1571, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-1155, -1281, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-794, -1203, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-454, -1489, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(53, -1008, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-663, -859, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(16, -1267, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-869, -194, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-630, -247, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-632, 85, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-187, -83, 40));
+		AddSpawnPoint("d_cmine_6.Id5", "d_cmine_6", Rectangle(-375, -516, 40));
 
 		// 'Bubbe_Mage_Priest' GenType 538 Spawn Points
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-925.3166, -1356.7808, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-529.6133, -1503.4279, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-458.68396, -1625.8433, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-395.51712, -1230.865, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-234.52835, -1080.4702, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-58.138832, -1270.1907, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(30.109444, -1130.2517, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(148.13945, -1247.0809, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-599.63416, -857.7218, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-394.3488, -636.747, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-257.29843, -322.31033, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-119.86919, -116.63756, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-782.06335, -216.13513, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-763.97144, -24.787132, 50));
-		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-632.6656, -79.23552, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-925, -1356, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-529, -1503, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-458, -1625, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-395, -1230, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-234, -1080, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-58, -1270, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(30, -1130, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(148, -1247, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-599, -857, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-394, -636, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-257, -322, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-119, -116, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-782, -216, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-763, -24, 50));
+		AddSpawnPoint("d_cmine_6.Id6", "d_cmine_6", Rectangle(-632, -79, 50));
 	}
 }

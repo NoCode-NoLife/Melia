@@ -43,12 +43,12 @@ public class DCmine01MobScript : GeneralScript
 
 		// 'Rootcrystal_01' GenType 500 Spawn Points
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-824, -1378, 10));
-		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-1121.86, -1317.4, 10));
+		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-1121, -1317, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-457, -884, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-362, -370, 10));
-		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-324.8, -660.38, 10));
-		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-783.09, -900.37, 10));
-		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-1137.53, -1505.68, 10));
+		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-324, -660, 10));
+		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-783, -900, 10));
+		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-1137, -1505, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-715, -205, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(71, -232, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(319, 167, 10));
@@ -63,7 +63,7 @@ public class DCmine01MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(783, 801, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(331, 1149, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(99, 1158, 10));
-		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-41.00584, 1090.3312, 10));
+		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-41, 1090, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-138, 804, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-268, 766, 10));
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-726, 550, 10));
@@ -73,31 +73,31 @@ public class DCmine01MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_01.Id1", "d_cmine_01", Rectangle(-1509, 552, 10));
 
 		// 'Goblin_Miners' GenType 501 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id2", "d_cmine_01", Rectangle(-123.54, -189.62, 9999));
+		AddSpawnPoint("d_cmine_01.Id2", "d_cmine_01", Rectangle(-123, -189, 9999));
 
 		// 'Goblin_Miners' GenType 505 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(-168.78, -156.23, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(1412.7, 390.66, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(615.81, 645.62, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(334.52, 180.35, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(1286.06, -1004.25, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(106.07, 1098.22, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(-168, -156, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(1412, 390, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(615, 645, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(334, 180, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(1286, -1004, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(106, 1098, 30));
 		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(-1024, 524, 30));
 		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(458, -601, 30));
-		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(-744.52905, -893.3791, 30));
+		AddSpawnPoint("d_cmine_01.Id3", "d_cmine_01", Rectangle(-744, -893, 30));
 
 		// 'Bat' GenType 513 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-1152.2, 382.05, 30));
-		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-1081.48, 580.54, 30));
-		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-485.89, -949.08, 30));
+		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-1152, 382, 30));
+		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-1081, 580, 30));
+		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-485, -949, 30));
 		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-1007, 220, 30));
-		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-459.79, -818.09, 30));
-		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-813.27, -1083.83, 30));
+		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-459, -818, 30));
+		AddSpawnPoint("d_cmine_01.Id4", "d_cmine_01", Rectangle(-813, -1083, 30));
 
 		// 'StonOrca' GenType 515 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(209.66, 1063.9, 500));
-		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(1243.91, 235.44, 500));
-		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(1129.34, -1074.05, 500));
+		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(209, 1063, 500));
+		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(1243, 235, 500));
+		AddSpawnPoint("d_cmine_01.Id5", "d_cmine_01", Rectangle(1129, -1074, 500));
 
 		// 'Whip_Vine_Ra' GenType 518 Spawn Points
 		AddSpawnPoint("d_cmine_01.Id6", "d_cmine_01", Rectangle(-661, 523, 20));
@@ -152,7 +152,7 @@ public class DCmine01MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(544, -28, 20));
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(533, 14, 20));
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(580, 20, 20));
-		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(613.95, -24.77, 20));
+		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(613, -24, 20));
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(565, -7, 20));
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(594, -38, 20));
 		AddSpawnPoint("d_cmine_01.Id7", "d_cmine_01", Rectangle(587, -70, 20));
@@ -234,16 +234,16 @@ public class DCmine01MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_01.Id8", "d_cmine_01", Rectangle(1304, 674, 20));
 
 		// 'StonOrca' GenType 531 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id9", "d_cmine_01", Rectangle(266.83, 1246.91, 30));
-		AddSpawnPoint("d_cmine_01.Id9", "d_cmine_01", Rectangle(453.28, -583.85, 30));
+		AddSpawnPoint("d_cmine_01.Id9", "d_cmine_01", Rectangle(266, 1246, 30));
+		AddSpawnPoint("d_cmine_01.Id9", "d_cmine_01", Rectangle(453, -583, 30));
 
 		// 'Goblin_Miners' GenType 532 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id10", "d_cmine_01", Rectangle(-584.66, -947, 150));
+		AddSpawnPoint("d_cmine_01.Id10", "d_cmine_01", Rectangle(-584, -947, 150));
 
 		// 'Bat' GenType 534 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id11", "d_cmine_01", Rectangle(-25.03, -144.09, 9999));
+		AddSpawnPoint("d_cmine_01.Id11", "d_cmine_01", Rectangle(-25, -144, 9999));
 
 		// 'Goblin_Miners_Q1' GenType 535 Spawn Points
-		AddSpawnPoint("d_cmine_01.Id12", "d_cmine_01", Rectangle(-723.60004, -892.29486, 300));
+		AddSpawnPoint("d_cmine_01.Id12", "d_cmine_01", Rectangle(-723, -892, 300));
 	}
 }

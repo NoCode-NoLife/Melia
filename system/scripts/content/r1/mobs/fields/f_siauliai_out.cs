@@ -43,106 +43,106 @@ public class FSiauliaiOutMobScript : GeneralScript
 		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1531, -1307, 30));
 		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1241, -1161, 30));
 		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1226, -963, 30));
-		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1504.0563, -960.2478, 30));
+		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1504, -960, 30));
 		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1779, -1872, 30));
-		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-2002.6105, -1727.9053, 30));
-		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-2215.74, -1731.03, 30));
+		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-2002, -1727, 30));
+		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-2215, -1731, 30));
 		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1803, -2039, 30));
-		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1258.7599, -1591.6593, 30));
+		AddSpawnPoint("f_siauliai_out.Id1", "f_siauliai_out", Rectangle(-1258, -1591, 30));
 
 		// 'Goblin_Spear' GenType 326 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1772.1586, 390.9142, 40));
+		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1772, 390, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1465, 110, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1544, 308, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1334, 154, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1411, 390, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1590, 530, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1997, 527, 40));
-		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1840.5435, 206.06389, 40));
+		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(1840, 206, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(2123, 304, 40));
 		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(106, -51, 40));
-		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(-97.29466, -120.70964, 40));
-		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(16.103516, -146.45471, 40));
+		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(-97, -120, 40));
+		AddSpawnPoint("f_siauliai_out.Id2", "f_siauliai_out", Rectangle(16, -146, 40));
 
 		// 'Rootcrystal_01' GenType 328 Spawn Points
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1256, -955, 10));
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1957, -47, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1767.28, 388.86, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1767, 388, 10));
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-464, -1451, 10));
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1283, -1639, 10));
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1504, -1178, 10));
 		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1772, -1685, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1632.7257, -878.3143, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1199.0665, -1103.7491, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-2124.5305, -1766.132, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1756.9492, -1536.5791, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1119.2812, -1493.9974, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-796.1923, -1660.2905, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-619.8731, -1567.6348, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(12.458209, -1429.5051, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(264.45697, -1316.947, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(533.62396, -1103.0924, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-16.773493, -1044.74, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-80.62352, -387.87054, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-89.68266, -138.74069, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(69.51727, -170.16641, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(720.75745, -955.018, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1024.0293, -991.2591, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1512.2637, -537.8149, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1290.1056, 199.1855, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(450.89838, -1551.0435, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(537.7366, -1799.1941, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1677.1814, -61.22932, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1990.8573, 408.2743, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(2186.93, 368.88602, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1753.8479, -536.3814, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1959.7012, -2100.3723, 10));
-		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1367.6566, -144.09558, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1632, -878, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1199, -1103, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-2124, -1766, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1756, -1536, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1119, -1493, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-796, -1660, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-619, -1567, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(12, -1429, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(264, -1316, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(533, -1103, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-16, -1044, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-80, -387, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-89, -138, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(69, -170, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(720, -955, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1024, -991, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1512, -537, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1290, 199, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(450, -1551, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(537, -1799, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1677, -61, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1990, 408, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(2186, 368, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1753, -536, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(-1959, -2100, 10));
+		AddSpawnPoint("f_siauliai_out.Id3", "f_siauliai_out", Rectangle(1367, -144, 10));
 
 		// 'Onion_Red' GenType 341 Spawn Points
 		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1877, -2146, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1595.92, -1274.41, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1432.1576, -1177.2042, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1366.3898, -997.91205, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1770.45, -1242.53, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-2158.895, -1760.5822, 30));
-		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1779.1027, -1801.2806, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1595, -1274, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1432, -1177, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1366, -997, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1770, -1242, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-2158, -1760, 30));
+		AddSpawnPoint("f_siauliai_out.Id4", "f_siauliai_out", Rectangle(-1779, -1801, 30));
 
 		// 'Jukopus' GenType 701 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id5", "f_siauliai_out", Rectangle(-1966.0101, -1791.0936, 600));
+		AddSpawnPoint("f_siauliai_out.Id5", "f_siauliai_out", Rectangle(-1966, -1791, 600));
 
 		// 'Goblin_Spear' GenType 702 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id6", "f_siauliai_out", Rectangle(-1889.2446, -1782.208, 350));
+		AddSpawnPoint("f_siauliai_out.Id6", "f_siauliai_out", Rectangle(-1889, -1782, 350));
 
 		// 'Onion_Red' GenType 10011 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id7", "f_siauliai_out", Rectangle(-1202.45, -1041.35, 9999));
+		AddSpawnPoint("f_siauliai_out.Id7", "f_siauliai_out", Rectangle(-1202, -1041, 9999));
 
 		// 'Onion_Red' GenType 10022 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(-228.02856, -1471.0527, 40));
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(991.3585, -981.5398, 40));
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1271.9524, -996.46155, 40));
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1368.9536, -745.9954, 40));
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1364.0321, -452.88168, 40));
-		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(763.4485, -888.34796, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(-228, -1471, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(991, -981, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1271, -996, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1368, -745, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(1364, -452, 40));
+		AddSpawnPoint("f_siauliai_out.Id8", "f_siauliai_out", Rectangle(763, -888, 40));
 
 		// 'Jukopus' GenType 10023 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(797.9674, -992.09973, 40));
-		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(524.0025, -1070.1095, 40));
-		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(1566.4131, -86.46464, 40));
-		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(1209.8135, -875.67035, 40));
+		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(797, -992, 40));
+		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(524, -1070, 40));
+		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(1566, -86, 40));
+		AddSpawnPoint("f_siauliai_out.Id9", "f_siauliai_out", Rectangle(1209, -875, 40));
 
 		// 'Onion_Red' GenType 10024 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-982.0216, -1586.3763, 40));
-		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-621.8622, -1512.5754, 40));
-		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-730.20825, -1669.8757, 40));
+		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-982, -1586, 40));
+		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-621, -1512, 40));
+		AddSpawnPoint("f_siauliai_out.Id10", "f_siauliai_out", Rectangle(-730, -1669, 40));
 
 		// 'Jukopus' GenType 10025 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-468.60318, -1511.5411, 40));
-		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-777.53784, -1479.7612, 40));
-		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-690.56824, -1775.4108, 40));
+		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-468, -1511, 40));
+		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-777, -1479, 40));
+		AddSpawnPoint("f_siauliai_out.Id11", "f_siauliai_out", Rectangle(-690, -1775, 40));
 
 		// 'Onion_Red_Elite' GenType 10042 Spawn Points
-		AddSpawnPoint("f_siauliai_out.Id12", "f_siauliai_out", Rectangle(1151.96, -937.48, 9999));
-		AddSpawnPoint("f_siauliai_out.Id12", "f_siauliai_out", Rectangle(-824.7653, -1566.3862, 9999));
+		AddSpawnPoint("f_siauliai_out.Id12", "f_siauliai_out", Rectangle(1151, -937, 9999));
+		AddSpawnPoint("f_siauliai_out.Id12", "f_siauliai_out", Rectangle(-824, -1566, 9999));
 	}
 }

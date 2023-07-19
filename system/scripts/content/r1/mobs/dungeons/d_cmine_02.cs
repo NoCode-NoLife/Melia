@@ -52,8 +52,8 @@ public class DCmine02MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1504, 755, 10));
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1585, 1116, 10));
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1748, 997, 10));
-		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1592.156, 748.30084, 10));
-		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1703.2898, 762.3009, 10));
+		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1592, 748, 10));
+		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1703, 762, 10));
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1375, 916, 10));
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-1015, 123, 10));
 		AddSpawnPoint("d_cmine_02.Id1", "d_cmine_02", Rectangle(-580, 341, 10));
@@ -93,16 +93,16 @@ public class DCmine02MobScript : GeneralScript
 
 		// 'Yekubite' GenType 515 Spawn Points
 		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1094, -1105, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1955.2716, -137.94691, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1059.4575, 31.005747, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-235.22662, -109.93029, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-146.21356, 82.24771, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1955, -137, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1059, 31, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-235, -109, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-146, 82, 30));
 		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(-1132, -736, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(0.717926, -200.16324, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(997.52124, 1113.1371, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(992.4581, 1310.1578, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(853.55896, 1005.8099, 30));
-		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(659.13544, 1034.207, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(0, -200, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(997, 1113, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(992, 1310, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(853, 1005, 30));
+		AddSpawnPoint("d_cmine_02.Id2", "d_cmine_02", Rectangle(659, 1034, 30));
 
 		// 'Yekubite' GenType 516 Spawn Points
 		AddSpawnPoint("d_cmine_02.Id3", "d_cmine_02", Rectangle(-133, -27, 9999));
@@ -111,9 +111,9 @@ public class DCmine02MobScript : GeneralScript
 		AddSpawnPoint("d_cmine_02.Id4", "d_cmine_02", Rectangle(-1494, 895, 9999));
 
 		// 'Bubbe_Mage_Normal' GenType 532 Spawn Points
-		AddSpawnPoint("d_cmine_02.Id5", "d_cmine_02", Rectangle(-101.75935, -336.14886, 9999));
+		AddSpawnPoint("d_cmine_02.Id5", "d_cmine_02", Rectangle(-101, -336, 9999));
 
 		// 'Goblin_Archer' GenType 535 Spawn Points
-		AddSpawnPoint("d_cmine_02.Id6", "d_cmine_02", Rectangle(-587.29663, 318.1269, 9999));
+		AddSpawnPoint("d_cmine_02.Id6", "d_cmine_02", Rectangle(-587, 318, 9999));
 	}
 }

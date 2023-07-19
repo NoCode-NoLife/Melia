@@ -41,15 +41,15 @@ public class TestZoneMobScript : GeneralScript
 		AddSpawnPoint("test_zone.Id4", "test_zone", Rectangle(526, 564, 20));
 
 		// 'Goblin_Spear' GenType 109 Spawn Points
-		AddSpawnPoint("test_zone.Id5", "test_zone", Rectangle(-536.6853, -635.83356, 20));
-		AddSpawnPoint("test_zone.Id5", "test_zone", Rectangle(-561.40826, -577.36896, 20));
+		AddSpawnPoint("test_zone.Id5", "test_zone", Rectangle(-536, -635, 20));
+		AddSpawnPoint("test_zone.Id5", "test_zone", Rectangle(-561, -577, 20));
 
 		// 'Bubbe_Mage_Normal' GenType 110 Spawn Points
-		AddSpawnPoint("test_zone.Id6", "test_zone", Rectangle(-601.8565, -609.64197, 20));
-		AddSpawnPoint("test_zone.Id6", "test_zone", Rectangle(-495.4882, -570.1708, 20));
+		AddSpawnPoint("test_zone.Id6", "test_zone", Rectangle(-601, -609, 20));
+		AddSpawnPoint("test_zone.Id6", "test_zone", Rectangle(-495, -570, 20));
 
 		// 'Goblin_Archer' GenType 111 Spawn Points
-		AddSpawnPoint("test_zone.Id7", "test_zone", Rectangle(-558.76245, -518.6483, 20));
-		AddSpawnPoint("test_zone.Id7", "test_zone", Rectangle(-520.469, -590.9409, 20));
+		AddSpawnPoint("test_zone.Id7", "test_zone", Rectangle(-558, -518, 20));
+		AddSpawnPoint("test_zone.Id7", "test_zone", Rectangle(-520, -590, 20));
 	}
 }

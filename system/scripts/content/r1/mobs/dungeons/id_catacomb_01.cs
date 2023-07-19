@@ -28,24 +28,24 @@ public class IdCatacomb01MobScript : GeneralScript
 		// Monster Spawn Points -----------------------------
 
 		// 'FD_Leaf_Diving_Purple' GenType 1 Spawn Points
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(25.099253, -969.2064, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(993.1435, -735.9285, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-238.0458, -1814.5244, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-207.67003, -2521.1575, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-305.288, -2312.8325, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-417.5073, -802.3178, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(15.577894, -530.9457, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(1421.3363, -995.4134, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(1637.6654, -715.1979, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(482.4153, -761.3024, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-246.76855, -1248.5411, 50));
-		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-232.76605, -2026.767, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(25, -969, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(993, -735, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-238, -1814, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-207, -2521, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-305, -2312, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-417, -802, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(15, -530, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(1421, -995, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(1637, -715, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(482, -761, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-246, -1248, 50));
+		AddSpawnPoint("id_catacomb_01.Id1", "id_catacomb_01", Rectangle(-232, -2026, 50));
 
 		// 'FD_Maggot' GenType 2 Spawn Points
-		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(-226.08269, -2182.7214, 500));
-		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(75.04292, -1088.9226, 500));
-		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(1403.7295, -781.1569, 500));
-		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(-440.2174, -513.6892, 500));
+		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(-226, -2182, 500));
+		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(75, -1088, 500));
+		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(1403, -781, 500));
+		AddSpawnPoint("id_catacomb_01.Id2", "id_catacomb_01", Rectangle(-440, -513, 500));
 
 		// 'FD_Mushcarfung' GenType 3 Spawn Points
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(580, 2804, 40));
@@ -58,44 +58,44 @@ public class IdCatacomb01MobScript : GeneralScript
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(-527, 1422, 40));
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(-541, 876, 40));
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(55, 869, 40));
-		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(72.423775, 1396.1799, 40));
+		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(72, 1396, 40));
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(-245, 1385, 40));
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(-234, 1124, 40));
 		AddSpawnPoint("id_catacomb_01.Id3", "id_catacomb_01", Rectangle(-237, 827, 40));
 
 		// 'FD_Candlespider' GenType 4 Spawn Points
-		AddSpawnPoint("id_catacomb_01.Id4", "id_catacomb_01", Rectangle(171.16058, 1925.6389, 1500));
+		AddSpawnPoint("id_catacomb_01.Id4", "id_catacomb_01", Rectangle(171, 1925, 1500));
 
 		// 'Rootcrystal_01' GenType 600 Spawn Points
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(-243, -3206, 30));
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(-125, -2422, 30));
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(-188, -1148, 30));
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(1126, -730, 30));
-		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(1661.2123, -766.8322, 30));
+		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(1661, -766, 30));
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(49, 1178, 30));
 		AddSpawnPoint("id_catacomb_01.Id5", "id_catacomb_01", Rectangle(454, 1889, 30));
 
 		// 'Cronewt_Bow_Brown' GenType 614 Spawn Points
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-193.52856, -1043.9053, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(79.43886, -778.56335, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-242.41203, -739.8254, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-542.6846, -768.84863, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-310.9554, -2417.616, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-128.50162, -2301.7847, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-158.57544, -2575.3152, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1442.3303, -738.5314, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1649.2509, -718.18195, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1618.3103, -996.1, 30));
-		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1353.556, -980.2737, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-193, -1043, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(79, -778, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-242, -739, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-542, -768, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-310, -2417, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-128, -2301, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(-158, -2575, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1442, -738, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1649, -718, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1618, -996, 30));
+		AddSpawnPoint("id_catacomb_01.Id6", "id_catacomb_01", Rectangle(1353, -980, 30));
 
 		// 'Colifly_Bow_Purple' GenType 615 Spawn Points
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-211.85512, 1412.2667, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-187.05127, 1119.0054, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-262.45566, 826.97723, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-86.748405, 1892.8483, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(392.02155, 2513.5105, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(635.2765, 2443.142, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(396.5722, 2730.326, 35));
-		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(428.67487, 1964.5251, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-211, 1412, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-187, 1119, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-262, 826, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(-86, 1892, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(392, 2513, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(635, 2443, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(396, 2730, 35));
+		AddSpawnPoint("id_catacomb_01.Id7", "id_catacomb_01", Rectangle(428, 1964, 35));
 	}
 }

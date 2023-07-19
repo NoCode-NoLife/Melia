@@ -26,40 +26,40 @@ public class FKatyn17MobScript : GeneralScript
 		// Monster Spawn Points -----------------------------
 
 		// 'Jellyfish' GenType 3 Spawn Points
-		AddSpawnPoint("f_katyn_17.Id1", "f_katyn_17", Rectangle(2157.84, -3368.98, 9999));
+		AddSpawnPoint("f_katyn_17.Id1", "f_katyn_17", Rectangle(2157, -3368, 9999));
 
 		// 'TerraNymph' GenType 10 Spawn Points
-		AddSpawnPoint("f_katyn_17.Id2", "f_katyn_17", Rectangle(2088.9377, -3363.0562, 9999));
+		AddSpawnPoint("f_katyn_17.Id2", "f_katyn_17", Rectangle(2088, -3363, 9999));
 
 		// 'Woodgoblin_Black' GenType 11 Spawn Points
-		AddSpawnPoint("f_katyn_17.Id3", "f_katyn_17", Rectangle(856.21704, -2556.583, 9999));
+		AddSpawnPoint("f_katyn_17.Id3", "f_katyn_17", Rectangle(856, -2556, 9999));
 
 		// 'TerraNymph' GenType 12 Spawn Points
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-365.0645, 575.12976, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-211.9953, 772.6199, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-95.256386, 984.68414, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-446.6643, 2912.2134, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-129.01588, 480.78302, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-567.34796, 2572.7617, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(2.0755424, 759.79126, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-686.8902, 709.49963, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-659.7813, 886.89075, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-641.075, 486.56894, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-354.64273, 2655.65, 30));
-		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-718.06177, 2738.056, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-365, 575, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-211, 772, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-95, 984, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-446, 2912, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-129, 480, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-567, 2572, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(2, 759, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-686, 709, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-659, 886, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-641, 486, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-354, 2655, 30));
+		AddSpawnPoint("f_katyn_17.Id4", "f_katyn_17", Rectangle(-718, 2738, 30));
 
 		// 'Woodgoblin_Black' GenType 13 Spawn Points
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-910.71124, 2486.9568, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-226.57361, 489.3312, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-872.1727, 2844.4114, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(10.323874, 821.9414, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-643.28424, 2700.7104, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-415.56906, 2961.5134, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-388.32007, 3172.816, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-202.91437, 3037.9417, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-126.34724, 2574.186, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-467.9537, 2532.1345, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-631.00806, 528.67395, 30));
-		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-321.69556, 711.8754, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-910, 2486, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-226, 489, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-872, 2844, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(10, 821, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-643, 2700, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-415, 2961, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-388, 3172, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-202, 3037, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-126, 2574, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-467, 2532, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-631, 528, 30));
+		AddSpawnPoint("f_katyn_17.Id5", "f_katyn_17", Rectangle(-321, 711, 30));
 	}
 }

@@ -35,37 +35,37 @@ public class FRokas31MobScript : GeneralScript
 		// Monster Spawn Points -----------------------------
 
 		// 'Warleader_Hogma' GenType 11 Spawn Points
-		AddSpawnPoint("f_rokas_31.Id1", "f_rokas_31", Rectangle(-661.9323, 6.6517134, 9999));
+		AddSpawnPoint("f_rokas_31.Id1", "f_rokas_31", Rectangle(-661, 6, 9999));
 
 		// 'Rootcrystal_03' GenType 600 Spawn Points
 		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-30, -489, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-621.8926, -984.72217, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(869.9075, -1061.6787, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(513.6644, -1375.4624, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(507.52057, -37.26681, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-565.5139, -343.06253, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-695.4375, 150.73772, 30));
-		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-917.90125, 387.19186, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-621, -984, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(869, -1061, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(513, -1375, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(507, -37, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-565, -343, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-695, 150, 30));
+		AddSpawnPoint("f_rokas_31.Id2", "f_rokas_31", Rectangle(-917, 387, 30));
 
 		// 'Tontulia' GenType 615 Spawn Points
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(373.95923, -942.1163, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-845.2819, 271.82907, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-697.2455, -983.0076, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-537.3152, -1100.8308, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-417.83844, -882.71295, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-579.6922, -248.38739, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-417.93225, -12.539894, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-700.0269, 84.44062, 40));
-		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-271.88046, -1040.361, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(373, -942, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-845, 271, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-697, -983, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-537, -1100, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-417, -882, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-579, -248, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-417, -12, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-700, 84, 40));
+		AddSpawnPoint("f_rokas_31.Id3", "f_rokas_31", Rectangle(-271, -1040, 40));
 
 		// 'Warleader_Hogma' GenType 620 Spawn Points
-		AddSpawnPoint("f_rokas_31.Id4", "f_rokas_31", Rectangle(-73.18795, -581.4615, 400));
+		AddSpawnPoint("f_rokas_31.Id4", "f_rokas_31", Rectangle(-73, -581, 400));
 
 		// 'Repusbunny_Mage' GenType 622 Spawn Points
-		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-582.158, -1092.7369, 40));
-		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-548.96716, -939.43567, 40));
-		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-22.125946, -545.1729, 40));
-		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-441.24307, -103.70015, 40));
-		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-750.4022, 174.83809, 40));
+		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-582, -1092, 40));
+		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-548, -939, 40));
+		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-22, -545, 40));
+		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-441, -103, 40));
+		AddSpawnPoint("f_rokas_31.Id5", "f_rokas_31", Rectangle(-750, 174, 40));
 	}
 }
