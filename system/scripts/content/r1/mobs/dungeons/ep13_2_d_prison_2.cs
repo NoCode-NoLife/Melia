@@ -14,6 +14,11 @@ public class Ep132DPrison2MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("ep13_2_d_prison_2", MonsterId.Mokslas_Researcher, Properties("MHP", 996070, "MINPATK", 13309, "MAXPATK", 16260, "MINMATK", 13309, "MAXMATK", 16260, "DEF", 470846, "MDEF", 470846));
+		AddPropertyOverrides("ep13_2_d_prison_2", MonsterId.Mokslas_Fumigation, Properties("MHP", 998187, "MINPATK", 13336, "MAXPATK", 16293, "MINMATK", 13336, "MAXMATK", 16293, "DEF", 473593, "MDEF", 473593));
+		AddPropertyOverrides("ep13_2_d_prison_2", MonsterId.Mokslas_Doctor, Properties("MHP", 1002059, "MINPATK", 13386, "MAXPATK", 16355, "MINMATK", 13386, "MAXMATK", 16355, "DEF", 478617, "MDEF", 478617));
 
 		// Monster Spawners ---------------------------------
 

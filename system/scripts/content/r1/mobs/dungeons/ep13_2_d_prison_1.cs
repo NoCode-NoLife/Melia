@@ -14,6 +14,14 @@ public class Ep132DPrison1MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Episode13_2_Goblin_Brandingiron, Properties("MHP", 1035286, "MINPATK", 13813, "MAXPATK", 16880, "MINMATK", 13813, "MAXMATK", 16880, "DEF", 521729, "MDEF", 521729));
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Episode13_2_Banshee, Properties("MHP", 1043983, "MINPATK", 13925, "MAXPATK", 17017, "MINMATK", 13925, "MAXMATK", 17017, "DEF", 533014, "MDEF", 533014));
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Episode13_2_Goblin_Sweeper, Properties("MHP", 1053241, "MINPATK", 14044, "MAXPATK", 17163, "MINMATK", 14044, "MAXMATK", 17163, "DEF", 545027, "MDEF", 545027));
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Episode13_2_Boss_Abomination, Properties("MHP", 7079779, "MINPATK", 56114, "MAXPATK", 68580, "MINMATK", 56114, "MAXMATK", 68580, "DEF", 2208602, "MDEF", 2208602));
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Episode13_2_Boss_KruvinaWall, Properties("MHP", 11720664, "MINPATK", 39475, "MAXPATK", 48247, "MINMATK", 39475, "MAXMATK", 48247, "DEF", 1576182, "MDEF", 1576182));
+		AddPropertyOverrides("ep13_2_d_prison_1", MonsterId.Boss_Blackman, Properties("MHP", 19210092, "MINPATK", 52854, "MAXPATK", 64603, "MINMATK", 52854, "MAXMATK", 64603, "DEF", 2141301, "MDEF", 2141301));
 
 		// Monster Spawners ---------------------------------
 

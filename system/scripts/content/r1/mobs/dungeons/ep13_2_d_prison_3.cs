@@ -14,6 +14,12 @@ public class Ep132DPrison3MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("ep13_2_d_prison_3", MonsterId.Episode13_2_Wendigo_Dump, Properties("MHP", 1007073, "MINPATK", 13451, "MAXPATK", 16434, "MINMATK", 13451, "MAXMATK", 16434, "DEF", 485122, "MDEF", 485122));
+		AddPropertyOverrides("ep13_2_d_prison_3", MonsterId.Episode13_2_Wendigo, Properties("MHP", 1013010, "MINPATK", 13527, "MAXPATK", 16528, "MINMATK", 13527, "MAXMATK", 16528, "DEF", 492826, "MDEF", 492826));
+		AddPropertyOverrides("ep13_2_d_prison_3", MonsterId.Episode13_2_Dumaro, Properties("MHP", 1019744, "MINPATK", 13613, "MAXPATK", 16634, "MINMATK", 13613, "MAXMATK", 16634, "DEF", 501563, "MDEF", 501563));
+		AddPropertyOverrides("ep13_2_d_prison_3", MonsterId.Boss_Insane_Marnoks, Properties("MHP", 5608458, "MINPATK", 37837, "MAXPATK", 46235, "MINMATK", 37837, "MAXMATK", 46235, "DEF", 1410981, "MDEF", 1410981));
 
 		// Monster Spawners ---------------------------------
 
