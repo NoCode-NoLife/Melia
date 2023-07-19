@@ -147,11 +147,23 @@ switch (type)
         break;
 
     case 0x19:
-        int64 accountId; // 76561198023169014
-        int64 accountId; // 76561198023169014
+        int64 accountId1; // 76561198023169014
+        int64 accountId2; // 76561198023169014
         byte bin[16]; // 0s
         lpString str; // WEEK
         int64 l1; // 1
+        break;
+
+    // LikeSuccess
+    case 0x7D05:
+        int64 accountId;
+		lpString teamName;
+        break;
+
+    // UnlikeSuccess
+    case 0x7D07:
+        int64 accountId;
+		lpString teamName;
         break;
 
     // 32009?
@@ -159,6 +171,7 @@ switch (type)
         int i1; // 1
         lpString teamName;
         break;
+		
     case 0x7D0A:
         int i1; // 2
         lpString teamName;
@@ -167,5 +180,11 @@ switch (type)
         lpString teamName2;
         FILETIME time2; // 01/14/2022 13:35:39
         byte b2; // 1
+        break;
+		
+	// LikeCount
+    case 0x7D0B:
+        int64 accountId;
+		int count;
         break;
 }

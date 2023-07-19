@@ -90,6 +90,12 @@
 			public const int FriendRequested = 0x10;
 			public const int FriendBlocked = 0x11;
 			public const int Unknown_19 = 0x19;
+
+			// Different range for relation server?
+			public const int LikeSuccess = 0x7D05;
+			public const int UnlikeSuccess = 0x7D07;
+			public const int LikeCount = 0x7D0B;
+			public const int LikeFailed = 0x7D0D;
 		}
 	}
 }
