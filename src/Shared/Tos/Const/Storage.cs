@@ -11,6 +11,7 @@ namespace Melia.Shared.Tos.Const
 		Success,
 		ItemNotFound,
 		InvalidOperation,
+		StorageFull,
 	}
 
 	public enum StorageType
