@@ -24,7 +24,7 @@ namespace Melia.Social
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
 		/// </summary>
-		public PacketHandler PacketHandler { get; } = new PacketHandler();
+		public PacketHandler PacketHandler { get; private set; }
 
 		/// <summary>
 		/// Returns reference to the server's database interface.
@@ -67,11 +67,23 @@ namespace Melia.Social
 			this.LoadData(ServerType.Social);
 			this.LoadServerList(this.Data.ServerDb, ServerType.Social, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
+			this.LoadPacketHandler();
 
 			this.StartAcceptors();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Initializes packet handler based on the server type.
+		/// </summary>
+		private void LoadPacketHandler()
+		{
+			if (this.ServerInfo.Id == 1)
+				this.PacketHandler = new PacketHandlerChat();
+			else
+				this.PacketHandler = new PacketHandlerRelation();
 		}
 
 		/// <summary>

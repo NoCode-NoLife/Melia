@@ -60,7 +60,9 @@
     <Compile Include="Database\ChatRoom.cs" />
     <Compile Include="Database\Friend.cs" />
     <Compile Include="Database\SocialDb.cs" />
+    <Compile Include="Network\PacketHandlerChat.cs" />
     <Compile Include="Network\PacketHandler.cs" />
+    <Compile Include="Network\PacketHandlerRelation.cs" />
     <Compile Include="Network\Send.cs" />
     <Compile Include="Network\Send.Normal.cs" />
     <Compile Include="Network\SocialConnection.cs" />
