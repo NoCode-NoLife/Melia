@@ -82,7 +82,16 @@ namespace Melia.Social.Database
 
 			using (var conn = this.GetConnection())
 			{
-				using (var mc = new MySqlCommand("SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, c.`characterId`, c.`accountId`, c.`name`, c.`teamName`, c.`job`, c.`gender`, c.`hair`, c.`level` FROM `friends` AS `f` INNER JOIN `characters` AS c ON f.`friendAccountId` = c.`accountId` WHERE f.`accountId` = @accountId GROUP BY `f`.`friendAccountId`", conn))
+				var query = @"
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`teamName`, a.`loginCharacter` AS `characterId`,
+					       IFNULL('', c.`name`) AS `name`, IFNULL(0, c.`job`) AS `job`, IFNULL(0, c.`gender`) AS `gender`, IFNULL(0, c.`hair`) AS `hair`, IFNULL(0, c.`level`) AS `level`
+					FROM `friends` AS `f`
+					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
+					LEFT JOIN `characters` AS c ON a.`loginCharacter` = c.`characterId`
+					WHERE f.`accountId` = @accountId
+				";
+
+				using (var mc = new MySqlCommand(query, conn))
 				{
 					mc.Parameters.AddWithValue("@accountId", accountId);
 
@@ -93,23 +102,25 @@ namespace Melia.Social.Database
 							var friend = new Friend();
 
 							friend.Id = reader.GetInt64("friendId");
-							friend.CharacterId = reader.GetInt64("characterId");
-							friend.AccountId = reader.GetInt64("accountId");
-							friend.State = (FriendState)reader.GetByte("state");
-							friend.TeamName = reader.GetStringSafe("teamName");
-							friend.Name = reader.GetStringSafe("name");
-							friend.JobId = (JobId)reader.GetInt16("job");
-							friend.Gender = (Gender)reader.GetByte("gender");
-							friend.Hair = reader.GetInt32("hair");
-							friend.Level = reader.GetInt32("level");
 							friend.Group = reader.GetStringSafe("group");
 							friend.Note = reader.GetStringSafe("note");
+							friend.State = (FriendState)reader.GetByte("state");
+							friend.AccountId = reader.GetInt64("accountId");
+
+							friend.CharacterId = reader.GetInt64("characterId");
+							friend.TeamName = reader.GetStringSafe("teamName");
+							friend.Name = reader.GetStringSafe("name");
+							friend.JobId = (JobId)reader.GetInt32("job");
+							friend.Gender = (Gender)reader.GetInt32("gender");
+							friend.Hair = reader.GetInt32("hair");
+							friend.Level = reader.GetInt32("level");
 
 							friends.Add(friend);
 						}
 					}
 				}
 			}
+
 			return friends;
 		}
 
