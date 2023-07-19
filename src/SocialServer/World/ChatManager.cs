@@ -42,7 +42,7 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// 
+		/// Returns a 1:1 chat room between two accounts if one exists.
 		/// </summary>
 		/// <param name="accountId1"></param>
 		/// <param name="accountId2"></param>

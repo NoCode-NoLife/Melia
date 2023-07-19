@@ -158,11 +158,11 @@ namespace Melia.Social.Database
 		public bool DeleteFriend(long friendId)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("DELETE FROM `friends` WHERE `friendId` = @friendId", conn))
+			using (var cmd = new MySqlCommand("DELETE FROM `friends` WHERE `friendId` = @friendId", conn))
 			{
-				mc.Parameters.AddWithValue("@friendId", friendId);
+				cmd.Parameters.AddWithValue("@friendId", friendId);
 
-				return mc.ExecuteNonQuery() > 0;
+				return cmd.ExecuteNonQuery() > 0;
 			}
 		}
 
