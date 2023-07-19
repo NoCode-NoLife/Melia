@@ -1,16 +1,9 @@
 <script setup>
-import { ref } from "vue";
 import BaseLevel from "@/components/BaseLevel.vue";
 import CardBox from "@/components/CardBox.vue";
-import { useStore } from 'vuex';
 import { usePage } from '@inertiajs/vue3';
 
-
-const store = useStore();
-
 const userName = usePage().props.account.name;
-
-const userSwitchVal = ref(false);
 
 </script>
 

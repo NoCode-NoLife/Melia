@@ -13,7 +13,7 @@ export default [
       {
         icon: mdiAccount,
         label: "Profile",
-        to: "",
+        to: route('profile.edit'),
       },
       {
         icon: mdiCogOutline,

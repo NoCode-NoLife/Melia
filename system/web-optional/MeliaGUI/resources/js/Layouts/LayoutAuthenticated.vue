@@ -37,6 +37,10 @@ const menuClick = (event, item) => {
     if (item.isLogout) {
         router.post(route('logout'));
     }
+
+    if (!item.isToggleLightDark && !item.isLogout && item.to != null) {
+        router.get(item.to);
+    }
 };
 </script>
 
@@ -84,13 +88,6 @@ const menuClick = (event, item) => {
       />
       <slot />
       <FooterBar>
-        Get more with
-        <a
-          href="https://tailwind-vue.justboil.me/"
-          target="_blank"
-          class="text-blue-600"
-          >Premium version</a
-        >
       </FooterBar>
     </div>
   </div>

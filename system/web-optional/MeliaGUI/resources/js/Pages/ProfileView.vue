@@ -48,8 +48,6 @@ onMounted(() => {
   store.commit('setAccount', accountRef.value);
 });
 
-console.log(instance.props.account.name);
-
 const passwordForm = reactive({
   password_current: "",
   password: "",
@@ -170,6 +168,8 @@ const updatePassword = () => {
                 </CardBox>
 
                 <CardBox is-form @submit.prevent="updatePassword">
+
+                    <InputError :message="formPass.errors.current_password" class="mt-2" />
                     <FormField
                         label="Current password"
                         help="Required. Your current password"
@@ -182,11 +182,11 @@ const updatePassword = () => {
                         required
                         autocomplete="current_password"
                         />
-
-                        <InputError :message="formPass.errors.current_password" class="mt-2" />
                     </FormField>
 
                     <BaseDivider />
+
+                    <InputError :message="formPass.errors.password" class="mt-2" />
 
                     <FormField label="New password" help="Required. New password">
                         <FormControl
@@ -197,8 +197,9 @@ const updatePassword = () => {
                         required
                         autocomplete="password"
                         />
-                        <InputError :message="formPass.errors.password" class="mt-2" />
                     </FormField>
+
+                    <InputError :message="formPass.errors.password_confirmation" class="mt-2" />
 
                     <FormField
                         label="Confirm password"
@@ -212,7 +213,6 @@ const updatePassword = () => {
                         required
                         autocomplete="password_confirmation"
                         />
-                        <InputError :message="formPass.errors.password_confirmation" class="mt-2" />
                     </FormField>
 
                     <Transition

@@ -6,7 +6,7 @@ export const gradientBgPinkRed = `${gradientBgBase} from-pink-400 via-red-500 to
 export const colorsBgLight = {
   white: "bg-white text-black",
   light: "bg-white text-black dark:bg-slate-900/70 dark:text-white",
-  contrast: "bg-gray-800 text-white dark:bg-white dark:text-black",
+  contrast: "bg-gray-800 text-white dark:bg-white",
   success: "bg-emerald-500 border-emerald-500 text-white",
   danger: "bg-red-500 border-red-500 text-white",
   warning: "bg-yellow-500 border-yellow-500 text-white",
@@ -64,7 +64,7 @@ export const getButtonColor = (
       white: "bg-white text-black",
       whiteDark: "bg-white text-black dark:bg-slate-900 dark:text-white",
       lightDark: "bg-gray-100 text-black dark:bg-slate-800 dark:text-white",
-      contrast: "bg-gray-800 text-white dark:bg-white dark:text-black",
+      contrast: "bg-gray-800 text-white dark:bg-white",
       success: "bg-emerald-600 dark:bg-emerald-500 text-white",
       danger: "bg-red-600 dark:bg-red-500 text-white",
       warning: "bg-yellow-600 dark:bg-yellow-500 text-white",

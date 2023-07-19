@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Providers\RouteServiceProvider;
 
 class AuthorityMiddleware
 {
@@ -15,12 +16,8 @@ class AuthorityMiddleware
      */
     public function handle(Request $request, Closure $next, $requiredLevel): Response
     {
-        if (!$request->expectsJson()) {
-            redirect('home');
-        }
-
-        if (auth()->user()->account->authority >= $requiredLevel) {
-            abort(403);
+        if (!auth()->user() || auth()->user()->account->authority < $requiredLevel) {
+            return redirect(RouteServiceProvider::HOME);
         }
 
         return $next($request);

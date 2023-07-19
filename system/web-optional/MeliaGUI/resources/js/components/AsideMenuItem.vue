@@ -4,8 +4,9 @@ import { mdiMinus, mdiPlus } from "@mdi/js";
 import { getButtonColor } from "@/colors.js";
 import BaseIcon from "@/components/BaseIcon.vue";
 import AsideMenuList from "@/components/AsideMenuList.vue";
-import { useStore } from 'vuex';
+import { usePage } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
+import { useStore } from 'vuex';
 
 const props = defineProps({
   item: {
@@ -15,11 +16,13 @@ const props = defineProps({
   isDropdownList: Boolean,
 });
 
-const store = useStore();
+const authority = usePage().props.account.authority;
 
 const emit = defineEmits(["menu-click"]);
 
 const hasColor = computed(() => props.item && props.item.color);
+
+const store = useStore();
 
 const asideMenuItemActiveStyle = computed(() =>
   hasColor.value ? "" : store.state.asideMenuItemActiveStyle
@@ -46,7 +49,8 @@ const menuClick = (event) => {
 </script>
 
 <template>
-  <li>
+  <li v-show="props.item.admin ? authority >= 99 : true">
+    {{  console.log(authority) }}
     <component
       :is="item.to ? Link : 'a'"
       v-slot="vSlot"
@@ -60,7 +64,7 @@ const menuClick = (event) => {
       <BaseIcon
         v-if="item.icon"
         :path="item.icon"
-        class="flex-none text-white dark:text-gray-500"
+        class="flex-none text-white dark:text-white"
         :class="[vSlot && vSlot.isExactActive ? asideMenuItemActiveStyle : '']"
         w="w-16"
         :size="18"
@@ -76,7 +80,7 @@ const menuClick = (event) => {
       <BaseIcon
         v-if="hasDropdown"
         :path="isDropdownActive ? mdiMinus : mdiPlus"
-        class="flex-none text-white dark:text-gray-500"
+        class="flex-none text-white dark:text-white"
         :class="[vSlot && vSlot.isExactActive ? asideMenuItemActiveStyle : '']"
         w="w-12"
       />

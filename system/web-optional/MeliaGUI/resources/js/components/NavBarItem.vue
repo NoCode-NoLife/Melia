@@ -5,8 +5,9 @@ import BaseIcon from "@/components/BaseIcon.vue";
 import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
 import NavBarMenuList from "@/components/NavBarMenuList.vue";
 import BaseDivider from "@/components/BaseDivider.vue";
-import { useStore } from 'vuex';
 import { Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+import { useStore } from 'vuex';
 
 const props = defineProps({
     item: {
@@ -17,7 +18,7 @@ const props = defineProps({
 
 const store = useStore();
 
-const account = computed(() => store.state.account);
+const account = usePage().props.account;
 
 const emit = defineEmits(["menu-click"]);
 
@@ -49,11 +50,11 @@ const componentClass = computed(() => {
 });
 
 const itemLabel = computed(() => {
-  if (props.item.isCurrentUser && account.value) {
-    return account.value.name;
-  } else {
-    return props.item.label;
-  }
+    if (props.item.isCurrentUser && account) {
+        return account.name;
+    } else {
+        return props.item.label;
+    }
 });
 
 const isDropdownActive = ref(false);
