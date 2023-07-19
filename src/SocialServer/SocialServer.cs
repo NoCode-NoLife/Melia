@@ -5,6 +5,7 @@ using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;
 using Melia.Social.World;
+using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -39,7 +40,7 @@ namespace Melia.Social
 		/// <summary>
 		/// Returns reference to the server's account manager.
 		/// </summary>
-		public UserManager AccountManager { get; } = new UserManager();
+		public UserManager UserManager { get; } = new UserManager();
 
 		/// <summary>
 		/// Returns reference to the server's chat manager.

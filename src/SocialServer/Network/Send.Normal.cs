@@ -67,7 +67,7 @@ namespace Melia.Social.Network
 				packet.PutLong(chatRoom.Id); // Chat Id
 				packet.PutLong(1);
 				packet.PutByte(1);
-				packet.PutDate(chatMessage.TimeStamp);
+				packet.PutDate(chatMessage.SentTime);
 				packet.PutLpString(chatMessage.Sender.TeamName);
 				packet.PutShort(1001);
 				packet.PutLpString(chatMessage.Message);
@@ -95,11 +95,11 @@ namespace Melia.Social.Network
 				packet.PutLong(chatRoom.Id);
 				packet.PutInt(2);
 				packet.PutLong(1);
-				packet.PutDate(chatMessage.TimeStamp);
+				packet.PutDate(chatMessage.SentTime);
 				packet.PutLpString(chatRoom.Owner.TeamName);
 				packet.PutLpString(chatMessage.Message);
 				packet.PutLong(1);
-				packet.PutDate(chatMessage.TimeStamp);
+				packet.PutDate(chatMessage.SentTime);
 				packet.PutLpString(chatRoom.Owner.TeamName);
 				packet.PutLpString(chatMessage.Message);
 
@@ -226,7 +226,7 @@ namespace Melia.Social.Network
 				packet.PutByte(0);
 				packet.PutLong(554643486671500);
 				packet.PutByte(1);
-				packet.PutLong(conn.Account.Id);
+				packet.PutLong(conn.User.Id);
 				packet.PutInt(4723);
 				packet.PutInt(1);
 				packet.PutInt(0);
@@ -273,8 +273,8 @@ namespace Melia.Social.Network
 				var packet = new Packet(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.Unknown_19);
 
-				packet.PutLong(conn.Account.Id);
-				packet.PutLong(conn.Account.Id);
+				packet.PutLong(conn.User.Id);
+				packet.PutLong(conn.User.Id);
 				packet.PutEmptyBin(16);
 				packet.PutLpString("WEEK");
 				packet.PutLong(1);

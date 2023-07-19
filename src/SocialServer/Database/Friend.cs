@@ -26,12 +26,34 @@
 		public string Note { get; set; }
 	}
 
+	/// <summary>
+	/// Specifies the state of a friend.
+	/// </summary>
 	public enum FriendState : byte
 	{
+		/// <summary>
+		/// A friend request was sent.
+		/// </summary>
 		Requested,
+
+		/// <summary>
+		/// The friend request was accepted.
+		/// </summary>
 		Accepted,
+
+		/// <summary>
+		/// The friend was deleted.
+		/// </summary>
 		Delete,
+
+		/// <summary>
+		/// The friend request was rejected.
+		/// </summary>
 		Rejected,
+
+		/// <summary>
+		/// The user was blocked.
+		/// </summary>
 		Blocked,
 	}
 }

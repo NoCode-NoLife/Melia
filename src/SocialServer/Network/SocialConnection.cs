@@ -4,6 +4,7 @@ using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
+using Melia.Social.World;
 
 namespace Melia.Social.Network
 {
@@ -13,9 +14,9 @@ namespace Melia.Social.Network
 	public interface ISocialConnection : IConnection
 	{
 		/// <summary>
-		/// Gets or sets the account associated with the connection.
+		/// Gets or sets the user associated with the connection.
 		/// </summary>
-		Account Account { get; set; }
+		SocialUser User { get; set; }
 	}
 
 	/// <summary>
@@ -26,9 +27,9 @@ namespace Melia.Social.Network
 		protected new readonly TosSocialFramer _framer = new TosSocialFramer(1024 * 50);
 
 		/// <summary>
-		/// Gets or sets the account associated with the connection.
+		/// Gets or sets the user associated with the connection.
 		/// </summary>
-		public Account Account { get; set; }
+		public SocialUser User { get; set; }
 
 		/// <summary>
 		/// Creates new connection.
@@ -113,6 +114,7 @@ namespace Melia.Social.Network
 		/// <param name="packet"></param>
 		protected override void OnPacketReceived(Packet packet)
 		{
+			//Log.Debug("in: " + Environment.NewLine + packet);
 			SocialServer.Instance.PacketHandler.Handle(this, packet);
 		}
 
@@ -122,8 +124,12 @@ namespace Melia.Social.Network
 		/// <param name="type"></param>
 		protected override void OnClosed(ConnectionCloseType type)
 		{
-			SocialServer.Instance.AccountManager.Remove(this);
 			base.OnClosed(type);
+
+			foreach (var friend in this.User.Friends.GetFriends())
+				SocialServer.Instance.Database.SaveFriend(friend);
+
+			SocialServer.Instance.UserManager.Remove(this.User.Id);
 		}
 	}
 }

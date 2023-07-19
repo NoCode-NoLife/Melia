@@ -12,21 +12,24 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Returns account with given name, or null if it doesn't exist.
 		/// </summary>
-		/// <param name="name"></param>
+		/// <param name="accountName"></param>
 		/// <returns></returns>
-		public Account GetAccount(string name)
+		public bool TryGetAccount(string accountName, out Account account)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `accounts` WHERE `name` = @name", conn))
 			{
-				mc.Parameters.AddWithValue("@name", name);
+				mc.Parameters.AddWithValue("@name", accountName);
 
 				using (var reader = mc.ExecuteReader())
 				{
 					if (!reader.Read())
-						return null;
+					{
+						account = null;
+						return false;
+					}
 
-					var account = new Account();
+					account = new Account();
 
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
@@ -34,13 +37,14 @@ namespace Melia.Social.Database
 					account.Password = reader.GetStringSafe("password");
 					account.CharacterId = reader.GetInt64("loginCharacter") | ObjectIdRanges.Characters;
 
-					return account;
+					return true;
 				}
 			}
 		}
 
 		/// <summary>
-		/// Returns account with a given team name, or null if it doesn't exist.
+		/// Returns account with a given team name, or null if it doesn't
+		/// exist.
 		/// </summary>
 		/// <param name="teamName"></param>
 		/// <returns></returns>
@@ -57,6 +61,7 @@ namespace Melia.Social.Database
 						return null;
 
 					var account = new Account();
+
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");

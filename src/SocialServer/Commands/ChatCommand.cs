@@ -1,4 +1,4 @@
-﻿using Melia.Social.Database;
+﻿using Melia.Social.World;
 using Yggdrasil.Util.Commands;
 
 namespace Melia.Social.Commands
@@ -24,11 +24,10 @@ namespace Melia.Social.Commands
 	/// <summary>
 	/// The handler function for a chat command.
 	/// </summary>
-	/// <param name="sender"></param>
-	/// <param name="target"></param>
+	/// <param name="user"></param>
 	/// <param name="message"></param>
 	/// <param name="commandName"></param>
 	/// <param name="args"></param>
 	/// <returns></returns>
-	public delegate CommandResult ChatCommandFunc(Account sender, Account target, string message, string commandName, Arguments args);
+	public delegate CommandResult ChatCommandFunc(SocialUser user, string message, string commandName, Arguments args);
 }

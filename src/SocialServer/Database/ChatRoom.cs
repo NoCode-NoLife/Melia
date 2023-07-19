@@ -23,12 +23,12 @@ namespace Melia.Social.Database
 		public string Name { get; set; } = "";
 
 		/// <summary>
-		/// Chat room's type
+		/// Returns the chat room's type.
 		/// </summary>
 		public ChatRoomType Type { get; set; } = ChatRoomType.Group;
 
 		/// <summary>
-		/// Chat room's owner
+		/// Returns the account of the chat room's owner.
 		/// </summary>
 		public Account Owner { get; set; }
 
@@ -132,37 +132,30 @@ namespace Melia.Social.Database
 		}
 	}
 
-	public enum ChatRoomType
-	{
-		OneToOne = 0,
-		Friends = 1,
-		Group = 3,
-	}
-
 	/// <summary>
 	/// Represents a message in a chat room
 	/// </summary>
 	public class ChatMessage
 	{
 		/// <summary>
-		/// Chat message's sender
+		/// Returns the account of the chat message's sender.
 		/// </summary>
 		public Account Sender { get; }
 
 		/// <summary>
-		/// Chat message's sender
+		/// Returns the account of the chat message's recipient.
 		/// </summary>
 		public Account Recipient { get; }
 
 		/// <summary>
-		/// Chat's message
+		/// Returns the message that was sent.
 		/// </summary>
 		public string Message { get; }
 
 		/// <summary>
-		/// Chat's timestamp
+		/// Returns the time the message was sent.
 		/// </summary>
-		public DateTime TimeStamp { get; }
+		public DateTime SentTime { get; } = DateTime.Now;
 
 		/// <summary>
 		/// Creates new chat message.
@@ -185,7 +178,27 @@ namespace Melia.Social.Database
 			this.Sender = sender;
 			this.Recipient = recipient;
 			this.Message = message;
-			this.TimeStamp = DateTime.Now;
 		}
+	}
+
+	/// <summary>
+	/// Specifies a chat room's type.
+	/// </summary>
+	public enum ChatRoomType
+	{
+		/// <summary>
+		/// The chat is between two users.
+		/// </summary>
+		OneToOne = 0,
+
+		/// <summary>
+		/// The chat is between friends?
+		/// </summary>
+		Friends = 1,
+
+		/// <summary>
+		/// The chat is between a group of users.
+		/// </summary>
+		Group = 3,
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Network;
 using Melia.Social.Database;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 
@@ -21,37 +22,34 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var sessionKey = packet.GetString(256);
 
-			// Check account
-			if (!SocialServer.Instance.Database.AccountExists(accountName))
+			if (!SocialServer.Instance.Database.TryGetAccount(accountName, out var account))
 			{
-				conn.Close(100);
+				conn.Close();
 				return;
 			}
 
-			// Check password
-			var account = Account.LoadFromDb(accountName);
 			if (!BCrypt.CheckPassword(password, account.Password))
 			{
-				conn.Close(100);
+				conn.Close();
 				return;
 			}
 
-			// Logged in
-			conn.Account = account;
+			var user = new SocialUser(conn, account);
+			user.Friends.LoadFromDb();
+
+			conn.User = user;
 			conn.LoggedIn = true;
 
-			Log.Info("User '{0}' logged in.", conn.Account.Name);
-			SocialServer.Instance.AccountManager.Add(conn);
+			SocialServer.Instance.UserManager.Add(user);
+
+			Log.Info("User '{0}' logged in.", user.Account.Name);
 
 			Send.SC_NORMAL.EnableChat(conn);
 			Send.SC_LOGIN_OK(conn);
 			Send.SC_NORMAL.Unknown_02(conn);
 
-			// Get Friend List
-			foreach (var friend in conn.Account.GetFriends())
-			{
+			foreach (var friend in user.Friends.GetFriends())
 				Send.SC_NORMAL.FriendInfo(conn, friend);
-			}
 		}
 
 		/// <summary>
@@ -82,19 +80,19 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var friendRequestConn = SocialServer.Instance.AccountManager.GetSocialConnection(teamName);
-			var targetAccount = friendRequestConn?.Account ?? SocialServer.Instance.Database.GetAccountByTeamName(teamName);
+			var otherUser = SocialServer.Instance.UserManager.Get(teamName);
+			var otherAccount = otherUser?.Account ?? SocialServer.Instance.Database.GetAccountByTeamName(teamName);
 
-			var friend = conn.Account.GetFriend(targetAccount.Id);
-			if (friend == null)
+			if (!conn.User.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
 				friend = new Friend()
 				{
-					AccountId = targetAccount.Id,
+					AccountId = otherAccount.Id,
 					State = FriendState.Requested,
-					TeamName = targetAccount.TeamName,
+					TeamName = otherAccount.TeamName,
 				};
-				conn.Account.CreateFriend(friend);
+
+				conn.User.Friends.CreateFriend(friend);
 			}
 
 			// Send client message 122030 = AckReqAddFriend
@@ -120,28 +118,29 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var targetAccount = SocialServer.Instance.Database.GetAccountByTeamName(teamName);
-			if (targetAccount == null)
+			if (!SocialServer.Instance.UserManager.TryGetAccount(teamName, out var otherAccount))
 			{
-				Log.Warning("CS_REQ_BLOCK_FRIEND: Failed to find account by team name {0} for user {1}.", teamName, conn.Account.Name);
+				Log.Warning("CS_REQ_BLOCK_FRIEND: Failed to find account by team name '{0}' for user '{1}'.", teamName, conn.User.Name);
 				return;
 			}
 
-			var friend = conn.Account.GetFriend(targetAccount.Id);
-			if (friend == null)
+			if (!conn.User.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
 				friend = new Friend()
 				{
-					AccountId = targetAccount.Id,
+					AccountId = otherAccount.Id,
 					State = FriendState.Blocked,
-					TeamName = targetAccount.TeamName,
+					TeamName = otherAccount.TeamName,
 				};
-				conn.Account.CreateFriend(friend);
+
+				conn.User.Friends.CreateFriend(friend);
 			}
 			else
+			{
 				friend.State = FriendState.Blocked;
+			}
 
-			Send.SC_NORMAL.FriendBlocked(conn, targetAccount.Id);
+			Send.SC_NORMAL.FriendBlocked(conn, otherAccount.Id);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 		}
 
@@ -158,20 +157,21 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var state = (FriendState)packet.GetByte();
 
-			var friend = conn.Account.GetFriend(accountId);
-			if (friend == null)
+			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
 			{
-				Log.Warning("CS_FRIEND_CMD: Failed to find account by id {0} for user {1}.", accountId, conn.Account.Name);
+				Log.Warning("CS_FRIEND_CMD: Failed to find account by id {0} for user {1}.", accountId, conn.User.Name);
 				return;
 			}
 
 			if (state == FriendState.Delete)
 			{
-				if (!conn.Account.DeleteFriend(friend))
-					Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.Name, conn.Account.Name);
+				if (!conn.User.Friends.DeleteFriend(friend))
+					Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.Name, conn.User.Name);
+
 				Send.SC_NORMAL.FriendResponse(conn, friend);
 				return;
 			}
+
 			// Is this the friend's state, that needs to be updated?
 			friend.State = state;
 
@@ -192,10 +192,9 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var groupName = packet.GetString(20); // Client side max, doesn't let you type any more characters
 
-			var friend = conn.Account.GetFriend(accountId);
-			if (friend == null)
+			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
 			{
-				Log.Warning("CS_FRIEND_SET_ADDINFO: Failed to find account by id {0} for user {1}.", accountId, conn.Account.Name);
+				Log.Warning("CS_FRIEND_SET_ADDINFO: Failed to find account by id {0} for user {1}.", accountId, conn.User.Name);
 				return;
 			}
 
@@ -215,8 +214,8 @@ namespace Melia.Social.Network
 			var size = packet.GetShort();
 			var msg = packet.GetString();
 
-			if (!SocialServer.Instance.ChatCommands.TryExecute(conn.Account, msg))
-				Log.Warning("CS_CHAT: Failed to execute chat command {0} for {1}", msg, conn.Account.Name);
+			if (!SocialServer.Instance.ChatCommands.TryExecute(conn.User, msg))
+				Log.Warning("CS_CHAT: Failed to execute chat command {0} for {1}", msg, conn.User.Name);
 		}
 
 		/// <summary>
@@ -238,8 +237,9 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_REFRESH_GROUP_CHAT)]
 		public void CS_REFRESH_GROUP_CHAT(ISocialConnection conn, Packet packet)
 		{
-			var account = conn.Account;
-			foreach (var room in account.GetChatRooms())
+			var user = conn.User;
+
+			foreach (var room in user.Account.GetChatRooms())
 			{
 				foreach (var message in room.GetMessages())
 					Send.SC_NORMAL.ChatLog(conn, room, message);
@@ -255,7 +255,7 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_CREATE_GROUP_CHAT)]
 		public void CS_CREATE_GROUP_CHAT(ISocialConnection conn, Packet packet)
 		{
-			SocialServer.Instance.ChatManager.CreateChatRoom(conn.Account);
+			SocialServer.Instance.ChatManager.CreateChatRoom(conn.User.Account);
 		}
 
 		/// <summary>
@@ -297,9 +297,9 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			conn.Account.RemoveChatRoom(chatId);
+			conn.User.Account.RemoveChatRoom(chatId);
+			chatRoom.RemoveMember(conn.User.Account);
 
-			chatRoom.RemoveMember(conn.Account);
 			if (chatRoom.MemberCount == 0)
 			{
 				chatRoom.Owner = null;

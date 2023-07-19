@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.L10N;
 using Melia.Social.Database;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
 
@@ -48,10 +49,10 @@ namespace Melia.Social.Commands
 		/// Parses message, interprets potential commands, and returns true
 		/// if message was a command.
 		/// </summary>
-		/// <param name="account"></param>
+		/// <param name="user"></param>
 		/// <param name="message"></param>
 		/// <returns></returns>
-		public bool TryExecute(Account account, string message)
+		public bool TryExecute(SocialUser user, string message)
 		{
 			if (!message.StartsWith(OfficialPrefix))
 				return false;
@@ -68,10 +69,6 @@ namespace Melia.Social.Commands
 				return true;
 			}
 
-			// Check target
-			var sender = account;
-			var target = account;
-
 			// Remove command name from arguments, to leave only the actual
 			// arguments
 			args.Remove(0);
@@ -80,7 +77,7 @@ namespace Melia.Social.Commands
 			CommandResult result;
 			try
 			{
-				result = command.Func(sender, target, message, commandName, args);
+				result = command.Func(user, message, commandName, args);
 			}
 			catch (Exception ex)
 			{

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Melia.Social.Database;
 using Melia.Social.Network;
-using Yggdrasil.Geometry.Shapes;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Melia.Social.Commands
 {
@@ -33,11 +31,11 @@ namespace Melia.Social.Commands
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleWhisper(Account sender, Account target, string message, string command, Arguments args)
+		private CommandResult HandleWhisper(SocialUser user, string message, string command, Arguments args)
 		{
 			if (args.Count < 2)
 			{
-				Log.Debug("HandleWhisper: Invalid call by user '{0}' ('{1}').", sender.Connection.Account.Name, message);
+				Log.Debug("HandleWhisper: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
 			}
 
@@ -46,7 +44,7 @@ namespace Melia.Social.Commands
 			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
 			{
 				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(sender.Connection, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(user.Connection, 101080, 1, 0);
 				return CommandResult.Okay;
 			}
 
@@ -58,24 +56,24 @@ namespace Melia.Social.Commands
 			}
 
 			// TODO: Find previous chat room
-			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(sender.Connection.Account.Id, whisperTarget.Id);
+			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Account.Id, whisperTarget.Id);
 			if (chatRoom == null)
 			{
-				chatRoom = new ChatRoom(sender);
+				chatRoom = new ChatRoom(user.Account);
 				SocialServer.Instance.ChatManager.AddChatRoom(chatRoom);
 				// sender.ChatRooms.Add(chatRoom.Id, chatRoom);
 			}
 
-			chatRoom.AddMember(sender);
+			chatRoom.AddMember(user.Account);
 			chatRoom.AddMember(whisperTarget);
 
 			var text = Regex.Replace(message, @"^.*?(?:\s+|$)", "");
 
-			var chatMessage = new ChatMessage(sender, whisperTarget, text);
+			var chatMessage = new ChatMessage(user.Account, whisperTarget, text);
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.ChatLog(sender.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(sender.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.ChatLog(user.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.Chat(user.Connection, chatRoom, chatMessage);
 
 			return CommandResult.Okay;
 		}
@@ -89,18 +87,18 @@ namespace Melia.Social.Commands
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleChatRoomChat(Account sender, Account target, string message, string command, Arguments args)
+		private CommandResult HandleChatRoomChat(SocialUser user, string message, string command, Arguments args)
 		{
 			if (args.Count < 2)
 			{
-				Log.Debug("HandleChatRoomChat: Invalid call by user '{0}' ('{1}').", sender.Connection.Account.Name, message);
+				Log.Debug("HandleChatRoomChat: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
 			}
 
 			if (!long.TryParse(args.Get(0), out var chatId))
 			{
 				// Send client message 101080 = TargetUserNotExist
-				Send.SC_NORMAL.SystemMessage(sender.Connection, 101080, 1, 0);
+				Send.SC_NORMAL.SystemMessage(user.Connection, 101080, 1, 0);
 				return CommandResult.Okay;
 			}
 
@@ -112,11 +110,11 @@ namespace Melia.Social.Commands
 
 			var text = Regex.Replace(message, @"^.*?(?:\s+|$)", "");
 
-			var chatMessage = new ChatMessage(sender, text);
+			var chatMessage = new ChatMessage(user.Account, text);
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.ChatLog(sender.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(sender.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.ChatLog(user.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.Chat(user.Connection, chatRoom, chatMessage);
 
 			return CommandResult.Okay;
 		}

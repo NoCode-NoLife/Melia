@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Network;
 using Melia.Social.Database;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 
@@ -21,37 +22,29 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var sessionKey = packet.GetString(256);
 
-			// Check account
-			if (!SocialServer.Instance.Database.AccountExists(accountName))
+			if (!SocialServer.Instance.Database.TryGetAccount(accountName, out var account))
 			{
-				conn.Close(100);
+				conn.Close();
 				return;
 			}
 
-			// Check password
-			var account = Account.LoadFromDb(accountName);
 			if (!BCrypt.CheckPassword(password, account.Password))
 			{
-				conn.Close(100);
+				conn.Close();
 				return;
 			}
 
-			// Logged in
-			conn.Account = account;
+			var user = new SocialUser(conn, account);
+			user.Friends.LoadFromDb();
+
+			conn.User = user;
 			conn.LoggedIn = true;
 
-			Log.Info("User '{0}' logged in.", conn.Account.Name);
-			SocialServer.Instance.AccountManager.Add(conn);
+			SocialServer.Instance.UserManager.Add(user);
 
-			Send.SC_NORMAL.EnableChat(conn);
+			Log.Info("User '{0}' logged in.", user.Account.Name);
+
 			Send.SC_LOGIN_OK(conn);
-			Send.SC_NORMAL.Unknown_02(conn);
-
-			// Get Friend List
-			foreach (var friend in conn.Account.GetFriends())
-			{
-				Send.SC_NORMAL.FriendInfo(conn, friend);
-			}
 		}
 
 		/// <summary>
@@ -92,14 +85,14 @@ namespace Melia.Social.Network
 			var s1 = packet.GetShort();
 			var accountId = packet.GetLong();
 
-			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who isn't online.", conn.Account.Name);
+				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who isn't online.", conn.User.Name);
 				return;
 			}
 
-			var characterId = otherConn.Account.CharacterId;
-			var likeCount = otherConn.Account.GetLikes(characterId);
+			var characterId = otherUser.Account.CharacterId;
+			var likeCount = otherUser.Account.GetLikes(characterId);
 
 			Send.SC_NORMAL.LikeCount(conn, accountId, likeCount);
 		}
@@ -118,13 +111,13 @@ namespace Melia.Social.Network
 			var characterId = packet.GetLong();
 			var str1 = packet.GetString(64);
 
-			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who isn't online.", conn.Account.Name);
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who isn't online.", conn.User.Name);
 				return;
 			}
 
-			var account = otherConn.Account;
+			var account = otherUser.Account;
 			account.AddLike(characterId);
 
 			Send.SC_NORMAL.LikeSuccess(conn, account.Id, account.TeamName);
@@ -143,13 +136,13 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
 
-			if (!SocialServer.Instance.AccountManager.TryGetSocialConnection(accountId, out var otherConn))
+			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who isn't online.", conn.Account.Name);
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who isn't online.", conn.User.Name);
 				return;
 			}
 
-			var account = otherConn.Account;
+			var account = otherUser.Account;
 			account.RemoveLike(characterId);
 
 			Send.SC_NORMAL.UnlikeSuccess(conn, account.Id, account.TeamName);
