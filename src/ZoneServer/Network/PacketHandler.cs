@@ -105,6 +105,7 @@ namespace Melia.Zone.Network
 			conn.LoggedIn = true;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
+			ZoneServer.Instance.Database.UpdateLastLogin(conn.Account.Id);
 
 			Send.ZC_STANCE_CHANGE(character);
 			Send.ZC_CONNECT_OK(conn, character);

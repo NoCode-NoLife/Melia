@@ -288,6 +288,22 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
+		/// Updates the last login time for the account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		public void UpdateLastLogin(long accountId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+				cmd.Set("lastLogin", DateTime.Now);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
 		/// Returns true if the given account is logged in.
 		/// </summary>
 		/// <param name="accountId"></param>
