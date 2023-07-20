@@ -165,7 +165,6 @@ namespace Melia.Social.Network
 
 			/// <summary>
 			/// Sends the friend list and block list.
-			/// Type (2 = Friend, 3 = Declined, 4 = Blocked)
 			/// </summary>
 			/// <param name="conn"></param>
 			public static void FriendInfo(ISocialConnection conn, Friend friend)
@@ -188,10 +187,10 @@ namespace Melia.Social.Network
 				packet.PutShort(1);
 				packet.PutInt(friend.Hair);
 				packet.PutEmptyBin(26);
-				packet.PutByte(0x80); //128
-				packet.PutByte(0x80); //128
-				packet.PutByte(0x80); //128
-				packet.PutByte(0xFF); //255
+				packet.PutByte(0x80);
+				packet.PutByte(0x80);
+				packet.PutByte(0x80);
+				packet.PutByte(0xFF);
 				packet.PutEmptyBin(18);
 				packet.PutShortDate(friend.LastLoginDate);
 				packet.PutEmptyBin(36);
@@ -255,11 +254,8 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Sends account id of player blocked.
+			/// Comfirmation to a block request.
 			/// </summary>
-			/// <remarks>
-			/// Response to CS_REQ_BLOCK_FRIEND
-			/// </remarks>
 			public static void FriendBlocked(ISocialConnection conn, long accountId)
 			{
 				var packet = new Packet(Op.SC_NORMAL);

@@ -64,7 +64,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Request to add a friend
+		/// Request to add a friend.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -73,16 +73,17 @@ namespace Melia.Social.Network
 		{
 			var teamName = packet.GetString();
 
-			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
+			var userManager = SocialServer.Instance.UserManager;
+			var user = conn.User;
+			var account = user.Account;
+
+			if (!userManager.TryGetAccount(teamName, out var otherAccount))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
 				return;
 			}
 
-			var otherUser = SocialServer.Instance.UserManager.Get(teamName);
-			var otherAccount = otherUser?.Account ?? SocialServer.Instance.Database.GetAccountByTeamName(teamName);
-
-			if (!conn.User.Friends.TryGetFriend(otherAccount.Id, out var friend))
+			if (!user.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
 				friend = new Friend()
 				{
@@ -109,15 +110,12 @@ namespace Melia.Social.Network
 		{
 			var teamName = packet.GetString();
 
-			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
+			var userManager = SocialServer.Instance.UserManager;
+			var user = conn.User;
+
+			if (!userManager.TryGetAccount(teamName, out var otherAccount))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
-				return;
-			}
-
-			if (!SocialServer.Instance.UserManager.TryGetAccount(teamName, out var otherAccount))
-			{
-				Log.Warning("CS_REQ_BLOCK_FRIEND: Failed to find account by team name '{0}' for user '{1}'.", teamName, conn.User.Name);
 				return;
 			}
 
@@ -201,7 +199,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Chat
+		/// Chat message, used to send commands.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -216,7 +214,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Invite someone to a group chat
+		/// Invite for someone to join a group chat.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -224,10 +222,12 @@ namespace Melia.Social.Network
 		public void CS_GROUP_CHAT_INVITE(ISocialConnection conn, Packet packet)
 		{
 			var teamName = packet.GetString(64);
+
+			// ...
 		}
 
 		/// <summary>
-		/// Refresh Group Chat
+		/// Request to refresh all chat rooms and their messages.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -244,8 +244,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Create a group chat
-		/// Dummy Handler
+		/// Request to create a chat room.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -256,8 +255,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Request chat room's message history.
-		/// Dummy Handler
+		/// Request to receive a chat room's message history.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -273,9 +271,7 @@ namespace Melia.Social.Network
 			}
 
 			foreach (var message in chatRoom.GetMessages())
-			{
 				Send.SC_NORMAL.ChatRoomMessage(conn, chatRoom, message);
-			}
 		}
 
 		/// <summary>
@@ -305,17 +301,17 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Unnknown purpose
+		/// Sent upon opening the Skill window/panel, purpose currently
+		/// unknown.
 		/// </summary>
-		/// <remarks>
-		/// Sent when you open Skill Tree (F3).
-		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CS_REDIS_SKILLPOINT)]
 		public void CS_REDIS_SKILLPOINT(ISocialConnection conn, Packet packet)
 		{
 			var jobName = packet.GetString(16);
+
+			// What to do with this? Perhaps it's a job update of some sort?
 		}
 	}
 }
