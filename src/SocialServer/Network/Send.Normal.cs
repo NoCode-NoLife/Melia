@@ -79,7 +79,7 @@ namespace Melia.Social.Network
 				packet.PutInt(2);
 				packet.PutShort(1);
 				packet.PutByte(0);
-				packet.PutLpString(chatMessage.Recipient?.TeamName ?? "");
+				packet.PutLpString("");
 				packet.PutLpString("GLOBAL");
 
 				conn.Send(packet);

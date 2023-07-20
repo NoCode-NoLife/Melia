@@ -68,7 +68,7 @@ namespace Melia.Social.Commands
 
 			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
-			var chatMessage = new ChatMessage(user.Account, whisperTarget, text);
+			var chatMessage = new ChatMessage(user.Account, text);
 			chatRoom.AddMessage(chatMessage);
 
 			Send.SC_NORMAL.CreateRoom(user.Connection, chatRoom);

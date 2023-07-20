@@ -13,11 +13,6 @@ namespace Melia.Social.Database
 		public Account Sender { get; }
 
 		/// <summary>
-		/// Returns the account of the chat message's recipient.
-		/// </summary>
-		public Account Recipient { get; }
-
-		/// <summary>
 		/// Returns the message that was sent.
 		/// </summary>
 		public string Message { get; }
@@ -33,20 +28,8 @@ namespace Melia.Social.Database
 		/// <param name="sender"></param>
 		/// <param name="message"></param>
 		public ChatMessage(Account sender, string message)
-			: this(sender, null, message)
-		{
-		}
-
-		/// <summary>
-		/// Creates new chat message.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="recipient"></param>
-		/// <param name="message"></param>
-		public ChatMessage(Account sender, Account recipient, string message)
 		{
 			this.Sender = sender;
-			this.Recipient = recipient;
 			this.Message = message;
 		}
 	}
