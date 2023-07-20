@@ -83,7 +83,7 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`teamName`, a.`loginCharacter` AS `characterId`,
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`, a.`loginCharacter` AS `characterId`,
 					       IFNULL('', c.`name`) AS `name`, IFNULL(0, c.`job`) AS `job`, IFNULL(0, c.`gender`) AS `gender`, IFNULL(0, c.`hair`) AS `hair`, IFNULL(0, c.`level`) AS `level`
 					FROM `friends` AS `f`
 					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
@@ -102,18 +102,20 @@ namespace Melia.Social.Database
 							var friend = new Friend();
 
 							friend.Id = reader.GetInt64("friendId");
+							friend.AccountId = reader.GetInt64("accountId");
+							friend.TeamName = reader.GetStringSafe("teamName");
+							friend.State = (FriendState)reader.GetByte("state");
 							friend.Group = reader.GetStringSafe("group");
 							friend.Note = reader.GetStringSafe("note");
-							friend.State = (FriendState)reader.GetByte("state");
-							friend.AccountId = reader.GetInt64("accountId");
+							friend.LastLogin = reader.GetDateTimeSafe("lastLogin");
 
-							friend.CharacterId = reader.GetInt64("characterId");
-							friend.TeamName = reader.GetStringSafe("teamName");
-							friend.Name = reader.GetStringSafe("name");
-							friend.JobId = (JobId)reader.GetInt32("job");
-							friend.Gender = (Gender)reader.GetInt32("gender");
-							friend.Hair = reader.GetInt32("hair");
-							friend.Level = reader.GetInt32("level");
+							friend.Character.Id = reader.GetInt64("characterId");
+							friend.Character.Name = reader.GetStringSafe("name");
+							friend.Character.TeamName = reader.GetStringSafe("teamName");
+							friend.Character.JobId = (JobId)reader.GetInt32("job");
+							friend.Character.Gender = (Gender)reader.GetInt32("gender");
+							friend.Character.Hair = reader.GetInt32("hair");
+							friend.Character.Level = reader.GetInt32("level");
 
 							friends.Add(friend);
 						}

@@ -1,14 +1,26 @@
-﻿namespace Melia.Social.Database
+﻿using System;
+
+namespace Melia.Social.Database
 {
 	/// <summary>
-	/// Represent's a friend
+	/// Represents a user's friend.
 	/// </summary>
-	public class Friend : Character
+	public class Friend
 	{
 		/// <summary>
-		/// Associated Online Character Id
+		/// Gets or sets the friend's globally unique id.
 		/// </summary>
-		public long CharacterId { get; set; }
+		public long Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets the users's account id.
+		/// </summary>
+		public long AccountId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the user's team name.
+		/// </summary>
+		public string TeamName { get; set; }
 
 		/// <summary>
 		/// Get or set the friend's state.
@@ -24,6 +36,16 @@
 		/// Get or set the friend's note.
 		/// </summary>
 		public string Note { get; set; }
+
+		/// <summary>
+		/// Gets or sets the users's last login date.
+		/// </summary>
+		public DateTime LastLogin { get; set; }
+
+		/// <summary>
+		/// Gets or sets the character the user is currently playing.
+		/// </summary>
+		public Character Character { get; } = new Character();
 
 		/// <summary>
 		/// Creates a new, blank friend.
@@ -51,9 +73,14 @@
 	public enum FriendState : byte
 	{
 		/// <summary>
-		/// A friend request was sent.
+		/// A friend request was sent to a user.
 		/// </summary>
-		Requested,
+		SentRequest,
+
+		/// <summary>
+		/// A friend request was received from a user.
+		/// </summary>
+		ReceivedRequest,
 
 		/// <summary>
 		/// The friend request was accepted.
@@ -61,14 +88,9 @@
 		Accepted,
 
 		/// <summary>
-		/// The friend was deleted.
+		/// The friend request was declined.
 		/// </summary>
-		Delete,
-
-		/// <summary>
-		/// The friend request was rejected.
-		/// </summary>
-		Rejected,
+		Declined,
 
 		/// <summary>
 		/// The user was blocked.

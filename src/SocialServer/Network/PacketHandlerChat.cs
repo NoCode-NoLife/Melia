@@ -85,8 +85,8 @@ namespace Melia.Social.Network
 
 			if (!user.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
-				friend = new Friend(otherAccount, FriendState.Requested);
-				var otherFriend = new Friend(account, FriendState.Requested);
+				friend = new Friend(otherAccount, FriendState.SentRequest);
+				var otherFriend = new Friend(account, FriendState.ReceivedRequest);
 
 				SocialServer.Instance.Database.CreateFriend(account.Id, friend);
 				SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
