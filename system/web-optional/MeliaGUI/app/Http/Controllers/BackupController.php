@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use FFI\Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -15,8 +14,13 @@ class BackupController extends Controller
     {
         $fileName = str_replace(':', '-', str_replace(' ', '_', Carbon::now()->toDateTimeString())) . '.sql';
         $path = storage_path('app\\' . env('APP_NAME', 'Melia') .'\\' . $fileName);
-        $cmd = 'mysqldump --user=' . env('DB_USERNAME', 'root') . ' --password=' . env('DB_PASSWORD', '') . ' --host=' . env('DB_HOST', '127.0.0.1') . ' --port=' . env('DB_PORT', 3306) . ' ' . env('DB_DATABASE', 'melia') . ' > ' . $path;
+        $serverName = env('DB_HOST', 'localhost');
+        $serverPort = env('DB_PORT', 3306);
+        $username = env('DB_USERNAME', 'root');
+        $password = env('DB_PASSWORD', '');
+        $databaseName = env('DB_DATABASE', 'melia');
 
+        $cmd = "mysqldump --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
         exec($cmd);
 
         return back()->with('status', trans('backup.successful'));

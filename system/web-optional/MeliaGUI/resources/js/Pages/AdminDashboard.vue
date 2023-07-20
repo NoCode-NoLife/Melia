@@ -82,6 +82,10 @@ const broadcastMessage = () => {};
 
 const sendMail = () => {};
 
+const setLoading = (value) => {
+    isLoading.value = value;
+};
+
 const createNewBackup = () => {
     isLoading.value = true;
     router.post(route('admin.backup.create'), null, {
@@ -184,7 +188,7 @@ onMounted(() => {
             <SectionTitleLineWithButton :icon="mdiBackupRestore" title="Backups" :action="createNewBackup" :actionIcon="mdiCloudPlusOutline" />
 
             <CardBox has-table>
-                <TableBackups :items="backups" />
+                <TableBackups :items="backups" :setLoading="setLoading" />
             </CardBox>
 
             <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Last Accounts" />

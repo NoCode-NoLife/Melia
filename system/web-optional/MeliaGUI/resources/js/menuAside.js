@@ -3,6 +3,7 @@ import {
   mdiMonitor,
   mdiGithub,
   mdiViewDashboard,
+  mdiCogs,
 } from "@mdi/js";
 
 export default [
@@ -11,6 +12,12 @@ export default [
     icon: mdiMonitor,
     label: "Administration",
     admin: true,
+  },
+  {
+    href: "/admin/settings",
+    icon: mdiCogs,
+    label: "Settings",
+    admin: false,
   },
   {
     href: "/dashboard",

@@ -104,6 +104,15 @@ class AdminDashboardController extends Controller
         ]);
     }
 
+    public function settings(Request $request)
+    {
+        return Inertia::render('SettingsView', [
+            'account' => auth()->user()->account,
+            'backupSchedule' => config('backup.schedule'),
+            'enableTrading' => true,
+        ]);
+    }
+
     public function kickAll(Request $request)
     {
         try {
@@ -121,10 +130,11 @@ class AdminDashboardController extends Controller
         return back()->with('status', trans('kick.all.players.fail'));
     }
 
-    private function getBackups()
+    private function getBackups($maxCount = 10)
     {
         // $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
         $info = [];
+        $count = 0;
 
         $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
         $files = File::files($directory);
@@ -140,7 +150,11 @@ class AdminDashboardController extends Controller
             ];
         }
 
-        return $info;
+        usort($info, function($a, $b) {
+            return strcmp($b['date'], $a['date']);
+        });
+
+        return array_slice($info, 0, $maxCount);
     }
 
     private function formatBytes($size, $precision = 2)

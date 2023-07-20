@@ -150,44 +150,10 @@ namespace Melia.Web
 
 					Log.Info("PHP extraction complete, enabling extensions...");
 
-					var phpConfigContent = File.ReadAllText(iniFilePath);
-
-					var extensionToEnable = "extension=fileinfo";
-					var extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
-
-					if (extensionIndex != -1)
-					{
-						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
-						File.WriteAllText(iniFilePath, phpConfigContent);
-					}
-
-					extensionToEnable = "extension=zip";
-					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
-
-					if (extensionIndex != -1)
-					{
-						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
-						File.WriteAllText(iniFilePath, phpConfigContent);
-					}
-
-					extensionToEnable = "extension=mysqli";
-					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
-
-					if (extensionIndex != -1)
-					{
-						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
-						File.WriteAllText(iniFilePath, phpConfigContent);
-					}
-
-					extensionToEnable = "extension=pdo_mysql";
-					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
-
-					if (extensionIndex != -1)
-					{
-						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
-						File.WriteAllText(iniFilePath, phpConfigContent);
-					}
-
+					this.EnablPhpExtesion(iniFilePath, "extension=fileinfo");
+					this.EnablPhpExtesion(iniFilePath, "extension=zip");
+					this.EnablPhpExtesion(iniFilePath, "extension=mysqli");
+					this.EnablPhpExtesion(iniFilePath, "extension=pdo_mysql");
 
 					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 				}
@@ -349,6 +315,18 @@ namespace Melia.Web
 			{
 				Log.Error("Failed to start web server: {0}", ex);
 				ConsoleUtil.Exit(1);
+			}
+		}
+
+		private void EnablPhpExtesion(string iniFilePath, string extensionToEnable)
+		{
+			var phpConfigContent = File.ReadAllText(iniFilePath);
+			var extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
+
+			if (extensionIndex != -1)
+			{
+				phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
+				File.WriteAllText(iniFilePath, phpConfigContent);
 			}
 		}
 	}

@@ -25,7 +25,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
@@ -36,6 +36,10 @@ Route::get('/dashboard', function () {
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
     ->middleware(['auth', 'verified', 'authority:99'])
     ->name('admin.dashboard');
+
+Route::get('/admin/settings', [AdminDashboardController::class, 'settings'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.settings');
 
 Route::post('/admin/kick/all', [AdminDashboardController::class, 'kickAll'])
     ->middleware(['auth', 'verified', 'authority:99'])

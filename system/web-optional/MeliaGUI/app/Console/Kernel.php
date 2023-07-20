@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +13,21 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('backup:run')->daily()->at('00:00');
+        $schedule = config('backup.schedule');
+
+        if ($schedule == 2) {
+            $schedule->call(function () {
+                $this->createBackup();
+            })->daily();
+        } elseif ($schedule == 3) {
+            $schedule->call(function () {
+                $this->createBackup();
+            })->weekly();
+        } elseif ($schedule == 4) {
+            $schedule->call(function () {
+                $this->createBackup();
+            })->monthly();
+        }
     }
 
     /**
@@ -23,5 +38,19 @@ class Kernel extends ConsoleKernel
         $this->load(__DIR__.'/Commands');
 
         require base_path('routes/console.php');
+    }
+
+    private function createBackup()
+    {
+        $fileName = str_replace(':', '-', str_replace(' ', '_', Carbon::now()->toDateTimeString())) . '.sql';
+        $path = storage_path('app\\' . env('APP_NAME', 'Melia') .'\\' . $fileName);
+        $serverName = env('DB_HOST', 'localhost');
+        $serverPort = env('DB_PORT', 3306);
+        $username = env('DB_USERNAME', 'root');
+        $password = env('DB_PASSWORD', '');
+        $databaseName = env('DB_DATABASE', 'melia');
+
+        $cmd = "mysqldump --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
+        exec($cmd);
     }
 }

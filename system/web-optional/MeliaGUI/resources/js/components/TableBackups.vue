@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, getCurrentInstance } from "vue";
-import { mdiAccount, mdiDelete, mdiRestoreAlert, mdiFileCloud } from "@mdi/js";
+import {  mdiDelete, mdiRestoreAlert, mdiDatabase } from "@mdi/js";
 import { router } from '@inertiajs/vue3'
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
@@ -12,6 +12,10 @@ defineProps({
   checkable: Boolean,
   items: {
     type: Array,
+    required: true
+  },
+  setLoading: {
+    type: Function,
     required: true
   }
 });
@@ -69,22 +73,30 @@ const checked = (isChecked, userAccount) => {
 };
 
 const restoreBackup = (backup) => {
+    instance.props.setLoading(true);
     router.post(route('admin.backup.restore'),
     {
         backupDate: backup.date
     },{
         preserveState: true,
         preserveScroll: true,
+        onFinish: visit => {
+            instance.props.setLoading(false);
+        },
     });
 };
 
 const deleteBackup = (backup) => {
+    instance.props.setLoading(true);
     router.post(route('admin.backup.delete'),
     {
         backupDate: backup.date
     },{
         preserveState: false,
         preserveScroll: true,
+        onFinish: visit => {
+            instance.props.setLoading(false);
+        },
     });
 };
 </script>
@@ -126,7 +138,7 @@ const deleteBackup = (backup) => {
             />
             <td class="border-b-0 lg:w-6 before:hidden">
             <UserAvatar
-                :icon="mdiFileCloud"
+                :icon="mdiDatabase"
                 class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
             />
             </td>

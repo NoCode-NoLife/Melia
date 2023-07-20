@@ -2,6 +2,7 @@
 @import "_progress.css";
 @import "_scrollbars.css";
 @import "_table.css";
+@import "_disable_caret.css";
 
 @tailwind base;
 @tailwind components;

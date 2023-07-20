@@ -1,9 +1,12 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import { mdiEmail } from "@mdi/js";
+import SectionFullScreen from "@/components/SectionFullScreen.vue";
+import CardBox from "@/components/CardBox.vue";
+import FormField from "@/components/FormField.vue";
+import FormControl from "@/components/FormControl.vue";
+import BaseButton from "@/components/BaseButton.vue";
+import LayoutGuest from "@/layouts/LayoutGuest.vue";
+import BaseButtons from "@/components/BaseButtons.vue";
 import { Head, useForm } from '@inertiajs/vue3';
 
 defineProps({
@@ -11,6 +14,8 @@ defineProps({
         type: String,
     },
 });
+
+const routeHome = route('home');
 
 const form = useForm({
     email: '',
@@ -22,40 +27,36 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Forgot Password" />
+    <Head title="Login" />
+    <LayoutGuest>
+        <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
+            <CardBox :class="cardClass" marginbottomzero is-form @submit.prevent="submit">
+                <div class="text-sm text-gray-600">
+                    Forgot your password? No problem. Just let us know your email address and we will email you a password reset
+                    link that will allow you to choose a new one.
+                </div>
 
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset
-            link that will allow you to choose a new one.
-        </div>
+                <div v-if="status" class="font-medium text-sm text-green-600">
+                    {{ status }}
+                </div>
 
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
+                <FormField label="Email" help="Please enter your email">
+                <FormControl
                     v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
+                    :icon="mdiEmail"
+                    name="email"
+                    autocomplete="email"
                 />
+                </FormField>
 
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
+                <template #footer>
+                    <BaseButtons>
+                        <BaseButton type="submit" color="info" label="Reset Password"  :class="{ 'opacity-25': form.processing }" :disabled="form.processing"/>
+                        <BaseButton color="info" label="Back" :href="routeHome" outline :class="{ 'opacity-25': form.processing }" :disabled="form.processing"/>
+                    </BaseButtons>
+                </template>
+            </CardBox>
+        </SectionFullScreen>
+    </LayoutGuest>
 </template>
+

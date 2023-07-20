@@ -39,12 +39,6 @@ class NewPasswordController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        if (!password_verify(strtoupper(md5($request->password)), auth()->user()->account->password)) {
-            throw ValidationException::withMessages([
-                'password' => trans('auth.incorrect.password'),
-            ]);
-        }
-
         $hashedPass = bcrypt(strtoupper(md5($request->password)));
 
         if (substr($hashedPass, 0, 4) == '$2y$') {
@@ -57,10 +51,8 @@ class NewPasswordController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($hashedPass) {
-                $user->forceFill([
-                    'password' => $hashedPass,
-                    'remember_token' => Str::random(60),
-                ])->save();
+                $user->account->password = $hashedPass;
+                $user->account->save();
 
                 event(new PasswordReset($user));
             }
@@ -74,7 +66,7 @@ class NewPasswordController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => [trans($status)],
+            'token' => [trans($status)],
         ]);
     }
 }
