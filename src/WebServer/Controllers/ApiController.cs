@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -48,13 +49,13 @@ namespace Melia.Web.Controllers
 		/// <summary>
 		/// Show the server process information
 		/// </summary>
-		[Route(HttpVerbs.Get, "/kick/all")]
+		[Route(HttpVerbs.Post, "/kick/all")]
 		public void KickAllPlayers()
 		{
 			var kickAllMessage = new KickAllMessage();
 			WebServer.Instance.Communicator.Send("Coordinator", kickAllMessage.BroadcastTo("AllZones"));
 
-			this.SendText("text/json", "{ \"status\": \"success.\" }");
+			this.SendText("text/json", "{ \"status\": \"Sucesseful kicked all players.\" }");
 		}
 	}
 }

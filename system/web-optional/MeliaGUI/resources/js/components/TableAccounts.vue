@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, getCurrentInstance } from "vue";
-import { mdiEye, mdiAccount, mdiTrashCan, mdiCancel } from "@mdi/js";
+import { mdiEye, mdiAccount, mdiCancel } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
@@ -71,7 +71,6 @@ const banAccountWarning = (userAccount) => {
 
 const showAccountDetail = (userAccount) => {
     detailAccount.value = userAccount;
-    console.log(detailAccount.value);
     isModalActive.value = true;
 };
 
@@ -173,7 +172,7 @@ const checked = (isChecked, userAccount) => {
   </table>
   <div class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
     <BaseLevel>
-        <BaseButtons>
+        <BaseButtons  v-show="numPages > 1">
             <BaseButton
                 v-for="page in pagesList"
                 :key="page"
@@ -184,12 +183,12 @@ const checked = (isChecked, userAccount) => {
                 @click="currentPage = page"
             />
             <button
-                class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-white dark:border-slate-900 ring-gray-200 dark:ring-gray-500 bg-white text-black dark:bg-slate-900 dark:text-white hover:bg-gray-100 hover:dark:bg-slate-800 text-sm p-1 mr-3 last:mr-0 mb-3"
+                class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-white dark:border-slate-900 ring-gray-200 dark:ring-gray-500 bg-white text-black dark:bg-slate-900 dark:text-white hover:bg-gray-100 hover:dark:bg-slate-800 text-sm mr-3 last:mr-0 mb-3"
             >
-                <span class="px-2 m-0 p-0 mr-0 mb-0">...</span>
+                <span class="px-2">...</span>
             </button>
         </BaseButtons>
-      <small>Page {{ currentPageHuman }} of {{ numPages }}</small>
+      <small  v-show="numPages > 1">Page {{ currentPageHuman }} of {{ numPages }}</small>
     </BaseLevel>
   </div>
 </template>

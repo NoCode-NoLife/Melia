@@ -37,6 +37,6 @@ const iconSize = computed(() => props.size ?? 16);
     >
       <path fill="currentColor" :d="path" />
     </svg>
-    <slot />
+    <slot/>
   </span>
 </template>

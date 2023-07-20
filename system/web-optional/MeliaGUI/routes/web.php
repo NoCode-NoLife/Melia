@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\BackupController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,18 @@ Route::get('/dashboard', function () {
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
     ->middleware(['auth', 'verified', 'authority:99'])
     ->name('admin.dashboard');
+
+Route::post('/admin/kick/all', [AdminDashboardController::class, 'kickAll'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.kick.all.players');
+
+Route::post('/admin/backup', [BackupController::class, 'create'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.backup.create');
+
+Route::post('/admin/backup/restore', [BackupController::class, 'create'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.backup.restore');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

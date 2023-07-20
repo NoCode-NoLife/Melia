@@ -23,6 +23,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  canInteract: {
+    type: Boolean,
+    required: true,
+  }
 });
 </script>
 
@@ -33,9 +37,11 @@ const props = defineProps({
                 <BaseButton
                     iconSize="25"
                     :icon="icon"
-                    color="info"
+                    :color="canInteract ? 'info' : 'danger'"
                     class="md:mr-6"
                     rounded-full
+                    :active="canInteract"
+                    :disabled="!canInteract"
                     big
                     @click.prevent="action"
                 />

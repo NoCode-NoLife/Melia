@@ -170,6 +170,25 @@ namespace Melia.Web
 						File.WriteAllText(iniFilePath, phpConfigContent);
 					}
 
+					extensionToEnable = "extension=mysqli";
+					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
+
+					if (extensionIndex != -1)
+					{
+						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
+						File.WriteAllText(iniFilePath, phpConfigContent);
+					}
+
+					extensionToEnable = "extension=pdo_mysql";
+					extensionIndex = phpConfigContent.IndexOf(extensionToEnable);
+
+					if (extensionIndex != -1)
+					{
+						phpConfigContent = phpConfigContent.Remove(extensionIndex, extensionToEnable.Length);
+						File.WriteAllText(iniFilePath, phpConfigContent);
+					}
+
+
 					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 				}
 				catch (Exception)

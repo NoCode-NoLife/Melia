@@ -16,7 +16,7 @@ const props = defineProps({
   isDropdownList: Boolean,
 });
 
-const authority = usePage().props.account.authority;
+const authority = usePage().props.account ? usePage().props.account.authority : 0;
 
 const emit = defineEmits(["menu-click"]);
 
@@ -50,7 +50,6 @@ const menuClick = (event) => {
 
 <template>
   <li v-show="props.item.admin ? authority >= 99 : true">
-    {{  console.log(authority) }}
     <component
       :is="item.to ? Link : 'a'"
       v-slot="vSlot"

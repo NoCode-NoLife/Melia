@@ -11,6 +11,7 @@
         "laravel/framework": "^10.10",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "spatie/laravel-backup": "^8.1",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

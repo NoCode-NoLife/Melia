@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Account;
@@ -47,6 +48,7 @@ class AdminDashboardController extends Controller
             $account['highestCharacterName'] = $highestCharacterName;
         });
 
+        $isServerOnline = true;
         $processes = [];
         $totalCpuUsage = 0;
 
@@ -70,6 +72,7 @@ class AdminDashboardController extends Controller
                 }
             }
         } catch (\Exception $e) {
+            $isServerOnline = false;
         }
 
         $onlineAccounts = 0;
@@ -84,6 +87,7 @@ class AdminDashboardController extends Controller
                 $onlineAccounts = $playerCountJson->playerCount;
             }
         } catch (\Exception $e) {
+            $isServerOnline = false;
         }
 
         return Inertia::render('AdminDashboard', [
@@ -92,7 +96,53 @@ class AdminDashboardController extends Controller
             'onlineAccounts' => $onlineAccounts,
             'lastAccounts' => $lastAccounts,
             'processes' => $processes,
-            'totalCpuUsage' => $totalCpuUsage
+            'totalCpuUsage' => $totalCpuUsage,
+            'isServerOnline' => $isServerOnline,
+            'backups' => $this->getBackups(),
         ]);
+    }
+
+    public function kickAll(Request $request)
+    {
+        try {
+            $response = $this->client->request('POST', '/api/kick/all' );
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+
+            if ($statusCode == 200) {
+                $decodedBody = json_decode($body);
+                response()->json(['status' => $decodedBody['status']]);
+            }
+        } catch (\Exception $e) {
+        }
+
+        response()->json(['status' => 'Fail to kick all players.']);
+    }
+
+    private function getBackups()
+    {
+        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        $info = [];
+
+        foreach ($statuses as $status) {
+            $backups = $status->backupDestination()->backups();
+            foreach($backups as $backup) {
+                $info[] = [
+                    'date' => $backup->date()->format('Y-m-d H:i:s'),
+                    'sizeInBytes' => $this->formatBytes($backup->sizeInBytes()),
+                    'path' => $backup->path(),
+                ];
+            }
+        }
+
+        return $info;
+    }
+
+    private function formatBytes($size, $precision = 2)
+    {
+        $base = log($size, 1024);
+        $suffixes = array('', 'Kb', 'Mb', 'Gb', 'Tb');
+
+        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
     }
 }

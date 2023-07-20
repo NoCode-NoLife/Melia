@@ -31,7 +31,6 @@ if ((!localStorage[darkModeKey] && window.matchMedia("(prefers-color-scheme: dar
 const menuClick = (event, item) => {
     if (item.isToggleLightDark) {
         store.commit('setDarkMode', !store.state.darkMode);
-        console.log(store.state.darkMode);
     }
 
     if (item.isLogout) {
