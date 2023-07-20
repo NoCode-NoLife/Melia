@@ -88,9 +88,7 @@ switch (type)
 
     // FriendInfo
     case 0x08:
-        byte friendStatus;
-        int64 accountId1;
-        int count; // 1
+        typedef struct
         {
             int64 l1; // 0
             int64 accountId2;
@@ -114,6 +112,12 @@ switch (type)
             lpString group;
             lpString note;
         }
+        Friend <optimize=false>;
+
+        byte friendStatus;
+        int64 accountId;
+        int count;
+        Friend friends[count];
         break;
 
     // Buffs or Position?

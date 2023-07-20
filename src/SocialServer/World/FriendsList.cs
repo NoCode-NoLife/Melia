@@ -83,6 +83,16 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
+		/// Returns a list of all friends with the given state.
+		/// </summary>
+		/// <returns></returns>
+		public Friend[] GetFriends(FriendState state)
+		{
+			lock (_friends)
+				return _friends.Where(a => a.State == state).ToArray();
+		}
+
+		/// <summary>
 		/// Removes friend from the account and the database.
 		/// </summary>
 		/// <param name="friend"></param>

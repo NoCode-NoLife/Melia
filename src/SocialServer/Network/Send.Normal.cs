@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Network;
 using Melia.Social.Database;
+using Melia.Social.Network.Helpers;
 
 namespace Melia.Social.Network
 {
@@ -164,9 +167,10 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Sends the friend list and block list.
+			/// Updates friend on client.
 			/// </summary>
 			/// <param name="conn"></param>
+			/// <param name="friend"></param>
 			public static void FriendInfo(ISocialConnection conn, Friend friend)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
@@ -174,34 +178,37 @@ namespace Melia.Social.Network
 
 				packet.PutByte((byte)friend.State);
 				packet.PutLong(friend.AccountId);
-
 				packet.PutInt(1); // count
-				{
-					packet.PutLong(0);
-					packet.PutLong(friend.AccountId);
-					packet.PutString(friend.TeamName, 64);
-					packet.PutString("", 56);
-					packet.PutLong(0);
-					packet.PutInt(friend.Character.Level);
-					packet.PutString(friend.Character.Name, 128);
-					packet.PutShort((short)friend.Character.Gender);
-					packet.PutInt((int)friend.Character.JobId);
-					packet.PutShort(0);
-					packet.PutInt(0);
-					packet.PutShort(1);
-					packet.PutInt(friend.Character.Hair);
-					packet.PutEmptyBin(26);
-					packet.PutByte(0x80);
-					packet.PutByte(0x80);
-					packet.PutByte(0x80);
-					packet.PutByte(0xFF);
-					packet.PutEmptyBin(18);
-					packet.PutShortDate(friend.LastLogin);
-					packet.PutEmptyBin(36);
-					packet.PutByte(0);
-					packet.PutLpString(friend.Group);
-					packet.PutLpString(friend.Note);
-				}
+				packet.AddFriend(friend);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates list of friends of the given type on client.
+			/// </summary>
+			/// <remarks>
+			/// The client is capable of taking an entire list of friends
+			/// of a given type at once, but the packet handling seems
+			/// sketchy. You need to send multiple lists, one or each
+			/// state, and they need to be sent on a delay because the
+			/// client will ignore them if they come in all bunched up
+			/// together.
+			/// </remarks>
+			/// <param name="conn"></param>
+			/// <param name="state"></param>
+			/// <param name="friends"></param>
+			public static void FriendInfo(ISocialConnection conn, FriendState state, IEnumerable<Friend> friends)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.FriendInfo);
+
+				packet.PutByte((byte)state);
+				packet.PutLong(0);
+				packet.PutInt(friends.Count());
+
+				foreach (var friend in friends)
+					packet.AddFriend(friend);
 
 				conn.Send(packet);
 			}
