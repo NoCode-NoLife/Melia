@@ -45,9 +45,13 @@ Route::post('/admin/backup', [BackupController::class, 'create'])
     ->middleware(['auth', 'verified', 'authority:99'])
     ->name('admin.backup.create');
 
-Route::post('/admin/backup/restore', [BackupController::class, 'create'])
+Route::post('/admin/backup/restore', [BackupController::class, 'restore'])
     ->middleware(['auth', 'verified', 'authority:99'])
     ->name('admin.backup.restore');
+
+Route::post('/admin/backup/delete', [BackupController::class, 'delete'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.backup.delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

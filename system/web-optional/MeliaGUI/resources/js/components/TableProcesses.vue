@@ -70,6 +70,7 @@ const checked = (isChecked, userAccount) => {
 </script>
 
 <template>
+
     <div v-if="checkedRows.length" v-show="itemsPaginated.length > 0" class="p-3 bg-gray-100/50 dark:bg-slate-800">
         <span
             v-for="checkedRow in checkedRows"
@@ -124,9 +125,9 @@ const checked = (isChecked, userAccount) => {
             </tr>
         </tbody>
     </table>
-    <div v-show="numPages > 1" class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
+    <div v-show="itemsPaginated.length > 0" class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
         <BaseLevel>
-            <BaseButtons>
+            <BaseButtons v-show="numPages > 1">
                 <BaseButton
                     v-for="page in pagesList"
                     :key="page"
@@ -136,13 +137,8 @@ const checked = (isChecked, userAccount) => {
                     small
                     @click="currentPage = page"
                 />
-                <button
-                    class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-white dark:border-slate-900 ring-gray-200 dark:ring-gray-500 bg-white text-black dark:bg-slate-900 dark:text-white hover:bg-gray-100 hover:dark:bg-slate-800 text-sm p-1 mr-3 last:mr-0 mb-3"
-                >
-                    <span class="px-2 m-0 p-0 mr-0 mb-0">...</span>
-                </button>
             </BaseButtons>
-        <small v-show="numPages > 1">Page {{ currentPageHuman }} of {{ numPages }}</small>
+        <small  v-show="numPages > 1">Page {{ currentPageHuman }} of {{ numPages }}</small>
         </BaseLevel>
     </div>
 </template>

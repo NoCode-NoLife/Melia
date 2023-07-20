@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, getCurrentInstance } from "vue";
-import { mdiAccount, mdiDelete, mdiRestoreAlert } from "@mdi/js";
+import { mdiAccount, mdiDelete, mdiRestoreAlert, mdiFileCloud } from "@mdi/js";
+import { router } from '@inertiajs/vue3'
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
 import BaseLevel from "@/components/BaseLevel.vue";
 import BaseButtons from "@/components/BaseButtons.vue";
@@ -68,15 +69,23 @@ const checked = (isChecked, userAccount) => {
 };
 
 const restoreBackup = (backup) => {
-    router.post(route('admin.backup.restore'), {
-        preserveState: (page) => console.log(page),
-    })
+    router.post(route('admin.backup.restore'),
+    {
+        backupDate: backup.date
+    },{
+        preserveState: true,
+        preserveScroll: true,
+    });
 };
 
 const deleteBackup = (backup) => {
-    router.post(route('admin.backup.delete'), {
-        preserveState: (page) => console.log(page),
-    })
+    router.post(route('admin.backup.delete'),
+    {
+        backupDate: backup.date
+    },{
+        preserveState: false,
+        preserveScroll: true,
+    });
 };
 </script>
 
@@ -92,71 +101,78 @@ const deleteBackup = (backup) => {
         </span>
     </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th v-if="checkable" />
-        <th />
-        <th>Date</th>
-        <th>Size</th>
-        <th>path</th>
-        <th />
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="backup in itemsPaginated" :key="backup.id">
-        <TableCheckboxCell
-          v-if="checkable"
-          @checked="checked($event, backup)"
-        />
-        <td class="border-b-0 lg:w-6 before:hidden">
-          <UserAvatar
-            :icon="mdiAccount"
-            class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
-          />
-        </td>
-        <td data-label="Name">
-          {{ new Date(backup.date).toLocaleString()}}
-        </td>
-        <td data-label="TeamName">
-          {{ backup.sizeInBytes }}
-        </td>
-        <td data-label="Medals">
-          {{ backup.path }}
-        </td>
-        <td class="before:hidden lg:w-1 whitespace-nowrap">
-          <BaseButtons type="justify-start lg:justify-end" no-wrap>
-            <BaseButton
-              color="warning"
-              :icon="mdiRestoreAlert"
-              small
-              @click="restoreBackup(backup)"
+    <div v-show="itemsPaginated.length <= 0">
+        <div class="text-center w-full py-12 bg-gray-100 dark:bg-gray-900 rounded-2xl">
+            <p class="text-gray-500 dark:text-slate-400">There is no backups yet.</p>
+        </div>
+    </div>
+
+    <table v-show="itemsPaginated.length > 0">
+        <thead>
+        <tr>
+            <th v-if="checkable" />
+            <th />
+            <th>Date</th>
+            <th>Size</th>
+            <th>path</th>
+            <th />
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="backup in itemsPaginated" :key="backup.id">
+            <TableCheckboxCell
+            v-if="checkable"
+            @checked="checked($event, backup)"
             />
-            <BaseButton
-              color="danger"
-              :icon="mdiDelete"
-              small
-              @click="deleteBackup(backup)"
+            <td class="border-b-0 lg:w-6 before:hidden">
+            <UserAvatar
+                :icon="mdiFileCloud"
+                class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
             />
-          </BaseButtons>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
-    <BaseLevel>
-        <BaseButtons v-show="numPages > 1">
-            <BaseButton
-                v-for="page in pagesList"
-                :key="page"
-                :active="page === currentPage"
-                :label="page + 1"
-                :color="page === currentPage ? 'lightDark' : 'whiteDark'"
-                small
-                @click="currentPage = page"
-            />
-        </BaseButtons>
-      <small  v-show="numPages > 1">Page {{ currentPageHuman }} of {{ numPages }}</small>
-    </BaseLevel>
-  </div>
+            </td>
+            <td data-label="Name">
+            {{ new Date(backup.date).toLocaleString()}}
+            </td>
+            <td data-label="TeamName">
+            {{ backup.sizeInBytes }}
+            </td>
+            <td data-label="Medals">
+            {{ backup.path }}
+            </td>
+            <td class="before:hidden lg:w-1 whitespace-nowrap">
+            <BaseButtons type="justify-start lg:justify-end" no-wrap>
+                <BaseButton
+                    color="warning"
+                    :icon="mdiRestoreAlert"
+                    icon-size="25"
+                    small
+                    @click="restoreBackup(backup)"
+                />
+                <BaseButton
+                    color="danger"
+                    :icon="mdiDelete"
+                    small
+                    @click="deleteBackup(backup)"
+                />
+            </BaseButtons>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div v-show="itemsPaginated.length > 0" class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
+        <BaseLevel>
+            <BaseButtons v-show="numPages > 1">
+                <BaseButton
+                    v-for="page in pagesList"
+                    :key="page"
+                    :active="page === currentPage"
+                    :label="page + 1"
+                    :color="page === currentPage ? 'lightDark' : 'whiteDark'"
+                    small
+                    @click="currentPage = page"
+                />
+            </BaseButtons>
+        <small  v-show="numPages > 1">Page {{ currentPageHuman }} of {{ numPages }}</small>
+        </BaseLevel>
+    </div>
 </template>

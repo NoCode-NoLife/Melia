@@ -16,5 +16,5 @@ return [
     'login.exists' => 'An account with that name already exists.',
     'email.exists' => 'An account with that email already exists.',
     'incorrect.password' => 'The current Password is incorrect.',
-    'incorrect.password.confirmation' => 'Wrong password confirmation.'
+    'incorrect.password.confirmation' => 'Wrong password confirmation.',
 ];

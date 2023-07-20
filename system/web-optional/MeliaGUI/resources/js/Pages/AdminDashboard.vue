@@ -84,7 +84,14 @@ const sendMail = () => {};
 
 const createNewBackup = () => {
     isLoading.value = true;
-    router.post(route('admin.backup.create'));
+    router.post(route('admin.backup.create'), null, {
+        preserveState: false,
+        preserveScroll: true,
+        onSuccess: (page) => {
+            console.log(page);
+            isLoading.value = false;
+        },
+    });
 }
 
 const restoreBackup = () => {};
@@ -166,7 +173,7 @@ onMounted(() => {
                     <CardBoxAction :canInteract="true" :icon="mdiBackupRestore" :title="'Restoure database backup'" :description="'Select a database backup to restore.'" :action="restoreBackup" />
                     <CardBoxAction :canInteract="true" :icon="mdiTagMultiple" :title="'Inspect inventories'" :description="'Select a database backup to restore.'" :action="inspectInventories" />
                 </div>
-        </div>
+            </div>
 
             <SectionTitleLineWithButton :icon="mdiCpu64Bit" title="Server's Processes" />
 

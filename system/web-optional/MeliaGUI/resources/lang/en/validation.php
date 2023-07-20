@@ -12,7 +12,12 @@ return [
     |
     */
 
+    'backup.successful' => 'Backup created successful',
     'backup.do.not.exists' => 'The selected backup do not exists.',
     'backup.running.success' => 'The backup is being initialized.',
-    'backup.deleted.successful' => 'The backup was deleted successful.',
+    'backup.delete.fail' => 'Backup could not be deleted.',
+    'backup.delete.successful' => 'Backup was deleted successful.',
+    'backup.delete.successful' => 'Backup restored successful.',
+    'backup.restore.fail' => 'Backup restored failed.',
+    'kick.all.players.fail' => 'Fail to kick all players'
 ];

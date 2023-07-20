@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Spatie\Backup\Tasks\Monitor\BackupDestinationStatusFactory;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Account;
 use App\Models\Character;
 use GuzzleHttp\Client;
+use Carbon\Carbon;
+use SplFileInfo;
 
 class AdminDashboardController extends Controller
 {
@@ -111,28 +113,31 @@ class AdminDashboardController extends Controller
 
             if ($statusCode == 200) {
                 $decodedBody = json_decode($body);
-                response()->json(['status' => $decodedBody['status']]);
+                return back()->with('status', $decodedBody['status']);
             }
         } catch (\Exception $e) {
         }
 
-        response()->json(['status' => 'Fail to kick all players.']);
+        return back()->with('status', trans('kick.all.players.fail'));
     }
 
     private function getBackups()
     {
-        $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
+        // $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
         $info = [];
 
-        foreach ($statuses as $status) {
-            $backups = $status->backupDestination()->backups();
-            foreach($backups as $backup) {
-                $info[] = [
-                    'date' => $backup->date()->format('Y-m-d H:i:s'),
-                    'sizeInBytes' => $this->formatBytes($backup->sizeInBytes()),
-                    'path' => $backup->path(),
-                ];
-            }
+        $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
+        $files = File::files($directory);
+
+        foreach ($files as $file) {
+            $dateStr = str_replace('.sql', '', str_replace('-', ':', str_replace('_', ' ', basename($file))));
+            $date = new Carbon($dateStr);
+            $relativePath = str_replace(storage_path(), '',(new SplFileInfo($file))->getPathname());
+            $info[] = [
+                'date' => $date->format('Y-m-d H:i:s'),
+                'sizeInBytes' => $this->formatBytes(filesize($file)),
+                'path' => $relativePath,
+            ];
         }
 
         return $info;
