@@ -122,6 +122,7 @@ public class DUnderfortress67MobScript : GeneralScript
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-1502, -992, 30));
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-1644, -1079, 30));
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-897, 481, 30));
+		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-803, 449, 30));
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-669, 526, 30));
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-638, 553, 30));
 		AddSpawnPoint("d_underfortress_67.Id1", "d_underfortress_67", Rectangle(-824, 784, 30));

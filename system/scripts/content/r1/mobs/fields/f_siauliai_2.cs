@@ -46,6 +46,7 @@ public class FSiauliai2MobScript : GeneralScript
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(2017, 276, 30));
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(2130, -95, 30));
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(1885, 288, 30));
+		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(2037, -30, 30));
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(1818, 184, 30));
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(2038, 381, 30));
 		AddSpawnPoint("f_siauliai_2.Id1", "f_siauliai_2", Rectangle(2095, 23, 30));

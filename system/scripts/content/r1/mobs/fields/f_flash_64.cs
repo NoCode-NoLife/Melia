@@ -33,6 +33,7 @@ public class FFlash64MobScript : GeneralScript
 		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, 57, 76, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, 3, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -233,5 +234,10 @@ public class FFlash64MobScript : GeneralScript
 		AddSpawnPoint("f_flash_64.Id9", "f_flash_64", Rectangle(1280, 737, 20));
 		AddSpawnPoint("f_flash_64.Id9", "f_flash_64", Rectangle(1277, 631, 20));
 		AddSpawnPoint("f_flash_64.Id9", "f_flash_64", Rectangle(1553, 555, 20));
+
+		// 'Wood_Carving' GenType 1001 Spawn Points
+		AddSpawnPoint("f_flash_64.Id10", "f_flash_64", Rectangle(-450, -1710, 20));
+		AddSpawnPoint("f_flash_64.Id10", "f_flash_64", Rectangle(-491, -1635, 20));
+		AddSpawnPoint("f_flash_64.Id10", "f_flash_64", Rectangle(-442, -1575, 20));
 	}
 }

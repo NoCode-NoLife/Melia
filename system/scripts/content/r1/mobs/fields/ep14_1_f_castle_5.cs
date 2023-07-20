@@ -216,7 +216,7 @@ public class Ep141FCastle5MobScript : GeneralScript
 		AddSpawner("ep14_1_f_castle_5.Id197", MonsterId.TransmutationMerchant, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id198", MonsterId.TransmutationMerchant, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id199", MonsterId.TransmutationMerchant, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("ep14_1_f_castle_5.Id200", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("ep14_1_f_castle_5.Id200", MonsterId.TransmutationMerchant, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id201", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id202", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id203", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
@@ -266,6 +266,8 @@ public class Ep141FCastle5MobScript : GeneralScript
 		AddSpawner("ep14_1_f_castle_5.Id247", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id248", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 		AddSpawner("ep14_1_f_castle_5.Id249", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("ep14_1_f_castle_5.Id250", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("ep14_1_f_castle_5.Id251", MonsterId.TransmutationSoldier, 1, 1, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -670,367 +672,373 @@ public class Ep141FCastle5MobScript : GeneralScript
 		// 'TransmutationMerchant' GenType 1127 Spawn Points
 		AddSpawnPoint("ep14_1_f_castle_5.Id128", "ep14_1_f_castle_5", Rectangle(1210, 1196, 20));
 
+		// 'TransmutationMerchant' GenType 1128 Spawn Points
+		AddSpawnPoint("ep14_1_f_castle_5.Id129", "ep14_1_f_castle_5", Rectangle(1225, 901, 20));
+
 		// 'TransmutationMerchant' GenType 1129 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id129", "ep14_1_f_castle_5", Rectangle(922, 1040, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id130", "ep14_1_f_castle_5", Rectangle(922, 1040, 20));
 
 		// 'TransmutationMerchant' GenType 1130 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id130", "ep14_1_f_castle_5", Rectangle(781, 1259, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id131", "ep14_1_f_castle_5", Rectangle(781, 1259, 20));
 
 		// 'TransmutationMerchant' GenType 1131 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id131", "ep14_1_f_castle_5", Rectangle(850, 953, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id132", "ep14_1_f_castle_5", Rectangle(850, 953, 20));
 
 		// 'TransmutationMerchant' GenType 1132 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id132", "ep14_1_f_castle_5", Rectangle(1122, 1507, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id133", "ep14_1_f_castle_5", Rectangle(1122, 1507, 20));
 
 		// 'TransmutationMerchant' GenType 1133 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id133", "ep14_1_f_castle_5", Rectangle(260, 1282, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id134", "ep14_1_f_castle_5", Rectangle(260, 1282, 20));
 
 		// 'TransmutationMerchant' GenType 1134 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id134", "ep14_1_f_castle_5", Rectangle(-17, 1564, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id135", "ep14_1_f_castle_5", Rectangle(-17, 1564, 20));
 
 		// 'TransmutationMerchant' GenType 1135 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id135", "ep14_1_f_castle_5", Rectangle(25, 1086, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id136", "ep14_1_f_castle_5", Rectangle(25, 1086, 20));
 
 		// 'TransmutationMerchant' GenType 1136 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id136", "ep14_1_f_castle_5", Rectangle(262, 1454, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id137", "ep14_1_f_castle_5", Rectangle(262, 1454, 20));
 
 		// 'TransmutationMerchant' GenType 1137 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id137", "ep14_1_f_castle_5", Rectangle(416, 1538, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id138", "ep14_1_f_castle_5", Rectangle(416, 1538, 20));
 
 		// 'TransmutationMerchant' GenType 1138 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id138", "ep14_1_f_castle_5", Rectangle(310, 1008, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id139", "ep14_1_f_castle_5", Rectangle(310, 1008, 20));
 
 		// 'TransmutationMerchant' GenType 1139 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id139", "ep14_1_f_castle_5", Rectangle(-767, 1075, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id140", "ep14_1_f_castle_5", Rectangle(-767, 1075, 20));
 
 		// 'TransmutationMerchant' GenType 1140 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id140", "ep14_1_f_castle_5", Rectangle(-679, 878, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id141", "ep14_1_f_castle_5", Rectangle(-679, 878, 20));
 
 		// 'TransmutationMerchant' GenType 1141 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id141", "ep14_1_f_castle_5", Rectangle(-985, 1272, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id142", "ep14_1_f_castle_5", Rectangle(-985, 1272, 20));
 
 		// 'TransmutationMerchant' GenType 1142 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id142", "ep14_1_f_castle_5", Rectangle(-887, 1379, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id143", "ep14_1_f_castle_5", Rectangle(-887, 1379, 20));
 
 		// 'TransmutationMerchant' GenType 1143 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id143", "ep14_1_f_castle_5", Rectangle(-894, 1570, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id144", "ep14_1_f_castle_5", Rectangle(-894, 1570, 20));
 
 		// 'TransmutationMerchant' GenType 1144 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id144", "ep14_1_f_castle_5", Rectangle(-667, 1572, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id145", "ep14_1_f_castle_5", Rectangle(-667, 1572, 20));
 
 		// 'TransmutationMerchant' GenType 1145 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id145", "ep14_1_f_castle_5", Rectangle(-632, 1384, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id146", "ep14_1_f_castle_5", Rectangle(-632, 1384, 20));
 
 		// 'TransmutationMerchant' GenType 1146 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id146", "ep14_1_f_castle_5", Rectangle(-443, 1202, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id147", "ep14_1_f_castle_5", Rectangle(-443, 1202, 20));
 
 		// 'TransmutationMerchant' GenType 1147 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id147", "ep14_1_f_castle_5", Rectangle(-897, 592, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id148", "ep14_1_f_castle_5", Rectangle(-897, 592, 20));
 
 		// 'TransmutationMerchant' GenType 1148 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id148", "ep14_1_f_castle_5", Rectangle(-1112, 457, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id149", "ep14_1_f_castle_5", Rectangle(-1112, 457, 20));
 
 		// 'TransmutationMerchant' GenType 1149 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id149", "ep14_1_f_castle_5", Rectangle(-893, 381, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id150", "ep14_1_f_castle_5", Rectangle(-893, 381, 20));
 
 		// 'TransmutationMerchant' GenType 1150 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id150", "ep14_1_f_castle_5", Rectangle(-651, 417, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id151", "ep14_1_f_castle_5", Rectangle(-651, 417, 20));
 
 		// 'TransmutationMerchant' GenType 1151 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id151", "ep14_1_f_castle_5", Rectangle(-1058, 244, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id152", "ep14_1_f_castle_5", Rectangle(-1058, 244, 20));
 
 		// 'TransmutationMerchant' GenType 1152 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id152", "ep14_1_f_castle_5", Rectangle(-915, 53, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id153", "ep14_1_f_castle_5", Rectangle(-915, 53, 20));
 
 		// 'TransmutationMerchant' GenType 1153 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id153", "ep14_1_f_castle_5", Rectangle(-667, 166, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id154", "ep14_1_f_castle_5", Rectangle(-667, 166, 20));
 
 		// 'TransmutationMerchant' GenType 1154 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id154", "ep14_1_f_castle_5", Rectangle(-738, -242, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id155", "ep14_1_f_castle_5", Rectangle(-738, -242, 20));
 
 		// 'TransmutationMerchant' GenType 1155 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id155", "ep14_1_f_castle_5", Rectangle(-1019, -90, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id156", "ep14_1_f_castle_5", Rectangle(-1019, -90, 20));
 
 		// 'TransmutationMerchant' GenType 1156 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id156", "ep14_1_f_castle_5", Rectangle(-980, -353, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id157", "ep14_1_f_castle_5", Rectangle(-980, -353, 20));
 
 		// 'TransmutationMerchant' GenType 1157 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id157", "ep14_1_f_castle_5", Rectangle(-771, -523, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id158", "ep14_1_f_castle_5", Rectangle(-771, -523, 20));
 
 		// 'TransmutationMerchant' GenType 1158 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id158", "ep14_1_f_castle_5", Rectangle(-966, -606, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id159", "ep14_1_f_castle_5", Rectangle(-966, -606, 20));
 
 		// 'TransmutationMerchant' GenType 1159 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id159", "ep14_1_f_castle_5", Rectangle(-1115, -472, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id160", "ep14_1_f_castle_5", Rectangle(-1115, -472, 20));
 
 		// 'TransmutationMerchant' GenType 1160 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id160", "ep14_1_f_castle_5", Rectangle(-610, -641, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id161", "ep14_1_f_castle_5", Rectangle(-610, -641, 20));
 
 		// 'TransmutationMerchant' GenType 1161 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id161", "ep14_1_f_castle_5", Rectangle(-918, -1031, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id162", "ep14_1_f_castle_5", Rectangle(-918, -1031, 20));
 
 		// 'TransmutationMerchant' GenType 1162 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id162", "ep14_1_f_castle_5", Rectangle(-841, -1281, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id163", "ep14_1_f_castle_5", Rectangle(-841, -1281, 20));
 
 		// 'TransmutationMerchant' GenType 1163 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id163", "ep14_1_f_castle_5", Rectangle(-547, -1293, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id164", "ep14_1_f_castle_5", Rectangle(-547, -1293, 20));
 
 		// 'TransmutationMerchant' GenType 1164 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id164", "ep14_1_f_castle_5", Rectangle(-673, -1128, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id165", "ep14_1_f_castle_5", Rectangle(-673, -1128, 20));
 
 		// 'TransmutationMerchant' GenType 1165 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id165", "ep14_1_f_castle_5", Rectangle(-971, -1467, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id166", "ep14_1_f_castle_5", Rectangle(-971, -1467, 20));
 
 		// 'TransmutationMerchant' GenType 1166 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id166", "ep14_1_f_castle_5", Rectangle(-768, -1602, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id167", "ep14_1_f_castle_5", Rectangle(-768, -1602, 20));
 
 		// 'TransmutationMerchant' GenType 1167 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id167", "ep14_1_f_castle_5", Rectangle(-209, -1259, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id168", "ep14_1_f_castle_5", Rectangle(-209, -1259, 20));
 
 		// 'TransmutationMerchant' GenType 1168 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id168", "ep14_1_f_castle_5", Rectangle(-196, -1004, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id169", "ep14_1_f_castle_5", Rectangle(-196, -1004, 20));
 
 		// 'TransmutationMerchant' GenType 1169 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id169", "ep14_1_f_castle_5", Rectangle(47, -904, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id170", "ep14_1_f_castle_5", Rectangle(47, -904, 20));
 
 		// 'TransmutationMerchant' GenType 1170 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id170", "ep14_1_f_castle_5", Rectangle(48, -1183, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id171", "ep14_1_f_castle_5", Rectangle(48, -1183, 20));
 
 		// 'TransmutationMerchant' GenType 1171 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id171", "ep14_1_f_castle_5", Rectangle(308, -1165, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id172", "ep14_1_f_castle_5", Rectangle(308, -1165, 20));
 
 		// 'TransmutationMerchant' GenType 1172 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id172", "ep14_1_f_castle_5", Rectangle(679, -1232, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id173", "ep14_1_f_castle_5", Rectangle(679, -1232, 20));
 
 		// 'TransmutationMerchant' GenType 1173 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id173", "ep14_1_f_castle_5", Rectangle(918, -1478, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id174", "ep14_1_f_castle_5", Rectangle(918, -1478, 20));
 
 		// 'TransmutationMerchant' GenType 1174 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id174", "ep14_1_f_castle_5", Rectangle(1159, -1324, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id175", "ep14_1_f_castle_5", Rectangle(1159, -1324, 20));
 
 		// 'TransmutationMerchant' GenType 1175 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id175", "ep14_1_f_castle_5", Rectangle(1158, -1132, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id176", "ep14_1_f_castle_5", Rectangle(1158, -1132, 20));
 
 		// 'TransmutationMerchant' GenType 1176 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id176", "ep14_1_f_castle_5", Rectangle(951, -1207, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id177", "ep14_1_f_castle_5", Rectangle(951, -1207, 20));
 
 		// 'TransmutationMerchant' GenType 1177 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id177", "ep14_1_f_castle_5", Rectangle(730, -995, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id178", "ep14_1_f_castle_5", Rectangle(730, -995, 20));
 
 		// 'TransmutationMerchant' GenType 1178 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id178", "ep14_1_f_castle_5", Rectangle(-204, -1585, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id179", "ep14_1_f_castle_5", Rectangle(-204, -1585, 20));
 
 		// 'TransmutationMerchant' GenType 1179 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id179", "ep14_1_f_castle_5", Rectangle(411, -1583, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id180", "ep14_1_f_castle_5", Rectangle(411, -1583, 20));
 
 		// 'TransmutationMerchant' GenType 1180 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id180", "ep14_1_f_castle_5", Rectangle(1470, -1331, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id181", "ep14_1_f_castle_5", Rectangle(1470, -1331, 20));
 
 		// 'TransmutationMerchant' GenType 1181 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id181", "ep14_1_f_castle_5", Rectangle(1584, -1091, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id182", "ep14_1_f_castle_5", Rectangle(1584, -1091, 20));
 
 		// 'TransmutationMerchant' GenType 1182 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id182", "ep14_1_f_castle_5", Rectangle(142, -178, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id183", "ep14_1_f_castle_5", Rectangle(142, -178, 20));
 
 		// 'TransmutationMerchant' GenType 1183 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id183", "ep14_1_f_castle_5", Rectangle(288, -511, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id184", "ep14_1_f_castle_5", Rectangle(288, -511, 20));
 
 		// 'TransmutationMerchant' GenType 1184 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id184", "ep14_1_f_castle_5", Rectangle(436, -252, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id185", "ep14_1_f_castle_5", Rectangle(436, -252, 20));
 
 		// 'TransmutationMerchant' GenType 1185 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id185", "ep14_1_f_castle_5", Rectangle(672, -483, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id186", "ep14_1_f_castle_5", Rectangle(672, -483, 20));
 
 		// 'TransmutationMerchant' GenType 1186 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id186", "ep14_1_f_castle_5", Rectangle(264, 249, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id187", "ep14_1_f_castle_5", Rectangle(264, 249, 20));
 
 		// 'TransmutationMerchant' GenType 1187 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id187", "ep14_1_f_castle_5", Rectangle(-187, 407, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id188", "ep14_1_f_castle_5", Rectangle(-187, 407, 20));
 
 		// 'TransmutationMerchant' GenType 1188 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id188", "ep14_1_f_castle_5", Rectangle(129, 585, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id189", "ep14_1_f_castle_5", Rectangle(129, 585, 20));
 
 		// 'TransmutationMerchant' GenType 1189 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id189", "ep14_1_f_castle_5", Rectangle(463, 792, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id190", "ep14_1_f_castle_5", Rectangle(463, 792, 20));
 
 		// 'TransmutationMerchant' GenType 1190 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id190", "ep14_1_f_castle_5", Rectangle(549, 418, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id191", "ep14_1_f_castle_5", Rectangle(549, 418, 20));
 
 		// 'TransmutationMerchant' GenType 1191 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id191", "ep14_1_f_castle_5", Rectangle(758, 672, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id192", "ep14_1_f_castle_5", Rectangle(758, 672, 20));
 
 		// 'TransmutationMerchant' GenType 1192 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id192", "ep14_1_f_castle_5", Rectangle(515, 164, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id193", "ep14_1_f_castle_5", Rectangle(515, 164, 20));
 
 		// 'TransmutationMerchant' GenType 1193 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id193", "ep14_1_f_castle_5", Rectangle(784, -201, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id194", "ep14_1_f_castle_5", Rectangle(784, -201, 20));
 
 		// 'TransmutationMerchant' GenType 1194 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id194", "ep14_1_f_castle_5", Rectangle(-74, -426, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id195", "ep14_1_f_castle_5", Rectangle(-74, -426, 20));
 
 		// 'TransmutationMerchant' GenType 1195 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id195", "ep14_1_f_castle_5", Rectangle(145, 76, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id196", "ep14_1_f_castle_5", Rectangle(145, 76, 20));
 
 		// 'TransmutationMerchant' GenType 1196 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id196", "ep14_1_f_castle_5", Rectangle(884, 58, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id197", "ep14_1_f_castle_5", Rectangle(884, 58, 20));
 
 		// 'TransmutationMerchant' GenType 1197 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id197", "ep14_1_f_castle_5", Rectangle(-454, -1482, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id198", "ep14_1_f_castle_5", Rectangle(-454, -1482, 20));
 
 		// 'TransmutationMerchant' GenType 1198 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id198", "ep14_1_f_castle_5", Rectangle(-777, -873, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id199", "ep14_1_f_castle_5", Rectangle(-777, -873, 20));
 
 		// 'TransmutationMerchant' GenType 1199 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id199", "ep14_1_f_castle_5", Rectangle(-1160, -1320, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id200", "ep14_1_f_castle_5", Rectangle(-1160, -1320, 20));
 
 		// 'TransmutationSoldier' GenType 1200 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id200", "ep14_1_f_castle_5", Rectangle(956, -1077, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id201", "ep14_1_f_castle_5", Rectangle(956, -1077, 20));
 
 		// 'TransmutationSoldier' GenType 1201 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id201", "ep14_1_f_castle_5", Rectangle(774, -1533, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id202", "ep14_1_f_castle_5", Rectangle(774, -1533, 20));
 
 		// 'TransmutationSoldier' GenType 1202 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id202", "ep14_1_f_castle_5", Rectangle(1289, -180, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id203", "ep14_1_f_castle_5", Rectangle(1289, -180, 20));
 
 		// 'TransmutationSoldier' GenType 1203 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id203", "ep14_1_f_castle_5", Rectangle(1084, -1197, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id204", "ep14_1_f_castle_5", Rectangle(1084, -1197, 20));
 
 		// 'TransmutationSoldier' GenType 1204 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id204", "ep14_1_f_castle_5", Rectangle(1422, -527, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id205", "ep14_1_f_castle_5", Rectangle(1422, -527, 20));
 
 		// 'TransmutationSoldier' GenType 1205 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id205", "ep14_1_f_castle_5", Rectangle(1489, -280, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id206", "ep14_1_f_castle_5", Rectangle(1489, -280, 20));
 
 		// 'TransmutationSoldier' GenType 1206 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id206", "ep14_1_f_castle_5", Rectangle(1292, 372, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id207", "ep14_1_f_castle_5", Rectangle(1292, 372, 20));
 
 		// 'TransmutationSoldier' GenType 1207 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id207", "ep14_1_f_castle_5", Rectangle(1385, 615, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id208", "ep14_1_f_castle_5", Rectangle(1385, 615, 20));
 
 		// 'TransmutationSoldier' GenType 1208 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id208", "ep14_1_f_castle_5", Rectangle(1598, -55, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id209", "ep14_1_f_castle_5", Rectangle(1598, -55, 20));
 
 		// 'TransmutationSoldier' GenType 1209 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id209", "ep14_1_f_castle_5", Rectangle(1510, 412, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id210", "ep14_1_f_castle_5", Rectangle(1510, 412, 20));
 
 		// 'TransmutationSoldier' GenType 1210 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id210", "ep14_1_f_castle_5", Rectangle(1023, -1375, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id211", "ep14_1_f_castle_5", Rectangle(1023, -1375, 20));
 
 		// 'TransmutationSoldier' GenType 1211 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id211", "ep14_1_f_castle_5", Rectangle(1748, 1117, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id212", "ep14_1_f_castle_5", Rectangle(1748, 1117, 20));
 
 		// 'TransmutationSoldier' GenType 1212 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id212", "ep14_1_f_castle_5", Rectangle(1522, -1244, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id213", "ep14_1_f_castle_5", Rectangle(1522, -1244, 20));
 
 		// 'TransmutationSoldier' GenType 1213 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id213", "ep14_1_f_castle_5", Rectangle(1142, 1011, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id214", "ep14_1_f_castle_5", Rectangle(1142, 1011, 20));
 
 		// 'TransmutationSoldier' GenType 1214 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id214", "ep14_1_f_castle_5", Rectangle(721, 954, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id215", "ep14_1_f_castle_5", Rectangle(721, 954, 20));
 
 		// 'TransmutationSoldier' GenType 1215 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id215", "ep14_1_f_castle_5", Rectangle(790, -1242, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id216", "ep14_1_f_castle_5", Rectangle(790, -1242, 20));
 
 		// 'TransmutationSoldier' GenType 1216 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id216", "ep14_1_f_castle_5", Rectangle(915, 1255, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id217", "ep14_1_f_castle_5", Rectangle(915, 1255, 20));
 
 		// 'TransmutationSoldier' GenType 1217 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id217", "ep14_1_f_castle_5", Rectangle(222, -1291, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id218", "ep14_1_f_castle_5", Rectangle(222, -1291, 20));
 
 		// 'TransmutationSoldier' GenType 1218 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id218", "ep14_1_f_castle_5", Rectangle(977, 1527, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id219", "ep14_1_f_castle_5", Rectangle(977, 1527, 20));
 
 		// 'TransmutationSoldier' GenType 1219 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id219", "ep14_1_f_castle_5", Rectangle(1072, 1436, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id220", "ep14_1_f_castle_5", Rectangle(1072, 1436, 20));
 
 		// 'TransmutationSoldier' GenType 1220 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id220", "ep14_1_f_castle_5", Rectangle(-92, -993, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id221", "ep14_1_f_castle_5", Rectangle(-92, -993, 20));
 
 		// 'TransmutationSoldier' GenType 1221 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id221", "ep14_1_f_castle_5", Rectangle(223, 1142, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id222", "ep14_1_f_castle_5", Rectangle(223, 1142, 20));
 
 		// 'TransmutationSoldier' GenType 1222 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id222", "ep14_1_f_castle_5", Rectangle(-37, 1305, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id223", "ep14_1_f_castle_5", Rectangle(-37, 1305, 20));
 
 		// 'TransmutationSoldier' GenType 1223 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id223", "ep14_1_f_castle_5", Rectangle(147, 1458, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id224", "ep14_1_f_castle_5", Rectangle(147, 1458, 20));
+
+		// 'TransmutationSoldier' GenType 1224 Spawn Points
+		AddSpawnPoint("ep14_1_f_castle_5.Id225", "ep14_1_f_castle_5", Rectangle(149, 1691, 20));
 
 		// 'TransmutationSoldier' GenType 1225 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id224", "ep14_1_f_castle_5", Rectangle(201, -1034, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id226", "ep14_1_f_castle_5", Rectangle(201, -1034, 20));
 
 		// 'TransmutationSoldier' GenType 1226 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id225", "ep14_1_f_castle_5", Rectangle(-655, -1308, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id227", "ep14_1_f_castle_5", Rectangle(-655, -1308, 20));
 
 		// 'TransmutationSoldier' GenType 1227 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id226", "ep14_1_f_castle_5", Rectangle(-704, 1261, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id228", "ep14_1_f_castle_5", Rectangle(-704, 1261, 20));
 
 		// 'TransmutationSoldier' GenType 1228 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id227", "ep14_1_f_castle_5", Rectangle(-862, 1169, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id229", "ep14_1_f_castle_5", Rectangle(-862, 1169, 20));
 
 		// 'TransmutationSoldier' GenType 1229 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id228", "ep14_1_f_castle_5", Rectangle(-1008, 1530, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id230", "ep14_1_f_castle_5", Rectangle(-1008, 1530, 20));
 
 		// 'TransmutationSoldier' GenType 1230 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id229", "ep14_1_f_castle_5", Rectangle(-570, 1506, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id231", "ep14_1_f_castle_5", Rectangle(-570, 1506, 20));
 
 		// 'TransmutationSoldier' GenType 1231 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id230", "ep14_1_f_castle_5", Rectangle(-580, 1015, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id232", "ep14_1_f_castle_5", Rectangle(-580, 1015, 20));
 
 		// 'TransmutationSoldier' GenType 1232 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id231", "ep14_1_f_castle_5", Rectangle(-1049, -284, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id233", "ep14_1_f_castle_5", Rectangle(-1049, -284, 20));
 
 		// 'TransmutationSoldier' GenType 1233 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id232", "ep14_1_f_castle_5", Rectangle(-1081, -567, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id234", "ep14_1_f_castle_5", Rectangle(-1081, -567, 20));
 
 		// 'TransmutationSoldier' GenType 1234 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id233", "ep14_1_f_castle_5", Rectangle(-832, -711, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id235", "ep14_1_f_castle_5", Rectangle(-832, -711, 20));
 
 		// 'TransmutationSoldier' GenType 1235 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id234", "ep14_1_f_castle_5", Rectangle(-640, -514, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id236", "ep14_1_f_castle_5", Rectangle(-640, -514, 20));
 
 		// 'TransmutationSoldier' GenType 1236 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id235", "ep14_1_f_castle_5", Rectangle(-845, -432, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id237", "ep14_1_f_castle_5", Rectangle(-845, -432, 20));
 
 		// 'TransmutationSoldier' GenType 1237 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id236", "ep14_1_f_castle_5", Rectangle(-1067, 169, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id238", "ep14_1_f_castle_5", Rectangle(-1067, 169, 20));
 
 		// 'TransmutationSoldier' GenType 1238 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id237", "ep14_1_f_castle_5", Rectangle(615, -215, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id239", "ep14_1_f_castle_5", Rectangle(615, -215, 20));
 
 		// 'TransmutationSoldier' GenType 1239 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id238", "ep14_1_f_castle_5", Rectangle(-839, 463, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id240", "ep14_1_f_castle_5", Rectangle(-839, 463, 20));
 
 		// 'TransmutationSoldier' GenType 1240 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id239", "ep14_1_f_castle_5", Rectangle(-780, 630, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id241", "ep14_1_f_castle_5", Rectangle(-780, 630, 20));
 
 		// 'TransmutationSoldier' GenType 1241 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id240", "ep14_1_f_castle_5", Rectangle(-1074, 617, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id242", "ep14_1_f_castle_5", Rectangle(-1074, 617, 20));
 
 		// 'TransmutationSoldier' GenType 1242 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id241", "ep14_1_f_castle_5", Rectangle(-657, 326, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id243", "ep14_1_f_castle_5", Rectangle(-657, 326, 20));
 
 		// 'TransmutationSoldier' GenType 1243 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id242", "ep14_1_f_castle_5", Rectangle(16, -176, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id244", "ep14_1_f_castle_5", Rectangle(16, -176, 20));
 
 		// 'TransmutationSoldier' GenType 1244 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id243", "ep14_1_f_castle_5", Rectangle(287, 396, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id245", "ep14_1_f_castle_5", Rectangle(287, 396, 20));
 
 		// 'TransmutationSoldier' GenType 1245 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id244", "ep14_1_f_castle_5", Rectangle(-854, -76, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id246", "ep14_1_f_castle_5", Rectangle(-854, -76, 20));
 
 		// 'TransmutationSoldier' GenType 1246 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id245", "ep14_1_f_castle_5", Rectangle(-601, -955, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id247", "ep14_1_f_castle_5", Rectangle(-601, -955, 20));
 
 		// 'TransmutationSoldier' GenType 1247 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id246", "ep14_1_f_castle_5", Rectangle(-1004, -1110, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id248", "ep14_1_f_castle_5", Rectangle(-1004, -1110, 20));
 
 		// 'TransmutationSoldier' GenType 1248 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id247", "ep14_1_f_castle_5", Rectangle(-596, -1554, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id249", "ep14_1_f_castle_5", Rectangle(-596, -1554, 20));
 
 		// 'TransmutationSoldier' GenType 1249 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id248", "ep14_1_f_castle_5", Rectangle(-868, -1377, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id250", "ep14_1_f_castle_5", Rectangle(-868, -1377, 20));
 
 		// 'TransmutationSoldier' GenType 1250 Spawn Points
-		AddSpawnPoint("ep14_1_f_castle_5.Id249", "ep14_1_f_castle_5", Rectangle(-112, -1163, 20));
+		AddSpawnPoint("ep14_1_f_castle_5.Id251", "ep14_1_f_castle_5", Rectangle(-112, -1163, 20));
 	}
 }
