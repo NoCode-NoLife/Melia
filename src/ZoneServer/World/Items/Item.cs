@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
@@ -9,6 +12,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Util;
+using System.Reflection;
 
 namespace Melia.Zone.World.Items
 {
@@ -110,6 +114,32 @@ namespace Melia.Zone.World.Items
 			// Set amount after loading the data so we can clamp it
 			// to the max stack size
 			this.Amount = amount;
+		}
+
+		/// <summary>
+		/// Copy constructor
+		/// </summary>
+		/// <param name="other"></param>
+		public Item (Item other)
+		{
+			Type itemType = this.GetType();
+
+			// Get all public instance properties of the Item class
+			PropertyInfo[] properties = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+			// Iterate over each property and copy its value from 'other' to 'this'
+			foreach (PropertyInfo property in properties)
+			{
+				// Check if the property has both a getter and a setter
+				if (property.CanRead && property.CanWrite)
+				{
+					// Get the value of the property from 'other'
+					object value = property.GetValue(other);
+
+					// Set the value of the property in 'this'
+					property.SetValue(this, value);
+				}
+			}
 		}
 
 		/// <summary>

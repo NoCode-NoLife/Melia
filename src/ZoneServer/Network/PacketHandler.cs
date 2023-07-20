@@ -1389,7 +1389,7 @@ namespace Melia.Zone.Network
 				// Server allowance check
 				if (personalStorageEnabled)
 				{
-					var items = conn.SelectedCharacter.PersonalStorage.GetItems().Values.Select(p => p.Item).ToList();
+					var items = conn.SelectedCharacter.PersonalStorage.GetItems();
 					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
 				}
 			}
@@ -1431,12 +1431,12 @@ namespace Melia.Zone.Network
 					// Storing items
 					if (interaction == 0)
 					{
-						conn.SelectedCharacter.PersonalStorage.StoreItem(worldId);
+						conn.SelectedCharacter.PersonalStorage.StoreItem(worldId, amount);
 					}
 					// Retrieving items
 					else if (interaction == 1)
 					{
-						conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId);
+						conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId, amount);
 					}
 					else
 					{

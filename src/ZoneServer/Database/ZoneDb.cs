@@ -688,7 +688,7 @@ namespace Melia.Zone.Database
 					mc.ExecuteNonQuery();
 				}
 
-				foreach (var item in character.PersonalStorage.GetItems().OrderBy(a => a.Key))
+				foreach (var storageItem in character.PersonalStorage.GetStorageItems())
 				{
 					var newId = 0L;
 
@@ -700,8 +700,8 @@ namespace Melia.Zone.Database
 
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
-						cmd.Set("itemId", item.Value.Item.Id);
-						cmd.Set("amount", item.Value.Item.Amount);
+						cmd.Set("itemId", storageItem.Value.Id);
+						cmd.Set("amount", storageItem.Value.Amount);
 
 						cmd.Execute();
 
@@ -712,7 +712,7 @@ namespace Melia.Zone.Database
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
-						cmd.Set("position", item.Value.Position);
+						cmd.Set("position", storageItem.Key);
 
 						cmd.Execute();
 					}
