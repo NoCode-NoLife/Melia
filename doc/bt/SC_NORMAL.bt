@@ -86,29 +86,34 @@ switch (type)
         byte b0; // 0
         break;
 
+    // FriendInfo
     case 0x08:
-        byte messageIdx; // 1,2,3,4,5,6,7,8
-        int64 accountId; // 76561199199698202 (Social ID)?
-        int64 l1; // 1
-        int i1; // 0
-        int64 l1; // 76561199199698202
-        char teamName[128];
-        int level;
-        char name[128];
-        short s0;
-        int jobId;
-        short s1;
-        int i2;
-        short s2;
-        int i3;
-        byte bin[26];
-        ubyte bin2[4];
-        byte bin3[18];
-        ShortDate timeStamp;
-        byte bin4[36];
-        byte b1;
-        lpString parameter;
-        lpString message;
+        byte friendStatus;
+        int64 accountId1;
+        int count; // 1
+        {
+            int64 l1; // 0
+            int64 accountId2;
+            char teamName[64];
+            char str1[56];
+            int64 l2;
+            int level;
+            char name[128];
+            short gender;
+            int jobId;
+            short s1;
+            int i2;
+            short s2;
+            int hair;
+            byte bin[26];
+            ubyte bin2[4];
+            byte bin3[18];
+            ShortDate lastLogin;
+            byte bin4[36];
+            byte b1;
+            lpString group;
+            lpString note;
+        }
         break;
 
     // Buffs or Position?

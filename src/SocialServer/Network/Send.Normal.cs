@@ -174,29 +174,34 @@ namespace Melia.Social.Network
 
 				packet.PutByte((byte)friend.State);
 				packet.PutLong(friend.AccountId);
-				packet.PutLong(1);
-				packet.PutInt(0);
-				packet.PutLong(friend.AccountId);
-				packet.PutString(friend.TeamName, 128);
-				packet.PutInt(friend.Level);
-				packet.PutString(friend.Name, 128);
-				packet.PutShort((short)friend.Gender);
-				packet.PutInt((int)friend.JobId);
-				packet.PutShort(0);
-				packet.PutInt(0);
-				packet.PutShort(1);
-				packet.PutInt(friend.Hair);
-				packet.PutEmptyBin(26);
-				packet.PutByte(0x80);
-				packet.PutByte(0x80);
-				packet.PutByte(0x80);
-				packet.PutByte(0xFF);
-				packet.PutEmptyBin(18);
-				packet.PutShortDate(friend.LastLoginDate);
-				packet.PutEmptyBin(36);
-				packet.PutByte(0);
-				packet.PutLpString(friend.Group);
-				packet.PutLpString(friend.Note);
+
+				packet.PutInt(1); // count
+				{
+					packet.PutLong(0);
+					packet.PutLong(friend.AccountId);
+					packet.PutString(friend.TeamName, 64);
+					packet.PutString("", 56);
+					packet.PutLong(0);
+					packet.PutInt(friend.Level);
+					packet.PutString(friend.Name, 128);
+					packet.PutShort((short)friend.Gender);
+					packet.PutInt((int)friend.JobId);
+					packet.PutShort(0);
+					packet.PutInt(0);
+					packet.PutShort(1);
+					packet.PutInt(friend.Hair);
+					packet.PutEmptyBin(26);
+					packet.PutByte(0x80);
+					packet.PutByte(0x80);
+					packet.PutByte(0x80);
+					packet.PutByte(0xFF);
+					packet.PutEmptyBin(18);
+					packet.PutShortDate(friend.LastLoginDate);
+					packet.PutEmptyBin(36);
+					packet.PutByte(0);
+					packet.PutLpString(friend.Group);
+					packet.PutLpString(friend.Note);
+				}
 
 				conn.Send(packet);
 			}
