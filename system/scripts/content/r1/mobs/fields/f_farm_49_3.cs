@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_49_3
-//
+// Shaton Reservoir Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Shaton Reservoir' map.
+// Sets up monster spawners for 'f_farm_49_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FFarm493MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_farm_49_3.Id1", MonsterId.Melatanun, 38, 50, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);

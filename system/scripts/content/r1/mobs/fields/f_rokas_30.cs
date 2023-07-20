@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_30
-//
+// King's Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'King's Plateau' map.
+// Sets up monster spawners for 'f_rokas_30'.
 //---------------------------------------------------------------------------
 
 using System;

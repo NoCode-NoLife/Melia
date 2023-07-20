@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_32_2
-//
+// Igti Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Igti Coast' map.
+// Sets up monster spawners for 'f_coral_32_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral322MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_32_2.Id1", MonsterId.Colimen_Blue, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

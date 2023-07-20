@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_42
-//
+// Mage Tower 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mage Tower 2F' map.
+// Sets up monster spawners for 'd_firetower_42'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_maple_25_3
-//
+// Lhadar Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Lhadar Forest' map.
+// Sets up monster spawners for 'f_maple_25_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FMaple253MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_maple_25_3.Id1", MonsterId.Nacorngfly, 42, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

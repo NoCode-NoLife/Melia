@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_44_2
-//
+// Iotheo Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Iotheo Coast' map.
+// Sets up monster spawners for 'f_coral_44_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral442MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_44_2.Id1", MonsterId.VarleGunner, 42, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

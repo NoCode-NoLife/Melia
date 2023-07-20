@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_35_2
-//
+// Vera Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Vera Coast' map.
+// Sets up monster spawners for 'f_coral_35_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral352MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_35_2.Id1", MonsterId.Jukotail, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_startower_60_1
-//
+// Residence of the Fallen Legwyn Family Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Residence of the Fallen Legwyn Family' map.
+// Sets up monster spawners for 'd_startower_60_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DStartower601MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_startower_60_1.Id1", MonsterId.FD_Raffly_Blue, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

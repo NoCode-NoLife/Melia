@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_68
-//
+// Storage Quarter Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Storage Quarter' map.
+// Sets up monster spawners for 'd_underfortress_68'.
 //---------------------------------------------------------------------------
 
 using System;

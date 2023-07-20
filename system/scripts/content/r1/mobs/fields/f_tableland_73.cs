@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_73
-//
+// Kadumel Cliff Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Kadumel Cliff' map.
+// Sets up monster spawners for 'f_tableland_73'.
 //---------------------------------------------------------------------------
 
 using System;

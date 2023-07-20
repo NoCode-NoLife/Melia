@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_2_d_prison_3
-//
+// Ashaq Underground Prison Containment Area Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ashaq Underground Prison Containment Area' map.
+// Sets up monster spawners for 'ep13_2_d_prison_3'.
 //---------------------------------------------------------------------------
 
 using System;

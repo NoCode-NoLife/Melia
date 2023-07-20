@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// raid_siauliai1
-//
+// Siauliai Raid Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Siauliai Raid' map.
+// Sets up monster spawners for 'raid_siauliai1'.
 //---------------------------------------------------------------------------
 
 using System;

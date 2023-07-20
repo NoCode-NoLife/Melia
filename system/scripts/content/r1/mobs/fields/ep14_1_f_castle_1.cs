@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_1_f_castle_1
-//
+// Delmore Hamlet Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Hamlet' map.
+// Sets up monster spawners for 'ep14_1_f_castle_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class Ep141FCastle1MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("ep14_1_f_castle_1.Id1", MonsterId.Bleakferret_Spear, 1, 1, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

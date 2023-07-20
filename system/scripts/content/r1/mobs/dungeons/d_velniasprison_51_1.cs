@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_velniasprison_51_1
-//
+// Demon Prison District 1 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Demon Prison District 1' map.
+// Sets up monster spawners for 'd_velniasprison_51_1'.
 //---------------------------------------------------------------------------
 
 using System;

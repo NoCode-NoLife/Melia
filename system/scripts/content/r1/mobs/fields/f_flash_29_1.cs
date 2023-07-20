@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_29_1
-//
+// Coastal Fortress Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Coastal Fortress' map.
+// Sets up monster spawners for 'f_flash_29_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FFlash291MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_flash_29_1.Id1", MonsterId.Rootcrystal_03, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_28_1
-//
+// Mesafasla Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mesafasla' map.
+// Sets up monster spawners for 'f_tableland_28_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FTableland281MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_28_1.Id1", MonsterId.Rootcrystal_03, 10, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

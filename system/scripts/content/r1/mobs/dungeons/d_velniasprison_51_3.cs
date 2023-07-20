@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_velniasprison_51_3
-//
+// Demon Prison District 4 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Demon Prison District 4' map.
+// Sets up monster spawners for 'd_velniasprison_51_3'.
 //---------------------------------------------------------------------------
 
 using System;

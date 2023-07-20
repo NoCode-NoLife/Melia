@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_78
-//
+// Kalejimas Visiting Room Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Kalejimas Visiting Room' map.
+// Sets up monster spawners for 'd_prison_78'.
 //---------------------------------------------------------------------------
 
 using System;

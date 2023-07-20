@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_1_f_castle_2
-//
+// Delmore Manor Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Manor' map.
+// Sets up monster spawners for 'ep14_1_f_castle_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class Ep141FCastle2MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("ep14_1_f_castle_2.Id1", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

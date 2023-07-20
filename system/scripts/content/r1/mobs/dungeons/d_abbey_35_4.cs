@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_abbey_35_4
-//
+// Elgos Monastery Main Building Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Elgos Monastery Main Building' map.
+// Sets up monster spawners for 'd_abbey_35_4'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_40
-//
+// Fedimian Suburbs Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Fedimian Suburbs' map.
+// Sets up monster spawners for 'f_remains_40'.
 //---------------------------------------------------------------------------
 
 using System;

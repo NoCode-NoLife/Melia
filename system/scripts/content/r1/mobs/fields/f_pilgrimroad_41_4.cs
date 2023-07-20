@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_41_4
-//
+// Sekta Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sekta Forest' map.
+// Sets up monster spawners for 'f_pilgrimroad_41_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FPilgrimroad414MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_41_4.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

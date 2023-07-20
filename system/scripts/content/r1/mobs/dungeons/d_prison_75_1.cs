@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_75_1
-//
+// Narcon Prison Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Narcon Prison' map.
+// Sets up monster spawners for 'd_prison_75_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DPrison751MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_prison_75_1.Id1", MonsterId.ERD_Stoulet_Bow, 10, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

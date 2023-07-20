@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_103
-//
+// Taniel I Commemorative Orb Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Taniel I Commemorative Orb' map.
+// Sets up monster spawners for 'f_dcapital_103'.
 //---------------------------------------------------------------------------
 
 using System;

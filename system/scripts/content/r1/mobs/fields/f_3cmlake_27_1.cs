@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_27_1
-//
+// Barynwell 27 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Barynwell 27 Waters' map.
+// Sets up monster spawners for 'f_3cmlake_27_1'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_23_1
-//
+// Emmet Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Emmet Forest' map.
+// Sets up monster spawners for 'f_whitetrees_23_1'.
 //---------------------------------------------------------------------------
 
 using System;

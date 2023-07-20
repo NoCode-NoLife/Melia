@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cmine_9
-//
+// Crystal Mine Lot 2 - 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Crystal Mine Lot 2 - 2F' map.
+// Sets up monster spawners for 'd_cmine_9'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DCmine9MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_cmine_9.Id1", MonsterId.Rootcrystal_01, 2, 2, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

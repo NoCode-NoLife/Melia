@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underaqueduct
-//
+// Outer Wall Sewers Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Outer Wall Sewers' map.
+// Sets up monster spawners for 'd_underaqueduct'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderaqueductMobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underaqueduct.Id1", MonsterId.Chesha_Papa, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

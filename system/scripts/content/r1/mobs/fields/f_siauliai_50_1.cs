@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_50_1
-//
+// Gytis Settlement Area Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gytis Settlement Area' map.
+// Sets up monster spawners for 'f_siauliai_50_1'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cmine_6
-//
+// Crystal Mine 3F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Crystal Mine 3F' map.
+// Sets up monster spawners for 'd_cmine_6'.
 //---------------------------------------------------------------------------
 
 using System;

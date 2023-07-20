@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_32_1
-//
+// Cranto Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Cranto Coast' map.
+// Sets up monster spawners for 'f_coral_32_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral321MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_32_1.Id1", MonsterId.TerraNymph_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

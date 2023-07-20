@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_Unknownsanctuary_1
-//
+// Unknown Sanctuary 1F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Unknown Sanctuary 1F' map.
+// Sets up monster spawners for 'id_Unknownsanctuary_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdUnknownsanctuary1MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_Unknownsanctuary_1.Id1", MonsterId.Boss_FD_Durahan, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);

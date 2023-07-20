@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_2
-//
+// Woods of the Linked Bridges Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Woods of the Linked Bridges' map.
+// Sets up monster spawners for 'ep13_f_siauliai_2'.
 //---------------------------------------------------------------------------
 
 using System;

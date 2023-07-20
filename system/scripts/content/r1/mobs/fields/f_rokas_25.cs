@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_25
-//
+// Ramstis Ridge Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ramstis Ridge' map.
+// Sets up monster spawners for 'f_rokas_25'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRokas25MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

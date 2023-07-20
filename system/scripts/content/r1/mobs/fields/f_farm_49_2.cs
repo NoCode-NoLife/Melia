@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_49_2
-//
+// Shaton Farm Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Shaton Farm' map.
+// Sets up monster spawners for 'f_farm_49_2'.
 //---------------------------------------------------------------------------
 
 using System;

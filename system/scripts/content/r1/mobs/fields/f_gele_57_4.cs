@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_gele_57_4
-//
+// Tenet Garden Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tenet Garden' map.
+// Sets up monster spawners for 'f_gele_57_4'.
 //---------------------------------------------------------------------------
 
 using System;

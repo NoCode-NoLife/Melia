@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_7
-//
+// Entrance of Kateen Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Entrance of Kateen Forest' map.
+// Sets up monster spawners for 'f_katyn_7'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn7MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_7.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

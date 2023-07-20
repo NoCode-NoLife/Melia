@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_startower_90
-//
+// Astral Tower 12F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Astral Tower 12F' map.
+// Sets up monster spawners for 'd_startower_90'.
 //---------------------------------------------------------------------------
 
 using System;

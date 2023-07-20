@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_24
-//
+// Gateway of the Great King Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gateway of the Great King' map.
+// Sets up monster spawners for 'f_rokas_24'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRokas24MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_24.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

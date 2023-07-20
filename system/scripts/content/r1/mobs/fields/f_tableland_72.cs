@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_72
-//
+// Sventimas Exile Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sventimas Exile' map.
+// Sets up monster spawners for 'f_tableland_72'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_22
-//
+// Dvasia Peak Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Dvasia Peak' map.
+// Sets up monster spawners for 'd_thorn_22'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DThorn22MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_22.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);

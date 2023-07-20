@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_2_d_castle_1
-//
+// Delmore Waiting Area Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Waiting Area' map.
+// Sets up monster spawners for 'ep14_2_d_castle_1'.
 //---------------------------------------------------------------------------
 
 using System;

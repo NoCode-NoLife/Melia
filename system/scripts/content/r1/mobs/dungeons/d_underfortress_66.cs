@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_66
-//
+// Drill Ground of Confliction Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Drill Ground of Confliction' map.
+// Sets up monster spawners for 'd_underfortress_66'.
 //---------------------------------------------------------------------------
 
 using System;

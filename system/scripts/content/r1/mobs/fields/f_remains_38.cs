@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_38
-//
+// Goddess' Ancient Garden Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Goddess' Ancient Garden' map.
+// Sets up monster spawners for 'f_remains_38'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRemains38MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_38.Id1", MonsterId.InfroBurk, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

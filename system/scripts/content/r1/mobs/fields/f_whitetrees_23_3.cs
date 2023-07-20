@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_23_3
-//
+// Syla Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Syla Forest' map.
+// Sets up monster spawners for 'f_whitetrees_23_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FWhitetrees233MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_23_3.Id1", MonsterId.Rootcrystal_03, 9, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

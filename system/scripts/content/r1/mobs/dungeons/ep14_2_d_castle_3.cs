@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_2_d_castle_3
-//
+// Magic Association Assembly Hall Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Magic Association Assembly Hall' map.
+// Sets up monster spawners for 'ep14_2_d_castle_3'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_gele_57_1
-//
+// Srautas Gorge Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Srautas Gorge' map.
+// Sets up monster spawners for 'f_gele_57_1'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_22_2
-//
+// Tekel Shelter Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tekel Shelter' map.
+// Sets up monster spawners for 'f_whitetrees_22_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FWhitetrees222MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_22_2.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

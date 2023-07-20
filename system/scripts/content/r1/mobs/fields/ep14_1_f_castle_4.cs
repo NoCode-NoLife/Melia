@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_1_f_castle_4
-//
+// Delmore Citadel Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Citadel' map.
+// Sets up monster spawners for 'ep14_1_f_castle_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class Ep141FCastle4MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("ep14_1_f_castle_4.Id1", MonsterId.Rootcrystal_05, 21, 28, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

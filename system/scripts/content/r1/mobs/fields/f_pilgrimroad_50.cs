@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_50
-//
+// Altar Way Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Altar Way' map.
+// Sets up monster spawners for 'f_pilgrimroad_50'.
 //---------------------------------------------------------------------------
 
 using System;

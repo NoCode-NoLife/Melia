@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_west
-//
+// West Siauliai Woods Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'West Siauliai Woods' map.
+// Sets up monster spawners for 'f_siauliai_west'.
 //---------------------------------------------------------------------------
 
 using System;

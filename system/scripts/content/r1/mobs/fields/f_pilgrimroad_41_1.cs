@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_41_1
-//
+// Thaumas Trail Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Thaumas Trail' map.
+// Sets up monster spawners for 'f_pilgrimroad_41_1'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_47_2
-//
+// Aqueduct Bridge Area Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Aqueduct Bridge Area' map.
+// Sets up monster spawners for 'f_farm_47_2'.
 //---------------------------------------------------------------------------
 
 using System;

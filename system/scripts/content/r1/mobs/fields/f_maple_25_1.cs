@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_maple_25_1
-//
+// Nheto Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nheto Forest' map.
+// Sets up monster spawners for 'f_maple_25_1'.
 //---------------------------------------------------------------------------
 
 using System;

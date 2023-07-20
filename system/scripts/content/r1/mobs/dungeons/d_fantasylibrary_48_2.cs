@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_fantasylibrary_48_2
-//
+// Sausis Room 10 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sausis Room 10' map.
+// Sets up monster spawners for 'd_fantasylibrary_48_2'.
 //---------------------------------------------------------------------------
 
 using System;

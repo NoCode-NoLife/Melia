@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_huevillage_58_4
-//
+// Septyni Glen Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Septyni Glen' map.
+// Sets up monster spawners for 'f_huevillage_58_4'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_45
-//
+// Mage Tower 5F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mage Tower 5F' map.
+// Sets up monster spawners for 'd_firetower_45'.
 //---------------------------------------------------------------------------
 
 using System;

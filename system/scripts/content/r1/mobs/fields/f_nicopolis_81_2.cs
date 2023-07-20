@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_nicopolis_81_2
-//
+// Feline Post Town Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Feline Post Town' map.
+// Sets up monster spawners for 'f_nicopolis_81_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FNicopolis812MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_nicopolis_81_2.Id1", MonsterId.Wiza_Moya, 37, 49, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

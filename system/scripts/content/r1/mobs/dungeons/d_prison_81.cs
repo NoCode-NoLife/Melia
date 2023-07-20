@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_81
-//
+// Workshop Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Workshop' map.
+// Sets up monster spawners for 'd_prison_81'.
 //---------------------------------------------------------------------------
 
 using System;

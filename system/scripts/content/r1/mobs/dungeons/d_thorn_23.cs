@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_23
-//
+// Sunset Flag Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sunset Flag Forest' map.
+// Sets up monster spawners for 'd_thorn_23'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DThorn23MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_23.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);

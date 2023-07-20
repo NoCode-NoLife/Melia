@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_limestonecave_55_1
-//
+// Alembique Cave Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Alembique Cave' map.
+// Sets up monster spawners for 'd_limestonecave_55_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DLimestonecave551MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_limestonecave_55_1.Id1", MonsterId.Charog_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

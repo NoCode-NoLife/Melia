@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_61
-//
+// Ruklys Street Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ruklys Street' map.
+// Sets up monster spawners for 'f_flash_61'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FFlash61MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_flash_61.Id1", MonsterId.Denden, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

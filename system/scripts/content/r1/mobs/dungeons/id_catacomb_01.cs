@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_01
-//
+// Guards Graveyard Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Guards Graveyard' map.
+// Sets up monster spawners for 'id_catacomb_01'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb01MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_01.Id1", MonsterId.FD_Leaf_Diving_Purple, 15, 20, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);

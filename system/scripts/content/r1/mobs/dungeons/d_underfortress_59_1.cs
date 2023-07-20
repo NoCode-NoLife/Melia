@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_59_1
-//
+// Royal Mausoleum Workers Lodge Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Royal Mausoleum Workers Lodge' map.
+// Sets up monster spawners for 'd_underfortress_59_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress591MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_59_1.Id1", MonsterId.FD_Woodgoblin_Black, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

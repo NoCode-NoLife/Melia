@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_31
-//
+// Zachariel Crossroads Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Zachariel Crossroads' map.
+// Sets up monster spawners for 'f_rokas_31'.
 //---------------------------------------------------------------------------
 
 using System;

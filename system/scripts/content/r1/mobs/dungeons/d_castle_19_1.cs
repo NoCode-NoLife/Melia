@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_castle_19_1
-//
+// Sajunga Road Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sajunga Road' map.
+// Sets up monster spawners for 'd_castle_19_1'.
 //---------------------------------------------------------------------------
 
 using System;

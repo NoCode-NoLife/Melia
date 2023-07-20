@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_95
-//
+// Outer Wall District 13 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Outer Wall District 13' map.
+// Sets up monster spawners for 'f_castle_95'.
 //---------------------------------------------------------------------------
 
 using System;

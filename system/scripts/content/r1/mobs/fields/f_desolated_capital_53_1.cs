@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_desolated_capital_53_1
-//
+// Rinksmas Ruins Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Rinksmas Ruins' map.
+// Sets up monster spawners for 'f_desolated_capital_53_1'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_41_2
-//
+// Salvia Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Salvia Forest' map.
+// Sets up monster spawners for 'f_pilgrimroad_41_2'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_71
-//
+// Grand Yard Mesa Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Grand Yard Mesa' map.
+// Sets up monster spawners for 'f_tableland_71'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FTableland71MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_71.Id1", MonsterId.Hohen_Ritter_Purple, 23, 30, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);

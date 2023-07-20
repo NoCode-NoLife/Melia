@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_zachariel_32
-//
+// Royal Mausoleum 1F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Royal Mausoleum 1F' map.
+// Sets up monster spawners for 'd_zachariel_32'.
 //---------------------------------------------------------------------------
 
 using System;

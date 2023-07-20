@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_107
-//
+// Frienel Memorial Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Frienel Memorial' map.
+// Sets up monster spawners for 'f_dcapital_107'.
 //---------------------------------------------------------------------------
 
 using System;

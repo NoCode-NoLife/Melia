@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_1_f_castle_5
-//
+// Delmore Garden Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Garden' map.
+// Sets up monster spawners for 'ep14_1_f_castle_5'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class Ep141FCastle5MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("ep14_1_f_castle_5.Id1", MonsterId.Rootcrystal_05, 15, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

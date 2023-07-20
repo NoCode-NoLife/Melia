@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_limestonecave_52_5
-//
+// Tevhrin Stalactite Cave Section 5 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tevhrin Stalactite Cave Section 5' map.
+// Sets up monster spawners for 'd_limestonecave_52_5'.
 //---------------------------------------------------------------------------
 
 using System;

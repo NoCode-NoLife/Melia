@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_17
-//
+// Bladelight Basin Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Bladelight Basin' map.
+// Sets up monster spawners for 'f_katyn_17'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn17MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_17.Id1", MonsterId.Jellyfish, 15, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);

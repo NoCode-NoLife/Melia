@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_45_1
-//
+// Grynas Trails Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Grynas Trails' map.
+// Sets up monster spawners for 'f_katyn_45_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn451MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_45_1.Id1", MonsterId.Stoulet_Bow_Blue, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

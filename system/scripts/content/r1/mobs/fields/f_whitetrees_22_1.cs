@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_22_1
-//
+// Teresh Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Teresh Forest' map.
+// Sets up monster spawners for 'f_whitetrees_22_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FWhitetrees221MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_22_1.Id1", MonsterId.Beetow_White, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

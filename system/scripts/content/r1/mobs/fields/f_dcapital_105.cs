@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_105
-//
+// Baltinel Memorial Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Baltinel Memorial' map.
+// Sets up monster spawners for 'f_dcapital_105'.
 //---------------------------------------------------------------------------
 
 using System;

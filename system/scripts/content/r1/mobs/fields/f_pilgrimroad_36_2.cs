@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_36_2
-//
+// Fasika Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Fasika Plateau' map.
+// Sets up monster spawners for 'f_pilgrimroad_36_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FPilgrimroad362MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_36_2.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

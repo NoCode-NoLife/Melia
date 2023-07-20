@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_41_3
-//
+// Rasvoy Lake Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Rasvoy Lake' map.
+// Sets up monster spawners for 'f_pilgrimroad_41_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FPilgrimroad413MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_41_3.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

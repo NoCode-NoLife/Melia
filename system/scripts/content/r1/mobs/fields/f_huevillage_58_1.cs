@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_huevillage_58_1
-//
+// Veja Ravine Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Veja Ravine' map.
+// Sets up monster spawners for 'f_huevillage_58_1'.
 //---------------------------------------------------------------------------
 
 using System;

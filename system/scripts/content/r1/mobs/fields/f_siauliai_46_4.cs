@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_46_4
-//
+// Dina Bee Farm Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Dina Bee Farm' map.
+// Sets up monster spawners for 'f_siauliai_46_4'.
 //---------------------------------------------------------------------------
 
 using System;

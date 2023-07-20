@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_30_1
-//
+// Ruklys Hall of Fame Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ruklys Hall of Fame' map.
+// Sets up monster spawners for 'd_underfortress_30_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress301MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_30_1.Id1", MonsterId.Wendigo_Archer_Blue, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

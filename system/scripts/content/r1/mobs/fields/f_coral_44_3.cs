@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_44_3
-//
+// Epherotao Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Epherotao Coast' map.
+// Sets up monster spawners for 'f_coral_44_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral443MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_44_3.Id1", MonsterId.VarleAnchor, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

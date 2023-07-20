@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_27_2
-//
+// Maven 31 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Maven 31 Waters' map.
+// Sets up monster spawners for 'f_3cmlake_27_2'.
 //---------------------------------------------------------------------------
 
 using System;

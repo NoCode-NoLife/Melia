@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_52
-//
+// Apsimesti Crossroads Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Apsimesti Crossroads' map.
+// Sets up monster spawners for 'f_pilgrimroad_52'.
 //---------------------------------------------------------------------------
 
 using System;

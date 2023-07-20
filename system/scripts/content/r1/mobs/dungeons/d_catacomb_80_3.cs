@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_catacomb_80_3
-//
+// Michmas Temple Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Michmas Temple' map.
+// Sets up monster spawners for 'd_catacomb_80_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DCatacomb803MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_catacomb_80_3.Id1", MonsterId.ERD_Cronewt_Blue, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_29
-//
+// Rukas Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Rukas Plateau' map.
+// Sets up monster spawners for 'f_rokas_29'.
 //---------------------------------------------------------------------------
 
 using System;

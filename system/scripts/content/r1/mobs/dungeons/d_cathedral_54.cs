@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cathedral_54
-//
+// Grand Corridor Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Grand Corridor' map.
+// Sets up monster spawners for 'd_cathedral_54'.
 //---------------------------------------------------------------------------
 
 using System;

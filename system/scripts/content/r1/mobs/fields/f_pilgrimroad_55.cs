@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_55
-//
+// Penitence Route Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Penitence Route' map.
+// Sets up monster spawners for 'f_pilgrimroad_55'.
 //---------------------------------------------------------------------------
 
 using System;

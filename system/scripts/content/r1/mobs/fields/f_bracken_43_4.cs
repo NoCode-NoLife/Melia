@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_43_4
-//
+// Mollogheo Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mollogheo Forest' map.
+// Sets up monster spawners for 'f_bracken_43_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FBracken434MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_4.Id1", MonsterId.Vilkas_Warrior, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

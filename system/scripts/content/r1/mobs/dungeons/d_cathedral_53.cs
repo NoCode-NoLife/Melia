@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cathedral_53
-//
+// Main Building Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Main Building' map.
+// Sets up monster spawners for 'd_cathedral_53'.
 //---------------------------------------------------------------------------
 
 using System;

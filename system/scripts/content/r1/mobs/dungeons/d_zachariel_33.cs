@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_zachariel_33
-//
+// Royal Mausoleum 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Royal Mausoleum 2F' map.
+// Sets up monster spawners for 'd_zachariel_33'.
 //---------------------------------------------------------------------------
 
 using System;

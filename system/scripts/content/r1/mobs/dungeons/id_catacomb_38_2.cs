@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_38_2
-//
+// Mokusul Chamber Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mokusul Chamber' map.
+// Sets up monster spawners for 'id_catacomb_38_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb382MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_38_2.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);

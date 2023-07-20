@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_51
-//
+// Forest of Prayer Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Forest of Prayer' map.
+// Sets up monster spawners for 'f_pilgrimroad_51'.
 //---------------------------------------------------------------------------
 
 using System;

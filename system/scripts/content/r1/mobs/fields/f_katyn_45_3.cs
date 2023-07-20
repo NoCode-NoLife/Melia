@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_45_3
-//
+// Grynas Hills Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Grynas Hills' map.
+// Sets up monster spawners for 'f_katyn_45_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn453MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_45_3.Id1", MonsterId.Mushroom_Boy_Yellow, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

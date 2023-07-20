@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_102
-//
+// Skalda Outskirts Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Skalda Outskirts' map.
+// Sets up monster spawners for 'f_castle_102'.
 //---------------------------------------------------------------------------
 
 using System;

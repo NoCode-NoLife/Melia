@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_maple_23_2
-//
+// Pystis Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Pystis Forest' map.
+// Sets up monster spawners for 'f_maple_23_2'.
 //---------------------------------------------------------------------------
 
 using System;

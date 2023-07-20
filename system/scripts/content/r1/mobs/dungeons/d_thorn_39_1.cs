@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_39_1
-//
+// Viltis Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Viltis Forest' map.
+// Sets up monster spawners for 'd_thorn_39_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DThorn391MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_39_1.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

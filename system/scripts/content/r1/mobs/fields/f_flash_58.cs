@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_58
-//
+// Dingofasil District Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Dingofasil District' map.
+// Sets up monster spawners for 'f_flash_58'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FFlash58MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_flash_58.Id1", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

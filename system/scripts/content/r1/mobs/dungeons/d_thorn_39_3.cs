@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_39_3
-//
+// Laukyme Swamp Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Laukyme Swamp' map.
+// Sets up monster spawners for 'd_thorn_39_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DThorn393MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_39_3.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

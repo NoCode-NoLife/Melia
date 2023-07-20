@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_startower_76_2
-//
+// Nazarene Tower Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nazarene Tower' map.
+// Sets up monster spawners for 'd_startower_76_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DStartower762MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_startower_76_2.Id1", MonsterId.ERD_Tiny, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

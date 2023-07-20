@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_61_1
-//
+// Roxona Reconstruction Agency West Building Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Roxona Reconstruction Agency West Building' map.
+// Sets up monster spawners for 'd_firetower_61_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DFiretower611MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_61_1.Id1", MonsterId.Raider_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_abbey_35_3
-//
+// Elgos Monastery Annex Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Elgos Monastery Annex' map.
+// Sets up monster spawners for 'd_abbey_35_3'.
 //---------------------------------------------------------------------------
 
 using System;

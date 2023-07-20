@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_64
-//
+// Inner Enceinte District Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Inner Enceinte District' map.
+// Sets up monster spawners for 'f_flash_64'.
 //---------------------------------------------------------------------------
 
 using System;

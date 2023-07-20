@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_65
-//
+// Sentry Bailey Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sentry Bailey' map.
+// Sets up monster spawners for 'd_underfortress_65'.
 //---------------------------------------------------------------------------
 
 using System;

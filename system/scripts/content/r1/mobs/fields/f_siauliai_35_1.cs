@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_35_1
-//
+// Nahash Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nahash Forest' map.
+// Sets up monster spawners for 'f_siauliai_35_1'.
 //---------------------------------------------------------------------------
 
 using System;

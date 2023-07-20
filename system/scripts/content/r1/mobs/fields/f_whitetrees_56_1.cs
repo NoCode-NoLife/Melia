@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_56_1
-//
+// Mishekan Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Mishekan Forest' map.
+// Sets up monster spawners for 'f_whitetrees_56_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FWhitetrees561MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_56_1.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

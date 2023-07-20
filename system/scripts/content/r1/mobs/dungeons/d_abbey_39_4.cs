@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_abbey_39_4
-//
+// Tyla Monastery Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tyla Monastery' map.
+// Sets up monster spawners for 'd_abbey_39_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DAbbey394MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_abbey_39_4.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

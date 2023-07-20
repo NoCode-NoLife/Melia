@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_59_2
-//
+// Royal Mausoleum Constructors' Chapel Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Royal Mausoleum Constructors' Chapel' map.
+// Sets up monster spawners for 'd_underfortress_59_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress592MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_59_2.Id1", MonsterId.FD_Spectra, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

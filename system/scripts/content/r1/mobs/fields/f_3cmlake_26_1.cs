@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_26_1
-//
+// Lanko 26 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Lanko 26 Waters' map.
+// Sets up monster spawners for 'f_3cmlake_26_1'.
 //---------------------------------------------------------------------------
 
 using System;

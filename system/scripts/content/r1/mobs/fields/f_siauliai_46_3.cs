@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_46_3
-//
+// Vilna Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Vilna Forest' map.
+// Sets up monster spawners for 'f_siauliai_46_3'.
 //---------------------------------------------------------------------------
 
 using System;

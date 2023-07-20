@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_79
-//
+// Storage Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Storage' map.
+// Sets up monster spawners for 'd_prison_79'.
 //---------------------------------------------------------------------------
 
 using System;

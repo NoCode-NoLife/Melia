@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_28
-//
+// Tiltas Valley Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tiltas Valley' map.
+// Sets up monster spawners for 'f_rokas_28'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRokas28MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_28.Id1", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

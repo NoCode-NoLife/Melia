@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// mission_gele_01
-//
+// Gele Plateau Mission Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gele Plateau Mission' map.
+// Sets up monster spawners for 'mission_gele_01'.
 //---------------------------------------------------------------------------
 
 using System;

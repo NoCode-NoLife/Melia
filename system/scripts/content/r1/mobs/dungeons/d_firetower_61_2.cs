@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_61_2
-//
+// Roxona Reconstruction Agency East Building Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Roxona Reconstruction Agency East Building' map.
+// Sets up monster spawners for 'd_firetower_61_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DFiretower612MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_61_2.Id1", MonsterId.Velffigy, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

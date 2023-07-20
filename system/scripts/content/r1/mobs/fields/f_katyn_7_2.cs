@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_7_2
-//
+// Owl Burial Ground Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Owl Burial Ground' map.
+// Sets up monster spawners for 'f_katyn_7_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn72MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_7_2.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_startower_76_1
-//
+// Natarh Watchtower Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Natarh Watchtower' map.
+// Sets up monster spawners for 'd_startower_76_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DStartower761MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_startower_76_1.Id1", MonsterId.ERD_Slime_Dark_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

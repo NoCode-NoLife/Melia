@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_20
-//
+// Sirdgela Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sirdgela Forest' map.
+// Sets up monster spawners for 'd_thorn_20'.
 //---------------------------------------------------------------------------
 
 using System;

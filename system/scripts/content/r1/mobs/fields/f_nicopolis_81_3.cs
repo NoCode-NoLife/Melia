@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_nicopolis_81_3
-//
+// Spell Tome Town Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Spell Tome Town' map.
+// Sets up monster spawners for 'f_nicopolis_81_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FNicopolis813MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_nicopolis_81_3.Id1", MonsterId.Slime_Witch, 26, 34, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

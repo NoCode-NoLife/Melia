@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_82
-//
+// Investigation Room Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Investigation Room' map.
+// Sets up monster spawners for 'd_prison_82'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_coral_44_1
-//
+// Zeteor Coast Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Zeteor Coast' map.
+// Sets up monster spawners for 'f_coral_44_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCoral441MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_coral_44_1.Id1", MonsterId.Gob, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

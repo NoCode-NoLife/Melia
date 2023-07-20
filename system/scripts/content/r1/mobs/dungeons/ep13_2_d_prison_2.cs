@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_2_d_prison_2
-//
+// Ashaq Underground Prison 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ashaq Underground Prison 2F' map.
+// Sets up monster spawners for 'ep13_2_d_prison_2'.
 //---------------------------------------------------------------------------
 
 using System;

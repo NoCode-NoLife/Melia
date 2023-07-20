@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_gele_57_2
-//
+// Gele Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gele Plateau' map.
+// Sets up monster spawners for 'f_gele_57_2'.
 //---------------------------------------------------------------------------
 
 using System;

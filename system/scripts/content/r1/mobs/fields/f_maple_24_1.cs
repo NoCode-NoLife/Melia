@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_maple_24_1
-//
+// Central Parias Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Central Parias Forest' map.
+// Sets up monster spawners for 'f_maple_24_1'.
 //---------------------------------------------------------------------------
 
 using System;

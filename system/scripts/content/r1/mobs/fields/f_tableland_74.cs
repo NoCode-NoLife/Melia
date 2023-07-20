@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_74
-//
+// Steel Heights Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Steel Heights' map.
+// Sets up monster spawners for 'f_tableland_74'.
 //---------------------------------------------------------------------------
 
 using System;

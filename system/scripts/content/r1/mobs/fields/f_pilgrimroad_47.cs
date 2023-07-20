@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_47
-//
+// Pilgrim Path Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Pilgrim Path' map.
+// Sets up monster spawners for 'f_pilgrimroad_47'.
 //---------------------------------------------------------------------------
 
 using System;

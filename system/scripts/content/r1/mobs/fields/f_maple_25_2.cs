@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_maple_25_2
-//
+// Svalphinghas Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Svalphinghas Forest' map.
+// Sets up monster spawners for 'f_maple_25_2'.
 //---------------------------------------------------------------------------
 
 using System;

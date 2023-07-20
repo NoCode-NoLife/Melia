@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_13_3
-//
+// Arrow Path Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Arrow Path' map.
+// Sets up monster spawners for 'f_katyn_13_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn133MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_13_3.Id1", MonsterId.New_Desmodus, 15, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);

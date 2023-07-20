@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_37_1
-//
+// Nuoridin Falls Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nuoridin Falls' map.
+// Sets up monster spawners for 'f_remains_37_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRemains371MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37_1.Id1", MonsterId.Rootcrystal_04, 38, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

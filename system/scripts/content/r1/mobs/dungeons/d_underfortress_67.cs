@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_67
-//
+// Resident Quarter Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Resident Quarter' map.
+// Sets up monster spawners for 'd_underfortress_67'.
 //---------------------------------------------------------------------------
 
 using System;

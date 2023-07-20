@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_5
-//
+// Kirtimas Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Kirtimas Forest' map.
+// Sets up monster spawners for 'ep13_f_siauliai_5'.
 //---------------------------------------------------------------------------
 
 using System;

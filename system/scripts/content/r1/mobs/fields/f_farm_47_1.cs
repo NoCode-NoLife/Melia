@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_47_1
-//
+// Tenants' Farm Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tenants' Farm' map.
+// Sets up monster spawners for 'f_farm_47_1'.
 //---------------------------------------------------------------------------
 
 using System;

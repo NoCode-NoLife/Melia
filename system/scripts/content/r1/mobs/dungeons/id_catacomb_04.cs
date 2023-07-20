@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_04
-//
+// Underground Grave of Ritinis Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Underground Grave of Ritinis' map.
+// Sets up monster spawners for 'id_catacomb_04'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb04MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_04.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);

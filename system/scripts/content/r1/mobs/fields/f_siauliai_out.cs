@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_out
-//
+// Miners' Village Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Miners' Village' map.
+// Sets up monster spawners for 'f_siauliai_out'.
 //---------------------------------------------------------------------------
 
 using System;

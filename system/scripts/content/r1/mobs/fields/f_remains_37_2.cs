@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_37_2
-//
+// Namu Temple Ruins Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Namu Temple Ruins' map.
+// Sets up monster spawners for 'f_remains_37_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRemains372MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37_2.Id1", MonsterId.Rootcrystal_04, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

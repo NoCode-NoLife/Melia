@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_38_1
-//
+// Videntis Shrine Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Videntis Shrine' map.
+// Sets up monster spawners for 'id_catacomb_38_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb381MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_38_1.Id1", MonsterId.Rootcrystal_01, 6, 7, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);

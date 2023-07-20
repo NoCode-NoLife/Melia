@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_02
-//
+// Valius' Eternal Resting Place Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Valius' Eternal Resting Place' map.
+// Sets up monster spawners for 'id_catacomb_02'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb02MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_02.Id1", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_gele_57_3
-//
+// Nefritas Cliff Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nefritas Cliff' map.
+// Sets up monster spawners for 'f_gele_57_3'.
 //---------------------------------------------------------------------------
 
 using System;

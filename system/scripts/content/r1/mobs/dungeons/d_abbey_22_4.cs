@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_abbey_22_4
-//
+// Narvas Temple Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Narvas Temple' map.
+// Sets up monster spawners for 'd_abbey_22_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DAbbey224MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_abbey_22_4.Id1", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

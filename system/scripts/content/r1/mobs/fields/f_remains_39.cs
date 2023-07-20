@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_39
-//
+// Escanciu Village Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Escanciu Village' map.
+// Sets up monster spawners for 'f_remains_39'.
 //---------------------------------------------------------------------------
 
 using System;

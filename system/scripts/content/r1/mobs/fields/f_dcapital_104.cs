@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_104
-//
+// Path of Desition Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Path of Desition' map.
+// Sets up monster spawners for 'f_dcapital_104'.
 //---------------------------------------------------------------------------
 
 using System;

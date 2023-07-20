@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// test_zone
-//
+// Test Zone Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Test Zone' map.
+// Sets up monster spawners for 'test_zone'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class TestZoneMobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("test_zone.Id1", MonsterId.Boss_Golem, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

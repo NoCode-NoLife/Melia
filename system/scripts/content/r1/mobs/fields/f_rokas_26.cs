@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_26
-//
+// Overlong Bridge Valley Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Overlong Bridge Valley' map.
+// Sets up monster spawners for 'f_rokas_26'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRokas26MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_26.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

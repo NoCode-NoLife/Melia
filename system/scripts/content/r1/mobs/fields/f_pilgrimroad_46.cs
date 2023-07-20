@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_46
-//
+// Starving Demon's Way Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Starving Demon's Way' map.
+// Sets up monster spawners for 'f_pilgrimroad_46'.
 //---------------------------------------------------------------------------
 
 using System;

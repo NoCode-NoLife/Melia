@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_70
-//
+// Ibre Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ibre Plateau' map.
+// Sets up monster spawners for 'f_tableland_70'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FTableland70MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_70.Id1", MonsterId.Hohen_Mane_Purple, 8, 10, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);

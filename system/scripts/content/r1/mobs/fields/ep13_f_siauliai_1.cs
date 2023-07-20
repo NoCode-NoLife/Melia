@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_1
-//
+// Lemprasa Pond Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Lemprasa Pond' map.
+// Sets up monster spawners for 'ep13_f_siauliai_1'.
 //---------------------------------------------------------------------------
 
 using System;

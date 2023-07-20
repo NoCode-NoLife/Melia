@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_47_4
-//
+// Baron Allerno Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Baron Allerno' map.
+// Sets up monster spawners for 'f_siauliai_47_4'.
 //---------------------------------------------------------------------------
 
 using System;

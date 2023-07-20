@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_94
-//
+// Inner Wall District 10 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Inner Wall District 10' map.
+// Sets up monster spawners for 'f_castle_94'.
 //---------------------------------------------------------------------------
 
 using System;

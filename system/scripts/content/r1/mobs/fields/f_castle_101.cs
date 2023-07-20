@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_101
-//
+// Sacred Atspalvis  Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sacred Atspalvis ' map.
+// Sets up monster spawners for 'f_castle_101'.
 //---------------------------------------------------------------------------
 
 using System;

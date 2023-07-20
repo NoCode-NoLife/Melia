@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_28_2
-//
+// Stogas Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Stogas Plateau' map.
+// Sets up monster spawners for 'f_tableland_28_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FTableland282MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_28_2.Id1", MonsterId.Rootcrystal_03, 9, 11, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep15_1_f_abbey_2
-//
+// Novaha Library Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Novaha Library' map.
+// Sets up monster spawners for 'ep15_1_f_abbey_2'.
 //---------------------------------------------------------------------------
 
 using System;

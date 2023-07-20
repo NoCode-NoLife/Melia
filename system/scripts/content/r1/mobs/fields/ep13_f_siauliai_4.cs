@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_4
-//
+// Issaugoti Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Issaugoti Forest' map.
+// Sets up monster spawners for 'ep13_f_siauliai_4'.
 //---------------------------------------------------------------------------
 
 using System;

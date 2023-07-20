@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_85
-//
+// Barynwell 85 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Barynwell 85 Waters' map.
+// Sets up monster spawners for 'f_3cmlake_85'.
 //---------------------------------------------------------------------------
 
 using System;

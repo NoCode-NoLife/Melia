@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_3
-//
+// Paupys Crossing Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Paupys Crossing' map.
+// Sets up monster spawners for 'ep13_f_siauliai_3'.
 //---------------------------------------------------------------------------
 
 using System;

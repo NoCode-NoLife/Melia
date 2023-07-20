@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_pilgrimroad_48
-//
+// Manahas Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Manahas' map.
+// Sets up monster spawners for 'f_pilgrimroad_48'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FPilgrimroad48MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_48.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);

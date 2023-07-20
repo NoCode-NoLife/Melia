@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_2_d_castle_2
-//
+// Hidden Passage Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Hidden Passage' map.
+// Sets up monster spawners for 'ep14_2_d_castle_2'.
 //---------------------------------------------------------------------------
 
 using System;

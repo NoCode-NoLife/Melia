@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_rokas_27
-//
+// Akmens Ridge Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Akmens Ridge' map.
+// Sets up monster spawners for 'f_rokas_27'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRokas27MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_27.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

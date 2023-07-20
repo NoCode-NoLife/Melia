@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_orchard_34_3
-//
+// Barha Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Barha Forest' map.
+// Sets up monster spawners for 'f_orchard_34_3'.
 //---------------------------------------------------------------------------
 
 using System;

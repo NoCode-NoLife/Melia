@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_20_5
-//
+// Jeromel Park Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Jeromel Park' map.
+// Sets up monster spawners for 'f_dcapital_20_5'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FDcapital205MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_dcapital_20_5.Id1", MonsterId.Pumpkin_Dog, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

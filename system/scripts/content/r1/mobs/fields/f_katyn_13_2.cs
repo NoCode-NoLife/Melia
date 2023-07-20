@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_13_2
-//
+// Secret Room Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Secret Room' map.
+// Sets up monster spawners for 'f_katyn_13_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn132MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_13_2.Id1", MonsterId.Mushroom_Boy_Red, 30, 40, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);

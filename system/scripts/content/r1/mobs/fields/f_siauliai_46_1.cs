@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_46_1
-//
+// Spring Light Woods Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Spring Light Woods' map.
+// Sets up monster spawners for 'f_siauliai_46_1'.
 //---------------------------------------------------------------------------
 
 using System;

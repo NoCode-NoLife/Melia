@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_99
-//
+// Tvirtumas Fortress Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tvirtumas Fortress' map.
+// Sets up monster spawners for 'f_castle_99'.
 //---------------------------------------------------------------------------
 
 using System;

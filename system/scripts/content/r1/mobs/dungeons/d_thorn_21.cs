@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_21
-//
+// Kvailas Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Kvailas Forest' map.
+// Sets up monster spawners for 'd_thorn_21'.
 //---------------------------------------------------------------------------
 
 using System;

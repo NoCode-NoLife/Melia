@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_69
-//
+// Fortress Battlegrounds Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Fortress Battlegrounds' map.
+// Sets up monster spawners for 'd_underfortress_69'.
 //---------------------------------------------------------------------------
 
 using System;

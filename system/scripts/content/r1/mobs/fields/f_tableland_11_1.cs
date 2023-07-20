@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_tableland_11_1
-//
+// Vedas Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Vedas Plateau' map.
+// Sets up monster spawners for 'f_tableland_11_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FTableland111MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_11_1.Id1", MonsterId.Saltisdaughter_Red, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

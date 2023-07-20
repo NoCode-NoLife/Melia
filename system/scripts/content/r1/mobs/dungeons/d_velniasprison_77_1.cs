@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_velniasprison_77_1
-//
+// Tatenye Prison Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tatenye Prison' map.
+// Sets up monster spawners for 'd_velniasprison_77_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DVelniasprison771MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_velniasprison_77_1.Id1", MonsterId.ERD_NightMaiden, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

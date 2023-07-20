@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_30_3
-//
+// Evacuation Residential District Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Evacuation Residential District' map.
+// Sets up monster spawners for 'd_underfortress_30_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress303MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_30_3.Id1", MonsterId.Candlespider_Blue, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

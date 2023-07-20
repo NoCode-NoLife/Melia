@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_20_1
-//
+// Outer Wall District 9 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Outer Wall District 9' map.
+// Sets up monster spawners for 'f_castle_20_1'.
 //---------------------------------------------------------------------------
 
 using System;

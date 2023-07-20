@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_abbey_41_6
-//
+// Maven Abbey Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Maven Abbey' map.
+// Sets up monster spawners for 'd_abbey_41_6'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DAbbey416MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_abbey_41_6.Id1", MonsterId.Rootcrystal_01, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

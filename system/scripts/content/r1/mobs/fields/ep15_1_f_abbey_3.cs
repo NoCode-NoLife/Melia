@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep15_1_f_abbey_3
-//
+// The Confessional Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'The Confessional' map.
+// Sets up monster spawners for 'ep15_1_f_abbey_3'.
 //---------------------------------------------------------------------------
 
 using System;

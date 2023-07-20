@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_42_1
-//
+// Khonot Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Khonot Forest' map.
+// Sets up monster spawners for 'f_bracken_42_1'.
 //---------------------------------------------------------------------------
 
 using System;

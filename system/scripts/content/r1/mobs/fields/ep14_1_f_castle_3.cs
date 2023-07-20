@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_1_f_castle_3
-//
+// Delmore Outskirts Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Delmore Outskirts' map.
+// Sets up monster spawners for 'ep14_1_f_castle_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class Ep141FCastle3MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("ep14_1_f_castle_3.Id1", MonsterId.Rootcrystal_05, 17, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

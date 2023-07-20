@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_siauliai_46_2
-//
+// Uskis Arable Land Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Uskis Arable Land' map.
+// Sets up monster spawners for 'f_siauliai_46_2'.
 //---------------------------------------------------------------------------
 
 using System;

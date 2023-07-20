@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_velniasprison_54_1
-//
+// 2nd Demon Prison Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for '2nd Demon Prison' map.
+// Sets up monster spawners for 'd_velniasprison_54_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DVelniasprison541MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_velniasprison_54_1.Id1", MonsterId.FD_Yognome, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

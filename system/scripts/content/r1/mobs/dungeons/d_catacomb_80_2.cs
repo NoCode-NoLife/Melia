@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_catacomb_80_2
-//
+// Balaam Camp Site Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Balaam Camp Site' map.
+// Sets up monster spawners for 'd_catacomb_80_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DCatacomb802MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_catacomb_80_2.Id1", MonsterId.ERD_Yognome_Yellow, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_63
-//
+// Downtown Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Downtown' map.
+// Sets up monster spawners for 'f_flash_63'.
 //---------------------------------------------------------------------------
 
 using System;

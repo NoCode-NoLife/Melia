@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// mission_chaple_01
-//
+// Cathedral Mission Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Cathedral Mission' map.
+// Sets up monster spawners for 'mission_chaple_01'.
 //---------------------------------------------------------------------------
 
 using System;

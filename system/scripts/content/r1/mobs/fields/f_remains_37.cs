@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_remains_37
-//
+// Stele Road Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Stele Road' map.
+// Sets up monster spawners for 'f_remains_37'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FRemains37MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37.Id1", MonsterId.Stub_Tree, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

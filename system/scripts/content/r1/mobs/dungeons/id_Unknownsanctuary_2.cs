@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_Unknownsanctuary_2
-//
+// Unknown Sanctuary 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Unknown Sanctuary 2F' map.
+// Sets up monster spawners for 'id_Unknownsanctuary_2'.
 //---------------------------------------------------------------------------
 
 using System;

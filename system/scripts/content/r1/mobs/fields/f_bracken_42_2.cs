@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_42_2
-//
+// Khamadon Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Khamadon Forest' map.
+// Sets up monster spawners for 'f_bracken_42_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FBracken422MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_42_2.Id1", MonsterId.Rootcrystal_03, 10, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

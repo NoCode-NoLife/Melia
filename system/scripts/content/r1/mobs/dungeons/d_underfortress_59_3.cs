@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_59_3
-//
+// Royal Mausoleum Storage Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Royal Mausoleum Storage' map.
+// Sets up monster spawners for 'd_underfortress_59_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress593MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_59_3.Id1", MonsterId.Fortress_Rock, 1, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_irredians_113_1
-//
+// Irredian Shelter Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Irredian Shelter' map.
+// Sets up monster spawners for 'd_irredians_113_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DIrredians1131MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_irredians_113_1.Id1", MonsterId.Gazer, 64, 85, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

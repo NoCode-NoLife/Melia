@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// c_highlander
-//
+// Highlander Master's Training Hall Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Highlander Master's Training Hall' map.
+// Sets up monster spawners for 'c_highlander'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class CHighlanderMobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("c_highlander.Id1", MonsterId.Wood_Carving_Fire, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

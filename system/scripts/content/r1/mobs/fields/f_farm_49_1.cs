@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_49_1
-//
+// Greene Manor Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Greene Manor' map.
+// Sets up monster spawners for 'f_farm_49_1'.
 //---------------------------------------------------------------------------
 
 using System;

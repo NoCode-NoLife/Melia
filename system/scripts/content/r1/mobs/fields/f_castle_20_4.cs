@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_20_4
-//
+// City Wall District 8 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'City Wall District 8' map.
+// Sets up monster spawners for 'f_castle_20_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCastle204MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

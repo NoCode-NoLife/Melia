@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_98
-//
+// Outer Wall District 15 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Outer Wall District 15' map.
+// Sets up monster spawners for 'f_castle_98'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FCastle98MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_castle_98.Id1", MonsterId.Kisylion, 60, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

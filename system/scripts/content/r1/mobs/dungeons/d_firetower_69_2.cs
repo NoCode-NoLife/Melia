@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_69_2
-//
+// Martuis Storage Room Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Martuis Storage Room' map.
+// Sets up monster spawners for 'd_firetower_69_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DFiretower692MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_69_2.Id1", MonsterId.Glyquare_Red, 53, 70, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

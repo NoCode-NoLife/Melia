@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// id_catacomb_25_4
-//
+// Timerys Temple Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Timerys Temple' map.
+// Sets up monster spawners for 'id_catacomb_25_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class IdCatacomb254MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_25_4.Id1", MonsterId.Pagclamper_Yellow, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_39_2
-//
+// Glade Hillroad Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Glade Hillroad' map.
+// Sets up monster spawners for 'd_thorn_39_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DThorn392MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_39_2.Id1", MonsterId.Rootcrystal_01, 7, 9, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_fantasylibrary_48_3
-//
+// Valandis Room 2 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Valandis Room 2' map.
+// Sets up monster spawners for 'd_fantasylibrary_48_3'.
 //---------------------------------------------------------------------------
 
 using System;

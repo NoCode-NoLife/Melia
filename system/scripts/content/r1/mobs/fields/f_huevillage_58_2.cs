@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_huevillage_58_2
-//
+// Vieta Gorge Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Vieta Gorge' map.
+// Sets up monster spawners for 'f_huevillage_58_2'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_thorn_19
-//
+// Gate Route Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gate Route' map.
+// Sets up monster spawners for 'd_thorn_19'.
 //---------------------------------------------------------------------------
 
 using System;

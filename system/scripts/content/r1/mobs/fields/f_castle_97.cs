@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_97
-//
+// Vienibe Shelter Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Vienibe Shelter' map.
+// Sets up monster spawners for 'f_castle_97'.
 //---------------------------------------------------------------------------
 
 using System;

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_18
-//
+// Kule Peak Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Kule Peak' map.
+// Sets up monster spawners for 'f_katyn_18'.
 //---------------------------------------------------------------------------
 
 using System;

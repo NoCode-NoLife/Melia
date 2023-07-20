@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cathedral_78_1
-//
+// Neighport Church East Building Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Neighport Church East Building' map.
+// Sets up monster spawners for 'd_cathedral_78_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DCathedral781MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_cathedral_78_1.Id1", MonsterId.ERD_Pawndel, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

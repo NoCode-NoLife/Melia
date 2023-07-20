@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_43_3
-//
+// Ziburynas Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Ziburynas Forest' map.
+// Sets up monster spawners for 'f_bracken_43_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FBracken433MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_3.Id1", MonsterId.Vilkas_Soldier, 22, 29, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

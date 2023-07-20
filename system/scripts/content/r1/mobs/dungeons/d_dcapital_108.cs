@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_dcapital_108
-//
+// Pradzia Temple Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Pradzia Temple' map.
+// Sets up monster spawners for 'd_dcapital_108'.
 //---------------------------------------------------------------------------
 
 using System;

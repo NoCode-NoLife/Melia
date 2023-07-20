@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_startower_88
-//
+// Astral Tower 1F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Astral Tower 1F' map.
+// Sets up monster spawners for 'd_startower_88'.
 //---------------------------------------------------------------------------
 
 using System;

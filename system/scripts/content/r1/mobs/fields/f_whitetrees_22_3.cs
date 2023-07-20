@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_22_3
-//
+// Izoliacjia Plateau Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Izoliacjia Plateau' map.
+// Sets up monster spawners for 'f_whitetrees_22_3'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FWhitetrees223MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_22_3.Id1", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);

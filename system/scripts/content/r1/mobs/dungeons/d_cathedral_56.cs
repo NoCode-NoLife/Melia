@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_cathedral_56
-//
+// Sanctuary Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Sanctuary' map.
+// Sets up monster spawners for 'd_cathedral_56'.
 //---------------------------------------------------------------------------
 
 using System;

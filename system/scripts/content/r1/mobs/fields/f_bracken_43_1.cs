@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_43_1
-//
+// Arcus Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Arcus Forest' map.
+// Sets up monster spawners for 'f_bracken_43_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FBracken431MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_1.Id1", MonsterId.Rakon, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_20_6
-//
+// Jonael Commemorative Orb Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Jonael Commemorative Orb' map.
+// Sets up monster spawners for 'f_dcapital_20_6'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FDcapital206MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_dcapital_20_6.Id1", MonsterId.Wood_Lwa_Green, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

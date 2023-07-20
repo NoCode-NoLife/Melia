@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_45_2
-//
+// Grynas Training Camp Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Grynas Training Camp' map.
+// Sets up monster spawners for 'f_katyn_45_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn452MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_45_2.Id1", MonsterId.Ridimed_Blue, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

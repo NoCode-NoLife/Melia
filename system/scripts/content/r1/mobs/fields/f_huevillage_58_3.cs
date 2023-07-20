@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_huevillage_58_3
-//
+// Cobalt Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Cobalt Forest' map.
+// Sets up monster spawners for 'f_huevillage_58_3'.
 //---------------------------------------------------------------------------
 
 using System;

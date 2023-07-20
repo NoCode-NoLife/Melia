@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_whitetrees_21_2
-//
+// Nobreer Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Nobreer Forest' map.
+// Sets up monster spawners for 'f_whitetrees_21_2'.
 //---------------------------------------------------------------------------
 
 using System;

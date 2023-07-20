@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_farm_47_3
-//
+// Myrkiti Farm Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Myrkiti Farm' map.
+// Sets up monster spawners for 'f_farm_47_3'.
 //---------------------------------------------------------------------------
 
 using System;

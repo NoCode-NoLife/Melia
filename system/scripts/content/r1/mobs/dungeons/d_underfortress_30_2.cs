@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_underfortress_30_2
-//
+// Extension Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Extension' map.
+// Sets up monster spawners for 'd_underfortress_30_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DUnderfortress302MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_underfortress_30_2.Id1", MonsterId.Saltisdaughter_Green, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_chapel_57_6
-//
+// Tenet Church 1F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Tenet Church 1F' map.
+// Sets up monster spawners for 'd_chapel_57_6'.
 //---------------------------------------------------------------------------
 
 using System;

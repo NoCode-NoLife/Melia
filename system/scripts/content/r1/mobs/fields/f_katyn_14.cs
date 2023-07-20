@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_katyn_14
-//
+// Saknis Plains Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Saknis Plains' map.
+// Sets up monster spawners for 'f_katyn_14'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FKatyn14MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_14.Id1", MonsterId.Puragi_Blue, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

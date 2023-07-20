@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_43_2
-//
+// Phamer Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Phamer Forest' map.
+// Sets up monster spawners for 'f_bracken_43_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FBracken432MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

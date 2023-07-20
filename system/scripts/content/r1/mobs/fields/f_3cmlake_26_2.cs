@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_26_2
-//
+// Lanko 22 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Lanko 22 Waters' map.
+// Sets up monster spawners for 'f_3cmlake_26_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class F3Cmlake262MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_3cmlake_26_2.Id1", MonsterId.RootCrystal_A, 18, 23, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);

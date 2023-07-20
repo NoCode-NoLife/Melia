@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_flash_59
-//
+// Verkti Square Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Verkti Square' map.
+// Sets up monster spawners for 'f_flash_59'.
 //---------------------------------------------------------------------------
 
 using System;

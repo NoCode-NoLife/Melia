@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_prison_80
-//
+// Solitary Cells Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Solitary Cells' map.
+// Sets up monster spawners for 'd_prison_80'.
 //---------------------------------------------------------------------------
 
 using System;

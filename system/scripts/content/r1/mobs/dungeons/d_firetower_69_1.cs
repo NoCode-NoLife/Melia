@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_firetower_69_1
-//
+// Zima Suecourt Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Zima Suecourt' map.
+// Sets up monster spawners for 'd_firetower_69_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class DFiretower691MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_69_1.Id1", MonsterId.Firetower_GateOpen_Q, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);

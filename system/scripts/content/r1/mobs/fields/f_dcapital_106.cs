@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_dcapital_106
-//
+// Gliehel Memorial Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Gliehel Memorial' map.
+// Sets up monster spawners for 'f_dcapital_106'.
 //---------------------------------------------------------------------------
 
 using System;

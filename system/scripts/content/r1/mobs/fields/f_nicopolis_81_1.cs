@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_nicopolis_81_1
-//
+// Starry Town Spawns
 //--- Description -----------------------------------------------------------
-// Sets up mobs for 'Starry Town' map.
+// Sets up monster spawners for 'f_nicopolis_81_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,7 +13,6 @@ public class FNicopolis811MobScript : GeneralScript
 {
 	public override void Load()
 	{
-
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_nicopolis_81_1.Id1", MonsterId.Cresent_Moya, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
