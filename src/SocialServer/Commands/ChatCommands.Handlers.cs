@@ -58,7 +58,7 @@ namespace Melia.Social.Commands
 			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Account.Id, whisperTarget.Id);
 			if (chatRoom == null)
 			{
-				chatRoom = new ChatRoom(user.Account);
+				chatRoom = new ChatRoom("", ChatRoomType.OneToOne, user.Account);
 				SocialServer.Instance.ChatManager.AddChatRoom(chatRoom);
 				// sender.ChatRooms.Add(chatRoom.Id, chatRoom);
 			}

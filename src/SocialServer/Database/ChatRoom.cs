@@ -47,15 +47,6 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Creates new chat room.
 		/// </summary>
-		/// <param name="owner"></param>
-		public ChatRoom(Account owner)
-			: this("", ChatRoomType.OneToOne, owner)
-		{
-		}
-
-		/// <summary>
-		/// Creates new chat room.
-		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="type"></param>
 		/// <param name="owner"></param>
