@@ -76,10 +76,14 @@ namespace Melia.Social.World
 			chatRoom.AddMember(creator.Account);
 			this.AddChatRoom(chatRoom);
 
+			Send.SC_NORMAL.CreateRoom(creator.Connection, chatRoom);
+
+			// Not sending this will not display the message. Sending it
+			// will display the message twice. No idea why, but the same
+			// behavior can be observed in the game.
 			var chatMessage = new ChatMessage(creator.Account, "!@#$NewRoomHasBeenCreated#@!");
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.CreateRoom(creator.Connection, chatRoom);
 			Send.SC_NORMAL.AddMessage(creator.Connection, chatRoom, chatMessage);
 
 			return chatRoom;
