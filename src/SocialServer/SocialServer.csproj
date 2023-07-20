@@ -58,6 +58,7 @@
     <Compile Include="Commands\ChatCommands.Manager.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\Character.cs" />
+    <Compile Include="Database\ChatMessage.cs" />
     <Compile Include="Database\ChatRoom.cs" />
     <Compile Include="Database\Friend.cs" />
     <Compile Include="Database\SocialDb.cs" />
