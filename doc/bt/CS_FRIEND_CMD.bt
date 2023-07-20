@@ -17,7 +17,6 @@ ClientHeaderFixedOld header;
 
 int i1;
 short s2;
-long accountId;
-int i2;
+int64 accountId;
 int cmd; // Accept = 0, Decline = 1, Delete = 2
-int i4;
+int i2;

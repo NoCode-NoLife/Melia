@@ -148,8 +148,8 @@ namespace Melia.Social.Network
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
 			var accountId = packet.GetLong();
-			var i2 = packet.GetInt();
 			var cmd = (FriendCmd)packet.GetInt();
+			var i2 = packet.GetInt();
 
 			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
 			{
