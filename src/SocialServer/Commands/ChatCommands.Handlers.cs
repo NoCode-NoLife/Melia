@@ -33,7 +33,7 @@ namespace Melia.Social.Commands
 		/// <returns></returns>
 		private CommandResult HandleWhisper(SocialUser user, string message, string command, Arguments args)
 		{
-			if (args.Count < 2)
+			if (args.Count < 3)
 			{
 				Log.Debug("HandleWhisper: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
@@ -66,7 +66,7 @@ namespace Melia.Social.Commands
 			chatRoom.AddMember(user.Account);
 			chatRoom.AddMember(whisperTarget);
 
-			var text = Regex.Replace(message, @"^.*?(?:\s+|$)", "");
+			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
 			var chatMessage = new ChatMessage(user.Account, whisperTarget, text);
 			chatRoom.AddMessage(chatMessage);
@@ -88,7 +88,7 @@ namespace Melia.Social.Commands
 		/// <returns></returns>
 		private CommandResult HandleChatRoomChat(SocialUser user, string message, string command, Arguments args)
 		{
-			if (args.Count < 2)
+			if (args.Count < 3)
 			{
 				Log.Debug("HandleChatRoomChat: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
@@ -106,7 +106,7 @@ namespace Melia.Social.Commands
 				return CommandResult.Okay;
 			}
 
-			var text = Regex.Replace(message, @"^.*?(?:\s+|$)", "");
+			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
 			var chatMessage = new ChatMessage(user.Account, text);
 			chatRoom.AddMessage(chatMessage);
