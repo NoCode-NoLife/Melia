@@ -108,6 +108,44 @@ namespace Melia.Shared.ObjectProperties
 		}
 
 		/// <summary>
+		/// Copies the values from the given properties into this collection.
+		/// </summary>
+		/// <param name="otherProperties"></param>
+		public void CopyFrom(Properties otherProperties)
+		{
+			foreach (var otherProperty in otherProperties.GetAll())
+			{
+				// Calculated and referenced properties are set up when
+				// an object is created and can't be copied. And even if
+				// could replicate them, it wouldn't be safe because they
+				// might reference data of another object.
+				if (otherProperty is CFloatProperty || otherProperty is RFloatProperty)
+					continue;
+
+				if (otherProperty is FloatProperty floatProperty)
+				{
+					if (!this.TryGet<FloatProperty>(otherProperty.Ident, out var thisProperty))
+						thisProperty = this.Create(new FloatProperty(otherProperty.Ident));
+
+					thisProperty.MaxValue = floatProperty.MaxValue;
+					thisProperty.MinValue = floatProperty.MinValue;
+					thisProperty.Value = floatProperty.Value;
+				}
+				else if (otherProperty is StringProperty stringProperty)
+				{
+					if (!this.TryGet<StringProperty>(otherProperty.Ident, out var thisProperty))
+						thisProperty = this.Create(new StringProperty(otherProperty.Ident));
+
+					thisProperty.Value = stringProperty.Value;
+				}
+				else
+				{
+					throw new TypeMismatchException($"Type '{otherProperty.GetType().Name}' of property '{otherProperty.Ident}' is not supported.");
+				}
+			}
+		}
+
+		/// <summary>
 		/// Returns the property with the given identifier. If the
 		/// property doesn't exist yet, it will be created.
 		/// </summary>
