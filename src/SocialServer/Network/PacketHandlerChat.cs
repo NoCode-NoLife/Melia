@@ -148,25 +148,36 @@ namespace Melia.Social.Network
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
 			var accountId = packet.GetLong();
-			var state = (FriendState)packet.GetByte();
+			var i2 = packet.GetInt();
+			var cmd = (FriendCmd)packet.GetInt();
 
 			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
 			{
-				Log.Warning("CS_FRIEND_CMD: Failed to find account by id {0} for user {1}.", accountId, conn.User.Name);
+				Log.Warning("CS_FRIEND_CMD: User '{0}' tried to modify a friend without having them in their friends list.", conn.User.Name);
 				return;
 			}
 
-			if (state == FriendState.Delete)
+			switch (cmd)
 			{
-				if (!conn.User.Friends.DeleteFriend(friend))
-					Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.Name, conn.User.Name);
+				case FriendCmd.Accept:
+				{
+					friend.State = FriendState.Accepted;
+					break;
+				}
+				case FriendCmd.Decline:
+				{
+					friend.State = FriendState.Declined;
+					break;
+				}
+				case FriendCmd.Delete:
+				{
+					if (!conn.User.Friends.DeleteFriend(friend))
+						Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.TeamName, conn.User.Name);
 
-				Send.SC_NORMAL.FriendResponse(conn, friend);
-				return;
+					Send.SC_NORMAL.FriendResponse(conn, friend);
+					return;
+				}
 			}
-
-			// Is this the friend's state, that needs to be updated?
-			friend.State = state;
 
 			Send.SC_NORMAL.FriendResponse(conn, friend);
 			Send.SC_NORMAL.FriendInfo(conn, friend);

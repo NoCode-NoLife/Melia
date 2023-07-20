@@ -97,4 +97,25 @@ namespace Melia.Social.Database
 		/// </summary>
 		Blocked,
 	}
+
+	/// <summary>
+	/// Specifies the action requested to take on a friend.
+	/// </summary>
+	public enum FriendCmd : int
+	{
+		/// <summary>
+		/// Accept friend request.
+		/// </summary>
+		Accept,
+
+		/// <summary>
+		/// Decline a friend request.
+		/// </summary>
+		Decline,
+
+		/// <summary>
+		/// Delete or unblock a friend.
+		/// </summary>
+		Delete,
+	}
 }

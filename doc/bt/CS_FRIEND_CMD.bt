@@ -1,0 +1,23 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CS_FRIEND_CMD.bt
+//   Authors: exec
+//   Version: i375263
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixedOld header;
+
+int i1;
+short s2;
+long accountId;
+int i2;
+int cmd; // Accept = 0, Decline = 1, Delete = 2
+int i4;
