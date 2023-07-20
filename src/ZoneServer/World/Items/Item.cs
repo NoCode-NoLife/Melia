@@ -122,24 +122,9 @@ namespace Melia.Zone.World.Items
 		/// <param name="other"></param>
 		public Item (Item other)
 		{
-			Type itemType = this.GetType();
-
-			// Get all public instance properties of the Item class
-			PropertyInfo[] properties = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-
-			// Iterate over each property and copy its value from 'other' to 'this'
-			foreach (PropertyInfo property in properties)
-			{
-				// Check if the property has both a getter and a setter
-				if (property.CanRead && property.CanWrite)
-				{
-					// Get the value of the property from 'other'
-					object value = property.GetValue(other);
-
-					// Set the value of the property in 'this'
-					property.SetValue(this, value);
-				}
-			}
+			this.Id = other.Id;
+			this.Amount = other.Amount;
+			this.LoadData();
 		}
 
 		/// <summary>

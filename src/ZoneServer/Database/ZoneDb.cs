@@ -688,7 +688,7 @@ namespace Melia.Zone.Database
 					mc.ExecuteNonQuery();
 				}
 
-				foreach (var storageItem in character.PersonalStorage.GetStorageItems())
+				foreach (var storageItem in character.PersonalStorage.GetStorage())
 				{
 					var newId = 0L;
 

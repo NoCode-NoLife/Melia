@@ -20,28 +20,28 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		private readonly object _syncLock = new object();
 
 		// Items in storage
-		// SortedList by storage position.
-		private SortedList<int, Item> _storageItems = new SortedList<int, Item>();
+		// Index is its storage position.
+		private Item[] _storageItems;
 
 		// How many positions the storage has.
 		private int _maxStorage = 60;
 
 		/// <summary>
-		/// Gets the first available position in storage
+		/// Gets the first available position in storage.
+		/// Returns -1 if not found.
 		/// </summary>
 		/// <returns></returns>
 		/// <exception cref="Exception"></exception>
 		private int FindAvailablePosition()
 		{
-			for (int i = 0; i < _maxStorage; i++)
+			for (var i = 0; i < _maxStorage; i++)
 			{
-				if (!_storageItems.ContainsKey(i))
+				if (_storageItems[i] == null)
 				{
 					return i;
 				}
 			}
-
-			throw new Exception("PersonalStorageComponent: Storage data structures mismatch expected storage size");
+			return -1;
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="account"></param>
 		public PersonalStorageComponent(Character character) : base(character)
 		{
-
+			_storageItems = new Item[_maxStorage];
 		}
 
 		/// <summary>
@@ -103,9 +103,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public StorageResult RetrieveItem(long worldId, int amount = 1)
 		{
 			// Checks item is in storage
-			var storedItem = this.TryGetItem(worldId);
-			if (storedItem == null)
-				return StorageResult.ItemNotFound;
+			var result = this.TryGetItem(worldId, out var storedItem, out var position);
+			if (result != StorageResult.Success)
+				return result;
 
 			var itemToRetrieve = new Item(storedItem);
 			itemToRetrieve.Amount = Math.Min(amount, storedItem.Amount);
@@ -131,8 +131,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 		/// <summary>
 		/// Adds a new item to the storage.
-		/// Does nothing if storage is full.
 		/// Returns via out position it was stored in.
+		/// Does nothing if storage is full and position will be -1.
 		/// Does not update client.
 		/// </summary>
 		/// <param name="item"></param>
@@ -146,19 +146,26 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// Looks for stackable items
 			if (item.IsStackable && item.Amount > 1)
 			{
-				foreach (var Item in _storageItems)
+				for (int i = 0; i < _maxStorage; i++)
 				{
-					if (Item.Value.Data.ClassName == item.Data.ClassName)
+					if ((_storageItems[i] != null) && (_storageItems[i].Data.ClassName == item.Data.ClassName))
 					{
-						position = Item.Key;
-						return this.AddItemStack(item, Item.Value.Amount);
+						position = i;
+						return this.AddItemStack(item, item.Amount);
 					}
 				}
 			}
 			
 			// Add to new position
 			var availablePosition = this.FindAvailablePosition();
-			return this.Add(item, availablePosition);
+			if (availablePosition != -1)
+			{
+				return this.Add(item, availablePosition);
+			}
+			else
+			{
+				return StorageResult.StorageFull;
+			}
 		}
 
 		/// <summary>
@@ -174,7 +181,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				lock (_syncLock)
 				{
 					// Adds item
-					_storageItems.Add(position, item);
+					_storageItems[position] = item;
 					return StorageResult.Success;
 				}
 			}
@@ -200,16 +207,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <exception cref="ArgumentException"></exception>
 		public StorageResult Remove(Item item)
 		{
-			var Item = this.TryGetItem(item.ObjectId);
-			if (Item == null)
-				return StorageResult.ItemNotFound;
+			var result = this.TryGetItem(item.ObjectId, out item, out var position);
+			if (result != StorageResult.Success)
+				return result;
 
 			lock (_syncLock)
 			{
 				// If the item is stackable, handle the reduction of the stack
 				if (item.IsStackable && item.Amount > 1)
 				{
-					int removedAmount = RemoveItemStack(Item, item.Amount);
+					int removedAmount = RemoveItemStack(item, item.Amount);
 					if (removedAmount == item.Amount)
 					{
 						// Successfully removed the specified amount from the stack
@@ -223,17 +230,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				}
 				else
 				{
-					// If the item is not stackable or there is only one left,
-					// remove the item from storage completely
-					var index = _storageItems.IndexOfValue(item);
-					if (index >= 0)
-					{
-						_storageItems.RemoveAt(index);
-					}
-					else
-					{
-						return StorageResult.InvalidOperation;
-					}
+					_storageItems[position] = null;
 				}
 			}
 			return StorageResult.Success;
@@ -285,23 +282,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		*/
 
 		/// <summary>
-		/// Returns all existing items in storage.
-		/// Items are returned ordered by their position.
+		/// Returns a dictionary of items in each position
+		/// of storage.
 		/// </summary>
 		/// <returns></returns>
-		public List<Item> GetItems()
+		public Dictionary<int, Item> GetStorage()
 		{
-			return _storageItems.Values.ToList();
-		}
+			// Filter out null items and create a dictionary
+			var storageDictionary = _storageItems
+				.Select((item, index) => new { Item = item, Index = index })
+				.Where(itemData => itemData.Item != null)
+				.ToDictionary(itemData => itemData.Index, itemData => itemData.Item);
 
-		/// <summary>
-		/// Returns all existing items in storage with
-		/// their position.
-		/// </summary>
-		/// <returns></returns>
-		public SortedList<int, Item> GetStorageItems()
-		{
-			return _storageItems;
+			return storageDictionary;
 		}
 
 		/// <summary>
@@ -309,19 +302,24 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="worldId"></param>
 		/// <returns></returns>
-		public Item TryGetItem(long worldId)
+		public StorageResult TryGetItem(long worldId, out Item item, out int position)
 		{
+			item = null;
+			position = -1;
+
 			lock (_syncLock)
 			{
-				foreach (var item in _storageItems)
+				for (var i = 0; i < _maxStorage; i++)
 				{
-					if ((item.Value != null) && (item.Value.ObjectId == worldId))
+					if ((_storageItems[i] != null) && (_storageItems[i].ObjectId == worldId))
 					{
-						return item.Value;
+						item = _storageItems[i];
+						position = i;
+						return StorageResult.Success;
 					}
 				}
 
-				return null;
+				return StorageResult.ItemNotFound;
 			}
 		}
 
@@ -333,7 +331,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <returns></returns>
 		public Item TryGetItemPosition(int position)
 		{
-			return _storageItems.ElementAtOrDefault(position).Value;
+			return _storageItems[position];
 		}
 
 		/// <summary>
@@ -372,23 +370,20 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			item.Amount -= reduce;
 
-			// Remove or reduce
+			// Remove item completely
 			if (item.Amount <= 0)
 			{
 				lock (_syncLock)
 				{
-					var index = _storageItems.IndexOfValue(item);
-					if (index >= 0)
-					{
-						_storageItems.RemoveAt(index);
-					}
-					else
+					var result = TryGetItem(item.ObjectId, out item, out var position);
+					if (result != StorageResult.Success)
 					{
 						return -1;
 					}
+
+					_storageItems[position] = null;
 				}
 			}
-
 			return reduce;
 		}
 	}

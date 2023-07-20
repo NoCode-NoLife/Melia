@@ -1389,8 +1389,8 @@ namespace Melia.Zone.Network
 				// Server allowance check
 				if (personalStorageEnabled)
 				{
-					var items = conn.SelectedCharacter.PersonalStorage.GetItems();
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
+					var storageItems = conn.SelectedCharacter.PersonalStorage.GetStorage();
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, storageItems.Values.ToList());
 				}
 			}
 			if (type == StorageType.TeamStorage)
