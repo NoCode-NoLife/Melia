@@ -11,6 +11,7 @@ namespace Melia.Shared.ObjectProperties
 	public class Properties : VariableContainer<string>
 	{
 		private readonly Dictionary<string, List<string>> _maxProperties = new Dictionary<string, List<string>>();
+		private readonly bool _checkNamespaceValidity;
 
 		/// <summary>
 		/// Returns the namespace of the properties in this collection.
@@ -20,10 +21,21 @@ namespace Melia.Shared.ObjectProperties
 		/// <summary>
 		/// Creates new property collection with the given namespace.
 		/// </summary>
-		/// <param name="namespaceName"></param>
+		/// <param name="namespaceName">Namespace of the collection, controlling which properties can be added to it.</param>
 		public Properties(string namespaceName)
+			: this(namespaceName, true)
+		{
+		}
+
+		/// <summary>
+		/// Creates new property collection with the given namespace.
+		/// </summary>
+		/// <param name="namespaceName">Namespace of the collection, controlling which properties can be added to it.</param>
+		/// <param name="checkNamespaceValidity">If true, only properties that are part of the namespace can be added to this collection.</param>
+		public Properties(string namespaceName, bool checkNamespaceValidity)
 		{
 			this.Namespace = namespaceName;
+			_checkNamespaceValidity = checkNamespaceValidity;
 		}
 
 		/// <summary>
@@ -38,8 +50,11 @@ namespace Melia.Shared.ObjectProperties
 			if (!(variable is IProperty))
 				throw new ArgumentException($"The given variable '{variable.Ident}' is not a property.");
 
-			if (!PropertyTable.Exists(this.Namespace, variable.Ident))
-				throw new ArgumentException($"The property '{variable.Ident}' doesn't exist in the namespace '{this.Namespace}'.");
+			if (_checkNamespaceValidity)
+			{
+				if (!PropertyTable.Exists(this.Namespace, variable.Ident))
+					throw new ArgumentException($"The property '{variable.Ident}' doesn't exist in the namespace '{this.Namespace}'.");
+			}
 
 			return base.Create(variable);
 		}
