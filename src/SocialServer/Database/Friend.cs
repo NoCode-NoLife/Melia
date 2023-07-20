@@ -24,6 +24,25 @@
 		/// Get or set the friend's note.
 		/// </summary>
 		public string Note { get; set; }
+
+		/// <summary>
+		/// Creates a new, blank friend.
+		/// </summary>
+		public Friend()
+		{
+		}
+
+		/// <summary>
+		/// Creates a new friend from the given information.
+		/// </summary>
+		/// <param name="friendAccount"></param>
+		/// <param name="state"></param>
+		public Friend(Account friendAccount, FriendState state)
+		{
+			this.AccountId = friendAccount.Id;
+			this.TeamName = friendAccount.TeamName;
+			this.State = state;
+		}
 	}
 
 	/// <summary>

@@ -85,14 +85,16 @@ namespace Melia.Social.Network
 
 			if (!user.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
-				friend = new Friend()
-				{
-					AccountId = otherAccount.Id,
-					State = FriendState.Requested,
-					TeamName = otherAccount.TeamName,
-				};
+				friend = new Friend(otherAccount, FriendState.Requested);
+				var otherFriend = new Friend(account, FriendState.Requested);
 
-				conn.User.Friends.CreateFriend(friend);
+				SocialServer.Instance.Database.CreateFriend(account.Id, friend);
+				SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
+
+				user.Friends.AddFriend(friend);
+
+				if (userManager.TryGet(otherAccount.Id, out var otherUser))
+					otherUser.Friends.AddFriend(otherFriend);
 			}
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
@@ -121,14 +123,10 @@ namespace Melia.Social.Network
 
 			if (!conn.User.Friends.TryGetFriend(otherAccount.Id, out var friend))
 			{
-				friend = new Friend()
-				{
-					AccountId = otherAccount.Id,
-					State = FriendState.Blocked,
-					TeamName = otherAccount.TeamName,
-				};
+				friend = new Friend(otherAccount, FriendState.Blocked);
 
-				conn.User.Friends.CreateFriend(friend);
+				user.Friends.AddFriend(friend);
+				SocialServer.Instance.Database.CreateFriend(user.Account.Id, friend);
 			}
 			else
 			{

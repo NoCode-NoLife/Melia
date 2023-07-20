@@ -83,16 +83,6 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Adds friend to the account and the database.
-		/// </summary>
-		/// <param name="character"></param>
-		public void CreateFriend(Friend friend)
-		{
-			SocialServer.Instance.Database.CreateFriend(this.User.Account.Id, friend);
-			this.AddFriend(friend);
-		}
-
-		/// <summary>
 		/// Removes friend from the account and the database.
 		/// </summary>
 		/// <param name="friend"></param>
