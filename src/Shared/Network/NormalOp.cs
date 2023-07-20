@@ -79,9 +79,9 @@
 			public const int Unknown_00 = 0x00;
 			public const int Unknown_01 = 0x01;
 			public const int Unknown_02 = 0x02;
-			public const int Chat = 0x03;
-			public const int ChatRoomMessage = 0x04;
-			public const int ChatLog = 0x05;
+			public const int AddMessage = 0x03;
+			public const int MessageList = 0x04;
+			public const int CreateRoom = 0x05;
 			public const int SystemMessage = 0x07;
 			public const int FriendInfo = 0x08;
 			public const int FriendResponse = 0x09;

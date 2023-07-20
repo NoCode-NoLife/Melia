@@ -71,8 +71,8 @@ namespace Melia.Social.Commands
 			var chatMessage = new ChatMessage(user.Account, whisperTarget, text);
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.ChatLog(user.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(user.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.CreateRoom(user.Connection, chatRoom);
+			Send.SC_NORMAL.AddMessage(user.Connection, chatRoom, chatMessage);
 
 			return CommandResult.Okay;
 		}
@@ -111,8 +111,8 @@ namespace Melia.Social.Commands
 			var chatMessage = new ChatMessage(user.Account, text);
 			chatRoom.AddMessage(chatMessage);
 
-			Send.SC_NORMAL.ChatLog(user.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(user.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.CreateRoom(user.Connection, chatRoom);
+			Send.SC_NORMAL.AddMessage(user.Connection, chatRoom, chatMessage);
 
 			return CommandResult.Okay;
 		}

@@ -236,7 +236,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Request to refresh all chat rooms and their messages.
+		/// Request to refresh all chat rooms?
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -245,11 +245,8 @@ namespace Melia.Social.Network
 		{
 			var user = conn.User;
 
-			foreach (var room in user.Account.GetChatRooms())
-			{
-				foreach (var message in room.GetMessages())
-					Send.SC_NORMAL.ChatLog(conn, room, message);
-			}
+			foreach (var chatRoom in user.Account.GetChatRooms())
+				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
 		}
 
 		/// <summary>
@@ -279,8 +276,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			foreach (var message in chatRoom.GetMessages())
-				Send.SC_NORMAL.ChatRoomMessage(conn, chatRoom, message);
+			Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
 		}
 
 		/// <summary>

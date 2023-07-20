@@ -63,17 +63,17 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
 			/// <param name="chatMessage"></param>
-			public static void Chat(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
+			public static void AddMessage(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.Chat);
+				packet.PutInt(NormalOp.Social.AddMessage);
 
 				packet.PutLong(chatRoom.Id); // Chat Id
-				packet.PutLong(1);
+				packet.PutLong(1); // msg id?
 				packet.PutByte(1);
 				packet.PutDate(chatMessage.SentTime);
 				packet.PutLpString(chatMessage.Sender.TeamName);
-				packet.PutShort(1001);
+				packet.PutShort(1001); // server group?
 				packet.PutLpString(chatMessage.Message);
 				packet.PutByte(0); // 0 or 1
 				packet.PutInt(2);
@@ -90,36 +90,35 @@ namespace Melia.Social.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
-			/// <param name="chatMessage"></param>
-			public static void ChatRoomMessage(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
+			/// <param name="chatMessages"></param>
+			public static void MessageList(ISocialConnection conn, ChatRoom chatRoom, IEnumerable<ChatMessage> chatMessages)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.ChatRoomMessage);
+				packet.PutInt(NormalOp.Social.MessageList);
 
 				packet.PutLong(chatRoom.Id);
-				packet.PutInt(2);
-				packet.PutLong(1);
-				packet.PutDate(chatMessage.SentTime);
-				packet.PutLpString(chatRoom.Owner.TeamName);
-				packet.PutLpString(chatMessage.Message);
-				packet.PutLong(1);
-				packet.PutDate(chatMessage.SentTime);
-				packet.PutLpString(chatRoom.Owner.TeamName);
-				packet.PutLpString(chatMessage.Message);
+				packet.PutInt(chatMessages.Count());
+
+				foreach (var chatMessage in chatMessages)
+				{
+					packet.PutLong(1); // msg id?
+					packet.PutDate(chatMessage.SentTime);
+					packet.PutLpString(chatMessage.Sender.TeamName);
+					packet.PutLpString(chatMessage.Message);
+				}
 
 				chatRoom.Broadcast(packet);
 			}
 
 			/// <summary>
-			/// Chat Log
+			/// Creates/updates chat room on the client.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
-			/// <param name="chatMessage"></param>
-			public static void ChatLog(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
+			public static void CreateRoom(ISocialConnection conn, ChatRoom chatRoom)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.ChatLog);
+				packet.PutInt(NormalOp.Social.CreateRoom);
 
 				packet.PutLong(chatRoom.Id);
 				packet.PutInt((int)chatRoom.Type);
@@ -130,14 +129,11 @@ namespace Melia.Social.Network
 				packet.PutInt(chatRoom.MemberCount);
 				packet.PutInt(2);
 				packet.PutByte(1); // b3
-				packet.PutLong(chatMessage.Sender.Id);
-				packet.PutLpString(chatMessage.Sender.TeamName);
-				packet.PutInt(1);
 
-				if (chatMessage.Recipient != null)
+				foreach (var member in chatRoom.GetMembers())
 				{
-					packet.PutLong(chatMessage.Recipient.Id);
-					packet.PutLpString(chatMessage.Recipient.TeamName);
+					packet.PutLong(member.Id);
+					packet.PutLpString(member.TeamName);
 					packet.PutInt(1);
 				}
 

@@ -27,7 +27,7 @@ switch (type)
         int i1; // 3
         break;
 
-    // Chat
+    // AddMessage
     case 0x03:
         int64 chatId; // 554836760199289
         int64 l2; // 1 = Chat Room, 2 = Player
@@ -44,39 +44,41 @@ switch (type)
         lpString serverType; // GLOBAL
         break;
 
-    // Chat Room
+    // MessageList
     case 0x04:
+        typedef struct
+        {
+            int64 l3; // 2
+            FILETIME timeStamp2;
+            lpString teamName; // Shayaan
+            lpString text; // !@#$NewRoomHasBeenCreated#@!
+        }
+        ChatMessage <optimize=false>;
+
         int64 chatId; // 557001423716382
-        int i1; // 2
-        int64 l2; // 1
-        FILETIME timeStamp;
-        lpString senderTeamName; // Shayaan
-        lpString message; // !@#$NewRoomHasBeenCreated#@!
-        int64 l3; // 2
-        FILETIME timeStamp2;
-        lpString ownerName; // Shayaan
-        lpString message2; // !@#$NewRoomHasBeenCreated#@!
+        int messageCount;
+        ChatMessage messages[messageCount];
         break;
 
-    // Chat Logs?
+    // CreateRoom
     case 0x05:
-        int64 chatId;
-        int i1; // 121
-        int64 l2;
-        byte b[4];
-        short s1;
-        int i3;
-        int i4;
-        byte b1;
-        int64 accountId1;
-        lpString name1;
-        int i5;
-        if (i1 == 0 || i3 == 2)
+        typedef struct
         {
             int64 accountId2;
             lpString name2;
             int i6;
         }
+        ChatMember <optimize=false>;
+
+        int64 chatId;
+        int i1; // 121
+        int64 l2;
+        byte unk1[4];
+        short s1;
+        int memberCount;
+        int i4;
+        byte b1;
+        ChatMember members[memberCount];
         break;
 
     // Group Chat Creation?

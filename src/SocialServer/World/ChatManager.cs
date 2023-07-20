@@ -79,9 +79,8 @@ namespace Melia.Social.World
 			var chatMessage = new ChatMessage(creator.Account, "!@#$NewRoomHasBeenCreated#@!");
 			chatRoom.AddMessage(chatMessage);
 
-			//Send.SC_NORMAL.ChatRoomMessage(owner.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.ChatLog(creator.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(creator.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.CreateRoom(creator.Connection, chatRoom);
+			Send.SC_NORMAL.AddMessage(creator.Connection, chatRoom, chatMessage);
 
 			return chatRoom;
 		}
