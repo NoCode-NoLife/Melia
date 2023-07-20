@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_huevillage_58_4
-//
+// Septyni Glen Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the f_huevillage_58_4 mobs.
+// Sets up monster spawners for 'f_huevillage_58_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,197 +13,205 @@ public class FHuevillage584MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Beeteros, Properties("MHP", 33335, "MINPATK", 929, "MAXPATK", 1044, "MINMATK", 929, "MAXMATK", 1044, "DEF", 177, "MDEF", 177));
 		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Mentiwood, Properties("MHP", 33952, "MINPATK", 937, "MAXPATK", 1054, "MINMATK", 937, "MAXMATK", 1054, "DEF", 178, "MDEF", 178));
 		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Carcashu, Properties("MHP", 34589, "MINPATK", 946, "MAXPATK", 1064, "MINMATK", 946, "MAXMATK", 1064, "DEF", 178, "MDEF", 178));
 		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Tiny_Mage, Properties("MHP", 35243, "MINPATK", 954, "MAXPATK", 1075, "MINMATK", 954, "MAXMATK", 1075, "DEF", 179, "MDEF", 179));
+		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Boss_Harpeia, Properties("MHP", 170234, "MINPATK", 1964, "MAXPATK", 2214, "MINMATK", 1964, "MAXMATK", 2214, "DEF", 368, "MDEF", 368));
+		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Boss_Merge, Properties("MHP", 173497, "MINPATK", 1982, "MAXPATK", 2236, "MINMATK", 1982, "MAXMATK", 2236, "DEF", 370, "MDEF", 370));
+		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Boss_Mothstem, Properties("MHP", 176840, "MINPATK", 2000, "MAXPATK", 2259, "MINMATK", 2000, "MAXMATK", 2259, "DEF", 372, "MDEF", 372));
+		AddPropertyOverrides("f_huevillage_58_4", MonsterId.Boss_Clymen, Properties("MHP", 180259, "MINPATK", 2019, "MAXPATK", 2282, "MINMATK", 2019, "MAXMATK", 2282, "DEF", 374, "MDEF", 374));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Rootcrystal_01, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id4", MonsterId.Carcashu, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Carcashu, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id4", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Beeteros Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id1", "f_huevillage_58_4", Spot(70.66016, -748.64, 9999));
+		// 'Beeteros' GenType 21 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id1", "f_huevillage_58_4", Rectangle(70, -748, 9999));
 
-		// Mentiwood Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id2", "f_huevillage_58_4", Spot(538.1299, -194.39, 9999));
+		// 'Mentiwood' GenType 22 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id2", "f_huevillage_58_4", Rectangle(538, -194, 9999));
 
-		// Rootcrystal_01 Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(-951.71, -482.53, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(-310.3398, 300.22, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(-217.02, -365.72, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(205.96, -745.94, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(330.5098, -194.94, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(825.4199, -128.11, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(1223.96, -479.45, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(1385.94, 689.43, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(915.7764, 825.4412, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(254.8701, 680.27, 200));
-		AddSpawnPoint( "f_huevillage_58_4.Id3", "f_huevillage_58_4", Spot(-793.3198, -945.04, 200));
+		// 'Carcashu' GenType 23 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1074, -812, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-734, -671, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1345, 696, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1378, 759, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1240, 549, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1362, 514, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1314, 393, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1448, 337, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1270, 230, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1365, 111, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1275, 27, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1188, 30, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(858, 123, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(977, 162, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1560, -171, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1504, 190, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1416, -19, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1221, -175, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1157, -201, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1148, -333, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1201, -375, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1291, -429, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1207, -531, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(1389, -326, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(901, -322, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(903, -238, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(895, -183, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(849, -285, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(822, -132, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(733, -137, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(729, -375, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(768, -335, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(578, -333, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(662, -146, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(699, -78, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(595, -75, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(529, -133, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(443, 858, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(521, 766, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(619, 736, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(584, 655, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(554, 575, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(462, 552, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(352, 708, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(260, 604, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(348, 457, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(204, 475, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(128, 422, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(181, 244, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(122, 131, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(97, 202, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(78, 292, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-24, 158, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-65, 366, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-247, 139, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-402, 170, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-238, 306, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-399, 355, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-598, 586, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-536, 551, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-529, 594, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-711, 471, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-702, 367, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-895, 281, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-930, 184, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(129, -603, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(11, -949, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(127, -991, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(179, -946, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(223, -904, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(119, -921, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-68, -838, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(204, -747, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-41, -653, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-28, -586, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-4, -541, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-325, -469, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-502, -561, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-728, -588, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-679, -787, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-765, -1063, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-844, -1063, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-728, -944, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-640, -897, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-820, -567, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-949, -408, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-951, -480, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1025, -678, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1147, -879, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-984, -949, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-994, -171, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1024, -27, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1127, -30, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1210, -189, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1184, -358, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1413, -438, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id3", "f_huevillage_58_4", Rectangle(-1200, -450, 25));
 
-		// Carcashu Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-498.2344, 335.929, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-886.1831, 230.3165, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-255.90654, 245.81946, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(315.3911, 575.5746, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(482.9688, 726.1776, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(1254.933, 669.5435, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(607.5352, -381.7071, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(994.5674, 938.7015, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(1629.309, -38.91473, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-722.6069, 315.6087, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(891.6665, -124.2378, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(906.1646, -401.3713, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(846.1069, 774.236, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(1307.854, 822.4095, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(375.7471, 861.5214, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-673.7715, 454.1162, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-560.6216, 575.731, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-647.6182, 203.8764, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-434.26382, -552.4656, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(-500.56607, -511.39062, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id4", "f_huevillage_58_4", Spot(33.59835, 214.54025, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1074.544, -812.757, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-734.5767, -671.5833, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1345.3359, 696.4551, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1378.8658, 759.07983, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1240.8519, 549.9227, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1362.5782, 514.2891, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1314.7555, 393.09674, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1448.9991, 337.01172, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1270.6273, 230.997, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1365.2448, 111.63402, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1275.6145, 27.033047, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1188.8193, 30.005426, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(858.9419, 123.19749, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(977.6063, 162.48679, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1560.7424, -171.52899, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1504.8546, 190.59007, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1416.4971, -19.46041, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1221.6206, -175.58766, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1157.7772, -201.56491, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1148.1595, -333.89343, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1201.5454, -375.19257, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1291.778, -429.67084, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1207.2712, -531.47437, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(1389.0493, -326.75458, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(901.1679, -322.1083, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(903.9131, -238.03996, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(895.12634, -183.47699, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(849.61475, -285.49927, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(822.03876, -132.67104, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(733.20856, -137.56804, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(729.9969, -375.90033, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(768.7777, -335.94598, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(578.5811, -333.30212, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(662.9487, -146.95255, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(699.1332, -78.261475, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(595.43036, -75.83484, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(529.1087, -133.50887, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(443.24103, 858.3708, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(521.11426, 766.0676, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(619.82104, 736.1191, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(584.19574, 655.31744, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(554.09814, 575.0045, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(462.8836, 552.3381, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(352.08746, 708.2183, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(260.98615, 604.8258, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(348.5043, 457.19775, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(204.27791, 475.5531, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(128.49377, 422.52826, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(181.76477, 244.9632, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(122.90495, 131.9965, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(97.31915, 202.4379, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(78.16541, 292.702, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-24.48048, 158.10077, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-65.80888, 366.67355, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-247.74985, 139.99478, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-402.8795, 170.56546, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-238.95651, 306.21472, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-399.1848, 355.6209, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-598.31354, 586.93207, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-536.8692, 551.55634, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-529.2776, 594.1533, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-711.5325, 471.2178, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-702.732, 367.40897, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-895.47705, 281.077, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-930.8628, 184.77434, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(129.86, -603.61383, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(11.677895, -949.1259, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(127.05459, -991.12036, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(179.9607, -946.89435, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(223.38036, -904.6151, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(119.76646, -921.0869, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-68.84341, -838.92676, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(204.1498, -747.828, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-41.590282, -653.71136, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-28.18346, -586.53375, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-4.396551, -541.50525, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-325.12186, -469.6883, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-502.9834, -561.90485, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-728.2169, -588.13007, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-679.78357, -787.41046, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-765.81335, -1063.2272, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-844.4267, -1063.7932, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-728.18915, -944.85156, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-640.59674, -897.82904, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-820.6619, -567.0757, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-949.78577, -408.0631, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-951.62866, -480.0193, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1025.0413, -678.26733, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1147.3085, -879.7647, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-984.4342, -949.7281, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-994.00714, -171.49774, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1024.7294, -27.573294, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1127.5303, -30.049416, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1210.9148, -189.46857, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1184.8698, -358.87454, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1413.6433, -438.11404, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id5", "f_huevillage_58_4", Spot(-1200.7015, -450.3159, 25));
+		// 'Rootcrystal_01' GenType 31 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(-951, -482, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(-310, 300, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(-217, -365, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(205, -745, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(330, -194, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(825, -128, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(1223, -479, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(1385, 689, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(915, 825, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(254, 680, 200));
+		AddSpawnPoint("f_huevillage_58_4.Id4", "f_huevillage_58_4", Rectangle(-793, -945, 200));
 
-		// Tiny_Mage Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-961.8071, -594.86, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-822.9517, -782.1458, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-1026.696, -847.2418, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-1219.799, -378.2926, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-764.4102, -526.6771, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-655.5005, -643.2505, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-1074.023, -45.63127, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-1396.708, -363.8886, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-842.0063, -983.6351, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-619.1997, -827.7149, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id6", "f_huevillage_58_4", Spot(-75.58547, 168.25076, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(807.4399, -65.60052, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(1329.229, 249.0205, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(1199.268, 647.1215, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(1015.546, 893.3326, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(486.3955, 624.7064, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(506.209, 820.6441, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(1270.279, -250.7423, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(1309.83, 787.3874, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(267.9224, 665.6131, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(-212.93094, 205.45773, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(170.64256, 390.47836, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(119.48222, 276.44168, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id7", "f_huevillage_58_4", Spot(-361.4988, -515.37616, 25));
+		// 'Carcashu' GenType 35 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-498, 335, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-886, 230, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-255, 245, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(315, 575, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(482, 726, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(1254, 669, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(607, -381, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(994, 938, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(1629, -38, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-722, 315, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(891, -124, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(906, -401, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(846, 774, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(1307, 822, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(375, 861, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-673, 454, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-560, 575, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-647, 203, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-434, -552, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(-500, -511, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id5", "f_huevillage_58_4", Rectangle(33, 214, 25));
 
-		// Beeteros Spawn Points
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(-560.05273, -565.51355, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(-144.82372, 354.6684, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(205.76624, 517.1957, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(-370.43536, -409.291, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(-48.584377, 294.39218, 25));
-		AddSpawnPoint( "f_huevillage_58_4.Id8", "f_huevillage_58_4", Spot(158.642, 172.71928, 25));
+		// 'Tiny_Mage' GenType 36 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-961, -594, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-822, -782, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-1026, -847, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-1219, -378, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-764, -526, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-655, -643, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-1074, -45, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-1396, -363, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-842, -983, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-619, -827, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id6", "f_huevillage_58_4", Rectangle(-75, 168, 25));
 
+		// 'Tiny_Mage' GenType 37 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(807, -65, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(1329, 249, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(1199, 647, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(1015, 893, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(486, 624, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(506, 820, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(1270, -250, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(1309, 787, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(267, 665, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(-212, 205, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(170, 390, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(119, 276, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id7", "f_huevillage_58_4", Rectangle(-361, -515, 25));
+
+		// 'Beeteros' GenType 47 Spawn Points
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(-560, -565, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(-144, 354, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(205, 517, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(-370, -409, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(-48, 294, 25));
+		AddSpawnPoint("f_huevillage_58_4.Id8", "f_huevillage_58_4", Rectangle(158, 172, 25));
 	}
 }

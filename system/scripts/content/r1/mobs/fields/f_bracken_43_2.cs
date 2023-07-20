@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_bracken_43_2
-//
+// Phamer Forest Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the f_bracken_43_2 mobs.
+// Sets up monster spawners for 'f_bracken_43_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,141 +13,139 @@ public class FBracken432MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Monster Spawners ---------------------------------
 
-		// Monster Spawners --------------------------------
-
-		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id2", MonsterId.Darong, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id3", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id4", MonsterId.Nukarong, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id5", MonsterId.Dorong, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id6", MonsterId.Darong, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_2.Id7", MonsterId.Dorong, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id2", MonsterId.Darong, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id3", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id4", MonsterId.Nukarong, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id5", MonsterId.Dorong, 3, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id6", MonsterId.Darong, 3, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_2.Id7", MonsterId.Dorong, 6, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Dorong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-654.18835, -805.9407, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-484.22397, -1227.8357, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1855.2622, -187.36934, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-2059.0688, -157.89699, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1984.8293, 614.8455, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1773.3805, 258.81512, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1943.5804, 316.77454, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1721.2979, 763.3056, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1229.1277, 788.89484, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1239.2493, 976.906, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-839.0458, 1034.5641, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(42.39817, 751.00104, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(305.79926, 835.21826, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-20.53629, 916.6449, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(386.94943, 1013.018, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1102.2266, 794.6667, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1326.185, 792.0694, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1362.255, 942.6011, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1281.7019, 416.59476, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1440.7592, 218.1153, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(844.6998, -560.7957, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1089.0328, -648.5753, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1017.0417, -415.58804, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(484.90237, 245.05885, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(420.5523, 397.78467, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(139.74817, 40.320686, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-110.4249, 83.21558, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-92.14546, 377.7483, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-480.2938, -1044.6771, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-328.78607, -952.38965, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1332.564, -478.43228, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(1368.8428, -116.33749, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(-1899.6854, 44.165115, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id1", "f_bracken_43_2", Spot(109.49186, 173.71686, 50));
+		// 'Dorong' GenType 21 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-654, -805, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-484, -1227, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1855, -187, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-2059, -157, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1984, 614, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1773, 258, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1943, 316, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1721, 763, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1229, 788, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1239, 976, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-839, 1034, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(42, 751, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(305, 835, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-20, 916, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(386, 1013, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1102, 794, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1326, 792, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1362, 942, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1281, 416, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1440, 218, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(844, -560, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1089, -648, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1017, -415, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(484, 245, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(420, 397, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(139, 40, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-110, 83, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-92, 377, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-480, -1044, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-328, -952, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1332, -478, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(1368, -116, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(-1899, 44, 50));
+		AddSpawnPoint("f_bracken_43_2.Id1", "f_bracken_43_2", Rectangle(109, 173, 50));
 
-		// Darong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(115.76257, 514.12134, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-964.56866, -486.07544, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1566.9521, -417.44955, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-2117.4258, -166.24136, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-710.1329, -921.1406, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-2078.549, 33.880646, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1886.8817, 418.015, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1775.991, 520.7555, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1032.223, 889.3396, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-750.7211, 718.20135, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-605.96826, 811.5491, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-104.77155, 873.5029, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(168.59404, 885.31226, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1281.0936, 675.3859, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1434.7986, 772.36395, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1438.5721, 293.91876, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1020.2137, -527.6776, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1304.1654, -493.68896, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-429.2153, -836.89575, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(127.79771, 340.23093, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1905.2965, -98.98149, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1949.2915, 255.4442, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1998.0015, 667.59314, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1849.8292, 849.9632, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1700.5015, 710.88586, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1254.4675, 868.73315, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-1029.6171, 1142.21, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-770.6467, 552.4464, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-754.24335, 990.8935, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(-423.59418, 842.9524, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(209.33957, 1092.4752, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(61.27321, 1102.7762, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(196.08765, 779.44366, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1287.0573, 966.9393, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1330.3481, 18.183994, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(1125.8783, 422.89966, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(686.6998, 331.01816, 50));
-		AddSpawnPoint( "f_bracken_43_2.Id2", "f_bracken_43_2", Spot(426.011, 303.129, 50));
+		// 'Darong' GenType 22 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(115, 514, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-964, -486, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1566, -417, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-2117, -166, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-710, -921, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-2078, 33, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1886, 418, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1775, 520, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1032, 889, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-750, 718, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-605, 811, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-104, 873, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(168, 885, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1281, 675, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1434, 772, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1438, 293, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1020, -527, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1304, -493, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-429, -836, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(127, 340, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1905, -98, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1949, 255, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1998, 667, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1849, 849, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1700, 710, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1254, 868, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-1029, 1142, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-770, 552, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-754, 990, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(-423, 842, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(209, 1092, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(61, 1102, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(196, 779, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1287, 966, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1330, 18, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(1125, 422, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(686, 331, 50));
+		AddSpawnPoint("f_bracken_43_2.Id2", "f_bracken_43_2", Rectangle(426, 303, 50));
 
-		// Rootcrystal_03 Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-1792.424, 711.591, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-1915.1549, -70.26795, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-1030.8273, -467.71533, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-563.593, -985.0532, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-578.80774, -80.71513, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(632.6458, 338.243, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(1376.6831, 272.72107, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(1159.5901, -550.7802, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(1345.4817, 864.93964, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-111.03139, 868.94836, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(386.5256, 920.05646, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-24.297176, 232.30795, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-2021.6886, 223.73126, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-808.92676, 780.93286, 10));
-		AddSpawnPoint( "f_bracken_43_2.Id3", "f_bracken_43_2", Spot(-1266.0018, 918.21796, 10));
+		// 'Rootcrystal_03' GenType 28 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-1792, 711, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-1915, -70, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-1030, -467, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-563, -985, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-578, -80, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(632, 338, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(1376, 272, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(1159, -550, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(1345, 864, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-111, 868, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(386, 920, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-24, 232, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-2021, 223, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-808, 780, 10));
+		AddSpawnPoint("f_bracken_43_2.Id3", "f_bracken_43_2", Rectangle(-1266, 918, 10));
 
-		// Nukarong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(1265.1232, 851.88135, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(-146.98474, 863.9316, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(-1046.4653, 745.3576, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(-1863.203, 573.6639, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(-1955.0134, -70.24289, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(-521.78314, -958.3266, 100));
-		AddSpawnPoint( "f_bracken_43_2.Id4", "f_bracken_43_2", Spot(970.6818, -506.4148, 100));
+		// 'Nukarong' GenType 30 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(1265, 851, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(-146, 863, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(-1046, 745, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(-1863, 573, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(-1955, -70, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(-521, -958, 100));
+		AddSpawnPoint("f_bracken_43_2.Id4", "f_bracken_43_2", Rectangle(970, -506, 100));
 
-		// Dorong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id5", "f_bracken_43_2", Spot(119.25311, 45.227417, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id5", "f_bracken_43_2", Spot(109.89546, 409.069, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id5", "f_bracken_43_2", Spot(352.80417, 197.76358, 20));
+		// 'Dorong' GenType 31 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id5", "f_bracken_43_2", Rectangle(119, 45, 20));
+		AddSpawnPoint("f_bracken_43_2.Id5", "f_bracken_43_2", Rectangle(109, 409, 20));
+		AddSpawnPoint("f_bracken_43_2.Id5", "f_bracken_43_2", Rectangle(352, 197, 20));
 
-		// Darong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id6", "f_bracken_43_2", Spot(24.91027, 316.68085, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id6", "f_bracken_43_2", Spot(226.28625, 78.4247, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id6", "f_bracken_43_2", Spot(279.89713, 389.34, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id6", "f_bracken_43_2", Spot(50.435143, 153.32701, 20));
+		// 'Darong' GenType 32 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id6", "f_bracken_43_2", Rectangle(24, 316, 20));
+		AddSpawnPoint("f_bracken_43_2.Id6", "f_bracken_43_2", Rectangle(226, 78, 20));
+		AddSpawnPoint("f_bracken_43_2.Id6", "f_bracken_43_2", Rectangle(279, 389, 20));
+		AddSpawnPoint("f_bracken_43_2.Id6", "f_bracken_43_2", Rectangle(50, 153, 20));
 
-		// Dorong Spawn Points
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-1034.9126, -567.08026, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-848.38336, -433.90918, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-978.9737, -284.19058, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-1208.3949, -461.7699, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-1003.2996, -431.84354, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-1109.5474, -339.1805, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-1169.2683, -562.09717, 20));
-		AddSpawnPoint( "f_bracken_43_2.Id7", "f_bracken_43_2", Spot(-928.1038, -567.6576, 20));
-
+		// 'Dorong' GenType 33 Spawn Points
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-1034, -567, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-848, -433, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-978, -284, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-1208, -461, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-1003, -431, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-1109, -339, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-1169, -562, 20));
+		AddSpawnPoint("f_bracken_43_2.Id7", "f_bracken_43_2", Rectangle(-928, -567, 20));
 	}
 }

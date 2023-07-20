@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_castle_20_4
-//
+// City Wall District 8 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the f_castle_20_4 mobs.
+// Sets up monster spawners for 'f_castle_20_4'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,116 +13,116 @@ public class FCastle204MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Monster Spawners ---------------------------------
 
-		// Monster Spawners --------------------------------
-
-		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id2", MonsterId.Shardstatue_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id3", MonsterId.Templeslave_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id4", MonsterId.Templeslave_Sword_Black, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id5", MonsterId.Templeslave_Sword_Black, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id2", MonsterId.Shardstatue_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id3", MonsterId.Templeslave_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id4", MonsterId.Templeslave_Sword_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id5", MonsterId.Templeslave_Sword_Black, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Rootcrystal_01 Spawn Points
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(34.78516, -868.313, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-1445.2787, -263.44592, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-1175.2864, -115.76887, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-410.94626, -374.60388, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-763.08936, 81.99354, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-743.1521, 761.9249, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-1150.9636, 1097.0609, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-1437.508, 904.25116, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(4.5423756, 395.73505, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(-551.29846, 704.0625, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(797.8819, 546.19214, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(438.82678, 67.1905, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(1247.4951, -384.1472, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(1241.5668, 1055.1947, 100));
-		AddSpawnPoint( "f_castle_20_4.Id1", "f_castle_20_4", Spot(73.42426, 1097.6423, 100));
+		// 'Rootcrystal_01' GenType 25 Spawn Points
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(34, -868, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-1445, -263, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-1175, -115, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-410, -374, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-763, 81, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-743, 761, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-1150, 1097, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-1437, 904, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(4, 395, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(-551, 704, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(797, 546, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(438, 67, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(1247, -384, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(1241, 1055, 100));
+		AddSpawnPoint("f_castle_20_4.Id1", "f_castle_20_4", Rectangle(73, 1097, 100));
 
-		// Shardstatue_Black Spawn Points
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-702.44525, -380.59302, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-207.55742, -387.0962, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(25.293987, -304.84842, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-10.118077, 281.13248, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(77.90299, 661.171, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-224.094, 676.82104, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-407.7395, 841.5025, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-555.5136, 719.55084, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-310.61328, 551.77716, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-380.23657, 681.7813, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-302.8039, 82.72845, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-395.4975, 253.5716, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-553.2185, 112.99907, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-490.73505, -76.17637, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-291.14264, -55.75553, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-431.78168, 116.49784, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(47.44703, 107.11325, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-7.6866875, -92.71161, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(4.524597, 815.2708, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(35.03936, 443.241, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-494.36597, -352.63257, 35));
-		AddSpawnPoint( "f_castle_20_4.Id2", "f_castle_20_4", Spot(-2.07484, 1023.0231, 35));
+		// 'Shardstatue_Black' GenType 26 Spawn Points
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-702, -380, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-207, -387, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(25, -304, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-10, 281, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(77, 661, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-224, 676, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-407, 841, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-555, 719, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-310, 551, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-380, 681, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-302, 82, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-395, 253, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-553, 112, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-490, -76, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-291, -55, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-431, 116, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(47, 107, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-7, -92, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(4, 815, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(35, 443, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-494, -352, 35));
+		AddSpawnPoint("f_castle_20_4.Id2", "f_castle_20_4", Rectangle(-2, 1023, 35));
 
-		// Templeslave_Black Spawn Points
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-805.9517, -298.67627, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-702.9707, -118.97207, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-771.21515, 69.369095, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-683.58594, 199.21494, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-757.178, 490.8129, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-721.75586, 655.118, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-782.0645, 909.0437, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-744.2903, 1121.8137, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1034.7623, 1026.4534, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1273.8335, 1134.9602, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1425.8967, 994.7538, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1276.7059, 878.2533, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1363.294, 476.8423, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1466.7708, 367.5376, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1389.9878, 264.98816, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1288.4446, -361.80344, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1428.7306, -243.95105, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1307.751, -92.98715, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1184.3546, -241.62326, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1339.3163, 377.09003, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1219.2534, 978.3968, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-800.9186, -84.13498, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-776.33014, 284.6501, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-976.6567, 1041.6532, 35));
-		AddSpawnPoint( "f_castle_20_4.Id3", "f_castle_20_4", Spot(-1285.0746, 456.8678, 35));
+		// 'Templeslave_Black' GenType 27 Spawn Points
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-805, -298, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-702, -118, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-771, 69, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-683, 199, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-757, 490, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-721, 655, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-782, 909, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-744, 1121, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1034, 1026, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1273, 1134, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1425, 994, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1276, 878, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1363, 476, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1466, 367, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1389, 264, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1288, -361, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1428, -243, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1307, -92, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1184, -241, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1339, 377, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1219, 978, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-800, -84, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-776, 284, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-976, 1041, 35));
+		AddSpawnPoint("f_castle_20_4.Id3", "f_castle_20_4", Rectangle(-1285, 456, 35));
 
-		// Templeslave_Sword_Black Spawn Points
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(190.35892, -420.2785, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(359.4801, -346.97714, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(613.26685, -414.9624, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(917.0539, -405.76068, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1297.3788, -283.95645, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1241.8547, 9.829712, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1313.3219, 191.34329, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1203.3325, 273.10446, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1239.599, 586.18176, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1282.2728, 774.8138, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1208.2478, 870.75574, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1249.0225, 993.6112, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1113.0449, 1076.464, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1293.5985, 1187.7205, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(1382.2795, 1014.0515, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-47.682972, -399.64505, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(40.1885, 27.892996, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-26.42879, 188.75655, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-12.563477, 636.57825, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(35.30894, 934.7871, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(394.44653, 1194.6964, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-532.8445, 1155.6777, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-423.15805, 1216.5969, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-282.0456, 1141.896, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-178.05545, 1213.7482, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(-132.39995, 1121.6509, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(53.834747, 1212.5104, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(150.12018, 1137.1055, 35));
-		AddSpawnPoint( "f_castle_20_4.Id4", "f_castle_20_4", Spot(341.6074, 1169.2446, 35));
-		AddSpawnPoint( "f_castle_20_4.Id5", "f_castle_20_4", Spot(16.189812, -248.99294, 9999));
+		// 'Templeslave_Sword_Black' GenType 28 Spawn Points
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(190, -420, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(359, -346, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(613, -414, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(917, -405, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1297, -283, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1241, 9, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1313, 191, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1203, 273, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1239, 586, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1282, 774, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1208, 870, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1249, 993, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1113, 1076, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1293, 1187, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(1382, 1014, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-47, -399, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(40, 27, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-26, 188, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-12, 636, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(35, 934, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(394, 1194, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-532, 1155, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-423, 1216, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-282, 1141, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-178, 1213, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(-132, 1121, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(53, 1212, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(150, 1137, 35));
+		AddSpawnPoint("f_castle_20_4.Id4", "f_castle_20_4", Rectangle(341, 1169, 35));
 
+		// 'Templeslave_Sword_Black' GenType 29 Spawn Points
+		AddSpawnPoint("f_castle_20_4.Id5", "f_castle_20_4", Rectangle(16, -248, 9999));
 	}
 }

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_fantasylibrary_48_2
-//
+// Sausis Room 10 Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the d_fantasylibrary_48_2 mobs.
+// Sets up monster spawners for 'd_fantasylibrary_48_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,212 +13,212 @@ public class DFantasylibrary482MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("d_fantasylibrary_48_2", MonsterId.Levada, Properties("MHP", 534014, "MINPATK", 7368, "MAXPATK", 8957, "MINMATK", 7368, "MAXMATK", 8957, "DEF", 94757, "MDEF", 94757));
 		AddPropertyOverrides("d_fantasylibrary_48_2", MonsterId.Marte_Book, Properties("MHP", 536103, "MINPATK", 7395, "MAXPATK", 8990, "MINMATK", 7395, "MAXMATK", 8990, "DEF", 95790, "MDEF", 95790));
 		AddPropertyOverrides("d_fantasylibrary_48_2", MonsterId.Aclis_Angel, Properties("MHP", 538326, "MINPATK", 7423, "MAXPATK", 9025, "MINMATK", 7423, "MAXMATK", 9025, "DEF", 96890, "MDEF", 96890));
 		AddPropertyOverrides("d_fantasylibrary_48_2", MonsterId.Luna_Angel, Properties("MHP", 540677, "MINPATK", 7454, "MAXPATK", 9062, "MINMATK", 7454, "MAXMATK", 9062, "DEF", 98052, "MDEF", 98052));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_2.Id1", MonsterId.Rootcrystal_03, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id2", MonsterId.Levada, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id3", MonsterId.Marte_Book, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id4", MonsterId.Aclis_Angel, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id5", MonsterId.Luna_Angel, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id2", MonsterId.Levada, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id3", MonsterId.Marte_Book, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id4", MonsterId.Aclis_Angel, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id5", MonsterId.Luna_Angel, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Rootcrystal_03 Spawn Points
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-70.96192, -912.533, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-155.2776, -668.3207, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(97.47767, -697.5531, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(6.2911816, -781.4941, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-150.67712, -235.11691, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(86.87434, -233.9829, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-828.4747, -133.20898, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-778.9827, -326.1649, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-530.2745, -180.12325, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-1317.2214, 368.72226, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-1450.717, 588.1688, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-1250.6185, 625.1411, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-1467.4485, 419.50104, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-725.63074, 293.5204, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-869.2427, 521.8553, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-673.6422, 601.9028, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-526.78546, 479.4915, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-709.6604, 461.72977, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(60.040237, 475.96124, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(121.64323, 820.0566, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(220.34973, 807.10187, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(466.86877, 645.04474, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(399.6458, 479.95435, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(900.2185, 519.7396, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(776.0543, 597.3585, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(883.17365, 727.32153, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(1000.3585, 704.9067, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(258.05322, 1358.8492, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(77.05518, 1301.4846, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(120.52112, 1501.7579, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(363.2575, 1468.4702, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-637.8186, 1801.4354, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-662.7879, 1558.08, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-551.1934, 1417.5342, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-367.16147, 1491.4899, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-384.01114, 1812.6871, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(-550.9521, 1664.0068, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(883.0411, -394.78387, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(962.8848, -117.85939, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(1044.9413, -333.63696, 100));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Spot(1450.4387, -306.6712, 100));
+		// 'Rootcrystal_03' GenType 8 Spawn Points
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-70, -912, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-155, -668, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(97, -697, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(6, -781, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-150, -235, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(86, -233, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-828, -133, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-778, -326, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-530, -180, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-1317, 368, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-1450, 588, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-1250, 625, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-1467, 419, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-725, 293, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-869, 521, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-673, 601, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-526, 479, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-709, 461, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(60, 475, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(121, 820, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(220, 807, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(466, 645, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(399, 479, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(900, 519, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(776, 597, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(883, 727, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(1000, 704, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(258, 1358, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(77, 1301, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(120, 1501, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(363, 1468, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-637, 1801, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-662, 1558, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-551, 1417, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-367, 1491, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-384, 1812, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(-550, 1664, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(883, -394, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(962, -117, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(1044, -333, 100));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id1", "d_fantasylibrary_48_2", Rectangle(1450, -306, 100));
 
-		// Levada Spawn Points
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(822.3179, 663.3762, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(820.3102, 556.54456, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(941.8388, 557.52124, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(919.64514, 750.90576, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(1339.0513, -199.84023, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(1358.0483, -333.32077, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(1452.5996, -327.31613, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(1566.2172, -254.73404, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-140.66412, -263.55096, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-72.51198, -157.80635, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(39.429714, -217.65445, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(49.868378, -114.39581, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(114.35773, 1460.5845, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(157.23775, 1357.9518, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(268.8048, 1321.6941, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(391.5023, 1451.2675, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(786.2051, -166.46565, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(845.4296, -364.9097, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(958.2307, -305.2716, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(1072.1633, -403.46954, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(996.2415, -130.02591, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-136.73123, -650.9275, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-78.80372, -749.3242, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(35.799103, -749.93207, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-131.48775, -861.062, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(32.259335, -862.52527, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-820.3349, -97.07361, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-634.23566, -160.17986, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-759.558, -211.05145, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-771.8323, -345.28622, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-636.82184, -306.2661, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-1441.9326, 575.0445, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-1513.0854, 458.17023, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-1412.7432, 426.96985, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-1263.5958, 369.58868, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-1258.4388, 551.61945, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-867.5617, 517.7297, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-890.37, 381.1024, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-752.9416, 325.9573, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-608.8672, 396.67755, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-575.4143, 535.8687, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-692.6803, 600.2355, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-715.90875, 1472.2393, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-664.7269, 1573.5272, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-616.36707, 1487.9996, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-530.88434, 1563.0027, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-470.51453, 1468.0327, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-643.5997, 1819.853, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-607.5745, 1736.8436, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-536.13794, 1812.8721, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-370.14767, 1779.8011, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-45.481243, 707.1347, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-2.7178307, 886.63885, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(117.28342, 863.5361, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(-16.839767, 534.955, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(125.13266, 463.09656, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(296.3425, 741.4549, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(369.46603, 829.0735, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(282.60712, 533.219, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Spot(344.09882, 443.6003, 20));
+		// 'Levada' GenType 21 Spawn Points
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(822, 663, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(820, 556, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(941, 557, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(919, 750, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(1339, -199, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(1358, -333, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(1452, -327, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(1566, -254, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-140, -263, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-72, -157, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(39, -217, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(49, -114, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(114, 1460, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(157, 1357, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(268, 1321, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(391, 1451, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(786, -166, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(845, -364, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(958, -305, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(1072, -403, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(996, -130, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-136, -650, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-78, -749, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(35, -749, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-131, -861, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(32, -862, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-820, -97, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-634, -160, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-759, -211, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-771, -345, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-636, -306, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-1441, 575, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-1513, 458, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-1412, 426, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-1263, 369, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-1258, 551, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-867, 517, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-890, 381, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-752, 325, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-608, 396, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-575, 535, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-692, 600, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-715, 1472, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-664, 1573, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-616, 1487, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-530, 1563, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-470, 1468, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-643, 1819, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-607, 1736, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-536, 1812, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-370, 1779, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-45, 707, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-2, 886, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(117, 863, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(-16, 534, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(125, 463, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(296, 741, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(369, 829, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(282, 533, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id2", "d_fantasylibrary_48_2", Rectangle(344, 443, 20));
 
-		// Marte_Book Spawn Points
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(962.3625, -402.96683, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(1064.6766, -315.8333, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(949.03815, -214.66484, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(1089.5968, -138.2683, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(895.1554, -120.34629, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(779.65704, -245.14175, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(736.322, -136.32349, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(711.31476, -374.57544, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(877.97565, -443.9972, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(880.85583, -278.5189, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-62.108925, -958.8249, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-168.87747, -780.383, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(117.63388, -875.47595, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(125.12289, -715.8728, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(8.763493, -698.001, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(118.03356, -609.48834, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-189.18195, -611.23846, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-34.88288, -522.6187, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-28.54977, -1043.928, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-185.04613, -909.91534, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-807.5151, 1384.9711, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-745.77924, 1536.282, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-638.96063, 1392.1276, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-518.9718, 1374.3907, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-387.9372, 1381.4296, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-350.6637, 1552.8326, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-737.283, 1757.8782, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-711.1171, 1887.3864, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-656.94666, 1656.7938, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-506.72006, 1907.0251, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-605.46576, 1896.0996, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-524.5187, 1651.4014, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-355.00107, 1863.7227, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-329.14783, 1658.8145, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Spot(-480.8953, 1778.991, 20));
+		// 'Marte_Book' GenType 22 Spawn Points
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(962, -402, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(1064, -315, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(949, -214, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(1089, -138, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(895, -120, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(779, -245, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(736, -136, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(711, -374, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(877, -443, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(880, -278, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-62, -958, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-168, -780, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(117, -875, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(125, -715, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(8, -698, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(118, -609, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-189, -611, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-34, -522, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-28, -1043, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-185, -909, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-807, 1384, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-745, 1536, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-638, 1392, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-518, 1374, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-387, 1381, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-350, 1552, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-737, 1757, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-711, 1887, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-656, 1656, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-506, 1907, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-605, 1896, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-524, 1651, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-355, 1863, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-329, 1658, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id3", "d_fantasylibrary_48_2", Rectangle(-480, 1778, 20));
 
-		// Aclis_Angel Spawn Points
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-849.7656, -160.04723, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-792.0871, -12.029038, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-712.4703, -140.97081, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-597.30414, 20.808523, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-544.5938, -134.16917, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-591.9926, -234.24371, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-563.08905, -361.14932, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-696.06226, -383.30508, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-830.64197, -239.06682, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-855.7189, -354.75626, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1500.399, 365.5162, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1430.3447, 299.66238, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1313.3066, 439.61392, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1201.8506, 454.34988, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1154.9167, 572.4668, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1258.2402, 672.8845, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1358.007, 547.7947, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1424.2532, 682.58496, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1504.2518, 622.26514, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-1431.2605, 490.74936, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-814.85864, 438.37265, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-761.85815, 539.5105, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-653.3397, 511.14194, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-711.11865, 389.46732, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Spot(-647.3402, 271.1129, 20));
+		// 'Aclis_Angel' GenType 23 Spawn Points
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-849, -160, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-792, -12, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-712, -140, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-597, 20, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-544, -134, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-591, -234, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-563, -361, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-696, -383, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-830, -239, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-855, -354, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1500, 365, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1430, 299, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1313, 439, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1201, 454, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1154, 572, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1258, 672, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1358, 547, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1424, 682, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1504, 622, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-1431, 490, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-814, 438, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-761, 539, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-653, 511, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-711, 389, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id4", "d_fantasylibrary_48_2", Rectangle(-647, 271, 20));
 
-		// Luna_Angel Spawn Points
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(141.03806, 735.71985, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(124.8685, 592.7641, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(192.12994, 561.42096, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(236.81116, 826.9497, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(351.26712, 903.5413, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(-41.07856, 413.4047, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(218.33401, 470.5258, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(422.10864, 522.3843, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(473.41318, 654.2229, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(63.330486, 513.9513, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(168.47397, 1255.8257, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(79.98819, 1379.2799, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(241.90509, 1094.7408, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(366.61124, 1330.2312, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(203.81583, 1484.526, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(418.17014, 1536.2068, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(63.5167, 1536.7682, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(-39.150803, -272.97495, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(-130.14868, -102.22387, 20));
-		AddSpawnPoint( "d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Spot(-23.547382, -109.39149, 20));
-
+		// 'Luna_Angel' GenType 24 Spawn Points
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(141, 735, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(124, 592, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(192, 561, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(236, 826, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(351, 903, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(-41, 413, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(218, 470, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(422, 522, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(473, 654, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(63, 513, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(168, 1255, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(79, 1379, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(241, 1094, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(366, 1330, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(203, 1484, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(418, 1536, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(63, 1536, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(-39, -272, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(-130, -102, 20));
+		AddSpawnPoint("d_fantasylibrary_48_2.Id5", "d_fantasylibrary_48_2", Rectangle(-23, -109, 20));
 	}
 }

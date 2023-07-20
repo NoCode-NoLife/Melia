@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep15_1_f_abbey_2
-//
+// Novaha Library Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the ep15_1_f_abbey_2 mobs.
+// Sets up monster spawners for 'ep15_1_f_abbey_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,107 +13,108 @@ public class Ep151FAbbey2MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Rider, Properties("MHP", 53625000, "MINPATK", 130000, "MAXPATK", 130000, "MINMATK", 130000, "MAXMATK", 130000, "DEF", 3000000, "MDEF", 3000000));
 		AddPropertyOverrides("ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Fighter, Properties("MHP", 53625000, "MINPATK", 130000, "MAXPATK", 130000, "MINMATK", 130000, "MAXMATK", 130000, "DEF", 3000000, "MDEF", 3000000));
 		AddPropertyOverrides("ep15_1_f_abbey_2", MonsterId.Ep15_1_Goblin_Saman, Properties("MHP", 53625000, "MINPATK", 130000, "MAXPATK", 130000, "MINMATK", 130000, "MAXMATK", 130000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep15_1_f_abbey_2", MonsterId.Boss_Blackdevilglove, Properties("MHP", 160875008, "MINPATK", 130000, "MAXPATK", 130000, "MINMATK", 130000, "MAXMATK", 130000, "DEF", 3000000, "MDEF", 3000000));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep15_1_f_abbey_2.Id1", MonsterId.Ep15_1_Goblin_Rider, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("ep15_1_f_abbey_2.Id2", MonsterId.Ep15_1_Goblin_Fighter, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("ep15_1_f_abbey_2.Id3", MonsterId.Ep15_1_Goblin_Saman, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("ep15_1_f_abbey_2.Id1", MonsterId.Ep15_1_Goblin_Rider, 45, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("ep15_1_f_abbey_2.Id2", MonsterId.Ep15_1_Goblin_Fighter, 45, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("ep15_1_f_abbey_2.Id3", MonsterId.Ep15_1_Goblin_Saman, 45, 60, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Ep15_1_Goblin_Rider Spawn Points
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(80.582344, -142.64975, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(42.622547, -34.448975, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-179.70035, -1167.0277, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-45.20684, -1108.9502, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-202.56645, -963.16675, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-79.39059, -708.04236, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-195.19353, -343.0303, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-516.9449, -158.55994, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-285.99753, -31.379639, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-130.39577, 108.23129, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-79.92603, 369.6563, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(119.37188, 692.0494, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-41.05498, 845.2124, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-316.6412, 688.474, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-213.13823, 858.92017, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-335.04483, 607.35394, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(473.6032, -192.79402, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(365.05774, -185.493, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(70.61568, -259.07443, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-94.84483, -358.08237, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-366.92065, -124.30956, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Spot(-187.7793, 77.87219, 20));
+		// 'Ep15_1_Goblin_Rider' GenType 17 Spawn Points
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(80, -142, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(42, -34, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-179, -1167, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-45, -1108, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-202, -963, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-79, -708, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-195, -343, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-516, -158, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-285, -31, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-130, 108, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-79, 369, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(119, 692, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-41, 845, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-316, 688, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-213, 858, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-335, 607, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(473, -192, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(365, -185, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(70, -259, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-94, -358, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-366, -124, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id1", "ep15_1_f_abbey_2", Rectangle(-187, 77, 20));
 
-		// Ep15_1_Goblin_Fighter Spawn Points
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-84.68307, 352.81638, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(188.87106, 797.0332, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(350.70294, 738.9471, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(95.23461, 562.66266, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(23.33272, 782.65674, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-50.037758, 124.38875, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-125.87859, -525.3381, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-339.38248, -263.21182, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-706.8476, -126.87222, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-840.6726, -157.6718, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-974.8484, -177.60754, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-1019.5536, -338.55554, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-1076.729, -97.04154, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-991.6897, -21.177689, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-976.4592, 50.659744, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-968.1651, 111.00181, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-963.43555, 279.3454, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-970.97876, 463.66275, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(144.04077, -99.14324, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(10.584502, 30.228941, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-238.53844, 29.087376, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(1.8717518, -323.23773, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(115.72579, -1003.949, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-271.8363, -1072.4031, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-75.661064, -949.15076, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(67.50464, -1135.716, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-288.5688, -384.18616, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-257.89532, -143.0549, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-67.89673, 481.50403, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-75.10591, 626.1374, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-559.02234, 639.3897, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-882.80194, 755.07776, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-322.55124, 922.0592, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-1213.7866, 1548.8357, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-1304.3376, 1801.3116, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(-1273.7601, 1665.2009, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(567.20776, 754.6401, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(578.9396, 971.12213, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(567.814, 1070.8041, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Spot(582.20337, 885.75726, 20));
+		// 'Ep15_1_Goblin_Fighter' GenType 18 Spawn Points
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-84, 352, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(188, 797, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(350, 738, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(95, 562, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(23, 782, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-50, 124, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-125, -525, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-339, -263, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-706, -126, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-840, -157, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-974, -177, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-1019, -338, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-1076, -97, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-991, -21, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-976, 50, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-968, 111, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-963, 279, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-970, 463, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(144, -99, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(10, 30, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-238, 29, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(1, -323, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(115, -1003, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-271, -1072, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-75, -949, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(67, -1135, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-288, -384, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-257, -143, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-67, 481, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-75, 626, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-559, 639, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-882, 755, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-322, 922, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-1213, 1548, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-1304, 1801, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(-1273, 1665, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(567, 754, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(578, 971, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(567, 1070, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id2", "ep15_1_f_abbey_2", Rectangle(582, 885, 20));
 
-		// Ep15_1_Goblin_Saman Spawn Points
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-722.6187, 632.2692, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-663.2487, 828.7334, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1164.2223, 733.46045, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1197.4001, 864.90344, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-894.77295, 863.28815, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-986.4664, 997.80963, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-378.24994, 800.5585, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-180.95197, 939.13947, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-132.57413, 688.23444, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-528.8895, 792.47327, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-706.3204, 745.243, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-898.2479, 612.42303, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-958.25854, 467.6576, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-966.425, 368.6695, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-955.2253, 279.84558, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1220.2948, 631.425, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1001.5936, 1103.3485, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1038.8123, 1290.6908, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1158.7025, 1582.4227, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1203.4669, 1707.6611, 20));
-		AddSpawnPoint( "ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Spot(-1207.3436, 1785.3635, 20));
-
+		// 'Ep15_1_Goblin_Saman' GenType 19 Spawn Points
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-722, 632, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-663, 828, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1164, 733, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1197, 864, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-894, 863, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-986, 997, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-378, 800, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-180, 939, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-132, 688, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-528, 792, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-706, 745, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-898, 612, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-958, 467, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-966, 368, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-955, 279, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1220, 631, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1001, 1103, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1038, 1290, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1158, 1582, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1203, 1707, 20));
+		AddSpawnPoint("ep15_1_f_abbey_2.Id3", "ep15_1_f_abbey_2", Rectangle(-1207, 1785, 20));
 	}
 }

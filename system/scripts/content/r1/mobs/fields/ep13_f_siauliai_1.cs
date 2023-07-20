@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep13_f_siauliai_1
-//
+// Lemprasa Pond Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the ep13_f_siauliai_1 mobs.
+// Sets up monster spawners for 'ep13_f_siauliai_1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,371 +13,454 @@ public class Ep13FSiauliai1MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Liepsna_Invader, Properties("MHP", 910601, "MINPATK", 12210, "MAXPATK", 14909, "MINMATK", 12210, "MAXMATK", 14909, "DEF", 373977, "MDEF", 373977));
 		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Liepsna_Destroyer, Properties("MHP", 911557, "MINPATK", 12222, "MAXPATK", 14924, "MINMATK", 12222, "MAXMATK", 14924, "DEF", 375060, "MDEF", 375060));
 		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Liepsna_Chaser, Properties("MHP", 913304, "MINPATK", 12245, "MAXPATK", 14952, "MINMATK", 12245, "MAXMATK", 14952, "DEF", 377040, "MDEF", 377040));
-		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Liepsna_Invader, Properties("MHP", 910601, "MINPATK", 12210, "MAXPATK", 14909, "MINMATK", 12210, "MAXMATK", 14909, "DEF", 373977, "MDEF", 373977));
 		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Liepsna_Spreader, Properties("MHP", 915566, "MINPATK", 12274, "MAXPATK", 14987, "MINMATK", 12274, "MAXMATK", 14987, "DEF", 379605, "MDEF", 379605));
+		AddPropertyOverrides("ep13_f_siauliai_1", MonsterId.Boss_Liepsna_Firebug, Properties("MHP", 5013621, "MINPATK", 33971, "MAXPATK", 41482, "MINMATK", 33971, "MAXMATK", 41482, "DEF", 1056090, "MDEF", 1056090));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_f_siauliai_1.Id1", MonsterId.Rootcrystal_01, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id2", MonsterId.Liepsna_Destroyer, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id3", MonsterId.Liepsna_Chaser, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id4", MonsterId.Liepsna_Invader, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id5", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id6", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id7", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id8", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id9", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id10", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id11", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id12", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id13", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id14", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id15", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id16", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id17", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id18", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id19", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id20", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id21", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id22", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id23", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id24", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id25", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id26", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id27", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id28", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id29", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id30", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id31", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id32", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id33", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id34", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id35", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id36", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id37", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id38", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id39", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id40", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id41", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id42", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id43", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id44", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id45", MonsterId.Liepsna_Invader, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id46", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id47", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_1.Id48", MonsterId.Liepsna_Spreader, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id1", MonsterId.Rootcrystal_01, 15, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id2", MonsterId.Liepsna_Invader, 60, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id3", MonsterId.Liepsna_Destroyer, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id4", MonsterId.Liepsna_Chaser, 60, 80, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id5", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id6", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id7", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id8", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id9", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id10", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id11", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id12", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id13", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id14", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id15", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id16", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id17", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id18", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id19", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id20", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id21", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id22", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id23", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id24", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id25", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id26", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id27", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id28", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id29", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id30", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id31", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id32", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id33", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id34", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id35", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id36", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id37", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id38", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id39", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id40", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id41", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id42", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id43", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id44", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id45", MonsterId.Liepsna_Invader, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id46", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id47", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_1.Id48", MonsterId.Liepsna_Spreader, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Rootcrystal_01 Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(329.48898, -300.50092, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(371.20502, 128.16537, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(760.30237, 544.79553, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(722.057, 1229.0355, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(250.99806, 1572.3615, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-511.34366, 1584.9939, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-863.1563, 1551.2291, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-669.0167, 1010.5892, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-362.57297, 562.1141, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-429.312, 136.39116, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-389.99014, -443.7227, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-767.2565, -547.33405, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-890.44476, -806.70184, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-1710.1826, -1188.1558, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-1547.4829, -1449.5396, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-351.53076, -1623.7228, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(-13.278793, -1109.5298, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(71.233765, -1538.2854, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(1358.4744, 104.19524, 100));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Spot(1859.0321, 155.81516, 100));
+		// 'Rootcrystal_01' GenType 4 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(329, -300, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(371, 128, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(760, 544, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(722, 1229, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(250, 1572, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-511, 1584, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-863, 1551, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-669, 1010, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-362, 562, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-429, 136, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-389, -443, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-767, -547, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-890, -806, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-1710, -1188, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-1547, -1449, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-351, -1623, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(-13, -1109, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(71, -1538, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(1358, 104, 100));
+		AddSpawnPoint("ep13_f_siauliai_1.Id1", "ep13_f_siauliai_1", Rectangle(1859, 155, 100));
 
-		// Liepsna_Destroyer Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-1753.5977, -1504.8285, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-1456.174, -1471.8419, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-1676.1628, -1169.1843, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-737.04175, -730.51935, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-815.4513, -379.00168, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-16.91903, -2037.6649, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(81.474724, -1146.1113, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(212.43008, -235.30475, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(439.6805, 200.41199, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-552.1679, 679.7075, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-344.8424, 891.6775, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-874.628, 1021.9415, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-774.5009, 1312.432, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-941.468, 1791.4553, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-531.2647, 1728.0356, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(182.14621, 1063.5536, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(295.40723, 1602.9263, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(871.2131, 1736.2281, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(757.21497, 1191.9335, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-112.79036, -1567.6534, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(891.89716, -238.56233, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(742.2522, -279.3985, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(510.52405, 1354.5002, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(667.1023, 1533.5702, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-584.8484, 957.97546, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-463.3419, 1138.8848, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(207.32578, -1368.1174, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-947.8688, -784.0531, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(407.7443, -55.471626, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(314.13016, 1334.957, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-718.33386, 1611.3007, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-1070.2882, 1144.9246, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-115.96567, -1259.5181, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(125.50087, 1447.6031, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(-875.54504, -586.8585, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(36.156563, -1741.1353, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Spot(1746.6495, 160.93362, 20));
+		// 'Liepsna_Invader' GenType 1000 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1665, -1578, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1794, -1398, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1553, -1436, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1362, -1473, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1635, -1237, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1673, -1042, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-822, -726, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-708, -650, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-791, -513, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-726, -435, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-214, -1548, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-7, -1567, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-73, -1842, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(54, -1965, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(124, -1284, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(73, -1003, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(158, -310, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(259, -141, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(878, 993, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(668, 1213, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(756, 1771, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(965, 1748, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(192, 1675, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(391, 1556, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(139, 992, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(188, 1186, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-442, 942, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-251, 839, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-549, 1617, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-470, 1821, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-871, 1678, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-936, 1925, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-703, 1103, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-820, 1424, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-976, 998, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-765, 1030, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(390, 109, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(504, 263, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(1901, 114, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(1515, 114, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(474, -328, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(624, -340, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(861, 1441, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-506, -529, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-249, -860, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-299, -687, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-45, -1044, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-541, 312, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-117, 197, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-420, 95, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(754, -166, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-831, 1563, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-931, 1262, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-598, 1159, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(1778, 95, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(1834, 164, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(758, 1542, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(677, 1123, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(152, 1389, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(216, 1439, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(100, 1226, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(260, 926, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-675, 885, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1137, -1527, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(-1233, -1006, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(66, -860, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(87, -590, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id2", "ep13_f_siauliai_1", Rectangle(191, -449, 20));
 
-		// Liepsna_Chaser Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1775.5518, -1592.9911, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1681.4548, -1455.4128, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1431.8677, -1563.5721, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1443.2838, -1360.4517, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1786.9872, -1206.0897, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1577.1605, -1035.296, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-908.129, -450.44025, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-719.8349, -337.80063, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-807.70337, -823.6707, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-638.4696, -663.1844, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-64.07443, -1929.2103, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-82.18974, -1658.7751, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-212.09407, -1417.545, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-19.50843, -1194.4471, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(194.56265, -1118.706, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(140.82516, -138.39478, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(269.2527, -325.87692, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(303.2139, 240.07712, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(514.4721, 120.61481, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(779.60547, 1087.4244, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(744.2547, 1335.3309, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(829.5043, 1642.2928, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(914.8029, 1866.885, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(235.54033, 1518.8558, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(350.35226, 1696.022, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(73.71442, 1071.4651, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(297.00385, 1016.7698, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-514.69604, 586.86615, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-587.7018, 780.363, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-323.81363, 1024.9855, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-844.1856, 897.2665, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-941.48883, 1123.71, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-837.52844, 1235.0554, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-734.0923, 1466.0563, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1079.1233, 1863.0386, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-831.0358, 1800.0786, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-661.5538, 1756.4971, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-443.7163, 1659.1606, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1833.1455, 263.8395, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1748.0841, 55.738747, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1834.5448, 63.1315, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1631.1217, 87.404755, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1743.6174, 239.40054, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(1397.5095, 112.97771, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(492.91852, -183.55118, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(620.81506, -233.0115, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(749.64844, -399.48102, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(837.1795, -314.7945, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(669.8516, 344.40173, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(720.61005, 779.65283, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(521.2342, 1482.2407, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(628.0263, 1370.3245, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-406.56137, 1162.2599, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-487.0252, 1034.167, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-630.24646, 1026.3024, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-574.4477, 882.4154, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-369.51712, -464.7421, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-340.02505, -350.33658, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-419.48053, -192.0788, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-154.79562, -156.79819, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(101.72034, -1552.1136, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(191.76846, -1470.3733, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-488.47842, -1785.7234, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-303.06686, -1638.1028, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-696.9413, -1559.1829, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1350.919, -1076.1003, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1033.2747, -897.5877, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-301.7512, 188.96754, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-307.90393, 386.54968, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-274.22488, 529.42773, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-479.5555, 426.8715, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(367.34323, -118.9154, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(694.7957, 1676.0841, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(231.28291, 1355.7258, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(391.65, 1352.0132, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1091.6295, 1065.1973, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1020.8062, 1207.7946, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-992.41614, 1707.3342, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(796.39886, -554.3264, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(930.6892, -578.4655, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(565.1232, 1285.4786, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-462.54285, 1537.101, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-46.074394, 1518.9523, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-728.1183, 1188.8263, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-657.98804, 1266.4119, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-934.52747, -614.41656, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-710.04504, -573.38007, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1515.984, -1543.186, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1600.5818, -1530.4698, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1728.3724, -1324.855, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-1546.529, -1331.8604, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-154.81624, -1121.0497, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-123.09649, -923.2578, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-16.643616, -940.4032, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(-404.44666, -1783.8899, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Spot(10.419476, -1954.8568, 20));
+		// 'Liepsna_Destroyer' GenType 1001 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-1753, -1504, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-1456, -1471, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-1676, -1169, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-737, -730, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-815, -379, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-16, -2037, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(81, -1146, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(212, -235, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(439, 200, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-552, 679, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-344, 891, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-874, 1021, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-774, 1312, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-941, 1791, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-531, 1728, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(182, 1063, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(295, 1602, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(871, 1736, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(757, 1191, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-112, -1567, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(891, -238, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(742, -279, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(510, 1354, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(667, 1533, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-584, 957, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-463, 1138, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(207, -1368, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-947, -784, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(407, -55, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(314, 1334, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-718, 1611, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-1070, 1144, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-115, -1259, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(125, 1447, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(-875, -586, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(36, -1741, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id3", "ep13_f_siauliai_1", Rectangle(1746, 160, 20));
 
-		// Liepsna_Invader Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1665.8967, -1578.4231, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1794.4856, -1398.4061, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1553.4995, -1436.6549, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1362.7512, -1473.5576, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1635.5487, -1237.7104, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1673.1246, -1042.6683, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-822.7511, -726.93353, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-708.4674, -650.4605, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-791.87646, -513.66876, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-726.15454, -435.45145, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-214.4514, -1548.5117, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-7.3271713, -1567.1467, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-73.07115, -1842.6959, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(54.640533, -1965.7288, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(124.15184, -1284.6624, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(73.597496, -1003.9662, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(158.36288, -310.5187, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(259.4801, -141.20996, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(878.8103, 993.7237, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(668.7957, 1213.9985, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(756.6472, 1771.1727, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(965.97534, 1748.8462, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(192.8952, 1675.5171, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(391.06696, 1556.5829, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(139.99112, 992.8429, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(188.60507, 1186.406, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-442.59384, 942.8201, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-251.24261, 839.29004, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-549.206, 1617.0361, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-470.61194, 1821.3372, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-871.1676, 1678.5686, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-936.9555, 1925.4238, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-703.6294, 1103.1199, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-820.4229, 1424.8567, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-976.7155, 998.5989, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-765.8126, 1030.8088, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(390.983, 109.39833, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(504.45834, 263.6942, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(1901.7977, 114.97591, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(1515.603, 114.39378, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(474.1927, -328.50626, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(624.34235, -340.6811, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(861.2309, 1441.7886, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-506.9128, -529.7548, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-249.36772, -860.7876, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-299.98557, -687.1469, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-45.65896, -1044.917, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-541.22565, 312.82983, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-117.68803, 197.47281, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-420.01248, 95.64795, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(754.4974, -166.42633, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-831.61633, 1563.5276, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-931.47235, 1262.358, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-598.08734, 1159.8007, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(1778.3408, 95.63854, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(1834.5898, 164.86365, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(758.3734, 1542.577, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(677.7303, 1123.9349, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(152.56859, 1389.9471, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(216.8225, 1439.526, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(100.27995, 1226.3911, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(260.51193, 926.34564, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-675.8606, 885.66156, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1137.7556, -1527.6273, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(-1233.704, -1006.2504, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(66.15788, -860.57764, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(87.541595, -590.31866, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Spot(191.4006, -449.44107, 20));
+		// 'Liepsna_Chaser' GenType 1002 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1775, -1592, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1681, -1455, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1431, -1563, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1443, -1360, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1786, -1206, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1577, -1035, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-908, -450, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-719, -337, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-807, -823, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-638, -663, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-64, -1929, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-82, -1658, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-212, -1417, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-19, -1194, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(194, -1118, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(140, -138, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(269, -325, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(303, 240, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(514, 120, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(779, 1087, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(744, 1335, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(829, 1642, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(914, 1866, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(235, 1518, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(350, 1696, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(73, 1071, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(297, 1016, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-514, 586, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-587, 780, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-323, 1024, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-844, 897, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-941, 1123, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-837, 1235, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-734, 1466, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1079, 1863, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-831, 1800, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-661, 1756, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-443, 1659, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1833, 263, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1748, 55, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1834, 63, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1631, 87, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1743, 239, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(1397, 112, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(492, -183, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(620, -233, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(749, -399, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(837, -314, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(669, 344, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(720, 779, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(521, 1482, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(628, 1370, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-406, 1162, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-487, 1034, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-630, 1026, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-574, 882, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-369, -464, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-340, -350, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-419, -192, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-154, -156, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(101, -1552, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(191, -1470, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-488, -1785, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-303, -1638, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-696, -1559, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1350, -1076, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1033, -897, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-301, 188, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-307, 386, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-274, 529, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-479, 426, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(367, -118, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(694, 1676, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(231, 1355, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(391, 1352, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1091, 1065, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1020, 1207, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-992, 1707, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(796, -554, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(930, -578, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(565, 1285, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-462, 1537, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-46, 1518, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-728, 1188, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-657, 1266, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-934, -614, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-710, -573, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1515, -1543, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1600, -1530, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1728, -1324, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-1546, -1331, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-154, -1121, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-123, -923, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-16, -940, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(-404, -1783, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id4", "ep13_f_siauliai_1", Rectangle(10, -1954, 20));
 
-		// Liepsna_Spreader Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id5", "ep13_f_siauliai_1", Spot(-1877.1318, -1401.649, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id6", "ep13_f_siauliai_1", Spot(-1847.3365, -1203.1738, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id7", "ep13_f_siauliai_1", Spot(-1542.408, -1637.5466, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id8", "ep13_f_siauliai_1", Spot(-1526.3811, -1251.8658, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id9", "ep13_f_siauliai_1", Spot(-1330.4296, -1184.6859, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id10", "ep13_f_siauliai_1", Spot(-895.46265, -915.07056, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id11", "ep13_f_siauliai_1", Spot(-998.30536, -631.4204, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id12", "ep13_f_siauliai_1", Spot(-635.0888, -526.64105, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id13", "ep13_f_siauliai_1", Spot(-421.0694, -416.123, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id14", "ep13_f_siauliai_1", Spot(-231.32494, -960.90967, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id15", "ep13_f_siauliai_1", Spot(-583.39746, -1734.4144, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id16", "ep13_f_siauliai_1", Spot(-367.97034, -1534.3229, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id17", "ep13_f_siauliai_1", Spot(58.432583, -1888.5396, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id17", "ep13_f_siauliai_1", Spot(565.1698, 335.26096, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id18", "ep13_f_siauliai_1", Spot(40.50522, -1414.463, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id18", "ep13_f_siauliai_1", Spot(119.58994, 304.02277, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id19", "ep13_f_siauliai_1", Spot(-238.46396, -1263.1016, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id19", "ep13_f_siauliai_1", Spot(248.93022, 85.79149, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id20", "ep13_f_siauliai_1", Spot(-495.07346, 144.16199, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id20", "ep13_f_siauliai_1", Spot(806.82886, -629.6574, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id21", "ep13_f_siauliai_1", Spot(91.543915, 19.59885, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id21", "ep13_f_siauliai_1", Spot(882.6289, -410.42618, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id22", "ep13_f_siauliai_1", Spot(71.10203, -158.04453, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id22", "ep13_f_siauliai_1", Spot(535.1203, -392.99457, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id23", "ep13_f_siauliai_1", Spot(298.8532, -469.6713, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id23", "ep13_f_siauliai_1", Spot(841.9558, 434.62503, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id24", "ep13_f_siauliai_1", Spot(730.12634, -494.58337, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id24", "ep13_f_siauliai_1", Spot(696.2347, 613.65717, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id25", "ep13_f_siauliai_1", Spot(941.7795, -506.36734, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id25", "ep13_f_siauliai_1", Spot(876.14905, 920.6615, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id26", "ep13_f_siauliai_1", Spot(902.1524, -658.0071, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id26", "ep13_f_siauliai_1", Spot(623.8796, 968.4949, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id27", "ep13_f_siauliai_1", Spot(538.60004, 1092.7405, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id28", "ep13_f_siauliai_1", Spot(541.96765, 1669.9729, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id29", "ep13_f_siauliai_1", Spot(723.1014, 1870.8555, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id30", "ep13_f_siauliai_1", Spot(960.7294, 1612.4421, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id31", "ep13_f_siauliai_1", Spot(130.46643, 1643.1395, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id32", "ep13_f_siauliai_1", Spot(265.80627, 1780.8611, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id33", "ep13_f_siauliai_1", Spot(50.688976, 1176.658, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id34", "ep13_f_siauliai_1", Spot(105.46303, 928.85175, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id35", "ep13_f_siauliai_1", Spot(335.40668, 1059.3456, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id36", "ep13_f_siauliai_1", Spot(107.42364, 1342.2222, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id37", "ep13_f_siauliai_1", Spot(-629.35126, 1348.1434, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id38", "ep13_f_siauliai_1", Spot(-460.68896, 1308.6558, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id39", "ep13_f_siauliai_1", Spot(-575.7602, 1464.2295, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id40", "ep13_f_siauliai_1", Spot(-428.94675, 1401.306, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id41", "ep13_f_siauliai_1", Spot(-1032.3534, 949.1313, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id42", "ep13_f_siauliai_1", Spot(-483.0673, 352.59567, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id43", "ep13_f_siauliai_1", Spot(-305.4939, 475.0126, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id44", "ep13_f_siauliai_1", Spot(-615.4685, 635.6584, 20));
+		// 'Liepsna_Spreader' GenType 1003 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id5", "ep13_f_siauliai_1", Rectangle(-1877, -1401, 20));
 
-		// Liepsna_Invader Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-747.97, 803.2179, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-549.3344, 1482.5978, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-513.9815, 1248.8839, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-161.19495, 1526.2416, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-390.99612, 1442.5404, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-415.192, -355.55267, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-414.3567, -1728.4501, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-923.05774, -1509.5555, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-984.9229, -687.11414, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-947.99664, -897.3285, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-1499.0063, -1225.484, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(253.5404, 36.467087, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(535.70447, -295.41428, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(848.22015, -525.73083, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(564.75214, 1194.1833, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Spot(-425.7349, 199.41095, 20));
+		// 'Liepsna_Spreader' GenType 1004 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id6", "ep13_f_siauliai_1", Rectangle(-1847, -1203, 20));
 
-		// Liepsna_Spreader Spawn Points
-		AddSpawnPoint( "ep13_f_siauliai_1.Id46", "ep13_f_siauliai_1", Spot(-251.73038, 641.8928, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id46", "ep13_f_siauliai_1", Spot(1853.5072, 360.55936, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id47", "ep13_f_siauliai_1", Spot(-695.26697, 1873.3992, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id47", "ep13_f_siauliai_1", Spot(1751.344, 287.7245, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id48", "ep13_f_siauliai_1", Spot(-827.52057, 1876.4778, 20));
-		AddSpawnPoint( "ep13_f_siauliai_1.Id48", "ep13_f_siauliai_1", Spot(298.78775, -1362.5258, 20));
+		// 'Liepsna_Spreader' GenType 1005 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id7", "ep13_f_siauliai_1", Rectangle(-1542, -1637, 20));
 
+		// 'Liepsna_Spreader' GenType 1006 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id8", "ep13_f_siauliai_1", Rectangle(-1526, -1251, 20));
+
+		// 'Liepsna_Spreader' GenType 1007 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id9", "ep13_f_siauliai_1", Rectangle(-1330, -1184, 20));
+
+		// 'Liepsna_Spreader' GenType 1008 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id10", "ep13_f_siauliai_1", Rectangle(-895, -915, 20));
+
+		// 'Liepsna_Spreader' GenType 1009 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id11", "ep13_f_siauliai_1", Rectangle(-998, -631, 20));
+
+		// 'Liepsna_Spreader' GenType 1010 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id12", "ep13_f_siauliai_1", Rectangle(-635, -526, 20));
+
+		// 'Liepsna_Spreader' GenType 1011 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id13", "ep13_f_siauliai_1", Rectangle(-421, -416, 20));
+
+		// 'Liepsna_Spreader' GenType 1012 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id14", "ep13_f_siauliai_1", Rectangle(-231, -960, 20));
+
+		// 'Liepsna_Spreader' GenType 1013 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id15", "ep13_f_siauliai_1", Rectangle(-583, -1734, 20));
+
+		// 'Liepsna_Spreader' GenType 1014 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id16", "ep13_f_siauliai_1", Rectangle(-367, -1534, 20));
+
+		// 'Liepsna_Spreader' GenType 1015 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id17", "ep13_f_siauliai_1", Rectangle(58, -1888, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id17", "ep13_f_siauliai_1", Rectangle(565, 335, 20));
+
+		// 'Liepsna_Spreader' GenType 1016 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id18", "ep13_f_siauliai_1", Rectangle(40, -1414, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id18", "ep13_f_siauliai_1", Rectangle(119, 304, 20));
+
+		// 'Liepsna_Spreader' GenType 1017 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id19", "ep13_f_siauliai_1", Rectangle(-238, -1263, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id19", "ep13_f_siauliai_1", Rectangle(248, 85, 20));
+
+		// 'Liepsna_Spreader' GenType 1018 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id20", "ep13_f_siauliai_1", Rectangle(-495, 144, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id20", "ep13_f_siauliai_1", Rectangle(806, -629, 20));
+
+		// 'Liepsna_Spreader' GenType 1019 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id21", "ep13_f_siauliai_1", Rectangle(91, 19, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id21", "ep13_f_siauliai_1", Rectangle(882, -410, 20));
+
+		// 'Liepsna_Spreader' GenType 1020 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id22", "ep13_f_siauliai_1", Rectangle(71, -158, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id22", "ep13_f_siauliai_1", Rectangle(535, -392, 20));
+
+		// 'Liepsna_Spreader' GenType 1021 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id23", "ep13_f_siauliai_1", Rectangle(298, -469, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id23", "ep13_f_siauliai_1", Rectangle(841, 434, 20));
+
+		// 'Liepsna_Spreader' GenType 1022 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id24", "ep13_f_siauliai_1", Rectangle(730, -494, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id24", "ep13_f_siauliai_1", Rectangle(696, 613, 20));
+
+		// 'Liepsna_Spreader' GenType 1023 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id25", "ep13_f_siauliai_1", Rectangle(941, -506, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id25", "ep13_f_siauliai_1", Rectangle(876, 920, 20));
+
+		// 'Liepsna_Spreader' GenType 1024 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id26", "ep13_f_siauliai_1", Rectangle(902, -658, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id26", "ep13_f_siauliai_1", Rectangle(623, 968, 20));
+
+		// 'Liepsna_Spreader' GenType 1025 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id27", "ep13_f_siauliai_1", Rectangle(538, 1092, 20));
+
+		// 'Liepsna_Spreader' GenType 1026 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id28", "ep13_f_siauliai_1", Rectangle(541, 1669, 20));
+
+		// 'Liepsna_Spreader' GenType 1027 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id29", "ep13_f_siauliai_1", Rectangle(723, 1870, 20));
+
+		// 'Liepsna_Spreader' GenType 1028 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id30", "ep13_f_siauliai_1", Rectangle(960, 1612, 20));
+
+		// 'Liepsna_Spreader' GenType 1029 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id31", "ep13_f_siauliai_1", Rectangle(130, 1643, 20));
+
+		// 'Liepsna_Spreader' GenType 1030 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id32", "ep13_f_siauliai_1", Rectangle(265, 1780, 20));
+
+		// 'Liepsna_Spreader' GenType 1031 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id33", "ep13_f_siauliai_1", Rectangle(50, 1176, 20));
+
+		// 'Liepsna_Spreader' GenType 1032 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id34", "ep13_f_siauliai_1", Rectangle(105, 928, 20));
+
+		// 'Liepsna_Spreader' GenType 1033 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id35", "ep13_f_siauliai_1", Rectangle(335, 1059, 20));
+
+		// 'Liepsna_Spreader' GenType 1034 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id36", "ep13_f_siauliai_1", Rectangle(107, 1342, 20));
+
+		// 'Liepsna_Spreader' GenType 1035 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id37", "ep13_f_siauliai_1", Rectangle(-629, 1348, 20));
+
+		// 'Liepsna_Spreader' GenType 1036 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id38", "ep13_f_siauliai_1", Rectangle(-460, 1308, 20));
+
+		// 'Liepsna_Spreader' GenType 1037 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id39", "ep13_f_siauliai_1", Rectangle(-575, 1464, 20));
+
+		// 'Liepsna_Spreader' GenType 1038 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id40", "ep13_f_siauliai_1", Rectangle(-428, 1401, 20));
+
+		// 'Liepsna_Spreader' GenType 1039 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id41", "ep13_f_siauliai_1", Rectangle(-1032, 949, 20));
+
+		// 'Liepsna_Spreader' GenType 1040 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id42", "ep13_f_siauliai_1", Rectangle(-483, 352, 20));
+
+		// 'Liepsna_Spreader' GenType 1041 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id43", "ep13_f_siauliai_1", Rectangle(-305, 475, 20));
+
+		// 'Liepsna_Spreader' GenType 1042 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id44", "ep13_f_siauliai_1", Rectangle(-615, 635, 20));
+
+		// 'Liepsna_Invader' GenType 1043 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-747, 803, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-549, 1482, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-513, 1248, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-161, 1526, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-390, 1442, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-415, -355, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-414, -1728, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-923, -1509, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-984, -687, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-947, -897, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-1499, -1225, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(253, 36, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(535, -295, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(848, -525, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(564, 1194, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id45", "ep13_f_siauliai_1", Rectangle(-425, 199, 20));
+
+		// 'Liepsna_Spreader' GenType 1044 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id46", "ep13_f_siauliai_1", Rectangle(-251, 641, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id46", "ep13_f_siauliai_1", Rectangle(1853, 360, 20));
+
+		// 'Liepsna_Spreader' GenType 1045 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id47", "ep13_f_siauliai_1", Rectangle(-695, 1873, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id47", "ep13_f_siauliai_1", Rectangle(1751, 287, 20));
+
+		// 'Liepsna_Spreader' GenType 1046 Spawn Points
+		AddSpawnPoint("ep13_f_siauliai_1.Id48", "ep13_f_siauliai_1", Rectangle(-827, 1876, 20));
+		AddSpawnPoint("ep13_f_siauliai_1.Id48", "ep13_f_siauliai_1", Rectangle(298, -1362, 20));
 	}
 }

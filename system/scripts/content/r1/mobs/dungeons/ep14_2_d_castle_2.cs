@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// ep14_2_d_castle_2
-//
+// Hidden Passage Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the ep14_2_d_castle_2 mobs.
+// Sets up monster spawners for 'ep14_2_d_castle_2'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,120 +13,121 @@ public class Ep142DCastle2MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
-		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_GresmeCrow, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Lancer, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
-		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Strange, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
 		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Scout, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_Bleakferret_Strange, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
 		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_GresmeBird, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Episode14_2_GresmeCrow, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_2", MonsterId.Boss_Bleakferret_Prey, Properties("MHP", 126000000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 2500000, "MDEF", 2500000));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep14_2_d_castle_2.Id1", MonsterId.Rootcrystal_05, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id2", MonsterId.Episode14_2_GresmeCrow, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id3", MonsterId.Episode14_2_Bleakferret_Lancer, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id4", MonsterId.Episode14_2_Bleakferret_Strange, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id5", MonsterId.Episode14_2_Bleakferret_Scout, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id6", MonsterId.Episode14_2_GresmeBird, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id1", MonsterId.Rootcrystal_05, 15, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id2", MonsterId.Episode14_2_Bleakferret_Lancer, 23, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id3", MonsterId.Episode14_2_Bleakferret_Scout, 23, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id4", MonsterId.Episode14_2_Bleakferret_Strange, 12, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id5", MonsterId.Episode14_2_GresmeBird, 19, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id6", MonsterId.Episode14_2_GresmeCrow, 19, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Rootcrystal_05 Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(940.5367, -587.7605, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(910.6065, 638.28754, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(311.11664, 637.208, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(-585.1591, 663.2149, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(-835.47864, 688.13245, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(-783.2917, -906.9025, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(942.99884, 37.622707, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(-793.2637, -216.16153, 200));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Spot(-152.82462, 635.01056, 200));
+		// 'Rootcrystal_05' GenType 15 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(940, -587, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(910, 638, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(311, 637, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(-585, 663, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(-835, 688, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(-783, -906, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(942, 37, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(-793, -216, 200));
+		AddSpawnPoint("ep14_2_d_castle_2.Id1", "ep14_2_d_castle_2", Rectangle(-152, 635, 200));
 
-		// Episode14_2_GresmeCrow Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(447.92038, -1029.6832, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(532.4943, -743.59546, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(922.7152, -1151.1318, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(759.0044, -602.19666, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(1016.9126, -175.90854, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(876.6878, 260.23044, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(946.338, 431.26978, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(836.0472, 723.73975, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(1113.8759, 587.0562, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(353.63428, 470.13947, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(81.2879, 934.7153, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-239.6982, 415.6793, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-1280.2949, 569.4791, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-731.51276, 687.4318, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-867.4575, 380.182, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-738.0439, -504.44678, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-734.1893, -1142.0154, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Spot(-1256.7598, -845.13, 20));
+		// 'Episode14_2_Bleakferret_Lancer' GenType 16 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(843, -860, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(840, -662, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(1026, -569, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(863, -424, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(1019, -370, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(659, -728, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(1235, -576, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(94, 350, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(-189, 810, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(15, 892, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(-949, 567, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id2", "ep14_2_d_castle_2", Rectangle(1558, 711, 20));
 
-		// Episode14_2_Bleakferret_Lancer Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(843.36597, -860.09753, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(840.9878, -662.1172, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(1026.4318, -569.4005, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(863.4343, -424.87082, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(1019.2653, -370.29492, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(659.4847, -728.01904, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(1235.4192, -576.3789, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(94.68561, 350.82623, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(-189.74106, 810.7109, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(15.249821, 892.7163, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(-949.0721, 567.87195, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Spot(1558.9236, 711.0329, 20));
+		// 'Episode14_2_Bleakferret_Scout' GenType 17 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(1404, 535, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-49, 824, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-180, 492, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(259, 386, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-790, 552, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(342, 820, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-1284, 742, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-808, 947, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-850, -359, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-720, 187, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-711, -896, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-866, -1156, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id3", "ep14_2_d_castle_2", Rectangle(-1423, -861, 20));
 
-		// Episode14_2_Bleakferret_Strange Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(783.57465, -1155.2202, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(907.77026, -1031.7345, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(1469.6937, -495.361, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(1299.2819, -644.32513, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(413.44217, -1146.0428, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(520.16235, -573.451, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(870.83563, -135.42326, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(1032.3689, 246.96336, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(1566.4048, 557.26917, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(1408.0525, 719.65686, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-146.55722, 372.14526, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(345.06577, 362.8435, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(319.44046, 893.8298, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-127.64193, 904.88184, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-947.99164, 667.0899, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-654.6544, 678.5796, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-804.37836, -19.900267, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-803.65137, -684.5064, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-1353.9746, -750.0806, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Spot(-1458.0928, 572.6065, 20));
+		// 'Episode14_2_Bleakferret_Strange' GenType 18 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(783, -1155, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(907, -1031, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(1469, -495, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(1299, -644, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(413, -1146, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(520, -573, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(870, -135, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(1032, 246, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(1566, 557, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(1408, 719, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-146, 372, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(345, 362, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(319, 893, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-127, 904, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-947, 667, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-654, 678, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-804, -19, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-803, -684, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-1353, -750, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id4", "ep14_2_d_castle_2", Rectangle(-1458, 572, 20));
 
-		// Episode14_2_Bleakferret_Scout Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(1404.5548, 535.0668, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-49.36698, 824.37024, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-180.32353, 492.47556, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(259.74847, 386.19705, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-790.178, 552.661, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(342.4493, 820.6413, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-1284.8197, 742.76636, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-808.4646, 947.7677, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-850.8457, -359.34183, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-720.5261, 187.83629, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-711.588, -896.7641, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-866.88715, -1156.4207, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Spot(-1423.5482, -861.5344, 20));
+		// 'Episode14_2_GresmeBird' GenType 19 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(388, -571, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(748, -1007, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(862, -255, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(972, -684, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(1312, -459, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(868, 81, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(845, 554, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(1033, 724, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(943, 966, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(-71, 413, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(247, 407, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(229, 859, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id5", "ep14_2_d_castle_2", Rectangle(-27, 810, 20));
 
-		// Episode14_2_GresmeBird Spawn Points
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(388.5844, -571.7109, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(748.71875, -1007.9855, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(862.5493, -255.13205, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(972.5347, -684.88116, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(1312.4838, -459.30844, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(868.079, 81.81081, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(845.51337, 554.69055, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(1033.8523, 724.2484, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(943.93567, 966.7089, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(-71.336555, 413.2356, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(247.93245, 407.4597, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(229.15987, 859.27026, 20));
-		AddSpawnPoint( "ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Spot(-27.556389, 810.18555, 20));
-
+		// 'Episode14_2_GresmeCrow' GenType 20 Spawn Points
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(447, -1029, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(532, -743, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(922, -1151, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(759, -602, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(1016, -175, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(876, 260, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(946, 431, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(836, 723, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(1113, 587, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(353, 470, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(81, 934, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-239, 415, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-1280, 569, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-731, 687, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-867, 380, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-738, -504, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-734, -1142, 20));
+		AddSpawnPoint("ep14_2_d_castle_2.Id6", "ep14_2_d_castle_2", Rectangle(-1256, -845, 20));
 	}
 }

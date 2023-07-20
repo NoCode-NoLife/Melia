@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// f_3cmlake_86
-//
+// Barynwell 86 Waters Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the f_3cmlake_86 mobs.
+// Sets up monster spawners for 'f_3cmlake_86'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,212 +13,213 @@ public class F3Cmlake86MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("f_3cmlake_86", MonsterId.Spinacho, Properties("MHP", 599233, "MINPATK", 8206, "MAXPATK", 9988, "MINMATK", 8206, "MAXMATK", 9988, "DEF", 127350, "MDEF", 127350));
 		AddPropertyOverrides("f_3cmlake_86", MonsterId.Rubeta, Properties("MHP", 600088, "MINPATK", 8217, "MAXPATK", 10001, "MINMATK", 8217, "MAXMATK", 10001, "DEF", 127862, "MDEF", 127862));
 		AddPropertyOverrides("f_3cmlake_86", MonsterId.Lilymaid, Properties("MHP", 601007, "MINPATK", 8229, "MAXPATK", 10016, "MINMATK", 8229, "MAXMATK", 10016, "DEF", 128412, "MDEF", 128412));
 		AddPropertyOverrides("f_3cmlake_86", MonsterId.Little_Rubeta, Properties("MHP", 601985, "MINPATK", 8242, "MAXPATK", 10031, "MINMATK", 8242, "MAXMATK", 10031, "DEF", 128998, "MDEF", 128998));
+		AddPropertyOverrides("f_3cmlake_86", MonsterId.Boss_Deadbone_Q3, Properties("MHP", 3147758, "MINPATK", 20803, "MAXPATK", 25321, "MINMATK", 20803, "MAXMATK", 25321, "DEF", 326635, "MDEF", 326635));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_86.Id1", MonsterId.Spinacho, 28, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id2", MonsterId.Rubeta, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id3", MonsterId.Lilymaid, 21, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id4", MonsterId.Nolimaid, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id5", MonsterId.Little_Rubeta, 51, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, 1, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id1", MonsterId.Spinacho, 21, 28, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id2", MonsterId.Rubeta, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id3", MonsterId.Lilymaid, 16, 21, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id4", MonsterId.Nolimaid, 13, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id5", MonsterId.Little_Rubeta, 39, 51, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, 1, 1, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Spinacho Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(367.39163, -664.6392, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(360.8278, -389.6175, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(559.3043, -108.37914, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(806.7785, -111.53719, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(634.8851, -344.4725, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(620.977, -779.4124, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(716.3576, -1053.7854, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1103.4634, -1068.5814, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1301.3535, -960.0156, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1252.2612, -546.48145, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1311.2648, -207.9446, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1461.7034, -687.75793, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1568.7748, -1063.1469, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1765.4785, -997.2484, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(2164.671, -832.5583, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(2200.3955, -330.08655, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1949.1053, -184.24454, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1725.3903, -326.8343, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1760.5693, -598.693, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(2319.9663, -172.65352, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1488.1482, -73.80604, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1336.307, 389.9571, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1593.7394, 341.85556, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1462.5195, 760.60516, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(1733.4813, 613.8824, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(924.6534, -109.84906, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(2151.304, -562.45325, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id1", "f_3cmlake_86", Spot(352.56354, -138.99226, 45));
+		// 'Spinacho' GenType 64 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(367, -664, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(360, -389, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(559, -108, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(806, -111, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(634, -344, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(620, -779, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(716, -1053, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1103, -1068, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1301, -960, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1252, -546, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1311, -207, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1461, -687, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1568, -1063, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1765, -997, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(2164, -832, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(2200, -330, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1949, -184, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1725, -326, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1760, -598, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(2319, -172, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1488, -73, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1336, 389, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1593, 341, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1462, 760, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(1733, 613, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(924, -109, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(2151, -562, 45));
+		AddSpawnPoint("f_3cmlake_86.Id1", "f_3cmlake_86", Rectangle(352, -138, 45));
 
-		// Rubeta Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1161.8372, -1022.0215, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-975.03314, -824.54987, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1372.4049, -800.12756, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1164.4939, -537.5855, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1311.986, 127.04548, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-918.93384, 161.2137, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-706.37463, 100.94112, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1128.8317, 558.12823, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-721.6366, 342.96536, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-480.65085, 581.33356, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-358.1198, 259.3511, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-145.83719, 415.64505, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-38.820038, 622.19183, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1502.366, 427.13916, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1163.7966, -348.85242, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1098.6044, 354.55353, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-1414.7299, -164.03242, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id2", "f_3cmlake_86", Spot(-799.47235, -733.0398, 45));
+		// 'Rubeta' GenType 66 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1161, -1022, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-975, -824, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1372, -800, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1164, -537, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1311, 127, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-918, 161, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-706, 100, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1128, 558, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-721, 342, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-480, 581, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-358, 259, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-145, 415, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-38, 622, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1502, 427, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1163, -348, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1098, 354, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-1414, -164, 45));
+		AddSpawnPoint("f_3cmlake_86.Id2", "f_3cmlake_86", Rectangle(-799, -733, 45));
 
-		// Lilymaid Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-1313.7161, 1287.3655, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-1263.7031, 1085.256, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-1146.8754, 942.52313, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-921.21545, 1045.2343, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-873.5342, 1229.0648, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-1110.5488, 1348.66, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-544.42346, 1163.7406, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-606.49194, 869.7654, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-48.38587, 1696.3243, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-286.5534, 972.5701, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(-33.685974, 1237.2252, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(213.3189, 1215.2242, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(639.6883, 857.2069, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(851.5275, 845.09595, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(858.86926, 426.57526, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(792.5865, 119.10176, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(587.58435, 114.25576, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(295.75314, 381.87238, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(295.11212, 580.9395, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(477.84552, 619.58044, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id3", "f_3cmlake_86", Spot(750.5448, 624.58057, 45));
+		// 'Lilymaid' GenType 68 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-1313, 1287, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-1263, 1085, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-1146, 942, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-921, 1045, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-873, 1229, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-1110, 1348, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-544, 1163, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-606, 869, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-48, 1696, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-286, 972, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(-33, 1237, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(213, 1215, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(639, 857, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(851, 845, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(858, 426, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(792, 119, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(587, 114, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(295, 381, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(295, 580, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(477, 619, 45));
+		AddSpawnPoint("f_3cmlake_86.Id3", "f_3cmlake_86", Rectangle(750, 624, 45));
 
-		// Nolimaid Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-1022.6713, 971.8636, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-892.87054, 1346.083, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-1171.3523, 1151.2382, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-1248.6927, 1408.5328, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-629.0067, 990.7897, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-159.69043, 1169.4241, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(243.24033, 1049.3896, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-56.66873, 1546.8655, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(-22.716965, 1775.1979, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(732.1645, 952.9949, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(807.3618, 271.28625, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(434.513, 122.2156, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(252.12172, 202.7014, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(221.56041, 669.808, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(560.87054, 728.3667, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(925.72394, 65.28633, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id4", "f_3cmlake_86", Spot(74.906525, 1400.5028, 45));
+		// 'Nolimaid' GenType 70 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-1022, 971, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-892, 1346, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-1171, 1151, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-1248, 1408, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-629, 990, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-159, 1169, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(243, 1049, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-56, 1546, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(-22, 1775, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(732, 952, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(807, 271, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(434, 122, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(252, 202, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(221, 669, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(560, 728, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(925, 65, 45));
+		AddSpawnPoint("f_3cmlake_86.Id4", "f_3cmlake_86", Rectangle(74, 1400, 45));
 
-		// Little_Rubeta Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1368.9415, -889.7004, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1295.2631, -532.1375, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1033.0262, -505.31033, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-985.8799, -730.3051, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1022.587, -1016.7254, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-549.6535, -711.64545, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1128.7124, -197.22865, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1472.7966, -39.801785, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1574.7697, 281.57114, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1288.2882, 543.38043, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-867.4275, 464.09448, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-822.5852, 265.77228, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-949.4314, 71.64094, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-1214.2867, 117.30964, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-627.3036, 428.1594, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-351.35785, 652.28754, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-439.95163, 322.2853, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(13.44068, 586.6819, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-335.7357, 478.2433, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(390.15582, -537.4498, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(412.31714, -814.75977, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(760.9495, -112.88245, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1197.0774, -106.02232, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1245.124, -357.48193, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(870.8696, -261.6374, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(642.4137, -539.68066, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(619.726, -948.69116, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(865.6758, -1001.9961, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1007.0611, -1092.6178, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1196.2908, -981.51465, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1217.3499, -771.68164, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1439.5289, -482.0768, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1385.9387, -800.84326, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1919.8418, -1064.4327, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1952.5852, -834.5633, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(2211.2996, -451.3992, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1994.1428, -57.158768, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(2117.7305, -231.69418, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1741.1034, -440.21933, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1947.7217, -570.23627, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(2401.0603, -56.536396, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1465.3904, 19.655254, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1491.7407, 297.01654, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1378.4661, 540.3698, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1615.7284, 783.99097, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1784.7567, 463.52133, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(478.25555, -124.93717, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(1695.8689, -1093.5626, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(-471.17838, -600.7186, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(914.90356, -105.85167, 45));
-		AddSpawnPoint( "f_3cmlake_86.Id5", "f_3cmlake_86", Spot(769.29877, 138.41592, 45));
+		// 'Little_Rubeta' GenType 72 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1368, -889, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1295, -532, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1033, -505, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-985, -730, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1022, -1016, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-549, -711, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1128, -197, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1472, -39, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1574, 281, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1288, 543, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-867, 464, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-822, 265, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-949, 71, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-1214, 117, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-627, 428, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-351, 652, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-439, 322, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(13, 586, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-335, 478, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(390, -537, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(412, -814, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(760, -112, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1197, -106, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1245, -357, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(870, -261, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(642, -539, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(619, -948, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(865, -1001, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1007, -1092, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1196, -981, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1217, -771, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1439, -482, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1385, -800, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1919, -1064, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1952, -834, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(2211, -451, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1994, -57, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(2117, -231, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1741, -440, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1947, -570, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(2401, -56, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1465, 19, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1491, 297, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1378, 540, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1615, 783, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1784, 463, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(478, -124, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(1695, -1093, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(-471, -600, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(914, -105, 45));
+		AddSpawnPoint("f_3cmlake_86.Id5", "f_3cmlake_86", Rectangle(769, 138, 45));
 
-		// Rootcrystal_02 Spawn Points
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-208.22647, -1282.1592, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-220.12204, -939.56775, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-124.61271, -472.81082, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-219.67554, 34.472363, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-876.0568, -704.4965, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1322.8835, -972.3038, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1094.0361, -514.72424, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1105.0043, -133.38904, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1542.7068, 341.46948, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-790.46765, -23.32432, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1040.9384, 373.162, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1093.407, 887.1508, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-1279.0264, 1255.9683, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-876.9801, 1275.816, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-252.85117, 1082.7408, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-560.98785, 869.09045, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-498.77087, 462.22586, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-26.294098, 605.03705, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(486.52, 563.22015, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(760.4359, 218.91742, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(401.2781, 82.30797, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(718.32874, -366.30203, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(765.4268, -1094.6873, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(853.6738, -117.70084, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1249.0552, -818.58124, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1295.3673, -368.61258, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(360.2173, -366.56274, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1580.3667, -995.036, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1917.5863, -783.5546, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(2277.5173, -575.9211, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1946.2687, -134.14656, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1387.1088, 109.11802, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1415.1389, 638.2229, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1726.0317, 554.3591, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(823.2388, 766.4486, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(444.39862, 1069.2958, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(327.60345, 1392.66, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(-128.8979, 1720.0142, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(734.0789, 1497.3064, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1061.762, 1576.9573, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1050.6753, 1904.1489, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1415.9998, 1600.9368, 200));
-		AddSpawnPoint( "f_3cmlake_86.Id6", "f_3cmlake_86", Spot(1271.38, 1237.037, 200));
-
+		// 'Rootcrystal_02' GenType 77 Spawn Points
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-208, -1282, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-220, -939, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-124, -472, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-219, 34, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-876, -704, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1322, -972, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1094, -514, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1105, -133, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1542, 341, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-790, -23, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1040, 373, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1093, 887, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-1279, 1255, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-876, 1275, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-252, 1082, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-560, 869, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-498, 462, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-26, 605, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(486, 563, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(760, 218, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(401, 82, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(718, -366, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(765, -1094, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(853, -117, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1249, -818, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1295, -368, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(360, -366, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1580, -995, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1917, -783, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(2277, -575, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1946, -134, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1387, 109, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1415, 638, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1726, 554, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(823, 766, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(444, 1069, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(327, 1392, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(-128, 1720, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(734, 1497, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1061, 1576, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1050, 1904, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1415, 1600, 200));
+		AddSpawnPoint("f_3cmlake_86.Id6", "f_3cmlake_86", Rectangle(1271, 1237, 200));
 	}
 }

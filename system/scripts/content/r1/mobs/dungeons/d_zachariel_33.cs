@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_zachariel_33
-//
+// Royal Mausoleum 2F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the d_zachariel_33 mobs.
+// Sets up monster spawners for 'd_zachariel_33'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,167 +13,168 @@ public class DZachariel33MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("d_zachariel_33", MonsterId.Beetle, Properties("MHP", 64238, "MINPATK", 1327, "MAXPATK", 1533, "MINMATK", 1327, "MAXMATK", 1533, "DEF", 385, "MDEF", 385));
 		AddPropertyOverrides("d_zachariel_33", MonsterId.Vesper, Properties("MHP", 65012, "MINPATK", 1337, "MAXPATK", 1545, "MINMATK", 1337, "MAXMATK", 1545, "DEF", 396, "MDEF", 396));
 		AddPropertyOverrides("d_zachariel_33", MonsterId.Wolf_Statue, Properties("MHP", 65802, "MINPATK", 1347, "MAXPATK", 1557, "MINMATK", 1347, "MAXMATK", 1557, "DEF", 409, "MDEF", 409));
-		AddPropertyOverrides("d_zachariel_33", MonsterId.Beetle, Properties("MHP", 64238, "MINPATK", 1327, "MAXPATK", 1533, "MINMATK", 1327, "MAXMATK", 1533, "DEF", 385, "MDEF", 385));
 		AddPropertyOverrides("d_zachariel_33", MonsterId.Tombsinker, Properties("MHP", 66609, "MINPATK", 1357, "MAXPATK", 1570, "MINMATK", 1357, "MAXMATK", 1570, "DEF", 421, "MDEF", 421));
+		AddPropertyOverrides("d_zachariel_33", MonsterId.Echad, Properties("MHP", 67431, "MINPATK", 1368, "MAXPATK", 1583, "MINMATK", 1368, "MAXMATK", 1583, "DEF", 433, "MDEF", 433));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_33.Id1", MonsterId.Vesper, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id2", MonsterId.Rootcrystal_05, 24, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_33.Id3", MonsterId.Wolf_Statue, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id4", MonsterId.Beetle, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id5", MonsterId.Vesper, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id6", MonsterId.Wolf_Statue, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id7", MonsterId.Beetle, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id8", MonsterId.Tombsinker, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id9", MonsterId.Beetle_Elite, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_33.Id10", MonsterId.Wolf_Statue, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id1", MonsterId.Beetle, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id2", MonsterId.Vesper, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id3", MonsterId.Rootcrystal_05, 18, 24, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id4", MonsterId.Wolf_Statue, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id5", MonsterId.Beetle, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id6", MonsterId.Vesper, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id7", MonsterId.Wolf_Statue, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id8", MonsterId.Tombsinker, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id9", MonsterId.Wolf_Statue, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id10", MonsterId.Beetle_Elite, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Vesper Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-199.17828, -585.65155, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-76.69006, -1936.7725, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-217.89906, -1961.4061, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-99.5119, -2343.0981, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(16.384352, -1969.1212, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-256.4868, -849.82043, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-769.5882, -725.97736, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-200.41187, -270.0989, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-29.225384, -740.4992, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-126.10217, -1302.878, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1419.7164, -818.96466, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1652.979, -792.87506, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1377.0675, -667.0912, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1496.7145, -734.75104, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1639.218, 154.18367, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1507.5164, 342.831, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1729.9219, 301.46457, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1390.5787, 252.70755, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-671.28625, 279.53796, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-1033.6759, 263.67862, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-11.311556, 799.5594, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-98.26814, 39.21769, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(64.18728, 176.18375, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(47.40507, 375.32153, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(22.813488, 1000.0496, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-106.90759, -2189.012, 30));
-		AddSpawnPoint( "d_zachariel_33.Id1", "d_zachariel_33", Spot(-66.56488, -2253.7551, 30));
+		// 'Beetle' GenType 17 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-607, 97, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-87, 206, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(325, -667, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-889, 154, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(121, 294, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-174, 97, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(59, 514, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-390, 186, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-1565, 194, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(33, 191, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(91, 68, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(22, 696, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(345, 241, 35));
+		AddSpawnPoint("d_zachariel_33.Id1", "d_zachariel_33", Rectangle(-264, 294, 35));
 
-		// Rootcrystal_05 Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-192.11725, -551.27045, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-133.60855, -1213.0259, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-95.379074, -2356.984, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-143.05077, -1979.6658, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(188.45097, -675.42224, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-494.5335, -754.5742, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-183.33069, 42.554276, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-397.76035, 302.46765, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(119.61187, 215.25539, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-734.12286, 123.08927, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1121.5378, 256.7022, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1548.2303, 248.24808, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1542.8635, 12.668365, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1575.3612, -563.7701, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1354.4824, -853.4372, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-1902.7871, -791.6988, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(1187.015, 252.57855, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(1952.6826, 243.46631, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(2025.9578, -337.9018, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(2282.9539, -36.923798, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(2243.2231, 448.43732, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(38.532936, 844.4344, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(219.05219, 1539.8232, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(-41.3052, 1403.7648, 30));
-		AddSpawnPoint( "d_zachariel_33.Id2", "d_zachariel_33", Spot(30.687029, 1848.7974, 30));
+		// 'Vesper' GenType 18 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-199, -585, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-76, -1936, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-217, -1961, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-99, -2343, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(16, -1969, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-256, -849, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-769, -725, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-200, -270, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-29, -740, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-126, -1302, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1419, -818, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1652, -792, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1377, -667, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1496, -734, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1639, 154, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1507, 342, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1729, 301, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1390, 252, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-671, 279, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-1033, 263, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-11, 799, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-98, 39, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(64, 176, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(47, 375, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(22, 1000, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-106, -2189, 30));
+		AddSpawnPoint("d_zachariel_33.Id2", "d_zachariel_33", Rectangle(-66, -2253, 30));
 
-		// Wolf_Statue Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id3", "d_zachariel_33", Spot(89.14456, 231.34334, 9999));
+		// 'Rootcrystal_05' GenType 600 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-192, -551, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-133, -1213, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-95, -2356, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-143, -1979, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(188, -675, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-494, -754, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-183, 42, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-397, 302, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(119, 215, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-734, 123, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1121, 256, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1548, 248, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1542, 12, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1575, -563, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1354, -853, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-1902, -791, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(1187, 252, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(1952, 243, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(2025, -337, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(2282, -36, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(2243, 448, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(38, 844, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(219, 1539, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(-41, 1403, 30));
+		AddSpawnPoint("d_zachariel_33.Id3", "d_zachariel_33", Rectangle(30, 1848, 30));
 
-		// Beetle Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-348.1272, -802.6368, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-132.99083, -889.836, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(34.433525, -779.27704, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(0.82768536, -652.5651, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-185.30598, -744.7231, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(37.578396, -891.86285, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-313.60522, -881.9189, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-122.20786, -1232.1848, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-142.3826, -1449.9619, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-234.13438, -2028.6395, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-16.261585, -1950.5613, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-189.83311, -1897.2931, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-108.93932, -2132.3418, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-1601.7528, 163.0997, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-1598.3063, 298.37427, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-1514.5774, 206.64459, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-1367.7711, 266.43475, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-903.2758, 252.3551, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-699.4359, 265.808, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-758.2356, 136.96135, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-888.9658, 78.36176, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-433.29376, 287.0969, 30));
-		AddSpawnPoint( "d_zachariel_33.Id4", "d_zachariel_33", Spot(-390.6117, 117.53767, 30));
+		// 'Wolf_Statue' GenType 3012 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id4", "d_zachariel_33", Rectangle(89, 231, 9999));
 
-		// Vesper Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id5", "d_zachariel_33", Spot(76.492455, 1433.6903, 9999));
+		// 'Beetle' GenType 3013 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-348, -802, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-132, -889, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(34, -779, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(0, -652, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-185, -744, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(37, -891, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-313, -881, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-122, -1232, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-142, -1449, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-234, -2028, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-16, -1950, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-189, -1897, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-108, -2132, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-1601, 163, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-1598, 298, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-1514, 206, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-1367, 266, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-903, 252, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-699, 265, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-758, 136, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-888, 78, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-433, 287, 30));
+		AddSpawnPoint("d_zachariel_33.Id5", "d_zachariel_33", Rectangle(-390, 117, 30));
 
-		// Wolf_Statue Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-75.74352, -1878.7393, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-69.05628, 225.2522, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-245.12883, -1962.8, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-90.28173, -2053.0405, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-140.64053, -1967.2863, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-194.941, -2052.5276, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-263.30548, 162.72638, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-76.318924, 83.51516, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(68.03944, 324.99838, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-563.26514, 256.8812, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(30.663391, 535.30695, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(277.30908, 274.53174, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(81.85735, 88.43369, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-169.95137, -118.01586, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-187.65225, -1879.141, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-609.19086, -753.0277, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-411.22446, -594.01404, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-285.96567, -890.8473, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(70.73936, -926.98816, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(55.465805, -614.9232, 30));
-		AddSpawnPoint( "d_zachariel_33.Id6", "d_zachariel_33", Spot(-32.81743, -798.8869, 30));
+		// 'Vesper' GenType 3014 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id6", "d_zachariel_33", Rectangle(76, 1433, 9999));
 
-		// Beetle Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-607.34717, 97.7493, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-87.88245, 206.97668, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(325.4325, -667.24884, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-889.5011, 154.21944, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(121.51105, 294.69836, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-174.31946, 97.07669, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(59.41015, 514.8028, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-390.57675, 186.18051, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-1565.8252, 194.43768, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(33.232517, 191.97054, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(91.0258, 68.82915, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(22.359997, 696.9925, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(345.45068, 241.58507, 35));
-		AddSpawnPoint( "d_zachariel_33.Id7", "d_zachariel_33", Spot(-264.53436, 294.6566, 35));
+		// 'Wolf_Statue' GenType 3015 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-75, -1878, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-69, 225, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-245, -1962, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-90, -2053, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-140, -1967, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-194, -2052, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-263, 162, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-76, 83, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(68, 324, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-563, 256, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(30, 535, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(277, 274, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(81, 88, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-169, -118, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-187, -1879, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-609, -753, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-411, -594, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-285, -890, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(70, -926, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(55, -614, 30));
+		AddSpawnPoint("d_zachariel_33.Id7", "d_zachariel_33", Rectangle(-32, -798, 30));
 
-		// Tombsinker Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id8", "d_zachariel_33", Spot(26.158539, 274.57635, 9999));
+		// 'Tombsinker' GenType 3018 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id8", "d_zachariel_33", Rectangle(26, 274, 9999));
 
-		// Beetle_Elite Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id9", "d_zachariel_33", Spot(-22.074337, -713.6813, 9999));
+		// 'Wolf_Statue' GenType 3019 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(341, -665, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(582, -648, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(823, -626, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(1008, -705, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(1070, -567, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(689, -545, 35));
+		AddSpawnPoint("d_zachariel_33.Id9", "d_zachariel_33", Rectangle(786, -762, 35));
 
-		// Wolf_Statue Spawn Points
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(341.99377, -665.3928, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(582.3442, -648.1564, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(823.098, -626.39294, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(1008.3204, -705.55554, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(1070.3743, -567.95154, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(689.5869, -545.56036, 35));
-		AddSpawnPoint( "d_zachariel_33.Id10", "d_zachariel_33", Spot(786.05084, -762.8019, 35));
-
+		// 'Beetle_Elite' GenType 3022 Spawn Points
+		AddSpawnPoint("d_zachariel_33.Id10", "d_zachariel_33", Rectangle(-22, -713, 9999));
 	}
 }

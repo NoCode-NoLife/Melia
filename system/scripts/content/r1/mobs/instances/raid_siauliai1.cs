@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// raid_siauliai1
-//
+// Siauliai Raid Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the raid_siauliai1 mobs.
+// Sets up monster spawners for 'raid_siauliai1'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,20 +13,19 @@ public class RaidSiauliai1MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		AddSpawner("raid_siauliai1.Id1", MonsterId.Rootcrystal_01, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("raid_siauliai1.Id1", MonsterId.Rootcrystal_01, 1, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
 
-		// Rootcrystal_01 Spawn Points
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-464.7043, -1298.4799, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-301.05234, -1335.3169, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-416.9353, -686.42535, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-118.94096, -623.6209, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-167.15977, 13.694931, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(-89.57201, 260.67822, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(121.61159, 1.2747784, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(25.610964, 845.4364, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(262.95966, 769.5088, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(378.44647, 1080.6187, 100));
-		AddSpawnPoint( "raid_siauliai1.Id1", "raid_siauliai1", Spot(118.64677, 1216.3112, 100));
-
+		// 'Rootcrystal_01' GenType 1 Spawn Points
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-464, -1298, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-301, -1335, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-416, -686, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-118, -623, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-167, 13, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-89, 260, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(121, 1, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(25, 845, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(262, 769, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(378, 1080, 100));
+		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(118, 1216, 100));
 	}
 }

@@ -1,8 +1,7 @@
 //--- Melia Script -----------------------------------------------------------
-// d_zachariel_32
-//
+// Royal Mausoleum 1F Spawns
 //--- Description -----------------------------------------------------------
-// Sets up the d_zachariel_32 mobs.
+// Sets up monster spawners for 'd_zachariel_32'.
 //---------------------------------------------------------------------------
 
 using System;
@@ -14,136 +13,140 @@ public class DZachariel32MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		// Property Overrides
+		// Property Overrides -------------------------------
+
 		AddPropertyOverrides("d_zachariel_32", MonsterId.Zinutekas, Properties("MHP", 60625, "MINPATK", 1281, "MAXPATK", 1476, "MINMATK", 1281, "MAXMATK", 1476, "DEF", 329, "MDEF", 329));
 		AddPropertyOverrides("d_zachariel_32", MonsterId.Varv, Properties("MHP", 61312, "MINPATK", 1289, "MAXPATK", 1486, "MINMATK", 1289, "MAXMATK", 1486, "DEF", 340, "MDEF", 340));
 		AddPropertyOverrides("d_zachariel_32", MonsterId.Moving_Trap, Properties("MHP", 62017, "MINPATK", 1298, "MAXPATK", 1498, "MINMATK", 1298, "MAXMATK", 1498, "DEF", 351, "MDEF", 351));
-		AddPropertyOverrides("d_zachariel_32", MonsterId.Karas, Properties("MHP", 63480, "MINPATK", 1317, "MAXPATK", 1521, "MINMATK", 1317, "MAXMATK", 1521, "DEF", 373, "MDEF", 373));
 		AddPropertyOverrides("d_zachariel_32", MonsterId.Zinutekas_Elite, Properties("MHP", 62740, "MINPATK", 1308, "MAXPATK", 1509, "MINMATK", 1308, "MAXMATK", 1509, "DEF", 362, "MDEF", 362));
+		AddPropertyOverrides("d_zachariel_32", MonsterId.Karas, Properties("MHP", 63480, "MINPATK", 1317, "MAXPATK", 1521, "MINMATK", 1317, "MAXMATK", 1521, "DEF", 373, "MDEF", 373));
 
-		// Monster Spawners --------------------------------
+		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_32.Id2", MonsterId.Zinutekas, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id3", MonsterId.Zinutekas, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id4", MonsterId.Varv, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id5", MonsterId.Moving_Trap, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id6", MonsterId.Moving_Trap, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id7", MonsterId.Varv, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id8", MonsterId.Karas, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_32.Id9", MonsterId.Zinutekas_Elite, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id2", MonsterId.Zinutekas, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id3", MonsterId.Zinutekas, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id4", MonsterId.Varv, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id5", MonsterId.Moving_Trap, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id6", MonsterId.Moving_Trap, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id7", MonsterId.Varv, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id8", MonsterId.Karas, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id9", MonsterId.Zinutekas_Elite, 3, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
-		// Rootcrystal_05 Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id1", "d_zachariel_32", Spot(-42, -1123, 30));
-		AddSpawnPoint( "d_zachariel_32.Id1", "d_zachariel_32", Spot(1230, 72, 30));
-		AddSpawnPoint( "d_zachariel_32.Id1", "d_zachariel_32", Spot(-872, 75, 30));
-		AddSpawnPoint( "d_zachariel_32.Id1", "d_zachariel_32", Spot(52, 1357, 30));
+		// 'Rootcrystal_05' GenType 600 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id1", "d_zachariel_32", Rectangle(-42, -1123, 30));
+		AddSpawnPoint("d_zachariel_32.Id1", "d_zachariel_32", Rectangle(1230, 72, 30));
+		AddSpawnPoint("d_zachariel_32.Id1", "d_zachariel_32", Rectangle(-872, 75, 30));
+		AddSpawnPoint("d_zachariel_32.Id1", "d_zachariel_32", Rectangle(52, 1357, 30));
 
-		// Zinutekas Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(-122, 171, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(-105.33216, 1393.9225, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(1262.8569, 51.245697, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(-41.13156, 25.679314, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(-4.644928, -86.01132, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(203.94325, 86.41452, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(22.607986, 256.62106, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(914.2411, 95.27472, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(1115.7257, -27.62833, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(1208.5851, 188.43477, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(1075.3568, 251.45845, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(1100.1234, 131.51218, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(979.3739, -8.070076, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(15.068802, 102.52118, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(73.303024, 1453.0802, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(47.256424, 1404.1146, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(47.91625, 1678.6211, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(215.48892, 1407.3418, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(56.131214, 1154.1517, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(-250.52768, 1408.245, 350));
-		AddSpawnPoint( "d_zachariel_32.Id2", "d_zachariel_32", Spot(371.32224, 1410.116, 350));
-		AddSpawnPoint( "d_zachariel_32.Id3", "d_zachariel_32", Spot(49, 1420, 9999));
+		// 'Zinutekas' GenType 1020 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(-122, 171, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(-105, 1393, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(1262, 51, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(-41, 25, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(-4, -86, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(203, 86, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(22, 256, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(914, 95, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(1115, -27, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(1208, 188, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(1075, 251, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(1100, 131, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(979, -8, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(15, 102, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(73, 1453, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(47, 1404, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(47, 1678, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(215, 1407, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(56, 1154, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(-250, 1408, 350));
+		AddSpawnPoint("d_zachariel_32.Id2", "d_zachariel_32", Rectangle(371, 1410, 350));
 
-		// Varv Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id4", "d_zachariel_32", Spot(62.891552, 1415.3289, 9999));
+		// 'Zinutekas' GenType 3005 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id3", "d_zachariel_32", Rectangle(49, 1420, 9999));
 
-		// Moving_Trap Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id5", "d_zachariel_32", Spot(41.6494, 187.01646, 9999));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(56.74465, 145.61552, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(1133.5869, 129.34186, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-192.91193, 97.47426, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(49.13401, -89.0266, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(947.60345, 72.714, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(1157.1138, -99.5071, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(1257.5588, 260.45337, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(1049.3365, 293.16034, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-992.6977, 269.15347, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-1080.3595, -55.21635, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-797.54663, 58.654945, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-1136.6224, 125.22794, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(-789.12286, 197.14664, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(35.453423, 367.00534, 350));
-		AddSpawnPoint( "d_zachariel_32.Id6", "d_zachariel_32", Spot(272.7172, 108.74696, 350));
+		// 'Varv' GenType 3006 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id4", "d_zachariel_32", Rectangle(62, 1415, 9999));
 
-		// Varv Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-895.0793, 1393.7487, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-982.53577, -880.54266, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-1084.4537, -1109.3551, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-1099.928, -927.9132, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-936.432, -1029.7673, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-959.81445, 22.791117, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-937.8673, 269.2441, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-1090.4355, 154.05995, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-776.70984, 122.34263, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-978.74133, 1229.5714, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-955.7805, 1583.9581, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-1068.6033, 1501.5187, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1089.3579, 1333.9666, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1180.8627, 1562.3514, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(991.9826, 1426.9382, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1086.2177, 246.06798, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(981.9042, 31.272274, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1086.5222, -111.84035, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1124.0707, 124.06465, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1045.571, -837.3882, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(966.13745, -981.2001, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1095.9869, -1150.2074, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1237.3439, -979.94543, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(1113.9506, -1011.0974, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(560.14923, -936.29126, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(64.385895, -1279.7394, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(25.440794, -45.486538, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-161.06964, 108.46146, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(75.721115, 1392.3959, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(318.451, 1456.3618, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(46.73441, 729.4699, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-377.77594, 1411.6149, 350));
-		AddSpawnPoint( "d_zachariel_32.Id7", "d_zachariel_32", Spot(-439.1945, -990.77106, 350));
+		// 'Moving_Trap' GenType 3008 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id5", "d_zachariel_32", Rectangle(41, 187, 9999));
 
-		// Karas Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(37.607677, 943.5803, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(450.78674, 1388.285, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-427.6086, 1398.524, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1215.1661, 1290.5748, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(979.7895, 84.12612, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1115.1082, 1343.8842, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-898.6503, 1292.6226, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-925.0941, 1507.7754, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(35.962864, 1145.4248, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-1108.5132, 1277.6677, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1001.6533, 1525.965, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-1109.7665, 1520.059, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-638.8298, 1388.4912, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(645.59186, 1386.638, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1012.8887, 1281.082, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1205.7726, 1517.4321, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-1000.6447, 1446.2314, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(1136.9761, 1451.7065, 40));
-		AddSpawnPoint( "d_zachariel_32.Id8", "d_zachariel_32", Spot(-1002.3246, 1341.4025, 40));
+		// 'Moving_Trap' GenType 3009 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(56, 145, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(1133, 129, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-192, 97, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(49, -89, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(947, 72, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(1157, -99, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(1257, 260, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(1049, 293, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-992, 269, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-1080, -55, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-797, 58, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-1136, 125, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(-789, 197, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(35, 367, 350));
+		AddSpawnPoint("d_zachariel_32.Id6", "d_zachariel_32", Rectangle(272, 108, 350));
 
-		// Zinutekas_Elite Spawn Points
-		AddSpawnPoint( "d_zachariel_32.Id9", "d_zachariel_32", Spot(56.303253, 94.40272, 9999));
+		// 'Varv' GenType 3010 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-895, 1393, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-982, -880, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-1084, -1109, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-1099, -927, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-936, -1029, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-959, 22, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-937, 269, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-1090, 154, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-776, 122, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-978, 1229, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-955, 1583, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-1068, 1501, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1089, 1333, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1180, 1562, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(991, 1426, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1086, 246, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(981, 31, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1086, -111, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1124, 124, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1045, -837, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(966, -981, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1095, -1150, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1237, -979, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(1113, -1011, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(560, -936, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(64, -1279, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(25, -45, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-161, 108, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(75, 1392, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(318, 1456, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(46, 729, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-377, 1411, 350));
+		AddSpawnPoint("d_zachariel_32.Id7", "d_zachariel_32", Rectangle(-439, -990, 350));
 
+		// 'Karas' GenType 3019 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(37, 943, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(450, 1388, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-427, 1398, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1215, 1290, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(979, 84, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1115, 1343, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-898, 1292, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-925, 1507, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(35, 1145, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-1108, 1277, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1001, 1525, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-1109, 1520, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-638, 1388, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(645, 1386, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1012, 1281, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1205, 1517, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-1000, 1446, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(1136, 1451, 40));
+		AddSpawnPoint("d_zachariel_32.Id8", "d_zachariel_32", Rectangle(-1002, 1341, 40));
+
+		// 'Zinutekas_Elite' GenType 3021 Spawn Points
+		AddSpawnPoint("d_zachariel_32.Id9", "d_zachariel_32", Rectangle(56, 94, 9999));
 	}
 }
