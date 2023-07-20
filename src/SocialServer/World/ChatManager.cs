@@ -66,22 +66,22 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Create a chat room with a given owner.
+		/// Creates a new chat room for the given user.
 		/// </summary>
-		/// <param name="owner"></param>
+		/// <param name="creator"></param>
 		/// <returns></returns>
-		public ChatRoom CreateChatRoom(Account owner)
+		public ChatRoom CreateChatRoom(SocialUser creator)
 		{
-			var chatRoom = new ChatRoom(owner);
-			chatRoom.AddMember(owner);
+			var chatRoom = new ChatRoom("", ChatRoomType.Group, creator.Account);
+			chatRoom.AddMember(creator.Account);
 			this.AddChatRoom(chatRoom);
 
-			var chatMessage = new ChatMessage(owner, "!@#$NewRoomHasBeenCreated#@!");
+			var chatMessage = new ChatMessage(creator.Account, "!@#$NewRoomHasBeenCreated#@!");
 			chatRoom.AddMessage(chatMessage);
 
 			//Send.SC_NORMAL.ChatRoomMessage(owner.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.ChatLog(owner.Connection, chatRoom, chatMessage);
-			Send.SC_NORMAL.Chat(owner.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.ChatLog(creator.Connection, chatRoom, chatMessage);
+			Send.SC_NORMAL.Chat(creator.Connection, chatRoom, chatMessage);
 
 			return chatRoom;
 		}

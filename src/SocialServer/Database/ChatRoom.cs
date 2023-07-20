@@ -119,7 +119,7 @@ namespace Melia.Social.Database
 		}
 
 		/// <summary>
-		/// Broadcasts packet to all characters on map.
+		/// Broadcasts packet to all members of the room who are online.
 		/// </summary>
 		/// <param name="packet"></param>
 		public virtual void Broadcast(Packet packet)
@@ -127,7 +127,10 @@ namespace Melia.Social.Database
 			lock (_members)
 			{
 				foreach (var account in _members)
-					account.Connection?.Send(packet);
+				{
+					if (SocialServer.Instance.UserManager.TryGet(account.Id, out var user))
+						user.Connection.Send(packet);
+				}
 			}
 		}
 	}

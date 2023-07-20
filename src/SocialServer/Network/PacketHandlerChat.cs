@@ -260,7 +260,7 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_CREATE_GROUP_CHAT)]
 		public void CS_CREATE_GROUP_CHAT(ISocialConnection conn, Packet packet)
 		{
-			SocialServer.Instance.ChatManager.CreateChatRoom(conn.User.Account);
+			SocialServer.Instance.ChatManager.CreateChatRoom(conn.User);
 		}
 
 		/// <summary>

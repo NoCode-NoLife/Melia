@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Melia.Social.Network;
 
 namespace Melia.Social.Database
 {
@@ -10,11 +9,6 @@ namespace Melia.Social.Database
 
 		// Temporary solution for testing liking
 		private readonly Dictionary<long, int> _likes = new Dictionary<long, int>();
-
-		/// <summary>
-		/// Connection this account uses.
-		/// </summary>
-		public ISocialConnection Connection { get; set; }
 
 		/// <summary>
 		/// Account id.
