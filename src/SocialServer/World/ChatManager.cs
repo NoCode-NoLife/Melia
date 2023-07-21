@@ -8,11 +8,8 @@ namespace Melia.Social.World
 {
 	public class ChatManager
 	{
-		private readonly Dictionary<long, ChatRoom> _chatrooms = new Dictionary<long, ChatRoom>();
+		private readonly Dictionary<long, ChatRoom> _rooms = new Dictionary<long, ChatRoom>();
 
-		/// <summary>
-		/// Chat room id initial seed
-		/// </summary>
 		private static long ChatId = 0x1FB0F00000000;
 
 		/// <summary>
@@ -27,8 +24,8 @@ namespace Melia.Social.World
 		/// <param name="chatRoom"></param>
 		public void AddChatRoom(ChatRoom chatRoom)
 		{
-			lock (_chatrooms)
-				_chatrooms.Add(chatRoom.Id, chatRoom);
+			lock (_rooms)
+				_rooms.Add(chatRoom.Id, chatRoom);
 		}
 
 		/// <summary>
@@ -37,8 +34,8 @@ namespace Melia.Social.World
 		/// <param name="id"></param>
 		public void RemoveChatRoom(long id)
 		{
-			lock (_chatrooms)
-				_chatrooms.Remove(id);
+			lock (_rooms)
+				_rooms.Remove(id);
 		}
 
 		/// <summary>
@@ -49,9 +46,9 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public ChatRoom GetChatRoom(long accountId1, long accountId2)
 		{
-			lock (_chatrooms)
+			lock (_rooms)
 			{
-				foreach (var chatRoom in _chatrooms.Values)
+				foreach (var chatRoom in _rooms.Values)
 				{
 					if (chatRoom.Type != ChatRoomType.OneToOne)
 						continue;
@@ -76,8 +73,8 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public bool TryGetChatRoom(long chatId, out ChatRoom chatRoom)
 		{
-			lock (_chatrooms)
-				return _chatrooms.TryGetValue(chatId, out chatRoom);
+			lock (_rooms)
+				return _rooms.TryGetValue(chatId, out chatRoom);
 		}
 
 		/// <summary>
