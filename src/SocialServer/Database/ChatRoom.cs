@@ -12,7 +12,7 @@ namespace Melia.Social.Database
 		public readonly List<ChatMessage> _messages = new List<ChatMessage>();
 
 		/// <summary>
-		/// Unique chat room id
+		/// Returns the chat room's globally unique id.
 		/// </summary>
 		public long Id { get; }
 
@@ -27,9 +27,9 @@ namespace Melia.Social.Database
 		public ChatRoomType Type { get; set; } = ChatRoomType.Group;
 
 		/// <summary>
-		/// Returns the account of the chat room's owner.
+		/// Returns the account id of the chat room's owner.
 		/// </summary>
-		public Account Owner { get; set; }
+		public long OwnerId { get; set; }
 
 		/// <summary>
 		/// Returns the number of members in the chat room.
@@ -55,7 +55,7 @@ namespace Melia.Social.Database
 
 			this.Name = name;
 			this.Type = type;
-			this.Owner = owner;
+			this.OwnerId = owner.Id;
 		}
 
 		/// <summary>

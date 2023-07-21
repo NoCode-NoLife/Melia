@@ -50,7 +50,7 @@ namespace Melia.Social.World
 		public ChatRoom GetChatRoom(long accountId1, long accountId2)
 		{
 			lock (_chatrooms)
-				return _chatrooms.Values.FirstOrDefault(a => a.Type == ChatRoomType.OneToOne && (a.Owner.Id == accountId1 || a.Owner.Id == accountId2));
+				return _chatrooms.Values.FirstOrDefault(a => a.Type == ChatRoomType.OneToOne && (a.OwnerId == accountId1 || a.OwnerId == accountId2));
 		}
 
 		/// <summary>

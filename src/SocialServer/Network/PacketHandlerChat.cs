@@ -299,10 +299,7 @@ namespace Melia.Social.Network
 			chatRoom.RemoveMember(conn.User.Account);
 
 			if (chatRoom.MemberCount == 0)
-			{
-				chatRoom.Owner = null;
 				SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
-			}
 		}
 
 		/// <summary>
