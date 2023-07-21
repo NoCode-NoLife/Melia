@@ -15,14 +15,14 @@ public class DUnderfortress593MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_59_3.Id1", MonsterId.Fortress_Rock, 1, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_3.Id2", MonsterId.FD_Shredded, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_3.Id3", MonsterId.FD_Deadbornscab, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_3.Id4", MonsterId.FD_Hallowventor, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_3.Id5", MonsterId.Fortress_Rock, 1, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_3.Id1", MonsterId.Fortress_Rock, 1, 1, TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_3.Id2", MonsterId.FD_Shredded, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_3.Id3", MonsterId.FD_Deadbornscab, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_3.Id4", MonsterId.FD_Hallowventor, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_3.Id5", MonsterId.Fortress_Rock, 1, 1, TendencyType.Peaceful);
 		AddSpawner("d_underfortress_59_3.Id6", MonsterId.Rootcrystal_03, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_3.Id7", MonsterId.FD_Shredded, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_3.Id8", MonsterId.FD_Deadbornscab, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_3.Id7", MonsterId.FD_Shredded, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_3.Id8", MonsterId.FD_Deadbornscab, 12, 15, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

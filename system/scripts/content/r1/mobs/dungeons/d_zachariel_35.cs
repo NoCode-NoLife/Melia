@@ -27,14 +27,14 @@ public class DZachariel35MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_zachariel_35.Id1", MonsterId.Rootcrystal_05, 6, 8, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_35.Id2", MonsterId.Dog_Of_King, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id3", MonsterId.Schlesien_Guard, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id4", MonsterId.Schlesien_Guard, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id5", MonsterId.Dog_Of_King, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id6", MonsterId.Schlesien_Guard, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id7", MonsterId.Dog_Of_King, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_35.Id8", MonsterId.Wolf_Statue_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_35.Id9", MonsterId.Karas_Mage, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_35.Id2", MonsterId.Dog_Of_King, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id3", MonsterId.Schlesien_Guard, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id4", MonsterId.Schlesien_Guard, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id5", MonsterId.Dog_Of_King, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id6", MonsterId.Schlesien_Guard, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id7", MonsterId.Dog_Of_King, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_35.Id8", MonsterId.Wolf_Statue_Bow, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_35.Id9", MonsterId.Karas_Mage, 4, 5, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

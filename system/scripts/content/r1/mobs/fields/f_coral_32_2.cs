@@ -15,11 +15,11 @@ public class FCoral322MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_32_2.Id1", MonsterId.Colimen_Blue, 19, 25, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_coral_32_2.Id2", MonsterId.Repusbunny_Red, 19, 25, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_coral_32_2.Id3", MonsterId.Repusbunny_Bow_Red, 4, 5, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_coral_32_2.Id4", MonsterId.Colimen_Blue, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_coral_32_2.Id5", MonsterId.Repusbunny_Red, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_32_2.Id1", MonsterId.Colimen_Blue, 19, 25);
+		AddSpawner("f_coral_32_2.Id2", MonsterId.Repusbunny_Red, 19, 25);
+		AddSpawner("f_coral_32_2.Id3", MonsterId.Repusbunny_Bow_Red, 4, 5);
+		AddSpawner("f_coral_32_2.Id4", MonsterId.Colimen_Blue, 30, 40);
+		AddSpawner("f_coral_32_2.Id5", MonsterId.Repusbunny_Red, 23, 30);
 		AddSpawner("f_coral_32_2.Id6", MonsterId.Rootcrystal_01, 15, 20, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------

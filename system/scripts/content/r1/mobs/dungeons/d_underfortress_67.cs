@@ -22,10 +22,10 @@ public class DUnderfortress67MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_67.Id1", MonsterId.Rambear_Brown, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_67.Id2", MonsterId.Dandel_White, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_67.Id3", MonsterId.Rambear_Bow_Brown, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_67.Id4", MonsterId.Rambear_Mage_Brown, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_67.Id1", MonsterId.Rambear_Brown, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_67.Id2", MonsterId.Dandel_White, 57, 75, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_67.Id3", MonsterId.Rambear_Bow_Brown, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_67.Id4", MonsterId.Rambear_Mage_Brown, 9, 12, TendencyType.Aggressive);
 		AddSpawner("d_underfortress_67.Id5", MonsterId.Rootcrystal_03, 18, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 		AddSpawner("d_underfortress_67.Id6", MonsterId.Dandel_White, 6, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 

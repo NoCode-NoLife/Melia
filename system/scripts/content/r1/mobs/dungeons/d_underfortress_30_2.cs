@@ -15,9 +15,9 @@ public class DUnderfortress302MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_30_2.Id1", MonsterId.Saltisdaughter_Green, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_30_2.Id2", MonsterId.Colifly_Mage_Black, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_30_2.Id3", MonsterId.Colifly_Bow_Black, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_30_2.Id1", MonsterId.Saltisdaughter_Green, 38, 50, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_30_2.Id2", MonsterId.Colifly_Mage_Black, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_30_2.Id3", MonsterId.Colifly_Bow_Black, 23, 30, TendencyType.Aggressive);
 		AddSpawner("d_underfortress_30_2.Id4", MonsterId.Rootcrystal_05, 11, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

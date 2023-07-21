@@ -15,12 +15,12 @@ public class FFlash61MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_61.Id1", MonsterId.Denden, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_flash_61.Id2", MonsterId.Moyabu, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_flash_61.Id3", MonsterId.Moyabu, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_flash_61.Id4", MonsterId.Goblin2_Sword, 75, 100, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_61.Id1", MonsterId.Denden, 12, 15);
+		AddSpawner("f_flash_61.Id2", MonsterId.Moyabu, 12, 15);
+		AddSpawner("f_flash_61.Id3", MonsterId.Moyabu, 15, 20);
+		AddSpawner("f_flash_61.Id4", MonsterId.Goblin2_Sword, 75, 100);
 		AddSpawner("f_flash_61.Id5", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_flash_61.Id6", MonsterId.Denden, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_61.Id6", MonsterId.Denden, 12, 15);
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,10 +15,10 @@ public class FBracken432MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_bracken_43_2.Id2", MonsterId.Darong, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, 23, 30);
+		AddSpawner("f_bracken_43_2.Id2", MonsterId.Darong, 19, 25);
 		AddSpawner("f_bracken_43_2.Id3", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_bracken_43_2.Id4", MonsterId.Nukarong, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_2.Id4", MonsterId.Nukarong, 4, 5);
 		AddSpawner("f_bracken_43_2.Id5", MonsterId.Dorong, 3, 3, TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_bracken_43_2.Id6", MonsterId.Darong, 3, 4, TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_bracken_43_2.Id7", MonsterId.Dorong, 6, 8, TimeSpan.FromMilliseconds(60000));

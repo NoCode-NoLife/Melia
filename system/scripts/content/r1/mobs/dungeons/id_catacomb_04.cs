@@ -16,9 +16,9 @@ public class IdCatacomb04MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("id_catacomb_04.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("id_catacomb_04.Id2", MonsterId.Candlespider_Yellow, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("id_catacomb_04.Id3", MonsterId.Moyabu_Yellow, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("id_catacomb_04.Id4", MonsterId.Ticen_Mage, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("id_catacomb_04.Id2", MonsterId.Candlespider_Yellow, 57, 75, TendencyType.Aggressive);
+		AddSpawner("id_catacomb_04.Id3", MonsterId.Moyabu_Yellow, 12, 15, TendencyType.Aggressive);
+		AddSpawner("id_catacomb_04.Id4", MonsterId.Ticen_Mage, 9, 12, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

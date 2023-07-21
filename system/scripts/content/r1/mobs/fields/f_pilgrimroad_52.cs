@@ -21,12 +21,12 @@ public class FPilgrimroad52MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_52.Id1", MonsterId.Hook_Old, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_52.Id2", MonsterId.TreeAmbulo_Red, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_52.Id1", MonsterId.Hook_Old, 15, 20);
+		AddSpawner("f_pilgrimroad_52.Id2", MonsterId.TreeAmbulo_Red, 19, 25);
 		AddSpawner("f_pilgrimroad_52.Id3", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_52.Id4", MonsterId.TreeAmbulo_Red, 60, 80, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_52.Id5", MonsterId.Hook_Old, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_52.Id6", MonsterId.Lichenclops_Mage, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_52.Id4", MonsterId.TreeAmbulo_Red, 60, 80);
+		AddSpawner("f_pilgrimroad_52.Id5", MonsterId.Hook_Old, 8, 10);
+		AddSpawner("f_pilgrimroad_52.Id6", MonsterId.Lichenclops_Mage, 6, 8);
 
 		// Monster Spawn Points -----------------------------
 

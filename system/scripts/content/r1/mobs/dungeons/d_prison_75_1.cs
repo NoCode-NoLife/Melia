@@ -15,18 +15,18 @@ public class DPrison751MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_75_1.Id1", MonsterId.ERD_Stoulet_Bow, 10, 13, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id2", MonsterId.ERD_Escape_Wendigo, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id3", MonsterId.ERD_Stoulet, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id4", MonsterId.ERD_Colifly_Black, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id5", MonsterId.ERD_Socket, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id6", MonsterId.ERD_Chromadog, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id7", MonsterId.ERD_Socket_Bow, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id8", MonsterId.ERD_Stoulet_Mage, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id9", MonsterId.ERD_InfroRocktor_Red, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id10", MonsterId.ERD_New_Desmodus_Black, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id11", MonsterId.ERD_Zigri, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_prison_75_1.Id12", MonsterId.ERD_Hook, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_prison_75_1.Id1", MonsterId.ERD_Stoulet_Bow, 10, 13);
+		AddSpawner("d_prison_75_1.Id2", MonsterId.ERD_Escape_Wendigo, 23, 30);
+		AddSpawner("d_prison_75_1.Id3", MonsterId.ERD_Stoulet, 12, 15);
+		AddSpawner("d_prison_75_1.Id4", MonsterId.ERD_Colifly_Black, 23, 30);
+		AddSpawner("d_prison_75_1.Id5", MonsterId.ERD_Socket, 12, 15);
+		AddSpawner("d_prison_75_1.Id6", MonsterId.ERD_Chromadog, 9, 12);
+		AddSpawner("d_prison_75_1.Id7", MonsterId.ERD_Socket_Bow, 9, 12);
+		AddSpawner("d_prison_75_1.Id8", MonsterId.ERD_Stoulet_Mage, 9, 12);
+		AddSpawner("d_prison_75_1.Id9", MonsterId.ERD_InfroRocktor_Red, 9, 12);
+		AddSpawner("d_prison_75_1.Id10", MonsterId.ERD_New_Desmodus_Black, 9, 12);
+		AddSpawner("d_prison_75_1.Id11", MonsterId.ERD_Zigri, 9, 12);
+		AddSpawner("d_prison_75_1.Id12", MonsterId.ERD_Hook, 9, 12);
 		AddSpawner("d_prison_75_1.Id13", MonsterId.Rootcrystal_01, 19, 25, TimeSpan.FromMilliseconds(25000));
 
 		// Monster Spawn Points -----------------------------

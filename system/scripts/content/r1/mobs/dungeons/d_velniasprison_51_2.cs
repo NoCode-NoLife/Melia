@@ -23,13 +23,13 @@ public class DVelniasprison512MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_velniasprison_51_2.Id1", MonsterId.Defender_Spider, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_2.Id2", MonsterId.Nuka, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_2.Id3", MonsterId.Defender_Spider, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_2.Id4", MonsterId.Harugal, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id1", MonsterId.Defender_Spider, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id2", MonsterId.Nuka, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id3", MonsterId.Defender_Spider, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id4", MonsterId.Harugal, 15, 20, TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_2.Id5", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_velniasprison_51_2.Id6", MonsterId.Nuka, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_2.Id7", MonsterId.Elet, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id6", MonsterId.Nuka, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_2.Id7", MonsterId.Elet, 23, 30, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

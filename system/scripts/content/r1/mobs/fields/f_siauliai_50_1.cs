@@ -22,16 +22,16 @@ public class FSiauliai501MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_50_1.Id1", MonsterId.Chupaluka_Pink, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_siauliai_50_1.Id2", MonsterId.Sakmoli_Orange, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id3", MonsterId.Chupaluka_Pink, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id4", MonsterId.Ridimed_Purple, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id5", MonsterId.Sakmoli_Orange, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id6", MonsterId.Ridimed_Purple, 49, 65, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id1", MonsterId.Chupaluka_Pink, 9, 12, TendencyType.Aggressive);
+		AddSpawner("f_siauliai_50_1.Id2", MonsterId.Sakmoli_Orange, 12, 15, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id3", MonsterId.Chupaluka_Pink, 8, 10, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id4", MonsterId.Ridimed_Purple, 6, 8, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id5", MonsterId.Sakmoli_Orange, 12, 15, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id6", MonsterId.Ridimed_Purple, 49, 65, TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id7", MonsterId.RootCrystal_A, 11, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id8", MonsterId.Repusbunny_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id9", MonsterId.Ridimed_Purple, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id10", MonsterId.Sakmoli_Orange, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id8", MonsterId.Repusbunny_Bow, 8, 10, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id9", MonsterId.Ridimed_Purple, 8, 10, TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id10", MonsterId.Sakmoli_Orange, 8, 10, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

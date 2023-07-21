@@ -24,14 +24,14 @@ public class DLimestonecave523MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_52_3.Id1", MonsterId.Flamme_Priest_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id2", MonsterId.Flamme_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id3", MonsterId.Bavon_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id4", MonsterId.Rubblem_Green, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id5", MonsterId.Bavon_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id6", MonsterId.Flamme_Priest_Green, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id1", MonsterId.Flamme_Priest_Green, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id2", MonsterId.Flamme_Mage_Green, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id3", MonsterId.Bavon_Green, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id4", MonsterId.Rubblem_Green, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id5", MonsterId.Bavon_Green, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id6", MonsterId.Flamme_Priest_Green, 15, 20, TendencyType.Aggressive);
 		AddSpawner("d_limestonecave_52_3.Id7", MonsterId.Rootcrystal_04, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_limestonecave_52_3.Id8", MonsterId.Rocktanon, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id8", MonsterId.Rocktanon, 23, 30, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

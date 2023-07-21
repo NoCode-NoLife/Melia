@@ -15,10 +15,10 @@ public class DLimestonecave551MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_55_1.Id1", MonsterId.Charog_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id2", MonsterId.Charcoal_Walker_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id3", MonsterId.Blindlem_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id4", MonsterId.Charog_Green, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id1", MonsterId.Charog_Green, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id2", MonsterId.Charcoal_Walker_Green, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id3", MonsterId.Blindlem_Green, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id4", MonsterId.Charog_Green, 30, 40, TendencyType.Aggressive);
 		AddSpawner("d_limestonecave_55_1.Id5", MonsterId.RavineLerva_Cave, 15, 20, TimeSpan.FromMilliseconds(2500), TendencyType.Aggressive);
 		AddSpawner("d_limestonecave_55_1.Id6", MonsterId.Rootcrystal_04, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 

@@ -22,11 +22,11 @@ public class DCathedral54MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cathedral_54.Id1", MonsterId.Stoulet_Blue, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cathedral_54.Id2", MonsterId.NightMaiden_Mage, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_cathedral_54.Id1", MonsterId.Stoulet_Blue, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_cathedral_54.Id2", MonsterId.NightMaiden_Mage, 6, 8, TendencyType.Aggressive);
 		AddSpawner("d_cathedral_54.Id3", MonsterId.Rootcrystal_03, 16, 21, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_cathedral_54.Id4", MonsterId.Stoulet_Blue, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cathedral_54.Id5", MonsterId.Velwriggler_Blue, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_cathedral_54.Id4", MonsterId.Stoulet_Blue, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_cathedral_54.Id5", MonsterId.Velwriggler_Blue, 23, 30, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,10 +23,10 @@ public class F3Cmlake261MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_3cmlake_26_1.Id1", MonsterId.RootCrystal_A, 12, 16, TimeSpan.FromMilliseconds(10000));
-		AddSpawner("f_3cmlake_26_1.Id2", MonsterId.KindronWielder, 51, 67, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_26_1.Id3", MonsterId.KindronLilter, 20, 26, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_26_1.Id4", MonsterId.Ravisher_Mage, 11, 14, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_26_1.Id5", MonsterId.Ravisher, 15, 19, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_26_1.Id2", MonsterId.KindronWielder, 51, 67);
+		AddSpawner("f_3cmlake_26_1.Id3", MonsterId.KindronLilter, 20, 26);
+		AddSpawner("f_3cmlake_26_1.Id4", MonsterId.Ravisher_Mage, 11, 14);
+		AddSpawner("f_3cmlake_26_1.Id5", MonsterId.Ravisher, 15, 19);
 
 		// Monster Spawn Points -----------------------------
 

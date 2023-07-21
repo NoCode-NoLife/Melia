@@ -23,12 +23,12 @@ public class DVelniasprison511MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_velniasprison_51_1.Id1", MonsterId.Yognome_Yellow, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_1.Id2", MonsterId.Egnome_Yellow, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_1.Id3", MonsterId.Gazing_Golem_Yellow, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_1.Id4", MonsterId.Moya_Yellow, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_1.Id5", MonsterId.Moya_Yellow, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_1.Id6", MonsterId.Yognome_Yellow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id1", MonsterId.Yognome_Yellow, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id2", MonsterId.Egnome_Yellow, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id3", MonsterId.Gazing_Golem_Yellow, 6, 7, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id4", MonsterId.Moya_Yellow, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id5", MonsterId.Moya_Yellow, 12, 16, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_1.Id6", MonsterId.Yognome_Yellow, 8, 10, TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_1.Id7", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

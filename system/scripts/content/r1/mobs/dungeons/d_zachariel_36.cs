@@ -23,11 +23,11 @@ public class DZachariel36MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_zachariel_36.Id1", MonsterId.Rootcrystal_05, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_36.Id2", MonsterId.Schlesien_Darkmage, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_36.Id3", MonsterId.Schlesien_Heavycavarly, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_36.Id4", MonsterId.Schlesien_Claw, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_36.Id5", MonsterId.Schlesien_Darkmage, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_36.Id6", MonsterId.Schlesien_Darkmage, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_36.Id2", MonsterId.Schlesien_Darkmage, 5, 6, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_36.Id3", MonsterId.Schlesien_Heavycavarly, 3, 3, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_36.Id4", MonsterId.Schlesien_Claw, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_36.Id5", MonsterId.Schlesien_Darkmage, 12, 15, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_36.Id6", MonsterId.Schlesien_Darkmage, 4, 5, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

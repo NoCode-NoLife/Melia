@@ -23,11 +23,11 @@ public class FMaple232MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_maple_23_2.Id1", MonsterId.Rootcrystal_05, 10, 13, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_maple_23_2.Id2", MonsterId.Leafnut_Yellow, 19, 25, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_23_2.Id3", MonsterId.Grummer_Orange, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_23_2.Id4", MonsterId.Colimen_Red, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_23_2.Id5", MonsterId.Caro_Yellow, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_23_2.Id6", MonsterId.Caro_Yellow, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_maple_23_2.Id2", MonsterId.Leafnut_Yellow, 19, 25);
+		AddSpawner("f_maple_23_2.Id3", MonsterId.Grummer_Orange, 15, 20);
+		AddSpawner("f_maple_23_2.Id4", MonsterId.Colimen_Red, 12, 15);
+		AddSpawner("f_maple_23_2.Id5", MonsterId.Caro_Yellow, 30, 40);
+		AddSpawner("f_maple_23_2.Id6", MonsterId.Caro_Yellow, 9, 12);
 
 		// Monster Spawn Points -----------------------------
 

@@ -25,15 +25,15 @@ public class DZachariel34MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_34.Id1", MonsterId.Echad, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id2", MonsterId.Wolf_Statue_Mage_Pollution, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id1", MonsterId.Echad, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id2", MonsterId.Wolf_Statue_Mage_Pollution, 6, 8, TendencyType.Aggressive);
 		AddSpawner("d_zachariel_34.Id3", MonsterId.Rootcrystal_05, 6, 8, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_34.Id4", MonsterId.Shtayim, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_34.Id5", MonsterId.Echad_Bow, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id6", MonsterId.Wolf_Statue_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id7", MonsterId.Wolf_Statue_Mage, 3, 4, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id8", MonsterId.Shtayim, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id9", MonsterId.Echad_Bow, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id4", MonsterId.Shtayim, 15, 20, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_34.Id5", MonsterId.Echad_Bow, 5, 6, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id6", MonsterId.Wolf_Statue_Mage, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id7", MonsterId.Wolf_Statue_Mage, 3, 4, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id8", MonsterId.Shtayim, 4, 5, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id9", MonsterId.Echad_Bow, 4, 5, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

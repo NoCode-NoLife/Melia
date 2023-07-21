@@ -26,18 +26,18 @@ public class FSiauliai464MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_46_4.Id1", MonsterId.Lantern_Mushroom_Orange, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id2", MonsterId.Lantern_Mushroom_Orange, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id3", MonsterId.Siaulamb, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id4", MonsterId.Siaulogre, 3, 4, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id5", MonsterId.Rabbee, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id6", MonsterId.Honeybean, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id7", MonsterId.Rabbee, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_4.Id1", MonsterId.Lantern_Mushroom_Orange, 8, 10);
+		AddSpawner("f_siauliai_46_4.Id2", MonsterId.Lantern_Mushroom_Orange, 15, 20);
+		AddSpawner("f_siauliai_46_4.Id3", MonsterId.Siaulamb, 15, 20);
+		AddSpawner("f_siauliai_46_4.Id4", MonsterId.Siaulogre, 3, 4);
+		AddSpawner("f_siauliai_46_4.Id5", MonsterId.Rabbee, 15, 20);
+		AddSpawner("f_siauliai_46_4.Id6", MonsterId.Honeybean, 15, 20);
+		AddSpawner("f_siauliai_46_4.Id7", MonsterId.Rabbee, 12, 15);
 		AddSpawner("f_siauliai_46_4.Id8", MonsterId.Rootcrystal_01, 12, 16, TimeSpan.FromMilliseconds(30000));
 		AddSpawner("f_siauliai_46_4.Id9", MonsterId.Pendinmire, 1, 1, TimeSpan.FromMilliseconds(3600000));
-		AddSpawner("f_siauliai_46_4.Id10", MonsterId.Siaulamb, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id11", MonsterId.Rabbee, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_4.Id12", MonsterId.Honeybean, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_4.Id10", MonsterId.Siaulamb, 12, 15);
+		AddSpawner("f_siauliai_46_4.Id11", MonsterId.Rabbee, 15, 20);
+		AddSpawner("f_siauliai_46_4.Id12", MonsterId.Honeybean, 15, 20);
 
 		// Monster Spawn Points -----------------------------
 

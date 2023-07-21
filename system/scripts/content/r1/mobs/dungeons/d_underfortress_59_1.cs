@@ -15,15 +15,15 @@ public class DUnderfortress591MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_59_1.Id1", MonsterId.FD_Woodgoblin_Black, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id2", MonsterId.FD_Bushspider_Purple, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id3", MonsterId.FD_Pappus_Kepa_Purple, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id4", MonsterId.FD_Boss_Templeshooter, 0, 0, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id1", MonsterId.FD_Woodgoblin_Black, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id2", MonsterId.FD_Bushspider_Purple, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id3", MonsterId.FD_Pappus_Kepa_Purple, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id4", MonsterId.FD_Boss_Templeshooter, 0, 0, TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_1.Id5", MonsterId.Rootcrystal_03, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_1.Id6", MonsterId.FD_Woodgoblin_Black, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id7", MonsterId.FD_Bushspider_Purple, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id8", MonsterId.FD_Pappus_Kepa_Purple, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id9", MonsterId.FD_Colimen, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_1.Id6", MonsterId.FD_Woodgoblin_Black, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id7", MonsterId.FD_Bushspider_Purple, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id8", MonsterId.FD_Pappus_Kepa_Purple, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id9", MonsterId.FD_Colimen, 19, 25, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -26,17 +26,17 @@ public class DCmine01MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_cmine_01.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(80000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_01.Id2", MonsterId.Goblin_Miners, 21, 27, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id3", MonsterId.Goblin_Miners, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id4", MonsterId.Bat, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id5", MonsterId.StonOrca, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id2", MonsterId.Goblin_Miners, 21, 27, TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id3", MonsterId.Goblin_Miners, 6, 7, TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id4", MonsterId.Bat, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id5", MonsterId.StonOrca, 15, 20, TendencyType.Aggressive);
 		AddSpawner("d_cmine_01.Id6", MonsterId.Whip_Vine_Ra, 23, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
 		AddSpawner("d_cmine_01.Id7", MonsterId.Whip_Vine_Ra, 23, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
 		AddSpawner("d_cmine_01.Id8", MonsterId.Whip_Vine_Ra, 23, 30, TimeSpan.FromMilliseconds(180000), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id9", MonsterId.StonOrca, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id10", MonsterId.Goblin_Miners, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_01.Id11", MonsterId.Bat, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_cmine_01.Id12", MonsterId.Goblin_Miners_Q1, 2, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_cmine_01.Id9", MonsterId.StonOrca, 3, 3, TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id10", MonsterId.Goblin_Miners, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_cmine_01.Id11", MonsterId.Bat, 30, 40, TendencyType.Peaceful);
+		AddSpawner("d_cmine_01.Id12", MonsterId.Goblin_Miners_Q1, 2, 2, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

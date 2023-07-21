@@ -24,16 +24,16 @@ public class DFiretower41MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_41.Id1", MonsterId.Fire_Dragon, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id2", MonsterId.Flight_Hope, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id1", MonsterId.Fire_Dragon, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id2", MonsterId.Flight_Hope, 8, 10, TendencyType.Aggressive);
 		AddSpawner("d_firetower_41.Id3", MonsterId.Rootcrystal_01, 7, 9, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_41.Id4", MonsterId.Fire_Dragon, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id5", MonsterId.Flight_Hope, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id6", MonsterId.Rubblem, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id7", MonsterId.Armory, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id8", MonsterId.Rubblem, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id9", MonsterId.Flight_Hope, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id10", MonsterId.Rudasjack, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id4", MonsterId.Fire_Dragon, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id5", MonsterId.Flight_Hope, 5, 6, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id6", MonsterId.Rubblem, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id7", MonsterId.Armory, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id8", MonsterId.Rubblem, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id9", MonsterId.Flight_Hope, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id10", MonsterId.Rudasjack, 9, 12, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,16 +23,16 @@ public class DZachariel33MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_33.Id1", MonsterId.Beetle, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id2", MonsterId.Vesper, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id1", MonsterId.Beetle, 4, 5, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id2", MonsterId.Vesper, 6, 7, TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id3", MonsterId.Rootcrystal_05, 18, 24, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_33.Id4", MonsterId.Wolf_Statue, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id5", MonsterId.Beetle, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id6", MonsterId.Vesper, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id7", MonsterId.Wolf_Statue, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id8", MonsterId.Tombsinker, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id9", MonsterId.Wolf_Statue, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_33.Id10", MonsterId.Beetle_Elite, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id4", MonsterId.Wolf_Statue, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id5", MonsterId.Beetle, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id6", MonsterId.Vesper, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id7", MonsterId.Wolf_Statue, 5, 6, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id8", MonsterId.Tombsinker, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_33.Id9", MonsterId.Wolf_Statue, 4, 5, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id10", MonsterId.Beetle_Elite, 3, 3, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

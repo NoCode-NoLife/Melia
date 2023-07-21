@@ -16,10 +16,10 @@ public class FPilgrimroad415MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_41_5.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_41_5.Id2", MonsterId.Nuka_Brown, 38, 50, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_5.Id3", MonsterId.Lapasape_Bow_Brown, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_5.Id4", MonsterId.Elma_Red, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_5.Id5", MonsterId.Lapasape_Bow_Brown, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_41_5.Id2", MonsterId.Nuka_Brown, 38, 50);
+		AddSpawner("f_pilgrimroad_41_5.Id3", MonsterId.Lapasape_Bow_Brown, 23, 30);
+		AddSpawner("f_pilgrimroad_41_5.Id4", MonsterId.Elma_Red, 8, 10);
+		AddSpawner("f_pilgrimroad_41_5.Id5", MonsterId.Lapasape_Bow_Brown, 23, 30);
 
 		// Monster Spawn Points -----------------------------
 

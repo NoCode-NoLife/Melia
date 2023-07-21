@@ -23,14 +23,14 @@ public class DFiretower45MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_45.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_45.Id2", MonsterId.Dimmer, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id3", MonsterId.Tower_Of_Firepuppet_Black, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id4", MonsterId.Fire_Dragon_Purple, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id5", MonsterId.Fire_Dragon_Purple, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id6", MonsterId.Dimmer, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id7", MonsterId.Tower_Of_Firepuppet_Black, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id8", MonsterId.Fire_Dragon_Purple, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_firetower_45.Id9", MonsterId.Dimmer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id2", MonsterId.Dimmer, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id3", MonsterId.Tower_Of_Firepuppet_Black, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id4", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id5", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id6", MonsterId.Dimmer, 6, 7, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id7", MonsterId.Tower_Of_Firepuppet_Black, 6, 7, TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id8", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id9", MonsterId.Dimmer, 8, 10, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

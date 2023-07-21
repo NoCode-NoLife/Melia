@@ -15,18 +15,18 @@ public class DCatacomb803MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_catacomb_80_3.Id1", MonsterId.ERD_Cronewt_Blue, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id2", MonsterId.ERD_Infroholder_Red, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id3", MonsterId.ERD_Cronewt_Bow_Blue, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id4", MonsterId.ERD_Cronewt_Mage_Blue, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id5", MonsterId.ERD_Hohen_Gulak, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id6", MonsterId.ERD_Socket_Green, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id7", MonsterId.ERD_Socket_Mage_Green, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id8", MonsterId.ERD_Siaulav_Bow_Blue, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id9", MonsterId.ERD_Siaulav_Blue, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id10", MonsterId.ERD_Siaulav_Mage_Blue, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id11", MonsterId.ERD_Nuka, 18, 24, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_3.Id12", MonsterId.ERD_Elma, 18, 24, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id1", MonsterId.ERD_Cronewt_Blue, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id2", MonsterId.ERD_Infroholder_Red, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id3", MonsterId.ERD_Cronewt_Bow_Blue, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id4", MonsterId.ERD_Cronewt_Mage_Blue, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id5", MonsterId.ERD_Hohen_Gulak, 5, 6, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id6", MonsterId.ERD_Socket_Green, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id7", MonsterId.ERD_Socket_Mage_Green, 11, 14, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id8", MonsterId.ERD_Siaulav_Bow_Blue, 14, 18, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id9", MonsterId.ERD_Siaulav_Blue, 14, 18, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id10", MonsterId.ERD_Siaulav_Mage_Blue, 14, 18, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id11", MonsterId.ERD_Nuka, 18, 24, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_3.Id12", MonsterId.ERD_Elma, 18, 24, TendencyType.Aggressive);
 		AddSpawner("d_catacomb_80_3.Id13", MonsterId.Rootcrystal_05, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

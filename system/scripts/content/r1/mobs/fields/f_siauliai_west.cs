@@ -26,15 +26,15 @@ public class FSiauliaiWestMobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_west.Id1", MonsterId.Leaf_Diving, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id2", MonsterId.Onion, 27, 35, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id3", MonsterId.Hanaming, 19, 25, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id4", MonsterId.Bokchoy, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id5", MonsterId.InfroRocktor, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_west.Id1", MonsterId.Leaf_Diving, 15, 20);
+		AddSpawner("f_siauliai_west.Id2", MonsterId.Onion, 27, 35);
+		AddSpawner("f_siauliai_west.Id3", MonsterId.Hanaming, 19, 25);
+		AddSpawner("f_siauliai_west.Id4", MonsterId.Bokchoy, 15, 20);
+		AddSpawner("f_siauliai_west.Id5", MonsterId.InfroRocktor, 15, 20);
 		AddSpawner("f_siauliai_west.Id6", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_west.Id7", MonsterId.Leaf_Diving, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id8", MonsterId.Onion, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_west.Id9", MonsterId.Hanaming, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_west.Id7", MonsterId.Leaf_Diving, 12, 15);
+		AddSpawner("f_siauliai_west.Id8", MonsterId.Onion, 12, 15);
+		AddSpawner("f_siauliai_west.Id9", MonsterId.Hanaming, 15, 20);
 
 		// Monster Spawn Points -----------------------------
 

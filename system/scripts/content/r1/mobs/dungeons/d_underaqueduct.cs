@@ -15,11 +15,11 @@ public class DUnderaqueductMobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underaqueduct.Id1", MonsterId.Chesha_Papa, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id2", MonsterId.Chesha_Venom, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id3", MonsterId.Chesha_Torso, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id4", MonsterId.Chesha_Riel, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id5", MonsterId.Chesha_Needle, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id1", MonsterId.Chesha_Papa, 45, 60, TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id2", MonsterId.Chesha_Venom, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id3", MonsterId.Chesha_Torso, 38, 50, TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id4", MonsterId.Chesha_Riel, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id5", MonsterId.Chesha_Needle, 30, 40, TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id6", MonsterId.Chesha_Papa, 45, 60, TimeSpan.FromMilliseconds(1000), TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id7", MonsterId.Gimmick_Mon_Chesha_Venom, 1, 1, TimeSpan.FromMilliseconds(3000), TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id8", MonsterId.Rootcrystal_04, 18, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);

@@ -15,18 +15,18 @@ public class DCatacomb802MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_catacomb_80_2.Id1", MonsterId.ERD_Yognome_Yellow, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id2", MonsterId.ERD_Moya, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id3", MonsterId.ERD_Mushroom_Boy_Green, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id4", MonsterId.ERD_Mirtislampa, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id5", MonsterId.ERD_Infroholder_Mage_Green, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id6", MonsterId.ERD_NightMaiden_Bow_Red, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id7", MonsterId.ERD_Gazing_Golem_Yellow, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id8", MonsterId.ERD_Egnome_Yellow, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id9", MonsterId.ERD_Wendigo_Archer_Blue, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id10", MonsterId.ERD_Wendigo_Magician_Blue, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id11", MonsterId.ERD_Kepari_Mage, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id12", MonsterId.ERD_Mushroom_Ent_Green, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id1", MonsterId.ERD_Yognome_Yellow, 9, 12, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id2", MonsterId.ERD_Moya, 14, 18, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id3", MonsterId.ERD_Mushroom_Boy_Green, 14, 18, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id4", MonsterId.ERD_Mirtislampa, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id5", MonsterId.ERD_Infroholder_Mage_Green, 12, 16, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id6", MonsterId.ERD_NightMaiden_Bow_Red, 12, 16, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id7", MonsterId.ERD_Gazing_Golem_Yellow, 9, 12, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id8", MonsterId.ERD_Egnome_Yellow, 4, 5, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id9", MonsterId.ERD_Wendigo_Archer_Blue, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id10", MonsterId.ERD_Wendigo_Magician_Blue, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id11", MonsterId.ERD_Kepari_Mage, 12, 16, TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_2.Id12", MonsterId.ERD_Mushroom_Ent_Green, 4, 5, TendencyType.Aggressive);
 		AddSpawner("d_catacomb_80_2.Id13", MonsterId.Rootcrystal_05, 15, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

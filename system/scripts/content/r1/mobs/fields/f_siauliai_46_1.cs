@@ -28,10 +28,10 @@ public class FSiauliai461MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_46_1.Id1", MonsterId.Infro_Blud, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_1.Id2", MonsterId.Shardstatue, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_1.Id3", MonsterId.Shardstatue, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_46_1.Id4", MonsterId.Siaulav, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_1.Id1", MonsterId.Infro_Blud, 23, 30);
+		AddSpawner("f_siauliai_46_1.Id2", MonsterId.Shardstatue, 9, 12);
+		AddSpawner("f_siauliai_46_1.Id3", MonsterId.Shardstatue, 23, 30);
+		AddSpawner("f_siauliai_46_1.Id4", MonsterId.Siaulav, 23, 30);
 		AddSpawner("f_siauliai_46_1.Id5", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------

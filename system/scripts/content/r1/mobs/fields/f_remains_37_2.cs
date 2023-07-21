@@ -16,10 +16,10 @@ public class FRemains372MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37_2.Id1", MonsterId.Rootcrystal_04, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_37_2.Id2", MonsterId.Lizardman_Mage, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_2.Id3", MonsterId.Minos, 68, 90, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_2.Id4", MonsterId.Minos_Bow, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_2.Id5", MonsterId.Minos, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_remains_37_2.Id2", MonsterId.Lizardman_Mage, 15, 20, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_2.Id3", MonsterId.Minos, 68, 90, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_2.Id4", MonsterId.Minos_Bow, 12, 15, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_2.Id5", MonsterId.Minos, 15, 20, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

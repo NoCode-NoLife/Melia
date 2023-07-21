@@ -23,18 +23,18 @@ public class FSiauliaiOutMobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_out.Id1", MonsterId.Jukopus, 5, 6, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id2", MonsterId.Goblin_Spear, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_out.Id1", MonsterId.Jukopus, 5, 6);
+		AddSpawner("f_siauliai_out.Id2", MonsterId.Goblin_Spear, 12, 15);
 		AddSpawner("f_siauliai_out.Id3", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_siauliai_out.Id4", MonsterId.Onion_Red, 5, 6, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id5", MonsterId.Jukopus, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id6", MonsterId.Goblin_Spear, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id7", MonsterId.Onion_Red, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id8", MonsterId.Onion_Red, 14, 18, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id9", MonsterId.Jukopus, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id10", MonsterId.Onion_Red, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id11", MonsterId.Jukopus, 5, 6, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_siauliai_out.Id12", MonsterId.Onion_Red_Elite, 2, 2, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_out.Id4", MonsterId.Onion_Red, 5, 6);
+		AddSpawner("f_siauliai_out.Id5", MonsterId.Jukopus, 12, 15);
+		AddSpawner("f_siauliai_out.Id6", MonsterId.Goblin_Spear, 6, 8);
+		AddSpawner("f_siauliai_out.Id7", MonsterId.Onion_Red, 12, 15);
+		AddSpawner("f_siauliai_out.Id8", MonsterId.Onion_Red, 14, 18);
+		AddSpawner("f_siauliai_out.Id9", MonsterId.Jukopus, 12, 15);
+		AddSpawner("f_siauliai_out.Id10", MonsterId.Onion_Red, 6, 8);
+		AddSpawner("f_siauliai_out.Id11", MonsterId.Jukopus, 5, 6);
+		AddSpawner("f_siauliai_out.Id12", MonsterId.Onion_Red_Elite, 2, 2);
 
 		// Monster Spawn Points -----------------------------
 

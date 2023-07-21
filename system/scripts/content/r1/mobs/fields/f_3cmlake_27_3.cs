@@ -21,9 +21,9 @@ public class F3Cmlake273MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_27_3.Id1", MonsterId.Frocoli, 49, 65, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_27_3.Id2", MonsterId.Infro_Crabil, 62, 82, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_27_3.Id3", MonsterId.Frocoli, 21, 27, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_27_3.Id1", MonsterId.Frocoli, 49, 65);
+		AddSpawner("f_3cmlake_27_3.Id2", MonsterId.Infro_Crabil, 62, 82);
+		AddSpawner("f_3cmlake_27_3.Id3", MonsterId.Frocoli, 21, 27);
 		AddSpawner("f_3cmlake_27_3.Id4", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------

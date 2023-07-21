@@ -25,12 +25,12 @@ public class DChapel577MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_chapel_57_7.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_chapel_57_7.Id2", MonsterId.Spector_Gh, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_7.Id3", MonsterId.Egnome, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_7.Id4", MonsterId.Spector_Gh, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_7.Id5", MonsterId.Egnome, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_7.Id6", MonsterId.Colitile, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_7.Id7", MonsterId.Infroholder_Bow, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_chapel_57_7.Id2", MonsterId.Spector_Gh, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_7.Id3", MonsterId.Egnome, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_7.Id4", MonsterId.Spector_Gh, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_7.Id5", MonsterId.Egnome, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_7.Id6", MonsterId.Colitile, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_7.Id7", MonsterId.Infroholder_Bow, 15, 20, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

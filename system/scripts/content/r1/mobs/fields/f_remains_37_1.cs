@@ -16,10 +16,10 @@ public class FRemains371MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37_1.Id1", MonsterId.Rootcrystal_04, 38, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_37_1.Id2", MonsterId.Wendigo_Magician, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id3", MonsterId.Wendigo_Archer, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id4", MonsterId.Templeslave_Sword, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id5", MonsterId.Wendigo_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id2", MonsterId.Wendigo_Magician, 19, 25, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id3", MonsterId.Wendigo_Archer, 23, 30, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id4", MonsterId.Templeslave_Sword, 38, 50, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id5", MonsterId.Wendigo_Archer, 8, 10, TendencyType.Aggressive);
 		AddSpawner("f_remains_37_1.Id6", MonsterId.Wendigo_Magician, 19, 25, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
 		AddSpawner("f_remains_37_1.Id7", MonsterId.Templeslave_Sword, 30, 40, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
 

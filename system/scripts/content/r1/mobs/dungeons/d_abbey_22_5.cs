@@ -16,10 +16,10 @@ public class DAbbey225MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_abbey_22_5.Id1", MonsterId.Rootcrystal_01, 16, 21, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_abbey_22_5.Id2", MonsterId.Hohen_Orben_Black, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_22_5.Id3", MonsterId.Harugal_Black, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_22_5.Id4", MonsterId.Drooper, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_22_5.Id5", MonsterId.StonOrca_Red, 128, 170, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_5.Id2", MonsterId.Hohen_Orben_Black, 15, 20);
+		AddSpawner("d_abbey_22_5.Id3", MonsterId.Harugal_Black, 15, 20);
+		AddSpawner("d_abbey_22_5.Id4", MonsterId.Drooper, 15, 20);
+		AddSpawner("d_abbey_22_5.Id5", MonsterId.StonOrca_Red, 128, 170);
 		AddSpawner("d_abbey_22_5.Id6", MonsterId.Hohen_Orben_Black, 5, 6, TimeSpan.FromMilliseconds(40000));
 		AddSpawner("d_abbey_22_5.Id7", MonsterId.Drooper, 2, 2, TimeSpan.FromMilliseconds(40000));
 		AddSpawner("d_abbey_22_5.Id8", MonsterId.Harugal_Black, 3, 4, TimeSpan.FromMilliseconds(40000));

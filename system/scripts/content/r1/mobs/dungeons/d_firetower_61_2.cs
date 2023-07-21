@@ -15,17 +15,17 @@ public class DFiretower612MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_61_2.Id1", MonsterId.Velffigy, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_2.Id2", MonsterId.Glyquare, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_2.Id3", MonsterId.Colifly_Black, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_2.Id4", MonsterId.Glyquare, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_2.Id1", MonsterId.Velffigy, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_2.Id2", MonsterId.Glyquare, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_2.Id3", MonsterId.Colifly_Black, 38, 50, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_2.Id4", MonsterId.Glyquare, 6, 7, TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_2.Id5", MonsterId.Altarcrystal_R1, 1, 1, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id6", MonsterId.Altarcrystal_R1, 2, 2, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id7", MonsterId.Altarcrystal_R1, 2, 2, TimeSpan.FromMilliseconds(180000), TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id8", MonsterId.Altarcrystal_R1, 0, 0, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id9", MonsterId.Altarcrystal_R1, 0, 0, TimeSpan.FromMilliseconds(120000), TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id10", MonsterId.Rootcrystal_04, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id11", MonsterId.Colifly_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id11", MonsterId.Colifly_Black, 15, 20, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

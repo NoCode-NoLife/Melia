@@ -22,10 +22,10 @@ public class FMaple241MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_maple_24_1.Id1", MonsterId.Grievous_Wheel_Red, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_24_1.Id2", MonsterId.Rudas_Elavine, 60, 80, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_24_1.Id3", MonsterId.Delione, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_maple_24_1.Id4", MonsterId.Cloverin, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_maple_24_1.Id1", MonsterId.Grievous_Wheel_Red, 15, 20);
+		AddSpawner("f_maple_24_1.Id2", MonsterId.Rudas_Elavine, 60, 80);
+		AddSpawner("f_maple_24_1.Id3", MonsterId.Delione, 30, 40);
+		AddSpawner("f_maple_24_1.Id4", MonsterId.Cloverin, 30, 40);
 		AddSpawner("f_maple_24_1.Id5", MonsterId.Rootcrystal_01, 19, 25, TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_maple_24_1.Id6", MonsterId.Cloverin, 15, 20, TimeSpan.FromMilliseconds(40000));
 		AddSpawner("f_maple_24_1.Id7", MonsterId.Delione, 12, 15, TimeSpan.FromMilliseconds(40000));

@@ -16,10 +16,10 @@ public class FTableland282MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_tableland_28_2.Id1", MonsterId.Rootcrystal_03, 9, 11, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_tableland_28_2.Id2", MonsterId.Siaulav_Blue, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_tableland_28_2.Id3", MonsterId.Siaulav_Mage_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_tableland_28_2.Id4", MonsterId.Siaulav_Bow_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_tableland_28_2.Id5", MonsterId.Lapasape_Blue, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_28_2.Id2", MonsterId.Siaulav_Blue, 23, 30);
+		AddSpawner("f_tableland_28_2.Id3", MonsterId.Siaulav_Mage_Blue, 12, 15);
+		AddSpawner("f_tableland_28_2.Id4", MonsterId.Siaulav_Bow_Blue, 12, 15);
+		AddSpawner("f_tableland_28_2.Id5", MonsterId.Lapasape_Blue, 30, 40);
 
 		// Monster Spawn Points -----------------------------
 

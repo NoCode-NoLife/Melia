@@ -15,10 +15,10 @@ public class FNicopolis811MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_nicopolis_81_1.Id1", MonsterId.Cresent_Moya, 38, 50, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_nicopolis_81_1.Id2", MonsterId.Mimorat_Purple, 24, 31, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_nicopolis_81_1.Id3", MonsterId.Mimorat_Green, 24, 31, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_nicopolis_81_1.Id4", MonsterId.Haunted_House, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_nicopolis_81_1.Id1", MonsterId.Cresent_Moya, 38, 50);
+		AddSpawner("f_nicopolis_81_1.Id2", MonsterId.Mimorat_Purple, 24, 31);
+		AddSpawner("f_nicopolis_81_1.Id3", MonsterId.Mimorat_Green, 24, 31);
+		AddSpawner("f_nicopolis_81_1.Id4", MonsterId.Haunted_House, 6, 8);
 		AddSpawner("f_nicopolis_81_1.Id5", MonsterId.Rootcrystal_02, 13, 17, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------

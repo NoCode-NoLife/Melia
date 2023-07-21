@@ -24,10 +24,10 @@ public class DStartower92MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_92.Id1", MonsterId.Pipi, 45, 60, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_92.Id2", MonsterId.Piang, 42, 55, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_92.Id3", MonsterId.Vespera, 22, 29, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_92.Id4", MonsterId.Vesperia, 6, 7, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_92.Id1", MonsterId.Pipi, 45, 60);
+		AddSpawner("d_startower_92.Id2", MonsterId.Piang, 42, 55);
+		AddSpawner("d_startower_92.Id3", MonsterId.Vespera, 22, 29);
+		AddSpawner("d_startower_92.Id4", MonsterId.Vesperia, 6, 7);
 		AddSpawner("d_startower_92.Id5", MonsterId.Rootcrystal_02, 17, 22, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------

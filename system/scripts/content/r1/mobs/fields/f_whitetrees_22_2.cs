@@ -16,12 +16,12 @@ public class FWhitetrees222MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_22_2.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_2.Id2", MonsterId.Yakyak, 18, 24, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_2.Id3", MonsterId.Yak_Magician, 18, 24, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_2.Id4", MonsterId.Yak_Warrior, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_2.Id5", MonsterId.Yak_Druid, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_2.Id6", MonsterId.Hohen_Barkle_Black, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_2.Id7", MonsterId.Hohen_Ritter_Black, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_2.Id2", MonsterId.Yakyak, 18, 24, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_2.Id3", MonsterId.Yak_Magician, 18, 24, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_2.Id4", MonsterId.Yak_Warrior, 27, 35, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_2.Id5", MonsterId.Yak_Druid, 6, 7, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_2.Id6", MonsterId.Hohen_Barkle_Black, 27, 35, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_2.Id7", MonsterId.Hohen_Ritter_Black, 27, 35, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

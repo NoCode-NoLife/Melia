@@ -26,14 +26,14 @@ public class FHuevillage584MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, 3, 3, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Carcashu, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, 12, 15);
+		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, 3, 3);
+		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Carcashu, 30, 40);
 		AddSpawner("f_huevillage_58_4.Id4", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, 8, 10);
+		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, 6, 8);
+		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, 6, 8);
+		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, 4, 5);
 
 		// Monster Spawn Points -----------------------------
 

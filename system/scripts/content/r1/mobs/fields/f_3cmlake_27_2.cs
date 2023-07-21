@@ -22,10 +22,10 @@ public class F3Cmlake272MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_27_2.Id1", MonsterId.Velpod, 49, 65, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_3cmlake_27_2.Id2", MonsterId.Tooter, 11, 14, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_27_2.Id1", MonsterId.Velpod, 49, 65);
+		AddSpawner("f_3cmlake_27_2.Id2", MonsterId.Tooter, 11, 14);
 		AddSpawner("f_3cmlake_27_2.Id3", MonsterId.Rootcrystal_02, 16, 21, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_3cmlake_27_2.Id4", MonsterId.Monitor_Lizard, 60, 80, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_27_2.Id4", MonsterId.Monitor_Lizard, 60, 80);
 
 		// Monster Spawn Points -----------------------------
 

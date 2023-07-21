@@ -15,10 +15,10 @@ public class FWhitetrees211MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_21_1.Id1", MonsterId.Moringaga, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_21_1.Id2", MonsterId.Nabu, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_21_1.Id3", MonsterId.Moringbird, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_21_1.Id4", MonsterId.Moringbird, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_whitetrees_21_1.Id1", MonsterId.Moringaga, 15, 20);
+		AddSpawner("f_whitetrees_21_1.Id2", MonsterId.Nabu, 15, 20);
+		AddSpawner("f_whitetrees_21_1.Id3", MonsterId.Moringbird, 15, 20);
+		AddSpawner("f_whitetrees_21_1.Id4", MonsterId.Moringbird, 19, 25);
 		AddSpawner("f_whitetrees_21_1.Id5", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------

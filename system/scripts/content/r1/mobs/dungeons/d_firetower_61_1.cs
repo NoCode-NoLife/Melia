@@ -15,10 +15,10 @@ public class DFiretower611MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_61_1.Id1", MonsterId.Raider_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id2", MonsterId.Socket_Bow_Brown, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id3", MonsterId.Anchor, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id4", MonsterId.Socket_Bow_Brown, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_1.Id1", MonsterId.Raider_Bow, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_1.Id2", MonsterId.Socket_Bow_Brown, 38, 50, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_1.Id3", MonsterId.Anchor, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_firetower_61_1.Id4", MonsterId.Socket_Bow_Brown, 19, 25, TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id5", MonsterId.Boss_Marionette, 0, 0, TimeSpan.FromMilliseconds(7200000), TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id6", MonsterId.Rootcrystal_04, 15, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 

@@ -15,11 +15,11 @@ public class FCoral443MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_44_3.Id1", MonsterId.VarleAnchor, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_3.Id2", MonsterId.VarleSkipper, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_3.Id3", MonsterId.VarleHenchman, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_3.Id4", MonsterId.VarleHelmsman, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_3.Id5", MonsterId.NimrahPricker, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_coral_44_3.Id1", MonsterId.VarleAnchor, 38, 50, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_3.Id2", MonsterId.VarleSkipper, 27, 35, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_3.Id3", MonsterId.VarleHenchman, 6, 8, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_3.Id4", MonsterId.VarleHelmsman, 27, 35, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_3.Id5", MonsterId.NimrahPricker, 4, 5, TendencyType.Aggressive);
 		AddSpawner("f_coral_44_3.Id6", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

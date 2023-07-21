@@ -26,15 +26,15 @@ public class FGele574MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_gele_57_4.Id1", MonsterId.Seedmia, 19, 25, TimeSpan.FromMilliseconds(3000000));
-		AddSpawner("f_gele_57_4.Id2", MonsterId.Npanto_Archer, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_4.Id3", MonsterId.Mallardu, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_4.Id4", MonsterId.Colifly_Bow, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_4.Id5", MonsterId.Zombiegirl2_Brown, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_4.Id2", MonsterId.Npanto_Archer, 12, 15);
+		AddSpawner("f_gele_57_4.Id3", MonsterId.Mallardu, 12, 15);
+		AddSpawner("f_gele_57_4.Id4", MonsterId.Colifly_Bow, 12, 15);
+		AddSpawner("f_gele_57_4.Id5", MonsterId.Zombiegirl2_Brown, 12, 15);
 		AddSpawner("f_gele_57_4.Id6", MonsterId.Seedmia, 15, 20, TimeSpan.FromMilliseconds(15000));
 		AddSpawner("f_gele_57_4.Id7", MonsterId.Seedmia, 12, 15, TimeSpan.FromMilliseconds(180000));
-		AddSpawner("f_gele_57_4.Id8", MonsterId.Mallardu, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_4.Id8", MonsterId.Mallardu, 15, 20);
 		AddSpawner("f_gele_57_4.Id9", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_gele_57_4.Id10", MonsterId.Npanto_Archer, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_4.Id10", MonsterId.Npanto_Archer, 19, 25);
 		AddSpawner("f_gele_57_4.Id11", MonsterId.Panto_Javelin_Elite, 1, 1, TimeSpan.FromMilliseconds(1200000));
 		AddSpawner("f_gele_57_4.Id12", MonsterId.Mallardu, 15, 20, TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_gele_57_4.Id13", MonsterId.Npanto_Archer, 12, 15, TimeSpan.FromMilliseconds(20000));

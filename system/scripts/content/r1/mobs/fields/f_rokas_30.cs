@@ -24,12 +24,12 @@ public class FRokas30MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_30.Id1", MonsterId.Hogma_Sorcerer, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_30.Id1", MonsterId.Hogma_Sorcerer, 12, 15);
 		AddSpawner("f_rokas_30.Id2", MonsterId.Rootcrystal_05, 9, 12, TimeSpan.FromMilliseconds(5000));
 		AddSpawner("f_rokas_30.Id3", MonsterId.Hogma_Guard, 27, 35, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_rokas_30.Id4", MonsterId.Hogma_Sorcerer, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_rokas_30.Id5", MonsterId.Hogma_Guard, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_rokas_30.Id6", MonsterId.Deadbornscab_Bow, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_30.Id4", MonsterId.Hogma_Sorcerer, 9, 12);
+		AddSpawner("f_rokas_30.Id5", MonsterId.Hogma_Guard, 12, 15);
+		AddSpawner("f_rokas_30.Id6", MonsterId.Deadbornscab_Bow, 6, 8);
 
 		// Monster Spawn Points -----------------------------
 

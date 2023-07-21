@@ -22,10 +22,10 @@ public class DVelniasprison515MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_velniasprison_51_5.Id1", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_velniasprison_51_5.Id2", MonsterId.Mushroom_Boy_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_5.Id3", MonsterId.Hohen_Mage, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_5.Id4", MonsterId.Mushroom_Boy_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_5.Id5", MonsterId.Hohen_Gulak, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_5.Id2", MonsterId.Mushroom_Boy_Green, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_5.Id3", MonsterId.Hohen_Mage, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_5.Id4", MonsterId.Mushroom_Boy_Green, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_5.Id5", MonsterId.Hohen_Gulak, 8, 10, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

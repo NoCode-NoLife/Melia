@@ -15,14 +15,14 @@ public class DFiretower691MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_69_1.Id1", MonsterId.Firetower_GateOpen_Q, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_firetower_69_1.Id2", MonsterId.Slime_Red, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id3", MonsterId.Slime_Red, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id4", MonsterId.Arma_Yellow, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id5", MonsterId.Pyran_Yellow, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id6", MonsterId.Wizards_Marmotte_Red, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id7", MonsterId.Wizards_Marmotte_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id8", MonsterId.Pyran_Yellow, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id1", MonsterId.Firetower_GateOpen_Q, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_firetower_69_1.Id2", MonsterId.Slime_Red, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id3", MonsterId.Slime_Red, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id4", MonsterId.Arma_Yellow, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id5", MonsterId.Pyran_Yellow, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id6", MonsterId.Wizards_Marmotte_Red, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id7", MonsterId.Wizards_Marmotte_Red, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_1.Id8", MonsterId.Pyran_Yellow, 15, 20, TendencyType.Aggressive);
 		AddSpawner("d_firetower_69_1.Id9", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

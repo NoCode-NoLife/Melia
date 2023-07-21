@@ -22,15 +22,15 @@ public class DFiretower43MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_43.Id1", MonsterId.InfroRocktor_Red, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id1", MonsterId.InfroRocktor_Red, 12, 15, TendencyType.Aggressive);
 		AddSpawner("d_firetower_43.Id2", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_43.Id3", MonsterId.Arma, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id4", MonsterId.InfroRocktor_Red, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id5", MonsterId.Arma, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id6", MonsterId.Flask_Mage, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id7", MonsterId.Flask_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id8", MonsterId.TerraNymph_Mage, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_firetower_43.Id9", MonsterId.Pyran, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id3", MonsterId.Arma, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id4", MonsterId.InfroRocktor_Red, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id5", MonsterId.Arma, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id6", MonsterId.Flask_Mage, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id7", MonsterId.Flask_Mage, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id8", MonsterId.TerraNymph_Mage, 9, 12, TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id9", MonsterId.Pyran, 12, 15, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -21,11 +21,11 @@ public class DAbbey353MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_35_3.Id1", MonsterId.Hohen_Mage_Red, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_35_3.Id2", MonsterId.Hohen_Ritter_Green, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_35_3.Id3", MonsterId.Hohen_Barkle_Green, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_35_3.Id1", MonsterId.Hohen_Mage_Red, 30, 40);
+		AddSpawner("d_abbey_35_3.Id2", MonsterId.Hohen_Ritter_Green, 23, 30);
+		AddSpawner("d_abbey_35_3.Id3", MonsterId.Hohen_Barkle_Green, 15, 20);
 		AddSpawner("d_abbey_35_3.Id4", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_abbey_35_3.Id5", MonsterId.Hohen_Ritter_Green, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_35_3.Id5", MonsterId.Hohen_Ritter_Green, 23, 30);
 
 		// Monster Spawn Points -----------------------------
 

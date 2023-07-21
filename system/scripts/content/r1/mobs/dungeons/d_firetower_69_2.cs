@@ -15,12 +15,12 @@ public class DFiretower692MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_69_2.Id1", MonsterId.Glyquare_Red, 53, 70, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_2.Id2", MonsterId.Anchor_Purple, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_2.Id3", MonsterId.Prisonfighter_Green, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_2.Id4", MonsterId.Prisonfighter_Green, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_2.Id1", MonsterId.Glyquare_Red, 53, 70, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_2.Id2", MonsterId.Anchor_Purple, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_2.Id3", MonsterId.Prisonfighter_Green, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_2.Id4", MonsterId.Prisonfighter_Green, 19, 25, TendencyType.Aggressive);
 		AddSpawner("d_firetower_69_2.Id5", MonsterId.Glyquare_Red, 8, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_69_2.Id6", MonsterId.Anchor_Purple, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_69_2.Id6", MonsterId.Anchor_Purple, 27, 35, TendencyType.Aggressive);
 		AddSpawner("d_firetower_69_2.Id7", MonsterId.Rootcrystal_01, 12, 16, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

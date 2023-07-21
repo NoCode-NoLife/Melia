@@ -15,10 +15,10 @@ public class FCoral441MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_44_1.Id1", MonsterId.Gob, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_1.Id2", MonsterId.VarleFloater, 35, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_44_1.Id3", MonsterId.Afisher, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_coral_44_1.Id4", MonsterId.NimrahDamsel, 35, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_coral_44_1.Id1", MonsterId.Gob, 57, 75, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_1.Id2", MonsterId.VarleFloater, 35, 46, TendencyType.Peaceful);
+		AddSpawner("f_coral_44_1.Id3", MonsterId.Afisher, 6, 8, TendencyType.Aggressive);
+		AddSpawner("f_coral_44_1.Id4", MonsterId.NimrahDamsel, 35, 46, TendencyType.Peaceful);
 		AddSpawner("f_coral_44_1.Id5", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

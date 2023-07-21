@@ -15,14 +15,14 @@ public class DUnderfortress592MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_59_2.Id1", MonsterId.FD_Spectra, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id2", MonsterId.FD_Spector_Gh_Purple, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id1", MonsterId.FD_Spectra, 34, 45, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id2", MonsterId.FD_Spector_Gh_Purple, 23, 30, TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id3", MonsterId.FD_Whip_Vine_Purple, 19, 25, TimeSpan.FromMilliseconds(120000), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id4", MonsterId.FD_Boss_Canceril, 0, 0, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id4", MonsterId.FD_Boss_Canceril, 0, 0, TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id5", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_2.Id6", MonsterId.FD_Spectra, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id7", MonsterId.FD_Spectra, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id8", MonsterId.FD_Colimen_Mage, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_2.Id6", MonsterId.FD_Spectra, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id7", MonsterId.FD_Spectra, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id8", MonsterId.FD_Colimen_Mage, 19, 25, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

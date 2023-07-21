@@ -22,11 +22,11 @@ public class DPrison82MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_82.Id1", MonsterId.Templeslave_Sword_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_82.Id2", MonsterId.Wendigo_Bow_White, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_82.Id3", MonsterId.Templeslave_Mage_Blue, 10, 13, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_82.Id1", MonsterId.Templeslave_Sword_Blue, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_prison_82.Id2", MonsterId.Wendigo_Bow_White, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_prison_82.Id3", MonsterId.Templeslave_Mage_Blue, 10, 13, TendencyType.Aggressive);
 		AddSpawner("d_prison_82.Id4", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_82.Id5", MonsterId.Wendigo_Bow_White, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_82.Id5", MonsterId.Wendigo_Bow_White, 23, 30, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -16,16 +16,16 @@ public class FKatyn72MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_katyn_7_2.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_katyn_7_2.Id2", MonsterId.Ellomago, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id3", MonsterId.Ridimed, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id4", MonsterId.Jellyfish_Red, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id5", MonsterId.Sakmoli, 5, 6, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id6", MonsterId.Ridimed, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id7", MonsterId.Sakmoli, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id8", MonsterId.Ellomago, 6, 8, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id9", MonsterId.Ridimed, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id10", MonsterId.Sakmoli, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_katyn_7_2.Id11", MonsterId.Jellyfish_Red, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_7_2.Id2", MonsterId.Ellomago, 23, 30);
+		AddSpawner("f_katyn_7_2.Id3", MonsterId.Ridimed, 12, 15);
+		AddSpawner("f_katyn_7_2.Id4", MonsterId.Jellyfish_Red, 15, 20);
+		AddSpawner("f_katyn_7_2.Id5", MonsterId.Sakmoli, 5, 6);
+		AddSpawner("f_katyn_7_2.Id6", MonsterId.Ridimed, 6, 8);
+		AddSpawner("f_katyn_7_2.Id7", MonsterId.Sakmoli, 6, 8);
+		AddSpawner("f_katyn_7_2.Id8", MonsterId.Ellomago, 6, 8);
+		AddSpawner("f_katyn_7_2.Id9", MonsterId.Ridimed, 12, 15);
+		AddSpawner("f_katyn_7_2.Id10", MonsterId.Sakmoli, 8, 10);
+		AddSpawner("f_katyn_7_2.Id11", MonsterId.Jellyfish_Red, 12, 15);
 
 		// Monster Spawn Points -----------------------------
 

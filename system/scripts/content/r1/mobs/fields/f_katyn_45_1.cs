@@ -15,13 +15,13 @@ public class FKatyn451MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_45_1.Id1", MonsterId.Stoulet_Bow_Blue, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_1.Id2", MonsterId.Socket_Green, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_1.Id3", MonsterId.Socket_Mage_Green, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_katyn_45_1.Id4", MonsterId.Socket_Green, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_1.Id1", MonsterId.Stoulet_Bow_Blue, 38, 50, TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_1.Id2", MonsterId.Socket_Green, 9, 12, TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_1.Id3", MonsterId.Socket_Mage_Green, 9, 12, TendencyType.Aggressive);
+		AddSpawner("f_katyn_45_1.Id4", MonsterId.Socket_Green, 8, 10, TendencyType.Peaceful);
 		AddSpawner("f_katyn_45_1.Id5", MonsterId.Rootcrystal_04, 15, 19, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_1.Id6", MonsterId.Stoulet_Gray, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_1.Id7", MonsterId.Stoulet_Bow_Blue, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_1.Id6", MonsterId.Stoulet_Gray, 12, 15, TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_1.Id7", MonsterId.Stoulet_Bow_Blue, 30, 40, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

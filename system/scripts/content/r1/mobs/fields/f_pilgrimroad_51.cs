@@ -26,11 +26,11 @@ public class FPilgrimroad51MobScript : GeneralScript
 		AddSpawner("f_pilgrimroad_51.Id3", MonsterId.Prisonfighter, 9, 12, TimeSpan.FromMilliseconds(15000));
 		AddSpawner("f_pilgrimroad_51.Id4", MonsterId.Kowak, 8, 10, TimeSpan.FromMilliseconds(15000));
 		AddSpawner("f_pilgrimroad_51.Id5", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_51.Id6", MonsterId.Stoulet_Bow, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_51.Id7", MonsterId.Stoulet_Bow, 6, 7, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_51.Id8", MonsterId.Stoulet_Bow, 4, 5, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_51.Id9", MonsterId.Kowak, 5, 6, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_51.Id10", MonsterId.Prisonfighter, 5, 6, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_51.Id6", MonsterId.Stoulet_Bow, 9, 12);
+		AddSpawner("f_pilgrimroad_51.Id7", MonsterId.Stoulet_Bow, 6, 7);
+		AddSpawner("f_pilgrimroad_51.Id8", MonsterId.Stoulet_Bow, 4, 5);
+		AddSpawner("f_pilgrimroad_51.Id9", MonsterId.Kowak, 5, 6);
+		AddSpawner("f_pilgrimroad_51.Id10", MonsterId.Prisonfighter, 5, 6);
 
 		// Monster Spawn Points -----------------------------
 

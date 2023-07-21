@@ -16,12 +16,12 @@ public class FWhitetrees223MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_22_3.Id1", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_3.Id2", MonsterId.Bush_Beetle, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_3.Id3", MonsterId.Blossom_Beetle, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_3.Id4", MonsterId.Yakmambo, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_3.Id5", MonsterId.Yakmab, 36, 48, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_3.Id6", MonsterId.Hohen_Gulak_Black, 9, 11, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_3.Id7", MonsterId.Hohen_Mane_Black, 36, 47, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_3.Id2", MonsterId.Bush_Beetle, 30, 40, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_3.Id3", MonsterId.Blossom_Beetle, 19, 25, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_3.Id4", MonsterId.Yakmambo, 8, 10, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_3.Id5", MonsterId.Yakmab, 36, 48, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_3.Id6", MonsterId.Hohen_Gulak_Black, 9, 11, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_3.Id7", MonsterId.Hohen_Mane_Black, 36, 47, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -26,12 +26,12 @@ public class DFiretower42MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_42.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_42.Id2", MonsterId.Tower_Of_Firepuppet, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id3", MonsterId.Slime_Elite, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id4", MonsterId.Blindlem, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id5", MonsterId.Belegg, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id6", MonsterId.Chromadog, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id7", MonsterId.Slime_Elite_Big, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id2", MonsterId.Tower_Of_Firepuppet, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id3", MonsterId.Slime_Elite, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id4", MonsterId.Blindlem, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id5", MonsterId.Belegg, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id6", MonsterId.Chromadog, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id7", MonsterId.Slime_Elite_Big, 3, 3, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

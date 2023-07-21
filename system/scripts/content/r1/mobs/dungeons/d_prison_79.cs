@@ -21,11 +21,11 @@ public class DPrison79MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_79.Id1", MonsterId.Nuo_Purple, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_79.Id2", MonsterId.Socket_Bow_Red, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_79.Id3", MonsterId.TerraNymph_Mage_Blue, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_79.Id1", MonsterId.Nuo_Purple, 38, 50, TendencyType.Aggressive);
+		AddSpawner("d_prison_79.Id2", MonsterId.Socket_Bow_Red, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_prison_79.Id3", MonsterId.TerraNymph_Mage_Blue, 19, 25, TendencyType.Aggressive);
 		AddSpawner("d_prison_79.Id4", MonsterId.Rootcrystal_05, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_79.Id5", MonsterId.Socket_Bow_Red, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_79.Id5", MonsterId.Socket_Bow_Red, 34, 45, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,10 +23,10 @@ public class FDcapital105MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_dcapital_105.Id1", MonsterId.Rootcrystal_01, 27, 35, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_dcapital_105.Id2", MonsterId.Beetle_Green, 27, 35, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_dcapital_105.Id3", MonsterId.Bumble_Green, 20, 26, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_dcapital_105.Id4", MonsterId.Moltooth, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_dcapital_105.Id5", MonsterId.Bishopstar, 24, 32, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_105.Id2", MonsterId.Beetle_Green, 27, 35);
+		AddSpawner("f_dcapital_105.Id3", MonsterId.Bumble_Green, 20, 26);
+		AddSpawner("f_dcapital_105.Id4", MonsterId.Moltooth, 30, 40);
+		AddSpawner("f_dcapital_105.Id5", MonsterId.Bishopstar, 24, 32);
 		AddSpawner("f_dcapital_105.Id6", MonsterId.Bishopstar, 6, 7, TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_dcapital_105.Id7", MonsterId.Bishopstar, 3, 3, TimeSpan.FromMilliseconds(20000));
 

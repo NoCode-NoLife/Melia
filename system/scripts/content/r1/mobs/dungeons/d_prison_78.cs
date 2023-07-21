@@ -22,11 +22,11 @@ public class DPrison78MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_78.Id1", MonsterId.TerraNymph_Brown, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_78.Id2", MonsterId.NightMaiden_Mage_Red, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_78.Id3", MonsterId.Elet_Blue, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_78.Id1", MonsterId.TerraNymph_Brown, 34, 45, TendencyType.Aggressive);
+		AddSpawner("d_prison_78.Id2", MonsterId.NightMaiden_Mage_Red, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_prison_78.Id3", MonsterId.Elet_Blue, 8, 10, TendencyType.Aggressive);
 		AddSpawner("d_prison_78.Id4", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_78.Id5", MonsterId.TerraNymph_Brown, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_78.Id5", MonsterId.TerraNymph_Brown, 27, 35, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

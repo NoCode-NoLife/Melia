@@ -25,13 +25,13 @@ public class DStartower90MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_90.Id1", MonsterId.Nasleia, 20, 26, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id2", MonsterId.Madlens, 24, 31, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id3", MonsterId.Grob, 26, 34, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id4", MonsterId.Hafter, 40, 53, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id5", MonsterId.Nasleia, 0, 0, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id6", MonsterId.Madlens, 0, 0, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_startower_90.Id7", MonsterId.Grob, 0, 0, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_90.Id1", MonsterId.Nasleia, 20, 26);
+		AddSpawner("d_startower_90.Id2", MonsterId.Madlens, 24, 31);
+		AddSpawner("d_startower_90.Id3", MonsterId.Grob, 26, 34);
+		AddSpawner("d_startower_90.Id4", MonsterId.Hafter, 40, 53);
+		AddSpawner("d_startower_90.Id5", MonsterId.Nasleia, 0, 0);
+		AddSpawner("d_startower_90.Id6", MonsterId.Madlens, 0, 0);
+		AddSpawner("d_startower_90.Id7", MonsterId.Grob, 0, 0);
 		AddSpawner("d_startower_90.Id8", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------

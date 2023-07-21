@@ -16,10 +16,10 @@ public class FBracken422MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_42_2.Id1", MonsterId.Rootcrystal_03, 10, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_42_2.Id2", MonsterId.Duckey_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_bracken_42_2.Id3", MonsterId.Moglan_Blue, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_bracken_42_2.Id4", MonsterId.Beetow_Blue, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_42_2.Id5", MonsterId.Beetow_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_bracken_42_2.Id2", MonsterId.Duckey_Red, 23, 30, TendencyType.Aggressive);
+		AddSpawner("f_bracken_42_2.Id3", MonsterId.Moglan_Blue, 6, 8, TendencyType.Aggressive);
+		AddSpawner("f_bracken_42_2.Id4", MonsterId.Beetow_Blue, 23, 30, TendencyType.Peaceful);
+		AddSpawner("f_bracken_42_2.Id5", MonsterId.Beetow_Blue, 12, 15, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

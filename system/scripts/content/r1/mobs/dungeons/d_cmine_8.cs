@@ -16,16 +16,16 @@ public class DCmine8MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_cmine_8.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id2", MonsterId.FD_Bubbe_Chaser, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_8.Id3", MonsterId.FD_Bubbe_Mage_Fire, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_cmine_8.Id2", MonsterId.FD_Bubbe_Chaser, 27, 35, TendencyType.Aggressive);
+		AddSpawner("d_cmine_8.Id3", MonsterId.FD_Bubbe_Mage_Fire, 8, 10, TendencyType.Aggressive);
 		AddSpawner("d_cmine_8.Id4", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id5", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id6", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id7", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id8", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id9", MonsterId.Crystal_Lump, 4, 5, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id10", MonsterId.FD_Minos_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id11", MonsterId.FD_Goblin_Archer_Red, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id10", MonsterId.FD_Minos_Mage, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id11", MonsterId.FD_Goblin_Archer_Red, 19, 25, TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

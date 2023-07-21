@@ -22,13 +22,13 @@ public class DPrison80MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_80.Id1", MonsterId.Defender_Spider_Blue, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id2", MonsterId.Socket_Mage_Red, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id3", MonsterId.NightMaiden_Bow_Red, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id1", MonsterId.Defender_Spider_Blue, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id2", MonsterId.Socket_Mage_Red, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id3", MonsterId.NightMaiden_Bow_Red, 19, 25, TendencyType.Aggressive);
 		AddSpawner("d_prison_80.Id4", MonsterId.Rootcrystal_05, 9, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_80.Id5", MonsterId.Defender_Spider_Blue, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id6", MonsterId.Socket_Mage_Red, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id7", MonsterId.NightMaiden_Bow_Red, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id5", MonsterId.Defender_Spider_Blue, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id6", MonsterId.Socket_Mage_Red, 6, 8, TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id7", MonsterId.NightMaiden_Bow_Red, 8, 10, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

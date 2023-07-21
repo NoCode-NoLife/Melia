@@ -16,11 +16,11 @@ public class DAbbey394MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_abbey_39_4.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("d_abbey_39_4.Id2", MonsterId.Malstatue, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_39_4.Id3", MonsterId.Malstatue, 17, 22, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_39_4.Id4", MonsterId.Velaphid_Red, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_39_4.Id5", MonsterId.Pumpflap, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_abbey_39_4.Id6", MonsterId.Kowak_Orange, 53, 70, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_39_4.Id2", MonsterId.Malstatue, 8, 10);
+		AddSpawner("d_abbey_39_4.Id3", MonsterId.Malstatue, 17, 22);
+		AddSpawner("d_abbey_39_4.Id4", MonsterId.Velaphid_Red, 15, 20);
+		AddSpawner("d_abbey_39_4.Id5", MonsterId.Pumpflap, 8, 10);
+		AddSpawner("d_abbey_39_4.Id6", MonsterId.Kowak_Orange, 53, 70);
 
 		// Monster Spawn Points -----------------------------
 

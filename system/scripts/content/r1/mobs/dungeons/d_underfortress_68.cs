@@ -21,10 +21,10 @@ public class DUnderfortress68MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_68.Id1", MonsterId.Deadbornscab_Red, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_68.Id2", MonsterId.Infroholder_Green, 49, 65, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_68.Id3", MonsterId.Deadbornscab_Mage_Red, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_underfortress_68.Id4", MonsterId.Deadbornscab_Red, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_underfortress_68.Id1", MonsterId.Deadbornscab_Red, 19, 25, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_68.Id2", MonsterId.Infroholder_Green, 49, 65, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_68.Id3", MonsterId.Deadbornscab_Mage_Red, 12, 15, TendencyType.Aggressive);
+		AddSpawner("d_underfortress_68.Id4", MonsterId.Deadbornscab_Red, 6, 7, TendencyType.Peaceful);
 		AddSpawner("d_underfortress_68.Id5", MonsterId.Rootcrystal_05, 18, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

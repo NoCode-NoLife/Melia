@@ -26,11 +26,11 @@ public class DCmine02MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_cmine_02.Id1", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_02.Id2", MonsterId.Yekubite, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_02.Id3", MonsterId.Yekubite, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_02.Id4", MonsterId.Shredded, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_02.Id5", MonsterId.Bubbe_Mage_Normal, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("d_cmine_02.Id6", MonsterId.Goblin_Archer, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("d_cmine_02.Id2", MonsterId.Yekubite, 4, 5, TendencyType.Aggressive);
+		AddSpawner("d_cmine_02.Id3", MonsterId.Yekubite, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_cmine_02.Id4", MonsterId.Shredded, 15, 20, TendencyType.Aggressive);
+		AddSpawner("d_cmine_02.Id5", MonsterId.Bubbe_Mage_Normal, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_cmine_02.Id6", MonsterId.Goblin_Archer, 19, 25, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

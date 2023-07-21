@@ -16,10 +16,10 @@ public class FRemains373MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_remains_37_3.Id1", MonsterId.Rootcrystal_04, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_37_3.Id2", MonsterId.Hallowventor_Bow, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id3", MonsterId.Hallowventor_Mage, 18, 23, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id4", MonsterId.Gravegolem_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id5", MonsterId.Gravegolem_Blue, 75, 100, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id2", MonsterId.Hallowventor_Bow, 14, 18, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id3", MonsterId.Hallowventor_Mage, 18, 23, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id4", MonsterId.Gravegolem_Blue, 12, 15, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id5", MonsterId.Gravegolem_Blue, 75, 100, TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

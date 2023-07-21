@@ -16,12 +16,12 @@ public class FWhitetrees233MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_whitetrees_23_3.Id1", MonsterId.Rootcrystal_03, 9, 12, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_whitetrees_23_3.Id2", MonsterId.Kucarry_Numani, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_23_3.Id3", MonsterId.Kucarry_Numani, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_23_3.Id4", MonsterId.Kucarry_Zabbi, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_23_3.Id5", MonsterId.Kucarry_Zeuni, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_23_3.Id6", MonsterId.Kucarry_Zabbi, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_whitetrees_23_3.Id7", MonsterId.Kucarry_Zeuni, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_whitetrees_23_3.Id2", MonsterId.Kucarry_Numani, 15, 20);
+		AddSpawner("f_whitetrees_23_3.Id3", MonsterId.Kucarry_Numani, 12, 15);
+		AddSpawner("f_whitetrees_23_3.Id4", MonsterId.Kucarry_Zabbi, 12, 15);
+		AddSpawner("f_whitetrees_23_3.Id5", MonsterId.Kucarry_Zeuni, 15, 20);
+		AddSpawner("f_whitetrees_23_3.Id6", MonsterId.Kucarry_Zabbi, 23, 30);
+		AddSpawner("f_whitetrees_23_3.Id7", MonsterId.Kucarry_Zeuni, 9, 12);
 
 		// Monster Spawn Points -----------------------------
 

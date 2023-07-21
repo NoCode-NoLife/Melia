@@ -15,10 +15,10 @@ public class DIrredians1131MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_irredians_113_1.Id1", MonsterId.Gazer, 64, 85, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_irredians_113_1.Id2", MonsterId.Greedyprisoner, 30, 40, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_irredians_113_1.Id3", MonsterId.PuppetM, 55, 73, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_irredians_113_1.Id4", MonsterId.Maskexecutor, 64, 85, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_irredians_113_1.Id1", MonsterId.Gazer, 64, 85);
+		AddSpawner("d_irredians_113_1.Id2", MonsterId.Greedyprisoner, 30, 40);
+		AddSpawner("d_irredians_113_1.Id3", MonsterId.PuppetM, 55, 73);
+		AddSpawner("d_irredians_113_1.Id4", MonsterId.Maskexecutor, 64, 85);
 		AddSpawner("d_irredians_113_1.Id5", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------

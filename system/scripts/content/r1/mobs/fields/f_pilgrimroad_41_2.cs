@@ -23,12 +23,12 @@ public class FPilgrimroad412MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_41_2.Id1", MonsterId.Rootcrystal_02, 12, 15, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_41_2.Id2", MonsterId.Spion_Red, 53, 70, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_2.Id3", MonsterId.Tiny_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_2.Id4", MonsterId.Spion_Bow_Red, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_2.Id5", MonsterId.Defender_Spider_Red, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_2.Id6", MonsterId.Tiny_Mage_Green, 23, 30, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_pilgrimroad_41_2.Id7", MonsterId.Spion_Red, 5, 6, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_41_2.Id2", MonsterId.Spion_Red, 53, 70);
+		AddSpawner("f_pilgrimroad_41_2.Id3", MonsterId.Tiny_Mage_Green, 15, 20);
+		AddSpawner("f_pilgrimroad_41_2.Id4", MonsterId.Spion_Bow_Red, 8, 10);
+		AddSpawner("f_pilgrimroad_41_2.Id5", MonsterId.Defender_Spider_Red, 8, 10);
+		AddSpawner("f_pilgrimroad_41_2.Id6", MonsterId.Tiny_Mage_Green, 23, 30);
+		AddSpawner("f_pilgrimroad_41_2.Id7", MonsterId.Spion_Red, 5, 6);
 
 		// Monster Spawn Points -----------------------------
 

@@ -128,6 +128,17 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
+		/// <returns></returns>
+		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int min, int max)
+			=> AddSpawner(identifier, monsterClassId, min, max, TimeSpan.Zero, TendencyType.Peaceful);
+
+		/// <summary>
+		/// Adds a spawner to the world.
+		/// </summary>
+		/// <param name="identifier">Spawn area collection identifier.</param>
+		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>

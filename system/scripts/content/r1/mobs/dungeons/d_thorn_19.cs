@@ -24,17 +24,17 @@ public class DThorn19MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_thorn_19.Id1", MonsterId.Rootcrystal_01, 18, 23, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("d_thorn_19.Id2", MonsterId.Thornball, 17, 22, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id3", MonsterId.Whip_Vine, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id4", MonsterId.Operor, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id5", MonsterId.Operor, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id6", MonsterId.Whip_Vine, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id7", MonsterId.Truffle, 42, 55, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id8", MonsterId.Velwriggler, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id9", MonsterId.Operor, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id10", MonsterId.Velwriggler, 9, 12, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id11", MonsterId.Thornball, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("d_thorn_19.Id12", MonsterId.Whip_Vine, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_19.Id2", MonsterId.Thornball, 17, 22);
+		AddSpawner("d_thorn_19.Id3", MonsterId.Whip_Vine, 8, 10);
+		AddSpawner("d_thorn_19.Id4", MonsterId.Operor, 12, 15);
+		AddSpawner("d_thorn_19.Id5", MonsterId.Operor, 8, 10);
+		AddSpawner("d_thorn_19.Id6", MonsterId.Whip_Vine, 12, 15);
+		AddSpawner("d_thorn_19.Id7", MonsterId.Truffle, 42, 55);
+		AddSpawner("d_thorn_19.Id8", MonsterId.Velwriggler, 9, 12);
+		AddSpawner("d_thorn_19.Id9", MonsterId.Operor, 8, 10);
+		AddSpawner("d_thorn_19.Id10", MonsterId.Velwriggler, 9, 12);
+		AddSpawner("d_thorn_19.Id11", MonsterId.Thornball, 8, 10);
+		AddSpawner("d_thorn_19.Id12", MonsterId.Whip_Vine, 9, 12);
 
 		// Monster Spawn Points -----------------------------
 

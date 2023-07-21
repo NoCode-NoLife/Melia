@@ -15,12 +15,12 @@ public class FWhitetrees221MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_22_1.Id1", MonsterId.Beetow_White, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_1.Id2", MonsterId.Atti, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_1.Id3", MonsterId.Richring, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_whitetrees_22_1.Id4", MonsterId.Umblet, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_1.Id5", MonsterId.Umbra_Mage, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_1.Id6", MonsterId.Umbra_Warrior, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_1.Id1", MonsterId.Beetow_White, 38, 50, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_1.Id2", MonsterId.Atti, 30, 40, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_1.Id3", MonsterId.Richring, 30, 40, TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_1.Id4", MonsterId.Umblet, 30, 40, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_1.Id5", MonsterId.Umbra_Mage, 23, 30, TendencyType.Aggressive);
+		AddSpawner("f_whitetrees_22_1.Id6", MonsterId.Umbra_Warrior, 12, 16, TendencyType.Aggressive);
 		AddSpawner("f_whitetrees_22_1.Id7", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

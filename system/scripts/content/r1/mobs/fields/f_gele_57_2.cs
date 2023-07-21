@@ -25,19 +25,19 @@ public class FGele572MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_gele_57_2.Id1", MonsterId.Leafly, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id2", MonsterId.Npanto_Hand, 12, 15, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id3", MonsterId.Npanto_Sword, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id4", MonsterId.Mally, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id5", MonsterId.Npanto_Staff, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_2.Id1", MonsterId.Leafly, 12, 15);
+		AddSpawner("f_gele_57_2.Id2", MonsterId.Npanto_Hand, 12, 15);
+		AddSpawner("f_gele_57_2.Id3", MonsterId.Npanto_Sword, 8, 10);
+		AddSpawner("f_gele_57_2.Id4", MonsterId.Mally, 15, 20);
+		AddSpawner("f_gele_57_2.Id5", MonsterId.Npanto_Staff, 9, 12);
 		AddSpawner("f_gele_57_2.Id6", MonsterId.Npanto_Sword, 12, 15, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_gele_57_2.Id7", MonsterId.Npanto_Hand, 3, 3, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_2.Id7", MonsterId.Npanto_Hand, 3, 3);
 		AddSpawner("f_gele_57_2.Id8", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_gele_57_2.Id9", MonsterId.Mon_Goat_Totem_Q, 8, 10, TimeSpan.FromMilliseconds(15000));
 		AddSpawner("f_gele_57_2.Id10", MonsterId.Mally, 6, 7, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_gele_57_2.Id11", MonsterId.Spion_Bow, 15, 20, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id12", MonsterId.Spion_Bow, 8, 10, TimeSpan.FromMilliseconds(0));
-		AddSpawner("f_gele_57_2.Id13", MonsterId.Leafly, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_2.Id11", MonsterId.Spion_Bow, 15, 20);
+		AddSpawner("f_gele_57_2.Id12", MonsterId.Spion_Bow, 8, 10);
+		AddSpawner("f_gele_57_2.Id13", MonsterId.Leafly, 8, 10);
 
 		// Monster Spawn Points -----------------------------
 
