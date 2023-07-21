@@ -2,5 +2,5 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-include "mobs/scripts.txt"
-include "warps/scripts.txt"
+require "mobs/scripts.txt"
+require "warps/scripts.txt"
