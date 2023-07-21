@@ -7,7 +7,7 @@ namespace Melia.Shared.Network.Inter.Messages
 	/// Instruction to kick all players.
 	/// </summary>
 	[Serializable]
-	public class KickAllMessage : ICommMessage
+	public class ReqKickAllMessage : ICommMessage
 	{
 	}
 }

@@ -61,8 +61,8 @@ namespace Melia.Web.Controllers
 		[Route(HttpVerbs.Post, "/kick/all")]
 		public void KickAllPlayers()
 		{
-			var kickAllMessage = new KickAllMessage();
-			WebServer.Instance.Communicator.Send("Coordinator", kickAllMessage.BroadcastTo("AllZones"));
+			var reqKickAllMessage = new ReqKickAllMessage();
+			WebServer.Instance.Communicator.Send("Coordinator", reqKickAllMessage.BroadcastTo("AllZones"));
 
 			this.SendText("text/json", "{ \"status\": \"Successful kicked all players.\" }");
 		}
@@ -131,6 +131,9 @@ namespace Melia.Web.Controllers
 			this.UpdateConfigs(oldWorldConfigs, newWorldConfigs, "user/conf/world.conf");
 			this.UpdateConfigs(oldLocalizationConfigs, newLocalizationConfigs, "user/conf/localization.conf");
 
+			var reqReloadConfigsMessage = new ReqReloadConfigsMessage();
+			WebServer.Instance.Communicator.Send("Coordinator", reqReloadConfigsMessage.BroadcastTo("AllZones"));
+
 			this.SendText("text/json", "{ \"status\": \"Successful updated configs.\" }");
 		}
 
@@ -173,28 +176,20 @@ namespace Melia.Web.Controllers
 						string line;
 						while ((line = reader.ReadLine()) != null)
 						{
-							var configFullStrings = line.Split('\n');
-							foreach (var configString in configFullStrings)
+							if (!line.StartsWith("//") && !line.StartsWith("include"))
 							{
-								var splitedConfigString = configString.Split(':');
-								var configKey = splitedConfigString[0].Replace(" ", "");
-								if (configKey == this.ConvertStringToUnderscoreCase(newConfig.Key))
+								var parts = line.Split(':');
+								if (parts.Length > 1)
 								{
-
-
+									var configName = this.ConvertStringToUnderscoreCase(newConfig.Key);
+									if (parts[0].Remove(parts[0].Length - 1, 1).Equals(configName))
+									{
+										parts[1] = " " + newConfig.Value;
+										line = string.Join(":", parts);
+									}
 								}
 							}
-
-							var configKeyValue = configFullStrings[0];
-							var contentBeforeNewline = newlineIndex >= 0 ? line.Substring(0, newlineIndex) : line;
-
-							string[] parts = contentBeforeNewline.Split(':');
-							if (parts.Length > 1)
-							{
-								parts[1] = " " + newConfig.Value + "\n";
-								contentBeforeNewline = string.Join(":", parts);
-							}
-							lines.Add(contentBeforeNewline);
+							lines.Add(line);
 						}
 					}
 
@@ -242,9 +237,9 @@ namespace Melia.Web.Controllers
 			return options;
 		}
 
-		public string ConvertStringToUnderscoreCase(string str)
+		private string ConvertStringToUnderscoreCase(string str)
 		{
-			return string.Concat(str.Select((x, i) => i > 1 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
+			return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
 		}
 	}
 }

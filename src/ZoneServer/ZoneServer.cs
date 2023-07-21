@@ -218,13 +218,18 @@ namespace Melia.Zone
 					character.Connection.Close(100);
 					break;
 				}
-				case KickAllMessage kickAllMessage:
+				case ReqKickAllMessage reqKickAllMessage:
 				{
 					var characters = this.World.GetCharacters();
 					foreach (var character in characters) {
 						character.MsgBox(Localization.Get("You were kicked."));
 						character.Connection.Close(100);
 					}
+					break;
+				}
+				case ReqReloadConfigsMessage reqReloadConfigsMessage:
+				{
+					this.Conf.Load();
 					break;
 				}
 			}
