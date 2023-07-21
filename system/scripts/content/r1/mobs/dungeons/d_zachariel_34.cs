@@ -25,15 +25,15 @@ public class DZachariel34MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_34.Id1", MonsterId.Echad, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id2", MonsterId.Wolf_Statue_Mage_Pollution, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id3", MonsterId.Rootcrystal_05, 6, 8, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_34.Id4", MonsterId.Shtayim, 15, 20, TendencyType.Peaceful);
-		AddSpawner("d_zachariel_34.Id5", MonsterId.Echad_Bow, 5, 6, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id6", MonsterId.Wolf_Statue_Mage, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id7", MonsterId.Wolf_Statue_Mage, 3, 4, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id8", MonsterId.Shtayim, 4, 5, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id9", MonsterId.Echad_Bow, 4, 5, TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id1", MonsterId.Echad, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id2", MonsterId.Wolf_Statue_Mage_Pollution, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id3", MonsterId.Rootcrystal_05, min: 6, max: 8, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_34.Id4", MonsterId.Shtayim, min: 15, max: 20, tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_34.Id5", MonsterId.Echad_Bow, min: 5, max: 6, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id6", MonsterId.Wolf_Statue_Mage, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id7", MonsterId.Wolf_Statue_Mage, min: 3, max: 4, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id8", MonsterId.Shtayim, min: 4, max: 5, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_34.Id9", MonsterId.Echad_Bow, min: 4, max: 5, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

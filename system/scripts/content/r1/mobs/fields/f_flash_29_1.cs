@@ -15,10 +15,10 @@ public class FFlash291MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_29_1.Id1", MonsterId.Rootcrystal_03, 15, 20, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_flash_29_1.Id2", MonsterId.Minos_Orange, 57, 75);
-		AddSpawner("f_flash_29_1.Id3", MonsterId.Infroholder_Bow_Red, 12, 15);
-		AddSpawner("f_flash_29_1.Id4", MonsterId.Minos_Mage_Green, 9, 12);
+		AddSpawner("f_flash_29_1.Id1", MonsterId.Rootcrystal_03, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_flash_29_1.Id2", MonsterId.Minos_Orange, min: 57, max: 75);
+		AddSpawner("f_flash_29_1.Id3", MonsterId.Infroholder_Bow_Red, min: 12, max: 15);
+		AddSpawner("f_flash_29_1.Id4", MonsterId.Minos_Mage_Green, min: 9, max: 12);
 
 		// Monster Spawn Points -----------------------------
 

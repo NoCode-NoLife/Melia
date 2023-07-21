@@ -23,15 +23,15 @@ public class FSiauliai463MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_46_3.Id1", MonsterId.Chupaluka, 45, 60, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_siauliai_46_3.Id2", MonsterId.Spion, 12, 15, TimeSpan.FromMilliseconds(200000));
-		AddSpawner("f_siauliai_46_3.Id3", MonsterId.Siaulago, 15, 20, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_46_3.Id4", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_46_3.Id5", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_46_3.Id6", MonsterId.Spion, 15, 20, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_siauliai_46_3.Id7", MonsterId.Siaulago, 8, 10, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_siauliai_46_3.Id8", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_siauliai_46_3.Id9", MonsterId.Chupaluka, 14, 18, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_46_3.Id1", MonsterId.Chupaluka, min: 45, max: 60, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id2", MonsterId.Spion, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(200000));
+		AddSpawner("f_siauliai_46_3.Id3", MonsterId.Siaulago, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id4", MonsterId.Honeymeli, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id5", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id6", MonsterId.Spion, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id7", MonsterId.Siaulago, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id8", MonsterId.Honeymeli, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_46_3.Id9", MonsterId.Chupaluka, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

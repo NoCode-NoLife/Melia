@@ -21,10 +21,10 @@ public class FSiauliai351MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_35_1.Id1", MonsterId.Spion_Mage_Blue, 12, 15);
-		AddSpawner("f_siauliai_35_1.Id2", MonsterId.Spion_Blue, 83, 110);
-		AddSpawner("f_siauliai_35_1.Id3", MonsterId.Spion_Bow_Blue, 15, 20);
-		AddSpawner("f_siauliai_35_1.Id4", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_35_1.Id1", MonsterId.Spion_Mage_Blue, min: 12, max: 15);
+		AddSpawner("f_siauliai_35_1.Id2", MonsterId.Spion_Blue, min: 83, max: 110);
+		AddSpawner("f_siauliai_35_1.Id3", MonsterId.Spion_Bow_Blue, min: 15, max: 20);
+		AddSpawner("f_siauliai_35_1.Id4", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,15 +22,15 @@ public class DFiretower43MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_43.Id1", MonsterId.InfroRocktor_Red, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id2", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_43.Id3", MonsterId.Arma, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id4", MonsterId.InfroRocktor_Red, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id5", MonsterId.Arma, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id6", MonsterId.Flask_Mage, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id7", MonsterId.Flask_Mage, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id8", MonsterId.TerraNymph_Mage, 9, 12, TendencyType.Peaceful);
-		AddSpawner("d_firetower_43.Id9", MonsterId.Pyran, 12, 15, TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id1", MonsterId.InfroRocktor_Red, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id2", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id3", MonsterId.Arma, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id4", MonsterId.InfroRocktor_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id5", MonsterId.Arma, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id6", MonsterId.Flask_Mage, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id7", MonsterId.Flask_Mage, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_43.Id8", MonsterId.TerraNymph_Mage, min: 9, max: 12, tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id9", MonsterId.Pyran, min: 12, max: 15, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -24,16 +24,16 @@ public class FSiauliai2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_2.Id1", MonsterId.Pokubu, 6, 8);
-		AddSpawner("f_siauliai_2.Id2", MonsterId.Chupacabra_Blue, 15, 20);
-		AddSpawner("f_siauliai_2.Id3", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_2.Id4", MonsterId.Weaver, 15, 20);
-		AddSpawner("f_siauliai_2.Id5", MonsterId.Popolion_Blue, 45, 60);
-		AddSpawner("f_siauliai_2.Id6", MonsterId.Popolion_Blue, 8, 10);
-		AddSpawner("f_siauliai_2.Id7", MonsterId.Chupacabra_Blue, 5, 6);
-		AddSpawner("f_siauliai_2.Id8", MonsterId.Chupacabra_Blue, 23, 30);
-		AddSpawner("f_siauliai_2.Id9", MonsterId.Popolion_Blue, 23, 30);
-		AddSpawner("f_siauliai_2.Id10", MonsterId.Popolion_Blue, 8, 10);
+		AddSpawner("f_siauliai_2.Id1", MonsterId.Pokubu, min: 6, max: 8);
+		AddSpawner("f_siauliai_2.Id2", MonsterId.Chupacabra_Blue, min: 15, max: 20);
+		AddSpawner("f_siauliai_2.Id3", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_2.Id4", MonsterId.Weaver, min: 15, max: 20);
+		AddSpawner("f_siauliai_2.Id5", MonsterId.Popolion_Blue, min: 45, max: 60);
+		AddSpawner("f_siauliai_2.Id6", MonsterId.Popolion_Blue, min: 8, max: 10);
+		AddSpawner("f_siauliai_2.Id7", MonsterId.Chupacabra_Blue, min: 5, max: 6);
+		AddSpawner("f_siauliai_2.Id8", MonsterId.Chupacabra_Blue, min: 23, max: 30);
+		AddSpawner("f_siauliai_2.Id9", MonsterId.Popolion_Blue, min: 23, max: 30);
+		AddSpawner("f_siauliai_2.Id10", MonsterId.Popolion_Blue, min: 8, max: 10);
 
 		// Monster Spawn Points -----------------------------
 

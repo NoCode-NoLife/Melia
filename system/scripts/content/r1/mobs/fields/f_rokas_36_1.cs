@@ -15,13 +15,13 @@ public class FRokas361MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_36_1.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_rokas_36_1.Id2", MonsterId.Sec_Chupacabra_Desert, 15, 20);
-		AddSpawner("f_rokas_36_1.Id3", MonsterId.GlyphRing, 23, 30);
-		AddSpawner("f_rokas_36_1.Id4", MonsterId.Sec_Sauga, 23, 30);
-		AddSpawner("f_rokas_36_1.Id5", MonsterId.Sec_Chupacabra_Desert, 15, 20);
-		AddSpawner("f_rokas_36_1.Id6", MonsterId.Sec_Sauga, 12, 15);
-		AddSpawner("f_rokas_36_1.Id7", MonsterId.GlyphRing, 12, 15);
+		AddSpawner("f_rokas_36_1.Id1", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_rokas_36_1.Id2", MonsterId.Sec_Chupacabra_Desert, min: 15, max: 20);
+		AddSpawner("f_rokas_36_1.Id3", MonsterId.GlyphRing, min: 23, max: 30);
+		AddSpawner("f_rokas_36_1.Id4", MonsterId.Sec_Sauga, min: 23, max: 30);
+		AddSpawner("f_rokas_36_1.Id5", MonsterId.Sec_Chupacabra_Desert, min: 15, max: 20);
+		AddSpawner("f_rokas_36_1.Id6", MonsterId.Sec_Sauga, min: 12, max: 15);
+		AddSpawner("f_rokas_36_1.Id7", MonsterId.GlyphRing, min: 12, max: 15);
 
 		// Monster Spawn Points -----------------------------
 

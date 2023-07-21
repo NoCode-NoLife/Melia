@@ -21,11 +21,11 @@ public class DPrison81MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_81.Id1", MonsterId.Nuka_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_prison_81.Id2", MonsterId.Elma_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_prison_81.Id3", MonsterId.TerraNymph_Bow_Brown, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_prison_81.Id4", MonsterId.Rootcrystal_05, 9, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_81.Id5", MonsterId.TerraNymph_Bow_Brown, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_prison_81.Id1", MonsterId.Nuka_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_81.Id2", MonsterId.Elma_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_81.Id3", MonsterId.TerraNymph_Bow_Brown, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_81.Id4", MonsterId.Rootcrystal_05, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_prison_81.Id5", MonsterId.TerraNymph_Bow_Brown, min: 23, max: 30, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

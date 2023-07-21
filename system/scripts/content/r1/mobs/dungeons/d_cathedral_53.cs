@@ -21,13 +21,13 @@ public class DCathedral53MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cathedral_53.Id1", MonsterId.Loftlem_Blue, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_53.Id2", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_cathedral_53.Id3", MonsterId.Loftlem_Blue, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_53.Id4", MonsterId.Anchor_Mage, 6, 7, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_53.Id5", MonsterId.Colifly, 34, 45, TendencyType.Peaceful);
-		AddSpawner("d_cathedral_53.Id6", MonsterId.Loftlem_Blue, 5, 6, TendencyType.Peaceful);
-		AddSpawner("d_cathedral_53.Id7", MonsterId.Anchor_Mage, 15, 20, TendencyType.Peaceful);
+		AddSpawner("d_cathedral_53.Id1", MonsterId.Loftlem_Blue, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_53.Id2", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cathedral_53.Id3", MonsterId.Loftlem_Blue, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_53.Id4", MonsterId.Anchor_Mage, min: 6, max: 7, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_53.Id5", MonsterId.Colifly, min: 34, max: 45, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cathedral_53.Id6", MonsterId.Loftlem_Blue, min: 5, max: 6, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cathedral_53.Id7", MonsterId.Anchor_Mage, min: 15, max: 20, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

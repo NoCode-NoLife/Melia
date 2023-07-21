@@ -22,10 +22,10 @@ public class Ep132DPrison3MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_2_d_prison_3.Id1", MonsterId.Episode13_2_Wendigo_Dump, 100, 133);
-		AddSpawner("ep13_2_d_prison_3.Id2", MonsterId.Episode13_2_Wendigo, 16, 21);
-		AddSpawner("ep13_2_d_prison_3.Id3", MonsterId.Episode13_2_Dumaro, 12, 16);
-		AddSpawner("ep13_2_d_prison_3.Id4", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep13_2_d_prison_3.Id1", MonsterId.Episode13_2_Wendigo_Dump, min: 100, max: 133);
+		AddSpawner("ep13_2_d_prison_3.Id2", MonsterId.Episode13_2_Wendigo, min: 16, max: 21);
+		AddSpawner("ep13_2_d_prison_3.Id3", MonsterId.Episode13_2_Dumaro, min: 12, max: 16);
+		AddSpawner("ep13_2_d_prison_3.Id4", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,11 +23,11 @@ public class DFantasylibrary484MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_4.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_fantasylibrary_48_4.Id2", MonsterId.Lapinel, 23, 30);
-		AddSpawner("d_fantasylibrary_48_4.Id3", MonsterId.Lapindal, 23, 30);
-		AddSpawner("d_fantasylibrary_48_4.Id4", MonsterId.Wisnol, 23, 30);
-		AddSpawner("d_fantasylibrary_48_4.Id5", MonsterId.Lampal, 49, 65);
+		AddSpawner("d_fantasylibrary_48_4.Id1", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_fantasylibrary_48_4.Id2", MonsterId.Lapinel, min: 23, max: 30);
+		AddSpawner("d_fantasylibrary_48_4.Id3", MonsterId.Lapindal, min: 23, max: 30);
+		AddSpawner("d_fantasylibrary_48_4.Id4", MonsterId.Wisnol, min: 23, max: 30);
+		AddSpawner("d_fantasylibrary_48_4.Id5", MonsterId.Lampal, min: 49, max: 65);
 
 		// Monster Spawn Points -----------------------------
 

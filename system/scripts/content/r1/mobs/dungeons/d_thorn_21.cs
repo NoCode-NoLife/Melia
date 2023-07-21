@@ -25,15 +25,15 @@ public class DThorn21MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_21.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("d_thorn_21.Id2", MonsterId.Matsum, 15, 20);
-		AddSpawner("d_thorn_21.Id3", MonsterId.Matsum, 15, 20);
-		AddSpawner("d_thorn_21.Id4", MonsterId.Chafperor, 19, 25);
-		AddSpawner("d_thorn_21.Id5", MonsterId.Chafperor, 15, 20);
-		AddSpawner("d_thorn_21.Id6", MonsterId.Ammon, 12, 15);
-		AddSpawner("d_thorn_21.Id7", MonsterId.Matsum, 38, 50);
-		AddSpawner("d_thorn_21.Id8", MonsterId.Infroholder_Mage, 6, 8);
-		AddSpawner("d_thorn_21.Id9", MonsterId.Infroholder_Mage, 6, 7);
+		AddSpawner("d_thorn_21.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_thorn_21.Id2", MonsterId.Matsum, min: 15, max: 20);
+		AddSpawner("d_thorn_21.Id3", MonsterId.Matsum, min: 15, max: 20);
+		AddSpawner("d_thorn_21.Id4", MonsterId.Chafperor, min: 19, max: 25);
+		AddSpawner("d_thorn_21.Id5", MonsterId.Chafperor, min: 15, max: 20);
+		AddSpawner("d_thorn_21.Id6", MonsterId.Ammon, min: 12, max: 15);
+		AddSpawner("d_thorn_21.Id7", MonsterId.Matsum, min: 38, max: 50);
+		AddSpawner("d_thorn_21.Id8", MonsterId.Infroholder_Mage, min: 6, max: 8);
+		AddSpawner("d_thorn_21.Id9", MonsterId.Infroholder_Mage, min: 6, max: 7);
 
 		// Monster Spawn Points -----------------------------
 

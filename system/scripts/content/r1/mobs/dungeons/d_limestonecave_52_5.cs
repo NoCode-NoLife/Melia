@@ -24,12 +24,12 @@ public class DLimestonecave525MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_52_5.Id1", MonsterId.Wood_Goblin_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_5.Id2", MonsterId.Rockoff_Orange, 27, 35, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_5.Id3", MonsterId.Flamil_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_5.Id4", MonsterId.Rondo, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_5.Id5", MonsterId.Wood_Goblin_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_5.Id6", MonsterId.Rootcrystal_04, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("d_limestonecave_52_5.Id1", MonsterId.Wood_Goblin_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_5.Id2", MonsterId.Rockoff_Orange, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_5.Id3", MonsterId.Flamil_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_5.Id4", MonsterId.Rondo, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_5.Id5", MonsterId.Wood_Goblin_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_5.Id6", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

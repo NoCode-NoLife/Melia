@@ -15,20 +15,20 @@ public class DThorn23MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_23.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000));
-		AddSpawner("d_thorn_23.Id2", MonsterId.Raider, 19, 25);
-		AddSpawner("d_thorn_23.Id3", MonsterId.Infroholder, 12, 15);
-		AddSpawner("d_thorn_23.Id4", MonsterId.Raider, 4, 5);
-		AddSpawner("d_thorn_23.Id5", MonsterId.Infroholder, 5, 6);
-		AddSpawner("d_thorn_23.Id6", MonsterId.Duckey, 8, 10);
-		AddSpawner("d_thorn_23.Id7", MonsterId.InfroHoglan, 8, 10);
-		AddSpawner("d_thorn_23.Id8", MonsterId.Cronewt, 8, 10);
-		AddSpawner("d_thorn_23.Id9", MonsterId.InfroHoglan, 4, 5);
-		AddSpawner("d_thorn_23.Id10", MonsterId.Cronewt, 6, 8);
-		AddSpawner("d_thorn_23.Id11", MonsterId.Duckey, 4, 5);
-		AddSpawner("d_thorn_23.Id12", MonsterId.Infroholder, 38, 50);
-		AddSpawner("d_thorn_23.Id13", MonsterId.Duckey, 8, 10);
-		AddSpawner("d_thorn_23.Id14", MonsterId.Raider, 6, 7);
+		AddSpawner("d_thorn_23.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_23.Id2", MonsterId.Raider, min: 19, max: 25);
+		AddSpawner("d_thorn_23.Id3", MonsterId.Infroholder, min: 12, max: 15);
+		AddSpawner("d_thorn_23.Id4", MonsterId.Raider, min: 4, max: 5);
+		AddSpawner("d_thorn_23.Id5", MonsterId.Infroholder, min: 5, max: 6);
+		AddSpawner("d_thorn_23.Id6", MonsterId.Duckey, min: 8, max: 10);
+		AddSpawner("d_thorn_23.Id7", MonsterId.InfroHoglan, min: 8, max: 10);
+		AddSpawner("d_thorn_23.Id8", MonsterId.Cronewt, min: 8, max: 10);
+		AddSpawner("d_thorn_23.Id9", MonsterId.InfroHoglan, min: 4, max: 5);
+		AddSpawner("d_thorn_23.Id10", MonsterId.Cronewt, min: 6, max: 8);
+		AddSpawner("d_thorn_23.Id11", MonsterId.Duckey, min: 4, max: 5);
+		AddSpawner("d_thorn_23.Id12", MonsterId.Infroholder, min: 38, max: 50);
+		AddSpawner("d_thorn_23.Id13", MonsterId.Duckey, min: 8, max: 10);
+		AddSpawner("d_thorn_23.Id14", MonsterId.Raider, min: 6, max: 7);
 
 		// Monster Spawn Points -----------------------------
 

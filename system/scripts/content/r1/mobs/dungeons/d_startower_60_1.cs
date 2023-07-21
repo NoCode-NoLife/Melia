@@ -15,13 +15,13 @@ public class DStartower601MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_60_1.Id1", MonsterId.FD_Raffly_Blue, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_startower_60_1.Id2", MonsterId.FD_NightMaiden, 27, 35, TendencyType.Aggressive);
-		AddSpawner("d_startower_60_1.Id3", MonsterId.FD_TerraNymph, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_startower_60_1.Id4", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_startower_60_1.Id5", MonsterId.FD_TerraNymph, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_60_1.Id6", MonsterId.FD_Raffly_Blue, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_startower_60_1.Id7", MonsterId.FD_TerraNymph_Bow, 19, 25, TendencyType.Peaceful);
+		AddSpawner("d_startower_60_1.Id1", MonsterId.FD_Raffly_Blue, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_60_1.Id2", MonsterId.FD_NightMaiden, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_60_1.Id3", MonsterId.FD_TerraNymph, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_60_1.Id4", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_startower_60_1.Id5", MonsterId.FD_TerraNymph, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_60_1.Id6", MonsterId.FD_Raffly_Blue, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_60_1.Id7", MonsterId.FD_TerraNymph_Bow, min: 19, max: 25, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

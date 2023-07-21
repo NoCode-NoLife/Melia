@@ -15,11 +15,11 @@ public class DThorn391MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_39_1.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_thorn_39_1.Id2", MonsterId.Chafperor_Mage, 15, 20);
-		AddSpawner("d_thorn_39_1.Id3", MonsterId.Wood_Lwa, 23, 30);
-		AddSpawner("d_thorn_39_1.Id4", MonsterId.Infrogalas_Mage, 9, 12);
-		AddSpawner("d_thorn_39_1.Id5", MonsterId.Pandroceum, 30, 40);
+		AddSpawner("d_thorn_39_1.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_thorn_39_1.Id2", MonsterId.Chafperor_Mage, min: 15, max: 20);
+		AddSpawner("d_thorn_39_1.Id3", MonsterId.Wood_Lwa, min: 23, max: 30);
+		AddSpawner("d_thorn_39_1.Id4", MonsterId.Infrogalas_Mage, min: 9, max: 12);
+		AddSpawner("d_thorn_39_1.Id5", MonsterId.Pandroceum, min: 30, max: 40);
 
 		// Monster Spawn Points -----------------------------
 

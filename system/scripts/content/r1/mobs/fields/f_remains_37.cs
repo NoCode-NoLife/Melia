@@ -15,14 +15,14 @@ public class FRemains37MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_37.Id1", MonsterId.Stub_Tree, 8, 10);
-		AddSpawner("f_remains_37.Id2", MonsterId.Stub_Tree, 30, 40);
-		AddSpawner("f_remains_37.Id3", MonsterId.Tama, 12, 15);
-		AddSpawner("f_remains_37.Id4", MonsterId.TreeAmbulo, 8, 10);
-		AddSpawner("f_remains_37.Id5", MonsterId.TreeAmbulo, 19, 25);
-		AddSpawner("f_remains_37.Id6", MonsterId.Tama, 30, 40);
-		AddSpawner("f_remains_37.Id7", MonsterId.TreeAmbulo, 30, 40);
-		AddSpawner("f_remains_37.Id8", MonsterId.Rootcrystal_01, 4, 5, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_37.Id1", MonsterId.Stub_Tree, min: 8, max: 10);
+		AddSpawner("f_remains_37.Id2", MonsterId.Stub_Tree, min: 30, max: 40);
+		AddSpawner("f_remains_37.Id3", MonsterId.Tama, min: 12, max: 15);
+		AddSpawner("f_remains_37.Id4", MonsterId.TreeAmbulo, min: 8, max: 10);
+		AddSpawner("f_remains_37.Id5", MonsterId.TreeAmbulo, min: 19, max: 25);
+		AddSpawner("f_remains_37.Id6", MonsterId.Tama, min: 30, max: 40);
+		AddSpawner("f_remains_37.Id7", MonsterId.TreeAmbulo, min: 30, max: 40);
+		AddSpawner("f_remains_37.Id8", MonsterId.Rootcrystal_01, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

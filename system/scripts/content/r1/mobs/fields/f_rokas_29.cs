@@ -23,13 +23,13 @@ public class FRokas29MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_29.Id1", MonsterId.Hogma_Warrior, 19, 25);
-		AddSpawner("f_rokas_29.Id2", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_rokas_29.Id3", MonsterId.Hogma_Combat, 9, 12, TimeSpan.FromMilliseconds(35000));
-		AddSpawner("f_rokas_29.Id4", MonsterId.Hogma_Combat, 25, 33, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_rokas_29.Id5", MonsterId.Hogma_Combat, 18, 23);
-		AddSpawner("f_rokas_29.Id6", MonsterId.Hogma_Warrior, 19, 25, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_rokas_29.Id7", MonsterId.Woodfung, 12, 15);
+		AddSpawner("f_rokas_29.Id1", MonsterId.Hogma_Warrior, min: 19, max: 25);
+		AddSpawner("f_rokas_29.Id2", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_29.Id3", MonsterId.Hogma_Combat, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(35000));
+		AddSpawner("f_rokas_29.Id4", MonsterId.Hogma_Combat, min: 25, max: 33, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_rokas_29.Id5", MonsterId.Hogma_Combat, min: 18, max: 23);
+		AddSpawner("f_rokas_29.Id6", MonsterId.Hogma_Warrior, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_rokas_29.Id7", MonsterId.Woodfung, min: 12, max: 15);
 
 		// Monster Spawn Points -----------------------------
 

@@ -26,14 +26,14 @@ public class FHuevillage584MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, 12, 15);
-		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, 3, 3);
-		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Carcashu, 30, 40);
-		AddSpawner("f_huevillage_58_4.Id4", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, 8, 10);
-		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, 6, 8);
-		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, 6, 8);
-		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, 4, 5);
+		AddSpawner("f_huevillage_58_4.Id1", MonsterId.Beeteros, min: 12, max: 15);
+		AddSpawner("f_huevillage_58_4.Id2", MonsterId.Mentiwood, min: 3, max: 3);
+		AddSpawner("f_huevillage_58_4.Id3", MonsterId.Carcashu, min: 30, max: 40);
+		AddSpawner("f_huevillage_58_4.Id4", MonsterId.Rootcrystal_01, min: 9, max: 11, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_huevillage_58_4.Id5", MonsterId.Carcashu, min: 8, max: 10);
+		AddSpawner("f_huevillage_58_4.Id6", MonsterId.Tiny_Mage, min: 6, max: 8);
+		AddSpawner("f_huevillage_58_4.Id7", MonsterId.Tiny_Mage, min: 6, max: 8);
+		AddSpawner("f_huevillage_58_4.Id8", MonsterId.Beeteros, min: 4, max: 5);
 
 		// Monster Spawn Points -----------------------------
 

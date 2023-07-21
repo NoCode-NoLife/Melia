@@ -15,12 +15,12 @@ public class FCoral442MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_44_2.Id1", MonsterId.VarleGunner, 42, 55, TendencyType.Peaceful);
-		AddSpawner("f_coral_44_2.Id2", MonsterId.VarleHench, 37, 49, TendencyType.Peaceful);
-		AddSpawner("f_coral_44_2.Id3", MonsterId.NimrahLancer, 33, 43, TendencyType.Aggressive);
-		AddSpawner("f_coral_44_2.Id4", MonsterId.Nimrahsoldier, 21, 28, TendencyType.Aggressive);
-		AddSpawner("f_coral_44_2.Id5", MonsterId.NimrahDuke, 4, 5, TendencyType.Aggressive);
-		AddSpawner("f_coral_44_2.Id6", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_coral_44_2.Id1", MonsterId.VarleGunner, min: 42, max: 55, tendency: TendencyType.Peaceful);
+		AddSpawner("f_coral_44_2.Id2", MonsterId.VarleHench, min: 37, max: 49, tendency: TendencyType.Peaceful);
+		AddSpawner("f_coral_44_2.Id3", MonsterId.NimrahLancer, min: 33, max: 43, tendency: TendencyType.Aggressive);
+		AddSpawner("f_coral_44_2.Id4", MonsterId.Nimrahsoldier, min: 21, max: 28, tendency: TendencyType.Aggressive);
+		AddSpawner("f_coral_44_2.Id5", MonsterId.NimrahDuke, min: 4, max: 5, tendency: TendencyType.Aggressive);
+		AddSpawner("f_coral_44_2.Id6", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

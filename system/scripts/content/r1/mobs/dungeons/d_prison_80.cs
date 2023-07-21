@@ -22,13 +22,13 @@ public class DPrison80MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_80.Id1", MonsterId.Defender_Spider_Blue, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id2", MonsterId.Socket_Mage_Red, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id3", MonsterId.NightMaiden_Bow_Red, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id4", MonsterId.Rootcrystal_05, 9, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_prison_80.Id5", MonsterId.Defender_Spider_Blue, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id6", MonsterId.Socket_Mage_Red, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_prison_80.Id7", MonsterId.NightMaiden_Bow_Red, 8, 10, TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id1", MonsterId.Defender_Spider_Blue, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id2", MonsterId.Socket_Mage_Red, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id3", MonsterId.NightMaiden_Bow_Red, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id4", MonsterId.Rootcrystal_05, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_prison_80.Id5", MonsterId.Defender_Spider_Blue, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id6", MonsterId.Socket_Mage_Red, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_prison_80.Id7", MonsterId.NightMaiden_Bow_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

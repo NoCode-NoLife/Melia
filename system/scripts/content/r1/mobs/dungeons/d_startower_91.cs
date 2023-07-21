@@ -24,13 +24,13 @@ public class DStartower91MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_91.Id1", MonsterId.Nastudeu, 42, 55);
-		AddSpawner("d_startower_91.Id2", MonsterId.Punter, 12, 15);
-		AddSpawner("d_startower_91.Id3", MonsterId.Waglog, 43, 57);
-		AddSpawner("d_startower_91.Id4", MonsterId.Glovegolem, 8, 10);
-		AddSpawner("d_startower_91.Id5", MonsterId.Waglog, 4, 5, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, 2, 2, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_startower_91.Id7", MonsterId.Rootcrystal_03, 25, 33, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_91.Id1", MonsterId.Nastudeu, min: 42, max: 55);
+		AddSpawner("d_startower_91.Id2", MonsterId.Punter, min: 12, max: 15);
+		AddSpawner("d_startower_91.Id3", MonsterId.Waglog, min: 43, max: 57);
+		AddSpawner("d_startower_91.Id4", MonsterId.Glovegolem, min: 8, max: 10);
+		AddSpawner("d_startower_91.Id5", MonsterId.Waglog, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, min: 2, max: 2, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_startower_91.Id7", MonsterId.Rootcrystal_03, min: 25, max: 33, respawn: TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,12 +22,12 @@ public class FBracken421MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_bracken_42_1.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_bracken_42_1.Id2", MonsterId.Tanu_Blue, 6, 8);
-		AddSpawner("f_bracken_42_1.Id3", MonsterId.Doyor_Blue, 12, 15);
-		AddSpawner("f_bracken_42_1.Id4", MonsterId.Gosaru_Blue, 38, 50);
-		AddSpawner("f_bracken_42_1.Id5", MonsterId.Folibu_Yellow, 9, 12);
-		AddSpawner("f_bracken_42_1.Id6", MonsterId.Gosaru_Blue, 12, 15);
+		AddSpawner("f_bracken_42_1.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_bracken_42_1.Id2", MonsterId.Tanu_Blue, min: 6, max: 8);
+		AddSpawner("f_bracken_42_1.Id3", MonsterId.Doyor_Blue, min: 12, max: 15);
+		AddSpawner("f_bracken_42_1.Id4", MonsterId.Gosaru_Blue, min: 38, max: 50);
+		AddSpawner("f_bracken_42_1.Id5", MonsterId.Folibu_Yellow, min: 9, max: 12);
+		AddSpawner("f_bracken_42_1.Id6", MonsterId.Gosaru_Blue, min: 12, max: 15);
 
 		// Monster Spawn Points -----------------------------
 

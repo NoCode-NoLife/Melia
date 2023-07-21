@@ -22,11 +22,11 @@ public class Ep142DCastle1MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep14_2_d_castle_1.Id1", MonsterId.Rootcrystal_04, 15, 19, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("ep14_2_d_castle_1.Id2", MonsterId.Episode14_2_Bleakferret_Spear, 45, 60, TimeSpan.FromMilliseconds(10000));
-		AddSpawner("ep14_2_d_castle_1.Id3", MonsterId.Episode14_2_Bleakferret_Gladiator, 60, 80, TimeSpan.FromMilliseconds(10000));
-		AddSpawner("ep14_2_d_castle_1.Id4", MonsterId.Episode14_2_Bleakferret_Swordman, 75, 100, TimeSpan.FromMilliseconds(10000));
-		AddSpawner("ep14_2_d_castle_1.Id5", MonsterId.Episode14_2_Bleakferret_Shielder, 23, 30, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("ep14_2_d_castle_1.Id1", MonsterId.Rootcrystal_04, min: 15, max: 19, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep14_2_d_castle_1.Id2", MonsterId.Episode14_2_Bleakferret_Spear, min: 45, max: 60, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_1.Id3", MonsterId.Episode14_2_Bleakferret_Gladiator, min: 60, max: 80, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_1.Id4", MonsterId.Episode14_2_Bleakferret_Swordman, min: 75, max: 100, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_1.Id5", MonsterId.Episode14_2_Bleakferret_Shielder, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(15000));
 
 		// Monster Spawn Points -----------------------------
 

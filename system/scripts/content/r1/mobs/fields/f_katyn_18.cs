@@ -22,12 +22,12 @@ public class FKatyn18MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_18.Id1", MonsterId.Zibu_Maize_Red, 27, 35, TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id2", MonsterId.Siaulav_Red, 64, 85, TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id3", MonsterId.Siaulav_Bow_Black, 27, 35, TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id4", MonsterId.Siaulav_Mage_Black, 27, 35, TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id5", MonsterId.Siaulav_Bow_Black, 19, 25, TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id6", MonsterId.Rootcrystal_01, 16, 21, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_katyn_18.Id1", MonsterId.Zibu_Maize_Red, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("f_katyn_18.Id2", MonsterId.Siaulav_Red, min: 64, max: 85, tendency: TendencyType.Aggressive);
+		AddSpawner("f_katyn_18.Id3", MonsterId.Siaulav_Bow_Black, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("f_katyn_18.Id4", MonsterId.Siaulav_Mage_Black, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("f_katyn_18.Id5", MonsterId.Siaulav_Bow_Black, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("f_katyn_18.Id6", MonsterId.Rootcrystal_01, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,16 +22,16 @@ public class FGele571MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_gele_57_1.Id1", MonsterId.Npanto_Baby, 11, 14);
-		AddSpawner("f_gele_57_1.Id2", MonsterId.Zignuts, 12, 15);
-		AddSpawner("f_gele_57_1.Id3", MonsterId.Zignuts, 15, 20);
-		AddSpawner("f_gele_57_1.Id4", MonsterId.Npanto_Baby, 8, 10);
-		AddSpawner("f_gele_57_1.Id5", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_gele_57_1.Id6", MonsterId.Grummer, 4, 5);
-		AddSpawner("f_gele_57_1.Id7", MonsterId.Npanto_Baby, 19, 25);
-		AddSpawner("f_gele_57_1.Id8", MonsterId.Npanto_Baby, 8, 10);
-		AddSpawner("f_gele_57_1.Id9", MonsterId.Grummer, 12, 15);
-		AddSpawner("f_gele_57_1.Id10", MonsterId.Panto_Javelin_Gele, 1, 1, TimeSpan.FromMilliseconds(1800000));
+		AddSpawner("f_gele_57_1.Id1", MonsterId.Npanto_Baby, min: 11, max: 14);
+		AddSpawner("f_gele_57_1.Id2", MonsterId.Zignuts, min: 12, max: 15);
+		AddSpawner("f_gele_57_1.Id3", MonsterId.Zignuts, min: 15, max: 20);
+		AddSpawner("f_gele_57_1.Id4", MonsterId.Npanto_Baby, min: 8, max: 10);
+		AddSpawner("f_gele_57_1.Id5", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_gele_57_1.Id6", MonsterId.Grummer, min: 4, max: 5);
+		AddSpawner("f_gele_57_1.Id7", MonsterId.Npanto_Baby, min: 19, max: 25);
+		AddSpawner("f_gele_57_1.Id8", MonsterId.Npanto_Baby, min: 8, max: 10);
+		AddSpawner("f_gele_57_1.Id9", MonsterId.Grummer, min: 12, max: 15);
+		AddSpawner("f_gele_57_1.Id10", MonsterId.Panto_Javelin_Gele, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1800000));
 
 		// Monster Spawn Points -----------------------------
 

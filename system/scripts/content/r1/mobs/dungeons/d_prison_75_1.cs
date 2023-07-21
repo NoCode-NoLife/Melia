@@ -15,19 +15,19 @@ public class DPrison751MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_prison_75_1.Id1", MonsterId.ERD_Stoulet_Bow, 10, 13);
-		AddSpawner("d_prison_75_1.Id2", MonsterId.ERD_Escape_Wendigo, 23, 30);
-		AddSpawner("d_prison_75_1.Id3", MonsterId.ERD_Stoulet, 12, 15);
-		AddSpawner("d_prison_75_1.Id4", MonsterId.ERD_Colifly_Black, 23, 30);
-		AddSpawner("d_prison_75_1.Id5", MonsterId.ERD_Socket, 12, 15);
-		AddSpawner("d_prison_75_1.Id6", MonsterId.ERD_Chromadog, 9, 12);
-		AddSpawner("d_prison_75_1.Id7", MonsterId.ERD_Socket_Bow, 9, 12);
-		AddSpawner("d_prison_75_1.Id8", MonsterId.ERD_Stoulet_Mage, 9, 12);
-		AddSpawner("d_prison_75_1.Id9", MonsterId.ERD_InfroRocktor_Red, 9, 12);
-		AddSpawner("d_prison_75_1.Id10", MonsterId.ERD_New_Desmodus_Black, 9, 12);
-		AddSpawner("d_prison_75_1.Id11", MonsterId.ERD_Zigri, 9, 12);
-		AddSpawner("d_prison_75_1.Id12", MonsterId.ERD_Hook, 9, 12);
-		AddSpawner("d_prison_75_1.Id13", MonsterId.Rootcrystal_01, 19, 25, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("d_prison_75_1.Id1", MonsterId.ERD_Stoulet_Bow, min: 10, max: 13);
+		AddSpawner("d_prison_75_1.Id2", MonsterId.ERD_Escape_Wendigo, min: 23, max: 30);
+		AddSpawner("d_prison_75_1.Id3", MonsterId.ERD_Stoulet, min: 12, max: 15);
+		AddSpawner("d_prison_75_1.Id4", MonsterId.ERD_Colifly_Black, min: 23, max: 30);
+		AddSpawner("d_prison_75_1.Id5", MonsterId.ERD_Socket, min: 12, max: 15);
+		AddSpawner("d_prison_75_1.Id6", MonsterId.ERD_Chromadog, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id7", MonsterId.ERD_Socket_Bow, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id8", MonsterId.ERD_Stoulet_Mage, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id9", MonsterId.ERD_InfroRocktor_Red, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id10", MonsterId.ERD_New_Desmodus_Black, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id11", MonsterId.ERD_Zigri, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id12", MonsterId.ERD_Hook, min: 9, max: 12);
+		AddSpawner("d_prison_75_1.Id13", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000));
 
 		// Monster Spawn Points -----------------------------
 

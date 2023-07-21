@@ -15,19 +15,19 @@ public class DVelniasprison771MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_velniasprison_77_1.Id1", MonsterId.ERD_NightMaiden, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id2", MonsterId.ERD_NightMaiden_Mage, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id3", MonsterId.ERD_NightMaiden_Bow, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id4", MonsterId.ERD_Wizards_Marmotte, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id5", MonsterId.ERD_Charog, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id6", MonsterId.ERD_Charcoal_Walker, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id7", MonsterId.ERD_Harugal, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id8", MonsterId.ERD_Tower_Of_Firepuppet_Black, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id9", MonsterId.ERD_Hallowventor, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id10", MonsterId.ERD_Geppetto, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id11", MonsterId.ERD_Shardstatue, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id12", MonsterId.ERD_GoblinWarrior_Red, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id13", MonsterId.Rootcrystal_05, 19, 25, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_77_1.Id1", MonsterId.ERD_NightMaiden, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id2", MonsterId.ERD_NightMaiden_Mage, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id3", MonsterId.ERD_NightMaiden_Bow, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id4", MonsterId.ERD_Wizards_Marmotte, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id5", MonsterId.ERD_Charog, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id6", MonsterId.ERD_Charcoal_Walker, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id7", MonsterId.ERD_Harugal, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id8", MonsterId.ERD_Tower_Of_Firepuppet_Black, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id9", MonsterId.ERD_Hallowventor, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id10", MonsterId.ERD_Geppetto, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id11", MonsterId.ERD_Shardstatue, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id12", MonsterId.ERD_GoblinWarrior_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_77_1.Id13", MonsterId.Rootcrystal_05, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

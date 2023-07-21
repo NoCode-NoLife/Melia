@@ -23,15 +23,15 @@ public class DZachariel32MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_zachariel_32.Id2", MonsterId.Zinutekas, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id3", MonsterId.Zinutekas, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id4", MonsterId.Varv, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id5", MonsterId.Moving_Trap, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id6", MonsterId.Moving_Trap, 5, 6, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id7", MonsterId.Varv, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_zachariel_32.Id8", MonsterId.Karas, 8, 10, TendencyType.Peaceful);
-		AddSpawner("d_zachariel_32.Id9", MonsterId.Zinutekas_Elite, 3, 4, TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id2", MonsterId.Zinutekas, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id3", MonsterId.Zinutekas, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id4", MonsterId.Varv, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id5", MonsterId.Moving_Trap, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id6", MonsterId.Moving_Trap, min: 5, max: 6, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id7", MonsterId.Varv, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_zachariel_32.Id8", MonsterId.Karas, min: 8, max: 10, tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id9", MonsterId.Zinutekas_Elite, min: 3, max: 4, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

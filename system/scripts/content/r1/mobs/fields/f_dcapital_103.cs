@@ -22,12 +22,12 @@ public class FDcapital103MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_103.Id1", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_103.Id2", MonsterId.Goblin2_Sword_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("f_dcapital_103.Id3", MonsterId.Goblin2_Hammer_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("f_dcapital_103.Id4", MonsterId.Goblin2_Wand1_Green, 15, 20, TendencyType.Aggressive);
-		AddSpawner("f_dcapital_103.Id5", MonsterId.Goblin2_Wand3_Green, 15, 20, TendencyType.Aggressive);
-		AddSpawner("f_dcapital_103.Id6", MonsterId.Goblin2_Hammer_Green, 5, 6, TendencyType.Aggressive);
+		AddSpawner("f_dcapital_103.Id1", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_dcapital_103.Id2", MonsterId.Goblin2_Sword_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("f_dcapital_103.Id3", MonsterId.Goblin2_Hammer_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("f_dcapital_103.Id4", MonsterId.Goblin2_Wand1_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("f_dcapital_103.Id5", MonsterId.Goblin2_Wand3_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("f_dcapital_103.Id6", MonsterId.Goblin2_Hammer_Green, min: 5, max: 6, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

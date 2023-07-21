@@ -21,14 +21,14 @@ public class FWhitetrees212MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_21_2.Id1", MonsterId.Kucarry_Symbani, 15, 20);
-		AddSpawner("f_whitetrees_21_2.Id2", MonsterId.Kucarry_Balzer, 15, 20);
-		AddSpawner("f_whitetrees_21_2.Id3", MonsterId.Kucarry_Zeffi, 15, 20);
-		AddSpawner("f_whitetrees_21_2.Id4", MonsterId.Kucarry_Zeffi, 6, 8);
-		AddSpawner("f_whitetrees_21_2.Id5", MonsterId.Kucarry_Balzer, 5, 6);
-		AddSpawner("f_whitetrees_21_2.Id6", MonsterId.Kucarry_Symbani, 8, 10);
-		AddSpawner("f_whitetrees_21_2.Id7", MonsterId.Kucarry_Zeffi, 23, 30);
-		AddSpawner("f_whitetrees_21_2.Id8", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_whitetrees_21_2.Id1", MonsterId.Kucarry_Symbani, min: 15, max: 20);
+		AddSpawner("f_whitetrees_21_2.Id2", MonsterId.Kucarry_Balzer, min: 15, max: 20);
+		AddSpawner("f_whitetrees_21_2.Id3", MonsterId.Kucarry_Zeffi, min: 15, max: 20);
+		AddSpawner("f_whitetrees_21_2.Id4", MonsterId.Kucarry_Zeffi, min: 6, max: 8);
+		AddSpawner("f_whitetrees_21_2.Id5", MonsterId.Kucarry_Balzer, min: 5, max: 6);
+		AddSpawner("f_whitetrees_21_2.Id6", MonsterId.Kucarry_Symbani, min: 8, max: 10);
+		AddSpawner("f_whitetrees_21_2.Id7", MonsterId.Kucarry_Zeffi, min: 23, max: 30);
+		AddSpawner("f_whitetrees_21_2.Id8", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,13 +15,13 @@ public class FRokas25MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, 15, 20);
-		AddSpawner("f_rokas_25.Id2", MonsterId.Zinute, 30, 40);
-		AddSpawner("f_rokas_25.Id3", MonsterId.Chupacabra_Desert, 12, 15);
-		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, 10, 13, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_rokas_25.Id5", MonsterId.Chupacabra_Desert, 19, 25);
-		AddSpawner("f_rokas_25.Id6", MonsterId.Chupacabra_Desert, 30, 40);
-		AddSpawner("f_rokas_25.Id7", MonsterId.Lichenclops, 30, 40);
+		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, min: 15, max: 20);
+		AddSpawner("f_rokas_25.Id2", MonsterId.Zinute, min: 30, max: 40);
+		AddSpawner("f_rokas_25.Id3", MonsterId.Chupacabra_Desert, min: 12, max: 15);
+		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_25.Id5", MonsterId.Chupacabra_Desert, min: 19, max: 25);
+		AddSpawner("f_rokas_25.Id6", MonsterId.Chupacabra_Desert, min: 30, max: 40);
+		AddSpawner("f_rokas_25.Id7", MonsterId.Lichenclops, min: 30, max: 40);
 
 		// Monster Spawn Points -----------------------------
 

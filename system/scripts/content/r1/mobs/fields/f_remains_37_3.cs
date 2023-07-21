@@ -15,11 +15,11 @@ public class FRemains373MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_37_3.Id1", MonsterId.Rootcrystal_04, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_37_3.Id2", MonsterId.Hallowventor_Bow, 14, 18, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id3", MonsterId.Hallowventor_Mage, 18, 23, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id4", MonsterId.Gravegolem_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_3.Id5", MonsterId.Gravegolem_Blue, 75, 100, TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id1", MonsterId.Rootcrystal_04, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_remains_37_3.Id2", MonsterId.Hallowventor_Bow, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id3", MonsterId.Hallowventor_Mage, min: 18, max: 23, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id4", MonsterId.Gravegolem_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_3.Id5", MonsterId.Gravegolem_Blue, min: 75, max: 100, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

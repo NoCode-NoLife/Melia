@@ -23,12 +23,12 @@ public class DVelniasprison513MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_velniasprison_51_3.Id1", MonsterId.Hohen_Ritter, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_3.Id2", MonsterId.Hohen_Barkle, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_3.Id3", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_velniasprison_51_3.Id4", MonsterId.Hohen_Orben, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_3.Id5", MonsterId.Hohen_Mane, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_3.Id6", MonsterId.Hohen_Ritter, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_3.Id1", MonsterId.Hohen_Ritter, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_3.Id2", MonsterId.Hohen_Barkle, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_3.Id3", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_51_3.Id4", MonsterId.Hohen_Orben, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_3.Id5", MonsterId.Hohen_Mane, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_51_3.Id6", MonsterId.Hohen_Ritter, min: 30, max: 40, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,13 +23,13 @@ public class DCastle191MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_castle_19_1.Id1", MonsterId.Vilktis, 34, 45, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id2", MonsterId.Trampled, 30, 40, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id3", MonsterId.Tarnaite, 19, 25, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id4", MonsterId.Sodininkas, 27, 35, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id5", MonsterId.Viskal, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id6", MonsterId.Tarnaite, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_castle_19_1.Id7", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_castle_19_1.Id1", MonsterId.Vilktis, min: 34, max: 45, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id2", MonsterId.Trampled, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id3", MonsterId.Tarnaite, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id4", MonsterId.Sodininkas, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id5", MonsterId.Viskal, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id6", MonsterId.Tarnaite, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_castle_19_1.Id7", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

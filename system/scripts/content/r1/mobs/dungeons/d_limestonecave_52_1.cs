@@ -22,13 +22,13 @@ public class DLimestonecave521MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_52_1.Id1", MonsterId.Rockon, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id2", MonsterId.Rockon, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id3", MonsterId.Rockon, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id4", MonsterId.Tala_Sorcerer, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id5", MonsterId.Flak_Green, 27, 35, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id6", MonsterId.Rootcrystal_04, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_limestonecave_52_1.Id7", MonsterId.Rockoff, 30, 40, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id1", MonsterId.Rockon, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id2", MonsterId.Rockon, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id3", MonsterId.Rockon, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id4", MonsterId.Tala_Sorcerer, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id5", MonsterId.Flak_Green, min: 27, max: 35, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_1.Id6", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_limestonecave_52_1.Id7", MonsterId.Rockoff, min: 30, max: 40, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

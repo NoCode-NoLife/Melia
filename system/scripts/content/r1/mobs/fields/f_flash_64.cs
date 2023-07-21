@@ -23,16 +23,16 @@ public class FFlash64MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_64.Id1", MonsterId.Repusbunny, 15, 20);
-		AddSpawner("f_flash_64.Id2", MonsterId.Lemuria, 12, 15);
-		AddSpawner("f_flash_64.Id3", MonsterId.Rubabos, 6, 7);
-		AddSpawner("f_flash_64.Id4", MonsterId.Lemuria, 12, 16);
-		AddSpawner("f_flash_64.Id5", MonsterId.Repusbunny, 12, 15);
-		AddSpawner("f_flash_64.Id6", MonsterId.Lemuria, 12, 15);
-		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, 8, 10);
-		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, 57, 76);
-		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, 3, 3, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_flash_64.Id1", MonsterId.Repusbunny, min: 15, max: 20);
+		AddSpawner("f_flash_64.Id2", MonsterId.Lemuria, min: 12, max: 15);
+		AddSpawner("f_flash_64.Id3", MonsterId.Rubabos, min: 6, max: 7);
+		AddSpawner("f_flash_64.Id4", MonsterId.Lemuria, min: 12, max: 16);
+		AddSpawner("f_flash_64.Id5", MonsterId.Repusbunny, min: 12, max: 15);
+		AddSpawner("f_flash_64.Id6", MonsterId.Lemuria, min: 12, max: 15);
+		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, min: 8, max: 10);
+		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, min: 57, max: 76);
+		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

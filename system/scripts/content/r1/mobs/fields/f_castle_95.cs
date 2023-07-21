@@ -22,9 +22,9 @@ public class FCastle95MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_95.Id1", MonsterId.Ghoscandle, 90, 120);
-		AddSpawner("f_castle_95.Id2", MonsterId.Infrogremlin, 38, 50);
-		AddSpawner("f_castle_95.Id3", MonsterId.Velsoarer, 12, 15);
+		AddSpawner("f_castle_95.Id1", MonsterId.Ghoscandle, min: 90, max: 120);
+		AddSpawner("f_castle_95.Id2", MonsterId.Infrogremlin, min: 38, max: 50);
+		AddSpawner("f_castle_95.Id3", MonsterId.Velsoarer, min: 12, max: 15);
 
 		// Monster Spawn Points -----------------------------
 

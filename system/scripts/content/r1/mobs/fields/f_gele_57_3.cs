@@ -26,15 +26,15 @@ public class FGele573MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_gele_57_3.Id1", MonsterId.Zigri_Brown, 15, 20);
-		AddSpawner("f_gele_57_3.Id2", MonsterId.Banshee, 15, 20);
-		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, 3, 3);
-		AddSpawner("f_gele_57_3.Id4", MonsterId.Puragi_Green, 10, 13);
-		AddSpawner("f_gele_57_3.Id5", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_gele_57_3.Id6", MonsterId.Banshee, 8, 10);
-		AddSpawner("f_gele_57_3.Id7", MonsterId.Humming_Bud, 8, 10);
-		AddSpawner("f_gele_57_3.Id8", MonsterId.Deadbornscab_Mage, 6, 8);
-		AddSpawner("f_gele_57_3.Id9", MonsterId.Puragi_Green, 8, 10);
+		AddSpawner("f_gele_57_3.Id1", MonsterId.Zigri_Brown, min: 15, max: 20);
+		AddSpawner("f_gele_57_3.Id2", MonsterId.Banshee, min: 15, max: 20);
+		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, min: 3, max: 3);
+		AddSpawner("f_gele_57_3.Id4", MonsterId.Puragi_Green, min: 10, max: 13);
+		AddSpawner("f_gele_57_3.Id5", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_gele_57_3.Id6", MonsterId.Banshee, min: 8, max: 10);
+		AddSpawner("f_gele_57_3.Id7", MonsterId.Humming_Bud, min: 8, max: 10);
+		AddSpawner("f_gele_57_3.Id8", MonsterId.Deadbornscab_Mage, min: 6, max: 8);
+		AddSpawner("f_gele_57_3.Id9", MonsterId.Puragi_Green, min: 8, max: 10);
 
 		// Monster Spawn Points -----------------------------
 

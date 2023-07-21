@@ -22,13 +22,13 @@ public class FDcapital105MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_105.Id1", MonsterId.Rootcrystal_01, 27, 35, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_dcapital_105.Id2", MonsterId.Beetle_Green, 27, 35);
-		AddSpawner("f_dcapital_105.Id3", MonsterId.Bumble_Green, 20, 26);
-		AddSpawner("f_dcapital_105.Id4", MonsterId.Moltooth, 30, 40);
-		AddSpawner("f_dcapital_105.Id5", MonsterId.Bishopstar, 24, 32);
-		AddSpawner("f_dcapital_105.Id6", MonsterId.Bishopstar, 6, 7, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_dcapital_105.Id7", MonsterId.Bishopstar, 3, 3, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_dcapital_105.Id1", MonsterId.Rootcrystal_01, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_dcapital_105.Id2", MonsterId.Beetle_Green, min: 27, max: 35);
+		AddSpawner("f_dcapital_105.Id3", MonsterId.Bumble_Green, min: 20, max: 26);
+		AddSpawner("f_dcapital_105.Id4", MonsterId.Moltooth, min: 30, max: 40);
+		AddSpawner("f_dcapital_105.Id5", MonsterId.Bishopstar, min: 24, max: 32);
+		AddSpawner("f_dcapital_105.Id6", MonsterId.Bishopstar, min: 6, max: 7, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_dcapital_105.Id7", MonsterId.Bishopstar, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

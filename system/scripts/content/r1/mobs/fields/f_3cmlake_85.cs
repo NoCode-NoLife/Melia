@@ -24,15 +24,15 @@ public class F3Cmlake85MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_85.Id1", MonsterId.Lotuscat, 14, 18);
-		AddSpawner("f_3cmlake_85.Id2", MonsterId.Pate, 23, 30);
-		AddSpawner("f_3cmlake_85.Id3", MonsterId.Pate, 15, 20);
-		AddSpawner("f_3cmlake_85.Id4", MonsterId.KindronLeader, 9, 12);
-		AddSpawner("f_3cmlake_85.Id5", MonsterId.Coterie, 17, 22);
-		AddSpawner("f_3cmlake_85.Id6", MonsterId.Coterie, 6, 8);
-		AddSpawner("f_3cmlake_85.Id7", MonsterId.Tripy, 15, 20);
-		AddSpawner("f_3cmlake_85.Id8", MonsterId.Tripy, 8, 10);
-		AddSpawner("f_3cmlake_85.Id9", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_85.Id1", MonsterId.Lotuscat, min: 14, max: 18);
+		AddSpawner("f_3cmlake_85.Id2", MonsterId.Pate, min: 23, max: 30);
+		AddSpawner("f_3cmlake_85.Id3", MonsterId.Pate, min: 15, max: 20);
+		AddSpawner("f_3cmlake_85.Id4", MonsterId.KindronLeader, min: 9, max: 12);
+		AddSpawner("f_3cmlake_85.Id5", MonsterId.Coterie, min: 17, max: 22);
+		AddSpawner("f_3cmlake_85.Id6", MonsterId.Coterie, min: 6, max: 8);
+		AddSpawner("f_3cmlake_85.Id7", MonsterId.Tripy, min: 15, max: 20);
+		AddSpawner("f_3cmlake_85.Id8", MonsterId.Tripy, min: 8, max: 10);
+		AddSpawner("f_3cmlake_85.Id9", MonsterId.Rootcrystal_02, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

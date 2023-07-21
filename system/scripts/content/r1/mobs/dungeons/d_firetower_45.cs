@@ -22,15 +22,15 @@ public class DFiretower45MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_45.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_45.Id2", MonsterId.Dimmer, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id3", MonsterId.Tower_Of_Firepuppet_Black, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id4", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id5", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id6", MonsterId.Dimmer, 6, 7, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id7", MonsterId.Tower_Of_Firepuppet_Black, 6, 7, TendencyType.Aggressive);
-		AddSpawner("d_firetower_45.Id8", MonsterId.Fire_Dragon_Purple, 8, 10, TendencyType.Peaceful);
-		AddSpawner("d_firetower_45.Id9", MonsterId.Dimmer, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id1", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id2", MonsterId.Dimmer, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id3", MonsterId.Tower_Of_Firepuppet_Black, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id4", MonsterId.Fire_Dragon_Purple, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id5", MonsterId.Fire_Dragon_Purple, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id6", MonsterId.Dimmer, min: 6, max: 7, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id7", MonsterId.Tower_Of_Firepuppet_Black, min: 6, max: 7, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_45.Id8", MonsterId.Fire_Dragon_Purple, min: 8, max: 10, tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id9", MonsterId.Dimmer, min: 8, max: 10, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

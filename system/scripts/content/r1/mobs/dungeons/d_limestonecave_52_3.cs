@@ -24,14 +24,14 @@ public class DLimestonecave523MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_52_3.Id1", MonsterId.Flamme_Priest_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id2", MonsterId.Flamme_Mage_Green, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id3", MonsterId.Bavon_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id4", MonsterId.Rubblem_Green, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id5", MonsterId.Bavon_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id6", MonsterId.Flamme_Priest_Green, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_3.Id7", MonsterId.Rootcrystal_04, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_limestonecave_52_3.Id8", MonsterId.Rocktanon, 23, 30, TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id1", MonsterId.Flamme_Priest_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id2", MonsterId.Flamme_Mage_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id3", MonsterId.Bavon_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id4", MonsterId.Rubblem_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id5", MonsterId.Bavon_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id6", MonsterId.Flamme_Priest_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_52_3.Id7", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_limestonecave_52_3.Id8", MonsterId.Rocktanon, min: 23, max: 30, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

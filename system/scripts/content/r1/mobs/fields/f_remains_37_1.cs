@@ -15,13 +15,13 @@ public class FRemains371MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_37_1.Id1", MonsterId.Rootcrystal_04, 38, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_37_1.Id2", MonsterId.Wendigo_Magician, 19, 25, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id3", MonsterId.Wendigo_Archer, 23, 30, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id4", MonsterId.Templeslave_Sword, 38, 50, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id5", MonsterId.Wendigo_Archer, 8, 10, TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id6", MonsterId.Wendigo_Magician, 19, 25, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
-		AddSpawner("f_remains_37_1.Id7", MonsterId.Templeslave_Sword, 30, 40, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id1", MonsterId.Rootcrystal_04, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_remains_37_1.Id2", MonsterId.Wendigo_Magician, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id3", MonsterId.Wendigo_Archer, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id4", MonsterId.Templeslave_Sword, min: 38, max: 50, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id5", MonsterId.Wendigo_Archer, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id6", MonsterId.Wendigo_Magician, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(35000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_remains_37_1.Id7", MonsterId.Templeslave_Sword, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(35000), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

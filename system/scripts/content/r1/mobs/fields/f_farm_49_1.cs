@@ -21,12 +21,12 @@ public class FFarm491MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_49_1.Id1", MonsterId.Lizardman_Orange, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_1.Id2", MonsterId.Lizardman_Orange, 15, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_1.Id3", MonsterId.Tama_Orange, 19, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_1.Id4", MonsterId.Tama_Orange, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_1.Id5", MonsterId.Rambear_Bow, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_farm_49_1.Id6", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("f_farm_49_1.Id1", MonsterId.Lizardman_Orange, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_1.Id2", MonsterId.Lizardman_Orange, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_1.Id3", MonsterId.Tama_Orange, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_1.Id4", MonsterId.Tama_Orange, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_1.Id5", MonsterId.Rambear_Bow, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_farm_49_1.Id6", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

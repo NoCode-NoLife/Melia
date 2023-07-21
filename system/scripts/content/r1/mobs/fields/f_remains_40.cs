@@ -21,15 +21,15 @@ public class FRemains40MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_40.Id1", MonsterId.Hallowventor, 15, 20);
-		AddSpawner("f_remains_40.Id2", MonsterId.Cockatries, 8, 10);
-		AddSpawner("f_remains_40.Id3", MonsterId.Big_Cockatries, 3, 4);
-		AddSpawner("f_remains_40.Id4", MonsterId.Cockatries, 19, 25);
-		AddSpawner("f_remains_40.Id5", MonsterId.Hallowventor, 19, 25);
-		AddSpawner("f_remains_40.Id6", MonsterId.Cockatries, 19, 25);
-		AddSpawner("f_remains_40.Id7", MonsterId.Hallowventor, 12, 16);
-		AddSpawner("f_remains_40.Id8", MonsterId.Rootcrystal_01, 18, 23, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_remains_40.Id9", MonsterId.Big_Cockatries, 1, 1);
+		AddSpawner("f_remains_40.Id1", MonsterId.Hallowventor, min: 15, max: 20);
+		AddSpawner("f_remains_40.Id2", MonsterId.Cockatries, min: 8, max: 10);
+		AddSpawner("f_remains_40.Id3", MonsterId.Big_Cockatries, min: 3, max: 4);
+		AddSpawner("f_remains_40.Id4", MonsterId.Cockatries, min: 19, max: 25);
+		AddSpawner("f_remains_40.Id5", MonsterId.Hallowventor, min: 19, max: 25);
+		AddSpawner("f_remains_40.Id6", MonsterId.Cockatries, min: 19, max: 25);
+		AddSpawner("f_remains_40.Id7", MonsterId.Hallowventor, min: 12, max: 16);
+		AddSpawner("f_remains_40.Id8", MonsterId.Rootcrystal_01, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_40.Id9", MonsterId.Big_Cockatries, min: 1, max: 1);
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,13 +15,13 @@ public class FRokas27MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_27.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_rokas_27.Id2", MonsterId.Sauga_S, 12, 15);
-		AddSpawner("f_rokas_27.Id3", MonsterId.Tucen, 8, 10);
-		AddSpawner("f_rokas_27.Id4", MonsterId.Tucen, 19, 25);
-		AddSpawner("f_rokas_27.Id5", MonsterId.Loftlem, 8, 10);
-		AddSpawner("f_rokas_27.Id6", MonsterId.Sauga_S, 23, 30);
-		AddSpawner("f_rokas_27.Id7", MonsterId.Ticen, 23, 30);
+		AddSpawner("f_rokas_27.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_rokas_27.Id2", MonsterId.Sauga_S, min: 12, max: 15);
+		AddSpawner("f_rokas_27.Id3", MonsterId.Tucen, min: 8, max: 10);
+		AddSpawner("f_rokas_27.Id4", MonsterId.Tucen, min: 19, max: 25);
+		AddSpawner("f_rokas_27.Id5", MonsterId.Loftlem, min: 8, max: 10);
+		AddSpawner("f_rokas_27.Id6", MonsterId.Sauga_S, min: 23, max: 30);
+		AddSpawner("f_rokas_27.Id7", MonsterId.Ticen, min: 23, max: 30);
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,17 +15,17 @@ public class IdUnknownsanctuary1MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_Unknownsanctuary_1.Id1", MonsterId.Boss_FD_Durahan, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id2", MonsterId.Boss_FD_NetherBovine, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id3", MonsterId.Boss_FD_Riteris, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id4", MonsterId.Boss_FD_Marionette, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id5", MonsterId.Boss_FD_Succubus, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id6", MonsterId.Boss_FD_Deathweaver, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id7", MonsterId.Boss_FD_SwordBallista, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id8", MonsterId.Boss_FD_Ginklas, 1, 1, TimeSpan.FromMilliseconds(10000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id9", MonsterId.FD_Poncer, 57, 76, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id10", MonsterId.FD_Yishoneer, 42, 56, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_1.Id11", MonsterId.FD_Yishontorcher, 22, 29, TimeSpan.FromMilliseconds(5000), TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id1", MonsterId.Boss_FD_Durahan, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id2", MonsterId.Boss_FD_NetherBovine, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id3", MonsterId.Boss_FD_Riteris, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id4", MonsterId.Boss_FD_Marionette, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id5", MonsterId.Boss_FD_Succubus, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id6", MonsterId.Boss_FD_Deathweaver, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id7", MonsterId.Boss_FD_SwordBallista, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id8", MonsterId.Boss_FD_Ginklas, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id9", MonsterId.FD_Poncer, min: 57, max: 76, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id10", MonsterId.FD_Yishoneer, min: 42, max: 56, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_1.Id11", MonsterId.FD_Yishontorcher, min: 22, max: 29, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

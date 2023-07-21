@@ -15,13 +15,13 @@ public class FFlash60MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_60.Id1", MonsterId.Moya, 15, 20);
-		AddSpawner("f_flash_60.Id2", MonsterId.Bavon, 15, 20);
-		AddSpawner("f_flash_60.Id3", MonsterId.Moya, 30, 40);
-		AddSpawner("f_flash_60.Id4", MonsterId.Bavon, 27, 35);
-		AddSpawner("f_flash_60.Id5", MonsterId.Saltisdaughter_Mage, 8, 10);
-		AddSpawner("f_flash_60.Id6", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_flash_60.Id7", MonsterId.Saltisdaughter_Mage, 6, 8);
+		AddSpawner("f_flash_60.Id1", MonsterId.Moya, min: 15, max: 20);
+		AddSpawner("f_flash_60.Id2", MonsterId.Bavon, min: 15, max: 20);
+		AddSpawner("f_flash_60.Id3", MonsterId.Moya, min: 30, max: 40);
+		AddSpawner("f_flash_60.Id4", MonsterId.Bavon, min: 27, max: 35);
+		AddSpawner("f_flash_60.Id5", MonsterId.Saltisdaughter_Mage, min: 8, max: 10);
+		AddSpawner("f_flash_60.Id6", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_60.Id7", MonsterId.Saltisdaughter_Mage, min: 6, max: 8);
 
 		// Monster Spawn Points -----------------------------
 

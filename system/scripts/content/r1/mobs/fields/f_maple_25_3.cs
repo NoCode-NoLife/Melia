@@ -15,12 +15,12 @@ public class FMaple253MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_maple_25_3.Id1", MonsterId.Nacorngfly, 42, 55);
-		AddSpawner("f_maple_25_3.Id2", MonsterId.Nacorngbug, 23, 30);
-		AddSpawner("f_maple_25_3.Id3", MonsterId.Rodeyokel, 27, 35);
-		AddSpawner("f_maple_25_3.Id4", MonsterId.Nacorngbug, 27, 35);
-		AddSpawner("f_maple_25_3.Id5", MonsterId.Rodevassal, 1, 1, TimeSpan.FromMilliseconds(1800000));
-		AddSpawner("f_maple_25_3.Id6", MonsterId.Rootcrystal_05, 19, 25, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_maple_25_3.Id1", MonsterId.Nacorngfly, min: 42, max: 55);
+		AddSpawner("f_maple_25_3.Id2", MonsterId.Nacorngbug, min: 23, max: 30);
+		AddSpawner("f_maple_25_3.Id3", MonsterId.Rodeyokel, min: 27, max: 35);
+		AddSpawner("f_maple_25_3.Id4", MonsterId.Nacorngbug, min: 27, max: 35);
+		AddSpawner("f_maple_25_3.Id5", MonsterId.Rodevassal, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1800000));
+		AddSpawner("f_maple_25_3.Id6", MonsterId.Rootcrystal_05, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

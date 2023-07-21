@@ -15,12 +15,12 @@ public class FPilgrimroad48MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_48.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_pilgrimroad_48.Id2", MonsterId.Sec_Lizardman, 23, 30);
-		AddSpawner("f_pilgrimroad_48.Id3", MonsterId.Sec_Lizardman, 15, 20);
-		AddSpawner("f_pilgrimroad_48.Id4", MonsterId.Sec_InfroBurk, 27, 35);
-		AddSpawner("f_pilgrimroad_48.Id5", MonsterId.Sec_Operor, 19, 25);
-		AddSpawner("f_pilgrimroad_48.Id6", MonsterId.Sec_Operor, 15, 20);
+		AddSpawner("f_pilgrimroad_48.Id1", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_pilgrimroad_48.Id2", MonsterId.Sec_Lizardman, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_48.Id3", MonsterId.Sec_Lizardman, min: 15, max: 20);
+		AddSpawner("f_pilgrimroad_48.Id4", MonsterId.Sec_InfroBurk, min: 27, max: 35);
+		AddSpawner("f_pilgrimroad_48.Id5", MonsterId.Sec_Operor, min: 19, max: 25);
+		AddSpawner("f_pilgrimroad_48.Id6", MonsterId.Sec_Operor, min: 15, max: 20);
 
 		// Monster Spawn Points -----------------------------
 

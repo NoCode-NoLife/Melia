@@ -15,16 +15,16 @@ public class FKatyn7MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_7.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_katyn_7.Id2", MonsterId.Ellom, 23, 30);
-		AddSpawner("f_katyn_7.Id3", MonsterId.Pappus_Kepa, 15, 20);
-		AddSpawner("f_katyn_7.Id4", MonsterId.Bushspider, 12, 15);
-		AddSpawner("f_katyn_7.Id5", MonsterId.Ellom, 6, 7);
-		AddSpawner("f_katyn_7.Id6", MonsterId.Pappus_Kepa, 9, 12);
-		AddSpawner("f_katyn_7.Id7", MonsterId.Bushspider, 12, 15);
-		AddSpawner("f_katyn_7.Id8", MonsterId.Fisherman, 8, 10);
-		AddSpawner("f_katyn_7.Id9", MonsterId.Ellom, 8, 10);
-		AddSpawner("f_katyn_7.Id10", MonsterId.Fisherman, 3, 3);
+		AddSpawner("f_katyn_7.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_7.Id2", MonsterId.Ellom, min: 23, max: 30);
+		AddSpawner("f_katyn_7.Id3", MonsterId.Pappus_Kepa, min: 15, max: 20);
+		AddSpawner("f_katyn_7.Id4", MonsterId.Bushspider, min: 12, max: 15);
+		AddSpawner("f_katyn_7.Id5", MonsterId.Ellom, min: 6, max: 7);
+		AddSpawner("f_katyn_7.Id6", MonsterId.Pappus_Kepa, min: 9, max: 12);
+		AddSpawner("f_katyn_7.Id7", MonsterId.Bushspider, min: 12, max: 15);
+		AddSpawner("f_katyn_7.Id8", MonsterId.Fisherman, min: 8, max: 10);
+		AddSpawner("f_katyn_7.Id9", MonsterId.Ellom, min: 8, max: 10);
+		AddSpawner("f_katyn_7.Id10", MonsterId.Fisherman, min: 3, max: 3);
 
 		// Monster Spawn Points -----------------------------
 

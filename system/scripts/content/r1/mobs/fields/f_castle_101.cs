@@ -23,11 +23,11 @@ public class FCastle101MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_101.Id1", MonsterId.Bower_Guillotine, 12, 15);
-		AddSpawner("f_castle_101.Id2", MonsterId.Bower_Oblivion, 64, 85, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_101.Id3", MonsterId.Bower_Interfere, 49, 65, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_101.Id4", MonsterId.Bower_Obstructer, 38, 50, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_101.Id5", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_castle_101.Id1", MonsterId.Bower_Guillotine, min: 12, max: 15);
+		AddSpawner("f_castle_101.Id2", MonsterId.Bower_Oblivion, min: 64, max: 85, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_101.Id3", MonsterId.Bower_Interfere, min: 49, max: 65, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_101.Id4", MonsterId.Bower_Obstructer, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_101.Id5", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

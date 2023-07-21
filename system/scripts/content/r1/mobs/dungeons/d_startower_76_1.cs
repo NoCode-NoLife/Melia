@@ -15,18 +15,18 @@ public class DStartower761MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_76_1.Id1", MonsterId.ERD_Slime_Dark_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id2", MonsterId.ERD_Flask_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id3", MonsterId.ERD_Defender_Spider_Blue, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id4", MonsterId.ERD_Belegg, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id5", MonsterId.ERD_Tombsinker, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id6", MonsterId.ERD_Bavon, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id7", MonsterId.ERD_Bubbe_Mage_Ice, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id8", MonsterId.ERD_Bagworm, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id9", MonsterId.ERD_Hogma_Warrior, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id10", MonsterId.ERD_Hogma_Warrior, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id11", MonsterId.ERD_Zinutekas, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id12", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("d_startower_76_1.Id1", MonsterId.ERD_Slime_Dark_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id2", MonsterId.ERD_Flask_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id3", MonsterId.ERD_Defender_Spider_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id4", MonsterId.ERD_Belegg, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id5", MonsterId.ERD_Tombsinker, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id6", MonsterId.ERD_Bavon, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id7", MonsterId.ERD_Bubbe_Mage_Ice, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id8", MonsterId.ERD_Bagworm, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id9", MonsterId.ERD_Hogma_Warrior, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id10", MonsterId.ERD_Hogma_Warrior, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id11", MonsterId.ERD_Zinutekas, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_1.Id12", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

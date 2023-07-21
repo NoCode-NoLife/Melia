@@ -24,12 +24,12 @@ public class DFiretower44MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_44.Id1", MonsterId.Rootcrystal_01, 9, 11, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_44.Id2", MonsterId.New_Desmodus_Black, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_firetower_44.Id3", MonsterId.Wizards_Marmotte, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_44.Id4", MonsterId.Flask, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_44.Id5", MonsterId.Minivern, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_44.Id6", MonsterId.Minivern_Elite, 3, 3, TendencyType.Peaceful);
+		AddSpawner("d_firetower_44.Id1", MonsterId.Rootcrystal_01, min: 9, max: 11, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_44.Id2", MonsterId.New_Desmodus_Black, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_44.Id3", MonsterId.Wizards_Marmotte, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_44.Id4", MonsterId.Flask, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_44.Id5", MonsterId.Minivern, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_44.Id6", MonsterId.Minivern_Elite, min: 3, max: 3, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

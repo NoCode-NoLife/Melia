@@ -15,11 +15,11 @@ public class IdCatacomb254MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_catacomb_25_4.Id1", MonsterId.Pagclamper_Yellow, 23, 30, TendencyType.Aggressive);
-		AddSpawner("id_catacomb_25_4.Id2", MonsterId.PagDoper_Blue, 23, 30, TendencyType.Aggressive);
-		AddSpawner("id_catacomb_25_4.Id3", MonsterId.PagNurse_Green, 23, 30, TendencyType.Aggressive);
-		AddSpawner("id_catacomb_25_4.Id4", MonsterId.Pagshearer_Yellow, 23, 30, TendencyType.Aggressive);
-		AddSpawner("id_catacomb_25_4.Id5", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("id_catacomb_25_4.Id1", MonsterId.Pagclamper_Yellow, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_25_4.Id2", MonsterId.PagDoper_Blue, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_25_4.Id3", MonsterId.PagNurse_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_25_4.Id4", MonsterId.Pagshearer_Yellow, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_25_4.Id5", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

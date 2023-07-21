@@ -15,12 +15,12 @@ public class DLimestonecave551MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_limestonecave_55_1.Id1", MonsterId.Charog_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id2", MonsterId.Charcoal_Walker_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id3", MonsterId.Blindlem_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id4", MonsterId.Charog_Green, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id5", MonsterId.RavineLerva_Cave, 15, 20, TimeSpan.FromMilliseconds(2500), TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_55_1.Id6", MonsterId.Rootcrystal_04, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("d_limestonecave_55_1.Id1", MonsterId.Charog_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id2", MonsterId.Charcoal_Walker_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id3", MonsterId.Blindlem_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id4", MonsterId.Charog_Green, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id5", MonsterId.RavineLerva_Cave, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(2500), tendency: TendencyType.Aggressive);
+		AddSpawner("d_limestonecave_55_1.Id6", MonsterId.Rootcrystal_04, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

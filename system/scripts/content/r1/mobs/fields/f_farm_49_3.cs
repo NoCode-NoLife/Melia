@@ -15,12 +15,12 @@ public class FFarm493MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_49_3.Id1", MonsterId.Melatanun, 38, 50, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_3.Id2", MonsterId.Melatanun, 19, 25, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_3.Id3", MonsterId.Carcashu_Green, 38, 50, TimeSpan.FromMilliseconds(20000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_3.Id4", MonsterId.Tree_Root_Mole_Pink, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_3.Id5", MonsterId.Tree_Root_Mole_Pink, 12, 15, TimeSpan.FromMilliseconds(35000), TendencyType.Aggressive);
-		AddSpawner("f_farm_49_3.Id6", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("f_farm_49_3.Id1", MonsterId.Melatanun, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_3.Id2", MonsterId.Melatanun, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_3.Id3", MonsterId.Carcashu_Green, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_3.Id4", MonsterId.Tree_Root_Mole_Pink, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_3.Id5", MonsterId.Tree_Root_Mole_Pink, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(35000), tendency: TendencyType.Aggressive);
+		AddSpawner("f_farm_49_3.Id6", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

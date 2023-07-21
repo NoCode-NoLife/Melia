@@ -15,14 +15,14 @@ public class DUnderaqueductMobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underaqueduct.Id1", MonsterId.Chesha_Papa, 45, 60, TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id2", MonsterId.Chesha_Venom, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id3", MonsterId.Chesha_Torso, 38, 50, TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id4", MonsterId.Chesha_Riel, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id5", MonsterId.Chesha_Needle, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id6", MonsterId.Chesha_Papa, 45, 60, TimeSpan.FromMilliseconds(1000), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id7", MonsterId.Gimmick_Mon_Chesha_Venom, 1, 1, TimeSpan.FromMilliseconds(3000), TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id8", MonsterId.Rootcrystal_04, 18, 23, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("d_underaqueduct.Id1", MonsterId.Chesha_Papa, min: 45, max: 60, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id2", MonsterId.Chesha_Venom, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id3", MonsterId.Chesha_Torso, min: 38, max: 50, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id4", MonsterId.Chesha_Riel, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id5", MonsterId.Chesha_Needle, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id6", MonsterId.Chesha_Papa, min: 45, max: 60, respawn: TimeSpan.FromMilliseconds(1000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id7", MonsterId.Gimmick_Mon_Chesha_Venom, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(3000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id8", MonsterId.Rootcrystal_04, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -21,16 +21,16 @@ public class FWhitetrees231MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_23_1.Id1", MonsterId.Rootcrystal_03, 11, 14, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_whitetrees_23_1.Id2", MonsterId.Kucarry_Somy, 12, 15);
-		AddSpawner("f_whitetrees_23_1.Id3", MonsterId.Kucarry_Somy, 12, 15);
-		AddSpawner("f_whitetrees_23_1.Id4", MonsterId.Kucarry_Tot, 12, 15);
-		AddSpawner("f_whitetrees_23_1.Id5", MonsterId.Kucarry_Lioni, 6, 8);
-		AddSpawner("f_whitetrees_23_1.Id6", MonsterId.Kucarry_Lioni, 12, 15);
-		AddSpawner("f_whitetrees_23_1.Id7", MonsterId.Kucarry_Somy, 6, 8);
-		AddSpawner("f_whitetrees_23_1.Id8", MonsterId.Kucarry_Tot, 23, 30);
-		AddSpawner("f_whitetrees_23_1.Id9", MonsterId.Kucarry_Lioni, 10, 13);
-		AddSpawner("f_whitetrees_23_1.Id10", MonsterId.Kucarry_Somy, 9, 12);
+		AddSpawner("f_whitetrees_23_1.Id1", MonsterId.Rootcrystal_03, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_whitetrees_23_1.Id2", MonsterId.Kucarry_Somy, min: 12, max: 15);
+		AddSpawner("f_whitetrees_23_1.Id3", MonsterId.Kucarry_Somy, min: 12, max: 15);
+		AddSpawner("f_whitetrees_23_1.Id4", MonsterId.Kucarry_Tot, min: 12, max: 15);
+		AddSpawner("f_whitetrees_23_1.Id5", MonsterId.Kucarry_Lioni, min: 6, max: 8);
+		AddSpawner("f_whitetrees_23_1.Id6", MonsterId.Kucarry_Lioni, min: 12, max: 15);
+		AddSpawner("f_whitetrees_23_1.Id7", MonsterId.Kucarry_Somy, min: 6, max: 8);
+		AddSpawner("f_whitetrees_23_1.Id8", MonsterId.Kucarry_Tot, min: 23, max: 30);
+		AddSpawner("f_whitetrees_23_1.Id9", MonsterId.Kucarry_Lioni, min: 10, max: 13);
+		AddSpawner("f_whitetrees_23_1.Id10", MonsterId.Kucarry_Somy, min: 9, max: 12);
 
 		// Monster Spawn Points -----------------------------
 

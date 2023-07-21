@@ -23,14 +23,14 @@ public class DDcapital108MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_dcapital_108.Id1", MonsterId.Raganosis_Ram, 6, 8);
-		AddSpawner("d_dcapital_108.Id2", MonsterId.Raganosis_Guardian, 30, 40);
-		AddSpawner("d_dcapital_108.Id3", MonsterId.Raganosis_Seeker, 23, 30);
-		AddSpawner("d_dcapital_108.Id4", MonsterId.Raganosis_Ram, 2, 2);
-		AddSpawner("d_dcapital_108.Id5", MonsterId.Raganosis_Ram, 7, 9, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_dcapital_108.Id6", MonsterId.Raganosis_Guardian, 18, 24, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_dcapital_108.Id7", MonsterId.Raganosis_Seeker, 20, 26, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_dcapital_108.Id8", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_dcapital_108.Id1", MonsterId.Raganosis_Ram, min: 6, max: 8);
+		AddSpawner("d_dcapital_108.Id2", MonsterId.Raganosis_Guardian, min: 30, max: 40);
+		AddSpawner("d_dcapital_108.Id3", MonsterId.Raganosis_Seeker, min: 23, max: 30);
+		AddSpawner("d_dcapital_108.Id4", MonsterId.Raganosis_Ram, min: 2, max: 2);
+		AddSpawner("d_dcapital_108.Id5", MonsterId.Raganosis_Ram, min: 7, max: 9, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id6", MonsterId.Raganosis_Guardian, min: 18, max: 24, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id7", MonsterId.Raganosis_Seeker, min: 20, max: 26, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id8", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

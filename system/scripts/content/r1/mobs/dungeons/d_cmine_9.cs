@@ -15,13 +15,13 @@ public class DCmine9MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cmine_9.Id1", MonsterId.Rootcrystal_01, 2, 2, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_9.Id2", MonsterId.FD_Bubbe_Fighter, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_cmine_9.Id3", MonsterId.FD_Bubbe_Mage_Ice, 4, 5, TendencyType.Aggressive);
-		AddSpawner("d_cmine_9.Id4", MonsterId.FD_Bubbe_Fighter, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_cmine_9.Id5", MonsterId.FD_Stoulet_Mage, 8, 10, TendencyType.Peaceful);
-		AddSpawner("d_cmine_9.Id6", MonsterId.FD_Bubbe_Mage_Ice, 6, 7, TendencyType.Peaceful);
-		AddSpawner("d_cmine_9.Id7", MonsterId.FD_Bat_Big, 6, 7, TendencyType.Aggressive);
+		AddSpawner("d_cmine_9.Id1", MonsterId.Rootcrystal_01, min: 2, max: 2, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_9.Id2", MonsterId.FD_Bubbe_Fighter, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cmine_9.Id3", MonsterId.FD_Bubbe_Mage_Ice, min: 4, max: 5, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cmine_9.Id4", MonsterId.FD_Bubbe_Fighter, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cmine_9.Id5", MonsterId.FD_Stoulet_Mage, min: 8, max: 10, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_9.Id6", MonsterId.FD_Bubbe_Mage_Ice, min: 6, max: 7, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_9.Id7", MonsterId.FD_Bat_Big, min: 6, max: 7, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

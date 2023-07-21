@@ -24,16 +24,16 @@ public class DFiretower41MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_41.Id1", MonsterId.Fire_Dragon, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id2", MonsterId.Flight_Hope, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id3", MonsterId.Rootcrystal_01, 7, 9, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_firetower_41.Id4", MonsterId.Fire_Dragon, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id5", MonsterId.Flight_Hope, 5, 6, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id6", MonsterId.Rubblem, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id7", MonsterId.Armory, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id8", MonsterId.Rubblem, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id9", MonsterId.Flight_Hope, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_firetower_41.Id10", MonsterId.Rudasjack, 9, 12, TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id1", MonsterId.Fire_Dragon, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id2", MonsterId.Flight_Hope, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id3", MonsterId.Rootcrystal_01, min: 7, max: 9, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_41.Id4", MonsterId.Fire_Dragon, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id5", MonsterId.Flight_Hope, min: 5, max: 6, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id6", MonsterId.Rubblem, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id7", MonsterId.Armory, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id8", MonsterId.Rubblem, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id9", MonsterId.Flight_Hope, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_41.Id10", MonsterId.Rudasjack, min: 9, max: 12, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

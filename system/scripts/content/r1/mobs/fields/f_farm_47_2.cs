@@ -22,13 +22,13 @@ public class FFarm472MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_47_2.Id1", MonsterId.Dandel_Orange, 30, 40);
-		AddSpawner("f_farm_47_2.Id2", MonsterId.Cronewt_Mage, 9, 12);
-		AddSpawner("f_farm_47_2.Id3", MonsterId.Kepari_Mage, 14, 18);
-		AddSpawner("f_farm_47_2.Id4", MonsterId.Dandel_Orange, 12, 15);
-		AddSpawner("f_farm_47_2.Id5", MonsterId.Ashrong, 15, 20);
-		AddSpawner("f_farm_47_2.Id6", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_farm_47_2.Id7", MonsterId.Ashrong, 60, 80);
+		AddSpawner("f_farm_47_2.Id1", MonsterId.Dandel_Orange, min: 30, max: 40);
+		AddSpawner("f_farm_47_2.Id2", MonsterId.Cronewt_Mage, min: 9, max: 12);
+		AddSpawner("f_farm_47_2.Id3", MonsterId.Kepari_Mage, min: 14, max: 18);
+		AddSpawner("f_farm_47_2.Id4", MonsterId.Dandel_Orange, min: 12, max: 15);
+		AddSpawner("f_farm_47_2.Id5", MonsterId.Ashrong, min: 15, max: 20);
+		AddSpawner("f_farm_47_2.Id6", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_farm_47_2.Id7", MonsterId.Ashrong, min: 60, max: 80);
 
 		// Monster Spawn Points -----------------------------
 

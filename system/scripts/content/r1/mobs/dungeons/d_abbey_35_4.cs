@@ -22,11 +22,11 @@ public class DAbbey354MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_35_4.Id1", MonsterId.Hohen_Mane_Brown, 27, 35);
-		AddSpawner("d_abbey_35_4.Id2", MonsterId.Hohen_Orben_Green, 12, 15);
-		AddSpawner("d_abbey_35_4.Id3", MonsterId.Harugal_Brown, 8, 10);
-		AddSpawner("d_abbey_35_4.Id4", MonsterId.Hohen_Mane_Brown, 19, 25);
-		AddSpawner("d_abbey_35_4.Id5", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_35_4.Id1", MonsterId.Hohen_Mane_Brown, min: 27, max: 35);
+		AddSpawner("d_abbey_35_4.Id2", MonsterId.Hohen_Orben_Green, min: 12, max: 15);
+		AddSpawner("d_abbey_35_4.Id3", MonsterId.Harugal_Brown, min: 8, max: 10);
+		AddSpawner("d_abbey_35_4.Id4", MonsterId.Hohen_Mane_Brown, min: 19, max: 25);
+		AddSpawner("d_abbey_35_4.Id5", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -23,12 +23,12 @@ public class DUnderfortress69MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_underfortress_69.Id1", MonsterId.Kepari_Green, 60, 80, TendencyType.Aggressive);
-		AddSpawner("d_underfortress_69.Id2", MonsterId.Templeslave_Blue, 12, 16, TendencyType.Aggressive);
-		AddSpawner("d_underfortress_69.Id3", MonsterId.Flask_Blue, 64, 85, TendencyType.Aggressive);
-		AddSpawner("d_underfortress_69.Id4", MonsterId.Kepari_Mage_Green, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_underfortress_69.Id5", MonsterId.Rootcrystal_05, 20, 26, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("d_underfortress_69.Id6", MonsterId.Templeslave_Blue, 4, 5, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("d_underfortress_69.Id1", MonsterId.Kepari_Green, min: 60, max: 80, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_69.Id2", MonsterId.Templeslave_Blue, min: 12, max: 16, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_69.Id3", MonsterId.Flask_Blue, min: 64, max: 85, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_69.Id4", MonsterId.Kepari_Mage_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_69.Id5", MonsterId.Rootcrystal_05, min: 20, max: 26, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_69.Id6", MonsterId.Templeslave_Blue, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

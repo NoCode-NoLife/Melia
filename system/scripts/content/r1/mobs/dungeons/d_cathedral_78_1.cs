@@ -15,24 +15,24 @@ public class DCathedral781MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cathedral_78_1.Id1", MonsterId.ERD_Pawndel, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id2", MonsterId.ERD_Pawnd, 19, 25, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id3", MonsterId.ERD_Zombiegirl2, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id4", MonsterId.ERD_Elet, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id5", MonsterId.ERD_Candlespider, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id6", MonsterId.ERD_Shredded, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id7", MonsterId.ERD_Fire_Dragon_Purple, 12, 15, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id8", MonsterId.ERD_Nuo, 9, 12, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id9", MonsterId.ERD_InfroRocktor, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id10", MonsterId.ERD_Egnome, 3, 4, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id11", MonsterId.ERD_Shtayim, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id12", MonsterId.ERD_Nuo, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id13", MonsterId.ERD_Elet, 6, 8, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id14", MonsterId.ERD_Glizardon, 3, 3, TimeSpan.FromMilliseconds(1200000), TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id15", MonsterId.ERD_Galok, 3, 3, TimeSpan.FromMilliseconds(1200000), TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id16", MonsterId.ERD_Malstatue, 30, 40, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id17", MonsterId.ERD_Malstatue, 11, 14, TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id18", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("d_cathedral_78_1.Id1", MonsterId.ERD_Pawndel, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id2", MonsterId.ERD_Pawnd, min: 19, max: 25, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id3", MonsterId.ERD_Zombiegirl2, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id4", MonsterId.ERD_Elet, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id5", MonsterId.ERD_Candlespider, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id6", MonsterId.ERD_Shredded, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id7", MonsterId.ERD_Fire_Dragon_Purple, min: 12, max: 15, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id8", MonsterId.ERD_Nuo, min: 9, max: 12, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id9", MonsterId.ERD_InfroRocktor, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id10", MonsterId.ERD_Egnome, min: 3, max: 4, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id11", MonsterId.ERD_Shtayim, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id12", MonsterId.ERD_Nuo, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id13", MonsterId.ERD_Elet, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id14", MonsterId.ERD_Glizardon, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id15", MonsterId.ERD_Galok, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id16", MonsterId.ERD_Malstatue, min: 30, max: 40, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id17", MonsterId.ERD_Malstatue, min: 11, max: 14, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id18", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

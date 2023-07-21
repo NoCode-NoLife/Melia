@@ -24,12 +24,12 @@ public class F3Cmlake87MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_87.Id1", MonsterId.Humming_Duke, 30, 40);
-		AddSpawner("f_3cmlake_87.Id2", MonsterId.Mutt, 13, 17);
-		AddSpawner("f_3cmlake_87.Id3", MonsterId.Beissen, 8, 10);
-		AddSpawner("f_3cmlake_87.Id4", MonsterId.KindronShooter, 18, 23);
-		AddSpawner("f_3cmlake_87.Id5", MonsterId.KindronBoor, 19, 25, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_3cmlake_87.Id6", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_87.Id1", MonsterId.Humming_Duke, min: 30, max: 40);
+		AddSpawner("f_3cmlake_87.Id2", MonsterId.Mutt, min: 13, max: 17);
+		AddSpawner("f_3cmlake_87.Id3", MonsterId.Beissen, min: 8, max: 10);
+		AddSpawner("f_3cmlake_87.Id4", MonsterId.KindronShooter, min: 18, max: 23);
+		AddSpawner("f_3cmlake_87.Id5", MonsterId.KindronBoor, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_3cmlake_87.Id6", MonsterId.Rootcrystal_02, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

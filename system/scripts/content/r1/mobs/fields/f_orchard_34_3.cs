@@ -22,13 +22,13 @@ public class FOrchard343MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_orchard_34_3.Id1", MonsterId.Mushroom_Ent_Red, 3, 4);
-		AddSpawner("f_orchard_34_3.Id2", MonsterId.Rafflesia_Green, 11, 14);
-		AddSpawner("f_orchard_34_3.Id3", MonsterId.Big_Cockatries_Red, 15, 20);
-		AddSpawner("f_orchard_34_3.Id4", MonsterId.Flying_Flog_White, 60, 80);
-		AddSpawner("f_orchard_34_3.Id5", MonsterId.Rafflesia_Green, 19, 25);
-		AddSpawner("f_orchard_34_3.Id6", MonsterId.Flying_Flog_White, 8, 10);
-		AddSpawner("f_orchard_34_3.Id7", MonsterId.Rootcrystal_01, 15, 19, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_orchard_34_3.Id1", MonsterId.Mushroom_Ent_Red, min: 3, max: 4);
+		AddSpawner("f_orchard_34_3.Id2", MonsterId.Rafflesia_Green, min: 11, max: 14);
+		AddSpawner("f_orchard_34_3.Id3", MonsterId.Big_Cockatries_Red, min: 15, max: 20);
+		AddSpawner("f_orchard_34_3.Id4", MonsterId.Flying_Flog_White, min: 60, max: 80);
+		AddSpawner("f_orchard_34_3.Id5", MonsterId.Rafflesia_Green, min: 19, max: 25);
+		AddSpawner("f_orchard_34_3.Id6", MonsterId.Flying_Flog_White, min: 8, max: 10);
+		AddSpawner("f_orchard_34_3.Id7", MonsterId.Rootcrystal_01, min: 15, max: 19, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

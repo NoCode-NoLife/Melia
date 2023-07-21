@@ -15,17 +15,17 @@ public class DCatacomb801MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_catacomb_80_1.Id1", MonsterId.ERD_Triffid, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id2", MonsterId.ERD_Goblin2_Hammer, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id3", MonsterId.ERD_Kowak, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id4", MonsterId.ERD_Kowak_Orange, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id5", MonsterId.ERD_Fisherman_Red, 23, 30, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id6", MonsterId.ERD_Panto_Rspear, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id7", MonsterId.ERD_Tree_Root_Mole_Pink, 14, 18, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id8", MonsterId.ERD_Melatanun, 30, 40, TendencyType.Peaceful);
-		AddSpawner("d_catacomb_80_1.Id9", MonsterId.ERD_Rudas_Loxodon, 4, 5, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id10", MonsterId.ERD_GoblinWarrior_Blue, 4, 5, TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id11", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("d_catacomb_80_1.Id1", MonsterId.ERD_Triffid, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id2", MonsterId.ERD_Goblin2_Hammer, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id3", MonsterId.ERD_Kowak, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id4", MonsterId.ERD_Kowak_Orange, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id5", MonsterId.ERD_Fisherman_Red, min: 23, max: 30, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id6", MonsterId.ERD_Panto_Rspear, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id7", MonsterId.ERD_Tree_Root_Mole_Pink, min: 14, max: 18, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id8", MonsterId.ERD_Melatanun, min: 30, max: 40, tendency: TendencyType.Peaceful);
+		AddSpawner("d_catacomb_80_1.Id9", MonsterId.ERD_Rudas_Loxodon, min: 4, max: 5, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id10", MonsterId.ERD_GoblinWarrior_Blue, min: 4, max: 5, tendency: TendencyType.Aggressive);
+		AddSpawner("d_catacomb_80_1.Id11", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

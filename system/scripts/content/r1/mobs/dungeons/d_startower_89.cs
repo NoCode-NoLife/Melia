@@ -27,12 +27,12 @@ public class DStartower89MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_89.Id1", MonsterId.Naste, 12, 15);
-		AddSpawner("d_startower_89.Id2", MonsterId.Gleamlens, 23, 30);
-		AddSpawner("d_startower_89.Id3", MonsterId.Wryer, 21, 27);
-		AddSpawner("d_startower_89.Id4", MonsterId.Rabbler, 36, 47);
-		AddSpawner("d_startower_89.Id5", MonsterId.Naste, 8, 10);
-		AddSpawner("d_startower_89.Id6", MonsterId.Rootcrystal_02, 12, 15, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_89.Id1", MonsterId.Naste, min: 12, max: 15);
+		AddSpawner("d_startower_89.Id2", MonsterId.Gleamlens, min: 23, max: 30);
+		AddSpawner("d_startower_89.Id3", MonsterId.Wryer, min: 21, max: 27);
+		AddSpawner("d_startower_89.Id4", MonsterId.Rabbler, min: 36, max: 47);
+		AddSpawner("d_startower_89.Id5", MonsterId.Naste, min: 8, max: 10);
+		AddSpawner("d_startower_89.Id6", MonsterId.Rootcrystal_02, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -13,7 +13,7 @@ public class MissionGele01MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		AddSpawner("mission_gele_01.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("mission_gele_01.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(15000));
 
 		// 'Rootcrystal_01' GenType 1 Spawn Points
 		AddSpawnPoint("mission_gele_01.Id1", "mission_gele_01", Rectangle(-95, -929, 100));

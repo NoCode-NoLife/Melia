@@ -15,12 +15,12 @@ public class F3Cmlake262MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_26_2.Id1", MonsterId.RootCrystal_A, 18, 23, TimeSpan.FromMilliseconds(10000));
-		AddSpawner("f_3cmlake_26_2.Id2", MonsterId.Lakegolem, 6, 7);
-		AddSpawner("f_3cmlake_26_2.Id3", MonsterId.Pondus, 27, 36);
-		AddSpawner("f_3cmlake_26_2.Id4", MonsterId.Anchor_Golem, 13, 17);
-		AddSpawner("f_3cmlake_26_2.Id5", MonsterId.Lily_Belly, 33, 44);
-		AddSpawner("f_3cmlake_26_2.Id6", MonsterId.Jelly_Belly, 35, 46);
+		AddSpawner("f_3cmlake_26_2.Id1", MonsterId.RootCrystal_A, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("f_3cmlake_26_2.Id2", MonsterId.Lakegolem, min: 6, max: 7);
+		AddSpawner("f_3cmlake_26_2.Id3", MonsterId.Pondus, min: 27, max: 36);
+		AddSpawner("f_3cmlake_26_2.Id4", MonsterId.Anchor_Golem, min: 13, max: 17);
+		AddSpawner("f_3cmlake_26_2.Id5", MonsterId.Lily_Belly, min: 33, max: 44);
+		AddSpawner("f_3cmlake_26_2.Id6", MonsterId.Jelly_Belly, min: 35, max: 46);
 
 		// Monster Spawn Points -----------------------------
 

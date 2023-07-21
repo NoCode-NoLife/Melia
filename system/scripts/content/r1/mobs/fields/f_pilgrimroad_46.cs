@@ -22,16 +22,16 @@ public class FPilgrimroad46MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_46.Id1", MonsterId.Kepari, 12, 15);
-		AddSpawner("f_pilgrimroad_46.Id2", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_46.Id3", MonsterId.Kepari, 12, 15);
-		AddSpawner("f_pilgrimroad_46.Id4", MonsterId.Kepo_Seed, 12, 15);
-		AddSpawner("f_pilgrimroad_46.Id5", MonsterId.Kepo_Seed, 8, 10);
-		AddSpawner("f_pilgrimroad_46.Id6", MonsterId.Kepari, 6, 7);
-		AddSpawner("f_pilgrimroad_46.Id7", MonsterId.Kepo, 23, 30);
-		AddSpawner("f_pilgrimroad_46.Id8", MonsterId.Kepo, 19, 25);
-		AddSpawner("f_pilgrimroad_46.Id9", MonsterId.Kepo, 6, 8);
-		AddSpawner("f_pilgrimroad_46.Id10", MonsterId.Wood_Goblin_Red, 38, 50);
+		AddSpawner("f_pilgrimroad_46.Id1", MonsterId.Kepari, min: 12, max: 15);
+		AddSpawner("f_pilgrimroad_46.Id2", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_46.Id3", MonsterId.Kepari, min: 12, max: 15);
+		AddSpawner("f_pilgrimroad_46.Id4", MonsterId.Kepo_Seed, min: 12, max: 15);
+		AddSpawner("f_pilgrimroad_46.Id5", MonsterId.Kepo_Seed, min: 8, max: 10);
+		AddSpawner("f_pilgrimroad_46.Id6", MonsterId.Kepari, min: 6, max: 7);
+		AddSpawner("f_pilgrimroad_46.Id7", MonsterId.Kepo, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_46.Id8", MonsterId.Kepo, min: 19, max: 25);
+		AddSpawner("f_pilgrimroad_46.Id9", MonsterId.Kepo, min: 6, max: 8);
+		AddSpawner("f_pilgrimroad_46.Id10", MonsterId.Wood_Goblin_Red, min: 38, max: 50);
 
 		// Monster Spawn Points -----------------------------
 

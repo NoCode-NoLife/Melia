@@ -22,12 +22,12 @@ public class DCmine6MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cmine_6.Id1", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_cmine_6.Id2", MonsterId.Quartz_Weaver, 8, 10, TendencyType.Aggressive);
-		AddSpawner("d_cmine_6.Id3", MonsterId.Bubbe_Mage_Priest, 15, 20, TendencyType.Aggressive);
-		AddSpawner("d_cmine_6.Id4", MonsterId.GoblinWarrior, 3, 3, TendencyType.Peaceful);
-		AddSpawner("d_cmine_6.Id5", MonsterId.Quartz_Weaver, 8, 10, TendencyType.Peaceful);
-		AddSpawner("d_cmine_6.Id6", MonsterId.Bubbe_Mage_Priest, 8, 10, TendencyType.Peaceful);
+		AddSpawner("d_cmine_6.Id1", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_6.Id2", MonsterId.Quartz_Weaver, min: 8, max: 10, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cmine_6.Id3", MonsterId.Bubbe_Mage_Priest, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_cmine_6.Id4", MonsterId.GoblinWarrior, min: 3, max: 3, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_6.Id5", MonsterId.Quartz_Weaver, min: 8, max: 10, tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_6.Id6", MonsterId.Bubbe_Mage_Priest, min: 8, max: 10, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

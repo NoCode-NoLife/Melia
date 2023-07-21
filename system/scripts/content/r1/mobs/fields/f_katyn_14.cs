@@ -15,13 +15,13 @@ public class FKatyn14MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_14.Id1", MonsterId.Puragi_Blue, 38, 50);
-		AddSpawner("f_katyn_14.Id2", MonsterId.Honey_Bee, 15, 20);
-		AddSpawner("f_katyn_14.Id3", MonsterId.Fisherman_Red, 23, 30);
-		AddSpawner("f_katyn_14.Id4", MonsterId.Mushroom_Ent_Blue, 6, 7);
-		AddSpawner("f_katyn_14.Id5", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_katyn_14.Id6", MonsterId.Fisherman_Red, 30, 40);
-		AddSpawner("f_katyn_14.Id7", MonsterId.Honey_Bee, 30, 40);
+		AddSpawner("f_katyn_14.Id1", MonsterId.Puragi_Blue, min: 38, max: 50);
+		AddSpawner("f_katyn_14.Id2", MonsterId.Honey_Bee, min: 15, max: 20);
+		AddSpawner("f_katyn_14.Id3", MonsterId.Fisherman_Red, min: 23, max: 30);
+		AddSpawner("f_katyn_14.Id4", MonsterId.Mushroom_Ent_Blue, min: 6, max: 7);
+		AddSpawner("f_katyn_14.Id5", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_14.Id6", MonsterId.Fisherman_Red, min: 30, max: 40);
+		AddSpawner("f_katyn_14.Id7", MonsterId.Honey_Bee, min: 30, max: 40);
 
 		// Monster Spawn Points -----------------------------
 

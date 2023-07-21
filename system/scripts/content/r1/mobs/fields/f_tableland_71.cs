@@ -15,18 +15,18 @@ public class FTableland71MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_71.Id1", MonsterId.Hohen_Ritter_Purple, 23, 30, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id2", MonsterId.Cronewt_Bow_Blue, 8, 10, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id3", MonsterId.Hohen_Barkle_Blue, 8, 10, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id4", MonsterId.Tiny_Blue, 8, 10, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id5", MonsterId.Rootcrystal_03, 27, 35, TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_tableland_71.Id6", MonsterId.Hohen_Ritter_Purple, 3, 3, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id7", MonsterId.Hohen_Barkle_Blue, 2, 2, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id8", MonsterId.Tiny_Blue, 1, 1, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id9", MonsterId.Cronewt_Bow_Blue, 1, 1, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id10", MonsterId.Tiny_Blue, 75, 100, TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_tableland_71.Id11", MonsterId.Cronewt_Bow_Blue, 3, 4, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_71.Id12", MonsterId.Hohen_Ritter_Purple, 8, 10, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_tableland_71.Id1", MonsterId.Hohen_Ritter_Purple, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id2", MonsterId.Cronewt_Bow_Blue, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id3", MonsterId.Hohen_Barkle_Blue, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id4", MonsterId.Tiny_Blue, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id5", MonsterId.Rootcrystal_03, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_tableland_71.Id6", MonsterId.Hohen_Ritter_Purple, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id7", MonsterId.Hohen_Barkle_Blue, min: 2, max: 2, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id8", MonsterId.Tiny_Blue, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id9", MonsterId.Cronewt_Bow_Blue, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id10", MonsterId.Tiny_Blue, min: 75, max: 100, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_71.Id11", MonsterId.Cronewt_Bow_Blue, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_71.Id12", MonsterId.Hohen_Ritter_Purple, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

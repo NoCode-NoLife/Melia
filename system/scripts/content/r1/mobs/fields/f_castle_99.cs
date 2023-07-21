@@ -24,12 +24,12 @@ public class FCastle99MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_99.Id1", MonsterId.Nuo_Twinsword, 38, 50, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_99.Id2", MonsterId.Living_Armor, 30, 40, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_99.Id3", MonsterId.Nuka_Shield, 42, 55, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_99.Id4", MonsterId.Aklaspetal_Sword, 34, 45, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_99.Id5", MonsterId.Castle_Troll, 12, 15, TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_99.Id6", MonsterId.Rootcrystal_02, 34, 45, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_castle_99.Id1", MonsterId.Nuo_Twinsword, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_99.Id2", MonsterId.Living_Armor, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_99.Id3", MonsterId.Nuka_Shield, min: 42, max: 55, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_99.Id4", MonsterId.Aklaspetal_Sword, min: 34, max: 45, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_99.Id5", MonsterId.Castle_Troll, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_99.Id6", MonsterId.Rootcrystal_02, min: 34, max: 45, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 
