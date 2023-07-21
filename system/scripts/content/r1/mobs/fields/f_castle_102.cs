@@ -23,12 +23,12 @@ public class FCastle102MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_102.Id1", MonsterId.Castle_Goblin_Archer, 45, 60, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_102.Id2", MonsterId.Wolf, 38, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_102.Id3", MonsterId.Wolf_Leader, 6, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_102.Id4", MonsterId.Neckko, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_102.Id5", MonsterId.Goblin_Sword_Rider, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_102.Id6", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_castle_102.Id1", MonsterId.Castle_Goblin_Archer, 45, 60, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_102.Id2", MonsterId.Wolf, 38, 50, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_102.Id3", MonsterId.Wolf_Leader, 6, 8, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_102.Id4", MonsterId.Neckko, 23, 30, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_102.Id5", MonsterId.Goblin_Sword_Rider, 30, 40, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_102.Id6", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

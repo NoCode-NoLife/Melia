@@ -26,15 +26,15 @@ public class FGele573MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_gele_57_3.Id1", MonsterId.Zigri_Brown, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id2", MonsterId.Banshee, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id4", MonsterId.Puragi_Green, 10, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id5", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id6", MonsterId.Banshee, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id7", MonsterId.Humming_Bud, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id8", MonsterId.Deadbornscab_Mage, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_gele_57_3.Id9", MonsterId.Puragi_Green, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_gele_57_3.Id1", MonsterId.Zigri_Brown, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id2", MonsterId.Banshee, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, 3, 3, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id4", MonsterId.Puragi_Green, 10, 13, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id5", MonsterId.Rootcrystal_01, 10, 13, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_gele_57_3.Id6", MonsterId.Banshee, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id7", MonsterId.Humming_Bud, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id8", MonsterId.Deadbornscab_Mage, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_gele_57_3.Id9", MonsterId.Puragi_Green, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,9 +22,9 @@ public class Ep151FAbbey1MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep15_1_f_abbey_1.Id1", MonsterId.Ep15_1_Pokubu_Ferocious, 60, 80, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep15_1_f_abbey_1.Id2", MonsterId.Ep15_1_Goblin_Chaser, 60, 80, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep15_1_f_abbey_1.Id3", MonsterId.Ep15_1_Goblin_Rider, 60, 80, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep15_1_f_abbey_1.Id1", MonsterId.Ep15_1_Pokubu_Ferocious, 60, 80, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep15_1_f_abbey_1.Id2", MonsterId.Ep15_1_Goblin_Chaser, 60, 80, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep15_1_f_abbey_1.Id3", MonsterId.Ep15_1_Goblin_Rider, 60, 80, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

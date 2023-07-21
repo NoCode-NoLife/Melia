@@ -15,11 +15,11 @@ public class FCoral321MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_32_1.Id1", MonsterId.TerraNymph_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_32_1.Id2", MonsterId.Greentoshell, 53, 70, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_32_1.Id3", MonsterId.Lapasape_Mage_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_32_1.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_coral_32_1.Id5", MonsterId.Greentoshell, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_coral_32_1.Id1", MonsterId.TerraNymph_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_32_1.Id2", MonsterId.Greentoshell, 53, 70, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_32_1.Id3", MonsterId.Lapasape_Mage_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_32_1.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_coral_32_1.Id5", MonsterId.Greentoshell, 6, 7, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

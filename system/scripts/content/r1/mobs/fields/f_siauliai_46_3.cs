@@ -23,15 +23,15 @@ public class FSiauliai463MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_46_3.Id1", MonsterId.Chupaluka, 45, 60, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id2", MonsterId.Spion, 12, 15, TimeSpan.FromMilliseconds(200000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id3", MonsterId.Siaulago, 15, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id4", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id5", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id6", MonsterId.Spion, 15, 20, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id7", MonsterId.Siaulago, 8, 10, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id8", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_3.Id9", MonsterId.Chupaluka, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_siauliai_46_3.Id1", MonsterId.Chupaluka, 45, 60, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id2", MonsterId.Spion, 12, 15, TimeSpan.FromMilliseconds(200000));
+		AddSpawner("f_siauliai_46_3.Id3", MonsterId.Siaulago, 15, 20, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id4", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id5", MonsterId.Rootcrystal_01, 11, 14, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_3.Id6", MonsterId.Spion, 15, 20, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id7", MonsterId.Siaulago, 8, 10, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_46_3.Id8", MonsterId.Honeymeli, 3, 4, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_46_3.Id9", MonsterId.Chupaluka, 14, 18, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

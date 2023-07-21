@@ -15,15 +15,15 @@ public class FRemains38MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_38.Id1", MonsterId.InfroBurk, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id2", MonsterId.Lizardman, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id3", MonsterId.Long_Arm, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id4", MonsterId.Lizardman, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id5", MonsterId.Lizardman, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id6", MonsterId.InfroBurk, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id7", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id8", MonsterId.Stub_Tree_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_38.Id9", MonsterId.Long_Arm, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_remains_38.Id1", MonsterId.InfroBurk, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id2", MonsterId.Lizardman, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id3", MonsterId.Long_Arm, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id4", MonsterId.Lizardman, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id5", MonsterId.Lizardman, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id6", MonsterId.InfroBurk, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id7", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_38.Id8", MonsterId.Stub_Tree_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_38.Id9", MonsterId.Long_Arm, 23, 30, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

@@ -21,11 +21,11 @@ public class FPilgrimroad55MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_55.Id1", MonsterId.Infro_Blud_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_55.Id2", MonsterId.InfroHoglan_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_55.Id3", MonsterId.Rootcrystal_03, 9, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_55.Id4", MonsterId.Infro_Blud_Red, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_55.Id5", MonsterId.Burialer, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_pilgrimroad_55.Id1", MonsterId.Infro_Blud_Red, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_55.Id2", MonsterId.InfroHoglan_Red, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_55.Id3", MonsterId.Rootcrystal_03, 9, 12, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_pilgrimroad_55.Id4", MonsterId.Infro_Blud_Red, 6, 7, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_55.Id5", MonsterId.Burialer, 6, 7, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

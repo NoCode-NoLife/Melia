@@ -15,11 +15,11 @@ public class FKatyn133MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_13_3.Id1", MonsterId.New_Desmodus, 15, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13_3.Id2", MonsterId.Ellom_Green, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13_3.Id3", MonsterId.InfroRocktor_Red, 12, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13_3.Id4", MonsterId.InfroRocktor_Red, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13_3.Id5", MonsterId.New_Desmodus, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
+		AddSpawner("f_katyn_13_3.Id1", MonsterId.New_Desmodus, 15, 20, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("f_katyn_13_3.Id2", MonsterId.Ellom_Green, 8, 10, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("f_katyn_13_3.Id3", MonsterId.InfroRocktor_Red, 12, 15, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("f_katyn_13_3.Id4", MonsterId.InfroRocktor_Red, 15, 20, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_13_3.Id5", MonsterId.New_Desmodus, 15, 20, TimeSpan.FromMilliseconds(5000));
 
 		// Monster Spawn Points -----------------------------
 

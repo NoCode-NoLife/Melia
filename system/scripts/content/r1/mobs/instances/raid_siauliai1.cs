@@ -13,7 +13,7 @@ public class RaidSiauliai1MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		AddSpawner("raid_siauliai1.Id1", MonsterId.Rootcrystal_01, 1, 1, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("raid_siauliai1.Id1", MonsterId.Rootcrystal_01, 1, 1, TimeSpan.FromMilliseconds(15000));
 
 		// 'Rootcrystal_01' GenType 1 Spawn Points
 		AddSpawnPoint("raid_siauliai1.Id1", "raid_siauliai1", Rectangle(-464, -1298, 100));

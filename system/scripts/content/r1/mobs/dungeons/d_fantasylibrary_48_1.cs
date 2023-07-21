@@ -22,12 +22,12 @@ public class DFantasylibrary481MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_1.Id1", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_1.Id2", MonsterId.Page_Mimic, 68, 90, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_1.Id3", MonsterId.Bookmark_Mimic, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_1.Id4", MonsterId.Oscuro, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_1.Id5", MonsterId.Claro, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_1.Id6", MonsterId.Oscuro, 17, 22, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_1.Id1", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_fantasylibrary_48_1.Id2", MonsterId.Page_Mimic, 68, 90, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_1.Id3", MonsterId.Bookmark_Mimic, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_1.Id4", MonsterId.Oscuro, 14, 18, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_1.Id5", MonsterId.Claro, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_1.Id6", MonsterId.Oscuro, 17, 22, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

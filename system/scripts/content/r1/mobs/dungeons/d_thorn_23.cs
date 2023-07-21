@@ -15,20 +15,20 @@ public class DThorn23MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_23.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id2", MonsterId.Raider, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id3", MonsterId.Infroholder, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id4", MonsterId.Raider, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id5", MonsterId.Infroholder, 5, 6, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id6", MonsterId.Duckey, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id7", MonsterId.InfroHoglan, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id8", MonsterId.Cronewt, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id9", MonsterId.InfroHoglan, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id10", MonsterId.Cronewt, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id11", MonsterId.Duckey, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id12", MonsterId.Infroholder, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id13", MonsterId.Duckey, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_23.Id14", MonsterId.Raider, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_thorn_23.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_23.Id2", MonsterId.Raider, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id3", MonsterId.Infroholder, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id4", MonsterId.Raider, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id5", MonsterId.Infroholder, 5, 6, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id6", MonsterId.Duckey, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id7", MonsterId.InfroHoglan, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id8", MonsterId.Cronewt, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id9", MonsterId.InfroHoglan, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id10", MonsterId.Cronewt, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id11", MonsterId.Duckey, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id12", MonsterId.Infroholder, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id13", MonsterId.Duckey, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_23.Id14", MonsterId.Raider, 6, 7, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

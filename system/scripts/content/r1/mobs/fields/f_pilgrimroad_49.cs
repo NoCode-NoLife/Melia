@@ -15,14 +15,14 @@ public class FPilgrimroad49MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_49.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id2", MonsterId.Sec_Beetle, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id3", MonsterId.Sec_Dandel_Orange, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id4", MonsterId.Sec_Kepari_Mage, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id5", MonsterId.Sec_Dandel_Orange, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id6", MonsterId.Sec_Beetle, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id7", MonsterId.Sec_Beetle, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_49.Id8", MonsterId.Sec_Kepari_Mage, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_pilgrimroad_49.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_49.Id2", MonsterId.Sec_Beetle, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id3", MonsterId.Sec_Dandel_Orange, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id4", MonsterId.Sec_Kepari_Mage, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id5", MonsterId.Sec_Dandel_Orange, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id6", MonsterId.Sec_Beetle, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id7", MonsterId.Sec_Beetle, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_49.Id8", MonsterId.Sec_Kepari_Mage, 19, 25, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

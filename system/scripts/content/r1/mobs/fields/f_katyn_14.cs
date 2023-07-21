@@ -15,13 +15,13 @@ public class FKatyn14MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_14.Id1", MonsterId.Puragi_Blue, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id2", MonsterId.Honey_Bee, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id3", MonsterId.Fisherman_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id4", MonsterId.Mushroom_Ent_Blue, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id5", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id6", MonsterId.Fisherman_Red, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_14.Id7", MonsterId.Honey_Bee, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_katyn_14.Id1", MonsterId.Puragi_Blue, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_14.Id2", MonsterId.Honey_Bee, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_14.Id3", MonsterId.Fisherman_Red, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_14.Id4", MonsterId.Mushroom_Ent_Blue, 6, 7, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_14.Id5", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_14.Id6", MonsterId.Fisherman_Red, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_14.Id7", MonsterId.Honey_Bee, 30, 40, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

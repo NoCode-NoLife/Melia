@@ -15,11 +15,11 @@ public class DThorn392MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_39_2.Id1", MonsterId.Rootcrystal_01, 7, 9, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_2.Id2", MonsterId.Velwriggler_Mage_Green, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_2.Id3", MonsterId.Big_Cockatries_Green, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_2.Id4", MonsterId.Tombstone_Turtle, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_2.Id5", MonsterId.Velwriggler_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_thorn_39_2.Id1", MonsterId.Rootcrystal_01, 7, 9, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("d_thorn_39_2.Id2", MonsterId.Velwriggler_Mage_Green, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_2.Id3", MonsterId.Big_Cockatries_Green, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_2.Id4", MonsterId.Tombstone_Turtle, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_2.Id5", MonsterId.Velwriggler_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

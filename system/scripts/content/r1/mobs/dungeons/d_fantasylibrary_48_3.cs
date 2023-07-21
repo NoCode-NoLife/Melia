@@ -23,11 +23,11 @@ public class DFantasylibrary483MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_3.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_3.Id2", MonsterId.Crobasia, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_3.Id3", MonsterId.Rotacion, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_3.Id4", MonsterId.Boogie_Box, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_3.Id5", MonsterId.Gear, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_3.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_fantasylibrary_48_3.Id2", MonsterId.Crobasia, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_3.Id3", MonsterId.Rotacion, 34, 45, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_3.Id4", MonsterId.Boogie_Box, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_3.Id5", MonsterId.Gear, 45, 60, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

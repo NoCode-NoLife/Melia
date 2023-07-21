@@ -22,11 +22,11 @@ public class DFantasylibrary482MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_2.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id2", MonsterId.Levada, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id3", MonsterId.Marte_Book, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id4", MonsterId.Aclis_Angel, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_fantasylibrary_48_2.Id5", MonsterId.Luna_Angel, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_fantasylibrary_48_2.Id1", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_fantasylibrary_48_2.Id2", MonsterId.Levada, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_2.Id3", MonsterId.Marte_Book, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_2.Id4", MonsterId.Aclis_Angel, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_fantasylibrary_48_2.Id5", MonsterId.Luna_Angel, 15, 20, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

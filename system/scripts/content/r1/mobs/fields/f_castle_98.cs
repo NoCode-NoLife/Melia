@@ -15,10 +15,10 @@ public class FCastle98MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_98.Id1", MonsterId.Kisylion, 60, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_98.Id2", MonsterId.Ghosbebe, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_98.Id3", MonsterId.Scare_Crow_White, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_98.Id4", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_castle_98.Id1", MonsterId.Kisylion, 60, 80, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_98.Id2", MonsterId.Ghosbebe, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_98.Id3", MonsterId.Scare_Crow_White, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_98.Id4", MonsterId.Rootcrystal_03, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,16 +22,16 @@ public class Ep13FSiauliai2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_f_siauliai_2.Id1", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id2", MonsterId.Darbas_Miner, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id3", MonsterId.Darbas_Carrier, 68, 90, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id4", MonsterId.Darbas_Loader, 68, 90, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id5", MonsterId.Darbas_Miner, 1, 1, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id6", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id7", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id8", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id9", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_2.Id10", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_2.Id1", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep13_f_siauliai_2.Id2", MonsterId.Darbas_Miner, 30, 40, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id3", MonsterId.Darbas_Carrier, 68, 90, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id4", MonsterId.Darbas_Loader, 68, 90, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id5", MonsterId.Darbas_Miner, 1, 1, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id6", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id7", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id8", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id9", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_2.Id10", MonsterId.Darbas_Miner, 2, 2, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

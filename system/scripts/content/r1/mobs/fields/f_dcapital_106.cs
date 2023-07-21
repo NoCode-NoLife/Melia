@@ -22,12 +22,12 @@ public class FDcapital106MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_106.Id1", MonsterId.Rootcrystal_01, 27, 35, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_106.Id2", MonsterId.Wajak_Walker, 24, 31, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_106.Id3", MonsterId.Horong_Walker, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_106.Id4", MonsterId.Bishop_Hart, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_106.Id5", MonsterId.Bishop_Point, 27, 36, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_106.Id6", MonsterId.Bishop_Point, 3, 4, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("f_dcapital_106.Id1", MonsterId.Rootcrystal_01, 27, 35, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_dcapital_106.Id2", MonsterId.Wajak_Walker, 24, 31, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_106.Id3", MonsterId.Horong_Walker, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_106.Id4", MonsterId.Bishop_Hart, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_106.Id5", MonsterId.Bishop_Point, 27, 36, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_106.Id6", MonsterId.Bishop_Point, 3, 4, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

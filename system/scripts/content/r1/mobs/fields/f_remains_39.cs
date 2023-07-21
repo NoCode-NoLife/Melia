@@ -22,15 +22,15 @@ public class FRemains39MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_remains_39.Id1", MonsterId.Gravegolem, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id2", MonsterId.Zolem, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id3", MonsterId.Hook, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id4", MonsterId.Zolem, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id5", MonsterId.Hook, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id6", MonsterId.Flying_Flog, 10, 13, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id7", MonsterId.Zolem, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id8", MonsterId.Gravegolem, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_remains_39.Id9", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_remains_39.Id1", MonsterId.Gravegolem, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id2", MonsterId.Zolem, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id3", MonsterId.Hook, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id4", MonsterId.Zolem, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id5", MonsterId.Hook, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id6", MonsterId.Flying_Flog, 10, 13, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id7", MonsterId.Zolem, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id8", MonsterId.Gravegolem, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_remains_39.Id9", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

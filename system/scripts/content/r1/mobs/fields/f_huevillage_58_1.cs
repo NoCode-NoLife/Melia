@@ -25,14 +25,14 @@ public class FHuevillage581MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_huevillage_58_1.Id1", MonsterId.Tanu, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id2", MonsterId.Tipio, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id3", MonsterId.Beetow, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id5", MonsterId.Tipio, 64, 85, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id6", MonsterId.Doyor, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id7", MonsterId.Tipio, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_1.Id8", MonsterId.Siaulav_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_1.Id1", MonsterId.Tanu, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id2", MonsterId.Tipio, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id3", MonsterId.Beetow, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_huevillage_58_1.Id5", MonsterId.Tipio, 64, 85, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id6", MonsterId.Doyor, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id7", MonsterId.Tipio, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_1.Id8", MonsterId.Siaulav_Bow, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

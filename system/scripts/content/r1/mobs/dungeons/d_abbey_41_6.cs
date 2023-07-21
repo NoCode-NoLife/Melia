@@ -15,12 +15,12 @@ public class DAbbey416MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_41_6.Id1", MonsterId.Rootcrystal_01, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_abbey_41_6.Id2", MonsterId.Ticen_Bow_Red, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_41_6.Id3", MonsterId.Ticen_Red, 105, 140, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_41_6.Id4", MonsterId.Ticen_Mage_Red, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_41_6.Id5", MonsterId.Nuo_Red, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_41_6.Id6", MonsterId.Ticen_Mage_Red, 2, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_abbey_41_6.Id1", MonsterId.Rootcrystal_01, 12, 16, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("d_abbey_41_6.Id2", MonsterId.Ticen_Bow_Red, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_41_6.Id3", MonsterId.Ticen_Red, 105, 140, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_41_6.Id4", MonsterId.Ticen_Mage_Red, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_41_6.Id5", MonsterId.Nuo_Red, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_41_6.Id6", MonsterId.Ticen_Mage_Red, 2, 2, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

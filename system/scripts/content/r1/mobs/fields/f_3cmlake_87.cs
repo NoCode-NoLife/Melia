@@ -24,12 +24,12 @@ public class F3Cmlake87MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_87.Id1", MonsterId.Humming_Duke, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_87.Id2", MonsterId.Mutt, 13, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_87.Id3", MonsterId.Beissen, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_87.Id4", MonsterId.KindronShooter, 18, 23, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_87.Id5", MonsterId.KindronBoor, 19, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_87.Id6", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_87.Id1", MonsterId.Humming_Duke, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_87.Id2", MonsterId.Mutt, 13, 17, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_87.Id3", MonsterId.Beissen, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_87.Id4", MonsterId.KindronShooter, 18, 23, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_87.Id5", MonsterId.KindronBoor, 19, 25, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_3cmlake_87.Id6", MonsterId.Rootcrystal_02, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

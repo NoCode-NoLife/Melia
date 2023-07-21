@@ -15,12 +15,12 @@ public class FPilgrimroad48MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_48.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_48.Id2", MonsterId.Sec_Lizardman, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_48.Id3", MonsterId.Sec_Lizardman, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_48.Id4", MonsterId.Sec_InfroBurk, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_48.Id5", MonsterId.Sec_Operor, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_48.Id6", MonsterId.Sec_Operor, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_pilgrimroad_48.Id1", MonsterId.Rootcrystal_05, 12, 15, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_pilgrimroad_48.Id2", MonsterId.Sec_Lizardman, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_48.Id3", MonsterId.Sec_Lizardman, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_48.Id4", MonsterId.Sec_InfroBurk, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_48.Id5", MonsterId.Sec_Operor, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_48.Id6", MonsterId.Sec_Operor, 15, 20, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,11 +15,11 @@ public class FPilgrimroad362MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_36_2.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_36_2.Id2", MonsterId.Sec_Ticen, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_36_2.Id3", MonsterId.Sec_Tucen, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_36_2.Id4", MonsterId.Sec_Gravegolem, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_36_2.Id5", MonsterId.Sec_Hogma_Sorcerer, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_pilgrimroad_36_2.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_36_2.Id2", MonsterId.Sec_Ticen, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_36_2.Id3", MonsterId.Sec_Tucen, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_36_2.Id4", MonsterId.Sec_Gravegolem, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_36_2.Id5", MonsterId.Sec_Hogma_Sorcerer, 23, 30, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

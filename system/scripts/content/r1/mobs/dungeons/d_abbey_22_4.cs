@@ -15,15 +15,15 @@ public class DAbbey224MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_22_4.Id1", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id2", MonsterId.Hohen_Mage_Black, 72, 95, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id3", MonsterId.Nook, 18, 24, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id4", MonsterId.Boor, 20, 26, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id5", MonsterId.Mangosting, 26, 34, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id6", MonsterId.Half_Mangosting, 35, 46, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id7", MonsterId.Hohen_Mage_Black, 4, 5, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id8", MonsterId.Hohen_Mage_Black, 4, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_abbey_22_4.Id9", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("d_abbey_22_4.Id1", MonsterId.Rootcrystal_05, 14, 18, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_4.Id2", MonsterId.Hohen_Mage_Black, 72, 95, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_4.Id3", MonsterId.Nook, 18, 24, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_4.Id4", MonsterId.Boor, 20, 26, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_4.Id5", MonsterId.Mangosting, 26, 34, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_4.Id6", MonsterId.Half_Mangosting, 35, 46, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_abbey_22_4.Id7", MonsterId.Hohen_Mage_Black, 4, 5, TimeSpan.FromMilliseconds(40000));
+		AddSpawner("d_abbey_22_4.Id8", MonsterId.Hohen_Mage_Black, 4, 5, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_4.Id9", MonsterId.Rootcrystal_01, 13, 17, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

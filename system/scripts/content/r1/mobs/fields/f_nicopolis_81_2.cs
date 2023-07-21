@@ -15,11 +15,11 @@ public class FNicopolis812MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_nicopolis_81_2.Id1", MonsterId.Wiza_Moya, 37, 49, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_nicopolis_81_2.Id2", MonsterId.Mimorat_Pink, 25, 33, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_nicopolis_81_2.Id3", MonsterId.Mimorat_White, 30, 39, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_nicopolis_81_2.Id4", MonsterId.Vine_Walker, 11, 14, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_nicopolis_81_2.Id5", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_nicopolis_81_2.Id1", MonsterId.Wiza_Moya, 37, 49, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_nicopolis_81_2.Id2", MonsterId.Mimorat_Pink, 25, 33, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_nicopolis_81_2.Id3", MonsterId.Mimorat_White, 30, 39, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_nicopolis_81_2.Id4", MonsterId.Vine_Walker, 11, 14, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_nicopolis_81_2.Id5", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

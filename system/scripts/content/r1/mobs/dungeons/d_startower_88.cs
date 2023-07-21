@@ -22,13 +22,13 @@ public class DStartower88MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_88.Id1", MonsterId.NightPanto_Stellar, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id2", MonsterId.NightPanto_Archer, 17, 22, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id3", MonsterId.NightPanto_Mage, 9, 11, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id4", MonsterId.NightPanto_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id5", MonsterId.Mushuta, 30, 39, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id6", MonsterId.Rootcrystal_02, 12, 16, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("d_startower_88.Id7", MonsterId.Mushuta, 30, 40, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
+		AddSpawner("d_startower_88.Id1", MonsterId.NightPanto_Stellar, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_88.Id2", MonsterId.NightPanto_Archer, 17, 22, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_88.Id3", MonsterId.NightPanto_Mage, 9, 11, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_88.Id4", MonsterId.NightPanto_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_88.Id5", MonsterId.Mushuta, 30, 39, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_88.Id6", MonsterId.Rootcrystal_02, 12, 16, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_88.Id7", MonsterId.Mushuta, 30, 40, TimeSpan.FromMilliseconds(25000));
 
 		// Monster Spawn Points -----------------------------
 

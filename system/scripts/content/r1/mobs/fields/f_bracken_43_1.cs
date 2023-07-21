@@ -15,12 +15,12 @@ public class FBracken431MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_bracken_43_1.Id1", MonsterId.Rakon, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_1.Id2", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_1.Id3", MonsterId.Toothrikon, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_1.Id4", MonsterId.Horn_Golem, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_1.Id5", MonsterId.Rakon, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_1.Id6", MonsterId.Rakon, 9, 12, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_1.Id1", MonsterId.Rakon, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_1.Id2", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_1.Id3", MonsterId.Toothrikon, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_1.Id4", MonsterId.Horn_Golem, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_1.Id5", MonsterId.Rakon, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_1.Id6", MonsterId.Rakon, 9, 12, TimeSpan.FromMilliseconds(40000));
 
 		// Monster Spawn Points -----------------------------
 

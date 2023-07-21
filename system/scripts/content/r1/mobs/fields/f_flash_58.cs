@@ -15,10 +15,10 @@ public class FFlash58MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_58.Id1", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_flash_58.Id2", MonsterId.Infroholder_Red, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_58.Id3", MonsterId.Socket_Purple, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_58.Id4", MonsterId.Infroholder_Mage_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_flash_58.Id1", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_flash_58.Id2", MonsterId.Infroholder_Red, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_58.Id3", MonsterId.Socket_Purple, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_58.Id4", MonsterId.Infroholder_Mage_Green, 12, 15, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

@@ -24,13 +24,13 @@ public class DStartower91MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_startower_91.Id1", MonsterId.Nastudeu, 42, 55, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id2", MonsterId.Punter, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id3", MonsterId.Waglog, 43, 57, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id4", MonsterId.Glovegolem, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id5", MonsterId.Waglog, 4, 5, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_startower_91.Id7", MonsterId.Rootcrystal_03, 25, 33, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("d_startower_91.Id1", MonsterId.Nastudeu, 42, 55, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_91.Id2", MonsterId.Punter, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_91.Id3", MonsterId.Waglog, 43, 57, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_91.Id4", MonsterId.Glovegolem, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_startower_91.Id5", MonsterId.Waglog, 4, 5, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_startower_91.Id7", MonsterId.Rootcrystal_03, 25, 33, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

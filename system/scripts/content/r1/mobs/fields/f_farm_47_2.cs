@@ -22,13 +22,13 @@ public class FFarm472MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_47_2.Id1", MonsterId.Dandel_Orange, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id2", MonsterId.Cronewt_Mage, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id3", MonsterId.Kepari_Mage, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id4", MonsterId.Dandel_Orange, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id5", MonsterId.Ashrong, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id6", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_2.Id7", MonsterId.Ashrong, 60, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_farm_47_2.Id1", MonsterId.Dandel_Orange, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_2.Id2", MonsterId.Cronewt_Mage, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_2.Id3", MonsterId.Kepari_Mage, 14, 18, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_2.Id4", MonsterId.Dandel_Orange, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_2.Id5", MonsterId.Ashrong, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_2.Id6", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_farm_47_2.Id7", MonsterId.Ashrong, 60, 80, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

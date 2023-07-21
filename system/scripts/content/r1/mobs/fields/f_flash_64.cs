@@ -23,16 +23,16 @@ public class FFlash64MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_64.Id1", MonsterId.Repusbunny, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id2", MonsterId.Lemuria, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id3", MonsterId.Rubabos, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id4", MonsterId.Lemuria, 12, 16, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id5", MonsterId.Repusbunny, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id6", MonsterId.Lemuria, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, 57, 76, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, 3, 3, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_flash_64.Id1", MonsterId.Repusbunny, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id2", MonsterId.Lemuria, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id3", MonsterId.Rubabos, 6, 7, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id4", MonsterId.Lemuria, 12, 16, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id5", MonsterId.Repusbunny, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id6", MonsterId.Lemuria, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, 57, 76, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, 3, 3, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,12 +15,12 @@ public class FRokas26MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_26.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id2", MonsterId.Wendigo, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id3", MonsterId.Dumaro, 49, 65, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id4", MonsterId.Dumaro, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id5", MonsterId.Wendigo_Bow, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_26.Id6", MonsterId.Wendigo_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_rokas_26.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_26.Id2", MonsterId.Wendigo, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_26.Id3", MonsterId.Dumaro, 49, 65, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_26.Id4", MonsterId.Dumaro, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_26.Id5", MonsterId.Wendigo_Bow, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_26.Id6", MonsterId.Wendigo_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

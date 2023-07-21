@@ -20,10 +20,10 @@ public class FFarm471MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_47_1.Id1", MonsterId.Pino_White, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_1.Id2", MonsterId.Geppetto_White, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_1.Id3", MonsterId.Pino_White, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_1.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_farm_47_1.Id1", MonsterId.Pino_White, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_1.Id2", MonsterId.Geppetto_White, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_1.Id3", MonsterId.Pino_White, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_1.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

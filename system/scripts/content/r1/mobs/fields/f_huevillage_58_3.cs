@@ -23,12 +23,12 @@ public class FHuevillage583MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_huevillage_58_3.Id1", MonsterId.Caro, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_3.Id2", MonsterId.Upent, 2, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_3.Id3", MonsterId.Caro, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_3.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_3.Id5", MonsterId.Caro, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_huevillage_58_3.Id6", MonsterId.Tiny_Bow, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_huevillage_58_3.Id1", MonsterId.Caro, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_3.Id2", MonsterId.Upent, 2, 2, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_3.Id3", MonsterId.Caro, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_3.Id4", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_huevillage_58_3.Id5", MonsterId.Caro, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_huevillage_58_3.Id6", MonsterId.Tiny_Bow, 15, 20, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

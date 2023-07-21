@@ -21,14 +21,14 @@ public class FFlash63MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_63.Id1", MonsterId.Lemur, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id2", MonsterId.Lemur, 53, 70, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id3", MonsterId.Goblin2_Hammer, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id4", MonsterId.Goblin2_Wand3, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id5", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id6", MonsterId.Lemur, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id7", MonsterId.Goblin2_Wand3, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_63.Id8", MonsterId.Lemur, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_flash_63.Id1", MonsterId.Lemur, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id2", MonsterId.Lemur, 53, 70, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id3", MonsterId.Goblin2_Hammer, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id4", MonsterId.Goblin2_Wand3, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id5", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_63.Id6", MonsterId.Lemur, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id7", MonsterId.Goblin2_Wand3, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_63.Id8", MonsterId.Lemur, 6, 7, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

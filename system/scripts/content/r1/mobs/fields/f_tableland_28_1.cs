@@ -15,10 +15,10 @@ public class FTableland281MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_28_1.Id1", MonsterId.Rootcrystal_03, 10, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_28_1.Id2", MonsterId.Repusbunny_Green, 113, 150, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_tableland_28_1.Id3", MonsterId.Repusbunny_Bow_Green, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_tableland_28_1.Id4", MonsterId.Saltisdaughter_Mage_Red, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_tableland_28_1.Id1", MonsterId.Rootcrystal_03, 10, 13, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_tableland_28_1.Id2", MonsterId.Repusbunny_Green, 113, 150, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_28_1.Id3", MonsterId.Repusbunny_Bow_Green, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_28_1.Id4", MonsterId.Saltisdaughter_Mage_Red, 15, 20, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

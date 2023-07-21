@@ -15,13 +15,13 @@ public class FKatyn453MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_45_3.Id1", MonsterId.Mushroom_Boy_Yellow, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id2", MonsterId.Sakmoli_Purple, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id3", MonsterId.Jellyfish_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id4", MonsterId.Fisherman_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id5", MonsterId.Rootcrystal_04, 17, 22, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id6", MonsterId.Mushroom_Boy_Yellow, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_45_3.Id7", MonsterId.Mushroom_Boy_Yellow, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_katyn_45_3.Id1", MonsterId.Mushroom_Boy_Yellow, 34, 45, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_45_3.Id2", MonsterId.Sakmoli_Purple, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_45_3.Id3", MonsterId.Jellyfish_Green, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_45_3.Id4", MonsterId.Fisherman_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_45_3.Id5", MonsterId.Rootcrystal_04, 17, 22, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_katyn_45_3.Id6", MonsterId.Mushroom_Boy_Yellow, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_45_3.Id7", MonsterId.Mushroom_Boy_Yellow, 30, 40, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

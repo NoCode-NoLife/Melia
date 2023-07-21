@@ -23,14 +23,14 @@ public class DThorn20MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_20.Id1", MonsterId.Flower_Blue, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id2", MonsterId.Groll, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id3", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id4", MonsterId.Groll, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id5", MonsterId.Merog_Wizzard, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id6", MonsterId.Bagworm, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id7", MonsterId.Flower_Blue, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_20.Id8", MonsterId.Merog_Wogu, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_thorn_20.Id1", MonsterId.Flower_Blue, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id2", MonsterId.Groll, 57, 75, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id3", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_thorn_20.Id4", MonsterId.Groll, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id5", MonsterId.Merog_Wizzard, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id6", MonsterId.Bagworm, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id7", MonsterId.Flower_Blue, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_20.Id8", MonsterId.Merog_Wogu, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

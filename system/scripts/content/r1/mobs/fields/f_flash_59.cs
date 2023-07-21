@@ -21,14 +21,14 @@ public class FFlash59MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_59.Id1", MonsterId.Jukopus_Gray, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id2", MonsterId.Rambear, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id3", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id4", MonsterId.Rambear, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id5", MonsterId.Goblin2_Wand1, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id6", MonsterId.Jukopus_Gray, 57, 75, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id7", MonsterId.Rambear, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_59.Id8", MonsterId.Jukopus_Gray, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_flash_59.Id1", MonsterId.Jukopus_Gray, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id2", MonsterId.Rambear, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id3", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_59.Id4", MonsterId.Rambear, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id5", MonsterId.Goblin2_Wand1, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id6", MonsterId.Jukopus_Gray, 57, 75, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id7", MonsterId.Rambear, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_59.Id8", MonsterId.Jukopus_Gray, 6, 8, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

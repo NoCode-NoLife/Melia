@@ -15,13 +15,13 @@ public class FKatyn13MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_13.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id2", MonsterId.HighBube_Spear, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id3", MonsterId.HighBube_Archer, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id4", MonsterId.Arburn_Pokubu_Green, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id5", MonsterId.HighBube_Spear, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id6", MonsterId.HighBube_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_katyn_13.Id7", MonsterId.Arburn_Pokubu_Green, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_katyn_13.Id1", MonsterId.Rootcrystal_02, 15, 20, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_13.Id2", MonsterId.HighBube_Spear, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_13.Id3", MonsterId.HighBube_Archer, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_13.Id4", MonsterId.Arburn_Pokubu_Green, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_13.Id5", MonsterId.HighBube_Spear, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_13.Id6", MonsterId.HighBube_Archer, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_katyn_13.Id7", MonsterId.Arburn_Pokubu_Green, 12, 15, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

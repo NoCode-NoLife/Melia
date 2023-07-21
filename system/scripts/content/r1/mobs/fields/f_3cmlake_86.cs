@@ -23,12 +23,12 @@ public class F3Cmlake86MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_86.Id1", MonsterId.Spinacho, 21, 28, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id2", MonsterId.Rubeta, 14, 18, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id3", MonsterId.Lilymaid, 16, 21, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id4", MonsterId.Nolimaid, 13, 17, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id5", MonsterId.Little_Rubeta, 39, 51, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, 1, 1, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_3cmlake_86.Id1", MonsterId.Spinacho, 21, 28, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_86.Id2", MonsterId.Rubeta, 14, 18, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_86.Id3", MonsterId.Lilymaid, 16, 21, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_86.Id4", MonsterId.Nolimaid, 13, 17, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_86.Id5", MonsterId.Little_Rubeta, 39, 51, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, 1, 1, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

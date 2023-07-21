@@ -23,14 +23,14 @@ public class DDcapital108MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_dcapital_108.Id1", MonsterId.Raganosis_Ram, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id2", MonsterId.Raganosis_Guardian, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id3", MonsterId.Raganosis_Seeker, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id4", MonsterId.Raganosis_Ram, 2, 2, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id5", MonsterId.Raganosis_Ram, 7, 9, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id6", MonsterId.Raganosis_Guardian, 18, 24, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id7", MonsterId.Raganosis_Seeker, 20, 26, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("d_dcapital_108.Id8", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("d_dcapital_108.Id1", MonsterId.Raganosis_Ram, 6, 8, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_dcapital_108.Id2", MonsterId.Raganosis_Guardian, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_dcapital_108.Id3", MonsterId.Raganosis_Seeker, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_dcapital_108.Id4", MonsterId.Raganosis_Ram, 2, 2, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_dcapital_108.Id5", MonsterId.Raganosis_Ram, 7, 9, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id6", MonsterId.Raganosis_Guardian, 18, 24, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id7", MonsterId.Raganosis_Seeker, 20, 26, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_dcapital_108.Id8", MonsterId.Rootcrystal_02, 19, 25, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

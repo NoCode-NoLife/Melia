@@ -21,12 +21,12 @@ public class FSiauliai474MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_47_4.Id1", MonsterId.Haming_Orange, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_47_4.Id2", MonsterId.Popolion_Orange, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_47_4.Id3", MonsterId.Popolion_Orange, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_47_4.Id4", MonsterId.Popolion_Orange, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_47_4.Id5", MonsterId.Rootcrystal_01, 20, 26, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_47_4.Id6", MonsterId.Spion_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_siauliai_47_4.Id1", MonsterId.Haming_Orange, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_47_4.Id2", MonsterId.Popolion_Orange, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_47_4.Id3", MonsterId.Popolion_Orange, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_47_4.Id4", MonsterId.Popolion_Orange, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_47_4.Id5", MonsterId.Rootcrystal_01, 20, 26, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_47_4.Id6", MonsterId.Spion_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

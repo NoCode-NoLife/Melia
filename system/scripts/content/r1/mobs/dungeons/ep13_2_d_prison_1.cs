@@ -24,10 +24,10 @@ public class Ep132DPrison1MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_2_d_prison_1.Id1", MonsterId.Episode13_2_Goblin_Brandingiron, 72, 96, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_1.Id2", MonsterId.Episode13_2_Banshee, 51, 68, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_1.Id3", MonsterId.Episode13_2_Goblin_Sweeper, 93, 123, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_1.Id4", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("ep13_2_d_prison_1.Id1", MonsterId.Episode13_2_Goblin_Brandingiron, 72, 96, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_1.Id2", MonsterId.Episode13_2_Banshee, 51, 68, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_1.Id3", MonsterId.Episode13_2_Goblin_Sweeper, 93, 123, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_1.Id4", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

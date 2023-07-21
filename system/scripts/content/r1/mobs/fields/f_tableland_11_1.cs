@@ -15,12 +15,12 @@ public class FTableland111MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_11_1.Id1", MonsterId.Saltisdaughter_Red, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_11_1.Id2", MonsterId.Saltisdaughter_Bow_Green, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_11_1.Id3", MonsterId.Repusbunny_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_11_1.Id4", MonsterId.Groll_White, 19, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_11_1.Id5", MonsterId.Groll_White, 30, 40, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_11_1.Id6", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_tableland_11_1.Id1", MonsterId.Saltisdaughter_Red, 23, 30, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id2", MonsterId.Saltisdaughter_Bow_Green, 15, 20, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id3", MonsterId.Repusbunny_Mage_Green, 15, 20, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id4", MonsterId.Groll_White, 19, 25, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id5", MonsterId.Groll_White, 30, 40, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id6", MonsterId.Rootcrystal_01, 14, 18, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

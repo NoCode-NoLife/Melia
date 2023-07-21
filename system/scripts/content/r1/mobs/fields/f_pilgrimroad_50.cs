@@ -22,11 +22,11 @@ public class FPilgrimroad50MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_50.Id1", MonsterId.Kodomor, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_50.Id2", MonsterId.Romor, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_50.Id3", MonsterId.Rootcrystal_01, 6, 8, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_50.Id4", MonsterId.Lapasape_Bow, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_pilgrimroad_50.Id5", MonsterId.Siaulav_Mage, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_pilgrimroad_50.Id1", MonsterId.Kodomor, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_50.Id2", MonsterId.Romor, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_50.Id3", MonsterId.Rootcrystal_01, 6, 8, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_50.Id4", MonsterId.Lapasape_Bow, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_pilgrimroad_50.Id5", MonsterId.Siaulav_Mage, 12, 15, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

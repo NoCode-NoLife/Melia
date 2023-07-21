@@ -22,12 +22,12 @@ public class FFarm473MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_farm_47_3.Id1", MonsterId.Kepo_Seed_Violet, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_3.Id2", MonsterId.Ellom_Violet, 60, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_3.Id3", MonsterId.Kepo_Seed_Violet, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_3.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_3.Id5", MonsterId.Cronewt_Bow, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_farm_47_3.Id6", MonsterId.Operor_White, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_farm_47_3.Id1", MonsterId.Kepo_Seed_Violet, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_3.Id2", MonsterId.Ellom_Violet, 60, 80, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_3.Id3", MonsterId.Kepo_Seed_Violet, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_3.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_farm_47_3.Id5", MonsterId.Cronewt_Bow, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_farm_47_3.Id6", MonsterId.Operor_White, 19, 25, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

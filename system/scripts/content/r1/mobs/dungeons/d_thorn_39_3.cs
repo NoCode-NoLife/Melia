@@ -15,11 +15,11 @@ public class DThorn393MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_39_3.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_3.Id2", MonsterId.Stonacorn, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_3.Id3", MonsterId.Loftlem_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_3.Id4", MonsterId.Cire_Mage, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("d_thorn_39_3.Id5", MonsterId.Hepatica_Green, 60, 80, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("d_thorn_39_3.Id1", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("d_thorn_39_3.Id2", MonsterId.Stonacorn, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_3.Id3", MonsterId.Loftlem_Green, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_3.Id4", MonsterId.Cire_Mage, 3, 3, TimeSpan.FromMilliseconds(0));
+		AddSpawner("d_thorn_39_3.Id5", MonsterId.Hepatica_Green, 60, 80, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

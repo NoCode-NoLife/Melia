@@ -22,9 +22,9 @@ public class FCastle95MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_95.Id1", MonsterId.Ghoscandle, 90, 120, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_95.Id2", MonsterId.Infrogremlin, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_95.Id3", MonsterId.Velsoarer, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_95.Id1", MonsterId.Ghoscandle, 90, 120, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_95.Id2", MonsterId.Infrogremlin, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_95.Id3", MonsterId.Velsoarer, 12, 15, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

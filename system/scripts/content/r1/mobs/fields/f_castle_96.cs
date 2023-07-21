@@ -21,11 +21,11 @@ public class FCastle96MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_96.Id1", MonsterId.Gigglecat, 68, 90, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_96.Id2", MonsterId.Ghoscat, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_96.Id3", MonsterId.ArchGargoyle, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_96.Id4", MonsterId.Ghoscat, 16, 21, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
-		AddSpawner("f_castle_96.Id5", MonsterId.Rootcrystal_04, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_castle_96.Id1", MonsterId.Gigglecat, 68, 90, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_96.Id2", MonsterId.Ghoscat, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_96.Id3", MonsterId.ArchGargoyle, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_96.Id4", MonsterId.Ghoscat, 16, 21, TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_castle_96.Id5", MonsterId.Rootcrystal_04, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

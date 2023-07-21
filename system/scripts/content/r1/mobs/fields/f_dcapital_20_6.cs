@@ -15,11 +15,11 @@ public class FDcapital206MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_20_6.Id1", MonsterId.Wood_Lwa_Green, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_20_6.Id2", MonsterId.Ellomago_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_20_6.Id3", MonsterId.Ragged_Bird, 38, 50, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_20_6.Id4", MonsterId.Ragged_Butcher, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_20_6.Id5", MonsterId.Rootcrystal_04, 15, 20, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_dcapital_20_6.Id1", MonsterId.Wood_Lwa_Green, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_20_6.Id2", MonsterId.Ellomago_Green, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_20_6.Id3", MonsterId.Ragged_Bird, 38, 50, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_20_6.Id4", MonsterId.Ragged_Butcher, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_dcapital_20_6.Id5", MonsterId.Rootcrystal_04, 15, 20, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

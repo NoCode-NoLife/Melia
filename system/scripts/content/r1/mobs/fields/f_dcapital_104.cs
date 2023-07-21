@@ -22,10 +22,10 @@ public class FDcapital104MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_104.Id1", MonsterId.Orc_Cannon, 38, 50, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_104.Id2", MonsterId.Orc_Flag, 53, 70, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_104.Id3", MonsterId.Orc_Glaive, 8, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_dcapital_104.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_dcapital_104.Id1", MonsterId.Orc_Cannon, 38, 50, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_dcapital_104.Id2", MonsterId.Orc_Flag, 53, 70, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_dcapital_104.Id3", MonsterId.Orc_Glaive, 8, 10, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_dcapital_104.Id4", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,13 +15,13 @@ public class FFlash60MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_60.Id1", MonsterId.Moya, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id2", MonsterId.Bavon, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id3", MonsterId.Moya, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id4", MonsterId.Bavon, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id5", MonsterId.Saltisdaughter_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id6", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("f_flash_60.Id7", MonsterId.Saltisdaughter_Mage, 6, 8, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_flash_60.Id1", MonsterId.Moya, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_60.Id2", MonsterId.Bavon, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_60.Id3", MonsterId.Moya, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_60.Id4", MonsterId.Bavon, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_60.Id5", MonsterId.Saltisdaughter_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_flash_60.Id6", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_60.Id7", MonsterId.Saltisdaughter_Mage, 6, 8, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

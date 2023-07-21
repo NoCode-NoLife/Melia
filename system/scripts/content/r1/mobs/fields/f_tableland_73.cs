@@ -21,11 +21,11 @@ public class FTableland73MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_73.Id1", MonsterId.Wendigo_Archer_Gray, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_tableland_73.Id2", MonsterId.Tiny_Bow_Blue, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_tableland_73.Id3", MonsterId.Hohen_Gulak_Blue, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_tableland_73.Id4", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_73.Id5", MonsterId.Tiny_Bow_Blue, 4, 5, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("f_tableland_73.Id1", MonsterId.Wendigo_Archer_Gray, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_73.Id2", MonsterId.Tiny_Bow_Blue, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_73.Id3", MonsterId.Hohen_Gulak_Blue, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_tableland_73.Id4", MonsterId.Rootcrystal_03, 19, 25, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_73.Id5", MonsterId.Tiny_Bow_Blue, 4, 5, TimeSpan.FromMilliseconds(40000));
 
 		// Monster Spawn Points -----------------------------
 

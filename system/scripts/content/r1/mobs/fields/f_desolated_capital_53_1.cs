@@ -23,12 +23,12 @@ public class FDesolatedCapital531MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_desolated_capital_53_1.Id1", MonsterId.Orc_Double_Axe, 34, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_desolated_capital_53_1.Id2", MonsterId.Orc_Shield, 34, 45, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_desolated_capital_53_1.Id3", MonsterId.Orc_Wand, 27, 35, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_desolated_capital_53_1.Id4", MonsterId.Orc_Leader, 6, 8, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_desolated_capital_53_1.Id5", MonsterId.Orc_Double_Axe, 8, 10, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_desolated_capital_53_1.Id6", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("f_desolated_capital_53_1.Id1", MonsterId.Orc_Double_Axe, 34, 45, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_desolated_capital_53_1.Id2", MonsterId.Orc_Shield, 34, 45, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_desolated_capital_53_1.Id3", MonsterId.Orc_Wand, 27, 35, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_desolated_capital_53_1.Id4", MonsterId.Orc_Leader, 6, 8, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_desolated_capital_53_1.Id5", MonsterId.Orc_Double_Axe, 8, 10, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_desolated_capital_53_1.Id6", MonsterId.Rootcrystal_01, 23, 30, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

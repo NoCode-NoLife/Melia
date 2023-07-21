@@ -15,15 +15,15 @@ public class DThorn22MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_22.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id2", MonsterId.Meleech, 15, 20, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id3", MonsterId.RavineLerva, 12, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id4", MonsterId.Wood_Goblin, 23, 30, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id5", MonsterId.Meleech, 12, 15, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id6", MonsterId.RavineLerva, 11, 14, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id7", MonsterId.TreeGool, 10, 13, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id8", MonsterId.Wood_Goblin, 38, 50, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("d_thorn_22.Id9", MonsterId.RavineLerva, 4, 5, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
+		AddSpawner("d_thorn_22.Id1", MonsterId.Rootcrystal_01, 8, 10, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_22.Id2", MonsterId.Meleech, 15, 20, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_22.Id3", MonsterId.RavineLerva, 12, 15, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_22.Id4", MonsterId.Wood_Goblin, 23, 30, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_22.Id5", MonsterId.Meleech, 12, 15, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_thorn_22.Id6", MonsterId.RavineLerva, 11, 14, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_thorn_22.Id7", MonsterId.TreeGool, 10, 13, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_thorn_22.Id8", MonsterId.Wood_Goblin, 38, 50, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("d_thorn_22.Id9", MonsterId.RavineLerva, 4, 5, TimeSpan.FromMilliseconds(15000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -15,13 +15,13 @@ public class FRokas25MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id2", MonsterId.Zinute, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id3", MonsterId.Chupacabra_Desert, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, 10, 13, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id5", MonsterId.Chupacabra_Desert, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id6", MonsterId.Chupacabra_Desert, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_25.Id7", MonsterId.Lichenclops, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_25.Id2", MonsterId.Zinute, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_25.Id3", MonsterId.Chupacabra_Desert, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, 10, 13, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_25.Id5", MonsterId.Chupacabra_Desert, 19, 25, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_25.Id6", MonsterId.Chupacabra_Desert, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_25.Id7", MonsterId.Lichenclops, 30, 40, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

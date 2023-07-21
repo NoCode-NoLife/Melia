@@ -21,10 +21,10 @@ public class Ep132DPrison2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_2_d_prison_2.Id1", MonsterId.Mokslas_Researcher, 68, 90, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_2.Id2", MonsterId.Mokslas_Fumigation, 22, 29, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_2.Id3", MonsterId.Mokslas_Doctor, 90, 120, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("ep13_2_d_prison_2.Id4", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
+		AddSpawner("ep13_2_d_prison_2.Id1", MonsterId.Mokslas_Researcher, 68, 90, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_2.Id2", MonsterId.Mokslas_Fumigation, 22, 29, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_2.Id3", MonsterId.Mokslas_Doctor, 90, 120, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("ep13_2_d_prison_2.Id4", MonsterId.Rootcrystal_01, 17, 22, TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

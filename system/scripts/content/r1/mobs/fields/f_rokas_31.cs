@@ -25,11 +25,11 @@ public class FRokas31MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_31.Id1", MonsterId.Warleader_Hogma, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_31.Id2", MonsterId.Rootcrystal_03, 3, 4, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_rokas_31.Id3", MonsterId.Tontulia, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_31.Id4", MonsterId.Warleader_Hogma, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_31.Id5", MonsterId.Repusbunny_Mage, 4, 5, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_rokas_31.Id1", MonsterId.Warleader_Hogma, 4, 5, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_31.Id2", MonsterId.Rootcrystal_03, 3, 4, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_31.Id3", MonsterId.Tontulia, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_31.Id4", MonsterId.Warleader_Hogma, 3, 3, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_31.Id5", MonsterId.Repusbunny_Mage, 4, 5, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

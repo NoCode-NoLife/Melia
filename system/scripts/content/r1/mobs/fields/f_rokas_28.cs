@@ -15,12 +15,12 @@ public class FRokas28MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_28.Id1", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_28.Id2", MonsterId.Rootcrystal_05, 8, 10, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_rokas_28.Id3", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_28.Id4", MonsterId.Lauzinute, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_28.Id5", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_28.Id6", MonsterId.Templeslave_Mage, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_rokas_28.Id1", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_28.Id2", MonsterId.Rootcrystal_05, 8, 10, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_28.Id3", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_28.Id4", MonsterId.Lauzinute, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_28.Id5", MonsterId.Hogma_Archer, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_28.Id6", MonsterId.Templeslave_Mage, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

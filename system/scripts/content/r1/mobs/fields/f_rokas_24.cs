@@ -15,15 +15,15 @@ public class FRokas24MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_24.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id2", MonsterId.Tontus, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id3", MonsterId.Dandel, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id4", MonsterId.Tontus, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id5", MonsterId.Pino, 9, 12, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id6", MonsterId.Geppetto, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id7", MonsterId.Dandel, 6, 7, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id8", MonsterId.Tontus, 12, 15, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_rokas_24.Id9", MonsterId.Dandel, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_rokas_24.Id1", MonsterId.Rootcrystal_05, 12, 16, TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_24.Id2", MonsterId.Tontus, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id3", MonsterId.Dandel, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id4", MonsterId.Tontus, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id5", MonsterId.Pino, 9, 12, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id6", MonsterId.Geppetto, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id7", MonsterId.Dandel, 6, 7, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id8", MonsterId.Tontus, 12, 15, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_rokas_24.Id9", MonsterId.Dandel, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

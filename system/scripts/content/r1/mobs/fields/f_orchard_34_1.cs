@@ -15,11 +15,11 @@ public class FOrchard341MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_orchard_34_1.Id1", MonsterId.Eldigo_Green, 45, 60, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_orchard_34_1.Id2", MonsterId.Eldigo_Green, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_orchard_34_1.Id3", MonsterId.Truffle_Red, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_orchard_34_1.Id4", MonsterId.Corpse_Flower_Green, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_orchard_34_1.Id5", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_orchard_34_1.Id1", MonsterId.Eldigo_Green, 45, 60, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_orchard_34_1.Id2", MonsterId.Eldigo_Green, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_orchard_34_1.Id3", MonsterId.Truffle_Red, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_orchard_34_1.Id4", MonsterId.Corpse_Flower_Green, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_orchard_34_1.Id5", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

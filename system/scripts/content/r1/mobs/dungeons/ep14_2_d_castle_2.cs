@@ -24,12 +24,12 @@ public class Ep142DCastle2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep14_2_d_castle_2.Id1", MonsterId.Rootcrystal_05, 15, 19, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id2", MonsterId.Episode14_2_Bleakferret_Lancer, 23, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id3", MonsterId.Episode14_2_Bleakferret_Scout, 23, 30, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id4", MonsterId.Episode14_2_Bleakferret_Strange, 12, 15, TimeSpan.FromMilliseconds(15000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id5", MonsterId.Episode14_2_GresmeBird, 19, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
-		AddSpawner("ep14_2_d_castle_2.Id6", MonsterId.Episode14_2_GresmeCrow, 19, 25, TimeSpan.FromMilliseconds(10000), TendencyType.Peaceful);
+		AddSpawner("ep14_2_d_castle_2.Id1", MonsterId.Rootcrystal_05, 15, 19, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep14_2_d_castle_2.Id2", MonsterId.Episode14_2_Bleakferret_Lancer, 23, 30, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_2.Id3", MonsterId.Episode14_2_Bleakferret_Scout, 23, 30, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_2.Id4", MonsterId.Episode14_2_Bleakferret_Strange, 12, 15, TimeSpan.FromMilliseconds(15000));
+		AddSpawner("ep14_2_d_castle_2.Id5", MonsterId.Episode14_2_GresmeBird, 19, 25, TimeSpan.FromMilliseconds(10000));
+		AddSpawner("ep14_2_d_castle_2.Id6", MonsterId.Episode14_2_GresmeCrow, 19, 25, TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 

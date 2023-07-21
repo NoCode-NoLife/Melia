@@ -15,11 +15,11 @@ public class FBracken434MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_bracken_43_4.Id1", MonsterId.Vilkas_Warrior, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_4.Id2", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_4.Id3", MonsterId.Vilkas_Spearman, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_4.Id4", MonsterId.Vilkas_Fighter, 1, 1, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_bracken_43_4.Id5", MonsterId.Vilkas_Mage, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_bracken_43_4.Id1", MonsterId.Vilkas_Warrior, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_4.Id2", MonsterId.Rootcrystal_03, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_4.Id3", MonsterId.Vilkas_Spearman, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_4.Id4", MonsterId.Vilkas_Fighter, 1, 1, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_bracken_43_4.Id5", MonsterId.Vilkas_Mage, 19, 25, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

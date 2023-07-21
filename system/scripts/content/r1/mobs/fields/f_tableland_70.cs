@@ -15,12 +15,12 @@ public class FTableland70MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_70.Id1", MonsterId.Hohen_Mane_Purple, 8, 10, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_70.Id2", MonsterId.Hohen_Mage_Blue, 9, 12, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_70.Id3", MonsterId.Cronewt_Blue, 60, 80, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_70.Id4", MonsterId.Lapasape_Bow_Blue, 15, 20, TimeSpan.FromMilliseconds(25000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_70.Id5", MonsterId.Rootcrystal_03, 20, 26, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
-		AddSpawner("f_tableland_70.Id6", MonsterId.Lapasape_Bow_Blue, 15, 20, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("f_tableland_70.Id1", MonsterId.Hohen_Mane_Purple, 8, 10, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_70.Id2", MonsterId.Hohen_Mage_Blue, 9, 12, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_70.Id3", MonsterId.Cronewt_Blue, 60, 80, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_70.Id4", MonsterId.Lapasape_Bow_Blue, 15, 20, TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_tableland_70.Id5", MonsterId.Rootcrystal_03, 20, 26, TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_tableland_70.Id6", MonsterId.Lapasape_Bow_Blue, 15, 20, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

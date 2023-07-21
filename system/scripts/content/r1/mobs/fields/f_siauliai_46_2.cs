@@ -23,11 +23,11 @@ public class FSiauliai462MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_siauliai_46_2.Id1", MonsterId.Mushroom_Ent_Black, 3, 4, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_2.Id2", MonsterId.Zigri_Red, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_2.Id3", MonsterId.Siaumire, 30, 40, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_2.Id4", MonsterId.Big_Siaulamb, 3, 3, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_siauliai_46_2.Id5", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000), TendencyType.Peaceful);
+		AddSpawner("f_siauliai_46_2.Id1", MonsterId.Mushroom_Ent_Black, 3, 4, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_2.Id2", MonsterId.Zigri_Red, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_2.Id3", MonsterId.Siaumire, 30, 40, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_2.Id4", MonsterId.Big_Siaulamb, 3, 3, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_siauliai_46_2.Id5", MonsterId.Rootcrystal_01, 9, 12, TimeSpan.FromMilliseconds(30000));
 
 		// Monster Spawn Points -----------------------------
 

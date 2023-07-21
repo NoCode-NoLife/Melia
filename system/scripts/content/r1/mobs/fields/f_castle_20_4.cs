@@ -15,11 +15,11 @@ public class FCastle204MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id2", MonsterId.Shardstatue_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id3", MonsterId.Templeslave_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id4", MonsterId.Templeslave_Sword_Black, 15, 20, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_20_4.Id5", MonsterId.Templeslave_Sword_Black, 19, 25, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_20_4.Id2", MonsterId.Shardstatue_Black, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_20_4.Id3", MonsterId.Templeslave_Black, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_20_4.Id4", MonsterId.Templeslave_Sword_Black, 15, 20, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_20_4.Id5", MonsterId.Templeslave_Sword_Black, 19, 25, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

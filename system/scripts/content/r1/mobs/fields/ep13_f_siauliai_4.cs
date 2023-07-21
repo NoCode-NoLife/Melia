@@ -22,19 +22,19 @@ public class Ep13FSiauliai4MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_f_siauliai_4.Id1", MonsterId.Rootcrystal_01, 19, 25, TimeSpan.FromMilliseconds(20000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id2", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id3", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id4", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id5", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id6", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id7", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id8", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id9", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id10", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id11", MonsterId.Saugumas_Sentinel, 68, 90, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id12", MonsterId.Saugumas_Defender, 27, 35, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("ep13_f_siauliai_4.Id13", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
+		AddSpawner("ep13_f_siauliai_4.Id1", MonsterId.Rootcrystal_01, 19, 25, TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep13_f_siauliai_4.Id2", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id3", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id4", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id5", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id6", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id7", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id8", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id9", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id10", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id11", MonsterId.Saugumas_Sentinel, 68, 90, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id12", MonsterId.Saugumas_Defender, 27, 35, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_4.Id13", MonsterId.Saugumas_Guardion, 2, 2, TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

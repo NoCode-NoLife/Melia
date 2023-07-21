@@ -15,14 +15,14 @@ public class FCoral352MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_35_2.Id1", MonsterId.Jukotail, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id2", MonsterId.Siaulav_Orange, 34, 45, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id3", MonsterId.Siaulav_Bow_Orange, 23, 30, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id4", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id5", MonsterId.Jukotail, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id6", MonsterId.Siaulav_Orange, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id7", MonsterId.Siaulav_Bow_Orange, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_coral_35_2.Id8", MonsterId.Jukotail, 8, 10, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
+		AddSpawner("f_coral_35_2.Id1", MonsterId.Jukotail, 34, 45, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id2", MonsterId.Siaulav_Orange, 34, 45, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id3", MonsterId.Siaulav_Bow_Orange, 23, 30, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id4", MonsterId.Rootcrystal_01, 12, 15, TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_coral_35_2.Id5", MonsterId.Jukotail, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id6", MonsterId.Siaulav_Orange, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id7", MonsterId.Siaulav_Bow_Orange, 8, 10, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_coral_35_2.Id8", MonsterId.Jukotail, 8, 10, TimeSpan.FromMilliseconds(0));
 
 		// Monster Spawn Points -----------------------------
 

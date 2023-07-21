@@ -22,12 +22,12 @@ public class FCastle94MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_94.Id1", MonsterId.Gland, 40, 53, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_94.Id2", MonsterId.Grievous_Wheel, 32, 42, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_94.Id3", MonsterId.Ghosnatus, 27, 35, TimeSpan.FromMilliseconds(0), TendencyType.Peaceful);
-		AddSpawner("f_castle_94.Id4", MonsterId.Gland, 19, 25, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
-		AddSpawner("f_castle_94.Id5", MonsterId.Grievous_Wheel, 15, 20, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
-		AddSpawner("f_castle_94.Id6", MonsterId.Ghosnatus, 12, 15, TimeSpan.FromMilliseconds(40000), TendencyType.Peaceful);
+		AddSpawner("f_castle_94.Id1", MonsterId.Gland, 40, 53, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_94.Id2", MonsterId.Grievous_Wheel, 32, 42, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_94.Id3", MonsterId.Ghosnatus, 27, 35, TimeSpan.FromMilliseconds(0));
+		AddSpawner("f_castle_94.Id4", MonsterId.Gland, 19, 25, TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_castle_94.Id5", MonsterId.Grievous_Wheel, 15, 20, TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_castle_94.Id6", MonsterId.Ghosnatus, 12, 15, TimeSpan.FromMilliseconds(40000));
 
 		// Monster Spawn Points -----------------------------
 
