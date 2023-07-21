@@ -113,6 +113,11 @@ namespace Melia.Shared.Configuration.Files
 
 			return result;
 		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
+		}
 	}
 
 	/// <summary>

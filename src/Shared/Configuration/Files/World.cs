@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System.Collections.Generic;
+using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {
@@ -72,6 +73,11 @@ namespace Melia.Shared.Configuration.Files
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

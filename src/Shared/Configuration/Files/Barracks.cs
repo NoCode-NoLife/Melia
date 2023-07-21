@@ -1,4 +1,5 @@
-﻿using Melia.Shared.World;
+﻿using System.Collections.Generic;
+using Melia.Shared.World;
 using Yggdrasil.Configuration;
 using Yggdrasil.Logging;
 
@@ -69,6 +70,11 @@ namespace Melia.Shared.Configuration.Files
 			}
 
 			return new Position(x, y, z);
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

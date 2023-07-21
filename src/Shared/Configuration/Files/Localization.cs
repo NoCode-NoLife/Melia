@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System.Collections.Generic;
+using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {
@@ -22,6 +23,11 @@ namespace Melia.Shared.Configuration.Files
 			this.Language = this.GetString("language", "en-US");
 			this.Culture = this.GetString("culture", "en-US");
 			this.CultureUi = this.GetString("culture_ui", "en-US");
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

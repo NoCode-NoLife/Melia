@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System.Collections.Generic;
+using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {
@@ -24,6 +25,11 @@ namespace Melia.Shared.Configuration.Files
 			this.User = this.GetString("user", "root");
 			this.Pass = this.GetString("pass", "");
 			this.Db = this.GetString("database", "melia");
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

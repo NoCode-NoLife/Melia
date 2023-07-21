@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
@@ -21,6 +22,11 @@ namespace Melia.Shared.Configuration.Files
 
 			this.PhpCgiFilePath = this.GetString("php_cgi_bin", Path.Combine("user", "tools", "php", "php-cgi.exe"));
 			this.PhpDownloadUrl = this.GetString("php_download", "https://windows.php.net/downloads/releases/php-8.2.7-nts-Win32-vs16-x86.zip");
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System.Collections.Generic;
+using Yggdrasil.Configuration;
 using Yggdrasil.Logging;
 
 namespace Melia.Shared.Configuration.Files
@@ -19,6 +20,11 @@ namespace Melia.Shared.Configuration.Files
 			this.Include(filePath);
 
 			this.Filter = (LogLevel)this.GetInt("log_filter", 0);
+		}
+
+		public Dictionary<string, string> GetOptions()
+		{
+			return _options;
 		}
 	}
 }

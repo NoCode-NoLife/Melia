@@ -106,10 +106,23 @@ class AdminDashboardController extends Controller
 
     public function settings(Request $request)
     {
+        try {
+            $response = $this->client->request('POST', '/api/kick/all' );
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+
+            if ($statusCode == 200) {
+                $decodedBody = json_decode($body);
+                return back()->with('status', $decodedBody['status']);
+            }
+        } catch (\Exception $e) {
+        }
+
         return Inertia::render('SettingsView', [
             'account' => auth()->user()->account,
             'backupSchedule' => config('backup.schedule'),
             'enableTrading' => true,
+            'settings' => $settings,
         ]);
     }
 
