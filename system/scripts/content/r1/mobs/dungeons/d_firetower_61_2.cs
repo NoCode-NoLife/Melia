@@ -22,10 +22,8 @@ public class DFiretower612MobScript : GeneralScript
 		AddSpawner("d_firetower_61_2.Id5", MonsterId.Altarcrystal_R1, amount: 1, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id6", MonsterId.Altarcrystal_R1, amount: 2, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id7", MonsterId.Altarcrystal_R1, amount: 2, respawn: TimeSpan.FromMilliseconds(180000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id8", MonsterId.Altarcrystal_R1, amount: 0, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id9", MonsterId.Altarcrystal_R1, amount: 0, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id10", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id11", MonsterId.Colifly_Black, min: 15, max: 20, tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id8", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id9", MonsterId.Colifly_Black, min: 15, max: 20, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -300,37 +298,30 @@ public class DFiretower612MobScript : GeneralScript
 		AddSpawnPoint("d_firetower_61_2.Id7", "d_firetower_61_2", Rectangle(-25, -283, 300));
 		AddSpawnPoint("d_firetower_61_2.Id7", "d_firetower_61_2", Rectangle(1052, -319, 300));
 
-		// 'Altarcrystal_R1' GenType 13 Spawn Points
-		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-915, 573, 9999));
-
-		// 'Altarcrystal_R1' GenType 14 Spawn Points
-		AddSpawnPoint("d_firetower_61_2.Id9", "d_firetower_61_2", Rectangle(-875, 680, 9999));
-		AddSpawnPoint("d_firetower_61_2.Id9", "d_firetower_61_2", Rectangle(-925, 424, 9999));
-
 		// 'Rootcrystal_04' GenType 21 Spawn Points
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1873, -1277, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1889, -892, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1826, -795, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1173, -400, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1074, -210, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1052, -948, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-197, -262, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(76, -293, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-205, -1448, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(131, -1497, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(934, -1043, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(1015, -250, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(741, 474, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(702, 783, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-144, 435, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-981, 744, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-1099, 540, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-2019, 1533, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(-2059, 1090, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(1575, -1660, 100));
-		AddSpawnPoint("d_firetower_61_2.Id10", "d_firetower_61_2", Rectangle(1795, -1404, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1873, -1277, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1889, -892, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1826, -795, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1173, -400, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1074, -210, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1052, -948, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-197, -262, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(76, -293, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-205, -1448, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(131, -1497, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(934, -1043, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(1015, -250, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(741, 474, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(702, 783, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-144, 435, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-981, 744, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-1099, 540, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-2019, 1533, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(-2059, 1090, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(1575, -1660, 100));
+		AddSpawnPoint("d_firetower_61_2.Id8", "d_firetower_61_2", Rectangle(1795, -1404, 100));
 
 		// 'Colifly_Black' GenType 24 Spawn Points
-		AddSpawnPoint("d_firetower_61_2.Id11", "d_firetower_61_2", Rectangle(-1080, -276, 9999));
+		AddSpawnPoint("d_firetower_61_2.Id9", "d_firetower_61_2", Rectangle(-1080, -276, 9999));
 	}
 }

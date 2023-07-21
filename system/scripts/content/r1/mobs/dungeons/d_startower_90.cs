@@ -29,10 +29,7 @@ public class DStartower90MobScript : GeneralScript
 		AddSpawner("d_startower_90.Id2", MonsterId.Madlens, min: 24, max: 31);
 		AddSpawner("d_startower_90.Id3", MonsterId.Grob, min: 26, max: 34);
 		AddSpawner("d_startower_90.Id4", MonsterId.Hafter, min: 40, max: 53);
-		AddSpawner("d_startower_90.Id5", MonsterId.Nasleia, amount: 0);
-		AddSpawner("d_startower_90.Id6", MonsterId.Madlens, amount: 0);
-		AddSpawner("d_startower_90.Id7", MonsterId.Grob, amount: 0);
-		AddSpawner("d_startower_90.Id8", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_90.Id5", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------
 
@@ -196,65 +193,31 @@ public class DStartower90MobScript : GeneralScript
 		AddSpawnPoint("d_startower_90.Id4", "d_startower_90", Rectangle(1780, 733, 25));
 		AddSpawnPoint("d_startower_90.Id4", "d_startower_90", Rectangle(1834, 1253, 25));
 
-		// 'Nasleia' GenType 38 Spawn Points
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-626, -1349, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-734, -916, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-69, -967, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(182, -1441, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(935, -1333, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(465, -947, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(70, -255, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(122, 136, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(917, 117, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-634, 107, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1616, 931, 75));
-		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1768, 1267, 75));
-
-		// 'Madlens' GenType 39 Spawn Points
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(1507, 976, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(1923, 1015, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(-763, 731, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(-1437, 768, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(157, 1234, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(243, 234, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(-1217, 167, 75));
-		AddSpawnPoint("d_startower_90.Id6", "d_startower_90", Rectangle(82, 627, 75));
-
-		// 'Grob' GenType 40 Spawn Points
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(32, 1900, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-103, 1273, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-427, 1708, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-770, 1617, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-518, 1944, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(706, 1148, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-1341, 1317, 75));
-		AddSpawnPoint("d_startower_90.Id7", "d_startower_90", Rectangle(-832, 1300, 75));
-
 		// 'Rootcrystal_03' GenType 41 Spawn Points
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(1419, -1385, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(775, -1424, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(315, -1465, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-711, -1460, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-460, -918, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-1042, -921, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(129, -891, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(1065, -915, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(107, -180, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(100, 375, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(748, 162, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-615, 182, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-1141, 154, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-1410, 707, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-1577, 1260, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-966, 1275, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-770, 799, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-249, 1304, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-633, 1737, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(-308, 2050, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(231, 1999, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(403, 1263, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(903, 1179, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(1429, 867, 200));
-		AddSpawnPoint("d_startower_90.Id8", "d_startower_90", Rectangle(1803, 1132, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1419, -1385, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(775, -1424, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(315, -1465, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-711, -1460, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-460, -918, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-1042, -921, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(129, -891, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1065, -915, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(107, -180, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(100, 375, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(748, 162, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-615, 182, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-1141, 154, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-1410, 707, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-1577, 1260, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-966, 1275, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-770, 799, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-249, 1304, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-633, 1737, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(-308, 2050, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(231, 1999, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(403, 1263, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(903, 1179, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1429, 867, 200));
+		AddSpawnPoint("d_startower_90.Id5", "d_startower_90", Rectangle(1803, 1132, 200));
 	}
 }

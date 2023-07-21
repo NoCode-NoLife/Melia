@@ -19,8 +19,7 @@ public class DFiretower611MobScript : GeneralScript
 		AddSpawner("d_firetower_61_1.Id2", MonsterId.Socket_Bow_Brown, min: 38, max: 50, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id3", MonsterId.Anchor, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id4", MonsterId.Socket_Bow_Brown, min: 19, max: 25, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id5", MonsterId.Boss_Marionette, amount: 0, respawn: TimeSpan.FromMilliseconds(7200000), tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id6", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_1.Id5", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -309,35 +308,32 @@ public class DFiretower611MobScript : GeneralScript
 		AddSpawnPoint("d_firetower_61_1.Id4", "d_firetower_61_1", Rectangle(287, -1315, 9999));
 		AddSpawnPoint("d_firetower_61_1.Id4", "d_firetower_61_1", Rectangle(353, -1158, 9999));
 
-		// 'Boss_Marionette' GenType 7 Spawn Points
-		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1792, 216, 20));
-
 		// 'Rootcrystal_04' GenType 28 Spawn Points
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-362, -1921, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(327, -1252, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-136, -1713, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(765, -1437, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(575, -1081, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(840, -729, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1182, -390, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1713, -102, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1931, 212, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-141, -1020, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-781, -1240, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-1163, -1639, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-1790, -1063, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-1299, -768, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-83, 605, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-58, 955, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-617, 825, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-955, 733, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-903, 1052, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(753, 711, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(718, 1023, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1042, 1410, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1326, 1752, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(1254, 1854, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(-133, 1612, 100));
-		AddSpawnPoint("d_firetower_61_1.Id6", "d_firetower_61_1", Rectangle(8, 1774, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-362, -1921, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(327, -1252, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-136, -1713, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(765, -1437, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(575, -1081, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(840, -729, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1182, -390, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1713, -102, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1931, 212, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-141, -1020, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-781, -1240, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-1163, -1639, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-1790, -1063, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-1299, -768, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-83, 605, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-58, 955, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-617, 825, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-955, 733, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-903, 1052, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(753, 711, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(718, 1023, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1042, 1410, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1326, 1752, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(1254, 1854, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(-133, 1612, 100));
+		AddSpawnPoint("d_firetower_61_1.Id5", "d_firetower_61_1", Rectangle(8, 1774, 100));
 	}
 }

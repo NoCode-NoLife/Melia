@@ -18,11 +18,10 @@ public class DUnderfortress592MobScript : GeneralScript
 		AddSpawner("d_underfortress_59_2.Id1", MonsterId.FD_Spectra, min: 34, max: 45, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id2", MonsterId.FD_Spector_Gh_Purple, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id3", MonsterId.FD_Whip_Vine_Purple, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id4", MonsterId.FD_Boss_Canceril, amount: 0, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id5", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_2.Id6", MonsterId.FD_Spectra, min: 6, max: 8, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id7", MonsterId.FD_Spectra, min: 15, max: 20, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id8", MonsterId.FD_Colimen_Mage, min: 19, max: 25, tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_2.Id4", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_2.Id5", MonsterId.FD_Spectra, min: 6, max: 8, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id6", MonsterId.FD_Spectra, min: 15, max: 20, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id7", MonsterId.FD_Colimen_Mage, min: 19, max: 25, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
@@ -117,75 +116,72 @@ public class DUnderfortress592MobScript : GeneralScript
 		AddSpawnPoint("d_underfortress_59_2.Id3", "d_underfortress_59_2", Rectangle(721, 170, 10));
 		AddSpawnPoint("d_underfortress_59_2.Id3", "d_underfortress_59_2", Rectangle(717, 155, 10));
 
-		// 'FD_Boss_Canceril' GenType 34 Spawn Points
-		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(811, 1155, 20));
-
 		// 'Rootcrystal_03' GenType 35 Spawn Points
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(124, 206, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(91, -244, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(148, -766, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-174, -770, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(432, -800, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(997, -768, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(975, -211, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(1292, 183, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(874, 190, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(395, 188, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(547, 1115, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(737, 921, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(599, 944, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(89, 1092, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-89, 711, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(328, 684, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-977, 161, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-953, -344, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-912, -755, 100));
-		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-459, -243, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(124, 206, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(91, -244, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(148, -766, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-174, -770, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(432, -800, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(997, -768, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(975, -211, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(1292, 183, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(874, 190, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(395, 188, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(547, 1115, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(737, 921, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(599, 944, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(89, 1092, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-89, 711, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(328, 684, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-977, 161, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-953, -344, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-912, -755, 100));
+		AddSpawnPoint("d_underfortress_59_2.Id4", "d_underfortress_59_2", Rectangle(-459, -243, 100));
 
 		// 'FD_Spectra' GenType 36 Spawn Points
-		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-953, -810, 30));
-		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-951, -584, 30));
-		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-960, -367, 30));
-		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-967, -70, 30));
-		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-940, 302, 30));
+		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-953, -810, 30));
+		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-951, -584, 30));
+		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-960, -367, 30));
+		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-967, -70, 30));
+		AddSpawnPoint("d_underfortress_59_2.Id5", "d_underfortress_59_2", Rectangle(-940, 302, 30));
 
 		// 'FD_Spectra' GenType 40 Spawn Points
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(516, -767, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(325, -760, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(404, -859, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-243, -780, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-189, -629, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-153, -878, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-909, -244, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(864, -781, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(978, -695, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-765, -246, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1093, -853, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(27, 82, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(320, 741, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-134, 117, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1006, -88, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(867, -194, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1065, -220, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1097, 139, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1026, 224, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-97, 697, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(1201, 163, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(722, 1010, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(433, 655, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(916, 220, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(726, 188, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(77, 543, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(112, 248, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-1015, 181, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(111, 803, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-165, 1019, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-33, 1136, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(442, 950, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-189, -299, 25));
-		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(373, 200, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(516, -767, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(325, -760, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(404, -859, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-243, -780, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-189, -629, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-153, -878, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-909, -244, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(864, -781, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(978, -695, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-765, -246, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1093, -853, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(27, 82, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(320, 741, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-134, 117, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1006, -88, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(867, -194, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1065, -220, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1097, 139, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1026, 224, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-97, 697, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(1201, 163, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(722, 1010, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(433, 655, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(916, 220, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(726, 188, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(77, 543, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(112, 248, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-1015, 181, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(111, 803, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-165, 1019, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-33, 1136, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(442, 950, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(-189, -299, 25));
+		AddSpawnPoint("d_underfortress_59_2.Id6", "d_underfortress_59_2", Rectangle(373, 200, 25));
 
 		// 'FD_Colimen_Mage' GenType 41 Spawn Points
-		AddSpawnPoint("d_underfortress_59_2.Id8", "d_underfortress_59_2", Rectangle(-47, -235, 9999));
+		AddSpawnPoint("d_underfortress_59_2.Id7", "d_underfortress_59_2", Rectangle(-47, -235, 9999));
 	}
 }
