@@ -1,7 +1,8 @@
 // Aura
 // Script list
 // 
+// This file will extend the custom system scripts list.
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
-custom/stat_resetter.lua
+custom/stat_resetter.cs

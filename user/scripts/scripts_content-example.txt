@@ -1,0 +1,10 @@
+// Aura
+// Script list
+// 
+// This file will override the contents system scripts list entirely.
+// All scripts listed in this file will be loaded.
+//---------------------------------------------------------------------------
+
+// Example: Load only the test content and the R1 warps, but not the mobs.
+require "/system/scripts/content/r1/warps/scripts.txt"
+require "/system/scripts/content/test/scripts.txt"
