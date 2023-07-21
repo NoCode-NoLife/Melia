@@ -57,7 +57,7 @@ namespace Melia.Social.World
 					if (members.Length != 2)
 						continue;
 
-					if (members.Any(a => a.Id == accountId1) && members.Any(a => a.Id == accountId2))
+					if (members.Any(a => a.AccountId == accountId1) && members.Any(a => a.AccountId == accountId2))
 						return chatRoom;
 				}
 			}

@@ -8,7 +8,7 @@ namespace Melia.Social.Database
 	/// </summary>
 	public class ChatRoom
 	{
-		public readonly List<Account> _members = new List<Account>();
+		public readonly List<ChatRoomMember> _members = new List<ChatRoomMember>();
 		public readonly List<ChatMessage> _messages = new List<ChatMessage>();
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace Melia.Social.Database
 		/// Returns list of all members in the chat room.
 		/// </summary>
 		/// <returns></returns>
-		public Account[] GetMembers()
+		public ChatRoomMember[] GetMembers()
 		{
 			lock (_members)
 				return _members.ToArray();
@@ -81,21 +81,28 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Add a member to the chat room.
 		/// </summary>
-		/// <param name="account"></param>
+		/// <param name="member"></param>
 		public void AddMember(Account account)
+			=> this.AddMember(new ChatRoomMember(this.Id, account.Id, account.TeamName));
+
+		/// <summary>
+		/// Add a member to the chat room.
+		/// </summary>
+		/// <param name="member"></param>
+		public void AddMember(ChatRoomMember member)
 		{
 			lock (_members)
-				_members.Add(account);
+				_members.Add(member);
 		}
 
 		/// <summary>
 		/// Removes a member from a chat room.
 		/// </summary>
-		/// <param name="account"></param>
-		public void RemoveMember(Account account)
+		/// <param name="accountId"></param>
+		public void RemoveMember(long accountId)
 		{
 			lock (_members)
-				_members.Remove(account);
+				_members.RemoveAll(m => m.AccountId == accountId);
 		}
 
 		/// <summary>
@@ -118,7 +125,7 @@ namespace Melia.Social.Database
 			{
 				foreach (var account in _members)
 				{
-					if (SocialServer.Instance.UserManager.TryGet(account.Id, out var user))
+					if (SocialServer.Instance.UserManager.TryGet(account.AccountId, out var user))
 						user.Connection.Send(packet);
 				}
 			}

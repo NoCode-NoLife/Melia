@@ -132,7 +132,7 @@ namespace Melia.Social.Network
 
 				foreach (var member in chatRoom.GetMembers())
 				{
-					packet.PutLong(member.Id);
+					packet.PutLong(member.AccountId);
 					packet.PutLpString(member.TeamName);
 					packet.PutInt(1);
 				}

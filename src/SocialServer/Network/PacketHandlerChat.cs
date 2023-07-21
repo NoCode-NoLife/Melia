@@ -296,7 +296,7 @@ namespace Melia.Social.Network
 			}
 
 			conn.User.Account.RemoveChatRoom(chatId);
-			chatRoom.RemoveMember(conn.User.Account);
+			chatRoom.RemoveMember(conn.User.Id);
 
 			if (chatRoom.MemberCount == 0)
 				SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
