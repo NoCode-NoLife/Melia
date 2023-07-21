@@ -1,0 +1,6 @@
+// Melia
+// Script List File
+//---------------------------------------------------------------------------
+
+include "mobs/scripts.txt"
+include "warps/scripts.txt"
