@@ -20,7 +20,7 @@ public class DAbbey416MobScript : GeneralScript
 		AddSpawner("d_abbey_41_6.Id3", MonsterId.Ticen_Red, min: 105, max: 140);
 		AddSpawner("d_abbey_41_6.Id4", MonsterId.Ticen_Mage_Red, min: 12, max: 15);
 		AddSpawner("d_abbey_41_6.Id5", MonsterId.Nuo_Red, min: 15, max: 20);
-		AddSpawner("d_abbey_41_6.Id6", MonsterId.Ticen_Mage_Red, min: 2, max: 2);
+		AddSpawner("d_abbey_41_6.Id6", MonsterId.Ticen_Mage_Red, amount: 2);
 
 		// Monster Spawn Points -----------------------------
 

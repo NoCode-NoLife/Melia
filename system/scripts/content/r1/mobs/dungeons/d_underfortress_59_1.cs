@@ -18,7 +18,7 @@ public class DUnderfortress591MobScript : GeneralScript
 		AddSpawner("d_underfortress_59_1.Id1", MonsterId.FD_Woodgoblin_Black, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_1.Id2", MonsterId.FD_Bushspider_Purple, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_1.Id3", MonsterId.FD_Pappus_Kepa_Purple, min: 15, max: 20, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_1.Id4", MonsterId.FD_Boss_Templeshooter, min: 0, max: 0, tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_1.Id4", MonsterId.FD_Boss_Templeshooter, amount: 0, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_1.Id5", MonsterId.Rootcrystal_03, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_59_1.Id6", MonsterId.FD_Woodgoblin_Black, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_1.Id7", MonsterId.FD_Bushspider_Purple, min: 23, max: 30, tendency: TendencyType.Aggressive);

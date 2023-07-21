@@ -31,7 +31,7 @@ public class FGele572MobScript : GeneralScript
 		AddSpawner("f_gele_57_2.Id4", MonsterId.Mally, min: 15, max: 20);
 		AddSpawner("f_gele_57_2.Id5", MonsterId.Npanto_Staff, min: 9, max: 12);
 		AddSpawner("f_gele_57_2.Id6", MonsterId.Npanto_Sword, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(25000));
-		AddSpawner("f_gele_57_2.Id7", MonsterId.Npanto_Hand, min: 3, max: 3);
+		AddSpawner("f_gele_57_2.Id7", MonsterId.Npanto_Hand, amount: 3);
 		AddSpawner("f_gele_57_2.Id8", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_gele_57_2.Id9", MonsterId.Mon_Goat_Totem_Q, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
 		AddSpawner("f_gele_57_2.Id10", MonsterId.Mally, min: 6, max: 7, respawn: TimeSpan.FromMilliseconds(25000));

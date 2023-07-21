@@ -30,7 +30,7 @@ public class FHuevillage582MobScript : GeneralScript
 		AddSpawner("f_huevillage_58_2.Id6", MonsterId.Rootcrystal_01, min: 9, max: 11, respawn: TimeSpan.FromMilliseconds(30000));
 		AddSpawner("f_huevillage_58_2.Id7", MonsterId.Ultanun, min: 60, max: 80);
 		AddSpawner("f_huevillage_58_2.Id8", MonsterId.Zibu_Maize, min: 5, max: 6);
-		AddSpawner("f_huevillage_58_2.Id9", MonsterId.Rudas_Loxodon, min: 3, max: 3);
+		AddSpawner("f_huevillage_58_2.Id9", MonsterId.Rudas_Loxodon, amount: 3);
 
 		// Monster Spawn Points -----------------------------
 

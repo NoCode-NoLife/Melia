@@ -13,7 +13,7 @@ public class MissionChaple01MobScript : GeneralScript
 {
 	public override void Load()
 	{
-		AddSpawner("mission_chaple_01.Id1", MonsterId.Rootcrystal_01, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(15000));
+		AddSpawner("mission_chaple_01.Id1", MonsterId.Rootcrystal_01, amount: 1, respawn: TimeSpan.FromMilliseconds(15000));
 
 		// 'Rootcrystal_01' GenType 1 Spawn Points
 		AddSpawnPoint("mission_chaple_01.Id1", "mission_chaple_01", Rectangle(-148, -891, 100));

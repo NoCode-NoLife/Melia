@@ -24,7 +24,7 @@ public class FKatyn7MobScript : GeneralScript
 		AddSpawner("f_katyn_7.Id7", MonsterId.Bushspider, min: 12, max: 15);
 		AddSpawner("f_katyn_7.Id8", MonsterId.Fisherman, min: 8, max: 10);
 		AddSpawner("f_katyn_7.Id9", MonsterId.Ellom, min: 8, max: 10);
-		AddSpawner("f_katyn_7.Id10", MonsterId.Fisherman, min: 3, max: 3);
+		AddSpawner("f_katyn_7.Id10", MonsterId.Fisherman, amount: 3);
 
 		// Monster Spawn Points -----------------------------
 

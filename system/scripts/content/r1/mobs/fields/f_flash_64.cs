@@ -32,7 +32,7 @@ public class FFlash64MobScript : GeneralScript
 		AddSpawner("f_flash_64.Id7", MonsterId.Saltisdaughter_Bow, min: 8, max: 10);
 		AddSpawner("f_flash_64.Id8", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_flash_64.Id9", MonsterId.Lemuria, min: 57, max: 76);
-		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_flash_64.Id10", MonsterId.Wood_Carving, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------
 

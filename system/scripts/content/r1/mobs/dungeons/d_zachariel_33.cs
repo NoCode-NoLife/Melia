@@ -32,7 +32,7 @@ public class DZachariel33MobScript : GeneralScript
 		AddSpawner("d_zachariel_33.Id7", MonsterId.Wolf_Statue, min: 5, max: 6, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id8", MonsterId.Tombsinker, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id9", MonsterId.Wolf_Statue, min: 4, max: 5, tendency: TendencyType.Peaceful);
-		AddSpawner("d_zachariel_33.Id10", MonsterId.Beetle_Elite, min: 3, max: 3, tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id10", MonsterId.Beetle_Elite, amount: 3, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

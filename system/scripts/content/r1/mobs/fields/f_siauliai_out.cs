@@ -34,7 +34,7 @@ public class FSiauliaiOutMobScript : GeneralScript
 		AddSpawner("f_siauliai_out.Id9", MonsterId.Jukopus, min: 12, max: 15);
 		AddSpawner("f_siauliai_out.Id10", MonsterId.Onion_Red, min: 6, max: 8);
 		AddSpawner("f_siauliai_out.Id11", MonsterId.Jukopus, min: 5, max: 6);
-		AddSpawner("f_siauliai_out.Id12", MonsterId.Onion_Red_Elite, min: 2, max: 2);
+		AddSpawner("f_siauliai_out.Id12", MonsterId.Onion_Red_Elite, amount: 2);
 
 		// Monster Spawn Points -----------------------------
 

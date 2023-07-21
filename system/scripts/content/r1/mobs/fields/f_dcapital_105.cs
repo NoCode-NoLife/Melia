@@ -28,7 +28,7 @@ public class FDcapital105MobScript : GeneralScript
 		AddSpawner("f_dcapital_105.Id4", MonsterId.Moltooth, min: 30, max: 40);
 		AddSpawner("f_dcapital_105.Id5", MonsterId.Bishopstar, min: 24, max: 32);
 		AddSpawner("f_dcapital_105.Id6", MonsterId.Bishopstar, min: 6, max: 7, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_dcapital_105.Id7", MonsterId.Bishopstar, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_dcapital_105.Id7", MonsterId.Bishopstar, amount: 3, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

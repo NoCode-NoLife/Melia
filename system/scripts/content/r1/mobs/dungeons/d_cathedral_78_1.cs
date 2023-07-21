@@ -28,8 +28,8 @@ public class DCathedral781MobScript : GeneralScript
 		AddSpawner("d_cathedral_78_1.Id11", MonsterId.ERD_Shtayim, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_78_1.Id12", MonsterId.ERD_Nuo, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_78_1.Id13", MonsterId.ERD_Elet, min: 6, max: 8, tendency: TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id14", MonsterId.ERD_Glizardon, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
-		AddSpawner("d_cathedral_78_1.Id15", MonsterId.ERD_Galok, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id14", MonsterId.ERD_Glizardon, amount: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_cathedral_78_1.Id15", MonsterId.ERD_Galok, amount: 3, respawn: TimeSpan.FromMilliseconds(1200000), tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_78_1.Id16", MonsterId.ERD_Malstatue, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_78_1.Id17", MonsterId.ERD_Malstatue, min: 11, max: 14, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_78_1.Id18", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);

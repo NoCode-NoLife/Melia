@@ -35,13 +35,13 @@ public class Ep13FSiauliai5MobScript : GeneralScript
 		AddSpawner("ep13_f_siauliai_5.Id11", MonsterId.Elgesys_Malkos, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id12", MonsterId.Elgesys_Collecter, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id13", MonsterId.Darbas_Smuggler, min: 6, max: 7, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("ep13_f_siauliai_5.Id14", MonsterId.Darbas_Smuggler, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_5.Id14", MonsterId.Darbas_Smuggler, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id15", MonsterId.Darbas_Smuggler, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id16", MonsterId.Darbas_Smuggler, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("ep13_f_siauliai_5.Id17", MonsterId.Darbas_Smuggler, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_5.Id17", MonsterId.Darbas_Smuggler, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id18", MonsterId.Darbas_Smuggler, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id19", MonsterId.Darbas_Smuggler, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("ep13_f_siauliai_5.Id20", MonsterId.Darbas_Smuggler, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("ep13_f_siauliai_5.Id20", MonsterId.Darbas_Smuggler, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("ep13_f_siauliai_5.Id21", MonsterId.Elgesys_Malkos, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(60000));
 
 		// Monster Spawn Points -----------------------------

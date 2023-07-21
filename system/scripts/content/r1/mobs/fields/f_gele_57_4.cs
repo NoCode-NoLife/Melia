@@ -35,7 +35,7 @@ public class FGele574MobScript : GeneralScript
 		AddSpawner("f_gele_57_4.Id8", MonsterId.Mallardu, min: 15, max: 20);
 		AddSpawner("f_gele_57_4.Id9", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_gele_57_4.Id10", MonsterId.Npanto_Archer, min: 19, max: 25);
-		AddSpawner("f_gele_57_4.Id11", MonsterId.Panto_Javelin_Elite, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1200000));
+		AddSpawner("f_gele_57_4.Id11", MonsterId.Panto_Javelin_Elite, amount: 1, respawn: TimeSpan.FromMilliseconds(1200000));
 		AddSpawner("f_gele_57_4.Id12", MonsterId.Mallardu, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_gele_57_4.Id13", MonsterId.Npanto_Archer, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
 		AddSpawner("f_gele_57_4.Id14", MonsterId.Seedmia, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(180000));

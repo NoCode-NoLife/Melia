@@ -31,7 +31,7 @@ public class FGele571MobScript : GeneralScript
 		AddSpawner("f_gele_57_1.Id7", MonsterId.Npanto_Baby, min: 19, max: 25);
 		AddSpawner("f_gele_57_1.Id8", MonsterId.Npanto_Baby, min: 8, max: 10);
 		AddSpawner("f_gele_57_1.Id9", MonsterId.Grummer, min: 12, max: 15);
-		AddSpawner("f_gele_57_1.Id10", MonsterId.Panto_Javelin_Gele, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1800000));
+		AddSpawner("f_gele_57_1.Id10", MonsterId.Panto_Javelin_Gele, amount: 1, respawn: TimeSpan.FromMilliseconds(1800000));
 
 		// Monster Spawn Points -----------------------------
 

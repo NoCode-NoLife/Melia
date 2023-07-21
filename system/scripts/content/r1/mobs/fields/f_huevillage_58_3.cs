@@ -24,7 +24,7 @@ public class FHuevillage583MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_huevillage_58_3.Id1", MonsterId.Caro, min: 12, max: 15);
-		AddSpawner("f_huevillage_58_3.Id2", MonsterId.Upent, min: 2, max: 2);
+		AddSpawner("f_huevillage_58_3.Id2", MonsterId.Upent, amount: 2);
 		AddSpawner("f_huevillage_58_3.Id3", MonsterId.Caro, min: 15, max: 20);
 		AddSpawner("f_huevillage_58_3.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
 		AddSpawner("f_huevillage_58_3.Id5", MonsterId.Caro, min: 45, max: 60);

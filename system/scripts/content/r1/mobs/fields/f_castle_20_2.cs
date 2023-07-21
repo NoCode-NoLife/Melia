@@ -26,7 +26,7 @@ public class FCastle202MobScript : GeneralScript
 		AddSpawner("f_castle_20_2.Id2", MonsterId.Aklascenser, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("f_castle_20_2.Id3", MonsterId.Aklasbishop, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("f_castle_20_2.Id4", MonsterId.Aklashump, min: 27, max: 35, tendency: TendencyType.Aggressive);
-		AddSpawner("f_castle_20_2.Id5", MonsterId.Siaria, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1800000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_castle_20_2.Id5", MonsterId.Siaria, amount: 1, respawn: TimeSpan.FromMilliseconds(1800000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

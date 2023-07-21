@@ -28,7 +28,7 @@ public class F3Cmlake86MobScript : GeneralScript
 		AddSpawner("f_3cmlake_86.Id3", MonsterId.Lilymaid, min: 16, max: 21);
 		AddSpawner("f_3cmlake_86.Id4", MonsterId.Nolimaid, min: 13, max: 17);
 		AddSpawner("f_3cmlake_86.Id5", MonsterId.Little_Rubeta, min: 39, max: 51);
-		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_86.Id6", MonsterId.Rootcrystal_02, amount: 1, respawn: TimeSpan.FromMilliseconds(20000));
 
 		// Monster Spawn Points -----------------------------
 

@@ -29,7 +29,7 @@ public class DStartower91MobScript : GeneralScript
 		AddSpawner("d_startower_91.Id3", MonsterId.Waglog, min: 43, max: 57);
 		AddSpawner("d_startower_91.Id4", MonsterId.Glovegolem, min: 8, max: 10);
 		AddSpawner("d_startower_91.Id5", MonsterId.Waglog, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, min: 2, max: 2, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_startower_91.Id6", MonsterId.Glovegolem, amount: 2, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("d_startower_91.Id7", MonsterId.Rootcrystal_03, min: 25, max: 33, respawn: TimeSpan.FromMilliseconds(10000));
 
 		// Monster Spawn Points -----------------------------

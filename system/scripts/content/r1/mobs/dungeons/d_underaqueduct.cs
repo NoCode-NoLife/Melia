@@ -21,7 +21,7 @@ public class DUnderaqueductMobScript : GeneralScript
 		AddSpawner("d_underaqueduct.Id4", MonsterId.Chesha_Riel, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id5", MonsterId.Chesha_Needle, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id6", MonsterId.Chesha_Papa, min: 45, max: 60, respawn: TimeSpan.FromMilliseconds(1000), tendency: TendencyType.Aggressive);
-		AddSpawner("d_underaqueduct.Id7", MonsterId.Gimmick_Mon_Chesha_Venom, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(3000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_underaqueduct.Id7", MonsterId.Gimmick_Mon_Chesha_Venom, amount: 1, respawn: TimeSpan.FromMilliseconds(3000), tendency: TendencyType.Aggressive);
 		AddSpawner("d_underaqueduct.Id8", MonsterId.Rootcrystal_04, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

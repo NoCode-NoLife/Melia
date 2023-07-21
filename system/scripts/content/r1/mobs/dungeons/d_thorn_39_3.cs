@@ -18,7 +18,7 @@ public class DThorn393MobScript : GeneralScript
 		AddSpawner("d_thorn_39_3.Id1", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(5000));
 		AddSpawner("d_thorn_39_3.Id2", MonsterId.Stonacorn, min: 23, max: 30);
 		AddSpawner("d_thorn_39_3.Id3", MonsterId.Loftlem_Green, min: 23, max: 30);
-		AddSpawner("d_thorn_39_3.Id4", MonsterId.Cire_Mage, min: 3, max: 3);
+		AddSpawner("d_thorn_39_3.Id4", MonsterId.Cire_Mage, amount: 3);
 		AddSpawner("d_thorn_39_3.Id5", MonsterId.Hepatica_Green, min: 60, max: 80);
 
 		// Monster Spawn Points -----------------------------

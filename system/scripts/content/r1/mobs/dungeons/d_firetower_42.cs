@@ -31,7 +31,7 @@ public class DFiretower42MobScript : GeneralScript
 		AddSpawner("d_firetower_42.Id4", MonsterId.Blindlem, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_42.Id5", MonsterId.Belegg, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_42.Id6", MonsterId.Chromadog, min: 12, max: 15, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_42.Id7", MonsterId.Slime_Elite_Big, min: 3, max: 3, tendency: TendencyType.Aggressive);
+		AddSpawner("d_firetower_42.Id7", MonsterId.Slime_Elite_Big, amount: 3, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

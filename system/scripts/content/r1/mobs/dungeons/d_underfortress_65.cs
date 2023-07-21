@@ -27,10 +27,10 @@ public class DUnderfortress65MobScript : GeneralScript
 		AddSpawner("d_underfortress_65.Id2", MonsterId.Ticen_Blue, min: 30, max: 40, tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_65.Id3", MonsterId.Ticen_Bow_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_65.Id4", MonsterId.Socket_Red, min: 23, max: 30, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_65.Id5", MonsterId.Silvertransporter_Qm, min: 1, max: 1, tendency: TendencyType.Peaceful);
-		AddSpawner("d_underfortress_65.Id6", MonsterId.Silvertransporter_Qm, min: 1, max: 1, tendency: TendencyType.Peaceful);
-		AddSpawner("d_underfortress_65.Id7", MonsterId.Silvertransporter_Qm, min: 1, max: 1, tendency: TendencyType.Peaceful);
-		AddSpawner("d_underfortress_65.Id8", MonsterId.Silvertransporter_Qm, min: 1, max: 1, tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_65.Id5", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_65.Id6", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_65.Id7", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_65.Id8", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_65.Id9", MonsterId.Socket_Bow_Purple, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_65.Id10", MonsterId.Rootcrystal_05, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 

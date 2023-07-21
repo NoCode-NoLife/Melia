@@ -28,7 +28,7 @@ public class FGele573MobScript : GeneralScript
 
 		AddSpawner("f_gele_57_3.Id1", MonsterId.Zigri_Brown, min: 15, max: 20);
 		AddSpawner("f_gele_57_3.Id2", MonsterId.Banshee, min: 15, max: 20);
-		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, min: 3, max: 3);
+		AddSpawner("f_gele_57_3.Id3", MonsterId.Firent, amount: 3);
 		AddSpawner("f_gele_57_3.Id4", MonsterId.Puragi_Green, min: 10, max: 13);
 		AddSpawner("f_gele_57_3.Id5", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(60000));
 		AddSpawner("f_gele_57_3.Id6", MonsterId.Banshee, min: 8, max: 10);

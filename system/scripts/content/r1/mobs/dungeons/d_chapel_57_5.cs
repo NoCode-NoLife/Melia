@@ -29,9 +29,9 @@ public class DChapel575MobScript : GeneralScript
 		AddSpawner("d_chapel_57_5.Id3", MonsterId.Zombiegirl2_Chpel, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_5.Id4", MonsterId.Zombiegirl2_Chpel, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_5.Id5", MonsterId.Yognome, min: 27, max: 35, tendency: TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_5.Id6", MonsterId.Glizardon, min: 3, max: 3, tendency: TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_5.Id6", MonsterId.Glizardon, amount: 3, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_5.Id7", MonsterId.New_Desmodus, min: 27, max: 35, tendency: TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_5.Id8", MonsterId.Glizardon, min: 3, max: 3, tendency: TendencyType.Aggressive);
+		AddSpawner("d_chapel_57_5.Id8", MonsterId.Glizardon, amount: 3, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

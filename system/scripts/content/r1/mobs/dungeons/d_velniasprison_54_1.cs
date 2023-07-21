@@ -17,8 +17,8 @@ public class DVelniasprison541MobScript : GeneralScript
 
 		AddSpawner("d_velniasprison_54_1.Id1", MonsterId.FD_Yognome, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_54_1.Id2", MonsterId.FD_Long_Arm, min: 18, max: 23, tendency: TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_54_1.Id3", MonsterId.FD_Firent_Yellow, min: 1, max: 1, tendency: TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_54_1.Id4", MonsterId.Treasure_Goblin, min: 0, max: 0, tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_54_1.Id3", MonsterId.FD_Firent_Yellow, amount: 1, tendency: TendencyType.Aggressive);
+		AddSpawner("d_velniasprison_54_1.Id4", MonsterId.Treasure_Goblin, amount: 0, tendency: TendencyType.Peaceful);
 		AddSpawner("d_velniasprison_54_1.Id5", MonsterId.Rootcrystal_04, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
 		AddSpawner("d_velniasprison_54_1.Id6", MonsterId.FD_Infrogalas_Bow, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_54_1.Id7", MonsterId.FD_Yognome, min: 15, max: 20, tendency: TendencyType.Aggressive);

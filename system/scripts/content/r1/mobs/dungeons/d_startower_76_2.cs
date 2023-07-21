@@ -28,7 +28,7 @@ public class DStartower762MobScript : GeneralScript
 		AddSpawner("d_startower_76_2.Id11", MonsterId.ERD_Nuo_Purple, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_startower_76_2.Id12", MonsterId.ERD_Quartz_Weaver, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_startower_76_2.Id13", MonsterId.ERD_Jukotail, min: 60, max: 80, tendency: TendencyType.Aggressive);
-		AddSpawner("d_startower_76_2.Id14", MonsterId.ERD_Jukotail, min: 3, max: 3, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Aggressive);
+		AddSpawner("d_startower_76_2.Id14", MonsterId.ERD_Jukotail, amount: 3, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Aggressive);
 		AddSpawner("d_startower_76_2.Id15", MonsterId.Rootcrystal_02, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

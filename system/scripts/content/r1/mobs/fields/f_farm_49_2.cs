@@ -27,7 +27,7 @@ public class FFarm492MobScript : GeneralScript
 		AddSpawner("f_farm_49_2.Id3", MonsterId.Flying_Flog_Green, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Aggressive);
 		AddSpawner("f_farm_49_2.Id4", MonsterId.Flying_Flog_Green, min: 60, max: 80, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Aggressive);
 		AddSpawner("f_farm_49_2.Id5", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
-		AddSpawner("f_farm_49_2.Id6", MonsterId.Pendinmire_Paviesa, min: 1, max: 1, respawn: TimeSpan.FromMilliseconds(1800000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_farm_49_2.Id6", MonsterId.Pendinmire_Paviesa, amount: 1, respawn: TimeSpan.FromMilliseconds(1800000), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

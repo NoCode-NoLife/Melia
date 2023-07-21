@@ -29,7 +29,7 @@ public class DFiretower44MobScript : GeneralScript
 		AddSpawner("d_firetower_44.Id3", MonsterId.Wizards_Marmotte, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_44.Id4", MonsterId.Flask, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_44.Id5", MonsterId.Minivern, min: 8, max: 10, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_44.Id6", MonsterId.Minivern_Elite, min: 3, max: 3, tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_44.Id6", MonsterId.Minivern_Elite, amount: 3, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 
