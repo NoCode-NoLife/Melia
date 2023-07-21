@@ -228,7 +228,8 @@ namespace Melia.Zone
 					break;
 				}
 				case ReqReloadConfigsMessage reqReloadConfigsMessage:
-				{
+				{					
+					Log.Info("Reloading configuration...");
 					this.Conf.Load();
 					break;
 				}

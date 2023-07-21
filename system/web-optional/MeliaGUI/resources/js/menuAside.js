@@ -14,9 +14,9 @@ export default [
     admin: true,
   },
   {
-    href: "/admin/settings",
+    href: "/admin/configs",
     icon: mdiCogs,
-    label: "Settings",
+    label: "Configs",
     admin: false,
   },
   {

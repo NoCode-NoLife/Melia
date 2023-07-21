@@ -121,54 +121,54 @@ const deleteBackup = (backup) => {
 
     <table v-show="itemsPaginated.length > 0">
         <thead>
-        <tr>
-            <th v-if="checkable" />
-            <th />
-            <th>Date</th>
-            <th>Size</th>
-            <th>path</th>
-            <th />
-        </tr>
+            <tr>
+                <th v-if="checkable" />
+                <th />
+                <th>Date</th>
+                <th>Size</th>
+                <th>path</th>
+                <th />
+            </tr>
         </thead>
         <tbody>
-        <tr v-for="backup in itemsPaginated" :key="backup.id">
-            <TableCheckboxCell
-            v-if="checkable"
-            @checked="checked($event, backup)"
-            />
-            <td class="border-b-0 lg:w-6 before:hidden">
-            <UserAvatar
-                :icon="mdiDatabase"
-                class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
-            />
-            </td>
-            <td data-label="Name">
-            {{ new Date(backup.date).toLocaleString()}}
-            </td>
-            <td data-label="TeamName">
-            {{ backup.sizeInBytes }}
-            </td>
-            <td data-label="Medals">
-            {{ backup.path }}
-            </td>
-            <td class="before:hidden lg:w-1 whitespace-nowrap">
-            <BaseButtons type="justify-start lg:justify-end" no-wrap>
-                <BaseButton
-                    color="warning"
-                    :icon="mdiRestoreAlert"
-                    icon-size="25"
-                    small
-                    @click="restoreBackup(backup)"
+            <tr v-for="backup in itemsPaginated" :key="backup.id">
+                <TableCheckboxCell
+                    v-if="checkable"
+                    @checked="checked($event, backup)"
                 />
-                <BaseButton
-                    color="danger"
-                    :icon="mdiDelete"
-                    small
-                    @click="deleteBackup(backup)"
+                <td class="border-b-0 lg:w-6 before:hidden">
+                <UserAvatar
+                    :icon="mdiDatabase"
+                    class="w-24 h-24 mx-auto lg:w-6 lg:h-6"
                 />
-            </BaseButtons>
-            </td>
-        </tr>
+                </td>
+                <td data-label="Name">
+                    {{ new Date(backup.date).toLocaleString()}}
+                </td>
+                <td data-label="TeamName">
+                    {{ backup.sizeInBytes }}
+                </td>
+                <td data-label="Medals">
+                    {{ backup.path }}
+                </td>
+                <td class="before:hidden lg:w-1 whitespace-nowrap">
+                    <BaseButtons type="justify-start lg:justify-end" no-wrap>
+                        <BaseButton
+                            color="warning"
+                            :icon="mdiRestoreAlert"
+                            icon-size="25"
+                            small
+                            @click="restoreBackup(backup)"
+                        />
+                        <BaseButton
+                            color="danger"
+                            :icon="mdiDelete"
+                            small
+                            @click="deleteBackup(backup)"
+                        />
+                    </BaseButtons>
+                </td>
+            </tr>
         </tbody>
     </table>
     <div v-show="itemsPaginated.length > 0" class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">

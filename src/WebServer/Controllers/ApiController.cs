@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ using Melia.Web.Serializer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Swan;
+using Yggdrasil.Geometry;
 using Yggdrasil.IO;
 using Yggdrasil.Network.Communication;
 
@@ -75,13 +77,56 @@ namespace Melia.Web.Controllers
 		{
 			var config = WebServer.Instance.Conf;
 
-			var barrackConfigs = JsonConvert.SerializeObject(config.Barracks.GetOptions());
-			var databaseConfigs = JsonConvert.SerializeObject(config.Database.GetOptions());
-			var commandsConfigs = JsonConvert.SerializeObject(config.Commands.GetOptions());
-			var logConfigs = JsonConvert.SerializeObject(config.Log.GetOptions());
-			var webConfigs = JsonConvert.SerializeObject(config.Web.GetOptions());
-			var worldConfigs = JsonConvert.SerializeObject(config.World.GetOptions());
-			var localizationConfigs = JsonConvert.SerializeObject(config.Localization.GetOptions());
+			var userBarracksConfigs = this.GetConfigFile("user/conf/barracks.conf");
+			var userDatabaseConfigs = this.GetConfigFile("user/conf/database.conf");
+			var userCommandsConfigs = this.GetConfigFile("user/conf/commands.conf");
+			var userLogConfigs = this.GetConfigFile("user/conf/log.conf");
+			var userWebConfigs = this.GetConfigFile("user/conf/web.conf");
+			var userWorldConfigs = this.GetConfigFile("user/conf/world.conf");
+			var userLocalizationConfigs = this.GetConfigFile("user/conf/localization.conf");
+
+			var systemBarracksConfigs = this.GetConfigFile("system/conf/barracks.conf");
+			var systemDatabaseConfigs = this.GetConfigFile("system/conf/database.conf");
+			var systemCommandsConfigs = this.GetConfigFile("system/conf/commands.conf");
+			var systemLogConfigs = this.GetConfigFile("system/conf/log.conf");
+			var systemWebConfigs = this.GetConfigFile("system/conf/web.conf");
+			var systemWorldConfigs = this.GetConfigFile("system/conf/world.conf");
+			var systemLocalizationConfigs = this.GetConfigFile("system/conf/localization.conf");
+
+			var systemWorldDropsConfigs = this.GetConfigFile("system/conf/world/drops.conf");
+			var systemWorldExpConfigs = this.GetConfigFile("system/conf/world/exp.conf");
+			var systemWorldGameTimeConfigs = this.GetConfigFile("system/conf/world/game_time.conf");
+			var systemWorldSkillsConfigs = this.GetConfigFile("system/conf/world/skills.conf");
+			var systemWorldSummonsConfigs = this.GetConfigFile("system/conf/world/summons.conf");
+
+			this.MergeDictionaries(systemWorldConfigs, systemWorldDropsConfigs);
+			this.MergeDictionaries(systemWorldConfigs, systemWorldExpConfigs);
+			this.MergeDictionaries(systemWorldConfigs, systemWorldGameTimeConfigs);
+			this.MergeDictionaries(systemWorldConfigs, systemWorldSkillsConfigs);
+			this.MergeDictionaries(systemWorldConfigs, systemWorldSummonsConfigs);
+
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+
+			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeDictionaries(userDatabaseConfigs, systemDatabaseConfigs);
+			this.MergeDictionaries(userCommandsConfigs, systemCommandsConfigs);
+			this.MergeDictionaries(userLogConfigs, systemLogConfigs);
+			this.MergeDictionaries(userWebConfigs, systemWebConfigs);
+			this.MergeDictionaries(userWorldConfigs, systemWorldConfigs);
+			this.MergeDictionaries(userLocalizationConfigs, systemLocalizationConfigs);
+
+			var barrackConfigs = JsonConvert.SerializeObject(userBarracksConfigs);
+			var databaseConfigs = JsonConvert.SerializeObject(userDatabaseConfigs);
+			var commandsConfigs = JsonConvert.SerializeObject(userCommandsConfigs);
+			var logConfigs = JsonConvert.SerializeObject(userLogConfigs);
+			var webConfigs = JsonConvert.SerializeObject(userWebConfigs);
+			var worldConfigs = JsonConvert.SerializeObject(userWorldConfigs);
+			var localizationConfigs = JsonConvert.SerializeObject(userLocalizationConfigs);
 			
 			this.SendText("application/json", $"{{ \"barracks\": {barrackConfigs}, \"database\": {databaseConfigs}, \"commands\": {commandsConfigs}, \"log\": {logConfigs}, \"web\": {webConfigs} , \"world\": {worldConfigs} , \"localization\": {localizationConfigs} }}");
 		}
@@ -94,6 +139,9 @@ namespace Melia.Web.Controllers
 		{
 			var data = HttpContext.GetRequestDataAsyncJson<Config>();
 
+			if (data == null)			
+				this.SendText("text/json", "{ \"status\": \"Failed to update the configs.\" }");
+			
 			var newBarracksConfigsJson = JsonConvert.DeserializeObject<JObject>(data.Result.Barracks.ToJson());
 			var newBarracksConfigs = newBarracksConfigsJson?.ToObject<Dictionary<string, string>>();
 
@@ -137,7 +185,33 @@ namespace Melia.Web.Controllers
 			this.SendText("text/json", "{ \"status\": \"Successful updated configs.\" }");
 		}
 
-		private void UpdateConfigs(Dictionary<string, string> oldConfigs, Dictionary<string, string> newConfigs, string filePath)
+		private void MergeDictionaries(Dictionary<string, Dictionary<string, string>> dictionary1, Dictionary<string, Dictionary<string, string>> dictionary2)
+		{
+			foreach (var kvp in dictionary2)
+			{
+				if (!dictionary1.ContainsKey(kvp.Key))
+				{
+					dictionary1.Add(kvp.Key, kvp.Value);
+				} else
+				{
+					// Adding comentaries
+					if (kvp.Value["commentary"] != null)
+					{
+						var value = dictionary1[kvp.Key]["value"];
+						var commentary = kvp.Value["commentary"];
+						var withcommentary = new Dictionary<string, string>()
+						{
+							{ "value", value },
+							{ "commentary", commentary },
+						};
+						dictionary1.Remove(kvp.Key);
+						dictionary1.Add(kvp.Key, withcommentary);
+					}
+				}
+			}
+		}
+
+		private void UpdateConfigs(Dictionary<string, Dictionary<string, string>> oldConfigs, Dictionary<string, string> newConfigs, string filePath)
 		{
 			if (newConfigs == null)
 				return;
@@ -147,7 +221,12 @@ namespace Melia.Web.Controllers
 				var configExists = false;
 				foreach (var oldConfig in oldConfigs)
 				{
-					if (this.ConvertStringToUnderscoreCase(newConfig.Key) == oldConfig.Key)
+					var configName = this.ConvertStringToUnderscoreCase(newConfig.Key);
+					if (configName == "database_name")
+					{
+						configName = "database";
+					}
+					if (configName == oldConfig.Key)
 					{
 						configExists = true;
 						break;
@@ -158,13 +237,22 @@ namespace Melia.Web.Controllers
 				{
 					if (File.Exists(filePath))
 					{
-						File.AppendAllText(filePath, this.ConvertStringToUnderscoreCase(newConfig.Key) + " : " + newConfig.Value + "\n");
+						var configName = this.ConvertStringToUnderscoreCase(newConfig.Key);
+						if (configName == "database_name")
+						{
+							configName = "database";
+						}
+						File.AppendAllText(filePath, configName + " : " + newConfig.Value + "\n");
 					} else
 					{
 						using (FileStream fs = File.Create(filePath))
 						{
-							// Add some text to file    
-							var title = new UTF8Encoding(true).GetBytes(this.ConvertStringToUnderscoreCase(newConfig.Key) + " : " + newConfig.Value + "\n");
+							var configName = this.ConvertStringToUnderscoreCase(newConfig.Key);
+							if (configName == "database_name")
+							{
+								configName = "database";
+							}
+							var title = new UTF8Encoding(true).GetBytes(configName + " : " + newConfig.Value + "\n");
 							fs.Write(title, 0, title.Length);
 						}
 					}					
@@ -182,6 +270,10 @@ namespace Melia.Web.Controllers
 								if (parts.Length > 1)
 								{
 									var configName = this.ConvertStringToUnderscoreCase(newConfig.Key);
+									if (configName == "database_name")
+									{
+										configName = "database";
+									}
 									if (parts[0].Remove(parts[0].Length - 1, 1).Equals(configName))
 									{
 										parts[1] = " " + newConfig.Value;
@@ -204,31 +296,58 @@ namespace Melia.Web.Controllers
 			}
 		}
 
-		private Dictionary<string, string> GetConfigFile(string filePath)
+		private Dictionary<string, Dictionary<string, string>> GetConfigFile(string filePath)
 		{
 			if (File.Exists(filePath))
 			{
 				return this.LoadFile(filePath);
 			} else
 			{
-				return new Dictionary<string, string>();
+				return new Dictionary<string, Dictionary<string, string>>();
 			}
 		}
 
-		private Dictionary<string, string> LoadFile(string filePath)
+		private Dictionary<string, Dictionary<string, string>> LoadFile(string filePath)
 		{
-			var options = new Dictionary<string, string>();
+			var options = new Dictionary<string, Dictionary<string, string>>();
+			string currentCommentary = string.Empty;
 
-			using (var fileReader = new FileReader(filePath))
+			using (StreamReader reader = new StreamReader(filePath))
 			{
-				foreach (FileReaderLine item in fileReader)
+				string line;				
+				while ((line = reader.ReadLine()) != null)
 				{
-					int num = -1;
-					if ((num = item.Value.IndexOf(':')) >= 0)
+					// Ignore lines that start with the specified comment
+					if (line.Trim().StartsWith("// Melia") || line.Trim().StartsWith("// Configuration file") || line.Contains("--------------------------------------------------------------------------"))
 					{
-						lock (options)
+						continue;
+					}
+
+					// Check if the line starts with "//" (commentary line)
+					if (line.Trim().StartsWith("//") && !line.StartsWith("include"))
+					{
+						// Append the line (excluding "//") to the current commentary
+						currentCommentary += line.Remove(0, 2) + "\n";
+					}
+					else if (!line.StartsWith("include"))
+					{
+						var parts = line.Split(new char[] { ':' }, 2, StringSplitOptions.RemoveEmptyEntries);
+						if (parts.Length == 2)
 						{
-							options[item.Value.Substring(0, num).Trim()] = item.Value.Substring(num + 1).Trim();
+							string key = parts[0].Trim();
+							string value = parts[1].Trim();
+
+							// Store the values in the nested dictionary along with commentary
+							var dictionary = new Dictionary<string, string>() {
+								{ "value", value },
+								{ "commentary", currentCommentary }
+							};
+
+							// Add the nested dictionary to the options dictionary
+							options[key] = dictionary;
+
+							// Reset the current commentary for the next key-value pair
+							currentCommentary = string.Empty;
 						}
 					}
 				}

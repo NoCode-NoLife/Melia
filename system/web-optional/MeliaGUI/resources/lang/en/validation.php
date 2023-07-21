@@ -19,5 +19,7 @@ return [
     'backup.delete.successful' => 'Backup was deleted successful.',
     'backup.delete.successful' => 'Backup restored successful.',
     'backup.restore.fail' => 'Backup restored failed.',
-    'kick.all.players.fail' => 'Fail to kick all players'
+    'kick.all.players.fail' => 'Fail to kick all players',
+    'configs.update.fail' => 'Configs could no be updated.',
+    'configs.successful.updated' => 'Configs updated successful.',
 ];

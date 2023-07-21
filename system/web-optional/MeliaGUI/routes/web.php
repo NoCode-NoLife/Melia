@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\ConfigsController;
 use App\Http\Controllers\BackupController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -37,9 +38,13 @@ Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
     ->middleware(['auth', 'verified', 'authority:99'])
     ->name('admin.dashboard');
 
-Route::get('/admin/settings', [AdminDashboardController::class, 'settings'])
+Route::get('/admin/configs', [ConfigsController::class, 'get'])
     ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.settings');
+    ->name('admin.configs');
+
+Route::post('/admin/configs', [ConfigsController::class, 'store'])
+    ->middleware(['auth', 'verified', 'authority:99'])
+    ->name('admin.configs.update');
 
 Route::post('/admin/kick/all', [AdminDashboardController::class, 'kickAll'])
     ->middleware(['auth', 'verified', 'authority:99'])
