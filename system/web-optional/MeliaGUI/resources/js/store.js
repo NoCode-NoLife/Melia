@@ -6,6 +6,8 @@ export const useStore = createStore({
   state() {
     return {
         account: null,
+        IsServerOnline: false,
+
         /* Styles */
         asideStyle: "",
         asideScrollbarsStyle: "",
@@ -25,6 +27,9 @@ export const useStore = createStore({
   mutations: {
     setAccount(state, newValue) {
         state.account = newValue;
+    },
+    setIsServerOnline(state, newValue) {
+        state.IsServerOnline = newValue;
     },
     setAccountWithPayload(state, payload) {
         if (payload.name) {

@@ -25,6 +25,10 @@ const props = defineProps({
     type: [String, Number, Boolean],
     default: null,
   },
+  confirm: {
+    type: Function,
+    required: false,
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "cancel", "confirm"]);
@@ -39,7 +43,7 @@ const confirmCancel = (mode) => {
   emit(mode);
 };
 
-const confirm = () => confirmCancel("confirm");
+const confirm = () =>  props.confirm != null ? props.confirm() : confirmCancel("confirm");
 
 const cancel = () => confirmCancel("cancel");
 

@@ -17,7 +17,7 @@ export default [
     href: "/admin/configs",
     icon: mdiCogs,
     label: "Configs",
-    admin: false,
+    admin: true,
   },
   {
     href: "/dashboard",

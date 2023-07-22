@@ -113,13 +113,34 @@ class AdminDashboardController extends Controller
 
             if ($statusCode == 200) {
                 $decodedBody = json_decode($body);
-                return back()->with('status', $decodedBody['status']);
+                return back()->with('status',trans('kick.all.players.successful'));
             }
         } catch (\Exception $e) {
         }
 
         return back()->with('status', trans('kick.all.players.fail'));
     }
+
+    public function broadcastMessage(Request $request) {
+        $request->validate([
+            'message' => 'required|string|min:3'
+        ]);
+
+        try {
+            $response = $this->client->post('/api/message/broadcast', ['json' => ['message' => $request->message]] );
+            $statusCode = $response->getStatusCode();
+            $body = $response->getBody()->getContents();
+
+            if ($statusCode == 200) {
+                $decodedBody = json_decode($body);
+                return back()->with('status', trans('message.broadcast.success'));
+            }
+        } catch (\Exception $e) {
+        }
+
+        return back()->with('status', trans('message.broadcast.fail'));
+    }
+
 
     private function getBackups($maxCount = 10)
     {

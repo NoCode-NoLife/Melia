@@ -17,6 +17,10 @@ defineProps({
   setLoading: {
     type: Function,
     required: true
+  },
+  warningRestoreBackup: {
+    type: Function,
+    required: true
   }
 });
 
@@ -70,20 +74,6 @@ const checked = (isChecked, userAccount) => {
       (row) => row.id === userAccount.id
     );
   }
-};
-
-const restoreBackup = (backup) => {
-    instance.props.setLoading(true);
-    router.post(route('admin.backup.restore'),
-    {
-        backupDate: backup.date
-    },{
-        preserveState: true,
-        preserveScroll: true,
-        onFinish: visit => {
-            instance.props.setLoading(false);
-        },
-    });
 };
 
 const deleteBackup = (backup) => {
@@ -158,7 +148,7 @@ const deleteBackup = (backup) => {
                             :icon="mdiRestoreAlert"
                             icon-size="25"
                             small
-                            @click="restoreBackup(backup)"
+                            @click="warningRestoreBackup(backup)"
                         />
                         <BaseButton
                             color="danger"

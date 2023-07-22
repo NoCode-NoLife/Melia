@@ -20,7 +20,7 @@ class BackupController extends Controller
         $password = env('DB_PASSWORD', '');
         $databaseName = env('DB_DATABASE', 'melia');
 
-        $cmd = "mysqldump --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
+        $cmd = "mysqldump --default-character-set=utf8 --protocol=tcp --single-transaction=TRUE --skip-triggers  --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
         exec($cmd);
 
         return back()->with('status', trans('backup.successful'));
@@ -91,7 +91,7 @@ class BackupController extends Controller
         $password = env('DB_PASSWORD', '');
         $databaseName = env('DB_DATABASE', 'melia');
 
-        $cmd = "mysql -h {$serverName} -p {$serverPort} -u {$username} -p {$password} {$databaseName} < $filePath";
+        $cmd = "mysql --host={$serverName} --user={$username} --port={$serverPort} --password={$password} {$databaseName} < $filePath";
         exec($cmd);
 
         return back()->with('status', trans('backup.restore.successful'));

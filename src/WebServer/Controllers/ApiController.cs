@@ -11,6 +11,7 @@ using EmbedIO;
 using EmbedIO.Routing;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.Network.Inter.Messages;
+using Melia.Shared.Tos.Const;
 using Melia.Web.Serializer;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,6 +19,7 @@ using Swan;
 using Yggdrasil.Geometry;
 using Yggdrasil.IO;
 using Yggdrasil.Network.Communication;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Melia.Web.Controllers
 {
@@ -48,7 +50,7 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
-		/// Show the server process information
+		/// Gets the server process information
 		/// </summary>
 		[Route(HttpVerbs.Get, "/info/processes")]
 		public void GetServerProcessInformation()
@@ -58,7 +60,7 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
-		/// Show the server process information
+		/// Kick all players from the server
 		/// </summary>
 		[Route(HttpVerbs.Post, "/kick/all")]
 		public void KickAllPlayers()
@@ -70,7 +72,7 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
-		/// Show the server process information
+		/// Gets the server configurations
 		/// </summary>
 		[Route(HttpVerbs.Get, "/info/configs")]
 		public void GetConfigurations()
@@ -99,26 +101,26 @@ namespace Melia.Web.Controllers
 			var systemWorldSkillsConfigs = this.GetConfigFile("system/conf/world/skills.conf");
 			var systemWorldSummonsConfigs = this.GetConfigFile("system/conf/world/summons.conf");
 
-			this.MergeDictionaries(systemWorldConfigs, systemWorldDropsConfigs);
-			this.MergeDictionaries(systemWorldConfigs, systemWorldExpConfigs);
-			this.MergeDictionaries(systemWorldConfigs, systemWorldGameTimeConfigs);
-			this.MergeDictionaries(systemWorldConfigs, systemWorldSkillsConfigs);
-			this.MergeDictionaries(systemWorldConfigs, systemWorldSummonsConfigs);
+			this.MergeConfigsDictionaries(systemWorldConfigs, systemWorldDropsConfigs);
+			this.MergeConfigsDictionaries(systemWorldConfigs, systemWorldExpConfigs);
+			this.MergeConfigsDictionaries(systemWorldConfigs, systemWorldGameTimeConfigs);
+			this.MergeConfigsDictionaries(systemWorldConfigs, systemWorldSkillsConfigs);
+			this.MergeConfigsDictionaries(systemWorldConfigs, systemWorldSummonsConfigs);
 
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
 
-			this.MergeDictionaries(userBarracksConfigs, systemBarracksConfigs);
-			this.MergeDictionaries(userDatabaseConfigs, systemDatabaseConfigs);
-			this.MergeDictionaries(userCommandsConfigs, systemCommandsConfigs);
-			this.MergeDictionaries(userLogConfigs, systemLogConfigs);
-			this.MergeDictionaries(userWebConfigs, systemWebConfigs);
-			this.MergeDictionaries(userWorldConfigs, systemWorldConfigs);
-			this.MergeDictionaries(userLocalizationConfigs, systemLocalizationConfigs);
+			this.MergeConfigsDictionaries(userBarracksConfigs, systemBarracksConfigs);
+			this.MergeConfigsDictionaries(userDatabaseConfigs, systemDatabaseConfigs);
+			this.MergeConfigsDictionaries(userCommandsConfigs, systemCommandsConfigs);
+			this.MergeConfigsDictionaries(userLogConfigs, systemLogConfigs);
+			this.MergeConfigsDictionaries(userWebConfigs, systemWebConfigs);
+			this.MergeConfigsDictionaries(userWorldConfigs, systemWorldConfigs);
+			this.MergeConfigsDictionaries(userLocalizationConfigs, systemLocalizationConfigs);
 
 			var barrackConfigs = JsonConvert.SerializeObject(userBarracksConfigs);
 			var databaseConfigs = JsonConvert.SerializeObject(userDatabaseConfigs);
@@ -132,7 +134,7 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
-		/// Show the server process information
+		/// Updates the server configurations
 		/// </summary>
 		[Route(HttpVerbs.Post, "/info/configs")]
 		public void SetConfigurations()
@@ -185,7 +187,27 @@ namespace Melia.Web.Controllers
 			this.SendText("text/json", "{ \"status\": \"Successful updated configs.\" }");
 		}
 
-		private void MergeDictionaries(Dictionary<string, Dictionary<string, string>> dictionary1, Dictionary<string, Dictionary<string, string>> dictionary2)
+		/// <summary>
+		/// Show the server process information
+		/// </summary>
+		[Route(HttpVerbs.Post, "/message/broadcast")]
+		public void BroadcastGlolbalMessage()
+		{
+			var data = HttpContext.GetRequestDataAsyncJson<Message>();
+
+			if (data == null || data.Result == null)
+				this.SendText("text/json", "{ \"status\": \"Failed to broadcast the message to the server.\" }");
+
+			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, data.Result.message);
+			WebServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+			this.SendText("text/json", "{ \"status\": \"Successful broadcasted message.\" }");
+		}
+
+		/// <summary>
+		/// Merge configurations dicitonaries
+		/// </summary>
+		private void MergeConfigsDictionaries(Dictionary<string, Dictionary<string, string>> dictionary1, Dictionary<string, Dictionary<string, string>> dictionary2)
 		{
 			foreach (var kvp in dictionary2)
 			{
@@ -211,6 +233,9 @@ namespace Melia.Web.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Updates the configs based on new dictionary values and file path
+		/// </summary>
 		private void UpdateConfigs(Dictionary<string, Dictionary<string, string>> oldConfigs, Dictionary<string, string> newConfigs, string filePath)
 		{
 			if (newConfigs == null)
@@ -296,6 +321,9 @@ namespace Melia.Web.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Gets the config file from a path
+		/// </summary>
 		private Dictionary<string, Dictionary<string, string>> GetConfigFile(string filePath)
 		{
 			if (File.Exists(filePath))
@@ -307,6 +335,9 @@ namespace Melia.Web.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Loads config file
+		/// </summary>
 		private Dictionary<string, Dictionary<string, string>> LoadFile(string filePath)
 		{
 			var options = new Dictionary<string, Dictionary<string, string>>();
@@ -356,6 +387,9 @@ namespace Melia.Web.Controllers
 			return options;
 		}
 
+		/// <summary>
+		/// Format a string to underscore case
+		/// </summary>
 		private string ConvertStringToUnderscoreCase(string str)
 		{
 			return string.Concat(str.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();

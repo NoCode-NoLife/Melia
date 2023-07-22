@@ -20,6 +20,9 @@ return [
     'backup.delete.successful' => 'Backup restored successful.',
     'backup.restore.fail' => 'Backup restored failed.',
     'kick.all.players.fail' => 'Fail to kick all players',
+    'kick.all.players.successful' => 'Successful kicked all players.',
     'configs.update.fail' => 'Configs could no be updated.',
     'configs.successful.updated' => 'Configs updated successful.',
+    'message.broadcast.fail' => 'Message broadcasting has failed.',
+    'message.broadcast.success' => 'Message broadcasted successful.'
 ];

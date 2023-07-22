@@ -19,7 +19,6 @@ import { Head, router } from '@inertiajs/vue3'
 import * as chartConfig from "@/components/Charts/chart.config.js";
 import SectionMain from "@/components/SectionMain.vue";
 import CardBoxWidget from "@/components/CardBoxWidget.vue";
-import CardBox from "@/components/CardBox.vue";
 import TableAccounts from "@/components/TableAccounts.vue";
 import TableProcesses from "@/components/TableProcesses.vue";
 import TableBackups from "@/components/TableBackups.vue";
@@ -27,6 +26,11 @@ import LayoutAuthenticated from "@/layouts/LayoutAuthenticated.vue";
 import CardBoxAction from "@/components/CardBoxAction.vue";
 import OverlayLayer from "@/components/OverlayLayer.vue";
 import SectionTitleLineWithButton from "@/components/SectionTitleLineWithButton.vue";
+import FormField from "@/components/FormField.vue";
+import BaseDivider from "@/components/BaseDivider.vue";
+import CardBox from "@/components/CardBox.vue";
+import FormControl from "@/components/FormControl.vue";
+import CardBoxModal from "@/components/CardBoxModal.vue";
 
 defineProps({
     account: {
@@ -65,20 +69,69 @@ defineProps({
 
 const chartData = ref(null);
 const isLoading = ref(false);
+const isBroadcastMessageModalActive = ref(false);
+const broadcastMessageText = ref('');
+
+const isWarningModalActive = ref(false);
+const warningMessage = ref('');
+const warningCall = ref(null);
 
 const fillChartData = () => {
   chartData.value = chartConfig.sampleChartData();
 };
 
 const kickAllPlayers = () => {
+    isWarningModalActive.value = false;
     router.post(route('admin.kick.all.players'));
 };
+
+const kickAllPlayersWarning = () => {
+    isWarningModalActive.value = true;
+    warningMessage.value = "Are you sure that you want to kick all players from the server?"
+    warningCall.value = () => { kickAllPlayers() };
+};
+
+const warningRestoreBackup = (backup) => {
+    isWarningModalActive.value = true;
+    warningMessage.value = "Do you really want to restore the backup?"
+    warningCall.value = () => { restoreBackup(backup) };
+}
+
+const restoreBackup = (backup) => {
+    isLoading.value = true;
+    isWarningModalActive.value = false;
+    router.post(route('admin.backup.restore'),
+    {
+        backupDate: backup.date
+    },{
+        preserveState: true,
+        preserveScroll: true,
+        onFinish: visit => {
+            isLoading.value = false;
+        },
+    });
+}
 
 const kickPlayer = (playerAccountId) => {
     // router.post(route('kick.player', playerAccountId));
 };
 
-const broadcastMessage = () => {};
+const broadcastMessage = () => {
+    isLoading.value = true;
+    console.log('test 1');
+    router.post(route('admin.message.broadcast'), { message: broadcastMessageText.value }, {
+        preserveState: false,
+        preserveScroll: true,
+        onSuccess: (page) => {
+            isLoading.value = false;
+            console.log('test 2');
+        },
+        onFinish: (page) => {
+            isLoading.value = false;
+            console.log('test 3');
+        },
+    });
+};
 
 const sendMail = () => {};
 
@@ -88,27 +141,31 @@ const setLoading = (value) => {
 
 const createNewBackup = () => {
     isLoading.value = true;
+    isBroadcastMessageModalActive.value = false;
+
     router.post(route('admin.backup.create'), null, {
         preserveState: false,
         preserveScroll: true,
         onSuccess: (page) => {
-            console.log(page);
+            isLoading.value = false;
+        },
+        onFinish: (page) => {
             isLoading.value = false;
         },
     });
 }
-
-const restoreBackup = () => {};
 
 const inspectInventories = () => {};
 
 const store = useStore();
 const instance = getCurrentInstance();
 const accountRef = toRef(instance.props, 'account');
+const isServerOnlineRef = toRef(instance.props, 'isServerOnline');
 
 onMounted(() => {
-  fillChartData();
-  store.commit('setAccount', accountRef.value);
+    fillChartData();
+    store.commit('setAccount', accountRef.value);
+    store.commit('setIsServerOnline', isServerOnlineRef.value);
 });
 </script>
 
@@ -131,6 +188,34 @@ onMounted(() => {
     </OverlayLayer>
 
     <LayoutAuthenticated>
+
+        <CardBoxModal
+            v-model="isBroadcastMessageModalActive"
+            title="Enter the message that you want to broadcast:"
+            button="info"
+            :confirm="broadcastMessage"
+            has-cancel
+        >
+            <BaseDivider />
+            <FormField label="message">
+                <FormControl
+                    v-model="broadcastMessageText"
+                    name="message"
+                    required
+                />
+            </FormField>
+        </CardBoxModal>
+
+        <CardBoxModal
+            v-model="isWarningModalActive"
+            :title="warningMessage"
+            button="info"
+            :confirm="warningCall"
+            has-cancel
+        >
+            <BaseDivider />
+        </CardBoxModal>
+
         <SectionMain>
             <SectionTitleLineWithButton
                 :icon="mdiChartTimelineVariant"
@@ -165,16 +250,15 @@ onMounted(() => {
 
             <SectionTitleLineWithButton :icon="mdiServer" title="Server's Management" />
 
-
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <div class="flex flex-col justify-between">
-                    <CardBoxAction :canInteract="isServerOnline" :icon="mdiLanDisconnect" :title="'Kick all'" :description="'Kick all players from the server.'" :action="kickAllPlayers" />
-                    <CardBoxAction :canInteract="isServerOnline" :icon="mdiMessage" :title="'Broadcast message'" :description="'Sends a message to all players.'" :action="broadcastMessage" />
+                    <CardBoxAction :canInteract="isServerOnline" :icon="mdiLanDisconnect" :title="'Kick all'" :description="'Kick all players from the server.'" :action="kickAllPlayersWarning" />
+                    <CardBoxAction :canInteract="isServerOnline" :icon="mdiMessage" :title="'Broadcast message'" :description="'Sends a message to all players.'" :action="() => isBroadcastMessageModalActive = true" />
                     <CardBoxAction :canInteract="true" :icon="mdiMailbox" :title="'Send mail'" :description="'Select items to send to players.'" :action="sendMail" />
                 </div>
                 <div class="flex flex-col justify-between">
                     <CardBoxAction :canInteract="true" :icon="mdiCloudUploadOutline" :title="'Backup database'" :description="'Make a new database backup.'" :action="createNewBackup" />
-                    <CardBoxAction :canInteract="true" :icon="mdiBackupRestore" :title="'Restoure database backup'" :description="'Select a database backup to restore.'" :action="restoreBackup" />
+                    <CardBoxAction :canInteract="true" :icon="mdiBackupRestore" :title="'-------------------'" :description="'---------------------------'" />
                     <CardBoxAction :canInteract="true" :icon="mdiTagMultiple" :title="'Inspect inventories'" :description="'Select a database backup to restore.'" :action="inspectInventories" />
                 </div>
             </div>
@@ -188,7 +272,7 @@ onMounted(() => {
             <SectionTitleLineWithButton :icon="mdiBackupRestore" title="Backups" :action="createNewBackup" :actionIcon="mdiCloudPlusOutline" />
 
             <CardBox has-table>
-                <TableBackups :items="backups" :setLoading="setLoading" />
+                <TableBackups :warningRestoreBackup="warningRestoreBackup" :items="backups" :setLoading="setLoading" />
             </CardBox>
 
             <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Last Accounts" />

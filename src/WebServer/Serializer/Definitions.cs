@@ -310,4 +310,10 @@ namespace Melia.Web.Serializer
 		[JsonProperty("blue_orb_follow_warp")]
 		public string BlueOrbFollowWarp { get; set; }
 	}
+
+	public class Message
+	{
+		[JsonProperty("message")]
+		public string message { get; set; }
+	}
 }

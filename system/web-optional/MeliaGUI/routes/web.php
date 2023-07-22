@@ -34,33 +34,31 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.dashboard');
+Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
+        ->name('admin.dashboard');
 
-Route::get('/admin/configs', [ConfigsController::class, 'get'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.configs');
+    Route::get('/admin/configs', [ConfigsController::class, 'get'])
+        ->name('admin.configs');
 
-Route::post('/admin/configs', [ConfigsController::class, 'store'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.configs.update');
+    Route::post('/admin/configs', [ConfigsController::class, 'store'])
+        ->name('admin.configs.update');
 
-Route::post('/admin/kick/all', [AdminDashboardController::class, 'kickAll'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.kick.all.players');
+    Route::post('/admin/kick/all', [AdminDashboardController::class, 'kickAll'])
+        ->name('admin.kick.all.players');
 
-Route::post('/admin/backup', [BackupController::class, 'create'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.backup.create');
+    Route::post('/admin/message/broadcast', [AdminDashboardController::class, 'broadcastMessage'])
+        ->name('admin.message.broadcast');
 
-Route::post('/admin/backup/restore', [BackupController::class, 'restore'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.backup.restore');
+    Route::post('/admin/backup', [BackupController::class, 'create'])
+        ->name('admin.backup.create');
 
-Route::post('/admin/backup/delete', [BackupController::class, 'delete'])
-    ->middleware(['auth', 'verified', 'authority:99'])
-    ->name('admin.backup.delete');
+    Route::post('/admin/backup/restore', [BackupController::class, 'restore'])
+        ->name('admin.backup.restore');
+
+    Route::post('/admin/backup/delete', [BackupController::class, 'delete'])
+        ->name('admin.backup.delete');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

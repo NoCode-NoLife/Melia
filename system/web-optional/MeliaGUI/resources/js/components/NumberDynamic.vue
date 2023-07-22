@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch, onMounted } from "vue";
 import numeral from "numeral";
+import { useStore } from 'vuex';
 
 const props = defineProps({
   prefix: {
@@ -20,6 +21,9 @@ const props = defineProps({
     default: 500,
   },
 });
+
+const store = useStore();
+const isServerOnline = computed(() => store.state.isServerOnline);
 
 const newValue = ref(0);
 
@@ -59,5 +63,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>{{ prefix }}{{ newValueFormatted }}{{ suffix }}</div>
+  <div>{{ prefix }}{{ isServerOnline != null ? isServerOnline ? newValueFormatted <= 0 ? '--' : newValueFormatted : newValueFormatted : newValueFormatted}}{{  newValueFormatted <= 0 ? '' : suffix }}</div>
 </template>
