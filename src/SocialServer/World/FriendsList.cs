@@ -30,7 +30,7 @@ namespace Melia.Social.World
 		/// Adds friend to account object.
 		/// </summary>
 		/// <param name="friend"></param>
-		public void AddFriend(Friend friend)
+		public void Add(Friend friend)
 		{
 			lock (_friends)
 				_friends.Add(friend);
@@ -40,7 +40,7 @@ namespace Melia.Social.World
 		/// Adds friend to account object.
 		/// </summary>
 		/// <param name="friend"></param>
-		public void RemoveFriend(Friend friend)
+		public void Remove(Friend friend)
 		{
 			lock (_friends)
 				_friends.Remove(friend);
@@ -50,7 +50,7 @@ namespace Melia.Social.World
 		/// Gets a friend or null with a given account id.
 		/// </summary>
 		/// <param name="accountId"></param>
-		public Friend GetFriend(long accountId)
+		public Friend Get(long accountId)
 		{
 			lock (_friends)
 				return _friends.FirstOrDefault(f => f.AccountId == accountId);
@@ -63,7 +63,7 @@ namespace Melia.Social.World
 		/// <param name="accountId"></param>
 		/// <param name="friend"></param>
 		/// <returns></returns>
-		public bool TryGetFriend(long accountId, out Friend friend)
+		public bool TryGet(long accountId, out Friend friend)
 		{
 			lock (_friends)
 			{
@@ -76,7 +76,7 @@ namespace Melia.Social.World
 		/// Returns list of all friends on account.
 		/// </summary>
 		/// <returns></returns>
-		public Friend[] GetFriends()
+		public Friend[] GetAll()
 		{
 			lock (_friends)
 				return _friends.ToArray();
@@ -86,7 +86,7 @@ namespace Melia.Social.World
 		/// Returns a list of all friends with the given state.
 		/// </summary>
 		/// <returns></returns>
-		public Friend[] GetFriends(FriendState state)
+		public Friend[] GetAll(FriendState state)
 		{
 			lock (_friends)
 				return _friends.Where(a => a.State == state).ToArray();
@@ -97,7 +97,7 @@ namespace Melia.Social.World
 		/// </summary>
 		/// <param name="friend"></param>
 		/// <returns></returns>
-		public bool DeleteFriend(Friend friend)
+		public bool Delete(Friend friend)
 		{
 			lock (_friends)
 			{
@@ -109,7 +109,7 @@ namespace Melia.Social.World
 			// have been shown to begin with and should be removed.
 			// If it doesn't fail, the removal is valid as well,
 			// do this regardless of the query result.
-			this.RemoveFriend(friend);
+			this.Remove(friend);
 
 			return SocialServer.Instance.Database.DeleteFriend(friend.Id);
 		}
@@ -122,7 +122,7 @@ namespace Melia.Social.World
 			var friends = SocialServer.Instance.Database.GetFriends(this.User.Account.Id);
 
 			foreach (var friend in friends)
-				this.AddFriend(friend);
+				this.Add(friend);
 		}
 	}
 }

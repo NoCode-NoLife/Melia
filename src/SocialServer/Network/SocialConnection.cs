@@ -126,7 +126,7 @@ namespace Melia.Social.Network
 		{
 			base.OnClosed(type);
 
-			foreach (var friend in this.User.Friends.GetFriends())
+			foreach (var friend in this.User.Friends.GetAll())
 				SocialServer.Instance.Database.SaveFriend(friend);
 
 			SocialServer.Instance.UserManager.Remove(this.User.Id);

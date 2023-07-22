@@ -48,7 +48,7 @@ namespace Melia.Social.Network
 			Send.SC_LOGIN_OK(conn);
 			Send.SC_NORMAL.Unknown_02(conn);
 
-			foreach (var friend in user.Friends.GetFriends())
+			foreach (var friend in user.Friends.GetAll())
 				Send.SC_NORMAL.FriendInfo(conn, friend);
 		}
 
@@ -83,7 +83,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (!user.Friends.TryGetFriend(otherAccount.Id, out var friend))
+			if (!user.Friends.TryGet(otherAccount.Id, out var friend))
 			{
 				friend = new Friend(otherAccount, FriendState.SentRequest);
 				var otherFriend = new Friend(account, FriendState.ReceivedRequest);
@@ -91,10 +91,10 @@ namespace Melia.Social.Network
 				SocialServer.Instance.Database.CreateFriend(account.Id, friend);
 				SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
 
-				user.Friends.AddFriend(friend);
+				user.Friends.Add(friend);
 
 				if (userManager.TryGet(otherAccount.Id, out var otherUser))
-					otherUser.Friends.AddFriend(otherFriend);
+					otherUser.Friends.Add(otherFriend);
 			}
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
@@ -121,11 +121,11 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (!conn.User.Friends.TryGetFriend(otherAccount.Id, out var friend))
+			if (!conn.User.Friends.TryGet(otherAccount.Id, out var friend))
 			{
 				friend = new Friend(otherAccount, FriendState.Blocked);
 
-				user.Friends.AddFriend(friend);
+				user.Friends.Add(friend);
 				SocialServer.Instance.Database.CreateFriend(user.Account.Id, friend);
 			}
 			else
@@ -151,7 +151,7 @@ namespace Melia.Social.Network
 			var cmd = (FriendCmd)packet.GetInt();
 			var i2 = packet.GetInt();
 
-			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
+			if (!conn.User.Friends.TryGet(accountId, out var friend))
 			{
 				Log.Warning("CS_FRIEND_CMD: User '{0}' tried to modify a friend without having them in their friends list.", conn.User.Name);
 				return;
@@ -171,7 +171,7 @@ namespace Melia.Social.Network
 				}
 				case FriendCmd.Delete:
 				{
-					if (!conn.User.Friends.DeleteFriend(friend))
+					if (!conn.User.Friends.Delete(friend))
 						Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.TeamName, conn.User.Name);
 
 					Send.SC_NORMAL.FriendResponse(conn, friend);
@@ -196,7 +196,7 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var groupName = packet.GetString(20); // Client side max, doesn't let you type any more characters
 
-			if (!conn.User.Friends.TryGetFriend(accountId, out var friend))
+			if (!conn.User.Friends.TryGet(accountId, out var friend))
 			{
 				Log.Warning("CS_FRIEND_SET_ADDINFO: Failed to find account by id {0} for user {1}.", accountId, conn.User.Name);
 				return;
