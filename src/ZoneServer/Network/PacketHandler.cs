@@ -1485,7 +1485,7 @@ namespace Melia.Zone.Network
 
 			if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
 			{
-				character.PersonalStorage.Swap(item1ObjectId, item2ObjectId);
+				character.PersonalStorage.Swap(fromSlot, toSlot);
 			}
 			else if (conn.SelectedCharacter.IsBrowsingTeamStorage)
 			{

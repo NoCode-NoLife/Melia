@@ -41,11 +41,14 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <returns></returns>
 		private int FindAvailablePosition()
 		{
-			for (var i = 0; i < _maxStorage; i++)
+			lock (_syncLock)
 			{
-				if (_storageItems[i] == null)
+				for (var i = 0; i < _maxStorage; i++)
 				{
-					return i;
+					if (_storageItems[i] == null)
+					{
+						return i;
+					}
 				}
 			}
 			return -1;
@@ -117,6 +120,36 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Looks in storage for all items that the given item
+		/// can stack to.
+		/// Does nothing if given item is not stackable.
+		/// </summary>
+		/// <param name="item">Item type look for</param>
+		/// <param name="foundPositions">Positions of found stackable items.</param>
+		/// <param name="foundItems">Item objects of found items</param>
+		private void FindStackableItems(Item item, out List<int> foundPositions, out List<Item> foundItems)
+		{
+			foundPositions = new List<int>();
+			foundItems = new List<Item>();
+
+			// Stacks to existing items
+			if (item.IsStackable)
+			{
+				lock (_syncLock)
+				{
+					for (int i = 0; i < _maxStorage; i++)
+					{
+						if ((_storageItems[i] != null) && _storageItems[i].IsStackable && (_storageItems[i].Data.ClassName == item.Data.ClassName))
+						{
+							foundPositions.Add(i);
+							foundItems.Add(_storageItems[i]);
+						}
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// Creates a new storage component
 		/// </summary>
 		/// <param name="account"></param>
@@ -144,19 +177,61 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			Item itemToStore = new Item(item);
 			itemToStore.Amount = Math.Min(itemToStore.Amount, amount);
 
-			// Add item to storage and remove from character
-			// Note: Changing order of packets in this condition causes
-			// client to crash.
-			if (this.Add(itemToStore, out var addedPosition, out var addedAmount) == StorageResult.Success)
+			// For stackable items, finds existing storage items.
+			var existingPositions = new List<int>();
+			var existingItems = new List<Item>();
+			if (itemToStore.IsStackable)
 			{
-				// Show item in storage for client
-				// Note: For unknown reasons, storing items is a "New" transaction
-				Send.ZC_ITEM_ADD(this.Character, itemToStore, addedPosition, itemToStore.Amount, InventoryAddType.New, InventoryType.Warehouse);
-
-				if (this.Character.Inventory.Remove(item, addedAmount, InventoryItemRemoveMsg.Given) != InventoryResult.Success)
-					Log.Error($"PersonalStorage: Could not remove item '{item.ObjectId}' from character '{this.Character.Name}' inventory.");
+				this.FindStackableItems(itemToStore, out existingPositions, out existingItems);
+				if (existingItems.Count > 0)
+				{
+					int availableAmount = 0;
+					foreach (var existingItem in existingItems)
+					{
+						availableAmount += existingItem.Data.MaxStack - existingItem.Amount;
+					}
 					
+					// If we have stackable items but our storage is full, we
+					// need to store the items up to available amount
+					if (this.CheckStorageFull())
+					{
+						itemToStore.Amount = Math.Min(itemToStore.Amount, availableAmount);
+					}
+				}
 			}
+
+			// Remove only the available amount from character
+			var inventoryResult = this.Character.Inventory.Remove(item, itemToStore.Amount, InventoryItemRemoveMsg.Given);
+			if (inventoryResult != InventoryResult.Success)
+				return StorageResult.InvalidOperation;
+
+			// For stackable items, add item to existing stacks.
+			if (itemToStore.IsStackable)
+			{
+				var addedAmount = 0;
+				for (var i = 0; i < existingItems.Count; i++)
+				{
+					var stackedAmount = this.AddItemStack(existingItems[i], itemToStore.Amount);
+					addedAmount += stackedAmount;
+					if (stackedAmount > 0)
+					{
+						Send.ZC_ITEM_ADD(this.Character, existingItems[i], existingPositions[i], stackedAmount, InventoryAddType.New, InventoryType.Warehouse);
+					}
+				}
+				if ((itemToStore.Amount - addedAmount) == 0)
+				{
+					return StorageResult.Success;
+				}
+
+				// Residue
+				itemToStore.Amount -= addedAmount;
+			}
+			
+			// Adds item to new position
+			var storageResult = this.Add(itemToStore, out var addedPosition);
+			if (storageResult != StorageResult.Success)
+				return storageResult;
+			Send.ZC_ITEM_ADD(this.Character, itemToStore, addedPosition, itemToStore.Amount, InventoryAddType.New, InventoryType.Warehouse);
 
 			return StorageResult.Success;
 		}
@@ -178,90 +253,53 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			Item itemToRetrieve = new Item(item);
 
 			// Remove item from storage and add to character
-			// Note: Changing order of packets in this condition causes
-			// client to crash.
-			if (this.Remove(item, amount, out removedPosition, out var removedAmount) == StorageResult.Success)
-			{
-				// Add to player inventory
-				itemToRetrieve.Amount = removedAmount;
-				this.Character.Inventory.Add(itemToRetrieve, InventoryAddType.New);
+			var storageResult = this.Remove(item, amount, out removedPosition, out var removedAmount);
+			if (storageResult != StorageResult.Success)
+				return storageResult;
 
-				// Show item removal in storage for client
-				// Note: For unknown reasons, retrieving item is a "Sold" transaction
-				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, removedAmount, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);	
-			}
-			else
-			{
-				return StorageResult.InvalidOperation;
-			}
+			// Add to player inventory
+			itemToRetrieve.Amount = removedAmount;
+			this.Character.Inventory.Add(itemToRetrieve, InventoryAddType.New);
+
+			// Show item removal in storage for client
+			// Note: For unknown reasons, retrieving item is a "Sold" transaction
+			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, removedAmount, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);	
 
 			return StorageResult.Success;
 		}
 
 		/// <summary>
-		/// Adds a new item to the storage.
+		/// Adds a new item to the storage in an empty position.
 		/// Does nothing if storage is full.
 		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to add</param>
-		/// <param name="addedPosition">Position in storage it was added to. Defaults to -1</param>
-		/// <param name="addedAmount">Amount that was added. Defaults to 0</param>
+		/// <param name="addedPosition">Position we added the item to. Defaults to -1</param>
 		/// <returns></returns>
-		public StorageResult Add(Item item, out int addedPosition, out int addedAmount)
+		public StorageResult Add(Item item, out int addedPosition)
 		{
 			addedPosition = -1;
-			addedAmount = 0;
 
 			if (CheckStorageFull())
 				return StorageResult.StorageFull;
 
-			// Stacks to existing items
-			if (item.IsStackable)
-			{
-				lock (_syncLock)
-				{
-					for (int i = 0; i < _maxStorage; i++)
-					{
-						if ((_storageItems[i] != null) && _storageItems[i].IsStackable && (_storageItems[i].Data.ClassName == item.Data.ClassName))
-						{
-							addedPosition = i;
-							addedAmount += this.AddItemStack(_storageItems[i], item.Amount);
-							if (addedAmount == item.Amount)
-							{
-								return StorageResult.Success;
-							}
-							else
-							{
-								// Update this item and continue stacking
-								Send.ZC_ITEM_ADD(this.Character, _storageItems[i], addedPosition, _storageItems[i].Amount, InventoryAddType.New, InventoryType.Warehouse);
-							}
-						}
-					}
-				}
-
-				// Residue
-				item.Amount -= addedAmount;
-			}
-
 			// Add to new position
-			if ((item.Amount - addedAmount) > 0)
+			var availablePosition = this.FindAvailablePosition();
+			if (this.Add(item, availablePosition, out var addedAmount) == StorageResult.Success)
 			{
-				var availablePosition = this.FindAvailablePosition();
-				var result = this.Add(item, availablePosition, out var newAddedAmount);
-				addedAmount += newAddedAmount;
 				addedPosition = availablePosition;
-				return result;
+				return StorageResult.Success;
 			}
 
 			return StorageResult.InvalidOperation;
 		}
 
 		/// <summary>
-		/// Adds a new item to the storage in specific position.
+		/// Adds a new item to the storage in a specific position.
 		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to add</param>
-		/// <param name="position">Position of item in storage.</param>
+		/// <param name="position">Position of item in storage to add to.</param>
 		/// <param name="addedAmount">Amount that was added. Defaults to 0</param>
 		/// <returns></returns>
 		public StorageResult Add(Item item, int position, out int addedAmount)
@@ -409,7 +447,31 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Swaps the two items with each other.
+		/// Swaps items in two positions.
+		/// Moves item into position2 if empty.
+		/// </summary>
+		/// <param name="worldId1">Item1 object id</param>
+		/// <param name="worldId2">Item2 object id</param>
+		/// <returns></returns>
+		public StorageResult Swap(int position1, int position2)
+		{
+			var item1 = this.TryGetItemPosition(position1);
+			var item2 = this.TryGetItemPosition(position2);
+
+			if (item1 == null && item2 == null)
+				return StorageResult.InvalidOperation;
+
+			lock (_syncLock)
+			{
+				_storageItems[position1] = item2;
+				_storageItems[position2] = item1;
+			}
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Swaps two existing items with each other.
 		/// </summary>
 		/// <param name="worldId1">Item1 object id</param>
 		/// <param name="worldId2">Item2 object id</param>
@@ -424,11 +486,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			if (result2 != StorageResult.Success)
 				return result2;
-
-			if (item1.Data.Category != item2.Data.Category)
-				return StorageResult.InvalidOperation;
-
-			var category = item1.Data.Category;
 
 			lock (_syncLock)
 			{
