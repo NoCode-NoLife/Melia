@@ -59,10 +59,10 @@ namespace Melia.Social.Commands
 			{
 				chatRoom = new ChatRoom("", ChatRoomType.OneToOne);
 				SocialServer.Instance.ChatManager.AddChatRoom(chatRoom);
-			}
 
-			chatRoom.AddMember(user.Account);
-			chatRoom.AddMember(targetAccount);
+				chatRoom.AddMember(user.Account);
+				chatRoom.AddMember(targetAccount);
+			}
 
 			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
