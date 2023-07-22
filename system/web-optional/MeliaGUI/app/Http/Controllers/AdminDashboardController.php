@@ -101,6 +101,7 @@ class AdminDashboardController extends Controller
             'totalCpuUsage' => $totalCpuUsage,
             'isServerOnline' => $isServerOnline,
             'backups' => $this->getBackups(),
+            'status' => session('status'),
         ]);
     }
 
@@ -112,13 +113,12 @@ class AdminDashboardController extends Controller
             $body = $response->getBody()->getContents();
 
             if ($statusCode == 200) {
-                $decodedBody = json_decode($body);
-                return back()->with('status',trans('kick.all.players.successful'));
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('kick.all.players.successful') ]);
             }
         } catch (\Exception $e) {
         }
 
-        return back()->with('status', trans('kick.all.players.fail'));
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('kick.all.players.fail') ]);
     }
 
     public function broadcastMessage(Request $request) {
@@ -132,19 +132,18 @@ class AdminDashboardController extends Controller
             $body = $response->getBody()->getContents();
 
             if ($statusCode == 200) {
-                $decodedBody = json_decode($body);
-                return back()->with('status', trans('message.broadcast.success'));
+
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('message.broadcast.success') ]);
             }
         } catch (\Exception $e) {
         }
 
-        return back()->with('status', trans('message.broadcast.fail'));
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('message.broadcast.fail') ]);
     }
 
 
     private function getBackups($maxCount = 10)
     {
-        // $statuses = BackupDestinationStatusFactory::createForMonitorConfig(config('backup.monitor_backups'));
         $info = [];
         $count = 0;
 

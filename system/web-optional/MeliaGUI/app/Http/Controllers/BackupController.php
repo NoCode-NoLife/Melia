@@ -23,7 +23,7 @@ class BackupController extends Controller
         $cmd = "mysqldump --default-character-set=utf8 --protocol=tcp --single-transaction=TRUE --skip-triggers  --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
         exec($cmd);
 
-        return back()->with('status', trans('backup.successful'));
+        return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.backup.successful') ]);
     }
 
     public function delete(Request $request)
@@ -39,7 +39,7 @@ class BackupController extends Controller
             $backupDate = new Carbon($request->backupDate);
         } catch(\Exception) {
             throw ValidationException::withMessages([
-                'status' => trans('backup.delete.fail'),
+                'status' => [ 'type' => 'success', 'message' => trans('validation.backup.delete.fail')],
             ]);
         }
 
@@ -51,7 +51,7 @@ class BackupController extends Controller
             }
         }
 
-        return back()->with('status', trans('backup.delete.successful'));
+        return back()->with('status', [ 'type' => 'warning', 'message' => trans('validation.backup.delete.successful') ]);
     }
 
     public function restore(Request $request)
@@ -67,7 +67,7 @@ class BackupController extends Controller
             $backupDate = new Carbon($request->backupDate);
         } catch(\Exception) {
             throw ValidationException::withMessages([
-                'status' => trans('backup.delete.fail'),
+                'status' => [ 'type' => 'success', 'message' => trans('validation.backup.delete.fail')],
             ]);
         }
 
@@ -81,7 +81,7 @@ class BackupController extends Controller
 
         if (!$filePath) {
             throw ValidationException::withMessages([
-                'status' => trans('backup.restore.fail'),
+                'status' => [ 'type' => 'success', 'message' => trans('validation.backup.restore.fail') ],
             ]);
         }
 
@@ -94,8 +94,6 @@ class BackupController extends Controller
         $cmd = "mysql --host={$serverName} --user={$username} --port={$serverPort} --password={$password} {$databaseName} < $filePath";
         exec($cmd);
 
-        return back()->with('status', trans('backup.restore.successful'));
+        return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.backup.restore.successful') ]);
     }
 }
-
-

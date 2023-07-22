@@ -17,7 +17,7 @@ return [
     'backup.running.success' => 'The backup is being initialized.',
     'backup.delete.fail' => 'Backup could not be deleted.',
     'backup.delete.successful' => 'Backup was deleted successful.',
-    'backup.delete.successful' => 'Backup restored successful.',
+    'backup.restore.successful' => 'Backup restored successful.',
     'backup.restore.fail' => 'Backup restored failed.',
     'kick.all.players.fail' => 'Fail to kick all players',
     'kick.all.players.successful' => 'Successful kicked all players.',

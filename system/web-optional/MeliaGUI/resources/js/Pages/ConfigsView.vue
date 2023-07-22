@@ -5,6 +5,10 @@ import {
   mdiChevronLeft,
   mdiContentSave,
   mdiCog,
+  mdiInformation,
+  mdiCheckCircle,
+  mdiAlert,
+  mdiAlertCircle,
 } from "@mdi/js";
 import { useStore } from 'vuex';
 import { Head, router } from '@inertiajs/vue3'
@@ -18,8 +22,9 @@ import BaseButtons from "@/components/BaseButtons.vue";
 import BaseButton from "@/components/BaseButton.vue";
 import FormControl from "@/components/FormControl.vue";
 import OverlayLayer from "@/components/OverlayLayer.vue";
+import NotificationBar from "@/components/NotificationBar.vue";
 
-defineProps({
+const props = defineProps({
     account: {
         type: Object,
         required: true
@@ -40,12 +45,29 @@ defineProps({
         type: Boolean,
         required: true
     },
+    status: {
+        type: Object,
+    },
 })
 
 const store = useStore();
 const instance = getCurrentInstance();
 const accountRef = toRef(instance.props, 'account');
 const isLoading = ref(false);
+const notificationIcon = ref('');
+
+if (props.status != null) {
+    switch (props.status.type) {
+        case 'info':
+            notificationIcon.value = mdiInformation;
+        case 'success':
+            notificationIcon.value = mdiCheckCircle;
+        case 'warning':
+            notificationIcon.value = mdiAlert;
+        case 'danger':
+            notificationIcon.value = mdiAlertCircle;
+    }
+}
 
 onMounted(() => {
   store.commit('setAccount', accountRef.value);
@@ -167,6 +189,15 @@ const saveConfigs = () => {
 
     <LayoutAuthenticated>
         <SectionMain>
+            <NotificationBar
+                v-if="props.status"
+                :color="props.status.type"
+                :icon="notificationIcon"
+                :outline="false"
+            >
+                {{ props.status.message }}
+            </NotificationBar>
+
             <CardBox v-if="!isServerOnline" class="mb-5">
                 <div class="flex items-center justify-center h-full w-full">
                     <p class="text-center">Can't change configs while the server is <b>offline</b></p>
@@ -227,6 +258,35 @@ const saveConfigs = () => {
                         </CardBox>
 
                         <CardBox>
+                            <div>
+                                <BaseButtons>
+                                    <div class="flex justify-start">
+                                        <BaseButton
+                                            color="info"
+                                            :icon="mdiChevronLeft"
+                                            icon-size="25"
+                                            small
+                                            @click="slidePrev"
+                                        />
+                                        <BaseButton
+                                            color="info"
+                                            :icon="mdiChevronRight"
+                                            small
+                                            @click="slideNext"
+                                        />
+                                    </div>
+                                    <BaseButton
+                                        big
+                                        class="element ml-auto"
+                                        color="info"
+                                        :icon="mdiContentSave"
+                                        icon-size="25"
+                                        small
+                                        @click="saveConfigs"
+                                    />
+                                </BaseButtons>
+                            </div>
+
                             <BaseDivider />
 
                             <div v-if="state.currentIndex === 0" v-for="(entry, key) in instance.props.configs.world" :key="key">

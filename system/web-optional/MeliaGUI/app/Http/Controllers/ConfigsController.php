@@ -40,12 +40,13 @@ class ConfigsController extends Controller
             $isServerOnline = false;
         }
 
-        return Inertia::render('SettingsView', [
+        return Inertia::render('ConfigsView', [
             'account' => auth()->user()->account,
             'backupSchedule' => config('backup.schedule'),
             'enableTrading' => true,
             'isServerOnline' => $isServerOnline,
             'configs' => $configs,
+            'status' => session('status'),
         ]);
     }
 
@@ -58,11 +59,11 @@ class ConfigsController extends Controller
             $response = $this->client->post('/api/info/configs' , ['json' => $request->input()]);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
-                return back()->with('status', trans('configs.successful.updated'));
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.configs.successful.updated') ]);
             }
         } catch (\Exception $e) {
         }
 
-        return back()->with('status', trans('configs.update.fail'));
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('validation.configs.update.fail') ]);
     }
 }

@@ -13,6 +13,10 @@ import {
   mdiMailbox,
   mdiBackupRestore,
   mdiCloudPlusOutline,
+  mdiInformation,
+  mdiCheckCircle,
+  mdiAlert,
+  mdiAlertCircle,
 } from "@mdi/js";
 import { useStore } from 'vuex';
 import { Head, router } from '@inertiajs/vue3'
@@ -31,8 +35,9 @@ import BaseDivider from "@/components/BaseDivider.vue";
 import CardBox from "@/components/CardBox.vue";
 import FormControl from "@/components/FormControl.vue";
 import CardBoxModal from "@/components/CardBoxModal.vue";
+import NotificationBar from "@/components/NotificationBar.vue";
 
-defineProps({
+const props = defineProps({
     account: {
         type: Object,
         required: true
@@ -64,13 +69,30 @@ defineProps({
     isServerOnline: {
         type: Boolean,
         required: true
-    }
+    },
+    status: {
+        type: Object,
+    },
 })
 
 const chartData = ref(null);
 const isLoading = ref(false);
 const isBroadcastMessageModalActive = ref(false);
 const broadcastMessageText = ref('');
+const notificationIcon = ref('');
+
+if (props.status != null) {
+    switch (props.status.type) {
+        case 'info':
+            notificationIcon.value = mdiInformation;
+        case 'success':
+            notificationIcon.value = mdiCheckCircle;
+        case 'warning':
+            notificationIcon.value = mdiAlert;
+        case 'danger':
+            notificationIcon.value = mdiAlertCircle;
+    }
+}
 
 const isWarningModalActive = ref(false);
 const warningMessage = ref('');
@@ -217,6 +239,15 @@ onMounted(() => {
         </CardBoxModal>
 
         <SectionMain>
+            <NotificationBar
+                v-if="props.status"
+                :color="props.status.type"
+                :icon="notificationIcon"
+                :outline="false"
+            >
+                {{ props.status.message }}
+            </NotificationBar>
+
             <SectionTitleLineWithButton
                 :icon="mdiChartTimelineVariant"
                 title="Overview"
