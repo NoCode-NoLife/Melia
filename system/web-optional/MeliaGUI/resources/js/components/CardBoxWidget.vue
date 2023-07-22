@@ -40,6 +40,10 @@ defineProps({
     type: String,
     default: null,
   },
+  showOnOffline: {
+    type: Boolean,
+    default: true,
+  }
 });
 </script>
 
@@ -51,7 +55,7 @@ defineProps({
           {{ label }}
         </h3>
         <h1 class="text-3xl leading-tight font-semibold">
-          <NumberDynamic :value="number" :prefix="prefix" :suffix="suffix" />
+          <NumberDynamic :showOnOffline="showOnOffline" :value="number" :prefix="prefix" :suffix="suffix" />
         </h1>
       </div>
       <BaseIcon

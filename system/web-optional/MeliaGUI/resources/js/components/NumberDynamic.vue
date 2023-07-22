@@ -20,6 +20,10 @@ const props = defineProps({
     type: Number,
     default: 500,
   },
+  showOnOffline: {
+    type: Boolean,
+    default: true,
+  }
 });
 
 const store = useStore();
@@ -63,5 +67,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>{{ prefix }}{{ isServerOnline != null ? isServerOnline ? newValueFormatted <= 0 ? '--' : newValueFormatted : newValueFormatted : newValueFormatted}}{{  newValueFormatted <= 0 ? '' : suffix }}</div>
+  <div>{{ prefix }}{{ !showOnOffline ? isServerOnline ? newValueFormatted : '--' : newValueFormatted}}{{  newValueFormatted <= 0 ? '' : suffix }}</div>
 </template>

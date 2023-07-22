@@ -210,7 +210,6 @@ onMounted(() => {
     </OverlayLayer>
 
     <LayoutAuthenticated>
-
         <CardBoxModal
             v-model="isBroadcastMessageModalActive"
             title="Enter the message that you want to broadcast:"
@@ -261,6 +260,7 @@ onMounted(() => {
                     color="text-green-500"
                     :icon="mdiAccountMultipleCheck"
                     :number="onlineAccounts"
+                    :showOnOffline="false"
                     label="Online"
                 />
                 <CardBoxWidget
@@ -274,6 +274,7 @@ onMounted(() => {
                     color="text-red-500"
                     :icon="mdiChartTimelineVariant"
                     :number="totalCpuUsage"
+                    :showOnOffline="false"
                     suffix="%"
                     label="Total CPU Usage"
                 />
