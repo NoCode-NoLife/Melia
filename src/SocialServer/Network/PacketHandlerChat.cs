@@ -195,15 +195,16 @@ namespace Melia.Social.Network
 				SocialServer.Instance.Database.DeleteFriend(friend.Id);
 
 				Send.SC_NORMAL.FriendResponse(conn, friend);
-				return;
 			}
-
-			if (cmd == FriendCmd.Accept)
+			else if (cmd == FriendCmd.Accept)
 			{
 				friend.State = FriendState.Accepted;
 				SocialServer.Instance.Database.SaveFriend(friend);
 
-				if (SocialServer.Instance.UserManager.TryGetFriend(user.Id, friendAccountId, out var otherFriend))
+				Send.SC_NORMAL.FriendResponse(conn, friend);
+				Send.SC_NORMAL.FriendInfo(conn, friend);
+
+				if (SocialServer.Instance.UserManager.TryGetFriend(friendAccountId, user.Id, out var otherFriend))
 				{
 					otherFriend.State = FriendState.Accepted;
 					SocialServer.Instance.Database.SaveFriend(otherFriend);
@@ -216,10 +217,10 @@ namespace Melia.Social.Network
 			{
 				friend.State = FriendState.Accepted;
 				SocialServer.Instance.Database.SaveFriend(friend);
-			}
 
-			Send.SC_NORMAL.FriendResponse(conn, friend);
-			Send.SC_NORMAL.FriendInfo(conn, friend);
+				Send.SC_NORMAL.FriendResponse(conn, friend);
+				Send.SC_NORMAL.FriendInfo(conn, friend);
+			}
 		}
 
 		/// <summary>
