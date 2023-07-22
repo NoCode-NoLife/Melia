@@ -123,8 +123,10 @@ namespace Melia.Zone.World.Items
 		public Item (Item other)
 		{
 			this.Id = other.Id;
-			this.Amount = other.Amount;
+			
 			this.LoadData();
+
+			this.Amount = other.Amount;
 		}
 
 		/// <summary>

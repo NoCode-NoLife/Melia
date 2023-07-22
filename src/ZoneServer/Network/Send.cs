@@ -3532,7 +3532,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="type"></param>
 		/// <param name="items"></param>
-		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, byte type, List<Item> items)
+		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, byte type, List<Item> items, List<int> itemsPositions = null)
 		{
 			var packet = new Packet(Op.ZC_SOLD_ITEM_DIVISION_LIST);
 
@@ -3560,7 +3560,14 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(items[i].Amount);
 						zpacket.PutInt(items[i].Price);
 						zpacket.PutInt(1);
-						zpacket.PutInt(items.Count - i - 1);
+						if (itemsPositions != null)
+						{
+							zpacket.PutInt(itemsPositions.ElementAt(i));
+						}
+						else
+						{
+							zpacket.PutInt(items.Count - i - 1);
+						}
 						zpacket.AddProperties(propertyList);
 						if (propertiesSize > 0)
 						{

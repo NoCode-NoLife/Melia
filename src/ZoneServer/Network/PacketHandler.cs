@@ -1390,7 +1390,14 @@ namespace Melia.Zone.Network
 				if (personalStorageEnabled)
 				{
 					var storageItems = conn.SelectedCharacter.PersonalStorage.GetStorage();
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, storageItems.Values.ToList());
+					var itemList = storageItems.Values.ToList();
+					var itemPositions = storageItems.Keys.ToList();
+
+					// It seems items retrieved from storage always show this property.
+					// If items in storage have zero properties, the client will crash.
+					itemList.ForEach(item => item.Properties.Modify("CoolDown", 0));
+
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, itemList, itemPositions);
 				}
 			}
 			if (type == StorageType.TeamStorage)
@@ -1446,6 +1453,7 @@ namespace Melia.Zone.Network
 			}
 			else if (type == StorageType.TeamStorage)
 			{
+				Log.Warning("CZ_WAREHOUSE_CMD: Team storage not yet implemented", type);
 				var teamStorageEnabled = conn.SelectedCharacter.IsBrowsingTeamStorage;
 
 				if (teamStorageEnabled)
@@ -1457,6 +1465,31 @@ namespace Melia.Zone.Network
 			else
 			{
 				Log.Warning("CZ_WAREHOUSE_CMD: No valid storage type for value: '{0}'", type);
+			}
+		}
+
+		/// <summary>
+		/// Swap items in storage
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SWAP_ITEM_IN_WAREHOUSE)]
+		public void CZ_SWAP_ITEM_IN_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var fromSlot = packet.GetInt();
+			var toSlot = packet.GetInt();
+			var item1ObjectId = packet.GetLong();
+			var item2ObjectId = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+
+			if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
+			{
+				character.PersonalStorage.Swap(item1ObjectId, item2ObjectId);
+			}
+			else if (conn.SelectedCharacter.IsBrowsingTeamStorage)
+			{
+				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: Team storage not yet implemented");
 			}
 		}
 

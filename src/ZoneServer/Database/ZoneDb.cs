@@ -666,7 +666,7 @@ namespace Melia.Zone.Database
 
 						var item = new Item(itemId, amount);
 
-						character.PersonalStorage.Add(item, position);
+						character.PersonalStorage.Add(item, out var addedPosition, out var addedAmount);
 					}
 				}
 			}
