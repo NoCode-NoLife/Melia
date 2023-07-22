@@ -8,9 +8,14 @@ namespace Melia.Social.Database
 	public class ChatMessage
 	{
 		/// <summary>
-		/// Returns the account of the chat message's sender.
+		/// Returns the account id of the message's sender.
 		/// </summary>
-		public Account Sender { get; }
+		public long SenderAccountId { get; }
+
+		/// <summary>
+		/// Returns the team name of the message's sender.
+		/// </summary>
+		public string SenderTeamName { get; }
 
 		/// <summary>
 		/// Returns the message that was sent.
@@ -29,7 +34,8 @@ namespace Melia.Social.Database
 		/// <param name="message"></param>
 		public ChatMessage(Account sender, string message)
 		{
-			this.Sender = sender;
+			this.SenderAccountId = sender.Id;
+			this.SenderTeamName = sender.TeamName;
 			this.Message = message;
 		}
 	}

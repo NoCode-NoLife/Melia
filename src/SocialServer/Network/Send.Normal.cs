@@ -72,7 +72,7 @@ namespace Melia.Social.Network
 				packet.PutLong(1); // msg id?
 				packet.PutByte(1);
 				packet.PutDate(chatMessage.SentTime);
-				packet.PutLpString(chatMessage.Sender.TeamName);
+				packet.PutLpString(chatMessage.SenderTeamName);
 				packet.PutShort(1001); // server group?
 				packet.PutLpString(chatMessage.Message);
 				packet.PutByte(0); // 0 or 1
@@ -103,7 +103,7 @@ namespace Melia.Social.Network
 				{
 					packet.PutLong(1); // msg id?
 					packet.PutDate(chatMessage.SentTime);
-					packet.PutLpString(chatMessage.Sender.TeamName);
+					packet.PutLpString(chatMessage.SenderTeamName);
 					packet.PutLpString(chatMessage.Message);
 				}
 
