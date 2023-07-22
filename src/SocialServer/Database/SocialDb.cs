@@ -181,8 +181,8 @@ namespace Melia.Social.Database
 				cmd.AddParameter("@friendId", friend.Id);
 
 				cmd.Set("state", (byte)friend.State);
-				cmd.Set("group", friend.Group);
-				cmd.Set("note", friend.Note);
+				cmd.Set("group", friend.Group ?? "");
+				cmd.Set("note", friend.Note ?? "");
 
 				cmd.Execute();
 			}
