@@ -48,14 +48,12 @@ namespace Melia.Social.Database
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="type"></param>
-		/// <param name="owner"></param>
-		public ChatRoom(string name, ChatRoomType type, Account owner)
+		public ChatRoom(string name, ChatRoomType type)
 		{
 			this.Id = SocialServer.Instance.ChatManager.GetNewChatId();
 
 			this.Name = name;
 			this.Type = type;
-			this.OwnerId = owner.Id;
 		}
 
 		/// <summary>
@@ -81,6 +79,10 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Add a member to the chat room.
 		/// </summary>
+		/// <remarks>
+		/// The first member to be added to a chat room becomes its
+		/// creator if no creator was set yet.
+		/// </remarks>
 		/// <param name="member"></param>
 		public void AddMember(Account account)
 			=> this.AddMember(new ChatRoomMember(this.Id, account.Id, account.TeamName));
@@ -88,11 +90,18 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Add a member to the chat room.
 		/// </summary>
+		/// <remarks>
+		/// The first member to be added to a chat room becomes its
+		/// creator if no creator was set yet.
+		/// </remarks>
 		/// <param name="member"></param>
 		public void AddMember(ChatRoomMember member)
 		{
 			lock (_members)
 				_members.Add(member);
+
+			if (this.OwnerId == 0)
+				this.OwnerId = member.AccountId;
 		}
 
 		/// <summary>

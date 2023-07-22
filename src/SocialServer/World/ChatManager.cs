@@ -84,7 +84,7 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public ChatRoom CreateChatRoom(SocialUser creator)
 		{
-			var chatRoom = new ChatRoom("", ChatRoomType.Group, creator.Account);
+			var chatRoom = new ChatRoom("", ChatRoomType.Group);
 			chatRoom.AddMember(creator.Account);
 			this.AddChatRoom(chatRoom);
 

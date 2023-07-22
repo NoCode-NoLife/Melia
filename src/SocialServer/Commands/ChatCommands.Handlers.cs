@@ -25,8 +25,7 @@ namespace Melia.Social.Commands
 		/// <summary>
 		/// Request to send a whisper message to another user.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
+		/// <param name="user"></param>
 		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
@@ -47,24 +46,23 @@ namespace Melia.Social.Commands
 				return CommandResult.Okay;
 			}
 
-			var whisperTarget = SocialServer.Instance.Database.GetAccountByTeamName(teamName);
-			if (whisperTarget == null)
+			var targetAccount = SocialServer.Instance.Database.GetAccountByTeamName(teamName);
+			if (targetAccount == null)
 			{
 				Log.Warning("HandleWhisper: Unable to find account by team name {0}.", teamName);
 				return CommandResult.Okay;
 			}
 
 			// TODO: Find previous chat room
-			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Account.Id, whisperTarget.Id);
+			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Account.Id, targetAccount.Id);
 			if (chatRoom == null)
 			{
-				chatRoom = new ChatRoom("", ChatRoomType.OneToOne, user.Account);
+				chatRoom = new ChatRoom("", ChatRoomType.OneToOne);
 				SocialServer.Instance.ChatManager.AddChatRoom(chatRoom);
-				// sender.ChatRooms.Add(chatRoom.Id, chatRoom);
 			}
 
 			chatRoom.AddMember(user.Account);
-			chatRoom.AddMember(whisperTarget);
+			chatRoom.AddMember(targetAccount);
 
 			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
@@ -80,8 +78,7 @@ namespace Melia.Social.Commands
 		/// <summary>
 		/// Request to send a message in a chat room.
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
+		/// <param name="user"></param>
 		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
