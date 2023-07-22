@@ -83,27 +83,52 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (!user.Friends.TryGet(otherAccount.Id, out var friend))
+			// First up, check if the other account is already in the user's
+			// friends list
+			if (user.Friends.TryGet(otherAccount.Id, out var friend))
 			{
-				friend = new Friend(otherAccount, FriendState.SentRequest);
-				var otherFriend = new Friend(account, FriendState.ReceivedRequest);
-
-				SocialServer.Instance.Database.CreateFriend(account.Id, friend);
-				SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
-
-				user.Friends.Add(friend);
-
-				if (userManager.TryGet(otherAccount.Id, out var otherUser))
-					otherUser.Friends.Add(otherFriend);
+				if (friend.State == FriendState.SentRequest)
+					Send.SC_NORMAL.SystemMessage(conn, "AlreadyRequestFriend", 1, 0);
+				else
+					Send.SC_NORMAL.SystemMessage(conn, "AlreadyInFriendList", 1, 0);
+				return;
 			}
+
+			// If they aren't, we'll add them
+			friend = new Friend(otherAccount, FriendState.SentRequest);
+			user.Friends.Add(friend);
+			SocialServer.Instance.Database.CreateFriend(account.Id, friend);
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
 			Send.SC_NORMAL.FriendRequested(conn, friend.AccountId);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
+
+			// Next, we check the other account's friends list
+			var otherFriends = SocialServer.Instance.Database.GetFriends(otherAccount.Id);
+			var otherFriend = otherFriends.Find(f => f.AccountId == account.Id);
+
+			// If the user is on their list already, we can stop here.
+			// They might have been blocked for example, in which case
+			// we shouldn't sending a request or anything.
+			if (otherFriend != null)
+				return;
+
+			// If the other account doesn't have the user on their list
+			// yet either, we'll add them
+			otherFriend = new Friend(account, FriendState.ReceivedRequest);
+			SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
+
+			// And finally, we'll send an update to the other user if
+			// they're online
+			if (userManager.TryGet(otherAccount.Id, out var otherUser))
+			{
+				otherUser.Friends.Add(otherFriend);
+				Send.SC_NORMAL.FriendInfo(otherUser.Connection, otherFriend);
+			}
 		}
 
 		/// <summary>
-		/// Request to block another account.
+		/// Request to block someone's account.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -121,7 +146,10 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (!conn.User.Friends.TryGet(otherAccount.Id, out var friend))
+			// If the user doesn't have the other account on their friends
+			// list yet, we'll add them with a blocked state. Otherwise
+			// we update the state.
+			if (!user.Friends.TryGet(otherAccount.Id, out var friend))
 			{
 				friend = new Friend(otherAccount, FriendState.Blocked);
 
@@ -131,6 +159,7 @@ namespace Melia.Social.Network
 			else
 			{
 				friend.State = FriendState.Blocked;
+				SocialServer.Instance.Database.SaveFriend(friend);
 			}
 
 			Send.SC_NORMAL.FriendBlocked(conn, otherAccount.Id);
@@ -138,7 +167,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Friend commands (Block/Unblock) friends.
+		/// Friend management commands (accept, decline, delete).
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -157,34 +186,30 @@ namespace Melia.Social.Network
 				return;
 			}
 
+			if (cmd == FriendCmd.Delete)
+			{
+				conn.User.Friends.Remove(friend);
+				SocialServer.Instance.Database.DeleteFriend(friend.Id);
+
+				Send.SC_NORMAL.FriendResponse(conn, friend);
+				return;
+			}
+
 			switch (cmd)
 			{
-				case FriendCmd.Accept:
-				{
-					friend.State = FriendState.Accepted;
-					break;
-				}
-				case FriendCmd.Decline:
-				{
-					friend.State = FriendState.Declined;
-					break;
-				}
-				case FriendCmd.Delete:
-				{
-					if (!conn.User.Friends.Delete(friend))
-						Log.Warning("CS_FRIEND_CMD: Deleting friend '{0}' from account '{1}' failed.", friend.TeamName, conn.User.Name);
-
-					Send.SC_NORMAL.FriendResponse(conn, friend);
-					return;
-				}
+				case FriendCmd.Accept: friend.State = FriendState.Accepted; break;
+				case FriendCmd.Decline: friend.State = FriendState.Declined; break;
+				default: return;
 			}
+
+			SocialServer.Instance.Database.SaveFriend(friend);
 
 			Send.SC_NORMAL.FriendResponse(conn, friend);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 		}
 
 		/// <summary>
-		/// Set friend "grouping" name
+		/// Assigns a friend to a group.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -194,15 +219,16 @@ namespace Melia.Social.Network
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
 			var accountId = packet.GetLong();
-			var groupName = packet.GetString(20); // Client side max, doesn't let you type any more characters
+			var groupName = packet.GetString(20);
 
 			if (!conn.User.Friends.TryGet(accountId, out var friend))
 			{
-				Log.Warning("CS_FRIEND_SET_ADDINFO: Failed to find account by id {0} for user {1}.", accountId, conn.User.Name);
+				Log.Warning("CS_FRIEND_SET_ADDINFO: User '{0}' tried to modify a friend without having them in their friends list.", conn.User.Name);
 				return;
 			}
 
 			friend.Group = groupName;
+			SocialServer.Instance.Database.SaveFriend(friend);
 
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 		}

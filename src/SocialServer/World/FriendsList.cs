@@ -37,13 +37,24 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Adds friend to account object.
+		/// Removes friend from the list. 
 		/// </summary>
 		/// <param name="friend"></param>
 		public void Remove(Friend friend)
 		{
 			lock (_friends)
 				_friends.Remove(friend);
+		}
+
+		/// <summary>
+		/// Returns true if the user has a friend with the given account id.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		public bool Has(long accountId)
+		{
+			lock (_friends)
+				return _friends.Any(f => f.AccountId == accountId);
 		}
 
 		/// <summary>
@@ -90,28 +101,6 @@ namespace Melia.Social.World
 		{
 			lock (_friends)
 				return _friends.Where(a => a.State == state).ToArray();
-		}
-
-		/// <summary>
-		/// Removes friend from the account and the database.
-		/// </summary>
-		/// <param name="friend"></param>
-		/// <returns></returns>
-		public bool Delete(Friend friend)
-		{
-			lock (_friends)
-			{
-				if (!_friends.Contains(friend))
-					return false;
-			}
-
-			// If the deletion on the db fails, the character shouldn't
-			// have been shown to begin with and should be removed.
-			// If it doesn't fail, the removal is valid as well,
-			// do this regardless of the query result.
-			this.Remove(friend);
-
-			return SocialServer.Instance.Database.DeleteFriend(friend.Id);
 		}
 
 		/// <summary>
