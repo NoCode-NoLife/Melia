@@ -32,7 +32,7 @@ namespace Melia.Social.Commands
 		/// <returns></returns>
 		private CommandResult HandleWhisper(SocialUser user, string message, string command, Arguments args)
 		{
-			if (args.Count < 3)
+			if (args.Count < 2)
 			{
 				Log.Debug("HandleWhisper: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
@@ -85,7 +85,7 @@ namespace Melia.Social.Commands
 		/// <returns></returns>
 		private CommandResult HandleChatRoomChat(SocialUser user, string message, string command, Arguments args)
 		{
-			if (args.Count < 3)
+			if (args.Count < 2)
 			{
 				Log.Debug("HandleChatRoomChat: Invalid call by user '{0}' ('{1}').", user.Account.Name, message);
 				return CommandResult.Okay;
