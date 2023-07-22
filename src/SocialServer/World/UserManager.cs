@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Melia.Social.Database;
 
 namespace Melia.Social.World
@@ -92,6 +93,27 @@ namespace Melia.Social.World
 				return true;
 
 			return false;
+		}
+
+		/// <summary>
+		/// Returns the friend with the given ids via out, either by getting
+		/// it from a logged in user or the database. Returns false if the
+		/// friend doesn't exist.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="friendAccountId"></param>
+		/// <param name="friend"></param>
+		/// <returns></returns>
+		public bool TryGetFriend(long accountId, long friendAccountId, out Friend friend)
+		{
+			if (this.TryGet(accountId, out var user))
+			{
+				if (user.Friends.TryGet(friendAccountId, out friend))
+					return true;
+			}
+
+			friend = SocialServer.Instance.Database.GetFriend(accountId, friendAccountId);
+			return friend != null;
 		}
 	}
 }

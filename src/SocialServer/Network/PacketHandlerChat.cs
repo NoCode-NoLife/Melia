@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using System.Linq;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 using Melia.Social.World;
 using Yggdrasil.Logging;
@@ -105,7 +106,7 @@ namespace Melia.Social.Network
 
 			// Next, we check the other account's friends list
 			var otherFriends = SocialServer.Instance.Database.GetFriends(otherAccount.Id);
-			var otherFriend = otherFriends.Find(f => f.AccountId == account.Id);
+			var otherFriend = otherFriends.FirstOrDefault(f => f.AccountId == account.Id);
 
 			// If the user is on their list already, we can stop here.
 			// They might have been blocked for example, in which case
@@ -176,33 +177,46 @@ namespace Melia.Social.Network
 		{
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
-			var accountId = packet.GetLong();
+			var friendAccountId = packet.GetLong();
 			var cmd = (FriendCmd)packet.GetInt();
 			var i2 = packet.GetInt();
 
-			if (!conn.User.Friends.TryGet(accountId, out var friend))
+			var user = conn.User;
+
+			if (!user.Friends.TryGet(friendAccountId, out var friend))
 			{
-				Log.Warning("CS_FRIEND_CMD: User '{0}' tried to modify a friend without having them in their friends list.", conn.User.Name);
+				Log.Warning("CS_FRIEND_CMD: User '{0}' tried to modify a friend without having them in their friends list.", user.Name);
 				return;
 			}
 
 			if (cmd == FriendCmd.Delete)
 			{
-				conn.User.Friends.Remove(friend);
+				user.Friends.Remove(friend);
 				SocialServer.Instance.Database.DeleteFriend(friend.Id);
 
 				Send.SC_NORMAL.FriendResponse(conn, friend);
 				return;
 			}
 
-			switch (cmd)
+			if (cmd == FriendCmd.Accept)
 			{
-				case FriendCmd.Accept: friend.State = FriendState.Accepted; break;
-				case FriendCmd.Decline: friend.State = FriendState.Declined; break;
-				default: return;
-			}
+				friend.State = FriendState.Accepted;
+				SocialServer.Instance.Database.SaveFriend(friend);
 
-			SocialServer.Instance.Database.SaveFriend(friend);
+				if (SocialServer.Instance.UserManager.TryGetFriend(user.Id, friendAccountId, out var otherFriend))
+				{
+					otherFriend.State = FriendState.Accepted;
+					SocialServer.Instance.Database.SaveFriend(otherFriend);
+
+					if (SocialServer.Instance.UserManager.TryGet(friendAccountId, out var otherUser))
+						Send.SC_NORMAL.FriendInfo(otherUser.Connection, otherFriend);
+				}
+			}
+			else if (cmd == FriendCmd.Decline)
+			{
+				friend.State = FriendState.Accepted;
+				SocialServer.Instance.Database.SaveFriend(friend);
+			}
 
 			Send.SC_NORMAL.FriendResponse(conn, friend);
 			Send.SC_NORMAL.FriendInfo(conn, friend);

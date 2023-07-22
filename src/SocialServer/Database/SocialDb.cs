@@ -99,24 +99,7 @@ namespace Melia.Social.Database
 					{
 						while (reader.Read())
 						{
-							var friend = new Friend();
-
-							friend.Id = reader.GetInt64("friendId");
-							friend.AccountId = reader.GetInt64("accountId");
-							friend.TeamName = reader.GetStringSafe("teamName");
-							friend.State = (FriendState)reader.GetByte("state");
-							friend.Group = reader.GetStringSafe("group");
-							friend.Note = reader.GetStringSafe("note");
-							friend.LastLogin = reader.GetDateTimeSafe("lastLogin");
-
-							friend.Character.Id = reader.GetInt64("characterId");
-							friend.Character.Name = reader.GetStringSafe("name");
-							friend.Character.TeamName = reader.GetStringSafe("teamName");
-							friend.Character.JobId = (JobId)reader.GetInt32("job");
-							friend.Character.Gender = (Gender)reader.GetInt32("gender");
-							friend.Character.Hair = reader.GetInt32("hair");
-							friend.Character.Level = reader.GetInt32("level");
-
+							var friend = this.ReadFriend(reader);
 							friends.Add(friend);
 						}
 					}
@@ -124,6 +107,69 @@ namespace Melia.Social.Database
 			}
 
 			return friends;
+		}
+
+		/// <summary>
+		/// Returns friend with a given account ids.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="friendAccountId"></param>
+		/// <returns></returns>
+		public Friend GetFriend(long accountId, long friendAccountId)
+		{
+			using (var conn = this.GetConnection())
+			{
+				var query = @"
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`, a.`loginCharacter` AS `characterId`,
+					       IFNULL('', c.`name`) AS `name`, IFNULL(0, c.`job`) AS `job`, IFNULL(0, c.`gender`) AS `gender`, IFNULL(0, c.`hair`) AS `hair`, IFNULL(0, c.`level`) AS `level`
+					FROM `friends` AS `f`
+					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
+					LEFT JOIN `characters` AS c ON a.`loginCharacter` = c.`characterId`
+					WHERE f.`accountId` = @accountId AND f.`friendAccountId` = @friendAccountId
+				";
+
+				using (var mc = new MySqlCommand(query, conn))
+				{
+					mc.Parameters.AddWithValue("@accountId", accountId);
+					mc.Parameters.AddWithValue("@friendAccountId", friendAccountId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						if (!reader.Read())
+							return null;
+
+						return this.ReadFriend(reader);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Reads friend from reader and returns it.
+		/// </summary>
+		/// <param name="reader"></param>
+		/// <returns></returns>
+		private Friend ReadFriend(MySqlDataReader reader)
+		{
+			var friend = new Friend();
+
+			friend.Id = reader.GetInt64("friendId");
+			friend.AccountId = reader.GetInt64("accountId");
+			friend.TeamName = reader.GetStringSafe("teamName");
+			friend.State = (FriendState)reader.GetByte("state");
+			friend.Group = reader.GetStringSafe("group");
+			friend.Note = reader.GetStringSafe("note");
+			friend.LastLogin = reader.GetDateTimeSafe("lastLogin");
+
+			friend.Character.Id = reader.GetInt64("characterId");
+			friend.Character.Name = reader.GetStringSafe("name");
+			friend.Character.TeamName = reader.GetStringSafe("teamName");
+			friend.Character.JobId = (JobId)reader.GetInt32("job");
+			friend.Character.Gender = (Gender)reader.GetInt32("gender");
+			friend.Character.Hair = reader.GetInt32("hair");
+			friend.Character.Level = reader.GetInt32("level");
+
+			return friend;
 		}
 
 		/// <summary>
