@@ -2,8 +2,5 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-mobs/**/*
-npcs/**/*
-other/**/*
-quests/**/*
-warps/**/*
+require "mobs/scripts.txt"
+require "warps/scripts.txt"
