@@ -16,7 +16,7 @@ const chartStyle = {
 
 const chartOptions = {
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     scales: {
         x: {
             stacked: true, // Enable stacking for the x-axis (horizontal stacking)

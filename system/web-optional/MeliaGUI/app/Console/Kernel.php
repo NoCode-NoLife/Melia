@@ -50,7 +50,7 @@ class Kernel extends ConsoleKernel
         $password = env('DB_PASSWORD', '');
         $databaseName = env('DB_DATABASE', 'melia');
 
-        $cmd = "mysqldump --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
+        $cmd = "mysqldump --default-character-set=utf8 --protocol=tcp --single-transaction=TRUE --skip-triggers  --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
         exec($cmd);
     }
 }

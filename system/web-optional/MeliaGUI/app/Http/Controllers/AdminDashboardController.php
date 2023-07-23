@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Account;
@@ -102,7 +103,8 @@ class AdminDashboardController extends Controller
             'isServerOnline' => $isServerOnline,
             'backups' => $this->getBackups(),
             'status' => session('status'),
-            'silverChartData' => $this->getSilverData()
+            'silverChartData' => $this->getSilverChartData(),
+            'jobClassChartData' => $this->jobClassChartData(),
         ]);
     }
 
@@ -142,10 +144,9 @@ class AdminDashboardController extends Controller
         return back()->with('status', [ 'type' => 'danger', 'message' => trans('message.broadcast.fail') ]);
     }
 
-    private function getSilverData($maxCount = 10)
+    private function getSilverChartData($maxCount = 10)
     {
         $accounts = Account::all();
-
 
         $silverAmounts = [];
 
@@ -179,6 +180,39 @@ class AdminDashboardController extends Controller
         }
 
         return $topAccounts;
+    }
+
+    private function jobClassChartData() {
+        $accounts = Account::all();
+
+        $chartData = [];
+
+        // Read the JSON file
+        $jobs = Storage::json('db\jobs.json');
+
+        if (!$jobs) {
+            return null;
+        }
+
+        foreach ($accounts as $account) {
+            foreach ($account->characters as $character) {
+                foreach ($character->jobs as $job) {
+                    $jobName = $this->getClassName($jobs, $job['jobId']);
+                    $chartData[$jobName] = (array_key_exists($jobName, $chartData) ? $chartData[$jobName] : 0) + 1;
+                }
+            }
+        }
+
+        return $chartData;
+    }
+
+    private function getClassName($jobs, $classId)
+    {
+        foreach($jobs as $job) {
+            if ($job['jobId'] == $classId) {
+                return $job['name'];
+            }
+        }
     }
 
     private function getBackups($maxCount = 10)

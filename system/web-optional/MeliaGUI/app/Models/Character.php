@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Account;
 use App\Models\Inventory;
+use App\Models\Job;
 
 class Character extends Model
 {
@@ -78,5 +79,10 @@ class Character extends Model
     public function inventories()
     {
         return $this->hasMany(Inventory::class, 'characterId');
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'characterId');
     }
 }

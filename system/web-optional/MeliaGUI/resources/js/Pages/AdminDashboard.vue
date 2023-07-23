@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, toRef, getCurrentInstance, computed } from "vue";
+import { ref, onMounted, toRef, getCurrentInstance } from "vue";
 import {
   mdiAccountMultiple,
   mdiAccountMultipleCheck,
@@ -17,10 +17,10 @@ import {
   mdiCheckCircle,
   mdiAlert,
   mdiAlertCircle,
+  mdiChartBox,
 } from "@mdi/js";
 import { useStore } from 'vuex';
 import { Head, router } from '@inertiajs/vue3'
-import * as chartConfig from "@/components/Charts/chart.config.js";
 import SectionMain from "@/components/SectionMain.vue";
 import CardBoxWidget from "@/components/CardBoxWidget.vue";
 import TableAccounts from "@/components/TableAccounts.vue";
@@ -37,6 +37,8 @@ import FormControl from "@/components/FormControl.vue";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import NotificationBar from "@/components/NotificationBar.vue";
 import SilverChart from "@/components/Charts/SilverChart.vue";
+import JobsChart from "@/components/Charts/JobsChart.vue";
+import BaseIcon from "@/components/BaseIcon.vue";
 
 const props = defineProps({
     account: {
@@ -76,8 +78,13 @@ const props = defineProps({
     },
     silverChartData: {
         type: Object,
+        required: true,
     },
-})
+    jobClassChartData: {
+        type: Object,
+        required: true,
+    },
+});
 
 const isLoading = ref(false);
 const isBroadcastMessageModalActive = ref(false);
@@ -278,20 +285,38 @@ if (props.status != null) {
                 />
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4">
-                <div class="flex-1">
+            <div class="flex flex-col md:flex-row gap-4" v-if="silverChartData != null && jobClassChartData != null">
+                <div class="flex-1 mb-6">
                     <CardBox>
-                        <SilverChart :data="silverChartData"/>
+                        <SilverChart :data="silverChartData" class="mb-2"/>
+                        <BaseDivider chart />
+                        <div class="flex justify-between">
+                            <BaseIcon
+                                class="text-black dark:text-gray-500"
+                                :path="mdiChartBox"
+                                size="24"
+                            />
+                            <p class="text-center text-black dark:text-gray-500">Top 10 most rich teams</p>
+                        </div>
                     </CardBox>
                 </div>
                 <div class="flex-1">
                     <CardBox>
-                        <SilverChart :data="silverChartData"/>
+                        <JobsChart :data="jobClassChartData" class="mb-2"/>
+                        <BaseDivider chart />
+                        <div class="flex justify-between">
+                            <BaseIcon
+                                class="text-black dark:text-gray-500"
+                                :path="mdiChartBox"
+                                size="24"
+                            />
+                            <p class="text-center text-black dark:text-gray-500">All chosen jobs</p>
+                        </div>
                     </CardBox>
                 </div>
             </div>
 
-            <SectionTitleLineWithButton :icon="mdiServer" title="Server's Management" />
+            <SectionTitleLineWithButton class="mt-2 pt-2 pb-2" :icon="mdiServer" title="Server's Management" />
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                 <div class="flex flex-col justify-between">
@@ -302,11 +327,11 @@ if (props.status != null) {
                 <div class="flex flex-col justify-between">
                     <CardBoxAction :canInteract="true" :icon="mdiCloudUploadOutline" :title="'Backup database'" :description="'Make a new database backup.'" :action="createNewBackup" />
                     <CardBoxAction :canInteract="true" :icon="mdiBackupRestore" :title="'-------------------'" :description="'---------------------------'" />
-                    <CardBoxAction :canInteract="true" :icon="mdiTagMultiple" :title="'Inspect inventories'" :description="'Select a database backup to restore.'" :action="inspectInventories" />
+                    <CardBoxAction :canInteract="true" :icon="mdiTagMultiple" :title="'Inspect inventories'" :description="'Inspect inventories of players'" :action="inspectInventories" />
                 </div>
             </div>
 
-            <SectionTitleLineWithButton :icon="mdiCpu64Bit" title="Server's Processes" />
+            <SectionTitleLineWithButton class="mt-0 pt-0 pb-2" :icon="mdiCpu64Bit" title="Server's Processes" />
 
             <CardBox has-table>
                 <TableProcesses :items="processes" />
