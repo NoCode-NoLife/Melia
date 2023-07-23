@@ -102,6 +102,7 @@ class AdminDashboardController extends Controller
             'isServerOnline' => $isServerOnline,
             'backups' => $this->getBackups(),
             'status' => session('status'),
+            'silverChartData' => $this->getSilverData()
         ]);
     }
 
@@ -141,6 +142,44 @@ class AdminDashboardController extends Controller
         return back()->with('status', [ 'type' => 'danger', 'message' => trans('message.broadcast.fail') ]);
     }
 
+    private function getSilverData($maxCount = 10)
+    {
+        $accounts = Account::all();
+
+
+        $silverAmounts = [];
+
+        foreach ($accounts as $account) {
+            foreach ($account->characters as $character) {
+                foreach ($character->inventories as $inventory) {
+                    if ($inventory->item->itemId == 900011) {
+                        $teamName = $account->teamName;
+                        $characterName = $character->name;
+                        $silverAmount = $inventory->item->amount;
+                        // Store the silver amount with the corresponding team name and character name
+                        $silverAmounts[$teamName][$characterName] = $silverAmount;
+                    }
+                }
+            }
+        }
+
+        // Calculate the total silver amount for each account and sort the $silverAmounts array in descending order
+        $sortedAccounts = collect($silverAmounts)->map(function ($characterData, $teamName) {
+            $totalSilver = array_sum($characterData);
+            return ['teamName' => $teamName, 'totalSilver' => $totalSilver];
+        })->sortByDesc('totalSilver')->take($maxCount);
+
+        // Create the final result array with individual character entries for each account
+        $topAccounts = [];
+
+        foreach ($sortedAccounts as $account) {
+            $teamName = $account['teamName'];
+            $characterData = $silverAmounts[$teamName];
+            $topAccounts[$teamName] = $characterData;
+        }
+
+        return $topAccounts;
+    }
 
     private function getBackups($maxCount = 10)
     {

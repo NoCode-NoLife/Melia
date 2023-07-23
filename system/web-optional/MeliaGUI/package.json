@@ -27,6 +27,7 @@
         "chart.js": "^4.3.0",
         "numeral": "^2.0.6",
         "postcss-import": "^15.1.0",
+        "vue-chartjs": "^5.2.0",
         "vuex": "^4.1.0"
     }
 }

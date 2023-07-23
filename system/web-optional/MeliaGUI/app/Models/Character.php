@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Account;
+use App\Models\Inventory;
 
 class Character extends Model
 {
@@ -72,5 +73,10 @@ class Character extends Model
     public function account()
     {
         return $this->belongsTo(Account::class, 'accountId');
+    }
+
+    public function inventories()
+    {
+        return $this->hasMany(Inventory::class, 'characterId');
     }
 }

@@ -56,6 +56,6 @@ class Account extends Model
 
     public function characters()
     {
-        return $this->hasMany(Character::class, 'characterId');
+        return $this->hasMany(Character::class, 'accountId');
     }
 }

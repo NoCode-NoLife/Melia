@@ -1,7 +1,8 @@
 <script setup>
 import { computed, ref, watch, onMounted } from "vue";
-import numeral from "numeral";
 import { useStore } from 'vuex';
+import { usePage } from '@inertiajs/vue3';
+import numeral from "numeral";
 
 const props = defineProps({
   prefix: {
@@ -27,7 +28,7 @@ const props = defineProps({
 });
 
 const store = useStore();
-const isServerOnline = computed(() => store.state.isServerOnline);
+const isServerOnline = usePage().props.isServerOnline;
 
 const newValue = ref(0);
 

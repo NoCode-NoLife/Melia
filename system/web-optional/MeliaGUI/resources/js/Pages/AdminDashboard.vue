@@ -36,6 +36,7 @@ import CardBox from "@/components/CardBox.vue";
 import FormControl from "@/components/FormControl.vue";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import NotificationBar from "@/components/NotificationBar.vue";
+import SilverChart from "@/components/Charts/SilverChart.vue";
 
 const props = defineProps({
     account: {
@@ -73,34 +74,19 @@ const props = defineProps({
     status: {
         type: Object,
     },
+    silverChartData: {
+        type: Object,
+    },
 })
 
-const chartData = ref(null);
 const isLoading = ref(false);
 const isBroadcastMessageModalActive = ref(false);
 const broadcastMessageText = ref('');
 const notificationIcon = ref('');
 
-if (props.status != null) {
-    switch (props.status.type) {
-        case 'info':
-            notificationIcon.value = mdiInformation;
-        case 'success':
-            notificationIcon.value = mdiCheckCircle;
-        case 'warning':
-            notificationIcon.value = mdiAlert;
-        case 'danger':
-            notificationIcon.value = mdiAlertCircle;
-    }
-}
-
 const isWarningModalActive = ref(false);
 const warningMessage = ref('');
 const warningCall = ref(null);
-
-const fillChartData = () => {
-  chartData.value = chartConfig.sampleChartData();
-};
 
 const kickAllPlayers = () => {
     isWarningModalActive.value = false;
@@ -185,10 +171,22 @@ const accountRef = toRef(instance.props, 'account');
 const isServerOnlineRef = toRef(instance.props, 'isServerOnline');
 
 onMounted(() => {
-    fillChartData();
     store.commit('setAccount', accountRef.value);
     store.commit('setIsServerOnline', isServerOnlineRef.value);
 });
+
+if (props.status != null) {
+    switch (props.status.type) {
+        case 'info':
+            notificationIcon.value = mdiInformation;
+        case 'success':
+            notificationIcon.value = mdiCheckCircle;
+        case 'warning':
+            notificationIcon.value = mdiAlert;
+        case 'danger':
+            notificationIcon.value = mdiAlertCircle;
+    }
+}
 </script>
 
 <template>
@@ -278,6 +276,19 @@ onMounted(() => {
                     suffix="%"
                     label="Total CPU Usage"
                 />
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-1">
+                    <CardBox>
+                        <SilverChart :data="silverChartData"/>
+                    </CardBox>
+                </div>
+                <div class="flex-1">
+                    <CardBox>
+                        <SilverChart :data="silverChartData"/>
+                    </CardBox>
+                </div>
             </div>
 
             <SectionTitleLineWithButton :icon="mdiServer" title="Server's Management" />
