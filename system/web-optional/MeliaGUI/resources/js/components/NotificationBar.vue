@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed, useSlots } from "vue";
-import { mdiClose } from "@mdi/js";
-import { colorsBgLight, colorsOutline } from "@/colors.js";
-import BaseLevel from "@/components/BaseLevel.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import { ref, computed, useSlots } from 'vue'
+import { mdiClose } from '@mdi/js'
+import { colorsBgLight, colorsOutline } from '@/colors.js'
+import BaseLevel from '@/components/BaseLevel.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 const props = defineProps({
   icon: {
@@ -16,21 +16,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
-});
+})
 
 const componentClass = computed(() =>
-  props.outline ? colorsOutline[props.color] : colorsBgLight[props.color]
-);
+  props.outline ? colorsOutline[props.color] : colorsBgLight[props.color],
+)
 
-const isDismissed = ref(false);
+const isDismissed = ref(false)
 
 const dismiss = () => {
-  isDismissed.value = true;
-};
+  isDismissed.value = true
+}
 
-const slots = useSlots();
+const slots = useSlots()
 
-const hasRightSlot = computed(() => slots.right);
+const hasRightSlot = computed(() => slots.right)
 </script>
 
 <template>

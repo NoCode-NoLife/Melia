@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, watch, onMounted } from "vue";
-import { useStore } from 'vuex';
-import { usePage } from '@inertiajs/vue3';
-import numeral from "numeral";
+import { computed, ref, watch, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { usePage } from '@inertiajs/vue3'
+import numeral from 'numeral'
 
 const props = defineProps({
   prefix: {
@@ -24,49 +24,60 @@ const props = defineProps({
   showOnOffline: {
     type: Boolean,
     default: true,
-  }
-});
+  },
+})
 
-const store = useStore();
-const isServerOnline = usePage().props.isServerOnline;
+const store = useStore()
+const isServerOnline = usePage().props.isServerOnline
 
-const newValue = ref(0);
+const newValue = ref(0)
 
 const newValueFormatted = computed(() =>
-  newValue.value < 1000 ? newValue.value : numeral(newValue.value).format("0,0")
-);
+  newValue.value < 1000
+    ? newValue.value
+    : numeral(newValue.value).format('0,0'),
+)
 
-const value = computed(() => props.value);
+const value = computed(() => props.value)
 
 const grow = (m) => {
-  const v = Math.ceil(newValue.value + m);
+  const v = Math.ceil(newValue.value + m)
 
   if (v > value.value) {
-    newValue.value = value.value;
-    return false;
+    newValue.value = value.value
+    return false
   }
 
-  newValue.value = v;
+  newValue.value = v
 
   setTimeout(() => {
-    grow(m);
-  }, 25);
-};
+    grow(m)
+  }, 25)
+}
 
 const growInit = () => {
-  newValue.value = 0;
-  grow(props.value / (props.duration / 25));
-};
+  newValue.value = 0
+  grow(props.value / (props.duration / 25))
+}
 
 watch(value, () => {
-  growInit();
-});
+  growInit()
+})
 
 onMounted(() => {
-  growInit();
-});
+  growInit()
+})
 </script>
 
 <template>
-  <div>{{ prefix }}{{ !showOnOffline ? isServerOnline ? newValueFormatted : '--' : newValueFormatted}}{{  newValueFormatted <= 0 ? '' : suffix }}</div>
+  <div>
+    {{ prefix
+    }}{{
+      !showOnOffline
+        ? isServerOnline
+          ? newValueFormatted
+          : '--'
+        : newValueFormatted
+    }}{{ newValueFormatted <= 0 ? '' : suffix }}
+  </div>
 </template>

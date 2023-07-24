@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed, onMounted } from "vue";
+import { ref, watch, computed, onMounted } from 'vue'
 import {
   Chart,
   LineElement,
@@ -8,18 +8,18 @@ import {
   LinearScale,
   CategoryScale,
   Tooltip,
-} from "chart.js";
+} from 'chart.js'
 
 const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
-});
+})
 
-const root = ref(null);
+const root = ref(null)
 
-let chart;
+let chart
 
 Chart.register(
   LineElement,
@@ -27,12 +27,12 @@ Chart.register(
   LineController,
   LinearScale,
   CategoryScale,
-  Tooltip
-);
+  Tooltip,
+)
 
 onMounted(() => {
   chart = new Chart(root.value, {
-    type: "line",
+    type: 'line',
     data: props.data,
     options: {
       responsive: true,
@@ -51,17 +51,17 @@ onMounted(() => {
         },
       },
     },
-  });
-});
+  })
+})
 
-const chartData = computed(() => props.data);
+const chartData = computed(() => props.data)
 
 watch(chartData, (data) => {
   if (chart) {
-    chart.data = data;
-    chart.update();
+    chart.data = data
+    chart.update()
   }
-});
+})
 </script>
 
 <template>

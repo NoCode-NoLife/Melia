@@ -1,95 +1,95 @@
 <script setup>
-import { mdiChevronUp, mdiChevronDown } from "@mdi/js";
-import { computed, ref, onMounted, onBeforeUnmount } from "vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import UserAvatarCurrentUser from "@/components/UserAvatarCurrentUser.vue";
-import NavBarMenuList from "@/components/NavBarMenuList.vue";
-import BaseDivider from "@/components/BaseDivider.vue";
-import { Link } from '@inertiajs/vue3';
-import { usePage } from '@inertiajs/vue3';
-import { useStore } from 'vuex';
+import { mdiChevronUp, mdiChevronDown } from '@mdi/js'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import BaseIcon from '@/components/BaseIcon.vue'
+import UserAvatarCurrentUser from '@/components/UserAvatarCurrentUser.vue'
+import NavBarMenuList from '@/components/NavBarMenuList.vue'
+import BaseDivider from '@/components/BaseDivider.vue'
+import { Link } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3'
+import { useStore } from 'vuex'
 
 const props = defineProps({
-    item: {
-        type: Object,
-        required: true,
-    },
-});
+  item: {
+    type: Object,
+    required: true,
+  },
+})
 
-const store = useStore();
+const store = useStore()
 
-const account = usePage().props.account;
+const account = usePage().props.account
 
-const emit = defineEmits(["menu-click"]);
+const emit = defineEmits(['menu-click'])
 
 const is = computed(() => {
   if (props.item.href) {
-    return Link;
+    return Link
   }
 
   if (props.item.to) {
-    return Link;
+    return Link
   }
 
-  return "div";
-});
+  return 'div'
+})
 
 const componentClass = computed(() => {
-    const base = [
-        isDropdownActive.value
-            ? `${store.state.navBarItemLabelActiveColorStyle} dark:text-slate-400`
-            : `${store.state.navBarItemLabelStyle} dark:text-white dark:hover:text-slate-400 ${store.state.navBarItemLabelHoverStyle}`,
-        props.item.menu ? "lg:py-2 lg:px-3" : "py-2 px-3",
-    ];
+  const base = [
+    isDropdownActive.value
+      ? `${store.state.navBarItemLabelActiveColorStyle} dark:text-slate-400`
+      : `${store.state.navBarItemLabelStyle} dark:text-white dark:hover:text-slate-400 ${store.state.navBarItemLabelHoverStyle}`,
+    props.item.menu ? 'lg:py-2 lg:px-3' : 'py-2 px-3',
+  ]
 
-    if (props.item.isDesktopNoLabel) {
-        base.push("lg:w-16", "lg:justify-center");
-    }
+  if (props.item.isDesktopNoLabel) {
+    base.push('lg:w-16', 'lg:justify-center')
+  }
 
-    return base;
-});
+  return base
+})
 
 const itemLabel = computed(() => {
-    if (props.item.isCurrentUser && account) {
-        return account.name;
-    } else {
-        return props.item.label;
-    }
-});
+  if (props.item.isCurrentUser && account) {
+    return account.name
+  } else {
+    return props.item.label
+  }
+})
 
-const isDropdownActive = ref(false);
+const isDropdownActive = ref(false)
 
 const menuClick = (event) => {
-  emit("menu-click", event, props.item);
+  emit('menu-click', event, props.item)
 
   if (props.item.menu) {
-    isDropdownActive.value = !isDropdownActive.value;
+    isDropdownActive.value = !isDropdownActive.value
   }
-};
+}
 
 const menuClickDropdown = (event, item) => {
-  emit("menu-click", event, item);
-};
+  emit('menu-click', event, item)
+}
 
-const root = ref(null);
+const root = ref(null)
 
 const forceClose = (event) => {
   if (root.value && !root.value.contains(event.target)) {
-    isDropdownActive.value = false;
+    isDropdownActive.value = false
   }
-};
+}
 
 onMounted(() => {
   if (props.item.menu) {
-    window.addEventListener("click", forceClose);
+    window.addEventListener('click', forceClose)
   }
-});
+})
 
 onBeforeUnmount(() => {
   if (props.item.menu) {
-    window.removeEventListener("click", forceClose);
+    window.removeEventListener('click', forceClose)
   }
-});
+})
 </script>
 
 <template>

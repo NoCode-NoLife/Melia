@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from "vue";
-import FormCheckRadio from "@/components/FormCheckRadio.vue";
+import { computed } from 'vue'
+import FormCheckRadio from '@/components/FormCheckRadio.vue'
 
 const props = defineProps({
   options: {
@@ -13,8 +13,8 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: "checkbox",
-    validator: (value) => ["checkbox", "radio", "switch"].includes(value),
+    default: 'checkbox',
+    validator: (value) => ['checkbox', 'radio', 'switch'].includes(value),
   },
   componentClass: {
     type: String,
@@ -25,16 +25,16 @@ const props = defineProps({
     type: [Array, String, Number, Boolean],
     default: null,
   },
-});
+})
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(['update:modelValue'])
 
 const computedValue = computed({
   get: () => props.modelValue,
   set: (value) => {
-    emit("update:modelValue", value);
+    emit('update:modelValue', value)
   },
-});
+})
 </script>
 
 <template>

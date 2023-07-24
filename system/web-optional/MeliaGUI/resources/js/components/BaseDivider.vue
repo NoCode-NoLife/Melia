@@ -2,7 +2,7 @@
 const props = defineProps({
   navBar: Boolean,
   chart: Boolean,
-});
+})
 </script>
 
 <template>
@@ -10,7 +10,9 @@ const props = defineProps({
     :class="
       props.navBar
         ? 'hidden lg:block lg:my-0.5 dark:border-slate-700'
-        : props.chart ? 'mb-3 -mx-6 dark:border-slate-800' : 'my-6 -mx-6 dark:border-slate-800'
+        : props.chart
+        ? 'mb-3 -mx-6 dark:border-slate-800'
+        : 'my-6 -mx-6 dark:border-slate-800'
     "
     class="border-t border-gray-100"
   />

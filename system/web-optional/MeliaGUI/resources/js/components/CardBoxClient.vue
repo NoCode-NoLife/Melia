@@ -1,10 +1,15 @@
 <script setup>
-import { computed } from "vue";
-import { mdiTrendingDown, mdiTrendingUp, mdiAccount,mdiTrendingNeutral } from "@mdi/js";
-import CardBox from "@/components/CardBox.vue";
-import BaseLevel from "@/components/BaseLevel.vue";
-import PillTag from "@/components/PillTag.vue";
-import UserAvatar from "@/components/UserAvatar.vue";
+import { computed } from 'vue'
+import {
+  mdiTrendingDown,
+  mdiTrendingUp,
+  mdiAccount,
+  mdiTrendingNeutral,
+} from '@mdi/js'
+import CardBox from '@/components/CardBox.vue'
+import BaseLevel from '@/components/BaseLevel.vue'
+import PillTag from '@/components/PillTag.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const props = defineProps({
   name: {
@@ -31,26 +36,26 @@ const props = defineProps({
     type: String,
     default: null,
   },
-});
+})
 
 const pillType = computed(() => {
   if (props.type) {
-    return props.type;
+    return props.type
   }
 
   if (props.progress) {
     if (props.progress >= 60) {
-      return "success";
+      return 'success'
     }
     if (props.progress >= 40) {
-      return "warning";
+      return 'warning'
     }
 
-    return "danger";
+    return 'danger'
   }
 
-  return "info";
-});
+  return 'info'
+})
 
 const pillIcon = computed(() => {
   return {
@@ -58,17 +63,17 @@ const pillIcon = computed(() => {
     warning: mdiTrendingNeutral,
     danger: mdiTrendingDown,
     info: null,
-  }[pillType.value];
-});
+  }[pillType.value]
+})
 
-const pillText = computed(() => props.text ?? `${props.progress}%`);
+const pillText = computed(() => props.text ?? `${props.progress}%`)
 </script>
 
 <template>
   <CardBox class="mb-6 last:mb-0" is-hoverable>
     <BaseLevel>
       <BaseLevel type="justify-start">
-        <UserAvatar class="w-12 h-12 mr-6" :icon="mdiAccount"/>
+        <UserAvatar class="w-12 h-12 mr-6" :icon="mdiAccount" />
         <div class="text-center md:text-left overflow-hidden">
           <h4 class="text-xl text-ellipsis">
             {{ name }}

@@ -1,41 +1,41 @@
 <script setup>
-import { mdiLogout, mdiClose } from "@mdi/js";
-import { computed } from "vue";
-import AsideMenuList from "@/components/AsideMenuList.vue";
-import AsideMenuItem from "@/components/AsideMenuItem.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { router } from '@inertiajs/vue3';
-import { useStore } from 'vuex';
+import { mdiLogout, mdiClose } from '@mdi/js'
+import { computed } from 'vue'
+import AsideMenuList from '@/components/AsideMenuList.vue'
+import AsideMenuItem from '@/components/AsideMenuItem.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
+import { router } from '@inertiajs/vue3'
+import { useStore } from 'vuex'
 
 defineProps({
   menu: {
     type: Array,
     required: true,
   },
-});
+})
 
-const store = useStore();
+const store = useStore()
 
-const emit = defineEmits(["menu-click", "aside-lg-close-click"]);
+const emit = defineEmits(['menu-click', 'aside-lg-close-click'])
 
 const logoutItem = computed(() => ({
-  label: "Logout",
+  label: 'Logout',
   icon: mdiLogout,
-  color: "info",
+  color: 'info',
   isLogout: true,
-}));
+}))
 
 const menuClick = (event, item) => {
-    emit("menu-click", event, item);
+  emit('menu-click', event, item)
 
-    if (item.isLogout) {
-        router.post(route('logout'));
-    }
-};
+  if (item.isLogout) {
+    router.post(route('logout'))
+  }
+}
 
 const asideLgCloseClick = (event) => {
-  emit("aside-lg-close-click", event);
-};
+  emit('aside-lg-close-click', event)
+}
 </script>
 
 <template>

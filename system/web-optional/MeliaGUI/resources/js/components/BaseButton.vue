@@ -1,8 +1,8 @@
 <script setup>
-import { computed } from "vue";
-import { getButtonColor } from "@/colors.js";
-import BaseIcon from "@/components/BaseIcon.vue";
-import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue'
+import { getButtonColor } from '@/colors.js'
+import BaseIcon from '@/components/BaseIcon.vue'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
   label: {
@@ -35,7 +35,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: "white",
+    default: 'white',
   },
   as: {
     type: String,
@@ -47,70 +47,68 @@ const props = defineProps({
   active: Boolean,
   disabled: Boolean,
   roundedFull: Boolean,
-});
+})
 
 const is = computed(() => {
   if (props.as) {
-    return props.as;
+    return props.as
   }
 
   if (props.to) {
-    return Link;
+    return Link
   }
 
   if (props.href) {
-    return Link;
+    return Link
   }
 
-  return "button";
-});
+  return 'button'
+})
 
 const computedType = computed(() => {
-  if (is.value === "button") {
-    return props.type ?? "button";
+  if (is.value === 'button') {
+    return props.type ?? 'button'
   }
 
-  return null;
-});
+  return null
+})
 
-const labelClass = computed(() =>
-  props.small && props.icon ? "px-1" : "px-2"
-);
+const labelClass = computed(() => (props.small && props.icon ? 'px-1' : 'px-2'))
 
 const componentClass = computed(() => {
   const base = [
-    "inline-flex",
-    "justify-center",
-    "items-center",
-    "whitespace-nowrap",
-    "focus:outline-none",
-    "transition-colors",
-    "focus:ring",
-    "duration-150",
-    "border",
-    props.disabled ? "cursor-not-allowed" : "cursor-pointer",
-    props.roundedFull ? "rounded-full" : "rounded",
+    'inline-flex',
+    'justify-center',
+    'items-center',
+    'whitespace-nowrap',
+    'focus:outline-none',
+    'transition-colors',
+    'focus:ring',
+    'duration-150',
+    'border',
+    props.disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+    props.roundedFull ? 'rounded-full' : 'rounded',
     getButtonColor(props.color, props.outline, !props.disabled, props.active),
-  ];
+  ]
 
   if (!props.label && props.icon) {
-    base.push("p-1");
+    base.push('p-1')
   } else if (props.small) {
-    base.push("text-sm", props.roundedFull ? "px-3 py-1" : "p-1");
+    base.push('text-sm', props.roundedFull ? 'px-3 py-1' : 'p-1')
   } else {
-    base.push("py-2", props.roundedFull ? "px-6" : "px-3");
+    base.push('py-2', props.roundedFull ? 'px-6' : 'px-3')
   }
 
-    if (props.big) {
-        base.push("text-xl", props.roundedFull ? "p-3" : "p-3");
-    }
+  if (props.big) {
+    base.push('text-xl', props.roundedFull ? 'p-3' : 'p-3')
+  }
 
   if (props.disabled) {
-    base.push(props.outline ? "opacity-50" : "opacity-70");
+    base.push(props.outline ? 'opacity-50' : 'opacity-70')
   }
 
-  return base;
-});
+  return base
+})
 </script>
 
 <template>

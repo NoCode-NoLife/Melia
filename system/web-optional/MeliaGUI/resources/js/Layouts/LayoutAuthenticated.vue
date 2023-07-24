@@ -1,46 +1,48 @@
 <script setup>
-import { mdiForwardburger, mdiBackburger, mdiMenu } from "@mdi/js";
-import { ref } from "vue";
-import menuAside from "@/menuAside.js";
-import menuNavBar from "@/menuNavBar.js";
-import BaseIcon from "@/components/BaseIcon.vue";
-import NavBar from "@/components/NavBar.vue";
-import NavBarItemPlain from "@/components/NavBarItemPlain.vue";
-import AsideMenu from "@/components/AsideMenu.vue";
-import FooterBar from "@/components/FooterBar.vue";
-import { useStore } from 'vuex';
-import { darkModeKey, styleKey } from "@/config";
-import { router } from '@inertiajs/vue3';
+import { mdiForwardburger, mdiBackburger, mdiMenu } from '@mdi/js'
+import { ref } from 'vue'
+import menuAside from '@/menuAside.js'
+import menuNavBar from '@/menuNavBar.js'
+import BaseIcon from '@/components/BaseIcon.vue'
+import NavBar from '@/components/NavBar.vue'
+import NavBarItemPlain from '@/components/NavBarItemPlain.vue'
+import AsideMenu from '@/components/AsideMenu.vue'
+import FooterBar from '@/components/FooterBar.vue'
+import { useStore } from 'vuex'
+import { darkModeKey, styleKey } from '@/config'
+import { router } from '@inertiajs/vue3'
 
-const layoutAsidePadding = "xl:pl-60";
+const layoutAsidePadding = 'xl:pl-60'
 
-const isAsideMobileExpanded = ref(false);
-const isAsideLgActive = ref(false);
-const store = useStore();
+const isAsideMobileExpanded = ref(false)
+const isAsideLgActive = ref(false)
+const store = useStore()
 
 /* App style */
-store.commit('setStyle', localStorage[styleKey] ?? "basic");
+store.commit('setStyle', localStorage[styleKey] ?? 'basic')
 
 /* Dark mode */
-if ((!localStorage[darkModeKey] && window.matchMedia("(prefers-color-scheme: dark)").matches) ||
-  localStorage[darkModeKey] === "1"
+if (
+  (!localStorage[darkModeKey] &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches) ||
+  localStorage[darkModeKey] === '1'
 ) {
-  store.commit('setDarkMode', true);
+  store.commit('setDarkMode', true)
 }
 
 const menuClick = (event, item) => {
-    if (item.isToggleLightDark) {
-        store.commit('setDarkMode', !store.state.darkMode);
-    }
+  if (item.isToggleLightDark) {
+    store.commit('setDarkMode', !store.state.darkMode)
+  }
 
-    if (item.isLogout) {
-        router.post(route('logout'));
-    }
+  if (item.isLogout) {
+    router.post(route('logout'))
+  }
 
-    if (!item.isToggleLightDark && !item.isLogout && item.to != null) {
-        router.get(item.to);
-    }
-};
+  if (!item.isToggleLightDark && !item.isLogout && item.to != null) {
+    router.get(item.to)
+  }
+}
 </script>
 
 <template>
@@ -86,8 +88,7 @@ const menuClick = (event, item) => {
         @aside-lg-close-click="isAsideLgActive = false"
       />
       <slot />
-      <FooterBar>
-      </FooterBar>
+      <FooterBar> </FooterBar>
     </div>
   </div>
 </template>

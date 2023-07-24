@@ -1,15 +1,15 @@
 <script setup>
-import { useStore } from 'vuex';
+import { useStore } from 'vuex'
 
 defineProps({
   display: {
     type: String,
-    default: "flex",
+    default: 'flex',
   },
   useMargin: Boolean,
-});
+})
 
-const store = useStore();
+const store = useStore()
 </script>
 
 <template>

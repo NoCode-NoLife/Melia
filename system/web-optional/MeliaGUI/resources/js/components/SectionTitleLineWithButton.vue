@@ -1,7 +1,7 @@
 <script setup>
-import { useSlots, computed } from "vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import IconRounded from "@/components/IconRounded.vue";
+import { useSlots, computed } from 'vue'
+import BaseIcon from '@/components/BaseIcon.vue'
+import IconRounded from '@/components/IconRounded.vue'
 
 defineProps({
   icon: {
@@ -13,9 +13,9 @@ defineProps({
     required: true,
   },
   main: Boolean,
-});
+})
 
-const hasSlot = computed(() => useSlots().default);
+const hasSlot = computed(() => useSlots().default)
 </script>
 
 <template>

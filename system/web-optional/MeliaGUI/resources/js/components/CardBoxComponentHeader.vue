@@ -1,5 +1,5 @@
 <script setup>
-import BaseIcon from "@/components/BaseIcon.vue";
+import BaseIcon from '@/components/BaseIcon.vue'
 
 defineProps({
   title: {
@@ -14,13 +14,13 @@ defineProps({
     type: String,
     default: null,
   },
-});
+})
 
-const emit = defineEmits(["button-click"]);
+const emit = defineEmits(['button-click'])
 
 const buttonClick = (event) => {
-  emit("button-click", event);
-};
+  emit('button-click', event)
+}
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup>
-import { mdiCog } from "@mdi/js";
-import CardBox from "@/components/CardBox.vue";
-import NumberDynamic from "@/components/NumberDynamic.vue";
-import BaseIcon from "@/components/BaseIcon.vue";
-import BaseLevel from "@/components/BaseLevel.vue";
-import PillTagTrend from "@/components/PillTagTrend.vue";
-import BaseButton from "@/components/BaseButton.vue";
+import { mdiCog } from '@mdi/js'
+import CardBox from '@/components/CardBox.vue'
+import NumberDynamic from '@/components/NumberDynamic.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
+import BaseLevel from '@/components/BaseLevel.vue'
+import PillTagTrend from '@/components/PillTagTrend.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 defineProps({
   number: {
@@ -43,8 +43,8 @@ defineProps({
   showOnOffline: {
     type: Boolean,
     default: true,
-  }
-});
+  },
+})
 </script>
 
 <template>
@@ -55,7 +55,12 @@ defineProps({
           {{ label }}
         </h3>
         <h1 class="text-3xl leading-tight font-semibold">
-          <NumberDynamic :showOnOffline="showOnOffline" :value="number" :prefix="prefix" :suffix="suffix" />
+          <NumberDynamic
+            :showOnOffline="showOnOffline"
+            :value="number"
+            :prefix="prefix"
+            :suffix="suffix"
+          />
         </h1>
       </div>
       <BaseIcon

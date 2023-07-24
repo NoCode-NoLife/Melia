@@ -1,15 +1,16 @@
 <script setup>
-import { useStore } from 'vuex';
-import { darkModeKey } from "@/config";
+import { useStore } from 'vuex'
+import { darkModeKey } from '@/config'
 
-const store = useStore();
+const store = useStore()
 
-if ((!localStorage[darkModeKey] && window.matchMedia("(prefers-color-scheme: dark)").matches) ||
-  localStorage[darkModeKey] === "1"
+if (
+  (!localStorage[darkModeKey] &&
+    window.matchMedia('(prefers-color-scheme: dark)').matches) ||
+  localStorage[darkModeKey] === '1'
 ) {
-  store.commit('setDarkMode', true);
+  store.commit('setDarkMode', true)
 }
-
 </script>
 
 <template>

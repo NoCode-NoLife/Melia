@@ -1,12 +1,12 @@
 <script setup>
-import { ref, computed } from "vue";
-import { mdiMinus, mdiPlus } from "@mdi/js";
-import { getButtonColor } from "@/colors.js";
-import BaseIcon from "@/components/BaseIcon.vue";
-import AsideMenuList from "@/components/AsideMenuList.vue";
-import { usePage } from '@inertiajs/vue3';
-import { Link } from '@inertiajs/vue3';
-import { useStore } from 'vuex';
+import { ref, computed } from 'vue'
+import { mdiMinus, mdiPlus } from '@mdi/js'
+import { getButtonColor } from '@/colors.js'
+import BaseIcon from '@/components/BaseIcon.vue'
+import AsideMenuList from '@/components/AsideMenuList.vue'
+import { usePage } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
+import { useStore } from 'vuex'
 
 const props = defineProps({
   item: {
@@ -14,38 +14,40 @@ const props = defineProps({
     required: true,
   },
   isDropdownList: Boolean,
-});
+})
 
-const authority = usePage().props.account ? usePage().props.account.authority : 0;
+const authority = usePage().props.account
+  ? usePage().props.account.authority
+  : 0
 
-const emit = defineEmits(["menu-click"]);
+const emit = defineEmits(['menu-click'])
 
-const hasColor = computed(() => props.item && props.item.color);
+const hasColor = computed(() => props.item && props.item.color)
 
-const store = useStore();
+const store = useStore()
 
 const asideMenuItemActiveStyle = computed(() =>
-  hasColor.value ? "" : store.state.asideMenuItemActiveStyle
-);
+  hasColor.value ? '' : store.state.asideMenuItemActiveStyle,
+)
 
-const isDropdownActive = ref(false);
+const isDropdownActive = ref(false)
 
 const componentClass = computed(() => [
-  props.isDropdownList ? "py-3 px-6 text-sm" : "py-3",
+  props.isDropdownList ? 'py-3 px-6 text-sm' : 'py-3',
   hasColor.value
     ? getButtonColor(props.item.color, false, true)
     : `${store.state.asideMenuItemStyle} dark:text-slate-300 dark:hover:text-white`,
-]);
+])
 
-const hasDropdown = computed(() => !!props.item.menu);
+const hasDropdown = computed(() => !!props.item.menu)
 
 const menuClick = (event) => {
-  emit("menu-click", event, props.item);
+  emit('menu-click', event, props.item)
 
   if (hasDropdown.value) {
-    isDropdownActive.value = !isDropdownActive.value;
+    isDropdownActive.value = !isDropdownActive.value
   }
-};
+}
 </script>
 
 <template>

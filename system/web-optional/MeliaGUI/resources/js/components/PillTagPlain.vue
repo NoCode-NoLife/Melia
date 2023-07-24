@@ -1,8 +1,8 @@
 <script setup>
-import BaseIcon from "@/components/BaseIcon.vue";
-import { useStore } from 'vuex';
+import BaseIcon from '@/components/BaseIcon.vue'
+import { useStore } from 'vuex'
 
-const store = useStore();
+const store = useStore()
 
 defineProps({
   label: {
@@ -14,7 +14,7 @@ defineProps({
     default: null,
   },
   small: Boolean,
-});
+})
 </script>
 
 <template>

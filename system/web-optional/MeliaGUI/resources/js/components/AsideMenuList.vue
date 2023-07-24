@@ -1,5 +1,5 @@
 <script setup>
-import AsideMenuItem from "@/components/AsideMenuItem.vue";
+import AsideMenuItem from '@/components/AsideMenuItem.vue'
 
 defineProps({
   isDropdownList: Boolean,
@@ -7,13 +7,13 @@ defineProps({
     type: Array,
     required: true,
   },
-});
+})
 
-const emit = defineEmits(["menu-click"]);
+const emit = defineEmits(['menu-click'])
 
 const menuClick = (event, item) => {
-  emit("menu-click", event, item);
-};
+  emit('menu-click', event, item)
+}
 </script>
 
 <template>

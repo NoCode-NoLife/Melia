@@ -1,6 +1,6 @@
 <script setup>
-import AsideMenuLayer from "@/components/AsideMenuLayer.vue";
-import OverlayLayer from "@/components/OverlayLayer.vue";
+import AsideMenuLayer from '@/components/AsideMenuLayer.vue'
+import OverlayLayer from '@/components/OverlayLayer.vue'
 
 defineProps({
   menu: {
@@ -9,17 +9,17 @@ defineProps({
   },
   isAsideMobileExpanded: Boolean,
   isAsideLgActive: Boolean,
-});
+})
 
-const emit = defineEmits(["menu-click", "aside-lg-close-click"]);
+const emit = defineEmits(['menu-click', 'aside-lg-close-click'])
 
 const menuClick = (event, item) => {
-  emit("menu-click", event, item);
-};
+  emit('menu-click', event, item)
+}
 
 const asideLgCloseClick = (event) => {
-  emit("aside-lg-close-click", event);
-};
+  emit('aside-lg-close-click', event)
+}
 </script>
 
 <template>
