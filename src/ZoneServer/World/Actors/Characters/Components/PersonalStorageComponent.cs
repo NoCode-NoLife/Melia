@@ -78,6 +78,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (item.Amount <= amount)
 			{
 				amountRemoved = item.Amount;
+				_occupiedPositions -= 1;
 				_storageItems[position] = null;
 
 			}
@@ -120,12 +121,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Looks in storage for all items that the given item
+		/// Looks in storage for items that the given item
 		/// can stack to.
 		/// Does nothing if given item is not stackable.
 		/// </summary>
 		/// <param name="item">Item type look for</param>
-		/// <param name="foundPositions">Positions of found stackable items.</param>
+		/// <param name="foundPositions">Positions of found stackable items</param>
 		/// <param name="foundItems">Item objects of found items</param>
 		private void FindStackableItems(Item item, out List<int> foundPositions, out List<Item> foundItems)
 		{
@@ -135,6 +136,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// Stacks to existing items
 			if (item.IsStackable)
 			{
+				var foundCount = 0;
 				lock (_syncLock)
 				{
 					for (int i = 0; i < _maxStorage; i++)
@@ -143,6 +145,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 						{
 							foundPositions.Add(i);
 							foundItems.Add(_storageItems[i]);
+							foundCount++;
 						}
 					}
 				}
@@ -167,9 +170,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <returns></returns>
 		public StorageResult StoreItem(long worldId, int amount = 1)
 		{
-			if (CheckStorageFull())
-				return StorageResult.StorageFull;
-
 			var item = this.Character.Inventory.GetItem(worldId);
 			if (item == null)
 				return StorageResult.ItemNotFound;
@@ -183,24 +183,42 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (itemToStore.IsStackable)
 			{
 				this.FindStackableItems(itemToStore, out existingPositions, out existingItems);
+
+				// No existing items to stack to and no free positions
+				if ((existingItems.Count == 0) && this.CheckStorageFull())
+					return StorageResult.StorageFull;
+
 				if (existingItems.Count > 0)
 				{
-					int availableAmount = 0;
-					foreach (var existingItem in existingItems)
-					{
-						availableAmount += existingItem.Data.MaxStack - existingItem.Amount;
-					}
-					
-					// If we have stackable items but our storage is full, we
-					// need to store the items up to available amount
+					var stackAvailableAmount = existingItems.Sum(existingItem => existingItem.Data.MaxStack - existingItem.Amount);
+
 					if (this.CheckStorageFull())
 					{
-						itemToStore.Amount = Math.Min(itemToStore.Amount, availableAmount);
+						// Storage has no free positions and existing items can no longer stack
+						if (stackAvailableAmount == 0)
+							return StorageResult.StorageFull;
+
+						itemToStore.Amount = Math.Min(itemToStore.Amount, stackAvailableAmount);
+					}
+					if (!Feature.IsEnabled("StorageMultiStack"))
+					{
+						// Multistacking is not enabled, we can only store to already existing stacks
+						if (stackAvailableAmount == 0)
+							return StorageResult.StorageFull;
+
+						itemToStore.Amount = Math.Min(itemToStore.Amount, stackAvailableAmount);
 					}
 				}
 			}
 
-			// Remove only the available amount from character
+			// We checked storage full for stackable items earlier,
+			// now we check for non-stackable items.
+			if (CheckStorageFull() && !item.IsStackable)
+			{
+				return StorageResult.StorageFull;
+			}
+
+			// Remove the amount from character
 			var inventoryResult = this.Character.Inventory.Remove(item, itemToStore.Amount, InventoryItemRemoveMsg.Given);
 			if (inventoryResult != InventoryResult.Success)
 				return StorageResult.InvalidOperation;
@@ -211,7 +229,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				var addedAmount = 0;
 				for (var i = 0; i < existingItems.Count; i++)
 				{
-					var stackedAmount = this.AddItemStack(existingItems[i], itemToStore.Amount);
+					var stackedAmount = this.AddItemStack(existingItems[i], itemToStore.Amount - addedAmount);
 					addedAmount += stackedAmount;
 					if (stackedAmount > 0)
 					{
@@ -226,7 +244,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// Residue
 				itemToStore.Amount -= addedAmount;
 			}
-			
+
 			// Adds item to new position
 			var storageResult = this.Add(itemToStore, out var addedPosition);
 			if (storageResult != StorageResult.Success)
@@ -252,7 +270,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			Item itemToRetrieve = new Item(item);
 
-			// Remove item from storage and add to character
+			// Remove item from storage
 			var storageResult = this.Remove(item, amount, out removedPosition, out var removedAmount);
 			if (storageResult != StorageResult.Success)
 				return storageResult;
@@ -260,9 +278,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// Add to player inventory
 			itemToRetrieve.Amount = removedAmount;
 			this.Character.Inventory.Add(itemToRetrieve, InventoryAddType.New);
-
-			// Show item removal in storage for client
-			// Note: For unknown reasons, retrieving item is a "Sold" transaction
 			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, removedAmount, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);	
 
 			return StorageResult.Success;

@@ -13,12 +13,18 @@ public class CKlaipeNpcScript : GeneralScript
 	{
 		// Storage Keeper
 		//-------------------------------------------------------------------------
-		AddNpc(20111, "[Storage Keeper] Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
+		AddNpc(154018, "[Storage Keeper] Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Rita");
-			//dialog.SetPortrait("KLAPEDA_Akalabeth_basic28");
+			dialog.SetPortrait("WAREHOUSE_DLG");
 
-			await dialog.OpenPersonalStorage();
+			var response = await dialog.Select("Can I help you store your items?",
+				Option("Personal Storage", "personal"),
+				Option("Cancel", "cancel")
+			);
+
+			if (response == "personal")
+				await dialog.OpenPersonalStorage();
 		});
 
 

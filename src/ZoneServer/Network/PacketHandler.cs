@@ -857,6 +857,7 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Sent to continue dialog?
+		/// Also sent when closing storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -864,6 +865,14 @@ namespace Melia.Zone.Network
 		public void CZ_DIALOG_ACK(IZoneConnection conn, Packet packet)
 		{
 			var type = packet.GetInt();
+
+			// If storage was open, close it
+			if (conn.SelectedCharacter.IsBrowsingPersonalStorage && (type == 1))
+			{
+				conn.SelectedCharacter.ClosePersonalStorage();
+				conn.CurrentDialog = null;
+				return;
+			}
 
 			// Check state
 			if (conn.CurrentDialog == null)
@@ -1393,23 +1402,19 @@ namespace Melia.Zone.Network
 					var itemList = storageItems.Values.ToList();
 					var itemPositions = storageItems.Keys.ToList();
 
-					// It seems items retrieved from storage always show this property.
-					// If items in storage have zero properties, the client will crash.
-					itemList.ForEach(item => item.Properties.Modify("CoolDown", 0));
+					// If items in storage have no properties the client will crash.
+					// For that reason, we get all items that do not have 'CoolDown'
+					// property and set it to zero. We chose this property because it seems
+					// official behaviour always sends this property by default.
+					var noPropertyList = itemList.Where(item => item.Properties.Get("CoolDown") == null).ToList();
+					noPropertyList.ForEach(item => item.Properties.Modify("CoolDown", 0));
 
 					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, itemList, itemPositions);
 				}
 			}
 			if (type == StorageType.TeamStorage)
 			{
-				var teamStorageEnabled = conn.SelectedCharacter.IsBrowsingTeamStorage;
-
-				// Server allowance check
-				if (teamStorageEnabled)
-				{
-					var items = conn.Account.TeamStorage.GetItems();
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
-				}
+				Log.Warning("CZ_REQ_ITEM_LIST: Team storage not yet implemented");
 			}
 		}
 
@@ -1434,16 +1439,30 @@ namespace Melia.Zone.Network
 
 				// Server allowance check
 				if (personalStorageEnabled)
-				{				
+				{
+					// Not enough silver
+					if (conn.SelectedCharacter.Inventory.CountItem(ItemId.Silver) < 20)
+					{
+						return;
+					}
+
 					// Storing items
 					if (interaction == 0)
 					{
-						conn.SelectedCharacter.PersonalStorage.StoreItem(worldId, amount);
+						if (conn.SelectedCharacter.PersonalStorage.StoreItem(worldId, amount) == StorageResult.Success)
+						{
+							// Remove 20 silver (fixed cost)
+							conn.SelectedCharacter.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
+						}
 					}
 					// Retrieving items
 					else if (interaction == 1)
 					{
-						conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId, amount);
+						if (conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId, amount) == StorageResult.Success)
+						{
+							// Remove 20 silver (fixed cost)
+							conn.SelectedCharacter.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
+						}
 					}
 					else
 					{
@@ -1453,14 +1472,7 @@ namespace Melia.Zone.Network
 			}
 			else if (type == StorageType.TeamStorage)
 			{
-				Log.Warning("CZ_WAREHOUSE_CMD: Team storage not yet implemented", type);
-				var teamStorageEnabled = conn.SelectedCharacter.IsBrowsingTeamStorage;
-
-				if (teamStorageEnabled)
-				{
-					var items = conn.Account.TeamStorage.GetItems();
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, items);
-				}
+				Log.Warning("CZ_WAREHOUSE_CMD: Team storage not yet implemented");
 			}
 			else
 			{

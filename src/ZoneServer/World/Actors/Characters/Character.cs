@@ -1267,25 +1267,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public void ClosePersonalStorage()
 		{
 			this.IsBrowsingPersonalStorage = false;
-		}
-
-		/// <summary>
-		/// Opens the character's account storage
-		/// </summary>
-		public void OpenTeamStorage()
-		{
-			this.IsBrowsingTeamStorage = true;
-
-			// Third parameter is some lua func in client, unknown purpose.
-			Send.ZC_CUSTOM_DIALOG(this, "warehouse", "");
-		}
-
-		/// <summary>
-		/// Closes the character's account storage
-		/// </summary>
-		public void CloseTeamStorage()
-		{
-			this.IsBrowsingPersonalStorage = false;
+			Send.ZC_DIALOG_CLOSE(this.Connection);
 		}
 
 		/// <summary>

@@ -81,6 +81,7 @@ namespace Melia.Zone.Commands
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
+			this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1536,6 +1537,31 @@ namespace Melia.Zone.Commands
 			if (sender != target)
 				sender.ServerMessage("{1} added {0} stat points to your character.", amount, sender.TeamName);
 
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Opens personal storage of target character
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePersonalStorage(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!target.IsBrowsingPersonalStorage)
+			{
+				target.OpenPersonalStorage();
+				sender.ServerMessage("Opened personal storage.");
+				if (sender != target)
+					target.ServerMessage("Your personal storage was opened by {0}", sender.TeamName);
+			}
+			else
+			{
+				sender.ServerMessage("Already browsing personal storage.");
+			}
 			return CommandResult.Okay;
 		}
 
