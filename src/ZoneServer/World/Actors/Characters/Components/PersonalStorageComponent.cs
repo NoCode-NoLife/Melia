@@ -18,7 +18,7 @@ using Yggdrasil.Logging;
 namespace Melia.Zone.World.Actors.Characters.Components
 {
 	/// <summary>
-	/// Represents the storage component
+	/// The personal storage of a character.
 	/// </summary>
 	public class PersonalStorageComponent : CharacterComponent
 	{
@@ -136,7 +136,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// Stacks to existing items
 			if (item.IsStackable)
 			{
-				var foundCount = 0;
 				lock (_syncLock)
 				{
 					for (int i = 0; i < _maxStorage; i++)
@@ -145,7 +144,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 						{
 							foundPositions.Add(i);
 							foundItems.Add(_storageItems[i]);
-							foundCount++;
 						}
 					}
 				}
