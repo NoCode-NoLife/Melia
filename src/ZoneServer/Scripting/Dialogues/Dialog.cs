@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 
@@ -408,6 +410,68 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string animationName, TimeSpan duration)
+			=> await this.TimeAction(displayText, "None", animationName, duration);
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="buttonText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string buttonText, string animationName, TimeSpan duration)
+		{
+			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
+			return await this.Player.Components.Get<TimeActionComponent>().StartAsync(displayText, buttonText, animationName, duration);
+		}
+
+		/// <summary>
+		/// Executes the given hooks, if any, and returns true if any were
+		/// executed.
+		/// </summary>
+		/// <param name="hookName"></param>
+		/// <returns></returns>
+		public async Task<bool> Hooks(string hookName)
+		{
+			var hooks = ScriptHooks.GetAll<DialogHook>(this.Npc.UniqueName, hookName);
+			if (hooks.Length == 0)
+				return false;
+
+			var wasHooked = false;
+
+			foreach (var hook in hooks)
+			{
+				var result = await hook.Func(this);
+
+				switch (result)
+				{
+					case HookResult.Skip:
+						continue;
+
+					case HookResult.Continue:
+						wasHooked = true;
+						continue;
+
+					case HookResult.Break:
+						wasHooked = true;
+						break;
+				}
+			}
+
+			return wasHooked;
+		}
+
+		/// <summary>
 		/// Waits for the client to respond and returns the response.
 		/// </summary>
 		/// <returns></returns>
@@ -491,7 +555,8 @@ namespace Melia.Zone.Scripting.Dialogues
 				}
 
 				// End receival of the shop data and set it
-				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.ExecData('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop')");
 
 				// Open the shop
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");

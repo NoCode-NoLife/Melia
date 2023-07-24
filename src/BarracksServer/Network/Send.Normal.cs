@@ -98,7 +98,7 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Sends zone traffic list.
+			/// Updates server list on client.
 			/// </summary>
 			/// <param name="conn"></param>
 			public static void ZoneTraffic(IBarracksConnection conn)
@@ -162,6 +162,21 @@ namespace Melia.Barracks.Network
 				});
 
 				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates server list on all logged in clients.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void ZoneTraffic()
+			{
+				var connections = BarracksServer.Instance.GetAllConnections();
+
+				foreach (var conn in connections)
+				{
+					if (conn.LoggedIn)
+						ZoneTraffic(conn);
+				}
 			}
 
 			/// <summary>
@@ -289,6 +304,24 @@ namespace Melia.Barracks.Network
 					packet.PutString(character.Name, 64);
 					packet.PutEmptyBin(24);
 				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Informs client that a connection attempt to a zone server
+			/// has failed.
+			/// </summary>
+			/// <remarks>
+			/// This packet needs to be sent when cancelling a connection
+			/// attempt or the client won't react to any further attempts
+			/// until the user relogged.
+			/// </remarks>
+			/// <param name="conn"></param>
+			public static void StartGameFailed(IBarracksConnection conn)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.StartGameFailed);
 
 				conn.Send(packet);
 			}

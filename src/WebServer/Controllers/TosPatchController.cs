@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using EmbedIO;
 using EmbedIO.Routing;
-using EmbedIO.WebApi;
 using Melia.Shared.Data.Database;
 
 namespace Melia.Web.Controllers
@@ -13,17 +10,15 @@ namespace Melia.Web.Controllers
 	/// <summary>
 	/// Controller for the files the client downloads on launch.
 	/// </summary>
-	public class TosPatchController : WebApiController
+	public class TosPatchController : BaseController
 	{
-		private readonly Encoding _encoding = new UTF8Encoding(false);
-
 		/// <summary>
 		/// Serves a list of barrack servers.
 		/// </summary>
 		[Route(HttpVerbs.Get, "/serverlist.xml")]
 		public void GetServerList()
 		{
-			var loginServersData = WebServer.Instance.Data.ServerDb.FindAll(ServerType.Barracks);
+			var serverGroupDataList = WebServer.Instance.Data.ServerDb.Entries.Values.OrderBy(a => a.Id);
 
 			using (var str = new Utf8StringWriter())
 			using (var xml = new XmlTextWriter(str))
@@ -33,16 +28,24 @@ namespace Melia.Web.Controllers
 				xml.WriteStartElement("serverlist");
 				xml.WriteWhitespace("\n");
 
-				foreach (var serverData in loginServersData)
+				foreach (var groupData in serverGroupDataList)
 				{
 					xml.WriteWhitespace("\t");
 					xml.WriteStartElement("server");
-					xml.WriteAttributeString("GROUP_ID", "100");
+					xml.WriteAttributeString("GROUP_ID", groupData.Id.ToString());
 					xml.WriteAttributeString("TRAFFIC", "0");
 					xml.WriteAttributeString("ENTER_LIMIT", "100");
-					xml.WriteAttributeString("NAME", "Melia");
-					xml.WriteAttributeString("Server0_IP", serverData.Ip);
-					xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
+					xml.WriteAttributeString("NAME", groupData.Name);
+
+					var barracksServersData = groupData.Servers.Where(a => a.Type == ServerType.Barracks).ToArray();
+					for (var i = 0; i < barracksServersData.Length; ++i)
+					{
+						var serverData = barracksServersData[i];
+
+						xml.WriteAttributeString("Server0_IP", serverData.Ip);
+						xml.WriteAttributeString("Server0_Port", serverData.Port.ToString());
+					}
+
 					xml.WriteEndElement();
 					xml.WriteWhitespace("\n");
 				}
@@ -77,25 +80,6 @@ namespace Melia.Web.Controllers
 
 			var staticConfig = string.Join("\r\n", options.Select(a => $"{a.Key}={a.Value}"));
 			this.SendText("text/plain", staticConfig);
-		}
-
-		private void SendText(string mimeType, string content)
-		{
-			var contentLength = _encoding.GetByteCount(content);
-
-			this.Response.StatusCode = 200;
-			this.Response.ContentType = mimeType;
-			this.Response.ContentLength64 = contentLength;
-
-			using (var stream = this.Response.OutputStream)
-			using (var sw = new StreamWriter(stream, _encoding))
-				sw.Write(content);
-		}
-
-		private class Utf8StringWriter : StringWriter
-		{
-			private readonly Encoding _encoding = new UTF8Encoding(false);
-			public override Encoding Encoding => _encoding;
 		}
 	}
 }

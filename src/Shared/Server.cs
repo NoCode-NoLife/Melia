@@ -27,6 +27,11 @@ namespace Melia.Shared
 	public abstract class Server
 	{
 		/// <summary>
+		/// Returns this server's server info.
+		/// </summary>
+		public ServerInfo ServerInfo { get; private set; }
+
+		/// <summary>
 		/// Returns a reference to all conf files.
 		/// </summary>
 		public ConfFiles Conf { get; } = new ConfFiles();
@@ -450,29 +455,37 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads the server list from given database.
+		/// Loads the server list from the database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		protected void LoadServerList(ServerDb serverDb)
+		/// <param name="serverType"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
+		protected void LoadServerList(ServerDb serverDb, ServerType serverType, int groupId, int serverId)
 		{
 			Log.Info("Loading server list...");
 
-			this.ServerList.Load(serverDb);
+			this.ServerList.Load(serverDb, groupId);
+			this.ServerInfo = this.GetServerInfo(serverType, serverId);
 		}
 
 		/// <summary>
 		/// Reads the server id from the arguments and returns it.
 		/// </summary>
 		/// <param name="args"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
 		/// <returns></returns>
-		protected int GetServerId(string[] args)
+		protected void GetServerId(string[] args, out int groupId, out int serverId)
 		{
-			var serverId = 1;
+			groupId = 1001;
+			serverId = 1;
 
-			if (args.Length > 0 && int.TryParse(args[0], out var id))
-				serverId = id;
+			if (args.Length > 0 && int.TryParse(args[0], out var gid))
+				groupId = gid;
 
-			return serverId;
+			if (args.Length > 1 && int.TryParse(args[1], out var sid))
+				serverId = sid;
 		}
 
 		/// <summary>

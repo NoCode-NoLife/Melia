@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Quests;
 using Melia.Zone.World.Quests.Prerequisites;
@@ -252,6 +253,18 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		protected OrPrerequisite Or(params QuestPrerequisite[] prerequisites)
 			=> new OrPrerequisite(prerequisites);
+
+		/// <summary>
+		/// Registers a hook for a dialog.
+		/// </summary>
+		/// <param name="owner"></param>
+		/// <param name="name"></param>
+		/// <param name="func"></param>
+		protected void AddDialogHook(string owner, string name, DialogHook.DialogHookFunc func)
+		{
+			var hook = new DialogHook(owner, name, func);
+			ScriptHooks.Register(hook);
+		}
 
 		/// <summary>
 		/// Called when a character receives this quest.
