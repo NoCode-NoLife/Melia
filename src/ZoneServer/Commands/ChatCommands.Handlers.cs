@@ -37,11 +37,7 @@ namespace Melia.Zone.Commands
 			// The required authority levels for commands can be specified
 			// in the configuration file "conf/commands.conf".
 
-			// Official
-			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
-			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
-
-			// Custom
+			// Client Scripting
 			this.Add("buyshop", "", "", this.HandleBuyShop);
 			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
 
@@ -1298,71 +1294,6 @@ namespace Melia.Zone.Commands
 			sender.ServerMessage(Localization.Get("Inventory cleared."));
 			if (sender != target)
 				target.ServerMessage(Localization.Get("Your inventory was cleared by {0}."), sender.TeamName);
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
-		/// Official slash command, purpose unknown.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleReqUpdateEquip(Character sender, Character target, string message, string command, Arguments args)
-		{
-			// Command is sent when the inventory is opened, purpose unknown,
-			// officials don't seem to send anything back.
-
-			// Comment in the client's Lua files:
-			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
-			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
-		/// Official slash command, exchanges silver for ability points.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleBuyAbilPoint(Character sender, Character target, string message, string command, Arguments args)
-		{
-			// Since this command is sent via UI interactions, we'll not
-			// use any automated command result messages, but we'll leave
-			// debug messages for now, in case of unexpected values.
-
-			if (args.Count < 0)
-			{
-				Log.Debug("HandleBuyAbilPoint: No amount given by user '{0}'.", sender.Connection.Account.Name);
-				return CommandResult.Okay;
-			}
-
-			if (!int.TryParse(args.Get(0), out var amount))
-			{
-				Log.Debug("HandleBuyAbilPoint: Invalid amount '{0}' by user '{1}'.", amount, sender.Connection.Account.Name);
-				return CommandResult.Okay;
-			}
-
-			var costPerPoint = ZoneServer.Instance.Conf.World.AbilityPointCost;
-			var totalCost = (amount * costPerPoint);
-			var silver = sender.Inventory.CountItem(ItemId.Silver);
-			if (silver < totalCost)
-			{
-				Log.Debug("HandleBuyAbilPoint: User '{0}' didn't have enough money.", sender.Connection.Account.Name);
-				return CommandResult.Okay;
-			}
-
-			sender.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
-			sender.ModifyAbilityPoints(amount);
-
-			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, 0, "BLANK");
 
 			return CommandResult.Okay;
 		}

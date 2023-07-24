@@ -61,9 +61,14 @@ namespace Melia.Zone
 		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
 
 		/// <summary>
-		/// Returns reference to the server's buff handlers.
+		/// Returns reference to the server's chat command manager.
 		/// </summary>
 		public ChatCommands ChatCommands { get; } = new ChatCommands();
+
+		/// <summary>
+		/// Returns reference to the server's client chat command manager.
+		/// </summary>
+		public ClientChatCommands ClientChatCommands { get; } = new ClientChatCommands();
 
 		/// <summary>
 		/// Returns a reference to the server's event manager.
