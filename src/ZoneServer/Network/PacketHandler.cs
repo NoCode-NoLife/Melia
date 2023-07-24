@@ -1420,7 +1420,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when attempting to access storage items.
+		/// Sent when retrieving or storing items to storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1436,10 +1436,8 @@ namespace Melia.Zone.Network
 
 			if (type == StorageType.PersonalStorage)
 			{
-				var personalStorageEnabled = conn.SelectedCharacter.IsBrowsingPersonalStorage;
-
 				// Server allowance check
-				if (personalStorageEnabled)
+				if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
 				{
 					// Not enough silver
 					if (conn.SelectedCharacter.Inventory.CountItem(ItemId.Silver) < 20)
@@ -1499,10 +1497,6 @@ namespace Melia.Zone.Network
 			if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
 			{
 				character.PersonalStorage.Swap(fromSlot, toSlot);
-			}
-			else if (conn.SelectedCharacter.IsBrowsingTeamStorage)
-			{
-				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: Team storage not yet implemented");
 			}
 		}
 

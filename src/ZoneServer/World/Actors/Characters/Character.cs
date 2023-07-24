@@ -11,7 +11,6 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills;
-using Melia.Zone.World.Actors.Accounts.Components;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -157,12 +156,6 @@ namespace Melia.Zone.World.Actors.Characters
 		/// browsing personal storage
 		/// </summary>
 		public bool IsBrowsingPersonalStorage { get; set; }
-
-		/// <summary>
-		/// Gets or sets whether the character is currently
-		/// browsing team storage
-		/// </summary>
-		public bool IsBrowsingTeamStorage { get; set; }
 
 		/// <summary>
 		/// Returns the characters's storage component

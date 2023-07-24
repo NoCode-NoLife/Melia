@@ -8,10 +8,10 @@ namespace Melia.Shared.Tos.Const
 {
 	public enum StorageResult
 	{
-		Success,
-		ItemNotFound,
-		InvalidOperation,
-		StorageFull,
+		Success = 0,
+		ItemNotFound = 1,
+		InvalidOperation = 2,
+		StorageFull = 3,
 	}
 
 	public enum StorageType

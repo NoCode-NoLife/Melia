@@ -1458,7 +1458,7 @@ namespace Melia.Zone.Network
 		/// <param name="propertyList"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
-			 var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
+			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
 			packet.PutInt(0); // isTrickPacket
@@ -1500,6 +1500,13 @@ namespace Melia.Zone.Network
 			entity.Map.Broadcast(packet, entity);
 		}
 
+		/// <summary>
+		/// Sends a custom dialog message.
+		/// Currently used to open storage.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="close"></param>
+		/// <param name="msg"></param>
 		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
@@ -3532,6 +3539,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="type"></param>
 		/// <param name="items"></param>
+		/// <param name="itemsPositions"></param>
 		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, byte type, List<Item> items, List<int> itemsPositions = null)
 		{
 			var packet = new Packet(Op.ZC_SOLD_ITEM_DIVISION_LIST);
@@ -3561,13 +3569,9 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(items[i].Price);
 						zpacket.PutInt(1);
 						if (itemsPositions != null)
-						{
 							zpacket.PutInt(itemsPositions.ElementAt(i));
-						}
 						else
-						{
 							zpacket.PutInt(items.Count - i - 1);
-						}
 						zpacket.AddProperties(propertyList);
 						if (propertiesSize > 0)
 						{

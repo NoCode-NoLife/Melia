@@ -1,7 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
@@ -12,7 +9,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Util;
-using System.Reflection;
 
 namespace Melia.Zone.World.Items
 {
@@ -123,7 +119,6 @@ namespace Melia.Zone.World.Items
 		public Item (Item other)
 		{
 			this.Id = other.Id;
-			
 			this.LoadData();
 
 			this.Amount = other.Amount;

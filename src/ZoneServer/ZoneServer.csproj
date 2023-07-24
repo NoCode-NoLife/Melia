@@ -200,8 +200,6 @@
     <Compile Include="Skills\SplashAreas\Square.cs" />
     <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
     <Compile Include="Commands\ChatCommands.Handlers.cs" />
-    <Compile Include="World\Actors\Accounts\Components\AccountComponent.cs" />
-    <Compile Include="World\Actors\Accounts\Components\TeamStorageComponent.cs" />
     <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
     <Compile Include="World\Actors\Characters\Components\PersonalStorageComponent.cs" />
     <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />

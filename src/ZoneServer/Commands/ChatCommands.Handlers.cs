@@ -81,8 +81,8 @@ namespace Melia.Zone.Commands
 			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
             this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
 
-            // Dev
-            this.Add("test", "", "", this.HandleTest);
+			// Dev
+			this.Add("test", "", "", this.HandleTest);
 			this.Add("reloadscripts", "", "Reloads all scripts.", this.HandleReloadScripts);
 			this.Add("reloadconf", "", "Reloads configuration files.", this.HandleReloadConf);
 			this.Add("reloaddata", "", "Reloads data.", this.HandleReloadData);
