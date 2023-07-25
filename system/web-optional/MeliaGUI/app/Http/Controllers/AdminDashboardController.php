@@ -10,6 +10,7 @@ use App\Models\Account;
 use App\Models\Character;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use Exception;
 use SplFileInfo;
 
 class AdminDashboardController extends Controller
@@ -253,22 +254,27 @@ class AdminDashboardController extends Controller
         $count = 0;
 
         $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
-        $files = File::files($directory);
 
-        foreach ($files as $file) {
-            $dateStr = str_replace('.sql', '', str_replace('-', ':', str_replace('_', ' ', basename($file))));
-            $date = new Carbon($dateStr);
-            $relativePath = str_replace(storage_path(), '',(new SplFileInfo($file))->getPathname());
-            $info[] = [
-                'date' => $date->format('Y-m-d H:i:s'),
-                'sizeInBytes' => $this->formatBytes(filesize($file)),
-                'path' => $relativePath,
-            ];
+        try {
+            $files = File::files($directory);
+
+            foreach ($files as $file) {
+                $dateStr = str_replace('.sql', '', str_replace('-', ':', str_replace('_', ' ', basename($file))));
+                $date = new Carbon($dateStr);
+                $relativePath = str_replace(storage_path(), '',(new SplFileInfo($file))->getPathname());
+                $info[] = [
+                    'date' => $date->format('Y-m-d H:i:s'),
+                    'sizeInBytes' => $this->formatBytes(filesize($file)),
+                    'path' => $relativePath,
+                ];
+            }
+
+            usort($info, function($a, $b) {
+                return strcmp($b['date'], $a['date']);
+            });
+        } catch(\Exception $e) {
+            return $info;
         }
-
-        usort($info, function($a, $b) {
-            return strcmp($b['date'], $a['date']);
-        });
 
         return array_slice($info, 0, $maxCount);
     }

@@ -45,7 +45,7 @@ class PasswordResetLinkController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => [trans($status)],
+            'email' => [trans('validation.email.not.found')],
         ]);
     }
 }

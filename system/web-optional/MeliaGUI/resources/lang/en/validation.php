@@ -29,4 +29,5 @@ return [
     'close.zone.process.success' => 'Closing zone process successful!',
     'created.zone.fail' => 'Fail to create a new zone server.',
     'created.zone.success' => 'Successful created a new zone server.',
+    'email.not.found' => 'No records of account associated with the email address.',
 ];
