@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
@@ -13,6 +16,7 @@ using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers;
 using Melia.Zone.World;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
@@ -211,12 +215,33 @@ namespace Melia.Zone
 				}
 				case KickMessage kickMessage:
 				{
-					var character = this.World.GetCharacterByTeamName(kickMessage.TargetName);
-					if (character == null)
-						break;
+					IEnumerable<Character> characters;
 
-					character.MsgBox(Localization.Get("You were kicked by {0}."), kickMessage.OriginName);
-					character.Connection.Close(100);
+					if (kickMessage.TargetType == KickTargetType.Player)
+					{
+						var targetCharacter = this.World.GetCharacterByTeamName(kickMessage.TargetName);
+						if (targetCharacter == null)
+							break;
+
+						characters = new[] { targetCharacter };
+					}
+					else if (kickMessage.TargetType == KickTargetType.Map)
+					{
+						if (!this.World.TryGetMap(kickMessage.TargetName, out var map))
+							break;
+
+						characters = map.GetCharacters();
+					}
+					else
+					{
+						throw new InvalidDataException($"Invalid kick target type '{kickMessage.TargetType}'.");
+					}
+
+					foreach (var character in characters)
+					{
+						character.MsgBox(Localization.Get("You were kicked by {0}."), kickMessage.OriginName);
+						character.Connection.Close(100);
+					}
 					break;
 				}
 			}

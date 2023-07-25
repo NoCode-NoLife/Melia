@@ -1853,12 +1853,26 @@ namespace Melia.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			var teamName = args.Get(0);
+			// Use the sender name as the origin so you can't fake someone
+			// else kicking players.
 
-			var commMessage = new KickMessage(target.TeamName, teamName);
-			ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+			var targetName = args.Get(0);
+			var originName = sender.TeamName;
 
-			sender.ServerMessage(Localization.Get("Request for kicking '{0}' sent."), teamName);
+			if (ZoneServer.Instance.Data.MapDb.TryFind(targetName, out _))
+			{
+				var commMessage = new KickMessage(KickTargetType.Map, targetName, originName);
+				ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+				sender.ServerMessage(Localization.Get("Request for kicking players on map '{0}' sent."), targetName);
+			}
+			else
+			{
+				var commMessage = new KickMessage(KickTargetType.Player, targetName, originName);
+				ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+				sender.ServerMessage(Localization.Get("Request for kicking player '{0}' sent."), targetName);
+			}
 
 			return CommandResult.Okay;
 		}
