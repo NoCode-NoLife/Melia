@@ -514,6 +514,15 @@ namespace Melia.Zone.Commands
 
 			amount = Math2.Clamp(1, 100, amount);
 
+			var aiName = "BasicMonster";
+			if (args.TryGet("ai", out var aiNameArg))
+			{
+				if (aiNameArg.ToLower() == "none")
+					aiName = null;
+				else
+					aiName = aiNameArg;
+			}
+
 			var rnd = new Random(Environment.TickCount);
 			for (var i = 0; i < amount; ++i)
 			{
@@ -549,7 +558,7 @@ namespace Melia.Zone.Commands
 					monster.Properties.SetFloat(PropertyName.HP, hp);
 				}
 
-				if (args.TryGet("ai", out var aiName))
+				if (!string.IsNullOrWhiteSpace(aiName))
 					monster.Components.Add(new AiComponent(monster, aiName));
 
 				target.Map.AddMonster(monster);
