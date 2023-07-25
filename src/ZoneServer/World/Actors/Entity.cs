@@ -109,14 +109,14 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
-		/// Makes the entity turn towards the other entity.
+		/// Makes the entity turn towards the actor if it's not null.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
-		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
+		/// <param name="actor"></param>
+		public static void TurnTowards(this ICombatEntity entity, IActor actor)
 		{
-			if (otherEntity != null)
-				TurnTowards(entity, otherEntity.Position);
+			if (actor != null)
+				TurnTowards(entity, actor.Position);
 		}
 
 		/// <summary>
