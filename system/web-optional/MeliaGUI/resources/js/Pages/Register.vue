@@ -13,7 +13,7 @@ import FormControl from '@/components/FormControl.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import LayoutGuest from '@/Layouts/LayoutGuest.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLine from '@/components/SectionTitleLine.vue'
 import InputError from '@/Components/InputError.vue'
 import { Head, useForm } from '@inertiajs/vue3'
 
@@ -36,12 +36,8 @@ const submit = () => {
   <LayoutGuest>
     <SectionFullScreen v-slot="{ cardClass }" bg="purplePink">
       <CardBox isForm @submit.prevent="submit">
-        <SectionTitleLineWithButton
-          :icon="mdiBallotOutline"
-          title="Register"
-          main
-        >
-        </SectionTitleLineWithButton>
+        <SectionTitleLine :icon="mdiBallotOutline" title="Register" main>
+        </SectionTitleLine>
         <InputError class="mt-2 mb-2" :message="form.errors.login" />
         <InputError class="mt-2 mb-2" :message="form.errors.email" />
 

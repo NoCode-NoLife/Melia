@@ -14,7 +14,7 @@ import { useStore } from 'vuex'
 import { Head, router } from '@inertiajs/vue3'
 import SectionMain from '@/components/SectionMain.vue'
 import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLine from '@/components/SectionTitleLine.vue'
 import FormField from '@/components/FormField.vue'
 import BaseDivider from '@/components/BaseDivider.vue'
 import CardBox from '@/components/CardBox.vue'
@@ -251,12 +251,12 @@ const saveConfigs = () => {
       <div v-if="isServerOnline" class="slider">
         <div class="slide">
           <div lass="grid grid-cols-1 gap-6">
-            <SectionTitleLineWithButton
+            <SectionTitleLine
               :icon="mdiCog"
               :title="state.pageTitles[state.currentIndex]"
               main
             >
-            </SectionTitleLineWithButton>
+            </SectionTitleLine>
 
             <CardBox class="mb-5">
               <BaseButtons type="justify-start">

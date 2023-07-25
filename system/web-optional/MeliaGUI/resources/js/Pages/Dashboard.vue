@@ -5,7 +5,7 @@ import { useStore } from 'vuex'
 import { Head } from '@inertiajs/vue3'
 import SectionMain from '@/components/SectionMain.vue'
 import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLine from '@/components/SectionTitleLine.vue'
 
 defineProps({
   account: {
@@ -27,12 +27,8 @@ onMounted(() => {
   <Head title="Dashboard" />
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton
-        :icon="mdiChartTimelineVariant"
-        title="Overview"
-        main
-      >
-      </SectionTitleLineWithButton>
+      <SectionTitleLine :icon="mdiChartTimelineVariant" title="Overview" main>
+      </SectionTitleLine>
     </SectionMain>
   </LayoutAuthenticated>
 </template>

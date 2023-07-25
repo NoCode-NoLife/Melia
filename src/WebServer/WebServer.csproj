@@ -75,7 +75,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer\CustomResponseSerializer.cs" />
-    <Compile Include="Serializer\Definitions.cs" />
+    <Compile Include="Serializer\HelperJsonClasses.cs" />
     <Compile Include="WebServer.cs" />
   </ItemGroup>
   <ItemGroup>

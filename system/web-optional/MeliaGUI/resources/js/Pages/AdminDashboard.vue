@@ -12,12 +12,12 @@ import {
   mdiTagMultiple,
   mdiMailbox,
   mdiBackupRestore,
-  mdiCloudPlusOutline,
   mdiInformation,
   mdiCheckCircle,
   mdiAlert,
   mdiAlertCircle,
   mdiChartBox,
+  mdiPlus,
 } from '@mdi/js'
 import { useStore } from 'vuex'
 import { Head, router } from '@inertiajs/vue3'
@@ -29,7 +29,7 @@ import TableBackups from '@/components/TableBackups.vue'
 import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
 import CardBoxAction from '@/components/CardBoxAction.vue'
 import OverlayLayer from '@/components/OverlayLayer.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLine from '@/components/SectionTitleLine.vue'
 import FormField from '@/components/FormField.vue'
 import BaseDivider from '@/components/BaseDivider.vue'
 import CardBox from '@/components/CardBox.vue'
@@ -117,6 +117,42 @@ const warningRestoreBackup = (backup) => {
   }
 }
 
+const warningCloseProcess = (process) => {
+  isWarningModalActive.value = true
+  warningMessage.value =
+    'Do you really want to close the process ' + process.ProcessName + ' ?'
+  warningCall.value = () => {
+    closeProcess(process)
+  }
+}
+
+const warningCreateNewZone = () => {
+  isWarningModalActive.value = true
+  warningMessage.value =
+    'Do you really want to create a new zone server for all maps?'
+  warningCall.value = () => {
+    createNewZoneServer()
+  }
+}
+
+const closeProcess = (process) => {
+  isLoading.value = true
+  isWarningModalActive.value = false
+  router.post(
+    route('admin.close.zone.server.process'),
+    {
+      processId: process.ProcessId,
+    },
+    {
+      preserveState: true,
+      preserveScroll: false,
+      onFinish: (visit) => {
+        isLoading.value = false
+      },
+    },
+  )
+}
+
 const restoreBackup = (backup) => {
   isLoading.value = true
   isWarningModalActive.value = false
@@ -127,12 +163,27 @@ const restoreBackup = (backup) => {
     },
     {
       preserveState: true,
-      preserveScroll: true,
+      preserveScroll: false,
       onFinish: (visit) => {
         isLoading.value = false
       },
     },
   )
+}
+
+const createNewZoneServer = () => {
+  isLoading.value = true
+  isWarningModalActive.value = false
+  router.post(route('admin.create.zone.server'), null, {
+    preserveState: true,
+    preserveScroll: false,
+    onFinish: (page) => {
+      isLoading.value = false
+    },
+    onSuccess: (page) => {
+      isLoading.value = false
+    },
+  })
 }
 
 const kickPlayer = (playerAccountId) => {
@@ -141,7 +192,6 @@ const kickPlayer = (playerAccountId) => {
 
 const broadcastMessage = () => {
   isLoading.value = true
-  console.log('test 1')
   router.post(
     route('admin.message.broadcast'),
     { message: broadcastMessageText.value },
@@ -150,11 +200,9 @@ const broadcastMessage = () => {
       preserveScroll: true,
       onSuccess: (page) => {
         isLoading.value = false
-        console.log('test 2')
       },
       onFinish: (page) => {
         isLoading.value = false
-        console.log('test 3')
       },
     },
   )
@@ -254,12 +302,15 @@ if (props.status != null) {
 
     <CardBoxModal
       v-model="isWarningModalActive"
-      :title="warningMessage"
+      title="Warning!"
       button="info"
       :confirm="warningCall"
       has-cancel
     >
       <BaseDivider />
+      <div>
+        <p>{{ warningMessage }}</p>
+      </div>
     </CardBoxModal>
 
     <SectionMain>
@@ -272,12 +323,8 @@ if (props.status != null) {
         {{ props.status.message }}
       </NotificationBar>
 
-      <SectionTitleLineWithButton
-        :icon="mdiChartTimelineVariant"
-        title="Overview"
-        main
-      >
-      </SectionTitleLineWithButton>
+      <SectionTitleLine :icon="mdiChartTimelineVariant" title="Overview" main>
+      </SectionTitleLine>
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
         <CardBoxWidget
@@ -343,7 +390,7 @@ if (props.status != null) {
         </div>
       </div>
 
-      <SectionTitleLineWithButton
+      <SectionTitleLine
         class="mt-2 pt-2 pb-2"
         :icon="mdiServer"
         title="Server's Management"
@@ -383,9 +430,10 @@ if (props.status != null) {
           />
           <CardBoxAction
             :canInteract="true"
-            :icon="mdiBackupRestore"
-            :title="'-------------------'"
-            :description="'---------------------------'"
+            :icon="mdiCpu64Bit"
+            :title="'New zone server'"
+            :description="'Creates a new instance of zone server'"
+            :action="warningCreateNewZone"
           />
           <CardBoxAction
             :canInteract="true"
@@ -397,21 +445,27 @@ if (props.status != null) {
         </div>
       </div>
 
-      <SectionTitleLineWithButton
+      <SectionTitleLine
         class="mt-0 pt-0 pb-2"
         :icon="mdiCpu64Bit"
         title="Server's Processes"
+        :action="warningCreateNewZone"
+        :actionIcon="mdiPlus"
+        onlyWhenServerOnline
       />
 
       <CardBox has-table>
-        <TableProcesses :items="processes" />
+        <TableProcesses
+          :items="processes"
+          :warningCloseProcess="warningCloseProcess"
+        />
       </CardBox>
 
-      <SectionTitleLineWithButton
+      <SectionTitleLine
         :icon="mdiBackupRestore"
         title="Backups"
+        :actionIcon="mdiPlus"
         :action="createNewBackup"
-        :actionIcon="mdiCloudPlusOutline"
       />
 
       <CardBox has-table>
@@ -422,10 +476,7 @@ if (props.status != null) {
         />
       </CardBox>
 
-      <SectionTitleLineWithButton
-        :icon="mdiAccountMultiple"
-        title="Last Accounts"
-      />
+      <SectionTitleLine :icon="mdiAccountMultiple" title="Last Accounts" />
 
       <CardBox has-table>
         <TableAccounts :items="lastAccounts" />

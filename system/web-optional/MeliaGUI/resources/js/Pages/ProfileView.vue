@@ -16,7 +16,7 @@ import FormControl from '@/components/FormControl.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserCard from '@/components/UserCard.vue'
 import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLine from '@/components/SectionTitleLine.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import NotificationBar from '@/components/NotificationBar.vue'
 import InputError from '@/Components/InputError.vue'
@@ -85,8 +85,8 @@ const updatePassword = () => {
   <Head title="Profile" />
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiAccount" title="Profile" main>
-      </SectionTitleLineWithButton>
+      <SectionTitleLine :icon="mdiAccount" title="Profile" main>
+      </SectionTitleLine>
 
       <UserCard class="mb-6" />
 

@@ -113,15 +113,48 @@ class AdminDashboardController extends Controller
         try {
             $response = $this->client->request('POST', '/api/kick/all' );
             $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
 
             if ($statusCode == 200) {
-                return back()->with('status', [ 'type' => 'success', 'message' => trans('kick.all.players.successful') ]);
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.kick.all.players.successful') ]);
             }
         } catch (\Exception $e) {
         }
 
-        return back()->with('status', [ 'type' => 'danger', 'message' => trans('kick.all.players.fail') ]);
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('validation.kick.all.players.fail') ]);
+    }
+
+    public function closeZoneProcess(Request $request)
+    {
+        $request->validate([
+            'processId' => 'required|int'
+        ]);
+
+        try {
+            $response = $this->client->post('/api/process/close/zone', ['json' => ['processId' => $request->processId]] );
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.close.zone.process.success') ]);
+            }
+        } catch (\Exception $e) {
+        }
+
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('validation.close.zone.process.fail') ]);
+    }
+
+    public function createNewZone(Request $request)
+    {
+        try {
+            $response = $this->client->post('/api/process/create/zone');
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.created.zone.success') ]);
+            }
+        } catch (\Exception $e) {
+        }
+
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('validation.created.zone.fail') ]);
     }
 
     public function broadcastMessage(Request $request) {
@@ -132,16 +165,15 @@ class AdminDashboardController extends Controller
         try {
             $response = $this->client->post('/api/message/broadcast', ['json' => ['message' => $request->message]] );
             $statusCode = $response->getStatusCode();
-            $body = $response->getBody()->getContents();
 
             if ($statusCode == 200) {
 
-                return back()->with('status', [ 'type' => 'success', 'message' => trans('message.broadcast.success') ]);
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.message.broadcast.success') ]);
             }
         } catch (\Exception $e) {
         }
 
-        return back()->with('status', [ 'type' => 'danger', 'message' => trans('message.broadcast.fail') ]);
+        return back()->with('status', [ 'type' => 'danger', 'message' => trans('validation.message.broadcast.fail') ]);
     }
 
     private function getSilverChartData($maxCount = 10)

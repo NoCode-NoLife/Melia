@@ -2,6 +2,8 @@
 import { useSlots, computed } from 'vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 import IconRounded from '@/components/IconRounded.vue'
+import BaseButton from '@/components/BaseButton.vue'
+import { usePage } from '@inertiajs/vue3'
 
 defineProps({
   icon: {
@@ -13,7 +15,16 @@ defineProps({
     required: true,
   },
   main: Boolean,
+  onlyWhenServerOnline: Boolean,
+  action: {
+    type: Function,
+  },
+  actionIcon: {
+    type: String,
+  },
 })
+
+const isServerOnline = usePage().props.isServerOnline
 
 const hasSlot = computed(() => useSlots().default)
 </script>
@@ -37,5 +48,13 @@ const hasSlot = computed(() => useSlots().default)
       </h1>
     </div>
     <slot v-if="hasSlot" />
+    <BaseButton
+      v-if="actionIcon && action"
+      :icon="actionIcon"
+      iconSize="20"
+      color="whiteDark"
+      :disabled="onlyWhenServerOnline ? !isServerOnline : false"
+      @click="action"
+    />
   </section>
 </template>

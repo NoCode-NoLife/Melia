@@ -30,6 +30,24 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
+		/// Sends content as text with the given mime type.
+		/// </summary>
+		/// <param name="mimeType"></param>
+		/// <param name="content"></param>
+		protected void SendText(string mimeType, string content, int code)
+		{
+			var contentLength = _encoding.GetByteCount(content);
+
+			this.Response.StatusCode = code;
+			this.Response.ContentType = mimeType;
+			this.Response.ContentLength64 = contentLength;
+
+			using (var stream = this.Response.OutputStream)
+			using (var sw = new StreamWriter(stream, _encoding))
+				sw.Write(content);
+		}
+
+		/// <summary>
 		/// A string writer that uses UTF-8 without BOM.
 		/// </summary>
 		protected class Utf8StringWriter : StringWriter

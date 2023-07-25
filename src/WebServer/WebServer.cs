@@ -40,7 +40,7 @@ namespace Melia.Web
 		/// <summary>
 		/// List containing Server Information Messages
 		/// </summary>
-		public Dictionary<int, ResServerInformationMessage> ServerInformationMessages { get; private set; } = new Dictionary<int, ResServerInformationMessage>();
+		public Dictionary<int, ResServerInformationMessage> ServerInformationMessages { get; set; } = new Dictionary<int, ResServerInformationMessage>();
 		
         /// Runs the server.
 		/// </summary>

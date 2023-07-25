@@ -24,5 +24,9 @@ return [
     'configs.update.fail' => 'Configs could no be updated.',
     'configs.successful.updated' => 'Configs updated successful.',
     'message.broadcast.fail' => 'Message broadcasting has failed.',
-    'message.broadcast.success' => 'Message broadcasted successful.'
+    'message.broadcast.success' => 'Message broadcasted successful.',
+    'close.zone.process.fail' => 'Closing zone process failed.',
+    'close.zone.process.success' => 'Closing zone process successful!',
+    'created.zone.fail' => 'Fail to create a new zone server.',
+    'created.zone.success' => 'Successful created a new zone server.',
 ];

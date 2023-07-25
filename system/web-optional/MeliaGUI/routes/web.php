@@ -58,6 +58,12 @@ Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
 
     Route::post('/admin/backup/delete', [BackupController::class, 'delete'])
         ->name('admin.backup.delete');
+
+    Route::post('/admin/close/zone/process', [AdminDashboardController::class, 'closeZoneProcess'])
+        ->name('admin.close.zone.server.process');
+
+    Route::post('/admin/create/zone', [AdminDashboardController::class, 'createNewZone'])
+        ->name('admin.create.zone.server');
 });
 
 Route::middleware('auth')->group(function () {

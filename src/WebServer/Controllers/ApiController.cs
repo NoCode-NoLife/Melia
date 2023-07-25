@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Yggdrasil.Network.Communication;
 using EmbedIO;
 using EmbedIO.Routing;
-using Melia.Shared.Configuration.Files;
+using Swan;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.Tos.Const;
 using Melia.Web.Serializer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Swan;
-using Yggdrasil.Geometry;
-using Yggdrasil.IO;
-using Yggdrasil.Network.Communication;
-using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.InteropServices;
+using Yggdrasil.Logging;
 
 namespace Melia.Web.Controllers
 {
@@ -55,6 +51,23 @@ namespace Melia.Web.Controllers
 		[Route(HttpVerbs.Get, "/info/processes")]
 		public void GetServerProcessInformation()
 		{
+			var processes = Process.GetProcesses();
+			var runningProcesses = new Dictionary<int, ResServerInformationMessage>();
+
+			// Updates the list, removing the processes that are no longer running.
+			foreach (var process in processes)
+			{
+				foreach (var processEntry in WebServer.Instance.ServerInformationMessages)
+				{
+					if (process.Id == processEntry.Key)
+					{
+						runningProcesses.Add(processEntry.Key, processEntry.Value);
+					}
+				}
+			}
+
+			WebServer.Instance.ServerInformationMessages = runningProcesses;
+
 			var list = WebServer.Instance.ServerInformationMessages.Values.ToArray().ToList();
 			this.SendText("application/json", JsonConvert.SerializeObject(list));
 		}
@@ -70,6 +83,224 @@ namespace Melia.Web.Controllers
 
 			this.SendText("text/json", "{ \"status\": \"Successful kicked all players.\" }");
 		}
+
+
+		/// <summary>
+		/// Creates a new Zone Server Process
+		/// </summary>
+		[Route(HttpVerbs.Post, "/process/create/zone")]
+		public void CreateZoneProcess()
+		{
+			var filePath = AppDomain.CurrentDomain.BaseDirectory + "../../bin/" + GetExecutableName();
+
+			if (File.Exists(filePath))
+			{
+				this.StartZoneServerProcess(filePath);
+			} else
+			{
+				filePath = AppDomain.CurrentDomain.BaseDirectory + "../../bin/Release/" + GetExecutableName();
+
+				if (File.Exists(filePath))
+				{
+					this.StartZoneServerProcess(filePath);
+				}
+				else
+				{
+					filePath = AppDomain.CurrentDomain.BaseDirectory + "../../bin/Debug/" + GetExecutableName();
+
+					if (File.Exists(filePath))
+					{
+						this.StartZoneServerProcess(filePath);
+					}
+					else
+					{
+						Log.Status("Failed to start the Zone Server process.");
+						this.SendText("text/json", "{ \"status\": \"Failed to create a new zone server.\" }", 400);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates the server.txt file adding a new zone if necessary
+		/// </summary>
+		private void AddZoneServerToUserDb(int serverId)
+		{
+			var filePath = AppDomain.CurrentDomain.BaseDirectory + "../../user/db/servers.txt";
+
+			if (File.Exists(filePath))
+			{
+				var addNewEntry = true;
+				string jsonString = File.ReadAllText(filePath);
+				var serversObj = JsonConvert.DeserializeObject<List<RootServer>>(jsonString);
+				var serverPort = 7003;
+
+				foreach (var server in serversObj[0].Servers)
+				{
+					if (server.Id == serverId)
+					{
+						addNewEntry = false;
+					}
+
+					serverPort = server.Port + 1;
+				}
+
+				if (addNewEntry)
+				{
+					var newServerEntry = new Server();
+					newServerEntry.Type = "Zone";
+					newServerEntry.Id = serverId;
+					newServerEntry.Ip = WebServer.Instance.ServerInfo.Ip;
+					newServerEntry.Port = serverPort;
+					newServerEntry.Maps = "all";
+
+					serversObj[0].Servers.Add(newServerEntry);
+
+					string modifiedJsonString = JsonConvert.SerializeObject(serversObj, Formatting.Indented);
+
+					File.WriteAllText(filePath, modifiedJsonString);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Updates the server.txt file removing the zone if necessary
+		/// </summary>
+		private void RemoveZoneServerToUserDb(int serverId)
+		{
+			var filePath = AppDomain.CurrentDomain.BaseDirectory + "../../user/db/servers.txt";
+
+			if (File.Exists(filePath))
+			{
+				Server serverEntryToRemove = null;
+				string jsonString = File.ReadAllText(filePath);
+				var serversObj = JsonConvert.DeserializeObject<List<RootServer>>(jsonString);
+
+				foreach (var server in serversObj[0].Servers)
+				{
+					if (server.Id == serverId)
+					{
+						serverEntryToRemove = server;
+					}
+				}
+
+				if (serverEntryToRemove != null)
+				{
+					serversObj[0].Servers.Remove(serverEntryToRemove);
+					string modifiedJsonString = JsonConvert.SerializeObject(serversObj, Formatting.Indented);
+					File.WriteAllText(filePath, modifiedJsonString);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Run a processs for a given Path
+		/// </summary>
+		private void StartZoneServerProcess(string processFilePath)
+		{
+			var groupId = 1001;
+			var serverId = 1;
+			var processes = Process.GetProcesses();
+
+			foreach (var process in processes)
+			{
+				if (process.ProcessName.ToLower().Contains("zone"))
+				{
+					serverId++;
+				}
+			}
+
+			ProcessStartInfo startInfo = new ProcessStartInfo
+			{
+				FileName = processFilePath,
+				Arguments = $"{groupId} {serverId}"
+			};
+
+			this.AddZoneServerToUserDb(serverId);
+
+			try
+			{
+				Process.Start(startInfo);
+			}
+			catch (Exception ex)
+			{
+				this.RemoveZoneServerToUserDb(serverId);
+				Log.Status("Could not start the ZoneServer process on {0}.", processFilePath);
+				this.SendText("text/json", "{ \"status\": \"Failed to create a new zone server.\" }", 400);
+				return;
+			}
+
+			Log.Status("Successeful started a new zone server.");
+			this.SendText("text/json", "{ \"status\": \"Successful created a new zone server.\" }");
+		}
+
+		private string GetExecutableName()
+		{
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+			{
+				// For Windows, use the executable name with ".exe" extension
+				return "ZoneServer.exe";
+			}
+			else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			{
+				// For Linux, use the executable name without ".exe" extension
+				return "ZoneServer";
+			}
+
+			return "ZoneServer";
+		}
+
+		/// <summary>
+		/// Close a zone process by a given ProcessId
+		/// </summary>
+		[Route(HttpVerbs.Post, "/process/close/zone")]
+		public void CloseZoneProcess()
+		{
+			var data = HttpContext.GetRequestDataAsyncJson<ProcessMessage>();
+
+			if (data == null || data.Result == null || data.Result.processId == 0)
+				this.SendText("text/json", "{ \"status\": \"Failed to close the zone.\" }", 400);
+
+			try
+			{
+				// Get the process by its ProcessId
+				Process process = Process.GetProcessById(data.Result.processId);
+
+				// Check if the process name matches the target process name
+				if (process != null && process.ProcessName.ToLower().Contains("zone"))
+				{
+					// Check if the process is running
+					if (!process.HasExited)
+					{
+						// Close the process gracefully
+						process.CloseMainWindow();
+
+						// Wait for the process to exit
+						if (!process.WaitForExit(2500)) // You can adjust the timeout (milliseconds) as needed
+						{
+							// If the process doesn't exit within the timeout, force it to close
+							process.Kill();
+						}
+
+						if (WebServer.Instance.ServerInformationMessages.ContainsKey(data.Result.processId))
+							WebServer.Instance.ServerInformationMessages.Remove(data.Result.processId);
+					}
+				}
+				else
+				{
+					// The process with the given ProcessId does not match the target process name.
+					this.SendText("text/json", "{ \"status\": \"Failed to close the zone.\" }", 400);
+				}
+			}
+			catch (ArgumentException)
+			{
+				// Handle the case when the process with the given ProcessId is not found.
+				this.SendText("text/json", "{ \"status\": \"Failed to close the zone.\" }", 400);
+			}
+
+			this.SendText("text/json", "{ \"status\": \"Successful closed the zone process.\" }");
+		}
+
 
 		/// <summary>
 		/// Gets the server configurations
@@ -142,7 +373,7 @@ namespace Melia.Web.Controllers
 			var data = HttpContext.GetRequestDataAsyncJson<Config>();
 
 			if (data == null)			
-				this.SendText("text/json", "{ \"status\": \"Failed to update the configs.\" }");
+				this.SendText("text/json", "{ \"status\": \"Failed to update the configs.\" }", 400);
 			
 			var newBarracksConfigsJson = JsonConvert.DeserializeObject<JObject>(data.Result.Barracks.ToJson());
 			var newBarracksConfigs = newBarracksConfigsJson?.ToObject<Dictionary<string, string>>();
@@ -196,7 +427,7 @@ namespace Melia.Web.Controllers
 			var data = HttpContext.GetRequestDataAsyncJson<Message>();
 
 			if (data == null || data.Result == null)
-				this.SendText("text/json", "{ \"status\": \"Failed to broadcast the message to the server.\" }");
+				this.SendText("text/json", "{ \"status\": \"Failed to broadcast the message to the server.\" }", 400);
 
 			var commMessage = new NoticeTextMessage(NoticeTextType.GoldRed, data.Result.message);
 			WebServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));

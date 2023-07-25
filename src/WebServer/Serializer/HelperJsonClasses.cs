@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Melia.Web.Serializer
 {
@@ -315,5 +316,44 @@ namespace Melia.Web.Serializer
 	{
 		[JsonProperty("message")]
 		public string message { get; set; }
+	}
+
+	public class ProcessMessage
+	{
+		[JsonProperty("ProcessId")]
+		public int processId { get; set; }
+	}
+
+	public class RootServer
+	{
+		[JsonProperty("groupId")]
+		public int GroupId { get; set; }
+
+		[JsonProperty("name")]
+		public string Name { get; set; }
+
+		[JsonProperty("servers")]
+		public List<Server> Servers { get; set; }
+	}
+
+	public class Server
+	{
+		[JsonProperty("type")]
+		public string Type { get; set; }
+
+		[JsonProperty("id")]
+		public int Id { get; set; }
+
+		[JsonProperty("ip")]
+		public string Ip { get; set; }
+
+		[JsonProperty("port")]
+		public int Port { get; set; }
+
+		[JsonProperty("interPort")]
+		public int InterPort { get; set; }
+
+		[JsonProperty("maps")]
+		public string Maps { get; set; }
 	}
 }

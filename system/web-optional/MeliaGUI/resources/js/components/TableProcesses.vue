@@ -1,7 +1,6 @@
 <script setup>
 import { computed, ref, getCurrentInstance } from 'vue'
-import { mdiChip } from '@mdi/js'
-import NotificationBar from '@/components/NotificationBar.vue'
+import { mdiCloseCircle, mdiChip } from '@mdi/js'
 import TableCheckboxCell from '@/components/TableCheckboxCell.vue'
 import BaseLevel from '@/components/BaseLevel.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
@@ -12,6 +11,10 @@ defineProps({
   checkable: Boolean,
   items: {
     type: Array,
+    required: true,
+  },
+  warningCloseProcess: {
+    type: Function,
     required: true,
   },
 })
@@ -103,6 +106,7 @@ const checked = (isChecked, userAccount) => {
         <th>CpuUsage</th>
         <th>RamUsage</th>
         <th>ServerIP</th>
+        <th />
       </tr>
     </thead>
     <tbody>
@@ -121,6 +125,21 @@ const checked = (isChecked, userAccount) => {
         <td data-label="Medals">{{ process.RamUsage }} %</td>
         <td data-label="Medals">
           {{ process.ServerIp }}
+        </td>
+        <td class="before:hidden lg:w-1 whitespace-nowrap">
+          <BaseButtons
+            type="justify-start lg:justify-end"
+            no-wrap
+            v-if="process.ProcessName.toLowerCase().includes('zone')"
+          >
+            <BaseButton
+              color="danger"
+              :icon="mdiCloseCircle"
+              small
+              iconSize="22"
+              @click="warningCloseProcess(process)"
+            />
+          </BaseButtons>
         </td>
       </tr>
     </tbody>
