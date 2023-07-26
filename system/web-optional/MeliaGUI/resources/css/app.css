@@ -3,7 +3,6 @@
 @import '_scrollbars.css';
 @import '_table.css';
 @import '_disable_caret.css';
-@import '_home_page.css';
 
 @tailwind base;
 @tailwind components;

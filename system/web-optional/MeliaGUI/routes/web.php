@@ -20,11 +20,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('HomePage', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'appName' => config('app.name'),
-    ]);
+    return redirect(route('login'));
 })->name('home');
 
 Route::get('/dashboard', function () {
