@@ -238,13 +238,17 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Try to execute message as a command. If it failed,
-			// broadcast it.
-			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
-			{
-				Send.ZC_CHAT(character, msg);
-				ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
-			}
+			// Try to execute message as a chat command, don't send if it
+			// was handled as one
+
+			if (ZoneServer.Instance.ClientChatCommands.TryExecute(character, msg))
+				return;
+
+			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
+				return;
+
+			Send.ZC_CHAT(character, msg);
+			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
 		}
 
 		/// <summary>

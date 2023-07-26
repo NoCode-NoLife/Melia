@@ -11,8 +11,6 @@ namespace Melia.Zone.Commands
 	/// </summary>
 	public partial class ChatCommands : CommandManager<ChatCommand, ChatCommandFunc>
 	{
-		private const string OfficialPrefix = "/";
-
 		/// <summary>
 		/// Adds command with the given parameters.
 		/// </summary>
@@ -55,13 +53,13 @@ namespace Melia.Zone.Commands
 		{
 			var prefix = ZoneServer.Instance.Conf.Commands.SelfPrefix;
 
-			if (!message.StartsWith(prefix) && !message.StartsWith(OfficialPrefix))
+			if (!message.StartsWith(prefix))
 				return false;
 
 			var args = new Arguments(message);
 			var arg0 = args.Get(0);
 			var isDoublePrefix = arg0.StartsWith(prefix + prefix);
-			var commandName = arg0.Trim(prefix[0], OfficialPrefix[0]);
+			var commandName = arg0.Trim(prefix[0]);
 
 			// Check command
 			var command = this.GetCommand(commandName);

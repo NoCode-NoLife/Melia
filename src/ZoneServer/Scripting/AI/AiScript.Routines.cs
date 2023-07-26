@@ -83,6 +83,28 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Makes entity turn towards the given actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(IActor actor)
+		{
+			this.Entity.TurnTowards(actor);
+			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity turn towards the given position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(Position pos)
+		{
+			this.Entity.TurnTowards(pos);
+			yield break;
+		}
+
+		/// <summary>
 		/// Makes entity say the given message.
 		/// </summary>
 		/// <param name="message"></param>

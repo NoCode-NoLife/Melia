@@ -77,6 +77,9 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable StopAndAttack()
 	{
+		ExecuteOnce(Emoticon("I_emo_exclamation"));
+		ExecuteOnce(TurnTowards(target));
+
 		yield return StopMove();
 		StartRoutine("Attack", Attack());
 	}
