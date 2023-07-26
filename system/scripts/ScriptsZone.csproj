@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ais\basic_monster.cs" />
-    <Compile Include="ais\test.cs" />
     <Compile Include="content\r1\mobs\cities\c_highlander.cs" />
     <Compile Include="content\r1\mobs\dungeons\d_abbey_22_4.cs" />
     <Compile Include="content\r1\mobs\dungeons\d_abbey_22_5.cs" />
