@@ -188,7 +188,9 @@
     <Compile Include="Database\MeliaDb.cs" />
     <Compile Include="Database\MySqlDataReaderExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tos\Const\Storage.cs" />
+    <Compile Include="Tos\Const\StorageInteraction.cs" />
+    <Compile Include="Tos\Const\StorageResult.cs" />
+    <Compile Include="Tos\Const\StorageType.cs" />
     <Compile Include="Tos\Const\TendencyType.cs" />
     <Compile Include="Tos\Properties\PropertyTable.cs" />
     <Compile Include="World\Direction.cs" />

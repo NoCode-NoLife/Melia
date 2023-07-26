@@ -867,10 +867,13 @@ namespace Melia.Zone.Network
 		{
 			var type = packet.GetInt();
 
+			var character = conn.SelectedCharacter;
+			var storage = conn.SelectedCharacter.PersonalStorage;
+
 			// If storage was open, close it
-			if (conn.SelectedCharacter.IsBrowsingPersonalStorage && (type == 1))
+			if (storage.IsBrowsing && (type == 1))
 			{
-				conn.SelectedCharacter.ClosePersonalStorage();
+				storage.Close();
 				conn.CurrentDialog = null;
 				return;
 			}
@@ -1392,14 +1395,16 @@ namespace Melia.Zone.Network
 		{
 			var type = (StorageType)packet.GetByte();
 
+			var character = conn.SelectedCharacter;
+			var inventory = character.Inventory;
+			var storage = character.PersonalStorage;
+
 			if (type == StorageType.PersonalStorage)
 			{
-				var personalStorageEnabled = conn.SelectedCharacter.IsBrowsingPersonalStorage;
-
 				// Server allowance check
-				if (personalStorageEnabled)
+				if (storage.IsBrowsing)
 				{
-					var storageItems = conn.SelectedCharacter.PersonalStorage.GetStorage();
+					var storageItems = storage.GetStorage();
 					var itemList = storageItems.Values.ToList();
 					var itemPositions = storageItems.Keys.ToList();
 
@@ -1410,12 +1415,13 @@ namespace Melia.Zone.Network
 					var noPropertyList = itemList.Where(item => item.Properties.Get("CoolDown") == null).ToList();
 					noPropertyList.ForEach(item => item.Properties.Modify("CoolDown", 0));
 
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(conn.SelectedCharacter, (byte)type, itemList, itemPositions);
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, (byte)type, itemList, itemPositions);
 				}
 			}
-			if (type == StorageType.TeamStorage)
+			else if (type == StorageType.TeamStorage)
 			{
 				Log.Warning("CZ_REQ_ITEM_LIST: Team storage not yet implemented");
+				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
 			}
 		}
 
@@ -1429,49 +1435,58 @@ namespace Melia.Zone.Network
 		{
 			var type = (StorageType)packet.GetByte();
 			var worldId = packet.GetLong();
-			var i1 = packet.GetInt(); // unknown
+			var i1 = packet.GetInt();
 			var amount = packet.GetInt();
-			var i2 = packet.GetInt(); // unknown
-			var interaction = packet.GetByte(); 
+			var i2 = packet.GetInt();
+			var interaction = (StorageInteraction)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+			var inventory = character.Inventory;
+			var storage = character.PersonalStorage;
+
+			if ( (interaction != StorageInteraction.Store) && (interaction != StorageInteraction.Retrieve) )
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
+				return;
+			}
 
 			if (type == StorageType.PersonalStorage)
 			{
-				// Server allowance check
-				if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
+				if (!storage.IsBrowsing)
 				{
-					// Not enough silver
-					if (conn.SelectedCharacter.Inventory.CountItem(ItemId.Silver) < 20)
-					{
-						return;
-					}
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+					return;
+				}
 
-					// Storing items
-					if (interaction == 0)
-					{
-						if (conn.SelectedCharacter.PersonalStorage.StoreItem(worldId, amount) == StorageResult.Success)
-						{
-							// Remove 20 silver (fixed cost)
-							conn.SelectedCharacter.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
-						}
-					}
-					// Retrieving items
-					else if (interaction == 1)
-					{
-						if (conn.SelectedCharacter.PersonalStorage.RetrieveItem(worldId, amount) == StorageResult.Success)
-						{
-							// Remove 20 silver (fixed cost)
-							conn.SelectedCharacter.Inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
-						}
-					}
-					else
-					{
-						Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
-					}
+				if (inventory.CountItem(ItemId.Silver) < 20)
+				{
+					var interactionName = "operate";
+					if (interaction == StorageInteraction.Store)
+						interactionName = "store to";
+					else if (interaction == StorageInteraction.Retrieve)
+						interactionName = "retrieve from";
+
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to {1} storage without silver", conn.Account.Name, interactionName);
+					return;
+				}
+
+				// Storing items
+				if (interaction == StorageInteraction.Store)
+				{
+					if (storage.StoreItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
+				}
+				// Retrieving items
+				else if (interaction == StorageInteraction.Retrieve)
+				{
+					if (storage.RetrieveItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
 				}
 			}
 			else if (type == StorageType.TeamStorage)
 			{
 				Log.Warning("CZ_WAREHOUSE_CMD: Team storage not yet implemented");
+				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
 			}
 			else
 			{
@@ -1494,7 +1509,7 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (conn.SelectedCharacter.IsBrowsingPersonalStorage)
+			if (character.PersonalStorage.IsBrowsing)
 			{
 				character.PersonalStorage.Swap(fromSlot, toSlot);
 			}

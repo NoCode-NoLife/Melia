@@ -120,6 +120,13 @@ namespace Melia.Zone.World.Items
 		{
 			this.Id = other.Id;
 			this.LoadData();
+			this.Price = other.Price;
+			this.IsLocked = other.IsLocked;
+			this.OriginalOwnerHandle = other.OriginalOwnerHandle;
+			this.RePickUpTime = other.RePickUpTime;
+			this.OwnerHandle = other.OwnerHandle;
+			this.LootProtectionEnd = other.LootProtectionEnd;
+			this.Properties = other.Properties;
 
 			this.Amount = other.Amount;
 		}

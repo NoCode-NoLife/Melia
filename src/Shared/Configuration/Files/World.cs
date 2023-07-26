@@ -27,6 +27,8 @@ namespace Melia.Shared.Configuration.Files
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
 
+		public bool StorageMultiStack { get; protected set; }
+
 		public int TicksPerMinute { get; protected set; }
 		public int MinutesPerHour { get; protected set; }
 		public int HoursPerDay { get; protected set; }
@@ -63,6 +65,8 @@ namespace Melia.Shared.Configuration.Files
 
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
+
+			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.TicksPerMinute = this.GetInt("rt2gt_ms_per_minute", 1500) * 10000;
 			this.MinutesPerHour = this.GetInt("gt_minutes_per_hour", 60);

@@ -14,8 +14,8 @@ using System.Collections;
 namespace Melia.Zone.World.Storage
 {
 	/// <summary>
-	/// Abstraction of a storage. The storage contains an owner
-	/// which can be a character, an account, a guild, etc.
+	/// Abstraction of a storage. Provides basic server storage management
+	/// but the client packets must be implemented by child classes.
 	/// </summary>
 	public abstract class Storage
 	{
@@ -35,7 +35,7 @@ namespace Melia.Zone.World.Storage
 		/// Returns -1 if not found.
 		/// </summary>
 		/// <returns></returns>
-		protected int TryFindFirstAvailablePosition()
+		protected int TryGetFirstAvailablePosition()
 		{
 			lock (_syncLock)
 			{
@@ -127,7 +127,7 @@ namespace Melia.Zone.World.Storage
 		/// </summary>
 		/// <param name="item">Item type look for</param>
 		/// <param name="foundStorageItems">Position and Item object of found items</param>
-		protected void TryFindStackableItems(Item item, out SortedList<int, Item> foundStorageItems)
+		protected void TryGetStackableItems(Item item, out SortedList<int, Item> foundStorageItems)
 		{
 			foundStorageItems = new SortedList<int, Item>();
 
@@ -158,6 +158,20 @@ namespace Melia.Zone.World.Storage
 			this.Id = Interlocked.Increment(ref Ids);
 			_storageItems = new SortedList<int, Item>();
 		}
+
+		/// <summary>
+		/// Opens storage.
+		/// Child class is expected to update client.
+		/// </summary>
+		/// <returns></returns>
+		public abstract StorageResult Open();
+
+		/// <summary>
+		/// Closes storage.
+		/// Child class is expected to update client.
+		/// </summary>
+		/// <returns></returns>
+		public abstract StorageResult Close();
 
 		/// <summary>
 		/// Adds an item to storage.
@@ -195,7 +209,7 @@ namespace Melia.Zone.World.Storage
 			// Add to new position
 			// Note: we ignore addedAmount because adding to an empty position
 			// can never add more than stack maximum.
-			var availablePosition = this.TryFindFirstAvailablePosition();
+			var availablePosition = this.TryGetFirstAvailablePosition();
 			if (this.AddAtPosition(item, availablePosition, out var addedAmount) == StorageResult.Success)
 			{
 				addedPosition = availablePosition;

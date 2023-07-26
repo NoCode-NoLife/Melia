@@ -1267,7 +1267,7 @@ namespace Melia.Zone.Network
 			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
 			packet.PutFloat(0f); // Notification delay
-			packet.PutByte((byte)invType); // InvType
+			packet.PutByte((byte)invType);
 			packet.PutByte(0);
 			packet.PutByte(0);
 			packet.AddProperties(propertyList);
@@ -1502,17 +1502,17 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Sends a custom dialog message.
-		/// Currently used to open storage.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="close"></param>
 		/// <param name="msg"></param>
-		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg)
+		/// <param name="argNum"></param>
+		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg, int argNum = 0)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
 			packet.PutString(close, 33);
 			packet.PutString(msg, 32);
-			packet.PutInt(0); // argNum
+			packet.PutInt(argNum);
 
 			character.Connection.Send(packet);
 		}

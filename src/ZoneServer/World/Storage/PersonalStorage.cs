@@ -17,7 +17,16 @@ namespace Melia.Zone.World.Storage
 	/// </summary>
 	public class PersonalStorage : Storage
 	{
+		/// <summary>
+		/// Character that owns this storage.
+		/// </summary>
 		public Character Owner { get; private set; }
+
+		/// <summary>
+		/// Whether the owner is currently
+		/// browsing this storage.
+		/// </summary>
+		public bool IsBrowsing { get; private set; }
 
 		/// <summary>
 		/// Constructor.
@@ -26,6 +35,28 @@ namespace Melia.Zone.World.Storage
 		public PersonalStorage(Character owner) : base()
 		{
 			this.Owner = owner;
+		}
+
+		/// <summary>
+		/// Opens storage for the owner
+		/// </summary>
+		/// <returns></returns>
+		public override StorageResult Open()
+		{
+			this.IsBrowsing = true;
+			Send.ZC_CUSTOM_DIALOG(this.Owner, "warehouse", "");
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Closes storage for the owner
+		/// </summary>
+		/// <returns></returns>
+		public override StorageResult Close()
+		{
+			this.IsBrowsing = false;
+			Send.ZC_DIALOG_CLOSE(this.Owner.Connection);
+			return StorageResult.Success;
 		}
 
 		/// <summary>
@@ -47,7 +78,7 @@ namespace Melia.Zone.World.Storage
 			var existingStorageItems = new SortedList<int, Item>();
 			if (itemToStore.IsStackable)
 			{
-				this.TryFindStackableItems(itemToStore, out existingStorageItems);
+				this.TryGetStackableItems(itemToStore, out existingStorageItems);
 
 				// No existing items to stack to and no free positions
 				if ((existingStorageItems.Count == 0) && this.CheckStorageFull())
@@ -65,7 +96,7 @@ namespace Melia.Zone.World.Storage
 
 						itemToStore.Amount = Math.Min(itemToStore.Amount, stackAvailableAmount);
 					}
-					if (!Feature.IsEnabled("StorageMultiStack"))
+					if (!ZoneServer.Instance.Conf.World.StorageMultiStack)
 					{
 						// Multistacking is not enabled, we can only store to already existing stacks
 						if (stackAvailableAmount == 0)
@@ -101,7 +132,7 @@ namespace Melia.Zone.World.Storage
 						Send.ZC_ITEM_ADD(this.Owner, existingStorageItem.Value, existingStorageItem.Key, stackedAmount, InventoryAddType.New, InventoryType.Warehouse);
 					}
 				}
-				if ((itemToStore.Amount - addedAmount) == 0)
+				if ((itemToStore.Amount - addedAmount) <= 0)
 				{
 					return StorageResult.Success;
 				}

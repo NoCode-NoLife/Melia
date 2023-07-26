@@ -80,9 +80,6 @@
 		{ name: "ClericHealPartySelect", enabled: true },
 	]},
 	
-	// Enables storages to have multiple stacks of same item type
-	{ name: "StorageMultiStack", enabled: true },
-	
 ]},
 
 // Let's disable certain features for now to hide things that aren't

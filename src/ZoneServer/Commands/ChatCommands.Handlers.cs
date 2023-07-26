@@ -1549,9 +1549,9 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandlePersonalStorage(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (!target.IsBrowsingPersonalStorage)
+			if (!target.PersonalStorage.IsBrowsing)
 			{
-				target.OpenPersonalStorage();
+				target.PersonalStorage.Open();
 				sender.ServerMessage("Opened personal storage.");
 				if (sender != target)
 					target.ServerMessage("Your personal storage was opened by {0}", sender.TeamName);

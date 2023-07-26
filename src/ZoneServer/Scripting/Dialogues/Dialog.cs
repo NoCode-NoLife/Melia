@@ -500,7 +500,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task OpenPersonalStorage()
 		{
-			this.Player.OpenPersonalStorage();
+			this.Player.PersonalStorage.Open();
 			await this.GetClientResponse();
 		}
 

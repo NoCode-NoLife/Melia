@@ -153,12 +153,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsSitting { get; set; }
 
 		/// <summary>
-		/// Gets or sets whether the character is currently
-		/// browsing personal storage
-		/// </summary>
-		public bool IsBrowsingPersonalStorage { get; set; }
-
-		/// <summary>
 		/// Returns the characters's storage component
 		/// </summary>
 		public PersonalStorage PersonalStorage { get; }
@@ -1243,26 +1237,6 @@ namespace Melia.Zone.World.Actors.Characters
 			this.SitStatusChanged?.Invoke(this);
 
 			Send.ZC_REST_SIT(this);
-		}
-
-		/// <summary>
-		/// Opens the character's personal storage
-		/// </summary>
-		public void OpenPersonalStorage()
-		{
-			this.IsBrowsingPersonalStorage = true;
-
-			// Third parameter is some lua func in client, unknown purpose.
-			Send.ZC_CUSTOM_DIALOG(this, "warehouse", "");
-		}
-
-		/// <summary>
-		/// Closes the character's personal storage
-		/// </summary>
-		public void ClosePersonalStorage()
-		{
-			this.IsBrowsingPersonalStorage = false;
-			Send.ZC_DIALOG_CLOSE(this.Connection);
 		}
 
 		/// <summary>
