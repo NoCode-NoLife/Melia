@@ -1,8 +1,9 @@
-@import "_checkbox-radio-switch.css";
-@import "_progress.css";
-@import "_scrollbars.css";
-@import "_table.css";
-@import "_disable_caret.css";
+@import '_checkbox-radio-switch.css';
+@import '_progress.css';
+@import '_scrollbars.css';
+@import '_table.css';
+@import '_disable_caret.css';
+@import '_home_page.css';
 
 @tailwind base;
 @tailwind components;

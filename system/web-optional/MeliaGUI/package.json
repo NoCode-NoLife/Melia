@@ -25,6 +25,7 @@
     "dependencies": {
         "@heroicons/vue": "^2.0.18",
         "@mdi/js": "^7.2.96",
+        "aos": "^2.3.4",
         "chart.js": "^4.3.0",
         "numeral": "^2.0.6",
         "postcss-import": "^15.1.0",
