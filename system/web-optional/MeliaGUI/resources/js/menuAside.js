@@ -4,38 +4,45 @@ import {
   mdiGithub,
   mdiViewDashboard,
   mdiCogs,
-} from "@mdi/js";
+  mdiArchive,
+} from '@mdi/js'
 
 export default [
   {
-    href: "/admin/dashboard",
+    href: '/admin/dashboard',
     icon: mdiMonitor,
-    label: "Administration",
+    label: 'Administration',
     admin: true,
   },
   {
-    href: "/admin/configs",
+    href: '/admin/configs',
     icon: mdiCogs,
-    label: "Configs",
+    label: 'Configs',
     admin: true,
   },
   {
-    href: "/dashboard",
+    href: '/admin/inventory/manager',
+    icon: mdiArchive,
+    label: 'Inventory',
+    admin: true,
+  },
+  {
+    href: '/dashboard',
     icon: mdiViewDashboard,
-    label: "Dashboard",
+    label: 'Dashboard',
     admin: false,
   },
   {
-    href: "/profile",
-    label: "Profile",
+    href: '/profile',
+    label: 'Profile',
     icon: mdiAccountCircle,
     admin: false,
   },
   {
-    href: "https://github.com/NoCode-NoLife/melia",
-    label: "GitHub",
+    href: 'https://github.com/NoCode-NoLife/melia',
+    label: 'GitHub',
     icon: mdiGithub,
-    target: "_blank",
+    target: '_blank',
     admin: false,
   },
-];
+]

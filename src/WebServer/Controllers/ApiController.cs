@@ -72,6 +72,16 @@ namespace Melia.Web.Controllers
 			this.SendText("application/json", JsonConvert.SerializeObject(list));
 		}
 
+
+		/// <summary>
+		/// Gets the information if the web server is online
+		/// </summary>
+		[Route(HttpVerbs.Get, "/info/server")]
+		public void GetServerIsOnline()
+		{
+			this.SendText("text/json", "{ \"status\": \"Web server is Online.\" }");
+		}
+
 		/// <summary>
 		/// Kick all players from the server
 		/// </summary>

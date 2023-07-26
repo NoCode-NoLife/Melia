@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ConfigsController;
 use App\Http\Controllers\BackupController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -59,6 +59,12 @@ Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
 
     Route::post('/admin/create/zone', [AdminDashboardController::class, 'createNewZone'])
         ->name('admin.create.zone.server');
+
+    Route::get('/admin/inventory/manager', [InventoryController::class, 'get'])
+        ->name('admin.inventory.manager');
+
+    Route::post('/admin/inventory/manager', [InventoryController::class, 'search'])
+        ->name('admin.inventory.manager.search');
 });
 
 Route::middleware('auth')->group(function () {

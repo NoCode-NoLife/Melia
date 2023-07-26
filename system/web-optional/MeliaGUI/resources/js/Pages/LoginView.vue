@@ -8,8 +8,7 @@ import FormControl from '@/components/FormControl.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import LayoutGuest from '@/layouts/LayoutGuest.vue'
 import InputError from '@/Components/InputError.vue'
-import { useForm, Link } from '@inertiajs/vue3'
-import { Head } from '@inertiajs/vue3'
+import { Head, useForm, Link } from '@inertiajs/vue3'
 
 defineProps({
   canResetPassword: {

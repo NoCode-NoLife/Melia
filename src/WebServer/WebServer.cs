@@ -148,6 +148,8 @@ namespace Melia.Web
 					var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
 					File.Copy(productionIniFilePath, iniFilePath);
 
+					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
+
 					Log.Info("PHP extraction complete, enabling extensions...");
 
 					this.EnablPhpExtesion(iniFilePath, "extension=fileinfo");
@@ -155,7 +157,7 @@ namespace Melia.Web
 					this.EnablPhpExtesion(iniFilePath, "extension=mysqli");
 					this.EnablPhpExtesion(iniFilePath, "extension=pdo_mysql");
 
-					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
+					Log.Info("Successfully enabled PHP extensions.");
 				}
 				catch (Exception)
 				{
