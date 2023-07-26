@@ -14,6 +14,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -160,7 +161,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the characters's storage component
 		/// </summary>
-		public PersonalStorageComponent PersonalStorage { get; }
+		public PersonalStorage PersonalStorage { get; }
 
 		/// <summary>
 		/// The character's inventory.
@@ -334,7 +335,6 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		public Character() : base()
 		{
-			this.Components.Add(this.PersonalStorage = new PersonalStorageComponent(this));
 			this.Components.Add(this.Inventory = new InventoryComponent(this));
 			this.Components.Add(this.Jobs = new JobComponent(this));
 			this.Components.Add(this.Skills = new SkillComponent(this));
@@ -348,6 +348,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
+			this.PersonalStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}

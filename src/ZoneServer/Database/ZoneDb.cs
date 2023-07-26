@@ -692,12 +692,6 @@ namespace Melia.Zone.Database
 				{
 					var newId = 0L;
 
-					// Save the actual items into the items table and the
-					// storage-items into the storage table,
-					// while linking to the items.
-					// TODO: Add generic item load and save methods, for
-					//   other item collections to use, such as warehouse.
-
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
 						cmd.Set("itemId", storageItem.Value.Id);
