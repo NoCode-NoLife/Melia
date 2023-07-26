@@ -12,6 +12,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
+using Yggdrasil.Network.Communication.Messages;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 
@@ -157,10 +158,31 @@ namespace Melia.Barracks
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
 				}
+				case RequestMessage requestMessage:
+				{
+					this.Communicator_OnRequestReceived(sender, requestMessage);
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Called when a request message was received.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="requestMessage"></param>
+		private void Communicator_OnRequestReceived(string sender, RequestMessage requestMessage)
+		{
+			switch (requestMessage.Message)
+			{
 				case ReqPlayerCountMessage reqPlayerCountMessage:
 				{
 					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
-					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
+
+					var message = new ResPlayerCountMessage(playerCount);
+					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+
+					this.Communicator.Send(sender, responseMessage);
 					break;
 				}
 			}
