@@ -108,7 +108,7 @@ namespace Melia.Social.Database
 				newUser.Name = account.Name;
 				newUser.TeamName = account.TeamName;
 
-				using (var cmd = new InsertCommand("INSERT INTO `social_users` {0}", conn))
+				using (var cmd = new InsertCommand("INSERT IGNORE INTO `social_users` {0}", conn))
 				{
 					cmd.Set("userId", newUser.Id);
 					cmd.Set("accountId", newUser.AccountId);
