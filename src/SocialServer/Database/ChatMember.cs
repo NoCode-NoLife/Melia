@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Represents a member of a chat room.
 	/// </summary>
-	public class ChatRoomMember
+	public class ChatMember
 	{
 		/// <summary>
 		/// Returns the chat room's globally unique id.
@@ -26,7 +26,7 @@
 		/// <param name="chatRoomId"></param>
 		/// <param name="accountId"></param>
 		/// <param name="teamName"></param>
-		public ChatRoomMember(long chatRoomId, long accountId, string teamName)
+		public ChatMember(long chatRoomId, long accountId, string teamName)
 		{
 			this.ChatRoomId = chatRoomId;
 			this.AccountId = accountId;

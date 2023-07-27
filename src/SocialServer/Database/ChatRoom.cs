@@ -8,7 +8,7 @@ namespace Melia.Social.Database
 	/// </summary>
 	public class ChatRoom
 	{
-		public readonly List<ChatRoomMember> _members = new List<ChatRoomMember>();
+		public readonly List<ChatMember> _members = new List<ChatMember>();
 		public readonly List<ChatMessage> _messages = new List<ChatMessage>();
 
 		/// <summary>
@@ -60,7 +60,7 @@ namespace Melia.Social.Database
 		/// Returns list of all members in the chat room.
 		/// </summary>
 		/// <returns></returns>
-		public ChatRoomMember[] GetMembers()
+		public ChatMember[] GetMembers()
 		{
 			lock (_members)
 				return _members.ToArray();
@@ -85,7 +85,7 @@ namespace Melia.Social.Database
 		/// </remarks>
 		/// <param name="member"></param>
 		public void AddMember(Account account)
-			=> this.AddMember(new ChatRoomMember(this.Id, account.Id, account.TeamName));
+			=> this.AddMember(new ChatMember(this.Id, account.Id, account.TeamName));
 
 		/// <summary>
 		/// Add a member to the chat room.
@@ -95,7 +95,7 @@ namespace Melia.Social.Database
 		/// creator if no creator was set yet.
 		/// </remarks>
 		/// <param name="member"></param>
-		public void AddMember(ChatRoomMember member)
+		public void AddMember(ChatMember member)
 		{
 			lock (_members)
 				_members.Add(member);
