@@ -62,5 +62,17 @@ namespace Melia.Social.World
 		{
 			this.Friends = new FriendsList(this);
 		}
+
+		/// <summary>
+		/// Returns the active connection of the user via out. Returns
+		/// false if no player is connected.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <returns></returns>
+		public bool TryGetConnection(out ISocialConnection conn)
+		{
+			conn = this.Connection;
+			return conn != null;
+		}
 	}
 }

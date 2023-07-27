@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
+using Melia.Social.Network;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Social.World
@@ -28,13 +30,15 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Adds friend to account object.
+		/// Adds friend to user's friends list.
 		/// </summary>
 		/// <param name="friend"></param>
 		public void Add(Friend friend)
 		{
 			lock (_friends)
 				_friends.Add(friend);
+
+			SocialServer.Instance.Database.CreateFriend(this.User.Id, friend);
 		}
 
 		/// <summary>
@@ -102,6 +106,36 @@ namespace Melia.Social.World
 		{
 			lock (_friends)
 				return _friends.Where(a => a.State == state).ToArray();
+		}
+
+		/// <summary>
+		/// Updates the friend's state.
+		/// </summary>
+		/// <param name="friend"></param>
+		/// <param name="state"></param>
+		public void UpdateFriend(Friend friend, FriendState state)
+		{
+			friend.State = state;
+			SocialServer.Instance.Database.SaveFriend(friend);
+		}
+
+		/// <summary>
+		/// Blocks the given user.
+		/// </summary>
+		/// <param name="userToBlock"></param>
+		/// <param name="friend"></param>
+		public void BlockUser(SocialUser userToBlock, out Friend friend)
+		{
+			if (!this.TryGet(userToBlock.Id, out friend))
+			{
+				this.Add(friend = new Friend(userToBlock, FriendState.Blocked));
+				SocialServer.Instance.Database.CreateFriend(this.User.Id, friend);
+			}
+			else
+			{
+				this.UpdateFriend(friend, FriendState.Blocked);
+				SocialServer.Instance.Database.SaveFriend(friend);
+			}
 		}
 
 		/// <summary>
