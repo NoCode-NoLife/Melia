@@ -20,9 +20,15 @@ namespace Melia.Social.World
 		public Account Account { get; }
 
 		/// <summary>
+		/// Returns the information about the character the user is logged
+		/// in as, if any.
+		/// </summary>
+		public Character Character { get; } = new Character();
+
+		/// <summary>
 		/// Returns the id of the user's account.
 		/// </summary>
-		public long Id => this.Account?.Id ?? 0;
+		public long Id { get; set; }
 
 		/// <summary>
 		/// Returns the name of the user's account.
@@ -30,10 +36,9 @@ namespace Melia.Social.World
 		public string Name => this.Account?.Name ?? "";
 
 		/// <summary>
-		/// Returns the id of the character the user is currently logged
-		/// in as.
+		/// Returns the user's team name.
 		/// </summary>
-		public long CharacterId => this.Account?.CharacterId ?? 0;
+		public string TeamName { get; set; }
 
 		/// <summary>
 		/// Returns the user's friends list.

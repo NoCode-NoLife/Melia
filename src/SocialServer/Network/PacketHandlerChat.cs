@@ -78,7 +78,7 @@ namespace Melia.Social.Network
 			var user = conn.User;
 			var account = user.Account;
 
-			if (!userManager.TryGetAccount(teamName, out var otherAccount))
+			if (!userManager.TryGet(teamName, out var otherUser))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
 				return;
@@ -86,7 +86,7 @@ namespace Melia.Social.Network
 
 			// First up, check if the other account is already in the user's
 			// friends list
-			if (user.Friends.TryGet(otherAccount.Id, out var friend))
+			if (user.Friends.TryGet(otherUser.Id, out var friend))
 			{
 				if (friend.State == FriendState.SentRequest)
 					Send.SC_NORMAL.SystemMessage(conn, "AlreadyRequestFriend", 1, 0);
@@ -96,17 +96,17 @@ namespace Melia.Social.Network
 			}
 
 			// If they aren't, we'll add them
-			friend = new Friend(otherAccount, FriendState.SentRequest);
+			friend = new Friend(otherUser, FriendState.SentRequest);
 			user.Friends.Add(friend);
 			SocialServer.Instance.Database.CreateFriend(account.Id, friend);
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
-			Send.SC_NORMAL.FriendRequested(conn, friend.AccountId);
+			Send.SC_NORMAL.FriendRequested(conn, friend.User.Id);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 
 			// Next, we check the other account's friends list
-			var otherFriends = SocialServer.Instance.Database.GetFriends(otherAccount.Id);
-			var otherFriend = otherFriends.FirstOrDefault(f => f.AccountId == account.Id);
+			var otherFriends = SocialServer.Instance.Database.GetFriends(otherUser.Id);
+			var otherFriend = otherFriends.FirstOrDefault(f => f.User.Id == account.Id);
 
 			// If the user is on their list already, we can stop here.
 			// They might have been blocked for example, in which case
@@ -116,12 +116,12 @@ namespace Melia.Social.Network
 
 			// If the other account doesn't have the user on their list
 			// yet either, we'll add them
-			otherFriend = new Friend(account, FriendState.ReceivedRequest);
-			SocialServer.Instance.Database.CreateFriend(otherAccount.Id, otherFriend);
+			otherFriend = new Friend(user, FriendState.ReceivedRequest);
+			SocialServer.Instance.Database.CreateFriend(otherUser.Id, otherFriend);
 
 			// And finally, we'll send an update to the other user if
 			// they're online
-			if (userManager.TryGet(otherAccount.Id, out var otherUser))
+			if (otherUser.Connection != null)
 			{
 				otherUser.Friends.Add(otherFriend);
 				Send.SC_NORMAL.FriendInfo(otherUser.Connection, otherFriend);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Social.World;
 
 namespace Melia.Social.Database
 {
@@ -13,14 +14,9 @@ namespace Melia.Social.Database
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Gets or sets the users's account id.
+		/// Gets or sets the reference to the friend's user object.
 		/// </summary>
-		public long AccountId { get; set; }
-
-		/// <summary>
-		/// Gets or sets the user's team name.
-		/// </summary>
-		public string TeamName { get; set; }
+		public SocialUser User { get; set; }
 
 		/// <summary>
 		/// Get or set the friend's state.
@@ -43,11 +39,6 @@ namespace Melia.Social.Database
 		public DateTime LastLogin { get; set; }
 
 		/// <summary>
-		/// Gets or sets the character the user is currently playing.
-		/// </summary>
-		public Character Character { get; } = new Character();
-
-		/// <summary>
 		/// Creates a new, blank friend.
 		/// </summary>
 		public Friend()
@@ -59,10 +50,9 @@ namespace Melia.Social.Database
 		/// </summary>
 		/// <param name="friendAccount"></param>
 		/// <param name="state"></param>
-		public Friend(Account friendAccount, FriendState state)
+		public Friend(SocialUser user, FriendState state)
 		{
-			this.AccountId = friendAccount.Id;
-			this.TeamName = friendAccount.TeamName;
+			this.User = user;
 			this.State = state;
 		}
 	}

@@ -154,20 +154,10 @@ namespace Melia.Social.Database
 			var friend = new Friend();
 
 			friend.Id = reader.GetInt64("friendId");
-			friend.AccountId = reader.GetInt64("accountId");
-			friend.TeamName = reader.GetStringSafe("teamName");
 			friend.State = (FriendState)reader.GetByte("state");
 			friend.Group = reader.GetStringSafe("group");
 			friend.Note = reader.GetStringSafe("note");
 			friend.LastLogin = reader.GetDateTimeSafe("lastLogin");
-
-			friend.Character.Id = reader.GetInt64("characterId");
-			friend.Character.Name = reader.GetStringSafe("name");
-			friend.Character.TeamName = reader.GetStringSafe("teamName");
-			friend.Character.JobId = (JobId)reader.GetInt32("job");
-			friend.Character.Gender = (Gender)reader.GetInt32("gender");
-			friend.Character.Hair = reader.GetInt32("hair");
-			friend.Character.Level = reader.GetInt32("level");
 
 			return friend;
 		}
@@ -186,7 +176,7 @@ namespace Melia.Social.Database
 				using (var cmd = new InsertCommand("INSERT INTO `friends` {0}", conn, trans))
 				{
 					cmd.Set("accountId", accountId);
-					cmd.Set("friendAccountId", friend.AccountId);
+					cmd.Set("friendAccountId", friend.User.Id);
 					cmd.Set("state", (byte)friend.State);
 					cmd.Set("registerDate", DateTime.Now);
 

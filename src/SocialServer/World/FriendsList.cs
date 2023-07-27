@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
 
@@ -54,7 +53,7 @@ namespace Melia.Social.World
 		public bool Has(long accountId)
 		{
 			lock (_friends)
-				return _friends.Any(f => f.AccountId == accountId);
+				return _friends.Any(f => f.User.Id == accountId);
 		}
 
 		/// <summary>
@@ -64,7 +63,7 @@ namespace Melia.Social.World
 		public Friend Get(long accountId)
 		{
 			lock (_friends)
-				return _friends.FirstOrDefault(f => f.AccountId == accountId);
+				return _friends.FirstOrDefault(f => f.User.Id == accountId);
 		}
 
 		/// <summary>
@@ -78,7 +77,7 @@ namespace Melia.Social.World
 		{
 			lock (_friends)
 			{
-				friend = _friends.FirstOrDefault(f => f.AccountId == accountId);
+				friend = _friends.FirstOrDefault(f => f.User.Id == accountId);
 				return friend != null;
 			}
 		}

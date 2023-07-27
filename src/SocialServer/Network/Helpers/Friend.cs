@@ -15,19 +15,22 @@ namespace Melia.Social.Network.Helpers
 		/// <param name="friend"></param>
 		public static void AddFriend(this Packet packet, Friend friend)
 		{
+			var user = friend.User;
+			var character = user.Character;
+
 			packet.PutLong(0);
-			packet.PutLong(friend.AccountId);
-			packet.PutString(friend.TeamName, 64);
+			packet.PutLong(user.Id);
+			packet.PutString(user.TeamName, 64);
 			packet.PutString("", 56);
 			packet.PutLong(0);
-			packet.PutInt(friend.Character.Level);
-			packet.PutString(friend.Character.Name, 128);
-			packet.PutShort((short)friend.Character.Gender);
-			packet.PutInt((int)friend.Character.JobId);
+			packet.PutInt(character.Level);
+			packet.PutString(character.Name, 128);
+			packet.PutShort((short)character.Gender);
+			packet.PutInt((int)character.JobId);
 			packet.PutShort(0);
 			packet.PutInt(0);
 			packet.PutShort(1);
-			packet.PutInt(friend.Character.Hair);
+			packet.PutInt(character.Hair);
 			packet.PutEmptyBin(26);
 			packet.PutByte(0x80);
 			packet.PutByte(0x80);

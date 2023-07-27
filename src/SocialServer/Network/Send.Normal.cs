@@ -173,7 +173,7 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.FriendInfo);
 
 				packet.PutByte((byte)friend.State);
-				packet.PutLong(friend.AccountId);
+				packet.PutLong(friend.User.Id);
 				packet.PutInt(1); // count
 				packet.AddFriend(friend);
 
@@ -220,7 +220,7 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.FriendResponse);
 
 				packet.PutByte((byte)friend.State);
-				packet.PutLong(friend.AccountId);
+				packet.PutLong(friend.User.Id);
 
 				conn.Send(packet);
 			}
