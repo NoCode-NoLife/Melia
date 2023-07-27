@@ -35,13 +35,12 @@ namespace Melia.Social.Network
 			}
 
 			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
-			user.Account = account;
 			user.Connection = conn;
 
 			conn.User = user;
 			conn.LoggedIn = true;
 
-			Log.Info("User '{0}' logged in.", user.Account.Name);
+			Log.Info("User '{0}' logged in.", user.Name);
 
 			Send.SC_LOGIN_OK(conn);
 		}
@@ -86,12 +85,17 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
+				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who couldn't be found.", conn.User.Name);
+				return;
+			}
+
+			if (otherUser.Character.Id == 0)
+			{
 				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who isn't online.", conn.User.Name);
 				return;
 			}
 
-			var characterId = otherUser.Account.CharacterId;
-			var likeCount = otherUser.Account.GetLikes(characterId);
+			var likeCount = 0; // otherUser.GetLikes(otherUser.Character.Id);
 
 			Send.SC_NORMAL.LikeCount(conn, accountId, likeCount);
 		}
@@ -112,14 +116,13 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who isn't online.", conn.User.Name);
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who who couldn't be found.", conn.User.Name);
 				return;
 			}
 
-			var account = otherUser.Account;
-			account.AddLike(characterId);
+			//otherUser.AddLike(characterId);
 
-			Send.SC_NORMAL.LikeSuccess(conn, account.Id, account.TeamName);
+			Send.SC_NORMAL.LikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}
 
 		/// <summary>
@@ -137,14 +140,13 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who isn't online.", conn.User.Name);
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who couldn't be found.", conn.User.Name);
 				return;
 			}
 
-			var account = otherUser.Account;
-			account.RemoveLike(characterId);
+			//account.RemoveLike(characterId);
 
-			Send.SC_NORMAL.UnlikeSuccess(conn, account.Id, account.TeamName);
+			Send.SC_NORMAL.UnlikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}
 	}
 }

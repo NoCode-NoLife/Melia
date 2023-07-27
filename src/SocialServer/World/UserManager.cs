@@ -100,31 +100,9 @@ namespace Melia.Social.World
 		{
 			lock (_users)
 			{
-				user = _users.Values.FirstOrDefault(a => a.Account.TeamName == teamName);
+				user = _users.Values.FirstOrDefault(a => a.TeamName == teamName);
 				return user != null;
 			}
-		}
-
-		/// <summary>
-		/// Returns the account with the given id via out, either by getting
-		/// the accout from a logged in user or the database. Returns false
-		/// if the account doesn't exist.
-		/// </summary>
-		/// <param name="teamName"></param>
-		/// <param name="account"></param>
-		/// <returns></returns>
-		public bool TryGetAccount(string teamName, out Account account)
-		{
-			if (this.TryGet(teamName, out var user))
-			{
-				account = user.Account;
-				return true;
-			}
-
-			if (SocialServer.Instance.Database.TryGetAccount(teamName, out account))
-				return true;
-
-			return false;
 		}
 
 		/// <summary>

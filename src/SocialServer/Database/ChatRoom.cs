@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.Network;
+using Melia.Social.World;
 
 namespace Melia.Social.Database
 {
@@ -84,8 +85,8 @@ namespace Melia.Social.Database
 		/// creator if no creator was set yet.
 		/// </remarks>
 		/// <param name="member"></param>
-		public void AddMember(Account account)
-			=> this.AddMember(new ChatMember(this.Id, account.Id, account.TeamName));
+		public void AddMember(SocialUser user)
+			=> this.AddMember(new ChatMember(this.Id, user.Id, user.TeamName));
 
 		/// <summary>
 		/// Add a member to the chat room.

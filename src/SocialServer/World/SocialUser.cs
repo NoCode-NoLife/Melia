@@ -1,5 +1,4 @@
-﻿using System;
-using Melia.Social.Database;
+﻿using Melia.Social.Database;
 using Melia.Social.Network;
 
 namespace Melia.Social.World
@@ -15,11 +14,6 @@ namespace Melia.Social.World
 		public ISocialConnection Connection { get; set; }
 
 		/// <summary>
-		/// Returns the user's account.
-		/// </summary>
-		public Account Account { get; set; }
-
-		/// <summary>
 		/// Returns the information about the character the user is logged
 		/// in as, if any.
 		/// </summary>
@@ -31,9 +25,18 @@ namespace Melia.Social.World
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Returns the name of the user's account.
+		/// Returns the id of the user's account id.
 		/// </summary>
-		public string Name => this.Account?.Name ?? "";
+		/// <remarks>
+		/// This is current the same as the user's id, but this might
+		/// change in the future.
+		/// </remarks>
+		public long AccountId { get; set; }
+
+		/// <summary>
+		/// Get or sets the name of the user's account.
+		/// </summary>
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Returns the user's team name.

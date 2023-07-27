@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Social.World;
 
 namespace Melia.Social.Database
 {
@@ -32,7 +33,7 @@ namespace Melia.Social.Database
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="message"></param>
-		public ChatMessage(Account sender, string message)
+		public ChatMessage(SocialUser sender, string message)
 		{
 			this.SenderAccountId = sender.Id;
 			this.SenderTeamName = sender.TeamName;

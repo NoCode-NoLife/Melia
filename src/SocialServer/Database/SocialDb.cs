@@ -93,6 +93,8 @@ namespace Melia.Social.Database
 							var user = new SocialUser();
 
 							user.Id = reader.GetInt64("userId");
+							user.AccountId = reader.GetInt64("accountId");
+							user.Name = reader.GetStringSafe("accountName");
 							user.TeamName = reader.GetStringSafe("teamName");
 
 							return user;
@@ -102,14 +104,18 @@ namespace Melia.Social.Database
 
 				var newUser = new SocialUser();
 				newUser.Id = account.Id;
+				newUser.AccountId = account.Id;
+				newUser.Name = account.Name;
 				newUser.TeamName = account.TeamName;
 
-				using (var cmd = new MySqlCommand("INSERT INTO `social_users` (`userId`, `teamName`) VALUES (@userId, @teamName)", conn))
+				using (var cmd = new InsertCommand("INSERT INTO `social_users` {0}", conn))
 				{
-					cmd.Parameters.AddWithValue("@userId", newUser.Id);
-					cmd.Parameters.AddWithValue("@teamName", newUser.TeamName);
+					cmd.Set("userId", newUser.Id);
+					cmd.Set("accountId", newUser.AccountId);
+					cmd.Set("accountName", newUser.Name);
+					cmd.Set("teamName", newUser.TeamName);
 
-					cmd.ExecuteNonQuery();
+					cmd.Execute();
 				}
 
 				return newUser;
@@ -134,6 +140,8 @@ namespace Melia.Social.Database
 						var user = new SocialUser();
 
 						user.Id = reader.GetInt64("userId");
+						user.AccountId = reader.GetInt64("accountId");
+						user.Name = reader.GetStringSafe("accountName");
 						user.TeamName = reader.GetStringSafe("teamName");
 
 						users.Add(user);

@@ -36,13 +36,12 @@ namespace Melia.Social.Network
 			}
 
 			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
-			user.Account = account;
 			user.Connection = conn;
 
 			conn.User = user;
 			conn.LoggedIn = true;
 
-			Log.Info("User '{0}' logged in.", user.Account.Name);
+			Log.Info("User '{0}' logged in.", user.Name);
 
 			Send.SC_NORMAL.EnableChat(conn);
 			Send.SC_LOGIN_OK(conn);
@@ -75,7 +74,6 @@ namespace Melia.Social.Network
 
 			var userManager = SocialServer.Instance.UserManager;
 			var user = conn.User;
-			var account = user.Account;
 
 			if (!userManager.TryGet(teamName, out var otherUser))
 			{
@@ -97,7 +95,7 @@ namespace Melia.Social.Network
 			// If they aren't, we'll add them
 			friend = new Friend(otherUser, FriendState.SentRequest);
 			user.Friends.Add(friend);
-			SocialServer.Instance.Database.CreateFriend(account.Id, friend);
+			SocialServer.Instance.Database.CreateFriend(user.Id, friend);
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
 			Send.SC_NORMAL.FriendRequested(conn, friend.User.Id);
@@ -105,7 +103,7 @@ namespace Melia.Social.Network
 
 			// Next, we check the other account's friends list
 			var otherFriends = SocialServer.Instance.Database.GetFriends(otherUser.Id);
-			var otherFriend = otherFriends.FirstOrDefault(f => f.User.Id == account.Id);
+			var otherFriend = otherFriends.FirstOrDefault(f => f.User.Id == user.Id);
 
 			// If the user is on their list already, we can stop here.
 			// They might have been blocked for example, in which case
@@ -154,7 +152,7 @@ namespace Melia.Social.Network
 				friend = new Friend(otherUser, FriendState.Blocked);
 
 				user.Friends.Add(friend);
-				SocialServer.Instance.Database.CreateFriend(user.Account.Id, friend);
+				SocialServer.Instance.Database.CreateFriend(user.Id, friend);
 			}
 			else
 			{
@@ -285,8 +283,8 @@ namespace Melia.Social.Network
 		{
 			var user = conn.User;
 
-			foreach (var chatRoom in user.Account.GetChatRooms())
-				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+			//foreach (var chatRoom in user.Account.GetChatRooms())
+			//	Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
 		}
 
 		/// <summary>
@@ -335,11 +333,11 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			conn.User.Account.RemoveChatRoom(chatId);
-			chatRoom.RemoveMember(conn.User.Id);
+			//conn.User.Account.RemoveChatRoom(chatId);
+			//chatRoom.RemoveMember(conn.User.Id);
 
-			if (chatRoom.MemberCount == 0)
-				SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
+			//if (chatRoom.MemberCount == 0)
+			//	SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
 		}
 
 		/// <summary>
