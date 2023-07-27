@@ -5,7 +5,6 @@ using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;
 using Melia.Social.World;
-using Yggdrasil.Collections;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
@@ -69,11 +68,22 @@ namespace Melia.Social
 			this.LoadServerList(this.Data.ServerDb, ServerType.Social, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.LoadPacketHandler();
+			this.LoadManagers();
 
 			this.StartAcceptors();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Loads and initializes the server's managers.
+		/// </summary>
+		private void LoadManagers()
+		{
+			Log.Info("Loading information from the database...");
+
+			this.UserManager.LoadUsers();
 		}
 
 		/// <summary>

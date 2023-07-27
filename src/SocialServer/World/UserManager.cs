@@ -12,6 +12,20 @@ namespace Melia.Social.World
 		private readonly Dictionary<long, SocialUser> _users = new Dictionary<long, SocialUser>();
 
 		/// <summary>
+		/// Loads existing users from the database.
+		/// </summary>
+		public void LoadUsers()
+		{
+			var users = SocialServer.Instance.Database.GetAllUsers();
+
+			lock (_users)
+			{
+				foreach (var user in users)
+					_users[user.Account.Id] = user;
+			}
+		}
+
+		/// <summary>
 		/// Adds a user.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -42,6 +56,8 @@ namespace Melia.Social.World
 			if (!this.TryGet(account.Id, out var user))
 			{
 				user = SocialServer.Instance.Database.GetOrCreateUser(account);
+				user.Friends.LoadFromDb();
+
 				this.Add(user);
 			}
 

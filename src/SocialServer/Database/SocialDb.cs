@@ -117,6 +117,37 @@ namespace Melia.Social.Database
 		}
 
 		/// <summary>
+		/// Returns a list with all users from the database.
+		/// </summary>
+		/// <returns></returns>
+		public List<SocialUser> GetAllUsers()
+		{
+			var users = new List<SocialUser>();
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `social_users`", conn))
+			{
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var user = new SocialUser();
+
+						user.Id = reader.GetInt64("userId");
+						user.TeamName = reader.GetStringSafe("teamName");
+
+						users.Add(user);
+					}
+				}
+			}
+
+			foreach (var user in users)
+				user.Friends.LoadFromDb();
+
+			return users;
+		}
+
+		/// <summary>
 		/// Returns friends with a given account id.
 		/// </summary>
 		/// <param name="accountId"></param>
