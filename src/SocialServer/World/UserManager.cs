@@ -53,15 +53,18 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public SocialUser GetOrCreateUser(Account account)
 		{
-			if (!this.TryGet(account.Id, out var user))
+			lock (_users)
 			{
-				user = SocialServer.Instance.Database.GetOrCreateUser(account);
-				user.Friends.LoadFromDb();
+				if (!_users.TryGetValue(account.Id, out var user))
+				{
+					user = SocialServer.Instance.Database.GetOrCreateUser(account);
+					user.Friends.LoadFromDb();
 
-				this.Add(user);
+					_users[user.Id] = user;
+				}
+
+				return user;
 			}
-
-			return user;
 		}
 
 		/// <summary>
