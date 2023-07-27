@@ -10,9 +10,9 @@ namespace Melia.Social.World
 	public class SocialUser
 	{
 		/// <summary>
-		/// Returns the user's connection.
+		/// Gets or sets the user's connection if a player is connected.
 		/// </summary>
-		public ISocialConnection Connection { get; }
+		public ISocialConnection Connection { get; set; }
 
 		/// <summary>
 		/// Returns the user's account.
@@ -49,13 +49,8 @@ namespace Melia.Social.World
 		/// Creates new social user instance for the given connection
 		/// and account.
 		/// </summary>
-		/// <param name="connection"></param>
-		/// <param name="account"></param>
-		public SocialUser(ISocialConnection connection, Account account)
+		public SocialUser()
 		{
-			this.Connection = connection;
-			this.Account = account;
-
 			this.Friends = new FriendsList(this);
 		}
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
+using Melia.Social.World;
 using MySql.Data.MySqlClient;
 
 namespace Melia.Social.Database
@@ -68,6 +69,50 @@ namespace Melia.Social.Database
 
 					return account;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Gets the user for the account from the database. If it doesn't
+		/// exist yet, it's created based on the account information.
+		/// </summary>
+		/// <param name="account"></param>
+		/// <returns></returns>
+		public SocialUser GetOrCreateUser(Account account)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new MySqlCommand("SELECT * FROM `social_users` WHERE `userId` = @userId", conn))
+				{
+					cmd.Parameters.AddWithValue("@accountId", account.Id);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						if (reader.Read())
+						{
+							var user = new SocialUser();
+
+							user.Id = reader.GetInt64("userId");
+							user.TeamName = reader.GetStringSafe("teamName");
+
+							return user;
+						}
+					}
+				}
+
+				var newUser = new SocialUser();
+				newUser.Id = account.Id;
+				newUser.TeamName = account.TeamName;
+
+				using (var cmd = new MySqlCommand("INSERT INTO `social_users` (`userId`, `teamName`) VALUES (@userId, @teamName)", conn))
+				{
+					cmd.Parameters.AddWithValue("@userId", newUser.Id);
+					cmd.Parameters.AddWithValue("@teamName", newUser.TeamName);
+
+					cmd.ExecuteNonQuery();
+				}
+
+				return newUser;
 			}
 		}
 

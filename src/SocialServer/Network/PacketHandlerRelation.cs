@@ -34,13 +34,11 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var user = new SocialUser(conn, account);
-			user.Friends.LoadFromDb();
+			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
+			user.Connection = conn;
 
 			conn.User = user;
 			conn.LoggedIn = true;
-
-			SocialServer.Instance.UserManager.Add(user);
 
 			Log.Info("User '{0}' logged in.", user.Account.Name);
 

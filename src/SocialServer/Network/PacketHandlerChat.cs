@@ -35,13 +35,11 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var user = new SocialUser(conn, account);
-			user.Friends.LoadFromDb();
+			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
+			user.Connection = conn;
 
 			conn.User = user;
 			conn.LoggedIn = true;
-
-			SocialServer.Instance.UserManager.Add(user);
 
 			Log.Info("User '{0}' logged in.", user.Account.Name);
 
@@ -141,7 +139,7 @@ namespace Melia.Social.Network
 			var userManager = SocialServer.Instance.UserManager;
 			var user = conn.User;
 
-			if (!userManager.TryGetAccount(teamName, out var otherAccount))
+			if (!userManager.TryGet(teamName, out var otherUser))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
 				return;
@@ -150,9 +148,9 @@ namespace Melia.Social.Network
 			// If the user doesn't have the other account on their friends
 			// list yet, we'll add them with a blocked state. Otherwise
 			// we update the state.
-			if (!user.Friends.TryGet(otherAccount.Id, out var friend))
+			if (!user.Friends.TryGet(otherUser.Id, out var friend))
 			{
-				friend = new Friend(otherAccount, FriendState.Blocked);
+				friend = new Friend(otherUser, FriendState.Blocked);
 
 				user.Friends.Add(friend);
 				SocialServer.Instance.Database.CreateFriend(user.Account.Id, friend);
@@ -163,7 +161,7 @@ namespace Melia.Social.Network
 				SocialServer.Instance.Database.SaveFriend(friend);
 			}
 
-			Send.SC_NORMAL.FriendBlocked(conn, otherAccount.Id);
+			Send.SC_NORMAL.FriendBlocked(conn, otherUser.Id);
 			Send.SC_NORMAL.FriendInfo(conn, friend);
 		}
 
