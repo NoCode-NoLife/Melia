@@ -84,7 +84,7 @@ namespace Melia.Social.Database
 			{
 				using (var cmd = new MySqlCommand("SELECT * FROM `social_users` WHERE `userId` = @userId", conn))
 				{
-					cmd.Parameters.AddWithValue("@accountId", account.Id);
+					cmd.Parameters.AddWithValue("@userId", account.Id);
 
 					using (var reader = cmd.ExecuteReader())
 					{
@@ -150,9 +150,9 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Returns friends with a given account id.
 		/// </summary>
-		/// <param name="accountId"></param>
+		/// <param name="userId"></param>
 		/// <returns></returns>
-		public List<Friend> GetFriends(long accountId)
+		public List<Friend> GetFriends(long userId)
 		{
 			var friends = new List<Friend>();
 
@@ -161,13 +161,13 @@ namespace Melia.Social.Database
 				var query = @"
 					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`
 					FROM `friends` AS `f`
-					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
-					WHERE f.`accountId` = @accountId
+					LEFT JOIN `accounts` AS a ON f.`friendUserId` = a.`accountId`
+					WHERE f.`userId` = @userId
 				";
 
 				using (var mc = new MySqlCommand(query, conn))
 				{
-					mc.Parameters.AddWithValue("@accountId", accountId);
+					mc.Parameters.AddWithValue("@userId", userId);
 
 					using (var reader = mc.ExecuteReader())
 					{
@@ -186,24 +186,24 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Returns friend with a given account ids.
 		/// </summary>
-		/// <param name="accountId"></param>
-		/// <param name="friendAccountId"></param>
+		/// <param name="userId"></param>
+		/// <param name="friendUserId"></param>
 		/// <returns></returns>
-		public Friend GetFriend(long accountId, long friendAccountId)
+		public Friend GetFriend(long userId, long friendUserId)
 		{
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`userId`, a.`lastLogin`, a.`teamName`
 					FROM `friends` AS `f`
-					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
-					WHERE f.`accountId` = @accountId AND f.`friendAccountId` = @friendAccountId
+					LEFT JOIN `accounts` AS a ON f.`friendUserId` = a.`userId`
+					WHERE f.`userId` = @userId AND f.`friendUserId` = @friendUserId
 				";
 
 				using (var mc = new MySqlCommand(query, conn))
 				{
-					mc.Parameters.AddWithValue("@accountId", accountId);
-					mc.Parameters.AddWithValue("@friendAccountId", friendAccountId);
+					mc.Parameters.AddWithValue("@userId", userId);
+					mc.Parameters.AddWithValue("@friendUserId", friendUserId);
 
 					using (var reader = mc.ExecuteReader())
 					{
@@ -237,18 +237,18 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Inserts friend in database.
 		/// </summary>
-		/// <param name="accountId"></param>
+		/// <param name="userId"></param>
 		/// <param name="friend"></param>
 		/// <returns></returns>
-		public void CreateFriend(long accountId, Friend friend)
+		public void CreateFriend(long userId, Friend friend)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
 				using (var cmd = new InsertCommand("INSERT INTO `friends` {0}", conn, trans))
 				{
-					cmd.Set("accountId", accountId);
-					cmd.Set("friendAccountId", friend.User.Id);
+					cmd.Set("userId", userId);
+					cmd.Set("friendUserId", friend.User.Id);
 					cmd.Set("state", (byte)friend.State);
 					cmd.Set("registerDate", DateTime.Now);
 
