@@ -10,17 +10,6 @@ namespace Melia.Social.World
 	public class SocialUser
 	{
 		/// <summary>
-		/// Gets or sets the user's connection if a player is connected.
-		/// </summary>
-		public ISocialConnection Connection { get; set; }
-
-		/// <summary>
-		/// Returns the information about the character the user is logged
-		/// in as, if any.
-		/// </summary>
-		public Character Character { get; } = new Character();
-
-		/// <summary>
 		/// Returns the id of the user's globally unique id.
 		/// </summary>
 		public long Id { get; set; }
@@ -45,14 +34,25 @@ namespace Melia.Social.World
 		public string TeamName { get; set; }
 
 		/// <summary>
+		/// Returns the last time the user logged in.
+		/// </summary>
+		public DateTime LastLogin { get; set; }
+
+		/// <summary>
 		/// Returns the user's friends list.
 		/// </summary>
 		public FriendsList Friends { get; }
 
 		/// <summary>
-		/// Returns the last time the user logged in.
+		/// Gets or sets the user's connection if a player is connected.
 		/// </summary>
-		public DateTime LastLogin { get; set; }
+		public ISocialConnection Connection { get; set; }
+
+		/// <summary>
+		/// Returns the information about the character the user is logged
+		/// in as, if any.
+		/// </summary>
+		public Character Character { get; } = new Character();
 
 		/// <summary>
 		/// Creates new social user instance for the given connection

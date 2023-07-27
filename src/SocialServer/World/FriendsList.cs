@@ -54,36 +54,36 @@ namespace Melia.Social.World
 		/// <summary>
 		/// Returns true if the user has a friend with the given account id.
 		/// </summary>
-		/// <param name="accountId"></param>
+		/// <param name="userId"></param>
 		/// <returns></returns>
-		public bool Has(long accountId)
+		public bool Has(long userId)
 		{
 			lock (_friends)
-				return _friends.Any(f => f.User.Id == accountId);
+				return _friends.Any(f => f.User.Id == userId);
 		}
 
 		/// <summary>
 		/// Gets a friend or null with a given account id.
 		/// </summary>
-		/// <param name="accountId"></param>
-		public Friend Get(long accountId)
+		/// <param name="userId"></param>
+		public Friend Get(long userId)
 		{
 			lock (_friends)
-				return _friends.FirstOrDefault(f => f.User.Id == accountId);
+				return _friends.FirstOrDefault(f => f.User.Id == userId);
 		}
 
 		/// <summary>
 		/// Returns the friend with the given account id via out.
 		/// Returns false if the friend wasn't found.
 		/// </summary>
-		/// <param name="accountId"></param>
+		/// <param name="userId"></param>
 		/// <param name="friend"></param>
 		/// <returns></returns>
-		public bool TryGet(long accountId, out Friend friend)
+		public bool TryGet(long userId, out Friend friend)
 		{
 			lock (_friends)
 			{
-				friend = _friends.FirstOrDefault(f => f.User.Id == accountId);
+				friend = _friends.FirstOrDefault(f => f.User.Id == userId);
 				return friend != null;
 			}
 		}
