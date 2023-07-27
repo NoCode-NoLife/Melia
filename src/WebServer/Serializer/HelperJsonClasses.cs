@@ -356,13 +356,4 @@ namespace Melia.Web.Serializer
 		[JsonProperty("maps")]
 		public string Maps { get; set; }
 	}
-
-	public class DeleteItem
-	{
-		[JsonProperty("itemUniqueId")]
-		public long ItemUniqueId { get; set; }
-
-		[JsonProperty("amount")]
-		public int Amount { get; set; }
-	}
 }

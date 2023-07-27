@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Inertia\Inertia;
 use App\Models\Account;
+use App\Models\Inventory;
+use App\Models\Character;
+use App\Models\Item;
 
 class InventoryController extends Controller
 {
@@ -49,28 +52,55 @@ class InventoryController extends Controller
         $request->validate([
             'itemUniqueId' => 'required|integer',
             'amount' => 'required|integer',
+            'characterId' => 'required|integer',
         ]);
 
+        $isServerOnline = false;
+
         try {
-            $resPlayerCount = $this->client->post('/api/remove/item', [
-                'json' => [
-                        'itemUniqueId' => $request->itemUniqueId,
-                        'amount' => $request->amount
-                    ]
-                ]
-            );
-
+            $resPlayerCount = $this->client->request('GET', '/api/info/server' );
             $statusCodePlayerCount = $resPlayerCount->getStatusCode();
-
             if ($statusCodePlayerCount == 200) {
-                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.remove.item.successful') ]);
+                $isServerOnline = true;
             }
         } catch (\Exception $e) {
         }
 
-        return back()
+        $character = Character::find($request->characterId);
+
+        $inventory = Inventory::where('itemId', $request->itemUniqueId)
+                            ->first();
+
+        if (!$character  || ($character->account->loginState == 2 && $isServerOnline) || !$inventory || $inventory->characterId != $character->characterId) {
+            return back()
                 ->withInput()
                 ->with('status', [ 'type' => 'danger', 'message' => trans('validation.remove.item.failed') ]);
+        }
+
+        $item = $inventory->item;
+
+        $newItemAmount = $item->amount - $request->amount;
+
+        if ($newItemAmount < 0) {
+            $newItemAmount = 0;
+        }
+
+        if ($newItemAmount == 0) {
+            Inventory::where('itemId', $request->itemUniqueId)
+                            ->where('characterId', $request->characterId)
+                            ->delete();
+
+            Item::where('itemUniqueId', $request->itemUniqueId)
+                            ->delete();
+        } else {
+            $item->update([
+                'amount' => $newItemAmount
+            ]);
+        }
+
+        return back()
+                ->withInput()
+                ->with('status', [ 'type' => 'success', 'message' => trans('validation.remove.item.successful') ]);
     }
 
     public function search(Request $request)
@@ -108,6 +138,8 @@ class InventoryController extends Controller
                             'amount' => $inventory->item->amount,
                             'itemUniqueId' => $inventory->item->itemUniqueId,
                             'characterName' => $character->name,
+                            'characterId' => $character->characterId,
+                            'isCharacterOnline' => $character->account->loginState == 2
                         ];
                     }
                 }

@@ -13,12 +13,17 @@ import FormField from '@/components/FormField.vue'
 
 const props = defineProps({
   checkable: Boolean,
+  isServerOnline: Boolean,
   items: {
     type: Array,
     required: true,
   },
-  isLoading: {
-    type: Boolean,
+  startLoading: {
+    type: Function,
+    required: true,
+  },
+  stopLoading: {
+    type: Function,
     required: true,
   },
 })
@@ -84,18 +89,20 @@ const removeItemWarning = (item) => {
 }
 
 const removeItem = (item) => {
-  props.isLoading = true
+  props.startLoading()
+  isModalDangerActive.value = false
   router.post(
     route('admin.inventory.manager.remove.item'),
     {
       itemUniqueId: item.itemUniqueId,
       amount: removingItemAmount.value,
+      characterId: item.characterId,
     },
     {
       preserveState: true,
       preserveScroll: false,
       onFinish: (visit) => {
-        props.isLoading = false
+        props.stopLoading()
       },
     },
   )
@@ -177,6 +184,7 @@ const checked = (isChecked, userAccount) => {
               :icon="mdiDelete"
               small
               @click="removeItemWarning(item)"
+              :disabled="item.isCharacterOnline && isServerOnline"
             />
           </BaseButtons>
         </td>

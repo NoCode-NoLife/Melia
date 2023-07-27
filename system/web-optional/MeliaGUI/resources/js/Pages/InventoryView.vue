@@ -1,17 +1,17 @@
 <script setup>
-import { onMounted, ref, toRef, getCurrentInstance, computed } from 'vue'
+import { onMounted, ref, toRef, getCurrentInstance } from 'vue'
 import { useStore } from 'vuex'
-import { Head, useForm, Link } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import {
   mdiArchive,
   mdiMagnify,
   mdiAccount,
   mdiCardAccountDetailsOutline,
+  mdiCircle,
 } from '@mdi/js'
 import CardBox from '@/components/CardBox.vue'
 import FormField from '@/components/FormField.vue'
 import FormControl from '@/components/FormControl.vue'
-import BaseButton from '@/components/BaseButton.vue'
 import InputError from '@/Components/InputError.vue'
 import SectionMain from '@/components/SectionMain.vue'
 import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
@@ -20,6 +20,7 @@ import NotificationBar from '@/components/NotificationBar.vue'
 import BaseDivider from '@/components/BaseDivider.vue'
 import OverlayLayer from '@/components/OverlayLayer.vue'
 import TableItems from '@/components/TableItems.vue'
+import BaseIcon from '@/components/BaseIcon.vue'
 
 const props = defineProps({
   account: {
@@ -57,6 +58,14 @@ const postForm = () => {
     onSuccess: () => (isLoading.value = false),
     onFinish: () => (isLoading.value = false),
   })
+}
+
+const startLoading = () => {
+  isLoading.value = true
+}
+
+const stopLoading = () => {
+  isLoading.value = false
 }
 
 onMounted(() => {
@@ -151,8 +160,24 @@ if (props.status != null) {
                 :key="characterName"
               >
                 <SectionTitleLine :icon="mdiAccount" :title="characterName">
+                  <BaseIcon
+                    :path="mdiCircle"
+                    :class="[
+                      items[0].isCharacterOnline && isServerOnline
+                        ? 'text-green-500'
+                        : 'text-red-500',
+                    ]"
+                    w="w-16"
+                    :size="18"
+                  />
                 </SectionTitleLine>
-                <TableItems :items="items" :isLoading="isLoading" />
+
+                <TableItems
+                  :items="items"
+                  :startLoading="startLoading"
+                  :stopLoading="stopLoading"
+                  :isServerOnline="isServerOnline"
+                />
               </div>
             </div>
           </CardBox>

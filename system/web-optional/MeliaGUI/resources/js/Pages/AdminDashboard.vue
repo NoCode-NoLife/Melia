@@ -230,7 +230,9 @@ const createNewBackup = () => {
   })
 }
 
-const inspectInventories = () => {}
+const inspectInventories = () => {
+  router.get(route('admin.inventory.manager'))
+}
 
 const store = useStore()
 const instance = getCurrentInstance()

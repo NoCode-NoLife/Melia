@@ -81,25 +81,6 @@ namespace Melia.Web.Controllers
 		{
 			this.SendText("text/json", "{ \"status\": \"Web server is Online.\" }");
 		}
-
-
-		/// <summary>
-		/// Delete an item from a player's inventory for a given uniqueId
-		/// </summary>
-		[Route(HttpVerbs.Post, "/remove/item")]
-		public void DeleteItemFroInventory()
-		{
-			var data = HttpContext.GetRequestDataAsyncJson<DeleteItem>();
-
-			if (data == null || data.Result == null || data.Result.ItemUniqueId == 0 || data.Result.Amount == 0)
-				this.SendText("text/json", "{ \"status\": \"Failed to deleted an item.\" }", 400);
-
-			var reqDeleteItemMessage = new ReqDeleteItemMessage(data.Result.ItemUniqueId, data.Result.Amount);
-			// TODO: We need to send to just the zone server that the character is in
-			//WebServer.Instance.Communicator.Send("Coordinator", reqDeleteItemMessage.BroadcastTo("AllZones"));
-
-			this.SendText("text/json", "{ \"status\": \"Successful deleted the item.\" }");
-		}
 		
 		/// <summary>
 		/// Kick all players from the server
@@ -112,7 +93,6 @@ namespace Melia.Web.Controllers
 
 			this.SendText("text/json", "{ \"status\": \"Successful kicked all players.\" }");
 		}
-
 
 		/// <summary>
 		/// Creates a new Zone Server Process
