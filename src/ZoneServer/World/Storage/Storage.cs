@@ -10,12 +10,13 @@ using Melia.Zone.World.Items;
 using Melia.Zone.Network;
 using System.Threading;
 using System.Collections;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.World.Storage
 {
 	/// <summary>
-	/// Abstraction of a storage. Provides basic server storage management
-	/// but the client packets must be implemented by child classes.
+	/// Abstraction of a storage. Provides basic storage management methods.
+	/// Child classes are expected to implement how storage can be accessed.
 	/// </summary>
 	public abstract class Storage
 	{
@@ -23,7 +24,7 @@ namespace Melia.Zone.World.Storage
 		private readonly object _syncLock = new object();
 
 		private SortedList<int, Item> _storageItems;
-		private int _maxStorage = 60;
+		private int _maxStorage = 0;
 
 		/// <summary>
 		/// Storage's unique Id
@@ -35,7 +36,7 @@ namespace Melia.Zone.World.Storage
 		/// Returns -1 if not found.
 		/// </summary>
 		/// <returns></returns>
-		protected int TryGetFirstAvailablePosition()
+		private int TryGetFirstAvailablePosition()
 		{
 			lock (_syncLock)
 			{
@@ -66,7 +67,7 @@ namespace Melia.Zone.World.Storage
 		/// <param name="amount">Amount of stack to remove from item</param>
 		/// <param name="position">position of item in storage</param>
 		/// <returns>Amount of stack removed</returns>
-		protected int RemoveItemStack(Item item, int amount, int position)
+		private int RemoveItemStack(Item item, int amount, int position)
 		{
 			if (!item.IsStackable)
 				return 0;
@@ -100,7 +101,7 @@ namespace Melia.Zone.World.Storage
 		/// <param name="item">Item to add</param>
 		/// <param name="amount">Amount to stack to item</param>
 		/// <returns>Amount of stack added</returns>
-		protected int AddItemStack(Item item, int amount)
+		private int AddItemStack(Item item, int amount)
 		{
 			if (!item.IsStackable)
 				return 0;
@@ -127,7 +128,7 @@ namespace Melia.Zone.World.Storage
 		/// </summary>
 		/// <param name="item">Item type look for</param>
 		/// <param name="foundStorageItems">Position and Item object of found items</param>
-		protected void TryGetStackableItems(Item item, out SortedList<int, Item> foundStorageItems)
+		private void TryGetStackableItems(Item item, out SortedList<int, Item> foundStorageItems)
 		{
 			foundStorageItems = new SortedList<int, Item>();
 
@@ -150,6 +151,206 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
+		/// Calculates the amount of given item that can be added to storage.
+		/// </summary>
+		/// <param name="item">Item and the amount to check</param>
+		/// <returns></returns>
+		private int GetItemAvailableAmount(Item item)
+		{
+			int availableAmount = 0;
+
+			// Checks if stackable item can be placed in storage
+			if (item.IsStackable)
+			{
+				this.TryGetStackableItems(item, out var existingStorageItems);
+				var stackAvailableAmount = existingStorageItems.Values.Sum(existingItem => existingItem.Data.MaxStack - existingItem.Amount);
+
+				// No space in existing stacks and no new position available
+				if (this.CheckStorageFull() && stackAvailableAmount <= 0)
+					return 0;
+
+				// Existing stacks can't stack and adding to new position is disabled
+				if (!ZoneServer.Instance.Conf.World.StorageMultiStack && stackAvailableAmount <= 0)
+					return 0;
+
+				availableAmount = stackAvailableAmount;
+
+				// We can also add the stack to empty spaces if multistack is enabled
+				if (ZoneServer.Instance.Conf.World.StorageMultiStack && !this.CheckStorageFull())
+					availableAmount = item.Data.MaxStack;
+			}
+			else
+			{
+				// Checks if non stackable item can be placed in storage
+				if (this.CheckStorageFull())
+					return 0;
+
+				availableAmount = item.Amount;
+			}
+
+			return availableAmount;
+		}
+
+		/// <summary>
+		/// Adds the available amount of an item to storage.
+		/// Updates client.
+		/// </summary>
+		/// <param name="interactingChar">Character to update</param>
+		/// <param name="itemToStore">Item to store</param>
+		/// <param name="invType">Type of storage inventory</param>
+		/// <returns></returns>
+		private StorageResult AddItemAvailableAmount(Character interactingChar, Item itemToStore, InventoryType invType)
+		{
+			// For stackable items, add item to existing stacks.
+			if (itemToStore.IsStackable)
+			{
+				this.TryGetStackableItems(itemToStore, out var existingStorageItems);
+				var addedAmount = 0;
+				foreach (var existingStorageItem in existingStorageItems)
+				{
+					var stackedAmount = this.AddItemStack(existingStorageItem.Value, itemToStore.Amount - addedAmount);
+					addedAmount += stackedAmount;
+
+					if (stackedAmount > 0)
+						Send.ZC_ITEM_ADD(interactingChar, existingStorageItem.Value, existingStorageItem.Key, stackedAmount, InventoryAddType.New, invType);
+				}
+
+				// If all items have been stored, return success
+				if (addedAmount >= itemToStore.Amount)
+					return StorageResult.Success;
+
+				// Residue
+				itemToStore.Amount -= addedAmount;
+			}
+
+			// Adds item to new position
+			var storageResult = this.Add(itemToStore, out var addedPosition);
+			if (storageResult != StorageResult.Success)
+				return storageResult;
+			Send.ZC_ITEM_ADD(interactingChar, itemToStore, addedPosition, itemToStore.Amount, InventoryAddType.New, invType);
+
+			return storageResult;
+		}
+
+		/// <summary>
+		/// Adds an item to storage and removes from given character.
+		/// Updates client.
+		/// </summary>
+		/// <param name="character">Character that is performing interaction</param>
+		/// <param name="objectId">ObjectId of item to store</param>
+		/// <param name="amount">Amount of item to store</param>
+		/// <param name="invType">Storage inventory type</param>
+		/// <returns></returns>
+		protected StorageResult StoreItem(Character character, long objectId, int amount, InventoryType invType)
+		{
+			var item = character.Inventory.GetItem(objectId);
+			if (item == null)
+				return StorageResult.ItemNotFound;
+
+			Item itemToStore = new Item(item);
+			itemToStore.Amount = Math.Min(itemToStore.Amount, amount);
+
+			// Checks amount that can be stored
+			var availableAmount = this.GetItemAvailableAmount(itemToStore);
+			if (availableAmount <= 0)
+				return StorageResult.StorageFull;
+			itemToStore.Amount = Math.Min(itemToStore.Amount, availableAmount);
+
+			// Remove the amount from character
+			var inventoryResult = character.Inventory.Remove(item, itemToStore.Amount, InventoryItemRemoveMsg.Given);
+			if (inventoryResult != InventoryResult.Success)
+				return StorageResult.InvalidOperation;
+
+			// Add the amount to storage
+			var addResult = this.AddItemAvailableAmount(character, itemToStore, invType);
+			if (addResult != StorageResult.Success)
+				return addResult;
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Adds a list of items to storage and removes from given character.
+		/// The amount added is always the maximum item amount.
+		/// Updates client.
+		/// </summary>
+		/// <param name="character">Character that is performing interaction</param>
+		/// <param name="objectId">ObjectId of item to store</param>
+		/// <param name="invType">Storage inventory type</param>
+		/// <returns></returns>
+		protected StorageResult StoreItems(Character character, List<long> objectIds, InventoryType invType)
+		{
+			foreach (var objectId in objectIds)
+			{
+				var item = character.Inventory.GetItem(objectId);
+				if (item == null)
+					return StorageResult.ItemNotFound;
+
+				var result = StoreItem(character, objectId, item.Amount, invType);
+				if (result != StorageResult.Success)
+					return result;
+			}
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Removes an item from storage and gives to a character.
+		/// Updates client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
+		/// <param name="invType"></param>
+		/// <returns></returns>
+		protected StorageResult RetrieveItem(Character character, long objectId, int amount, InventoryType invType)
+		{
+			// Checks item is in storage
+			var result = this.TryGetItem(objectId, out var item, out var itemPosition);
+			if (result != StorageResult.Success)
+				return result;
+
+			Item itemToRetrieve = new Item(item);
+
+			// Remove item from storage
+			var storageResult = this.Remove(item, amount, out itemPosition, out var removedAmount);
+			if (storageResult != StorageResult.Success)
+				return storageResult;
+			Send.ZC_ITEM_REMOVE(character, item.ObjectId, removedAmount, InventoryItemRemoveMsg.Given, invType);
+
+			// Add to player inventory
+			itemToRetrieve.Amount = removedAmount;
+			character.Inventory.Add(itemToRetrieve, InventoryAddType.New);
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Removes a list of item from storage and gives to a character.
+		/// The amount removed is always the maximum item amount.
+		/// Updates client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
+		/// <param name="invType"></param>
+		/// <returns></returns>
+		protected StorageResult RetrieveItems(Character character, List<long> objectIds, InventoryType invType)
+		{
+			foreach(var objectId in objectIds)
+			{
+				var result = this.TryGetItem(objectId, out var item, out var itemPosition);
+				if (result != StorageResult.Success)
+					return result;
+
+				result = RetrieveItem(character, objectId, item.Amount, invType);
+				if (result != StorageResult.Success)
+					return result;
+			}
+			return StorageResult.Success;
+		}
+
+		/// <summary>
 		/// Creates a new storage.
 		/// </summary>
 		/// <param name="account"></param>
@@ -161,33 +362,33 @@ namespace Melia.Zone.World.Storage
 
 		/// <summary>
 		/// Opens storage.
-		/// Child class is expected to update client.
+		/// Child class is expected to open it for client.
 		/// </summary>
 		/// <returns></returns>
 		public abstract StorageResult Open();
 
 		/// <summary>
 		/// Closes storage.
-		/// Child class is expected to update client.
+		/// Child class is expected to close it for client.
 		/// </summary>
 		/// <returns></returns>
 		public abstract StorageResult Close();
 
 		/// <summary>
 		/// Adds an item to storage.
-		/// Child class is expected to update client.
+		/// Child class is expected to define the interacting character.
 		/// </summary>
-		/// <param name="objectId">Object id of the item</param>
-		/// <param name="amount">Amount to remove</param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
 		/// <returns></returns>
 		public abstract StorageResult StoreItem(long objectId, int amount = 1);
 
 		/// <summary>
-		/// Removes an item from storage.
-		/// Child class is expected to update client.
+		/// Retrieves an item from storage.
+		/// Child class is expected to define the interacting character.
 		/// </summary>
-		/// <param name="objectId">Object id of the item</param>
-		/// <param name="amount">Amount to remove</param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
 		/// <returns></returns>
 		public abstract StorageResult RetrieveItem(long objectId, int amount = 1);
 
@@ -394,6 +595,30 @@ namespace Melia.Zone.World.Storage
 		{
 			lock (_syncLock)
 				return _storageItems.Count();
+		}
+
+		/// <summary>
+		/// Returns the max size of this storage
+		/// </summary>
+		/// <returns></returns>
+		public int GetStorageSize()
+		{
+			return _maxStorage;
+		}
+
+		/// <summary>
+		/// Increases max storage size by the given number.
+		/// Storages can never decrease in size.
+		/// </summary>
+		/// <param name="size"></param>
+		public StorageResult AddStorageSize(int size)
+		{
+			if (size <= 0)
+				return StorageResult.InvalidOperation;
+
+			_maxStorage += size;
+
+			return StorageResult.Success;
 		}
 
 		/// <summary>

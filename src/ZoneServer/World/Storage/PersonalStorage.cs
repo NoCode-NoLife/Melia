@@ -18,13 +18,12 @@ namespace Melia.Zone.World.Storage
 	public class PersonalStorage : Storage
 	{
 		/// <summary>
-		/// Character that owns this storage.
+		/// Character that owns this personal storage.
 		/// </summary>
 		public Character Owner { get; private set; }
 
 		/// <summary>
-		/// Whether the owner is currently
-		/// browsing this storage.
+		/// Whether the owner is currently browsing this storage.
 		/// </summary>
 		public bool IsBrowsing { get; private set; }
 
@@ -35,10 +34,13 @@ namespace Melia.Zone.World.Storage
 		public PersonalStorage(Character owner) : base()
 		{
 			this.Owner = owner;
+			this.IsBrowsing = false;
+			this.AddStorageSize(60);
 		}
 
 		/// <summary>
-		/// Opens storage for the owner
+		/// Opens storage.
+		/// Updates client for owner.
 		/// </summary>
 		/// <returns></returns>
 		public override StorageResult Open()
@@ -49,7 +51,8 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Closes storage for the owner
+		/// Closes storage.
+		/// Updates client for owner.
 		/// </summary>
 		/// <returns></returns>
 		public override StorageResult Close()
@@ -60,122 +63,27 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Adds an item to storage and removes from owner.
+		/// Adds an item to storage.
+		/// Updates client for owner.
 		/// </summary>
-		/// <param name="objectId">Object id of the item</param>
-		/// <param name="amount">Amount to remove</param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
 		/// <returns></returns>
 		public override StorageResult StoreItem(long objectId, int amount = 1)
 		{
-			var item = this.Owner.Inventory.GetItem(objectId);
-			if (item == null)
-				return StorageResult.ItemNotFound;
-
-			Item itemToStore = new Item(item);
-			itemToStore.Amount = Math.Min(itemToStore.Amount, amount);
-
-			// For stackable items, finds existing storage items.
-			var existingStorageItems = new SortedList<int, Item>();
-			if (itemToStore.IsStackable)
-			{
-				this.TryGetStackableItems(itemToStore, out existingStorageItems);
-
-				// No existing items to stack to and no free positions
-				if ((existingStorageItems.Count == 0) && this.CheckStorageFull())
-					return StorageResult.StorageFull;
-
-				if (existingStorageItems.Count > 0)
-				{
-					var stackAvailableAmount = existingStorageItems.Values.Sum(existingItem => existingItem.Data.MaxStack - existingItem.Amount);
-
-					if (this.CheckStorageFull())
-					{
-						// Storage has no free positions and existing items can no longer stack
-						if (stackAvailableAmount == 0)
-							return StorageResult.StorageFull;
-
-						itemToStore.Amount = Math.Min(itemToStore.Amount, stackAvailableAmount);
-					}
-					if (!ZoneServer.Instance.Conf.World.StorageMultiStack)
-					{
-						// Multistacking is not enabled, we can only store to already existing stacks
-						if (stackAvailableAmount == 0)
-							return StorageResult.StorageFull;
-
-						itemToStore.Amount = Math.Min(itemToStore.Amount, stackAvailableAmount);
-					}
-				}
-			}
-
-			// We checked storage full for stackable items earlier,
-			// now we check for non-stackable items.
-			if (CheckStorageFull() && !item.IsStackable)
-			{
-				return StorageResult.StorageFull;
-			}
-
-			// Remove the amount from character
-			var inventoryResult = this.Owner.Inventory.Remove(item, itemToStore.Amount, InventoryItemRemoveMsg.Given);
-			if (inventoryResult != InventoryResult.Success)
-				return StorageResult.InvalidOperation;
-
-			// For stackable items, add item to existing stacks.
-			if (itemToStore.IsStackable)
-			{
-				var addedAmount = 0;
-				foreach (var existingStorageItem in existingStorageItems)
-				{
-					var stackedAmount = this.AddItemStack(existingStorageItem.Value, itemToStore.Amount - addedAmount);
-					addedAmount += stackedAmount;
-					if (stackedAmount > 0)
-					{
-						Send.ZC_ITEM_ADD(this.Owner, existingStorageItem.Value, existingStorageItem.Key, stackedAmount, InventoryAddType.New, InventoryType.Warehouse);
-					}
-				}
-				if ((itemToStore.Amount - addedAmount) <= 0)
-				{
-					return StorageResult.Success;
-				}
-
-				// Residue
-				itemToStore.Amount -= addedAmount;
-			}
-
-			// Adds item to new position
-			var storageResult = this.Add(itemToStore, out var addedPosition);
-			if (storageResult != StorageResult.Success)
-				return storageResult;
-			Send.ZC_ITEM_ADD(this.Owner, itemToStore, addedPosition, itemToStore.Amount, InventoryAddType.New, InventoryType.Warehouse);
-
-			return StorageResult.Success;
+			return this.StoreItem(this.Owner, objectId, amount, InventoryType.Warehouse);
 		}
 
 		/// <summary>
-		/// Removes an item from storage and gives to owner.
+		/// Retrieves an item from storage.
+		/// Updates client for owner.
 		/// </summary>
-		/// <param name="objectId">Object id of the item</param>
-		/// <param name="amount">Amount to remove</param>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
 		/// <returns></returns>
 		public override StorageResult RetrieveItem(long objectId, int amount = 1)
 		{
-			// Checks item is in storage
-			var result = this.TryGetItem(objectId, out var item, out var removedPosition);
-			if (result != StorageResult.Success)
-				return result;
-
-			Item itemToRetrieve = new Item(item);
-
-			// Remove item from storage
-			var storageResult = this.Remove(item, amount, out removedPosition, out var removedAmount);
-			if (storageResult != StorageResult.Success)
-				return storageResult;
-
-			// Add to player inventory
-			itemToRetrieve.Amount = removedAmount;
-			this.Owner.Inventory.Add(itemToRetrieve, InventoryAddType.New);
-			Send.ZC_ITEM_REMOVE(this.Owner, item.ObjectId, removedAmount, InventoryItemRemoveMsg.Sold, InventoryType.Warehouse);
-
-			return StorageResult.Success;
+			return this.RetrieveItem(this.Owner, objectId, amount, InventoryType.Warehouse);
 		}
 	}
 }
