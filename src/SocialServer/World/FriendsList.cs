@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
+using Yggdrasil.Logging;
 
 namespace Melia.Social.World
 {
@@ -110,7 +112,17 @@ namespace Melia.Social.World
 			var friends = SocialServer.Instance.Database.GetFriends(this.User.Id);
 
 			foreach (var friend in friends)
+			{
+				if (!SocialServer.Instance.UserManager.TryGet(friend.UserId, out var friendUser))
+				{
+					Log.Error("FriendsList.LoadFromDb: User '{0}' not found for friend '{1}' of user '{2}'.", friend.UserId, friend.Id, this.User.Name);
+					continue;
+				}
+
+				friend.User = friendUser;
+
 				this.Add(friend);
+			}
 		}
 	}
 }

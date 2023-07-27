@@ -1,4 +1,5 @@
-﻿using Melia.Social.Database;
+﻿using System;
+using Melia.Social.Database;
 using Melia.Social.Network;
 
 namespace Melia.Social.World
@@ -47,6 +48,11 @@ namespace Melia.Social.World
 		/// Returns the user's friends list.
 		/// </summary>
 		public FriendsList Friends { get; }
+
+		/// <summary>
+		/// Returns the last time the user logged in.
+		/// </summary>
+		public DateTime LastLogin { get; set; }
 
 		/// <summary>
 		/// Creates new social user instance for the given connection

@@ -37,7 +37,7 @@ namespace Melia.Social.Network.Helpers
 			packet.PutByte(0x80);
 			packet.PutByte(0xFF);
 			packet.PutEmptyBin(18);
-			packet.PutShortDate(friend.LastLogin);
+			packet.PutShortDate(friend.User.LastLogin);
 			packet.PutEmptyBin(36);
 			packet.PutByte(0);
 			packet.PutLpString(friend.Group);

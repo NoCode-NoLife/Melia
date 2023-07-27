@@ -143,6 +143,7 @@ namespace Melia.Social.Database
 						user.AccountId = reader.GetInt64("accountId");
 						user.Name = reader.GetStringSafe("accountName");
 						user.TeamName = reader.GetStringSafe("teamName");
+						user.LastLogin = reader.GetDateTimeSafe("lastLogin");
 
 						users.Add(user);
 					}
@@ -153,6 +154,22 @@ namespace Melia.Social.Database
 				user.Friends.LoadFromDb();
 
 			return users;
+		}
+
+		/// <summary>
+		/// Updates the last login time for the user.
+		/// </summary>
+		/// <param name="userId"></param>
+		public void UpdateLastSocialLogin(long userId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `social_users` SET {0} WHERE `userId` = @userId", conn))
+			{
+				cmd.AddParameter("@userId", userId);
+				cmd.Set("lastLogin", DateTime.Now);
+
+				cmd.Execute();
+			}
 		}
 
 		/// <summary>
@@ -167,9 +184,9 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, u.`userId`, u.`lastLogin`, u.`teamName`
 					FROM `friends` AS `f`
-					LEFT JOIN `accounts` AS a ON f.`friendUserId` = a.`accountId`
+					LEFT JOIN `social_users` AS u ON f.`friendUserId` = u.`userId`
 					WHERE f.`userId` = @userId
 				";
 
@@ -202,9 +219,9 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`userId`, a.`lastLogin`, a.`teamName`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, u.`userId`
 					FROM `friends` AS `f`
-					LEFT JOIN `accounts` AS a ON f.`friendUserId` = a.`userId`
+					LEFT JOIN `social_users` AS u ON f.`friendUserId` = u.`userId`
 					WHERE f.`userId` = @userId AND f.`friendUserId` = @friendUserId
 				";
 
@@ -234,10 +251,10 @@ namespace Melia.Social.Database
 			var friend = new Friend();
 
 			friend.Id = reader.GetInt64("friendId");
+			friend.UserId = reader.GetInt64("userId");
 			friend.State = (FriendState)reader.GetByte("state");
 			friend.Group = reader.GetStringSafe("group");
 			friend.Note = reader.GetStringSafe("note");
-			friend.LastLogin = reader.GetDateTimeSafe("lastLogin");
 
 			return friend;
 		}
@@ -256,7 +273,7 @@ namespace Melia.Social.Database
 				using (var cmd = new InsertCommand("INSERT INTO `friends` {0}", conn, trans))
 				{
 					cmd.Set("userId", userId);
-					cmd.Set("friendUserId", friend.User.Id);
+					cmd.Set("friendUserId", friend.UserId);
 					cmd.Set("state", (byte)friend.State);
 					cmd.Set("registerDate", DateTime.Now);
 

@@ -41,6 +41,8 @@ namespace Melia.Social.Network
 			conn.User = user;
 			conn.LoggedIn = true;
 
+			SocialServer.Instance.Database.UpdateLastSocialLogin(user.Id);
+
 			Log.Info("User '{0}' logged in.", user.Name);
 
 			Send.SC_NORMAL.EnableChat(conn);

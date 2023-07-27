@@ -1,5 +1,4 @@
-﻿using System;
-using Melia.Social.World;
+﻿using Melia.Social.World;
 
 namespace Melia.Social.Database
 {
@@ -12,6 +11,11 @@ namespace Melia.Social.Database
 		/// Gets or sets the friend's globally unique id.
 		/// </summary>
 		public long Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets the friend's user id.
+		/// </summary>
+		public long UserId { get; set; }
 
 		/// <summary>
 		/// Gets or sets the reference to the friend's user object.
@@ -34,11 +38,6 @@ namespace Melia.Social.Database
 		public string Note { get; set; }
 
 		/// <summary>
-		/// Gets or sets the users's last login date.
-		/// </summary>
-		public DateTime LastLogin { get; set; }
-
-		/// <summary>
 		/// Creates a new, blank friend.
 		/// </summary>
 		public Friend()
@@ -52,6 +51,7 @@ namespace Melia.Social.Database
 		/// <param name="state"></param>
 		public Friend(SocialUser user, FriendState state)
 		{
+			this.UserId = user.Id;
 			this.User = user;
 			this.State = state;
 		}
