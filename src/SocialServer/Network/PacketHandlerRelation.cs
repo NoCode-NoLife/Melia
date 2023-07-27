@@ -35,6 +35,7 @@ namespace Melia.Social.Network
 			}
 
 			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
+			user.Account = account;
 			user.Connection = conn;
 
 			conn.User = user;

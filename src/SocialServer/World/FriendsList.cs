@@ -107,7 +107,7 @@ namespace Melia.Social.World
 		/// </summary>
 		public void LoadFromDb()
 		{
-			var friends = SocialServer.Instance.Database.GetFriends(this.User.Account.Id);
+			var friends = SocialServer.Instance.Database.GetFriends(this.User.Id);
 
 			foreach (var friend in friends)
 				this.Add(friend);

@@ -21,7 +21,7 @@ namespace Melia.Social.World
 			lock (_users)
 			{
 				foreach (var user in users)
-					_users[user.Account.Id] = user;
+					_users[user.Id] = user;
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Melia.Social.World
 		public void Add(SocialUser user)
 		{
 			lock (_users)
-				_users[user.Account.Id] = user;
+				_users[user.Id] = user;
 		}
 
 		/// <summary>

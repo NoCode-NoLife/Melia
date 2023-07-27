@@ -17,7 +17,7 @@ namespace Melia.Social.World
 		/// <summary>
 		/// Returns the user's account.
 		/// </summary>
-		public Account Account { get; }
+		public Account Account { get; set; }
 
 		/// <summary>
 		/// Returns the information about the character the user is logged
@@ -26,7 +26,7 @@ namespace Melia.Social.World
 		public Character Character { get; } = new Character();
 
 		/// <summary>
-		/// Returns the id of the user's account.
+		/// Returns the id of the user's globally unique id.
 		/// </summary>
 		public long Id { get; set; }
 
