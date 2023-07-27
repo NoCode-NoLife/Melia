@@ -159,11 +159,9 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`, a.`loginCharacter` AS `characterId`,
-					       IFNULL('', c.`name`) AS `name`, IFNULL(0, c.`job`) AS `job`, IFNULL(0, c.`gender`) AS `gender`, IFNULL(0, c.`hair`) AS `hair`, IFNULL(0, c.`level`) AS `level`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`
 					FROM `friends` AS `f`
 					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
-					LEFT JOIN `characters` AS c ON a.`loginCharacter` = c.`characterId`
 					WHERE f.`accountId` = @accountId
 				";
 
@@ -196,11 +194,9 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`, a.`loginCharacter` AS `characterId`,
-					       IFNULL('', c.`name`) AS `name`, IFNULL(0, c.`job`) AS `job`, IFNULL(0, c.`gender`) AS `gender`, IFNULL(0, c.`hair`) AS `hair`, IFNULL(0, c.`level`) AS `level`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, a.`accountId`, a.`lastLogin`, a.`teamName`
 					FROM `friends` AS `f`
 					LEFT JOIN `accounts` AS a ON f.`friendAccountId` = a.`accountId`
-					LEFT JOIN `characters` AS c ON a.`loginCharacter` = c.`characterId`
 					WHERE f.`accountId` = @accountId AND f.`friendAccountId` = @friendAccountId
 				";
 
