@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Inertia\Inertia;
@@ -46,6 +44,35 @@ class InventoryController extends Controller
         ]);
     }
 
+    public function removeItem(Request $request)
+    {
+        $request->validate([
+            'itemUniqueId' => 'required|integer',
+            'amount' => 'required|integer',
+        ]);
+
+        try {
+            $resPlayerCount = $this->client->post('/api/remove/item', [
+                'json' => [
+                        'itemUniqueId' => $request->itemUniqueId,
+                        'amount' => $request->amount
+                    ]
+                ]
+            );
+
+            $statusCodePlayerCount = $resPlayerCount->getStatusCode();
+
+            if ($statusCodePlayerCount == 200) {
+                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.remove.item.successful') ]);
+            }
+        } catch (\Exception $e) {
+        }
+
+        return back()
+                ->withInput()
+                ->with('status', [ 'type' => 'danger', 'message' => trans('validation.remove.item.failed') ]);
+    }
+
     public function search(Request $request)
     {
         $request->validate([
@@ -79,6 +106,8 @@ class InventoryController extends Controller
                             'itemName' => $this->getItemName($itemsDb, $inventory->item->itemId),
                             'itemId' => $inventory->item->itemId,
                             'amount' => $inventory->item->amount,
+                            'itemUniqueId' => $inventory->item->itemUniqueId,
+                            'characterName' => $character->name,
                         ];
                     }
                 }

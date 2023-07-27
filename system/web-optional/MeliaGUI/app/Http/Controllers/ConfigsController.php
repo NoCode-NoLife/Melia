@@ -56,10 +56,11 @@ class ConfigsController extends Controller
     public function store(Request $request): RedirectResponse
     {
         try {
-            $response = $this->client->post('/api/info/configs' , ['json' => $request->input()]);
+            $response = $this->client->post('/api/info/configs', ['json' => $request->input()]);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
-                return back()->with('status', [ 'type' => 'success', 'message' => trans('validation.configs.successful.updated') ]);
+                return back()
+                    ->with('status', [ 'type' => 'success', 'message' => trans('validation.configs.successful.updated') ]);
             }
         } catch (\Exception $e) {
         }

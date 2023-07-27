@@ -273,12 +273,23 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Returns first character found by team name, or null if none exist.
 		/// </summary>
-		/// <param name="handle"></param>
+		/// <param name="teamName"></param>
 		/// <returns></returns>
 		public Character GetCharacterByTeamName(string teamName)
 		{
 			lock (_characters)
 				return _characters.Values.FirstOrDefault(a => a.TeamName == teamName);
+		}
+
+		/// <summary>
+		/// Returns first character found by a given Id.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		public Character GetCharacterById(long characterId)
+		{
+			lock (_characters)
+				return _characters.Values.FirstOrDefault(a => a.DbId == characterId);
 		}
 
 		/// <summary>

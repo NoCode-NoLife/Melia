@@ -30,4 +30,6 @@ return [
     'created.zone.fail' => 'Fail to create a new zone server.',
     'created.zone.success' => 'Successful created a new zone server.',
     'email.not.found' => 'No records of account associated with the email address.',
+    'remove.item.successful' => 'Successful deleted the an item.',
+    'remove.item.failed' => 'Failed to delete an item.',
 ];

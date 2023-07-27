@@ -65,6 +65,9 @@ Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
 
     Route::post('/admin/inventory/manager', [InventoryController::class, 'search'])
         ->name('admin.inventory.manager.search');
+
+    Route::post('/admin/inventory/remove/item', [InventoryController::class, 'removeItem'])
+        ->name('admin.inventory.manager.remove.item');
 });
 
 Route::middleware('auth')->group(function () {

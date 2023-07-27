@@ -1,7 +1,5 @@
 using System;
 using System.Diagnostics;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -262,6 +260,27 @@ namespace Melia.Zone
 				{					
 					Log.Info("Reloading configuration...");
 					this.Conf.Load();
+					break;
+				}
+				case ReqDeleteItemMessage reqDeleteItemMessage:
+				{
+					var characterId = Instance.Database.GetCharacterIdByItemUniqueId(reqDeleteItemMessage.ItemUniqueId);
+					if (characterId != 0)
+					{
+						var character = Instance.World.GetCharacterById(characterId);
+						if (character != null)
+						{
+							var item = character.Inventory.GetItem(reqDeleteItemMessage.ItemUniqueId);
+							// TODO: Update this
+							if (item.Amount >= reqDeleteItemMessage.Amount)
+							{
+								character.Inventory.Remove(reqDeleteItemMessage.ItemUniqueId, reqDeleteItemMessage.Amount);
+							}
+						} else
+						{
+							Instance.Database.RemoveItem(reqDeleteItemMessage.ItemUniqueId, reqDeleteItemMessage.Amount);
+						}
+					}
 					break;
 				}
 			}

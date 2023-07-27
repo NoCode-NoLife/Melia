@@ -219,6 +219,25 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Returns the first character found with the given team name,
+		/// or null if none were found.
+		/// </summary>
+		public Character GetCharacterById(long characterId)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					var character = map.GetCharacterById(characterId);
+					if (character != null)
+						return character;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// Adds a monster spawner object to the world
 		/// </summary>
 		/// <param name="spawner"></param>

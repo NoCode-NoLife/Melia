@@ -1,17 +1,24 @@
 <script setup>
 import { computed, ref, getCurrentInstance } from 'vue'
-import { mdiTagText, mdiCancel } from '@mdi/js'
+import { mdiTagText, mdiDelete } from '@mdi/js'
+import { router } from '@inertiajs/vue3'
 import CardBoxModal from '@/components/CardBoxModal.vue'
 import TableCheckboxCell from '@/components/TableCheckboxCell.vue'
 import BaseLevel from '@/components/BaseLevel.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import FormControl from '@/components/FormControl.vue'
+import FormField from '@/components/FormField.vue'
 
 const props = defineProps({
   checkable: Boolean,
   items: {
     type: Array,
+    required: true,
+  },
+  isLoading: {
+    type: Boolean,
     required: true,
   },
 })
@@ -63,11 +70,35 @@ const remove = (arr, cb) => {
   return newArr
 }
 
-const removeItem = ref(0)
+const removingItem = ref(0)
+const removingItemAmount = ref(0)
+const warningCall = ref(null)
 
-const removeItemWarning = (itemId) => {
-  removeItem.value = itemId
+const removeItemWarning = (item) => {
+  removingItem.value = item
+  removingItemAmount.value = item.amount
   isModalDangerActive.value = true
+  warningCall.value = () => {
+    removeItem(item)
+  }
+}
+
+const removeItem = (item) => {
+  props.isLoading = true
+  router.post(
+    route('admin.inventory.manager.remove.item'),
+    {
+      itemUniqueId: item.itemUniqueId,
+      amount: removingItemAmount.value,
+    },
+    {
+      preserveState: true,
+      preserveScroll: false,
+      onFinish: (visit) => {
+        props.isLoading = false
+      },
+    },
+  )
 }
 
 const checked = (isChecked, userAccount) => {
@@ -85,19 +116,19 @@ const checked = (isChecked, userAccount) => {
 <template>
   <CardBoxModal
     v-model="isModalDangerActive"
-    title="Do you want to ban the account?"
+    title="Warning"
     button="danger"
+    :confirm="warningCall"
     has-cancel
   >
-    <p v-if="removeItem">
-      Once you press the button, the account
-      <b class="text-lg">{{ removeItem.name }}</b
-      >{{ removeItem.teamName != null ? ' and Team Name ' : ''
-      }}<b class="text-lg">{{
-        removeItem.teamName != null ? removeItem.teamName : ''
-      }}</b>
-      will be banned from the server.
+    <p v-if="removingItem">
+      Do you want to remove the
+      <b class="text-lg">{{ removingItem.name }}</b
+      >{{ removingItem.itemName }} from the {{ removingItem.characterName }} ?
     </p>
+    <FormField label="Amount to be removed">
+      <FormControl v-model="removingItemAmount" name="itemAmount" required />
+    </FormField>
   </CardBoxModal>
 
   <div v-if="checkedRows.length" class="p-3 bg-gray-100/50 dark:bg-slate-800">
@@ -143,9 +174,9 @@ const checked = (isChecked, userAccount) => {
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
             <BaseButton
               color="danger"
-              :icon="mdiCancel"
+              :icon="mdiDelete"
               small
-              @click="banAccountWarning(userAccount)"
+              @click="removeItemWarning(item)"
             />
           </BaseButtons>
         </td>

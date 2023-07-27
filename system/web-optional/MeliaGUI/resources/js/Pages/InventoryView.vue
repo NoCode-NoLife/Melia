@@ -78,7 +78,7 @@ if (props.status != null) {
 </script>
 
 <template>
-  <Head title="Dashboard" />
+  <Head title="Inventory" />
 
   <OverlayLayer
     v-show="isLoading"
@@ -118,7 +118,7 @@ if (props.status != null) {
         {{ props.status.message }}
       </NotificationBar>
 
-      <SectionTitleLine :icon="mdiArchive" title="Inventories" main>
+      <SectionTitleLine :icon="mdiArchive" title="Inventory" main>
       </SectionTitleLine>
       <div class="flex flex-col gap-4">
         <div class="mb-6">
@@ -152,7 +152,7 @@ if (props.status != null) {
               >
                 <SectionTitleLine :icon="mdiAccount" :title="characterName">
                 </SectionTitleLine>
-                <TableItems :items="items" />
+                <TableItems :items="items" :isLoading="isLoading" />
               </div>
             </div>
           </CardBox>
