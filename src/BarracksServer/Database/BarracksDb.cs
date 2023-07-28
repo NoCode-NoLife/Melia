@@ -398,5 +398,179 @@ namespace Melia.Barracks.Database
 				mc.ExecuteNonQuery();
 			}
 		}
+
+		/// <summary>
+		/// Loads mail for the account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		public Mailbox GetMailbox(long accountId)
+		{
+			var mailbox = new Mailbox();
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `mail` WHERE `accountId` = @accountId", conn))
+			{
+				mc.Parameters.AddWithValue("@accountId", accountId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					if (reader.HasRows)
+					{
+						while (reader.Read())
+						{
+							var mail = new MailMessage
+							{
+								Id = reader.GetInt64("mailId"),
+								State = (MailBoxMessageState)reader.GetByte("status"),
+								Sender = reader.GetString("sender"),
+								Subject = reader.GetString("subject"),
+								Message = reader.GetString("message"),
+							};
+							var startDate = reader.GetDateTimeSafe("startDate");
+							var expirationDate = reader.GetDateTimeSafe("expirationDate");
+							var createdDate = reader.GetDateTimeSafe("createdDate");
+							if (startDate != DateTime.MinValue)
+								mail.StartDate = startDate;
+							if (expirationDate != DateTime.MinValue)
+								mail.ExpirationDate = expirationDate;
+							if (createdDate != DateTime.MinValue)
+								mail.CreatedDate = createdDate;
+
+							mailbox.AddMail(mail);
+						}
+					}
+				}
+			}
+			foreach (var mail in mailbox.GetMail())
+				mail.Items = this.LoadMailItems(mail.Id);
+
+			return mailbox;
+		}
+
+		/// <summary>
+		/// Loads mail items for a specific mail.
+		/// </summary>
+		/// <param name="mailId"></param>
+		/// <returns></returns>
+		public List<MailItem> LoadMailItems(long mailId)
+		{
+			var items = new List<MailItem>();
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `mail_items` WHERE `mailId` = @mailId ORDER BY mailItemUniqueId", conn))
+				{
+					mc.Parameters.AddWithValue("@mailId", mailId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						if (reader.HasRows)
+						{
+							while (reader.Read())
+							{
+								var mailItem = new MailItem
+								{
+									Id = (int)reader.GetInt64("mailItemUniqueId"),
+									ItemId = reader.GetInt32("itemId"),
+									Amount = reader.GetInt32("amount"),
+									IsReceived = (MailBoxMessageState)reader.GetByte("status") == MailBoxMessageState.Read,
+								};
+								items.Add(mailItem);
+							}
+						}
+					}
+				}
+			}
+			return items;
+		}
+
+		/// <summary>
+		/// Persists the account's mail to the database.
+		/// </summary>
+		/// <param name="account"></param>
+		public void SaveMail(Account account)
+		{
+			if (account.Mailbox == null)
+				return;
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `mail` WHERE `accountId` = @accountId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@accountId", account.Id);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var mail in account.Mailbox.GetMail())
+				{
+					if (mail.State == MailBoxMessageState.Delete)
+						continue;
+					using (var cmd = new InsertCommand("INSERT INTO `mail` {0}", conn, trans))
+					{
+						cmd.Set("accountId", account.Id);
+						cmd.Set("sender", mail.Sender);
+						cmd.Set("subject", mail.Subject);
+						cmd.Set("message", mail.Message);
+						cmd.Set("status", (byte)mail.State);
+						cmd.Set("startDate", mail.StartDate);
+						cmd.Set("expirationDate", mail.ExpirationDate);
+						cmd.Set("createdDate", mail.CreatedDate);
+
+						cmd.Execute();
+						mail.Id = cmd.LastId;
+					}
+
+					foreach (var item in mail.Items)
+					{
+						using (var cmd = new InsertCommand("INSERT INTO `mail_items` {0}", conn, trans))
+						{
+							cmd.Set("mailId", mail.Id);
+							cmd.Set("itemId", item.ItemId);
+							cmd.Set("amount", item.Amount);
+							cmd.Set("status", item.IsReceived ? 1 : 0);
+
+							cmd.Execute();
+							item.Id = (int)cmd.LastId;
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Persists an item to a specific character in the database.
+		/// </summary>
+		/// <param name="account"></param>
+		public void SaveItem(long characterId, int itemId, int amount)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				var itemDbId = 0L;
+				using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+				{
+					cmd.Set("itemId", itemId);
+					cmd.Set("amount", amount);
+
+					cmd.Execute();
+					itemDbId = cmd.LastId;
+				}
+
+				if (itemDbId != 0)
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+					{
+						cmd.Set("characterId", characterId);
+						cmd.Set("itemId", itemDbId);
+						cmd.Set("sort", 0);
+						cmd.Set("equipSlot", 0x7F);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
 	}
 }

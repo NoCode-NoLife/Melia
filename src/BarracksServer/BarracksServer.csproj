@@ -68,6 +68,8 @@
     <Compile Include="Database\Character.cs" />
     <Compile Include="Database\EquipItem.cs" />
     <Compile Include="Database\BarracksDb.cs" />
+    <Compile Include="Database\Mailbox.cs" />
+    <Compile Include="Database\MailMessage.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Network\BarracksConnection.cs" />
     <Compile Include="Network\Helpers\AppearanceBarrackPcHelper.cs" />

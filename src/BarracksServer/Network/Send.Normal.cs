@@ -180,22 +180,6 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Updates the state of a postbox message.
-			/// </summary>
-			/// <param name="conn"></param>
-			/// <param name="messageId"></param>
-			/// <param name="state"></param>
-			public static void UpdatePostBoxState(IBarracksConnection conn, long messageId, PostBoxMessageState state)
-			{
-				var packet = new Packet(Op.BC_NORMAL);
-				packet.PutInt(NormalOp.Barrack.PostBoxState);
-				packet.PutLong(messageId);
-				packet.PutByte((byte)state);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
 			/// Invokes a lua function.
 			/// </summary>
 			/// <param name="conn"></param>
@@ -205,6 +189,94 @@ namespace Melia.Barracks.Network
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.Run);
 				packet.PutLpString(str);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Mailbox
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void Mailbox(IBarracksConnection conn)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.Mailbox);
+
+				packet.Zlib(true, zpacket =>
+				{
+					var mailBox = conn.Account.Mailbox;
+					zpacket.PutByte(mailBox.HasMessages);
+					zpacket.PutInt(mailBox.ReadMessages);
+					zpacket.PutInt(mailBox.UnreadMesages);
+					zpacket.PutInt(mailBox.MessageCount); //Message Count?
+
+					foreach (var message in mailBox.GetMail())
+					{
+						zpacket.PutLpString(message.Sender);
+						zpacket.PutLpString(message.Subject);
+						zpacket.PutLpString(message.Message);
+						zpacket.PutDate(message.StartDate); // Date Sent?
+						zpacket.PutDate(message.ExpirationDate); // Expiration
+						zpacket.PutDate(message.CreatedDate);
+						zpacket.PutLong(message.Id); // Message Id
+						zpacket.PutByte(message.IsRead);
+						zpacket.PutShort(message.Items.Count);
+						zpacket.PutByte(0); // Changes Visibility?
+						zpacket.PutByte(0);
+						zpacket.PutByte(1);
+						zpacket.PutShort(0);
+						zpacket.PutInt(message.Items.Count); // Message Item Count
+
+						foreach (var item in message.Items)
+						{
+							zpacket.PutInt(item.Id);
+							zpacket.PutInt(item.ItemId);
+							zpacket.PutInt(item.Amount);
+							zpacket.PutInt(item.IsReceived ? 1 : 0);
+						}
+					}
+				});
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the state of a mailbox message.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="messageId"></param>
+			/// <param name="state"></param>
+			public static void UpdateMailboxState(IBarracksConnection conn, long messageId, MailBoxMessageState state)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.MailboxState);
+				packet.PutLong(messageId);
+				packet.PutByte((byte)state);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Mail Update
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void MailUpdate(IBarracksConnection conn, MailMessage message)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.MailUpdate);
+
+				packet.PutLong(message.Id);
+				packet.PutByte((byte)message.State);
+				packet.PutInt(7);
+				packet.PutInt(message.Items.Count); // Message Item Count
+
+				foreach (var item in message.Items)
+				{
+					packet.PutInt(item.Id);
+					packet.PutInt(item.ItemId);
+					packet.PutInt(item.Amount);
+					packet.PutInt(item.IsReceived ? 1 : 0);
+				}
 
 				conn.Send(packet);
 			}
@@ -244,43 +316,6 @@ namespace Melia.Barracks.Network
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.BarrackSlotCount);
 				packet.PutInt(count);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
-			/// Mailbox
-			/// </summary>
-			/// <param name="conn"></param>
-			public static void MESSAGE_MAIL(IBarracksConnection conn)
-			{
-				var packet = new Packet(Op.BC_NORMAL);
-				packet.PutInt(NormalOp.Barrack.Message);
-
-				packet.Zlib(true, zpacket =>
-				{
-					zpacket.PutByte(1);
-					zpacket.PutInt(0);
-					zpacket.PutInt(1); //Message Count?
-
-					var sender = "GM.";
-					var title = "Compensation on for Temporary Maintenance";
-					var message = "";
-
-					zpacket.PutLpString(sender);
-					zpacket.PutLpString(title);
-					zpacket.PutLpString(message);
-					zpacket.PutDate(DateTime.Now); // Date Sent?
-					zpacket.PutDate(DateTime.Now); // Expiration
-					zpacket.PutDate(DateTime.Now);
-					zpacket.PutLong(1); // Message Id
-					zpacket.PutByte(0);
-					zpacket.PutShort(3);
-					zpacket.PutShort(0);
-					zpacket.PutShort(1);
-					zpacket.PutByte(0);
-					zpacket.PutInt(0); // Message Item Count
-				});
 
 				conn.Send(packet);
 			}

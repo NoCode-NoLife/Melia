@@ -7,7 +7,7 @@
 		TeamChangeFailed = 1,
 	}
 
-	public enum PostBoxMessageState : byte
+	public enum MailBoxMessageState : byte
 	{
 		None = 0,
 		Read = 1,
