@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.Tos.Const;
 
 namespace Melia.Barracks.Database
@@ -13,7 +9,6 @@ namespace Melia.Barracks.Database
 	/// </summary>
 	public class Mailbox
 	{
-		private readonly object _syncLock = new object();
 		private readonly List<MailMessage> _mail = new List<MailMessage>();
 
 		/// <summary>
@@ -21,43 +16,43 @@ namespace Melia.Barracks.Database
 		/// </summary>
 		public List<MailMessage> GetMail()
 		{
-			lock (_syncLock)
+			lock (_mail)
 				return _mail;
 		}
 
 		/// <summary>
 		/// Returns if the mail box has messages
 		/// </summary>
-		public bool HasMessages { get { lock (_syncLock) return this._mail.Count > 0; } }
+		public bool HasMessages { get { lock (_mail) return this._mail.Count > 0; } }
 
 		/// <summary>
 		/// Returns the number of unread messages
 		/// </summary>
-		public int UnreadMesages
+		public int UnreadMessageCount
 		{
 			get
 			{
-				lock (_syncLock)
-					return this._mail.Count(a => a.State == MailBoxMessageState.None);
+				lock (_mail)
+					return this._mail.Count(a => a.State == MailboxMessageState.None);
 			}
 		}
 
 		/// <summary>
 		/// Returns the number of read messages
 		/// </summary>
-		public int ReadMessages
+		public int ReadMessageCount
 		{
 			get
 			{
-				lock (_syncLock)
-					return this._mail.Count(a => a.State == MailBoxMessageState.Read);
+				lock (_mail)
+					return this._mail.Count(a => a.State == MailboxMessageState.Read);
 			}
 		}
 
 		/// <summary>
 		/// Returns the numbers of messages
 		/// </summary>
-		public int MessageCount { get { lock (_syncLock) return this._mail.Count; } }
+		public int MessageCount { get { lock (_mail) return this._mail.Count; } }
 
 		/// <summary>
 		/// Add a mail message
@@ -65,7 +60,7 @@ namespace Melia.Barracks.Database
 		/// <param name="mail"></param>
 		public void AddMail(MailMessage mail)
 		{
-			lock (_syncLock)
+			lock (_mail)
 				this._mail.Add(mail);
 		}
 
@@ -73,11 +68,11 @@ namespace Melia.Barracks.Database
 		/// Try to get mail
 		/// </summary>
 		/// <param name="messageId"></param>
-		/// <param name="mail"></param>
+		/// <param name="message"></param>
 		/// <returns></returns>
-		public bool TryGet(long messageId, out MailMessage message)
+		public bool TryGetMail(long messageId, out MailMessage message)
 		{
-			lock (_syncLock)
+			lock (_mail)
 				message = this._mail.Find(m => m.Id == messageId);
 			return message != null;
 		}

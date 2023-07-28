@@ -206,12 +206,14 @@ namespace Melia.Barracks.Network
 				{
 					var mailBox = conn.Account.Mailbox;
 					zpacket.PutByte(mailBox.HasMessages);
-					zpacket.PutInt(mailBox.ReadMessages);
-					zpacket.PutInt(mailBox.UnreadMesages);
-					zpacket.PutInt(mailBox.MessageCount); //Message Count?
+					zpacket.PutInt(mailBox.ReadMessageCount);
+					zpacket.PutInt(mailBox.MessageCount);
+					zpacket.PutInt(mailBox.MessageCount);
 
 					foreach (var message in mailBox.GetMail())
 					{
+						var items = message.GetItems();
+
 						zpacket.PutLpString(message.Sender);
 						zpacket.PutLpString(message.Subject);
 						zpacket.PutLpString(message.Message);
@@ -219,15 +221,15 @@ namespace Melia.Barracks.Network
 						zpacket.PutDate(message.ExpirationDate); // Expiration
 						zpacket.PutDate(message.CreatedDate);
 						zpacket.PutLong(message.Id); // Message Id
-						zpacket.PutByte(message.IsRead);
-						zpacket.PutShort(message.Items.Count);
-						zpacket.PutByte(0); // Changes Visibility?
+						zpacket.PutByte(message.HasItems());
+						zpacket.PutShort(items.Count);
+						zpacket.PutByte((byte)message.State); // Changes Visibility?
 						zpacket.PutByte(0);
 						zpacket.PutByte(1);
 						zpacket.PutShort(0);
-						zpacket.PutInt(message.Items.Count); // Message Item Count
+						zpacket.PutInt(items.Count); // Message Item Count
 
-						foreach (var item in message.Items)
+						foreach (var item in items)
 						{
 							zpacket.PutInt(item.Id);
 							zpacket.PutInt(item.ItemId);
@@ -246,7 +248,7 @@ namespace Melia.Barracks.Network
 			/// <param name="conn"></param>
 			/// <param name="messageId"></param>
 			/// <param name="state"></param>
-			public static void UpdateMailboxState(IBarracksConnection conn, long messageId, MailBoxMessageState state)
+			public static void UpdateMailboxState(IBarracksConnection conn, long messageId, MailboxMessageState state)
 			{
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.MailboxState);
@@ -262,15 +264,17 @@ namespace Melia.Barracks.Network
 			/// <param name="conn"></param>
 			public static void MailUpdate(IBarracksConnection conn, MailMessage message)
 			{
+				var items = message.GetItems();
+				var receivedItems = items.Count(item => item.IsReceived);
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.MailUpdate);
 
 				packet.PutLong(message.Id);
 				packet.PutByte((byte)message.State);
-				packet.PutInt(7);
-				packet.PutInt(message.Items.Count); // Message Item Count
+				packet.PutInt(receivedItems); // This is a guess, could be a different value.
+				packet.PutInt(items.Count);
 
-				foreach (var item in message.Items)
+				foreach (var item in items)
 				{
 					packet.PutInt(item.Id);
 					packet.PutInt(item.ItemId);

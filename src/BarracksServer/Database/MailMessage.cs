@@ -12,17 +12,17 @@ namespace Melia.Barracks.Database
 	/// </summary>
 	public class MailMessage
 	{
-		private readonly object _syncLock = new object();
+		private readonly List<MailItem> _items = new List<MailItem>();
 
 		/// <summary>
 		/// Gets or sets the message's unique id.
 		/// </summary>
-		public long Id { get; set; }
+		public long Id { get; set; } = 0;
 
 		/// <summary>
 		/// Gets or sets the message's state.
 		/// </summary>
-		public MailBoxMessageState State { get; set; } = MailBoxMessageState.None;
+		public MailboxMessageState State { get; set; } = MailboxMessageState.None;
 
 		/// <summary>
 		/// Gets or sets the message's sender.
@@ -55,26 +55,46 @@ namespace Melia.Barracks.Database
 		public DateTime CreatedDate { get; set; } = DateTime.MaxValue;
 
 		/// <summary>
-		/// Gets or sets the message items.
+		/// Returns if the message is read.
 		/// </summary>
-		public List<MailItem> Items { get; set; }
+		public bool IsRead => this.State == MailboxMessageState.Read;
 
 		/// <summary>
 		/// Returns if the message is read.
 		/// </summary>
-		public bool IsRead => this.State == MailBoxMessageState.Read;
-
-		public void AddItem(MailItem item)
+		public bool HasItems()
 		{
-			lock (_syncLock)
-				this.Items.Add(item);
+			lock (_items)
+				return this._items.Exists(item => !item.IsReceived);
 		}
 
+		public List<MailItem> GetItems()
+		{
+			lock (_items)
+				return _items;
+		}
+
+		/// <summary>
+		/// Adds an item to the message.
+		/// </summary>
+		/// <param name="item"></param>
+		public void AddItem(MailItem item)
+		{
+			lock (_items)
+				this._items.Add(item);
+		}
+
+		/// <summary>
+		/// Returns the item with the given mail item id.
+		/// Returns false if no item was found.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <returns></returns>
 		public bool TryGetItem(int mailItemId, out MailItem item)
 		{
-			lock (_syncLock)
+			lock (_items)
 			{
-				item = this.Items.FirstOrDefault(a => a.Id == mailItemId);
+				item = this._items.Find(a => a.Id == mailItemId);
 				return item != null;
 			}
 		}
@@ -83,14 +103,9 @@ namespace Melia.Barracks.Database
 	public class MailItem
 	{
 		/// <summary>
-		/// Gets or sets the mail items index.
-		/// </summary>
-		public int Index { get; set; }
-
-		/// <summary>
 		/// Gets or sets the mail items unique id.
 		/// </summary>
-		public int Id { get; set; }
+		public int Id { get; set; } = 0;
 
 		/// <summary>
 		/// Gets or sets the mail item's item id.

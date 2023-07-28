@@ -622,7 +622,7 @@ namespace Melia.Barracks.Network
 		{
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
-			var state = (MailBoxMessageState)packet.GetByte();
+			var state = (MailboxMessageState)packet.GetByte();
 
 			var mailbox = conn.Account.Mailbox;
 
@@ -633,7 +633,7 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
-			if (!mailbox.TryGet(messageId, out var mail))
+			if (!mailbox.TryGetMail(messageId, out var mail))
 			{
 				Log.Warning("CB_REQ_CHANGE_POSTBOX_STATE: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
 				return;
@@ -655,7 +655,6 @@ namespace Melia.Barracks.Network
 			var characterId = packet.GetLong();
 			var items = packet.GetString();
 
-
 			var mailbox = conn.Account.Mailbox;
 			var character = conn.Account.GetCharacterById(characterId);
 
@@ -672,11 +671,12 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
-			if (!mailbox.TryGet(messageId, out var mail))
+			if (!mailbox.TryGetMail(messageId, out var mail))
 			{
 				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
 				return;
 			}
+
 			if (items.Contains("/"))
 			{
 				var splitItems = items.Split('/');
@@ -699,7 +699,10 @@ namespace Melia.Barracks.Network
 					item.IsReceived = true;
 				}
 			}
-			mail.State = MailBoxMessageState.Read;
+			if (mail.HasItems())
+				mail.State = MailboxMessageState.Read;
+			else
+				mail.State = MailboxMessageState.Store;
 			Send.BC_NORMAL.MailUpdate(conn, mail);
 		}
 

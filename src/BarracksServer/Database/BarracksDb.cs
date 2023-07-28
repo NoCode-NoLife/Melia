@@ -420,7 +420,7 @@ namespace Melia.Barracks.Database
 							var mail = new MailMessage
 							{
 								Id = reader.GetInt64("mailId"),
-								State = (MailBoxMessageState)reader.GetByte("status"),
+								State = (MailboxMessageState)reader.GetByte("status"),
 								Sender = reader.GetString("sender"),
 								Subject = reader.GetString("subject"),
 								Message = reader.GetString("message"),
@@ -440,8 +440,13 @@ namespace Melia.Barracks.Database
 					}
 				}
 			}
+
 			foreach (var mail in mailbox.GetMail())
-				mail.Items = this.LoadMailItems(mail.Id);
+			{
+				foreach (var item in this.LoadMailItems(mail.Id))
+					mail.AddItem(item);
+			}
+
 
 			return mailbox;
 		}
@@ -471,7 +476,7 @@ namespace Melia.Barracks.Database
 									Id = (int)reader.GetInt64("mailItemUniqueId"),
 									ItemId = reader.GetInt32("itemId"),
 									Amount = reader.GetInt32("amount"),
-									IsReceived = (MailBoxMessageState)reader.GetByte("status") == MailBoxMessageState.Read,
+									IsReceived = reader.GetByte("status") == 1,
 								};
 								items.Add(mailItem);
 							}
@@ -493,42 +498,62 @@ namespace Melia.Barracks.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `mail` WHERE `accountId` = @accountId", conn, trans))
-				{
-					mc.Parameters.AddWithValue("@accountId", account.Id);
-					mc.ExecuteNonQuery();
-				}
-
 				foreach (var mail in account.Mailbox.GetMail())
 				{
-					if (mail.State == MailBoxMessageState.Delete)
-						continue;
-					using (var cmd = new InsertCommand("INSERT INTO `mail` {0}", conn, trans))
+					if (mail.State == MailboxMessageState.Delete)
 					{
-						cmd.Set("accountId", account.Id);
-						cmd.Set("sender", mail.Sender);
-						cmd.Set("subject", mail.Subject);
-						cmd.Set("message", mail.Message);
-						cmd.Set("status", (byte)mail.State);
-						cmd.Set("startDate", mail.StartDate);
-						cmd.Set("expirationDate", mail.ExpirationDate);
-						cmd.Set("createdDate", mail.CreatedDate);
-
-						cmd.Execute();
-						mail.Id = cmd.LastId;
-					}
-
-					foreach (var item in mail.Items)
-					{
-						using (var cmd = new InsertCommand("INSERT INTO `mail_items` {0}", conn, trans))
+						using (var mc = new MySqlCommand("DELETE FROM `mail` WHERE `accountId` = @accountId AND `mailId` = @mailId", conn, trans))
 						{
-							cmd.Set("mailId", mail.Id);
-							cmd.Set("itemId", item.ItemId);
-							cmd.Set("amount", item.Amount);
-							cmd.Set("status", item.IsReceived ? 1 : 0);
+							mc.AddParameter("@accountId", account.Id);
+							mc.AddParameter("@mailId", mail.Id);
+
+							mc.ExecuteNonQuery();
+						}
+					}
+					else
+					{
+						using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `accountId` = @accountId AND `mailId` = @mailId", conn, trans))
+						{
+							cmd.AddParameter("@accountId", account.Id);
+							cmd.AddParameter("@mailId", mail.Id);
+							cmd.Set("sender", mail.Sender);
+							cmd.Set("subject", mail.Subject);
+							cmd.Set("message", mail.Message);
+							cmd.Set("status", (byte)mail.State);
+							cmd.Set("startDate", mail.StartDate);
+							cmd.Set("expirationDate", mail.ExpirationDate);
+							cmd.Set("createdDate", mail.CreatedDate);
 
 							cmd.Execute();
-							item.Id = (int)cmd.LastId;
+						}
+
+						foreach (var item in mail.GetItems())
+						{
+							if (item.Id == 0)
+							{
+								using (var cmd = new InsertCommand("INSERT INTO `mail_items` {0}", conn, trans))
+								{
+									cmd.Set("mailId", mail.Id);
+									cmd.Set("itemId", item.ItemId);
+									cmd.Set("amount", item.Amount);
+									cmd.Set("status", item.IsReceived ? 1 : 0);
+
+									cmd.Execute();
+									item.Id = (int)cmd.LastId;
+								}
+							}
+							else
+							{
+								using (var cmd = new UpdateCommand("UPDATE `mail_items` SET {0} WHERE `mailItemUniqueId` = @mailItemUniqueId", conn, trans))
+								{
+									cmd.AddParameter("@mailItemUniqueId", item.Id);
+									cmd.Set("mailId", mail.Id);
+									cmd.Set("itemId", item.ItemId);
+									cmd.Set("amount", item.Amount);
+									cmd.Set("status", item.IsReceived ? 1 : 0);
+									cmd.Execute();
+								}
+							}
 						}
 					}
 				}
