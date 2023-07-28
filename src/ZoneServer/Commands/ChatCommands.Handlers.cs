@@ -37,10 +37,6 @@ namespace Melia.Zone.Commands
 			// The required authority levels for commands can be specified
 			// in the configuration file "conf/commands.conf".
 
-			// Client Scripting
-			this.Add("buyshop", "", "", this.HandleBuyShop);
-			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
-
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
@@ -1479,87 +1475,6 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Opens buy-in shop creation window or creates shop based on
-		/// arguments.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
-		{
-			if (args.Count == 0)
-			{
-				Send.ZC_EXEC_CLIENT_SCP(target.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
-				return CommandResult.Okay;
-			}
-
-			if (args.Count < 2)
-			{
-				Log.Debug("HandleBuyShop: Not enough arguments.");
-				return CommandResult.Okay;
-			}
-
-			// Read arguments
-			var title = args.Get(0);
-			var items = new List<Tuple<int, int, int>>();
-
-			for (var i = 2; i < args.Count; ++i)
-			{
-				var split = args.Get(i).Split(',');
-
-				if (split.Length != 3 || !int.TryParse(split[0], out var id) || !int.TryParse(split[1], out var amount) || !int.TryParse(split[2], out var price))
-				{
-					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args.Get(i));
-					return CommandResult.Okay;
-				}
-
-				items.Add(new Tuple<int, int, int>(id, amount, price));
-			}
-
-			// Create auto seller packet from arguments and have the
-			// channel handle it as if the client had sent it.
-			var packet = new Packet(Op.CZ_REGISTER_AUTOSELLER);
-			packet.PutString(title, 64);
-			packet.PutInt(items.Count);
-			packet.PutInt(270065); // PersonalShop
-			packet.PutInt(0);
-
-			foreach (var item in items)
-			{
-				packet.PutInt(item.Item1);
-				packet.PutInt(item.Item2);
-				packet.PutInt(item.Item3);
-				packet.PutEmptyBin(264);
-			}
-
-			ZoneServer.Instance.PacketHandler.Handle(target.Connection, packet);
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
-		/// Updates the character's mouse position variables.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleUpdateMouse(Character sender, Character target, string message, string command, Arguments args)
-		{
-			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args.Get(0), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
 		/// Toggles autoloot.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -1668,10 +1583,12 @@ namespace Melia.Zone.Commands
 			// The max length of chat messages appears to be ~4090 characters,
 			// so we need to split the data into multiple messages.
 
+			var prefix = ZoneServer.Instance.Conf.Commands.SelfPrefix[0];
+
 			Send.ZC_EXEC_CLIENT_SCP(sender.Connection, @"
 				local result = ''
 				
-				ui.Chat('>updatedatacom init')
+				ui.Chat('" + prefix + @"updatedatacom init')
 
 				local itemClassList, cnt  = GetClassList('Item');
 				for i = 0, cnt - 1 do
@@ -1682,12 +1599,12 @@ namespace Melia.Zone.Commands
 					result = result .. itemClass.ClassID .. '\t' .. itemMonsterId .. '\t' .. itemClass.ClassName .. '\n'
 
 					if string.len(result) > 2000 then
-						ui.Chat('>updatedatacom add ' .. result)
+						ui.Chat('" + prefix + @"updatedatacom add ' .. result)
 						result = ''
 					end
 				end
 
-				ui.Chat('>updatedatacom fin')
+				ui.Chat('" + prefix + @"updatedatacom fin')
 			");
 
 			return CommandResult.Okay;
