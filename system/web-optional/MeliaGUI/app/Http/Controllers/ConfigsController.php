@@ -2,21 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GuzzleClientService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
-use GuzzleHttp\Client;
 
 class ConfigsController extends Controller
 {
-    private $client;
+    private $guzzleClientService;
 
-    public function __construct()
+    public function __construct(GuzzleClientService $guzzleClientService)
     {
-        $this->client = new Client([
-            'base_uri' => config('webserver.host') . ":" . config('webserver.port'),
-        ]);
+        $this->guzzleClientService = $guzzleClientService;
     }
 
     /**
@@ -29,7 +27,7 @@ class ConfigsController extends Controller
         $configs = null;
 
         try {
-            $response = $this->client->request('GET', '/api/info/configs');
+            $response = $this->guzzleClientService->client->request('GET', '/api/info/configs');
             $statusCode = $response->getStatusCode();
             $body = $response->getBody()->getContents();
 
@@ -56,7 +54,7 @@ class ConfigsController extends Controller
     public function store(Request $request): RedirectResponse
     {
         try {
-            $response = $this->client->post('/api/info/configs', ['json' => $request->input()]);
+            $response = $this->guzzleClientService->client->post('/api/info/configs', ['json' => $request->input()]);
             $statusCode = $response->getStatusCode();
             if ($statusCode == 200) {
                 return back()

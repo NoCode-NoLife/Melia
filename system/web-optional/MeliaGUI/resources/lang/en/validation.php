@@ -19,6 +19,7 @@ return [
     'backup.delete.successful' => 'Backup was deleted successful.',
     'backup.restore.successful' => 'Backup restored successful.',
     'backup.restore.fail' => 'Backup restored failed.',
+    'backup.restore.cant' => 'Could not restore the backup because the server is ONLINE.',
     'kick.all.players.fail' => 'Fail to kick all players',
     'kick.all.players.successful' => 'Successful kicked all players.',
     'configs.update.fail' => 'Configs could no be updated.',

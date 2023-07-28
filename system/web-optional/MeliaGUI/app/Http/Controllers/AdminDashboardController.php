@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GuzzleClientService;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Account;
 use App\Models\Character;
-use GuzzleHttp\Client;
 use Carbon\Carbon;
 use Exception;
 use SplFileInfo;
 
 class AdminDashboardController extends Controller
 {
-    private $client;
+    private $guzzleClientService;
 
-    public function __construct()
+    public function __construct(GuzzleClientService $guzzleClientService)
     {
-        $this->client = new Client([
-            'base_uri' => config('webserver.host') . ":" . config('webserver.port'),
-        ]);
+        $this->guzzleClientService = $guzzleClientService;
     }
 
     public function get(Request $request)
@@ -57,7 +55,7 @@ class AdminDashboardController extends Controller
         $totalCpuUsage = 0;
 
         try {
-            $resProcesses = $this->client->request('GET', '/api/info/processes' );
+            $resProcesses = $this->guzzleClientService->client->request('GET', '/api/info/processes' );
             $statusCodeProcesses = $resProcesses->getStatusCode();
             $bodyProcesses = $resProcesses->getBody()->getContents();
 
@@ -82,7 +80,7 @@ class AdminDashboardController extends Controller
         $onlineAccounts = 0;
 
         try {
-            $resPlayerCount = $this->client->request('GET', '/api/info/playercount' );
+            $resPlayerCount = $this->guzzleClientService->client->request('GET', '/api/info/playercount' );
             $statusCodePlayerCount = $resPlayerCount->getStatusCode();
             $bodyPlayerCount = $resPlayerCount->getBody()->getContents();
 
@@ -112,7 +110,7 @@ class AdminDashboardController extends Controller
     public function kickAll(Request $request)
     {
         try {
-            $response = $this->client->request('POST', '/api/kick/all' );
+            $response = $this->guzzleClientService->client->request('POST', '/api/kick/all' );
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
@@ -131,7 +129,7 @@ class AdminDashboardController extends Controller
         ]);
 
         try {
-            $response = $this->client->post('/api/process/close/zone', ['json' => ['processId' => $request->processId]] );
+            $response = $this->guzzleClientService->client->post('/api/process/close/zone', ['json' => ['processId' => $request->processId]] );
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
@@ -146,7 +144,7 @@ class AdminDashboardController extends Controller
     public function createNewZone(Request $request)
     {
         try {
-            $response = $this->client->post('/api/process/create/zone');
+            $response = $this->guzzleClientService->client->post('/api/process/create/zone');
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
@@ -164,7 +162,7 @@ class AdminDashboardController extends Controller
         ]);
 
         try {
-            $response = $this->client->post('/api/message/broadcast', ['json' => ['message' => $request->message]] );
+            $response = $this->guzzleClientService->client->post('/api/message/broadcast', ['json' => ['message' => $request->message]] );
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {

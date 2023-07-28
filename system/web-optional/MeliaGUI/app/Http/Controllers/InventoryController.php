@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GuzzleClientService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 use Inertia\Inertia;
 use App\Models\Account;
 use App\Models\Inventory;
@@ -13,13 +13,11 @@ use App\Models\Item;
 
 class InventoryController extends Controller
 {
-    private $client;
+    private $guzzleClientService;
 
-    public function __construct()
+    public function __construct(GuzzleClientService $guzzleClientService)
     {
-        $this->client = new Client([
-            'base_uri' => config('webserver.host') . ":" . config('webserver.port'),
-        ]);
+        $this->guzzleClientService = $guzzleClientService;
     }
 
     public function get(Request $request)
@@ -27,10 +25,9 @@ class InventoryController extends Controller
         $isServerOnline = false;
 
         try {
-            $resPlayerCount = $this->client->request('GET', '/api/info/server' );
-            $statusCodePlayerCount = $resPlayerCount->getStatusCode();
-
-            if ($statusCodePlayerCount == 200) {
+            $response = $this->guzzleClientService->client->request('GET', '/api/info/server' );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
                 $isServerOnline = true;
             }
         } catch (\Exception $e) {
@@ -58,9 +55,9 @@ class InventoryController extends Controller
         $isServerOnline = false;
 
         try {
-            $resPlayerCount = $this->client->request('GET', '/api/info/server' );
-            $statusCodePlayerCount = $resPlayerCount->getStatusCode();
-            if ($statusCodePlayerCount == 200) {
+            $response = $this->guzzleClientService->client->request('GET', '/api/info/server' );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
                 $isServerOnline = true;
             }
         } catch (\Exception $e) {
@@ -112,10 +109,9 @@ class InventoryController extends Controller
         $isServerOnline = false;
 
         try {
-            $resPlayerCount = $this->client->request('GET', '/api/info/server' );
-            $statusCodePlayerCount = $resPlayerCount->getStatusCode();
-
-            if ($statusCodePlayerCount == 200) {
+            $response = $this->guzzleClientService->client->request('GET', '/api/info/server' );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
                 $isServerOnline = true;
             }
         } catch (\Exception $e) {

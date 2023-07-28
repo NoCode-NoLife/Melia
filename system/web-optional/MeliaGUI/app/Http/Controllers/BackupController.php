@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\GuzzleClientService;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -10,6 +11,14 @@ use SplFileInfo;
 
 class BackupController extends Controller
 {
+    private $guzzleClientService;
+
+    public function __construct(GuzzleClientService $guzzleClientService)
+    {
+        $this->guzzleClientService = $guzzleClientService;
+    }
+
+
     public function create(Request $request)
     {
         $fileName = str_replace(':', '-', str_replace(' ', '_', Carbon::now()->toDateTimeString())) . '.sql';
@@ -59,6 +68,24 @@ class BackupController extends Controller
         $request->validate([
             'backupDate' => 'required',
         ]);
+
+        $isServerOnline = false;
+
+        try {
+            $response = $this->guzzleClientService->client->request('GET', '/api/info/server' );
+            $statusCode = $response->getStatusCode();
+            if ($statusCode == 200) {
+                $isServerOnline = true;
+            }
+        } catch (\Exception $e) {
+        }
+
+
+        if ($isServerOnline) {
+            throw ValidationException::withMessages([
+                'status' => [ 'type' => 'danger', 'message' => trans('validation.backup.restore.cant') ],
+            ]);
+        }
 
         $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
         $files = File::files($directory);
