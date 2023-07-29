@@ -240,10 +240,6 @@ namespace Melia.Zone.Network
 
 			// Try to execute message as a chat command, don't send if it
 			// was handled as one
-
-			if (ZoneServer.Instance.ClientChatCommands.TryExecute(character, msg))
-				return;
-
 			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				return;
 
