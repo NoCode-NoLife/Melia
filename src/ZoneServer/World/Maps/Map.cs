@@ -10,6 +10,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
@@ -190,8 +191,20 @@ namespace Melia.Zone.World.Maps
 			lock (_monsters)
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
-			foreach (var monster in toDisappear)
+			foreach (var monster in toDisappear) {
+
+				// If this is a blue orb summon, inform the summoner that it expired
+				if (monster is Mob mob) {
+					if (mob.MonsterType != MonsterType.Mob && mob.Components.Get<AiComponent>()?.Script.GetMaster() != null && mob.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+					{
+						master.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+						master.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+					}
+				}
+				
 				this.RemoveMonster(monster);
+
+			}
 		}
 
 		/// <summary>
