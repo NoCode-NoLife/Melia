@@ -307,7 +307,17 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			if (killer is Character characterKiller)
+			// If I have a master, inform my master that I died so they can resummon me
+			if (this.Components.Get<AiComponent>()?.Script.GetMaster() != null)
+			{
+				if (this.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+				{
+					master.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+					master.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+				}
+			}
+
+			if (this.MonsterType == MonsterType.Mob && killer is Character characterKiller)
 			{
 				this.DropItems(characterKiller);
 				characterKiller?.GiveExp(exp, classExp, this);

@@ -227,8 +227,28 @@ namespace Melia.Zone.Scripting.AI
 
 			while (true)
 			{
-				if (followTarget.Map.Id != this.Entity.Map.Id)
+				if (this.GetMaster() != null)
 				{
+					// If my master summoned a different blue orb monster or dismissed me, I disappear
+					if (this.Entity is Mob mob && this.GetMaster() is Character master)
+					{
+						if (master.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId) )
+						{
+							if (monsterClassId != mob.Id)
+							{
+								this.Entity.Map.RemoveMonster(mob);
+							}
+						}
+						else
+						{
+							// this is the case where the monster was dismissed by re-using its orb, thereby clearing that variable
+							this.Entity.Map.RemoveMonster(mob);
+						}
+					}
+				}
+
+				if (followTarget.Map.Id != this.Entity.Map.Id)
+				{					
 					movement.Stop();
 
 					// If the target is no longer on the same map, blue orb
@@ -238,7 +258,7 @@ namespace Melia.Zone.Scripting.AI
 					// recreate it on the other side, from the summoning
 					// script. All this could need a clean up.
 
-					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp && !ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 					{
 						while (true)
 							yield return this.Wait(10000);
@@ -246,8 +266,9 @@ namespace Melia.Zone.Scripting.AI
 					else
 					{
 						if (this.Entity is Mob mob)
+						{
 							this.Entity.Map.RemoveMonster(mob);
-						yield break;
+						}
 					}
 				}
 

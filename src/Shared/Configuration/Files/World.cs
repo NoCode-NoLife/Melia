@@ -36,6 +36,8 @@ namespace Melia.Shared.Configuration.Files
 
 		public bool BlueOrbFollowWarp { get; protected set; }
 
+		public bool BlueOrbPetSystem { get; protected set; }
+
 		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
@@ -72,6 +74,7 @@ namespace Melia.Shared.Configuration.Files
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
+			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);
 		}
 	}
 }

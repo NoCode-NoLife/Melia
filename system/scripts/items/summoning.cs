@@ -25,13 +25,34 @@ public class SummoningItemScripts : GeneralScript
 			return ItemUseResult.Fail;
 		}
 
+		// If the pet system is on and you try to resummon the same monster, it desummons it, otherwise we summon
+		// the new monster and the old monster desummons itself since it checks this variable.
+		// If the pet system is not enabled using the same orb fails to prevent wasting it.
+		if (character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
+		{
+			if (monsterData.Id == monsterClassId)
+			{
+				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem) 
+				{ 
+					character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+					return ItemUseResult.Okay;
+				}
+				else
+				{
+					character.ServerMessage(Localization.Get("This monster is already summoned."));
+					return ItemUseResult.Fail;
+				}
+			}
+		}
+
 		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
-
 		character.Map.AddMonster(monster);
 
 		character.Variables.Perm.SetInt("Melia.OrbSummon.MonsterId", monsterData.Id);
-		character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
+		
+		if (!ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+			character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
 
 		return ItemUseResult.Okay;
 	}
@@ -55,23 +76,36 @@ public class SummoningItemScripts : GeneralScript
 	[On("PlayerReady")]
 	public void OnPlayerReady(object sender, PlayerEventArgs args)
 	{
-		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
-			return;
 
 		var character = args.Character;
 
-		if (!character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out var disappearTime))
+		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp) 
+		{
+			character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+			character.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
 			return;
-
-		if (DateTime.Now > disappearTime)
-			return;
+		}
+		
+		if (character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out var disappearTime))
+		{
+			if (DateTime.Now > disappearTime) 
+			{ 
+				character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+				character.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+				return;
+			}
+		}
 
 		if (!character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
 			return;
 
 		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
-		monster.DisappearTime = disappearTime;
+
+		if (character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out disappearTime))
+		{
+			monster.DisappearTime = disappearTime;
+		}
 
 		character.Map.AddMonster(monster);
 	}
@@ -90,7 +124,9 @@ public class SummoningItemScripts : GeneralScript
 
 		var monster = new Mob(monsterClassId, monsterType);
 		monster.Position = itemUser.Position;
-		monster.DisappearTime = DateTime.Now + TimeSpan.FromSeconds(180);
+
+		if (!ZoneServer.Instance.Conf.World.BlueOrbPetSystem || monsterType == MonsterType.Mob)
+			monster.DisappearTime = DateTime.Now + TimeSpan.FromSeconds(180);
 
 		if (itemUser.Map.TryGetPropertyOverrides(monsterClassId, out var propertyOverrides))
 			monster.ApplyOverrides(propertyOverrides);
