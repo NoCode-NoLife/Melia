@@ -333,10 +333,10 @@ namespace Melia.Web.Serializer
 		public string Name { get; set; }
 
 		[JsonProperty("servers")]
-		public List<Server> Servers { get; set; }
+		public List<ServerSerialize> Servers { get; set; }
 	}
 
-	public class Server
+	public class ServerSerialize
 	{
 		[JsonProperty("type")]
 		public string Type { get; set; }

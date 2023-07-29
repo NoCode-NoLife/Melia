@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Security.Cryptography;
 using System.Threading;
 using EmbedIO;
 using EmbedIO.Files;
@@ -274,9 +275,25 @@ namespace Melia.Web
 				//   adding a pre-processor.
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
-				_server.WithWebApi("/api/", m => m.WithController<ApiController>());;
+				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
 
 				_server.WithModule(new PhpModule("/"));
+				_server.WithModule(new AuthenticationModule("/api/"));
+
+				// Create a new instance of RSACryptoServiceProvider
+				using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+				{
+					// Optionally, you can specify the key size (in bits) for the RSA key pair
+					int keySizeInBits = 2048; // 2048 bits is recommended for security
+					rsa.KeySize = keySizeInBits;
+
+					// Generate the private key
+					string privateKey = rsa.ToXmlString(true); // This includes both the public and private key
+
+					// Save the private key to a file
+					string privateKeyFilePath = "private_key.xml"; // Choose a suitable file path
+					File.WriteAllText(privateKeyFilePath, privateKey);
+				}
 
 				if (Directory.Exists("user/web/"))
 				{

@@ -18,11 +18,10 @@ class BackupController extends Controller
         $this->guzzleClientService = $guzzleClientService;
     }
 
-
     public function create(Request $request)
     {
         $fileName = str_replace(':', '-', str_replace(' ', '_', Carbon::now()->toDateTimeString())) . '.sql';
-        $path = storage_path('app\\' . env('APP_NAME', 'Melia') .'\\' . $fileName);
+        $path = storage_path('app\\' . 'db_backup' .'\\' . $fileName);
         $serverName = env('DB_HOST', 'localhost');
         $serverPort = env('DB_PORT', 3306);
         $username = env('DB_USERNAME', 'root');
@@ -41,7 +40,7 @@ class BackupController extends Controller
             'backupDate' => 'required',
         ]);
 
-        $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
+        $directory = storage_path('app\\' . 'db_backup');
         $files = File::files($directory);
 
         try {
@@ -80,14 +79,13 @@ class BackupController extends Controller
         } catch (\Exception $e) {
         }
 
-
         if ($isServerOnline) {
             throw ValidationException::withMessages([
                 'status' => [ 'type' => 'danger', 'message' => trans('validation.backup.restore.cant') ],
             ]);
         }
 
-        $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
+        $directory = storage_path('app\\' . 'db_backup');
         $files = File::files($directory);
 
         try {

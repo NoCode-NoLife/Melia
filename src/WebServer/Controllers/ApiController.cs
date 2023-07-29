@@ -156,7 +156,7 @@ namespace Melia.Web.Controllers
 
 				if (addNewEntry)
 				{
-					var newServerEntry = new Server();
+					var newServerEntry = new ServerSerialize();
 					newServerEntry.Type = "Zone";
 					newServerEntry.Id = serverId;
 					newServerEntry.Ip = WebServer.Instance.ServerInfo.Ip;
@@ -181,7 +181,7 @@ namespace Melia.Web.Controllers
 
 			if (File.Exists(filePath))
 			{
-				Server serverEntryToRemove = null;
+				ServerSerialize serverEntryToRemove = null;
 				string jsonString = File.ReadAllText(filePath);
 				var serversObj = JsonConvert.DeserializeObject<List<RootServer>>(jsonString);
 
