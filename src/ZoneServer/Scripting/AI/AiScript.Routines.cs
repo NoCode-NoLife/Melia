@@ -237,12 +237,14 @@ namespace Melia.Zone.Scripting.AI
 							if (monsterClassId != mob.Id)
 							{
 								this.Entity.Map.RemoveMonster(mob);
+								yield break;
 							}
 						}
 						else
 						{
 							// this is the case where the monster was dismissed by re-using its orb, thereby clearing that variable
 							this.Entity.Map.RemoveMonster(mob);
+							yield break;
 						}
 					}
 				}
@@ -268,6 +270,7 @@ namespace Melia.Zone.Scripting.AI
 						if (this.Entity is Mob mob)
 						{
 							this.Entity.Map.RemoveMonster(mob);
+							yield break;
 						}
 					}
 				}
