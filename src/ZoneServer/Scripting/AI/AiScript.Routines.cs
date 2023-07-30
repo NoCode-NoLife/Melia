@@ -258,7 +258,10 @@ namespace Melia.Zone.Scripting.AI
 					// them get stuck in a loop. Unless the follow warp option
 					// is set, in which case we'll remove the monster and
 					// recreate it on the other side, from the summoning
-					// script. All this could need a clean up.
+					// script.  If the pet system is on, we remove the monster
+					// regardless as it would remain stuck forever, but we
+					// don't recreate the monster on the other side if
+					// follow warp is off.
 
 					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp && !ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 					{
@@ -268,10 +271,8 @@ namespace Melia.Zone.Scripting.AI
 					else
 					{
 						if (this.Entity is Mob mob)
-						{
-							this.Entity.Map.RemoveMonster(mob);
-							yield break;
-						}
+							this.Entity.Map.RemoveMonster(mob);							
+						yield break;
 					}
 				}
 

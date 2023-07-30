@@ -79,6 +79,9 @@ public class SummoningItemScripts : GeneralScript
 
 		var character = args.Character;
 
+		// If follow warp is not enabled, your monster is released from you when you leave a map.
+		// If the pet system is on, this desummons it as it is removed from the previous
+		// map when you leave.
 		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp) 
 		{
 			character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
