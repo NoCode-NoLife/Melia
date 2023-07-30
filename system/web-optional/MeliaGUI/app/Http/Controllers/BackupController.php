@@ -21,12 +21,12 @@ class BackupController extends Controller
     public function create(Request $request)
     {
         $fileName = str_replace(':', '-', str_replace(' ', '_', Carbon::now()->toDateTimeString())) . '.sql';
-        $path = storage_path('app\\' . 'db_backup' .'\\' . $fileName);
-        $serverName = env('DB_HOST', 'localhost');
-        $serverPort = env('DB_PORT', 3306);
-        $username = env('DB_USERNAME', 'root');
-        $password = env('DB_PASSWORD', '');
-        $databaseName = env('DB_DATABASE', 'melia');
+        $path = storage_path('app\\db_backup\\' . $fileName);
+        $serverName = config('database.connections.mysql.host');
+        $serverPort = config('database.connections.mysql.port');
+        $username = config('database.connections.mysql.username');
+        $password = config('database.connections.mysql.password');
+        $databaseName = config('database.connections.mysql.database');
 
         $cmd = "mysqldump --default-character-set=utf8 --protocol=tcp --single-transaction=TRUE --skip-triggers  --user={$username} --password={$password} --host={$serverName} --port={$serverPort} {$databaseName} > {$path}";
         exec($cmd);

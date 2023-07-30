@@ -251,7 +251,7 @@ class AdminDashboardController extends Controller
         $info = [];
         $count = 0;
 
-        $directory = storage_path('app\\' . env('APP_NAME', 'Melia'));
+        $directory = storage_path('app\\' . 'db_backup');
 
         try {
             $files = File::files($directory);

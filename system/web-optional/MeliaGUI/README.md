@@ -15,6 +15,8 @@ To be able to run it you need to:
   - Run 'php artisan migrate'
   - Run 'npm install'
   - Run 'npm run dev'
+- Rename the .env.example and fill with the correct values on it (like database credentials, etc...)
+- Copy the contents of the file /user/keys/api_key (youy must ran the server once) and place on the MELIA_API_KEY .env file
   - RUN 'php artisan serve'
 - If you plan to use the backup feature configure the .env
   - Install mysql properly
