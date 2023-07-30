@@ -197,7 +197,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
+		/// Response to ZC_MOVE_ZONE that notifies us that the client is
+		/// ready to move to the next zone.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
