@@ -559,7 +559,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Finalizes warp, after client announced readiness.
 		/// </summary>
-		public void FinalizeWarp()
+		internal void FinalizeWarp()
 		{
 			// Check permission
 			if (!_warping)
