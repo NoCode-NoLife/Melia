@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Database;
+﻿using System.Threading;
+using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
@@ -65,16 +66,20 @@ namespace Melia.Zone.Network
 		{
 			base.OnClosed(type);
 
-			this.Account?.Save();
-
+			var account = this.Account;
 			var character = this.SelectedCharacter;
-			if (character != null)
-			{
-				character.Map.RemoveCharacter(character);
+			var justSaved = character?.SavedForWarp ?? false;
 
-				ZoneServer.Instance.Database.SaveCharacter(character);
-				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
+			if (!justSaved)
+			{
+				if (account != null)
+					ZoneServer.Instance.Database.SaveAccount(account);
+
+				if (character != null)
+					ZoneServer.Instance.Database.SaveCharacter(character);
 			}
+
+			character?.Map.RemoveCharacter(character);
 		}
 	}
 }
