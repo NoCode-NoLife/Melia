@@ -762,7 +762,10 @@ namespace Melia.Zone.Network
 
 				// Remove consumeable items on success
 				if (item.Data.Type == ItemType.Consume)
-					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				{
+					if (result != ItemUseResult.OkayNotConsumed)
+						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
