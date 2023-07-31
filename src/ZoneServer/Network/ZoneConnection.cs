@@ -72,9 +72,6 @@ namespace Melia.Zone.Network
 			{
 				character.Map.RemoveCharacter(character);
 
-				// Remove all buffs that are not supposed to be saved
-				character.Buffs.RemoveAll(a => !a.Data.Save);
-
 				ZoneServer.Instance.Database.SaveCharacter(character);
 				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
 			}
