@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -579,6 +580,7 @@ namespace Melia.Zone.World.Actors.Characters
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);
 			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
+			ZoneServer.Instance.Database.UpdateLoginState(this.Connection.Account.Id, 0, LoginState.LoggedOut);
 			this.SavedForWarp = true;
 
 			// Instruct client to initiate warp

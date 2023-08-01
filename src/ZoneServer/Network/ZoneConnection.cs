@@ -76,9 +76,9 @@ namespace Melia.Zone.Network
 
 				if (character != null)
 					ZoneServer.Instance.Database.SaveCharacter(character);
-			}
 
-			ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
+				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
+			}
 
 			character?.Map.RemoveCharacter(character);
 		}
