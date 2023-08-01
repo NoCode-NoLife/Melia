@@ -26,8 +26,8 @@ public class SummoningItemScripts : GeneralScript
 		}
 
 		// If the pet system is on and you try to resummon the same monster, it desummons it, otherwise we summon
-		// the new monster and the old monster desummons itself since it checks this variable.
-		// If the pet system is not enabled using the same orb fails to prevent wasting it.
+		// the new monster and the old monster desummons itself since it checks if this variable has changed.
+		// If the pet system is not enabled using an orb for a monster that's already out fails so you don't waste the orb
 		if (character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
 		{
 			if (monsterData.Id == monsterClassId)
@@ -35,7 +35,7 @@ public class SummoningItemScripts : GeneralScript
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem) 
 				{ 
 					character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
-					return ItemUseResult.Okay;
+					return ItemUseResult.OkayNotConsumed;
 				}
 				else
 				{
@@ -50,11 +50,17 @@ public class SummoningItemScripts : GeneralScript
 		character.Map.AddMonster(monster);
 
 		character.Variables.Perm.SetInt("Melia.OrbSummon.MonsterId", monsterData.Id);
-		
-		if (!ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-			character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
 
-		return ItemUseResult.Okay;
+		// The Pet system doesn't consume the item or set an expiry time for the summon
+		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+		{
+			return ItemUseResult.OkayNotConsumed;
+		}
+		else
+		{
+			character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
+			return ItemUseResult.Okay;
+		}
 	}
 
 	[ScriptableFunction]
