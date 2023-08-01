@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Net;
 using Melia.Shared.Data.Database;
@@ -3527,9 +3528,9 @@ namespace Melia.Zone.Network
 
 			packet.PutByte(type);
 			packet.PutInt(items.Count);
-			packet.PutByte(1);
-			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutByte(true);
+			packet.PutByte(true);
+			packet.PutByte(true);
 
 			if (items.Count != 0)
 			{
@@ -3539,6 +3540,7 @@ namespace Melia.Zone.Network
 					{
 						var item = items[i];
 						var isSilver = item.Id == ItemId.Silver;
+						var index = items.Count - i - 1;
 
 						var propertyList = item.Properties.GetAll();
 
@@ -3556,7 +3558,7 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(item.Amount);
 						zpacket.PutInt(item.Price);
 						zpacket.PutInt(1);
-						zpacket.PutInt(items.Count - i - 1);
+						zpacket.PutInt(index);
 						zpacket.AddProperties(propertyList);
 
 						if (!isSilver && item.ObjectId > 0)
@@ -3570,7 +3572,10 @@ namespace Melia.Zone.Network
 			}
 			else
 			{
-				packet.PutBinFromHex("8DFA020000000300");
+				// This is a compressed packet of 2 bytes length. We can't
+				// store any meaningful data in that space, so it's probably
+				// just a compressed empty packet.
+				packet.PutBinFromHex("8DFA 02000000 0300");
 			}
 
 			character.Connection.Send(packet);

@@ -23,10 +23,12 @@ typedef struct
     int i1;
     //short s1;
     //short index;
-    int category;// <format=hex>;
-    if (propertiesSize > 0) {
+    int category;
+    if (propertiesSize > 0)
+    {
         getProperties(propertiesSize);
-        if (worldId > 0) {
+        if (worldId > 0)
+        {
             short s1;
             int64 worldId2;
             short s2;
@@ -44,10 +46,10 @@ string Item2Read(Item2 &v)
 
 ServerHeaderDynamic header;
 InventoryType type; // 1 = storage, 3 = items sold storage? 6 = team storage, 7 = guild storage
-int itemCount; // Sold Item Count ?
-byte b2; // 1
-byte b3; // 1
-byte b4; // 1
+int itemCount;
+byte b2; // true
+byte b3; // true
+byte b4; // true
 
 if (!checkCompression())
     Item2 items[itemCount];
