@@ -197,7 +197,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
+		/// Response to ZC_MOVE_ZONE that notifies us that the client is
+		/// ready to move to the next zone.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -240,10 +241,6 @@ namespace Melia.Zone.Network
 
 			// Try to execute message as a chat command, don't send if it
 			// was handled as one
-
-			if (ZoneServer.Instance.ClientChatCommands.TryExecute(character, msg))
-				return;
-
 			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				return;
 
@@ -764,9 +761,12 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				// Remove consumeable items on success, unless it's a Blue Orb and the Pet System is turned on
-				if (item.Data.Type == ItemType.Consume && !(item.Data.ClassName.StartsWith("BlueOrb_") && ZoneServer.Instance.Conf.World.BlueOrbPetSystem))
-					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				// Remove consumeable items on success
+				if (item.Data.Type == ItemType.Consume)
+				{
+					if (result != ItemUseResult.OkayNotConsumed)
+						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}

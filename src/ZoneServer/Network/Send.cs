@@ -1353,15 +1353,15 @@ namespace Melia.Zone.Network
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(mapId);
-			packet.PutFloat(38); // Camera X angle
-			packet.PutFloat(45); // Camera Y angle
-			packet.PutFloat(200);
-			packet.PutFloat(2200);
-			packet.PutFloat(1000);
-			packet.PutInt(26);
-			packet.PutInt(20);
-			packet.PutInt(59);
-			packet.PutShort(0);
+			packet.PutFloat(38);       // Camera X
+			packet.PutFloat(45);       // Camera Y
+			packet.PutFloat(200);      // Zoom Min
+			packet.PutFloat(2200);     // Zoom Max
+			packet.PutFloat(1000);     // Zoom Start
+			packet.PutInt(26);         // Position?
+			packet.PutInt(20);         // Position?
+			packet.PutInt(59);         // Position?
+			packet.PutShort(0);        // Direction?
 			packet.PutByte((byte)channelId);
 			packet.PutLong(character.ObjectId);
 
@@ -1369,8 +1369,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_MOVE_ZONE to connection, telling client to prepare for
-		/// a warp.
+		/// Instructs client to prepare for moving to a different map,
+		/// and potentially a different zone server.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_MOVE_ZONE(IZoneConnection conn)
