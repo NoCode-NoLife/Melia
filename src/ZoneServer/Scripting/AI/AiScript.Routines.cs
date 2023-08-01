@@ -198,7 +198,7 @@ namespace Melia.Zone.Scripting.AI
 
 		/// <summary>
 		/// Makes a monster with a master check to see if it should cease attacking.
-		/// It stops attacking if the master leaves the map or forces it to teleport (via getting too far away)
+		/// It stops attacking if the master dies, leaves the map or forces it to teleport (via getting too far away)
 		/// </summary>
 		/// <param name="followTarget">The target to follow.</param>
 		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
@@ -209,7 +209,13 @@ namespace Melia.Zone.Scripting.AI
 			{
 				RemoveAllHate();
 				return false;
-			}			
+			}
+
+			if (followTarget.IsDead)
+			{
+				RemoveAllHate();
+				return false;
+			}
 
 			var teleportDistance = minDistance * 4;
 			var distance = followTarget.Position.Get2DDistance(this.Entity.Position);
