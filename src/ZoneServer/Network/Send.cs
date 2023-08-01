@@ -3537,29 +3537,32 @@ namespace Melia.Zone.Network
 				{
 					for (var i = 0; i < items.Count; i++)
 					{
-						var propertyList = items[i].Properties.GetAll();
+						var item = items[i];
+						var isSilver = item.Id == ItemId.Silver;
+
+						var propertyList = item.Properties.GetAll();
+
 						// Forces every item to have at least one property.
-						// Client seems to crash in certain scenarios when items with no
-						// properties are received.
-						if (propertyList.Count <= 0)
+						// Client seems to crash in certain scenarios when
+						// items with no properties are received.
+						if (propertyList.Count == 0)
 							propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
+
 						var propertiesSize = propertyList.GetByteCount();
 
-						zpacket.PutInt(items[i].Id);
+						zpacket.PutInt(item.Id);
 						zpacket.PutInt(propertiesSize);
-						if (items[i].Id != 900011)
-							zpacket.PutLong(items[i].ObjectId);
-						else
-							zpacket.PutLong(0);
-						zpacket.PutInt(items[i].Amount);
-						zpacket.PutInt(items[i].Price);
+						zpacket.PutLong(isSilver ? 0 : item.ObjectId);
+						zpacket.PutInt(item.Amount);
+						zpacket.PutInt(item.Price);
 						zpacket.PutInt(1);
 						zpacket.PutInt(items.Count - i - 1);
 						zpacket.AddProperties(propertyList);
-						if (items[i].Id != 900011 && items[i].ObjectId > 0)
+
+						if (!isSilver && item.ObjectId > 0)
 						{
 							zpacket.PutShort(0);
-							zpacket.PutLong(items[i].ObjectId);
+							zpacket.PutLong(item.ObjectId);
 							zpacket.PutShort(0);
 						}
 					}
