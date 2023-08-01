@@ -3538,6 +3538,11 @@ namespace Melia.Zone.Network
 					for (var i = 0; i < items.Count; i++)
 					{
 						var propertyList = items[i].Properties.GetAll();
+						// Forces every item to have at least one property.
+						// Client seems to crash in certain scenarios when items with no
+						// properties are received.
+						if (propertyList.Count <= 0)
+							propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
 						var propertiesSize = propertyList.GetByteCount();
 
 						zpacket.PutInt(items[i].Id);
@@ -3551,14 +3556,11 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(1);
 						zpacket.PutInt(items.Count - i - 1);
 						zpacket.AddProperties(propertyList);
-						if (propertiesSize > 0)
+						if (items[i].Id != 900011 && items[i].ObjectId > 0)
 						{
-							if (items[i].Id != 900011 && items[i].ObjectId > 0)
-							{
-								zpacket.PutShort(0);
-								zpacket.PutLong(items[i].ObjectId);
-								zpacket.PutShort(0);
-							}
+							zpacket.PutShort(0);
+							zpacket.PutLong(items[i].ObjectId);
+							zpacket.PutShort(0);
 						}
 					}
 				});
