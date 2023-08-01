@@ -199,8 +199,9 @@ namespace Melia.Zone.World.Maps
 				{
 					if (mob.MonsterType != MonsterType.Mob && mob.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
 					{
-						master.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
-						master.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+						master.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+						master.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+						master.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
 					}
 				}
 				

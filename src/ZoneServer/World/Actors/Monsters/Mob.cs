@@ -282,6 +282,15 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Components.TryGet<AiComponent>(out var ai))
 				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
 
+			if (attacker is Character attackCharacter)
+			{
+				if (attackCharacter.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
+				{
+					if (follower.Components.TryGet<AiComponent>(out var followerai))
+						followerai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+				}
+			}
+
 			return false;
 		}
 
@@ -307,13 +316,14 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			// If I have a master, inform my master that I died so they can resummon me
+			// If I have a master, remove my variables from my master so I can be resummoned
 			if (this.Components.Get<AiComponent>()?.Script.GetMaster() != null)
 			{
 				if (this.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
 				{
-					master.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
-					master.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+					master.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+					master.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+					master.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
 				}
 			}
 
@@ -321,6 +331,15 @@ namespace Melia.Zone.World.Actors.Monsters
 			{
 				this.DropItems(characterKiller);
 				characterKiller?.GiveExp(exp, classExp, this);
+			}
+			// Kills from followers also grant exp and drops to the master
+			else if (this.MonsterType == MonsterType.Mob && killer is Mob mobKiller)
+			{
+				if (mobKiller.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+				{
+					this.DropItems(master);
+					master?.GiveExp(exp, classExp, this);
+				}
 			}
 
 			this.Died?.Invoke(this, killer);

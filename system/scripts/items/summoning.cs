@@ -26,15 +26,16 @@ public class SummoningItemScripts : GeneralScript
 		}
 
 		// If the pet system is on and you try to resummon the same monster, it desummons it, otherwise we summon
-		// the new monster and the old monster desummons itself since it checks if this variable has changed.
+		// the new monster and desummon the old one.
 		// If the pet system is not enabled using an orb for a monster that's already out fails so you don't waste the orb
-		if (character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
+		if (character.Variables.Perm.TryGetInt("Melia.BlueOrbSummon.MonsterId", out var monsterClassId))
 		{
 			if (monsterData.Id == monsterClassId)
 			{
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem) 
-				{ 
-					character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
+				{
+					character.RemoveBlueOrbSummon();
+					character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
 					return ItemUseResult.OkayNotConsumed;
 				}
 				else
@@ -43,13 +44,18 @@ public class SummoningItemScripts : GeneralScript
 					return ItemUseResult.Fail;
 				}
 			}
+			else
+			{
+				character.RemoveBlueOrbSummon();
+			}
 		}
 
 		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
 		character.Map.AddMonster(monster);
 
-		character.Variables.Perm.SetInt("Melia.OrbSummon.MonsterId", monsterData.Id);
+		character.Variables.Perm.SetInt("Melia.BlueOrbSummon.MonsterId", monsterData.Id);
+		character.Variables.Temp.Set("Melia.BlueOrbSummon.Monster", monster);
 
 		// The Pet system doesn't consume the item or set an expiry time for the summon
 		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
@@ -58,7 +64,7 @@ public class SummoningItemScripts : GeneralScript
 		}
 		else
 		{
-			character.Variables.Perm.Set("Melia.OrbSummon.DisappearTime", monster.DisappearTime);
+			character.Variables.Perm.Set("Melia.BlueOrbSummon.DisappearTime", monster.DisappearTime);
 			return ItemUseResult.Okay;
 		}
 	}
@@ -85,33 +91,38 @@ public class SummoningItemScripts : GeneralScript
 
 		var character = args.Character;
 
-		// If follow warp is not enabled, your monster is released from you when you leave a map.
-		// If the pet system is on, this desummons it as it is removed from the previous
-		// map when you leave.
+		if (!character.Variables.Perm.TryGetInt("Melia.BlueOrbSummon.MonsterId", out var monsterClassId))
+			return;
+
+		// If follow warp is not enabled, your monster is released from you when you leave a map,
+		// functionally causing the master to forget about it and be able to summon another monster.
 		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp) 
 		{
-			character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
-			character.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+			character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+			character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
+			character.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
 			return;
 		}
-		
-		if (character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out var disappearTime))
+
+		// If follow warp is on, but the monster's disappear time passed during the warp, we don't resummon
+		// it and instead clean it up here.
+		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out var disappearTime))
 		{
 			if (DateTime.Now > disappearTime) 
 			{ 
-				character.Variables.Perm.Remove("Melia.OrbSummon.MonsterId");
-				character.Variables.Perm.Remove("Melia.OrbSummon.DisappearTime");
+				character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+				character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
+				character.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
 				return;
 			}
-		}
-
-		if (!character.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId))
-			return;
+		}		
 
 		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
 
-		if (character.Variables.Perm.TryGet<DateTime>("Melia.OrbSummon.DisappearTime", out disappearTime))
+		character.Variables.Temp.Set("Melia.BlueOrbSummon.Monster", monster);
+
+		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out disappearTime))
 		{
 			monster.DisappearTime = disappearTime;
 		}

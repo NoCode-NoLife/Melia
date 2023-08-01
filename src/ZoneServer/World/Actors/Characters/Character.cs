@@ -7,6 +7,7 @@ using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -528,6 +529,9 @@ namespace Melia.Zone.World.Actors.Characters
 			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
 				throw new ArgumentException($"Map with id '{mapId}' doesn't exist in world.");
 
+			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+				RemoveBlueOrbSummon();
+
 			this.Position = pos;
 
 			if (this.MapId == mapId)
@@ -551,6 +555,9 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			_warping = true;
 			_destinationChannelId = channelId;
+
+			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+				RemoveBlueOrbSummon();
 
 			Send.ZC_SAVE_INFO(this.Connection);
 			Send.ZC_MOVE_ZONE(this.Connection);
@@ -1131,6 +1138,13 @@ namespace Melia.Zone.World.Actors.Characters
 				return true;
 			}
 
+			// inform the follower that I got hit so it can aggro
+			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
+			{
+				if (follower.Components.TryGet<AiComponent>(out var ai))
+					ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+			}
+
 			return this.IsDead;
 		}
 
@@ -1246,6 +1260,19 @@ namespace Melia.Zone.World.Actors.Characters
 		public void PlayEffect(string packetString)
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
+		}
+
+
+		/// <summary>
+		/// Removes the character's summoned familiar.
+		/// </summary>
+		public void RemoveBlueOrbSummon()
+		{
+			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
+			{
+				this.Map.RemoveMonster(follower);
+				this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+			}
 		}
 	}
 }

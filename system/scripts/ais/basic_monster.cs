@@ -49,8 +49,16 @@ public class BasicMonsterAiScript : AiScript
 	{
 		SetRunning(true);
 
+		var master = GetMaster();
+
 		while (!target.IsDead)
-		{
+		{			
+			if (master != null)
+			{
+				if (!MasterAttackCheck(master))
+					break;
+			}
+
 			if (!TryGetRandomSkill(out var skill))
 			{
 				yield return Wait(2000);

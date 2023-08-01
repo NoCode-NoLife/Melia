@@ -158,7 +158,8 @@ namespace Melia.Zone.Scripting.AI
 			skill = new Skill(this.Entity, rndSkillId, 1);
 
 			return true;
-		}
+		}		
+
 
 		/// <summary>
 		/// Makes entity use the given skill on the target.
@@ -194,6 +195,34 @@ namespace Melia.Zone.Scripting.AI
 			yield break;
 		}
 
+
+		/// <summary>
+		/// Makes a monster with a master check to see if it should cease attacking.
+		/// It stops attacking if the master leaves the map or forces it to teleport (via getting too far away)
+		/// </summary>
+		/// <param name="followTarget">The target to follow.</param>
+		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
+		/// <returns>true if the monster should continue to attack, false if it should stop</returns>
+		protected bool MasterAttackCheck(ICombatEntity followTarget, float minDistance = 50)
+		{
+			if (followTarget.Map.Id != this.Entity.Map.Id)
+			{
+				RemoveAllHate();
+				return false;
+			}			
+
+			var teleportDistance = minDistance * 4;
+			var distance = followTarget.Position.Get2DDistance(this.Entity.Position);
+
+			if (distance > teleportDistance)
+			{
+				RemoveAllHate();
+				return false;
+			}
+			return true;
+		}
+
+
 		/// <summary>
 		/// Makes entity keep following the given target.
 		/// </summary>
@@ -227,53 +256,19 @@ namespace Melia.Zone.Scripting.AI
 
 			while (true)
 			{
-				if (this.GetMaster() != null)
-				{
-					// If my master summoned a different blue orb monster or dismissed me, I disappear
-					if (this.Entity is Mob mob && this.GetMaster() is Character master)
-					{
-						if (master.Variables.Perm.TryGetInt("Melia.OrbSummon.MonsterId", out var monsterClassId) )
-						{
-							if (monsterClassId != mob.Id)
-							{
-								this.Entity.Map.RemoveMonster(mob);
-								yield break;
-							}
-						}
-						else
-						{
-							// this is the case where the monster was dismissed by re-using its orb, thereby clearing that variable
-							this.Entity.Map.RemoveMonster(mob);
-							yield break;
-						}
-					}
-				}
-
 				if (followTarget.Map.Id != this.Entity.Map.Id)
-				{					
+				{
 					movement.Stop();
 
 					// If the target is no longer on the same map, blue orb
 					// monsters simply freeze, so we'll do the same and let
-					// them get stuck in a loop. Unless the follow warp option
-					// is set, in which case we'll remove the monster and
-					// recreate it on the other side, from the summoning
-					// script.  If the pet system is on, we remove the monster
-					// regardless as it would remain stuck forever, but we
-					// don't recreate the monster on the other side if
-					// follow warp is off.
+					// them get stuck in a loop. Note that if the follow warp
+					// or pet settings are on, the monster gets unsummoned
+					// when the master goes throw a warp, so this logic does
+					// not execute.
 
-					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp && !ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-					{
-						while (true)
-							yield return this.Wait(10000);
-					}
-					else
-					{
-						if (this.Entity is Mob mob)
-							this.Entity.Map.RemoveMonster(mob);							
-						yield break;
-					}
+					while (true)
+						yield return this.Wait(10000);
 				}
 
 				var teleportDistance = minDistance * 4;

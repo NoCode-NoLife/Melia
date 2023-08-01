@@ -137,6 +137,17 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Removes hate levels of all enemies, but doesn't clear hated factions
+		/// </summary>
+		/// <param name="elapsed"></param>
+		/// <param name="potentialEnemies"></param>
+		private void RemoveAllHate()
+		{
+			_hateLevels.Clear();
+		}
+
+
+		/// <summary>
 		/// Increase hate levels of enemies that are nearby.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -329,6 +340,10 @@ namespace Melia.Zone.Scripting.AI
 						{
 							if (hitEventAlert.Target.Handle == this.Entity.Handle)
 								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+							else if (hitEventAlert.Target.Handle == this._masterHandle)
+								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+							else if (hitEventAlert.Attacker.Handle == this._masterHandle)
+								this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
 							break;
 						}
 
