@@ -593,5 +593,14 @@ namespace Melia.Zone.Scripting.AI
 			movement.SetMoveSpeedType(MoveSpeedType.Walk);
 			movement.SetFixedMoveSpeed(0);
 		}
+
+		/// <summary>
+		/// Removes AI's entity from the world if it's a monster.
+		/// </summary>
+		protected void Despawn()
+		{
+			if (this.Entity is IMonster monster)
+				monster.Map.RemoveMonster(monster);
+		}
 	}
 }

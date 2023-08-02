@@ -577,9 +577,6 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
-			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-				this.RemoveBlueOrbSummon();
-
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);
 			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
@@ -1136,11 +1133,11 @@ namespace Melia.Zone.World.Actors.Characters
 			}
 
 			// Notify follower that its master was hit so it can aggro
-			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
-			{
-				if (follower.Components.TryGet<AiComponent>(out var ai))
-					ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
-			}
+			//if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
+			//{
+			//	if (follower.Components.TryGet<AiComponent>(out var ai))
+			//		ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+			//}
 
 			return this.IsDead;
 		}
@@ -1260,28 +1257,11 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Removes the character's summoned familiar from the Map.
-		/// </summary>
-		/// <remarks>
-		/// This is not the same as desummoning it, as this is also
-		/// called on map change.
-		/// </remarks>
-		public void RemoveBlueOrbSummon()
-		{
-			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
-			{
-				this.Map.RemoveMonster(follower);
-				this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
-			}
-		}
-
-		/// <summary>
 		/// Removes the variables associated with the character's Blue Orb Summon.
 		/// This does not remove it from the map.
 		/// </summary>
 		public void ResetBlueOrbVariables()
 		{
-			this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
 			this.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
 			this.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
 		}

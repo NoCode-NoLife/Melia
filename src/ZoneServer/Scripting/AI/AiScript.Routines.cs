@@ -233,9 +233,17 @@ namespace Melia.Zone.Scripting.AI
 
 					// If the target is no longer on the same map, blue orb
 					// monsters simply freeze, so we'll do the same and let
-					// them get stuck in a loop. Note that if the follow warp
-					// or pet settings are on, the monster gets unsummoned
-					// when the master goes throw a warp.
+					// them get stuck in a loop, unless an option that
+					// removes the entity is set.
+
+					var worldConf = ZoneServer.Instance.Conf.World;
+					var removeOnWarp = (worldConf.BlueOrbFollowWarp || worldConf.BlueOrbPetSystem);
+
+					if (removeOnWarp)
+					{
+						this.Despawn();
+						yield break;
+					}
 
 					while (true)
 						yield return this.Wait(10000);

@@ -284,11 +284,11 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			if (attacker is Character attackCharacter)
 			{
-				if (attackCharacter.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
-				{
-					if (follower.Components.TryGet<AiComponent>(out var followerai))
-						followerai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
-				}
+				//if (attackCharacter.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
+				//{
+				//	if (follower.Components.TryGet<AiComponent>(out var followerai))
+				//		followerai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+				//}
 			}
 
 			return false;

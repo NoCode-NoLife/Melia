@@ -34,7 +34,6 @@ public class SummoningItemScripts : GeneralScript
 			{
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 				{
-					character.RemoveBlueOrbSummon();
 					character.ResetBlueOrbVariables();
 					return ItemUseResult.OkayNotConsumed;
 				}
@@ -44,10 +43,6 @@ public class SummoningItemScripts : GeneralScript
 					return ItemUseResult.Fail;
 				}
 			}
-			else
-			{
-				character.RemoveBlueOrbSummon();
-			}
 		}
 
 		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
@@ -55,7 +50,6 @@ public class SummoningItemScripts : GeneralScript
 		character.Map.AddMonster(monster);
 
 		character.Variables.Perm.SetInt("Melia.BlueOrbSummon.MonsterId", monsterData.Id);
-		character.Variables.Temp.Set("Melia.BlueOrbSummon.Monster", monster);
 
 		// The Pet system doesn't consume the item or set an expiry time for the summon
 		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
@@ -116,8 +110,6 @@ public class SummoningItemScripts : GeneralScript
 
 		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
-
-		character.Variables.Temp.Set("Melia.BlueOrbSummon.Monster", monster);
 
 		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out disappearTime))
 			monster.DisappearTime = disappearTime;
