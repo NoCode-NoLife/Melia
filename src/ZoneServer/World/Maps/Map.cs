@@ -191,20 +191,18 @@ namespace Melia.Zone.World.Maps
 			lock (_monsters)
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
-			foreach (var monster in toDisappear) 
+			foreach (var monster in toDisappear)
 			{
-
-				// If this was a blue orb summon that expired due to the time running out (rather than dying), remove the variables from the summoner
-				if (monster is Mob mob) 
+				// If this was a blue orb summon that expired due to the time
+				// running out (rather than dying), remove the variables from
+				// the summoner
+				if (monster is Mob mob)
 				{
 					if (mob.MonsterType != MonsterType.Mob && !mob.IsDead && mob.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
-					{
 						master.ResetBlueOrbVariables();
-					}
 				}
-				
-				this.RemoveMonster(monster);
 
+				this.RemoveMonster(monster);
 			}
 		}
 
