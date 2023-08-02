@@ -108,6 +108,9 @@ public class BasicMonsterAiScript : AiScript
 
 	private void CheckMaster()
 	{
+		if (target == null)
+			return;
+
 		if (!TryGetMaster(out var master))
 			return;
 
