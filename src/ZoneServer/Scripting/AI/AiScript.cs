@@ -438,6 +438,18 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns the entity's master via out. Returns false if the
+		/// entity doesn't have a master.
+		/// </summary>
+		/// <param name="master"></param>
+		/// <returns></returns>
+		public bool TryGetMaster(out ICombatEntity master)
+		{
+			master = this.GetMaster();
+			return (master != null);
+		}
+
+		/// <summary>
 		/// Executes the actions set up to occur while a specific routine
 		/// is running.
 		/// </summary>

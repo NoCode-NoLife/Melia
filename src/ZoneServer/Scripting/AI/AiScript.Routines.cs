@@ -194,34 +194,6 @@ namespace Melia.Zone.Scripting.AI
 			yield break;
 		}
 
-
-		/// <summary>
-		/// If the entity has a master, this method returns whether it's
-		/// still around and well.
-		/// </summary>
-		/// <remarks>
-		/// Uses EntityGone in combination with a range check to make sure
-		/// the master is alive and nearby.
-		/// </remarks>
-		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
-		/// <returns></returns>
-		protected bool MasterGone(float minDistance = 50)
-		{
-			var master = this.GetMaster();
-
-			if (this.EntityGone(master))
-				return true;
-
-			var teleportDistance = minDistance * 4;
-			var distance = master.Position.Get2DDistance(this.Entity.Position);
-
-			if (distance > teleportDistance)
-				return true;
-
-			return false;
-		}
-
-
 		/// <summary>
 		/// Makes entity keep following the given target.
 		/// </summary>
