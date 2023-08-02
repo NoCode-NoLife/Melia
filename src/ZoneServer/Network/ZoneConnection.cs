@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Melia.Shared.Database;
+﻿using Melia.Shared.Database;
 using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
@@ -77,6 +76,8 @@ namespace Melia.Zone.Network
 
 				if (character != null)
 					ZoneServer.Instance.Database.SaveCharacter(character);
+
+				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
 			}
 
 			character?.Map.RemoveCharacter(character);

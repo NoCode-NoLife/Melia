@@ -3527,9 +3527,9 @@ namespace Melia.Zone.Network
 
 			packet.PutByte(type);
 			packet.PutInt(items.Count);
-			packet.PutByte(1);
-			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutByte(true);
+			packet.PutByte(true);
+			packet.PutByte(true);
 
 			if (items.Count != 0)
 			{
@@ -3537,35 +3537,44 @@ namespace Melia.Zone.Network
 				{
 					for (var i = 0; i < items.Count; i++)
 					{
-						var propertyList = items[i].Properties.GetAll();
+						var item = items[i];
+						var isSilver = item.Id == ItemId.Silver;
+						var index = items.Count - i - 1;
+
+						var propertyList = item.Properties.GetAll();
+
+						// Forces every item to have at least one property.
+						// Client seems to crash in certain scenarios when
+						// items with no properties are received.
+						if (propertyList.Count == 0)
+							propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
+
 						var propertiesSize = propertyList.GetByteCount();
 
-						zpacket.PutInt(items[i].Id);
+						zpacket.PutInt(item.Id);
 						zpacket.PutInt(propertiesSize);
-						if (items[i].Id != 900011)
-							zpacket.PutLong(items[i].ObjectId);
-						else
-							zpacket.PutLong(0);
-						zpacket.PutInt(items[i].Amount);
-						zpacket.PutInt(items[i].Price);
+						zpacket.PutLong(isSilver ? 0 : item.ObjectId);
+						zpacket.PutInt(item.Amount);
+						zpacket.PutInt(item.Price);
 						zpacket.PutInt(1);
-						zpacket.PutInt(items.Count - i - 1);
+						zpacket.PutInt(index);
 						zpacket.AddProperties(propertyList);
-						if (propertiesSize > 0)
+
+						if (!isSilver && item.ObjectId > 0)
 						{
-							if (items[i].Id != 900011 && items[i].ObjectId > 0)
-							{
-								zpacket.PutShort(0);
-								zpacket.PutLong(items[i].ObjectId);
-								zpacket.PutShort(0);
-							}
+							zpacket.PutShort(0);
+							zpacket.PutLong(item.ObjectId);
+							zpacket.PutShort(0);
 						}
 					}
 				});
 			}
 			else
 			{
-				packet.PutBinFromHex("8DFA020000000300");
+				// This is a compressed packet of 2 bytes length. We can't
+				// store any meaningful data in that space, so it's probably
+				// just a compressed empty packet.
+				packet.PutBinFromHex("8DFA 02000000 0300");
 			}
 
 			character.Connection.Send(packet);
