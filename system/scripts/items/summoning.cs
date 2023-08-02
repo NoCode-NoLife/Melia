@@ -117,6 +117,35 @@ public class SummoningItemScripts : GeneralScript
 		character.Map.AddMonster(monster);
 	}
 
+	[On("EntityKilled")]
+	public void OnEntityKilled(object sender, CombatEventArgs args)
+	{
+		// If a summon died, clear the variables from the master
+
+		var target = args.Target;
+		var master = target.Components.Get<AiComponent>()?.Script.GetMaster();
+
+		if (master is Character masterCharacter)
+			masterCharacter.ResetBlueOrbVariables();
+	}
+
+	[On("MonsterDisappears")]
+	public void OnMonsterDisappears(object sender, MonsterEventArgs args)
+	{
+		// If this was a blue orb summon that expired due to the time
+		// running out (rather than dying), remove the variables from
+		// the summoner
+
+		var target = args.Monster;
+		if (target is Mob mob)
+		{
+			var master = mob.Components.Get<AiComponent>()?.Script.GetMaster();
+
+			if (master is Character masterCharacter && !mob.IsDead)
+				masterCharacter.ResetBlueOrbVariables();
+		}
+	}
+
 	/// <summary>
 	/// Creates the monster with the given parameters but doesn't spawn it.
 	/// </summary>

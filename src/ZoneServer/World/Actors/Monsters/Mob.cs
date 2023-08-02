@@ -303,11 +303,6 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			// If this was a summon that died, clear the variables from the
-			// master
-			if (this.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
-				master.ResetBlueOrbVariables();
-
 			if (this.MonsterType == MonsterType.Mob && killer is Character characterKiller)
 			{
 				this.DropItems(characterKiller);

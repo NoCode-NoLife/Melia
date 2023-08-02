@@ -194,15 +194,7 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toDisappear)
 			{
-				// If this was a blue orb summon that expired due to the time
-				// running out (rather than dying), remove the variables from
-				// the summoner
-				if (monster is Mob mob)
-				{
-					if (mob.MonsterType != MonsterType.Mob && !mob.IsDead && mob.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
-						master.ResetBlueOrbVariables();
-				}
-
+				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
 				this.RemoveMonster(monster);
 			}
 		}
