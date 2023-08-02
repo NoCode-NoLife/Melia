@@ -197,35 +197,24 @@ namespace Melia.Zone.Scripting.AI
 
 
 		/// <summary>
-		/// Makes a monster with a master check to see if it should cease attacking.
-		/// It stops attacking if the master dies, leaves the map or forces it to teleport (via getting too far away)
+		/// Checks to see if a Follower's master has left them.
+		/// This is similar to EntityGone but also checks if the Master got too far away.
 		/// </summary>
-		/// <param name="followTarget">The target to follow.</param>
 		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
-		/// <returns>true if the monster should continue to attack, false if it should stop</returns>
-		protected bool MasterAttackCheck(ICombatEntity followTarget, float minDistance = 50)
+		/// <returns></returns>
+		protected bool MasterGone(float minDistance = 50)
 		{
-			if (followTarget.Map.Id != this.Entity.Map.Id)
-			{
-				RemoveAllHate();
-				return false;
-			}
-
-			if (followTarget.IsDead)
-			{
-				RemoveAllHate();
-				return false;
-			}
+			var master = GetMaster();
+			if (EntityGone(master))
+				return true;
 
 			var teleportDistance = minDistance * 4;
-			var distance = followTarget.Position.Get2DDistance(this.Entity.Position);
+			var distance = master.Position.Get2DDistance(this.Entity.Position);
 
 			if (distance > teleportDistance)
-			{
-				RemoveAllHate();
-				return false;
-			}
-			return true;
+				return true;
+
+			return false;
 		}
 
 
@@ -270,8 +259,7 @@ namespace Melia.Zone.Scripting.AI
 					// monsters simply freeze, so we'll do the same and let
 					// them get stuck in a loop. Note that if the follow warp
 					// or pet settings are on, the monster gets unsummoned
-					// when the master goes throw a warp, so this logic does
-					// not execute.
+					// when the master goes throw a warp.
 
 					while (true)
 						yield return this.Wait(10000);

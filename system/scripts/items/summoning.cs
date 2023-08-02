@@ -35,7 +35,7 @@ public class SummoningItemScripts : GeneralScript
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem) 
 				{
 					character.RemoveBlueOrbSummon();
-					character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+					character.ResetBlueOrbVariables();
 					return ItemUseResult.OkayNotConsumed;
 				}
 				else
@@ -98,9 +98,7 @@ public class SummoningItemScripts : GeneralScript
 		// functionally causing the master to forget about it and be able to summon another monster.
 		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp) 
 		{
-			character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
-			character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
-			character.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+			character.ResetBlueOrbVariables();
 			return;
 		}
 
@@ -109,10 +107,8 @@ public class SummoningItemScripts : GeneralScript
 		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out var disappearTime))
 		{
 			if (DateTime.Now > disappearTime) 
-			{ 
-				character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
-				character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
-				character.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+			{
+				character.ResetBlueOrbVariables();
 				return;
 			}
 		}		

@@ -1264,7 +1264,9 @@ namespace Melia.Zone.World.Actors.Characters
 
 
 		/// <summary>
-		/// Removes the character's summoned familiar.
+		/// Removes the character's summoned familiar from the Map.
+		/// This is not the same as desummoning it, as this is also called
+		/// on map change.
 		/// </summary>
 		public void RemoveBlueOrbSummon()
 		{
@@ -1273,6 +1275,18 @@ namespace Melia.Zone.World.Actors.Characters
 				this.Map.RemoveMonster(follower);
 				this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
 			}
+		}
+
+
+		/// <summary>
+		/// Removes the variables associated with the character's Blue Orb Summon.
+		/// This does not remove it from the map.
+		/// </summary>
+		public void ResetBlueOrbVariables()
+		{
+			this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
+			this.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+			this.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
 		}
 	}
 }

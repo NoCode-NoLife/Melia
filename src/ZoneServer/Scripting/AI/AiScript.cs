@@ -141,7 +141,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void RemoveAllHate()
+		protected void RemoveAllHate()
 		{
 			_hateLevels.Clear();
 		}
@@ -340,9 +340,9 @@ namespace Melia.Zone.Scripting.AI
 						{
 							if (hitEventAlert.Target.Handle == this.Entity.Handle)
 								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							else if (hitEventAlert.Target.Handle == this._masterHandle)
+							else if (hitEventAlert.Target.Handle == _masterHandle)
 								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							else if (hitEventAlert.Attacker.Handle == this._masterHandle)
+							else if (hitEventAlert.Attacker.Handle == _masterHandle)
 								this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
 							break;
 						}

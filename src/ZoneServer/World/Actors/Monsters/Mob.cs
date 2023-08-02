@@ -316,15 +316,10 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			// If I have a master, remove my variables from my master so I can be resummoned
-			if (this.Components.Get<AiComponent>()?.Script.GetMaster() != null)
+			// If this was a summon that died, clear the variables from the master
+			if (this.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
 			{
-				if (this.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
-				{
-					master.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
-					master.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
-					master.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
-				}
+				master.ResetBlueOrbVariables();
 			}
 
 			if (this.MonsterType == MonsterType.Mob && killer is Character characterKiller)
@@ -335,10 +330,10 @@ namespace Melia.Zone.World.Actors.Monsters
 			// Kills from followers also grant exp and drops to the master
 			else if (this.MonsterType == MonsterType.Mob && killer is Mob mobKiller)
 			{
-				if (mobKiller.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+				if (mobKiller.Components.Get<AiComponent>()?.Script.GetMaster() is Character killersMaster)
 				{
-					this.DropItems(master);
-					master?.GiveExp(exp, classExp, this);
+					this.DropItems(killersMaster);
+					killersMaster?.GiveExp(exp, classExp, this);
 				}
 			}
 
