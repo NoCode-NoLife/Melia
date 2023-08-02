@@ -23,7 +23,7 @@ namespace Melia.Zone.Scripting.AI
 		private int _masterHandle;
 
 		private TendencyType _tendency;
-		private float _visibleRange = 300;
+		private float _viewRange = 300;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private readonly float _hatePerHit = 100;
@@ -109,7 +109,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="elapsed"></param>
 		private void UpdateHate(TimeSpan elapsed)
 		{
-			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _visibleRange);
+			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _viewRange);
 
 			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
 			this.IncreaseNearbyHate(elapsed, potentialEnemies);
@@ -413,6 +413,15 @@ namespace Melia.Zone.Scripting.AI
 		protected void SetTendency(TendencyType tendency)
 		{
 			_tendency = tendency;
+		}
+
+		/// <summary>
+		/// Sets the range in which the AI can see potential enemies.
+		/// </summary>
+		/// <param name="viewRange"></param>
+		protected void SetViewDistance(float viewRange)
+		{
+			_viewRange = viewRange;
 		}
 
 		/// <summary>
