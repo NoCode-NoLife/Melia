@@ -578,7 +578,7 @@ namespace Melia.Zone.World.Actors.Characters
 			var serverInfo = availableZones[channelId];
 
 			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-				RemoveBlueOrbSummon();
+				this.RemoveBlueOrbSummon();
 
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);

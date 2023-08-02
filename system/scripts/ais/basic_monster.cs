@@ -112,7 +112,7 @@ public class BasicMonsterAiScript : AiScript
 		if (GetMaster() != null && MasterGone())
 		{
 			target = null;
-			this.RemoveAllHate();
+			RemoveAllHate();
 			StartRoutine("StopAndIdle", StopAndIdle());
 		}
 	}

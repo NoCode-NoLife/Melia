@@ -204,8 +204,8 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected bool MasterGone(float minDistance = 50)
 		{
-			var master = GetMaster();
-			if (EntityGone(master))
+			var master = this.GetMaster();
+			if (this.EntityGone(master))
 				return true;
 
 			var teleportDistance = minDistance * 4;
