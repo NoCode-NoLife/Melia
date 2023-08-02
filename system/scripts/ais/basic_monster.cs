@@ -2,7 +2,6 @@
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 
 [Ai("BasicMonster")]
 public class BasicMonsterAiScript : AiScript
@@ -49,7 +48,7 @@ public class BasicMonsterAiScript : AiScript
 
 	protected IEnumerable Attack()
 	{
-		SetRunning(true);		
+		SetRunning(true);
 
 		while (!target.IsDead)
 		{
@@ -108,7 +107,8 @@ public class BasicMonsterAiScript : AiScript
 
 	private void CheckMaster()
 	{
-		// Lose Hate value and transition to idle if the master has vanished or is out of range
+		// Lose Hate value and transition to idle if the master has vanished
+		// or is out of range
 		if (GetMaster() != null && MasterGone())
 		{
 			target = null;

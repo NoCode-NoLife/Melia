@@ -158,8 +158,7 @@ namespace Melia.Zone.Scripting.AI
 			skill = new Skill(this.Entity, rndSkillId, 1);
 
 			return true;
-		}		
-
+		}
 
 		/// <summary>
 		/// Makes entity use the given skill on the target.
@@ -197,14 +196,19 @@ namespace Melia.Zone.Scripting.AI
 
 
 		/// <summary>
-		/// Checks to see if a Follower's master has left them.
-		/// This is similar to EntityGone but also checks if the Master got too far away.
+		/// If the entity has a master, this method returns whether it's
+		/// still around and well.
 		/// </summary>
+		/// <remarks>
+		/// Uses EntityGone in combination with a range check to make sure
+		/// the master is alive and nearby.
+		/// </remarks>
 		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
 		/// <returns></returns>
 		protected bool MasterGone(float minDistance = 50)
 		{
 			var master = this.GetMaster();
+
 			if (this.EntityGone(master))
 				return true;
 

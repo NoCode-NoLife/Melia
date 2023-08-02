@@ -137,15 +137,12 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Removes hate levels of all enemies, but doesn't clear hated factions
+		/// Clears all hate levels.
 		/// </summary>
-		/// <param name="elapsed"></param>
-		/// <param name="potentialEnemies"></param>
 		protected void RemoveAllHate()
 		{
 			_hateLevels.Clear();
 		}
-
 
 		/// <summary>
 		/// Increase hate levels of enemies that are nearby.

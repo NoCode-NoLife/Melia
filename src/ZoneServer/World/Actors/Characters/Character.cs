@@ -1135,7 +1135,7 @@ namespace Melia.Zone.World.Actors.Characters
 				return true;
 			}
 
-			// inform the follower that the master was hit so it can aggro
+			// Notify follower that its master was hit so it can aggro
 			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
 			{
 				if (follower.Components.TryGet<AiComponent>(out var ai))
@@ -1259,12 +1259,13 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
 		}
 
-
 		/// <summary>
 		/// Removes the character's summoned familiar from the Map.
-		/// This is not the same as desummoning it, as this is also called
-		/// on map change.
 		/// </summary>
+		/// <remarks>
+		/// This is not the same as desummoning it, as this is also
+		/// called on map change.
+		/// </remarks>
 		public void RemoveBlueOrbSummon()
 		{
 			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
@@ -1273,7 +1274,6 @@ namespace Melia.Zone.World.Actors.Characters
 				this.Variables.Temp.Remove("Melia.BlueOrbSummon.Monster");
 			}
 		}
-
 
 		/// <summary>
 		/// Removes the variables associated with the character's Blue Orb Summon.

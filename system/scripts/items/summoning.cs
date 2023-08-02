@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Policy;
 using Melia.Shared.L10N;
 using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
@@ -25,14 +24,15 @@ public class SummoningItemScripts : GeneralScript
 			return ItemUseResult.Fail;
 		}
 
-		// If the pet system is on and you try to resummon the same monster, it desummons it, otherwise we summon
-		// the new monster and desummon the old one.
-		// If the pet system is not enabled using an orb for a monster that's already out fails so you don't waste the orb
+		// If the pet system is on and you try to resummon the same monster,
+		// it desummons it, otherwise we summon the new monster and desummon
+		// the old one. If the pet system is not enabled using an orb for a
+		// monster that's already out fails so you don't waste the orb.
 		if (character.Variables.Perm.TryGetInt("Melia.BlueOrbSummon.MonsterId", out var monsterClassId))
 		{
 			if (monsterData.Id == monsterClassId)
 			{
-				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem) 
+				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 				{
 					character.RemoveBlueOrbSummon();
 					character.ResetBlueOrbVariables();
@@ -88,30 +88,31 @@ public class SummoningItemScripts : GeneralScript
 	[On("PlayerReady")]
 	public void OnPlayerReady(object sender, PlayerEventArgs args)
 	{
-
 		var character = args.Character;
 
 		if (!character.Variables.Perm.TryGetInt("Melia.BlueOrbSummon.MonsterId", out var monsterClassId))
 			return;
 
-		// If follow warp is not enabled, your monster is released from you when you leave a map,
-		// functionally causing the master to forget about it and be able to summon another monster.
-		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp) 
+		// If follow warp is not enabled, your monster is released from you
+		// when you leave a map, functionally causing the master to forget
+		// about it and be able to summon another monster.
+		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
 		{
 			character.ResetBlueOrbVariables();
 			return;
 		}
 
-		// If follow warp is on, but the monster's disappear time passed during the warp, we don't resummon
-		// it and instead clean it up here.
+		// If follow warp is on, but the monster's disappear time passed
+		// during the warp, we don't resummon it and instead clean it up
+		// here.
 		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out var disappearTime))
 		{
-			if (DateTime.Now > disappearTime) 
+			if (DateTime.Now > disappearTime)
 			{
 				character.ResetBlueOrbVariables();
 				return;
 			}
-		}		
+		}
 
 		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
@@ -119,9 +120,7 @@ public class SummoningItemScripts : GeneralScript
 		character.Variables.Temp.Set("Melia.BlueOrbSummon.Monster", monster);
 
 		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out disappearTime))
-		{
 			monster.DisappearTime = disappearTime;
-		}
 
 		character.Map.AddMonster(monster);
 	}

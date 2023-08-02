@@ -35,7 +35,6 @@ namespace Melia.Shared.Configuration.Files
 		public bool EnableDayNightCycle { get; protected set; }
 
 		public bool BlueOrbFollowWarp { get; protected set; }
-
 		public bool BlueOrbPetSystem { get; protected set; }
 
 		/// <summary>
