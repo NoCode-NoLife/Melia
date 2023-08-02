@@ -40,7 +40,7 @@ public class SummoningItemScripts : GeneralScript
 				else
 				{
 					character.ServerMessage(Localization.Get("This monster is already summoned."));
-					return ItemUseResult.Fail;
+					return ItemUseResult.OkayNotConsumed;
 				}
 			}
 		}
