@@ -1129,10 +1129,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
-			{
 				this.Kill(attacker);
-				return true;
-			}
 
 			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
