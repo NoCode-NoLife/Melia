@@ -5,6 +5,5 @@
 // Use the content list in the user folder instead if it exists
 divert "/user/scripts/scripts_content.txt"
 
-require "content/r1/mobs/scripts.txt"
-require "content/r1/warps/scripts.txt"
+require "content/r1/scripts.txt"
 require "content/test/scripts.txt"
