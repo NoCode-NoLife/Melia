@@ -529,9 +529,6 @@ namespace Melia.Zone.World.Actors.Characters
 			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
 				throw new ArgumentException($"Map with id '{mapId}' doesn't exist in world.");
 
-			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-				RemoveBlueOrbSummon();
-
 			this.Position = pos;
 
 			if (this.MapId == mapId)
@@ -556,9 +553,6 @@ namespace Melia.Zone.World.Actors.Characters
 			_warping = true;
 			_destinationChannelId = channelId;
 
-			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-				RemoveBlueOrbSummon();
-
 			Send.ZC_SAVE_INFO(this.Connection);
 			Send.ZC_MOVE_ZONE(this.Connection);
 		}
@@ -582,6 +576,9 @@ namespace Melia.Zone.World.Actors.Characters
 
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
+
+			if (ZoneServer.Instance.Conf.World.BlueOrbFollowWarp || ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+				RemoveBlueOrbSummon();
 
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);
@@ -1138,7 +1135,7 @@ namespace Melia.Zone.World.Actors.Characters
 				return true;
 			}
 
-			// inform the follower that I got hit so it can aggro
+			// inform the follower that the master was hit so it can aggro
 			if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
 			{
 				if (follower.Components.TryGet<AiComponent>(out var ai))
