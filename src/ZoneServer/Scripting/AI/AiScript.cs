@@ -363,27 +363,38 @@ namespace Melia.Zone.Scripting.AI
 				while (_eventAlerts.Count > 0)
 				{
 					var eventAlert = _eventAlerts.Dequeue();
+					this.ReactToAlert(eventAlert);
+				}
+			}
+		}
 
-					switch (eventAlert)
-					{
-						case HitEventAlert hitEventAlert:
-						{
-							if (hitEventAlert.Target.Handle == this.Entity.Handle)
-								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							else if (hitEventAlert.Target.Handle == _masterHandle)
-								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							else if (hitEventAlert.Attacker.Handle == _masterHandle)
-								this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
-							break;
-						}
+		/// <summary>
+		/// Makes AI react to the given alert.
+		/// </summary>
+		/// <param name="eventAlert"></param>
+		private void ReactToAlert(IAiEventAlert eventAlert)
+		{
+			switch (eventAlert)
+			{
+				case HitEventAlert hitEventAlert:
+				{
+					var entityWasAttacked = (hitEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (hitEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (hitEventAlert.Attacker.Handle == _masterHandle);
 
-						case HateResetAlert hateResetAlert:
-						{
-							var targetHandle = hateResetAlert.Target.Handle;
-							_hateLevels.Remove(targetHandle);
-							break;
-						}
-					}
+					if (entityWasAttacked || masterWasAttacked)
+						this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+					else if (masterDidAttack)
+						this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
+
+					break;
+				}
+
+				case HateResetAlert hateResetAlert:
+				{
+					var targetHandle = hateResetAlert.Target.Handle;
+					_hateLevels.Remove(targetHandle);
+					break;
 				}
 			}
 		}
