@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Tos.Const;
-using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -22,6 +21,9 @@ namespace Melia.Zone.Scripting.AI
 
 		private int _masterHandle;
 
+		private DateTime _lastPlayerSeenTime;
+		private readonly TimeSpan _inactivityDelay = TimeSpan.FromSeconds(2);
+
 		private TendencyType _tendency;
 		private float _viewRange = 300;
 		private float _hateRange = 100;
@@ -29,9 +31,9 @@ namespace Melia.Zone.Scripting.AI
 		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
+
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
 		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
-
 		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
 		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
 
@@ -94,13 +96,44 @@ namespace Melia.Zone.Scripting.AI
 			if (!_initiated)
 				throw new InvalidOperationException("AI has not been initiated.");
 
-			if (this.Entity.IsDead || this.Entity.Map.CharacterCount == 0)
+			if (this.Entity.IsDead)
+				return;
+
+			if (!this.CheckAnyPlayersOnMap())
 				return;
 
 			this.UpdateHate(elapsed);
 			this.HandleEventAlerts();
 			this.ExecuteDuringActions();
 			this.Heartbeat();
+		}
+
+		/// <summary>
+		/// Returns true if there are any players on the entity's map.
+		/// </summary>
+		/// <remarks>
+		/// This method keeps returning true for a short time after the last
+		/// player left the map so the AI can react to players leaving.
+		/// </remarks>
+		/// <returns></returns>
+		private bool CheckAnyPlayersOnMap()
+		{
+			var playerCount = this.Entity.Map.CharacterCount;
+
+			if (playerCount > 0)
+			{
+				_lastPlayerSeenTime = DateTime.Now;
+				return true;
+			}
+
+			if (playerCount == 0)
+			{
+				var inactivityStart = _lastPlayerSeenTime + _inactivityDelay;
+				if (DateTime.Now < inactivityStart)
+					return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>
