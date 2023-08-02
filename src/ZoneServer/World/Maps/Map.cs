@@ -7,6 +7,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -687,6 +688,31 @@ namespace Melia.Zone.World.Maps
 
 			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
 			return closestPos;
+		}
+
+		/// <summary>
+		/// Alerts all AIs in range of the source about the given event.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="alert"></param>
+		public void AlertAis(IActor source, IAiEventAlert alert)
+		{
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (!monster.Position.InRange2D(source.Position, VisibleRange))
+						continue;
+
+					if (!(monster is ICombatEntity combatEntity))
+						continue;
+
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
+						continue;
+
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
 		}
 
 		/// <summary>

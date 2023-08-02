@@ -1134,12 +1134,7 @@ namespace Melia.Zone.World.Actors.Characters
 				return true;
 			}
 
-			// Notify follower that its master was hit so it can aggro
-			//if (this.Variables.Temp.TryGet<Mob>("Melia.BlueOrbSummon.Monster", out var follower))
-			//{
-			//	if (follower.Components.TryGet<AiComponent>(out var ai))
-			//		ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
-			//}
+			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}
