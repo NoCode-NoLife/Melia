@@ -297,13 +297,13 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			if (this.IsBuffActive(BuffId.SuperExp))
 			{
-				expRate *= worldConf.BlueJackpotExpRate;
-				classExpRate *= worldConf.BlueJackpotExpRate;
+				expRate *= worldConf.BlueJackpotExpRate / 100.0;
+				classExpRate *= worldConf.BlueJackpotExpRate / 100.0;
 			}
 			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
 			{
-				expRate *= worldConf.EliteExpRate;
-				classExpRate *= worldConf.EliteExpRate;
+				expRate *= worldConf.EliteExpRate / 100.0;
+				classExpRate *= worldConf.EliteExpRate / 100.0;
 			}
 
 			var exp = 0L;
@@ -396,14 +396,16 @@ namespace Melia.Zone.World.Actors.Monsters
 			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			var iterations = 1;
+			// This is how many times a monster goes through its drop table
+			var rolls = 1;
 
-			// these should never be simultaneously applied, but just in case we apply gold last
-			if (this.IsBuffActive(BuffId.EliteMonsterBuff)) iterations = worldConf.EliteRolls;
-			if (this.IsBuffActive(BuffId.SuperDrop)) iterations = worldConf.SilverJackpotRolls;
-			if (this.IsBuffActive(BuffId.TwinkleBuff)) iterations = worldConf.GoldJackpotRolls;
+			// Monsters shouldn't be able to get multiple simultaneous jackpots or elite buffs,
+			// but just in case we check gold last since gold gives the most rolls.
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff)) rolls = worldConf.EliteRolls;
+			if (this.IsBuffActive(BuffId.SuperDrop)) rolls = worldConf.SilverJackpotRolls;
+			if (this.IsBuffActive(BuffId.TwinkleBuff)) rolls = worldConf.GoldJackpotRolls;
 
-			for (int i = 0; i < iterations; i++)
+			for (var i = 0; i < rolls; i++)
 			{
 				foreach (var dropItemData in this.Data.Drops)
 				{
@@ -452,44 +454,39 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Rolls for a chance for this monster to become a rare (jackpot or elite) monster
 		/// </summary>
 		/// <param name="redOrb">true if this was spawned by a red orb and should get the boosted rates</param>
+		/// <param name="jackpotRate">The rate for jackpots, in percent.  100f = normal rate</param>
+		/// <param name="eliteRate">The rate for elites, in percent.  100f = normal rate</param>
 		/// <returns></returns>
-		public void PossiblyBecomeRare(bool redOrb = false)
+		public void PossiblyBecomeRare(float jackpotRate = 100f, float eliteRate = 100f)
 		{
 			var rnd = RandomProvider.Get();
 
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			var spawnRateBoost = 1F;
-			if (redOrb)
-				spawnRateBoost = worldConf.RedOrbJackpotRate / 100F;
-
-			if (rnd.NextDouble() * 100D < worldConf.GoldJackpotSpawnChance * spawnRateBoost)
+			if (rnd.NextDouble() * 100 < worldConf.GoldJackpotSpawnChance * jackpotRate / 100f)
 			{
 				this.StartBuff(BuffId.TwinkleBuff, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
-			if (rnd.NextDouble() * 100D < worldConf.BlueJackpotSpawnChance * spawnRateBoost)
+			if (rnd.NextDouble() * 100 < worldConf.BlueJackpotSpawnChance * jackpotRate / 100f)
 			{
 				this.StartBuff(BuffId.SuperExp, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
-			if (rnd.NextDouble() * 100D < worldConf.SilverJackpotSpawnChance * spawnRateBoost)
+			if (rnd.NextDouble() * 100 < worldConf.SilverJackpotSpawnChance * jackpotRate / 100f)
 			{
 				this.StartBuff(BuffId.SuperDrop, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
 			// Check to see if this monster can become elite
-			// Note that on official it uses the map level rather than the monster level
+			// TODO: On official this uses the level of the map but we don't currently store that
 			if (this.Level < worldConf.EliteMinLevel)
 				return;
 
-			if (redOrb)
-				spawnRateBoost = worldConf.RedOrbEliteRate / 100F;
-
-			if (rnd.NextDouble() * 100D < worldConf.EliteSpawnChance * spawnRateBoost)
+			if (rnd.NextDouble() * 100 < worldConf.EliteSpawnChance * eliteRate / 100f)
 			{
 				this.StartBuff(BuffId.EliteMonsterBuff, 1, 0, TimeSpan.Zero, this);
 
@@ -498,15 +495,15 @@ namespace Melia.Zone.World.Actors.Monsters
 				var properties = this.Properties;
 				var overrides = this.Properties.Overrides;
 
-				overrides.SetFloat(PropertyName.MHP, properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100F);
-				overrides.SetFloat(PropertyName.MSP, properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100F);
+				overrides.SetFloat(PropertyName.MHP, properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100f);
+				overrides.SetFloat(PropertyName.MSP, properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100f);
 
-				overrides.SetFloat(PropertyName.MINPATK, properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100F);
-				overrides.SetFloat(PropertyName.MAXPATK, properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100F);
-				overrides.SetFloat(PropertyName.MINMATK, properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100F);
-				overrides.SetFloat(PropertyName.MAXMATK, properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100F);
-				overrides.SetFloat(PropertyName.DEF, properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100F);
-				overrides.SetFloat(PropertyName.MDEF, properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.MINPATK, properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100f);
+				overrides.SetFloat(PropertyName.MAXPATK, properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100f);
+				overrides.SetFloat(PropertyName.MINMATK, properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100f);
+				overrides.SetFloat(PropertyName.MAXMATK, properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100f);
+				overrides.SetFloat(PropertyName.DEF, properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100f);
+				overrides.SetFloat(PropertyName.MDEF, properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100f);
 
 				properties.InvalidateAll();
 
@@ -517,9 +514,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 				// TODO: Also needs to be able to summon its minions and have its special attack
 
-				return;
 			}
-
 		}
 
 		/// <summary>
