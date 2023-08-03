@@ -482,8 +482,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			// Check to see if this monster can become elite
-			// TODO: On official this uses the level of the map but we don't currently store that
-			if (this.Level < worldConf.EliteMinLevel)
+			if (this.Map.Data.Level < worldConf.EliteMinLevel)
 				return;
 
 			if (rnd.NextDouble() * 100 < worldConf.EliteSpawnChance * eliteRate / 100f)
