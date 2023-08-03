@@ -34,7 +34,7 @@ public class SummoningItemScripts : GeneralScript
 			{
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 				{
-					character.ResetBlueOrbVariables();
+					ResetBlueOrbVariables(character);
 					return ItemUseResult.OkayNotConsumed;
 				}
 				else
@@ -92,7 +92,7 @@ public class SummoningItemScripts : GeneralScript
 		// about it and be able to summon another monster.
 		if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
 		{
-			character.ResetBlueOrbVariables();
+			ResetBlueOrbVariables(character);
 			return;
 		}
 
@@ -103,7 +103,7 @@ public class SummoningItemScripts : GeneralScript
 		{
 			if (DateTime.Now > disappearTime)
 			{
-				character.ResetBlueOrbVariables();
+				ResetBlueOrbVariables(character);
 				return;
 			}
 		}
@@ -126,7 +126,7 @@ public class SummoningItemScripts : GeneralScript
 		var master = target.Components.Get<AiComponent>()?.Script.GetMaster();
 
 		if (master is Character masterCharacter)
-			masterCharacter.ResetBlueOrbVariables();
+			ResetBlueOrbVariables(masterCharacter);
 	}
 
 	[On("MonsterDisappears")]
@@ -142,7 +142,7 @@ public class SummoningItemScripts : GeneralScript
 			var master = mob.Components.Get<AiComponent>()?.Script.GetMaster();
 
 			if (master is Character masterCharacter && !mob.IsDead)
-				masterCharacter.ResetBlueOrbVariables();
+				ResetBlueOrbVariables(masterCharacter);
 		}
 	}
 
@@ -195,5 +195,16 @@ public class SummoningItemScripts : GeneralScript
 		}
 
 		return pos;
+	}
+
+	/// <summary>
+	/// Removes the variables associated with the character's blue orb
+	/// summon. This does not affect a potentially active summon.
+	/// </summary>
+	/// <param name="character"></param>
+	private void ResetBlueOrbVariables(Character character)
+	{
+		character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
+		character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
 	}
 }

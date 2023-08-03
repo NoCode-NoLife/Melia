@@ -1251,15 +1251,5 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
 		}
-
-		/// <summary>
-		/// Removes the variables associated with the character's Blue Orb Summon.
-		/// This does not remove it from the map.
-		/// </summary>
-		public void ResetBlueOrbVariables()
-		{
-			this.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
-			this.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
-		}
 	}
 }
