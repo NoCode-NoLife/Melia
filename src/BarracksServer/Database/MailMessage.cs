@@ -22,7 +22,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Gets or sets the message's state.
 		/// </summary>
-		public MailboxMessageState State { get; set; } = MailboxMessageState.None;
+		public MailboxMessageState State { get; set; } = MailboxMessageState.Unread;
 
 		/// <summary>
 		/// Gets or sets the message's sender.
@@ -47,12 +47,12 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Gets or sets the message expiration date.
 		/// </summary>
-		public DateTime ExpirationDate { get; set; } = DateTime.MaxValue;
+		public DateTime ExpirationDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the message creation date.
 		/// </summary>
-		public DateTime CreatedDate { get; set; } = DateTime.MaxValue;
+		public DateTime CreatedDate { get; set; }
 
 		/// <summary>
 		/// Returns if the message is read.
@@ -60,18 +60,27 @@ namespace Melia.Barracks.Database
 		public bool IsRead => this.State == MailboxMessageState.Read;
 
 		/// <summary>
-		/// Returns if the message is read.
+		/// Returns if the message is expired.
 		/// </summary>
-		public bool HasItems()
+		public bool IsExpired => this.ExpirationDate < DateTime.Now;
+
+		/// <summary>
+		/// Returns true if any item is unreceived.
+		/// </summary>
+		public bool HasReceivableItems()
 		{
 			lock (_items)
-				return this._items.Exists(item => !item.IsReceived);
+				return _items.Exists(item => !item.IsReceived);
 		}
 
+		/// <summary>
+		/// Returns a copy list of mail items.
+		/// </summary>
+		/// <returns></returns>
 		public List<MailItem> GetItems()
 		{
 			lock (_items)
-				return _items;
+				return _items.ToList();
 		}
 
 		/// <summary>
@@ -81,7 +90,7 @@ namespace Melia.Barracks.Database
 		public void AddItem(MailItem item)
 		{
 			lock (_items)
-				this._items.Add(item);
+				_items.Add(item);
 		}
 
 		/// <summary>
@@ -94,23 +103,31 @@ namespace Melia.Barracks.Database
 		{
 			lock (_items)
 			{
-				item = this._items.Find(a => a.Id == mailItemId);
+				item = _items.Find(a => a.DbId == mailItemId);
 				return item != null;
 			}
 		}
 	}
 
+	/// <summary>
+	/// A class used to bridge mail item states to the item.
+	/// </summary>
 	public class MailItem
 	{
 		/// <summary>
-		/// Gets or sets the mail items unique id.
+		/// Gets or sets the mail items database id.
 		/// </summary>
-		public int Id { get; set; } = 0;
+		public int DbId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the mail item's item id.
+		/// Gets or sets the mail items item's database id.
 		/// </summary>
-		public int ItemId { get; set; }
+		public long ItemDbId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the mail item's class id.
+		/// </summary>
+		public int Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mail item's amount.

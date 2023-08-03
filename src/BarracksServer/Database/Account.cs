@@ -102,7 +102,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Gets or sets the account's mail box.
 		/// </summary>
-		public Mailbox Mailbox { get; set; }
+		public Mailbox Mailbox { get; } = new Mailbox();
 
 		/// <summary>
 		/// Returns a reference to the account's properties.
@@ -203,7 +203,7 @@ namespace Melia.Barracks.Database
 			foreach (var character in characters)
 				account.AddCharacter(character);
 
-			account.Mailbox = BarracksServer.Instance.Database.GetMailbox(account.Id);
+			BarracksServer.Instance.Database.LoadMailbox(account);
 
 			return account;
 		}

@@ -677,29 +677,20 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
-			if (items.Contains("/"))
+			var splitItems = items.Split('/');
+			foreach (var itemStr in splitItems)
 			{
-				var splitItems = items.Split('/');
-				foreach (var itemStr in splitItems)
+				if (int.TryParse(itemStr, out var mailItemId))
 				{
-					if (int.TryParse(itemStr, out var mailItemId))
-					{
-						if (!mail.TryGetItem(mailItemId, out var item) || item.IsReceived)
-							continue;
-						BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemId, item.Amount);
-						item.IsReceived = true;
-					}
-				}
-			}
-			else
-			{
-				if (int.TryParse(items, out var mailItemId) && mail.TryGetItem(mailItemId, out var item) && !item.IsReceived)
-				{
-					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemId, item.Amount);
+					if (!mail.TryGetItem(mailItemId, out var item) || item.IsReceived)
+						continue;
+
+					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
 					item.IsReceived = true;
 				}
 			}
-			if (mail.HasItems())
+
+			if (mail.HasReceivableItems())
 				mail.State = MailboxMessageState.Read;
 			else
 				mail.State = MailboxMessageState.Store;

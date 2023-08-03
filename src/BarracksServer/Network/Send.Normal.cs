@@ -213,28 +213,30 @@ namespace Melia.Barracks.Network
 					foreach (var message in mailBox.GetMail())
 					{
 						var items = message.GetItems();
+						var hasUnreceivedItems = message.HasReceivableItems();
 
 						zpacket.PutLpString(message.Sender);
 						zpacket.PutLpString(message.Subject);
 						zpacket.PutLpString(message.Message);
-						zpacket.PutDate(message.StartDate); // Date Sent?
-						zpacket.PutDate(message.ExpirationDate); // Expiration
+						zpacket.PutDate(message.StartDate);
+						zpacket.PutDate(message.ExpirationDate);
 						zpacket.PutDate(message.CreatedDate);
-						zpacket.PutLong(message.Id); // Message Id
-						zpacket.PutByte(message.HasItems());
+						zpacket.PutLong(message.Id);
+						zpacket.PutByte(hasUnreceivedItems);
 						zpacket.PutShort(items.Count);
-						zpacket.PutByte((byte)message.State); // Changes Visibility?
+						zpacket.PutByte((byte)message.State);
 						zpacket.PutByte(0);
 						zpacket.PutByte(1);
 						zpacket.PutShort(0);
-						zpacket.PutInt(items.Count); // Message Item Count
+						zpacket.PutInt(items.Count);
 
 						foreach (var item in items)
 						{
+							zpacket.PutInt(item.DbId);
 							zpacket.PutInt(item.Id);
-							zpacket.PutInt(item.ItemId);
 							zpacket.PutInt(item.Amount);
-							zpacket.PutInt(item.IsReceived ? 1 : 0);
+							zpacket.PutByte(item.IsReceived);
+							zpacket.PutEmptyBin(3); // Alignment
 						}
 					}
 				});
@@ -265,19 +267,20 @@ namespace Melia.Barracks.Network
 			public static void MailUpdate(IBarracksConnection conn, MailMessage message)
 			{
 				var items = message.GetItems();
-				var receivedItems = items.Count(item => item.IsReceived);
+				var receivedItemCount = items.Count(item => item.IsReceived);
+
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.MailUpdate);
 
 				packet.PutLong(message.Id);
 				packet.PutByte((byte)message.State);
-				packet.PutInt(receivedItems); // This is a guess, could be a different value.
+				packet.PutInt(receivedItemCount); // This is a guess, could be a different value.
 				packet.PutInt(items.Count);
 
 				foreach (var item in items)
 				{
+					packet.PutInt(item.DbId);
 					packet.PutInt(item.Id);
-					packet.PutInt(item.ItemId);
 					packet.PutInt(item.Amount);
 					packet.PutInt(item.IsReceived ? 1 : 0);
 				}

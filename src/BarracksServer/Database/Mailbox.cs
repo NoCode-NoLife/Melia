@@ -33,7 +33,7 @@ namespace Melia.Barracks.Database
 			get
 			{
 				lock (_mail)
-					return this._mail.Count(a => a.State == MailboxMessageState.None);
+					return this._mail.Count(a => a.State == MailboxMessageState.Unread);
 			}
 		}
 
