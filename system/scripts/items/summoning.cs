@@ -34,6 +34,7 @@ public class SummoningItemScripts : GeneralScript
 			{
 				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
 				{
+					RemoveBlueOrbSummon(character);
 					ResetBlueOrbVariables(character);
 					return ItemUseResult.OkayNotConsumed;
 				}
@@ -51,16 +52,11 @@ public class SummoningItemScripts : GeneralScript
 
 		character.Variables.Perm.SetInt("Melia.BlueOrbSummon.MonsterId", monsterData.Id);
 
-		// The Pet system doesn't consume the item or set an expiry time for the summon
 		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-		{
 			return ItemUseResult.OkayNotConsumed;
-		}
-		else
-		{
-			character.Variables.Perm.Set("Melia.BlueOrbSummon.DisappearTime", monster.DisappearTime);
-			return ItemUseResult.Okay;
-		}
+
+		character.Variables.Perm.Set("Melia.BlueOrbSummon.DisappearTime", monster.DisappearTime);
+		return ItemUseResult.Okay;
 	}
 
 	[ScriptableFunction]
@@ -206,5 +202,16 @@ public class SummoningItemScripts : GeneralScript
 	{
 		character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
 		character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");
+	}
+
+	/// <summary>
+	/// Removes the character's blue orb summon if one is active.
+	/// </summary>
+	/// <param name="character"></param>
+	private void RemoveBlueOrbSummon(Character character)
+	{
+		// TODO: Improve once we keep better track of masters and followers.
+		var monster = character.Map.GetMonster(a => a is Mob mob && mob.Components.Get<AiComponent>()?.Script.GetMaster() == character);
+		monster?.Map.RemoveMonster(monster);
 	}
 }

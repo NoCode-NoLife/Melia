@@ -478,6 +478,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public IMonster GetMonster(Func<IMonster, bool> predicate)
+		{
+			lock (_monsters)
+				return _monsters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns monster by handle via out. Returns false if the
 		/// monster wasn't found.
 		/// </summary>
