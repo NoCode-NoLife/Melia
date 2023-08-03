@@ -1,8 +1,5 @@
-﻿using System.Linq;
-using Melia.Shared.Network;
+﻿using Melia.Shared.Network;
 using Melia.Social.Database;
-using Melia.Social.World;
-using Mysqlx.Crud;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 
@@ -232,7 +229,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Invite for someone to join a group chat.
+		/// Invites someone to join a group chat.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -240,6 +237,12 @@ namespace Melia.Social.Network
 		public void CS_GROUP_CHAT_INVITE(ISocialConnection conn, Packet packet)
 		{
 			var teamName = packet.GetString(64);
+
+			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
+			{
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
+				return;
+			}
 
 			// ...
 		}
