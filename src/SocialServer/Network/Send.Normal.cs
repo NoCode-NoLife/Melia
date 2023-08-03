@@ -145,9 +145,7 @@ namespace Melia.Social.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="systemMessageIdent"></param>
-			/// <param name="s1"></param>
-			/// <param name="b1"></param>
-			public static void SystemMessage(ISocialConnection conn, string systemMessageIdent, short s1, byte b1)
+			public static void SystemMessage(ISocialConnection conn, string systemMessageIdent)
 			{
 				if (!SocialServer.Instance.Data.SystemMessageDb.TryFind(systemMessageIdent, out var systemMessageId))
 					throw new ArgumentException($"Client message '{systemMessageIdent}' not found.");
@@ -156,8 +154,8 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.SystemMessage);
 
 				packet.PutInt(systemMessageId.ClassId);
-				packet.PutShort(s1);
-				packet.PutByte(b1);
+				packet.PutShort(1);
+				packet.PutByte(0);
 
 				conn.Send(packet);
 			}

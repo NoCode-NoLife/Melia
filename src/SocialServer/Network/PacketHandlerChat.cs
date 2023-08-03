@@ -76,22 +76,22 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
 			{
-				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist");
 				return;
 			}
 
 			if (user.Friends.TryGet(otherUser.Id, out var friend))
 			{
 				if (friend.State == FriendState.SentRequest)
-					Send.SC_NORMAL.SystemMessage(conn, "AlreadyRequestFriend", 1, 0);
+					Send.SC_NORMAL.SystemMessage(conn, "AlreadyRequestFriend");
 				else
-					Send.SC_NORMAL.SystemMessage(conn, "AlreadyInFriendList", 1, 0);
+					Send.SC_NORMAL.SystemMessage(conn, "AlreadyInFriendList");
 				return;
 			}
 
 			user.Friends.AddFriendRequest(otherUser, out var newFriend, out var newOtherFriend);
 
-			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
+			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend");
 			Send.SC_NORMAL.FriendRequested(conn, newFriend.User.Id);
 			Send.SC_NORMAL.FriendInfo(conn, newFriend);
 
@@ -113,7 +113,7 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
 			{
-				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist");
 				return;
 			}
 
@@ -232,7 +232,7 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
 			{
-				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist", 1, 0);
+				Send.SC_NORMAL.SystemMessage(conn, "TargetUserNotExist");
 				return;
 			}
 
