@@ -49,6 +49,8 @@ namespace Melia.Social.World
 		{
 			lock (_friends)
 				_friends.Remove(friend);
+
+			SocialServer.Instance.Database.DeleteFriend(friend.Id);
 		}
 
 		/// <summary>
@@ -157,6 +159,28 @@ namespace Melia.Social.World
 
 				this.Add(friend);
 			}
+		}
+
+		/// <summary>
+		/// Adds other user to friends list as a request and this user to
+		/// the other user's friends list as a received request. Returns
+		/// the newly created friends via out.
+		/// </summary>
+		/// <param name="otherUser"></param>
+		/// <param name="newFriend"></param>
+		/// <param name="newOtherFriend"></param>
+		public void AddFriendRequest(SocialUser otherUser, out Friend newFriend, out Friend newOtherFriend)
+		{
+			var user = this.User;
+
+			newFriend = new Friend(otherUser, FriendState.SentRequest);
+			this.Add(newFriend);
+
+			newOtherFriend = new Friend(user, FriendState.ReceivedRequest);
+			otherUser.Friends.Add(newOtherFriend);
+
+			SocialServer.Instance.Database.CreateFriend(user.Id, newFriend);
+			SocialServer.Instance.Database.CreateFriend(otherUser.Id, newOtherFriend);
 		}
 	}
 }

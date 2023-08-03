@@ -89,20 +89,14 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			friend = new Friend(otherUser, FriendState.SentRequest);
-			user.Friends.Add(friend);
-			SocialServer.Instance.Database.CreateFriend(user.Id, friend);
+			user.Friends.AddFriendRequest(otherUser, out var newFriend, out var newOtherFriend);
 
 			Send.SC_NORMAL.SystemMessage(conn, "AckReqAddFriend", 1, 0);
-			Send.SC_NORMAL.FriendRequested(conn, friend.User.Id);
-			Send.SC_NORMAL.FriendInfo(conn, friend);
-
-			var otherFriend = new Friend(user, FriendState.ReceivedRequest);
-			otherUser.Friends.Add(otherFriend);
-			SocialServer.Instance.Database.CreateFriend(otherUser.Id, otherFriend);
+			Send.SC_NORMAL.FriendRequested(conn, newFriend.User.Id);
+			Send.SC_NORMAL.FriendInfo(conn, newFriend);
 
 			if (otherUser.TryGetConnection(out var otherConn))
-				Send.SC_NORMAL.FriendInfo(otherUser.Connection, otherFriend);
+				Send.SC_NORMAL.FriendInfo(otherUser.Connection, newOtherFriend);
 		}
 
 		/// <summary>
@@ -154,8 +148,6 @@ namespace Melia.Social.Network
 			if (cmd == FriendCmd.Delete)
 			{
 				user.Friends.Remove(friend);
-				SocialServer.Instance.Database.DeleteFriend(friend.Id);
-
 				Send.SC_NORMAL.FriendResponse(conn, friend);
 			}
 			else if (cmd == FriendCmd.Accept)
