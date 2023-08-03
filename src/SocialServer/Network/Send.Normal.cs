@@ -12,9 +12,8 @@ namespace Melia.Social.Network
 		public static class SC_NORMAL
 		{
 			/// <summary>
-			/// Enables chat functions, without this
-			/// the client doesn't send chat packets to
-			/// the server.
+			/// Enables chat functions, without this the client doesn't
+			/// send chat packets to the server.
 			/// </summary>
 			/// <param name="conn"></param>
 			public static void EnableChat(ISocialConnection conn)
@@ -26,7 +25,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Unknown purpose
+			/// Unknown purpose.
 			/// </summary>
 			/// <remarks>
 			/// Might be a response to CS_ADD_RELATION_SCORE.
@@ -42,11 +41,11 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Unknown purpose
-			/// Sent after login.
+			/// Sent after login, purpose unknonwn.
 			/// </summary>
 			/// <remarks>
-			/// Tried disabling and made no visible difference.
+			/// Not sending this packet doesn't appear to have a noticable
+			/// effect.
 			/// </remarks>
 			/// <param name="conn"></param>
 			public static void Unknown_02(ISocialConnection conn)
@@ -58,7 +57,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Show's chat in chat room?
+			/// Adds message to chat room.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
@@ -86,7 +85,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Create's a chat room message.
+			/// Updates a chat room's messages.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
@@ -141,7 +140,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Sends a message to client using client message ids.
+			/// Sends a message to client using system message ids.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="systemMessageIdent"></param>
@@ -248,11 +247,10 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Sends account id of friend request.
+			/// Positive response to a friend request.
 			/// </summary>
-			/// <remarks>
-			/// Response to CS_REQ_ADD_FRIEND
-			/// </remarks>
+			/// <param name="conn"></param>
+			/// <param name="accountId"></param>
 			public static void FriendRequested(ISocialConnection conn, long accountId)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
@@ -263,8 +261,10 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Comfirmation to a block request.
+			/// Positive response to a block request.
 			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="accountId"></param>
 			public static void FriendBlocked(ISocialConnection conn, long accountId)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
@@ -275,8 +275,9 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Unknown purpose
+			/// Unknown purpose.
 			/// </summary>
+			/// <param name="conn"></param>
 			public static void Unknown_19(ISocialConnection conn)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
