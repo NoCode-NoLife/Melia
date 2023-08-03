@@ -17,6 +17,7 @@
 !/user/conf/database-example.conf
 !/user/db/items-example.txt
 !/user/scripts/scripts_custom-example.txt
+!/user/scripts/scripts_content-example.txt
 
 #################
 ## Visual Studio

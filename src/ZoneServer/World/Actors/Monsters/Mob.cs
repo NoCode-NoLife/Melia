@@ -274,15 +274,11 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
-			{
 				this.Kill(attacker);
-				return true;
-			}
 
-			if (this.Components.TryGet<AiComponent>(out var ai))
-				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
-			return false;
+			return this.IsDead;
 		}
 
 		/// <summary>
@@ -307,10 +303,19 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			if (killer is Character characterKiller)
+			if (this.MonsterType == MonsterType.Mob && killer is Character characterKiller)
 			{
 				this.DropItems(characterKiller);
 				characterKiller?.GiveExp(exp, classExp, this);
+			}
+			// Kills from followers also grant exp and drops to the master
+			else if (this.MonsterType == MonsterType.Mob && killer is Mob mobKiller)
+			{
+				if (mobKiller.Components.Get<AiComponent>()?.Script.GetMaster() is Character killersMaster)
+				{
+					this.DropItems(killersMaster);
+					killersMaster?.GiveExp(exp, classExp, this);
+				}
 			}
 
 			this.Died?.Invoke(this, killer);

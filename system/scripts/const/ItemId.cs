@@ -16071,6 +16071,10 @@ public static class ItemId
 	public const int GLOBAL_2302_2_Package_Entrance_B = 2500372;
 	public const int GLOBAL_2302_2_Package_Reinforce = 2500373;
 	public const int GLOBAL_2302_2_Package_AIO = 2500374;
+	public const int Summer_Breeze_Entry_A_Package = 2500379;
+	public const int Summer_Breeze_Entry_B_Package = 2500380;
+	public const int Summer_Breeze_Enhance_Package = 2500381;
+	public const int Summer_Breeze_All_In_One_Package = 2500382;
 	public const int Costume_Com_199_Teamtrade = 6360008;
 	public const int Costume_Com_200_Teamtrade = 6360009;
 	public const int Chat_Balloon_Event_Arbor_Day_30d = 10000012;
@@ -17967,6 +17971,9 @@ public static class ItemId
 	public const int Special_Gift_Box_Leticia_2307 = 11205054;
 	public const int Selectbox_7th_BritishRoyal = 11205060;
 	public const int Certificate_RidePet_Unicorn = 11205061;
+	public const int Engineer_Honor_Package_PAPAYA = 11205063;
+	public const int Engineer_Special_Package_PAPAYA = 11205064;
+	public const int Special_Gift_Box_Leticia_2308 = 11205065;
 
 	// Quest
 	//-----------------------------------------------------------------------
@@ -21588,6 +21595,7 @@ public static class ItemId
 	public const int Misc_Archenium_NoTrade = 11030238;
 	public const int Misc_Luferium_NoTrade = 11030239;
 	public const int Misc_Ectonite_Care = 11030451;
+	public const int Relic_Exp_Token_Refine_Event = 11200327;
 
 	// SubExpOrb
 	//-----------------------------------------------------------------------

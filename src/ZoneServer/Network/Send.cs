@@ -1353,15 +1353,15 @@ namespace Melia.Zone.Network
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
 			packet.PutInt(port);
 			packet.PutInt(mapId);
-			packet.PutFloat(38); // Camera X angle
-			packet.PutFloat(45); // Camera Y angle
-			packet.PutFloat(200);
-			packet.PutFloat(2200);
-			packet.PutFloat(1000);
-			packet.PutInt(26);
-			packet.PutInt(20);
-			packet.PutInt(59);
-			packet.PutShort(0);
+			packet.PutFloat(38);       // Camera X
+			packet.PutFloat(45);       // Camera Y
+			packet.PutFloat(200);      // Zoom Min
+			packet.PutFloat(2200);     // Zoom Max
+			packet.PutFloat(1000);     // Zoom Start
+			packet.PutInt(26);         // Position?
+			packet.PutInt(20);         // Position?
+			packet.PutInt(59);         // Position?
+			packet.PutShort(0);        // Direction?
 			packet.PutByte((byte)channelId);
 			packet.PutLong(character.ObjectId);
 
@@ -1369,8 +1369,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_MOVE_ZONE to connection, telling client to prepare for
-		/// a warp.
+		/// Instructs client to prepare for moving to a different map,
+		/// and potentially a different zone server.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_MOVE_ZONE(IZoneConnection conn)
@@ -3527,9 +3527,9 @@ namespace Melia.Zone.Network
 
 			packet.PutByte(type);
 			packet.PutInt(items.Count);
-			packet.PutByte(1);
-			packet.PutByte(1);
-			packet.PutByte(1);
+			packet.PutByte(true);
+			packet.PutByte(true);
+			packet.PutByte(true);
 
 			if (items.Count != 0)
 			{
@@ -3537,35 +3537,44 @@ namespace Melia.Zone.Network
 				{
 					for (var i = 0; i < items.Count; i++)
 					{
-						var propertyList = items[i].Properties.GetAll();
+						var item = items[i];
+						var isSilver = item.Id == ItemId.Silver;
+						var index = items.Count - i - 1;
+
+						var propertyList = item.Properties.GetAll();
+
+						// Forces every item to have at least one property.
+						// Client seems to crash in certain scenarios when
+						// items with no properties are received.
+						if (propertyList.Count == 0)
+							propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
+
 						var propertiesSize = propertyList.GetByteCount();
 
-						zpacket.PutInt(items[i].Id);
+						zpacket.PutInt(item.Id);
 						zpacket.PutInt(propertiesSize);
-						if (items[i].Id != 900011)
-							zpacket.PutLong(items[i].ObjectId);
-						else
-							zpacket.PutLong(0);
-						zpacket.PutInt(items[i].Amount);
-						zpacket.PutInt(items[i].Price);
+						zpacket.PutLong(isSilver ? 0 : item.ObjectId);
+						zpacket.PutInt(item.Amount);
+						zpacket.PutInt(item.Price);
 						zpacket.PutInt(1);
-						zpacket.PutInt(items.Count - i - 1);
+						zpacket.PutInt(index);
 						zpacket.AddProperties(propertyList);
-						if (propertiesSize > 0)
+
+						if (!isSilver && item.ObjectId > 0)
 						{
-							if (items[i].Id != 900011 && items[i].ObjectId > 0)
-							{
-								zpacket.PutShort(0);
-								zpacket.PutLong(items[i].ObjectId);
-								zpacket.PutShort(0);
-							}
+							zpacket.PutShort(0);
+							zpacket.PutLong(item.ObjectId);
+							zpacket.PutShort(0);
 						}
 					}
 				});
 			}
 			else
 			{
-				packet.PutBinFromHex("8DFA020000000300");
+				// This is a compressed packet of 2 bytes length. We can't
+				// store any meaningful data in that space, so it's probably
+				// just a compressed empty packet.
+				packet.PutBinFromHex("8DFA 02000000 0300");
 			}
 
 			character.Connection.Send(packet);

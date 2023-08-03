@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Threading;
-using Melia.Shared.Data.Database;
+using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -9,8 +8,7 @@ using Melia.Shared.Scripting;
 using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.Skills;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -36,6 +34,11 @@ namespace Melia.Zone.World.Actors.Characters
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
+
+		/// <summary>
+		/// Returns true if the character was just saved before a warp.
+		/// </summary>
+		internal bool SavedForWarp { get; private set; }
 
 		/// <summary>
 		/// Connection this character uses.
@@ -525,7 +528,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public void Warp(int mapId, Position pos)
 		{
 			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
-				throw new ArgumentException("Map with id '" + mapId + "' doesn't exist in world.");
+				throw new ArgumentException($"Map with id '{mapId}' doesn't exist in world.");
 
 			this.Position = pos;
 
@@ -558,7 +561,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Finalizes warp, after client announced readiness.
 		/// </summary>
-		public void FinalizeWarp()
+		internal void FinalizeWarp()
 		{
 			// Check permission
 			if (!_warping)
@@ -567,9 +570,7 @@ namespace Melia.Zone.World.Actors.Characters
 				return;
 			}
 
-			_warping = false;
-
-			// Get channel
+			// Find an available zone server for the target map
 			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(this.MapId);
 			if (availableZones.Length == 0)
 				throw new Exception($"No suitable zone server found for map '{this.MapId}'");
@@ -577,7 +578,16 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
+			// Save everything before leaving the server
+			ZoneServer.Instance.Database.SaveCharacter(this);
+			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
+			ZoneServer.Instance.Database.UpdateLoginState(this.Connection.Account.Id, 0, LoginState.LoggedOut);
+			this.SavedForWarp = true;
+
+			// Instruct client to initiate warp
 			Send.ZC_MOVE_ZONE_OK(this, channelId, serverInfo.Ip, serverInfo.Port, this.MapId);
+
+			_warping = false;
 		}
 
 		/// <summary>
@@ -1119,10 +1129,9 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Kill monster if it reached 0 HP.
 			if (this.Hp == 0)
-			{
 				this.Kill(attacker);
-				return true;
-			}
+
+			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}
@@ -1134,7 +1143,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public void Kill(ICombatEntity killer)
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
+
 			//this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
 

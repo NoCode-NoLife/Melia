@@ -11,7 +11,7 @@ ais/**/*
 other/character_init.cs
 other/character_adv.cs
 
-include "scripts_content.txt"
-include "scripts_custom.txt"
+require "scripts_content.txt"
+require "scripts_custom.txt"
 
 include "/user/scripts/scripts_zone.txt"

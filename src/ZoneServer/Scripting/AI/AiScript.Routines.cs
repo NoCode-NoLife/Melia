@@ -83,6 +83,28 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Makes entity turn towards the given actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(IActor actor)
+		{
+			this.Entity.TurnTowards(actor);
+			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity turn towards the given position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(Position pos)
+		{
+			this.Entity.TurnTowards(pos);
+			yield break;
+		}
+
+		/// <summary>
 		/// Makes entity say the given message.
 		/// </summary>
 		/// <param name="message"></param>
@@ -211,22 +233,20 @@ namespace Melia.Zone.Scripting.AI
 
 					// If the target is no longer on the same map, blue orb
 					// monsters simply freeze, so we'll do the same and let
-					// them get stuck in a loop. Unless the follow warp option
-					// is set, in which case we'll remove the monster and
-					// recreate it on the other side, from the summoning
-					// script. All this could need a clean up.
+					// them get stuck in a loop, unless an option that
+					// removes the entity is set.
 
-					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+					var worldConf = ZoneServer.Instance.Conf.World;
+					var removeOnWarp = (worldConf.BlueOrbFollowWarp || worldConf.BlueOrbPetSystem);
+
+					if (removeOnWarp)
 					{
-						while (true)
-							yield return this.Wait(10000);
-					}
-					else
-					{
-						if (this.Entity is Mob mob)
-							this.Entity.Map.RemoveMonster(mob);
+						this.Despawn();
 						yield break;
 					}
+
+					while (true)
+						yield return this.Wait(10000);
 				}
 
 				var teleportDistance = minDistance * 4;

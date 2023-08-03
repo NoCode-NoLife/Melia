@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Controllers\CommunicatorExtensions.cs" />
     <Compile Include="Controllers\TosPatchController.cs" />
     <Compile Include="Logging\YggdrasilLogger.cs" />
     <Compile Include="Modules\PhpModule.cs" />

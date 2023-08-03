@@ -42,85 +42,78 @@ namespace Melia.Zone.Scripting
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="amount">Amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
+		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area)
-			=> AddSpawner(monsterClassId, maxAmount, respawn, mapClassName, area, TendencyType.Peaceful);
+		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShapeF area)
+			=> AddSpawner(monsterClassId, amount, respawn, map, area, TendencyType.Peaceful);
 
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
+		/// <param name="amount">Amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area, TendencyType tendency)
-		{
-			// Use half of the max amount as the minimum, since spawning
-			// the max amount, based on the client files, appears to be
-			// way too much.
-			var minAmount = Math.Max(1, maxAmount / 2);
-
-			return AddSpawner(monsterClassId, minAmount, maxAmount, respawn, mapClassName, area, tendency);
-		}
+		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShapeF area, TendencyType tendency)
+			=> AddSpawner(monsterClassId, amount, amount, respawn, map, area, tendency);
 
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area)
-			=> AddSpawner(monsterClassId, minAmount, maxAmount, respawn, mapClassName, area, TendencyType.Peaceful);
+		public static MonsterSpawner AddSpawner(int monsterClassId, int min, int max, TimeSpan respawn, string map, IShapeF area)
+			=> AddSpawner(monsterClassId, min, max, respawn, map, area, TendencyType.Peaceful);
 
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, string mapClassName, IShapeF area, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int min, int max, TimeSpan respawn, string map, IShapeF area, TendencyType tendency)
 		{
 			var identifier = GenerateSpawnAreaIdent();
-			AddSpawnPoint(identifier, mapClassName, area);
+			AddSpawnPoint(identifier, map, area);
 
-			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, tendency);
+			return AddSpawner(identifier, monsterClassId, min, max, respawn, tendency);
 		}
 
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
-		/// <param name="initialSpawnDelay">Initial delay before monsters are spawned.</param>
-		/// <param name="minRespawnDelay">Minimum delay before killed monsters are respawned.</param>
-		/// <param name="maxRespawnDelay">Maximum delay before killed monsters are respawned.</param>
-		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="initialSpawn">Initial delay before monsters are spawned.</param>
+		/// <param name="minRespawn">Minimum delay before killed monsters are respawned.</param>
+		/// <param name="maxRespawn">Maximum delay before killed monsters are respawned.</param>
+		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, string mapClassName, IShapeF area, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(int monsterClassId, int min, int max, TimeSpan initialSpawn, TimeSpan minRespawn, TimeSpan maxRespawn, string map, IShapeF area, TendencyType tendency)
 		{
 			var identifier = GenerateSpawnAreaIdent();
-			AddSpawnPoint(identifier, mapClassName, area);
+			AddSpawnPoint(identifier, map, area);
 
-			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency);
+			return AddSpawner(identifier, monsterClassId, min, max, initialSpawn, minRespawn, maxRespawn, tendency);
 		}
 
 		/// <summary>
@@ -128,60 +121,30 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
-		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
-		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int maxAmount, TimeSpan respawn)
-			=> AddSpawner(identifier, monsterClassId, maxAmount, respawn, TendencyType.Peaceful);
-
-		/// <summary>
-		/// Adds a spawner to the world.
-		/// </summary>
-		/// <param name="identifier">Spawn area collection identifier.</param>
-		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
+		/// <param name="amount">Amount of monsters to spawn at a time.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int maxAmount, TimeSpan respawn, TendencyType tendency)
-		{
-			// Use half of the max amount as the minimum, since spawning
-			// the max amount, based on the client files, appears to be
-			// way too much.
-			var minAmount = Math.Max(1, maxAmount / 2);
-
-			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, tendency);
-		}
+		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int amount, TimeSpan respawn = default, TendencyType tendency = TendencyType.Peaceful)
+			=> AddSpawner(identifier, monsterClassId, amount, amount, TimeSpan.Zero, respawn, respawn, tendency);
 
 		/// <summary>
 		/// Adds a spawner to the world.
 		/// </summary>
 		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
-		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
-		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn)
-			=> AddSpawner(identifier, monsterClassId, minAmount, maxAmount, respawn, TendencyType.Peaceful);
-
-		/// <summary>
-		/// Adds a spawner to the world.
-		/// </summary>
-		/// <param name="identifier">Spawn area collection identifier.</param>
-		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
 		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan respawn, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int min, int max, TimeSpan respawn = default, TendencyType tendency = TendencyType.Peaceful)
 		{
 			var initialSpawnDelay = TimeSpan.Zero;
 			var minRespawnDelay = respawn;
 			var maxRespawnDelay = respawn;
 
-			return AddSpawner(identifier, monsterClassId, minAmount, maxAmount, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency);
+			return AddSpawner(identifier, monsterClassId, min, max, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency);
 		}
 
 		/// <summary>
@@ -189,17 +152,16 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
-		/// <param name="minAmount">Minimum amount of monsters to spawn at a time.</param>
-		/// <param name="maxAmount">Maximum amount of monsters to spawn at a time.</param>
-		/// <param name="initialSpawnDelay">Initial delay before monsters are spawned.</param>
-		/// <param name="minRespawnDelay">Minimum delay before killed monsters are respawned.</param>
-		/// <param name="maxRespawnDelay">Maximum delay before killed monsters are respawned.</param>
+		/// <param name="min">Minimum amount of monsters to spawn at a time.</param>
+		/// <param name="max">Maximum amount of monsters to spawn at a time.</param>
+		/// <param name="initialSpawn">Initial delay before monsters are spawned.</param>
+		/// <param name="minRespawn">Minimum delay before killed monsters are respawned.</param>
+		/// <param name="maxRespawn">Maximum delay before killed monsters are respawned.</param>
 		/// <param name="tendency">The aggresive tendencies of spawned monsters.</param>
-		/// <param name="propertyOverrides">Overrides for the monster's properties. Use null for none.</param>
 		/// <returns></returns>
-		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int minAmount, int maxAmount, TimeSpan initialSpawnDelay, TimeSpan minRespawnDelay, TimeSpan maxRespawnDelay, TendencyType tendency)
+		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int min, int max, TimeSpan initialSpawn, TimeSpan minRespawn, TimeSpan maxRespawn, TendencyType tendency)
 		{
-			var spawner = new MonsterSpawner(monsterClassId, minAmount, maxAmount, identifier, initialSpawnDelay, minRespawnDelay, maxRespawnDelay, tendency);
+			var spawner = new MonsterSpawner(monsterClassId, min, max, identifier, initialSpawn, minRespawn, maxRespawn, tendency);
 			ZoneServer.Instance.World.AddSpawner(spawner);
 
 			return spawner;

@@ -2,6 +2,7 @@
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Events
 {
@@ -147,5 +148,19 @@ namespace Melia.Zone.Events
 		/// </summary>
 		public event EventHandler<CombatEventArgs> EntityKilled;
 		public void OnEntityKilled(ICombatEntity target, ICombatEntity attacker) => EntityKilled?.Invoke(ZoneServer.Instance, new CombatEventArgs(target, attacker));
+
+		// Monster Events
+		//-------------------------------------------------------------------
+
+		/// <summary>
+		/// Raised when a monster is about to disappear.
+		/// </summary>
+		/// <remarks>
+		/// Raised regardless of why the monster disappears, be it
+		/// because it died, its summoning time ran out, or it got
+		/// bored of our antics.
+		/// </remarks>
+		public event EventHandler<MonsterEventArgs> MonsterDisappears;
+		public void OnMonsterDisappears(IMonster monster) => MonsterDisappears?.Invoke(ZoneServer.Instance, new MonsterEventArgs(monster));
 	}
 }
