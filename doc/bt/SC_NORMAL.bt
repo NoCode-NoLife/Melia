@@ -122,31 +122,34 @@ switch (type)
         Friend friends[count];
         break;
 
-    // Buffs or Position?
+    // Party Member Update
     case 0x0C:
-        byte b1; // 0
-        switch (b1)
+        byte partyType;
+        int64 partyId;
+        byte type;
+
+        switch (type)
         {
+            // Character Info
             case 0:
-                int64 l1; // 554643486671500
-                byte b2; // 1
-                int64 accountId; // account Id
-                int buffId; // -1 or 110016 (Buff Ids 130001 110016 180041 4532 4723)?
+                int64 accountId;
+                position pos;
+                int sp;
+                int hp;
+                int maxHp;
+                int maxSp;
+                int i1;
+                int i2; // gap?
+                int level;
+                break;
+
+            // Buff Info
+            case 1:
+                int64 accountId;
+                int buffId;
                 int i2; // -1 or 1
                 int i3; // -1
-                byte isLastPacket; // 1
-                break;
-            case 1:
-                int64 l1; // 554643486671500
-                byte b2; // 1
-                int64 accountId; // account Id
-                position pos; // X: 324.000000, Y: 79.959557, Z: 151.000000
-                int sp; // 11038
-                int hp; // 202266
-                int maxHp; // 11038
-                int maxSp; // 202266
-                int64 l2; // 0
-                int level; // 460
+                byte isLastPacket;
                 break;
         }
         break;

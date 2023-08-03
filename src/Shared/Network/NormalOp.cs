@@ -85,7 +85,7 @@
 			public const int SystemMessage = 0x07;
 			public const int FriendInfo = 0x08;
 			public const int FriendResponse = 0x09;
-			public const int Buff_0C = 0x0C;
+			public const int PartyMemberUpdate = 0x0C;
 			public const int PartyInfo = 0x0D;
 			public const int FriendRequested = 0x10;
 			public const int FriendBlocked = 0x11;

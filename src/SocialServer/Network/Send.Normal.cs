@@ -227,10 +227,13 @@ namespace Melia.Social.Network
 			/// Sends buff data or position data for party/guild.
 			/// </summary>
 			/// <param name="conn"></param>
-			public static void Unknown_0C(ISocialConnection conn)
+			public static void PartyMemberUpdate(ISocialConnection conn)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.Buff_0C);
+				packet.PutInt(NormalOp.Social.PartyMemberUpdate);
+
+				// Dummy data for a buff update, check SC_NORMAL template
+				// for more information and other update types.
 
 				packet.PutByte(0);
 				packet.PutLong(554643486671500);
