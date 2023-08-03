@@ -148,7 +148,7 @@ namespace Melia.Social.Network
 			public static void SystemMessage(ISocialConnection conn, string systemMessageIdent)
 			{
 				if (!SocialServer.Instance.Data.SystemMessageDb.TryFind(systemMessageIdent, out var systemMessageId))
-					throw new ArgumentException($"Client message '{systemMessageIdent}' not found.");
+					throw new ArgumentException($"System message '{systemMessageIdent}' not found.");
 
 				var packet = new Packet(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.SystemMessage);
