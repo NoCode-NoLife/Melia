@@ -290,8 +290,21 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
 
-			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
-			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
+			var worldConf = ZoneServer.Instance.Conf.World;
+
+			var expRate = worldConf.ExpRate / 100.0;
+			var classExpRate = worldConf.ClassExpRate / 100.0;
+
+			if (this.IsBuffActive(BuffId.SuperExp))
+			{
+				expRate *= worldConf.BlueJackpotExpRate;
+				classExpRate *= worldConf.BlueJackpotExpRate;
+			}
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
+			{
+				expRate *= worldConf.EliteExpRate;
+				classExpRate *= worldConf.EliteExpRate;
+			}
 
 			var exp = 0L;
 			var classExp = 0L;
@@ -381,47 +394,132 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			var rnd = RandomProvider.Get();
 			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
+			var worldConf = ZoneServer.Instance.Conf.World;
 
-			foreach (var dropItemData in this.Data.Drops)
+			var iterations = 1;
+
+			// these should never be simultaneously applied, but just in case we apply gold last
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff)) iterations = worldConf.EliteRolls;
+			if (this.IsBuffActive(BuffId.SuperDrop)) iterations = worldConf.SilverJackpotRolls;
+			if (this.IsBuffActive(BuffId.TwinkleBuff)) iterations = worldConf.GoldJackpotRolls;
+
+			for (int i = 0; i < iterations; i++)
 			{
-				var dropChance = GetAdjustedDropRate(dropItemData);
-
-				var dropSuccess = rnd.NextDouble() < dropChance / 100f;
-				if (!dropSuccess)
-					continue;
-
-				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
+				foreach (var dropItemData in this.Data.Drops)
 				{
-					Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
-					continue;
-				}
+					var dropChance = GetAdjustedDropRate(dropItemData);
 
-				var dropItem = new Item(itemData.Id);
-				var minAmount = dropItemData.MinAmount;
-				var maxAmount = dropItemData.MaxAmount;
+					var dropSuccess = rnd.NextDouble() < dropChance / 100f;
+					if (!dropSuccess)
+						continue;
 
-				if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
-				{
-					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-				}
+					if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
+					{
+						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+						continue;
+					}
 
-				dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
+					var dropItem = new Item(itemData.Id);
+					var minAmount = dropItemData.MinAmount;
+					var maxAmount = dropItemData.MaxAmount;
 
-				if (killer == null || dropChance > autoloot)
-				{
-					var direction = new Direction(rnd.Next(0, 360));
-					var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
-					var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+					if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
+					{
+						minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+					}
 
-					dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
-					dropItem.Drop(this.Map, this.Position, direction, distance);
-				}
-				else
-				{
-					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
+
+					if (killer == null || dropChance > autoloot)
+					{
+						var direction = new Direction(rnd.Next(0, 360));
+						var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
+						var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+						dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+						dropItem.Drop(this.Map, this.Position, direction, distance);
+					}
+					else
+					{
+						killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Rolls for a chance for this monster to become a rare (jackpot or elite) monster
+		/// </summary>
+		/// <param name="redOrb">true if this was spawned by a red orb and should get the boosted rates</param>
+		/// <returns></returns>
+		public void PossiblyBecomeRare(bool redOrb = false)
+		{
+			var rnd = RandomProvider.Get();
+
+			var worldConf = ZoneServer.Instance.Conf.World;
+
+			var spawnRateBoost = 1F;
+			if (redOrb)
+				spawnRateBoost = worldConf.RedOrbJackpotRate / 100F;
+
+			if (rnd.NextDouble() * 100D < worldConf.GoldJackpotSpawnChance * spawnRateBoost)
+			{
+				this.StartBuff(BuffId.TwinkleBuff, 1, 0, TimeSpan.Zero, this);
+				return;
+			}
+
+			if (rnd.NextDouble() * 100D < worldConf.BlueJackpotSpawnChance * spawnRateBoost)
+			{
+				this.StartBuff(BuffId.SuperExp, 1, 0, TimeSpan.Zero, this);
+				return;
+			}
+
+			if (rnd.NextDouble() * 100D < worldConf.SilverJackpotSpawnChance * spawnRateBoost)
+			{
+				this.StartBuff(BuffId.SuperDrop, 1, 0, TimeSpan.Zero, this);
+				return;
+			}
+
+			// Check to see if this monster can become elite
+			// Note that on official it uses the map level rather than the monster level
+			if (this.Level < worldConf.EliteMinLevel)
+				return;
+
+			if (redOrb)
+				spawnRateBoost = worldConf.RedOrbEliteRate / 100F;
+
+			if (rnd.NextDouble() * 100D < worldConf.EliteSpawnChance * spawnRateBoost)
+			{
+				this.StartBuff(BuffId.EliteMonsterBuff, 1, 0, TimeSpan.Zero, this);
+
+				// Increase its stats
+
+				var properties = this.Properties;
+				var overrides = this.Properties.Overrides;
+
+				overrides.SetFloat(PropertyName.MHP, properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100F);
+				overrides.SetFloat(PropertyName.MSP, properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100F);
+
+				overrides.SetFloat(PropertyName.MINPATK, properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.MAXPATK, properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.MINMATK, properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.MAXMATK, properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.DEF, properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100F);
+				overrides.SetFloat(PropertyName.MDEF, properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100F);
+
+				properties.InvalidateAll();
+
+				properties.SetFloat(PropertyName.HP, properties.GetFloat(PropertyName.MHP));
+				properties.SetFloat(PropertyName.SP, properties.GetFloat(PropertyName.MSP));
+
+				if (worldConf.EliteAlwaysAggressive) this.Tendency = TendencyType.Aggressive;
+
+				// TODO: Also needs to be able to summon its minions and have its special attack
+
+				return;
+			}
+
 		}
 
 		/// <summary>

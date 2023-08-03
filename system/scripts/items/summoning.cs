@@ -70,6 +70,8 @@ public class SummoningItemScripts : GeneralScript
 		}
 
 		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
+		monster.PossiblyBecomeRare(true);
+
 		character.Map.AddMonster(monster);
 
 		return ItemUseResult.Okay;
