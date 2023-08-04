@@ -503,23 +503,17 @@ namespace Melia.Zone.World.Actors.Monsters
 			{
 				this.StartBuff(BuffId.EliteMonsterBuff, 1, 0, TimeSpan.Zero, this);
 
-				var properties = this.Properties;
-				var overrides = this.Properties.Overrides;
+				var propertyOverrides = new PropertyOverrides();
+				propertyOverrides.Add(PropertyName.MHP, this.Properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100f);
+				propertyOverrides.Add(PropertyName.MSP, this.Properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100f);
+				propertyOverrides.Add(PropertyName.MINPATK, this.Properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MAXPATK, this.Properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MINMATK, this.Properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MAXMATK, this.Properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.DEF, this.Properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MDEF, this.Properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100f);
 
-				overrides.SetFloat(PropertyName.MHP, properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100f);
-				overrides.SetFloat(PropertyName.MSP, properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100f);
-
-				overrides.SetFloat(PropertyName.MINPATK, properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100f);
-				overrides.SetFloat(PropertyName.MAXPATK, properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100f);
-				overrides.SetFloat(PropertyName.MINMATK, properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100f);
-				overrides.SetFloat(PropertyName.MAXMATK, properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100f);
-				overrides.SetFloat(PropertyName.DEF, properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100f);
-				overrides.SetFloat(PropertyName.MDEF, properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100f);
-
-				properties.InvalidateAll();
-
-				properties.SetFloat(PropertyName.HP, properties.GetFloat(PropertyName.MHP));
-				properties.SetFloat(PropertyName.SP, properties.GetFloat(PropertyName.MSP));
+				this.ApplyOverrides(propertyOverrides);
 
 				if (worldConf.EliteAlwaysAggressive)
 					this.Tendency = TendencyType.Aggressive;
