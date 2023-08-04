@@ -86,6 +86,7 @@
     <Compile Include="Configuration\Files\World.cs" />
     <Compile Include="Database\LoginState.cs" />
     <Compile Include="Data\Database\AccountOptions.cs" />
+    <Compile Include="Data\Database\HairTypes.cs" />
     <Compile Include="Data\Database\NormalTx.cs" />
     <Compile Include="Data\Database\FeatureDb.cs" />
     <Compile Include="Data\Database\Properties.cs" />

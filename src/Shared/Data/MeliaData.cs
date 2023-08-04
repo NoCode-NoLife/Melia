@@ -23,6 +23,7 @@ namespace Melia.Shared.Data
 		public FactionDb FactionDb = new FactionDb();
 		public FeatureDb FeatureDb = new FeatureDb();
 		public GroundDb GroundDb = new GroundDb();
+		public HairTypeDb HairTypeDb = new HairTypeDb();
 		public HelpDb HelpDb = new HelpDb();
 		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
 		public ItemDb ItemDb = new ItemDb();

@@ -231,6 +231,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
 					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
 					this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+					this.LoadDb(this.Data.HairTypeDb, "db/hair_types.txt");
 					this.LoadDb(this.Data.HelpDb, "db/help.txt");
 					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
 					this.LoadDb(this.Data.ItemDb, "db/items.txt");
