@@ -8239,6 +8239,54 @@
 		public const string ep15unicorn_bow_cabinet = "ep15unicorn_bow_cabinet";
 		public const string PAPAYA_BLESSED_GACHA_125284 = "PAPAYA_BLESSED_GACHA_125284";
 		public const string RidePet_19 = "RidePet_19";
+		public const string EVENT_2308_SUMMER_FISHING_COIN_COUNT = "EVENT_2308_SUMMER_FISHING_COIN_COUNT";
+		public const string EVENT_2308_SUMMER_SHOP_15 = "EVENT_2308_SUMMER_SHOP_15";
+		public const string EVENT_2308_SUMMER_BAIT_RECEIVED = "EVENT_2308_SUMMER_BAIT_RECEIVED";
+		public const string EVENT_2308_SUMMER_FISHING_TRADE_COUNT = "EVENT_2308_SUMMER_FISHING_TRADE_COUNT";
+		public const string RadaCertificate_TradeCount_Reset = "RadaCertificate_TradeCount_Reset";
+		public const string RadaCertificate = "RadaCertificate";
+		public const string EVENT_2308_SUMMER_COIN_COUNT = "EVENT_2308_SUMMER_COIN_COUNT";
+		public const string RadaCertificate_TradeCount18 = "RadaCertificate_TradeCount18";
+		public const string EVENT_2308_SUMMER_SHOP_06 = "EVENT_2308_SUMMER_SHOP_06";
+		public const string RadaCertificate_TradeCount5 = "RadaCertificate_TradeCount5";
+		public const string RadaCertificate_TradeCount17 = "RadaCertificate_TradeCount17";
+		public const string EVENT_2308_SUMMER_SHOP_05 = "EVENT_2308_SUMMER_SHOP_05";
+		public const string EVENT_2308_SUMMER_SHOP_03 = "EVENT_2308_SUMMER_SHOP_03";
+		public const string EVENT_2308_SUMMER_SHOP_17 = "EVENT_2308_SUMMER_SHOP_17";
+		public const string AchieveReward_EVENT_2308_TITLE = "AchieveReward_EVENT_2308_TITLE";
+		public const string EVENT_2308_SUMMER_SHOP_19 = "EVENT_2308_SUMMER_SHOP_19";
+		public const string GODDESS_RAINBOW_ROULETTE_USE_ROULETTE_COUNT = "GODDESS_RAINBOW_ROULETTE_USE_ROULETTE_COUNT";
+		public const string RadaCertificate_TradeCount12 = "RadaCertificate_TradeCount12";
+		public const string RadaCertificate_TradeCount2 = "RadaCertificate_TradeCount2";
+		public const string EVENT_2308_SUMMER_TICKET_COUNT = "EVENT_2308_SUMMER_TICKET_COUNT";
+		public const string RadaCertificate_TradeCount13 = "RadaCertificate_TradeCount13";
+		public const string RadaCertificate_TradeCount11 = "RadaCertificate_TradeCount11";
+		public const string RadaCertificate_TradeCount4 = "RadaCertificate_TradeCount4";
+		public const string RadaCertificate_TradeCount19 = "RadaCertificate_TradeCount19";
+		public const string RadaCertificate_TradeCount3 = "RadaCertificate_TradeCount3";
+		public const string RadaCertificate_TradeCount9 = "RadaCertificate_TradeCount9";
+		public const string RadaCertificate_TradeCount10 = "RadaCertificate_TradeCount10";
+		public const string EVENT_2308_SUMMER_SHOP_07 = "EVENT_2308_SUMMER_SHOP_07";
+		public const string EVENT_2308_SUMMER_SHOP_09 = "EVENT_2308_SUMMER_SHOP_09";
+		public const string EVENT_2308_SUMMER_SHOP_08 = "EVENT_2308_SUMMER_SHOP_08";
+		public const string EVENT_2308_SUMMER_PLAY_TIME = "EVENT_2308_SUMMER_PLAY_TIME";
+		public const string EVENT_2308_SUMMER_SHOP_10 = "EVENT_2308_SUMMER_SHOP_10";
+		public const string EVENT_2308_SUMMER_SHOP_16 = "EVENT_2308_SUMMER_SHOP_16";
+		public const string EVENT_2308_SUMMER_SHOP_11 = "EVENT_2308_SUMMER_SHOP_11";
+		public const string RadaCertificate_TradeCount8 = "RadaCertificate_TradeCount8";
+		public const string EVENT_2308_SUMMER_SHOP_12 = "EVENT_2308_SUMMER_SHOP_12";
+		public const string EVENT_2308_SUMMER_SHOP_04 = "EVENT_2308_SUMMER_SHOP_04";
+		public const string RadaCertificate_TradeCount7 = "RadaCertificate_TradeCount7";
+		public const string RadaCertificate_TradeCount1 = "RadaCertificate_TradeCount1";
+		public const string EVENT_2308_SUMMER_SHOP_13 = "EVENT_2308_SUMMER_SHOP_13";
+		public const string RadaCertificate_TradeCount20 = "RadaCertificate_TradeCount20";
+		public const string EVENT_2308_SUMMER_SHOP_02 = "EVENT_2308_SUMMER_SHOP_02";
+		public const string RadaCertificate_TradeCount15 = "RadaCertificate_TradeCount15";
+		public const string EVENT_2308_SUMMER_SHOP_01 = "EVENT_2308_SUMMER_SHOP_01";
+		public const string RadaCertificate_TradeCount6 = "RadaCertificate_TradeCount6";
+		public const string RadaCertificate_TradeCount14 = "RadaCertificate_TradeCount14";
+		public const string RadaCertificate_TradeCount16 = "RadaCertificate_TradeCount16";
+		public const string EVENT_2308_SUMMER_SHOP_18 = "EVENT_2308_SUMMER_SHOP_18";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -9059,6 +9107,9 @@
 		public const string CommonSkillStr = "CommonSkillStr";
 		public const string ExecFunc = "ExecFunc";
 		public const string EnableFunc = "EnableFunc";
+		public const string StringArg3 = "StringArg3";
+		public const string BlessInfo = "BlessInfo";
+		public const string RadaOption = "RadaOption";
 
 		// Monster
 		public const string MonDmgRate = "MonDmgRate";
@@ -18941,6 +18992,18 @@
 		public const string Kill_BW_boss_Pinscher = "Kill_BW_boss_Pinscher";
 		public const string Kill_bridge_wailing_hidden_npc = "Kill_bridge_wailing_hidden_npc";
 		public const string HiddenJob_Char3_23 = "HiddenJob_Char3_23";
+		public const string LvelUpReward_500 = "LvelUpReward_500";
+		public const string LvelUpReward_497 = "LvelUpReward_497";
+		public const string LvelUpReward_498 = "LvelUpReward_498";
+		public const string LvelUpReward_495 = "LvelUpReward_495";
+		public const string LvelUpReward_499 = "LvelUpReward_499";
+		public const string LvelUpReward_492 = "LvelUpReward_492";
+		public const string LvelUpReward_493 = "LvelUpReward_493";
+		public const string LvelUpReward_496 = "LvelUpReward_496";
+		public const string LvelUpReward_494 = "LvelUpReward_494";
+		public const string LvelUpReward_491 = "LvelUpReward_491";
+		public const string CollectionRead_324 = "CollectionRead_324";
+		public const string AetherGemReinforceCount_500 = "AetherGemReinforceCount_500";
 
 		// SessionObject
 		public const string PosX = "PosX";
@@ -26759,6 +26822,7 @@
 		public const string MG_Last_Goddess_Raid_Spreader_Extreme = "MG_Last_Goddess_Raid_Spreader_Extreme";
 		public const string MG_Last_Goddess_Raid_Jellyzele_Extreme = "MG_Last_Goddess_Raid_Jellyzele_Extreme";
 		public const string MG_Last_BridgeWailing_Party = "MG_Last_BridgeWailing_Party";
+		public const string MG_Last_CHALLENGE_DIVISION_AUTO_EX = "MG_Last_CHALLENGE_DIVISION_AUTO_EX";
 
 		// Skill
 		public const string Tooltip_Attr = "Tooltip_Attr";
@@ -26923,6 +26987,7 @@
 		public const string ExpandSkillTooltip = "ExpandSkillTooltip";
 		public const string Frame = "Frame";
 		public const string CaptionRatio4 = "CaptionRatio4";
+		public const string maxChargeTime = "maxChargeTime";
 
 		// ZoneObject
 		public const string UNDERF593_TYPED_2 = "UNDERF593_TYPED_2";

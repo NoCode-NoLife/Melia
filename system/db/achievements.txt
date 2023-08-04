@@ -366,6 +366,7 @@
 { id: 2358, className: "EVENT_2301_HAPPY_NEW_YEAR_10", category: "Event", name: "", point: "EVENT_2301_HAPPY_NEW_YEAR_10", count: 5, repeatable: false, account: true },
 { id: 2359, className: "EVENT_2301_HAPPY_NEW_YEAR_11", category: "Event", name: "", point: "EVENT_2301_HAPPY_NEW_YEAR_11", count: 5, repeatable: false, account: true },
 { id: 2360, className: "EVENT_2301_HAPPY_NEW_YEAR_FESTIVAL", category: "Event", name: "2023 Happy New Year", point: "EVENT_2301_HAPPY_NEW_YEAR_FESTIVAL", count: 9, repeatable: false, account: true },
+{ id: 2361, className: "EVENT_2308_TITLE", category: "Event", name: "Summer Breeze", point: "EVENT_2308_TITLE", count: 1, repeatable: false, account: false },
 { id: 3001, className: "Pardoner10", category: "Skills", name: "Philanthropist", point: "PardonerAbility", count: 10, repeatable: false, account: false },
 { id: 3002, className: "Pardoner50", category: "Skills", name: "Regular Pardoner", point: "PardonerAbility", count: 50, repeatable: false, account: false },
 { id: 3003, className: "Pardoner100", category: "Skills", name: "Senior Pardoner", point: "PardonerAbility", count: 100, repeatable: false, account: false },

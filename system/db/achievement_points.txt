@@ -523,6 +523,7 @@
 { id: 6351, className: "EVENT_2301_HAPPY_NEW_YEAR_10", name: "New Year's Fedimian Fishing", useDaily: false, useWeekly: false },
 { id: 6352, className: "EVENT_2301_HAPPY_NEW_YEAR_11", name: "New Year's Orsha Fishing", useDaily: false, useWeekly: false },
 { id: 6353, className: "EVENT_2301_HAPPY_NEW_YEAR_FESTIVAL", name: "New Year's Festival", useDaily: false, useWeekly: false },
+{ id: 6354, className: "EVENT_2308_TITLE", name: "Summer Breeze", useDaily: false, useWeekly: false },
 { id: 7001, className: "PardonerAbility", name: "Contribution Level", useDaily: false, useWeekly: false },
 { id: 7002, className: "TaxAbility", name: "The Level of Tax Payment", useDaily: false, useWeekly: false },
 { id: 8001, className: "FreeDungeon_under_68_1", name: "Sicarius Gimmick", useDaily: false, useWeekly: false },

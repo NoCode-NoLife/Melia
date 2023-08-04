@@ -486,7 +486,7 @@
 { mapId: 11234, className: "ep13_2_d_prison_1", name: "Ashaq Underground Prison 1F", type: "Field", level: 460, defaultPosition: { x: -563, y: 325, z: 269 } },
 { mapId: 11238, className: "ep13_2_d_prison_2", name: "Ashaq Underground Prison 2F", type: "Field", level: 460, defaultPosition: { x: 1859, y: 220, z: 82 } },
 { mapId: 11239, className: "id_Unknownsanctuary_1", name: "Unknown Sanctuary 1F", type: "Dungeon", level: 460, defaultPosition: { x: 420, y: 124, z: 909 } },
-{ mapId: 11240, className: "Event_2105_JUMP", name: "TOS Summer Campfire", type: "City", level: 0, defaultPosition: { x: 1125, y: 135, z: -756 } },
+{ mapId: 11240, className: "Event_2105_JUMP", name: "ETC_20230731_073971", type: "City", level: 0, defaultPosition: { x: 1125, y: 135, z: -756 } },
 { mapId: 11241, className: "ep13_2_d_prison_3", name: "Ashaq Underground Prison Containment Area", type: "Field", level: 460, defaultPosition: { x: 734, y: 10, z: -1019 } },
 { mapId: 11242, className: "id_Unknownsanctuary_2", name: "Unknown Sanctuary 2F", type: "Dungeon", level: 460, defaultPosition: { x: 1738, y: 39, z: -191 } },
 { mapId: 11243, className: "raid_medusa", name: "Saint's Sacellum", type: "Instance", level: 460, defaultPosition: { x: 355, y: 1, z: -2431 } },
