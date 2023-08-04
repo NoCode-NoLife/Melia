@@ -175,6 +175,7 @@ namespace Melia.Zone.World.Spawning
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
 
 				map.AddMonster(monster);
+				monster.PossiblyBecomeRare();
 			}
 
 			this.Amount += amount;

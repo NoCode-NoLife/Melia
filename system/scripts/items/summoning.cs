@@ -72,6 +72,9 @@ public class SummoningItemScripts : GeneralScript
 		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
 		character.Map.AddMonster(monster);
 
+		var worldconf = ZoneServer.Instance.Conf.World;
+		monster.PossiblyBecomeRare(worldconf.RedOrbJackpotRate, worldconf.RedOrbEliteRate);
+
 		return ItemUseResult.Okay;
 	}
 
