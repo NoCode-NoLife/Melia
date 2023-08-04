@@ -396,14 +396,19 @@ namespace Melia.Zone.World.Actors.Monsters
 			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			// This is how many times a monster goes through its drop table
+			// Number of times the monster goes through its drop table,
+			// potentially affected by various buffs.
 			var rolls = 1;
 
-			// Monsters shouldn't be able to get multiple simultaneous jackpots or elite buffs,
-			// but just in case we check gold last since gold gives the most rolls.
-			if (this.IsBuffActive(BuffId.EliteMonsterBuff)) rolls = worldConf.EliteRolls;
-			if (this.IsBuffActive(BuffId.SuperDrop)) rolls = worldConf.SilverJackpotRolls;
-			if (this.IsBuffActive(BuffId.TwinkleBuff)) rolls = worldConf.GoldJackpotRolls;
+			// Monsters shouldn't be able to get multiple jackpot or elite
+			// buffs at the same time, but since gold gives the most rolls
+			// we'll check it last, just in case.
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
+				rolls = worldConf.EliteRolls;
+			if (this.IsBuffActive(BuffId.SuperDrop))
+				rolls = worldConf.SilverJackpotRolls;
+			if (this.IsBuffActive(BuffId.TwinkleBuff))
+				rolls = worldConf.GoldJackpotRolls;
 
 			for (var i = 0; i < rolls; i++)
 			{
@@ -417,7 +422,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 					if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
 					{
-						Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+						Log.Warning("Monster.DropItems: Drop item '{0}' not found.", dropItemData.ItemId);
 						continue;
 					}
 
@@ -451,45 +456,52 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Rolls for a chance for this monster to become a rare (jackpot or elite) monster
+		/// Randomly assigns rare monster buffs based on given rates.
 		/// </summary>
-		/// <param name="redOrb">true if this was spawned by a red orb and should get the boosted rates</param>
-		/// <param name="jackpotRate">The rate for jackpots, in percent.  100f = normal rate</param>
-		/// <param name="eliteRate">The rate for elites, in percent.  100f = normal rate</param>
+		/// <param name="jackpotRate">
+		/// Rate modifier for chance to receive a jackpot buff. The default,
+		/// 100%, represents the default chance as per the configuration.
+		/// </param>
+		/// <param name="eliteRate">
+		/// Rate modifier for chance to receive an elite buff. The default,
+		/// 100%, represents the default chance as per the configuration.
+		/// </param>
 		/// <returns></returns>
-		public void PossiblyBecomeRare(float jackpotRate = 100f, float eliteRate = 100f)
+		public void PossiblyBecomeRare(float jackpotRate = 100, float eliteRate = 100)
 		{
 			var rnd = RandomProvider.Get();
 
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			if (rnd.NextDouble() * 100 < worldConf.GoldJackpotSpawnChance * jackpotRate / 100f)
+			var goldChance = worldConf.GoldJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < goldChance)
 			{
 				this.StartBuff(BuffId.TwinkleBuff, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
-			if (rnd.NextDouble() * 100 < worldConf.BlueJackpotSpawnChance * jackpotRate / 100f)
+			var blueChance = worldConf.BlueJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < blueChance)
 			{
 				this.StartBuff(BuffId.SuperExp, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
-			if (rnd.NextDouble() * 100 < worldConf.SilverJackpotSpawnChance * jackpotRate / 100f)
+			var silverChance = worldConf.SilverJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < silverChance)
 			{
 				this.StartBuff(BuffId.SuperDrop, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
-			// Check to see if this monster can become elite
-			if (this.Map.Data.Level < worldConf.EliteMinLevel)
+			var canBecomeElite = (this.Map.Data.Level < worldConf.EliteMinLevel);
+			if (canBecomeElite)
 				return;
 
-			if (rnd.NextDouble() * 100 < worldConf.EliteSpawnChance * eliteRate / 100f)
+			var eliteChance = worldConf.EliteSpawnChance * eliteRate / 100f;
+			if (rnd.NextDouble() * 100 < eliteChance)
 			{
 				this.StartBuff(BuffId.EliteMonsterBuff, 1, 0, TimeSpan.Zero, this);
-
-				// Increase its stats
 
 				var properties = this.Properties;
 				var overrides = this.Properties.Overrides;
@@ -509,10 +521,10 @@ namespace Melia.Zone.World.Actors.Monsters
 				properties.SetFloat(PropertyName.HP, properties.GetFloat(PropertyName.MHP));
 				properties.SetFloat(PropertyName.SP, properties.GetFloat(PropertyName.MSP));
 
-				if (worldConf.EliteAlwaysAggressive) this.Tendency = TendencyType.Aggressive;
+				if (worldConf.EliteAlwaysAggressive)
+					this.Tendency = TendencyType.Aggressive;
 
-				// TODO: Also needs to be able to summon its minions and have its special attack
-
+				// TODO: Add summoning and special attacks.
 			}
 		}
 

@@ -91,13 +91,13 @@ namespace Melia.Shared.Configuration.Files
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
 			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);
 
-			this.BlueJackpotSpawnChance = this.GetFloat("blue_jackpot_spawn_chance", 0.05F);
+			this.BlueJackpotSpawnChance = this.GetFloat("blue_jackpot_spawn_chance", 0.05f);
 			this.BlueJackpotExpRate = this.GetFloat("blue_jackpot_exp_rate", 10000);
-			this.SilverJackpotSpawnChance = this.GetFloat("silver_jackpot_spawn_chance", 0.05F);
+			this.SilverJackpotSpawnChance = this.GetFloat("silver_jackpot_spawn_chance", 0.05f);
 			this.SilverJackpotRolls = this.GetInt("silver_jackpot_rolls", 100);
-			this.GoldJackpotSpawnChance = this.GetFloat("gold_jackpot_spawn_chance", 0.01F);
+			this.GoldJackpotSpawnChance = this.GetFloat("gold_jackpot_spawn_chance", 0.01f);
 			this.GoldJackpotRolls = this.GetInt("gold_jackpot_rolls", 1000);
-			this.EliteSpawnChance = this.GetFloat("elite_spawn_chance", 2F);
+			this.EliteSpawnChance = this.GetFloat("elite_spawn_chance", 2);
 			this.EliteHPSPRate = this.GetFloat("elite_hpsp_rate", 150);
 			this.EliteStatRate = this.GetFloat("elite_stat_rate", 150);
 			this.EliteExpRate = this.GetFloat("elite_exp_rate", 2);

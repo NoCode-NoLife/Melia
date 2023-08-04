@@ -69,11 +69,10 @@ public class SummoningItemScripts : GeneralScript
 			return ItemUseResult.Fail;
 		}
 
-		var worldconf = ZoneServer.Instance.Conf.World;
-
-		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);		
-
+		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
 		character.Map.AddMonster(monster);
+
+		var worldconf = ZoneServer.Instance.Conf.World;
 		monster.PossiblyBecomeRare(worldconf.RedOrbJackpotRate, worldconf.RedOrbEliteRate);
 
 		return ItemUseResult.Okay;

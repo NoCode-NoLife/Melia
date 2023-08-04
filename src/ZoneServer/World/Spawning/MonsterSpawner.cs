@@ -169,7 +169,7 @@ namespace Melia.Zone.World.Spawning
 				monster.Tendency = this.Tendency;
 				monster.Died += this.OnMonsterDied;
 
-				this.OverrideProperties(monster, map);				
+				this.OverrideProperties(monster, map);
 
 				monster.Components.Add(new MovementComponent(monster));
 				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
