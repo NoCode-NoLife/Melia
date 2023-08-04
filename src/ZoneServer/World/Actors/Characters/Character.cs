@@ -1251,5 +1251,15 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			Send.ZC_NORMAL.PlayEffect(this, packetString);
 		}
+
+		/// <summary>
+		/// Changes the character's hair and updates nearby clients.
+		/// </summary>
+		/// <param name="hairTypeIndex"></param>
+		public void ChangeHair(int hairTypeIndex)
+		{
+			this.Hair = hairTypeIndex;
+			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
 	}
 }
