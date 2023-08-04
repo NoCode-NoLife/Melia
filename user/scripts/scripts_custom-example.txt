@@ -1,7 +1,7 @@
-// Aura
+// Melia
 // Script list
 // 
-// This file will extend the custom system scripts list.
+// This file extends the custom scripts list in the system folder.
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 
