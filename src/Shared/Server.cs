@@ -366,8 +366,7 @@ namespace Melia.Shared
 				//}
 
 				this.ScriptLoader = new ScriptLoader(provider, cachePath);
-				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
 					Log.Error(ex.ToString());
