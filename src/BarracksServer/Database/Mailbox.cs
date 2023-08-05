@@ -5,11 +5,14 @@ using Melia.Shared.Tos.Const;
 namespace Melia.Barracks.Database
 {
 	/// <summary>
-	/// Mailbox
+	/// Represents a mailbox that allows accounts
+	/// to receive items via mail messages.
 	/// </summary>
 	public class Mailbox
 	{
 		private readonly List<MailMessage> _mail = new List<MailMessage>();
+
+		public static int MailPerPage { get; } = 20;
 
 		/// <summary>
 		/// Returns the mail messages
@@ -17,13 +20,22 @@ namespace Melia.Barracks.Database
 		public List<MailMessage> GetMail()
 		{
 			lock (_mail)
-				return _mail;
+				return _mail.ToList();
+		}
+
+		/// <summary>
+		/// Returns a subset mail messages
+		/// </summary>
+		public List<MailMessage> GetPagedMail(int skip = 0)
+		{
+			lock (_mail)
+				return _mail.Skip(skip).Take(MailPerPage).ToList();
 		}
 
 		/// <summary>
 		/// Returns if the mail box has messages
 		/// </summary>
-		public bool HasMessages { get { lock (_mail) return this._mail.Count > 0; } }
+		public bool HasMessages => this.MessageCount > 0;
 
 		/// <summary>
 		/// Returns the number of unread messages

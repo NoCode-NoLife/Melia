@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network.Helpers;
@@ -194,26 +194,30 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Mailbox
+			/// Retrieves mail messages from the mailbox for an account and sends them to the client via the provided connection.
 			/// </summary>
-			/// <param name="conn"></param>
-			public static void Mailbox(IBarracksConnection conn)
+			/// <param name="conn">The connection used to send the mailbox data to the client.</param>
+			/// <param name="page"></param>
+			/// <param name="mailList"></param>
+			public static void Mailbox(IBarracksConnection conn, byte page, IEnumerable<MailMessage> mailList)
 			{
+				var totalMessages = conn.Account.Mailbox.MessageCount;
+				var messageCount = mailList.Count();
+
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.Mailbox);
 
 				packet.Zlib(true, zpacket =>
 				{
-					var mailBox = conn.Account.Mailbox;
-					zpacket.PutByte(mailBox.HasMessages);
-					zpacket.PutInt(mailBox.ReadMessageCount);
-					zpacket.PutInt(mailBox.MessageCount);
-					zpacket.PutInt(mailBox.MessageCount);
+					zpacket.PutByte(page);
+					zpacket.PutByte(messageCount == 0);
+					zpacket.PutEmptyBin(3); // Alignment?
+					zpacket.PutInt(messageCount);
+					zpacket.PutInt(totalMessages);
 
-					foreach (var message in mailBox.GetMail())
+					foreach (var message in mailList)
 					{
 						var items = message.GetItems();
-						var hasUnreceivedItems = message.HasReceivableItems();
 
 						zpacket.PutLpString(message.Sender);
 						zpacket.PutLpString(message.Subject);
@@ -222,11 +226,12 @@ namespace Melia.Barracks.Network
 						zpacket.PutDate(message.ExpirationDate);
 						zpacket.PutDate(message.CreatedDate);
 						zpacket.PutLong(message.Id);
-						zpacket.PutByte(hasUnreceivedItems);
-						zpacket.PutShort(items.Count);
+						zpacket.PutByte(message.IsRead);
+						zpacket.PutByte(message.CanReceive);
+						zpacket.PutByte(0); // Alignment Byte?
 						zpacket.PutByte((byte)message.State);
 						zpacket.PutByte(0);
-						zpacket.PutByte(1);
+						zpacket.PutByte(message.ReceivableItemsCount);
 						zpacket.PutShort(0);
 						zpacket.PutInt(items.Count);
 

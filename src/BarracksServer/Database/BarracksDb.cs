@@ -412,15 +412,23 @@ namespace Melia.Barracks.Database
 				{
 					while (reader.Read())
 					{
+						var state = (MailboxMessageState)reader.GetByte("status");
+						if (state == MailboxMessageState.Delete)
+							continue;
+
+						var expiration = reader.GetDateTimeSafe("expirationDate");
+						if (expiration < DateTime.Now)
+							continue;
+
 						var mail = new MailMessage
 						{
 							Id = reader.GetInt64("mailId"),
-							State = (MailboxMessageState)reader.GetByte("status"),
+							State = state,
 							Sender = reader.GetStringSafe("sender"),
 							Subject = reader.GetStringSafe("subject"),
 							Message = reader.GetStringSafe("message"),
 							StartDate = reader.GetDateTimeSafe("startDate"),
-							ExpirationDate = reader.GetDateTimeSafe("expirationDate"),
+							ExpirationDate = expiration,
 							CreatedDate = reader.GetDateTimeSafe("createdDate"),
 						};
 
@@ -481,66 +489,32 @@ namespace Melia.Barracks.Database
 			{
 				foreach (var mail in account.Mailbox.GetMail())
 				{
-					// Officially the client doesn't actually allow deleting mail without receiving items.
-					if ((mail.State == MailboxMessageState.Delete && !mail.HasReceivableItems()) || mail.IsExpired)
+					using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `mailId` = @mailId", conn, trans))
 					{
-						using (var mc = new MySqlCommand("DELETE FROM `mail` WHERE `accountId` = @accountId AND `mailId` = @mailId", conn, trans))
-						{
-							mc.AddParameter("@accountId", account.Id);
-							mc.AddParameter("@mailId", mail.Id);
+						cmd.AddParameter("@mailId", mail.Id);
+						cmd.Set("accountId", account.Id);
+						cmd.Set("sender", mail.Sender);
+						cmd.Set("subject", mail.Subject);
+						cmd.Set("message", mail.Message);
+						cmd.Set("status", (byte)mail.State);
+						cmd.Set("startDate", mail.StartDate);
+						cmd.Set("expirationDate", mail.ExpirationDate);
+						cmd.Set("createdDate", mail.CreatedDate);
 
-							mc.ExecuteNonQuery();
-						}
-
-						using (var mc = new MySqlCommand("DELETE FROM `mail_items` WHERE `mailId` = @mailId", conn, trans))
-						{
-							mc.AddParameter("@mailId", mail.Id);
-							mc.ExecuteNonQuery();
-						}
-
-						var items = mail.GetItems();
-
-						foreach (var item in items)
-						{
-							if (item.IsReceived)
-								continue;
-
-							using (var mc = new MySqlCommand("DELETE FROM `items` WHERE `itemUniqueId` = @itemUniqueId", conn, trans))
-							{
-								mc.AddParameter("@itemUniqueId", item.ItemDbId);
-								mc.ExecuteNonQuery();
-							}
-						}
+						cmd.Execute();
 					}
-					else
+
+					foreach (var item in mail.GetItems())
 					{
-						using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `mailId` = @mailId", conn, trans))
+						using (var cmd = new UpdateCommand("UPDATE `mail_items` SET {0} WHERE `mailItemId` = @mailItemId", conn, trans))
 						{
-							cmd.AddParameter("@mailId", mail.Id);
-							cmd.Set("accountId", account.Id);
-							cmd.Set("sender", mail.Sender);
-							cmd.Set("subject", mail.Subject);
-							cmd.Set("message", mail.Message);
-							cmd.Set("status", (byte)mail.State);
-							cmd.Set("startDate", mail.StartDate);
-							cmd.Set("expirationDate", mail.ExpirationDate);
-							cmd.Set("createdDate", mail.CreatedDate);
-
+							cmd.AddParameter("@mailItemId", item.DbId);
+							cmd.Set("mailId", mail.Id);
+							cmd.Set("itemId", item.ItemDbId);
+							cmd.Set("id", item.Id);
+							cmd.Set("amount", item.Amount);
+							cmd.Set("status", item.IsReceived);
 							cmd.Execute();
-						}
-
-						foreach (var item in mail.GetItems())
-						{
-							using (var cmd = new UpdateCommand("UPDATE `mail_items` SET {0} WHERE `mailItemId` = @mailItemId", conn, trans))
-							{
-								cmd.AddParameter("@mailItemId", item.DbId);
-								cmd.Set("mailId", mail.Id);
-								cmd.Set("itemId", item.ItemDbId);
-								cmd.Set("id", item.Id);
-								cmd.Set("amount", item.Amount);
-								cmd.Set("status", item.IsReceived);
-								cmd.Execute();
-							}
 						}
 					}
 				}

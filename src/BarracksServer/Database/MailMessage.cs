@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.Tos.Const;
 
 namespace Melia.Barracks.Database
@@ -17,7 +15,7 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Gets or sets the message's unique id.
 		/// </summary>
-		public long Id { get; set; } = 0;
+		public long Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the message's state.
@@ -55,9 +53,10 @@ namespace Melia.Barracks.Database
 		public DateTime CreatedDate { get; set; }
 
 		/// <summary>
-		/// Returns if the message is read.
+		/// Returns if the message is read,
+		/// every other state except unread is treated as read.
 		/// </summary>
-		public bool IsRead => this.State == MailboxMessageState.Read;
+		public bool IsRead => this.State != MailboxMessageState.Unread;
 
 		/// <summary>
 		/// Returns if the message is expired.
@@ -67,11 +66,22 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Returns true if any item is unreceived.
 		/// </summary>
-		public bool HasReceivableItems()
+		public byte ReceivableItemsCount
 		{
-			lock (_items)
-				return _items.Exists(item => !item.IsReceived);
+			get
+			{
+				lock (_items)
+					return (byte)_items.Count(item => !item.IsReceived);
+			}
 		}
+
+		/// <summary>
+		/// Allows the item to be selectable via checkbox in UI for receive all.
+		/// </summary>
+		/// <remarks>
+		/// Controls check box for select all, but is useless without message status being "Unread"
+		/// </remarks>
+		public bool CanReceive => this.State == MailboxMessageState.Unread && this.ReceivableItemsCount > 0;
 
 		/// <summary>
 		/// Returns a copy list of mail items.
