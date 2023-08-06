@@ -64,6 +64,7 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
+		var SCR_RaceMultiplier = ScriptableFunctions.Combat.Get("SCR_RaceMultiplier");
 
 		var rnd = RandomProvider.Get();
 
@@ -117,6 +118,12 @@ public class CombatCalculationsScript : GeneralScript
 		if (attrMultiplier != 1)
 		{
 			damage *= attrMultiplier;
+		}
+
+		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, skillHitResult);
+		if (raceMultiplier != 1)
+		{
+			damage *= raceMultiplier;
 		}
 
 		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, skillHitResult);
@@ -265,6 +272,32 @@ public class CombatCalculationsScript : GeneralScript
 				if (targetAttr == AttributeType.Holy) return 2f;
 			}
 		}
+
+		return 1;
+	}
+
+	/// <summary>
+	/// Returns a damage multiplier based on the given entity's races.
+	/// </summary>
+	/// <remarks>
+	/// The default implementation of this function currently always
+	/// returns 1.
+	/// </remarks>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_RaceMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.ClassType != SkillClassType.Magic)
+			return 1;
+
+		var attackerRace = attacker.Race;
+		var targetRace = target.Race;
+
+		// ...
 
 		return 1;
 	}
