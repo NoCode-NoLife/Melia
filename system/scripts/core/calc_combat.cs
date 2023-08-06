@@ -153,7 +153,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetAttackMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_HitCountMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
 		// TODO: Should this perhaps rather happen in the skill handlers?
 
