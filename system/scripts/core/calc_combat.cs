@@ -176,6 +176,9 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_AttributeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
 	{
+		if (skill.Data.ClassType != SkillClassType.Magic)
+			return 1;
+
 		var attackerAttr = skill.Data.Attribute;
 		var targetAttr = target.Attribute;
 
