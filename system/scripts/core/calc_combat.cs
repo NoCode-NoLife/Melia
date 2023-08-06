@@ -64,6 +64,7 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
+		var SCR_AttackTypeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttackTypeMultiplier");
 		var SCR_RaceMultiplier = ScriptableFunctions.Combat.Get("SCR_RaceMultiplier");
 
 		var rnd = RandomProvider.Get();
@@ -118,6 +119,12 @@ public class CombatCalculationsScript : GeneralScript
 		if (attrMultiplier != 1)
 		{
 			damage *= attrMultiplier;
+		}
+
+		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, skillHitResult);
+		if (atkTypeMultiplier != 1)
+		{
+			damage *= atkTypeMultiplier;
 		}
 
 		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, skillHitResult);
@@ -271,6 +278,55 @@ public class CombatCalculationsScript : GeneralScript
 			{
 				if (targetAttr == AttributeType.Holy) return 2f;
 			}
+		}
+
+		return 1;
+	}
+
+	/// <summary>
+	/// Returns a damage multiplier based on the skill's attack type
+	/// and the target's armor.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_AttackTypeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		var attackType = skill.Data.AttackType;
+		var targetArmor = target.ArmorMaterial;
+
+		if (attackType == SkillAttackType.Slash)
+		{
+			if (targetArmor == ArmorMaterialType.Cloth) return 1.25f;
+		}
+		else if (attackType == SkillAttackType.Aries)
+		{
+			if (targetArmor == ArmorMaterialType.Leather) return 1.25f;
+		}
+		else if (attackType == SkillAttackType.Strike)
+		{
+			if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
+		}
+		else if (attackType == SkillAttackType.Magic)
+		{
+			if (targetArmor == ArmorMaterialType.Ghost) return 1.25f;
+		}
+		else if (attackType == SkillAttackType.Arrow)
+		{
+			if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
+			if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
+		}
+		else if (attackType == SkillAttackType.Gun)
+		{
+			if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
+			if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
+		}
+		else if (attackType == SkillAttackType.Cannon)
+		{
+			if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
 		}
 
 		return 1;
