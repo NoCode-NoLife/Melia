@@ -61,7 +61,8 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
-		var SCR_ApplyMultiAttacks = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
+		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
+		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_ElementMultiplier");
 
 		var rnd = RandomProvider.Get();
 
@@ -111,11 +112,17 @@ public class CombatCalculationsScript : GeneralScript
 			target.TrySpendSp(maxSp * spRate);
 		}
 
-		var multiplier = SCR_ApplyMultiAttacks(attacker, target, skill, skillHitResult);
-		if (multiplier != 1)
+		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, skillHitResult);
+		if (attrMultiplier != 1)
 		{
-			damage *= multiplier;
-			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * multiplier);
+			damage *= attrMultiplier;
+		}
+
+		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, skillHitResult);
+		if (hitCountMultiplier != 1)
+		{
+			damage *= hitCountMultiplier;
+			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
 		return (int)damage;
@@ -151,6 +158,69 @@ public class CombatCalculationsScript : GeneralScript
 		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
 		{
 			return 2;
+		}
+
+		return 1;
+	}
+
+	/// <summary>
+	/// Returns a multiplier for the hit count based on the skill used
+	/// and the entity's states.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_AttributeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		var attackerAttr = skill.Data.Attribute;
+		var targetAttr = target.Attribute;
+
+		if (attackerAttr == SkillAttribute.Fire)
+		{
+			if (targetAttr == AttributeType.Fire) return 0.75f;
+			if (targetAttr == AttributeType.Earth) return 1.5f;
+		}
+		else if (attackerAttr == SkillAttribute.Ice)
+		{
+			if (targetAttr == AttributeType.Fire) return 1.5f;
+			if (targetAttr == AttributeType.Ice) return 0.75f;
+		}
+		else if (attackerAttr == SkillAttribute.Lightning)
+		{
+			if (targetAttr == AttributeType.Ice) return 1.5f;
+			if (targetAttr == AttributeType.Lightning) return 0.75f;
+		}
+		else if (attackerAttr == SkillAttribute.Earth)
+		{
+			if (targetAttr == AttributeType.Lightning) return 1.5f;
+			if (targetAttr == AttributeType.Earth) return 0.75f;
+		}
+		else if (attackerAttr == SkillAttribute.Poison)
+		{
+			if (targetAttr == AttributeType.Fire) return 1.125f;
+			if (targetAttr == AttributeType.Ice) return 1.125f;
+			if (targetAttr == AttributeType.Lightning) return 1.125f;
+			if (targetAttr == AttributeType.Earth) return 1.125f;
+			if (targetAttr == AttributeType.Poison) return 0.75f;
+		}
+		else if (attackerAttr == SkillAttribute.Holy)
+		{
+			if (targetAttr == AttributeType.Holy) return 0.75f;
+			if (targetAttr == AttributeType.Dark) return 1.5f;
+		}
+		else if (attackerAttr == SkillAttribute.Dark)
+		{
+			if (targetAttr == AttributeType.Holy) return 1.5f;
+			if (targetAttr == AttributeType.Dark) return 0.75f;
+		}
+		else if (attackerAttr == SkillAttribute.Soul)
+		{
+			if (targetAttr == AttributeType.Holy) return 1.25f;
+			if (targetAttr == AttributeType.Dark) return 1.25f;
+			if (targetAttr == AttributeType.Soul) return 1.5f;
 		}
 
 		return 1;
