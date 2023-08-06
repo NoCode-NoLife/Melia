@@ -7,14 +7,12 @@
 using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
-using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -63,6 +61,7 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
+		var SCR_ApplyMultiAttacks = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
 
 		var rnd = RandomProvider.Get();
 
@@ -112,29 +111,49 @@ public class CombatCalculationsScript : GeneralScript
 			target.TrySpendSp(maxSp * spRate);
 		}
 
+		var multiplier = SCR_ApplyMultiAttacks(attacker, target, skill, skillHitResult);
+		if (multiplier != 1)
+		{
+			damage *= multiplier;
+			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * multiplier);
+		}
+
+		return (int)damage;
+	}
+
+	/// <summary>
+	/// Returns a multiplier for the hit count based on the skill used
+	/// and the entity's states.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetAttackMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
 		// TODO: Should this perhaps rather happen in the skill handlers?
+
+		var rnd = RandomProvider.Get();
+
 		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
 		{
 			var rate = 40;
 
 			if (rnd.Next(100) < rate)
-			{
-				damage *= 2;
-				skillHitResult.HitCount = 2;
-			}
+				return 2;
 		}
 		else if (skill.Id == SkillId.Wizard_EarthQuake && target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
 		{
-			damage *= 2;
-			skillHitResult.HitCount = 2;
+			return 2;
 		}
 		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
 		{
-			damage *= 2;
-			skillHitResult.HitCount = 2;
+			return 2;
 		}
 
-		return (int)damage;
+		return 1;
 	}
 
 	/// <summary>
