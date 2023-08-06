@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -36,6 +35,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns the monster's element/attribute.
 		/// </summary>
 		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
+
+		/// <summary>
+		/// Returns the monster's armor material.
+		/// </summary>
+		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the monster's mode of movement.

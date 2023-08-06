@@ -65,6 +65,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new CFloatProperty(PropertyName.MSPD, () => this.CalculateProperty("SCR_Get_MON_MSPD")));
 
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)this.Monster.Data.Attribute));
+			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)this.Monster.Data.ArmorMaterial));
 		}
 
 		/// <summary>

@@ -138,7 +138,11 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
+
+			// TODO: Update damage bonus properties based on equipment and
+			//   other potential factors.
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));
+			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)ArmorMaterialType.None));
 
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?
