@@ -12,7 +12,10 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -63,6 +66,7 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
+		var SCR_SizeTypeBonus = ScriptableFunctions.Combat.Get("SCR_SizeTypeBonus");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
 		var SCR_AttackTypeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttackTypeMultiplier");
 		var SCR_RaceMultiplier = ScriptableFunctions.Combat.Get("SCR_RaceMultiplier");
@@ -113,6 +117,12 @@ public class CombatCalculationsScript : GeneralScript
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
 			var spRate = 0.7f / 100f;
 			target.TrySpendSp(maxSp * spRate);
+		}
+
+		var sizeBonusDamage = SCR_SizeTypeBonus(attacker, target, skill, skillHitResult);
+		if (sizeBonusDamage != 0)
+		{
+			damage += sizeBonusDamage;
 		}
 
 		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, skillHitResult);
@@ -176,6 +186,36 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		return 1;
+	}
+
+	/// <summary>
+	/// Returns a damage multiplier for the skill used on the target.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_SizeTypeBonus(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.ClassType == SkillClassType.Magic)
+			return 0;
+
+		if (!(attacker is Character character))
+			return 0;
+
+		var weapon = character.Inventory.GetEquip(EquipSlot.RightHand);
+
+		var targetSize = SizeType.M;
+		if (target is Mob mob)
+			targetSize = mob.Data.Size;
+
+		if (targetSize == SizeType.S) return weapon.Data.SmallSizeBonus;
+		if (targetSize == SizeType.M) return weapon.Data.MediumSizeBonus;
+		if (targetSize == SizeType.L) return weapon.Data.LargeSizeBonus;
+
+		return 0;
 	}
 
 	/// <summary>
