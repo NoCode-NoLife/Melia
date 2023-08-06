@@ -6,6 +6,7 @@ using Yggdrasil.Util;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
 using Melia.Zone.Buffs;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -137,6 +138,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
+			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));
 
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?

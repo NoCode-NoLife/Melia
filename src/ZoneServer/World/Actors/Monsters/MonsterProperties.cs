@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
@@ -62,6 +63,8 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
 			this.Create(new CFloatProperty(PropertyName.MSPD, () => this.CalculateProperty("SCR_Get_MON_MSPD")));
+
+			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)this.Monster.Data.Attribute));
 		}
 
 		/// <summary>

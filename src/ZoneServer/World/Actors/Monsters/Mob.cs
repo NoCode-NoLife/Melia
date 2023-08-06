@@ -35,7 +35,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Returns the monster's element/attribute.
 		/// </summary>
-		public AttributeType Attribute => this.Data.Attribute;
+		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
 
 		/// <summary>
 		/// Returns the monster's mode of movement.

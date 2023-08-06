@@ -81,6 +81,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public RaceType Race => RaceType.None;
 
 		/// <summary>
+		/// Returns the character's element/attribute.
+		/// </summary>
+		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
+
+		/// <summary>
 		/// Returns the character's mode of movement.
 		/// </summary>
 		public MoveType MoveType => MoveType.Normal;
