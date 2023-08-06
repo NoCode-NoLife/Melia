@@ -63,7 +63,7 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_ApplyMultiAttacks");
-		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_ElementMultiplier");
+		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
 
 		var rnd = RandomProvider.Get();
 
@@ -165,8 +165,7 @@ public class CombatCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns a multiplier for the hit count based on the skill used
-	/// and the entity's states.
+	/// Returns a damage multiplier for the skill used on the target.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
