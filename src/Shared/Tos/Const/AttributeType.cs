@@ -1,6 +1,6 @@
 ﻿namespace Melia.Shared.Tos.Const
 {
-	public enum ElementType
+	public enum AttributeType
 	{
 		// Order for consistency in the code base, values based on what
 		// the client expects for monster elements/attributes. Values

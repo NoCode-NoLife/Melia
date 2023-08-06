@@ -120,7 +120,7 @@
     <Compile Include="Tos\Const\HitType.cs" />
     <Compile Include="Tos\Const\MapType.cs" />
     <Compile Include="Tos\Const\MoveType.cs" />
-    <Compile Include="Tos\Const\ElementType.cs" />
+    <Compile Include="Tos\Const\AttributeType.cs" />
     <Compile Include="Tos\Const\FactionType.cs" />
     <Compile Include="Tos\Const\Gender.cs" />
     <Compile Include="Tos\Const\HealType.cs" />

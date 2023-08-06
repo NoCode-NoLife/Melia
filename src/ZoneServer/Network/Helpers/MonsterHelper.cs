@@ -42,7 +42,7 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.AddMonsterApperanceBase(monster);
 
-			packet.PutInt((int)monster.Element);
+			packet.PutInt((int)monster.Attribute);
 			packet.PutInt((int)monster.Race);
 
 			packet.PutInt(appearanceSize);

@@ -33,9 +33,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		public RaceType Race => this.Data.Race;
 
 		/// <summary>
-		/// Returns the monster's element.
+		/// Returns the monster's element/attribute.
 		/// </summary>
-		public ElementType Element => this.Data.Element;
+		public AttributeType Attribute => this.Data.Attribute;
 
 		/// <summary>
 		/// Returns the monster's mode of movement.

@@ -860,7 +860,7 @@ namespace Melia.Zone.Commands
 				var monsterEntry = new StringBuilder();
 
 				monsterEntry.AppendFormat(Localization.Get("{{nl}}----- {0} ({1}, {2}) -----{{nl}}"), monsterData.Name, monsterData.Id, monsterData.ClassName);
-				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Element], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
+				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Attribute], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
 				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
 				monsterEntry.AppendFormat(Localization.Get("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"), monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
