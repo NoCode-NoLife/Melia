@@ -7,6 +7,7 @@
 using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Tos.Const;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -178,49 +179,89 @@ public class CombatCalculationsScript : GeneralScript
 		var attackerAttr = skill.Data.Attribute;
 		var targetAttr = target.Attribute;
 
-		if (attackerAttr == SkillAttribute.Fire)
+		if (!Feature.IsEnabled("AttributeBonusRevamp"))
 		{
-			if (targetAttr == AttributeType.Fire) return 0.75f;
-			if (targetAttr == AttributeType.Earth) return 1.5f;
+			if (attackerAttr == SkillAttribute.Fire)
+			{
+				if (targetAttr == AttributeType.Fire) return 0.75f;
+				if (targetAttr == AttributeType.Earth) return 1.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Ice)
+			{
+				if (targetAttr == AttributeType.Fire) return 1.5f;
+				if (targetAttr == AttributeType.Ice) return 0.75f;
+			}
+			else if (attackerAttr == SkillAttribute.Lightning)
+			{
+				if (targetAttr == AttributeType.Ice) return 1.5f;
+				if (targetAttr == AttributeType.Lightning) return 0.75f;
+			}
+			else if (attackerAttr == SkillAttribute.Earth)
+			{
+				if (targetAttr == AttributeType.Lightning) return 1.5f;
+				if (targetAttr == AttributeType.Earth) return 0.75f;
+			}
+			else if (attackerAttr == SkillAttribute.Poison)
+			{
+				if (targetAttr == AttributeType.Fire) return 1.125f;
+				if (targetAttr == AttributeType.Ice) return 1.125f;
+				if (targetAttr == AttributeType.Lightning) return 1.125f;
+				if (targetAttr == AttributeType.Earth) return 1.125f;
+				if (targetAttr == AttributeType.Poison) return 0.75f;
+			}
+			else if (attackerAttr == SkillAttribute.Holy)
+			{
+				if (targetAttr == AttributeType.Holy) return 0.75f;
+				if (targetAttr == AttributeType.Dark) return 1.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Dark)
+			{
+				if (targetAttr == AttributeType.Holy) return 1.5f;
+				if (targetAttr == AttributeType.Dark) return 0.75f;
+			}
+			else if (attackerAttr == SkillAttribute.Soul)
+			{
+				if (targetAttr == AttributeType.Holy) return 1.25f;
+				if (targetAttr == AttributeType.Dark) return 1.25f;
+				if (targetAttr == AttributeType.Soul) return 1.5f;
+			}
 		}
-		else if (attackerAttr == SkillAttribute.Ice)
+		else
 		{
-			if (targetAttr == AttributeType.Fire) return 1.5f;
-			if (targetAttr == AttributeType.Ice) return 0.75f;
-		}
-		else if (attackerAttr == SkillAttribute.Lightning)
-		{
-			if (targetAttr == AttributeType.Ice) return 1.5f;
-			if (targetAttr == AttributeType.Lightning) return 0.75f;
-		}
-		else if (attackerAttr == SkillAttribute.Earth)
-		{
-			if (targetAttr == AttributeType.Lightning) return 1.5f;
-			if (targetAttr == AttributeType.Earth) return 0.75f;
-		}
-		else if (attackerAttr == SkillAttribute.Poison)
-		{
-			if (targetAttr == AttributeType.Fire) return 1.125f;
-			if (targetAttr == AttributeType.Ice) return 1.125f;
-			if (targetAttr == AttributeType.Lightning) return 1.125f;
-			if (targetAttr == AttributeType.Earth) return 1.125f;
-			if (targetAttr == AttributeType.Poison) return 0.75f;
-		}
-		else if (attackerAttr == SkillAttribute.Holy)
-		{
-			if (targetAttr == AttributeType.Holy) return 0.75f;
-			if (targetAttr == AttributeType.Dark) return 1.5f;
-		}
-		else if (attackerAttr == SkillAttribute.Dark)
-		{
-			if (targetAttr == AttributeType.Holy) return 1.5f;
-			if (targetAttr == AttributeType.Dark) return 0.75f;
-		}
-		else if (attackerAttr == SkillAttribute.Soul)
-		{
-			if (targetAttr == AttributeType.Holy) return 1.25f;
-			if (targetAttr == AttributeType.Dark) return 1.25f;
-			if (targetAttr == AttributeType.Soul) return 1.5f;
+			if (attackerAttr == SkillAttribute.Fire)
+			{
+				if (targetAttr == AttributeType.Fire) return 0.5f;
+				if (targetAttr == AttributeType.Earth) return 1.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Ice)
+			{
+				if (targetAttr == AttributeType.Fire) return 1.5f;
+				if (targetAttr == AttributeType.Ice) return 0.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Lightning)
+			{
+				if (targetAttr == AttributeType.Ice) return 2f;
+				if (targetAttr == AttributeType.Lightning) return 0.5f;
+				if (targetAttr == AttributeType.Earth) return 0.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Earth)
+			{
+				if (targetAttr == AttributeType.Lightning) return 1.5f;
+				if (targetAttr == AttributeType.Earth) return 0.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Poison)
+			{
+				if (targetAttr == AttributeType.Earth) return 1.5f;
+				if (targetAttr == AttributeType.Poison) return 0.5f;
+			}
+			else if (attackerAttr == SkillAttribute.Holy)
+			{
+				if (targetAttr == AttributeType.Dark) return 2f;
+			}
+			else if (attackerAttr == SkillAttribute.Dark)
+			{
+				if (targetAttr == AttributeType.Holy) return 2f;
+			}
 		}
 
 		return 1;

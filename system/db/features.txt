@@ -60,6 +60,9 @@
 	
 	// Lowers ability costs
 	{ name: "AbilityCostRevamp", enabled: true },
+	
+	// Simplifies attribute bonuses
+	{ name: "AttributeBonusRevamp", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet
