@@ -298,35 +298,90 @@ public class CombatCalculationsScript : GeneralScript
 		var attackType = skill.Data.AttackType;
 		var targetArmor = target.ArmorMaterial;
 
-		if (attackType == SkillAttackType.Slash)
+		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{
-			if (targetArmor == ArmorMaterialType.Cloth) return 1.25f;
+			if (attackType == SkillAttackType.Slash)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.05f;
+			}
+			else if (attackType == SkillAttackType.Aries)
+			{
+				if (targetArmor == ArmorMaterialType.Leather) return 1.05f;
+			}
+			else if (attackType == SkillAttackType.Strike)
+			{
+				if (targetArmor == ArmorMaterialType.Iron) return 1.05f;
+			}
+			else if (attackType == SkillAttackType.Arrow)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.05f;
+			}
+			else if (attackType == SkillAttackType.Gun)
+			{
+				if (targetArmor == ArmorMaterialType.Leather) return 1.05f;
+			}
+			else if (attackType == SkillAttackType.Cannon)
+			{
+				if (targetArmor == ArmorMaterialType.Iron) return 1.05f;
+			}
 		}
-		else if (attackType == SkillAttackType.Aries)
+		else if (Feature.IsEnabled("AttackTypeBonusRevamp1"))
 		{
-			if (targetArmor == ArmorMaterialType.Leather) return 1.25f;
+			if (attackType == SkillAttackType.Slash)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.5f;
+				if (targetArmor == ArmorMaterialType.Iron) return 0.5f;
+				if (targetArmor == ArmorMaterialType.Ghost) return 0.5f;
+			}
+			else if (attackType == SkillAttackType.Aries)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 0.5f;
+				if (targetArmor == ArmorMaterialType.Leather) return 1.5f;
+				if (targetArmor == ArmorMaterialType.Ghost) return 0.5f;
+			}
+			else if (attackType == SkillAttackType.Strike)
+			{
+				if (targetArmor == ArmorMaterialType.Leather) return 0.5f;
+				if (targetArmor == ArmorMaterialType.Iron) return 1.5f;
+				if (targetArmor == ArmorMaterialType.Ghost) return 0.5f;
+			}
+			else if (attackType == SkillAttackType.Magic)
+			{
+				if (targetArmor == ArmorMaterialType.Ghost) return 1.5f;
+			}
 		}
-		else if (attackType == SkillAttackType.Strike)
+		else
 		{
-			if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
-		}
-		else if (attackType == SkillAttackType.Magic)
-		{
-			if (targetArmor == ArmorMaterialType.Ghost) return 1.25f;
-		}
-		else if (attackType == SkillAttackType.Arrow)
-		{
-			if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
-			if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
-		}
-		else if (attackType == SkillAttackType.Gun)
-		{
-			if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
-			if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
-		}
-		else if (attackType == SkillAttackType.Cannon)
-		{
-			if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
+			if (attackType == SkillAttackType.Slash)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.25f;
+			}
+			else if (attackType == SkillAttackType.Aries)
+			{
+				if (targetArmor == ArmorMaterialType.Leather) return 1.25f;
+			}
+			else if (attackType == SkillAttackType.Strike)
+			{
+				if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
+			}
+			else if (attackType == SkillAttackType.Magic)
+			{
+				if (targetArmor == ArmorMaterialType.Ghost) return 1.25f;
+			}
+			else if (attackType == SkillAttackType.Arrow)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
+				if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
+			}
+			else if (attackType == SkillAttackType.Gun)
+			{
+				if (targetArmor == ArmorMaterialType.Cloth) return 1.125f;
+				if (targetArmor == ArmorMaterialType.Leather) return 1.125f;
+			}
+			else if (attackType == SkillAttackType.Cannon)
+			{
+				if (targetArmor == ArmorMaterialType.Iron) return 1.25f;
+			}
 		}
 
 		return 1;
