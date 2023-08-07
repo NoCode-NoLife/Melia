@@ -480,7 +480,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				var dropItem = new Item(stack.ItemId, stack.Amount);
 
 				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
-				var autoloot = stack.AdjustedDropChance <= autolootThreshold;
+				var autoloot = stack.DropChance <= autolootThreshold;
 
 				if (autoloot)
 				{
