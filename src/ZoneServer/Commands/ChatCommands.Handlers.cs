@@ -874,7 +874,8 @@ namespace Melia.Zone.Commands
 						if (itemData == null)
 							continue;
 
-						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var dropChance = Math2.Clamp(0, 100, currentDrop.DropChance);
+						var adjustedDropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
 						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
 
 						var minAmount = currentDrop.MinAmount;
@@ -892,13 +893,13 @@ namespace Melia.Zone.Commands
 						if (displayAmount)
 						{
 							if (minAmount == maxAmount)
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}%)"), minAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}% -> {3:0.####}%)"), minAmount, itemData.Name, dropChance, adjustedDropChance);
 							else
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}% -> {4:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance, adjustedDropChance);
 						}
 						else
 						{
-							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}%)"), itemData.Name, dropChance);
+							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}% -> {2:0.####}%)"), itemData.Name, dropChance, adjustedDropChance);
 						}
 					}
 				}
