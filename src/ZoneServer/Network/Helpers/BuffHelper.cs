@@ -32,11 +32,11 @@ namespace Melia.Zone.Network.Helpers
 		public static void AddBuff(this Packet packet, Buff buff)
 		{
 			packet.PutInt((int)buff.Id);
-			packet.PutInt((int)buff.SkillId);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt((int)buff.NumArg1);
+			packet.PutInt((int)buff.NumArg2);
+			packet.PutInt(0); // NumArg3?
+			packet.PutInt(0); // NumArg4?
+			packet.PutInt(0); // NumArg5?
 			packet.PutInt(buff.OverbuffCounter);
 			packet.PutInt((int)buff.Duration.TotalMilliseconds);
 			packet.PutInt(0);

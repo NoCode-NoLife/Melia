@@ -22,12 +22,12 @@ typedef struct
 {
     int targetHandle;
     int buffHandle1;
-    int buffId; // 7013,7014,110001
-    int skillId; // 30009, otherwise 1
-    int i1; // 10000 on Buff Id: 110001
-    int i2; // 1
-    int i3; // 0
-    int i4; // 2
+    int buffId;
+    int numArg1;
+    int numArg2;
+    int numArg3;
+    int numArg4;
+    int numArg5;
     int buffCounter; // 1
     int buffLength; // 14400000, 1000
     int i5;
