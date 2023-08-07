@@ -484,6 +484,8 @@ namespace Melia.Zone.World.Actors.Monsters
 				return;
 			}
 
+			// The default chance for SuperExp is 1:12000, based on the
+			// monster property "SuperExpRegenRatio".
 			var blueChance = worldConf.BlueJackpotSpawnChance * jackpotRate / 100f;
 			if (rnd.NextDouble() * 100 < blueChance)
 			{
