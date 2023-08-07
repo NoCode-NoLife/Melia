@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -396,8 +397,22 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data.Drops == null)
 				return;
 
+			var dropStacks = this.GenerateDropStacks(killer);
+			this.DropStacks(killer, dropStacks);
+		}
+
+		/// <summary>
+		/// Generates a list of random items to drop from the monster's
+		/// drop table.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <returns></returns>
+		private List<DropStack> GenerateDropStacks(Character killer)
+		{
+			var result = new List<DropStack>();
+
 			var rnd = RandomProvider.Get();
-			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
+			var autolootChance = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 			var worldConf = ZoneServer.Instance.Conf.World;
 
 			// Number of times the monster goes through its drop table,
@@ -418,9 +433,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			{
 				foreach (var dropItemData in this.Data.Drops)
 				{
-					var dropChance = GetAdjustedDropRate(dropItemData);
+					var adjustedDropChance = GetAdjustedDropRate(dropItemData);
 
-					var dropSuccess = rnd.NextDouble() < dropChance / 100f;
+					var dropSuccess = rnd.NextDouble() < adjustedDropChance / 100f;
 					if (!dropSuccess)
 						continue;
 
@@ -430,7 +445,6 @@ namespace Melia.Zone.World.Actors.Monsters
 						continue;
 					}
 
-					var dropItem = new Item(itemData.Id);
 					var minAmount = dropItemData.MinAmount;
 					var maxAmount = dropItemData.MaxAmount;
 
@@ -440,22 +454,46 @@ namespace Melia.Zone.World.Actors.Monsters
 						maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
 					}
 
-					dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
+					var itemId = dropItemData.ItemId;
+					var amount = rnd.Next(minAmount, maxAmount + 1);
+					var originalDropChance = dropItemData.DropChance;
 
-					if (killer == null || dropChance > autoloot)
-					{
-						var direction = new Direction(rnd.Next(0, 360));
-						var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
-						var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
-
-						dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
-						dropItem.Drop(this.Map, this.Position, direction, distance);
-					}
-					else
-					{
-						killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
-					}
+					var dropStack = new DropStack(itemId, amount, adjustedDropChance, adjustedDropChance);
+					result.Add(dropStack);
 				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Creates items from the given stacks and drops them.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <param name="dropStacks"></param>
+		private void DropStacks(Character killer, List<DropStack> dropStacks)
+		{
+			var rnd = RandomProvider.Get();
+
+			foreach (var stack in dropStacks)
+			{
+				var dropItem = new Item(stack.ItemId, stack.Amount);
+
+				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
+				var autoloot = stack.AdjustedDropChance <= autolootThreshold;
+
+				if (autoloot)
+				{
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					return;
+				}
+
+				var direction = new Direction(rnd.Next(0, 360));
+				var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+				dropItem.Drop(this.Map, this.Position, direction, distance);
 			}
 		}
 
