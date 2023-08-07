@@ -511,14 +511,19 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		private int GetSuperDropLevel()
 		{
-			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
+			if (this.Buffs.Has(BuffId.EliteMonsterBuff))
 				return 1;
 
-			if (this.IsBuffActive(BuffId.SuperDrop))
-				return 1;
+			if (this.Buffs.TryGet(BuffId.SuperDrop, out var buff))
+			{
+				// NumArg2 is the type, 0 being silver and 1 gold
 
-			if (this.IsBuffActive(BuffId.TwinkleBuff))
-				return 2;
+				if (buff.NumArg2 == 0)
+					return 1;
+
+				if (buff.NumArg2 == 1)
+					return 2;
+			}
 
 			return 0;
 		}
@@ -572,10 +577,17 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			var worldConf = ZoneServer.Instance.Conf.World;
 
+			var silverChance = worldConf.SilverJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < silverChance)
+			{
+				this.StartBuff(BuffId.SuperDrop, 100, 0, TimeSpan.Zero, this);
+				return;
+			}
+
 			var goldChance = worldConf.GoldJackpotSpawnChance * jackpotRate / 100f;
 			if (rnd.NextDouble() * 100 < goldChance)
 			{
-				this.StartBuff(BuffId.TwinkleBuff, 1, 0, TimeSpan.Zero, this);
+				this.StartBuff(BuffId.SuperDrop, 1000, 1, TimeSpan.Zero, this);
 				return;
 			}
 
@@ -585,13 +597,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (rnd.NextDouble() * 100 < blueChance)
 			{
 				this.StartBuff(BuffId.SuperExp, 1, 0, TimeSpan.Zero, this);
-				return;
-			}
-
-			var silverChance = worldConf.SilverJackpotSpawnChance * jackpotRate / 100f;
-			if (rnd.NextDouble() * 100 < silverChance)
-			{
-				this.StartBuff(BuffId.SuperDrop, 1, 0, TimeSpan.Zero, this);
 				return;
 			}
 
