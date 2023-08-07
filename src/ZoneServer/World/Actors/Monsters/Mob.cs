@@ -415,55 +415,112 @@ namespace Melia.Zone.World.Actors.Monsters
 			var autolootChance = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			// Number of times the monster goes through its drop table,
-			// potentially affected by various buffs.
-			var rolls = 1;
+			var superDropLevel = this.GetSuperDropLevel();
 
-			// Monsters shouldn't be able to get multiple jackpot or elite
-			// buffs at the same time, but since gold gives the most rolls
-			// we'll check it last, just in case.
-			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
-				rolls = worldConf.EliteRolls;
-			if (this.IsBuffActive(BuffId.SuperDrop))
-				rolls = worldConf.SilverJackpotRolls;
-			if (this.IsBuffActive(BuffId.TwinkleBuff))
-				rolls = worldConf.GoldJackpotRolls;
-
-			for (var i = 0; i < rolls; i++)
+			foreach (var dropItemData in this.Data.Drops)
 			{
-				foreach (var dropItemData in this.Data.Drops)
+				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
 				{
-					var adjustedDropChance = GetAdjustedDropRate(dropItemData);
+					Log.Warning("Monster.DropItems: Drop item '{0}' not found.", dropItemData.ItemId);
+					continue;
+				}
 
-					var dropSuccess = rnd.NextDouble() < adjustedDropChance / 100f;
+				var originalDropChance = dropItemData.DropChance;
+				var adjustedDropChance = GetAdjustedDropRate(dropItemData);
+
+				// Items with a chance of >0.5% always drop on super drop.
+				// We'll use the original drop chance for this check to
+				// get a constistent drop behavior
+				var guaranteedDrop = superDropLevel > 0 && originalDropChance > 0.5f;
+				if (!guaranteedDrop)
+				{
+					var superAdjustedDropChance = adjustedDropChance;
+
+					// Increase drop chance for super drops
+					if (superDropLevel == 1)
+						superAdjustedDropChance += 1;
+					else if (superDropLevel == 2)
+						superAdjustedDropChance += 10;
+
+					var dropSuccess = rnd.NextDouble() < superAdjustedDropChance / 100f;
 					if (!dropSuccess)
 						continue;
+				}
 
-					if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
+				var isMoney = itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold;
+				var minAmount = dropItemData.MinAmount;
+				var maxAmount = dropItemData.MaxAmount;
+				var stackCount = 1;
+
+				if (isMoney)
+				{
+					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+
+					// Increased number of stacks and items per stack for
+					// super drops
+					if (superDropLevel == 1)
 					{
-						Log.Warning("Monster.DropItems: Drop item '{0}' not found.", dropItemData.ItemId);
-						continue;
+						minAmount *= 5;
+						maxAmount *= 5;
+						stackCount = 20;
 					}
-
-					var minAmount = dropItemData.MinAmount;
-					var maxAmount = dropItemData.MaxAmount;
-
-					if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
+					else if (superDropLevel == 2)
 					{
-						minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
-						maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+						minAmount *= 5;
+						maxAmount *= 5;
+						stackCount = 50;
 					}
+				}
+				else
+				{
+					// Increase number of stacks based on the original
+					// drop chance
+					if (superDropLevel > 1 && originalDropChance > 0.05f && originalDropChance <= 5f)
+					{
+						stackCount = rnd.Next(2, 3);
+					}
+					else if (superDropLevel > 0 && originalDropChance > 0.5f)
+					{
+						stackCount = (int)Math2.Clamp(1, 15, originalDropChance);
+					}
+				}
 
-					var itemId = dropItemData.ItemId;
-					var amount = rnd.Next(minAmount, maxAmount + 1);
-					var originalDropChance = dropItemData.DropChance;
+				var itemId = dropItemData.ItemId;
+				var amount = rnd.Next(minAmount, maxAmount + 1);
 
-					var dropStack = new DropStack(itemId, amount, adjustedDropChance, adjustedDropChance);
+				for (var i = 0; i < stackCount; ++i)
+				{
+					var dropStack = new DropStack(itemId, amount, originalDropChance, adjustedDropChance);
 					result.Add(dropStack);
 				}
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Returns the super drop level of the monster based on its buffs.
+		/// </summary>
+		/// <remarks>
+		/// The super drop level affects the drop chance and drop rate
+		/// of items. Level 1 increases the chance and even elevates
+		/// some items to 100%, while level 2 increases the chance
+		/// even more.
+		/// </remarks>
+		/// <returns></returns>
+		private int GetSuperDropLevel()
+		{
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
+				return 1;
+
+			if (this.IsBuffActive(BuffId.SuperDrop))
+				return 1;
+
+			if (this.IsBuffActive(BuffId.TwinkleBuff))
+				return 2;
+
+			return 0;
 		}
 
 		/// <summary>
