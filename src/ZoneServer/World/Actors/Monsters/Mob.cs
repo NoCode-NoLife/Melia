@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Melia.Shared.Configuration.Files;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Tos.Const;
@@ -277,7 +278,11 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
 
-			// Kill monster if it reached 0 HP.
+			// Register hits before potentially killing the monster,
+			// so the damage can be factored into finding the top
+			// attacker.
+			this.Components.Get<CombatComponent>()?.RegisterHit(attacker, damage);
+
 			if (this.Hp == 0)
 				this.Kill(attacker);
 
@@ -294,7 +299,52 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
+			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
+			var beneficiary = this.GetKillBeneficiary(killer);
+
+			if (this.MonsterType == MonsterType.Mob && beneficiary != null)
+			{
+				this.GetExpToGive(out var exp, out var classExp);
+
+				this.DropItems(beneficiary);
+				beneficiary?.GiveExp(exp, classExp, this);
+			}
+
+			this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+
+			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Returns the character that benefits from the kill of the mob
+		/// in form of EXP and drops.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <returns></returns>
+		private Character GetKillBeneficiary(ICombatEntity killer)
+		{
+			var beneficiary = killer;
+
+			var topAttacker = this.Components.Get<CombatComponent>()?.GetTopAttackerByDamage();
+			if (topAttacker != null)
+				beneficiary = topAttacker;
+
+			if (beneficiary.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+				beneficiary = master;
+
+			return beneficiary as Character;
+		}
+
+		/// <summary>
+		/// Returns the EXP to give to the beneficiary of killing the mob
+		/// via out.
+		/// </summary>
+		/// <param name="exp"></param>
+		/// <param name="classExp"></param>
+		private void GetExpToGive(out long exp, out long classExp)
+		{
 			var worldConf = ZoneServer.Instance.Conf.World;
 
 			var expRate = worldConf.ExpRate / 100.0;
@@ -311,35 +361,13 @@ namespace Melia.Zone.World.Actors.Monsters
 				classExpRate *= worldConf.EliteExpRate / 100.0;
 			}
 
-			var exp = 0L;
-			var classExp = 0L;
+			exp = 0L;
+			classExp = 0L;
 
 			if (this.Data.Exp > 0)
 				exp = (long)Math.Max(1, this.Data.Exp * expRate);
 			if (this.Data.ClassExp > 0)
 				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
-
-			this.DisappearTime = DateTime.Now.AddSeconds(2);
-
-			if (this.MonsterType == MonsterType.Mob && killer is Character characterKiller)
-			{
-				this.DropItems(characterKiller);
-				characterKiller?.GiveExp(exp, classExp, this);
-			}
-			// Kills from followers also grant exp and drops to the master
-			else if (this.MonsterType == MonsterType.Mob && killer is Mob mobKiller)
-			{
-				if (mobKiller.Components.Get<AiComponent>()?.Script.GetMaster() is Character killersMaster)
-				{
-					this.DropItems(killersMaster);
-					killersMaster?.GiveExp(exp, classExp, this);
-				}
-			}
-
-			this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
-
-			Send.ZC_DEAD(this);
 		}
 
 		/// <summary>

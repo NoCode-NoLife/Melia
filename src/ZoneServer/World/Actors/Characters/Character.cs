@@ -1137,7 +1137,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out _, out _);
 
-			// Kill monster if it reached 0 HP.
+			this.Components.Get<CombatComponent>()?.RegisterHit(attacker, damage);
+
 			if (this.Hp == 0)
 				this.Kill(attacker);
 

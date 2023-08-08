@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Melia.Zone.Network;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -11,6 +14,10 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	public class CombatComponent : CombatEntityComponent, IUpdateable
 	{
 		private static readonly TimeSpan AttackStateDuration = TimeSpan.FromSeconds(10);
+
+		private readonly object _hitLock = new object();
+		private readonly Dictionary<int, float> _damageTaken = new Dictionary<int, float>();
+		private readonly Dictionary<int, int> _hitsTaken = new Dictionary<int, int>();
 
 		/// <summary>
 		/// Returns the entity's attack state.
@@ -65,6 +72,78 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			var timePassed = DateTime.Now - this.LastCombatTime;
 			if (timePassed > AttackStateDuration)
 				this.SetAttackState(false);
+		}
+
+		/// <summary>
+		/// Registers a hit from the given attacker.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="damage"></param>
+		public void RegisterHit(ICombatEntity attacker, float damage)
+		{
+			lock (_hitLock)
+			{
+				if (!_damageTaken.TryGetValue(attacker.Handle, out var totalDamage))
+					totalDamage = 0;
+
+				if (!_hitsTaken.TryGetValue(attacker.Handle, out var totalHits))
+					totalHits = 0;
+
+				_damageTaken[attacker.Handle] = totalDamage + damage;
+				_hitsTaken[attacker.Handle] = totalHits + 1;
+			}
+		}
+
+		/// <summary>
+		/// Returns the attacker that has dealt the most damage to this
+		/// entity and is still nearby and alive.
+		/// </summary>
+		/// <returns></returns>
+		public ICombatEntity GetTopAttackerByDamage()
+		{
+			lock (_hitLock)
+			{
+				foreach (var kv in _damageTaken.OrderByDescending(a => a.Value))
+				{
+					var handle = kv.Key;
+
+					if (!this.Entity.Map.TryGetCombatEntity(handle, out var attacker))
+						continue;
+
+					if (attacker.IsDead)
+						continue;
+
+					return attacker;
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the attacker that has hit this entity the most and
+		/// is still nearby and alive.
+		/// </summary>
+		/// <returns></returns>
+		public ICombatEntity GetTopAttackerByHits()
+		{
+			lock (_hitLock)
+			{
+				foreach (var kv in _hitsTaken.OrderByDescending(a => a.Value))
+				{
+					var handle = kv.Key;
+
+					if (!this.Entity.Map.TryGetCombatEntity(handle, out var attacker))
+						continue;
+
+					if (attacker.IsDead)
+						continue;
+
+					return attacker;
+				}
+			}
+
+			return null;
 		}
 	}
 }
