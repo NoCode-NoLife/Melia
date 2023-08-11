@@ -162,6 +162,7 @@ namespace Melia.Zone.Database
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
 			this.LoadCooldowns(character);
+			this.LoadCollections(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 
@@ -408,6 +409,7 @@ namespace Melia.Zone.Database
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
+			this.SaveCollections(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
 
@@ -1200,6 +1202,114 @@ namespace Melia.Zone.Database
 							progress.Count = count;
 							progress.Done = done;
 							progress.Unlocked = unlocked;
+						}
+					}
+				}
+			}
+		}
+			
+
+		/// <summary>
+		/// Saves the characters's collections to the database.
+		/// Note that collections are account-level
+		/// </summary>
+		/// <param name="character"></param>
+		/// <exception cref="InvalidOperationException"></exception>
+		private void SaveCollections(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `collections` WHERE `accountId` = @accountId", conn, trans))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var collectionId in character.Collections.GetList())
+				{
+					var collectionProgress = character.Collections.GetProgress(collectionId);
+
+					if (collectionProgress.Count > 0)
+					{
+						foreach (var collectionItem in collectionProgress)
+						{
+							using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+							{
+								cmd.Set("accountId", character.AccountId);
+								cmd.Set("collectionId", collectionId);
+								cmd.Set("itemId", collectionItem);
+
+								cmd.Execute();
+							}
+						}
+					}
+					else
+					{
+						// we insert a collection with a blank item if you have the collection
+						// but haven't registered anything
+
+						using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+						{
+							cmd.Set("accountId", character.AccountId);
+							cmd.Set("collectionId", collectionId);
+							cmd.Set("itemId", -1);
+
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads the character's collections from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadCollections(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				var previousCollection = -1;
+				var currentItemList = new List<int>();
+
+				using (var cmd = new MySqlCommand("SELECT collectionid, itemid FROM `collections` WHERE `accountid` = @accountId ORDER BY collectionid", conn))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var collectionId = reader.GetInt32("collectionId");
+							var itemId = reader.GetInt32("itemId");
+
+							if (collectionId != previousCollection)
+							{
+								// we're starting a new collection, save the previous one
+
+								if (previousCollection != -1)
+								{
+									character.Collections.AddSilent(previousCollection, currentItemList);
+								}
+
+								previousCollection = collectionId;
+								currentItemList = new List<int>();
+							}
+
+							// add the item to the list, unless it's blank (-1)
+							if (itemId != -1)
+							{
+								currentItemList.Add(itemId);
+							}
+						}
+
+						// save the last entry
+						if (previousCollection != -1)
+						{
+							character.Collections.AddSilent(previousCollection, currentItemList);
 						}
 					}
 				}

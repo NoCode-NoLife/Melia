@@ -223,6 +223,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
 					this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
 					this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
+					this.LoadDb(this.Data.CollectionDb, "db/collections.txt");
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");

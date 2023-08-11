@@ -597,6 +597,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, amount, msg, InventoryType.Inventory);
 
+				Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
+
 				this.Character.Properties.Invalidate(PropertyName.NowWeight);
 				Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.NowWeight);
 			}

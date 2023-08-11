@@ -39,6 +39,7 @@ namespace Melia.Zone.Commands
 
 			// Client Commands
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
+			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
 
 			// Custom Client Commands
@@ -1826,6 +1827,23 @@ namespace Melia.Zone.Commands
 			// Comment in the client's Lua files:
 			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
 			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
+
+			return CommandResult.Okay;
+		}
+
+
+		/// <summary>
+		/// Official slash command, purpose unknown.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReadCollection(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Command is sent when a collection is viewed, purpose unknown
+			// officials don't seem to send anything back.
 
 			return CommandResult.Okay;
 		}

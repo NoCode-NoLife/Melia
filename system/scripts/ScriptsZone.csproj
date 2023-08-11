@@ -603,6 +603,7 @@
     <Compile Include="custom\npcs\stylist.cs" />
     <Compile Include="custom\test.cs" />
     <Compile Include="items\campfire.cs" />
+    <Compile Include="items\collections.cs" />
     <Compile Include="items\summoning.cs" />
     <Compile Include="items\trade_select_item.cs" />
     <Compile Include="items\dot_buff.cs" />

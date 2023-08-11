@@ -1072,6 +1072,69 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+
+			/// <summary>
+			/// Sends the current status of the player's collections
+			/// </summary>
+			/// <param name="character"></param>
+			public static void ItemCollectionList(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.ItemCollectionList);
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutLong(character.ObjectId);					
+					zpacket.PutInt(character.Collections.Count());
+					foreach (var collectionId in character.Collections.GetList())
+					{
+						zpacket.PutShort(collectionId);
+						var collectionProgress = character.Collections.GetProgress(collectionId);
+						zpacket.PutInt(collectionProgress.Count);
+						foreach (var collectionItem in collectionProgress)
+						{
+							zpacket.PutInt(collectionItem);
+							zpacket.PutLong(collectionItem);
+							zpacket.PutShort(0);
+						}						
+					}
+				});
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Sent after unlocking a collection
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UnlockCollection(Character character, int collectionId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.UnlockCollection);
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+
+				character.Connection.Send(packet);
+			}
+
+
+			/// <summary>
+			/// Sent after unlocking a collection
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UpdateCollection(Character character, int collectionId, int itemId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.UpdateCollection);
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+				packet.PutLong(itemId);
+
+				character.Connection.Send(packet);
+			}
 		}
 	}
 }
