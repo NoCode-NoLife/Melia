@@ -143,7 +143,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				if (_collectionList.TryGetValue(collectionId, out var collectionData))
 					if (collectionData.RequiredItems.Contains(item.Data.ClassName))
 						if (_collectionProgress.TryGetValue(collectionId, out var collectionProgress))
-							if (!collectionProgress.Contains(item.Data.Id))
+						{ 
+							// First need to check how many times this item appears in the collection
+							var itemsNeeded = collectionData.RequiredItems.Count(a => a.Equals(item.Data.ClassName));
+							var itemsAddedAlready = collectionProgress.Count(a => a == item.Id);
+
+							if (itemsNeeded > itemsAddedAlready)
 							{ 
 								collectionProgress.Add(item.Data.Id);
 								if (collectionProgress.Count == collectionData.RequiredItems.Count)
@@ -152,6 +157,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 								}
 								return true;
 							}
+						}
 				return false;
 			}
 		}
