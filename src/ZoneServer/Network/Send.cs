@@ -4079,10 +4079,11 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates the character's own HUD skin.
+		/// Updates the character's own HUD skin on the client.
 		/// </summary>
+		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_SEND_APPLY_HUD_SKIN_MYSELF(Character character)
+		public static void ZC_SEND_APPLY_HUD_SKIN_MYSELF(IZoneConnection conn, Character character)
 		{
 			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
 
@@ -4091,11 +4092,28 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(skinId);
 
-			character.Connection.Send(packet);
+			conn.Send(packet);
 		}
 
 		/// <summary>
 		/// Updates the character's HUD skin for other clients (?).
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_OTHER(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_OTHER);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD skin for clients in range (?).
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_SEND_APPLY_HUD_SKIN_OTHER(Character character)
@@ -4108,6 +4126,21 @@ namespace Melia.Zone.Network
 			packet.PutInt(skinId);
 
 			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD mode (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_SEND_MODE_HUD_SKIN(IZoneConnection conn, Character character)
+		{
+			var packet = new Packet(Op.ZC_SEND_MODE_HUD_SKIN);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte(0);
+
+			conn.Send(packet);
 		}
 	}
 }
