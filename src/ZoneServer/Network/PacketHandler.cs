@@ -156,6 +156,8 @@ namespace Melia.Zone.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
+			Send.ZC_RES_DAMAGEFONT_SKIN(conn, character);
+			Send.ZC_RES_DAMAGEEFFECT_SKIN(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL.Unknown_1B4(character);

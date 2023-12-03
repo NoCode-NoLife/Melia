@@ -4142,5 +4142,45 @@ namespace Melia.Zone.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Updates the character's damage font skin (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_RES_DAMAGEFONT_SKIN(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.DamageFontSkin", 1);
+
+			var packet = new Packet(Op.ZC_RES_DAMAGEFONT_SKIN);
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's damage effect skin (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_RES_DAMAGEEFFECT_SKIN(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.DamageEffectSkin", 1);
+
+			var packet = new Packet(Op.ZC_RES_DAMAGEEFFECT_SKIN);
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
 	}
 }
