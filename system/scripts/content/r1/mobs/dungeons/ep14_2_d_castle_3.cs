@@ -15,9 +15,9 @@ public class Ep142DCastle3MobScript : GeneralScript
 	{
 		// Property Overrides -------------------------------
 
-		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Lancer, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
-		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Scout, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
-		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Strange, Properties("MHP", 48750000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Lancer, Properties("MHP", 24375000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Scout, Properties("MHP", 24375000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
+		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Episode14_2_Bleakferret_Strange, Properties("MHP", 24375000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
 		AddPropertyOverrides("ep14_2_d_castle_3", MonsterId.Boss_TransmutationSpreader_Q1, Properties("MHP", 146250000, "MINPATK", 110000, "MAXPATK", 110000, "MINMATK", 110000, "MAXMATK", 110000, "DEF", 3000000, "MDEF", 3000000));
 
 		// Monster Spawners ---------------------------------

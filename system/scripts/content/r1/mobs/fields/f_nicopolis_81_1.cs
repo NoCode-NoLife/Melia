@@ -24,7 +24,7 @@ public class FNicopolis811MobScript : GeneralScript
 		// Monster Spawn Points -----------------------------
 
 		// 'Cresent_Moya' GenType 22 Spawn Points
-		AddSpawnPoint("f_nicopolis_81_1.Id1", "f_nicopolis_81_1", Rectangle(-844, 201, 25));
+		AddSpawnPoint("f_nicopolis_81_1.Id1", "f_nicopolis_81_1", Rectangle(-850, 194, 25));
 		AddSpawnPoint("f_nicopolis_81_1.Id1", "f_nicopolis_81_1", Rectangle(-644, -111, 25));
 		AddSpawnPoint("f_nicopolis_81_1.Id1", "f_nicopolis_81_1", Rectangle(-505, 61, 25));
 		AddSpawnPoint("f_nicopolis_81_1.Id1", "f_nicopolis_81_1", Rectangle(-239, 228, 25));
