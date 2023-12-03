@@ -168,6 +168,8 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
@@ -2696,6 +2698,27 @@ namespace Melia.Zone.Network
 			}
 
 			character.Resurrect(option);
+		}
+
+		/// <summary>
+		/// Request to apply a certain HUD skin.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_APPLY_HUD_SKIN)]
+		public void CZ_REQ_APPLY_HUD_SKIN(IZoneConnection conn, Packet packet)
+		{
+			var skinId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			//character.SystemMessage(Localization.Get("This feature is not supported yet."));
+			//return;
+
+			character.Variables.Perm.SetInt("Melia.HudSkin", skinId);
+
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(character);
 		}
 	}
 }

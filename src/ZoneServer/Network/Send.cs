@@ -4077,5 +4077,37 @@ namespace Melia.Zone.Network
 
 			ZoneServer.Instance.World.Broadcast(packet);
 		}
+
+		/// <summary>
+		/// Updates the character's own HUD skin.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_MYSELF(Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_MYSELF);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD skin for other clients (?).
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_OTHER(Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_OTHER);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
 	}
 }
