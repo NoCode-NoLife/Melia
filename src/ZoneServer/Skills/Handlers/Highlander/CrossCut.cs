@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -62,6 +63,12 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			var delayBetweenHits = TimeSpan.FromMilliseconds(250);
 			var skillHitDelay = TimeSpan.Zero;
 
+			var pc = skill.Owner;
+			var debuffTime = 5 + skill.Properties.GetFloat(PropertyName.Level, 0) * 1;
+
+			if (pc.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Highlander34, out var ability))
+				debuffTime += ability.Level;
+
 			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -91,7 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 				hits.Add(skillHit2);
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-				target.StartBuff(BuffId.HeavyBleeding, skill.Level, 0, TimeSpan.FromSeconds(5 + skill.Level), caster);
+				target.StartBuff(BuffId.HeavyBleeding, skill.Level, 0, TimeSpan.FromSeconds(debuffTime), caster);
 			}
 		}
 	}
