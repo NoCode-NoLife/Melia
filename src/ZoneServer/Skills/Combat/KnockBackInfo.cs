@@ -103,6 +103,15 @@ namespace Melia.Zone.Skills.Combat
 				this.Time = TimeSpan.FromMilliseconds(6747);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
+			else if (this.Velocity == 250 && this.VAngle == 85) // Wagon Wheel
+			{
+				var distance = 30.570992087511f;
+
+				this.Time = TimeSpan.FromMilliseconds(6747);
+				var finalPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				finalPosition.Z = finalPosition.Z + 40;
+				this.ToPosition = finalPosition;
+			}
 			else
 			{
 				var distance = 17.700299992446f;

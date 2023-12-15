@@ -172,6 +172,9 @@
     <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
     <Compile Include="Skills\Handlers\Common\TargetSkill.cs" />
     <Compile Include="Skills\Handlers\Base\SimpleMonsterAttackSkill.cs" />
+    <Compile Include="Skills\Handlers\Highlander\CrossCut.cs" />
+    <Compile Include="Skills\Handlers\Highlander\SkyLiner.cs" />
+    <Compile Include="Skills\Handlers\Highlander\WagonWheel.cs" />
     <Compile Include="Skills\Handlers\Monsters\BasicAttacks.cs" />
     <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
     <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
