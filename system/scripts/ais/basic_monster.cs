@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors;
 public class BasicMonsterAiScript : AiScript
 {
 	private const int MaxChaseDistance = 300;
+	private const int MaxMasterDistance = 200;
 
 	ICombatEntity target;
 
@@ -14,6 +15,7 @@ public class BasicMonsterAiScript : AiScript
 	{
 		During("Idle", CheckEnemies);
 		During("Attack", CheckTarget);
+		During("Attack", CheckMaster);
 	}
 
 	protected override void Root()
@@ -100,6 +102,23 @@ public class BasicMonsterAiScript : AiScript
 		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance) || !IsHating(target))
 		{
 			target = null;
+			StartRoutine("StopAndIdle", StopAndIdle());
+		}
+	}
+
+	private void CheckMaster()
+	{
+		if (target == null)
+			return;
+
+		if (!TryGetMaster(out var master))
+			return;
+
+		// Reset aggro if the master left
+		if (EntityGone(master) || !InRangeOf(master, MaxMasterDistance))
+		{
+			target = null;
+			RemoveAllHate();
 			StartRoutine("StopAndIdle", StopAndIdle());
 		}
 	}

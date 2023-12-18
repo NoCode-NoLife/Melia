@@ -600,6 +600,7 @@
     <Compile Include="core\calc_character.cs" />
     <Compile Include="core\custom_commands.cs" />
     <Compile Include="core\normal_tx.cs" />
+    <Compile Include="custom\npcs\stylist.cs" />
     <Compile Include="custom\test.cs" />
     <Compile Include="items\campfire.cs" />
     <Compile Include="items\summoning.cs" />

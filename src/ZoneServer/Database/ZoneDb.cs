@@ -951,6 +951,9 @@ namespace Melia.Zone.Database
 
 				foreach (var buff in character.Buffs.GetList())
 				{
+					if (!buff.Data.Save)
+						continue;
+
 					var lastId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))

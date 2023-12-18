@@ -72,11 +72,6 @@ namespace Melia.Zone
 		public ChatCommands ChatCommands { get; } = new ChatCommands();
 
 		/// <summary>
-		/// Returns reference to the server's client chat command manager.
-		/// </summary>
-		public ClientChatCommands ClientChatCommands { get; } = new ClientChatCommands();
-
-		/// <summary>
 		/// Returns a reference to the server's event manager.
 		/// </summary>
 		public ServerEvents ServerEvents { get; } = new ServerEvents();

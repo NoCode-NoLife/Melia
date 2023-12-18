@@ -32,9 +32,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		RaceType Race { get; }
 
 		/// <summary>
-		/// Returns the monster's element.
+		/// Returns the monster's element/attribute.
 		/// </summary>
-		ElementType Element { get; }
+		AttributeType Attribute { get; }
 
 		/// <summary>
 		/// Returns whether the monster emerged from the ground.

@@ -37,7 +37,11 @@ namespace Melia.Zone.Commands
 			// The required authority levels for commands can be specified
 			// in the configuration file "conf/commands.conf".
 
-			// Client Scripting
+			// Client Commands
+			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
+			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+
+			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
 			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
 
@@ -55,7 +59,7 @@ namespace Melia.Zone.Commands
 			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1]", "Spawns monster.", this.HandleSpawn);
+			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful]", "Spawns monster.", this.HandleSpawn);
 			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
@@ -523,6 +527,13 @@ namespace Melia.Zone.Commands
 					aiName = aiNameArg;
 			}
 
+			var tendency = TendencyType.Peaceful;
+			if (args.TryGet("tendency", out var tendencyArg))
+			{
+				if (tendencyArg.ToLower() == "aggressive")
+					tendency = TendencyType.Aggressive;
+			}
+
 			var rnd = new Random(Environment.TickCount);
 			for (var i = 0; i < amount; ++i)
 			{
@@ -543,6 +554,7 @@ namespace Melia.Zone.Commands
 
 				monster.Position = pos;
 				monster.Direction = dir;
+				monster.Tendency = tendency;
 				monster.Components.Add(new MovementComponent(monster));
 
 				if (args.TryGet("hp", out var hpStr))
@@ -848,7 +860,7 @@ namespace Melia.Zone.Commands
 				var monsterEntry = new StringBuilder();
 
 				monsterEntry.AppendFormat(Localization.Get("{{nl}}----- {0} ({1}, {2}) -----{{nl}}"), monsterData.Name, monsterData.Id, monsterData.ClassName);
-				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Element], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
+				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Attribute], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
 				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
 				monsterEntry.AppendFormat(Localization.Get("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"), monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
@@ -862,7 +874,8 @@ namespace Melia.Zone.Commands
 						if (itemData == null)
 							continue;
 
-						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var dropChance = Math2.Clamp(0, 100, currentDrop.DropChance);
+						var adjustedDropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
 						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
 
 						var minAmount = currentDrop.MinAmount;
@@ -880,13 +893,13 @@ namespace Melia.Zone.Commands
 						if (displayAmount)
 						{
 							if (minAmount == maxAmount)
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}%)"), minAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}% -> {3:0.####}%)"), minAmount, itemData.Name, dropChance, adjustedDropChance);
 							else
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}% -> {4:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance, adjustedDropChance);
 						}
 						else
 						{
-							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}%)"), itemData.Name, dropChance);
+							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}% -> {2:0.####}%)"), itemData.Name, dropChance, adjustedDropChance);
 						}
 					}
 				}
@@ -1479,87 +1492,6 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Opens buy-in shop creation window or creates shop based on
-		/// arguments.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
-		{
-			if (args.Count == 0)
-			{
-				Send.ZC_EXEC_CLIENT_SCP(target.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
-				return CommandResult.Okay;
-			}
-
-			if (args.Count < 2)
-			{
-				Log.Debug("HandleBuyShop: Not enough arguments.");
-				return CommandResult.Okay;
-			}
-
-			// Read arguments
-			var title = args.Get(0);
-			var items = new List<Tuple<int, int, int>>();
-
-			for (var i = 2; i < args.Count; ++i)
-			{
-				var split = args.Get(i).Split(',');
-
-				if (split.Length != 3 || !int.TryParse(split[0], out var id) || !int.TryParse(split[1], out var amount) || !int.TryParse(split[2], out var price))
-				{
-					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args.Get(i));
-					return CommandResult.Okay;
-				}
-
-				items.Add(new Tuple<int, int, int>(id, amount, price));
-			}
-
-			// Create auto seller packet from arguments and have the
-			// channel handle it as if the client had sent it.
-			var packet = new Packet(Op.CZ_REGISTER_AUTOSELLER);
-			packet.PutString(title, 64);
-			packet.PutInt(items.Count);
-			packet.PutInt(270065); // PersonalShop
-			packet.PutInt(0);
-
-			foreach (var item in items)
-			{
-				packet.PutInt(item.Item1);
-				packet.PutInt(item.Item2);
-				packet.PutInt(item.Item3);
-				packet.PutEmptyBin(264);
-			}
-
-			ZoneServer.Instance.PacketHandler.Handle(target.Connection, packet);
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
-		/// Updates the character's mouse position variables.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="command"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		private CommandResult HandleUpdateMouse(Character sender, Character target, string message, string command, Arguments args)
-		{
-			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args.Get(0), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
-			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
 		/// Toggles autoloot.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -1668,10 +1600,12 @@ namespace Melia.Zone.Commands
 			// The max length of chat messages appears to be ~4090 characters,
 			// so we need to split the data into multiple messages.
 
+			var prefix = ZoneServer.Instance.Conf.Commands.SelfPrefix[0];
+
 			Send.ZC_EXEC_CLIENT_SCP(sender.Connection, @"
 				local result = ''
 				
-				ui.Chat('>updatedatacom init')
+				ui.Chat('" + prefix + @"updatedatacom init')
 
 				local itemClassList, cnt  = GetClassList('Item');
 				for i = 0, cnt - 1 do
@@ -1682,12 +1616,12 @@ namespace Melia.Zone.Commands
 					result = result .. itemClass.ClassID .. '\t' .. itemMonsterId .. '\t' .. itemClass.ClassName .. '\n'
 
 					if string.len(result) > 2000 then
-						ui.Chat('>updatedatacom add ' .. result)
+						ui.Chat('" + prefix + @"updatedatacom add ' .. result)
 						result = ''
 					end
 				end
 
-				ui.Chat('>updatedatacom fin')
+				ui.Chat('" + prefix + @"updatedatacom fin')
 			");
 
 			return CommandResult.Okay;
@@ -1847,7 +1781,6 @@ namespace Melia.Zone.Commands
 		/// <param name="commandName"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
 		private CommandResult HandleKick(Character sender, Character target, string message, string commandName, Arguments args)
 		{
 			if (args.Count == 0)
@@ -1873,6 +1806,144 @@ namespace Melia.Zone.Commands
 
 				sender.ServerMessage(Localization.Get("Request for kicking player '{0}' sent."), targetName);
 			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command, purpose unknown.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReqUpdateEquip(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Command is sent when the inventory is opened, purpose unknown,
+			// officials don't seem to send anything back.
+
+			// Comment in the client's Lua files:
+			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
+			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command, exchanges silver for ability points.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleBuyAbilPoint(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count < 0)
+			{
+				Log.Warning("HandleBuyAbilPoint: No amount given by user '{0}'.", sender.Connection.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			if (!int.TryParse(args.Get(0), out var amount))
+			{
+				Log.Warning("HandleBuyAbilPoint: Invalid amount '{0}' by user '{1}'.", amount, sender.Connection.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			var costPerPoint = ZoneServer.Instance.Conf.World.AbilityPointCost;
+			var totalCost = (amount * costPerPoint);
+			var silver = sender.Inventory.CountItem(ItemId.Silver);
+			if (silver < totalCost)
+			{
+				Log.Warning("HandleBuyAbilPoint: User '{0}' didn't have enough money.", sender.Connection.Account.Name);
+				return CommandResult.Okay;
+			}
+
+			sender.Inventory.Remove(ItemId.Silver, totalCost, InventoryItemRemoveMsg.Given);
+			sender.ModifyAbilityPoints(amount);
+
+			Send.ZC_ADDON_MSG(sender, AddonMessage.SUCCESS_BUY_ABILITY_POINT, 0, "BLANK");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Opens buy-in shop creation window or creates shop based on
+		/// arguments.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleBuyShop(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (args.Count == 0)
+			{
+				Send.ZC_EXEC_CLIENT_SCP(sender.Connection, "OPEN_PERSONAL_SHOP_REGISTER()");
+				return CommandResult.Okay;
+			}
+
+			if (args.Count < 2)
+			{
+				Log.Debug("HandleBuyShop: Not enough arguments.");
+				return CommandResult.Okay;
+			}
+
+			// Read arguments
+			var title = args.Get(0);
+			var items = new List<Tuple<int, int, int>>();
+
+			for (var i = 2; i < args.Count; ++i)
+			{
+				var split = args.Get(i).Split(',');
+
+				if (split.Length != 3 || !int.TryParse(split[0], out var id) || !int.TryParse(split[1], out var amount) || !int.TryParse(split[2], out var price))
+				{
+					Log.Debug("HandleBuyShop: Invalid argument '{0}'.", args.Get(i));
+					return CommandResult.Okay;
+				}
+
+				items.Add(new Tuple<int, int, int>(id, amount, price));
+			}
+
+			// Create auto seller packet from arguments and have the
+			// channel handle it as if the client had sent it.
+			var packet = new Packet(Op.CZ_REGISTER_AUTOSELLER);
+			packet.PutString(title, 64);
+			packet.PutInt(items.Count);
+			packet.PutInt(270065); // PersonalShop
+			packet.PutInt(0);
+
+			foreach (var item in items)
+			{
+				packet.PutInt(item.Item1);
+				packet.PutInt(item.Item2);
+				packet.PutInt(item.Item3);
+				packet.PutEmptyBin(264);
+			}
+
+			ZoneServer.Instance.PacketHandler.Handle(sender.Connection, packet);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Updates the character's mouse position variables.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleUpdateMouse(Character sender, Character target, string message, string command, Arguments args)
+		{
+			sender.Variables.Temp.SetFloat("MouseX", float.Parse(args.Get(0), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
+			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
 
 			return CommandResult.Okay;
 		}

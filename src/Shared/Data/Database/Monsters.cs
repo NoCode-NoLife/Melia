@@ -14,7 +14,7 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 
-		public ElementType Element { get; set; }
+		public AttributeType Attribute { get; set; }
 		public RaceType Race { get; set; }
 		public ArmorMaterialType ArmorMaterial { get; set; }
 		public SizeType Size { get; set; }
@@ -137,7 +137,7 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 
-			data.Element = entry.ReadEnum<ElementType>("element");
+			data.Attribute = entry.ReadEnum<AttributeType>("element");
 			data.Race = entry.ReadEnum<RaceType>("race");
 			data.ArmorMaterial = entry.ReadEnum<ArmorMaterialType>("armor");
 			data.Size = entry.ReadEnum<SizeType>("size");

@@ -236,5 +236,12 @@
 { classId: 249, className: "MOVE_LEGENDCARD_EXP", type: "ItemList", script: "SCR_MOVE_LEGENDCARD_EXP" },
 { classId: 250, className: "EVENT_TOS_WHOLE_SHOP", type: "ItemList", script: "TX_EVENT_TOS_WHOLE_SHOP" },
 { classId: 251, className: "ITEM_REINFORCE_SCROLL", type: "ItemList", script: "SCR_ITEM_REINFORCE_SCROLL" },
+{ classId: 252, className: "Certificate_SHOP", type: "ItemList", script: "TX_Certificate_SHOP" },
 { classId: 253, className: "ITEM_UNLOCK_BELONGING_SCROLL", type: "ItemList", script: "SCR_ITEM_UNLOCK_BELONGING_SCROLL" },
+{ classId: 254, className: "SLOGUTIS_CARD_UPGRADE", type: "ItemList", script: "SCR_SLOGUTIS_CARD_UPGRADE" },
+{ classId: 255, className: "LEVEL_UP_MASTER_EX", type: "ItemArg", script: "SCR_LEVEL_UP_MASTER_EX" },
+{ classId: 256, className: "EQUIP_MASTER_EX", type: "ItemArg", script: "SCR_EQUIP_MASTER_EX" },
+{ classId: 257, className: "POPOBOOST_REAWRD_REQUEST", type: "ItemArg", script: "SCR_POPOBOOST_REAWRD_LIST_REQUEST" },
+{ classId: 258, className: "POPOBOOST_PARTICIPATE_EVENT", type: "ItemArg", script: "SCR_POPOBOOST_PARTICIPATE_EVENT" },
+{ classId: 259, className: "POPOBOOST_PREMIUN_APPLY", type: "ItemArg", script: "SCR_POPOBOOST_PREMIUN_APPLY" },
 ]
