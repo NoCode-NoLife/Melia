@@ -6,7 +6,7 @@ import FormCheckRadio from '@/components/FormCheckRadio.vue'
 import FormField from '@/components/FormField.vue'
 import FormControl from '@/components/FormControl.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import LayoutGuest from '@/layouts/LayoutGuest.vue'
+import LayoutGuest from '../Layouts/LayoutGuest.vue'
 import InputError from '@/Components/InputError.vue'
 import { Head, useForm, Link } from '@inertiajs/vue3'
 
@@ -26,7 +26,6 @@ const form = useForm({
 })
 
 const passwordRoute = route('password.request')
-const registerRoute = route('register')
 
 const submit = () => {
   form.post(route('login'), {
@@ -86,12 +85,6 @@ const submit = () => {
                 class="underline text-sm text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Forgot your password?
-              </Link>
-              <Link
-                :href="registerRoute"
-                class="underline text-sm text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Create an account
               </Link>
             </div>
             <template #footer>

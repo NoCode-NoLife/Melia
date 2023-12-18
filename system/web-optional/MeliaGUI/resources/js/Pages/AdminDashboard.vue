@@ -26,7 +26,7 @@ import CardBoxWidget from '@/components/CardBoxWidget.vue'
 import TableAccounts from '@/components/TableAccounts.vue'
 import TableProcesses from '@/components/TableProcesses.vue'
 import TableBackups from '@/components/TableBackups.vue'
-import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
+import LayoutAuthenticated from '../Layouts/LayoutAuthenticated.vue'
 import CardBoxAction from '@/components/CardBoxAction.vue'
 import OverlayLayer from '@/components/OverlayLayer.vue'
 import SectionTitleLine from '@/components/SectionTitleLine.vue'
@@ -356,7 +356,12 @@ if (props.status != null) {
 
       <div
         class="flex flex-col md:flex-row gap-4"
-        v-if="silverChartData != null && jobClassChartData != null"
+        v-if="
+          silverChartData != undefined &&
+          silverChartData.length > 0 &&
+          jobClassChartData != undefined &&
+          jobClassChartData.length > 0
+        "
       >
         <div class="flex-1 mb-6">
           <CardBox>

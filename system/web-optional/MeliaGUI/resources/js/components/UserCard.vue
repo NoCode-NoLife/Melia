@@ -15,7 +15,6 @@ const userName = usePage().props.account.name
             Hello, <b>{{ userName }}</b
             >!
           </h1>
-          <p>Last login <b>12 mins ago</b> from <b>127.0.0.1</b></p>
         </div>
       </BaseLevel>
     </div>

@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import LayoutGuest from '@/layouts/LayoutGuest.vue'
+import LayoutGuest from '../../Layouts/LayoutGuest.vue'
 import BaseButton from '@/components/BaseButton.vue'
 
 import { Head, Link, useForm } from '@inertiajs/vue3'

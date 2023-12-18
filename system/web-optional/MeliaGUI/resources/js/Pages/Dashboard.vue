@@ -4,7 +4,7 @@ import { mdiChartTimelineVariant } from '@mdi/js'
 import { useStore } from 'vuex'
 import { Head } from '@inertiajs/vue3'
 import SectionMain from '@/components/SectionMain.vue'
-import LayoutAuthenticated from '@/Layouts/LayoutAuthenticated.vue'
+import LayoutAuthenticated from '../Layouts/LayoutAuthenticated.vue'
 import SectionTitleLine from '@/components/SectionTitleLine.vue'
 
 defineProps({
