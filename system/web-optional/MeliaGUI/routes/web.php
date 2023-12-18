@@ -6,7 +6,6 @@ use App\Http\Controllers\ConfigsController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\InventoryController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +21,6 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return redirect(route('login'));
 })->name('home');
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'account' => auth()->user()->account,
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'get'])
@@ -70,7 +63,7 @@ Route::middleware(['auth', 'verified', 'authority:99'])->group(function () {
         ->name('admin.inventory.manager.remove.item');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });

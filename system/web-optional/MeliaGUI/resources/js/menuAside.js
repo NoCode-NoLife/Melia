@@ -27,12 +27,6 @@ export default [
     admin: true,
   },
   {
-    href: '/dashboard',
-    icon: mdiViewDashboard,
-    label: 'Dashboard',
-    admin: false,
-  },
-  {
     href: '/profile',
     label: 'Profile',
     icon: mdiAccountCircle,
