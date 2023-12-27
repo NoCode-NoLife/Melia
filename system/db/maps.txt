@@ -515,6 +515,8 @@
 { mapId: 11266, className: "Raid_AbyssalObserver", name: "Abyssal Observer", type: "Instance", level: 480, defaultPosition: { x: 122, y: 0.6, z: -155 } },
 { mapId: 11267, className: "guild_f_remains_37_3", name: "Istora Ruins ", type: "Field", level: 0, defaultPosition: { x: 24, y: 92, z: -272 } },
 { mapId: 11268, className: "dimension_of_wailing", name: "Wailing Graveyard OD", type: "Instance", level: 500, defaultPosition: { x: -155, y: 5, z: 58 } },
+{ mapId: 11269, className: "event_snigo_dungeon", name: "Little Witch's Forest", type: "Instance", level: 1, defaultPosition: { x: -1129, y: 220, z: -968 } },
+{ mapId: 11270, className: "raid_kivotos_island", name: "Kivotos Isle", type: "Instance", level: 510, defaultPosition: { x: 372, y: 226, z: -159 } },
 { mapId: 20000, className: "infinite_map", name: "Infinite Map", type: "Instance", level: 0, defaultPosition: { x: 0, y: 0, z: -1436 } },
 { mapId: 20010, className: "pvp_tournament", name: "Team Battle League Tournament", type: "Instance", level: 0, defaultPosition: { x: -312, y: 100, z: 83 } },
 { mapId: 20011, className: "pvp_tournament_5vs5", name: "Team Battle League Tournament 3 vs 3", type: "Instance", level: 0, defaultPosition: { x: -312, y: 100, z: 83 } },

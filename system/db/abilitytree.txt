@@ -1466,6 +1466,23 @@
 { category: "Lama", classId: 901, abilityId: 421017, jobId: 4022, className: "Lama17", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_22", argNum: 45 } },
 { category: "Lama", classId: 902, abilityId: 421018, jobId: 4022, className: "Lama18", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_22", argNum: 45 } },
 
+// Pontifex
+//---------------------------------------------------------------------------
+{ category: "Pontifex", classId: 1, abilityId: 421019, jobId: 4023, className: "Pontifex1", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Missa", argNum: 1 } },
+{ category: "Pontifex", classId: 2, abilityId: 421020, jobId: 4023, className: "Pontifex2", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_23", argNum: 45 } },
+{ category: "Pontifex", classId: 3, abilityId: 421021, jobId: 4023, className: "Pontifex3", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Atonement", argNum: 1 } },
+{ category: "Pontifex", classId: 101, abilityId: 421022, jobId: 4023, className: "Pontifex10", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_EvilBurn", argNum: 1 } },
+{ category: "Pontifex", classId: 102, abilityId: 421023, jobId: 4023, className: "Pontifex11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Atonement", argNum: 1 } },
+{ category: "Pontifex", classId: 103, abilityId: 421024, jobId: 4023, className: "Pontifex12", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Evangelism", argNum: 1 } },
+{ category: "Pontifex", classId: 104, abilityId: 421025, jobId: 4023, className: "Pontifex13", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Didache", argNum: 1 } },
+{ category: "Pontifex", classId: 501, abilityId: 421026, jobId: 4023, className: "Pontifex50", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Didache", argNum: 1 } },
+{ category: "Pontifex", classId: 502, abilityId: 421027, jobId: 4023, className: "Pontifex51", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Gospel", argNum: 1 } },
+{ category: "Pontifex", classId: 503, abilityId: 421028, jobId: 4023, className: "Pontifex52", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Evangelism", argNum: 1 } },
+{ category: "Pontifex", classId: 1001, abilityId: 421029, jobId: 4023, className: "Pontifex100", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex10", argNum: 65 } },
+{ category: "Pontifex", classId: 1002, abilityId: 421030, jobId: 4023, className: "Pontifex101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex11", argNum: 65 } },
+{ category: "Pontifex", classId: 1003, abilityId: 421031, jobId: 4023, className: "Pontifex102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex12", argNum: 65 } },
+{ category: "Pontifex", classId: 1004, abilityId: 421032, jobId: 4023, className: "Pontifex103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex13", argNum: 65 } },
+
 // Scout
 //---------------------------------------------------------------------------
 { category: "Scout", classId: 101, abilityId: 501001, jobId: 5001, className: "Scout18", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Scout_Cloaking", argNum: 1 } },

@@ -91,6 +91,7 @@ namespace Melia.Shared.Tos.Const
 		Exorcist = 4020,
 		Crusader = 4021,
 		Lama = 4022,
+		Pontifex = 4023,
 
 		// Scout
 		Scout = 5001,

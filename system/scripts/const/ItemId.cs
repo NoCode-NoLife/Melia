@@ -202,6 +202,10 @@ public static class ItemId
 	public const int TBW04_126_7 = 11002189;
 	public const int TBW04_126_7_Lv2 = 11002190;
 	public const int TBW04_126_7_Lv3 = 11002191;
+	public const int TMAC04_119_1 = 11002198;
+	public const int TMAC04_119_1_Lv2 = 11002199;
+	public const int TMAC04_119_1_Lv3 = 11002200;
+	public const int TMAC04_119_1_Lv4 = 11002201;
 	public const int EP13_Galimybe_TOP = 11003061;
 	public const int GrowthVision_Armor = 11003062;
 	public const int SWD04_126_Lv2 = 11050000;
@@ -4027,6 +4031,8 @@ public static class ItemId
 	public const int Hat_Ep15elf01 = 11102014;
 	public const int Hat_Ep15elf02 = 11102015;
 	public const int Hat_Tw_Ridingclothes = 11102016;
+	public const int Hat_Sniego01 = 11102017;
+	public const int Hat_Sniego02 = 11102018;
 	public const int Guiltynelaima_Shield = 11104006;
 	public const int EP15_Artefact_004 = 11104010;
 	public const int Ep15spring01_Shield = 11104014;
@@ -4048,6 +4054,8 @@ public static class ItemId
 	public const int Costume_Char2_160 = 11108000;
 	public const int Hat_M_Char2_160 = 11108002;
 	public const int Hat_F_Char2_160 = 11108003;
+	public const int Costume_Char4_230 = 11108004;
+	public const int Hat_Pontifex = 11108006;
 
 	// BELT
 	//-----------------------------------------------------------------------
@@ -4649,6 +4657,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_15 = 11039015;
 	public const int DRESS_ROOM_COLLECT_16 = 11039016;
 	public const int DRESS_ROOM_COLLECT_17 = 11039017;
+	public const int DRESS_ROOM_COLLECT_18 = 11039018;
 
 	// Consume
 	//-----------------------------------------------------------------------
@@ -4982,6 +4991,7 @@ public static class ItemId
 	public const int Gacha_Goddess_AbyssalObserver_Auto_Dummy = 642995;
 	public const int Gacha_Goddess_AbyssalObserver_Solo_Dummy = 642996;
 	public const int Gacha_BridgeWailing_Dimension_Party = 642997;
+	public const int Gacha_Evnet2023_SnigoDungeon = 642998;
 	public const int Piece_BorutaSeal = 699041;
 	public const int Cube_FD_Weapon_75 = 800001;
 	public const int Cube_FD_Armor_75 = 800002;
@@ -5529,6 +5539,12 @@ public static class ItemId
 	public const int Rada_Bless_Icor_Armor_Box2 = 11201094;
 	public const int Rada_Bless_Icor_Weapon_Box2 = 11201095;
 	public const int Rada_Bless_Icor_Weapon_Box3 = 11201096;
+	public const int Rada_Option_Shirt_Box_500_Black = 11201112;
+	public const int Rada_Option_Glove_Box_500_Black = 11201113;
+	public const int Rada_Option_Pants_Box_500_Black = 11201114;
+	public const int Rada_Option_Boots_Box_500_Black = 11201115;
+	public const int Rada_Bless_Icor_Weapon_Box3_Black = 11201116;
+	public const int High_Enchantchip_Low_Box1000_Black = 11201117;
 	public const int Event_2023_Popo_Silver_Box = 11205067;
 
 	// Drug
@@ -5543,6 +5559,8 @@ public static class ItemId
 	public const int Premium_IndunReset_All_14d = 490156;
 	public const int IndunReset_1add_14d_NoStack_Team = 490354;
 	public const int Premium_AddSkillPoint = 494155;
+	public const int EmoticonItem_2312_164 = 494422;
+	public const int EmoticonItem_2312_165 = 494423;
 	public const int Drug_MAXSTA1 = 640001;
 	public const int Drug_HP1 = 640002;
 	public const int Drug_HP2 = 640003;
@@ -5985,6 +6003,8 @@ public static class ItemId
 	public const int EVENT_2308_POPO_FESTA = 640538;
 	public const int EVENT_2308_POPO_FESTA_IMAGE_2 = 640539;
 	public const int ExpCard23 = 640540;
+	public const int EVENT_2312_8th_Anniversary = 640542;
+	public const int EVENT_2312_8th_Anniversary_2 = 640543;
 	public const int Jungtan_1 = 641001;
 	public const int Jungtan_2 = 641002;
 	public const int Jungtan_3 = 641003;
@@ -9161,6 +9181,7 @@ public static class ItemId
 	public const int Item_Achieve_Jaguar = 11030474;
 	public const int Item_Achieve_SpearMaster = 11030490;
 	public const int Item_Achieve_Enginner = 11030491;
+	public const int Item_Achieve_Pontifex = 11030493;
 	public const int UnknownSantuaryDEFpotion = 11035357;
 	public const int BerniceDEFpotion = 11035358;
 	public const int VasilissaAutoSoloHEALpotion = 11035359;
@@ -9187,6 +9208,7 @@ public static class ItemId
 	public const int EVENT_2308_Tree_Of_Creator = 11200342;
 	public const int EVENT_2308_Walking_Tos_Guide = 11200343;
 	public const int EVENT_2308_Territorial_Conquerors = 11200344;
+	public const int Plate_Achieve_Pontifex = 11205105;
 
 	// Earring
 	//-----------------------------------------------------------------------
@@ -10948,6 +10970,12 @@ public static class ItemId
 	public const int GEM_Engineer_BuffTurret = 744884;
 	public const int GEM_Engineer_KingMechaV = 744885;
 	public const int GEM_Engineer_RepairKit = 744886;
+	public const int GEM_Pontifex_Missa = 744899;
+	public const int GEM_Pontifex_EvilBurn = 744900;
+	public const int GEM_Pontifex_Atonement = 744901;
+	public const int GEM_Pontifex_Evangelism = 744902;
+	public const int GEM_Pontifex_Gospel = 744903;
+	public const int GEM_Pontifex_Didache = 744904;
 
 	// Gem_High_Color
 	//-----------------------------------------------------------------------
@@ -12954,6 +12982,7 @@ public static class ItemId
 	public const int Item_Event_2020_Ticket = 904244;
 	public const int Event_Roulette_Coin = 904274;
 	public const int EVENT_SEASON_NewWorld_COIN_1 = 904284;
+	public const int Piece_Of_Memory_Snigo = 904353;
 	public const int Default_Sprout = 910002;
 	public const int Default_Deadplants = 910003;
 	public const int Zombie_Capsule = 910004;
@@ -13013,6 +13042,7 @@ public static class ItemId
 	public const int Event_Roulette_Coin_4 = 10003581;
 	public const int Event_Roulette_Coin_5 = 10003647;
 	public const int Event_Roulette_Coin_PoPo = 10003648;
+	public const int Event_Roulette_Coin_PoPo_2312 = 10003649;
 	public const int Event_2011_Fish = 10007001;
 	public const int Event_2011_Fish2 = 10007002;
 	public const int Event_2107_Fish = 10007005;
@@ -13331,6 +13361,7 @@ public static class ItemId
 	public const int Misc_Collect_Ep15_2_3 = 11200333;
 	public const int Rada_Armor_Crystal_500 = 11200334;
 	public const int Rada_Icor_Crystal_500 = 11200335;
+	public const int RadaCertificateCoin_1000000p = 11200350;
 	public const int Misc_Reinforce_PercentUp_490 = 11201030;
 	public const int Misc_Reinforce_PercentUp_490_NoTrade = 11201031;
 	public const int Common_Skill_Enchant_Jewal_480 = 11201039;
@@ -14076,6 +14107,8 @@ public static class ItemId
 	public const int Premium_AbillityArts_Char5_16_1d = 490491;
 	public const int Premium_Popoboost_Ticket_2308 = 490492;
 	public const int Premium_Enchantchip_High_20 = 490493;
+	public const int Premium_Popoboost_Ticket_2312 = 490494;
+	public const int Premium_Enchantchip_High_20_NoTrade2 = 490495;
 	public const int PremiumToken_60d = 491001;
 	public const int DLC_BOX1 = 491002;
 	public const int Steam_Premium_TpBox_650 = 491003;
@@ -14523,6 +14556,8 @@ public static class ItemId
 	public const int Class_Unlock_Achievement_Select = 494411;
 	public const int EmoticonItem_Summer_Popo_1 = 494412;
 	public const int Premium_QuestClearScroll_Box_2 = 494419;
+	public const int HiddenJobUnlock_Char4_23 = 494420;
+	public const int EmoticonItem_2312_Popo = 494421;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -14614,6 +14649,7 @@ public static class ItemId
 	public const int Premium_Enchantchip_High = 495185;
 	public const int Premium_Enchantchip_High_NoTrade = 495186;
 	public const int Premium_Enchantchip_High_20_NoTrade = 495187;
+	public const int Premium_Enchantchip_High_NoTrade2 = 495188;
 	public const int Premium_Vakarine = 500000;
 	public const int Steam_NewRankDLC = 500001;
 	public const int Premium_Forever = 500002;
@@ -15410,6 +15446,7 @@ public static class ItemId
 	public const int Egg_Pet_Hedgehog_NoTrade = 649724;
 	public const int Egg_016_Green = 649725;
 	public const int Egg_016_Skyblue_NoTrade = 649726;
+	public const int Egg_Shape_Memory_Snigo_NoTrade = 649727;
 	public const int Jumping_ExpCard_450Lv_Notrade = 664164;
 	public const int Dungeon_Key03 = 689002;
 	public const int Instrument_String = 721045;
@@ -15436,6 +15473,7 @@ public static class ItemId
 	public const int Doll_Furry_Guilty = 900019;
 	public const int Doll_Jellyzele = 900020;
 	public const int Doll_Tiny_2 = 900021;
+	public const int Doll_Little_Glacier = 900022;
 	public const int Gacha_HairAcc_001_Event14d = 900145;
 	public const int Premium_Dungeoncount_Event = 900146;
 	public const int Event_ = 900199;
@@ -15663,6 +15701,8 @@ public static class ItemId
 	public const int Gacha_2023_W_Resale_010 = 1000155;
 	public const int Gacha_Halloween_Animals_Resale_001 = 1000156;
 	public const int Gacha_Halloween_Animals_Resale_010 = 1000157;
+	public const int Gacha_Memory_Of_Snigo_CUBE_001 = 1000158;
+	public const int Gacha_Memory_Of_Snigo_CUBE_010 = 1000159;
 	public const int PersonalHousing_Item_Voucher_1 = 1249900;
 	public const int PersonalHousing_Item_Voucher_2 = 1249901;
 	public const int PersonalHousing_Item_Voucher_3 = 1249902;
@@ -15950,6 +15990,8 @@ public static class ItemId
 	public const int Premium_AbillityArts_Linker19_1d = 2021224;
 	public const int Premium_AbillityArts_Cryomancer32_1d = 2021225;
 	public const int Premium_AbillityArts_Sadhu35_1d = 2021226;
+	public const int Premium_AbillityArts_Char4_23 = 2021227;
+	public const int Premium_AbillityArts_Char4_23_1d = 2021228;
 	public const int GLOBAL_Steam_Lucky_Shard_Package = 2500000;
 	public const int GLOBAL_Steam_Feeling_Lucky_Package = 2500001;
 	public const int GLOBAL_Steam_Lucky_Sub_Box = 2500002;
@@ -18030,10 +18072,15 @@ public static class ItemId
 	public const int Costume_Ep15heartqueen02_M = 11101032;
 	public const int Costume_Ep15heartqueen01_F = 11101033;
 	public const int Costume_Ep15heartqueen02_F = 11101034;
+	public const int Costume_Sniego02_M = 11101035;
+	public const int Costume_Sniego01_M = 11101036;
+	public const int Costume_Sniego02_F = 11101037;
+	public const int Costume_Sniego01_F = 11101038;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Helmet_M_Ep15explorer15 = 11103003;
 	public const int Helmet_F_Ep15explorer15 = 11103004;
+	public const int Sniego_Helmet = 11103005;
 	public const int Wing_Guiltynelaima_1 = 11105001;
 	public const int Wing_Guiltynelaima_2 = 11105002;
 	public const int Wing_Squirrel = 11105003;
@@ -18048,6 +18095,8 @@ public static class ItemId
 	public const int Wing_Slogutis = 11105012;
 	public const int Wing_Slogutis_Glove = 11105013;
 	public const int Wing_Ep15heartqueen = 11105014;
+	public const int Wing_Sniego = 11105015;
+	public const int Wing_Sniego_Snowman = 11105016;
 	public const int Effect_Ep15snowknight_Aurora = 11106001;
 	public const int Effect_Ep15snowknight_Snowflake = 11106002;
 	public const int Effect_Nightrabbit = 11106003;
@@ -18055,6 +18104,7 @@ public static class ItemId
 	public const int Effect_Ep15unicorn = 11106005;
 	public const int Effect_Ep15elf = 11106006;
 	public const int Wing_Char2_160 = 11108001;
+	public const int Wing_Pontifex = 11108005;
 	public const int Unlock_Earring_Belonging_Scroll = 11200002;
 	public const int Ticket_Earring_Raid_1d = 11200003;
 	public const int Ticket_Earring_Raid = 11200004;
@@ -18239,6 +18289,7 @@ public static class ItemId
 	public const int Ectonite_250_Box_Achieve = 11201109;
 	public const int Ectonite_500_Box_Achieve = 11201110;
 	public const int Ectonite_1000_Box_Achieve = 11201111;
+	public const int Sniego_Box_Black = 11201118;
 	public const int Certificate_RidePet_Scooter = 11205001;
 	public const int Give_SpearMaster_Vibora_NoTrade = 11205002;
 	public const int Spearmaster_Standard_Class_Pack = 11205003;
@@ -18331,6 +18382,25 @@ public static class ItemId
 	public const int Tosw_2311_Package_3a = 11205099;
 	public const int Selectbox_Ep15heartqueen01 = 11205101;
 	public const int Selectbox_Ep15heartqueen02 = 11205102;
+	public const int Certificate_RidePet_Shape_Memory_Snigo = 11205103;
+	public const int Leticia_Pontifex_Unlockbox = 11205104;
+	public const int Special_Gift_Box_Leticia_2312 = 11205106;
+	public const int Leticia_Select_Magic_Armor = 11205107;
+	public const int Leticia_Select_Magic_Weapon = 11205108;
+	public const int Leticia_Select_Magic_Subweapon = 11205109;
+	public const int Leticia_Select_Acc1 = 11205110;
+	public const int Leticia_Select_Magic_Weaponset = 11205111;
+	public const int Leticia_Magic_Lv500_Growbox = 11205112;
+	public const int Certificate_RidePet_Falouros = 11205113;
+	public const int I202312_Sniego_Package01 = 11205114;
+	public const int I202312_Sniego_Package02 = 11205115;
+	public const int I202312_Sniego_Package03 = 11205116;
+	public const int I202312_Sniego_Package04 = 11205117;
+	public const int I202312_Sniego_Package05 = 11205118;
+	public const int I202312_Sniego_Package06 = 11205119;
+	public const int Popoboost_2312_Special_Equipment_Box = 11205120;
+	public const int I202312_Papaya_Package01 = 11205121;
+	public const int Special_Gift_Box_Leticia_2312_PAPAYA = 11205122;
 
 	// Quest
 	//-----------------------------------------------------------------------
@@ -22019,6 +22089,8 @@ public static class ItemId
 	public const int ABAND01_149 = 11149;
 	public const int ABAND01_148_Kor = 11150;
 	public const int ABAND01_126_Silver = 11151;
+	public const int Armband_Sniego01 = 11152;
+	public const int Armband_Sniego02 = 11153;
 	public const int DAG01_101 = 111001;
 	public const int DAG01_102 = 111002;
 	public const int DAG01_103 = 111003;
@@ -22591,6 +22663,7 @@ public static class ItemId
 	public const int Guiltynelaima_Dagger = 11104003;
 	public const int EP15_Artefact_002 = 11104008;
 	public const int Ep15elf_Dagger = 11104029;
+	public const int Sniego_Pistol = 11104039;
 	public const int EP15_RAID_DAGGER = 11107010;
 	public const int EP15_RAID_PISTOL = 11107012;
 	public const int EP15_RAID_TRINKET = 11107016;
@@ -25801,6 +25874,10 @@ public static class ItemId
 	public const int Ep15heartqueen_Rapier = 11104032;
 	public const int Ep15heartqueen_Mace = 11104033;
 	public const int Ep15heartqueen_Thsword = 11104034;
+	public const int Sniego_Sword = 11104035;
+	public const int Sniego_Staff = 11104036;
+	public const int Sniego_Crossbow = 11104037;
+	public const int Sniego_Thmace = 11104038;
 	public const int EP15_RAID_SWORD = 11107000;
 	public const int EP15_RAID_THSWORD = 11107001;
 	public const int EP15_RAID_STAFF = 11107002;

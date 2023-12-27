@@ -8556,6 +8556,46 @@
 		public const string POPO_EVENT_STAMP_2312_CHECK16 = "POPO_EVENT_STAMP_2312_CHECK16";
 		public const string POPOBOOST_2312_PROGRESS2 = "POPOBOOST_2312_PROGRESS2";
 		public const string POPO_EVENT_STAMP_2312_CHECK01 = "POPO_EVENT_STAMP_2312_CHECK01";
+		public const string EVENT_2312_8TH_BUFF_COUNT = "EVENT_2312_8TH_BUFF_COUNT";
+		public const string POPO_EVENT_STAMP_2312_COND17 = "POPO_EVENT_STAMP_2312_COND17";
+		public const string POPO_EVENT_STAMP_2312_COND21 = "POPO_EVENT_STAMP_2312_COND21";
+		public const string IndunWeeklyEnteredCount_902 = "IndunWeeklyEnteredCount_902";
+		public const string EVENT_2312_8TH_GACHA_COUNT = "EVENT_2312_8TH_GACHA_COUNT";
+		public const string POPO_EVENT_STAMP_2312_COND19 = "POPO_EVENT_STAMP_2312_COND19";
+		public const string POPO_EVENT_STAMP_2312_CHECK19 = "POPO_EVENT_STAMP_2312_CHECK19";
+		public const string POPO_EVENT_STAMP_2312_COND20 = "POPO_EVENT_STAMP_2312_COND20";
+		public const string POPO_EVENT_STAMP_2312_CHECK22 = "POPO_EVENT_STAMP_2312_CHECK22";
+		public const string HadVisited_11270 = "HadVisited_11270";
+		public const string POPO_EVENT_STAMP_2312_COND18 = "POPO_EVENT_STAMP_2312_COND18";
+		public const string HaveEmoticon_163 = "HaveEmoticon_163";
+		public const string POPO_EVENT_STAMP_2312_CHECK17 = "POPO_EVENT_STAMP_2312_CHECK17";
+		public const string HaveEmoticon_162 = "HaveEmoticon_162";
+		public const string HadVisited_11269 = "HadVisited_11269";
+		public const string POPO_EVENT_STAMP_2312_CHECK18 = "POPO_EVENT_STAMP_2312_CHECK18";
+		public const string InDunCountType_902 = "InDunCountType_902";
+		public const string POPO_EVENT_STAMP_2312_CHECK21 = "POPO_EVENT_STAMP_2312_CHECK21";
+		public const string POPO_EVENT_STAMP_2312_COND22 = "POPO_EVENT_STAMP_2312_COND22";
+		public const string POPO_EVENT_STAMP_2312_CHECK20 = "POPO_EVENT_STAMP_2312_CHECK20";
+		public const string dress_costume_sniego01_f = "dress_costume_sniego01_f";
+		public const string costume_sniego_theme = "costume_sniego_theme";
+		public const string dress_costume_sniego02_f = "dress_costume_sniego02_f";
+		public const string sniego_pistol_cabinet = "sniego_pistol_cabinet";
+		public const string dress_costume_sniego01_m = "dress_costume_sniego01_m";
+		public const string sniego_staff_cabinet = "sniego_staff_cabinet";
+		public const string sniego_crossbow_cabinet = "sniego_crossbow_cabinet";
+		public const string dress_costume_sniego02_m = "dress_costume_sniego02_m";
+		public const string sniego_thmace_cabinet = "sniego_thmace_cabinet";
+		public const string sniego_sword_cabinet = "sniego_sword_cabinet";
+		public const string EVENT_2312_8TH_ANNIVERSARY_18 = "EVENT_2312_8TH_ANNIVERSARY_18";
+		public const string EVENT_2312_8TH_ANNIVERSARY_22 = "EVENT_2312_8TH_ANNIVERSARY_22";
+		public const string EVENT_2312_8TH_ANNIVERSARY_20 = "EVENT_2312_8TH_ANNIVERSARY_20";
+		public const string EVENT_2312_8TH_ANNIVERSARY_21 = "EVENT_2312_8TH_ANNIVERSARY_21";
+		public const string EVENT_2312_8TH_ANNIVERSARY_23 = "EVENT_2312_8TH_ANNIVERSARY_23";
+		public const string EVENT_2312_8TH_ANNIVERSARY_19 = "EVENT_2312_8TH_ANNIVERSARY_19";
+		public const string EVENT_2312_8TH_ANNIVERSARY_24 = "EVENT_2312_8TH_ANNIVERSARY_24";
+		public const string HaveEmoticon_165 = "HaveEmoticon_165";
+		public const string HaveEmoticon_164 = "HaveEmoticon_164";
+		public const string ContentsTotalShop_2312_1 = "ContentsTotalShop_2312_1";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -9385,6 +9425,7 @@
 		public const string popoboost = "popoboost";
 		public const string EnchantItemRankCount = "EnchantItemRankCount";
 		public const string EnchantItemRank = "EnchantItemRank";
+		public const string RepairPricFRatio = "RepairPricFRatio";
 
 		// Monster
 		public const string MonDmgRate = "MonDmgRate";
@@ -19346,6 +19387,8 @@
 		public const string HiddenJob_Char4_23 = "HiddenJob_Char4_23";
 		public const string EVENT_2312_POPOBOOST_MAX_GEARSCORE = "EVENT_2312_POPOBOOST_MAX_GEARSCORE";
 		public const string popoboost_2312_participate = "popoboost_2312_participate";
+		public const string Kill_event_boss_pbeta = "Kill_event_boss_pbeta";
+		public const string Kill_event_boss_snigo = "Kill_event_boss_snigo";
 
 		// SessionObject
 		public const string PosX = "PosX";
@@ -27197,6 +27240,7 @@
 		public const string MG_Last_FallenDragoon_Guild_Raid_Block = "MG_Last_FallenDragoon_Guild_Raid_Block";
 		public const string MG_Last_Event2023_Moon_Rabbit = "MG_Last_Event2023_Moon_Rabbit";
 		public const string MG_Last_BridgeWailing_Dimension_Party = "MG_Last_BridgeWailing_Dimension_Party";
+		public const string MG_Last_EVENT_2023_SNIGO_DUNGEON = "MG_Last_EVENT_2023_SNIGO_DUNGEON";
 
 		// Skill
 		public const string Tooltip_Attr = "Tooltip_Attr";

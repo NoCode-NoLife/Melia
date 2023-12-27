@@ -244,4 +244,5 @@
 { classId: 257, className: "POPOBOOST_REAWRD_REQUEST", type: "ItemArg", script: "SCR_POPOBOOST_REAWRD_LIST_REQUEST" },
 { classId: 258, className: "POPOBOOST_PARTICIPATE_EVENT", type: "ItemArg", script: "SCR_POPOBOOST_PARTICIPATE_EVENT" },
 { classId: 259, className: "POPOBOOST_PREMIUN_APPLY", type: "ItemArg", script: "SCR_POPOBOOST_PREMIUN_APPLY" },
+{ classId: 261, className: "THEMA_RECYCLE_SHOP_SELL", type: "ItemList", script: "SCR_TX_THEMA_RECYCLE_SELL" },
 ]
