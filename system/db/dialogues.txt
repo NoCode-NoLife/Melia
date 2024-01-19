@@ -6,8 +6,11 @@
 
 [
 { classId: 1, className: "EP13_F_SIAULIAI_2_SQ_02_3_1" },
+{ classId: 2, className: "QUEST_TEST1_DLG01" },
 { classId: 3, className: "MASTER_TIGERHUNTER_NPC_basic1" },
+{ classId: 4, className: "QUEST_TEST1_DLG02" },
 { classId: 5, className: "MASTER_MATROSS_NPC_basic1" },
+{ classId: 6, className: "QUEST_TEST1_DLG04" },
 { classId: 7, className: "MASTER_ARDITI_NPC_basic1" },
 { classId: 9, className: "MASTER_SHERIFF_NPC_basic1" },
 { classId: 12, className: "GM_QUEST_MODIFY_PC_SEL" },
@@ -17027,6 +17030,7 @@
 { classId: 4620113, className: "UQ_Char1_24_AllClear_DLG" },
 { classId: 4620114, className: "UQ_Char3_23_AllClear_DLG" },
 { classId: 4620115, className: "MASTER_PONTIFEX_NPC_basic1" },
+{ classId: 4620116, className: "MASTER_ILLUSIONIST_NPC_basic1" },
 { classId: 4791000, className: "CORAL_44_2_MAN3_BASIC" },
 { classId: 4791001, className: "FLIBRARY482_VIDA_NPC_BASIC" },
 { classId: 4791002, className: "FLIBRARY482_SVAJA_NPC_BASIC" },
@@ -18490,6 +18494,7 @@
 { classId: 5651106, className: "EVENT_2312_8TH_ANI_DLG3" },
 { classId: 5651107, className: "EVENT_2312_8TH_ANI_LITTLE" },
 { classId: 5651201, className: "W_SNIGO_START_NPC_MSG" },
+{ classId: 5651301, className: "W_2024_NEW_YEAR_START_NPC_MSG" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

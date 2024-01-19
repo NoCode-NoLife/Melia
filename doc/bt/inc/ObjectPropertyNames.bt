@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i380660
+//   Version: i381490
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -28729,6 +28729,51 @@ string getPropertyName(int id)
         case 114518: return "HaveEmoticon_165";
         case 114519: return "HaveEmoticon_164";
         case 114520: return "ContentsTotalShop_2312_1";
+        case 114521: return "HiddenJob_Char2_25";
+        case 114522: return "GEM_Illusionist_MagicalIllusion";
+        case 114523: return "GEM_Illusionist_IllusionSword";
+        case 114524: return "TSF04_129_12_cabinet";
+        case 114525: return "TSF04_129_12_cabinet_upgrade";
+        case 114526: return "GEM_Illusionist_IllusionBlast";
+        case 114527: return "UnlockQuest_Char2_25";
+        case 114528: return "GEM_Illusionist_IllusionArmor";
+        case 114529: return "GEM_Illusionist_Flood";
+        case 114530: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_98";
+        case 114531: return "GEM_Illusionist_Nightmare";
+        case 114532: return "EngNamAe";
+        case 114533: return "EVENT_2401_NEWYEAR_13";
+        case 114534: return "EVENT_2401_NEWYEAR_11";
+        case 114535: return "EVENT_2401_NEWYEAR_5";
+        case 114536: return "EVENT_2401_NEWYEAR_17";
+        case 114537: return "EVENT_2401_NEWYEAR_4";
+        case 114538: return "EVENT_2401_NEWYEAR_6";
+        case 114539: return "EVENT_2401_NEWYEAR_9";
+        case 114540: return "EVENT_2401_NEWYEAR_10";
+        case 114541: return "EVENT_2401_NEWYEAR_12";
+        case 114542: return "EVENT_2401_NEWYEAR_1";
+        case 114543: return "EVENT_2401_NEWYEAR_8";
+        case 114544: return "EVENT_2401_NEWYEAR_7";
+        case 114545: return "EVENT_2401_NEWYEAR_15";
+        case 114546: return "EVENT_2401_NEWYEAR_14";
+        case 114547: return "EVENT_2401_NEWYEAR_16";
+        case 114548: return "EVENT_2401_NEWYEAR_18";
+        case 114549: return "EVENT_2401_NEWYEAR_3";
+        case 114550: return "EVENT_2401_NEWYEAR_2";
+        case 114551: return "InDunCountType_903";
+        case 114552: return "EVENT_2401_NEWYEAR_25";
+        case 114553: return "IndunWeeklyEnteredCount_903";
+        case 114554: return "EVENT_2401_NEWYEAR_20";
+        case 114555: return "EVENT_2401_NEWYEAR_23";
+        case 114556: return "EVENT_2401_NEWYEAR_19";
+        case 114557: return "EVENT_2401_NEWYEAR_21";
+        case 114558: return "EVENT_2401_NEWYEAR_24";
+        case 114559: return "EVENT_2401_NEWYEAR_22";
+        case 114560: return "IndunWeeklyEnteredCount_903";
+        case 114561: return "Kill_event_2024_newyear_boss_pbeta";
+        case 114562: return "InDunCountType_903";
+        case 114563: return "Kill_event_2024_newyear_boss_snigo";
+        case 114564: return "MG_Last_EVENT_2024_NEW_YEAR_DUNGEON";
+        case 114565: return "EVENT_2401_NEWYEAR_WEEKLY_COIN_CNT";
         default: return "Unknown";
     }
 }

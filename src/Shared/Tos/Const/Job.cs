@@ -48,6 +48,7 @@ namespace Melia.Shared.Tos.Const
 		Bokor = 2022,
 		Terramancer = 2023,
 		Keraunos = 2024,
+		Illusionist = 2025,
 
 		// Archer
 		Archer = 3001,

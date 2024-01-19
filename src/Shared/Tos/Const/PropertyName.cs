@@ -8596,6 +8596,44 @@
 		public const string HaveEmoticon_165 = "HaveEmoticon_165";
 		public const string HaveEmoticon_164 = "HaveEmoticon_164";
 		public const string ContentsTotalShop_2312_1 = "ContentsTotalShop_2312_1";
+		public const string GEM_Illusionist_MagicalIllusion = "GEM_Illusionist_MagicalIllusion";
+		public const string GEM_Illusionist_IllusionSword = "GEM_Illusionist_IllusionSword";
+		public const string TSF04_129_12_cabinet = "TSF04_129_12_cabinet";
+		public const string TSF04_129_12_cabinet_upgrade = "TSF04_129_12_cabinet_upgrade";
+		public const string GEM_Illusionist_IllusionBlast = "GEM_Illusionist_IllusionBlast";
+		public const string UnlockQuest_Char2_25 = "UnlockQuest_Char2_25";
+		public const string GEM_Illusionist_IllusionArmor = "GEM_Illusionist_IllusionArmor";
+		public const string GEM_Illusionist_Flood = "GEM_Illusionist_Flood";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_98 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_98";
+		public const string GEM_Illusionist_Nightmare = "GEM_Illusionist_Nightmare";
+		public const string EVENT_2401_NEWYEAR_13 = "EVENT_2401_NEWYEAR_13";
+		public const string EVENT_2401_NEWYEAR_11 = "EVENT_2401_NEWYEAR_11";
+		public const string EVENT_2401_NEWYEAR_5 = "EVENT_2401_NEWYEAR_5";
+		public const string EVENT_2401_NEWYEAR_17 = "EVENT_2401_NEWYEAR_17";
+		public const string EVENT_2401_NEWYEAR_4 = "EVENT_2401_NEWYEAR_4";
+		public const string EVENT_2401_NEWYEAR_6 = "EVENT_2401_NEWYEAR_6";
+		public const string EVENT_2401_NEWYEAR_9 = "EVENT_2401_NEWYEAR_9";
+		public const string EVENT_2401_NEWYEAR_10 = "EVENT_2401_NEWYEAR_10";
+		public const string EVENT_2401_NEWYEAR_12 = "EVENT_2401_NEWYEAR_12";
+		public const string EVENT_2401_NEWYEAR_1 = "EVENT_2401_NEWYEAR_1";
+		public const string EVENT_2401_NEWYEAR_8 = "EVENT_2401_NEWYEAR_8";
+		public const string EVENT_2401_NEWYEAR_7 = "EVENT_2401_NEWYEAR_7";
+		public const string EVENT_2401_NEWYEAR_15 = "EVENT_2401_NEWYEAR_15";
+		public const string EVENT_2401_NEWYEAR_14 = "EVENT_2401_NEWYEAR_14";
+		public const string EVENT_2401_NEWYEAR_16 = "EVENT_2401_NEWYEAR_16";
+		public const string EVENT_2401_NEWYEAR_18 = "EVENT_2401_NEWYEAR_18";
+		public const string EVENT_2401_NEWYEAR_3 = "EVENT_2401_NEWYEAR_3";
+		public const string EVENT_2401_NEWYEAR_2 = "EVENT_2401_NEWYEAR_2";
+		public const string InDunCountType_903 = "InDunCountType_903";
+		public const string EVENT_2401_NEWYEAR_25 = "EVENT_2401_NEWYEAR_25";
+		public const string IndunWeeklyEnteredCount_903 = "IndunWeeklyEnteredCount_903";
+		public const string EVENT_2401_NEWYEAR_20 = "EVENT_2401_NEWYEAR_20";
+		public const string EVENT_2401_NEWYEAR_23 = "EVENT_2401_NEWYEAR_23";
+		public const string EVENT_2401_NEWYEAR_19 = "EVENT_2401_NEWYEAR_19";
+		public const string EVENT_2401_NEWYEAR_21 = "EVENT_2401_NEWYEAR_21";
+		public const string EVENT_2401_NEWYEAR_24 = "EVENT_2401_NEWYEAR_24";
+		public const string EVENT_2401_NEWYEAR_22 = "EVENT_2401_NEWYEAR_22";
+		public const string EVENT_2401_NEWYEAR_WEEKLY_COIN_CNT = "EVENT_2401_NEWYEAR_WEEKLY_COIN_CNT";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -19389,6 +19427,9 @@
 		public const string popoboost_2312_participate = "popoboost_2312_participate";
 		public const string Kill_event_boss_pbeta = "Kill_event_boss_pbeta";
 		public const string Kill_event_boss_snigo = "Kill_event_boss_snigo";
+		public const string HiddenJob_Char2_25 = "HiddenJob_Char2_25";
+		public const string Kill_event_2024_newyear_boss_pbeta = "Kill_event_2024_newyear_boss_pbeta";
+		public const string Kill_event_2024_newyear_boss_snigo = "Kill_event_2024_newyear_boss_snigo";
 
 		// SessionObject
 		public const string PosX = "PosX";
@@ -27241,6 +27282,7 @@
 		public const string MG_Last_Event2023_Moon_Rabbit = "MG_Last_Event2023_Moon_Rabbit";
 		public const string MG_Last_BridgeWailing_Dimension_Party = "MG_Last_BridgeWailing_Dimension_Party";
 		public const string MG_Last_EVENT_2023_SNIGO_DUNGEON = "MG_Last_EVENT_2023_SNIGO_DUNGEON";
+		public const string MG_Last_EVENT_2024_NEW_YEAR_DUNGEON = "MG_Last_EVENT_2024_NEW_YEAR_DUNGEON";
 
 		// Skill
 		public const string Tooltip_Attr = "Tooltip_Attr";
@@ -27406,6 +27448,7 @@
 		public const string Frame = "Frame";
 		public const string CaptionRatio4 = "CaptionRatio4";
 		public const string maxChargeTime = "maxChargeTime";
+		public const string EngNamAe = "EngNamAe";
 
 		// ZoneObject
 		public const string UNDERF593_TYPED_2 = "UNDERF593_TYPED_2";
