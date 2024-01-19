@@ -107,7 +107,7 @@ namespace Melia.Shared.Network
 		public const int ZC_RESET_VIEW = 0xBC5; // Size: 10
 		public const int ZC_START_GAME = 0xBC6; // Size: 31
 		public const int ZC_QUIET = 0xBC7; // Size: 11
-		public const int ZC_ENTER_PC = 0xC1D; // Size: 590
+		public const int ZC_ENTER_PC = 0xC1D; // Size: 591
 		public const int ZC_ENTER_MONSTER = 0xC1E; // Size: 0
 		public const int ZC_ENTER_DUMMYPC = 0xC1F; // Size: 544
 		public const int ZC_UPDATED_DUMMYPC = 0xC20; // Size: 502
@@ -1338,7 +1338,7 @@ namespace Melia.Shared.Network
 			Sizes[ZC_RESET_VIEW] = 10;
 			Sizes[ZC_START_GAME] = 31;
 			Sizes[ZC_QUIET] = 11;
-			Sizes[ZC_ENTER_PC] = 590;
+			Sizes[ZC_ENTER_PC] = 591;
 			Sizes[ZC_ENTER_MONSTER] = 0;
 			Sizes[ZC_ENTER_DUMMYPC] = 544;
 			Sizes[ZC_UPDATED_DUMMYPC] = 502;

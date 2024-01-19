@@ -156,6 +156,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(405494.3f);
 			packet.PutByte(0);
 
+			// [i381490 (2023-12-XX)]
+			// The new byte should be either this or the previous one.
+			packet.PutByte(0);
+
 			conn.Send(packet);
 		}
 
