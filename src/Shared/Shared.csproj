@@ -94,6 +94,7 @@
     <Compile Include="Data\Database\ResurrectionPoints.cs" />
     <Compile Include="Data\Database\Recipes.cs" />
     <Compile Include="Data\Database\SystemMessages.cs" />
+    <Compile Include="Data\PropertizedData.cs" />
     <Compile Include="IES\IesModClass.cs" />
     <Compile Include="IES\IesModGroup.cs" />
     <Compile Include="IES\IesModList.cs" />
