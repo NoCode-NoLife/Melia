@@ -65,5 +65,26 @@ namespace Melia.Shared.IES
 			var change = new IesModPropertyChange(revision, oldValue, newValue, "Melia", DateTime.Now, "Change by server");
 			prop.Changes.Add(change);
 		}
+
+		/// <summary>
+		/// Adds the given change to the list without any checks 
+		/// </summary>
+		/// <param name="namespaceName"></param>
+		/// <param name="classId"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="change"></param>
+		public void AddUnsafe(string namespaceName, int classId, string propertyName, IesModPropertyChange change)
+		{
+			if (!this.Mods.TryGetValue(namespaceName, out var group))
+				this.Mods[namespaceName] = group = new IesModGroup(namespaceName);
+
+			if (!group.Classes.TryGetValue(classId, out var cls))
+				group.Classes[classId] = cls = new IesModClass(classId);
+
+			if (!cls.Properties.TryGetValue(propertyName, out var prop))
+				cls.Properties[propertyName] = prop = new IesModProperty(propertyName);
+
+			prop.Changes.Add(change);
+		}
 	}
 }

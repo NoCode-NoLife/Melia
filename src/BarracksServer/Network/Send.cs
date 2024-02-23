@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Barracks.Database;
-using Melia.Shared.IES;
 using Melia.Barracks.Network.Helpers;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.Tos.Const;
-using Melia.Shared.World;
 using Yggdrasil.Extensions;
 
 namespace Melia.Barracks.Network
@@ -357,10 +353,16 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_IES_MODIFY_LIST(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_IES_MODIFY_LIST);
-			packet.AddIesModList(BarracksServer.Instance.IesMods);
+			var allMods = BarracksServer.Instance.IesMods;
+			var modLists = IesHelper.BuildModLists(allMods);
 
-			conn.Send(packet);
+			foreach (var modList in modLists)
+			{
+				var packet = new Packet(Op.BC_IES_MODIFY_LIST);
+				packet.AddIesModList(modList);
+
+				conn.Send(packet);
+			}
 		}
 	}
 }

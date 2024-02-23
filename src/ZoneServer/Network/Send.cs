@@ -23,6 +23,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -2044,10 +2045,16 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		public static void ZC_IES_MODIFY_LIST(IZoneConnection conn)
 		{
-			var packet = new Packet(Op.ZC_IES_MODIFY_LIST);
-			packet.AddIesModList(ZoneServer.Instance.IesMods);
+			var allMods = ZoneServer.Instance.IesMods;
+			var modLists = IesHelper.BuildModLists(allMods);
 
-			conn.Send(packet);
+			foreach (var modList in modLists)
+			{
+				var packet = new Packet(Op.ZC_IES_MODIFY_LIST);
+				packet.AddIesModList(modList);
+
+				conn.Send(packet);
+			}
 		}
 
 		/// <summary>
