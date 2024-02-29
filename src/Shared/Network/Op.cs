@@ -1200,6 +1200,7 @@ namespace Melia.Shared.Network
 		public const int ZC_OFF_AFTER_IMAGE = 0x1069; // Size: 14
 		public const int ZC_SEND_NONE_TARGETING_LIST = 0x106A; // Size: 0
 		public const int ZC_UNITY_GROUND_EFFECT = 0x106B; // Size: 59
+		public const int ZC_MON_LEADER_SHOW_ICON = 0x106C; // Size: 531
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -2431,6 +2432,7 @@ namespace Melia.Shared.Network
 			Sizes[ZC_OFF_AFTER_IMAGE] = 14;
 			Sizes[ZC_SEND_NONE_TARGETING_LIST] = 0;
 			Sizes[ZC_UNITY_GROUND_EFFECT] = 59;
+			Sizes[ZC_MON_LEADER_SHOW_ICON] = 531;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;
