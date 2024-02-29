@@ -1562,6 +1562,13 @@ namespace Melia.Shared.Tos.Const
 		Pontifex_Evangelism = 4303,
 		Pontifex_Gospel = 4304,
 		Pontifex_Didache = 4305,
+		WingedHussars_CircleWings = 4306,
+		WingedHussars_RisingWings = 4307,
+		WingedHussars_GiantWings = 4308,
+		WingedHussars_WindPulse = 4309,
+		WingedHussars_ImpulseSpears = 4310,
+		WingedHussars_BattleSpirit = 4311,
+		WingedHussars_ExplosionSpears = 4312,
 		Illusion_Bolt = 4359,
 		Illusion_Slash = 4360,
 	}

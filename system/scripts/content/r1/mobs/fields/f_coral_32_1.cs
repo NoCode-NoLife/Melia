@@ -13,17 +13,29 @@ public class FCoral321MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Ep16_1_Greentoshell, Properties("MHP", 62078216, "MINPATK", 200000, "MAXPATK", 200000, "MINMATK", 200000, "MAXMATK", 200000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Ep16_1_Lapasape_Mage_Blue, Properties("MHP", 62078216, "MINPATK", 200000, "MAXPATK", 200000, "MINMATK", 200000, "MAXMATK", 200000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Ep16_1_Terranymph_Blue, Properties("MHP", 62078216, "MINPATK", 140000, "MAXPATK", 140000, "MINMATK", 140000, "MAXMATK", 140000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Ep16_1_Leader_Carapace, Properties("MHP", 216234656, "MINPATK", 180000, "MAXPATK", 180000, "MINMATK", 180000, "MAXMATK", 180000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Ep16_1_Leader_Canceril, Properties("MHP", 216234656, "MINPATK", 180000, "MAXPATK", 180000, "MINMATK", 180000, "MAXMATK", 180000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Boss_Merregina_Despair_Q1, Properties("MHP", 316234656, "MINPATK", 180000, "MAXPATK", 180000, "MINMATK", 180000, "MAXMATK", 180000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Boss_Carapace_Q1, Properties("MHP", 316234656, "MINPATK", 180000, "MAXPATK", 180000, "MINMATK", 180000, "MAXMATK", 180000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.Greentoshell, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5000000, "MDEF", 5000000));
+		AddPropertyOverrides("f_coral_32_1", MonsterId.TerraNymph_Blue, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5000000, "MDEF", 5000000));
+
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_coral_32_1.Id1", MonsterId.TerraNymph_Blue, min: 12, max: 15);
-		AddSpawner("f_coral_32_1.Id2", MonsterId.Greentoshell, min: 53, max: 70);
-		AddSpawner("f_coral_32_1.Id3", MonsterId.Lapasape_Mage_Blue, min: 12, max: 15);
+		AddSpawner("f_coral_32_1.Id1", MonsterId.Ep16_1_Terranymph_Blue, min: 12, max: 15);
+		AddSpawner("f_coral_32_1.Id2", MonsterId.Ep16_1_Greentoshell, min: 53, max: 70);
+		AddSpawner("f_coral_32_1.Id3", MonsterId.Ep16_1_Lapasape_Mage_Blue, min: 12, max: 15);
 		AddSpawner("f_coral_32_1.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_coral_32_1.Id5", MonsterId.Greentoshell, min: 6, max: 7);
+		AddSpawner("f_coral_32_1.Id5", MonsterId.Ep16_1_Greentoshell, min: 6, max: 7);
 
 		// Monster Spawn Points -----------------------------
 
-		// 'TerraNymph_Blue' GenType 2 Spawn Points
+		// 'Ep16_1_Terranymph_Blue' GenType 2 Spawn Points
 		AddSpawnPoint("f_coral_32_1.Id1", "f_coral_32_1", Rectangle(428, -832, 25));
 		AddSpawnPoint("f_coral_32_1.Id1", "f_coral_32_1", Rectangle(957, -284, 25));
 		AddSpawnPoint("f_coral_32_1.Id1", "f_coral_32_1", Rectangle(905, -473, 25));
@@ -47,7 +59,7 @@ public class FCoral321MobScript : GeneralScript
 		AddSpawnPoint("f_coral_32_1.Id1", "f_coral_32_1", Rectangle(-229, -229, 25));
 		AddSpawnPoint("f_coral_32_1.Id1", "f_coral_32_1", Rectangle(1294, 863, 25));
 
-		// 'Greentoshell' GenType 3 Spawn Points
+		// 'Ep16_1_Greentoshell' GenType 3 Spawn Points
 		AddSpawnPoint("f_coral_32_1.Id2", "f_coral_32_1", Rectangle(434, -812, 25));
 		AddSpawnPoint("f_coral_32_1.Id2", "f_coral_32_1", Rectangle(539, 142, 25));
 		AddSpawnPoint("f_coral_32_1.Id2", "f_coral_32_1", Rectangle(76, 145, 25));
@@ -125,7 +137,7 @@ public class FCoral321MobScript : GeneralScript
 		AddSpawnPoint("f_coral_32_1.Id2", "f_coral_32_1", Rectangle(218, -984, 25));
 		AddSpawnPoint("f_coral_32_1.Id2", "f_coral_32_1", Rectangle(404, -903, 25));
 
-		// 'Lapasape_Mage_Blue' GenType 4 Spawn Points
+		// 'Ep16_1_Lapasape_Mage_Blue' GenType 4 Spawn Points
 		AddSpawnPoint("f_coral_32_1.Id3", "f_coral_32_1", Rectangle(457, -984, 25));
 		AddSpawnPoint("f_coral_32_1.Id3", "f_coral_32_1", Rectangle(809, -354, 25));
 		AddSpawnPoint("f_coral_32_1.Id3", "f_coral_32_1", Rectangle(396, 267, 25));
@@ -163,7 +175,7 @@ public class FCoral321MobScript : GeneralScript
 		AddSpawnPoint("f_coral_32_1.Id4", "f_coral_32_1", Rectangle(33, 308, 150));
 		AddSpawnPoint("f_coral_32_1.Id4", "f_coral_32_1", Rectangle(-567, -264, 150));
 
-		// 'Greentoshell' GenType 33 Spawn Points
+		// 'Ep16_1_Greentoshell' GenType 33 Spawn Points
 		AddSpawnPoint("f_coral_32_1.Id5", "f_coral_32_1", Rectangle(-384, -17, 25));
 		AddSpawnPoint("f_coral_32_1.Id5", "f_coral_32_1", Rectangle(-387, -183, 25));
 		AddSpawnPoint("f_coral_32_1.Id5", "f_coral_32_1", Rectangle(-627, -180, 25));

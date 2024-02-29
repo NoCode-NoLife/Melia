@@ -392,6 +392,25 @@
 { category: "SpearMaster", classId: 802, abilityId: 123019, jobId: 1024, className: "SpearMaster19", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char1_24", argNum: 45 } },
 { category: "SpearMaster", classId: 403, abilityId: 123020, jobId: 1024, className: "SpearMaster20", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_LUCHADOR_SUBSKILL_COND", argStr: "SpearMaster_SwiftMove", argNum: 1 } },
 
+// WingedHussars
+//---------------------------------------------------------------------------
+{ category: "WingedHussars", classId: 101, abilityId: 124001, jobId: 1025, className: "WingedHussars1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_CircleWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 102, abilityId: 124002, jobId: 1025, className: "WingedHussars2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_RisingWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 103, abilityId: 124003, jobId: 1025, className: "WingedHussars3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_GiantWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 104, abilityId: 124004, jobId: 1025, className: "WingedHussars4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_WindPulse", argNum: 1 } },
+{ category: "WingedHussars", classId: 1001, abilityId: 124005, jobId: 1025, className: "WingedHussars100", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars1", argNum: 65 } },
+{ category: "WingedHussars", classId: 1002, abilityId: 124006, jobId: 1025, className: "WingedHussars101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars2", argNum: 65 } },
+{ category: "WingedHussars", classId: 1003, abilityId: 124007, jobId: 1025, className: "WingedHussars102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars3", argNum: 65 } },
+{ category: "WingedHussars", classId: 1004, abilityId: 124008, jobId: 1025, className: "WingedHussars103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars4", argNum: 65 } },
+{ category: "WingedHussars", classId: 105, abilityId: 124009, jobId: 1025, className: "WingedHussars5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ImpulseSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 106, abilityId: 124010, jobId: 1025, className: "WingedHussars7", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ExplosionSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 1005, abilityId: 124011, jobId: 1025, className: "WingedHussars105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars5", argNum: 65 } },
+{ category: "WingedHussars", classId: 1006, abilityId: 124012, jobId: 1025, className: "WingedHussars107", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars7", argNum: 65 } },
+{ category: "WingedHussars", classId: 501, abilityId: 124013, jobId: 1025, className: "WingedHussars50", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ExplosionSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 502, abilityId: 124014, jobId: 1025, className: "WingedHussars51", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_BattleSpirit", argNum: 1 } },
+{ category: "WingedHussars", classId: 107, abilityId: 124015, jobId: 1025, className: "WingedHussars8", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_GiantWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 108, abilityId: 124016, jobId: 1025, className: "WingedHussars9", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_RisingWings", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },

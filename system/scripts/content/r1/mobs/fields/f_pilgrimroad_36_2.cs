@@ -13,13 +13,29 @@ public class FPilgrimroad362MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Tucen, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Gravegolem, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Hogma_Sorcerer, Properties("MHP", 62078216, "MINPATK", 182000, "MAXPATK", 182000, "MINMATK", 182000, "MAXMATK", 182000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Ticen, Properties("MHP", 62078216, "MINPATK", 182000, "MAXPATK", 182000, "MINMATK", 182000, "MAXMATK", 182000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Leader_Durahan, Properties("MHP", 281105056, "MINPATK", 234000, "MAXPATK", 234000, "MINMATK", 234000, "MAXMATK", 234000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Ep16_1_Leader_Unicorn, Properties("MHP", 281105056, "MINPATK", 234000, "MAXPATK", 234000, "MINMATK", 234000, "MAXMATK", 234000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Boss_Grimreaper_Q2, Properties("MHP", 411105056, "MINPATK", 234000, "MAXPATK", 234000, "MINMATK", 234000, "MAXMATK", 234000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Boss_Necrovanter_Q4, Properties("MHP", 411105056, "MINPATK", 234000, "MAXPATK", 234000, "MINMATK", 234000, "MAXMATK", 234000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Sec_Tucen, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Sec_Ticen, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Sec_Gravegolem, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Sec_Hogma_Sorcerer, Properties("MHP", 62078216, "MINPATK", 221000, "MAXPATK", 221000, "MINMATK", 221000, "MAXMATK", 221000, "DEF", 5850000, "MDEF", 5850000));
+		AddPropertyOverrides("f_pilgrimroad_36_2", MonsterId.Boss_Fireload_Q1, Properties("MHP", 411105056, "MINPATK", 234000, "MAXPATK", 234000, "MINMATK", 234000, "MAXMATK", 234000, "DEF", 5850000, "MDEF", 5850000));
+
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_36_2.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_pilgrimroad_36_2.Id2", MonsterId.Sec_Ticen, min: 23, max: 30);
-		AddSpawner("f_pilgrimroad_36_2.Id3", MonsterId.Sec_Tucen, min: 23, max: 30);
-		AddSpawner("f_pilgrimroad_36_2.Id4", MonsterId.Sec_Gravegolem, min: 23, max: 30);
-		AddSpawner("f_pilgrimroad_36_2.Id5", MonsterId.Sec_Hogma_Sorcerer, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_36_2.Id2", MonsterId.Ep16_1_Ticen, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_36_2.Id3", MonsterId.Ep16_1_Tucen, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_36_2.Id4", MonsterId.Ep16_1_Gravegolem, min: 23, max: 30);
+		AddSpawner("f_pilgrimroad_36_2.Id5", MonsterId.Ep16_1_Hogma_Sorcerer, min: 23, max: 30);
 
 		// Monster Spawn Points -----------------------------
 
@@ -36,7 +52,7 @@ public class FPilgrimroad362MobScript : GeneralScript
 		AddSpawnPoint("f_pilgrimroad_36_2.Id1", "f_pilgrimroad_36_2", Rectangle(-324, 1016, 20));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id1", "f_pilgrimroad_36_2", Rectangle(-1124, 1163, 20));
 
-		// 'Sec_Ticen' GenType 24 Spawn Points
+		// 'Ep16_1_Ticen' GenType 24 Spawn Points
 		AddSpawnPoint("f_pilgrimroad_36_2.Id2", "f_pilgrimroad_36_2", Rectangle(-212, 53, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id2", "f_pilgrimroad_36_2", Rectangle(-30, 19, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id2", "f_pilgrimroad_36_2", Rectangle(39, 580, 30));
@@ -62,7 +78,7 @@ public class FPilgrimroad362MobScript : GeneralScript
 		AddSpawnPoint("f_pilgrimroad_36_2.Id2", "f_pilgrimroad_36_2", Rectangle(354, 1194, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id2", "f_pilgrimroad_36_2", Rectangle(719, 1095, 30));
 
-		// 'Sec_Tucen' GenType 27 Spawn Points
+		// 'Ep16_1_Tucen' GenType 27 Spawn Points
 		AddSpawnPoint("f_pilgrimroad_36_2.Id3", "f_pilgrimroad_36_2", Rectangle(1223, -528, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id3", "f_pilgrimroad_36_2", Rectangle(479, -36, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id3", "f_pilgrimroad_36_2", Rectangle(580, -148, 30));
@@ -95,7 +111,7 @@ public class FPilgrimroad362MobScript : GeneralScript
 		AddSpawnPoint("f_pilgrimroad_36_2.Id3", "f_pilgrimroad_36_2", Rectangle(806, 1108, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id3", "f_pilgrimroad_36_2", Rectangle(736, 973, 30));
 
-		// 'Sec_Gravegolem' GenType 28 Spawn Points
+		// 'Ep16_1_Gravegolem' GenType 28 Spawn Points
 		AddSpawnPoint("f_pilgrimroad_36_2.Id4", "f_pilgrimroad_36_2", Rectangle(-1062, -370, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id4", "f_pilgrimroad_36_2", Rectangle(-877, -200, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id4", "f_pilgrimroad_36_2", Rectangle(-905, -321, 30));
@@ -124,7 +140,7 @@ public class FPilgrimroad362MobScript : GeneralScript
 		AddSpawnPoint("f_pilgrimroad_36_2.Id4", "f_pilgrimroad_36_2", Rectangle(-1097, 374, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id4", "f_pilgrimroad_36_2", Rectangle(-1048, 200, 30));
 
-		// 'Sec_Hogma_Sorcerer' GenType 29 Spawn Points
+		// 'Ep16_1_Hogma_Sorcerer' GenType 29 Spawn Points
 		AddSpawnPoint("f_pilgrimroad_36_2.Id5", "f_pilgrimroad_36_2", Rectangle(-463, 1016, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id5", "f_pilgrimroad_36_2", Rectangle(-390, 1099, 30));
 		AddSpawnPoint("f_pilgrimroad_36_2.Id5", "f_pilgrimroad_36_2", Rectangle(-1018, 371, 30));

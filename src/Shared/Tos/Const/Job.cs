@@ -26,6 +26,7 @@ namespace Melia.Shared.Tos.Const
 		BlossomBlader = 1022,
 		Luchador = 1023,
 		Shenji = 1024,
+		WingedHussar = 1025,
 
 		// Wizard
 		Wizard = 2001,

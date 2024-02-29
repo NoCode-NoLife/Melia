@@ -1562,6 +1562,13 @@
 { id: 4303, className: "Pontifex_Evangelism", isOverheat: false, overheatResetTime: 24000 },
 { id: 4304, className: "Pontifex_Gospel", isOverheat: false, overheatResetTime: 70000 },
 { id: 4305, className: "Pontifex_Didache", isOverheat: false, overheatResetTime: 22000 },
+{ id: 4306, className: "WingedHussars_CircleWings", isOverheat: false, overheatResetTime: 12000 },
+{ id: 4307, className: "WingedHussars_RisingWings", isOverheat: false, overheatResetTime: 12000 },
+{ id: 4308, className: "WingedHussars_GiantWings", isOverheat: false, overheatResetTime: 12000 },
+{ id: 4309, className: "WingedHussars_WindPulse", isOverheat: false, overheatResetTime: 14000 },
+{ id: 4310, className: "WingedHussars_ImpulseSpears", isOverheat: false, overheatResetTime: 14000 },
+{ id: 4311, className: "WingedHussars_BattleSpirit", isOverheat: false, overheatResetTime: 5000 },
+{ id: 4312, className: "WingedHussars_ExplosionSpears", isOverheat: false, overheatResetTime: 10000 },
 { id: 4359, className: "Illusion_Bolt", isOverheat: false, overheatResetTime: 400 },
 { id: 4360, className: "Illusion_Slash", isOverheat: false, overheatResetTime: 400 },
 ]
