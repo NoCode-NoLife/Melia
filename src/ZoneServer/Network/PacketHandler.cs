@@ -1283,7 +1283,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character starts casting a hold to cast skill
+		/// Sent when character starts casting a hold to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1308,7 +1308,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character casting ends after holding to cast skill
+		/// Sent when character casting ends after holding to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1333,7 +1333,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool starts
+		/// Sent when character is using the ground position selection tool
+		/// starts.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
