@@ -85,5 +85,6 @@ namespace Melia.Shared.Tos.Const
 		BreakingWheel = 100,
 		Raid_Spreader_Crystal = 101,
 		Raid_Spreader_Soldier = 102,
+		NoOneCanHitMe = 103,
 	}
 }

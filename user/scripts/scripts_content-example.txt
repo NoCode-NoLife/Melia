@@ -1,7 +1,7 @@
-// Aura
+// Melia
 // Script list
 // 
-// This file will override the contents system scripts list entirely.
+// This file overrides the content scripts list in the system folder.
 // All scripts listed in this file will be loaded.
 //---------------------------------------------------------------------------
 

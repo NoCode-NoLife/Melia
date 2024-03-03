@@ -28,6 +28,16 @@ namespace Melia.Zone.World.Actors
 		RaceType Race { get; }
 
 		/// <summary>
+		/// Returns the entity's element/attribute.
+		/// </summary>
+		AttributeType Attribute { get; }
+
+		/// <summary>
+		/// Returns the entity's armor material.
+		/// </summary>
+		ArmorMaterialType ArmorMaterial { get; }
+
+		/// <summary>
 		/// Returns the entity's mode of movement.
 		/// </summary>
 		MoveType MoveType { get; }

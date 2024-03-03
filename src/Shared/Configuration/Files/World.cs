@@ -7,6 +7,7 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class WorldConfFile : ConfFile
 	{
+		// drops.conf
 		public float SilverDropAmount { get; protected set; }
 		public float SilverDropRate { get; protected set; }
 		public float EquipmentDropRate { get; protected set; }
@@ -21,12 +22,11 @@ namespace Melia.Shared.Configuration.Files
 		public bool Littering { get; protected set; }
 		public bool TargetedLittering { get; protected set; }
 
+		// exp.conf
 		public float ExpRate { get; protected set; }
 		public float ClassExpRate { get; protected set; }
 
-		public bool DisableSDR { get; protected set; }
-		public int AbilityPointCost { get; protected set; }
-
+		// game_time.conf
 		public int TicksPerMinute { get; protected set; }
 		public int MinutesPerHour { get; protected set; }
 		public int HoursPerDay { get; protected set; }
@@ -34,7 +34,30 @@ namespace Melia.Shared.Configuration.Files
 		public int MonthsPerYear { get; protected set; }
 		public bool EnableDayNightCycle { get; protected set; }
 
+		// skills.conf
+		public bool DisableSDR { get; protected set; }
+		public int AbilityPointCost { get; protected set; }
+
+		// summons.conf
 		public bool BlueOrbFollowWarp { get; protected set; }
+		public bool BlueOrbPetSystem { get; protected set; }
+
+		// rare_monsters.conf
+		public float BlueJackpotSpawnChance { get; protected set; }
+		public float BlueJackpotExpRate { get; protected set; }
+		public float SilverJackpotSpawnChance { get; protected set; }
+		public int SilverJackpotRolls { get; protected set; }
+		public float GoldJackpotSpawnChance { get; protected set; }
+		public int GoldJackpotRolls { get; protected set; }
+		public float EliteSpawnChance { get; protected set; }
+		public float EliteHPSPRate { get; protected set; }
+		public float EliteStatRate { get; protected set; }
+		public float EliteExpRate { get; protected set; }
+		public int EliteRolls { get; protected set; }
+		public int EliteMinLevel { get; protected set; }
+		public bool EliteAlwaysAggressive { get; protected set; }
+		public float RedOrbJackpotRate { get; protected set; }
+		public float RedOrbEliteRate { get; protected set; }
 
 		/// <summary>
 		/// Loads conf file and its options from the given path.
@@ -61,9 +84,6 @@ namespace Melia.Shared.Configuration.Files
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.ClassExpRate = this.GetFloat("class_exp_rate", 100);
 
-			this.DisableSDR = this.GetBool("disable_sdr", false);
-			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
-
 			this.TicksPerMinute = this.GetInt("rt2gt_ms_per_minute", 1500) * 10000;
 			this.MinutesPerHour = this.GetInt("gt_minutes_per_hour", 60);
 			this.HoursPerDay = this.GetInt("gt_hours_per_day", 24);
@@ -71,7 +91,27 @@ namespace Melia.Shared.Configuration.Files
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
+			this.DisableSDR = this.GetBool("disable_sdr", false);
+			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
+
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
+			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);
+
+			this.BlueJackpotSpawnChance = this.GetFloat("blue_jackpot_spawn_chance", 0.05f);
+			this.BlueJackpotExpRate = this.GetFloat("blue_jackpot_exp_rate", 10000);
+			this.SilverJackpotSpawnChance = this.GetFloat("silver_jackpot_spawn_chance", 0.05f);
+			this.SilverJackpotRolls = this.GetInt("silver_jackpot_rolls", 100);
+			this.GoldJackpotSpawnChance = this.GetFloat("gold_jackpot_spawn_chance", 0.01f);
+			this.GoldJackpotRolls = this.GetInt("gold_jackpot_rolls", 1000);
+			this.EliteSpawnChance = this.GetFloat("elite_spawn_chance", 2);
+			this.EliteHPSPRate = this.GetFloat("elite_hpsp_rate", 150);
+			this.EliteStatRate = this.GetFloat("elite_stat_rate", 150);
+			this.EliteExpRate = this.GetFloat("elite_exp_rate", 2);
+			this.EliteRolls = this.GetInt("elite_rolls", 2);
+			this.EliteMinLevel = this.GetInt("elite_min_level", 100);
+			this.EliteAlwaysAggressive = this.GetBool("elite_always_aggressive", true);
+			this.RedOrbJackpotRate = this.GetFloat("red_orb_jackpot_rate", 10000);
+			this.RedOrbEliteRate = this.GetFloat("red_orb_elite_rate", 1000);
 		}
 	}
 }

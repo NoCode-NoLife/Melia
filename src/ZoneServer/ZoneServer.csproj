@@ -99,15 +99,13 @@
     <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
     <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
     <Compile Include="Commands\ChatCommands.Manager.cs" />
-    <Compile Include="Commands\ClientChatCommand.cs" />
     <Compile Include="Commands\ChatCommand.cs" />
-    <Compile Include="Commands\ClientChatCommands.Manager.cs" />
-    <Compile Include="Commands\ClientChatCommands.Handlers.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\AccountSettings.cs" />
     <Compile Include="Database\ZoneDb.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Events\CombatEventArgs.cs" />
+    <Compile Include="Events\MonsterEventArgs.cs" />
     <Compile Include="Events\PlayerEventArgs.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Events\TimeEventArgs.cs" />

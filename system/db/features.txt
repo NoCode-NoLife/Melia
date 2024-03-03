@@ -60,6 +60,15 @@
 	
 	// Lowers ability costs
 	{ name: "AbilityCostRevamp", enabled: true },
+	
+	// Simplifies attribute bonuses
+	{ name: "AttributeBonusRevamp", enabled: true },
+	
+	// Simplified and both buffed and nerfed attack bonuses
+	{ name: "AttackTypeBonusRevamp1", enabled: true },
+	
+	// Changed attacke type bonuses for the absolute worst
+	{ name: "AttackTypeBonusRevamp2", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet

@@ -26,6 +26,7 @@ namespace Melia.Shared.Tos.Const
 		BlossomBlader = 1022,
 		Luchador = 1023,
 		Shenji = 1024,
+		WingedHussar = 1025,
 
 		// Wizard
 		Wizard = 2001,
@@ -48,6 +49,7 @@ namespace Melia.Shared.Tos.Const
 		Bokor = 2022,
 		Terramancer = 2023,
 		Keraunos = 2024,
+		Illusionist = 2025,
 
 		// Archer
 		Archer = 3001,
@@ -91,6 +93,7 @@ namespace Melia.Shared.Tos.Const
 		Exorcist = 4020,
 		Crusader = 4021,
 		Lama = 4022,
+		Pontifex = 4023,
 
 		// Scout
 		Scout = 5001,

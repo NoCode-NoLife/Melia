@@ -77,4 +77,45 @@ namespace Melia.Zone.World.Actors.Monsters
 			return true;
 		}
 	}
+
+	/// <summary>
+	/// Represents an item stack that is to be dropped.
+	/// </summary>
+	public class DropStack
+	{
+		/// <summary>
+		/// Returns the class id of the item.
+		/// </summary>
+		public int ItemId { get; set; }
+
+		/// <summary>
+		/// Returns the amount of items in the stack.
+		/// </summary>
+		public int Amount { get; set; }
+
+		/// <summary>
+		/// Returns the original, unaltered drop chance.
+		/// </summary>
+		public float DropChance { get; set; }
+
+		/// <summary>
+		/// Returns the drop chance adjusted by the drop rate.
+		/// </summary>
+		public float AdjustedDropChance { get; set; }
+
+		/// <summary>
+		/// Creates a new stack.
+		/// </summary>
+		/// <param name="itemId"></param>
+		/// <param name="amount"></param>
+		/// <param name="dropChance"></param>
+		/// <param name="adjustedDropChance"></param>
+		public DropStack(int itemId, int amount, float dropChance, float adjustedDropChance)
+		{
+			this.ItemId = itemId;
+			this.Amount = amount;
+			this.DropChance = dropChance;
+			this.AdjustedDropChance = adjustedDropChance;
+		}
+	}
 }
