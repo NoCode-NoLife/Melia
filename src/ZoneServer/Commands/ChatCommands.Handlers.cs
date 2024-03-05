@@ -79,6 +79,7 @@ namespace Melia.Zone.Commands
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
 			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
+			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1944,6 +1945,35 @@ namespace Melia.Zone.Commands
 			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
 			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
 			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Fixes or unfixes target's camera position.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleFixCamera(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var isFixed = target.Variables.Temp.GetBool("Melia.Commands.FixedCamera", false);
+
+			if (!isFixed)
+			{
+				Send.ZC_FIXCAMERA(target, target.Position, 0);
+				sender.ServerMessage(Localization.Get("The camera was fixed in place."));
+			}
+			else
+			{
+				Send.ZC_CANCEL_FIXCAMERA(target);
+				sender.ServerMessage(Localization.Get("The camera was unfixed."));
+			}
+
+			target.Variables.Temp.SetBool("Melia.Commands.FixedCamera", !isFixed);
 
 			return CommandResult.Okay;
 		}
