@@ -80,6 +80,7 @@ namespace Melia.Zone.Commands
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
 			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
 			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
+			this.Add("daytime", "[timeOfDay=day|night|dawn|dusk]", "Sets the current day time.", this.HandleDayTime);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1974,6 +1975,40 @@ namespace Melia.Zone.Commands
 			}
 
 			target.Variables.Temp.SetBool("Melia.Commands.FixedCamera", !isFixed);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Sets current in-game time and updates the day night cycle.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleDayTime(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				ZoneServer.Instance.World.DayNightCycle.UnfixTimeOfDay();
+				sender.ServerMessage(Localization.Get("Unfixed time of day, it's now '{0}'."), GameTime.Now.TimeOfDay);
+
+				return CommandResult.Okay;
+			}
+
+			var timeOfDayStr = args.Get(0);
+			timeOfDayStr = char.ToUpper(timeOfDayStr[0]) + timeOfDayStr.Substring(1).ToLower();
+
+			if (!Enum.TryParse<TimeOfDay>(timeOfDayStr, out var timeOfDay))
+			{
+				sender.ServerMessage(Localization.Get("Invalid time of day."));
+				return CommandResult.Okay;
+			}
+
+			ZoneServer.Instance.World.DayNightCycle.FixTimeOfDay(timeOfDay);
+			sender.ServerMessage(Localization.Get("Fixed time of day to '{0}'."), timeOfDay);
 
 			return CommandResult.Okay;
 		}
