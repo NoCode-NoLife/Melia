@@ -55,6 +55,9 @@ namespace Melia.Zone.World
 		/// <param name="e"></param>
 		private void OnPlayerReady(object sender, PlayerEventArgs e)
 		{
+			if (!ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				return;
+
 			Send.ZC_DAYLIGHT_FIXED(e.Character, true, this.CurrentParameters);
 		}
 
@@ -65,6 +68,9 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (!ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				return;
+
 			var now = GameTime.Now;
 			var timeOfDay = now.TimeOfDay;
 
