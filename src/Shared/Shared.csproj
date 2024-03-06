@@ -100,7 +100,7 @@
     <Compile Include="IES\IesModProperty.cs" />
     <Compile Include="IES\IesModPropertyChange.cs" />
     <Compile Include="Network\Crypto\BlowFish.cs" />
-    <Compile Include="Network\Crypto\TOSCrypto.cs" />
+    <Compile Include="Network\Crypto\Codec.cs" />
     <Compile Include="Network\Helpers\IesHelper.cs" />
     <Compile Include="Network\Inter\Messages\PlayerCountMessage.cs" />
     <Compile Include="Network\Inter\Messages\KickMessage.cs" />
