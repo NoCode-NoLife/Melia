@@ -71,6 +71,7 @@ namespace Melia.Shared.Game.Const
 		Arquebusier = 3104,
 		Hwarang = 3105,
 		Engineer = 3106,
+		Godeye = 3107,
 
 		// Cleric
 		Cleric = 4001,

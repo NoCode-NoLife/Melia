@@ -6218,6 +6218,7 @@ public static class MonsterId
 	public const int Merregina_Raid_Strat_Npc = 160202;
 	public const int Merregina_Raid_Map_Pattern_Obj = 160203;
 	public const int Npc_Event_Newyear_Assist = 160204;
+	public const int Npc_Bowmaster = 160205;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

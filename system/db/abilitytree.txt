@@ -1149,6 +1149,27 @@
 { category: "Engineer", classId: 210, abilityId: 321239, jobId: 3106, className: "Engineer30", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_KingMechaV", argNum: 350 } },
 { category: "Engineer", classId: 211, abilityId: 321240, jobId: 3106, className: "Engineer31", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Engineer_KingMechaV", argNum: 350 } },
 
+// BowMaster
+//---------------------------------------------------------------------------
+{ category: "BowMaster", classId: 201, abilityId: 321242, jobId: 3107, className: "BowMaster00", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_24", argNum: 45 } },
+{ category: "BowMaster", classId: 101, abilityId: 321243, jobId: 3107, className: "BowMaster1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_FocusFire", argNum: 1 } },
+{ category: "BowMaster", classId: 102, abilityId: 321244, jobId: 3107, className: "BowMaster2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_DodgeFire", argNum: 1 } },
+{ category: "BowMaster", classId: 103, abilityId: 321245, jobId: 3107, className: "BowMaster3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_SkyBow", argNum: 1 } },
+{ category: "BowMaster", classId: 104, abilityId: 321246, jobId: 3107, className: "BowMaster4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_ScatterShot", argNum: 1 } },
+{ category: "BowMaster", classId: 105, abilityId: 321247, jobId: 3107, className: "BowMaster5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_Hyunmoo", argNum: 1 } },
+{ category: "BowMaster", classId: 106, abilityId: 321248, jobId: 3107, className: "BowMaster6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_GodArrow", argNum: 1 } },
+{ category: "BowMaster", classId: 202, abilityId: 321249, jobId: 3107, className: "BowMaster10", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_FocusFire", argNum: 1 } },
+{ category: "BowMaster", classId: 203, abilityId: 321250, jobId: 3107, className: "BowMaster11", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_DodgeFire", argNum: 1 } },
+{ category: "BowMaster", classId: 204, abilityId: 321251, jobId: 3107, className: "BowMaster12", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_ScatterShot", argNum: 1 } },
+{ category: "BowMaster", classId: 205, abilityId: 321252, jobId: 3107, className: "BowMaster13", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_Hyunmoo", argNum: 1 } },
+{ category: "BowMaster", classId: 206, abilityId: 321253, jobId: 3107, className: "BowMaster14", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BowMaster_GodArrow", argNum: 1 } },
+{ category: "BowMaster", classId: 1001, abilityId: 321254, jobId: 3107, className: "BowMaster101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster1", argNum: 65 } },
+{ category: "BowMaster", classId: 1002, abilityId: 321255, jobId: 3107, className: "BowMaster102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster2", argNum: 65 } },
+{ category: "BowMaster", classId: 1003, abilityId: 321256, jobId: 3107, className: "BowMaster103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster3", argNum: 65 } },
+{ category: "BowMaster", classId: 1004, abilityId: 321257, jobId: 3107, className: "BowMaster104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster4", argNum: 65 } },
+{ category: "BowMaster", classId: 1005, abilityId: 321258, jobId: 3107, className: "BowMaster105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster5", argNum: 65 } },
+{ category: "BowMaster", classId: 1006, abilityId: 321259, jobId: 3107, className: "BowMaster106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster6", argNum: 65 } },
+
 // Cleric
 //---------------------------------------------------------------------------
 { category: "Cleric", classId: 201, abilityId: 401001, jobId: 4001, className: "Cleric11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Cleric_Cure", argNum: 1 } },

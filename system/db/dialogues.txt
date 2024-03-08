@@ -17072,6 +17072,7 @@
 { classId: 4620155, className: "EP16_1_REMAINS_37_MQ15_NPC_DLG1" },
 { classId: 4620156, className: "MASTER_WINGEDHUSSAR_NPC_basic1" },
 { classId: 4620157, className: "EP16_1_F_NICOPOLIS_81_1_MQ_1_NPC_DLG_12" },
+{ classId: 4620158, className: "MASTER_BOWMASTER_NPC_basic1" },
 { classId: 4791000, className: "CORAL_44_2_MAN3_BASIC" },
 { classId: 4791001, className: "FLIBRARY482_VIDA_NPC_BASIC" },
 { classId: 4791002, className: "FLIBRARY482_SVAJA_NPC_BASIC" },

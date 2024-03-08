@@ -8732,6 +8732,21 @@
 		public const string EVENT_TOS_WHOLE_SHOP_56 = "EVENT_TOS_WHOLE_SHOP_56";
 		public const string HaveEmoticon_167 = "HaveEmoticon_167";
 		public const string HaveEmoticon_166 = "HaveEmoticon_166";
+		public const string GEM_BowMaster_Hyunmoo_cabinet = "GEM_BowMaster_Hyunmoo_cabinet";
+		public const string TBW04_126_8_cabinet_upgrade = "TBW04_126_8_cabinet_upgrade";
+		public const string GEM_BowMaster_FocusFire_cabinet = "GEM_BowMaster_FocusFire_cabinet";
+		public const string GEM_BowMaster_ScatterShot_cabinet = "GEM_BowMaster_ScatterShot_cabinet";
+		public const string TBW04_126_8_cabinet = "TBW04_126_8_cabinet";
+		public const string GEM_BowMaster_SkyBow_cabinet = "GEM_BowMaster_SkyBow_cabinet";
+		public const string GEM_BowMaster_GodArrow_cabinet = "GEM_BowMaster_GodArrow_cabinet";
+		public const string GEM_BowMaster_DodgeFire_cabinet = "GEM_BowMaster_DodgeFire_cabinet";
+		public const string UnlockQuest_Char3_24 = "UnlockQuest_Char3_24";
+		public const string bowmaster_bow_cabinet = "bowmaster_bow_cabinet";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_100 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_100";
+		public const string ContentsTotalShop_2402_1 = "ContentsTotalShop_2402_1";
+		public const string ep15viking_theme = "ep15viking_theme";
+		public const string dress_costume_ep15viking_f = "dress_costume_ep15viking_f";
+		public const string dress_costume_ep15viking_m = "dress_costume_ep15viking_m";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -19571,6 +19586,7 @@
 		public const string Kill_boss_merregina_despair_Auto = "Kill_boss_merregina_despair_Auto";
 		public const string Kill_boss_merregina_despair = "Kill_boss_merregina_despair";
 		public const string EVIL_ARMOR_POWER_TIME2 = "EVIL_ARMOR_POWER_TIME2";
+		public const string HiddenJob_Char3_24 = "HiddenJob_Char3_24";
 
 		// SessionObject
 		public const string PosX = "PosX";

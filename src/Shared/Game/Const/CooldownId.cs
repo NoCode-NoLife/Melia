@@ -1556,6 +1556,8 @@ namespace Melia.Shared.Game.Const
 		Flood_OH = 4279,
 		Nightmare_OH = 4280,
 		llusionArmor_OH = 4281,
+		Illusion_Bolt = 4282,
+		Illusion_Slash = 4283,
 		Pontifex_Missa = 4300,
 		Pontifex_EvilBurn = 4301,
 		Pontifex_Atonement = 4302,
@@ -1569,7 +1571,11 @@ namespace Melia.Shared.Game.Const
 		WingedHussars_ImpulseSpears = 4310,
 		WingedHussars_BattleSpirit = 4311,
 		WingedHussars_ExplosionSpears = 4312,
-		Illusion_Bolt = 4359,
-		Illusion_Slash = 4360,
+		BowMaster_FocusFire = 4313,
+		BowMaster_DodgeFire = 4314,
+		BowMaster_SkyBow = 4315,
+		BowMaster_ScatterShot = 4316,
+		BowMaster_Hyunmoo = 4317,
+		BowMaster_GodArrow = 4318,
 	}
 }
