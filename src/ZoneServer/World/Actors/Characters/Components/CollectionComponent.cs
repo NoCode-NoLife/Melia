@@ -22,12 +22,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </remarks>
 	public class CollectionComponent : CharacterComponent
 	{
-		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromMinutes(1);
-
 		private readonly object _syncLock = new object();
 		private readonly Dictionary<int, CollectionData> _collectionList = new Dictionary<int, CollectionData>();
 		private readonly Dictionary<int, List<int>> _collectionProgress = new Dictionary<int, List<int>>();		
-		private TimeSpan _autoReceiveDelay = AutoReceiveDelay;
 
 		/// <summary>
 		/// Creates new instance for character.

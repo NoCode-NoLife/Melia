@@ -24,7 +24,7 @@ public class CollectionItemScripts : GeneralScript
 		{
 			if (character.Collections.Add(collectionData.Id))
 			{
-				Send.ZC_SYSTEM_MSG(character, 119006);
+				character.SystemMessage("GetCollection");
 				Send.ZC_NORMAL.UnlockCollection(character, collectionData.Id);
 				Send.ZC_ADDON_MSG(character, AddonMessage.UPDATE_READ_COLLECTION_COUNT, 0, null);
 
