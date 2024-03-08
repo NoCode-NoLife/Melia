@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melia.Shared.Tos.Const
+namespace Melia.Shared.Game.Const
 {
 	/// <summary>
 	/// A bitmask used to specify the options for resurrecting a character.

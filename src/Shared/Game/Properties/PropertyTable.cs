@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 
-namespace Melia.Shared.Tos.Properties
+namespace Melia.Shared.Game.Properties
 {
 	/// <summary>
 	/// A table of all properties in the game and the namespaces they

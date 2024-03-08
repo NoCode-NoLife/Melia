@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Tos.Const
+﻿namespace Melia.Shared.Game.Const
 {
 	/// <summary>
 	/// Defines the style of a notice text.

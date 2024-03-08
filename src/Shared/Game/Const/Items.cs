@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melia.Shared.Tos.Const
+namespace Melia.Shared.Game.Const
 {
 	/// <summary>
 	/// Inventory categories.

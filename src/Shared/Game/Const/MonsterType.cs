@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Tos.Const
+﻿namespace Melia.Shared.Game.Const
 {
 	/// <summary>
 	/// Used to specify the type of a monster.

@@ -1,4 +1,4 @@
-﻿namespace Melia.Shared.Tos.Const
+﻿namespace Melia.Shared.Game.Const
 {
 	/// <summary>
 	/// Names of animations, used for lookup in the animation id db.

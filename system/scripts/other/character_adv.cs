@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;

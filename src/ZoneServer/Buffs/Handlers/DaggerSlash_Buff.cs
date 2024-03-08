@@ -1,5 +1,5 @@
 ﻿using Melia.Zone.Buffs.Base;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.Buffs.Handlers
 {
