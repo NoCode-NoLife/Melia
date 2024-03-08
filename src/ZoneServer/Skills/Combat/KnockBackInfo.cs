@@ -109,7 +109,6 @@ namespace Melia.Zone.Skills.Combat
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
 				var finalPosition = this.FromPosition.GetRelative(this.Direction, distance);
-				finalPosition.Z = finalPosition.Z + 40;
 				this.ToPosition = finalPosition;
 			}
 			else

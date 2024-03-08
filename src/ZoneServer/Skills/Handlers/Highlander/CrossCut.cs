@@ -40,8 +40,8 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 100, angle: 90);
-			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam); // DB states that this should be Square
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 20, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);

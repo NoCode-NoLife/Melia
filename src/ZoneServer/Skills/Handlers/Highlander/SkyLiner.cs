@@ -23,11 +23,12 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 	public class SkyLiner : IGroundSkillHandler, IDynamicCasted
 	{
 		private const int TotalHits = 4;
-		private bool keepAttacking = false;
+
 		public void StartDynamicCast(Skill skill, ICombatEntity caster)
-		{			
-			keepAttacking = true;
-			Send.ZC_PLAY_SOUND(caster, "voice_archer_multishot_cast"); // Probably not the right voice clip
+		{
+			if (caster is Character character)
+				character.Variables.Temp.SetBool("Melia.DynamicCast", true);
+			Send.ZC_PLAY_SOUND(caster, "voice_war_atk_medium");
 		}
 
 		/// <summary>
@@ -37,8 +38,9 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 		/// <param name="caster"></param>
 		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			keepAttacking = false; // Prevents further attacks from executing
-			Send.ZC_STOP_SOUND(caster, "voice_archer_multishot_cast");
+			if (caster is Character character)
+				character.Variables.Temp.SetBool("Melia.DynamicCast", false);
+			Send.ZC_STOP_SOUND(caster, "voice_war_atk_medium");
 		}
 
 
@@ -60,8 +62,8 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 100, angle: 90);
-			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam); // DB states that this should be Square
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 35, width: 20, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -98,9 +100,10 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 					skillHit.HitEffect = HitEffect.Impact;
-					hits.Add(skillHit);
-					Send.ZC_SKILL_HIT_INFO(caster, hits);
+					hits.Add(skillHit);					
 				}
+
+				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 				await Task.Delay(delayBetweenHits);
 				hits.Clear();
@@ -112,14 +115,20 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 					var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
 					skillHit2.HitEffect = HitEffect.Impact;
-					hits.Add(skillHit2);
-					Send.ZC_SKILL_HIT_INFO(caster, hits);
+					hits.Add(skillHit2);					
 				}
+
+				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 				if (i < TotalHits - 1)
 					await Task.Delay(delayBetweenRepeats);
 
 				hits.Clear();
+
+				bool keepAttacking = false;
+
+				if (caster is Character character)
+					if (!character.Variables.Temp.TryGetBool("Melia.DynamicCast", out keepAttacking)) break;
 
 				if (!keepAttacking) break;
 			}

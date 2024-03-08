@@ -39,8 +39,8 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 100, angle: 90);
-			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam); // DB states that this should be Square
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 20, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -75,7 +75,6 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-				target.Components.Get<MovementComponent>().Stop();  // Temporary workaround, monsters that get knocked back should not be able to move for a while
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 				
 				skillHits.Add(skillHit);
