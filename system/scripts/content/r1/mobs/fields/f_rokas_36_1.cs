@@ -13,15 +13,25 @@ public class FRokas361MobScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Property Overrides -------------------------------
+
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Ep16_1_Chupacabra_Desert, Properties("MHP", 62078216, "MINPATK", 210000, "MAXPATK", 210000, "MINMATK", 210000, "MAXMATK", 210000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Ep16_1_Sauga, Properties("MHP", 62078216, "MINPATK", 210000, "MAXPATK", 210000, "MINMATK", 210000, "MAXMATK", 210000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Ep16_1_Glyphring, Properties("MHP", 62078216, "MINPATK", 182000, "MAXPATK", 182000, "MINMATK", 182000, "MAXMATK", 182000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Ep16_1_Leader_Velniamonkey, Properties("MHP", 281105056, "MINPATK", 210000, "MAXPATK", 210000, "MINMATK", 210000, "MAXMATK", 210000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Ep16_1_Leader_Golem, Properties("MHP", 281105056, "MINPATK", 210000, "MAXPATK", 210000, "MINMATK", 210000, "MAXMATK", 210000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Boss_Velmosquy_Q1, Properties("MHP", 411105056, "MINPATK", 210000, "MAXPATK", 210000, "MINMATK", 210000, "MAXMATK", 210000, "DEF", 5300000, "MDEF", 5300000));
+		AddPropertyOverrides("f_rokas_36_1", MonsterId.Sec_Chupacabra_Desert, Properties("MHP", 62078216, "MINPATK", 182000, "MAXPATK", 182000, "MINMATK", 182000, "MAXMATK", 182000, "DEF", 5300000, "MDEF", 5300000));
+
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_rokas_36_1.Id1", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_rokas_36_1.Id2", MonsterId.Sec_Chupacabra_Desert, min: 15, max: 20);
-		AddSpawner("f_rokas_36_1.Id3", MonsterId.GlyphRing, min: 23, max: 30);
-		AddSpawner("f_rokas_36_1.Id4", MonsterId.Sec_Sauga, min: 23, max: 30);
-		AddSpawner("f_rokas_36_1.Id5", MonsterId.Sec_Chupacabra_Desert, min: 15, max: 20);
-		AddSpawner("f_rokas_36_1.Id6", MonsterId.Sec_Sauga, min: 12, max: 15);
-		AddSpawner("f_rokas_36_1.Id7", MonsterId.GlyphRing, min: 12, max: 15);
+		AddSpawner("f_rokas_36_1.Id2", MonsterId.Ep16_1_Chupacabra_Desert, min: 15, max: 20);
+		AddSpawner("f_rokas_36_1.Id3", MonsterId.Ep16_1_Glyphring, min: 23, max: 30);
+		AddSpawner("f_rokas_36_1.Id4", MonsterId.Ep16_1_Sauga, min: 23, max: 30);
+		AddSpawner("f_rokas_36_1.Id5", MonsterId.Ep16_1_Chupacabra_Desert, min: 15, max: 20);
+		AddSpawner("f_rokas_36_1.Id6", MonsterId.Ep16_1_Sauga, min: 12, max: 15);
+		AddSpawner("f_rokas_36_1.Id7", MonsterId.Ep16_1_Glyphring, min: 12, max: 15);
 
 		// Monster Spawn Points -----------------------------
 
@@ -42,10 +52,10 @@ public class FRokas361MobScript : GeneralScript
 		AddSpawnPoint("f_rokas_36_1.Id1", "f_rokas_36_1", Rectangle(1293, 30, 150));
 		AddSpawnPoint("f_rokas_36_1.Id1", "f_rokas_36_1", Rectangle(1595, 379, 150));
 
-		// 'Sec_Chupacabra_Desert' GenType 36 Spawn Points
+		// 'Ep16_1_Chupacabra_Desert' GenType 36 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id2", "f_rokas_36_1", Rectangle(-40, 517, 9999));
 
-		// 'GlyphRing' GenType 37 Spawn Points
+		// 'Ep16_1_Glyphring' GenType 37 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id3", "f_rokas_36_1", Rectangle(1260, -133, 25));
 		AddSpawnPoint("f_rokas_36_1.Id3", "f_rokas_36_1", Rectangle(1376, -43, 25));
 		AddSpawnPoint("f_rokas_36_1.Id3", "f_rokas_36_1", Rectangle(1441, -126, 25));
@@ -74,7 +84,7 @@ public class FRokas361MobScript : GeneralScript
 		AddSpawnPoint("f_rokas_36_1.Id3", "f_rokas_36_1", Rectangle(1341, -193, 25));
 		AddSpawnPoint("f_rokas_36_1.Id3", "f_rokas_36_1", Rectangle(1132, -48, 25));
 
-		// 'Sec_Sauga' GenType 38 Spawn Points
+		// 'Ep16_1_Sauga' GenType 38 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id4", "f_rokas_36_1", Rectangle(688, 549, 30));
 		AddSpawnPoint("f_rokas_36_1.Id4", "f_rokas_36_1", Rectangle(885, 682, 30));
 		AddSpawnPoint("f_rokas_36_1.Id4", "f_rokas_36_1", Rectangle(791, 804, 30));
@@ -111,7 +121,7 @@ public class FRokas361MobScript : GeneralScript
 		AddSpawnPoint("f_rokas_36_1.Id4", "f_rokas_36_1", Rectangle(80, 806, 30));
 		AddSpawnPoint("f_rokas_36_1.Id4", "f_rokas_36_1", Rectangle(37, 568, 30));
 
-		// 'Sec_Chupacabra_Desert' GenType 39 Spawn Points
+		// 'Ep16_1_Chupacabra_Desert' GenType 39 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id5", "f_rokas_36_1", Rectangle(109, 655, 30));
 		AddSpawnPoint("f_rokas_36_1.Id5", "f_rokas_36_1", Rectangle(134, 795, 30));
 		AddSpawnPoint("f_rokas_36_1.Id5", "f_rokas_36_1", Rectangle(186, 711, 30));
@@ -122,7 +132,7 @@ public class FRokas361MobScript : GeneralScript
 		AddSpawnPoint("f_rokas_36_1.Id5", "f_rokas_36_1", Rectangle(-119, 468, 30));
 		AddSpawnPoint("f_rokas_36_1.Id5", "f_rokas_36_1", Rectangle(13, 916, 30));
 
-		// 'Sec_Sauga' GenType 40 Spawn Points
+		// 'Ep16_1_Sauga' GenType 40 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id6", "f_rokas_36_1", Rectangle(-674, -56, 20));
 		AddSpawnPoint("f_rokas_36_1.Id6", "f_rokas_36_1", Rectangle(-721, 139, 20));
 		AddSpawnPoint("f_rokas_36_1.Id6", "f_rokas_36_1", Rectangle(-563, 44, 20));
@@ -142,7 +152,7 @@ public class FRokas361MobScript : GeneralScript
 		AddSpawnPoint("f_rokas_36_1.Id6", "f_rokas_36_1", Rectangle(-980, -355, 20));
 		AddSpawnPoint("f_rokas_36_1.Id6", "f_rokas_36_1", Rectangle(-1055, -406, 20));
 
-		// 'GlyphRing' GenType 41 Spawn Points
+		// 'Ep16_1_Glyphring' GenType 41 Spawn Points
 		AddSpawnPoint("f_rokas_36_1.Id7", "f_rokas_36_1", Rectangle(-1138, -406, 25));
 		AddSpawnPoint("f_rokas_36_1.Id7", "f_rokas_36_1", Rectangle(-926, -292, 25));
 		AddSpawnPoint("f_rokas_36_1.Id7", "f_rokas_36_1", Rectangle(-867, -534, 25));

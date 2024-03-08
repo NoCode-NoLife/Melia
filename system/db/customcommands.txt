@@ -89,4 +89,5 @@
 { id: 91, name: "MOVE_TO_ENTER_HARD", script: "SCR_MOVE_TO_ENTER_HARD", useTx: false },
 { id: 92, name: "SUBWEAPON_VISIBLE_STATE", script: "SCR_SUBWEAPON_VISIBLE_STATE", useTx: false },
 { id: 93, name: "QUICKSLOT_CHANGE_SKILL_UPDATE", script: "SCR_QUICKSLOT_CHANGE_SKILL_UPDATE_STATE", useTx: false },
+{ id: 94, name: "REQ_RadaCertificate_COIN_SHOP_OPEN", script: "SCR_REQ_RadaCertificate_COIN_SHOP_OPEN", useTx: true },
 ]

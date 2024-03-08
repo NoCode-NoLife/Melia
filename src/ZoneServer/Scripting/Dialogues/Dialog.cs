@@ -328,6 +328,22 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Creates a mutable list of options that can be modified before
+		/// it's passed to the Select method.
+		/// </summary>
+		/// <example>
+		// var options = dialog.Options(Option("Nothing", "nothing"), Option("Everything", "everything"));
+		// if (xHappened)
+		//     options.Add(Option("OMG, did you hear?", "omg"));
+		// 
+		// await dialog.Select("What's up?", options);
+		/// </example>
+		/// <param name="options"></param>
+		/// <returns></returns>
+		public DialogOptionList Options(params DialogOption[] options)
+			=> new DialogOptionList(options);
+
+		/// <summary>
 		/// Shows a menu with options to select from, returns the key
 		/// of the selected option.
 		/// </summary>
@@ -335,6 +351,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="options">List of options to select from.</param>
 		/// <returns></returns>
 		public async Task<string> Select(string text, params DialogOption[] options)
+			=> await this.Select(text, (IEnumerable<DialogOption>)options);
+
+		/// <summary>
+		/// Shows a menu with options to select from, returns the key
+		/// of the selected option.
+		/// </summary>
+		/// <param name="text">Text to display with the options.</param>
+		/// <param name="options">List of options to select from.</param>
+		/// <returns></returns>
+		public async Task<string> Select(string text, IEnumerable<DialogOption> options)
 		{
 			// Go through SelectSimple to get the integer response
 			// and then look up the key in the options to return it.
@@ -342,7 +368,7 @@ namespace Melia.Zone.Scripting.Dialogues
 			var optionsTexts = options.Select(a => a.Text);
 			var selectedIndex = await this.Select(text, optionsTexts);
 
-			var response = options[selectedIndex - 1].Key;
+			var response = options.ElementAt(selectedIndex - 1).Key;
 			return response;
 		}
 

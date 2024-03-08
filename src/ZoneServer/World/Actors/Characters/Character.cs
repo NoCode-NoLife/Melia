@@ -864,6 +864,9 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_PC(this.Connection, character);
 
+					Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(this.Connection, character);
+					//Send.ZC_SEND_MODE_HUD_SKIN(this.Connection, character);
+
 					if (character.AttachableEffects.Count != 0)
 					{
 						foreach (var effect in character.AttachableEffects)
@@ -973,6 +976,17 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Displays system message in character's chat.
 		/// </summary>
+		/// <remarks>
+		/// Uses pre-defined, argument-supporting system messages found
+		/// in the clientmessage.xml file. The class name corresponds to
+		/// the class name in said XML, with arguments found inside those
+		/// messages, wrapped in curly braces.
+		/// </remarks>
+		/// <example>
+		/// ClassName="{Day}days"
+		/// SystemMessage("{Day}days", new MsgParameter("Day", "5 "))
+		/// -> "5 days"
+		/// </example>
 		/// <param name="className"></param>
 		/// <param name="args"></param>
 		public void SystemMessage(string className, params MsgParameter[] args)

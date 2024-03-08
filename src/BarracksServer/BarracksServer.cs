@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
+using Melia.Barracks.Events;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
 using Melia.Shared;
@@ -47,6 +48,11 @@ namespace Melia.Barracks
 		public BarracksDb Database { get; } = new BarracksDb();
 
 		/// <summary>
+		/// Returns a reference to the server's event manager.
+		/// </summary>
+		public ServerEvents ServerEvents { get; } = new ServerEvents();
+
+		/// <summary>
 		/// Returns reference to the server's IES mods.
 		/// </summary>
 		public IesModList IesMods { get; } = new IesModList();
@@ -74,6 +80,7 @@ namespace Melia.Barracks
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
+			this.LoadScripts("system/scripts/scripts_barracks.txt");
 
 			this.StartCommunicator();
 			this.StartAcceptor();

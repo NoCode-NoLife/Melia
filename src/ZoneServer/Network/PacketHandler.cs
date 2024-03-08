@@ -157,6 +157,8 @@ namespace Melia.Zone.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
+			Send.ZC_RES_DAMAGEFONT_SKIN(conn, character);
+			Send.ZC_RES_DAMAGEEFFECT_SKIN(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL.Unknown_1B4(character);
@@ -169,6 +171,8 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
@@ -1280,7 +1284,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character starts casting a hold to cast skill
+		/// Sent when character starts casting a hold to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1305,7 +1309,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character casting ends after holding to cast skill
+		/// Sent when character casting ends after holding to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1330,7 +1334,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool starts
+		/// Sent when character is using the ground position selection tool
+		/// starts.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2697,6 +2702,27 @@ namespace Melia.Zone.Network
 			}
 
 			character.Resurrect(option);
+		}
+
+		/// <summary>
+		/// Request to apply a certain HUD skin.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_APPLY_HUD_SKIN)]
+		public void CZ_REQ_APPLY_HUD_SKIN(IZoneConnection conn, Packet packet)
+		{
+			var skinId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			//character.SystemMessage(Localization.Get("This feature is not supported yet."));
+			//return;
+
+			character.Variables.Perm.SetInt("Melia.HudSkin", skinId);
+
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 		}
 	}
 }

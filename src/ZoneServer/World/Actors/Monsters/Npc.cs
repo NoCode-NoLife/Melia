@@ -142,6 +142,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a function to call when someone leaves the area.
 		/// </summary>
 		DialogFunc LeaveFunc { get; }
+
+		/// <summary>
+		/// Area in which the enter and leave functions are triggered.
+		/// </summary>
 		IShapeF Area { get; }
 	}
 }

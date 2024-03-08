@@ -156,6 +156,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(405494.3f);
 			packet.PutByte(0);
 
+			// [i381490 (2023-12-XX)]
+			// The new byte should be either this or the previous one.
+			packet.PutByte(0);
+
 			conn.Send(packet);
 		}
 
@@ -937,36 +941,61 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_ITEM_EQUIP_LIST(Character character)
 		{
+			// Initially this packet simply contained all equipment,
+			// but they changed this at some point and split it up
+			// over several instances.
+
 			var equip = character.Inventory.GetEquip();
-			if (equip.Count != InventoryDefaults.EquipSlotCount)
-				throw new InvalidOperationException("Incorrect amount of equipment (" + equip.Count + ").");
+			var packetCount = Math.Ceiling(equip.Count / 5f);
 
-			var packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
+			//if (equip.Count != InventoryDefaults.EquipSlotCount)
+			//	throw new InvalidOperationException("Incorrect amount of equipment (" + equip.Count + ").");
 
-			foreach (var equipItem in equip)
+			for (var i = 0; i < packetCount; ++i)
 			{
-				var propertyList = equipItem.Value.Properties.GetAll();
-				var propertiesSize = propertyList.GetByteCount();
+				var first = (i == 0);
+				var minIndex = i * 5;
+				var maxIndex = (i + 1) * 5;
 
-				packet.PutInt(equipItem.Value.Id);
-				packet.PutShort(propertiesSize);
-				packet.PutEmptyBin(2);
-				packet.PutLong(equipItem.Value.ObjectId);
-				packet.PutByte((byte)equipItem.Key);
-				packet.PutEmptyBin(3);
-				packet.PutInt(0);
-				packet.PutShort(0);
-				packet.AddProperties(propertyList);
+				// Seems like the byte is always 1 on the first packet and
+				// 0 on subsequent ones. Not quite sure what's up with the
+				// rest. Kinda looks like paging, though that shouldn't
+				// be necessary for this at all... w/e.
 
-				if (equipItem.Value.ObjectId != 0)
+				var packet = new Packet(Op.ZC_ITEM_EQUIP_LIST);
+
+				packet.PutByte(first);
+				packet.PutInt(minIndex);
+				packet.PutInt(maxIndex);
+
+				for (var j = minIndex; j < maxIndex && j < InventoryDefaults.EquipSlotCount; ++j)
 				{
-					packet.PutShort(0);
-					packet.PutLong(equipItem.Value.ObjectId);
-					packet.PutShort(0);
-				}
-			}
+					var equipSlot = (EquipSlot)j;
+					var equipItem = equip[equipSlot];
 
-			character.Connection.Send(packet);
+					var propertyList = equipItem.Properties.GetAll();
+					var propertiesSize = propertyList.GetByteCount();
+
+					packet.PutInt(equipItem.Id);
+					packet.PutShort(propertiesSize);
+					packet.PutEmptyBin(2);
+					packet.PutLong(equipItem.ObjectId);
+					packet.PutByte((byte)equipSlot);
+					packet.PutEmptyBin(3);
+					packet.PutInt(0);
+					packet.PutShort(0);
+					packet.AddProperties(propertyList);
+
+					if (equipItem.ObjectId != 0)
+					{
+						packet.PutShort(0);
+						packet.PutLong(equipItem.ObjectId);
+						packet.PutShort(0);
+					}
+				}
+
+				character.Connection.Send(packet);
+			}
 		}
 
 		/// <summary>
@@ -4076,6 +4105,137 @@ namespace Melia.Zone.Network
 			packet.PutString(text);
 
 			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's own HUD skin on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_MYSELF(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_MYSELF);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD skin for other clients (?).
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_OTHER(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_OTHER);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD skin for clients in range (?).
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_SEND_APPLY_HUD_SKIN_OTHER(Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.HudSkin", 0);
+
+			var packet = new Packet(Op.ZC_SEND_APPLY_HUD_SKIN_OTHER);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			ZoneServer.Instance.World.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's HUD mode (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_SEND_MODE_HUD_SKIN(IZoneConnection conn, Character character)
+		{
+			var packet = new Packet(Op.ZC_SEND_MODE_HUD_SKIN);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte(0);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's damage font skin (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_RES_DAMAGEFONT_SKIN(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.DamageFontSkin", 1);
+
+			var packet = new Packet(Op.ZC_RES_DAMAGEFONT_SKIN);
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates the character's damage effect skin (?) on the client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		public static void ZC_RES_DAMAGEEFFECT_SKIN(IZoneConnection conn, Character character)
+		{
+			var skinId = character.Variables.Perm.GetInt("Melia.DamageEffectSkin", 1);
+
+			var packet = new Packet(Op.ZC_RES_DAMAGEEFFECT_SKIN);
+
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(character.Handle);
+			packet.PutInt(skinId);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Fixes the camera at the given position on the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="pos">Position to fix the camera at.</param>
+		/// <param name="zoomLevel">Defines the zoom level for the fixed camera. Use 0 for no change.</param>
+		public static void ZC_FIXCAMERA(Character character, Position pos, float zoomLevel)
+		{
+			var packet = new Packet(Op.ZC_FIXCAMERA);
+			packet.PutPosition(pos);
+			packet.PutFloat(zoomLevel);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unfixes the camera on the character's client and makes it
+		/// follow them again.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CANCEL_FIXCAMERA(Character character)
+		{
+			var packet = new Packet(Op.ZC_CANCEL_FIXCAMERA);
+			character.Connection.Send(packet);
 		}
 	}
 }

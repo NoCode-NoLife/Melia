@@ -2,9 +2,9 @@
 //--- 010 Editor v13.0.1 Binary Template
 //
 //      File: ZC_FIXCAMERA.bt
-//   Authors: Salman T. Khan
-//   Version: i366809
-//   Purpose: 
+//   Authors: Salman T. Khan, exec
+//   Version: i383100
+//   Purpose: Fixes camera in place.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,5 +15,5 @@
 
 ServerHeaderFixed header;
 
-position pos; // X: -7.830000, Y: 4.810000, Z: 13.420000
-float f1; // 240 (same value as y in ZC_CUSTOM_WHEEL_ZOOM in beauty shop)
+position pos;
+float zoomLevel; // 0 = no change
