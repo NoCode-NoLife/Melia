@@ -392,6 +392,25 @@
 { category: "SpearMaster", classId: 802, abilityId: 123019, jobId: 1024, className: "SpearMaster19", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char1_24", argNum: 45 } },
 { category: "SpearMaster", classId: 403, abilityId: 123020, jobId: 1024, className: "SpearMaster20", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_LUCHADOR_SUBSKILL_COND", argStr: "SpearMaster_SwiftMove", argNum: 1 } },
 
+// WingedHussars
+//---------------------------------------------------------------------------
+{ category: "WingedHussars", classId: 101, abilityId: 124001, jobId: 1025, className: "WingedHussars1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_CircleWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 102, abilityId: 124002, jobId: 1025, className: "WingedHussars2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_RisingWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 103, abilityId: 124003, jobId: 1025, className: "WingedHussars3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_GiantWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 104, abilityId: 124004, jobId: 1025, className: "WingedHussars4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_WindPulse", argNum: 1 } },
+{ category: "WingedHussars", classId: 1001, abilityId: 124005, jobId: 1025, className: "WingedHussars100", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars1", argNum: 65 } },
+{ category: "WingedHussars", classId: 1002, abilityId: 124006, jobId: 1025, className: "WingedHussars101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars2", argNum: 65 } },
+{ category: "WingedHussars", classId: 1003, abilityId: 124007, jobId: 1025, className: "WingedHussars102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars3", argNum: 65 } },
+{ category: "WingedHussars", classId: 1004, abilityId: 124008, jobId: 1025, className: "WingedHussars103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars4", argNum: 65 } },
+{ category: "WingedHussars", classId: 105, abilityId: 124009, jobId: 1025, className: "WingedHussars5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ImpulseSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 106, abilityId: 124010, jobId: 1025, className: "WingedHussars7", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ExplosionSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 1005, abilityId: 124011, jobId: 1025, className: "WingedHussars105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars5", argNum: 65 } },
+{ category: "WingedHussars", classId: 1006, abilityId: 124012, jobId: 1025, className: "WingedHussars107", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "WingedHussars7", argNum: 65 } },
+{ category: "WingedHussars", classId: 501, abilityId: 124013, jobId: 1025, className: "WingedHussars50", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_ExplosionSpears", argNum: 1 } },
+{ category: "WingedHussars", classId: 502, abilityId: 124014, jobId: 1025, className: "WingedHussars51", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_BattleSpirit", argNum: 1 } },
+{ category: "WingedHussars", classId: 107, abilityId: 124015, jobId: 1025, className: "WingedHussars8", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_GiantWings", argNum: 1 } },
+{ category: "WingedHussars", classId: 108, abilityId: 124016, jobId: 1025, className: "WingedHussars9", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_RisingWings", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },
@@ -767,6 +786,31 @@
 { category: "Keraunos", classId: 1103, abilityId: 220012, jobId: 2024, className: "Keraunos12", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Keraunos3", argNum: 65 } },
 { category: "Keraunos", classId: 1104, abilityId: 220013, jobId: 2024, className: "Keraunos13", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Keraunos4", argNum: 65 } },
 { category: "Keraunos", classId: 1105, abilityId: 220014, jobId: 2024, className: "Keraunos14", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Keraunos5", argNum: 65 } },
+
+// Illusionist
+//---------------------------------------------------------------------------
+{ category: "Illusionist", classId: 101, abilityId: 220016, jobId: 2025, className: "Illusionist1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Illusionist_IllusionSword", argNum: 1 } },
+{ category: "Illusionist", classId: 102, abilityId: 220017, jobId: 2025, className: "Illusionist2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Illusionist_IllusionBlast", argNum: 1 } },
+{ category: "Illusionist", classId: 103, abilityId: 220018, jobId: 2025, className: "Illusionist3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Illusionist_MagicalIllusion", argNum: 1 } },
+{ category: "Illusionist", classId: 104, abilityId: 220019, jobId: 2025, className: "Illusionist4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Illusionist_Flood", argNum: 1 } },
+{ category: "Illusionist", classId: 105, abilityId: 220020, jobId: 2025, className: "Illusionist5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Illusionist_Nightmare", argNum: 1 } },
+{ category: "Illusionist", classId: 111, abilityId: 220021, jobId: 2025, className: "Illusionist11", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Illusionist1", argNum: 65 } },
+{ category: "Illusionist", classId: 112, abilityId: 220022, jobId: 2025, className: "Illusionist12", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Illusionist2", argNum: 65 } },
+{ category: "Illusionist", classId: 113, abilityId: 220023, jobId: 2025, className: "Illusionist13", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Illusionist3", argNum: 65 } },
+{ category: "Illusionist", classId: 114, abilityId: 220024, jobId: 2025, className: "Illusionist14", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Illusionist4", argNum: 65 } },
+{ category: "Illusionist", classId: 115, abilityId: 220025, jobId: 2025, className: "Illusionist15", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Illusionist5", argNum: 65 } },
+{ category: "Illusionist", classId: 201, abilityId: 220026, jobId: 2025, className: "Illusionist21", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_IllusionSword", argNum: 350 } },
+{ category: "Illusionist", classId: 202, abilityId: 220027, jobId: 2025, className: "Illusionist22", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_IllusionBlast", argNum: 350 } },
+{ category: "Illusionist", classId: 203, abilityId: 220028, jobId: 2025, className: "Illusionist23", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_IllusionBlast", argNum: 350 } },
+{ category: "Illusionist", classId: 204, abilityId: 220029, jobId: 2025, className: "Illusionist24", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_MagicalIllusion", argNum: 350 } },
+{ category: "Illusionist", classId: 206, abilityId: 220030, jobId: 2025, className: "Illusionist25", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_Flood", argNum: 350 } },
+{ category: "Illusionist", classId: 207, abilityId: 220031, jobId: 2025, className: "Illusionist26", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_Flood", argNum: 350 } },
+{ category: "Illusionist", classId: 208, abilityId: 220032, jobId: 2025, className: "Illusionist27", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_Nightmare", argNum: 350 } },
+{ category: "Illusionist", classId: 209, abilityId: 220033, jobId: 2025, className: "Illusionist28", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_Nightmare", argNum: 350 } },
+{ category: "Illusionist", classId: 210, abilityId: 220034, jobId: 2025, className: "Illusionist29", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_IllusionArmor", argNum: 350 } },
+{ category: "Illusionist", classId: 211, abilityId: 220035, jobId: 2025, className: "Illusionist30", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Illusionist_IllusionArmor", argNum: 350 } },
+{ category: "Illusionist", classId: 301, abilityId: 220036, jobId: 2025, className: "Illusionist31", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
+{ category: "Illusionist", classId: 302, abilityId: 220037, jobId: 2025, className: "Illusionist32", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -1465,6 +1509,23 @@
 { category: "Lama", classId: 2, abilityId: 421016, jobId: 4022, className: "Lama16", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 300 } },
 { category: "Lama", classId: 901, abilityId: 421017, jobId: 4022, className: "Lama17", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_22", argNum: 45 } },
 { category: "Lama", classId: 902, abilityId: 421018, jobId: 4022, className: "Lama18", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_22", argNum: 45 } },
+
+// Pontifex
+//---------------------------------------------------------------------------
+{ category: "Pontifex", classId: 1, abilityId: 421019, jobId: 4023, className: "Pontifex1", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Missa", argNum: 1 } },
+{ category: "Pontifex", classId: 2, abilityId: 421020, jobId: 4023, className: "Pontifex2", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char4_23", argNum: 45 } },
+{ category: "Pontifex", classId: 3, abilityId: 421021, jobId: 4023, className: "Pontifex3", maxLevel: 1, priceTimeScript: 'ABIL_BASE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Atonement", argNum: 1 } },
+{ category: "Pontifex", classId: 101, abilityId: 421022, jobId: 4023, className: "Pontifex10", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_EvilBurn", argNum: 1 } },
+{ category: "Pontifex", classId: 102, abilityId: 421023, jobId: 4023, className: "Pontifex11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Atonement", argNum: 1 } },
+{ category: "Pontifex", classId: 103, abilityId: 421024, jobId: 4023, className: "Pontifex12", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Evangelism", argNum: 1 } },
+{ category: "Pontifex", classId: 104, abilityId: 421025, jobId: 4023, className: "Pontifex13", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Didache", argNum: 1 } },
+{ category: "Pontifex", classId: 501, abilityId: 421026, jobId: 4023, className: "Pontifex50", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Didache", argNum: 1 } },
+{ category: "Pontifex", classId: 502, abilityId: 421027, jobId: 4023, className: "Pontifex51", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Gospel", argNum: 1 } },
+{ category: "Pontifex", classId: 503, abilityId: 421028, jobId: 4023, className: "Pontifex52", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Pontifex_Evangelism", argNum: 1 } },
+{ category: "Pontifex", classId: 1001, abilityId: 421029, jobId: 4023, className: "Pontifex100", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex10", argNum: 65 } },
+{ category: "Pontifex", classId: 1002, abilityId: 421030, jobId: 4023, className: "Pontifex101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex11", argNum: 65 } },
+{ category: "Pontifex", classId: 1003, abilityId: 421031, jobId: 4023, className: "Pontifex102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex12", argNum: 65 } },
+{ category: "Pontifex", classId: 1004, abilityId: 421032, jobId: 4023, className: "Pontifex103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Pontifex13", argNum: 65 } },
 
 // Scout
 //---------------------------------------------------------------------------

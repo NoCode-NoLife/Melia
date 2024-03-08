@@ -222,11 +222,33 @@ namespace Melia.Zone
 		}
 	}
 
+	/// <summary>
+	/// Defines the time of day.
+	/// </summary>
 	public enum TimeOfDay
 	{
+		/// <summary>
+		/// Time in the early morning between 4:00 and 6:00 when the sun
+		/// rises.
+		/// </summary>
 		Dawn,
+
+		/// <summary>
+		/// Day time between 6:00 and 18:00 after the sun has risen and
+		/// before it sets.
+		/// </summary>
 		Day,
+
+		/// <summary>
+		/// Time in the early evening between 18:00 and 20:00 when the sun
+		/// sets again.
+		/// </summary>
 		Dusk,
+
+		/// <summary>
+		/// Night time between 20:00 and 4:00 when the sun has set and
+		/// before it rises again.
+		/// </summary>
 		Night,
 	}
 }

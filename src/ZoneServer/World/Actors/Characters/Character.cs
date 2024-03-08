@@ -970,6 +970,17 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Displays system message in character's chat.
 		/// </summary>
+		/// <remarks>
+		/// Uses pre-defined, argument-supporting system messages found
+		/// in the clientmessage.xml file. The class name corresponds to
+		/// the class name in said XML, with arguments found inside those
+		/// messages, wrapped in curly braces.
+		/// </remarks>
+		/// <example>
+		/// ClassName="{Day}days"
+		/// SystemMessage("{Day}days", new MsgParameter("Day", "5 "))
+		/// -> "5 days"
+		/// </example>
 		/// <param name="className"></param>
 		/// <param name="args"></param>
 		public void SystemMessage(string className, params MsgParameter[] args)

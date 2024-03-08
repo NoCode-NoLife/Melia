@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using EmbedIO;
 using EmbedIO.Files;
@@ -94,8 +95,25 @@ namespace Melia.Web
 
 			using (var wc = new WebClient())
 			{
+				var downloadRootUrl = "https://windows.php.net";
+				var downloadPageUrl = downloadRootUrl + "/download";
+				var downloadPageContents = wc.DownloadString(downloadPageUrl);
+
+				// Get link to the first PHP zip file, which should be the
+				// latest.
+				var match = Regex.Match(downloadPageContents, @"/downloads/releases/php-\d+\.\d+\.\d+-nts-Win32-vs16-x64\.zip");
+				if (!match.Success)
+				{
+					Log.Warning("Failed to find PHP download on '{0}'. Please install PHP and set its path manually in the web web configuration or you won't be able to use all of the web server's features.", downloadPageUrl);
+					return;
+				}
+
 				var tempFileName = Path.GetTempFileName();
-				var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+				//var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+				var downloadUrl = downloadRootUrl + match.Value;
+				var fileName = Path.GetFileName(downloadUrl);
+
+				Log.Info("Filename: {0}", fileName);
 
 				try
 				{

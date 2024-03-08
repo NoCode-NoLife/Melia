@@ -156,6 +156,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(405494.3f);
 			packet.PutByte(0);
 
+			// [i381490 (2023-12-XX)]
+			// The new byte should be either this or the previous one.
+			packet.PutByte(0);
+
 			conn.Send(packet);
 		}
 
@@ -4206,6 +4210,32 @@ namespace Melia.Zone.Network
 			packet.PutInt(skinId);
 
 			conn.Send(packet);
+		}
+
+		/// <summary>
+		/// Fixes the camera at the given position on the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="pos">Position to fix the camera at.</param>
+		/// <param name="zoomLevel">Defines the zoom level for the fixed camera. Use 0 for no change.</param>
+		public static void ZC_FIXCAMERA(Character character, Position pos, float zoomLevel)
+		{
+			var packet = new Packet(Op.ZC_FIXCAMERA);
+			packet.PutPosition(pos);
+			packet.PutFloat(zoomLevel);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Unfixes the camera on the character's client and makes it
+		/// follow them again.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CANCEL_FIXCAMERA(Character character)
+		{
+			var packet = new Packet(Op.ZC_CANCEL_FIXCAMERA);
+			character.Connection.Send(packet);
 		}
 	}
 }

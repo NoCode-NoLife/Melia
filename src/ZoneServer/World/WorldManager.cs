@@ -109,10 +109,7 @@ namespace Melia.Zone.World
 		private void InitUpdatables()
 		{
 			this.Heartbeat.Add(new TimeEventRaiser());
-
-			this.DayNightCycle = new DayNightCycle();
-			if (ZoneServer.Instance.Conf.World.EnableDayNightCycle)
-				this.Heartbeat.Add(this.DayNightCycle);
+			this.Heartbeat.Add(this.DayNightCycle = new DayNightCycle());
 		}
 
 		/// <summary>
