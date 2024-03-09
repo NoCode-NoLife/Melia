@@ -29,7 +29,7 @@ namespace Melia.Shared.Data.Database
 
 			var data = new DialogData();
 
-			data.ClassId = entry.ReadInt("DialogId");
+			data.ClassId = entry.ReadInt("classId");
 			data.ClassName = entry.ReadString("className");
 
 			this.Add(data);
