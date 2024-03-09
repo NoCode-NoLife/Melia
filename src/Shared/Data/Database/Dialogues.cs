@@ -10,6 +10,7 @@ namespace Melia.Shared.Data.Database
 	{
 		public int ClassId { get; set; }
 		public string ClassName { get; set; }
+		public string Image { get; set; }
 	}
 
 	/// <summary>
@@ -17,8 +18,6 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class DialogDb : DatabaseJson<DialogData>
 	{
-		private readonly HashSet<string> _classNames = new HashSet<string>();
-
 		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
@@ -31,14 +30,9 @@ namespace Melia.Shared.Data.Database
 
 			data.ClassId = entry.ReadInt("classId");
 			data.ClassName = entry.ReadString("className");
+			data.Image = entry.ReadString("image", null);
 
 			this.Add(data);
-		}
-
-		protected override void AfterLoad()
-		{
-			foreach (var entry in this.Entries)
-				_classNames.Add(entry.ClassName);
 		}
 	}
 }
