@@ -17,7 +17,7 @@ public class CKlaipeNpcScript : GeneralScript
 		AddNpc(20111, "[Equipment Merchant] Dunkel", "Dunkel", "c_Klaipe", 394, -475, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Dunkel");
-			dialog.SetPortrait("vickers");
+			dialog.SetPortrait("Dlg_port_vickers");
 
 			var response = await dialog.Select("A lot of people seem to be coming thanks to Sir Uska's recruitment notice.{nl}Take a look around at your own pace without feeling anxious.",
 				Option("Weapons", "weapon"),
@@ -37,7 +37,7 @@ public class CKlaipeNpcScript : GeneralScript
 		AddNpc(20104, "[Accessory Merchant] Ronesa", "Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Ronesa");
-			dialog.SetPortrait("KLAPEDA_ACCESSORY");
+			dialog.SetPortrait("Dlg_port_KLAPEDA_ACCESSORY");
 
 			if (await dialog.Hooks("BeforeDialog"))
 				await dialog.Msg("While you're here, do you need anything?{nl}I've got some hard-to-find stuff.");

@@ -181,15 +181,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// </remarks>
 		/// <param name="imageName"></param>
 		public void SetPortrait(string imageName)
-		{
-			if (!ZoneServer.Instance.Data.DialogDb.TryGetClass(imageName, out var className))
-			{
-				Log.Warning("SetPortrait: Image '{0}' not found in dialog database.", imageName);
-				return;
-			}
-
-			this.Portrait = className ?? imageName;
-		}
+			=> this.Portrait = imageName;
 
 		/// <summary>
 		/// Returns delegates that translate strings to the language
@@ -226,6 +218,14 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		private string AddNpcIdenty(string message)
 		{
+			// If the title was set to a valid dialog entry, we'll use that
+			// one to get the title and portrait from the dialog database
+			if (this.Title != null && this.Portrait == null && ZoneServer.Instance.Data.DialogDb.Contains(this.Title))
+			{
+				message = this.Title + NpcDialogTextSeperator + message;
+				return message;
+			}
+
 			// Prepend title, controlling title displayed on the dialog
 			// window.
 			if (!message.Contains(NpcNameSeperator) && !message.Contains(NpcDialogTextSeperator))
