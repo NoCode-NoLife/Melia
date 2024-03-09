@@ -173,9 +173,23 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// Sets the dialog class to use in message, which affects the
 		/// displayed portrait. Set to null for the default.
 		/// </summary>
-		/// <param name="portrait"></param>
-		public void SetPortrait(string portrait)
-			=> this.Portrait = portrait;
+		/// <remarks>
+		/// The image name refers to the name of an image file in the
+		/// client's npcimg folder, without the file extension. However,
+		/// the desired image needs to be referenced in the dialog database
+		/// for the image to be recognized.
+		/// </remarks>
+		/// <param name="imageName"></param>
+		public void SetPortrait(string imageName)
+		{
+			if (!ZoneServer.Instance.Data.DialogDb.TryGetClass(imageName, out var className))
+			{
+				Log.Warning("SetPortrait: Image '{0}' not found in dialog database.", imageName);
+				return;
+			}
+
+			this.Portrait = className ?? imageName;
+		}
 
 		/// <summary>
 		/// Returns delegates that translate strings to the language

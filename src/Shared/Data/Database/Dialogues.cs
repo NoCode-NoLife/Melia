@@ -16,8 +16,20 @@ namespace Melia.Shared.Data.Database
 	/// <summary>
 	/// Dialog database.
 	/// </summary>
-	public class DialogDb : DatabaseJson<DialogData>
+	public class DialogDb : DatabaseJsonIndexed<string, DialogData>
 	{
+		private readonly Dictionary<string, string> _img2cls = new Dictionary<string, string>();
+
+		/// <summary>
+		/// Returns a class name for the given image name via out if one
+		/// exists. Returns false if no valid entry was found.
+		/// </summary>
+		/// <param name="imageName"></param>
+		/// <param name="className"></param>
+		/// <returns></returns>
+		public bool TryGetClass(string imageName, out string className)
+			=> _img2cls.TryGetValue(imageName, out className);
+
 		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
@@ -32,7 +44,10 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Image = entry.ReadString("image", null);
 
-			this.Add(data);
+			this.Add(data.ClassName, data);
+
+			if (data.Image != null && !_img2cls.ContainsKey(data.Image))
+				_img2cls.Add(data.Image, data.ClassName);
 		}
 	}
 }
