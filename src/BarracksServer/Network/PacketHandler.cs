@@ -291,6 +291,21 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			// Check skin color
+			if (!BarracksServer.Instance.Data.SkinToneDb.TryGetByColor(skinColor, out var skinToneData))
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the unregistered skin tone '0x{1:X8}'.", conn.Account.Name, skinColor);
+				conn.Close();
+				return;
+			}
+
+			if (!skinToneData.Creation)
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the skin ton '0x{1:X8}', which can't be used on creation.", conn.Account.Name, skinColor);
+				conn.Close();
+				return;
+			}
+
 			// Check name
 			if (BarracksServer.Instance.Database.CharacterExists(conn.Account.Id, name))
 			{
