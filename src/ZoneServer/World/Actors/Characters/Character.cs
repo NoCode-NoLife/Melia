@@ -145,6 +145,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public int Hair { get; set; }
 
 		/// <summary>
+		/// Gets or sets the character's skin color.
+		/// </summary>
+		public uint SkinColor { get; set; }
+
+		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
 		public int Stance { get; protected set; }

@@ -53,6 +53,15 @@ namespace Melia.Barracks.Database
 		public int Hair { get; set; }
 
 		/// <summary>
+		/// Gets or sets the character's skin color.
+		/// </summary>
+		/// <remarks>
+		/// This is a normal color code in integer format, i.e. white is
+		/// 0xFFFFFF, red is 0xFF0000, etc.
+		/// </remarks>
+		public uint SkinColor { get; set; }
+
+		/// <summary>
 		/// Returns a list of equipped items.
 		/// </summary>
 		public EquipItem[] Equipment { get; private set; }

@@ -272,8 +272,8 @@ namespace Melia.Barracks.Network
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
 			var startMap = packet.GetInt(); // [i354444] Added. 0 = lv 440 character, 1 = lv 1 character, internally called map select
-			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(5);
+			var hair = packet.GetShort();
+			var skinColor = packet.GetUInt();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
@@ -331,6 +331,7 @@ namespace Melia.Barracks.Network
 			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.SkinColor = skinColor;
 
 			character.MapId = startMapData.Id;
 			character.Position = startPosition;

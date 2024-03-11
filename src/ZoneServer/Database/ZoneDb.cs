@@ -127,6 +127,7 @@ namespace Melia.Zone.Database
 					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetInt32("hair");
+					character.SkinColor = reader.GetUInt32("skinColor");
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt64("exp");
 					character.MaxExp = reader.GetInt64("maxExp");
@@ -385,6 +386,7 @@ namespace Melia.Zone.Database
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
+				cmd.Set("skinColor", character.SkinColor);
 				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
