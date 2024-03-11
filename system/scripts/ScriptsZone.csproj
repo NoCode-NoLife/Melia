@@ -613,6 +613,7 @@
   <ItemGroup>
     <None Include="core\client\api\006_009_sysmenu_create.lua" />
     <None Include="core\client\api\007_002_info_target.lua" />
+    <None Include="custom\client\unclutter\002.lua" />
     <None Include="core\client\dialog_portraits\002.lua" />
     <None Include="custom\client\concise_sysmenu\001.lua" />
     <None Include="core\client\api\002_util.lua" />
