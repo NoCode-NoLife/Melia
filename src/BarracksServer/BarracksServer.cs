@@ -80,6 +80,7 @@ namespace Melia.Barracks
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
+			this.LoadIesMods();
 			this.LoadScripts("system/scripts/scripts_barracks.txt");
 
 			this.StartCommunicator();
@@ -87,6 +88,28 @@ namespace Melia.Barracks
 
 			ConsoleUtil.RunningTitle();
 			new BarracksConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Sets up IES mods.
+		/// </summary>
+		private void LoadIesMods()
+		{
+			// This method is temporary until we have a more proper way
+			// way of handling IES mods.
+
+			// Add IES mods to apply the server-side skin tone data changes
+			// on the client. This, in combination with our custom data,
+			// enables three additional skin tones during character creation
+			// that match the skin tone images displayed.
+			var skinTonesData = this.Data.SkinToneDb.Entries;
+			foreach (var data in skinTonesData)
+			{
+				this.IesMods.Add("SkinTone", data.ClassId, "UseableBarrack", data.Creation ? "YES" : "NO");
+				this.IesMods.Add("SkinTone", data.ClassId, "Red", ((data.Color & 0x00FF0000) >> 16).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Green", ((data.Color & 0x0000FF00) >> 08).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Blue", ((data.Color & 0x000000FF) >> 00).ToString());
+			}
 		}
 
 		/// <summary>
