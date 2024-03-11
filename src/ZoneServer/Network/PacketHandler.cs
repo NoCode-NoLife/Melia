@@ -926,10 +926,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var optionId = packet.GetInt();
+			var optionId = (AccountOptionId)packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!conn.Account.Settings.IsValid(optionId))
+			if (!Enum.IsDefined(typeof(AccountOptionId), optionId))
 			{
 				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;

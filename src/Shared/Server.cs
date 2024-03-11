@@ -218,7 +218,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
 					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
-					this.LoadDb(this.Data.AccountOptionDb, "db/accountoptions.txt");
+					this.LoadDb(this.Data.AccountOptionDb, "db/account_options.txt");
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
 					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
