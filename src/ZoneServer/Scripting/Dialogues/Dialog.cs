@@ -607,6 +607,13 @@ namespace Melia.Zone.Scripting.Dialogues
 	public delegate Task DialogFunc(Dialog dialog);
 
 	/// <summary>
+	/// A function that can be used as a synchronous trigger callback.
+	/// </summary>
+	/// <param name="dialog"></param>
+	/// <returns></returns>
+	public delegate void TriggerCallbackSync(Dialog dialog);
+
+	/// <summary>
 	/// A function that returns a variable number of options and returns
 	/// which one was selected.
 	/// </summary>

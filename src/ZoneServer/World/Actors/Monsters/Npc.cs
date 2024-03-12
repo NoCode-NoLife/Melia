@@ -6,6 +6,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
+using System.Threading.Tasks;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -103,6 +104,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.EnterName = name;
 			this.EnterFunc = func;
+		}
+
+		/// <summary>
+		/// Sets up a function that is called when the NPC is triggered
+		/// by stepping into the given area.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="func"></param>
+		public void SetEnterTriggerSync(string name, TriggerCallbackSync func)
+		{
+			this.SetEnterTrigger(name, async dialog =>
+			{
+				func(dialog);
+				await Task.CompletedTask;
+			});
 		}
 
 		/// <summary>
