@@ -141,6 +141,18 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Area = area;
 		}
+
+		/// <summary>
+		/// Makes the NPC say the given message, which will display via
+		/// chat bubble above their head.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void Say(string format, params object[] args)
+		{
+			var message = args?.Length == 0 ? format : string.Format(format, args);
+			Send.ZC_CHAT(this, message);
+		}
 	}
 
 	/// <summary>
