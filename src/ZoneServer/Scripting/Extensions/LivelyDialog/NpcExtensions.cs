@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -65,7 +66,14 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public static int ModifyMemory(this Dialog dialog, int value)
-			=> ModifyRelationValue(dialog.Npc, dialog.Player, "Memory", value, 0, 100);
+		{
+			var currentValue = dialog.GetMemory();
+			var newValue = Math2.Clamp(0, 100, currentValue + value);
+
+			SetRelationValue(dialog.Npc, dialog.Player, "Memory", newValue);
+
+			return newValue;
+		}
 
 		/// <summary>
 		/// Modifies the NPC's favor towards the player character and
@@ -75,7 +83,14 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public static int ModifyFavor(this Dialog dialog, int value)
-			=> ModifyRelationValue(dialog.Npc, dialog.Player, "Favor", value, -100, 100);
+		{
+			var currentValue = dialog.GetFavor();
+			var newValue = Math2.Clamp(-100, 100, currentValue + value);
+
+			SetRelationValue(dialog.Npc, dialog.Player, "Favor", newValue);
+
+			return newValue;
+		}
 
 		/// <summary>
 		/// Modifies the NPC's stress level when dealing with the player
@@ -85,7 +100,14 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="value"></param>
 		/// <returns></returns>
 		public static int ModifyStress(this Dialog dialog, int value)
-			=> ModifyRelationValue(dialog.Npc, dialog.Player, "Stress", value, 0, 100);
+		{
+			var currentValue = dialog.GetStress();
+			var newValue = Math2.Clamp(0, 100, currentValue + value);
+
+			SetRelationValue(dialog.Npc, dialog.Player, "Stress", newValue);
+
+			return newValue;
+		}
 
 		/// <summary>
 		/// Sets the NPC's memory of the player character to the given
@@ -307,29 +329,6 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 
 			character.Variables.Perm.SetInt(varPrefix + ".Value", value);
 			character.Variables.Perm.SetLong(varPrefix + ".LastChange", DateTime.Now.Ticks);
-		}
-
-		/// <summary>
-		/// Modifies the current value for the given relation value and
-		/// returns the new value.
-		/// </summary>
-		/// <param name="npc"></param>
-		/// <param name="character"></param>
-		/// <param name="valueName"></param>
-		/// <param name="value"></param>
-		/// <param name="minValue"></param>
-		/// <param name="maxValue"></param>
-		/// <returns></returns>
-		private static int ModifyRelationValue(Npc npc, Character character, string valueName, int value, int minValue, int maxValue)
-		{
-			var varPrefix = GetRelationVarPrefix(npc, valueName);
-
-			var currentValue = character.Variables.Perm.GetInt(varPrefix + ".Value", 0);
-			var newValue = Math2.Clamp(minValue, maxValue, currentValue + value);
-
-			SetRelationValue(npc, character, valueName, newValue);
-
-			return newValue;
 		}
 	}
 }
