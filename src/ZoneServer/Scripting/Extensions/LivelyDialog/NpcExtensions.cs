@@ -88,6 +88,33 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 			=> ModifyRelationValue(dialog.Npc, dialog.Player, "Stress", value, 0, 100);
 
 		/// <summary>
+		/// Sets the NPC's memory of the player character to the given
+		/// value.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <param name="value"></param>
+		public static void SetMemory(this Dialog dialog, int value)
+			=> SetRelationValue(dialog.Npc, dialog.Player, "Memory", value);
+
+		/// <summary>
+		/// Sets the NPC's favor towards the player character to the given
+		/// value.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <param name="value"></param>
+		public static void SetFavor(this Dialog dialog, int value)
+			=> SetRelationValue(dialog.Npc, dialog.Player, "Favor", value);
+
+		/// <summary>
+		/// Sets the NPC's stress level when dealing with the player
+		/// to the given value.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <param name="value"></param>
+		public static void SetStress(this Dialog dialog, int value)
+			=> SetRelationValue(dialog.Npc, dialog.Player, "Stress", value);
+
+		/// <summary>
 		/// Modifies the NPC's memory, favor, and stress values at once.
 		/// </summary>
 		/// <param name="dialog"></param>
