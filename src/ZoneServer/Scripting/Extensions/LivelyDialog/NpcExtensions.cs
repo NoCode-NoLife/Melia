@@ -201,10 +201,11 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 			var favor = dialog.GetFavor();
 			var stress = dialog.GetStress();
 
+			// TODO: Add "tagless" names?
 			var npcName = dialog.Npc.Name;
 			var index = npcName.IndexOf(']');
 			if (index != -1)
-				npcName = npcName.Substring(index + 1).Trim();
+				npcName = npcName.Substring(index + 1).Replace("{nl}", "").Trim();
 
 			if (stress > 12)
 				return string.Format(Localization.Get("({0} is giving you an impression as if you're interruping something.)"), npcName);
@@ -240,10 +241,10 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 			switch (rnd.Next(4))
 			{
 				default:
-				case 0: return Localization.Get("({0} is looking at you.)");
-				case 1: return Localization.Get("({0} is looking in your direction.)");
-				case 2: return Localization.Get("({0} is waiting for you to say something.)");
-				case 3: return Localization.Get("({0} is paying attention to you.)");
+				case 0: return string.Format(Localization.Get("({0} is looking at you.)"), npcName);
+				case 1: return string.Format(Localization.Get("({0} is looking in your direction.)"), npcName);
+				case 2: return string.Format(Localization.Get("({0} is waiting for you to say something.)"), npcName);
+				case 3: return string.Format(Localization.Get("({0} is paying attention to you.)"), npcName);
 			}
 		}
 
