@@ -100,6 +100,15 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		}
 
 		/// <summary>
+		/// Returns the current relationship status between the NPC and
+		/// the player.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <returns></returns>
+		public static RelationshipStatus GetRelationshipStatus(this Dialog dialog)
+			=> new RelationshipStatus(dialog);
+
+		/// <summary>
 		/// Applies standard update to relation values. Intended to be used
 		/// after the NPC greets the player character.
 		/// </summary>

@@ -132,6 +132,7 @@
     <Compile Include="Scripting\DelegateCollection.cs" />
     <Compile Include="Scripting\Extensions\LivelyDialog\DialogExtensions.cs" />
     <Compile Include="Scripting\Extensions\LivelyDialog\NpcExtensions.cs" />
+    <Compile Include="Scripting\Extensions\LivelyDialog\RelationshipStatus.cs" />
     <Compile Include="Scripting\Hooking\DialogHook.cs" />
     <Compile Include="Scripting\Hooking\HookResult.cs" />
     <Compile Include="Scripting\Hooking\ScriptHook.cs" />
