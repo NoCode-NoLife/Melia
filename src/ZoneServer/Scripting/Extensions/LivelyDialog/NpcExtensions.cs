@@ -142,7 +142,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// after the NPC greets the player character.
 		/// </summary>
 		/// <param name="dialog"></param>
-		public static async Task UpdateRelation(this Dialog dialog)
+		public static void UpdateRelation(this Dialog dialog)
 		{
 			var memory = dialog.GetMemory();
 			var stress = dialog.GetStress();
@@ -164,8 +164,29 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 				dialog.ModifyMemory(1);
 				dialog.ModifyStress(10);
 			}
+		}
 
-			await dialog.Msg($"(Debug - Memory: {dialog.GetMemory()}, Favor: {dialog.GetFavor()}, Stress: {dialog.GetStress()})");
+		/// <summary>
+		/// Displays a dialog message the shows the NPC's current relation
+		/// values and gives options to change them.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <returns></returns>
+		public static async Task DebugRelation(this Dialog dialog)
+		{
+			var selection = await dialog.Select($"(Debug - Memory: {dialog.GetMemory()}, Favor: {dialog.GetFavor()}, Stress: {dialog.GetStress()})",
+				new DialogOption("Continue", "continue"),
+				new DialogOption("Clear All", "clear_all")
+			);
+
+			if (selection == "clear_all")
+			{
+				dialog.SetMemory(0);
+				dialog.SetFavor(0);
+				dialog.SetStress(0);
+
+				await dialog.Msg($"(Debug - All values cleared. Memory: {dialog.GetMemory()}, Favor: {dialog.GetFavor()}, Stress: {dialog.GetStress()})");
+			}
 		}
 
 		/// <summary>
