@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.L10N;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -116,7 +118,6 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		public static async Task UpdateRelation(this Dialog dialog)
 		{
 			var memory = dialog.GetMemory();
-			var favor = dialog.GetFavor();
 			var stress = dialog.GetStress();
 
 			if (memory == 0)
@@ -138,6 +139,64 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 			}
 
 			await dialog.Msg($"(Debug - Memory: {dialog.GetMemory()}, Favor: {dialog.GetFavor()}, Stress: {dialog.GetStress()})");
+		}
+
+		/// <summary>
+		/// Returns a message that describes the NPC's current mood to
+		/// the player.
+		/// </summary>
+		/// <param name="dialog"></param>
+		/// <returns></returns>
+		public static string GetMoodMessage(this Dialog dialog)
+		{
+			var memory = dialog.GetMemory();
+			var favor = dialog.GetFavor();
+			var stress = dialog.GetStress();
+
+			var npcName = dialog.Npc.Name;
+			var index = npcName.IndexOf(']');
+			if (index != -1)
+				npcName = npcName.Substring(index + 1).Trim();
+
+			if (stress > 12)
+				return string.Format(Localization.Get("({0} is giving you an impression as if you're interruping something.)"), npcName);
+
+			if (stress > 8)
+				return string.Format(Localization.Get("({0} is giving you a look as if it may be better to stop this conversation.)"), npcName);
+
+			if (favor > 40)
+				return string.Format(Localization.Get("({0} is giving you a welcome look.)"), npcName);
+
+			if (favor > 30)
+				return string.Format(Localization.Get("({0} is giving you a friendly smile.)"), npcName);
+
+			if (favor > 10)
+				return string.Format(Localization.Get("({0} is looking at you with great interest.)"), npcName);
+
+			if (favor < -20)
+				return string.Format(Localization.Get("({0} is looking at you like they don't want to see you.)"), npcName);
+
+			if (favor < -10)
+				return string.Format(Localization.Get("({0} is looking at you with obvious disgust.)"), npcName);
+
+			if (favor < -5)
+				return string.Format(Localization.Get("({0} looks like your presence is somewhat unpleasent.)"), npcName);
+
+			if (memory > 15)
+				return string.Format(Localization.Get("({0} is smiling at me as if we've known each other for years.)"), npcName);
+
+			if (memory > 5)
+				return string.Format(Localization.Get("({0} is really giving me a friendly vibe.)"), npcName);
+
+			var rnd = RandomProvider.Get();
+			switch (rnd.Next(4))
+			{
+				default:
+				case 0: return Localization.Get("({0} is looking at you.)");
+				case 1: return Localization.Get("({0} is looking in your direction.)");
+				case 2: return Localization.Get("({0} is waiting for you to say something.)");
+				case 3: return Localization.Get("({0} is paying attention to you.)");
+			}
 		}
 
 		/// <summary>
