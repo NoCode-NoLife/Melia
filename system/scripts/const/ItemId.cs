@@ -9324,6 +9324,11 @@ public static class ItemId
 	public const int Plate_Achieve_Illusionist = 11205123;
 	public const int Plate_Achieve_Wingedhussar = 11205135;
 	public const int Plate_Achieve_Bowmaster = 11205153;
+	public const int Event_2403_WhiteDay_Candy_Set = 11205154;
+	public const int Event_2403_WhiteDay_Candy_1 = 11205155;
+	public const int Event_2403_WhiteDay_Candy_2 = 11205156;
+	public const int Event_2403_WhiteDay_Candy_4 = 11205157;
+	public const int Event_2403_WhiteDay_Candy_3 = 11205158;
 
 	// Earring
 	//-----------------------------------------------------------------------
@@ -13745,6 +13750,8 @@ public static class ItemId
 	public const int High_Enchantchip_Low_Recipe = 11201103;
 	public const int BridgeWailing_Dimension_Recipe = 11201104;
 	public const int BridgeWailing_Dimension_Recipe_NoTrade = 11201105;
+	public const int GROWTH_REINFORCE_TIER3_Set_Box = 11201135;
+	public const int GROWTH_REINFORCE_TIER3_Weapon_Box = 11201136;
 
 	// PasteBait
 	//-----------------------------------------------------------------------
@@ -15905,6 +15912,7 @@ public static class ItemId
 	public const int Balloon_Skin_Fruit_Orange_Balloon = 1250064;
 	public const int Fruit_Chat_Ballon_Select_Box = 1250065;
 	public const int Gesture_FLOWERSCENT = 1250066;
+	public const int Gesture_QuuenKing = 1250067;
 	public const int GLOBAL_STEAM_REWARD_1 = 2000001;
 	public const int GLOBAL_Transcend_Scroll_9_440 = 2000004;
 	public const int PCbang_Legend_ExpPotion_Team_Trade = 2000007;
@@ -18630,6 +18638,7 @@ public static class ItemId
 	public const int Selectbox_Ep15viking02 = 11205150;
 	public const int Special_Gift_Box_Leticia_2403 = 11205151;
 	public const int Leticia_Bowmaster_Unlockbox = 11205152;
+	public const int Special_Gift_Box_Leticia_2403_PAPAYA = 11205160;
 
 	// Quest
 	//-----------------------------------------------------------------------
