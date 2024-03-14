@@ -146,7 +146,7 @@ namespace Melia.Shared.World
 		/// <param name="degree"></param>
 		public Direction(double degree)
 		{
-			// 0° means south in ToS, so we need to offset the degree by -90.
+			// 0° means south in R1, so we need to offset the degree by -90.
 			degree -= 90;
 
 			var radian = degree * (Math.PI / 180.0);

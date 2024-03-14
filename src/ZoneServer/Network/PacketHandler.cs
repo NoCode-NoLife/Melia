@@ -2396,7 +2396,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ToS Hero Emblems?
+		/// Purpose unknown, potentially related to Heroic Tale feature.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>

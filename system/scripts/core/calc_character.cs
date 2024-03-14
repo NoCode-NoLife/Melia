@@ -1069,7 +1069,7 @@ public class CharacterCalculationsScript : GeneralScript
 		// Buffs: "CRTATK_BM"
 		var byBuffs = 0;
 
-		// Rate buffs: Does Tos have something like CritATK +x%?
+		// Rate buffs: Does the game have something like CritATK +x%?
 		var rate = 0;
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
