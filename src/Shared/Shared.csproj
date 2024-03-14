@@ -96,6 +96,7 @@
     <Compile Include="Data\Database\Recipes.cs" />
     <Compile Include="Data\Database\SystemMessages.cs" />
     <Compile Include="Game\Const\AccountOptionId.cs" />
+    <Compile Include="Game\Const\PermissionLevel.cs" />
     <Compile Include="IES\IesModClass.cs" />
     <Compile Include="IES\IesModGroup.cs" />
     <Compile Include="IES\IesModList.cs" />

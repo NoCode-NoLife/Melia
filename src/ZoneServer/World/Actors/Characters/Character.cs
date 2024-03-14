@@ -272,6 +272,12 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsDead => (this.Hp == 0);
 
 		/// <summary>
+		/// Returns the character's game permission level, based on the
+		/// account's authority.
+		/// </summary>
+		public PermissionLevel PermissionLevel => this.Connection?.Account?.PermissionLevel ?? PermissionLevel.User;
+
+		/// <summary>
 		/// Returns the character's component collection.
 		/// </summary>
 		public ComponentCollection Components { get; } = new ComponentCollection();

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Game.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
@@ -43,6 +44,25 @@ namespace Melia.Zone.Database
 		/// can use a specific GM command.
 		/// </summary>
 		public int Authority { get; set; }
+
+		/// <summary>
+		/// Returns the game permission level, based on the account's
+		/// authority.
+		/// </summary>
+		public PermissionLevel PermissionLevel
+		{
+			get
+			{
+				var auth = this.Authority;
+
+				if (auth >= 99)
+					return PermissionLevel.Operator;
+				else if (auth >= 50)
+					return PermissionLevel.GM;
+				else
+					return PermissionLevel.User;
+			}
+		}
 
 		/// <summary>
 		/// Amount of Free TP.
