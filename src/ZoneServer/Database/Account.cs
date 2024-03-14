@@ -53,14 +53,21 @@ namespace Melia.Zone.Database
 		{
 			get
 			{
-				var auth = this.Authority;
+				//var auth = this.Authority;
 
-				if (auth >= 99)
-					return PermissionLevel.Operator;
-				else if (auth >= 50)
-					return PermissionLevel.GM;
-				else
-					return PermissionLevel.User;
+				//if (auth >= 99)
+				//	return PermissionLevel.Operator;
+				//else if (auth >= 50)
+				//	return PermissionLevel.GM;
+				//else
+				//	return PermissionLevel.User;
+
+				// We'll return User for now, as running around with GM
+				// permissions changes the game's behavior and UI to a
+				// degree. We'll need to implement a way to choose the
+				// permission we want to use at run-time.
+
+				return PermissionLevel.User;
 			}
 		}
 
