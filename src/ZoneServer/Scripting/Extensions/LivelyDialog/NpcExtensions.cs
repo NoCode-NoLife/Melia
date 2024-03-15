@@ -79,7 +79,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		public static int ModifyMemory(this Dialog dialog, int value)
 		{
 			var currentValue = dialog.GetMemory();
-			var newValue = Math2.Clamp(0, 100, currentValue + value);
+			var newValue = Math2.Clamp(0, 255, currentValue + value);
 
 			SetRelationValue(dialog.Npc, dialog.Player, "Memory", newValue);
 
@@ -96,7 +96,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		public static int ModifyFavor(this Dialog dialog, int value)
 		{
 			var currentValue = dialog.GetFavor();
-			var newValue = Math2.Clamp(-100, 100, currentValue + value);
+			var newValue = Math2.Clamp(-127, 127, currentValue + value);
 
 			SetRelationValue(dialog.Npc, dialog.Player, "Favor", newValue);
 
@@ -113,7 +113,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		public static int ModifyStress(this Dialog dialog, int value)
 		{
 			var currentValue = dialog.GetStress();
-			var newValue = Math2.Clamp(0, 100, currentValue + value);
+			var newValue = Math2.Clamp(0, 255, currentValue + value);
 
 			SetRelationValue(dialog.Npc, dialog.Player, "Stress", newValue);
 
