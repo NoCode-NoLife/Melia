@@ -1,19 +1,30 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 {
 	public static class NpcExtensions
 	{
+		/// <summary>
+		/// Amount of time for memory to reduce by one point.
+		/// </summary>
+		private readonly static TimeSpan MemoryReductionTick = TimeSpan.FromDays(1);
+
+		/// <summary>
+		/// Amount of time for favor to reduce by one point.
+		/// </summary>
+		private readonly static TimeSpan FavorReductionTick = TimeSpan.FromHours(1);
+
+		/// <summary>
+		/// Amount of time for stress to reduce by one point.
+		/// </summary>
+		private readonly static TimeSpan StressReductionTick = TimeSpan.FromMinutes(1);
+
 		/// <summary>
 		/// Returns a value between 0 and 100 that represents how well
 		/// the NPC remembers the player character.
@@ -26,7 +37,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="dialog"></param>
 		/// <returns></returns>
 		public static int GetMemory(this Dialog dialog)
-			=> GetRelationValue(dialog.Npc, dialog.Player, "Memory", TimeSpan.FromDays(1));
+			=> GetRelationValue(dialog.Npc, dialog.Player, "Memory", MemoryReductionTick);
 
 		/// <summary>
 		/// Returns a value between -100 and 100 that represents the NPC's
@@ -41,7 +52,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="dialog"></param>
 		/// <returns></returns>
 		public static int GetFavor(this Dialog dialog)
-		=> GetRelationValue(dialog.Npc, dialog.Player, "Favor", TimeSpan.FromHours(1));
+		=> GetRelationValue(dialog.Npc, dialog.Player, "Favor", FavorReductionTick);
 
 		/// <summary>
 		/// Returns a value between 0 and 100 that represents the NPC's
@@ -56,7 +67,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="dialog"></param>
 		/// <returns></returns>
 		public static int GetStress(this Dialog dialog)
-			=> GetRelationValue(dialog.Npc, dialog.Player, "Stress", TimeSpan.FromMinutes(1));
+			=> GetRelationValue(dialog.Npc, dialog.Player, "Stress", StressReductionTick);
 
 		/// <summary>
 		/// Modifies the NPC's memory of the player character and returns
