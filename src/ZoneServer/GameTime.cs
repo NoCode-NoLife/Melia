@@ -20,6 +20,16 @@ namespace Melia.Zone
 		public static TimeSpan OneHour => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour);
 
 		/// <summary>
+		/// Returns how long one day in the game world is in real time.
+		/// </summary>
+		public static TimeSpan OneDay => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour * ZoneServer.Instance.Conf.World.HoursPerDay);
+
+		/// <summary>
+		/// Returns how long one month in the game world is in real time.
+		/// </summary>
+		public static TimeSpan OneMonth => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour * ZoneServer.Instance.Conf.World.HoursPerDay * ZoneServer.Instance.Conf.World.DaysPerMonth);
+
+		/// <summary>
 		/// The current hour in the game world.
 		/// </summary>
 		public readonly int Hour;
