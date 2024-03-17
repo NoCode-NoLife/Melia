@@ -356,18 +356,9 @@ namespace Melia.Shared
 
 			try
 			{
-				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
-				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
-				provider.SetCompilerFullPath(Path.GetFullPath("lib/roslyn/csc.exe"));
-
 				var cachePath = (string)null;
-				//if (conf.Scripting.EnableCaching)
-				//{
-				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
-				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
-				//}
 
-				this.ScriptLoader = new ScriptLoader(provider, cachePath);
+				this.ScriptLoader = new ScriptLoader(cachePath);
 				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
@@ -416,7 +407,7 @@ namespace Melia.Shared
 		/// <param name="ex"></param>
 		private void DisplayScriptErrors(CompilerErrorException ex)
 		{
-			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			foreach (var err in ex.Errors)
 			{
 				if (string.IsNullOrWhiteSpace(err.FileName))
 				{

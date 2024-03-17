@@ -4,69 +4,6 @@
         <name>Yggdrasil</name>
     </assembly>
     <members>
-        <member name="T:Yggdrasil.Collections.ListCollection`2">
-            <summary>
-            Thread-safe wrapper around a generic dictionary for indexed lists.
-            </summary>
-            <typeparam name="TKey"></typeparam>
-            <typeparam name="TValue">Type of the list.</typeparam>
-        </member>
-        <member name="F:Yggdrasil.Collections.ListCollection`2._entries">
-            <summary>
-            Wrapped entries list.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Collections.ListCollection`2.Count">
-            <summary>
-            Returns number of lists in collection.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.#ctor">
-            <summary>
-            Creates new collection.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.CountValues(`0)">
-            <summary>
-            Returns the number of values in the list with the given key.
-            Returns 0 if list doesn't exist.
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.Add(`0,`1)">
-            <summary>
-            Adds value to key's list.
-            </summary>
-            <param name="key"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear">
-            <summary>
-            Clears collection.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear(`0)">
-            <summary>
-            Clears list in collection.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.ContainsKey(`0)">
-            <summary>
-            Returns true if collection contains a value for key.
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Collections.ListCollection`2.Get(`0)">
-            <summary>
-            Returns copy of list for key, or an empty list if the key
-            doesn't exist.
-            </summary>
-            <param name="key"></param>
-            <returns></returns>
-        </member>
         <member name="T:Yggdrasil.Collections.Collection`2">
             <summary>
             Thread-safe wrapper around a generic dictionary.
@@ -205,6 +142,69 @@
             </example>
             <typeparam name="TObj"></typeparam>
             <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Collections.ListCollection`2">
+            <summary>
+            Thread-safe wrapper around a generic dictionary for indexed lists.
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue">Type of the list.</typeparam>
+        </member>
+        <member name="F:Yggdrasil.Collections.ListCollection`2._entries">
+            <summary>
+            Wrapped entries list.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Collections.ListCollection`2.Count">
+            <summary>
+            Returns number of lists in collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.#ctor">
+            <summary>
+            Creates new collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.CountValues(`0)">
+            <summary>
+            Returns the number of values in the list with the given key.
+            Returns 0 if list doesn't exist.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Add(`0,`1)">
+            <summary>
+            Adds value to key's list.
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear">
+            <summary>
+            Clears collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Clear(`0)">
+            <summary>
+            Clears list in collection.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.ContainsKey(`0)">
+            <summary>
+            Returns true if collection contains a value for key.
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Collections.ListCollection`2.Get(`0)">
+            <summary>
+            Returns copy of list for key, or an empty list if the key
+            doesn't exist.
+            </summary>
+            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Collections.IOrderedDictionary`2">
@@ -349,6 +349,73 @@
             Copy the elements of the dictionary to an array, starting at at the given index.
             </summary>
         </member>
+        <member name="T:Yggdrasil.Composition.IComponent">
+            <summary>
+            Base interface for components.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Composition.ComponentCollection">
+            <summary>
+            A collection of components for an entity.
+            </summary>
+            <remarks>
+            Components are addressed by their type, and there can only be
+            one component per type. For example, only one inventory, one
+            skill collection, etc.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Add``1(``0)">
+            <summary>
+            Adds a component.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <param name="component"></param>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove(Yggdrasil.Composition.IComponent)">
+            <summary>
+            Removes the given component, returns false if the
+            component didn't exist.
+            </summary>
+            <param name="component"></param>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove``1">
+            <summary>
+            Removes component of the given type, returns false if the
+            component didn't exist.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Get``1">
+            <summary>
+            Returns the component of the given type, or the type's default
+            value if the component wasn't found.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.TryGet``1(``0@)">
+            <summary>
+            Returns the component of the given type via out, returns false
+            if the component wasn't found.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <param name="component"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Has``1">
+            <summary>
+            Returns true if a component with the given type exists.
+            </summary>
+            <typeparam name="TComponent"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Composition.ComponentCollection.Update(System.TimeSpan)">
+            <summary>
+            Updates updatable components.
+            </summary>
+            <param name="elapsed"></param>
+        </member>
         <member name="T:Yggdrasil.Configuration.ConfFile">
             <summary>
             Configuration options manager.
@@ -471,94 +538,6 @@
             <typeparam name="T">The type of the enum</typeparam>
             <param name="option"></param>
             <param name="defaultValue"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Composition.IComponent">
-            <summary>
-            Base interface for components.
-            </summary>
-        </member>
-        <member name="T:Yggdrasil.Composition.ComponentCollection">
-            <summary>
-            A collection of components for an entity.
-            </summary>
-            <remarks>
-            Components are addressed by their type, and there can only be
-            one component per type. For example, only one inventory, one
-            skill collection, etc.
-            </remarks>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Add``1(``0)">
-            <summary>
-            Adds a component.
-            </summary>
-            <typeparam name="TComponent"></typeparam>
-            <param name="component"></param>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove(Yggdrasil.Composition.IComponent)">
-            <summary>
-            Removes the given component, returns false if the
-            component didn't exist.
-            </summary>
-            <param name="component"></param>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Remove``1">
-            <summary>
-            Removes component of the given type, returns false if the
-            component didn't exist.
-            </summary>
-            <typeparam name="TComponent"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Get``1">
-            <summary>
-            Returns the component of the given type, or the type's default
-            value if the component wasn't found.
-            </summary>
-            <typeparam name="TComponent"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.TryGet``1(``0@)">
-            <summary>
-            Returns the component of the given type via out, returns false
-            if the component wasn't found.
-            </summary>
-            <typeparam name="TComponent"></typeparam>
-            <param name="component"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Has``1">
-            <summary>
-            Returns true if a component with the given type exists.
-            </summary>
-            <typeparam name="TComponent"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Composition.ComponentCollection.Update(System.TimeSpan)">
-            <summary>
-            Updates updatable components.
-            </summary>
-            <param name="elapsed"></param>
-        </member>
-        <member name="T:Yggdrasil.Extensions.TimeSpanExtensions">
-            <summary>
-            Extensions for TimeSpan.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Divide(System.TimeSpan,System.Int32)">
-            <summary>
-            Divides the timespan by the divisor and returns the result.
-            </summary>
-            <param name="timespan"></param>
-            <param name="divisor"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Multiply(System.TimeSpan,System.Int32)">
-            <summary>
-            Multiplies the timespan by the multiplier and returns the result.
-            </summary>
-            <param name="timespan"></param>
-            <param name="multiplier"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Extensions.DateTimeExtensions">
@@ -759,71 +738,25 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.Geometry.LineF">
+        <member name="T:Yggdrasil.Extensions.TimeSpanExtensions">
             <summary>
-            A line, respresented by two points.
+            Extensions for TimeSpan.
             </summary>
         </member>
-        <member name="F:Yggdrasil.Geometry.LineF.Point1">
+        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Divide(System.TimeSpan,System.Int32)">
             <summary>
-            The first point of the line.
+            Divides the timespan by the divisor and returns the result.
             </summary>
-        </member>
-        <member name="F:Yggdrasil.Geometry.LineF.Point2">
-            <summary>
-            The second point of the line.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.#ctor(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="point1"></param>
-            <param name="point2"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.Intersects(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.Vector2F@)">
-            <summary>
-            Returns true if this line intersects with the given line,
-            and returns the point at which they intersect via out.
-            </summary>
-            <param name="otherLine"></param>
-            <param name="intersection"></param>
+            <param name="timespan"></param>
+            <param name="divisor"></param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.LineF.op_Equality(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.LineF)">
+        <member name="M:Yggdrasil.Extensions.TimeSpanExtensions.Multiply(System.TimeSpan,System.Int32)">
             <summary>
-            Returns true if the line's points are the same.
+            Multiplies the timespan by the multiplier and returns the result.
             </summary>
-            <param name="val1"></param>
-            <param name="val2"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.op_Inequality(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.LineF)">
-            <summary>
-            Returns true if the line's points are not the same.
-            </summary>
-            <param name="val1"></param>
-            <param name="val2"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.GetHashCode">
-            <summary>
-            Returns a hash code for this line that will equal lines
-            with the same points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.Equals(System.Object)">
-            <summary>
-            Returns true if the given object is this exact line instance.
-            </summary>
-            <param name="obj"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.LineF.ToString">
-            <summary>
-            Returns a string representation of this Line.
-            </summary>
+            <param name="timespan"></param>
+            <param name="multiplier"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Geometry.Line">
@@ -893,21 +826,72 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.Geometry.OutlineF">
+        <member name="T:Yggdrasil.Geometry.LineF">
             <summary>
-            Represents the outline of a shape.
+            A line, respresented by two points.
             </summary>
         </member>
-        <member name="F:Yggdrasil.Geometry.OutlineF.Lines">
+        <member name="F:Yggdrasil.Geometry.LineF.Point1">
             <summary>
-            Returns the lines that make up the outline.
+            The first point of the line.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Geometry.OutlineF.#ctor(Yggdrasil.Geometry.LineF[])">
+        <member name="F:Yggdrasil.Geometry.LineF.Point2">
+            <summary>
+            The second point of the line.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.#ctor(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
             <summary>
             Creates new instance.
             </summary>
-            <param name="lines"></param>
+            <param name="point1"></param>
+            <param name="point2"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.Intersects(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.Vector2F@)">
+            <summary>
+            Returns true if this line intersects with the given line,
+            and returns the point at which they intersect via out.
+            </summary>
+            <param name="otherLine"></param>
+            <param name="intersection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.op_Equality(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.LineF)">
+            <summary>
+            Returns true if the line's points are the same.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.op_Inequality(Yggdrasil.Geometry.LineF,Yggdrasil.Geometry.LineF)">
+            <summary>
+            Returns true if the line's points are not the same.
+            </summary>
+            <param name="val1"></param>
+            <param name="val2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.GetHashCode">
+            <summary>
+            Returns a hash code for this line that will equal lines
+            with the same points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.Equals(System.Object)">
+            <summary>
+            Returns true if the given object is this exact line instance.
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.LineF.ToString">
+            <summary>
+            Returns a string representation of this Line.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Geometry.Outline">
             <summary>
@@ -920,6 +904,22 @@
             </summary>
         </member>
         <member name="M:Yggdrasil.Geometry.Outline.#ctor(Yggdrasil.Geometry.Line[])">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="lines"></param>
+        </member>
+        <member name="T:Yggdrasil.Geometry.OutlineF">
+            <summary>
+            Represents the outline of a shape.
+            </summary>
+        </member>
+        <member name="F:Yggdrasil.Geometry.OutlineF.Lines">
+            <summary>
+            Returns the lines that make up the outline.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.OutlineF.#ctor(Yggdrasil.Geometry.LineF[])">
             <summary>
             Creates new instance.
             </summary>
@@ -996,6 +996,158 @@
             <param name="pivot"></param>
             <param name="degreeAngle"></param>
         </member>
+        <member name="T:Yggdrasil.Geometry.IShape">
+            <summary>
+            A 2D shape.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.IShape.Center">
+            <summary>
+            Returns the center of the shape.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShape.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this shape.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShape.GetEdgePoints">
+            <summary>
+            Returns the shape's edge points.
+            </summary>
+            <remarks>
+            Depending on the shape the result of this method might be an
+            aproximation, such as with circular shapes that don't
+            technically have edges.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShape.GetOutlines">
+            <summary>
+            Returns the shape's outlines based on its edge points.
+            </summary>
+            <remarks>
+            Most shapes have only one outline, but shapes can also be made
+            out of multiple sub-shapes, in which case this will return
+            outlines for all sub-shapes separately.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShape.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point inside the shape.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.IShapeF">
+            <summary>
+            A 2D shape.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.IShapeF.Center">
+            <summary>
+            Returns the center of the shape.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShapeF.IsInside(Yggdrasil.Geometry.Vector2F)">
+            <summary>
+            Returns true if the given position is within this shape.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShapeF.GetEdgePoints">
+            <summary>
+            Returns the shape's edge points.
+            </summary>
+            <remarks>
+            Depending on the shape the result of this method might be an
+            aproximation, such as with circular shapes that don't
+            technically have edges.
+            </remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShapeF.GetOutlines">
+            <summary>
+            Returns the shape's outlines based on its edge points.
+            </summary>
+            <remarks>
+            Most shapes have only one outline, but shapes can also be made
+            out of multiple sub-shapes, in which case this will return
+            outlines for all sub-shapes separately.
+            </remarks>
+        </member>
+        <member name="M:Yggdrasil.Geometry.IShapeF.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point inside the shape.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Geometry.Shapes.Circle">
+            <summary>
+            A round shape.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Center">
+            <summary>
+            Returns the circle's center position.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Radius">
+            <summary>
+            Returns the circle's radius.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.#ctor(Yggdrasil.Geometry.Vector2,System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="center"></param>
+            <param name="radius"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position is within this circle.
+            </summary>
+            <param name="pos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetDefaultEdges">
+            <summary>
+            Returns the number of edges to use by default, based on the size
+            of circle.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints">
+            <summary>
+            Returns an aproximation for the circle's edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetOutlines">
+            <summary>
+            Returns the circle's outline based on its edge points.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints(System.Int32)">
+            <summary>
+            Returns the given amount of edge points for this circle.
+            </summary>
+            <param name="edges"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetRandomPoint(System.Random)">
+            <summary>
+            Returns a random point within the circle.
+            </summary>
+            <param name="rnd"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.CircleF">
             <summary>
             A round shape.
@@ -1071,64 +1223,56 @@
             <param name="pivot"></param>
             <param name="degreeAngle"></param>
         </member>
-        <member name="T:Yggdrasil.Geometry.Shapes.Circle">
+        <member name="T:Yggdrasil.Geometry.Shapes.CompositeShape">
             <summary>
-            A round shape.
+            A shape that combines multiple shapes.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Center">
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Shapes">
             <summary>
-            Returns the circle's center position.
+            Returns all shapes this composite shape contains.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Circle.Radius">
+        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Center">
             <summary>
-            Returns the circle's radius.
+            Returns the average of the combined shapes.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.#ctor(Yggdrasil.Geometry.Vector2,System.Int32)">
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(Yggdrasil.Geometry.IShape[])">
             <summary>
             Creates new instance.
             </summary>
-            <param name="center"></param>
-            <param name="radius"></param>
+            <param name="shapes"></param>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.IsInside(Yggdrasil.Geometry.Vector2)">
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.IShape})">
             <summary>
-            Returns true if the given position is within this circle.
+            Creates new instance.
+            </summary>
+            <param name="shapes"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given position inside any of this composite
+            shape's shapes.
             </summary>
             <param name="pos"></param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetDefaultEdges">
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetEdgePoints">
             <summary>
-            Returns the number of edges to use by default, based on the size
-            of circle.
+            Returns a list of all edge points of all shapes.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints">
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetOutlines">
             <summary>
-            Returns an aproximation for the circle's edge points.
+            Returns the outlines for all sub-shapes.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetOutlines">
+        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetRandomPoint(System.Random)">
             <summary>
-            Returns the circle's outline based on its edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetEdgePoints(System.Int32)">
-            <summary>
-            Returns the given amount of edge points for this circle.
-            </summary>
-            <param name="edges"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Circle.GetRandomPoint(System.Random)">
-            <summary>
-            Returns a random point within the circle.
+            Returns a random point within one of this shape's shapes.
             </summary>
             <param name="rnd"></param>
             <returns></returns>
@@ -1206,56 +1350,81 @@
             <param name="pivot"></param>
             <param name="degreeAngle"></param>
         </member>
-        <member name="T:Yggdrasil.Geometry.Shapes.CompositeShape">
+        <member name="T:Yggdrasil.Geometry.Shapes.Cone">
             <summary>
-            A shape that combines multiple shapes.
+            A triangular base with a round top, akin to a flashlight's cone.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Shapes">
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Center">
             <summary>
-            Returns all shapes this composite shape contains.
+            Returns the center of the cone.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.CompositeShape.Center">
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Tip">
             <summary>
-            Returns the average of the combined shapes.
+            Returns the position of the pointed tip of the cone.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(Yggdrasil.Geometry.IShape[])">
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Direction">
+            <summary>
+            Returns the direction of the cone in degress, extending from
+            the tip.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Radius">
+            <summary>
+            Returns the radius or "length" of the cone, from the tip to
+            the rounded edge.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Angle">
+            <summary>
+            Returns the angle of the cone in degrees, from 0° (a line)
+            to 180° (a half circle).
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.#ctor(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Single)">
             <summary>
             Creates new instance.
             </summary>
-            <param name="shapes"></param>
+            <param name="tipPos">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.IShape})">
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2)">
             <summary>
-            Creates new instance.
+            Returns true if the given position is within this cone.
             </summary>
-            <param name="shapes"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.IsInside(Yggdrasil.Geometry.Vector2)">
-            <summary>
-            Returns true if the given position inside any of this composite
-            shape's shapes.
-            </summary>
-            <param name="pos"></param>
+            <param name="checkPos"></param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetEdgePoints">
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Double,Yggdrasil.Geometry.Vector2)">
             <summary>
-            Returns a list of all edge points of all shapes.
+            Returns true if the given position is within this cone.
+            </summary>
+            <param name="tip">Position of the pointed tip of the cone.</param>
+            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
+            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
+            <param name="angle">The angle of the cone in degrees.</param>
+            <param name="checkPos">The position to check whether it is inside the cone.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetEdgePoints">
+            <summary>
+            Returns approximation of the edge points of the cone.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetOutlines">
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetOutlines">
             <summary>
-            Returns the outlines for all sub-shapes.
+            Returns the cone's outline based on its edge points.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.CompositeShape.GetRandomPoint(System.Random)">
+        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetRandomPoint(System.Random)">
             <summary>
-            Returns a random point within one of this shape's shapes.
+            Returns random point within the cone.
             </summary>
             <param name="rnd"></param>
             <returns></returns>
@@ -1339,79 +1508,94 @@
             <param name="rnd"></param>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.Geometry.Shapes.Cone">
+        <member name="T:Yggdrasil.Geometry.Shapes.Polygon">
             <summary>
-            A triangular base with a round top, akin to a flashlight's cone.
+            A shape with an undefined number of edge points, but a minimum of 3,
+            forming a triangle.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Center">
+        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Center">
             <summary>
-            Returns the center of the cone.
+            Returns the polygon's position.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Tip">
+        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Points">
             <summary>
-            Returns the position of the pointed tip of the cone.
+            Returns the polygon's points.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Direction">
-            <summary>
-            Returns the direction of the cone in degress, extending from
-            the tip.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Radius">
-            <summary>
-            Returns the radius or "length" of the cone, from the tip to
-            the rounded edge.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Cone.Angle">
-            <summary>
-            Returns the angle of the cone in degrees, from 0° (a line)
-            to 180° (a half circle).
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.#ctor(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Single)">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2[])">
             <summary>
             Creates new instance.
             </summary>
-            <param name="tipPos">Position of the pointed tip of the cone.</param>
-            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
-            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
-            <param name="angle">The angle of the cone in degrees.</param>
+            <param name="points"></param>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2)">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2,System.Int32,System.Int32)">
             <summary>
-            Returns true if the given position is within this cone.
+            Creates a rectangular polygon around the given vector.
             </summary>
-            <param name="checkPos"></param>
+            <param name="corner"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Vector2})">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="points"></param>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(System.Int32,System.Int32,System.Int32,System.Int32,System.Single)">
+            <summary>
+            Returns a polyon with 4 edge points, making up a rectangle
+            with the given properties.
+            </summary>
+            <param name="x">Center position of the rectangle.</param>
+            <param name="y">Center position of the rectangle.</param>
+            <param name="width">Width of the rectangle.</param>
+            <param name="height">Height of the rectangle.</param>
+            <param name="rotation">Rotation of the rectangle in degrees.</param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.IsInside(Yggdrasil.Geometry.Vector2,System.Double,System.Double,System.Double,Yggdrasil.Geometry.Vector2)">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Single)">
             <summary>
-            Returns true if the given position is within this cone.
+            Returns a polyon with 4 edge points, making up a rectangle
+            with the given properties.
             </summary>
-            <param name="tip">Position of the pointed tip of the cone.</param>
-            <param name="direction">The direction of the cone in degrees, extending from the tip.</param>
-            <param name="radius">The radius or "length" of the cone, from the tip to the rounded edge.</param>
-            <param name="angle">The angle of the cone in degrees.</param>
-            <param name="checkPos">The position to check whether it is inside the cone.</param>
+            <param name="center">Center position of the rectangle.</param>
+            <param name="size">Size of the rectangle.</param>
+            <param name="rotation">Rotation of the rectangle in degrees.</param>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetEdgePoints">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.RectangleBetween(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Int32)">
             <summary>
-            Returns approximation of the edge points of the cone.
+            Returns a polygon with 4 edge points, making up a rectangle
+            spanning from start to end.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <param name="width"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.IsInside(Yggdrasil.Geometry.Vector2)">
+            <summary>
+            Returns true if the given point is within this polygon.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetEdgePoints">
+            <summary>
+            Returns the polygon's edge points.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetOutlines">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetOutlines">
             <summary>
-            Returns the cone's outline based on its edge points.
+            Returns the polygon's outline based on its edge points.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Cone.GetRandomPoint(System.Random)">
+        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetRandomPoint(System.Random)">
             <summary>
             Returns random point within the cone.
             </summary>
@@ -1525,133 +1709,6 @@
             <param name="pivot"></param>
             <param name="degreeAngle"></param>
         </member>
-        <member name="T:Yggdrasil.Geometry.Shapes.Polygon">
-            <summary>
-            A shape with an undefined number of edge points, but a minimum of 3,
-            forming a triangle.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Center">
-            <summary>
-            Returns the polygon's position.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.Polygon.Points">
-            <summary>
-            Returns the polygon's points.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2[])">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="points"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(Yggdrasil.Geometry.Vector2,System.Int32,System.Int32)">
-            <summary>
-            Creates a rectangular polygon around the given vector.
-            </summary>
-            <param name="corner"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.#ctor(System.Collections.Generic.IEnumerable{Yggdrasil.Geometry.Vector2})">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="points"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(System.Int32,System.Int32,System.Int32,System.Int32,System.Single)">
-            <summary>
-            Returns a polyon with 4 edge points, making up a rectangle
-            with the given properties.
-            </summary>
-            <param name="x">Center position of the rectangle.</param>
-            <param name="y">Center position of the rectangle.</param>
-            <param name="width">Width of the rectangle.</param>
-            <param name="height">Height of the rectangle.</param>
-            <param name="rotation">Rotation of the rectangle in degrees.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.Rectangle(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Single)">
-            <summary>
-            Returns a polyon with 4 edge points, making up a rectangle
-            with the given properties.
-            </summary>
-            <param name="center">Center position of the rectangle.</param>
-            <param name="size">Size of the rectangle.</param>
-            <param name="rotation">Rotation of the rectangle in degrees.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.RectangleBetween(Yggdrasil.Geometry.Vector2,Yggdrasil.Geometry.Vector2,System.Int32)">
-            <summary>
-            Returns a polygon with 4 edge points, making up a rectangle
-            spanning from start to end.
-            </summary>
-            <param name="start"></param>
-            <param name="end"></param>
-            <param name="width"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.IsInside(Yggdrasil.Geometry.Vector2)">
-            <summary>
-            Returns true if the given point is within this polygon.
-            </summary>
-            <param name="point"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetEdgePoints">
-            <summary>
-            Returns the polygon's edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetOutlines">
-            <summary>
-            Returns the polygon's outline based on its edge points.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.Polygon.GetRandomPoint(System.Random)">
-            <summary>
-            Returns random point within the cone.
-            </summary>
-            <param name="rnd"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Geometry.Shapes.RectangleF">
-            <summary>
-            A rectangle shape.
-            </summary>
-            <remarks>
-            To create a rotated rectangle use PolygonF.Rectangle.
-            </remarks>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Position">
-            <summary>
-            Returns the rectangle's position.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Size">
-            <summary>
-            Returns the rectangle's size.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.#ctor(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="pos"></param>
-            <param name="size"></param>
-        </member>
-        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.Centered(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
-            <summary>
-            Returns a new rectangle from a center position and a size.
-            </summary>
-            <param name="center"></param>
-            <param name="size"></param>
-            <returns></returns>
-        </member>
         <member name="T:Yggdrasil.Geometry.Shapes.Rectangle">
             <summary>
             A rectangle shape.
@@ -1685,94 +1742,37 @@
             <param name="size"></param>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.Geometry.IShapeF">
+        <member name="T:Yggdrasil.Geometry.Shapes.RectangleF">
             <summary>
-            A 2D shape.
+            A rectangle shape.
+            </summary>
+            <remarks>
+            To create a rotated rectangle use PolygonF.Rectangle.
+            </remarks>
+        </member>
+        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Position">
+            <summary>
+            Returns the rectangle's position.
             </summary>
         </member>
-        <member name="P:Yggdrasil.Geometry.IShapeF.Center">
+        <member name="P:Yggdrasil.Geometry.Shapes.RectangleF.Size">
             <summary>
-            Returns the center of the shape.
+            Returns the rectangle's size.
             </summary>
         </member>
-        <member name="M:Yggdrasil.Geometry.IShapeF.IsInside(Yggdrasil.Geometry.Vector2F)">
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.#ctor(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
             <summary>
-            Returns true if the given position is within this shape.
+            Creates new instance.
             </summary>
             <param name="pos"></param>
-            <returns></returns>
+            <param name="size"></param>
         </member>
-        <member name="M:Yggdrasil.Geometry.IShapeF.GetEdgePoints">
+        <member name="M:Yggdrasil.Geometry.Shapes.RectangleF.Centered(Yggdrasil.Geometry.Vector2F,Yggdrasil.Geometry.Vector2F)">
             <summary>
-            Returns the shape's edge points.
+            Returns a new rectangle from a center position and a size.
             </summary>
-            <remarks>
-            Depending on the shape the result of this method might be an
-            aproximation, such as with circular shapes that don't
-            technically have edges.
-            </remarks>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShapeF.GetOutlines">
-            <summary>
-            Returns the shape's outlines based on its edge points.
-            </summary>
-            <remarks>
-            Most shapes have only one outline, but shapes can also be made
-            out of multiple sub-shapes, in which case this will return
-            outlines for all sub-shapes separately.
-            </remarks>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShapeF.GetRandomPoint(System.Random)">
-            <summary>
-            Returns a random point inside the shape.
-            </summary>
-            <param name="rnd"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Geometry.IShape">
-            <summary>
-            A 2D shape.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Geometry.IShape.Center">
-            <summary>
-            Returns the center of the shape.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShape.IsInside(Yggdrasil.Geometry.Vector2)">
-            <summary>
-            Returns true if the given position is within this shape.
-            </summary>
-            <param name="pos"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShape.GetEdgePoints">
-            <summary>
-            Returns the shape's edge points.
-            </summary>
-            <remarks>
-            Depending on the shape the result of this method might be an
-            aproximation, such as with circular shapes that don't
-            technically have edges.
-            </remarks>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShape.GetOutlines">
-            <summary>
-            Returns the shape's outlines based on its edge points.
-            </summary>
-            <remarks>
-            Most shapes have only one outline, but shapes can also be made
-            out of multiple sub-shapes, in which case this will return
-            outlines for all sub-shapes separately.
-            </remarks>
-        </member>
-        <member name="M:Yggdrasil.Geometry.IShape.GetRandomPoint(System.Random)">
-            <summary>
-            Returns a random point inside the shape.
-            </summary>
-            <param name="rnd"></param>
+            <param name="center"></param>
+            <param name="size"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Geometry.Vector2">
@@ -2000,6 +2000,202 @@
             Returns a string representation of this Vector2F.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.IO.FileReader">
+            <summary>
+            General use class to read files line for line.
+            </summary>
+            <remarks>
+            Ignores empty lines and lines prefixed with '!', ';', '#', '//', or '--'.
+            Supports including of files via 'include {file}' and 'require {file}'.
+            Require raises an exception if the file couldn't be found.
+            
+            Paths to included files may not be absolute. If a path starts with
+            a slash, the path is relative to the working directory.
+            This simplifies including files from other sub-folders of the
+            application.
+            </remarks>
+            <example>
+            <code>
+            using (var fr = new FileReader(filePath))
+            {
+            	foreach (string line in fr)
+            	{
+            		// Do something with line
+            	}
+            }
+            </code>
+            </example>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReader.CurrentLine">
+            <summary>
+            Returns the line the reader is currently on.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.#ctor(System.String)">
+            <summary>
+            Creates new reader for given file.
+            </summary>
+            <param name="filePath"></param>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.GetEnumerator">
+            <summary>
+            Returns enumerator for the lines in the open file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns enumerator for the lines in the open file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReader.Dispose">
+            <summary>
+            Closes internal stream reader.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.IO.FileReaderLine">
+            <summary>
+            Represents a line read from a file by the FileReader.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReaderLine.Value">
+            <summary>
+            Current line.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.IO.FileReaderLine.File">
+            <summary>
+            Full path to the file the value was read from.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.IO.FileReaderLine.#ctor(System.String,System.String)">
+            <summary>
+            New FileReaderLine.
+            </summary>
+            <param name="line"></param>
+            <param name="file"></param>
+        </member>
+        <member name="T:Yggdrasil.Logging.Log">
+            <summary>
+            Logs messages to command line and file.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Init(System.String)">
+            <summary>
+            Initiaizes global Log instance with the given name. If Init is
+            not called, a default logger with the name of the assembly will
+            be created.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.GetLogger">
+            <summary>
+            Creates a logger if it doesn't exist yet.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.String)">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.String,System.Object[])">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Info(System.Object)">
+            <summary>
+            Logs an info message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.String)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.String,System.Object[])">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Warning(System.Object)">
+            <summary>
+            Logs a warning message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.String)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.String,System.Object[])">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Error(System.Object)">
+            <summary>
+            Logs an error message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.String)">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.String,System.Object[])">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Debug(System.Object)">
+            <summary>
+            Logs a debug message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.String)">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.String,System.Object[])">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.Status(System.Object)">
+            <summary>
+            Logs a status message.
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Log.SetFilter(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Sets levels that should not be logged.
+            </summary>
+            <param name="levels"></param>
         </member>
         <member name="T:Yggdrasil.Logging.Logger">
             <summary>
@@ -2302,6 +2498,44 @@
             <param name="level"></param>
             <returns></returns>
         </member>
+        <member name="T:Yggdrasil.Logging.Targets.FileTarget">
+            <summary>
+            Logger target logging to a text file.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FolderPath">
+            <summary>
+            The folder the log file is in.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FilePath">
+            <summary>
+            The path to the log file.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.#ctor(System.String)">
+            <summary>
+            Creates new instance, with the file going into the given folder.
+            </summary>
+            <param name="folderPath"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
+            <summary>
+            Writes clean message to the log file, prepending it with the
+            time and date the message was written at.
+            </summary>
+            <param name="level"></param>
+            <param name="message"></param>
+            <param name="messageRaw"></param>
+            <param name="messageClean"></param>
+        </member>
+        <member name="M:Yggdrasil.Logging.Targets.FileTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
+            <summary>
+            Returns the format for the raw log message.
+            </summary>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
         <member name="T:Yggdrasil.Logging.Targets.SmtpTarget">
             <summary>
             Logger target that sends messages via SMTP.
@@ -2389,164 +2623,6 @@
             <param name="level"></param>
             <returns></returns>
         </member>
-        <member name="T:Yggdrasil.Logging.Targets.FileTarget">
-            <summary>
-            Logger target logging to a text file.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FolderPath">
-            <summary>
-            The folder the log file is in.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Logging.Targets.FileTarget.FilePath">
-            <summary>
-            The path to the log file.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Logging.Targets.FileTarget.#ctor(System.String)">
-            <summary>
-            Creates new instance, with the file going into the given folder.
-            </summary>
-            <param name="folderPath"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Targets.FileTarget.Write(Yggdrasil.Logging.LogLevel,System.String,System.String,System.String)">
-            <summary>
-            Writes clean message to the log file, prepending it with the
-            time and date the message was written at.
-            </summary>
-            <param name="level"></param>
-            <param name="message"></param>
-            <param name="messageRaw"></param>
-            <param name="messageClean"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Targets.FileTarget.GetFormat(Yggdrasil.Logging.LogLevel)">
-            <summary>
-            Returns the format for the raw log message.
-            </summary>
-            <param name="level"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Logging.Log">
-            <summary>
-            Logs messages to command line and file.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Init(System.String)">
-            <summary>
-            Initiaizes global Log instance with the given name. If Init is
-            not called, a default logger with the name of the assembly will
-            be created.
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.GetLogger">
-            <summary>
-            Creates a logger if it doesn't exist yet.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Info(System.String)">
-            <summary>
-            Logs an info message.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Info(System.String,System.Object[])">
-            <summary>
-            Logs an info message.
-            </summary>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Info(System.Object)">
-            <summary>
-            Logs an info message.
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Warning(System.String)">
-            <summary>
-            Logs a warning message.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Warning(System.String,System.Object[])">
-            <summary>
-            Logs a warning message.
-            </summary>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Warning(System.Object)">
-            <summary>
-            Logs a warning message.
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Error(System.String)">
-            <summary>
-            Logs an error message.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Error(System.String,System.Object[])">
-            <summary>
-            Logs an error message.
-            </summary>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Error(System.Object)">
-            <summary>
-            Logs an error message.
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Debug(System.String)">
-            <summary>
-            Logs a debug message.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Debug(System.String,System.Object[])">
-            <summary>
-            Logs a debug message.
-            </summary>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Debug(System.Object)">
-            <summary>
-            Logs a debug message.
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Status(System.String)">
-            <summary>
-            Logs a status message.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Status(System.String,System.Object[])">
-            <summary>
-            Logs a status message.
-            </summary>
-            <param name="format"></param>
-            <param name="args"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.Status(System.Object)">
-            <summary>
-            Logs a status message.
-            </summary>
-            <param name="obj"></param>
-        </member>
-        <member name="M:Yggdrasil.Logging.Log.SetFilter(Yggdrasil.Logging.LogLevel)">
-            <summary>
-            Sets levels that should not be logged.
-            </summary>
-            <param name="levels"></param>
-        </member>
         <member name="T:Yggdrasil.Network.Communication.Client">
             <summary>
             A client to connect to communicators.
@@ -2586,6 +2662,24 @@
             Sends object to the connected communicator.
             </summary>
             <param name="buffer"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.ICommMessage">
+            <summary>
+            A message sent via a communicator.
+            </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.ICommMessageExtensions">
+            <summary>
+            Extensions for communicator messages.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.ICommMessageExtensions.BroadcastTo(Yggdrasil.Network.Communication.ICommMessage,System.String)">
+            <summary>
+            Wraps the message in a broadcast message.
+            </summary>
+            <param name="message"></param>
+            <param name="channelName"></param>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Network.Communication.Communicator">
             <summary>
@@ -2757,24 +2851,6 @@
             Deserializes buffer to an object and returns it.
             </summary>
             <param name="buffer"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Network.Communication.ICommMessage">
-            <summary>
-            A message sent via a communicator.
-            </summary>
-        </member>
-        <member name="T:Yggdrasil.Network.Communication.ICommMessageExtensions">
-            <summary>
-            Extensions for communicator messages.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Network.Communication.ICommMessageExtensions.BroadcastTo(Yggdrasil.Network.Communication.ICommMessage,System.String)">
-            <summary>
-            Wraps the message in a broadcast message.
-            </summary>
-            <param name="message"></param>
-            <param name="channelName"></param>
             <returns></returns>
         </member>
         <member name="T:Yggdrasil.Network.Communication.Connection">
@@ -2961,6 +3037,62 @@
             keep receiving anymore.
             </exception>
         </member>
+        <member name="T:Yggdrasil.Network.Framing.LengthPrefixFramer">
+            <summary>
+            Handles messages prefixed with a single int that determines its
+            length, incl. the 4 byte frame.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Framing.LengthPrefixFramer.MaxMessageSize">
+            <summary>
+            Maximum size of messages.
+            </summary>
+        </member>
+        <member name="E:Yggdrasil.Network.Framing.LengthPrefixFramer.MessageReceived">
+            <summary>
+            Called every time ReceiveData got a full message.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.#ctor(System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="maxMessageSize">Maximum size of messages</param>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.Frame(System.Byte[])">
+            <summary>
+            Wraps message in length prefixed frame.
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+            <example>
+            .Frame(new byte[] { 1, 2, 3, 4, 5 }); // byte[] { 9, 0, 0, 0, 1, 2, 3, 4, 5 }
+            </example>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.ReceiveData(System.Byte[],System.Int32)">
+            <summary>
+            Receives data and calls MessageReceived every time a full message
+            has arrived.
+            </summary>
+            <param name="data">Buffer to read from.</param>
+            <param name="length">Length of actual information in data.</param>
+            <exception cref="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            Thrown if a message has an invalid size. Should this occur,
+            the connection should be terminated, because it's not save to
+            keep receiving anymore.
+            </exception>
+        </member>
+        <member name="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
+            <summary>
+            An exception that might occur if a message has an invalid size.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Framing.InvalidMessageSizeException.#ctor(System.String)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="message"></param>
+        </member>
         <member name="T:Yggdrasil.Network.Framing.IMessageFramer">
             <summary>
             Interface for network message framers.
@@ -3027,62 +3159,6 @@
             the connection should be terminated, because it's not save to
             keep receiving anymore.
             </exception>
-        </member>
-        <member name="T:Yggdrasil.Network.Framing.LengthPrefixFramer">
-            <summary>
-            Handles messages prefixed with a single int that determines its
-            length, incl. the 4 byte frame.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Network.Framing.LengthPrefixFramer.MaxMessageSize">
-            <summary>
-            Maximum size of messages.
-            </summary>
-        </member>
-        <member name="E:Yggdrasil.Network.Framing.LengthPrefixFramer.MessageReceived">
-            <summary>
-            Called every time ReceiveData got a full message.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.#ctor(System.Int32)">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="maxMessageSize">Maximum size of messages</param>
-        </member>
-        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.Frame(System.Byte[])">
-            <summary>
-            Wraps message in length prefixed frame.
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-            <example>
-            .Frame(new byte[] { 1, 2, 3, 4, 5 }); // byte[] { 9, 0, 0, 0, 1, 2, 3, 4, 5 }
-            </example>
-        </member>
-        <member name="M:Yggdrasil.Network.Framing.LengthPrefixFramer.ReceiveData(System.Byte[],System.Int32)">
-            <summary>
-            Receives data and calls MessageReceived every time a full message
-            has arrived.
-            </summary>
-            <param name="data">Buffer to read from.</param>
-            <param name="length">Length of actual information in data.</param>
-            <exception cref="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
-            Thrown if a message has an invalid size. Should this occur,
-            the connection should be terminated, because it's not save to
-            keep receiving anymore.
-            </exception>
-        </member>
-        <member name="T:Yggdrasil.Network.Framing.InvalidMessageSizeException">
-            <summary>
-            An exception that might occur if a message has an invalid size.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Network.Framing.InvalidMessageSizeException.#ctor(System.String)">
-            <summary>
-            Creates new instance.
-            </summary>
-            <param name="message"></param>
         </member>
         <member name="T:Yggdrasil.Network.TCP.TcpClient">
             <summary>
@@ -4273,63 +4349,6 @@
             Disposes the scheduler, stopping any callback handling.
             </summary>
         </member>
-        <member name="T:Yggdrasil.Security.Hashing.SHA1">
-            <summary>
-            Quick access to an SHA1 encoder.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.Byte[])">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Array to hash.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.String)">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Value to hash.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Security.Hashing.SHA256">
-            <summary>
-            Quick access to an SHA256 encoder.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.Byte[])">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Array to hash.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.String)">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Value to hash.</param>
-            <returns></returns>
-        </member>
-        <member name="T:Yggdrasil.Security.Hashing.MD5">
-            <summary>
-            Quick access to an MD5 encoder.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.Byte[])">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Array to hash.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.String)">
-            <summary>
-            Returns encoded value.
-            </summary>
-            <param name="val">Value to hash.</param>
-            <returns></returns>
-        </member>
         <member name="T:Yggdrasil.Security.Hashing.BCrypt">
             <summary>BCrypt implements OpenBSD-style Blowfish password hashing
             using the scheme described in "A Future-Adaptable Password Scheme"
@@ -4477,6 +4496,63 @@
             <param name="hashed">The previously hashed password.</param>
             <returns><c>true</c> if the passwords, <c>false</c>
             otherwise.</returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.MD5">
+            <summary>
+            Quick access to an MD5 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.MD5.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.SHA1">
+            <summary>
+            Quick access to an SHA1 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA1.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Security.Hashing.SHA256">
+            <summary>
+            Quick access to an SHA256 encoder.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.Byte[])">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Array to hash.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Security.Hashing.SHA256.Encode(System.String)">
+            <summary>
+            Returns encoded value.
+            </summary>
+            <param name="val">Value to hash.</param>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Util.BufferReaderWriter">
             <summary>
@@ -4833,89 +4909,6 @@
             Higher bits first, how we commenly display hex values.
             </summary>
         </member>
-        <member name="T:Yggdrasil.Util.ConsoleUtil">
-            <summary>
-            Console utility functions.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteHeader(System.String,System.String,System.ConsoleColor,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
-            <summary>
-            Writes logo and credits to Console.
-            </summary>
-            <param name="consoleTitlePrefix">Software name.</param>
-            <param name="consoleTitle">Name of the server.</param>
-            <param name="logoColor">Color of the logo.</param>
-            <param name="logo">ASCII logo.</param>
-            <param name="credits">Credits for header footer.</param>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.GetWindowWidth">
-            <summary>
-            Attempts to read the window width from Console. If it fails,
-            it returns a default value of 80.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteSeperator">
-            <summary>
-            Writes seperator in form of horizontal line to Console.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLinesCentered(System.Collections.Generic.IList{System.String})">
-            <summary>
-            Writes lines to Console, centering them as a group.
-            </summary>
-            <param name="lines"></param>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLineCentered(System.String,System.Int32)">
-            <summary>
-            Writes line to Console, centering it either with the string's
-            length or the given length as reference.
-            </summary>
-            <param name="line"></param>
-            <param name="referenceLength">Set to greater than 0, to use it as reference length, to align a text group.</param>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.LoadingTitle">
-            <summary>
-            Prefixes window title with an asterisk, to indicate that the
-            application is not yet ready to use.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.RunningTitle">
-            <summary>
-            Removes asterisks and spaces that were prepended to the window
-            title, to indicate that the application is fully loaded and ready
-            now.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.Exit(System.Int32,System.Boolean)">
-            <summary>
-            Closes the application with the given exit code. If wait is true,
-            and the application is running in a visible console, it waits for
-            Return to be pressed before exiting.
-            </summary>
-            <param name="exitCode"></param>
-            <param name="wait"></param>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckAdmin">
-            <summary>
-            Returns whether the application runs with admin rights.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckMono">
-            <summary>
-            Returns whether the application is running on Mono.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Util.ConsoleUtil.IsUserInteractive">
-            <summary>
-            Gets a value indicating whether the current process is running
-            in user interactive mode.
-            </summary>
-            <remarks>
-            Custom property wrapping Environment.UserInteractive, with special
-            behavior for Mono, which currently doesn't support that property.
-            </remarks>
-            <returns></returns>
-        </member>
         <member name="T:Yggdrasil.Util.Commands.Arguments">
             <summary>
             Represents arguments in a command.
@@ -5197,6 +5190,89 @@
             <summary>
             Stop command handling.
             </summary>
+        </member>
+        <member name="T:Yggdrasil.Util.ConsoleUtil">
+            <summary>
+            Console utility functions.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteHeader(System.String,System.String,System.ConsoleColor,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
+            <summary>
+            Writes logo and credits to Console.
+            </summary>
+            <param name="consoleTitlePrefix">Software name.</param>
+            <param name="consoleTitle">Name of the server.</param>
+            <param name="logoColor">Color of the logo.</param>
+            <param name="logo">ASCII logo.</param>
+            <param name="credits">Credits for header footer.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.GetWindowWidth">
+            <summary>
+            Attempts to read the window width from Console. If it fails,
+            it returns a default value of 80.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteSeperator">
+            <summary>
+            Writes seperator in form of horizontal line to Console.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLinesCentered(System.Collections.Generic.IList{System.String})">
+            <summary>
+            Writes lines to Console, centering them as a group.
+            </summary>
+            <param name="lines"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.WriteLineCentered(System.String,System.Int32)">
+            <summary>
+            Writes line to Console, centering it either with the string's
+            length or the given length as reference.
+            </summary>
+            <param name="line"></param>
+            <param name="referenceLength">Set to greater than 0, to use it as reference length, to align a text group.</param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.LoadingTitle">
+            <summary>
+            Prefixes window title with an asterisk, to indicate that the
+            application is not yet ready to use.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.RunningTitle">
+            <summary>
+            Removes asterisks and spaces that were prepended to the window
+            title, to indicate that the application is fully loaded and ready
+            now.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.Exit(System.Int32,System.Boolean)">
+            <summary>
+            Closes the application with the given exit code. If wait is true,
+            and the application is running in a visible console, it waits for
+            Return to be pressed before exiting.
+            </summary>
+            <param name="exitCode"></param>
+            <param name="wait"></param>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckAdmin">
+            <summary>
+            Returns whether the application runs with admin rights.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Util.ConsoleUtil.CheckMono">
+            <summary>
+            Returns whether the application is running on Mono.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Util.ConsoleUtil.IsUserInteractive">
+            <summary>
+            Gets a value indicating whether the current process is running
+            in user interactive mode.
+            </summary>
+            <remarks>
+            Custom property wrapping Environment.UserInteractive, with special
+            behavior for Mono, which currently doesn't support that property.
+            </remarks>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Util.Hex">
             <summary>
@@ -6029,473 +6105,50 @@
             </summary>
             <param name="variables"></param>
         </member>
-        <member name="T:Yggdrasil.IO.FileReader">
-            <summary>
-            General use class to read files line for line.
-            </summary>
-            <remarks>
-            Ignores empty lines and lines prefixed with '!', ';', '#', '//', or '--'.
-            Supports including of files via 'include {file}' and 'require {file}'.
-            Require raises an exception if the file couldn't be found.
-            
-            Paths to included files may not be absolute. If a path starts with
-            a slash, the path is relative to the working directory.
-            This simplifies including files from other sub-folders of the
-            application.
-            </remarks>
-            <example>
-            <code>
-            using (var fr = new FileReader(filePath))
-            {
-            	foreach (string line in fr)
-            	{
-            		// Do something with line
-            	}
-            }
-            </code>
-            </example>
-        </member>
-        <member name="P:Yggdrasil.IO.FileReader.CurrentLine">
-            <summary>
-            Returns the line the reader is currently on.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.IO.FileReader.#ctor(System.String)">
-            <summary>
-            Creates new reader for given file.
-            </summary>
-            <param name="filePath"></param>
-        </member>
-        <member name="M:Yggdrasil.IO.FileReader.GetEnumerator">
-            <summary>
-            Returns enumerator for the lines in the open file.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.IO.FileReader.System#Collections#IEnumerable#GetEnumerator">
-            <summary>
-            Returns enumerator for the lines in the open file.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.IO.FileReader.Dispose">
-            <summary>
-            Closes internal stream reader.
-            </summary>
-        </member>
-        <member name="T:Yggdrasil.IO.FileReaderLine">
-            <summary>
-            Represents a line read from a file by the FileReader.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.IO.FileReaderLine.Value">
-            <summary>
-            Current line.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.IO.FileReaderLine.File">
-            <summary>
-            Full path to the file the value was read from.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.IO.FileReaderLine.#ctor(System.String,System.String)">
-            <summary>
-            New FileReaderLine.
-            </summary>
-            <param name="line"></param>
-            <param name="file"></param>
-        </member>
-        <member name="T:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions">
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-            <summary>
-            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
-            accessor methods for the default variable types.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int32)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int64)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Single)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Double)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Object)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.String)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt64)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt32)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt16)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int16)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.SByte)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
-            <summary>
-            Returns the variable with the given identifier.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
-        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Byte)">
-            <summary>
-            Sets the value of the variable with the given identifier.
-            If the variable doesn't exist yet, it will be created.
-            </summary>
-            <typeparam name="TIdent"></typeparam>
-            <param name="container"></param>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <returns></returns>
-            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
-            Thrown when the variable with the given identifier is of a
-            different type.
-            </exception>
-        </member>
         <member name="T:Yggdrasil.Variables.VariableContainer`1">
             <summary>
             A collection of variables.
             </summary>
             <typeparam name="TIdent"></typeparam>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ByteVariable">
+            <summary>
+            A byte type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:Yggdrasil.Variables.VariableContainer`1.DoubleVariable">
             <summary>
@@ -6569,84 +6222,6 @@
             <returns></returns>
         </member>
         <member name="M:Yggdrasil.Variables.VariableContainer`1.FloatVariable.Deserialize(System.String)">
-            <summary>
-            Reads the serialized value and sets it as the variable's
-            value.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="T:Yggdrasil.Variables.VariableContainer`1.ByteVariable">
-            <summary>
-            A byte type variable.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Type">
-            <summary>
-            Returns underlying the type of this variable.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.#ctor(`0,System.Byte,System.Byte,System.Byte)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <param name="minValue"></param>
-            <param name="maxValue"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Serialize">
-            <summary>
-            Seriealizes the variable's value and returns it.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ByteVariable.Deserialize(System.String)">
-            <summary>
-            Reads the serialized value and sets it as the variable's
-            value.
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="T:Yggdrasil.Variables.VariableContainer`1.SByteVariable">
-            <summary>
-            An integer type variable.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Type">
-            <summary>
-            Returns underlying the type of this variable.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte,System.SByte,System.SByte)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <param name="minValue"></param>
-            <param name="maxValue"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Serialize">
-            <summary>
-            Seriealizes the variable's value and returns it.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Deserialize(System.String)">
             <summary>
             Reads the serialized value and sets it as the variable's
             value.
@@ -6914,45 +6489,6 @@
             different type.
             </exception>
         </member>
-        <member name="T:Yggdrasil.Variables.VariableContainer`1.ShortVariable">
-            <summary>
-            A short type variable.
-            </summary>
-        </member>
-        <member name="P:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Type">
-            <summary>
-            Returns underlying the type of this variable.
-            </summary>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16,System.Int16,System.Int16)">
-            <summary>
-            Creates a new variable.
-            </summary>
-            <param name="ident"></param>
-            <param name="value"></param>
-            <param name="minValue"></param>
-            <param name="maxValue"></param>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Serialize">
-            <summary>
-            Seriealizes the variable's value and returns it.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Deserialize(System.String)">
-            <summary>
-            Reads the serialized value and sets it as the variable's
-            value.
-            </summary>
-            <param name="value"></param>
-        </member>
         <member name="T:Yggdrasil.Variables.VariableContainer`1.ObjectVariable">
             <summary>
             A string type variable.
@@ -7003,6 +6539,84 @@
             Returns a string representation of the variable's value.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.SByteVariable">
+            <summary>
+            An integer type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.#ctor(`0,System.SByte,System.SByte,System.SByte)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.SByteVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Yggdrasil.Variables.VariableContainer`1.ShortVariable">
+            <summary>
+            A short type variable.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Type">
+            <summary>
+            Returns underlying the type of this variable.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.#ctor(`0,System.Int16,System.Int16,System.Int16)">
+            <summary>
+            Creates a new variable.
+            </summary>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <param name="minValue"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Serialize">
+            <summary>
+            Seriealizes the variable's value and returns it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Yggdrasil.Variables.VariableContainer`1.ShortVariable.Deserialize(System.String)">
+            <summary>
+            Reads the serialized value and sets it as the variable's
+            value.
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:Yggdrasil.Variables.VariableContainer`1.StringVariable">
             <summary>
@@ -7302,6 +6916,392 @@
             </summary>
             <param name="ident"></param>
             <returns></returns>
+        </member>
+        <member name="T:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions">
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+            <summary>
+            Extensions for <see cref="T:Yggdrasil.Variables.VariableContainer`1"/> to provide
+            accessor methods for the default variable types.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Byte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Byte)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Double``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Double)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Float``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Single)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Int``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int32)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Long``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int64)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Object``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Object)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.SByte``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.SByte)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.Short``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.Int16)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.String``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.String)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UInt``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt32)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.ULong``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt64)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0)">
+            <summary>
+            Returns the variable with the given identifier.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
+        </member>
+        <member name="M:Yggdrasil.Variables.DefaultGetters.VariableContainerExtensions.UShort``1(Yggdrasil.Variables.VariableContainer{``0},``0,System.UInt16)">
+            <summary>
+            Sets the value of the variable with the given identifier.
+            If the variable doesn't exist yet, it will be created.
+            </summary>
+            <typeparam name="TIdent"></typeparam>
+            <param name="container"></param>
+            <param name="ident"></param>
+            <param name="value"></param>
+            <returns></returns>
+            <exception cref="T:Yggdrasil.Variables.TypeMismatchException">
+            Thrown when the variable with the given identifier is of a
+            different type.
+            </exception>
         </member>
         <member name="T:Yggdrasil.Variables.TypeMismatchException">
             <summary>

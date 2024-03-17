@@ -45,6 +45,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="nettext">
       <HintPath>..\..\lib\nettext.dll</HintPath>
     </Reference>
@@ -186,7 +187,6 @@
     <Compile Include="Network\ServerList.cs" />
     <Compile Include="Network\NormalOp.cs" />
     <Compile Include="Network\TosFramer.cs" />
-    <Compile Include="Scripting\CSharpCodeProvider.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Database\Commands.cs" />
     <Compile Include="Database\MeliaDb.cs" />
