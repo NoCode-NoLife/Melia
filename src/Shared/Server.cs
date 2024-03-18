@@ -3,16 +3,16 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using Melia.Shared.Configuration;
 using Melia.Shared.Data;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
-using Melia.Shared.Scripting;
-using Melia.Shared.Game.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -69,7 +69,7 @@ namespace Melia.Shared
 		{
 			// First go to the assemblies directory and then back from
 			// there until we find the root folder.
-			var appDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			Directory.SetCurrentDirectory(appDirectory);
 
 			var folderNames = new[] { "lib", "user", "system" };
