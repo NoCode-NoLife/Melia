@@ -860,7 +860,7 @@ namespace Melia.Zone.Database
 
 				foreach (var macro in account.GetChatMacros().OrderBy(x => x.Index))
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("index", macro.Index);
