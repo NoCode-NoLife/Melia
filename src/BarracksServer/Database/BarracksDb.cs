@@ -8,10 +8,10 @@ using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;
-using MySqlConnector;
 
 namespace Melia.Barracks.Database
 {

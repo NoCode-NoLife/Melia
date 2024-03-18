@@ -1,5 +1,5 @@
 ﻿using System;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 
 namespace Melia.Shared.Database
 {
