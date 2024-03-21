@@ -14,4 +14,4 @@ other/character_adv.cs
 require "scripts_content.txt"
 require "scripts_custom.txt"
 
-include "/user/scripts/scripts_zone.txt"
+include "/user/scripts/zone/scripts.txt"

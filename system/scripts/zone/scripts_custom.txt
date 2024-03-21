@@ -12,4 +12,4 @@
 custom/client/unclutter/main.cs
 custom/client/concise_sysmenu/main.cs
 
-include "/user/scripts/scripts_custom.txt"
+include "/user/scripts/zone/scripts_custom.txt"

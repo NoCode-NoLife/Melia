@@ -2,4 +2,4 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-include "/user/scripts/scripts_barracks.txt"
+include "/user/scripts/barracks/scripts.txt"

@@ -332,10 +332,11 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads all scripts from given list.
+		/// Loads all scripts from the scripts lists in the given scripts
+		/// sub-folder.
 		/// </summary>
-		/// <param name="listFilePath"></param>
-		public void LoadScripts(string listFilePath)
+		/// <param name="scriptFolderName"></param>
+		public void LoadScripts(string scriptFolderName)
 		{
 			if (this.ScriptLoader != null)
 			{
@@ -344,6 +345,12 @@ namespace Melia.Shared
 			}
 
 			Log.Info("Loading scripts...");
+
+			// Originally we passed the full path into this method, but
+			// after moving the servers' scripts to their own sub-folders,
+			// it was easier to build the path inside here. Perhaps there's
+			// a better solution, to keep it more flexible?
+			var listFilePath = Path.Combine("system", "scripts", scriptFolderName, "scripts.txt");
 
 			if (!File.Exists(listFilePath))
 			{
@@ -357,8 +364,11 @@ namespace Melia.Shared
 			{
 				var cachePath = (string)null;
 
+				var userPath = Path.Combine("user", "scripts", scriptFolderName);
+				var systemPath = Path.Combine("system", "scripts", scriptFolderName);
+
 				this.ScriptLoader = new ScriptLoader(cachePath);
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
+				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
 
 				foreach (var ex in this.ScriptLoader.ReferenceExceptions)
 					Log.Warning(ex);

@@ -104,7 +104,7 @@ namespace Melia.Zone
 			this.InitDatabase(this.Database, this.Conf);
 			this.InitSkills();
 			this.InitWorld();
-			this.LoadScripts("system/scripts/scripts_zone.txt");
+			this.LoadScripts("zone");
 			this.LoadIesMods();
 			this.StartWorld();
 

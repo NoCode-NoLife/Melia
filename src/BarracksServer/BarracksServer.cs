@@ -81,7 +81,7 @@ namespace Melia.Barracks
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
 			this.LoadIesMods();
-			this.LoadScripts("system/scripts/scripts_barracks.txt");
+			this.LoadScripts("barracks");
 
 			this.StartCommunicator();
 			this.StartAcceptor();

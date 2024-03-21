@@ -17,13 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Libs", "2 Libs", "{DC9994
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 Scripting", "3 Scripting", "{35E8C024-37C9-4EFB-AC93-D72B00F41D48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsZone", "system\scripts\ScriptsZone.csproj", "{495610AF-FC52-455A-B053-D83B4E056684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsZone", "system\scripts\zone\ScriptsZone.csproj", "{495610AF-FC52-455A-B053-D83B4E056684}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarracksServer", "src\BarracksServer\BarracksServer.csproj", "{3D99B1C2-6F51-4968-9B78-79A5502556D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneServer", "src\ZoneServer\ZoneServer.csproj", "{D508C2A7-44AD-4E39-ADE1-C255F968C278}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsBarracks", "system\scripts\ScriptsBarracks.csproj", "{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsBarracks", "system\scripts\barracks\ScriptsBarracks.csproj", "{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
