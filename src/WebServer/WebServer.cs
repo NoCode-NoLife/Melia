@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
 using EmbedIO.Net;
@@ -93,60 +96,74 @@ namespace Melia.Web
 
 			Log.Info("PHP not found. Downloading now...");
 
-			using (var wc = new WebClient())
+			using var wc = new HttpClient();
+
+			var downloadRootUrl = "https://windows.php.net";
+			var downloadPageUrl = downloadRootUrl + "/download";
+			var downloadPageContents = wc.GetStringAsync(downloadPageUrl).Result;
+
+			// Get link to the first PHP zip file, which should be the
+			// latest.
+			var match = Regex.Match(downloadPageContents, @"/downloads/releases/php-\d+\.\d+\.\d+-nts-Win32-vs16-x64\.zip");
+			if (!match.Success)
 			{
-				var downloadRootUrl = "https://windows.php.net";
-				var downloadPageUrl = downloadRootUrl + "/download";
-				var downloadPageContents = wc.DownloadString(downloadPageUrl);
+				Log.Warning("Failed to find PHP download on '{0}'. Please install PHP and set its path manually in the web web configuration or you won't be able to use all of the web server's features.", downloadPageUrl);
+				return;
+			}
 
-				// Get link to the first PHP zip file, which should be the
-				// latest.
-				var match = Regex.Match(downloadPageContents, @"/downloads/releases/php-\d+\.\d+\.\d+-nts-Win32-vs16-x64\.zip");
-				if (!match.Success)
+			var tempFileName = Path.GetTempFileName();
+			//var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+			var downloadUrl = downloadRootUrl + match.Value;
+			var fileName = Path.GetFileName(downloadUrl);
+
+			Log.Info("Filename: {0}", fileName);
+
+			var downloading = true;
+
+			try
+			{
+				wc.DefaultRequestHeaders.UserAgent.ParseAdd("Melia");
+
+				Task.Run(() =>
 				{
-					Log.Warning("Failed to find PHP download on '{0}'. Please install PHP and set its path manually in the web web configuration or you won't be able to use all of the web server's features.", downloadPageUrl);
-					return;
-				}
+					while (downloading)
+					{
+						Console.Write(".");
+						Thread.Sleep(1000);
+					}
+				});
 
-				var tempFileName = Path.GetTempFileName();
-				//var downloadUrl = this.Conf.Web.PhpDownloadUrl;
-				var downloadUrl = downloadRootUrl + match.Value;
-				var fileName = Path.GetFileName(downloadUrl);
+				var result = wc.GetAsync(downloadUrl).Result;
+				using (var fs = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.None))
+					result.Content.CopyToAsync(fs).Wait();
 
-				Log.Info("Filename: {0}", fileName);
+				downloading = false;
 
-				try
-				{
-					wc.Headers.Set(HttpRequestHeader.UserAgent, "Melia");
-					wc.DownloadProgressChanged += (s, e) => Console.Write("         Download Progress: {0,3:0}%\r", e.ProgressPercentage);
+				Log.Info("PHP download complete, extracting...");
 
-					var task = wc.DownloadFileTaskAsync(downloadUrl, tempFileName);
-					task.Wait();
+				if (!Directory.Exists(phpFolderPath))
+					Directory.CreateDirectory(phpFolderPath);
 
-					Log.Info("PHP download complete, extracting...");
+				ZipFile.ExtractToDirectory(tempFileName, phpFolderPath);
 
-					if (!Directory.Exists(phpFolderPath))
-						Directory.CreateDirectory(phpFolderPath);
+				Log.Info("PHP extraction complete, setting up...");
 
-					ZipFile.ExtractToDirectory(tempFileName, phpFolderPath);
+				var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
+				var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
+				File.Copy(productionIniFilePath, iniFilePath);
 
-					Log.Info("PHP extraction complete, setting up...");
+				Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
+			}
+			catch (Exception)
+			{
+				Log.Warning("Failed to download PHP from '{0}'. Please configure your PHP path manually or you won't be able to use all of the web server's features.", downloadUrl);
+			}
+			finally
+			{
+				try { File.Delete(tempFileName); }
+				catch { }
 
-					var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
-					var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
-					File.Copy(productionIniFilePath, iniFilePath);
-
-					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
-				}
-				catch (Exception)
-				{
-					Log.Warning("Failed to download PHP from '{0}'. Please configure your PHP path manually or you won't be able to use all of the web server's features.", downloadUrl);
-				}
-				finally
-				{
-					try { File.Delete(tempFileName); }
-					catch { }
-				}
+				downloading = false;
 			}
 		}
 

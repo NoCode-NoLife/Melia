@@ -75,7 +75,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
 			packet.PutFloat(1); // serverAppTimeOffset
 			packet.PutFloat(1); // globalAppTimeOffset
-			packet.PutLong(DateTime.Now.Add(TimeZone.CurrentTimeZone.GetUtcOffset(DateTime.Now)).ToFileTime());
+			packet.PutLong(DateTime.Now.ToFileTimeUtc());
 			packet.PutByte(0); // [i344887, 2021-11-09]
 
 			conn.Send(packet);

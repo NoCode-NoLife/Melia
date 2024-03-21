@@ -72,10 +72,9 @@ namespace Melia.Shared
 			var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			Directory.SetCurrentDirectory(appDirectory);
 
-			var folderNames = new[] { "lib", "user", "system" };
-			var tries = 3;
+			var folderNames = new[] { "bin", "user", "system" };
+			var tries = 5;
 
-			var cwd = Directory.GetCurrentDirectory();
 			for (var i = 0; i < tries; ++i)
 			{
 				if (folderNames.All(a => Directory.Exists(a)))
@@ -361,8 +360,11 @@ namespace Melia.Shared
 				this.ScriptLoader = new ScriptLoader(cachePath);
 				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
 
+				foreach (var ex in this.ScriptLoader.ReferenceExceptions)
+					Log.Warning(ex);
+
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
-					Log.Error(ex.ToString());
+					Log.Error(ex);
 			}
 			catch (CompilerErrorException ex)
 			{
@@ -370,7 +372,7 @@ namespace Melia.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex);
 			}
 
 			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
