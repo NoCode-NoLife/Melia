@@ -20,9 +20,9 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExecTails.Yggdrasil" Version="1.0.0-alpha" />
-    <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.0-alpha" />
-    <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil" Version="1.0.1" />
+    <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
+    <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
