@@ -13,11 +13,13 @@
     <IntermediateOutputPath>..\..\cache\scripts\zone\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Shared\Shared.csproj" />
-    <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj" />
+    <Compile Remove="Properties\**" />
+    <EmbeddedResource Remove="Properties\**" />
+    <None Remove="Properties\**" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\..\src\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="content\r1\mobs\scripts.txt" />
@@ -30,7 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="content\r1\mobs\dungeons\ep15_2_d_nicopolis_1.cs" />
