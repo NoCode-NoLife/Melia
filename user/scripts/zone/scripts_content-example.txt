@@ -6,5 +6,5 @@
 //---------------------------------------------------------------------------
 
 // Example: Load only the test content and the R1 warps, but not the mobs.
-require "/system/scripts/content/r1/warps/scripts.txt"
-require "/system/scripts/content/test/scripts.txt"
+require "/system/scripts/zone/content/r1/warps/scripts.txt"
+require "/system/scripts/zone/content/test/scripts.txt"
