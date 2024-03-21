@@ -17,34 +17,16 @@
     <OutputPath>..\..\bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis">
-      <HintPath>..\..\lib\Microsoft.CodeAnalysis.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Ai">
-      <HintPath>..\..\lib\Yggdrasil.Ai.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Scripting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ExecTails.Yggdrasil" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil.Ai" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.0-alpha" />
+    <PackageReference Include="geometry3Sharp" Version="1.0.324" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
   </ItemGroup>
 </Project>

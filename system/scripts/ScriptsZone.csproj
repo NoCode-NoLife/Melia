@@ -13,23 +13,6 @@
     <IntermediateOutputPath>..\..\cache\scripts\zone\obj\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Yggdrasil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Ai">
-      <HintPath>..\..\lib\Yggdrasil.Ai.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Scripting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Shared\Shared.csproj" />
     <ProjectReference Include="..\..\src\ZoneServer\ZoneServer.csproj" />
   </ItemGroup>

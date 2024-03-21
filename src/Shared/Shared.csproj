@@ -13,21 +13,11 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Yggdrasil">
-      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data">
-      <HintPath>..\..\lib\Yggdrasil.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data.JSON">
-      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Scripting">
-      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="ExecTails.NetText" Version="1.0.0" />
+    <PackageReference Include="ExecTails.Yggdrasil" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.0-alpha" />
+    <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.0-alpha" />
+    <PackageReference Include="MySql.Data" Version="8.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
