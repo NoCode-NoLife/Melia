@@ -10,37 +10,37 @@ namespace Melia.Shared.Configuration
 		/// <summary>
 		/// commands.conf
 		/// </summary>
-		public CommandsConfFile Commands { get; } = new CommandsConfFile();
+		public CommandsConfFile Commands { get; } = new();
 
 		/// <summary>
 		/// database.conf
 		/// </summary>
-		public DatabaseConfFile Database { get; } = new DatabaseConfFile();
+		public DatabaseConfFile Database { get; } = new();
 
 		/// <summary>
 		/// log.conf
 		/// </summary>
-		public LogConfFile Log { get; } = new LogConfFile();
+		public LogConfFile Log { get; } = new();
 
 		/// <summary>
 		/// localization.conf
 		/// </summary>
-		public LocalizationConf Localization { get; } = new LocalizationConf();
+		public LocalizationConf Localization { get; } = new();
 
 		/// <summary>
 		/// barracks.conf
 		/// </summary>
-		public BarracksConfFile Barracks { get; } = new BarracksConfFile();
+		public BarracksConfFile Barracks { get; } = new();
 
 		/// <summary>
 		/// web.conf
 		/// </summary>
-		public WebConfFile Web { get; } = new WebConfFile();
+		public WebConfFile Web { get; } = new();
 
 		/// <summary>
 		/// world.conf
 		/// </summary>
-		public WorldConfFile World { get; } = new WorldConfFile();
+		public WorldConfFile World { get; } = new();
 
 		/// <summary>
 		/// Loads all conf files.
