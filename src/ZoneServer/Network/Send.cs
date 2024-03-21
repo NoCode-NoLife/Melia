@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Game.Const;
-using Melia.Shared.Game.Properties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network.Helpers;
@@ -313,7 +313,7 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_SKILL_LIST);
 			packet.PutInt(character.Handle);
-			packet.PutShort(skills.Count());
+			packet.PutShort(skills.Length);
 			packet.PutByte(0);
 
 			packet.Zlib(true, zpacket =>
@@ -642,7 +642,7 @@ namespace Melia.Zone.Network
 
 			var macros = character.Connection.Account.GetChatMacros();
 
-			packet.PutInt(macros.Count());
+			packet.PutInt(macros.Length);
 			foreach (var macro in macros)
 			{
 				packet.PutInt(macro.Index);
@@ -1575,7 +1575,7 @@ namespace Melia.Zone.Network
 		/// <param name="arguments"></param>
 		public static void ZC_DIALOG_SELECT(IZoneConnection conn, IEnumerable<string> arguments)
 		{
-			if (arguments == null || arguments.Count() == 0)
+			if (arguments == null || !arguments.Any())
 				return;
 
 			var packet = new Packet(Op.ZC_DIALOG_SELECT);
@@ -2026,7 +2026,7 @@ namespace Melia.Zone.Network
 
 			var revealedMaps = conn.Account.GetRevealedMaps();
 
-			packet.PutInt(revealedMaps.Count());
+			packet.PutInt(revealedMaps.Length);
 			foreach (var revealedMap in revealedMaps)
 			{
 				packet.PutInt(revealedMap.MapId);

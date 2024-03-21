@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -30,7 +29,7 @@ namespace Melia.Zone
 	/// </summary>
 	public class ZoneServer : Server
 	{
-		public readonly static ZoneServer Instance = new ZoneServer();
+		public readonly static ZoneServer Instance = new();
 
 		private TcpConnectionAcceptor<ZoneConnection> _acceptor;
 
@@ -218,7 +217,7 @@ namespace Melia.Zone
 						if (targetCharacter == null)
 							break;
 
-						characters = new[] { targetCharacter };
+						characters = [targetCharacter];
 					}
 					else if (kickMessage.TargetType == KickTargetType.Map)
 					{

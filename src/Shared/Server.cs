@@ -419,7 +419,7 @@ namespace Melia.Shared
 				{
 					var relativefileName = err.FileName;
 					var cwd = Directory.GetCurrentDirectory();
-					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+					if (relativefileName.StartsWith(cwd, StringComparison.InvariantCultureIgnoreCase))
 						relativefileName = relativefileName.Substring(cwd.Length + 1);
 
 					var lines = File.ReadAllLines(err.FileName);

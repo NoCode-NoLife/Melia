@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,7 +11,6 @@ using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
@@ -27,7 +24,7 @@ namespace Melia.Web
 {
 	public class WebServer : Server
 	{
-		public readonly static WebServer Instance = new WebServer();
+		public readonly static WebServer Instance = new();
 
 		private EmbedIO.WebServer _server;
 

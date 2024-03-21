@@ -18,7 +18,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class DialogDb : DatabaseJsonIndexed<string, DialogData>
 	{
-		private readonly Dictionary<string, string> _img2cls = new Dictionary<string, string>();
+		private readonly Dictionary<string, string> _img2cls = new();
 
 		/// <summary>
 		/// Returns a class name for the given image name via out if one
