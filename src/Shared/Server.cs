@@ -363,6 +363,8 @@ namespace Melia.Shared
 			try
 			{
 				var cachePath = (string)null;
+				if (this.Conf.Scripts.CacheScripts)
+					cachePath = Path.Combine("user", "cache", "scripts", scriptFolderName + ".dll");
 
 				var userPath = Path.Combine("user", "scripts", scriptFolderName);
 				var systemPath = Path.Combine("system", "scripts", scriptFolderName);

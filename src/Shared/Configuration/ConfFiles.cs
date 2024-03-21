@@ -28,6 +28,11 @@ namespace Melia.Shared.Configuration
 		public LocalizationConf Localization { get; } = new();
 
 		/// <summary>
+		/// scripts.conf
+		/// </summary>
+		public ScriptsConf Scripts { get; } = new();
+
+		/// <summary>
 		/// barracks.conf
 		/// </summary>
 		public BarracksConfFile Barracks { get; } = new();
@@ -53,6 +58,7 @@ namespace Melia.Shared.Configuration
 			this.Database.Load("system/conf/database.conf");
 			this.Log.Load("system/conf/log.conf");
 			this.Localization.Load("system/conf/localization.conf");
+			this.Scripts.Load("system/conf/scripts.conf");
 			this.Web.Load("system/conf/web.conf");
 			this.World.Load("system/conf/world.conf");
 		}
