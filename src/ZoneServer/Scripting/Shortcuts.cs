@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Commands;
 using Melia.Zone.Network;

@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Events;
 
 namespace Melia.Zone.World.Quests.Objectives

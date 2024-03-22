@@ -5,7 +5,7 @@ using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
@@ -145,6 +145,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public int Hair { get; set; }
 
 		/// <summary>
+		/// Gets or sets the character's skin color.
+		/// </summary>
+		public uint SkinColor { get; set; }
+
+		/// <summary>
 		/// Returns stance, based on job and other factors.
 		/// </summary>
 		public int Stance { get; protected set; }
@@ -265,6 +270,12 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns true if the character has run out of HP and died.
 		/// </summary>
 		public bool IsDead => (this.Hp == 0);
+
+		/// <summary>
+		/// Returns the character's game permission level, based on the
+		/// account's authority.
+		/// </summary>
+		public PermissionLevel PermissionLevel => this.Connection?.Account?.PermissionLevel ?? PermissionLevel.User;
 
 		/// <summary>
 		/// Returns the character's component collection.

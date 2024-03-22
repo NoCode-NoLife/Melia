@@ -444,6 +444,12 @@
 { jobId: 3023, skillId: 32214, skillName: "King Mecha V", unlockLevel: 31, maxLevel: 5 },
 { jobId: 3023, skillId: 32215, skillName: "Fix Kit", unlockLevel: 31, maxLevel: 5 },
 { jobId: 3023, skillId: 32213, skillName: "Buff Turret", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3024, skillId: 32218, skillName: "Concentrated Shot", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3024, skillId: 32219, skillName: "Dodging Shot", unlockLevel: 1, maxLevel: 10 },
+{ jobId: 3024, skillId: 32220, skillName: "Angelic Bow", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3024, skillId: 32221, skillName: "Scatter Shot", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3024, skillId: 32222, skillName: "Blasting Shot", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3024, skillId: 32223, skillName: "Angelic Arrow", unlockLevel: 31, maxLevel: 5 },
 
 // Cleric
 //---------------------------------------------------------------------------

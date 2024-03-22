@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;

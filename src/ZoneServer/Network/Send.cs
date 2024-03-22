@@ -6,8 +6,8 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Const;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network.Helpers;
@@ -41,7 +41,7 @@ namespace Melia.Zone.Network
 
 			packet.PutByte(0); // gameMode 0 = NormalMode, 1 = SingleMode
 			packet.PutInt(1281523659); // was 1281523659 now 1277746433
-			packet.PutByte(3); // isGM (< 3)?
+			packet.PutByte((byte)character.PermissionLevel);
 			packet.PutEmptyBin(10);
 			packet.PutInt(0);
 			packet.PutShort(0);

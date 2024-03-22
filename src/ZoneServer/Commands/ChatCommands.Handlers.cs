@@ -8,7 +8,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
@@ -1475,8 +1475,8 @@ namespace Melia.Zone.Commands
 			if (!int.TryParse(args.Get(0), out var amount) || amount < 1)
 				return CommandResult.InvalidArgument;
 
-			// Modification for stat points is a little tricky, because ToS
-			// has 3 stat points properties:
+			// Modification for stat points is a little tricky, because
+			// the game has 3 stat point properties:
 			// - Stat points gained by leveling
 			// - Stat points gained in another way
 			// - Used stat points

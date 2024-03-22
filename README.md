@@ -1,44 +1,45 @@
 Melia
 =============================================================================
 
-Melia is an open-source MMORPG server software that supports the
-international client of Tree of Savior. The server is solely being
-developed for educational purposes,learning about programming, MMORPGs,
-maintaining huge projects, working with other people, and improving
-knowledge. It's not about playing a game or competing with any services
-provided by IMCGAMES or its partners, and we don't endorse such actions.
+Melia is an open-source MMORPG server, developed as a collaborative affort
+of programmers from all around the world. We're aiming to create a server
+software that provides a stable and extensible platform for users to build
+their own projects on top of, while giving developers the oppurtunity to
+learn and hone their skills in a familar environment.
 
-Melia is completely free and licensed under the GNU GPL. As such, every
-user is free to use Melia within the context of said license, and decisions
-about how they choose to use the software are theirs to make.
+This project is very explicilty not about playing a game or competing
+with any services provided by game developers or publishers, and we don't
+endorse such actions. We're here to learn and create, not to steal or
+destroy.
 
-Compatibility
+Client
 -----------------------------------------------------------------------------
-Melia is primarily compatible to the latest iTOS client and custom-made
-clients. Compatibility to any other clients is not guaranteed.
+
+Melia does not have a client of its own at this time. Instead, it's designed
+to be network compatible with the latest client of the international
+version of ToS, which is freely available on Steam.
 
 State of Development
 -----------------------------------------------------------------------------
-After years of inactivity, Melia is currently in semi-active development
-again. The server is functional, but it can't be called "playable" yet,
-as many features and especially the content are still missing.
 
-The major features that are currently working are as follows.
+Melia has been in semi-active development for several years, and is
+being worked on more or less depending on the time and motivation of
+the available developers. The server is functional and provides many
+of the typical features you would expect from an online RPG, but
+there's still a way to go before we'd call it truly playable.
 
-**Login Server**
-- Character management (creation, deletion, etc.)
-
-**Channel Server**
+Specifically, some of the major features that are working are as follows:
+- Characters (creation, deletion, etc.)
+- Inventory (managing items, equipping, etc.)
 - Chat
-- Inventory management (managing items, equipping, etc.)
 - Stats
 - Skills
   - Distrbution of skill points
-  - Basic and experimental combat
+  - Basic and experimental combat, incl. monster AI
   - Basic and experimental support for select skills
-- NPC dialogues
-- NPC shops
+- NPC dialogues and shops
 - Monster spawns
+- Quests
 
 Requirements
 -----------------------------------------------------------------------------
@@ -69,6 +70,7 @@ Requirements
 
 Installation
 -----------------------------------------------------------------------------
+
 * Compile Melia
 * Run `sql/main.sql` to setup the database
 * Copy `system/conf/database.conf` to `user/conf/`,
@@ -80,10 +82,12 @@ guide, head over to our forum, the chat, or the wiki.
 
 Contribution
 -----------------------------------------------------------------------------
+
 Check the file CONTRIBUTING.md for instructions on how you may contribute.
 
 Links
 -----------------------------------------------------------------------------
+
 * GitHub: https://github.com/NoCode-NoLife/melia
 * Wiki: https://github.com/NoCode-NoLife/melia/wiki
 * Forum: https://nocodenolife.org/forum/65-melia/

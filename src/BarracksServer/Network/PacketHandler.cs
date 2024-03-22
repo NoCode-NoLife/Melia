@@ -7,7 +7,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -272,8 +272,8 @@ namespace Melia.Barracks.Network
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
 			var startMap = packet.GetInt(); // [i354444] Added. 0 = lv 440 character, 1 = lv 1 character, internally called map select
-			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(5);
+			var hair = packet.GetShort();
+			var skinColor = packet.GetUInt();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
@@ -287,6 +287,21 @@ namespace Melia.Barracks.Network
 			if (gender < Gender.Male || gender > Gender.Female)
 			{
 				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
+				conn.Close();
+				return;
+			}
+
+			// Check skin color
+			if (!BarracksServer.Instance.Data.SkinToneDb.TryGetByColor(skinColor, out var skinToneData))
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the unregistered skin tone '0x{1:X8}'.", conn.Account.Name, skinColor);
+				conn.Close();
+				return;
+			}
+
+			if (!skinToneData.Creation)
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the skin ton '0x{1:X8}', which can't be used on creation.", conn.Account.Name, skinColor);
 				conn.Close();
 				return;
 			}
@@ -331,6 +346,7 @@ namespace Melia.Barracks.Network
 			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.SkinColor = skinColor;
 
 			character.MapId = startMapData.Id;
 			character.Position = startPosition;

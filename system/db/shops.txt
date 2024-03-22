@@ -490,8 +490,6 @@
 
 { shopName: "RETIARII_MASTER", productId: 6300, itemId: 646072, amount: 1, priceMultiplier: 1 },
 
-{ shopName: "Teliavelis", productId: 6400, itemId: 643020, amount: 1, priceMultiplier: 1 },
-{ shopName: "Teliavelis", productId: 6401, itemId: 643038, amount: 1, priceMultiplier: 1 },
 { shopName: "Teliavelis", productId: 6402, itemId: 11030038, amount: 1, priceMultiplier: 1 },
 { shopName: "Teliavelis", productId: 6403, itemId: 11030040, amount: 1, priceMultiplier: 1 },
 

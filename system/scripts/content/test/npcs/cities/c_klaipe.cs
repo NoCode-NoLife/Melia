@@ -17,7 +17,7 @@ public class CKlaipeNpcScript : GeneralScript
 		AddNpc(20111, "[Equipment Merchant] Dunkel", "Dunkel", "c_Klaipe", 394, -475, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Dunkel");
-			dialog.SetPortrait("KLAPEDA_Akalabeth_basic28");
+			dialog.SetPortrait("Dlg_port_vickers");
 
 			var response = await dialog.Select("A lot of people seem to be coming thanks to Sir Uska's recruitment notice.{nl}Take a look around at your own pace without feeling anxious.",
 				Option("Weapons", "weapon"),
@@ -37,7 +37,7 @@ public class CKlaipeNpcScript : GeneralScript
 		AddNpc(20104, "[Accessory Merchant] Ronesa", "Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Ronesa");
-			dialog.SetPortrait("Alfonso_Select_1");
+			dialog.SetPortrait("Dlg_port_KLAPEDA_ACCESSORY");
 
 			if (await dialog.Hooks("BeforeDialog"))
 				await dialog.Msg("While you're here, do you need anything?{nl}I've got some hard-to-find stuff.");
@@ -52,8 +52,6 @@ public class CKlaipeNpcScript : GeneralScript
 
 		AddNpc(20104, "Klaipeda Girl", "KlaipedaGirl", "c_Klaipe", -225.8313, -848.0712, 90.0, async dialog =>
 		{
-			dialog.SetPortrait("KLAFEDA_NPC_05_basic01");
-
 			if (Random(2) == 0)
 				await dialog.Msg("I heard the town men can't make their way back because of the monsters.{nl}We have food but it will run out soon...");
 			else
@@ -66,8 +64,6 @@ public class CKlaipeNpcScript : GeneralScript
 
 		AddNpc(20147, "Worried Wife", "WorriedWife", "c_Klaipe", -107.036, -749.1073, 180.0, async dialog =>
 		{
-			dialog.SetPortrait("KLAPEDA_NPC_04_basic01");
-
 			var response = await dialog.Select("As you may already know, our kingdom has five major goddesses and other goddesses who{nl}assist them. But nobody knows where all of them are now.",
 				Option("Regarding the five goddesses", "goddesses"),
 				Option("Leave", "leave")
@@ -112,7 +108,7 @@ public class CKlaipeNpcScript : GeneralScript
 		AddNpc(20023, "[Swordsman Master] Rashua", "Rashua", "c_Klaipe", -92, 784, -45.0, async dialog =>
 		{
 			dialog.SetTitle("Rashua");
-			dialog.SetPortrait("MASTER_SWORDMAN_basic2");
+			dialog.SetPortrait("SWORDMAN_MASTER");
 
 			await dialog.Msg("The capital may already be in ruins, but I will protect Klaipeda.");
 		});

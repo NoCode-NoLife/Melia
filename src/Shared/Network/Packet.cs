@@ -106,6 +106,13 @@ namespace Melia.Shared.Network
 			=> _buffer.ReadInt32();
 
 		/// <summary>
+		/// Reads unsigned int from buffer.
+		/// </summary>
+		/// <returns></returns>
+		public uint GetUInt()
+			=> _buffer.ReadUInt32();
+
+		/// <summary>
 		/// Reads long from buffer.
 		/// </summary>
 		/// <returns></returns>

@@ -12,7 +12,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -209,6 +209,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
@@ -217,7 +218,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
 					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
-					this.LoadDb(this.Data.AccountOptionDb, "db/accountoptions.txt");
+					this.LoadDb(this.Data.AccountOptionDb, "db/account_options.txt");
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
 					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
@@ -249,6 +250,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.ShopDb, "db/shops.txt");
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
 

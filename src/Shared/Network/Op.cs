@@ -33,7 +33,7 @@ namespace Melia.Shared.Network
 		public const int BC_COMMANDER_CREATE = 0x19; // Size: 586
 		public const int BC_COMMANDER_DESTROY = 0x1A; // Size: 11
 		public const int BC_START_GAMEOK = 0x1B; // Size: 37
-		public const int BC_SINGLE_INFO = 0x1C; // Size: 441
+		public const int BC_SINGLE_INFO = 0x1C; // Size: 449
 		public const int BC_MESSAGE = 0x1D; // Size: 0
 		public const int BC_ECHO = 0x1E; // Size: 30
 		public const int BC_MYPAGE_MAP = 0x1F; // Size: 0
@@ -1201,6 +1201,7 @@ namespace Melia.Shared.Network
 		public const int ZC_SEND_NONE_TARGETING_LIST = 0x106A; // Size: 0
 		public const int ZC_UNITY_GROUND_EFFECT = 0x106B; // Size: 59
 		public const int ZC_MON_LEADER_SHOW_ICON = 0x106C; // Size: 531
+		public const int ZC_UPDATE_FAINT = 0x106D; // Size: 30
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -1265,7 +1266,7 @@ namespace Melia.Shared.Network
 			Sizes[BC_COMMANDER_CREATE] = 586;
 			Sizes[BC_COMMANDER_DESTROY] = 11;
 			Sizes[BC_START_GAMEOK] = 37;
-			Sizes[BC_SINGLE_INFO] = 441;
+			Sizes[BC_SINGLE_INFO] = 449;
 			Sizes[BC_MESSAGE] = 0;
 			Sizes[BC_ECHO] = 30;
 			Sizes[BC_MYPAGE_MAP] = 0;
@@ -2433,6 +2434,7 @@ namespace Melia.Shared.Network
 			Sizes[ZC_SEND_NONE_TARGETING_LIST] = 0;
 			Sizes[ZC_UNITY_GROUND_EFFECT] = 59;
 			Sizes[ZC_MON_LEADER_SHOW_ICON] = 531;
+			Sizes[ZC_UPDATE_FAINT] = 30;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;
