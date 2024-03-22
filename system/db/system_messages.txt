@@ -10789,6 +10789,7 @@
 { classId: 92275, className: "Goddess_Raid_DespairIsland_Solo" },
 { classId: 92277, className: "Raid_DespairIsland_ActiveObjectMsg" },
 { classId: 92278, className: "Raid_DespairIsland_UnActiveObjectMsg" },
+{ classId: 92281, className: "AetherConvertTo" },
 { classId: 100001, className: "ADD_DAMAGE_{Auto_1}!" },
 { classId: 100002, className: "ADD_BUFF_{Auto_1}!" },
 { classId: 100003, className: "ABSORB_HP_{Auto_1}!" },

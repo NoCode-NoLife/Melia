@@ -13752,6 +13752,9 @@ public static class ItemId
 	public const int BridgeWailing_Dimension_Recipe_NoTrade = 11201105;
 	public const int GROWTH_REINFORCE_TIER3_Set_Box = 11201135;
 	public const int GROWTH_REINFORCE_TIER3_Weapon_Box = 11201136;
+	public const int Litis_Siera_Misc_Recipe = 11201137;
+	public const int Misc_BlessedStone_1_Recipe_2 = 11201138;
+	public const int Aether_Convert_Scroll_500 = 11201139;
 
 	// PasteBait
 	//-----------------------------------------------------------------------
