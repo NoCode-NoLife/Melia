@@ -6,7 +6,7 @@
 
 using System;
 using Melia.Zone.Scripting;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using static Melia.Zone.Scripting.Shortcuts;
 
 public class FCastle201MobScript : GeneralScript

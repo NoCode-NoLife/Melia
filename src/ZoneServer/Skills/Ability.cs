@@ -1,6 +1,6 @@
 ﻿using Melia.Zone.World;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using System;

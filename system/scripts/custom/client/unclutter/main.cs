@@ -15,12 +15,15 @@ public class UnclutterClientScript : ClientScript
 	/// </summary>
 	public override void Load()
 	{
-		this.LoadLuaScript("001.lua");
+		this.LoadAllScripts();
 	}
 
 	[On("PlayerReady")]
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
 		this.SendLuaScript(e.Character, "001.lua");
+
+		if (e.Character.Connection.Account.Variables.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
+			this.SendLuaScript(e.Character, "002.lua");
 	}
 }

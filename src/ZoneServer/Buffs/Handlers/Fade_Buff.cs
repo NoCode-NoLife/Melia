@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;

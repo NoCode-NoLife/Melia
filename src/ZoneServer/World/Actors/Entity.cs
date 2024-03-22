@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;

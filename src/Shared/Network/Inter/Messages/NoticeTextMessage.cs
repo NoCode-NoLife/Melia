@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Yggdrasil.Network.Communication;
 
 namespace Melia.Shared.Network.Inter.Messages

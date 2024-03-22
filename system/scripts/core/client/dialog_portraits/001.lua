@@ -1,10 +1,10 @@
 -- Replaces function to add support for setting a title after a dialog
 -- target was set. In the official function, a dialog element's caption
 -- takes precedence over a custom title.
-function DIALOG_TEXTVIEW(frame, msg, argStr)
+Melia.Override("DIALOG_TEXTVIEW", function(original, frame, msg, argStr)
 	
 	local text
-	local title
+	local title = "Unknown"
 	local voice = "None"
 	
 	g_lastClassName = argStr
@@ -30,9 +30,9 @@ function DIALOG_TEXTVIEW(frame, msg, argStr)
 			if dialogText then
 				title = dialogText.Caption
 				voice = dialogText.VoiceName
-				
-				argStr = string.sub(argStr, index + 1)
 			end
+			
+			argStr = string.sub(argStr, index + 1)
 		end
 
 		-- The string "*@*" is the delimiter between a custom title for the
@@ -43,6 +43,11 @@ function DIALOG_TEXTVIEW(frame, msg, argStr)
 		if index ~= nil then
 			title = string.sub(argStr, 1, index - 1)
 			text = string.sub(argStr, index + 3)
+
+			dialogText = GetClass('DialogText', title)
+			if dialogText then
+				title = dialogText.Caption
+			end
 		else
 			text = argStr
 		end
@@ -51,4 +56,4 @@ function DIALOG_TEXTVIEW(frame, msg, argStr)
 	
 	DIALOG_SHOW_DIALOG_TEXT(frame, text, title, voice);
 	
-end
+end)

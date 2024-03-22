@@ -8,7 +8,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
@@ -927,10 +927,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var optionId = packet.GetInt();
+			var optionId = (AccountOptionId)packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!conn.Account.Settings.IsValid(optionId))
+			if (!Enum.IsDefined(typeof(AccountOptionId), optionId))
 			{
 				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;
@@ -2397,7 +2397,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ToS Hero Emblems?
+		/// Purpose unknown, potentially related to Heroic Tale feature.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
