@@ -40,8 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 25, width: 25, angle: 0);
-			//var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 40, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);

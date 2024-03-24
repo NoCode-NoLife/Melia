@@ -221,7 +221,6 @@ namespace Melia.Zone.World.Actors
 		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
 			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
 
-
 		/// <summary>
 		/// Gets the entity's casting state.
 		/// </summary>
