@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -26,8 +26,6 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 		public void StartDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			if (caster is Character character)
-				character.Variables.Temp.SetBool("Melia.DynamicCast", true);
 			Send.ZC_PLAY_SOUND(caster, "voice_war_atk_medium");
 		}
 
@@ -38,8 +36,6 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 		/// <param name="caster"></param>
 		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			if (caster is Character character)
-				character.Variables.Temp.SetBool("Melia.DynamicCast", false);
 			Send.ZC_STOP_SOUND(caster, "voice_war_atk_medium");
 		}
 
@@ -60,9 +56,10 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			}
 
 			skill.IncreaseOverheat();
+			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 35, width: 20, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 15, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
@@ -125,12 +122,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 				hits.Clear();
 
-				bool keepAttacking = false;
-
-				if (caster is Character character)
-					if (!character.Variables.Temp.TryGetBool("Melia.DynamicCast", out keepAttacking)) break;
-
-				if (!keepAttacking) break;
+				if (!caster.IsCasting()) break;
 			}
 
 			Send.ZC_SKILL_DISABLE(caster as Character);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -38,9 +38,10 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			}
 
 			skill.IncreaseOverheat();
+			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 20, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 45, width: 15, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
@@ -60,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			var hitDelay = TimeSpan.FromMilliseconds(30);
 			var damageDelay1 = TimeSpan.FromMilliseconds(50);
 			var damageDelay2 = TimeSpan.FromMilliseconds(80);
-			var delayBetweenHits = TimeSpan.FromMilliseconds(250);
+			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
 
 			var pc = skill.Owner;
