@@ -122,7 +122,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 				hits.Clear();
 
-				if (!caster.) break;
+				if (!caster.IsCasting()) break;
 			}
 
 			Send.ZC_SKILL_DISABLE(caster as Character);
