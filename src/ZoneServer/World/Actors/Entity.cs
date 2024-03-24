@@ -215,6 +215,21 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
 
 		/// <summary>
+		/// Sets the entity's casting state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
+			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
+
+
+		/// <summary>
+		/// Gets the entity's casting state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static bool IsCasting(this ICombatEntity entity)
+			=> entity.Components.Get<CombatComponent>().CastingState;
+
+		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
