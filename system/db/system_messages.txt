@@ -1451,6 +1451,7 @@
 { classId: 4623, className: "MagicStop" },
 { classId: 4624, className: "MagicAutoRankUpMessage" },
 { classId: 4625, className: "YESSCP_ALL_OPEN_GACHABOX_MSG" },
+{ classId: 4626, className: "get_item{name}{count}" },
 { classId: 5001, className: "CoolDown : {Sec} Sec" },
 { classId: 5002, className: "WhenEquipToMainOrSubWeapon" },
 { classId: 5003, className: "WhenEquipToSubWeapon" },

@@ -817,7 +817,7 @@
 { id: 101272, className: "Goddess_Raid_DespairIsland_Party_1", category: "Kills", name: "", point: "Goddess_Raid_DespairIsland_Party", count: 10, repeatable: false, account: false },
 { id: 101273, className: "Goddess_Raid_DespairIsland_Party_2", category: "Kills", name: "", point: "Goddess_Raid_DespairIsland_Party", count: 60, repeatable: false, account: false },
 { id: 101274, className: "Goddess_Raid_DespairIsland_Party_3", category: "Kills", name: "", point: "Goddess_Raid_DespairIsland_Party", count: 160, repeatable: false, account: false },
-{ id: 101275, className: "Goddess_Raid_DespairIsland_Party_4", category: "Kills", name: "TroubleShooter", point: "Goddess_Raid_DespairIsland_Party", count: 310, repeatable: false, account: false },
+{ id: 101275, className: "Goddess_Raid_DespairIsland_Party_4", category: "Kills", name: "Hope of Kibotos", point: "Goddess_Raid_DespairIsland_Party", count: 310, repeatable: false, account: false },
 { id: 110001, className: "Ancient_1", category: "Assister Cost", name: "Ember Bandit", point: "Ancient_1", count: 40, repeatable: false, account: true },
 { id: 110002, className: "Ancient_2", category: "Assister Cost", name: "Singularity Inspectorate", point: "Ancient_2", count: 100, repeatable: false, account: true },
 { id: 110003, className: "Ancient_3", category: "Assister Cost", name: "Infinite Challenger", point: "Ancient_3", count: 300, repeatable: false, account: true },

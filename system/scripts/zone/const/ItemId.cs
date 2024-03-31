@@ -18502,6 +18502,7 @@ public static class ItemId
 	public const int Misc_Reinforce_PercentUp_510_NoTrade_30ea_Achieve = 11201130;
 	public const int Misc_Reinforce_PercentUp_510_11ea_Papaya = 11201131;
 	public const int Misc_Misc_BlessedStone_1_700ea = 11201132;
+	public const int Attendance_Gift_Box = 11201140;
 	public const int Certificate_RidePet_Scooter = 11205001;
 	public const int Give_SpearMaster_Vibora_NoTrade = 11205002;
 	public const int Spearmaster_Standard_Class_Pack = 11205003;
