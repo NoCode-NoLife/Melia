@@ -1089,7 +1089,6 @@ namespace Melia.Zone.Database
 		/// Saves the character's quests to the database.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <exception cref="InvalidOperationException"></exception>
 		private void SaveQuests(Character character)
 		{
 			using (var conn = this.GetConnection())
