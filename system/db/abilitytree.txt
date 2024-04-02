@@ -1868,4 +1868,23 @@
 { category: "Jaguar", classId: 206, abilityId: 509020, jobId: 5018, className: "Jaguar20", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Jaguar_JaguarStance", argNum: 1 } },
 { category: "Jaguar", classId: 1106, abilityId: 509021, jobId: 5018, className: "Jaguar21", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Jaguar20", argNum: 65 } },
 { category: "Jaguar", classId: 108, abilityId: 509022, jobId: 5018, className: "Jaguar22", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },
+
+// Desperado
+//---------------------------------------------------------------------------
+{ category: "Desperado", classId: 1, abilityId: 509023, jobId: 5019, className: "Desperado1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Desperado_Equilibrium", argNum: 1 } },
+{ category: "Desperado", classId: 2, abilityId: 509024, jobId: 5019, className: "Desperado2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Desperado_Revenged", argNum: 1 } },
+{ category: "Desperado", classId: 3, abilityId: 509025, jobId: 5019, className: "Desperado3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Desperado_DeadlyFire", argNum: 1 } },
+{ category: "Desperado", classId: 4, abilityId: 509026, jobId: 5019, className: "Desperado4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Desperado_RussianRoulette", argNum: 1 } },
+{ category: "Desperado", classId: 5, abilityId: 509027, jobId: 5019, className: "Desperado5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Desperado_LastManStanding", argNum: 1 } },
+{ category: "Desperado", classId: 11, abilityId: 509028, jobId: 5019, className: "Desperado11", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Desperado1", argNum: 65 } },
+{ category: "Desperado", classId: 12, abilityId: 509029, jobId: 5019, className: "Desperado12", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Desperado2", argNum: 65 } },
+{ category: "Desperado", classId: 13, abilityId: 509030, jobId: 5019, className: "Desperado13", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Desperado3", argNum: 65 } },
+{ category: "Desperado", classId: 14, abilityId: 509031, jobId: 5019, className: "Desperado14", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Desperado4", argNum: 65 } },
+{ category: "Desperado", classId: 15, abilityId: 509032, jobId: 5019, className: "Desperado15", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Desperado5", argNum: 65 } },
+{ category: "Desperado", classId: 21, abilityId: 509033, jobId: 5019, className: "Desperado20", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado20", argNum: 350 } },
+{ category: "Desperado", classId: 101, abilityId: 509034, jobId: 5019, className: "Desperado21", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char5_19", argNum: 45 } },
+{ category: "Desperado", classId: 22, abilityId: 509035, jobId: 5019, className: "Desperado22", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado22", argNum: 350 } },
+{ category: "Desperado", classId: 23, abilityId: 509036, jobId: 5019, className: "Desperado23", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado23", argNum: 350 } },
+{ category: "Desperado", classId: 24, abilityId: 509037, jobId: 5019, className: "Desperado24", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado24", argNum: 350 } },
+{ category: "Desperado", classId: 102, abilityId: 509038, jobId: 5019, className: "Desperado25", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char5_19", argNum: 45 } },
 ]
