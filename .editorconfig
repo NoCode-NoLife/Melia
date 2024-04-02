@@ -148,3 +148,6 @@ dotnet_diagnostic.IDE0066.severity = none
 
 # CA1816: Dispose methods must call SuppressFinalize
 dotnet_diagnostic.CA1816.severity = none
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = none

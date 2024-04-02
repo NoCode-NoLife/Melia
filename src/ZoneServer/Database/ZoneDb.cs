@@ -9,6 +9,7 @@ using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
@@ -1094,9 +1095,16 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId", conn, trans))
+				// Delete only the quests that we successfully loaded
+				// and skip the ones that weren't currently available.
+				var retainIds = character.Quests.GetDisabledQuests();
+				var retainIdStr = string.Join(",", retainIds);
+
+				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId AND `questId` NOT IN (@retain)", conn, trans))
 				{
 					cmd.AddParameter("@characterId", character.DbId);
+					cmd.AddParameter("@retain", retainIdStr);
+
 					cmd.ExecuteNonQuery();
 				}
 
@@ -1161,6 +1169,15 @@ namespace Melia.Zone.Database
 							var startTime = reader.GetDateTimeSafe("startTime");
 							var completeTime = reader.GetDateTimeSafe("completeTime");
 
+							// If the quest does not (currently) exist, make
+							// a note of it, so we can skip its deletion on
+							// saving later on.
+							if (!QuestScript.Exists(questClassId))
+							{
+								character.Quests.AddDisabledQuest(questDbId);
+								continue;
+							}
+
 							var quest = Quest.Create(questClassId);
 							quest.Status = status;
 							quest.StartTime = startTime;
@@ -1185,6 +1202,9 @@ namespace Melia.Zone.Database
 							var count = reader.GetInt32("count");
 							var done = reader.GetBoolean("done");
 							var unlocked = reader.GetBoolean("unlocked");
+
+							if (character.Quests.IsDisabled(questDbId))
+								continue;
 
 							if (!loadedQuests.TryGetValue(questDbId, out var quest))
 							{
