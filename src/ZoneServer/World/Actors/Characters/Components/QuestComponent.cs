@@ -29,8 +29,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	{
 		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromMinutes(1);
 
-		private readonly object _syncLock = new object();
-		private readonly List<Quest> _quests = new List<Quest>();
+		private readonly object _syncLock = new();
+		private readonly List<Quest> _quests = new();
+		private readonly List<long> _disabledQuests = new();
+
 		private TimeSpan _autoReceiveDelay = AutoReceiveDelay;
 
 		/// <summary>
@@ -40,6 +42,43 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public QuestComponent(Character character)
 			: base(character)
 		{
+		}
+
+		/// <summary>
+		/// Notes the given quest db id as disabled.
+		/// </summary>
+		/// <remarks>
+		/// Used to remember quests to keep around that are not currently
+		/// loaded by the server, but should still be available to the
+		/// character once they are. See quest loading and saving.
+		/// </remarks>
+		/// <param name="questDbId"></param>
+		internal void AddDisabledQuest(long questDbId)
+		{
+			lock (_syncLock)
+				_disabledQuests.Add(questDbId);
+		}
+
+		/// <summary>
+		/// Returns a list of all disabled quests.
+		/// </summary>
+		/// <returns></returns>
+		internal IList<long> GetDisabledQuests()
+		{
+			lock (_syncLock)
+				return _disabledQuests.ToArray();
+		}
+
+		/// <summary>
+		/// Returns true if the quest with the given database id is
+		/// disabled.
+		/// </summary>
+		/// <param name="questDbId"></param>
+		/// <returns></returns>
+		internal bool IsDisabled(long questDbId)
+		{
+			lock (_syncLock)
+				return _disabledQuests.Contains(questDbId);
 		}
 
 		/// <summary>

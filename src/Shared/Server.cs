@@ -3,16 +3,16 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using Melia.Shared.Configuration;
 using Melia.Shared.Data;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
-using Melia.Shared.Scripting;
-using Melia.Shared.Game.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -69,13 +69,12 @@ namespace Melia.Shared
 		{
 			// First go to the assemblies directory and then back from
 			// there until we find the root folder.
-			var appDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			Directory.SetCurrentDirectory(appDirectory);
 
-			var folderNames = new[] { "lib", "user", "system" };
-			var tries = 3;
+			var folderNames = new[] { "bin", "user", "system" };
+			var tries = 5;
 
-			var cwd = Directory.GetCurrentDirectory();
 			for (var i = 0; i < tries; ++i)
 			{
 				if (folderNames.All(a => Directory.Exists(a)))
@@ -334,10 +333,11 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads all scripts from given list.
+		/// Loads all scripts from the scripts lists in the given scripts
+		/// sub-folder.
 		/// </summary>
-		/// <param name="listFilePath"></param>
-		public void LoadScripts(string listFilePath)
+		/// <param name="scriptFolderName"></param>
+		public void LoadScripts(string scriptFolderName)
 		{
 			if (this.ScriptLoader != null)
 			{
@@ -346,6 +346,12 @@ namespace Melia.Shared
 			}
 
 			Log.Info("Loading scripts...");
+
+			// Originally we passed the full path into this method, but
+			// after moving the servers' scripts to their own sub-folders,
+			// it was easier to build the path inside here. Perhaps there's
+			// a better solution, to keep it more flexible?
+			var listFilePath = Path.Combine("system", "scripts", scriptFolderName, "scripts.txt");
 
 			if (!File.Exists(listFilePath))
 			{
@@ -357,22 +363,21 @@ namespace Melia.Shared
 
 			try
 			{
-				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
-				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
-				provider.SetCompilerFullPath(Path.GetFullPath("lib/roslyn/csc.exe"));
-
 				var cachePath = (string)null;
-				//if (conf.Scripting.EnableCaching)
-				//{
-				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
-				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
-				//}
+				if (this.Conf.Scripts.CacheScripts)
+					cachePath = Path.Combine("user", "cache", "scripts", scriptFolderName + ".dll");
 
-				this.ScriptLoader = new ScriptLoader(provider, cachePath);
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
+				var userPath = Path.Combine("user", "scripts", scriptFolderName);
+				var systemPath = Path.Combine("system", "scripts", scriptFolderName);
+
+				this.ScriptLoader = new ScriptLoader(cachePath);
+				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
+
+				foreach (var ex in this.ScriptLoader.ReferenceExceptions)
+					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
-					Log.Error(ex.ToString());
+					Log.Error(ex);
 			}
 			catch (CompilerErrorException ex)
 			{
@@ -380,7 +385,7 @@ namespace Melia.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex);
 			}
 
 			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
@@ -417,7 +422,7 @@ namespace Melia.Shared
 		/// <param name="ex"></param>
 		private void DisplayScriptErrors(CompilerErrorException ex)
 		{
-			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			foreach (var err in ex.Errors)
 			{
 				if (string.IsNullOrWhiteSpace(err.FileName))
 				{
@@ -427,7 +432,7 @@ namespace Melia.Shared
 				{
 					var relativefileName = err.FileName;
 					var cwd = Directory.GetCurrentDirectory();
-					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+					if (relativefileName.StartsWith(cwd, StringComparison.InvariantCultureIgnoreCase))
 						relativefileName = relativefileName.Substring(cwd.Length + 1);
 
 					var lines = File.ReadAllLines(err.FileName);
