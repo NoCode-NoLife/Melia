@@ -1086,7 +1086,7 @@ namespace Melia.Zone.Network
 				packet.Zlib(true, zpacket =>
 				{
 					zpacket.PutLong(character.ObjectId);					
-					zpacket.PutInt(character.Collections.Count());
+					zpacket.PutInt(character.Collections.Count);
 					foreach (var collectionId in character.Collections.GetList())
 					{
 						zpacket.PutShort(collectionId);
