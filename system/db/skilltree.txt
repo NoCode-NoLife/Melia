@@ -709,4 +709,10 @@
 { jobId: 5018, skillId: 51705, skillName: "Wild Thorn", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5018, skillId: 51706, skillName: "Wild Claw", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5018, skillId: 51707, skillName: "Wild Adaptability", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 5019, skillId: 51708, skillName: "Bad Guy", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5019, skillId: 51709, skillName: "Equilibrium", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5019, skillId: 51710, skillName: "Revenged", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5019, skillId: 51711, skillName: "Deadly Fire", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5019, skillId: 51712, skillName: "Russian Roulette", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5019, skillId: 51713, skillName: "Last Man Standing", unlockLevel: 31, maxLevel: 5 },
 ]

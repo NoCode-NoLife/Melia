@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `revealedMaps` (
+CREATE TABLE IF NOT EXISTS `revealedmaps` (
   `revealedMapId` bigint(20) NOT NULL AUTO_INCREMENT,
   `accountId` bigint(20) NOT NULL,
   `map` int(11) NOT NULL,

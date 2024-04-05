@@ -68,6 +68,17 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Returns true if a quest script with the given id exists.
+		/// </summary>
+		/// <param name="questId"></param>
+		/// <returns></returns>
+		public static bool Exists(int questId)
+		{
+			lock (ScriptsSyncLock)
+				return Scripts.ContainsKey(questId);
+		}
+
+		/// <summary>
 		/// Returns the quest script with the given id via out, returns
 		/// false if no script was found.
 		/// </summary>

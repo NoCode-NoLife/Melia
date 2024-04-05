@@ -1202,6 +1202,9 @@ namespace Melia.Shared.Network
 		public const int ZC_UNITY_GROUND_EFFECT = 0x106B; // Size: 59
 		public const int ZC_MON_LEADER_SHOW_ICON = 0x106C; // Size: 531
 		public const int ZC_UPDATE_FAINT = 0x106D; // Size: 30
+		public const int CZ_REQUEST_DIALOG_UI = 0x106E; // Size: 26
+		public const int CZ_USE_INVITE_EVENT_CODE = 0x106F; // Size: 54
+		public const int CZ_GET_INVITE_EVENT_REWARD = 0x1070; // Size: 26
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -2435,6 +2438,9 @@ namespace Melia.Shared.Network
 			Sizes[ZC_UNITY_GROUND_EFFECT] = 59;
 			Sizes[ZC_MON_LEADER_SHOW_ICON] = 531;
 			Sizes[ZC_UPDATE_FAINT] = 30;
+			Sizes[CZ_REQUEST_DIALOG_UI] = 26;
+			Sizes[CZ_USE_INVITE_EVENT_CODE] = 54;
+			Sizes[CZ_GET_INVITE_EVENT_REWARD] = 26;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;

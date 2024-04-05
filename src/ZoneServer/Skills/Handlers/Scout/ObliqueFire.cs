@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
-using Melia.Shared.World;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Extensions;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scout
@@ -116,7 +112,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			var splashArea = new Circle(mainTarget.Position, splashRadius);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			if (!targets.Any())
+			if (targets.Count == 0)
 			{
 				bounceTarget = null;
 				return false;

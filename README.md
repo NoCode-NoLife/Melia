@@ -44,29 +44,18 @@ Specifically, some of the major features that are working are as follows:
 Requirements
 -----------------------------------------------------------------------------
 
-### Pre-requisites
+Melia is being developed in C# (.NET 8+) and uses a MySQL database for
+its storage. As such, to use Melia you will need the following:
 
-- InnoDB compatible server, such as:
-  - [MySQL 5](https://dev.mysql.com/downloads/mysql/5.7.html) or
-    [MariaDB 10](https://mariadb.org/download/)
+- The .NET SDK (8+)
+- A MySQL-compatible database server (MariaDB 10+ recommended)
 
-### Building on Linux/macOS
+On an up-to-date Windows system, the SDK will already be included,
+so you only need to install a MySQL-compatible server. On Linux and
+macOS, you will need to install the SDK as well.
 
-- [Mono 5](https://www.mono-project.com/download/stable/)
-- [Mono Develop](https://www.monodevelop.com/download/)
-
-### Building on Windows
-
-- [.NET 4.6.2 SDK](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-developer-pack-offline-installer)
-- [Visual Studio](https://visualstudio.microsoft.com/downloads/) (2017 or later) (Community Edition is free)
-
-### Running on Linux/macOS
-
-- [Mono 5](https://www.mono-project.com/download/stable/)
-
-### Running on Windows
-
-- [.NET 4.6.2 Runtime](https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net462-offline-installer)
+For more detailed instructions, please wait patiently while we give
+our documentation a much-needed overhaul. It's only a matter of time.
 
 Installation
 -----------------------------------------------------------------------------

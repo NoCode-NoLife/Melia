@@ -27,10 +27,10 @@ namespace Melia.Barracks
 		/// <summary>
 		/// Returns global instance of the barracks server.
 		/// </summary>
-		public readonly static BarracksServer Instance = new BarracksServer();
+		public readonly static BarracksServer Instance = new();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
-		private readonly Dictionary<string, int> _zoneServerNames = new Dictionary<string, int>();
+		private readonly Dictionary<string, int> _zoneServerNames = new();
 
 		/// <summary>
 		/// Returns the server's inter-server communicator.
@@ -81,7 +81,7 @@ namespace Melia.Barracks
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
 			this.LoadIesMods();
-			this.LoadScripts("system/scripts/scripts_barracks.txt");
+			this.LoadScripts("barracks");
 
 			this.StartCommunicator();
 			this.StartAcceptor();
@@ -235,7 +235,7 @@ namespace Melia.Barracks
 			Log.Info("Checking for updates...");
 
 			var files = Directory.GetFiles("sql").OrderBy(a => a);
-			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
+			foreach (var filePath in files.Where(file => Path.GetExtension(file).Equals(".sql", StringComparison.InvariantCultureIgnoreCase)))
 				this.RunUpdate(Path.GetFileName(filePath));
 		}
 
@@ -245,12 +245,12 @@ namespace Melia.Barracks
 		/// <param name="updateFile"></param>
 		private void RunUpdate(string updateFile)
 		{
-			if (BarracksServer.Instance.Database.CheckUpdate(updateFile))
+			if (this.Database.CheckUpdate(updateFile))
 				return;
 
 			Log.Info("Update '{0}' found, executing...", updateFile);
 
-			BarracksServer.Instance.Database.RunUpdate(updateFile);
+			this.Database.RunUpdate(updateFile);
 		}
 
 		/// <summary>

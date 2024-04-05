@@ -1,5 +1,0 @@
-// Melia
-// Script List File
-//---------------------------------------------------------------------------
-
-include "/user/scripts/scripts_barracks.txt"
