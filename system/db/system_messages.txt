@@ -10800,7 +10800,7 @@
 { classId: 92278, className: "Raid_DespairIsland_UnActiveObjectMsg" },
 { classId: 92279, className: "GACHA_SITEM_GET_ALLMSG_PAPAYA" },
 { classId: 92280, className: "GACHA_SITEM_GET_ALLMSG_COUNT_PAPAYA" },
-{ classId: 92281, className: "AetherConvertTo" },
+{ classId: 92282, className: "GlobalBuffUse_ALLMSG2" },
 { classId: 100001, className: "ADD_DAMAGE_{Auto_1}!" },
 { classId: 100002, className: "ADD_BUFF_{Auto_1}!" },
 { classId: 100003, className: "ABSORB_HP_{Auto_1}!" },

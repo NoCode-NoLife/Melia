@@ -9077,6 +9077,7 @@ public static class ItemId
 	public const int Event_2310_Stew1 = 10000642;
 	public const int Event_2310_Stew2 = 10000643;
 	public const int Event_2310_Stew3 = 10000644;
+	public const int Event_2404_Seed = 10000652;
 	public const int Event_Enchantchip_Limit_1 = 10002006;
 	public const int Moru_Ruby_Limit_1 = 10002012;
 	public const int Moru_Gold_Limit_1 = 10002013;
@@ -9463,6 +9464,7 @@ public static class ItemId
 
 	// Entrance_Ticket
 	//-----------------------------------------------------------------------
+	public const int Event_ChallengeModeReset_6 = 10000073;
 	public const int Event_Dungeoncount_11 = 10000175;
 	public const int Event_ChallengeModeReset_13 = 10000182;
 	public const int Event_ChallengeModeReset_16 = 10000229;
@@ -9927,7 +9929,6 @@ public static class ItemId
 	public const int EVENT_SECOND_CHALLENG_4 = 10000068;
 	public const int EVENT_SECOND_CHALLENG_5 = 10000069;
 	public const int EVENT_SECOND_CHALLENG_6 = 10000070;
-	public const int Event_ChallengeModeReset_6 = 10000073;
 	public const int Event_IndunReset_Team_5 = 10000078;
 	public const int Event_IndunReset_Team_6 = 10000079;
 	public const int Event_Ability_Point_Stone_10000_4 = 10000083;
@@ -10172,6 +10173,7 @@ public static class ItemId
 	public const int Event_2304_ARBOR_DAY_BOX5 = 10000634;
 	public const int Event_2304_ARBOR_DAY_BOX6 = 10000635;
 	public const int Event_2310_Pumpkin_Candy = 10000641;
+	public const int Event_2404_ARBOR_DAY_Fertilizer = 10000645;
 	public const int Event_Ability_Point_Stone_10000_Limit_1 = 10002000;
 	public const int Event_Misc_Pvpmine2_Ticket_5000_Limit_1 = 10002001;
 	public const int Event_Contents_Total_Point_Boost_Coupon_Limit_1 = 10002002;
@@ -16750,6 +16752,12 @@ public static class ItemId
 	public const int Chat_Balloon_Event_Chuseok = 10000614;
 	public const int Ticket_Jellyzele_Auto_Enter_Limit = 10000615;
 	public const int Ticket_TurbulentCore_Auto_Enter_Limit = 10000616;
+	public const int Event_2404_ARBOR_DAY_BOX1 = 10000646;
+	public const int Event_2404_ARBOR_DAY_BOX2 = 10000647;
+	public const int Event_2404_ARBOR_DAY_BOX3 = 10000648;
+	public const int Event_2404_ARBOR_DAY_BOX4 = 10000649;
+	public const int Event_2404_ARBOR_DAY_BOX5 = 10000650;
+	public const int Event_2404_ARBOR_DAY_BOX6 = 10000651;
 	public const int Event_Ticket_RevivalPaulius_Auto_Enter_Limit_1 = 10002032;
 	public const int Event_Ticket_Vasilissa_Party_Enter_Limit_1 = 10002033;
 	public const int Event_EXPERT_MODE_MULTIPLE_Limit_1 = 10002034;

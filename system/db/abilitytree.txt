@@ -1887,4 +1887,5 @@
 { category: "Desperado", classId: 23, abilityId: 509036, jobId: 5019, className: "Desperado23", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado23", argNum: 350 } },
 { category: "Desperado", classId: 24, abilityId: 509037, jobId: 5019, className: "Desperado24", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado24", argNum: 350 } },
 { category: "Desperado", classId: 102, abilityId: 509038, jobId: 5019, className: "Desperado25", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char5_19", argNum: 45 } },
+{ category: "Desperado", classId: 25, abilityId: 509039, jobId: 5019, className: "Desperado26", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Desperado26", argNum: 350 } },
 ]
