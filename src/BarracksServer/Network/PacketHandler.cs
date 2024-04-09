@@ -49,6 +49,17 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
+			// Check the account name, which is commonly empty if the static
+			// configuration is set up incorrectly. Shouldn't cause any false
+			// positives, because the client won't allow you to click Enter
+			// without an account name.
+			if (accountName == "")
+			{
+				Send.BC_MESSAGE(conn, "It appears like your client is not configured incorrectly. Please check your static configuration.");
+				conn.Close(100);
+				return;
+			}
+
 			// Create new account
 			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
 			{
