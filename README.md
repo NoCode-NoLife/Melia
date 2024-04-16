@@ -12,6 +12,63 @@ with any services provided by game developers or publishers, and we don't
 endorse such actions. We're here to learn and create, not to steal or
 destroy.
 
+Docker
+-----------------------------------------------------------------------------
+
+This repository aims to make Melia easier to setup and run in any environment.
+To achieve this, we're making a few changes do add the capability of building
+and running Melia on Linux, as well as building and running the server in a
+few Docker containers.
+
+For this to work, you will need [Docker](https://docs.docker.com/) installed
+on your system. Recent versions of Docker comes with [Docker Compose](https://docs.docker.com/compose/)
+pre-installed, so you don't have to worry about it.
+
+After cloning or downloading this repository, navigate to the project folder
+(where you'll find `docker-compose.yml` ) and run: 
+
+```
+docker compose build
+```
+
+This will download the necessary Docker Images for our project to run and
+build a new image with `/server/Dockerfile`, where our server dependencies
+are listed.
+
+Now, you can run:
+```
+docker compose run --rm melia-server dotnet build
+```
+
+This will create our server binaries, making it ready to start with our next
+command:
+```
+docker compose up -d
+```
+
+Wait for a few seconds for everything to initialize. Then, you can go to your
+browser and access [http://127.0.0.1/toslive/patch/serverlist.xml] to check
+if server is up and running.
+
+You can restart server if anything goes wrong using:
+```
+docker compose restart
+```
+
+If you change anything on source code, you need to run 
+`docker compose run --rm melia-server dotnet build` again and restart your
+server with `docker compose restart`
+
+
+Database
+-----------------------------------------------------------------------------
+
+With the Docker containers, we've added a PHPMyAdmin container, which can be
+accessed via [http://127.0.0.1:8080]. Default user is `root` and password
+is `123456` (You can change password on `docker-compose.yml`, but remember
+to change on source files as well).
+
+
 Client
 -----------------------------------------------------------------------------
 

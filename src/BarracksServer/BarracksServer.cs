@@ -67,7 +67,7 @@ namespace Melia.Barracks
 			var title = string.Format("Barracks ({0}, {1})", groupId, serverId);
 
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
-			ConsoleUtil.LoadingTitle();
+			// ConsoleUtil.LoadingTitle();
 
 			Log.Init("BarracksServer" + serverId);
 
@@ -86,8 +86,10 @@ namespace Melia.Barracks
 			this.StartCommunicator();
 			this.StartAcceptor();
 
-			ConsoleUtil.RunningTitle();
-			new BarracksConsoleCommands().Wait();
+			// Event Loop to keep server running on Docker
+			while(true) {
+				System.Threading.Thread.Sleep(5000);
+			}
 		}
 
 		/// <summary>

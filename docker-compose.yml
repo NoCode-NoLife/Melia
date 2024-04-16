@@ -1,0 +1,46 @@
+name: "melia"
+services:
+  melia-database:
+    container_name: melia-database
+    image: mysql:8.3
+    networks:
+      - melia-network
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456 # Change to secure password
+    volumes:
+      - ./sql_start:/docker-entrypoint-initdb.d
+      - ./.mysql/:/var/lib/mysql
+    restart: unless-stopped
+  melia-server:
+    container_name: melia-server
+    command: "./start Debug"
+    build: "./Servers"
+    networks:
+      - melia-network
+    volumes:
+      - ./:/melia
+    depends_on:
+      - melia-database
+    ports:
+      - "2000:2000"
+      - "6001:6001"
+      - "7001:7001"
+      - "7002:7002"
+      - "80:80"
+  phpmyadmin:
+    container_name: melia-dbadmin
+    networks:
+      - melia-network
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=melia-database
+      - PMA_USER=root
+      - PMA_PASSWORD=123456 # Change to secure password (Same as before)
+      - UPLOAD_LIMIT=300M
+    profiles: []
+networks:
+  melia-network:

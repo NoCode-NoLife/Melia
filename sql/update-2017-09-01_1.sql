@@ -1,1 +1,0 @@
-ALTER TABLE `characters` ADD COLUMN `barrackLayer` INT NOT NULL DEFAULT 1;
