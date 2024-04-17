@@ -17,7 +17,7 @@ services:
       - ./.env
   melia-server:
     container_name: melia-server
-    command: "./start Release"
+    command: "./start ${ENVIRONMENT}"
     build: "./Servers"
     networks:
       - melia-network
