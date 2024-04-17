@@ -12,10 +12,10 @@ with any services provided by game developers or publishers, and we don't
 endorse such actions. We're here to learn and create, not to steal or
 destroy.
 
-Docker
+Installation with Docker
 -----------------------------------------------------------------------------
 
-This repository aims to make Melia easier to setup and run in any environment.
+This branch aims to make Melia easier to setup and run in any environment.
 To achieve this, we're making a few changes do add the capability of building
 and running Melia on Linux, as well as building and running the server in a
 few Docker containers.
@@ -24,7 +24,8 @@ For this to work, you will need [Docker](https://docs.docker.com/) installed
 on your system. Recent versions of Docker comes with [Docker Compose](https://docs.docker.com/compose/)
 pre-installed, so you don't have to worry about it.
 
-After cloning or downloading this repository, navigate to the project folder
+After cloning or downloading this repository, rename file `.env.example` to
+`.env` and change configuration as needed. Then, navigate to the project folder
 (where you'll find `docker-compose.yml` ) and run: 
 
 ```
@@ -32,7 +33,7 @@ docker compose build
 ```
 
 This will download the necessary Docker Images for our project to run and
-build a new image with `/server/Dockerfile`, where our server dependencies
+build a new image with `./Servers/Dockerfile`, where our server dependencies
 are listed.
 
 Now, you can run:
@@ -60,13 +61,16 @@ If you change anything on source code, you need to run
 server with `docker compose restart`
 
 
-Database
+Database with Docker
 -----------------------------------------------------------------------------
 
 With the Docker containers, we've added a PHPMyAdmin container, which can be
 accessed via [http://127.0.0.1:8080]. Default user is `root` and password
-is `123456` (You can change password on `docker-compose.yml`, but remember
-to change on source files as well).
+is `123456` (You can change password on `.env`, but remember to change on
+`user/conf/database.conf` as well).
+
+By default, database will be loaded with data from `sql_start/Merge_All_SQLs.sql`.
+
 
 
 Client
@@ -75,6 +79,35 @@ Client
 Melia does not have a client of its own at this time. Instead, it's designed
 to be network compatible with the latest client of the international
 version of ToS, which is freely available on Steam.
+
+After downloading, open your client folder (Steam > Right-Click on Game >
+Manage > Browse Local Files). Then, open `release/client.xml` with a text
+editor.
+
+Change the line which starts with `<GameOption ServerList [...]` to this:
+```
+<GameOption ServerListURL="http://127.0.0.1/toslive/patch/serverlist.xml" StaticConfigURL="http://127.0.0.1/toslive/patch/" NewAccountURL="http://127.0.0.1/" PaymentURL="http://127.0.0.1/" LoadingImgURL="http://127.0.0.1/toslive/patch/loadingimg/" LoadingImgCount="10"/>
+```
+
+Note: If your server is not on the same machine you're playing, change
+`127.0.0.1` to your Server's LAN / WAN IP.
+
+Now you can open your game and play.
+
+If you're using Docker, you can't use server's console to create your
+account, so, when logging in for the first time, use `new__` as a prefix
+to your username.
+
+Example:
+```
+Username: new__myaccount
+Password: mypassword
+```
+
+This will create an account with username `myaccount` and password
+`mypassword`. You can check the database to make sure everything is okay,
+but you'll already be connected and playing. Next time, just login with
+your username without the `new__` prefix.
 
 State of Development
 -----------------------------------------------------------------------------
