@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i384905
+//   Version: i385157
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29358,6 +29358,35 @@ string getPropertyName(int id)
         case 115147: return "ContentsTotalShop_2404_1";
         case 115148: return "dress_costume_ep16yongyong_m";
         case 115149: return "ep16yongyong_theme";
+        case 115150: return "InDunCountType_911";
+        case 115151: return "Kill_event_boss_skiaclipse";
+        case 115152: return "Kill_event_boss_skiaclipse_sealed_nocage";
+        case 115153: return "Pose_QUEENCARD";
+        case 115154: return "dmg_font_008";
+        case 115155: return "EVENT_2404_W1TH_TOTAL_COIN_CNT";
+        case 115156: return "EVENT_2404_W1TH_17";
+        case 115157: return "EVENT_2404_W1TH_WEEKLY_COIN_CNT";
+        case 115158: return "EVENT_2404_W1TH_6";
+        case 115159: return "EVENT_2404_W1TH_19";
+        case 115160: return "EVENT_2404_W1TH_3";
+        case 115161: return "EVENT_2404_W1TH_10";
+        case 115162: return "EVENT_2404_W1TH_16";
+        case 115163: return "EVENT_2404_W1TH_11";
+        case 115164: return "EVENT_2404_W1TH_15";
+        case 115165: return "EVENT_2404_W1TH_13";
+        case 115166: return "EVENT_2404_W1TH_20";
+        case 115167: return "EVENT_2404_W1TH_8";
+        case 115168: return "EVENT_2404_W1TH_18";
+        case 115169: return "EVENT_2404_W1TH_4";
+        case 115170: return "EVENT_2404_W1TH_9";
+        case 115171: return "EVENT_2404_W1TH_2";
+        case 115172: return "InDunCountType_911";
+        case 115173: return "EVENT_2404_W1TH_5";
+        case 115174: return "EVENT_2404_W1TH_7";
+        case 115175: return "EVENT_2404_W1TH_14";
+        case 115176: return "EVENT_2404_W1TH_12";
+        case 115177: return "EVENT_2404_W1TH_1";
+        case 115178: return "MG_Last_EVENT_2024_W_1TH_ANNI_DUNGEON";
         default: return "Unknown";
     }
 }
