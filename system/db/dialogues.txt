@@ -18549,6 +18549,8 @@
 { classId: 5651303, className: "EVENT_2402_NEWYEAR_DLG1" },
 { classId: 5651400, className: "EVENT_2403_FRIEND_INVITE" },
 { classId: 5651401, className: "EVENT_2403_FRIEND_INVITE_DLG" },
+{ classId: 5651500, className: "EVENT_2404_W1TH_ANI_DIG" },
+{ classId: 5651501, className: "EVENT_2404_W1TH_ANI" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

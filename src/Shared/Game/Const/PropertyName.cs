@@ -9009,6 +9009,30 @@
 		public const string ContentsTotalShop_2404_1 = "ContentsTotalShop_2404_1";
 		public const string dress_costume_ep16yongyong_m = "dress_costume_ep16yongyong_m";
 		public const string ep16yongyong_theme = "ep16yongyong_theme";
+		public const string dmg_font_008 = "dmg_font_008";
+		public const string EVENT_2404_W1TH_TOTAL_COIN_CNT = "EVENT_2404_W1TH_TOTAL_COIN_CNT";
+		public const string EVENT_2404_W1TH_17 = "EVENT_2404_W1TH_17";
+		public const string EVENT_2404_W1TH_WEEKLY_COIN_CNT = "EVENT_2404_W1TH_WEEKLY_COIN_CNT";
+		public const string EVENT_2404_W1TH_6 = "EVENT_2404_W1TH_6";
+		public const string EVENT_2404_W1TH_19 = "EVENT_2404_W1TH_19";
+		public const string EVENT_2404_W1TH_3 = "EVENT_2404_W1TH_3";
+		public const string EVENT_2404_W1TH_10 = "EVENT_2404_W1TH_10";
+		public const string EVENT_2404_W1TH_16 = "EVENT_2404_W1TH_16";
+		public const string EVENT_2404_W1TH_11 = "EVENT_2404_W1TH_11";
+		public const string EVENT_2404_W1TH_15 = "EVENT_2404_W1TH_15";
+		public const string EVENT_2404_W1TH_13 = "EVENT_2404_W1TH_13";
+		public const string EVENT_2404_W1TH_20 = "EVENT_2404_W1TH_20";
+		public const string EVENT_2404_W1TH_8 = "EVENT_2404_W1TH_8";
+		public const string EVENT_2404_W1TH_18 = "EVENT_2404_W1TH_18";
+		public const string EVENT_2404_W1TH_4 = "EVENT_2404_W1TH_4";
+		public const string EVENT_2404_W1TH_9 = "EVENT_2404_W1TH_9";
+		public const string EVENT_2404_W1TH_2 = "EVENT_2404_W1TH_2";
+		public const string InDunCountType_911 = "InDunCountType_911";
+		public const string EVENT_2404_W1TH_5 = "EVENT_2404_W1TH_5";
+		public const string EVENT_2404_W1TH_7 = "EVENT_2404_W1TH_7";
+		public const string EVENT_2404_W1TH_14 = "EVENT_2404_W1TH_14";
+		public const string EVENT_2404_W1TH_12 = "EVENT_2404_W1TH_12";
+		public const string EVENT_2404_W1TH_1 = "EVENT_2404_W1TH_1";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -19964,6 +19988,9 @@
 		public const string Kill_leader_centaurus = "Kill_leader_centaurus";
 		public const string Kill_leader_trampler = "Kill_leader_trampler";
 		public const string Kill_season_challenge_slogutis = "Kill_season_challenge_slogutis";
+		public const string Kill_event_boss_skiaclipse = "Kill_event_boss_skiaclipse";
+		public const string Kill_event_boss_skiaclipse_sealed_nocage = "Kill_event_boss_skiaclipse_sealed_nocage";
+		public const string Pose_QUEENCARD = "Pose_QUEENCARD";
 
 		// SessionObject
 		public const string PosX = "PosX";
@@ -27846,6 +27873,7 @@
 		public const string MG_Last_SEASON_CHALLENGE_5 = "MG_Last_SEASON_CHALLENGE_5";
 		public const string MG_Last_SEASON_CHALLENGE_2 = "MG_Last_SEASON_CHALLENGE_2";
 		public const string MG_Last_SEASON_CHALLENGE_3 = "MG_Last_SEASON_CHALLENGE_3";
+		public const string MG_Last_EVENT_2024_W_1TH_ANNI_DUNGEON = "MG_Last_EVENT_2024_W_1TH_ANNI_DUNGEON";
 
 		// Skill
 		public const string Tooltip_Attr = "Tooltip_Attr";

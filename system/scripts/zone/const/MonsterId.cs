@@ -3550,6 +3550,10 @@ public static class MonsterId
 	public const int Event_2024_Newyear_Yak_Magician = 101023;
 	public const int Event_2024_Newyear_Yak_Druid = 101024;
 	public const int Goddess_Moru = 101025;
+	public const int Event_Boss_Skiaclipse_Sealed_Nocage = 101026;
+	public const int Event_Boss_Skiaclipse = 101027;
+	public const int Event_Varnaclipse = 101028;
+	public const int Event_Shilleclipse = 101029;
 	public const int BW_Boss_Kerberos = 102000;
 	public const int BW_Boss_Lapedame = 102001;
 	public const int BW_Boss_Foculus = 102002;
