@@ -88,7 +88,11 @@ namespace Melia.Zone
 			var title = string.Format("Zone ({0}, {1})", groupId, serverId);
 
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkGreen, ConsoleHeader.Logo, ConsoleHeader.Credits);
-			// ConsoleUtil.LoadingTitle();
+			
+			// Skip the following command on incompatible systems
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+				ConsoleUtil.LoadingTitle();
+				
 
 			// Set up zone server specific logging or we might run into
 			// issues with multiple servers trying to write files at the
@@ -111,9 +115,20 @@ namespace Melia.Zone
 			this.StartCommunicator();
 			this.StartAcceptor();
 
-			// Event Loop to keep server running on Docker
-			while(true) {
-				System.Threading.Thread.Sleep(5000);
+
+			// If running on Windows system, enable console inputs
+			// otherwise, start an event loop to keep server running until stopped
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				ConsoleUtil.RunningTitle();
+				new ConsoleCommands().Wait();
+			}
+			else
+			{
+				while (true)
+				{
+					System.Threading.Thread.Sleep(5000);
+				}
 			}
 		}
 

@@ -67,7 +67,10 @@ namespace Melia.Barracks
 			var title = string.Format("Barracks ({0}, {1})", groupId, serverId);
 
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.Magenta, ConsoleHeader.Logo, ConsoleHeader.Credits);
-			// ConsoleUtil.LoadingTitle();
+
+			// Skip the following command on incompatible systems
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+				ConsoleUtil.LoadingTitle();
 
 			Log.Init("BarracksServer" + serverId);
 
@@ -86,9 +89,19 @@ namespace Melia.Barracks
 			this.StartCommunicator();
 			this.StartAcceptor();
 
-			// Event Loop to keep server running on Docker
-			while(true) {
-				System.Threading.Thread.Sleep(5000);
+			// If running on Windows system, enable console inputs
+			// otherwise, start an event loop to keep server running until stopped
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				ConsoleUtil.RunningTitle();
+				new BarracksConsoleCommands().Wait();
+			}
+			else
+			{
+				while (true)
+				{
+					System.Threading.Thread.Sleep(5000);
+				}
 			}
 		}
 
@@ -180,21 +193,21 @@ namespace Melia.Barracks
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
-				{
-					if (serverUpdateMessage.ServerType == ServerType.Zone)
-						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+					{
+						if (serverUpdateMessage.ServerType == ServerType.Zone)
+							_zoneServerNames[sender] = serverUpdateMessage.ServerId;
 
-					this.ServerList.Update(serverUpdateMessage);
-					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+						this.ServerList.Update(serverUpdateMessage);
+						this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
-					Send.BC_NORMAL.ZoneTraffic();
-					break;
-				}
+						Send.BC_NORMAL.ZoneTraffic();
+						break;
+					}
 				case RequestMessage requestMessage:
-				{
-					this.Communicator_OnRequestReceived(sender, requestMessage);
-					break;
-				}
+					{
+						this.Communicator_OnRequestReceived(sender, requestMessage);
+						break;
+					}
 			}
 		}
 
@@ -208,15 +221,15 @@ namespace Melia.Barracks
 			switch (requestMessage.Message)
 			{
 				case ReqPlayerCountMessage reqPlayerCountMessage:
-				{
-					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
+					{
+						var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
 
-					var message = new ResPlayerCountMessage(playerCount);
-					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+						var message = new ResPlayerCountMessage(playerCount);
+						var responseMessage = new ResponseMessage(requestMessage.Id, message);
 
-					this.Communicator.Send(sender, responseMessage);
-					break;
-				}
+						this.Communicator.Send(sender, responseMessage);
+						break;
+					}
 			}
 		}
 
