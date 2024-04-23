@@ -12,6 +12,30 @@ with any services provided by game developers or publishers, and we don't
 endorse such actions. We're here to learn and create, not to steal or
 destroy.
 
+
+State of Development
+-----------------------------------------------------------------------------
+
+Melia has been in semi-active development for several years, and is
+being worked on more or less depending on the time and motivation of
+the available developers. The server is functional and provides many
+of the typical features you would expect from an online RPG, but
+there's still a way to go before we'd call it truly playable.
+
+Specifically, some of the major features that are working are as follows:
+- Characters (creation, deletion, etc.)
+- Inventory (managing items, equipping, etc.)
+- Chat
+- Stats
+- Skills
+  - Distrbution of skill points
+  - Basic and experimental combat, incl. monster AI
+  - Basic and experimental support for select skills
+- NPC dialogues and shops
+- Monster spawns
+- Quests
+
+
 Installation with Docker
 -----------------------------------------------------------------------------
 
@@ -72,7 +96,6 @@ is `123456` (You can change password on `.env`, but remember to change on
 By default, database will be loaded with data from `sql_start/Merge_All_SQLs.sql`.
 
 
-
 Client
 -----------------------------------------------------------------------------
 
@@ -109,29 +132,21 @@ This will create an account with username `myaccount` and password
 but you'll already be connected and playing. Next time, just login with
 your username without the `new__` prefix.
 
-State of Development
+
+Installation from scratch
 -----------------------------------------------------------------------------
 
-Melia has been in semi-active development for several years, and is
-being worked on more or less depending on the time and motivation of
-the available developers. The server is functional and provides many
-of the typical features you would expect from an online RPG, but
-there's still a way to go before we'd call it truly playable.
+* Compile Melia
+* Run `sql/main.sql` to setup the database
+* Copy `system/conf/database.conf` to `user/conf/`,
+  adjust the necessary values and remove the rest.
 
-Specifically, some of the major features that are working are as follows:
-- Characters (creation, deletion, etc.)
-- Inventory (managing items, equipping, etc.)
-- Chat
-- Stats
-- Skills
-  - Distrbution of skill points
-  - Basic and experimental combat, incl. monster AI
-  - Basic and experimental support for select skills
-- NPC dialogues and shops
-- Monster spawns
-- Quests
+Afterwards, you should be able to start Melia via the provided scripts or
+directly from the bin directories. If not, or if you need a more detailed
+guide, head over to our forum, the chat, or the wiki.
 
-Requirements
+
+Requirements to build from scratch
 -----------------------------------------------------------------------------
 
 Melia is being developed in C# (.NET 8+) and uses a MySQL database for
@@ -147,17 +162,6 @@ macOS, you will need to install the SDK as well.
 For more detailed instructions, please wait patiently while we give
 our documentation a much-needed overhaul. It's only a matter of time.
 
-Installation
------------------------------------------------------------------------------
-
-* Compile Melia
-* Run `sql/main.sql` to setup the database
-* Copy `system/conf/database.conf` to `user/conf/`,
-  adjust the necessary values and remove the rest.
-
-Afterwards, you should be able to start Melia via the provided scripts or
-directly from the bin directories. If not, or if you need a more detailed
-guide, head over to our forum, the chat, or the wiki.
 
 Contribution
 -----------------------------------------------------------------------------
