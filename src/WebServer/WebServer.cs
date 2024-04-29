@@ -43,7 +43,10 @@ namespace Melia.Web
 			var title = string.Format("Web ({0}, {1})", groupId, serverId);
 
 			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
-			ConsoleUtil.LoadingTitle();
+
+			// Skip the following command on incompatible systems
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+				ConsoleUtil.LoadingTitle();
 
 			this.NavigateToRoot();
 			this.LoadConf(this.Conf);
@@ -54,9 +57,20 @@ namespace Melia.Web
 			this.StartCommunicator();
 			this.StartWebServer();
 
-			ConsoleUtil.RunningTitle();
-
-			new ConsoleCommands().Wait();
+			// If running on Windows system, enable console inputs
+			// otherwise, start an event loop to keep server running until stopped
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				ConsoleUtil.RunningTitle();
+				new ConsoleCommands().Wait();
+			}
+			else
+			{
+				while (true)
+				{
+					System.Threading.Thread.Sleep(5000);
+				}
+			}
 		}
 
 		/// <summary>
@@ -66,7 +80,7 @@ namespace Melia.Web
 		{
 			var phpFilePath = this.Conf.Web.PhpCgiFilePath;
 			var phpFolderPath = Path.GetDirectoryName(phpFilePath);
-
+			Log.Info(phpFilePath);
 			// If the binary exists we got all we need
 			if (File.Exists(phpFilePath))
 				return;
@@ -230,10 +244,10 @@ namespace Melia.Web
 			switch (message)
 			{
 				case ServerUpdateMessage serverUpdateMessage:
-				{
-					this.ServerList.Update(serverUpdateMessage);
-					break;
-				}
+					{
+						this.ServerList.Update(serverUpdateMessage);
+						break;
+					}
 			}
 		}
 
