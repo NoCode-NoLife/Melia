@@ -506,6 +506,7 @@ public static class ItemId
 	public const int HAIR_M_147 = 12156;
 	public const int HAIR_M_153 = 12157;
 	public const int HAIR_M_154 = 12158;
+	public const int HAIR_M_159 = 12159;
 	public const int HAIR_F_101 = 12501;
 	public const int HAIR_F_102 = 12502;
 	public const int HAIR_F_103 = 12503;
@@ -4761,6 +4762,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_18 = 11039018;
 	public const int DRESS_ROOM_COLLECT_19 = 11039019;
 	public const int DRESS_ROOM_COLLECT_20 = 11039020;
+	public const int DRESS_ROOM_COLLECT_21 = 11039021;
 	public const int COLLECT_326 = 11220000;
 	public const int COLLECT_327 = 11220001;
 	public const int COLLECT_328 = 11220002;
@@ -13905,6 +13907,8 @@ public static class ItemId
 	public const int Season_Earringraid_Normal_Recipe_NoTrade = 11201152;
 	public const int Season_Earringraid_Hard_Recipe = 11201153;
 	public const int Season_Earringraid_Hard_Recipe_NoTrade = 11201154;
+	public const int Piece_GabijaEarring_Grade2 = 11201161;
+	public const int Piece_GabijaEarring_Grade2_NoTrade = 11201162;
 
 	// PasteBait
 	//-----------------------------------------------------------------------
@@ -16935,6 +16939,8 @@ public static class ItemId
 	public const int Event_Ticket_Vasilissa_Party_Enter_Limit_Renew = 10820015;
 	public const int Ticket_Rozethemisterable_Auto_Enter_Limit_Renew = 10820026;
 	public const int Multiple_Token_MythicHARD_Event36 = 10820027;
+	public const int Ticket_DreamyForest_Auto_Enter_Limit_Renew = 10820035;
+	public const int Ticket_AbyssalObserver_Auto_Enter_Limit_Renew = 10820036;
 	public const int EP12_Costume_Com_001 = 11004001;
 	public const int EP12_Costume_Com_002 = 11004002;
 	public const int EP12_Costume_Com_003 = 11004003;
@@ -18429,6 +18435,8 @@ public static class ItemId
 	public const int Costume_Tosw_White_F = 11101048;
 	public const int Costume_Tosw_Black_F = 11101049;
 	public const int Costume_Tosw_Green_F = 11101050;
+	public const int Costume_Ep16spacepopori_M = 11101051;
+	public const int Costume_Ep16spacepopori_F = 11101052;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Helmet_M_Ep15explorer15 = 11103003;
@@ -18438,6 +18446,7 @@ public static class ItemId
 	public const int Helmet_F_Nian = 11103007;
 	public const int Helmet_M_Ep15viking = 11103008;
 	public const int Helmet_F_Ep15viking = 11103009;
+	public const int Helmet_Ep16spacepopori = 11103010;
 	public const int Wing_Guiltynelaima_1 = 11105001;
 	public const int Wing_Guiltynelaima_2 = 11105002;
 	public const int Wing_Squirrel = 11105003;
@@ -18472,6 +18481,7 @@ public static class ItemId
 	public const int Effect_Tosw_Green = 11106007;
 	public const int Effect_Tosw_Orange = 11106008;
 	public const int Effect_Tosw_Yellow = 11106009;
+	public const int Effect_Ep16spacepopori = 11106010;
 	public const int Wing_Char2_160 = 11108001;
 	public const int Wing_Pontifex = 11108005;
 	public const int Wing_Illusionist = 11108007;
@@ -18862,6 +18872,10 @@ public static class ItemId
 	public const int I202404_1year_Package3_04 = 11205191;
 	public const int Selectbox_Goddess_Reward_01 = 11205192;
 	public const int Selectbox_Goddess_Reward_02 = 11205193;
+	public const int Selectbox_Ep16spacepopori01 = 11205194;
+	public const int Special_Gift_Box_Leticia_2405 = 11205195;
+	public const int Selectbox_Season_Earring_Raid_Recipe = 11205196;
+	public const int Special_Gift_Box_Leticia_2405_PAPAYA = 11205197;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
@@ -23153,6 +23167,7 @@ public static class ItemId
 	public const int Ep15elf_Dagger = 11104029;
 	public const int Sniego_Pistol = 11104039;
 	public const int Desperado_Revolver = 11104041;
+	public const int Ep16spacepopori_Dagger = 11104049;
 	public const int EP15_RAID_DAGGER = 11107010;
 	public const int EP15_RAID_PISTOL = 11107012;
 	public const int EP15_RAID_TRINKET = 11107016;
@@ -26373,6 +26388,10 @@ public static class ItemId
 	public const int Wingedhussar_Thspear = 11104043;
 	public const int Bowmaster_Bow = 11104045;
 	public const int Ep16yongyong_Thstaff = 11104046;
+	public const int Ep16spacepopori_Thstaff = 11104047;
+	public const int Ep16spacepopori_Bow = 11104048;
+	public const int Ep16spacepopori_Thsword = 11104050;
+	public const int Ep16spacepopori_Sword = 11104051;
 	public const int EP15_RAID_SWORD = 11107000;
 	public const int EP15_RAID_THSWORD = 11107001;
 	public const int EP15_RAID_STAFF = 11107002;

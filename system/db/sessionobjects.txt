@@ -1451,7 +1451,7 @@
 { id: 41820, className: "SSN_F_3CMLAKE_27_1_SQ_10", name: "What is the Relic",  quest: { name: "F_3CMLAKE_27_1_SQ_10" } },
 { id: 41821, className: "SSN_F_3CMLAKE_27_1_SQ_11", name: "Future plans",  quest: { name: "F_3CMLAKE_27_1_SQ_11" } },
 { id: 41822, className: "SSN_F_3CMLAKE_27_2_SQ_1", name: "Guardian of the Lake",  quest: { name: "F_3CMLAKE_27_2_SQ_1", infoName: [ "Repair the damaged Barricades", "Repair the damaged Barricades", "Repair the damaged Barricades", "Repair the damaged Barricades" ], infoMaxCount: [ 1, 1, 1, 1 ], monsterNameGroup: [ "woodenwall_trap3_destroy" ], monsterView: [ 1 ] } },
-{ id: 41823, className: "SSN_F_3CMLAKE_27_2_SQ_2", name: "Acquiring Resources",  quest: { name: "F_3CMLAKE_27_2_SQ_2", monsterNameGroup: [ "Hiddennpc_Q1" ], monsterView: [ 1 ] } },
+{ id: 41823, className: "SSN_F_3CMLAKE_27_2_SQ_2", name: "Acquiring Resources",  quest: { name: "F_3CMLAKE_27_2_SQ_2", monsterNameGroup: [ "Hiddennpc_Q2" ], monsterView: [ 1 ] } },
 { id: 41824, className: "SSN_F_3CMLAKE_27_2_SQ_3", name: "Taking the Lead",  quest: { name: "F_3CMLAKE_27_2_SQ_3", monsterNameGroup: [ "velpod", "tooter" ], monsterView: [ 1, 1 ] } },
 { id: 41825, className: "SSN_F_3CMLAKE_27_2_SQ_4", name: "Fearful Heart",  quest: { name: "F_3CMLAKE_27_2_SQ_4", infoName: [ "Give words of encouragement to the soldiers", "Give words of encouragement to the soldiers", "Give words of encouragement to the soldiers", "Give words of encouragement to the soldiers" ], infoMaxCount: [ 1, 1, 1, 1 ], monsterNameGroup: [ "Aos_Soldier" ], monsterView: [ 1 ] } },
 { id: 41826, className: "SSN_F_3CMLAKE_27_2_SQ_5", name: "Worrisome Student",  quest: { name: "F_3CMLAKE_27_2_SQ_5" } },
