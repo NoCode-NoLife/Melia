@@ -2100,6 +2100,7 @@ namespace Melia.Shared.Game.Const
 		TOSW_GREEN_EFFECT = 4761,
 		TOSW_ORANGE_EFFECT = 4762,
 		TOSW_YELLOW_EFFECT = 4763,
+		EFFECT_SPACEPOPORI_BUFF = 4764,
 		Rage_Rockto_def = 5001,
 		Rage_Rockto_spd = 5002,
 		Rage_Rockto_atk = 5003,
