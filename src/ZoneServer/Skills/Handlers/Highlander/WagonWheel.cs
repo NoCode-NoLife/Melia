@@ -57,8 +57,8 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(50);
-			var damageDelay = TimeSpan.FromMilliseconds(100);
+			var hitDelay = TimeSpan.FromMilliseconds(300);
+			var damageDelay = TimeSpan.FromMilliseconds(500);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
@@ -72,7 +72,6 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.ForceId = ForceId.GetNew();
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
