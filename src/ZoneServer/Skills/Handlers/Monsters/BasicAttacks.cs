@@ -480,6 +480,17 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Angle { get; } = 40f;
 	}
 
+	[SkillHandler(SkillId.Mon_event_boss_skiaclipse_sealed_nocage_Skill_2, SkillId.Mon_Raid_boss_Skiaclipse_Sealed_Nocage_Skill_2, SkillId.Mon_Legend_Boss_Skiaclipse_Sealed_Nocage_Skill_2, SkillId.Mon_Raid_boss_Skiaclipse_Sealed_Nocage_Solo_Skill_2)]
+	public class Mon_event_boss_skiaclipse_sealed_nocage_Skill_2 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(10119);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(9919);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 30f;
+		protected override float Width { get; } = 30f;
+		protected override float Angle { get; } = 10f;
+	}
+
 	[SkillHandler(SkillId.Mon_ep16_1_leader_canceril_Skill_1, SkillId.Mon_boss_Canceril_Skill_1)]
 	public class Mon_ep16_1_leader_canceril_Skill_1 : ParametersOnlySkill
 	{
@@ -11764,17 +11775,6 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 70f;
-	}
-
-	[SkillHandler(SkillId.Mon_Raid_boss_Skiaclipse_Sealed_Nocage_Skill_2, SkillId.Mon_Legend_Boss_Skiaclipse_Sealed_Nocage_Skill_2, SkillId.Mon_Raid_boss_Skiaclipse_Sealed_Nocage_Solo_Skill_2)]
-	public class Mon_Raid_boss_Skiaclipse_Sealed_Nocage_Skill_2 : ParametersOnlySkill
-	{
-		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(10119);
-		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(9919);
-		protected override SplashType SplashType { get; } = SplashType.Fan;
-		protected override float Length { get; } = 30f;
-		protected override float Width { get; } = 30f;
-		protected override float Angle { get; } = 10f;
 	}
 
 	[SkillHandler(SkillId.Mon_F_boss_Moringponia_Skill_1, SkillId.Mon_Uniq_Boss_Moringponia_Skill_1)]

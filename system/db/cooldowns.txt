@@ -1008,7 +1008,7 @@
 { id: 2271, className: "Barrage_OH", isOverheat: true, overheatResetTime: 15000 },
 { id: 2273, className: "StoneShot_OH", isOverheat: true, overheatResetTime: 15000 },
 { id: 2274, className: "FluFlu_OH", isOverheat: true, overheatResetTime: 6000 },
-{ id: 2275, className: "Zaibas_OH", isOverheat: true, overheatResetTime: 20000 },
+{ id: 2275, className: "Zaibas_OH", isOverheat: true, overheatResetTime: 10000 },
 { id: 2276, className: "Heal_OH", isOverheat: true, overheatResetTime: 15000 },
 { id: 2277, className: "Bless_OH", isOverheat: true, overheatResetTime: 6000 },
 { id: 2278, className: "MeteorSwarm_OH", isOverheat: true, overheatResetTime: 6000 },
