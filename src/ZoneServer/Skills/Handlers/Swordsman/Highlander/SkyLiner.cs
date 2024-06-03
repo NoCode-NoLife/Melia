@@ -14,7 +14,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Highlander
+namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 {
 	/// <summary>
 	/// Handler for the Highlander skill SkyLiner.
@@ -97,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 					skillHit.HitEffect = HitEffect.Impact;
-					hits.Add(skillHit);					
+					hits.Add(skillHit);
 				}
 
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -112,7 +112,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 
 					var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
 					skillHit2.HitEffect = HitEffect.Impact;
-					hits.Add(skillHit2);					
+					hits.Add(skillHit2);
 				}
 
 				Send.ZC_SKILL_HIT_INFO(caster, hits);

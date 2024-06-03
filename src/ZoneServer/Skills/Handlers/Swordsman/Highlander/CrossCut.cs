@@ -14,7 +14,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Highlander
+namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 {
 	/// <summary>
 	/// Handler for the Highlander skill Crosscut.

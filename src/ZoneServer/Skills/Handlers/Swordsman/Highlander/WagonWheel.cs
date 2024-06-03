@@ -13,7 +13,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Highlander
+namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 {
 	/// <summary>
 	/// Handler for the Highlander skill Wagon Wheel
@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
-				
+
 				skillHits.Add(skillHit);
 			}
 
