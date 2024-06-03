@@ -3248,6 +3248,8 @@ public static class MonsterId
 	public const int Season_Challenge_Upinis = 59836;
 	public const int Season_Challenge_Slogutis = 59837;
 	public const int Season_Challenge_Merregina_Despair = 59838;
+	public const int Effect_Ep16spacepopori = 59839;
+	public const int TEST_Baubas = 59840;
 	public const int Velhider = 60001;
 	public const int Pet_Dog = 60002;
 	public const int Hoglan_Pet = 60004;
@@ -3550,6 +3552,10 @@ public static class MonsterId
 	public const int Event_2024_Newyear_Yak_Magician = 101023;
 	public const int Event_2024_Newyear_Yak_Druid = 101024;
 	public const int Goddess_Moru = 101025;
+	public const int Event_Boss_Skiaclipse_Sealed_Nocage = 101026;
+	public const int Event_Boss_Skiaclipse = 101027;
+	public const int Event_Varnaclipse = 101028;
+	public const int Event_Shilleclipse = 101029;
 	public const int BW_Boss_Kerberos = 102000;
 	public const int BW_Boss_Lapedame = 102001;
 	public const int BW_Boss_Foculus = 102002;
@@ -6253,6 +6259,7 @@ public static class MonsterId
 	public const int Challenge_Mode_Ex_End_Npc = 160207;
 	public const int Season_Earring_Raid_Start_Npc = 160208;
 	public const int Npc_Desperado = 160209;
+	public const int Hiddennpc_Earring_Raid_Center = 160210;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

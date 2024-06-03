@@ -2636,6 +2636,7 @@
 { id: 509036, className: "Desperado23", name: "Deadly Fire: Death Gravity", level: 1, passive: false },
 { id: 509037, className: "Desperado24", name: "Russian Roulette: Death Impulse", level: 1, passive: false },
 { id: 509038, className: "Desperado25", name: "[Arts] Last Man Standing: Death Sentence", level: 1, passive: false },
+{ id: 509039, className: "Desperado26", name: "Equilibrium: Maintain Distance", level: 1, passive: false },
 { id: 900001, className: "HPPOSIONBOOST", name: "HP Potion Booster", level: 1, passive: true },
 { id: 900002, className: "SPPOSIONBOOST", name: "SP Potion Booster", level: 1, passive: true },
 { id: 900003, className: "SwordMastery", name: "Sword Mastery", level: 1, passive: true },

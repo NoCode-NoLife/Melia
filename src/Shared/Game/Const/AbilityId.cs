@@ -2636,6 +2636,7 @@ namespace Melia.Shared.Game.Const
 		Desperado23 = 509036,
 		Desperado24 = 509037,
 		Desperado25 = 509038,
+		Desperado26 = 509039,
 		HPPOSIONBOOST = 900001,
 		SPPOSIONBOOST = 900002,
 		SwordMastery = 900003,
