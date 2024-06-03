@@ -64,10 +64,9 @@ namespace Melia.Zone.Skills.Handlers.Highlander
 			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var pc = skill.Owner;
 			var debuffTime = 5 + skill.Properties.GetFloat(PropertyName.Level, 0) * 1;
 
-			if (pc.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Highlander34, out var ability))
+			if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Highlander34, out var ability))
 				debuffTime += ability.Level;
 
 			await Task.Delay(hitDelay);
