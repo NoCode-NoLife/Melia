@@ -22,10 +22,40 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </remarks>
 	public class CollectionComponent : CharacterComponent
 	{
-		private readonly object _syncLock = new object();
-		private readonly Dictionary<int, CollectionData> _collectionList = new Dictionary<int, CollectionData>();
-		private readonly Dictionary<int, List<int>> _collectionProgress = new Dictionary<int, List<int>>();
+		private class CollectionProgress
+		{
+			public CollectionData data;
+			public List<int> registeredItems;
+			public int redeemCount;
 
+			public CollectionProgress(CollectionData data)
+			{
+				this.data = data;
+				registeredItems = new List<int>();
+				redeemCount = 0;
+			}
+
+			public bool registerItem(ItemData item)
+			{
+				if (!data.RequiredItems.Contains(item.ClassName))
+					return false;
+
+				var itemsNeeded = data.RequiredItems.Count(a => a.Equals(item.ClassName));
+				var itemsAddedAlready = registeredItems.Count(a => a == item.Id);
+
+				if (itemsAddedAlready >= itemsNeeded)
+					return false;
+
+				registeredItems.Add(item.Id);
+				return true;
+			}
+
+			public bool isComplete
+				=> data.RequiredItems.Count == registeredItems.Count;
+		}
+
+		private readonly object _syncLock = new object();
+		private readonly Dictionary<int, CollectionProgress> _collectionList = new Dictionary<int, CollectionProgress>();
 
 		/// <summary>
 		/// Returns the total number of registered collections
@@ -46,16 +76,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 
 		/// <summary>
-		/// Creates a new empty Collection.
+		/// Creates a new empty Collection, optionally specifying the number of times it has already been redeemed
 		/// <param name="collectionId"></param>
-		public bool Add(int collectionId)
+		/// <param name="redeemCount"></param>
+		public bool Add(int collectionId, int redeemCount = 0)
 		{
 			lock (_syncLock)
 			{
 				if (ZoneServer.Instance.Data.CollectionDb.TryFind(collectionId, out var collectionData) && !_collectionList.ContainsKey(collectionId))
 				{
-					_collectionList.Add(collectionId, collectionData);
-					_collectionProgress.Add(collectionId, new List<int>());
+					var newCollection = new CollectionProgress(collectionData);
+					newCollection.redeemCount = redeemCount;
+					_collectionList.Add(collectionId, newCollection);
+
 					return true;
 				}
 				return false;
@@ -64,27 +97,35 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 
 		/// <summary>
-		/// Creates a Collection and adds any items added already without informing the client.
+		/// Returns if a given collection is complete
 		/// </summary>
-		/// <remarks>
-		/// This is only intended to be used when loading collections from the database.
-		/// To add new items to a collection use RegisterItem.
-		/// </remarks>
 		/// <param name="collectionId"></param>
-		/// <param name="registeredItems"></param>
-		public void AddSilent(int collectionId, List<int> registeredItems)
+		/// <returns>false if the collection isn't complete or hasn't been registered at all</returns>
+		public bool isComplete(int collectionId)
 		{
 			lock (_syncLock)
 			{
-				if (ZoneServer.Instance.Data.CollectionDb.TryFind(collectionId, out var collectionData))
-				{
-					_collectionList.Add(collectionId, collectionData);
-					_collectionProgress.Add(collectionId, registeredItems);
-					if (registeredItems.Count == collectionData.RequiredItems.Count)
-					{
-						// TODO: Add the reward to the list of earned rewards
-					}
-				}
+				if (_collectionList.TryGetValue(collectionId, out var collectionProgress))
+					return collectionProgress.isComplete;
+				else
+					return false;
+			}
+		}
+
+
+		/// <summary>
+		/// Returns the number of times a given collection was redeemed
+		/// </summary>
+		/// <param name="collectionId"></param>
+		/// <returns>0 if the collection isn't present at all</returns>
+		public int getRedeemCount(int collectionId)
+		{
+			lock (_syncLock)
+			{
+				if (_collectionList.TryGetValue(collectionId, out var collectionProgress))
+					return collectionProgress.redeemCount;
+				else
+					return 0;
 			}
 		}
 
@@ -94,12 +135,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="collectionId"></param>
 		/// <param name="registeredItems"></param>
 		/// <returns>false if the collection hasn't been registered at all</returns>
-		public bool TryGet(int collectionId, out List<int> registeredItems)
+		public bool TryGetItems(int collectionId, out List<int> registeredItems)
 		{
 			lock (_syncLock)
 			{
-				if (_collectionProgress.TryGetValue(collectionId, out var collectionItems)) {
-					registeredItems = new List<int>(collectionItems);
+				if (_collectionList.TryGetValue(collectionId, out var collectionProgress)) {
+					registeredItems = new List<int>(collectionProgress.registeredItems);
 					return true;
 				}
 				else
@@ -130,7 +171,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{ 
-				if (_collectionProgress.TryGetValue(collectionId, out var progress))
+				if (TryGetItems(collectionId, out var progress))
 					return progress;
 				return null;
 			}
@@ -142,32 +183,33 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="collectionId"></param>
 		/// <param name="item"></param>
 		/// </summary>
-		public bool RegisterItem(int collectionId, Item item)
+		public bool RegisterItem(int collectionId, ItemData item)
 		{
 			lock (_syncLock)
 			{
-				if (!_collectionList.TryGetValue(collectionId, out var collectionData))
+				if (!_collectionList.TryGetValue(collectionId, out var collectionProgress))
 					return false;
 
-				if (!collectionData.RequiredItems.Contains(item.Data.ClassName))
-					return false;
-
-				if (_collectionProgress.TryGetValue(collectionId, out var collectionProgress))
+				if (!collectionProgress.registerItem(item))
 				{
-					var itemsNeeded = collectionData.RequiredItems.Count(a => a.Equals(item.Data.ClassName));
-					var itemsAddedAlready = collectionProgress.Count(a => a == item.Id);
-
-					if (itemsAddedAlready >= itemsNeeded)
-						return false;
+					return false;
 				}
 
-				collectionProgress.Add(item.Data.Id);
-				if (collectionProgress.Count == collectionData.RequiredItems.Count)
+				if (collectionProgress.isComplete)
 				{
 					// TODO: Give the award here and re-calculate stats
 				}
 				return true;
 			}
+		}
+
+		/// <summary>
+		/// Redeems all available collections one time
+		/// <param name="toCharacterStorage">If false, goes to team storage instead</param>
+		/// </summary>
+		public void RedeemAll(bool toCharacterStorage)
+		{
+			// TODO: unimplemented
 		}
 	}
 }

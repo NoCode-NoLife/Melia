@@ -41,10 +41,13 @@ public class CollectionItemScripts : GeneralScript
 		var collectionId = args.NumArgs[0];
 		var item = args.TxItems[0].Item;
 
-		if (character.Collections.RegisterItem(collectionId, item))
+		if (character.Collections.RegisterItem(collectionId, item.Data))
 		{
 			character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Destroyed);
-			Send.ZC_NORMAL.UpdateCollection(character, collectionId, item.Id);
+			// This is necessary for the collection to go through on the front end
+			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(character);
+
+			Send.ZC_NORMAL.UpdateCollection(character, collectionId, item.Id);			
 			return DialogTxResult.Okay;
 		}
 

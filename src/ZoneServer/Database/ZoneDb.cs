@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
@@ -1247,15 +1248,32 @@ namespace Melia.Zone.Database
 					cmd.ExecuteNonQuery();
 				}
 
+				using (var cmd = new MySqlCommand("DELETE FROM `collection_items` WHERE `accountId` = @accountId", conn, trans))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+					cmd.ExecuteNonQuery();
+				}
+
 				foreach (var collectionId in character.Collections.GetList())
 				{
+
+					using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+					{
+						cmd.Set("accountId", character.AccountId);
+						cmd.Set("collectionId", collectionId);
+						cmd.Set("isComplete", character.Collections.isComplete(collectionId));
+						cmd.Set("timesRedeemed", character.Collections.getRedeemCount(collectionId));
+
+						cmd.Execute();
+					}
+
 					var collectionProgress = character.Collections.GetProgress(collectionId);
 
 					if (collectionProgress.Count > 0)
 					{
 						foreach (var collectionItem in collectionProgress)
 						{
-							using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+							using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
 							{
 								cmd.Set("accountId", character.AccountId);
 								cmd.Set("collectionId", collectionId);
@@ -1264,21 +1282,7 @@ namespace Melia.Zone.Database
 								cmd.Execute();
 							}
 						}
-					}
-					else
-					{
-						// we insert a collection with a blank item if you have the collection
-						// but haven't registered anything
-
-						using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
-						{
-							cmd.Set("accountId", character.AccountId);
-							cmd.Set("collectionId", collectionId);
-							cmd.Set("itemId", -1);
-
-							cmd.Execute();
-						}
-					}
+					}					
 				}
 
 				trans.Commit();
@@ -1293,10 +1297,23 @@ namespace Melia.Zone.Database
 		{
 			using (var conn = this.GetConnection())
 			{
-				var previousCollection = -1;
-				var currentItemList = new List<int>();
+				using (var cmd = new MySqlCommand("SELECT collectionid, timesRedeemed FROM `collections` WHERE `accountid` = @accountId ", conn))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
 
-				using (var cmd = new MySqlCommand("SELECT collectionid, itemid FROM `collections` WHERE `accountid` = @accountId ORDER BY collectionid", conn))
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var collectionId = reader.GetInt32("collectionId");
+							var redeemCount = reader.GetInt32("timesRedeemed");
+
+							character.Collections.Add(collectionId, redeemCount);
+						}
+					}
+				}
+
+				using (var cmd = new MySqlCommand("SELECT collectionid, itemid FROM `collection_items` WHERE `accountid` = @accountId ", conn))
 				{
 					cmd.AddParameter("@accountId", character.AccountId);
 
@@ -1307,30 +1324,7 @@ namespace Melia.Zone.Database
 							var collectionId = reader.GetInt32("collectionId");
 							var itemId = reader.GetInt32("itemId");
 
-							if (collectionId != previousCollection)
-							{
-								// we're starting a new collection, save the previous one
-
-								if (previousCollection != -1)
-								{
-									character.Collections.AddSilent(previousCollection, currentItemList);
-								}
-
-								previousCollection = collectionId;
-								currentItemList = new List<int>();
-							}
-
-							// add the item to the list, unless it's blank (-1)
-							if (itemId != -1)
-							{
-								currentItemList.Add(itemId);
-							}
-						}
-
-						// save the last entry
-						if (previousCollection != -1)
-						{
-							character.Collections.AddSilent(previousCollection, currentItemList);
+							character.Collections.RegisterItem(collectionId, ZoneServer.Instance.Data.ItemDb.Find(itemId));
 						}
 					}
 				}
