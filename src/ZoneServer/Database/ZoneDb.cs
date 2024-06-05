@@ -164,10 +164,10 @@ namespace Melia.Zone.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
-			this.LoadCooldowns(character);
-			this.LoadCollections(character);
+			this.LoadCooldowns(character);			
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.LoadCollections(character);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -408,12 +408,12 @@ namespace Melia.Zone.Database
 			this.SaveCharacterItems(character);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
+			this.SaveCollections(character);
 			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
-			this.SaveCollections(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
 
@@ -1234,11 +1234,14 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Saves the characters's collections to the database.
 		/// Note that collections are account-level
+		/// This must run before properties because it modifies them
 		/// </summary>
 		/// <param name="character"></param>
 		/// <exception cref="InvalidOperationException"></exception>
 		private void SaveCollections(Character character)
 		{
+			character.Collections.RemoveAllBonuses();
+
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
@@ -1291,6 +1294,7 @@ namespace Melia.Zone.Database
 
 		/// <summary>
 		/// Loads the character's collections from the database.
+		/// This must run after properties because it modifies them
 		/// </summary>
 		/// <param name="character"></param>
 		private void LoadCollections(Character character)
