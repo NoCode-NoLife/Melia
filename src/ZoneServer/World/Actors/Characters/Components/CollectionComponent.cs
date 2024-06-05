@@ -11,6 +11,7 @@ using Melia.Zone.Scripting;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.World.Actors.Characters.Components
 {
@@ -182,8 +183,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Registers an item to this collection
 		/// <param name="collectionId"></param>
 		/// <param name="item"></param>
+		/// <param name="silent">Skips updating the client of any stat changes</param>
 		/// </summary>
-		public bool RegisterItem(int collectionId, ItemData item)
+		public bool RegisterItem(int collectionId, ItemData item, bool silent = false)
 		{
 			lock (_syncLock)
 			{
@@ -197,9 +199,132 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				if (collectionProgress.isComplete)
 				{
-					// TODO: Give the award here and re-calculate stats
+					if (collectionProgress.data.RewardProperties != "")
+					{
+						GiveBonuses(collectionProgress.data.RewardProperties, silent);
+					}						
 				}
 				return true;
+			}
+		}
+
+		/// <summary>
+		/// Grants bonus properties
+		/// <param name="silent">Skips updating the client</param>
+		/// </summary>
+		public void GiveBonuses(string bonusProperties, bool silent = false)
+		{
+			var properties = Character.Properties;
+
+			string[] bonusList = bonusProperties.Split("/");
+			if (bonusList.Length >= 2)
+			{
+				for (int i = 0; i < bonusList.Length; i += 2)
+				{
+					switch (bonusList[i])
+					{
+						case "STR_BM":
+							properties.SetFloat(PropertyName.STR_BM, properties.GetFloat(PropertyName.STR_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "DEX_BM":
+							properties.SetFloat(PropertyName.DEX_BM, properties.GetFloat(PropertyName.DEX_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "INT_BM":
+							properties.SetFloat(PropertyName.INT_BM, properties.GetFloat(PropertyName.INT_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MNA_BM":
+							properties.SetFloat(PropertyName.MNA_BM, properties.GetFloat(PropertyName.MNA_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "CON_BM":
+							properties.SetFloat(PropertyName.CON_BM, properties.GetFloat(PropertyName.CON_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MHP_BM":
+							properties.SetFloat(PropertyName.MHP_BM, properties.GetFloat(PropertyName.MHP_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MSP_BM":
+							properties.SetFloat(PropertyName.MSP_BM, properties.GetFloat(PropertyName.MSP_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MaxSta_BM":
+							properties.SetFloat(PropertyName.MaxSta_BM, properties.GetFloat(PropertyName.MaxSta_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MaxWeight_BM":
+							properties.SetFloat(PropertyName.MaxWeight_BM, properties.GetFloat(PropertyName.MaxWeight_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "RHP_BM":
+							properties.SetFloat(PropertyName.RHP_BM, properties.GetFloat(PropertyName.RHP_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "RSP_BM":
+							properties.SetFloat(PropertyName.RSP_BM, properties.GetFloat(PropertyName.RSP_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "HR_BM":
+							properties.SetFloat(PropertyName.HR_BM, properties.GetFloat(PropertyName.HR_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "DR_BM":
+							properties.SetFloat(PropertyName.DR_BM, properties.GetFloat(PropertyName.DR_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "PATK_BM":
+							properties.SetFloat(PropertyName.PATK_BM, properties.GetFloat(PropertyName.PATK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MATK_BM":
+							properties.SetFloat(PropertyName.MATK_BM, properties.GetFloat(PropertyName.MATK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "DEF_BM":
+							properties.SetFloat(PropertyName.DEF_BM, properties.GetFloat(PropertyName.DEF_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "MDEF_BM":
+							properties.SetFloat(PropertyName.MDEF_BM, properties.GetFloat(PropertyName.MDEF_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "CRTATK_BM":
+							properties.SetFloat(PropertyName.CRTATK_BM, properties.GetFloat(PropertyName.CRTATK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "CRTMATK_BM":
+							properties.SetFloat(PropertyName.CRTMATK_BM, properties.GetFloat(PropertyName.CRTMATK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "CRTHR_BM":
+							properties.SetFloat(PropertyName.CRTHR_BM, properties.GetFloat(PropertyName.CRTHR_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "CRTDR_BM":
+							properties.SetFloat(PropertyName.CRTDR_BM, properties.GetFloat(PropertyName.CRTDR_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResFire_BM":
+							properties.SetFloat(PropertyName.ResFire_BM, properties.GetFloat(PropertyName.ResFire_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResIce_BM":
+							properties.SetFloat(PropertyName.ResIce_BM, properties.GetFloat(PropertyName.ResIce_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResLightning_BM":
+							properties.SetFloat(PropertyName.ResLightning_BM, properties.GetFloat(PropertyName.ResLightning_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResEarth_BM":
+							properties.SetFloat(PropertyName.ResEarth_BM, properties.GetFloat(PropertyName.ResEarth_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResPoison_BM":
+							properties.SetFloat(PropertyName.ResPoison_BM, properties.GetFloat(PropertyName.ResPoison_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResDark_BM":
+							properties.SetFloat(PropertyName.ResDark_BM, properties.GetFloat(PropertyName.ResDark_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "ResHoly_BM":
+							properties.SetFloat(PropertyName.ResHoly_BM, properties.GetFloat(PropertyName.ResHoly_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "BLK_BM":
+							properties.SetFloat(PropertyName.BLK_BM, properties.GetFloat(PropertyName.BLK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						case "BLK_BREAK_BM":
+							properties.SetFloat(PropertyName.BLK_BREAK_BM, properties.GetFloat(PropertyName.BLK_BREAK_BM) + float.Parse(bonusList[i + 1]));
+							break;
+						default:
+							Log.Warning("Unknown collection reward property specified: {0}", bonusList[i]);
+							break;
+					}
+				}
+
+				// Tell the system it needs to recalculate the character's stats unless silent mode is on
+				if (!silent)
+				{
+					properties.InvalidateAll();
+					Send.ZC_OBJECT_PROPERTY(Character);
+				}
 			}
 		}
 

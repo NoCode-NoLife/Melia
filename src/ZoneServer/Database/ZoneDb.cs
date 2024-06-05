@@ -1324,9 +1324,12 @@ namespace Melia.Zone.Database
 							var collectionId = reader.GetInt32("collectionId");
 							var itemId = reader.GetInt32("itemId");
 
-							character.Collections.RegisterItem(collectionId, ZoneServer.Instance.Data.ItemDb.Find(itemId));
+							character.Collections.RegisterItem(collectionId, ZoneServer.Instance.Data.ItemDb.Find(itemId), true);
 						}
 					}
+
+					// flag the character's stats to be recalculated
+					character.Properties.InvalidateAll();
 				}
 			}
 		}
