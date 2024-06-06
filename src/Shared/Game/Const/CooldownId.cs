@@ -1584,5 +1584,11 @@ namespace Melia.Shared.Game.Const
 		Desperado_DeadlyFire = 4363,
 		Desperado_RussianRoulette = 4364,
 		Desperado_LastManStanding = 4365,
+		Vanquisher_VerticalSlash = 4372,
+		Vanquisher_TurnOver = 4373,
+		Vanquisher_VoidSlash = 4374,
+		Vanquisher_EarthCrusher = 4375,
+		Vanquisher_WindSlasher = 4376,
+		Vanquisher_FatalSwordDance = 4377,
 	}
 }

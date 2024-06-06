@@ -9154,6 +9154,32 @@
 		public const string ep16spacepopori_dagger_cabinet = "ep16spacepopori_dagger_cabinet";
 		public const string ep16spacepopori_bow_cabinet = "ep16spacepopori_bow_cabinet";
 		public const string ep16spacepopori_thstaff_cabinet = "ep16spacepopori_thstaff_cabinet";
+		public const string UnlockQuest_Char1_26 = "UnlockQuest_Char1_26";
+		public const string TSW04_127_1_cabinet_upgrade = "TSW04_127_1_cabinet_upgrade";
+		public const string GEM_Vanquisher_VoidSlash_cabinet = "GEM_Vanquisher_VoidSlash_cabinet";
+		public const string GEM_Vanquisher_EarthCrusher_cabinet = "GEM_Vanquisher_EarthCrusher_cabinet";
+		public const string GEM_Vanquisher_WindSlasher_cabinet = "GEM_Vanquisher_WindSlasher_cabinet";
+		public const string GEM_Vanquisher_VerticalSlash_cabinet = "GEM_Vanquisher_VerticalSlash_cabinet";
+		public const string GEM_Vanquisher_TurnOver_cabinet = "GEM_Vanquisher_TurnOver_cabinet";
+		public const string GEM_Vanquisher_FatalSwordDance_cabinet = "GEM_Vanquisher_FatalSwordDance_cabinet";
+		public const string TSW04_127_1_cabinet = "TSW04_127_1_cabinet";
+		public const string EVENT_2404_W1TH_25 = "EVENT_2404_W1TH_25";
+		public const string EVENT_2404_W1TH_23 = "EVENT_2404_W1TH_23";
+		public const string EVENT_2404_W1TH_24 = "EVENT_2404_W1TH_24";
+		public const string Vertigo_GreatRestartEvent = "Vertigo_GreatRestartEvent";
+		public const string EVENT_2404_W1TH_21 = "EVENT_2404_W1TH_21";
+		public const string EVENT_2404_W1TH_22 = "EVENT_2404_W1TH_22";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_102 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_102";
+		public const string vanquisher_thsword_cabinet = "vanquisher_thsword_cabinet";
+		public const string ContentsTotalShop_2406_1 = "ContentsTotalShop_2406_1";
+		public const string ep16redhood_sword_cabinet = "ep16redhood_sword_cabinet";
+		public const string ep16redhood_theme = "ep16redhood_theme";
+		public const string ep16redhood_cannon_cabinet = "ep16redhood_cannon_cabinet";
+		public const string dress_costume_ep16redhood_m = "dress_costume_ep16redhood_m";
+		public const string CollectionDressRoomRead_150 = "CollectionDressRoomRead_150";
+		public const string dress_costume_ep16redhood_f = "dress_costume_ep16redhood_f";
+		public const string ep16redhood_thstaff_cabinet = "ep16redhood_thstaff_cabinet";
+		public const string CollectionDressRoomRead_149 = "CollectionDressRoomRead_149";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -20116,6 +20142,7 @@
 		public const string Kill_Hiddennpc_Q1 = "Kill_Hiddennpc_Q1";
 		public const string Kill_TEST_baubas = "Kill_TEST_baubas";
 		public const string Kill_EarringRaidGabiaPadHiddenMon = "Kill_EarringRaidGabiaPadHiddenMon";
+		public const string HiddenJob_Char1_26 = "HiddenJob_Char1_26";
 
 		// SessionObject
 		public const string PosX = "PosX";

@@ -17074,6 +17074,7 @@
 { classId: 4620157, className: "EP16_1_F_NICOPOLIS_81_1_MQ_1_NPC_DLG_12", image: "PAJAUTA" },
 { classId: 4620158, className: "MASTER_BOWMASTER_NPC_basic1", image: "bowmaster_master" },
 { classId: 4620159, className: "MASTER_DESPERADO_NPC_basic1", image: "desperado_master" },
+{ classId: 4620160, className: "MASTER_VANQUISHER_NPC_basic1", image: "vanquisher_master" },
 { classId: 4791000, className: "CORAL_44_2_MAN3_BASIC" },
 { classId: 4791001, className: "FLIBRARY482_VIDA_NPC_BASIC" },
 { classId: 4791002, className: "FLIBRARY482_SVAJA_NPC_BASIC" },
