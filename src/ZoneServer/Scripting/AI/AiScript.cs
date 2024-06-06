@@ -6,6 +6,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Org.BouncyCastle.Asn1.X509;
 using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
@@ -214,6 +215,14 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="amount"></param>
 		protected void IncreaseHate(ICombatEntity entity, float amount)
 		{
+			// This debuff halts all hate accumulation from anything other than the caster, unless the caster is gone
+			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
+			{
+				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
+				if (entity != caster && !EntityGone(caster) && InRangeOf(caster, 300))
+						return;
+			}
+
 			var handle = entity.Handle;
 
 			// Increase the hate level at the normal rate up to the
@@ -296,6 +305,14 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
 		{
+			// this buff overrides most hated as long as the caster is in range
+			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
+			{
+				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
+				if (!EntityGone(caster) && InRangeOf(caster, 300))
+					return caster;
+			}
+
 			var highestHate = 0f;
 			ICombatEntity mostHated = null;
 
@@ -325,6 +342,14 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected bool IsHating(ICombatEntity entity)
 		{
+			// Always hating the person that casted this buff
+			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
+			{
+				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
+				if (entity == caster)
+					return true;
+			}
+
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
 				return false;
 

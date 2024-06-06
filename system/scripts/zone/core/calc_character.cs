@@ -11,6 +11,7 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -1170,6 +1171,10 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Character_DR(Character character)
 	{
+		// Highguard completely negates evasion
+		if (character.IsBuffActive(BuffId.HighGuard_Buff))
+			return 0;
+
 		var properties = character.Properties;
 
 		var level = properties.GetFloat(PropertyName.Lv);
