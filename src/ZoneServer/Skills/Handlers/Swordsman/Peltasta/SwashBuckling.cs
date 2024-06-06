@@ -11,6 +11,7 @@ using Melia.Shared.Data.Database;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.Scripting.AI;
+using Melia.Zone.Skills.Combat;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
@@ -46,20 +47,26 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			//caster.StartBuff(BuffId.SwashBucklingReduceDamage_Buff, skill.Level, 0, duration, caster);
 			//caster.StartBuff(BuffId.SwashBuckling_Buff, skill.Level, 0, duration, caster);
 
-			var splashParam = skill.GetSplashParameters(caster, caster.Position, caster.Position, length: 0, width: 50, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, caster.Position, caster.Position, length: 0, width: 400, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			foreach (var target in targets)
+			// targets.LimitBySDR gets the wrong value for this skill, so we need to limit the targets manually
+			var maxTargets = 6 + 3 * skill.Level;
+
+			for (int i = 0; i < Math.Min(targets.Count, maxTargets); i++)
 			{
+				var target = targets[i];
 				if (!target.IsBuffActive(BuffId.ProvocationImmunity_Debuff)) { 
 					target.StartBuff(BuffId.SwashBuckling_Debuff, skill.Level, 0, duration, caster);
 					target.StartBuff(BuffId.ProvocationImmunity_Debuff, skill.Level, 0, duration, caster);
 
 					if (target.Components.TryGet<AiComponent>(out var component))
-					{
+					{						
 						component.Script.QueueEventAlert(new HateResetAlert(caster));
+						// it triggers a "hit" to build a small amount of threat
+						component.Script.QueueEventAlert(new HitEventAlert(target, caster, 0));
 					}
 				}
 			}

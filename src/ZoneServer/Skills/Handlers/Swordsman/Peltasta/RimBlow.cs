@@ -13,6 +13,8 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Characters;
+using Org.BouncyCastle.Asn1.X509;
+using g3;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
@@ -61,6 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var hitDelay = TimeSpan.FromMilliseconds(50);
 			var damageDelay = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
+			var delayBetweenHits = TimeSpan.FromMilliseconds(100);
 
 			await Task.Delay(hitDelay);
 
@@ -78,15 +81,27 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
+				float damageMultiplier = 1.0f;
+				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
+				{
+					// takes 10% more damage if under the effect of Swashbuckling from the caster
+					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
+					if (buff.Caster == caster) damageMultiplier = 1.1f;
+				}
+
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
+				target.TakeDamage(skillHitResult.Damage * damageMultiplier, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 				skillHit.HitInfo.Type = HitType.KnockBack;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.HitCount = 4;
+
+				// Have to manually calculate knockback because the current formula doesn't take into account hitcount
+				for (int i = 0; i < skillHit.HitCount; i++)
+					target.Position = target.Position.GetRelative(skillHit.KnockBackInfo.Direction, 22f);
 
 				hits.Add(skillHit);
 			}
