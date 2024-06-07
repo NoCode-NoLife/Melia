@@ -14,6 +14,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -1318,8 +1319,15 @@ public class CharacterCalculationsScript : GeneralScript
 		var baseValue = 30;
 		var byBuff = properties.GetFloat(PropertyName.MSPD_BM);
 		var byBonus = properties.GetFloat(PropertyName.MSPD_Bonus);
+		var value = (baseValue + byBuff + byBonus);
 
-		return (baseValue + byBuff + byBonus);
+		var nowWeight = properties.GetFloat(PropertyName.NowWeight);
+		var maxWeight = properties.GetFloat(PropertyName.MaxWeight);
+
+		if (nowWeight > maxWeight)
+			value /= 3;
+
+		return value;
 	}
 
 	/// <summary>

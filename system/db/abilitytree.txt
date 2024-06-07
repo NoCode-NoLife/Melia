@@ -411,6 +411,26 @@
 { category: "WingedHussars", classId: 107, abilityId: 124015, jobId: 1025, className: "WingedHussars8", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_GiantWings", argNum: 1 } },
 { category: "WingedHussars", classId: 108, abilityId: 124016, jobId: 1025, className: "WingedHussars9", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "WingedHussars_RisingWings", argNum: 1 } },
 
+// Vanquisher
+//---------------------------------------------------------------------------
+{ category: "Vanquisher", classId: 101, abilityId: 125001, jobId: 1026, className: "Vanquisher1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VerticalSlash", argNum: 1 } },
+{ category: "Vanquisher", classId: 102, abilityId: 125002, jobId: 1026, className: "Vanquisher2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_TurnOver", argNum: 1 } },
+{ category: "Vanquisher", classId: 103, abilityId: 125003, jobId: 1026, className: "Vanquisher3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VoidSlash", argNum: 1 } },
+{ category: "Vanquisher", classId: 104, abilityId: 125004, jobId: 1026, className: "Vanquisher4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_EarthCrusher", argNum: 1 } },
+{ category: "Vanquisher", classId: 105, abilityId: 125005, jobId: 1026, className: "Vanquisher5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_WindSlasher", argNum: 1 } },
+{ category: "Vanquisher", classId: 106, abilityId: 125006, jobId: 1026, className: "Vanquisher6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_FatalSwordDance", argNum: 1 } },
+{ category: "Vanquisher", classId: 1001, abilityId: 125007, jobId: 1026, className: "Vanquisher101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher1", argNum: 65 } },
+{ category: "Vanquisher", classId: 1002, abilityId: 125008, jobId: 1026, className: "Vanquisher102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher2", argNum: 65 } },
+{ category: "Vanquisher", classId: 1003, abilityId: 125009, jobId: 1026, className: "Vanquisher103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher3", argNum: 65 } },
+{ category: "Vanquisher", classId: 1004, abilityId: 125010, jobId: 1026, className: "Vanquisher104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher4", argNum: 65 } },
+{ category: "Vanquisher", classId: 1005, abilityId: 125011, jobId: 1026, className: "Vanquisher105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher5", argNum: 65 } },
+{ category: "Vanquisher", classId: 1006, abilityId: 125012, jobId: 1026, className: "Vanquisher106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vanquisher6", argNum: 65 } },
+{ category: "Vanquisher", classId: 201, abilityId: 125013, jobId: 1026, className: "Vanquisher10", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VoidSlash", argNum: 1 } },
+{ category: "Vanquisher", classId: 107, abilityId: 125014, jobId: 1026, className: "Vanquisher2_1", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_TurnOver", argNum: 1 } },
+{ category: "Vanquisher", classId: 202, abilityId: 125015, jobId: 1026, className: "Vanquisher1_1", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VerticalSlash", argNum: 1 } },
+{ category: "Vanquisher", classId: 108, abilityId: 125016, jobId: 1026, className: "Vanquisher3_1", maxLevel: 3, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VoidSlash", argNum: 1 } },
+{ category: "Vanquisher", classId: 203, abilityId: 125017, jobId: 1026, className: "Vanquisher6_1", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_FatalSwordDance", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },

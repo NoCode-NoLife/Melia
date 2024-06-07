@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i386082
+//   Version: i386379
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29512,6 +29512,33 @@ string getPropertyName(int id)
         case 115301: return "ep16spacepopori_dagger_cabinet";
         case 115302: return "ep16spacepopori_bow_cabinet";
         case 115303: return "ep16spacepopori_thstaff_cabinet";
+        case 115304: return "UnlockQuest_Char1_26";
+        case 115305: return "TSW04_127_1_cabinet_upgrade";
+        case 115306: return "GEM_Vanquisher_VoidSlash_cabinet";
+        case 115307: return "GEM_Vanquisher_EarthCrusher_cabinet";
+        case 115308: return "GEM_Vanquisher_WindSlasher_cabinet";
+        case 115309: return "GEM_Vanquisher_VerticalSlash_cabinet";
+        case 115310: return "GEM_Vanquisher_TurnOver_cabinet";
+        case 115311: return "GEM_Vanquisher_FatalSwordDance_cabinet";
+        case 115312: return "TSW04_127_1_cabinet";
+        case 115313: return "HiddenJob_Char1_26";
+        case 115314: return "EVENT_2404_W1TH_25";
+        case 115315: return "EVENT_2404_W1TH_23";
+        case 115316: return "EVENT_2404_W1TH_24";
+        case 115317: return "Vertigo_GreatRestartEvent";
+        case 115318: return "EVENT_2404_W1TH_21";
+        case 115319: return "EVENT_2404_W1TH_22";
+        case 115320: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_102";
+        case 115321: return "vanquisher_thsword_cabinet";
+        case 115322: return "ContentsTotalShop_2406_1";
+        case 115323: return "ep16redhood_sword_cabinet";
+        case 115324: return "ep16redhood_theme";
+        case 115325: return "ep16redhood_cannon_cabinet";
+        case 115326: return "dress_costume_ep16redhood_m";
+        case 115327: return "CollectionDressRoomRead_150";
+        case 115328: return "dress_costume_ep16redhood_f";
+        case 115329: return "ep16redhood_thstaff_cabinet";
+        case 115330: return "CollectionDressRoomRead_149";
         default: return "Unknown";
     }
 }

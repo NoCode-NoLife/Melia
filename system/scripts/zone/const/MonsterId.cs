@@ -3864,6 +3864,7 @@ public static class MonsterId
 	public const int Pcskill_Illusion_F_Basic = 300053;
 	public const int Pcskill_Illusion_M_Magical = 300054;
 	public const int Pcskill_Illusion_F_Magical = 300055;
+	public const int Skill_Equip_Object_Vanquisher = 300056;
 	public const int Onion = 400001;
 	public const int Onion_Big = 400002;
 	public const int Onion_Red = 400003;
@@ -6260,6 +6261,8 @@ public static class MonsterId
 	public const int Season_Earring_Raid_Start_Npc = 160208;
 	public const int Npc_Desperado = 160209;
 	public const int Hiddennpc_Earring_Raid_Center = 160210;
+	public const int Toy_Ep16redhood = 160211;
+	public const int Npc_Vanquisher = 160212;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;
