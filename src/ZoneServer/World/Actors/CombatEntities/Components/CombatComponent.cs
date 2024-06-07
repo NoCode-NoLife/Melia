@@ -25,6 +25,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public bool AttackState { get; private set; }
 
 		/// <summary>
+		/// Returns the entity's casting state.
+		/// </summary>
+		public bool CastingState { get; set; }
+
+		/// <summary>
 		/// Returns the last time the entity was involved in combat in
 		/// any way.
 		/// </summary>

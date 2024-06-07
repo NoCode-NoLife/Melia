@@ -133,6 +133,12 @@ namespace Melia.Shared.Game.Const
 		Ancient_Move_Slot3 = 2168,
 		Ancient_Move_Slot4 = 2169,
 		Ancient_Move_Hold = 2170,
+		Vanquisher_VerticalSlash = 12327,
+		Vanquisher_TurnOver = 12328,
+		Vanquisher_VoidSlash = 12329,
+		Vanquisher_EarthCrusher = 12330,
+		Vanquisher_WindSlasher = 12331,
+		Vanquisher_FatalSwordDance = 12332,
 		IllusionSword_Illusion31 = 22019,
 
 		// Warrior

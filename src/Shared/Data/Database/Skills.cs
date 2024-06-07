@@ -75,6 +75,10 @@ namespace Melia.Shared.Data.Database
 		Fan,
 		Area,
 		Wall,
+
+		// The Vanquisher skills have an empty string as splash type.
+		// TODO: Figure out what it does.
+		Empty,
 	}
 
 	public enum SkillUseType
