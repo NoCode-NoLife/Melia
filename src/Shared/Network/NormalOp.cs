@@ -69,6 +69,7 @@
 			public const int UpdateSkillUI = 0x189;
 			public const int AdventureBook = 0x197;
 			public const int Unknown_19B = 0x19E;
+			public const int SetPadModel = 0x1AB;
 			public const int WigVisibilityUpdate = 0x1AC;
 			public const int Unknown_1B4 = 0x1B7;
 			public const int Skill_ItemRotate = 0x1BF;

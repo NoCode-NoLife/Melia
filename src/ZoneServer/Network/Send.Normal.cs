@@ -537,6 +537,25 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Sets the model for a pad to a certain item,
+			/// used for things like Throw Spear and Shield Lob
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="str"></param>
+			/// <param name="itemId"></param>
+			public static void SetPadModel(IActor entity, string str, int itemId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.SetPadModel);
+				packet.PutInt(entity.Handle);
+				packet.PutLpString(str);
+				packet.PutInt(itemId);
+
+				entity.Map.Broadcast(packet);
+			}
+
+			/// <summary>
 			/// Updates weather wig eequipment is visible for the character
 			/// on clients in range.
 			/// </summary>

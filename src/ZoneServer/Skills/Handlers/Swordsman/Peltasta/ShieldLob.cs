@@ -73,10 +73,18 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, skillHandle, 30);			
 
 			caster.Map.AddMonster(shieldMonster);
+
+
+			// Set the shield graphic to match the character's shield
+			if (caster is Character character)
+			{
+				var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
+				Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", shield.Id);
+			}
 			Send.ZC_NORMAL.Skill_ItemRotate(shieldMonster, 90);
 			Send.ZC_NORMAL.SpinObject(shieldMonster);
 			Send.ZC_NORMAL.Skill_SetActorHeight(shieldMonster, skillHandle, 22);
-			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet");
+			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);
 
 			// Begin the shield throw, throwing shield outwards to the far point
 			var movement = shieldMonster.Components.Get<MovementComponent>();
@@ -135,7 +143,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			while (!cancelToken.IsCancellationRequested)
 			{
-				var splashArea = new Circle(shieldMonster.Position, 30);
+				var splashArea = new Circle(shieldMonster.Position, 40);
 
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 				// you can't hit the same target twice (until the shield is on the way back)
