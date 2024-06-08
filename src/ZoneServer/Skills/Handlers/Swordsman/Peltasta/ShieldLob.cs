@@ -177,7 +177,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var damageDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
 
-			float bonusPatk = 0;
+			var bonusPatk = 0f;
+
 			if (caster.IsBuffActive(BuffId.HighGuard_Abil_Buff) && caster is Character character)
 			{
 				// adds bonus Patk based on shield physical defense
@@ -190,23 +191,26 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			foreach (var target in targets)
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.BonusPAtk = bonusPatk;
+
+				// This skill always hits 4 times
+				modifier.HitCount = 4;
 
 				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
 				{
 					// takes 10% more damage if under the effect of Swashbuckling from the caster
 					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
-					if (buff.Caster == caster) skillHitResult.Damage *= 1.1f;
+					if (buff.Caster == caster)
+						modifier.DamageMultiplier += 0.1f;
 				}
 
-				// This attack does 4 hits, so we have to quadruple the damage
-				skillHitResult.Damage *= 4f;
-
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);				
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
-				skillHit.HitCount = 4;
 
 				hits.Add(skillHit);
 			}
