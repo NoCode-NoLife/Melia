@@ -17,6 +17,8 @@ using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Org.BouncyCastle.Asn1.X509;
+using System.Threading;
+using Yggrasil.Ai.BehaviorTree.Leafs;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
@@ -41,12 +43,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				return;
 			}
 
-			if (!caster.InSkillUseRange(skill, target.Position))
-			{
-				caster.ServerMessage(Localization.Get("Too far away."));
-				return;
-			}
-
 			skill.IncreaseOverheat();
 			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
@@ -54,27 +50,124 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			//TODO: Need information about how to display the shield throw animation
-
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 0, width: 30, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
-
-			this.Attack(skill, caster, splashArea);
+			ThrowShield(skill, caster, farPos);
 		}
+
+
+		/// <summary>
+		/// Handles the spawning and throwing of the shield
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="splashArea"></param>
+		private async void ThrowShield(Skill skill, ICombatEntity caster, Position originPos)
+		{
+			// Spawn the shield
+			var skillHandle = ZoneServer.Instance.World.CreateSkillHandle();
+			var shieldMonster = new Mob(57001, MonsterType.Friendly);			
+
+			shieldMonster.Position = caster.Position.GetRelative(caster.Direction, 25f);
+			shieldMonster.Direction = caster.Direction;
+			shieldMonster.FromGround = false;
+			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
+			Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, skillHandle, 30);			
+
+			caster.Map.AddMonster(shieldMonster);
+			Send.ZC_NORMAL.Skill_ItemRotate(shieldMonster, 90);
+			Send.ZC_NORMAL.SpinObject(shieldMonster);
+			Send.ZC_NORMAL.Skill_SetActorHeight(shieldMonster, skillHandle, 22);
+			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet");
+
+			// Begin the shield throw, throwing shield outwards to the far point
+			var movement = shieldMonster.Components.Get<MovementComponent>();
+			movement.SetFixedMoveSpeed(150f);
+			movement.SetMoveSpeedType(MoveSpeedType.Run);
+			var moveTime = movement.MoveTo(originPos.GetRelative(caster.Direction, 100f));
+			Send.ZC_NORMAL.Skill_EffectMovement(caster, skillHandle, originPos.GetRelative(caster.Direction, 100f), 150);
+			
+			var cancelToken = new CancellationTokenSource();
+			checkShieldCollision(skill, caster, shieldMonster, cancelToken);
+			await Task.Delay(moveTime);
+
+			// Reached destination, pause briefly before returning
+			await Task.Delay(TimeSpan.FromMilliseconds(500));
+
+			// Return trip back to player.
+			movement.SetFixedMoveSpeed(200f);
+			cancelToken.Cancel();
+			cancelToken = new CancellationTokenSource();
+			checkShieldCollision(skill, caster, shieldMonster, cancelToken);
+
+			// We loop over this a few times so the shield homes in on your location even if you're moving
+			for (int i = 0; i < 5; i++) 
+			{ 
+				moveTime = movement.MoveTo(caster.Position);
+				Send.ZC_NORMAL.Skill_EffectMovement(caster, skillHandle, caster.Position, 200);
+				await Task.Delay(moveTime.Divide(3));
+			}
+
+			// Should be close enough to your position, return to the player
+			moveTime = movement.MoveTo(caster.Position);
+			Send.ZC_NORMAL.Skill_EffectMovement(caster, skillHandle, caster.Position, 200);
+			await Task.Delay(moveTime);
+
+			// Shield has returned, remove the shield and restore the shield to your hand
+			cancelToken.Cancel();
+			Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", originPos, caster.Direction, 0, 145.8735f, skillHandle, 30, false);
+			caster.Map.RemoveMonster(shieldMonster);			
+		}
+
+
+
+		/// <summary>
+		/// Checks to see if the Shield collides with any enemies
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="splashArea"></param>
+		private async void checkShieldCollision(Skill skill, ICombatEntity caster, Mob shieldMonster, CancellationTokenSource cancelToken)
+		{
+			// We have to track sr manually since this skill can hit targets sequentially
+			List<ICombatEntity> hitTargets = new List<ICombatEntity>();
+			var sr = (int)skill.Properties.GetFloat(PropertyName.SkillSR);
+			if (ZoneServer.Instance.Conf.World.DisableSDR)
+				sr = int.MaxValue;
+
+			while (!cancelToken.IsCancellationRequested)
+			{
+				var splashArea = new Circle(shieldMonster.Position, 30);
+
+				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+				// you can't hit the same target twice (until the shield is on the way back)
+				if (targets.Count > 0)
+					targets.RemoveAll(hitTargets.Contains);
+
+				var targetsLeft = sr - hitTargets.Count;
+
+				if (targets.Count > targetsLeft)
+					targets.RemoveRange(targetsLeft, targets.Count - targetsLeft);
+
+				if (targets.Count > 0)
+				{
+					hitTargets.AddRange(targets);
+					Attack(skill, caster, targets);
+				}
+
+				await Task.Delay(TimeSpan.FromMilliseconds(50));
+			}			
+		}
+
 
 		/// <summary>
 		/// Executes the actual attack after a delay.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		/// <param name="targets"></param>
+		private void Attack(Skill skill, ICombatEntity caster, List<ICombatEntity> targets)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(50);
-			var damageDelay = TimeSpan.FromMilliseconds(330);
+			var damageDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
-
-			await Task.Delay(hitDelay);
 
 			float bonusPatk = 0;
 			if (caster.IsBuffActive(BuffId.HighGuard_Abil_Buff) && caster is Character character)
@@ -85,30 +178,32 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				bonusPatk = buff.NumArg1 * 0.06f * shield.Def;
 			}
 
-
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			foreach (var target in targets.LimitBySDR(caster, skill))
+			foreach (var target in targets)
 			{
-
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
+				{
+					// takes 10% more damage if under the effect of Swashbuckling from the caster
+					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
+					if (buff.Caster == caster) skillHitResult.Damage *= 1.1f;
+				}
+
+				// This attack does 4 hits, so we have to quadruple the damage
+				skillHitResult.Damage *= 4f;
+
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
-
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = HitType.KnockBack;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.HitCount = 4;
 
 				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
-
-			await Task.Delay(damageDelay);
-			Send.ZC_SKILL_DISABLE(caster as Character);
 		}
 	}
 }

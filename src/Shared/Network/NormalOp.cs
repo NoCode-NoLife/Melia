@@ -44,11 +44,14 @@
 			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
 			public const int UnkDynamicCastEnd = 0x50;
-			public const int Skill_59 = 0x59;
+			public const int SkillRunScript = 0x59;
+			public const int Skill_SetActorHeight = 0x5C;
 			public const int ParticleEffect = 0x61;
+			public const int Skill_EffectMovement = 0x64;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
+			public const int SpinObject = 0x8A;
 			public const int Unknown_A1 = 0xA1;
 			public const int LeapJump = 0xC2;
 			public const int Unknown_DA = 0xDA;
@@ -68,6 +71,7 @@
 			public const int Unknown_19B = 0x19E;
 			public const int WigVisibilityUpdate = 0x1AC;
 			public const int Unknown_1B4 = 0x1B7;
+			public const int Skill_ItemRotate = 0x1BF;
 			public const int SubWeaponVisibilityUpdate = 0x1C5;
 		}
 	}

@@ -81,16 +81,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				float damageMultiplier = 1.0f;
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+
 				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
 				{
 					// takes 10% more damage if under the effect of Swashbuckling from the caster
 					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
-					if (buff.Caster == caster) damageMultiplier = 1.1f;
+					if (buff.Caster == caster) skillHitResult.Damage *= 1.1f;
 				}
 
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage * damageMultiplier, caster);
+				// This attack does 4 hits, so we have to quadruple the damage
+				skillHitResult.Damage *= 4f;
+
+				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
