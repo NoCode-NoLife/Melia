@@ -1303,11 +1303,13 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(true);
 			handler.StartDynamicCast(skill, character);
 		}
 
 		/// <summary>
 		/// Sent when character casting ends after holding to cast skill.
+		/// This is sent even if the skill is held to the maximum duration.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1328,6 +1330,7 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(false);
 			handler.EndDynamicCast(skill, character);
 		}
 
