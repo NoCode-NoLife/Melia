@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Shared.Game.Const;
+using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -10,7 +11,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Shared.Data.Database;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
@@ -114,7 +114,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, trap.Direction, Position.Zero, 1);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, ForceId.GetNew(), null);
 
-			Send.ZC_DEAD(trap, trap.Position);
+			Send.ZC_DEAD(trap);
 			Send.ZC_SKILL_CAST_CANCEL(trap);
 
 			if (caster.PlacedTraps.Contains(trap))

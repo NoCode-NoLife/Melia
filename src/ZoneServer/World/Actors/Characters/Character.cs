@@ -1203,7 +1203,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			//this.Died?.Invoke(this, killer);
 
-			Send.ZC_DEAD(this, this.Position);
+			Send.ZC_DEAD(this);
 
 			_resurrectDialogTimer = ResurrectDialogDelay;
 		}

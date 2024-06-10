@@ -1,10 +1,7 @@
 ﻿using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.AI;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Buffs.Handlers

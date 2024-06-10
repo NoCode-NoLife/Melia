@@ -1,6 +1,6 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -54,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Position.GetDirection(target.Position), Position.Zero);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
-			Send.ZC_NORMAL.Skill_E3(caster, target, "STAGE_1");
+			Send.ZC_NORMAL.PlayTextEffect(caster, target, "STAGE_1", 192f, null);
 
 			target.Components.Get<BuffComponent>().Start(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
 		}

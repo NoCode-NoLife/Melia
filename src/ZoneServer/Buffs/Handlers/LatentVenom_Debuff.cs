@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;

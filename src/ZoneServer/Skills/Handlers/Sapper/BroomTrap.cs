@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Threading;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -12,6 +11,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Collections.Generic;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {

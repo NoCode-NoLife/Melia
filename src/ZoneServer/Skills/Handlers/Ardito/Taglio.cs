@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				buffComponent.Remove(BuffId.Taglio_Buff);
 			}
 
-			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 2.1f);
+			Send.ZC_NORMAL.UnkDynamicCastEnd(caster, skill.Id, 2.1f);
 			Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Arditi_Taglio", skill.Id, caster.Position, this._effectId, false);
 

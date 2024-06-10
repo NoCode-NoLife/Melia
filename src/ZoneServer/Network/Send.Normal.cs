@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.Skills;
 
 namespace Melia.Zone.Network
 {
@@ -134,7 +135,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.PutInt(caster.Handle);
+				packet.PutInt(caster != null ? caster.Handle : 0);
 				packet.PutInt(packetStringData.Id);
 				packet.PutFloat(argNum);
 
@@ -284,22 +285,21 @@ namespace Melia.Zone.Network
 
 			/// <summary>
 			/// Packet with unknown purpose that's sent during dynamic
-			/// casting.
 			/// </summary>
-			/// <param name="character"></param>
+			/// <param name="actor"></param>
 			/// <param name="skillId"></param>
-			/// <param name="value"></param>
-			public static void UnkDynamicCastEnd(Character character, SkillId skillId, float value)
+			/// <param name="duration"></param>
+			public static void UnkDynamicCastEnd(IActor actor, SkillId skillId, float duration)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastEnd);
 
-				packet.PutInt(character.Handle);
+				packet.PutInt(actor.Handle);
 				packet.PutInt((int)skillId);
-				packet.PutFloat(value);
+				packet.PutFloat(duration);
 				packet.PutByte(0);
 
-				character.Connection.Send(packet);
+				actor.Map.Broadcast(packet, actor);
 			}
 
 			/// <summary>
@@ -1245,50 +1245,6 @@ namespace Melia.Zone.Network
 				packet.PutLong(0);
 				packet.PutShort(0);
 				packet.PutString("None");
-				packet.PutByte(0);
-
-				actor.Map.Broadcast(packet, actor);
-			}
-
-			/// <summary>
-			/// Unknow purpose, its related to animation
-			/// on clients in range.
-			/// </summary>
-			/// <param name="actor"></param>
-			/// <param name="target"></param>
-			/// <param name="packetString"></param>
-			public static void Skill_E3(IActor actor, ICombatEntity target, string packetString)
-			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Unknown packet string '{packetString}'.");
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_E3);
-
-				packet.PutInt(actor.Handle);
-				packet.PutInt(target != null ? target.Handle : 0);
-				packet.PutInt(packetStringData.Id);
-				packet.PutFloat(192);
-				packet.PutShort(-1);
-				packet.PutLong(0);
-
-				actor.Map.Broadcast(packet, actor);
-			}
-
-			/// <summary>
-			/// Unknow purpose, related to skills
-			/// </summary>
-			/// <param name="actor"></param>
-			/// <param name="skillId"></param>
-			/// <param name="duration"></param>
-			public static void Skill_50(IActor actor, SkillId skillId, float duration)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_50);
-
-				packet.PutInt(actor.Handle);
-				packet.PutInt((int)skillId);
-				packet.PutFloat(duration);
 				packet.PutByte(0);
 
 				actor.Map.Broadcast(packet, actor);

@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors.Characters;
 
@@ -20,19 +20,18 @@ namespace Melia.Zone.Buffs.Handlers
 
 			buff.Vars.SetFloat(varName, dmgIncreasePercentage);
 
-			// TODO: Increase all the Wugushi skills damage by a percentage
+			// @TODO: Increase all the Wugushi skills damage by a percentage
 		}
 
 		public override void OnEnd(Buff buff)
 		{
 			if (buff.Vars.TryGetFloat(varName, out var bonus))
 			{
-				// TODO: Decrease all the Wugushi skills damage by a percentage
+				// @TODO: Decrease all the Wugushi skills damage by a percentage
 			}
 		}
 
-		// Unknow Purposes
-
+		// This may be useful.
 		/*private float GetRatio(Buff buff)
 		{
 			return Convert.ToSingle((15 * buff.Target.Level) + (buff.Skill.Level * buff.Target.Level * 3.3));

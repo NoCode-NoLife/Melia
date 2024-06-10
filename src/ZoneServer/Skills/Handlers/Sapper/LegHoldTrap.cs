@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -65,7 +65,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		{
 			var effectId = ForceId.GetNew();
 
-			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.9375f);
+			Send.ZC_NORMAL.UnkDynamicCastEnd(caster, skill.Id, 1.9375f);
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Direction, farPos);

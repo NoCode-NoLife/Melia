@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;

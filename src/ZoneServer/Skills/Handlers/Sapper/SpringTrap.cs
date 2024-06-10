@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -174,7 +174,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			cancellationTokenSource.Cancel();
 
 			Send.ZC_NORMAL.PlayAnimationOnEffect_6D(caster, effectId);
-			Send.ZC_NORMAL.Skill_E3(caster, target, "SHOW_SKILL_ATTRIBUTE");
+			Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_SKILL_ATTRIBUTE", 192f, null);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);

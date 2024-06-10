@@ -310,20 +310,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
-			this.CleanPlacedTraps();
-
-            var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
-			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
-
-			var exp = 0L;
-			var classExp = 0L;
-
-			if (this.Data.Exp > 0)
-				exp = (long)Math.Max(1, this.Data.Exp * expRate);
-			if (this.Data.ClassExp > 0)
-				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
-
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
+			this.CleanPlacedTraps();
 
 			var beneficiary = this.GetKillBeneficiary(killer);
 
@@ -338,7 +326,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Died?.Invoke(this, killer);
 			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
-			Send.ZC_DEAD(this, this.Position);
+			Send.ZC_DEAD(this);
 		}
 
 		/// <summary>

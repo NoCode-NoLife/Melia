@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			await Task.Delay(400);
 
-			Send.ZC_NORMAL.Skill_E3(caster, null, "STAGE_1");
+			Send.ZC_NORMAL.PlayTextEffect(caster, null, "STAGE_1", 192f, null);
 
 			// Radius seems precise
 			var radius = 100;

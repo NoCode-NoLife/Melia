@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -89,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
+			Send.ZC_NORMAL.UnkDynamicCastEnd(caster, skill.Id, 1.5f);
 
 			var effectId = ForceId.GetNew();
 			var farPos = caster.Position.GetRelative(caster.Direction, 25);
@@ -171,7 +171,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		{
 			cancellationTokenSource.Cancel();
 
-			Send.ZC_NORMAL.Skill_50(caster, skill.Id, 1.5f);
+			Send.ZC_NORMAL.UnkDynamicCastEnd(caster, skill.Id, 1.5f);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
