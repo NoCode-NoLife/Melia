@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Melia.Shared.Scripting;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Quests;
@@ -313,7 +314,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					if (!quest.TryGetProgress(objectiveIdent, out var progress))
 						continue;
 
-					if (progress.Unlocked && !progress.Done)
+					if (!progress.Done)
 					{
 						progress.SetDone();
 						this.UpdateClient_UpdateQuest(quest);
@@ -335,7 +336,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				for (var i = 0; i < _quests.Count; i++)
 				{
 					var quest = _quests[i];
-					if (!quest.InProgress || quest.Data.Id != questId || !quest.ObjectivesCompleted)
+					quest.CompleteObjectives();
+
+					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
 					this.Complete(quest);
@@ -512,6 +515,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			var questTable = new LuaTable();
+
 			questTable.Insert("ObjectId", "0x" + quest.ObjectId.ToString("X16"));
 			questTable.Insert("ClassId", quest.Data.Id);
 			questTable.Insert("Name", quest.Data.Name);

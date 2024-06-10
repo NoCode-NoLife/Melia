@@ -52,7 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Network\Packet.cs" />
+    <Compile Include="ObjectProperties\Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\LuaTable.cs" />
     <Compile Include="World\Direction.cs" />
     <Compile Include="World\Position.cs" />
   </ItemGroup>

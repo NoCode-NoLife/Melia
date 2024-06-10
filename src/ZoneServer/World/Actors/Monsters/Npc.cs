@@ -1,11 +1,12 @@
 ﻿using System;
 using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
+using System.Threading.Tasks;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -111,6 +112,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="func"></param>
+		public void SetEnterTriggerSync(string name, TriggerCallbackSync func)
+		{
+			this.SetEnterTrigger(name, async dialog =>
+			{
+				func(dialog);
+				await Task.CompletedTask;
+			});
+		}
+
+		/// <summary>
+		/// Sets up a function that is called when the NPC is triggered
+		/// by stepping into the given area.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="func"></param>
 		public void SetLeaveTrigger(string name, DialogFunc func)
 		{
 			this.LeaveName = name;
@@ -124,6 +140,18 @@ namespace Melia.Zone.World.Actors.Monsters
 		public void SetTriggerArea(IShapeF area)
 		{
 			this.Area = area;
+		}
+
+		/// <summary>
+		/// Makes the NPC say the given message, which will display via
+		/// chat bubble above their head.
+		/// </summary>
+		/// <param name="format"></param>
+		/// <param name="args"></param>
+		public void Say(string format, params object[] args)
+		{
+			var message = args?.Length == 0 ? format : string.Format(format, args);
+			Send.ZC_CHAT(this, message);
 		}
 	}
 
@@ -142,6 +170,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a function to call when someone leaves the area.
 		/// </summary>
 		DialogFunc LeaveFunc { get; }
+
+		/// <summary>
+		/// Area in which the enter and leave functions are triggered.
+		/// </summary>
 		IShapeF Area { get; }
 	}
 }

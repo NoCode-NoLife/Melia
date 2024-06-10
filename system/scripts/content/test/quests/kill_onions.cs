@@ -4,7 +4,9 @@
 // Automatically received test quests for killing Kepas.
 //---------------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Quests;
 using Melia.Zone.World.Quests.Objectives;
 using Melia.Zone.World.Quests.Prerequisites;
@@ -43,11 +45,29 @@ public class KillOnions2TestQuestScript : QuestScript
 		SetDescription("And now for the big one. Put that giant onion back into the ground from whence it came.");
 
 		AddObjective("kill", "Kill a Large Kepa", new KillObjective(1, MonsterId.Onion_Big));
+		AddObjective("talk", "Talk to Ronesa", new ManualObjective());
 
 		SetReceive(QuestReceiveType.Auto);
 		AddPrerequisite(new CompletedPrerequisite(1000001));
 
 		AddReward(new SilverReward(10000));
 		AddReward(new ExpReward(2000, 1000));
+
+		AddDialogHook("Ronesa", "BeforeDialog", RonesaDialog);
+	}
+
+	private async Task<HookResult> RonesaDialog(Dialog dialog)
+	{
+		var character = dialog.Player;
+
+		if (!character.Quests.IsActive(this.QuestId, "talk"))
+			return HookResult.Skip;
+
+		await dialog.Msg("Welcome, how can I help you today?");
+		await dialog.Msg("Oh, you received my quest? Thank you very much for helping out with these pests.{nl}It was about time someone did something about them. Here's your reward.");
+
+		character.Quests.Complete(this.QuestId);
+
+		return HookResult.Break;
 	}
 }

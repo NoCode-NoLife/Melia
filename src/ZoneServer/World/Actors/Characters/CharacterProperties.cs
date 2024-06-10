@@ -1,11 +1,12 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
 using Melia.Zone.Buffs;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -138,6 +139,11 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
 
+			// TODO: Update damage bonus properties based on equipment and
+			//   other potential factors.
+			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));
+			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)ArmorMaterialType.None));
+
 			// TODO: These were probably added for testing purposes or to
 			// reproduce logged packets. Can they be removed?
 			this.Create(new FloatProperty(PropertyName.HPDrain, 2));
@@ -203,7 +209,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
-			this.Character.SitStatusChanged += this.UpdateRecoveryTimes;
+			this.Character.SitStatusChanged += this.SitStatusChanged;
 
 			// Subscribe to equipment changes, as any number of properties
 			// might make use of equipment stats
@@ -251,10 +257,20 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Recalculates and updates HP and SP recovery time properties.
 		/// </summary>
 		/// <param name="character"></param>
-		private void UpdateRecoveryTimes(Character character)
+		private void SitStatusChanged(Character character)
 		{
 			this.Invalidate(PropertyName.RHPTIME, PropertyName.RSPTIME);
 			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.RHPTIME, PropertyName.RSPTIME);
+
+			if (character.IsSitting)
+			{
+				character.Buffs.Start(BuffId.Rest, TimeSpan.Zero);
+			}
+			else
+			{
+				character.Buffs.Stop(BuffId.Rest);
+				character.Buffs.Stop(BuffId.campfire_Buff);
+			}
 		}
 
 		/// <summary>

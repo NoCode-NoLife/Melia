@@ -7,8 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 
@@ -171,9 +173,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// Sets the dialog class to use in message, which affects the
 		/// displayed portrait. Set to null for the default.
 		/// </summary>
-		/// <param name="portrait"></param>
-		public void SetPortrait(string portrait)
-			=> this.Portrait = portrait;
+		/// <remarks>
+		/// The image name refers to the name of an image file in the
+		/// client's npcimg folder, without the file extension. However,
+		/// the desired image needs to be referenced in the dialog database
+		/// for the image to be recognized.
+		/// </remarks>
+		/// <param name="imageName"></param>
+		public void SetPortrait(string imageName)
+			=> this.Portrait = imageName;
 
 		/// <summary>
 		/// Returns delegates that translate strings to the language
@@ -210,6 +218,14 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		private string AddNpcIdenty(string message)
 		{
+			// If the title was set to a valid dialog entry, we'll use that
+			// one to get the title and portrait from the dialog database
+			if (this.Title != null && this.Portrait == null && ZoneServer.Instance.Data.DialogDb.Contains(this.Title))
+			{
+				message = this.Title + NpcDialogTextSeperator + message;
+				return message;
+			}
+
 			// Prepend title, controlling title displayed on the dialog
 			// window.
 			if (!message.Contains(NpcNameSeperator) && !message.Contains(NpcDialogTextSeperator))
@@ -326,6 +342,22 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Creates a mutable list of options that can be modified before
+		/// it's passed to the Select method.
+		/// </summary>
+		/// <example>
+		// var options = dialog.Options(Option("Nothing", "nothing"), Option("Everything", "everything"));
+		// if (xHappened)
+		//     options.Add(Option("OMG, did you hear?", "omg"));
+		// 
+		// await dialog.Select("What's up?", options);
+		/// </example>
+		/// <param name="options"></param>
+		/// <returns></returns>
+		public DialogOptionList Options(params DialogOption[] options)
+			=> new DialogOptionList(options);
+
+		/// <summary>
 		/// Shows a menu with options to select from, returns the key
 		/// of the selected option.
 		/// </summary>
@@ -333,6 +365,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="options">List of options to select from.</param>
 		/// <returns></returns>
 		public async Task<string> Select(string text, params DialogOption[] options)
+			=> await this.Select(text, (IEnumerable<DialogOption>)options);
+
+		/// <summary>
+		/// Shows a menu with options to select from, returns the key
+		/// of the selected option.
+		/// </summary>
+		/// <param name="text">Text to display with the options.</param>
+		/// <param name="options">List of options to select from.</param>
+		/// <returns></returns>
+		public async Task<string> Select(string text, IEnumerable<DialogOption> options)
 		{
 			// Go through SelectSimple to get the integer response
 			// and then look up the key in the options to return it.
@@ -340,7 +382,7 @@ namespace Melia.Zone.Scripting.Dialogues
 			var optionsTexts = options.Select(a => a.Text);
 			var selectedIndex = await this.Select(text, optionsTexts);
 
-			var response = options[selectedIndex - 1].Key;
+			var response = options.ElementAt(selectedIndex - 1).Key;
 			return response;
 		}
 
@@ -404,6 +446,68 @@ namespace Melia.Zone.Scripting.Dialogues
 
 			var response = await this.GetClientResponse();
 			return response;
+		}
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string animationName, TimeSpan duration)
+			=> await this.TimeAction(displayText, "None", animationName, duration);
+
+		/// <summary>
+		/// Starts a time action, showing a progressbar with the message
+		/// and character animation for the given duration.
+		/// </summary>
+		/// <param name="displayText"></param>
+		/// <param name="buttonText"></param>
+		/// <param name="animationName"></param>
+		/// <param name="duration"></param>
+		/// <returns></returns>
+		public async Task<TimeActionResult> TimeAction(string displayText, string buttonText, string animationName, TimeSpan duration)
+		{
+			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
+			return await this.Player.Components.Get<TimeActionComponent>().StartAsync(displayText, buttonText, animationName, duration);
+		}
+
+		/// <summary>
+		/// Executes the given hooks, if any, and returns true if any were
+		/// executed.
+		/// </summary>
+		/// <param name="hookName"></param>
+		/// <returns></returns>
+		public async Task<bool> Hooks(string hookName)
+		{
+			var hooks = ScriptHooks.GetAll<DialogHook>(this.Npc.UniqueName, hookName);
+			if (hooks.Length == 0)
+				return false;
+
+			var wasHooked = false;
+
+			foreach (var hook in hooks)
+			{
+				var result = await hook.Func(this);
+
+				switch (result)
+				{
+					case HookResult.Skip:
+						continue;
+
+					case HookResult.Continue:
+						wasHooked = true;
+						continue;
+
+					case HookResult.Break:
+						wasHooked = true;
+						break;
+				}
+			}
+
+			return wasHooked;
 		}
 
 		/// <summary>
@@ -480,7 +584,8 @@ namespace Melia.Zone.Scripting.Dialogues
 				}
 
 				// End receival of the shop data and set it
-				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.ExecData('CustomShop', M_SET_CUSTOM_SHOP)");
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomShop')");
 
 				// Open the shop
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, "MeliaCustomShop");
@@ -500,6 +605,13 @@ namespace Melia.Zone.Scripting.Dialogues
 	/// <param name="dialog"></param>
 	/// <returns></returns>
 	public delegate Task DialogFunc(Dialog dialog);
+
+	/// <summary>
+	/// A function that can be used as a synchronous trigger callback.
+	/// </summary>
+	/// <param name="dialog"></param>
+	/// <returns></returns>
+	public delegate void TriggerCallbackSync(Dialog dialog);
 
 	/// <summary>
 	/// A function that returns a variable number of options and returns

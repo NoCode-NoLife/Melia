@@ -1,6 +1,7 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 
 namespace Melia.Zone.World.Actors.Monsters
@@ -40,6 +41,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		private void AddDefaultProperties()
 		{
+			this.Create(new RFloatProperty(PropertyName.Level, () => this.Monster.Data.Level));
+
 			this.Create(new CFloatProperty(PropertyName.MHP, () => this.CalculateProperty("SCR_Get_MON_MHP")));
 			this.Create(new FloatProperty(PropertyName.HP, min: 0));
 
@@ -60,6 +63,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
 			this.Create(new CFloatProperty(PropertyName.MSPD, () => this.CalculateProperty("SCR_Get_MON_MSPD")));
+
+			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)this.Monster.Data.Attribute));
+			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)this.Monster.Data.ArmorMaterial));
 		}
 
 		/// <summary>

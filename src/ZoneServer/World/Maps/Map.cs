@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
@@ -49,11 +51,6 @@ namespace Melia.Zone.World.Maps
 		/// Collection of trigger areas on the map.
 		/// </summary>
 		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
-
-		/// <summary>
-		/// Collection of monster spawners.
-		/// </summary>
-		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
@@ -143,7 +140,6 @@ namespace Melia.Zone.World.Maps
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.UpdateEntities(elapsed);
-			this.UpdateSpawners(elapsed);
 		}
 
 		/// <summary>
@@ -197,7 +193,10 @@ namespace Melia.Zone.World.Maps
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
 			foreach (var monster in toDisappear)
+			{
+				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
 				this.RemoveMonster(monster);
+			}
 		}
 
 		/// <summary>
@@ -242,6 +241,8 @@ namespace Melia.Zone.World.Maps
 				lock (_combatEntities)
 					_combatEntities[character.Handle] = character;
 			}
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -257,6 +258,8 @@ namespace Melia.Zone.World.Maps
 				_combatEntities.Remove(character.Handle);
 
 			character.Map = null;
+
+			ZoneServer.Instance.UpdateServerInfo();
 		}
 
 		/// <summary>
@@ -312,48 +315,6 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public Character[] GetVisibleCharacters(Character character)
 			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
-
-		/// <summary>
-		/// Adds the spawner to the map.
-		/// </summary>
-		/// <param name="spawner"></param>
-		public void AddSpawner(MonsterSpawner spawner)
-		{
-			lock (_spawners)
-				_spawners.Add(spawner);
-		}
-
-		/// <summary>
-		/// Removes all spawners from the map.
-		/// </summary>
-		public void RemoveSpawners()
-		{
-			lock (_spawners)
-				_spawners.Clear();
-		}
-
-		/// <summary>
-		/// Returns a list with all spawners.
-		/// </summary>
-		/// <returns></returns>
-		public MonsterSpawner[] GetSpawners()
-		{
-			lock (_spawners)
-				return _spawners.ToArray();
-		}
-
-		/// <summary>
-		/// Updates all spawners, spawning monsters as necessary.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		public void UpdateSpawners(TimeSpan elapsed)
-		{
-			lock (_spawners)
-			{
-				foreach (var spawner in _spawners)
-					spawner.Update(elapsed);
-			}
-		}
 
 		/// <summary>
 		/// Adds monster to map.
@@ -468,6 +429,43 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns all actors with the given type in the area.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
+		{
+			// Searching through both characters and monsters isn't the
+			// most efficient way to get actors of a specific type in an
+			// area, but it is simple and convenient, and it doesn't require
+			// us to create dozens of getters for various actor types.
+			// We can optimize this later if necessary.
+
+			var result = new List<TActor>();
+
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (monster is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
+
+			lock (_characters)
+			{
+				foreach (var character in _characters.Values)
+				{
+					if (character is TActor actor && area.IsInside(actor.Position))
+						result.Add(actor);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Returns monster by handle, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="handle"></param>
@@ -482,6 +480,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public IMonster GetMonster(Func<IMonster, bool> predicate)
+		{
+			lock (_monsters)
+				return _monsters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns monster by handle via out. Returns false if the
 		/// monster wasn't found.
 		/// </summary>
@@ -491,6 +500,31 @@ namespace Melia.Zone.World.Maps
 		{
 			lock (_monsters)
 				return _monsters.TryGetValue(handle, out monster);
+		}
+
+		/// <summary>
+		/// Returns the first monster that matches the given predicate
+		/// via out. Returns false if no monster was found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <param name="monster"></param>
+		/// <returns></returns>
+		public bool TryGetMonster(Func<IMonster, bool> predicate, out IMonster monster)
+		{
+			lock (_monsters)
+			{
+				foreach (var m in _monsters.Values)
+				{
+					if (predicate(m))
+					{
+						monster = m;
+						return true;
+					}
+				}
+			}
+
+			monster = null;
+			return false;
 		}
 
 		/// <summary>
@@ -600,8 +634,6 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
-
-			this.RemoveSpawners();
 		}
 
 		/// <summary>
@@ -661,6 +693,31 @@ namespace Melia.Zone.World.Maps
 
 			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
 			return closestPos;
+		}
+
+		/// <summary>
+		/// Alerts all AIs in range of the source about the given event.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="alert"></param>
+		public void AlertAis(IActor source, IAiEventAlert alert)
+		{
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (!monster.Position.InRange2D(source.Position, VisibleRange))
+						continue;
+
+					if (!(monster is ICombatEntity combatEntity))
+						continue;
+
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
+						continue;
+
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
 		}
 
 		/// <summary>

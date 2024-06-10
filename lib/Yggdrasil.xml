@@ -2662,6 +2662,12 @@
             <param name="tcpConn"></param>
             <param name="type"></param>
         </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.RemoveConnection(System.String)">
+            <summary>
+            Removes connection from all internal lists.
+            </summary>
+            <param name="name"></param>
+        </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.Connect(System.String,System.String,System.Int32)">
             <summary>
             Connects to a communicator at the given address and saves
@@ -2701,20 +2707,43 @@
             <param name="client"></param>
             <param name="buffer"></param>
         </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Subscribe(System.String,System.String)">
+            <summary>
+            Subscribes to messages broadcasted on the given channel.
+            </summary>
+            <param name="receiverName"></param>
+            <param name="channelName"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Broadcast(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Broadcasts object to all subscribers of the given channel.
+            </summary>
+            <param name="channelName"></param>
+            <param name="message"></param>
+        </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,Yggdrasil.Network.Communication.ICommMessage)">
             <summary>
-            Sends object to the receiver.
+            Sends message to the receiver.
             </summary>
             <param name="receiverName"></param>
             <param name="message"></param>
         </member>
-        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,System.String,Yggdrasil.Network.Communication.ICommMessage)">
+        <member name="M:Yggdrasil.Network.Communication.Communicator.Send(System.String,System.Byte[])">
             <summary>
-            Sends message to the receiver on the given channel.
+            Sends buffer to the receiver.
             </summary>
             <param name="receiverName"></param>
-            <param name="channel"></param>
-            <param name="message"></param>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Communicator.RequestResponse``1(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Sends a request to the receiver and waits for a response.
+            Returns either the response or null if the request failed.
+            </summary>
+            <typeparam name="TResMessage"></typeparam>
+            <param name="receiver"></param>
+            <param name="reqMessage"></param>
+            <returns></returns>
         </member>
         <member name="M:Yggdrasil.Network.Communication.Communicator.SerializeMessage(Yggdrasil.Network.Communication.ICommMessage)">
             <summary>
@@ -2734,6 +2763,19 @@
             <summary>
             A message sent via a communicator.
             </summary>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.ICommMessageExtensions">
+            <summary>
+            Extensions for communicator messages.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.ICommMessageExtensions.BroadcastTo(Yggdrasil.Network.Communication.ICommMessage,System.String)">
+            <summary>
+            Wraps the message in a broadcast message.
+            </summary>
+            <param name="message"></param>
+            <param name="channelName"></param>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Network.Communication.Connection">
             <summary>
@@ -2774,6 +2816,28 @@
             </summary>
             <param name="buffer"></param>
         </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.BroadcastMessage">
+            <summary>
+            A message that is broadcasted to all subscribers of a channel.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.BroadcastMessage.ChannelName">
+            <summary>
+            Returns the name of the channel to broadcast on.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.BroadcastMessage.Message">
+            <summary>
+            Returns the message to be broadcasted.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.BroadcastMessage.#ctor(System.String,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Creates new broadcast message.
+            </summary>
+            <param name="channelName"></param>
+            <param name="message"></param>
+        </member>
         <member name="T:Yggdrasil.Network.Communication.Messages.HelloMessage">
             <summary>
             First message sent and received when making a connection.
@@ -2781,8 +2845,73 @@
         </member>
         <member name="P:Yggdrasil.Network.Communication.Messages.HelloMessage.Name">
             <summary>
-            Gets or sets the name of the communicator sending the message.
+            Returns the name of the communicator sending the message.
             </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.HelloMessage.#ctor(System.String)">
+            <summary>
+            Creates new message.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.RequestMessage">
+            <summary>
+            A wrapper around a message that is sent to request a response.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.RequestMessage.Id">
+            <summary>
+            Returns the unique id of the request.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.RequestMessage.Message">
+            <summary>
+            Returns the message that a response is requested for.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.RequestMessage.#ctor(Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Creates a new request message for the given message.
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.ResponseMessage">
+            <summary>
+            A wrapper around a message that is sent as a response to a request.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.ResponseMessage.Id">
+            <summary>
+            Returns the unique id of the request.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.ResponseMessage.Message">
+            <summary>
+            Returns the actual response message.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.ResponseMessage.#ctor(System.Int64,Yggdrasil.Network.Communication.ICommMessage)">
+            <summary>
+            Creates a new response message for the given id and message.
+            </summary>
+            <param name="id"></param>
+            <param name="message"></param>
+        </member>
+        <member name="T:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage">
+            <summary>
+            Subscribes sender to message broadcasted on a channel.
+            </summary>
+        </member>
+        <member name="P:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage.ChannelName">
+            <summary>
+            Channel to subscribe to.
+            </summary>
+        </member>
+        <member name="M:Yggdrasil.Network.Communication.Messages.SubscribeChannelMessage.#ctor(System.String)">
+            <summary>
+            Creates new message.
+            </summary>
+            <param name="channelName"></param>
         </member>
         <member name="T:Yggdrasil.Network.Framing.DoubleNewLineFramer">
             <summary>
@@ -3242,6 +3371,11 @@
             Raised when a connection was successfully accepted.
             </summary>
         </member>
+        <member name="E:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.ConnectionClosed">
+            <summary>
+            Raised when a connection was closed or lost.
+            </summary>
+        </member>
         <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.#ctor(System.Net.IPEndPoint)">
             <summary>
             Creates new instance of TcpConnectionAcceptor, that will listen
@@ -3302,6 +3436,25 @@
             Called when a client connected.
             </summary>
             <param name="ar"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.OnAccepted(`0)">
+            <summary>
+            Called when a connection was accepted.
+            </summary>
+            <param name="conn"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.OnClosed(Yggdrasil.Network.TCP.TcpConnection,Yggdrasil.Network.TCP.ConnectionCloseType)">
+            <summary>
+            Called when a connection was closed.
+            </summary>
+            <param name="conn"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:Yggdrasil.Network.TCP.TcpConnectionAcceptor`1.GetAllConnections">
+            <summary>
+            Returns a list of all active connections.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Yggdrasil.Parameters.INumericParameter">
             <summary>

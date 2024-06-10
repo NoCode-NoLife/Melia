@@ -10,5 +10,6 @@
 // custom/test.cs
 
 custom/client/unclutter/main.cs
+custom/client/concise_sysmenu/main.cs
 
 include "/user/scripts/scripts_custom.txt"

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Threading;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
@@ -79,6 +79,28 @@ namespace Melia.Zone.Scripting.AI
 		protected IEnumerable StopMove()
 		{
 			this.Entity.Components.Get<MovementComponent>().Stop();
+			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity turn towards the given actor.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(IActor actor)
+		{
+			this.Entity.TurnTowards(actor);
+			yield break;
+		}
+
+		/// <summary>
+		/// Makes entity turn towards the given position.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		protected IEnumerable TurnTowards(Position pos)
+		{
+			this.Entity.TurnTowards(pos);
 			yield break;
 		}
 
@@ -211,22 +233,20 @@ namespace Melia.Zone.Scripting.AI
 
 					// If the target is no longer on the same map, blue orb
 					// monsters simply freeze, so we'll do the same and let
-					// them get stuck in a loop. Unless the follow warp option
-					// is set, in which case we'll remove the monster and
-					// recreate it on the other side, from the summoning
-					// script. All this could need a clean up.
+					// them get stuck in a loop, unless an option that
+					// removes the entity is set.
 
-					if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
+					var worldConf = ZoneServer.Instance.Conf.World;
+					var removeOnWarp = (worldConf.BlueOrbFollowWarp || worldConf.BlueOrbPetSystem);
+
+					if (removeOnWarp)
 					{
-						while (true)
-							yield return this.Wait(10000);
-					}
-					else
-					{
-						if (this.Entity is Mob mob)
-							this.Entity.Map.RemoveMonster(mob);
+						this.Despawn();
 						yield break;
 					}
+
+					while (true)
+						yield return this.Wait(10000);
 				}
 
 				var teleportDistance = minDistance * 4;
@@ -240,7 +260,7 @@ namespace Melia.Zone.Scripting.AI
 					Send.ZC_SET_POS(this.Entity);
 				}
 
-				var isTargetMoving = (followTarget is Character character2 && character2.IsMoving) || followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
+				var isTargetMoving = followTarget.Components.Get<MovementComponent>()?.IsMoving == true;
 				var stoppedMoving = (!isTargetMoving && targetWasMoving);
 
 				var isTargetInRange = followTarget.Position.InRange2D(this.Entity.Position, minDistance);

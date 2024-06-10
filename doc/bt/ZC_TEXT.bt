@@ -1,9 +1,9 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_TEXT
+//      File: ZC_TEXT.bt
 //   Authors: exec
-//   Version: i177946
+//   Version: i375263
 //   Purpose: Shows big text message on the screen.
 //  Category: 
 // File Mask: 
@@ -15,5 +15,6 @@
 
 ServerHeaderDynamic header;
 
-short s1; // maybe duration?
+byte type;
+byte b1;
 string message;

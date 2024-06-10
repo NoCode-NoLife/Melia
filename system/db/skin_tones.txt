@@ -1,0 +1,20 @@
+// Melia
+// Database file
+// 
+// The data in this file differs from that in the client, to enable
+// the usage of more skin tones during character creation by default.
+// Changes to the data are applied to the client via server-controlled.
+// IES mods.
+//---------------------------------------------------------------------------
+
+[
+{ classId: 1, className: "skintone1", color: 0x9092A6, creation: true },
+{ classId: 2, className: "skintone2", color: 0x808080, creation: true },
+{ classId: 3, className: "skintone3", color: 0x423531, creation: true },
+{ classId: 4, className: "skintone8", color: 0x6B6764, creation: true },
+{ classId: 5, className: "skintone9", color: 0x5B5048, creation: true },
+{ classId: 6, className: "skintone5", color: 0x342827, creation: true },
+{ classId: 7, className: "skintone4", color: 0x5B7695, creation: false },
+{ classId: 8, className: "skintone6", color: 0x8A8597, creation: false },
+{ classId: 9, className: "skintone7", color: 0x64473E, creation: false },
+]

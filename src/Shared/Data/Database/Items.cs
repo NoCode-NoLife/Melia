@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -39,6 +39,9 @@ namespace Melia.Shared.Data.Database
 		public float MDef { get; set; }
 		public float AddDef { get; set; }
 		public float AddMDef { get; set; }
+		public float SmallSizeBonus { get; set; }
+		public float MediumSizeBonus { get; set; }
+		public float LargeSizeBonus { get; set; }
 		public ArmorMaterialType Material { get; set; }
 
 		public float Slash { get; set; }
@@ -170,6 +173,9 @@ namespace Melia.Shared.Data.Database
 			data.MDef = entry.ReadFloat("mDef", 0);
 			data.AddDef = entry.ReadFloat("addDef", 0);
 			data.AddMDef = entry.ReadFloat("addMDef", 0);
+			data.SmallSizeBonus = entry.ReadFloat("smallSizeBonus", 0);
+			data.MediumSizeBonus = entry.ReadFloat("mediumSizeBonus", 0);
+			data.LargeSizeBonus = entry.ReadFloat("largeSizeBonus", 0);
 			data.Material = entry.ReadEnum<ArmorMaterialType>("material", ArmorMaterialType.None);
 
 			data.Aries = entry.ReadFloat("aries", 0);

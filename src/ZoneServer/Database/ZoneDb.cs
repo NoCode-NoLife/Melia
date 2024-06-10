@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Const;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Skills;
@@ -46,6 +46,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveVariables(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.SaveProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.SaveChatMacros(account);
 			this.SaveRevealedMaps(account);
 
@@ -84,8 +85,10 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadVars(account.Variables.Perm, "vars_accounts", "accountId", account.Id);
+			this.LoadProperties("account_properties", "accountId", account.Id, account.Properties);
 			this.LoadChatMacros(account);
 			this.LoadRevealedMaps(account);
+
 			return account;
 		}
 
@@ -124,6 +127,7 @@ namespace Melia.Zone.Database
 					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetInt32("hair");
+					character.SkinColor = reader.GetUInt32("skinColor");
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt64("exp");
 					character.MaxExp = reader.GetInt64("maxExp");
@@ -382,6 +386,7 @@ namespace Melia.Zone.Database
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
+				cmd.Set("skinColor", character.SkinColor);
 				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
@@ -947,6 +952,9 @@ namespace Melia.Zone.Database
 
 				foreach (var buff in character.Buffs.GetList())
 				{
+					if (!buff.Data.Save)
+						continue;
+
 					var lastId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))

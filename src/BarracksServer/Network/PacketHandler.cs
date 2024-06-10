@@ -2,11 +2,12 @@
 using System.Linq;
 using System.Text;
 using Melia.Barracks.Database;
+using Melia.Barracks.Events;
 using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -93,6 +94,8 @@ namespace Melia.Barracks.Network
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 
 			Send.BC_LOGINOK(conn);
+
+			BarracksServer.Instance.ServerEvents.OnUserLoggedIn(conn);
 		}
 
 		/// <summary>
@@ -121,6 +124,8 @@ namespace Melia.Barracks.Network
 			// Client closes connection without this as well, but it waits a
 			// few seconds to do so.
 			Send.BC_LOGOUTOK(conn);
+
+			BarracksServer.Instance.ServerEvents.OnUserLoggedOut(conn);
 		}
 
 		/// <summary>
@@ -147,6 +152,8 @@ namespace Melia.Barracks.Network
 			// to the client
 			//conn.Account.Properties.String("foobar").Value = "print('Hello, World!')";
 			//Send.BC_ACCOUNT_PROP(conn, conn.Account);
+
+			BarracksServer.Instance.ServerEvents.OnUserEntered(conn);
 		}
 
 		/// <summary>
@@ -265,8 +272,8 @@ namespace Melia.Barracks.Network
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
 			var startMap = packet.GetInt(); // [i354444] Added. 0 = lv 440 character, 1 = lv 1 character, internally called map select
-			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(5);
+			var hair = packet.GetShort();
+			var skinColor = packet.GetUInt();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
@@ -280,6 +287,21 @@ namespace Melia.Barracks.Network
 			if (gender < Gender.Male || gender > Gender.Female)
 			{
 				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
+				conn.Close();
+				return;
+			}
+
+			// Check skin color
+			if (!BarracksServer.Instance.Data.SkinToneDb.TryGetByColor(skinColor, out var skinToneData))
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the unregistered skin tone '0x{1:X8}'.", conn.Account.Name, skinColor);
+				conn.Close();
+				return;
+			}
+
+			if (!skinToneData.Creation)
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the skin ton '0x{1:X8}', which can't be used on creation.", conn.Account.Name, skinColor);
 				conn.Close();
 				return;
 			}
@@ -324,6 +346,7 @@ namespace Melia.Barracks.Network
 			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.SkinColor = skinColor;
 
 			character.MapId = startMapData.Id;
 			character.Position = startPosition;
@@ -344,10 +367,14 @@ namespace Melia.Barracks.Network
 			//character.SprByJob = jobData.Spr;
 			//character.DexByJob = jobData.Dex;
 
+			BarracksServer.Instance.ServerEvents.OnCreatingCharacter(new CharacterEventArgs(conn, character));
+
 			conn.Account.CreateCharacter(character);
 
 			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
+
+			BarracksServer.Instance.ServerEvents.OnCharacterCreated(new CharacterEventArgs(conn, character));
 		}
 
 		/// <summary>
@@ -379,6 +406,8 @@ namespace Melia.Barracks.Network
 
 			Send.BC_COMMANDER_DESTROY(conn, character.Index);
 			Send.BC_NORMAL.TeamUI(conn);
+
+			BarracksServer.Instance.ServerEvents.OnCharacterRemoved(new CharacterEventArgs(conn, character));
 		}
 
 		/// <summary>
@@ -441,6 +470,13 @@ namespace Melia.Barracks.Network
 			if (!BarracksServer.Instance.ServerList.TryGetZoneServer(character.MapId, channelId, out var zoneServerInfo))
 			{
 				Log.Error("CB_START_GAME: Zone server serving map '{0}' with index '{1}' not found.", character.MapId, channelId);
+				return;
+			}
+
+			if (zoneServerInfo.Status != ServerStatus.Online)
+			{
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This channel appears to be offline. Please choose another or try again later."));
+				Send.BC_NORMAL.StartGameFailed(conn);
 				return;
 			}
 

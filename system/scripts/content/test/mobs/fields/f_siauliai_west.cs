@@ -10,7 +10,7 @@ internal class FieldSialuliaiWestMobScript : GeneralScript
 		AddPropertyOverrides("f_siauliai_west", MonsterId.Onion_Big, Properties("MHP", 1385, "MINPATK", 145, "MAXPATK", 156, "MINMATK", 145, "MAXMATK", 156, "DEF", 14, "MDEF", 14));
 
 		// Kepa Test Spawn
-		AddSpawner(MonsterId.Onion, 10, TimeSpan.FromSeconds(5), "f_siauliai_west", Area(-555, -1105, -655, -1105, -655, -1205, -555, -1205));
+		AddSpawner(MonsterId.Onion, 5, TimeSpan.FromSeconds(5), "f_siauliai_west", Area(-555, -1105, -655, -1105, -655, -1205, -555, -1205));
 		AddSpawner(MonsterId.Onion_Big, 1, TimeSpan.FromSeconds(60), "f_siauliai_west", Spot(-575, -1300));
 	}
 }

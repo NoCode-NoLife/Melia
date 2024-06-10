@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -26,10 +26,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public RaceType Race => RaceType.None;
 
 		/// <summary>
-		/// Returns the monster's element.
+		/// Returns the monster's element/attribute.
 		/// </summary>
-		public ElementType Element => ElementType.None;
+		public AttributeType Attribute => AttributeType.None;
 
+		/// <summary>
 		/// Returns the monster's current HP.
 		/// </summary>
 		public int Hp => 100;

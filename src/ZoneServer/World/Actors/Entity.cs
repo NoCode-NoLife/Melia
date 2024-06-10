@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
@@ -28,6 +28,16 @@ namespace Melia.Zone.World.Actors
 		/// Returns the entity's race.
 		/// </summary>
 		RaceType Race { get; }
+
+		/// <summary>
+		/// Returns the entity's element/attribute.
+		/// </summary>
+		AttributeType Attribute { get; }
+
+		/// <summary>
+		/// Returns the entity's armor material.
+		/// </summary>
+		ArmorMaterialType ArmorMaterial { get; }
 
 		/// <summary>
 		/// Returns the entity's mode of movement.
@@ -116,14 +126,14 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
-		/// Makes the entity turn towards the other entity.
+		/// Makes the entity turn towards the actor if it's not null.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
-		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
+		/// <param name="actor"></param>
+		public static void TurnTowards(this ICombatEntity entity, IActor actor)
 		{
-			if (otherEntity != null)
-				TurnTowards(entity, otherEntity.Position);
+			if (actor != null)
+				TurnTowards(entity, actor.Position);
 		}
 
 		/// <summary>
@@ -233,6 +243,23 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
 			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
+
+		/// <summary>
+		/// Stops the buff with the given id.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		public static void StopBuff(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Stop(buffId);
+
+		/// <summary>
+		/// Returns true if the buff with the given id is active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static bool IsBuffActive(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
 
 		/// <summary>
 		/// Returns true if the distance between the caster and the target

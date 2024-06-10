@@ -8,7 +8,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
@@ -156,6 +156,8 @@ namespace Melia.Zone.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
+			Send.ZC_RES_DAMAGEFONT_SKIN(conn, character);
+			Send.ZC_RES_DAMAGEEFFECT_SKIN(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL.Unknown_1B4(character);
@@ -168,6 +170,9 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
+			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -196,7 +201,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
+		/// Response to ZC_MOVE_ZONE that notifies us that the client is
+		/// ready to move to the next zone.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -237,13 +243,13 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Try to execute message as a command. If it failed,
-			// broadcast it.
-			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
-			{
-				Send.ZC_CHAT(character, msg);
-				ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
-			}
+			// Try to execute message as a chat command, don't send if it
+			// was handled as one
+			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
+				return;
+
+			Send.ZC_CHAT(character, msg);
+			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
 		}
 
 		/// <summary>
@@ -313,7 +319,7 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			character.Jump(position, direction, unkFloat, unkByte2);
+			character.Movement.NotifyJump(position, direction, unkFloat, unkByte2);
 		}
 
 		/// <summary>
@@ -338,7 +344,8 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			character.Move(position, direction, f1);
+			character.Movement.NotifyMove(position, direction, f1);
+			character.Components.Get<TimeActionComponent>().End(TimeActionResult.CancelledByMove);
 		}
 
 		/// <summary>
@@ -358,33 +365,7 @@ namespace Melia.Zone.Network
 
 			// TODO: Sanity checks.
 
-			character.StopMove(position, direction);
-
-			// In the packets I don't see any indication for a client-side trigger,
-			// so I guess the server has to check for warps and initiate it all
-			// on its own. Seems a little weird... but oh well.
-			// If this is a thing, we probably should have some kind of "trigger"
-			// system. -- exec
-			var warpNpc = character.Map.GetNearbyWarp(character.Position);
-			if (warpNpc != null)
-			{
-				// Wait 1s to see if the character actually wants to warp
-				// (indicated by him not moving). Official behavior unknown,
-				// as I have never played the game =<
-				var pos = character.Position;
-				Task.Delay(1000).ContinueWith(t =>
-				{
-					// Cancel if character moved in that time
-					if (character.Position != pos)
-						return;
-
-					//Log.Debug("warp to " + warp.WarpLocation);
-					character.Warp(warpNpc.WarpLocation);
-				});
-			}
-
-			// Could ZC_ENTER_HOOK be a notification to the client that it's
-			// in a "trigger area" now?
+			character.Movement.NotifyStopMove(position, direction);
 		}
 
 		/// <summary>
@@ -397,7 +378,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = false;
+			conn.SelectedCharacter.Movement.NotifyGrounded(false);
 		}
 
 		/// <summary>
@@ -410,7 +391,7 @@ namespace Melia.Zone.Network
 		{
 			// TODO: Sanity checks.
 
-			conn.SelectedCharacter.IsGrounded = true;
+			conn.SelectedCharacter.Movement.NotifyGrounded(true);
 		}
 
 		/// <summary>
@@ -425,10 +406,9 @@ namespace Melia.Zone.Network
 			var position = packet.GetPosition();
 
 			// TODO: Sanity checks.
+			// TODO: Is there a broadcast for this?
 
 			conn.SelectedCharacter.SetPosition(position);
-
-			// Is there a broadcast for this?
 		}
 
 		/// <summary>
@@ -787,7 +767,10 @@ namespace Melia.Zone.Network
 
 				// Remove consumeable items on success
 				if (item.Data.Type == ItemType.Consume)
-					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				{
+					if (result != ItemUseResult.OkayNotConsumed)
+						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
@@ -943,10 +926,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var optionId = packet.GetInt();
+			var optionId = (AccountOptionId)packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!conn.Account.Settings.IsValid(optionId))
+			if (!Enum.IsDefined(typeof(AccountOptionId), optionId))
 			{
 				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;
@@ -1301,7 +1284,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character starts casting a hold to cast skill
+		/// Sent when character starts casting a hold to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1351,7 +1334,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character casting ends after holding to cast skill
+		/// Sent when character casting ends after holding to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1392,7 +1375,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool starts
+		/// Sent when character is using the ground position selection tool
+		/// starts.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2063,7 +2047,7 @@ namespace Melia.Zone.Network
 			var strArgCount = packet.GetShort();
 			var dialogTxItems = packet.GetList(itemCount, packet.GetDialogTxItem);
 			var numArgs = packet.GetList(numArgCount, packet.GetInt);
-			var strArgs = packet.GetList(strArgCount, packet.GetString);
+			var strArgs = packet.GetList(strArgCount, packet.GetLpString);
 
 			var character = conn.SelectedCharacter;
 
@@ -2265,9 +2249,17 @@ namespace Melia.Zone.Network
 			Send.ZC_COMMON_SKILL_LIST(conn);
 		}
 
+		/// <summary>
+		/// Send when clicking on a time action Cancel button.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_STOP_TIMEACTION)]
 		public void CZ_STOP_TIMEACTION(IZoneConnection conn, Packet packet)
 		{
+			var character = conn.SelectedCharacter;
+
+			character.Components.Get<TimeActionComponent>().End(TimeActionResult.Cancelled);
 		}
 
 		/// <summary>
@@ -2446,7 +2438,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ToS Hero Emblems?
+		/// Purpose unknown, potentially related to Heroic Tale feature.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2751,6 +2743,27 @@ namespace Melia.Zone.Network
 			}
 
 			character.Resurrect(option);
+		}
+
+		/// <summary>
+		/// Request to apply a certain HUD skin.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_APPLY_HUD_SKIN)]
+		public void CZ_REQ_APPLY_HUD_SKIN(IZoneConnection conn, Packet packet)
+		{
+			var skinId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			//character.SystemMessage(Localization.Get("This feature is not supported yet."));
+			//return;
+
+			character.Variables.Perm.SetInt("Melia.HudSkin", skinId);
+
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 		}
 	}
 }

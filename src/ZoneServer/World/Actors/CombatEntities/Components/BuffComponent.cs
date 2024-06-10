@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
@@ -314,6 +314,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			}
 
 			return buff;
+		}
+
+		/// <summary>
+		/// Stops the buff with the given id.
+		/// </summary>
+		/// <param name="buffId"></param>
+		public void Stop(BuffId buffId)
+		{
+			if (this.TryGet(buffId, out var buff))
+				this.Remove(buff);
 		}
 
 		/// <summary>

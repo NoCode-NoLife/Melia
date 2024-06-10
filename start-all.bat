@@ -9,7 +9,8 @@ rem -------------------------------------------------------------------------
 if "%1" == "" goto NO_ARGS
 
 set FILENAME=%1
-set SERVER_ID=%2
+set GROUP_ID=%2
+set SERVER_ID=%3
 
 rem Check for a build in bin\ first
 if not exist bin\%FILENAME%.exe goto SUB_RELEASE
@@ -33,7 +34,7 @@ echo Running %FILENAME% from %PATH%
 %windir%\system32\ping -n 2 127.0.0.1 > nul
 cls
 cd %PATH%
-%FILENAME%.exe %SERVER_ID%
+%FILENAME%.exe %GROUP_ID% %SERVER_ID%
 exit
 
 rem Now I'm a saaad panda qq

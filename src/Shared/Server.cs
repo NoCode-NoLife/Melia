@@ -12,7 +12,7 @@ using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -26,6 +26,11 @@ namespace Melia.Shared
 	/// </summary>
 	public abstract class Server
 	{
+		/// <summary>
+		/// Returns this server's server info.
+		/// </summary>
+		public ServerInfo ServerInfo { get; private set; }
+
 		/// <summary>
 		/// Returns a reference to all conf files.
 		/// </summary>
@@ -204,6 +209,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
@@ -212,7 +218,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
 					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
-					this.LoadDb(this.Data.AccountOptionDb, "db/accountoptions.txt");
+					this.LoadDb(this.Data.AccountOptionDb, "db/account_options.txt");
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
 					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
@@ -226,6 +232,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
 					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
 					this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+					this.LoadDb(this.Data.HairTypeDb, "db/hair_types.txt");
 					this.LoadDb(this.Data.HelpDb, "db/help.txt");
 					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
 					this.LoadDb(this.Data.ItemDb, "db/items.txt");
@@ -243,6 +250,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.ShopDb, "db/shops.txt");
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
 
@@ -360,8 +368,7 @@ namespace Melia.Shared
 				//}
 
 				this.ScriptLoader = new ScriptLoader(provider, cachePath);
-				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/", "system/scripts/");
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
 					Log.Error(ex.ToString());
@@ -450,29 +457,37 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads the server list from given database.
+		/// Loads the server list from the database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		protected void LoadServerList(ServerDb serverDb)
+		/// <param name="serverType"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
+		protected void LoadServerList(ServerDb serverDb, ServerType serverType, int groupId, int serverId)
 		{
 			Log.Info("Loading server list...");
 
-			this.ServerList.Load(serverDb);
+			this.ServerList.Load(serverDb, groupId);
+			this.ServerInfo = this.GetServerInfo(serverType, serverId);
 		}
 
 		/// <summary>
 		/// Reads the server id from the arguments and returns it.
 		/// </summary>
 		/// <param name="args"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
 		/// <returns></returns>
-		protected int GetServerId(string[] args)
+		protected void GetServerId(string[] args, out int groupId, out int serverId)
 		{
-			var serverId = 1;
+			groupId = 1001;
+			serverId = 1;
 
-			if (args.Length > 0 && int.TryParse(args[0], out var id))
-				serverId = id;
+			if (args.Length > 0 && int.TryParse(args[0], out var gid))
+				groupId = gid;
 
-			return serverId;
+			if (args.Length > 1 && int.TryParse(args[1], out var sid))
+				serverId = sid;
 		}
 
 		/// <summary>

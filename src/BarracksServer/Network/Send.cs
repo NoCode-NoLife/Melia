@@ -8,7 +8,7 @@ using Melia.Shared.IES;
 using Melia.Barracks.Network.Helpers;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Extensions;
 

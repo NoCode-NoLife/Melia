@@ -60,6 +60,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
     </Reference>
+    <Reference Include="Yggdrasil.Scripting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarracksServer.cs" />
@@ -68,6 +72,9 @@
     <Compile Include="Database\Character.cs" />
     <Compile Include="Database\EquipItem.cs" />
     <Compile Include="Database\BarracksDb.cs" />
+    <Compile Include="Events\CharacterEventArgs.cs" />
+    <Compile Include="Events\ConnectionEventArgs.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="Network\BarracksConnection.cs" />
     <Compile Include="Network\Helpers\AppearanceBarrackPcHelper.cs" />
@@ -77,6 +84,7 @@
     <Compile Include="Network\Send.Normal.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\GeneralScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

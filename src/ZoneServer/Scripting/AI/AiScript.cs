@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Melia.Shared.Tos.Const;
-using Melia.Zone.Network;
+using System.Linq;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -22,16 +21,19 @@ namespace Melia.Zone.Scripting.AI
 
 		private int _masterHandle;
 
+		private DateTime _lastPlayerSeenTime;
+		private readonly TimeSpan _inactivityDelay = TimeSpan.FromSeconds(2);
+
 		private TendencyType _tendency;
-		private float _visibleRange = 300;
+		private float _viewRange = 300;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
+
 		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
 		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
-
 		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
 		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
 
@@ -94,7 +96,10 @@ namespace Melia.Zone.Scripting.AI
 			if (!_initiated)
 				throw new InvalidOperationException("AI has not been initiated.");
 
-			if (this.Entity.IsDead || this.Entity.Map.CharacterCount == 0)
+			if (this.Entity.IsDead)
+				return;
+
+			if (!this.CheckAnyPlayersOnMap())
 				return;
 
 			this.UpdateHate(elapsed);
@@ -104,12 +109,40 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if there are any players on the entity's map.
+		/// </summary>
+		/// <remarks>
+		/// This method keeps returning true for a short time after the last
+		/// player left the map so the AI can react to players leaving.
+		/// </remarks>
+		/// <returns></returns>
+		private bool CheckAnyPlayersOnMap()
+		{
+			var playerCount = this.Entity.Map.CharacterCount;
+
+			if (playerCount > 0)
+			{
+				_lastPlayerSeenTime = DateTime.Now;
+				return true;
+			}
+
+			if (playerCount == 0)
+			{
+				var inactivityStart = _lastPlayerSeenTime + _inactivityDelay;
+				if (DateTime.Now < inactivityStart)
+					return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Updates hate levels for potentialy nearby enemies.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		private void UpdateHate(TimeSpan elapsed)
 		{
-			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _visibleRange);
+			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _viewRange);
 
 			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
 			this.IncreaseNearbyHate(elapsed, potentialEnemies);
@@ -134,6 +167,14 @@ namespace Melia.Zone.Scripting.AI
 
 			foreach (var handle in _hateLevelsToRemove)
 				_hateLevels.Remove(handle);
+		}
+
+		/// <summary>
+		/// Clears all hate levels.
+		/// </summary>
+		protected void RemoveAllHate()
+		{
+			_hateLevels.Clear();
 		}
 
 		/// <summary>
@@ -327,23 +368,38 @@ namespace Melia.Zone.Scripting.AI
 				while (_eventAlerts.Count > 0)
 				{
 					var eventAlert = _eventAlerts.Dequeue();
+					this.ReactToAlert(eventAlert);
+				}
+			}
+		}
 
-					switch (eventAlert)
-					{
-						case HitEventAlert hitEventAlert:
-						{
-							if (hitEventAlert.Target.Handle == this.Entity.Handle)
-								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							break;
-						}
+		/// <summary>
+		/// Makes AI react to the given alert.
+		/// </summary>
+		/// <param name="eventAlert"></param>
+		private void ReactToAlert(IAiEventAlert eventAlert)
+		{
+			switch (eventAlert)
+			{
+				case HitEventAlert hitEventAlert:
+				{
+					var entityWasAttacked = (hitEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (hitEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (hitEventAlert.Attacker.Handle == _masterHandle);
 
-						case HateResetAlert hateResetAlert:
-						{
-							var targetHandle = hateResetAlert.Target.Handle;
-							_hateLevels.Remove(targetHandle);
-							break;
-						}
-					}
+					if (entityWasAttacked || masterWasAttacked)
+						this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+					else if (masterDidAttack)
+						this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
+
+					break;
+				}
+
+				case HateResetAlert hateResetAlert:
+				{
+					var targetHandle = hateResetAlert.Target.Handle;
+					_hateLevels.Remove(targetHandle);
+					break;
 				}
 			}
 		}
@@ -409,6 +465,15 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Sets the range in which the AI can see potential enemies.
+		/// </summary>
+		/// <param name="viewRange"></param>
+		protected void SetViewDistance(float viewRange)
+		{
+			_viewRange = viewRange;
+		}
+
+		/// <summary>
 		/// Sets the entity the AI follows around and supports.
 		/// </summary>
 		/// <param name="masterEntity"></param>
@@ -428,6 +493,18 @@ namespace Melia.Zone.Scripting.AI
 				return null;
 
 			return this.Entity.Map.GetCombatEntity(_masterHandle);
+		}
+
+		/// <summary>
+		/// Returns the entity's master via out. Returns false if the
+		/// entity doesn't have a master.
+		/// </summary>
+		/// <param name="master"></param>
+		/// <returns></returns>
+		public bool TryGetMaster(out ICombatEntity master)
+		{
+			master = this.GetMaster();
+			return (master != null);
 		}
 
 		/// <summary>
@@ -531,6 +608,15 @@ namespace Melia.Zone.Scripting.AI
 
 			movement.SetMoveSpeedType(MoveSpeedType.Walk);
 			movement.SetFixedMoveSpeed(0);
+		}
+
+		/// <summary>
+		/// Removes AI's entity from the world if it's a monster.
+		/// </summary>
+		protected void Despawn()
+		{
+			if (this.Entity is IMonster monster)
+				monster.Map.RemoveMonster(monster);
 		}
 	}
 }

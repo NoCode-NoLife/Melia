@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Maps;
 
@@ -32,9 +32,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		RaceType Race { get; }
 
 		/// <summary>
-		/// Returns the monster's element.
+		/// Returns the monster's element/attribute.
 		/// </summary>
-		ElementType Element { get; }
+		AttributeType Attribute { get; }
 
 		/// <summary>
 		/// Returns whether the monster emerged from the ground.
