@@ -27,6 +27,7 @@ namespace Melia.Shared.Game.Const
 		Luchador = 1023,
 		Shenji = 1024,
 		WingedHussar = 1025,
+		Vanquisher = 1026,
 
 		// Wizard
 		Wizard = 2001,
@@ -115,6 +116,7 @@ namespace Melia.Shared.Game.Const
 		Clown = 5016,
 		Hakkapeliter = 5017,
 		Jaguar = 5018,
+		Desperado = 5019,
 
 		// GM
 		GM = 9001,

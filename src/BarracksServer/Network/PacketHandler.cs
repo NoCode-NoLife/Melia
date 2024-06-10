@@ -4,10 +4,10 @@ using System.Text;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -45,6 +45,17 @@ namespace Melia.Barracks.Network
 			if (serviceNation == "TAIWAN")
 			{
 				Send.BC_MESSAGE(conn, "The TAIWAN service nation login is currently not supported. Please use the GLOBAL service nation instead.");
+				conn.Close(100);
+				return;
+			}
+
+			// Check the account name, which is commonly empty if the static
+			// configuration is set up incorrectly. Shouldn't cause any false
+			// positives, because the client won't allow you to click Enter
+			// without an account name.
+			if (accountName == "")
+			{
+				Send.BC_MESSAGE(conn, "It appears like your client is not configured incorrectly. Please check your static configuration.");
 				conn.Close(100);
 				return;
 			}
@@ -564,7 +575,7 @@ namespace Melia.Barracks.Network
 
 			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();
 
-			if (checksum.ToLower() != result)
+			if (!checksum.Equals(result, StringComparison.InvariantCultureIgnoreCase))
 			{
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 

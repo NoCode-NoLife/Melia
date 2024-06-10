@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Melia.Shared.Database;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
@@ -73,7 +71,7 @@ namespace Melia.Barracks.Database
 		public bool SaveAccount(Account account)
 		{
 			if (account == null)
-				throw new ArgumentNullException("account");
+				throw new ArgumentNullException(nameof(account));
 
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))

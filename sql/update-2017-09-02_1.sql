@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `chatMacros` (
+CREATE TABLE IF NOT EXISTS `chatmacros` (
   `chatMacroId` bigint(20) NOT NULL AUTO_INCREMENT,
   `accountId` bigint(20) NOT NULL,
   `index` tinyint(4) NOT NULL,

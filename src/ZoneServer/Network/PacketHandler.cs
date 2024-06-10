@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
@@ -818,7 +817,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is Npc npc))
+			if (monster is not Npc npc)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to a monster that's not an NPC.", conn.Account.Name);
 				return;
@@ -1325,7 +1324,8 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				handler.StartDynamicCast(skill, character, maxCastType);
+                character.SetCastingState(true);
+                handler.StartDynamicCast(skill, character, maxCastType);
 			}
 			catch (ArgumentException ex)
 			{
@@ -1335,6 +1335,7 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Sent when character casting ends after holding to cast skill.
+		/// This is sent even if the skill is held to the maximum duration.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1366,7 +1367,8 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				handler.EndDynamicCast(skill, character);
+                character.SetCastingState(false);
+                handler.EndDynamicCast(skill, character);
 			}
 			catch (ArgumentException ex)
 			{
@@ -1704,7 +1706,7 @@ namespace Melia.Zone.Network
 			// would try to save the null to the database if the map data
 			// didn't exist yet.
 
-			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
+			var revealedMap = new RevealedMap(mapData.Id, [], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
@@ -2531,7 +2533,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is ItemMonster itemMonster))
+			if (monster is not ItemMonster itemMonster)
 			{
 				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
 				return;

@@ -6,18 +6,14 @@
 /logs/
 /cache/
 
-/user/conf/*
-/user/db/*
-/user/scripts/*
-/user/tmp/*
-/user/tools/*
-/user/web/*
-/user/version/*
+/user/**
 
 !/user/conf/database-example.conf
 !/user/db/items-example.txt
 !/user/scripts/scripts_custom-example.txt
 !/user/scripts/scripts_content-example.txt
+!/user/scripts/zone/scripts_custom-example.txt
+!/user/scripts/zone/scripts_content-example.txt
 
 #################
 ## Visual Studio
