@@ -86,6 +86,8 @@ namespace Melia.Shared.Configuration.Files
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.ClassExpRate = this.GetFloat("class_exp_rate", 100);
 
+			this.TicksPerMinute = this.GetInt("rt2gt_ms_per_minute", 1500) * 10000;
+			this.MinutesPerHour = this.GetInt("gt_minutes_per_hour", 60);
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
 			this.HoursPerDay = this.GetInt("gt_hours_per_day", 24);
