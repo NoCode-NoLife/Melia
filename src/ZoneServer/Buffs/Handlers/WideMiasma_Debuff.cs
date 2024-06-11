@@ -18,6 +18,11 @@ namespace Melia.Zone.Buffs.Handlers
 
 			if (casterCharacter != null)
 			{
+				if (buff.Target.IsDead)
+				{
+					return;
+				}
+
 				// The damage amount is unknow, for now we are dealing
 				// the same amount as the original skill hit is passed as NumberArg2
 				buff.Target.TakeDamage(buff.NumArg2, casterCharacter);

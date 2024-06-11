@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		public void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastTime)
+		public void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastingTime)
 		{
 			Send.ZC_PLAY_SOUND(caster, "voice_archer_multishot_cast");
 		}

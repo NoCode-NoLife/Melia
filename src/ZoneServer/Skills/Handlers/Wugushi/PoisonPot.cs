@@ -68,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 			Send.ZC_NORMAL.GroundEffect_59(caster, caster.Direction, "Archer_VerminPot", skill.Id, farPos, effectId, true);
 
-			var radius = 45;
+			var radius = 55;
 			var center = farPos.GetRelative(farPos, radius);
 			var splashArea = new Circle(center, radius);
 

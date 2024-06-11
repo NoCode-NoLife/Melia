@@ -40,7 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 	public interface IDynamicCasted : ISkillHandler
 	{
-		void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastTime);
+		void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastingTime);
 		void EndDynamicCast(Skill skill, ICombatEntity caster);
 	}
 }

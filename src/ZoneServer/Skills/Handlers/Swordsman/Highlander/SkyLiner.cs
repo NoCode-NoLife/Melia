@@ -24,7 +24,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 	{
 		private const int TotalHits = 4;
 
-		public void StartDynamicCast(Skill skill, ICombatEntity caster)
+		public void StartDynamicCast(Skill skill, ICombatEntity caster, float maxCastingTime)
 		{
 			Send.ZC_PLAY_SOUND(caster, "voice_war_atk_medium");
 		}

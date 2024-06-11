@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
 using System.Collections.Generic;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Enchanter
 {
@@ -94,7 +95,8 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					{
 						if (!target.Components.Get<BuffComponent>().Has(BuffId.JincanGu_Abil_Debuff))
 						{
-							target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, 0, TimeSpan.FromSeconds(60), caster);
+							var skillHitResult = SCR_SkillHit(caster, target, skill);
+							target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(60), caster);
 						}
 					}
 
