@@ -106,8 +106,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				leftPos = leftPos.GetRelative(direction.Left, 1);
 				rightPos = rightPos.GetRelative(direction.Right, 1);
 
-				var squareLeft = new Square(leftPos, direction, 160, 5);
-				var squareRight = new Square(rightPos, direction, 160, 5);
+				var squareLeft = new Square(leftPos, direction, 160, 8);
+				var squareRight = new Square(rightPos, direction, 160, 8);
 
 				Debug.ShowShape(caster.Map, squareRight, edgePoints: false);
 

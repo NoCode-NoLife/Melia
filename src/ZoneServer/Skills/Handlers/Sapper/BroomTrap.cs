@@ -98,7 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 				cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(16));
 				var center = caster.Position;
 
-				var fan = new BladedFan(center, 3, 85, 15);
+				var fan = new BladedFan(center, 3, 95, 15);
 				var delay = TimeSpan.FromMilliseconds(100);
 
 				await Task.Delay(TimeSpan.FromMilliseconds(350));

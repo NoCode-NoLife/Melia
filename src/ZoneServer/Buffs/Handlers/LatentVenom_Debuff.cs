@@ -15,12 +15,16 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		public override async void WhileActive(Buff buff)
 		{
+			if (buff.Target.IsDead)
+			{
+				return;
+			}
+
 			// The damage amount is unknow, for now we are dealing
 			// the same amount as the original skill hit is passed as NumberArg2
 			buff.Target.TakeDamage(buff.NumArg2, buff.Caster);
 
 			var hit = new HitInfo(buff.Caster, buff.Target, null, buff.NumArg2, HitResultType.Hit);
-			hit.ForceId = ForceId.GetNew();
 
 			Send.ZC_HIT_INFO(buff.Caster, buff.Target, null, hit);
 

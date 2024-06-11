@@ -106,7 +106,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				await Task.Delay(2000);
 
 				// Cancel if the caster has not enough SP
-				if (!caster.TrySpendSp(skill))
+				if (!caster.TrySpendSp(54f))
 				{
 					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;

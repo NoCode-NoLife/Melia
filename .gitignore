@@ -171,3 +171,6 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 *.lnk
+
+# Lib DLLs (Added by TheReturn)
+lib/

@@ -28,7 +28,6 @@ namespace Melia.Zone.Buffs.Handlers
 				buff.Target.TakeDamage(buff.NumArg2, casterCharacter);
 
 				var hit = new HitInfo(casterCharacter, buff.Target, null, buff.NumArg2, HitResultType.Hit);
-				hit.ForceId = ForceId.GetNew();
 
 				Send.ZC_HIT_INFO(casterCharacter, buff.Target, null, hit);
 			}
