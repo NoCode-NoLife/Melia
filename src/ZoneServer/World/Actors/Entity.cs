@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
@@ -26,6 +26,16 @@ namespace Melia.Zone.World.Actors
 		/// Returns the entity's race.
 		/// </summary>
 		RaceType Race { get; }
+
+		/// <summary>
+		/// Returns the entity's element/attribute.
+		/// </summary>
+		AttributeType Attribute { get; }
+
+		/// <summary>
+		/// Returns the entity's armor material.
+		/// </summary>
+		ArmorMaterialType ArmorMaterial { get; }
 
 		/// <summary>
 		/// Returns the entity's mode of movement.
@@ -109,14 +119,14 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
-		/// Makes the entity turn towards the other entity.
+		/// Makes the entity turn towards the actor if it's not null.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
-		public static void TurnTowards(this ICombatEntity entity, ICombatEntity otherEntity)
+		/// <param name="actor"></param>
+		public static void TurnTowards(this ICombatEntity entity, IActor actor)
 		{
-			if (otherEntity != null)
-				TurnTowards(entity, otherEntity.Position);
+			if (actor != null)
+				TurnTowards(entity, actor.Position);
 		}
 
 		/// <summary>
@@ -203,6 +213,20 @@ namespace Melia.Zone.World.Actors
 		/// <param name="state"></param>
 		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
 			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
+
+		/// <summary>
+		/// Sets the entity's casting state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
+			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
+
+		/// <summary>
+		/// Gets the entity's casting state.
+		/// </summary>
+		/// <param name="state"></param>
+		public static bool IsCasting(this ICombatEntity entity)
+			=> entity.Components.Get<CombatComponent>().CastingState;
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,

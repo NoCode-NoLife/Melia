@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.Database
 {
@@ -9,21 +10,13 @@ namespace Melia.Zone.Database
 	/// </summary>
 	public class AccountSettings
 	{
-		private readonly Dictionary<int, int> _options = new Dictionary<int, int>();
+		private readonly Dictionary<AccountOptionId, int> _options = new Dictionary<AccountOptionId, int>();
 
 		/// <summary>
 		/// Creates new account settings.
 		/// </summary>
 		public AccountSettings()
 		{
-		}
-
-		/// <summary>
-		/// Creates new account settings from string.
-		/// </summary>
-		public AccountSettings(string options)
-		{
-			this.Parse(options);
 		}
 
 		/// <summary>
@@ -47,7 +40,10 @@ namespace Melia.Zone.Database
 				if (!int.TryParse(split[i + 1], out var value))
 					throw new ArgumentException("Invalid value '" + split[i + 1] + "'.");
 
-				this.Set(option, value);
+				if (!Enum.IsDefined(typeof(AccountOptionId), option))
+					continue;
+
+				this.Set((AccountOptionId)option, value);
 			}
 		}
 
@@ -56,25 +52,11 @@ namespace Melia.Zone.Database
 		/// </summary>
 		/// <param name="optionId"></param>
 		/// <param name="value"></param>
-		public void Set(int optionId, int value)
+		public void Set(AccountOptionId optionId, int value)
 		{
-			// Don't add option if it doesn't exist in the data, as someone
-			// could flood the database with invalid values.
-			if (!this.IsValid(optionId))
-				throw new ArgumentException($"Unknown account option '{optionId}'.");
-
-			// Set option
 			lock (_options)
 				_options[optionId] = value;
 		}
-
-		/// <summary>
-		/// Returns true if the given option exists and can be set.
-		/// </summary>
-		/// <param name="optionId"></param>
-		/// <returns></returns>
-		public bool IsValid(int optionId)
-			=> ZoneServer.Instance.Data.AccountOptionDb.Contains(optionId);
 
 		/// <summary>
 		/// Returns account options as string, as required for the options
@@ -92,7 +74,7 @@ namespace Melia.Zone.Database
 				{
 					if (i++ != 0)
 						sb.Append(' ');
-					sb.AppendFormat("{0} {1}", option.Key, option.Value);
+					sb.AppendFormat("{0} {1}", (int)option.Key, option.Value);
 				}
 			}
 

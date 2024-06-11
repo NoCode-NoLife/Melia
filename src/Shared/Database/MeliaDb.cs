@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;

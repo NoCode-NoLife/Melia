@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -75,6 +75,10 @@ namespace Melia.Shared.Data.Database
 		Fan,
 		Area,
 		Wall,
+
+		// The Vanquisher skills have an empty string as splash type.
+		// TODO: Figure out what it does.
+		Empty,
 	}
 
 	public enum SkillUseType

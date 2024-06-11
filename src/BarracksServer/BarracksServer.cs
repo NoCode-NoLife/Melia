@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
+using Melia.Barracks.Events;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
 using Melia.Shared;
@@ -12,6 +13,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
+using Yggdrasil.Network.Communication.Messages;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 
@@ -25,10 +27,10 @@ namespace Melia.Barracks
 		/// <summary>
 		/// Returns global instance of the barracks server.
 		/// </summary>
-		public readonly static BarracksServer Instance = new BarracksServer();
+		public readonly static BarracksServer Instance = new();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
-		private readonly Dictionary<string, int> _zoneServerNames = new Dictionary<string, int>();
+		private readonly Dictionary<string, int> _zoneServerNames = new();
 
 		/// <summary>
 		/// Returns the server's inter-server communicator.
@@ -44,6 +46,11 @@ namespace Melia.Barracks
 		/// Returns reference to the server's database interface.
 		/// </summary>
 		public BarracksDb Database { get; } = new BarracksDb();
+
+		/// <summary>
+		/// Returns a reference to the server's event manager.
+		/// </summary>
+		public ServerEvents ServerEvents { get; } = new ServerEvents();
 
 		/// <summary>
 		/// Returns reference to the server's IES mods.
@@ -73,12 +80,36 @@ namespace Melia.Barracks
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
 			this.ClearLoginStates();
+			this.LoadIesMods();
+			this.LoadScripts("barracks");
 
 			this.StartCommunicator();
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
 			new BarracksConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Sets up IES mods.
+		/// </summary>
+		private void LoadIesMods()
+		{
+			// This method is temporary until we have a more proper way
+			// way of handling IES mods.
+
+			// Add IES mods to apply the server-side skin tone data changes
+			// on the client. This, in combination with our custom data,
+			// enables three additional skin tones during character creation
+			// that match the skin tone images displayed.
+			var skinTonesData = this.Data.SkinToneDb.Entries;
+			foreach (var data in skinTonesData)
+			{
+				this.IesMods.Add("SkinTone", data.ClassId, "UseableBarrack", data.Creation ? "YES" : "NO");
+				this.IesMods.Add("SkinTone", data.ClassId, "Red", ((data.Color & 0x00FF0000) >> 16).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Green", ((data.Color & 0x0000FF00) >> 08).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Blue", ((data.Color & 0x000000FF) >> 00).ToString());
+			}
 		}
 
 		/// <summary>
@@ -157,10 +188,31 @@ namespace Melia.Barracks
 					Send.BC_NORMAL.ZoneTraffic();
 					break;
 				}
+				case RequestMessage requestMessage:
+				{
+					this.Communicator_OnRequestReceived(sender, requestMessage);
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Called when a request message was received.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="requestMessage"></param>
+		private void Communicator_OnRequestReceived(string sender, RequestMessage requestMessage)
+		{
+			switch (requestMessage.Message)
+			{
 				case ReqPlayerCountMessage reqPlayerCountMessage:
 				{
 					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
-					this.Communicator.Send(sender, new ResPlayerCountMessage(playerCount));
+
+					var message = new ResPlayerCountMessage(playerCount);
+					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+
+					this.Communicator.Send(sender, responseMessage);
 					break;
 				}
 			}
@@ -183,7 +235,7 @@ namespace Melia.Barracks
 			Log.Info("Checking for updates...");
 
 			var files = Directory.GetFiles("sql").OrderBy(a => a);
-			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
+			foreach (var filePath in files.Where(file => Path.GetExtension(file).Equals(".sql", StringComparison.InvariantCultureIgnoreCase)))
 				this.RunUpdate(Path.GetFileName(filePath));
 		}
 
@@ -193,12 +245,12 @@ namespace Melia.Barracks
 		/// <param name="updateFile"></param>
 		private void RunUpdate(string updateFile)
 		{
-			if (BarracksServer.Instance.Database.CheckUpdate(updateFile))
+			if (this.Database.CheckUpdate(updateFile))
 				return;
 
 			Log.Info("Update '{0}' found, executing...", updateFile);
 
-			BarracksServer.Instance.Database.RunUpdate(updateFile);
+			this.Database.RunUpdate(updateFile);
 		}
 
 		/// <summary>

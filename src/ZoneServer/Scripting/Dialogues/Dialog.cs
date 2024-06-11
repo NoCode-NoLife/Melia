@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
@@ -174,9 +174,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// Sets the dialog class to use in message, which affects the
 		/// displayed portrait. Set to null for the default.
 		/// </summary>
-		/// <param name="portrait"></param>
-		public void SetPortrait(string portrait)
-			=> this.Portrait = portrait;
+		/// <remarks>
+		/// The image name refers to the name of an image file in the
+		/// client's npcimg folder, without the file extension. However,
+		/// the desired image needs to be referenced in the dialog database
+		/// for the image to be recognized.
+		/// </remarks>
+		/// <param name="imageName"></param>
+		public void SetPortrait(string imageName)
+			=> this.Portrait = imageName;
 
 		/// <summary>
 		/// Returns delegates that translate strings to the language
@@ -213,6 +219,14 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		private string AddNpcIdenty(string message)
 		{
+			// If the title was set to a valid dialog entry, we'll use that
+			// one to get the title and portrait from the dialog database
+			if (this.Title != null && this.Portrait == null && ZoneServer.Instance.Data.DialogDb.Contains(this.Title))
+			{
+				message = this.Title + NpcDialogTextSeperator + message;
+				return message;
+			}
+
 			// Prepend title, controlling title displayed on the dialog
 			// window.
 			if (!message.Contains(NpcNameSeperator) && !message.Contains(NpcDialogTextSeperator))
@@ -329,6 +343,22 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Creates a mutable list of options that can be modified before
+		/// it's passed to the Select method.
+		/// </summary>
+		/// <example>
+		// var options = dialog.Options(Option("Nothing", "nothing"), Option("Everything", "everything"));
+		// if (xHappened)
+		//     options.Add(Option("OMG, did you hear?", "omg"));
+		// 
+		// await dialog.Select("What's up?", options);
+		/// </example>
+		/// <param name="options"></param>
+		/// <returns></returns>
+		public DialogOptionList Options(params DialogOption[] options)
+			=> new DialogOptionList(options);
+
+		/// <summary>
 		/// Shows a menu with options to select from, returns the key
 		/// of the selected option.
 		/// </summary>
@@ -336,6 +366,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="options">List of options to select from.</param>
 		/// <returns></returns>
 		public async Task<string> Select(string text, params DialogOption[] options)
+			=> await this.Select(text, (IEnumerable<DialogOption>)options);
+
+		/// <summary>
+		/// Shows a menu with options to select from, returns the key
+		/// of the selected option.
+		/// </summary>
+		/// <param name="text">Text to display with the options.</param>
+		/// <param name="options">List of options to select from.</param>
+		/// <returns></returns>
+		public async Task<string> Select(string text, IEnumerable<DialogOption> options)
 		{
 			// Go through SelectSimple to get the integer response
 			// and then look up the key in the options to return it.
@@ -343,7 +383,7 @@ namespace Melia.Zone.Scripting.Dialogues
 			var optionsTexts = options.Select(a => a.Text);
 			var selectedIndex = await this.Select(text, optionsTexts);
 
-			var response = options[selectedIndex - 1].Key;
+			var response = options.ElementAt(selectedIndex - 1).Key;
 			return response;
 		}
 
@@ -576,6 +616,13 @@ namespace Melia.Zone.Scripting.Dialogues
 	/// <param name="dialog"></param>
 	/// <returns></returns>
 	public delegate Task DialogFunc(Dialog dialog);
+
+	/// <summary>
+	/// A function that can be used as a synchronous trigger callback.
+	/// </summary>
+	/// <param name="dialog"></param>
+	/// <returns></returns>
+	public delegate void TriggerCallbackSync(Dialog dialog);
 
 	/// <summary>
 	/// A function that returns a variable number of options and returns

@@ -2,7 +2,7 @@
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;

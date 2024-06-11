@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
@@ -298,7 +298,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				this.AddStack(item, addType, false);
 			}
 
-			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
+			UpdateWeight();
 
 			// Temp fix. The amounts on item stacks that items were added
 			// to are sometimes wrong, a full updates fixes that. Maybe
@@ -563,7 +563,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			//Send.ZC_ITEM_INVENTORY_INDEX_LIST(this.Character, item.Data.Category);
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
-			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight", "MSPD");
+			this.UpdateWeight();
 
 			return InventoryResult.Success;
 		}
@@ -597,8 +597,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, amount, msg, InventoryType.Inventory);
 
-				this.Character.Properties.Invalidate(PropertyName.NowWeight);
-				Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.NowWeight);
+				this.UpdateWeight();
 			}
 
 			ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, item.Id, amountRemoved);
@@ -650,7 +649,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			if (amountRemoved != 0)
 			{
-				Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
+				this.UpdateWeight();
 				ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, itemId, amountRemoved);
 			}
 
@@ -746,6 +745,20 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Calculate the current weight and updates the client.
+		/// </summary>
+		private void UpdateWeight()
+		{
+			var prevMSPD = this.Character.Properties.GetFloat(PropertyName.MSPD);
+			this.Character.Properties.Invalidate(PropertyName.NowWeight, PropertyName.MSPD);
+			Send.ZC_OBJECT_PROPERTY(this.Character, PropertyName.NowWeight, PropertyName.MSPD);
+
+			var currentMSPD = this.Character.Properties.GetFloat(PropertyName.MSPD);
+			if (prevMSPD != currentMSPD)
+				Send.ZC_MOVE_SPEED(this.Character);
+		}
+
+		/// <summary>
 		/// Returns combined weight of all items in the inventory.
 		/// </summary>
 		/// <returns></returns>
@@ -756,8 +769,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// TODO: Cache.
 			lock (_syncLock)
 			{
-				result += _items.SelectMany(a => a.Value).Sum(a => a.Data.Weight);
-				result += _equip.Values.Where(a => !(a is DummyEquipItem)).Sum(a => a.Data.Weight);
+				result += _items.SelectMany(a => a.Value).Sum(a => a.Amount * a.Data.Weight);
+				result += _equip.Values.Where(a => !(a is DummyEquipItem)).Sum(a => a.Amount * a.Data.Weight);
 			}
 
 			return result;
@@ -817,7 +830,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
 			// Update weight
-			Send.ZC_OBJECT_PROPERTY(this.Character, "NowWeight");
+			this.UpdateWeight();
 
 			return InventoryResult.Success;
 		}

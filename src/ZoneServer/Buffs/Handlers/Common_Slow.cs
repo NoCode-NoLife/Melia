@@ -1,6 +1,6 @@
 ﻿using Melia.Zone.Buffs.Base;
 using Melia.Zone.World;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using System;
 using Melia.Zone.Network;
 

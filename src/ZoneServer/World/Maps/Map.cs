@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
@@ -191,7 +193,10 @@ namespace Melia.Zone.World.Maps
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
 			foreach (var monster in toDisappear)
+			{
+				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
 				this.RemoveMonster(monster);
+			}
 		}
 
 		/// <summary>
@@ -473,6 +478,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public IMonster GetMonster(Func<IMonster, bool> predicate)
+		{
+			lock (_monsters)
+				return _monsters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns monster by handle via out. Returns false if the
 		/// monster wasn't found.
 		/// </summary>
@@ -675,6 +691,31 @@ namespace Melia.Zone.World.Maps
 
 			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
 			return closestPos;
+		}
+
+		/// <summary>
+		/// Alerts all AIs in range of the source about the given event.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="alert"></param>
+		public void AlertAis(IActor source, IAiEventAlert alert)
+		{
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (!monster.Position.InRange2D(source.Position, VisibleRange))
+						continue;
+
+					if (!(monster is ICombatEntity combatEntity))
+						continue;
+
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
+						continue;
+
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
 		}
 
 		/// <summary>

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Network.Helpers
@@ -42,7 +42,7 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.AddMonsterApperanceBase(monster);
 
-			packet.PutInt((int)monster.Element);
+			packet.PutInt((int)monster.Attribute);
 			packet.PutInt((int)monster.Race);
 
 			packet.PutInt(appearanceSize);

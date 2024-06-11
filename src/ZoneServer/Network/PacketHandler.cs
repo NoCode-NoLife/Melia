@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
@@ -156,6 +155,8 @@ namespace Melia.Zone.Network
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
+			Send.ZC_RES_DAMAGEFONT_SKIN(conn, character);
+			Send.ZC_RES_DAMAGEEFFECT_SKIN(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL.Unknown_1B4(character);
@@ -168,6 +169,8 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
 			// The ability points are longer read from the properties for
@@ -197,7 +200,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
+		/// Response to ZC_MOVE_ZONE that notifies us that the client is
+		/// ready to move to the next zone.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -238,13 +242,13 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Try to execute message as a command. If it failed,
-			// broadcast it.
-			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
-			{
-				Send.ZC_CHAT(character, msg);
-				ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
-			}
+			// Try to execute message as a chat command, don't send if it
+			// was handled as one
+			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
+				return;
+
+			Send.ZC_CHAT(character, msg);
+			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
 		}
 
 		/// <summary>
@@ -762,7 +766,10 @@ namespace Melia.Zone.Network
 
 				// Remove consumeable items on success
 				if (item.Data.Type == ItemType.Consume)
-					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				{
+					if (result != ItemUseResult.OkayNotConsumed)
+						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
@@ -810,7 +817,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is Npc npc))
+			if (monster is not Npc npc)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to a monster that's not an NPC.", conn.Account.Name);
 				return;
@@ -930,10 +937,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var optionId = packet.GetInt();
+			var optionId = (AccountOptionId)packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!conn.Account.Settings.IsValid(optionId))
+			if (!Enum.IsDefined(typeof(AccountOptionId), optionId))
 			{
 				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;
@@ -1287,7 +1294,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character starts casting a hold to cast skill
+		/// Sent when character starts casting a hold to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1308,11 +1315,13 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(true);
 			handler.StartDynamicCast(skill, character);
 		}
 
 		/// <summary>
-		/// Sent when character casting ends after holding to cast skill
+		/// Sent when character casting ends after holding to cast skill.
+		/// This is sent even if the skill is held to the maximum duration.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1333,11 +1342,13 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(false);
 			handler.EndDynamicCast(skill, character);
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool starts
+		/// Sent when character is using the ground position selection tool
+		/// starts.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1795,7 +1806,7 @@ namespace Melia.Zone.Network
 			// would try to save the null to the database if the map data
 			// didn't exist yet.
 
-			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
+			var revealedMap = new RevealedMap(mapData.Id, [], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
@@ -2529,7 +2540,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ToS Hero Emblems?
+		/// Purpose unknown, potentially related to Heroic Tale feature.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2622,7 +2633,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is ItemMonster itemMonster))
+			if (monster is not ItemMonster itemMonster)
 			{
 				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
 				return;
@@ -2834,6 +2845,27 @@ namespace Melia.Zone.Network
 			}
 
 			character.Resurrect(option);
+		}
+
+		/// <summary>
+		/// Request to apply a certain HUD skin.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_APPLY_HUD_SKIN)]
+		public void CZ_REQ_APPLY_HUD_SKIN(IZoneConnection conn, Packet packet)
+		{
+			var skinId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			//character.SystemMessage(Localization.Get("This feature is not supported yet."));
+			//return;
+
+			character.Variables.Perm.SetInt("Melia.HudSkin", skinId);
+
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 		}
 	}
 }

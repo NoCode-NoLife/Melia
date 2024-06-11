@@ -1,0 +1,8 @@
+// Melia
+// Script list
+// 
+// This file extends the custom scripts list in the system folder.
+// All scripts listed in this file will be loaded.
+//---------------------------------------------------------------------------
+
+custom/stat_resetter.cs

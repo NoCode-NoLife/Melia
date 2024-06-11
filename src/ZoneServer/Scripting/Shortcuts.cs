@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Commands;
 using Melia.Zone.Network;
@@ -416,6 +417,44 @@ namespace Melia.Zone.Scripting
 		{
 			ZoneServer.Instance.ChatCommands.Add(command, usage, description, func);
 			ZoneServer.Instance.Conf.Commands.CommandLevels[command] = new CommandAuthLevels(auth, targetAuth);
+		}
+
+		/// <summary>
+		/// Formats the given message name and arguments in a way that the
+		/// client can recognize as a client message with arguments.
+		/// </summary>
+		/// <param name="messageName">Name of the client message.</param>
+		/// <param name="args">Optional list of arguments as key/value pairs.</param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		/// <example>
+		/// ScpArgMsg("KlaipedaCentralPlaza")
+		/// ScpArgMsg("InputPriceBetween{MIN}{MAX}", "MIN", 1, "MAX", 10)
+		/// </example>
+		public static string ScpArgMsg(string messageName, params object[] args)
+		{
+			if (args != null && args.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of arguments for the key/value arguments.");
+
+			var result = new StringBuilder();
+
+			result.Append("!@#$" + messageName);
+
+			if (args != null)
+			{
+				for (var i = 0; i < args.Length; i += 2)
+				{
+					var key = args[i];
+					var value = args[i + 1];
+
+					result.Append("$*$" + key);
+					result.Append("$*$" + value);
+				}
+			}
+
+			result.Append("#@!");
+
+			return result.ToString();
 		}
 	}
 

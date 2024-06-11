@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 
 namespace Melia.Zone.Skills

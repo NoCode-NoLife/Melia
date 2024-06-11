@@ -3,7 +3,7 @@
 //
 //      File: ZC_SHOW_EMOTICON.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i375263
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,5 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-int id; // ?
-int duration; // ?
+int packetStringId;
+int duration;

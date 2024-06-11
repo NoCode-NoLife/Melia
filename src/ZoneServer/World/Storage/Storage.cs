@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Items;
 using Melia.Zone.Network;
 using System.Threading;

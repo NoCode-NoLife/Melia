@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.L10N;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.World.Quests.Rewards

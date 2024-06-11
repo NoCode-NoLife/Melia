@@ -3,7 +3,7 @@
 //
 //      File: ZC_MOVE_ZONE.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i375263
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,4 +15,4 @@
 
 ServerHeaderFixed header;
 
-byte b1;
+byte b1; // target server type?

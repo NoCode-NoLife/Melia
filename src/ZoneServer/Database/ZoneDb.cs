@@ -4,11 +4,12 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
-using Melia.Shared.Tos.Properties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
@@ -33,7 +34,7 @@ namespace Melia.Zone.Database
 		public bool SaveAccount(Account account)
 		{
 			if (account == null)
-				throw new ArgumentNullException("account");
+				throw new ArgumentNullException(nameof(account));
 
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
@@ -127,6 +128,7 @@ namespace Melia.Zone.Database
 					character.JobId = (JobId)reader.GetInt16("job");
 					character.Gender = (Gender)reader.GetByte("gender");
 					character.Hair = reader.GetInt32("hair");
+					character.SkinColor = reader.GetUInt32("skinColor");
 					character.MapId = reader.GetInt32("zone");
 					character.Exp = reader.GetInt64("exp");
 					character.MaxExp = reader.GetInt64("maxExp");
@@ -386,6 +388,7 @@ namespace Melia.Zone.Database
 				cmd.Set("job", (short)character.JobId);
 				cmd.Set("gender", (byte)character.Gender);
 				cmd.Set("hair", character.Hair);
+				cmd.Set("skinColor", character.SkinColor);
 				cmd.Set("level", character.Level);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("x", character.Position.X);
@@ -608,7 +611,7 @@ namespace Melia.Zone.Database
 				// Save only non-dummy equip to the database, and make sure
 				// that dummy equip that was loaded into the character as a
 				// normal item wrongfully isn't saved again.
-				foreach (var item in character.Inventory.GetEquip().Where(a => !(a.Value is DummyEquipItem) && !InventoryDefaults.EquipItems.Contains(a.Value.Id)))
+				foreach (var item in character.Inventory.GetEquip().Where(a => a.Value is not DummyEquipItem && !InventoryDefaults.EquipItems.Contains(a.Value.Id)))
 				{
 					var newId = 0L;
 
@@ -939,7 +942,7 @@ namespace Melia.Zone.Database
 
 				foreach (var macro in account.GetChatMacros().OrderBy(x => x.Index))
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("index", macro.Index);
@@ -1031,6 +1034,9 @@ namespace Melia.Zone.Database
 
 				foreach (var buff in character.Buffs.GetList())
 				{
+					if (!buff.Data.Save)
+						continue;
+
 					var lastId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
@@ -1165,15 +1171,21 @@ namespace Melia.Zone.Database
 		/// Saves the character's quests to the database.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <exception cref="InvalidOperationException"></exception>
 		private void SaveQuests(Character character)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId", conn, trans))
+				// Delete only the quests that we successfully loaded
+				// and skip the ones that weren't currently available.
+				var retainIds = character.Quests.GetDisabledQuests();
+				var retainIdStr = string.Join(",", retainIds);
+
+				using (var cmd = new MySqlCommand("DELETE FROM `quests` WHERE `characterId` = @characterId AND `questId` NOT IN (@retain)", conn, trans))
 				{
 					cmd.AddParameter("@characterId", character.DbId);
+					cmd.AddParameter("@retain", retainIdStr);
+
 					cmd.ExecuteNonQuery();
 				}
 
@@ -1238,6 +1250,15 @@ namespace Melia.Zone.Database
 							var startTime = reader.GetDateTimeSafe("startTime");
 							var completeTime = reader.GetDateTimeSafe("completeTime");
 
+							// If the quest does not (currently) exist, make
+							// a note of it, so we can skip its deletion on
+							// saving later on.
+							if (!QuestScript.Exists(questClassId))
+							{
+								character.Quests.AddDisabledQuest(questDbId);
+								continue;
+							}
+
 							var quest = Quest.Create(questClassId);
 							quest.Status = status;
 							quest.StartTime = startTime;
@@ -1262,6 +1283,9 @@ namespace Melia.Zone.Database
 							var count = reader.GetInt32("count");
 							var done = reader.GetBoolean("done");
 							var unlocked = reader.GetBoolean("unlocked");
+
+							if (character.Quests.IsDisabled(questDbId))
+								continue;
 
 							if (!loadedQuests.TryGetValue(questDbId, out var quest))
 							{

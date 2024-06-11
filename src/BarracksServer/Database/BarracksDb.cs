@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Melia.Shared.Database;
-using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using MySql.Data.MySqlClient;
 using Yggdrasil.Logging;
@@ -73,7 +71,7 @@ namespace Melia.Barracks.Database
 		public bool SaveAccount(Account account)
 		{
 			if (account == null)
-				throw new ArgumentNullException("account");
+				throw new ArgumentNullException(nameof(account));
 
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
@@ -156,6 +154,7 @@ namespace Melia.Barracks.Database
 					cmd.Set("job", character.JobId);
 					cmd.Set("gender", character.Gender);
 					cmd.Set("hair", character.Hair);
+					cmd.Set("skinColor", character.SkinColor);
 
 					cmd.Set("zone", character.MapId);
 					cmd.Set("x", character.Position.X);
@@ -292,6 +291,7 @@ namespace Melia.Barracks.Database
 							character.JobId = (JobId)reader.GetInt16("job");
 							character.Gender = (Gender)reader.GetByte("gender");
 							character.Hair = reader.GetInt32("hair");
+							character.SkinColor = reader.GetUInt32("skinColor");
 							character.Level = reader.GetInt32("level");
 							character.MapId = reader.GetInt32("zone");
 							character.Index = (byte)reader.GetInt32("slot");

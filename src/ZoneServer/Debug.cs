@@ -1,13 +1,17 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
+using SixLabors.Fonts;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Yggdrasil.Geometry;
 
 namespace Melia.Zone
@@ -100,78 +104,73 @@ namespace Melia.Zone
 			var offsetX = -left + imageMarginSize;
 			var offsetY = -bottom + imageMarginSize;
 
-			var bmp = new Bitmap(width, height);
-			var rnd = new Random(123456);
-			var font16 = new Font("Arial", 16);
-			var font24 = new Font("Arial", 24);
+			using var image = new Image<Rgba32>(width, height);
 
-			using (var gfx = Graphics.FromImage(bmp))
+			image.Mutate(ctx => ctx.Fill(Color.White));
+
+			foreach (var polygon in polygons)
 			{
-				gfx.FillRectangle(Brushes.White, 0, 0, bmp.Width, bmp.Height);
-				gfx.DrawString(mapClassName, font24, Brushes.Black, 20, 20);
-				gfx.DrawString(string.Format("{0}/{1}", width, height), font24, Brushes.Black, 20, 20 + font24.Height);
+				var r = new Random().Next(0x77, 0xDD);
+				var g = new Random().Next(0x77, 0xDD);
+				var b = new Random().Next(0x77, 0xDD);
+				var color = new Rgba32((byte)r, (byte)g, (byte)b);
 
-				foreach (var polygon in polygons)
+				if (!drawCellsColored)
+					color = new Rgba32(207, 181, 118);
+
+				var points = polygon.Vertices.Select(a => new PointF(a.X + offsetX, height - (offsetY + a.Y))).ToArray();
+				image.Mutate(ctx => ctx.FillPolygon(color, points));
+
+				if (drawBorderBoxes)
 				{
-					var r = rnd.Next(0x77, 0xDD);
-					var g = rnd.Next(0x77, 0xDD);
-					var b = rnd.Next(0x77, 0xDD);
-					var brush = new SolidBrush(Color.FromArgb(255, r, g, b));
+					var minX = points.Min(a => a.X);
+					var maxX = points.Max(a => a.X);
+					var minY = points.Min(a => a.Y);
+					var maxY = points.Max(a => a.Y);
+					var borderColor = new Rgba32((byte)(r - borderBoxColorOffset), (byte)(g - borderBoxColorOffset), (byte)(b - borderBoxColorOffset));
 
-					if (!drawCellsColored)
-						brush = new SolidBrush(Color.FromArgb(255, 207, 181, 118));
-
-					var points = polygon.Vertices.Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
-					gfx.FillPolygon(brush, points);
-
-					if (drawBorderBoxes)
-					{
-						var minX = points.Min(a => a.X);
-						var maxX = points.Max(a => a.X);
-						var minY = points.Min(a => a.Y);
-						var maxY = points.Max(a => a.Y);
-
-						gfx.DrawRectangle(new Pen(Color.FromArgb(255, r - borderBoxColorOffset, g - borderBoxColorOffset, b - borderBoxColorOffset)), minX, minY, maxX - minX, maxY - minY);
-					}
+					image.Mutate(ctx => ctx.Draw(new SolidPen(borderColor), new RectangleF(minX, minY, maxX - minX, maxY - minY)));
 				}
-
-				if (drawTriangles)
-				{
-					foreach (var triangle in triangles)
-					{
-						var points = triangle.Vertices.Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
-						gfx.DrawPolygon(Pens.Black, points);
-
-					}
-				}
-
-				if (drawSpawners)
-				{
-					var brush = new SolidBrush(Color.FromArgb(128, 255, 0, 0));
-					var pen = new Pen(Color.FromArgb(255, 255, 0, 0));
-
-					var spawnAreasList = ZoneServer.Instance.World.GetSpawnAreas();
-					var collectionsInMap = spawnAreasList.Where(a => a.GetAllOnMap(map).Any()).ToList();
-
-					foreach (var collection in collectionsInMap)
-					{
-						var spawnAreas = collection.GetAllOnMap(map);
-						foreach (var spawnArea in spawnAreas)
-						{
-							var points = spawnArea.Area.GetEdgePoints().Select(a => new PointF(a.X + offsetX, bmp.Height - (offsetY + a.Y))).ToArray();
-							gfx.FillPolygon(brush, points);
-							gfx.DrawPolygon(pen, points);
-
-						}
-					}
-				}
-
-				var folderPath = Path.GetDirectoryName(filePath);
-				if (!Directory.Exists(folderPath))
-					Directory.CreateDirectory(folderPath);
-
-				bmp.Save(filePath);
 			}
+
+			if (drawTriangles)
+			{
+				var pen = new SolidPen(Color.Black);
+
+				foreach (var triangle in triangles)
+				{
+					var points = triangle.Vertices.Select(a => new PointF(a.X + offsetX, height - (offsetY + a.Y))).ToArray();
+					image.Mutate(ctx => ctx.DrawPolygon(pen, points));
+				}
+			}
+
+			if (drawSpawners)
+			{
+				var brush = new SolidBrush(Color.FromRgba(255, 0, 0, 128));
+				var pen = new SolidPen(Color.FromRgba(0, 255, 255, 0));
+
+				var spawnAreasList = ZoneServer.Instance.World.GetSpawnAreas();
+				var collectionsInMap = spawnAreasList.Where(a => a.GetAllOnMap(map).Length != 0).ToList();
+
+				foreach (var collection in collectionsInMap)
+				{
+					var spawnAreas = collection.GetAllOnMap(map);
+					foreach (var spawnArea in spawnAreas)
+					{
+						var points = spawnArea.Area.GetEdgePoints().Select(a => new PointF(a.X + offsetX, height - (offsetY + a.Y))).ToArray();
+						image.Mutate(ctx => ctx.FillPolygon(brush, points));
+						image.Mutate(ctx => ctx.DrawPolygon(pen, points));
+					}
+				}
+			}
+
+			filePath = Path.GetFullPath(filePath);
+
+			var folderPath = System.IO.Path.GetDirectoryName(filePath);
+			if (!Directory.Exists(folderPath))
+				Directory.CreateDirectory(folderPath);
+
+			image.Save(filePath);
 		}
 	}
 }

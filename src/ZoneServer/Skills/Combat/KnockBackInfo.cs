@@ -1,6 +1,6 @@
 ﻿using System;
 using g3;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 
@@ -102,6 +102,14 @@ namespace Melia.Zone.Skills.Combat
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 250 && this.VAngle == 85) // Wagon Wheel
+			{
+				var distance = 30.570992087511f;
+
+				this.Time = TimeSpan.FromMilliseconds(6747);
+				var finalPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = finalPosition;
 			}
 			else
 			{
