@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i386379
+//   Version: i386602
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29539,6 +29539,11 @@ string getPropertyName(int id)
         case 115328: return "dress_costume_ep16redhood_f";
         case 115329: return "ep16redhood_thstaff_cabinet";
         case 115330: return "CollectionDressRoomRead_149";
+        case 115331: return "AchieveReward_WEEKLY_BOSS_RANK_24";
+        case 115332: return "AchieveReward_WEEKLY_BOSS_RANK_25";
+        case 115333: return "Kill_hiddennpc_earring_raid_center";
+        case 115334: return "Kill_weekly_boss_spreader";
+        case 115335: return "Kill_weekly_boss_falouros";
         default: return "Unknown";
     }
 }

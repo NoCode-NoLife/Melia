@@ -9180,6 +9180,8 @@
 		public const string dress_costume_ep16redhood_f = "dress_costume_ep16redhood_f";
 		public const string ep16redhood_thstaff_cabinet = "ep16redhood_thstaff_cabinet";
 		public const string CollectionDressRoomRead_149 = "CollectionDressRoomRead_149";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_24 = "AchieveReward_WEEKLY_BOSS_RANK_24";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_25 = "AchieveReward_WEEKLY_BOSS_RANK_25";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -20143,6 +20145,9 @@
 		public const string Kill_TEST_baubas = "Kill_TEST_baubas";
 		public const string Kill_EarringRaidGabiaPadHiddenMon = "Kill_EarringRaidGabiaPadHiddenMon";
 		public const string HiddenJob_Char1_26 = "HiddenJob_Char1_26";
+		public const string Kill_hiddennpc_earring_raid_center = "Kill_hiddennpc_earring_raid_center";
+		public const string Kill_weekly_boss_spreader = "Kill_weekly_boss_spreader";
+		public const string Kill_weekly_boss_falouros = "Kill_weekly_boss_falouros";
 
 		// SessionObject
 		public const string PosX = "PosX";
