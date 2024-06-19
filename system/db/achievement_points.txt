@@ -598,6 +598,8 @@
 { id: 20021, className: "WeeklyRank_21", name: "Weekly Boss Raid Ranking: Rose the Miserable", useDaily: false, useWeekly: true },
 { id: 20022, className: "WeeklyRank_22", name: "Weekly Boss Raid Ranking: Upinis", useDaily: false, useWeekly: true },
 { id: 20023, className: "WeeklyRank_23", name: "Weekly Boss Raid Ranking: Slogutis", useDaily: false, useWeekly: true },
+{ id: 20024, className: "WeeklyRank_24", name: "Weekly Boss Raid Ranking: Reservoir of Corruption", useDaily: false, useWeekly: true },
+{ id: 20025, className: "WeeklyRank_25", name: "Weekly Boss Raid Ranking: Falouros", useDaily: false, useWeekly: true },
 { id: 21001, className: "Ancient_1", name: "Clear Tel Harsha stage 4 or over 40 times ", useDaily: false, useWeekly: false },
 { id: 21002, className: "Ancient_2", name: "Clear Division Singularity Stage 5 or Auto Match 100 times", useDaily: false, useWeekly: false },
 { id: 21003, className: "Ancient_3", name: "Clear Challenge Mode Auto Match 300 times", useDaily: false, useWeekly: false },

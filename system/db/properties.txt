@@ -9177,6 +9177,8 @@
 	{ namespace: "Account", name: "dress_costume_ep16redhood_f", type: "Number", id: 115328 },
 	{ namespace: "Account", name: "ep16redhood_thstaff_cabinet", type: "Number", id: 115329 },
 	{ namespace: "Account", name: "CollectionDressRoomRead_149", type: "Number", id: 115330 },
+	{ namespace: "Account", name: "AchieveReward_WEEKLY_BOSS_RANK_24", type: "Number", id: 115331 },
+	{ namespace: "Account", name: "AchieveReward_WEEKLY_BOSS_RANK_25", type: "Number", id: 115332 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },
@@ -21295,6 +21297,9 @@
 	{ namespace: "PCEtc", name: "Kill_TEST_baubas", type: "Number", id: 115277 },
 	{ namespace: "PCEtc", name: "Kill_EarringRaidGabiaPadHiddenMon", type: "Number", id: 115292 },
 	{ namespace: "PCEtc", name: "HiddenJob_Char1_26", type: "Number", id: 115313 },
+	{ namespace: "PCEtc", name: "Kill_hiddennpc_earring_raid_center", type: "Number", id: 115333 },
+	{ namespace: "PCEtc", name: "Kill_weekly_boss_spreader", type: "Number", id: 115334 },
+	{ namespace: "PCEtc", name: "Kill_weekly_boss_falouros", type: "Number", id: 115335 },
 ]},
 { namespace: "SessionObject", properties: [
 	{ namespace: "SessionObject", name: "PosX", type: "Number", id: 142 },
