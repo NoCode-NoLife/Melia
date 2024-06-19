@@ -8511,7 +8511,9 @@ public static class ItemId
 	public const int Achieve_WeeklyRank_21 = 904349;
 	public const int Achieve_WeeklyRank_22 = 904350;
 	public const int Achieve_WeeklyRank_23 = 904351;
+	public const int Achieve_WeeklyRank_24 = 904352;
 	public const int EVENT_2403_Friend_Invite_Coin = 904359;
+	public const int Achieve_WeeklyRank_25 = 904360;
 	public const int Scroll_SkillItem = 910001;
 	public const int Scroll_SkillItem_Cleric_Cure = 910005;
 	public const int Scroll_SkillItem_Kriwi_Aukuras = 910006;
@@ -8834,6 +8836,12 @@ public static class ItemId
 	public const int PersonalHousing_Item_Hp_F_Slogutis_Bronze = 1248072;
 	public const int PersonalHousing_Item_Hp_F_Slogutis_Silver = 1248073;
 	public const int PersonalHousing_Item_Hp_F_Slogutis_Gold = 1248074;
+	public const int PersonalHousing_Item_Hp_F_Spreader_Bronze = 1248075;
+	public const int PersonalHousing_Item_Hp_F_Spreader_Silver = 1248076;
+	public const int PersonalHousing_Item_Hp_F_Spreader_Gold = 1248077;
+	public const int PersonalHousing_Item_Hp_F_Falouros_Bronze = 1248078;
+	public const int PersonalHousing_Item_Hp_F_Falouros_Silver = 1248079;
+	public const int PersonalHousing_Item_Hp_F_Falouros_Gold = 1248080;
 	public const int Motion_Medeina_Emotion01 = 1250003;
 	public const int Motion_Medeina_Emotion02 = 1250004;
 	public const int Egg_003_ContentsTotalShop = 1250005;
@@ -13924,6 +13932,8 @@ public static class ItemId
 	public const int Season_Earringraid_Normal_Recipe_NoTrade = 11201152;
 	public const int Season_Earringraid_Hard_Recipe = 11201153;
 	public const int Season_Earringraid_Hard_Recipe_NoTrade = 11201154;
+	public const int Misc_Spreader_Ridepet = 11201155;
+	public const int Misc_Falouros_Ridepet = 11201156;
 	public const int Piece_GabijaEarring_Grade2 = 11201161;
 	public const int Piece_GabijaEarring_Grade2_NoTrade = 11201162;
 
@@ -18817,6 +18827,7 @@ public static class ItemId
 	public const int Tosw_2311_Package_2a = 11205097;
 	public const int Tosw_2311_Package_2b = 11205098;
 	public const int Tosw_2311_Package_3a = 11205099;
+	public const int Certificate_RidePet_Spreasder = 11205100;
 	public const int Selectbox_Ep15heartqueen01 = 11205101;
 	public const int Selectbox_Ep15heartqueen02 = 11205102;
 	public const int Certificate_RidePet_Shape_Memory_Snigo = 11205103;

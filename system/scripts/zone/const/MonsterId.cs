@@ -3332,7 +3332,9 @@ public static class MonsterId
 	public const int RidePet_Explorer = 65019;
 	public const int RidePet_Elf = 65020;
 	public const int RidePet_Zebra = 65021;
+	public const int RidePet_Spreader = 65022;
 	public const int RidePet_Shape_Memory_Snigo = 65023;
+	public const int RidePet_Falouros = 65024;
 	public const int RidePet_Peacock = 65025;
 	public const int RidePet_Bluedragon = 65026;
 	public const int RidePet_Ep16yongyong = 65027;
@@ -3603,6 +3605,8 @@ public static class MonsterId
 	public const int Weekly_Boss_Roze = 102200;
 	public const int Weekly_Boss_Upinis = 102201;
 	public const int Weekly_Boss_Slogutis = 102202;
+	public const int Weekly_Boss_Spreader = 102203;
+	public const int Weekly_Boss_Falouros = 102204;
 	public const int Ep16_1_Leader_Carapace = 102300;
 	public const int Ep16_1_Leader_Canceril = 102301;
 	public const int Ep16_1_Leader_Velniamonkey = 102302;
@@ -6782,6 +6786,12 @@ public static class MonsterId
 	public const int Hp_F_Slogutis_Bronze = 3018072;
 	public const int Hp_F_Slogutis_Silver = 3018073;
 	public const int Hp_F_Slogutis_Gold = 3018074;
+	public const int Hp_F_Spreader_Bronze = 3018075;
+	public const int Hp_F_Spreader_Silver = 3018076;
+	public const int Hp_F_Spreader_Gold = 3018077;
+	public const int Hp_F_Falouros_Bronze = 3018078;
+	public const int Hp_F_Falouros_Silver = 3018079;
+	public const int Hp_F_Falouros_Gold = 3018080;
 	public const int Hp_Figure_Boss_Zawra = 3019000;
 	public const int Hp_Figure_Boss_Helgasercle = 3019001;
 	public const int Hp_Figure_Boss_Nuaelle = 3019002;
@@ -6865,6 +6875,12 @@ public static class MonsterId
 	public const int Trophy_Hp_F_Slogutis_Bronze = 3019080;
 	public const int Trophy_Hp_F_Slogutis_Silver = 3019081;
 	public const int Trophy_Hp_F_Slogutis_Gold = 3019082;
+	public const int Trophy_Hp_F_Spreader_Bronze = 3019083;
+	public const int Trophy_Hp_F_Spreader_Silver = 3019084;
+	public const int Trophy_Hp_F_Spreader_Gold = 3019085;
+	public const int Trophy_Hp_F_Falouros_Bronze = 3019086;
+	public const int Trophy_Hp_F_Falouros_Silver = 3019087;
+	public const int Trophy_Hp_F_Falouros_Gold = 3019088;
 
 	// Sign
 	//-----------------------------------------------------------------------
