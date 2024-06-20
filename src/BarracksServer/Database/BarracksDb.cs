@@ -6,7 +6,7 @@ using System.Text;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;

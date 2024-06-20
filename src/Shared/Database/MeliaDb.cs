@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
-using Melia.Shared.Network.Helpers;
 
 namespace Melia.Shared.Database
 {
