@@ -89,12 +89,12 @@ public class CombatCalculationsScript : GeneralScript
 		damage *= skillFactor / 100f;
 		damage += skillAtkAdd;
 
+		// Block needs to be calculated before criticals happen,
+		// but the damage must be reduced after defense reductions and modifiers
 		var blockChance = SCR_GetBlockChance(attacker, target, skill, skillHitResult);
 		if (rnd.Next(100) < blockChance)
 		{
 			skillHitResult.Result = HitResultType.Block;
-			// Block needs to be calculated before criticals happen,
-			// but the damage must be reduced after defense reductions and modifiers
 		}
 
 		var crtChance = SCR_GetCritChance(attacker, target, skill, skillHitResult);
@@ -160,9 +160,13 @@ public class CombatCalculationsScript : GeneralScript
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
-		// Blocked
+		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
-			damage /= 2;
+			damage /= 2f;
+
+		// Critical damage bonus
+		if (skillHitResult.Result == HitResultType.Crit)
+			damage *= 1.5f;
 
 		return (int)damage;
 	}
