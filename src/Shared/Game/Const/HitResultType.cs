@@ -14,7 +14,7 @@
 		/// <summary>
 		/// Displays damage in blue.
 		/// </summary>
-		Unk2 = 2,
+		Block = 2,
 
 		/// <summary>
 		/// Normal hit.
