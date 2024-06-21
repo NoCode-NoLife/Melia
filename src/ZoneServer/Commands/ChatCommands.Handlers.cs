@@ -1398,6 +1398,12 @@ namespace Melia.Zone.Commands
 
 			var jobId = (JobId)iJobId;
 
+			if (target.Jobs.Count <= 1)
+			{
+				sender.ServerMessage(Localization.Get("You can't remove the last remaining job."));
+				return CommandResult.Okay;
+			}
+
 			if (!target.Jobs.Remove(jobId))
 			{
 				sender.ServerMessage(Localization.Get("The job doesn't exist."));
