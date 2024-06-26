@@ -70,7 +70,7 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the total exp required to reach the next class level
+		/// Returns the total exp required to reach the next job level
 		/// after the given level, in the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
@@ -78,7 +78,7 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public long GetNextTotalJobExp(int rank, int level)
 		{
-			var maxLevel = this.GetMaxClassLevel(rank);
+			var maxLevel = this.GetMaxJobLevel(rank);
 
 			if (level < 1 || level > maxLevel)
 				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}).");
@@ -93,11 +93,11 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the max class level for the given rank.
+		/// Returns the max job level for the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
 		/// <returns></returns>
-		public int GetMaxClassLevel(int rank)
+		public int GetMaxJobLevel(int rank)
 		{
 			var data = _jobExp.Where(a => a.Rank == rank);
 			return data.Max(a => a.Level);

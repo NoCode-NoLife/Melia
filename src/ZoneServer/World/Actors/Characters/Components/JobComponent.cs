@@ -314,8 +314,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <remarks>
 		/// Every job has its own total EXP count, which the client uses
 		/// in combination with the character's current job and rank to
-		/// determine the class level. There doesn't seem to be a way
-		/// to change the max class EXP from the server, as it is with
+		/// determine the level. There doesn't seem to be a way
+		/// to change the max job EXP from the server, as it is with
 		/// the base EXP.
 		/// </remarks>
 		public long TotalExp { get; set; }
@@ -326,7 +326,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
 
 		/// <summary>
-		/// Returns the class level reached on this job based on the
+		/// Returns the level reached on this job based on the
 		/// current rank and total EXP.
 		/// </summary>
 		public int Level
@@ -357,7 +357,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns the max class level for this job.
+		/// Returns the max level for this job.
 		/// </summary>
 		public int MaxLevel
 		{
@@ -370,7 +370,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// max level based on the rank it was added on.
 
 				var rank = this.Character.Jobs.GetCurrentRank();
-				return ZoneServer.Instance.Data.ExpDb.GetMaxClassLevel(rank);
+				return ZoneServer.Instance.Data.ExpDb.GetMaxJobLevel(rank);
 			}
 		}
 
