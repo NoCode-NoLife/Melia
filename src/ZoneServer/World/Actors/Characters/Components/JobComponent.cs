@@ -323,7 +323,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Returns the total maximum EXP that can be collected on this job.
 		/// </summary>
-		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
+		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
 
 		/// <summary>
 		/// Returns the class level reached on this job based on the
@@ -346,7 +346,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// fulfill, as that will be the level we're on.
 				for (var i = 1; i < max; ++i)
 				{
-					var needed = ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
+					var needed = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(rank, i);
 					if (totalExp < needed)
 						return i;
 				}

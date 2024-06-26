@@ -634,10 +634,34 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Gives skill points to the current job and updates client.
+		/// Increases character's job level by the given amount.
 		/// </summary>
 		/// <param name="amount"></param>
-		private void ClassLevelUp(int amount = 1)
+		public int JobLevelUp(int amount = 1)
+		{
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
+			var jobLevel = this.Job.Level;
+			var jobExpToAdd = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1) - this.Job.TotalExp;
+			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1);
+			var jobLevelsGained = (this.Job.Level - jobLevel);
+
+			Send.ZC_JOB_EXP_UP(this, jobExpToAdd);
+
+			if (jobLevelsGained > 0)
+			{
+				this.AllocateSkillPoint(jobLevelsGained);
+			}
+
+			return jobLevelsGained;
+		}
+
+		/// <summary>
+		/// Allocates skill point to the current job and updates client.
+		/// </summary>
+		/// <param name="amount"></param>
+		private void AllocateSkillPoint(int amount = 1)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
@@ -758,16 +782,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Grants exp to character and handles level ups.
 		/// </summary>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
+		/// <param name="jobExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(long exp, long classExp, IMonster monster)
+		public void GiveExp(long exp, long jobExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;
 			this.TotalExp += exp;
 
-			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
-			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, jobExp, monster);
+			Send.ZC_EXP_UP(this, exp, jobExp); // Not always sent? Might be quest related?
 
 			var level = this.Level;
 			var levelUps = 0;
@@ -799,15 +823,15 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.
-			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + classExp));
+			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + jobExp));
 
 			var newClassLevel = this.ClassLevel;
 			var classLevelsGained = (newClassLevel - classLevel);
 
-			Send.ZC_JOB_EXP_UP(this, classExp);
+			Send.ZC_JOB_EXP_UP(this, jobExp);
 
 			if (classLevelsGained > 0)
-				this.ClassLevelUp(classLevelsGained);
+				this.AllocateSkillPoint(classLevelsGained);
 		}
 
 		/// <summary>
