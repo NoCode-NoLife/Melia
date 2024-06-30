@@ -24,6 +24,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	{
 		private const float MaxMoveDistance = 140f;  // Will attempt to move up to 140 units
 		private const float KnockdownMultiplier = 1.5f;  // 50% bonus damage against knocked down enemies
+		private const float HealDebuffPerLevel = 3300f;  // Packet needs this passed in at 100x the amount to display in the tooltip
+		private const float HealDebuffDuration = 5;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -34,6 +36,17 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
+			// Punish will attempt to move you to towards the target before it activates.  We subtract 30 so the center of the circle hits the enemy
+			var distanceToTarget = caster.Position.Get2DDistance(target.Position) - 30d;
+
+			// On official, the skill fails if the target is too far away.  It should do this before spending SP.
+			if (distanceToTarget > MaxMoveDistance)
+			{
+				caster.ServerMessage(Localization.Get("Too far away."));
+				Send.ZC_SKILL_CAST_CANCEL(caster);
+				return;
+			}
+
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
@@ -43,9 +56,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			skill.IncreaseOverheat();
 			caster.TurnTowards(target.Position);
 			caster.SetAttackState(true);
-
-			// Punish will attempt to move you to towards the target before it activates.  We subtract 30 so the center of the circle hits the enemy
-			var distanceToTarget = caster.Position.Get2DDistance(target.Position) - 30d;
 
 			// If the distance to jump is < 0 (ie, the target is already within range), you don't move
 			if (distanceToTarget > 0)
@@ -72,8 +82,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(400);
-			var damageDelay = TimeSpan.FromMilliseconds(100);
+			var hitDelay = TimeSpan.FromMilliseconds(350);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 			var deedsOfValorBonus = 1.0f;
 
@@ -94,7 +104,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			{
 				SkillModifier modifier = new SkillModifier();
 
-				// need to add bonus damage if target is in knockdown state
+				// TODO: This should do extra damage if the enemy is in a knockdown state
+				// but knockdown is not fully implemented so there's no way to check for it
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult.Damage *= deedsOfValorBonus;
@@ -103,6 +114,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
+
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, HealDebuffPerLevel * skill.Level, TimeSpan.FromSeconds(HealDebuffDuration), caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

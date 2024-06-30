@@ -13,6 +13,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
@@ -22,6 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	[SkillHandler(SkillId.Doppelsoeldner_Zornhau)]
 	public class Zornhau : IGroundSkillHandler
 	{
+		private const int BuffRemoveChancePerLevel = 5;
 		private const int ShockDuration = 5;
 
 		/// <summary>
@@ -85,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 				// Deeds of Valor specifically influences final damage so we just multiply the damage after calculation
 
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);		
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult.Damage, caster);
 
@@ -93,9 +95,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
+				// This debuff is seemingly not applied on official, even though the description mentions it
 				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, TimeSpan.FromSeconds(ShockDuration), caster);
 
 				// Also need to remove a buff from the target
+				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
+				var rnd = RandomProvider.Get();
+				if (rnd.Next(100) < buffRemoveChance)
+				{
+					// TODO: Need to remove a buff here, this probably needs to be a function as many skills can do this
+				}
 			}
 
 			// Must hit at least 1 enemy to continue combo?

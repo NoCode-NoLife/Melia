@@ -88,7 +88,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.HitCount = 2;
+
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult.Damage, caster);
 
@@ -104,7 +108,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult2 = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.HitCount = 2;
+
+				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult2.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult2.Damage, caster);
 
@@ -120,7 +128,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult3 = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.HitCount = 2;
+
+				var skillHitResult3 = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult3.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult3.Damage, caster);
 
@@ -136,7 +148,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult4 = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.HitCount = 2;
+
+				var skillHitResult4 = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult4.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult4.Damage, caster);
 
@@ -152,7 +168,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult5 = SCR_SkillHit(caster, target, skill);
+				SkillModifier modifier = new SkillModifier();
+
+				modifier.HitCount = 2;
+
+				var skillHitResult5 = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult5.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult5.Damage, caster);
 
