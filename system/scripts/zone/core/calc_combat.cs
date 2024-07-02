@@ -182,6 +182,15 @@ public class CombatCalculationsScript : GeneralScript
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
+		// Handle Bear's damage reduction effect
+		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Bear_Buff, out var bearBuff))
+		{
+			var skillLevel = reflectShieldBuff.NumArg1;
+			var byBuffRate = (skillLevel * 0.02f);
+
+			damage = Math.Max(1, damage - damage * byBuffRate);
+		}
+
 		return (int)damage;
 	}
 
