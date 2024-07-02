@@ -1,10 +1,10 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Scout
 {
 	/// <summary>
-	/// Handle for the Bear Buff, which increases the target's defenses.
+	/// Handle for the Cloaking Buff, which hides the user
 	/// </summary>
 	[BuffHandler(BuffId.Cloaking_Buff)]
 	public class Cloaking_Buff : BuffHandler

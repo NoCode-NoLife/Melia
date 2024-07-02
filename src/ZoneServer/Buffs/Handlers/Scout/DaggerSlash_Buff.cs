@@ -1,7 +1,7 @@
 ﻿using Melia.Zone.Buffs.Base;
 using Melia.Shared.Game.Const;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Scout
 {
 	/// <summary>
 	/// Handler for Dagger Slash buff, which affects the target's attack.
