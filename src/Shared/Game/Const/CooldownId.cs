@@ -1590,5 +1590,11 @@ namespace Melia.Shared.Game.Const
 		Vanquisher_EarthCrusher = 4375,
 		Vanquisher_WindSlasher = 4376,
 		Vanquisher_FatalSwordDance = 4377,
+		Nectar = 6000,
+		CleansingFalme = 6001,
+		ShelterForTraverlers = 6002,
+		DayLight = 6003,
+		CalmSea = 6004,
+		KupoleNormalBuff = 6005,
 	}
 }

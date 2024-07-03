@@ -68,6 +68,8 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
+				skillHit.HitInfo.Type = (HitType)18;
+				skillHit.HitInfo.ResultType = HitResultType.DodgeDamage;
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
