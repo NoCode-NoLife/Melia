@@ -304,11 +304,16 @@ namespace Melia.Zone.Scripting.AI
 				var handle = entry.Key;
 				var hate = entry.Value;
 
-				if (hate > highestHate)
-				{
-					highestHate = hate;
-					mostHated = this.Entity.Map.GetCombatEntity(handle);
-				}
+				if (hate < highestHate)
+					continue;
+
+				var entity = this.Entity.Map.GetCombatEntity(handle);
+
+				if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+					continue;
+
+				highestHate = hate;
+				mostHated = entity;
 			}
 
 			if (highestHate < _minAggroHateLevel)
@@ -326,6 +331,10 @@ namespace Melia.Zone.Scripting.AI
 		protected bool IsHating(ICombatEntity entity)
 		{
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
+				return false;
+
+			// Cloaking blocks hate while it's active
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
 				return false;
 
 			return (hate >= _minAggroHateLevel);
