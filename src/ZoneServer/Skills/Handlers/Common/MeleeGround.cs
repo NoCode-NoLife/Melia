@@ -93,8 +93,6 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
-
-				skillHit.HitInfo.ResultType = HitResultType.Unk2;
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

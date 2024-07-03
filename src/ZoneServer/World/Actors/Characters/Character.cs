@@ -651,37 +651,6 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Increases character's job level by the given amount and allocates skill points.
-		/// </summary>
-		/// <param name="amount"></param>
-		public void JobLevelUp(int amount = 1)
-		{
-			if (amount < 1)
-				throw new ArgumentException("Amount can't be lower than 1.");
-
-			var currentjobLevel = this.Job.Level;
-			var currentJobTotalExp = this.Job.TotalExp;
-			var nextJobLevelTotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1);
-
-			var jobExpToAdd = nextJobLevelTotalExp - currentJobTotalExp;
-			this.Job.TotalExp = Math.Min(this.Job.TotalMaxExp, this.Job.TotalExp + jobExpToAdd);
-
-			var jobLevelsGained = (this.Job.Level - currentjobLevel);
-
-			Send.ZC_JOB_EXP_UP(this, jobExpToAdd);
-
-			if (jobLevelsGained > 0)
-			{
-				this.Jobs.ModifySkillPoints(this.JobId, jobLevelsGained);
-				this.Heal();
-
-				Send.ZC_OBJECT_PROPERTY(this);
-				Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
-				Send.ZC_NORMAL.PlayEffect(this, "F_pc_joblevel_up", 3);
-			}
-		}
-
-		/// <summary>
 		/// Heals character's HP, SP, and Stamina fully and updates
 		/// the client.
 		/// </summary>
