@@ -35,6 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			if (target == null)
 			{
 				caster.ServerMessage(Localization.Get("No target."));
+				Send.ZC_SKILL_CAST_CANCEL(caster);
 				return;
 			}
 

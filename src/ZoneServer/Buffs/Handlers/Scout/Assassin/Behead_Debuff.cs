@@ -5,7 +5,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 {
 	/// <summary>
 	/// Buff handler for Behead: Bleeding, which deals damage
