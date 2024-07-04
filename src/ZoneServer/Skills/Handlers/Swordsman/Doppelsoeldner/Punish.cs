@@ -82,7 +82,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(350);
+			var hitDelay = TimeSpan.FromMilliseconds(700);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 			var deedsOfValorBonus = 1.0f;
@@ -92,8 +92,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				var buff = caster.Components.Get<BuffComponent>().Get(BuffId.DeedsOfValor);
 				deedsOfValorBonus = buff.NumArg2;
 			}
-
-			await Task.Delay(hitDelay);
 
 			await Task.Delay(hitDelay);
 
