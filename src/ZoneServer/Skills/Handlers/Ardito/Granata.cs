@@ -78,22 +78,16 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult);
-
-				Send.ZC_HIT_INFO(caster, target, skill, hit);
-
-				var skillHitResult2 = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult2.Damage, caster);
-
-				var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
-
-				Send.ZC_HIT_INFO(caster, target, skill, hit2);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				Send.ZC_SKILL_HIT_INFO(target, skillHit);
 			}
 		}
 	}

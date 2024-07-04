@@ -151,8 +151,8 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="target"></param>
 		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var damageDelay = TimeSpan.Zero;
-			var skillHitDelay = TimeSpan.Zero;
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);

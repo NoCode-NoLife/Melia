@@ -12,6 +12,7 @@ using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Collections.Generic;
 using Melia.Shared.Game.Const;
+using System.Linq;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -118,6 +119,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 					Debug.ShowShape(caster.Map, fan, delay, rangePreview: false);
 
 					var targets = caster.Map.GetAttackableEntitiesIn(caster, fan);
+					var damageDelay = TimeSpan.FromMilliseconds(45);
+					var skillHitDelay = skill.Properties.HitDelay;
 
 					foreach (var target in targets.LimitRandom(15))
 					{
@@ -127,9 +130,9 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						var skillHitResult = SCR_SkillHit(caster, target, skill);
 						target.TakeDamage(skillHitResult.Damage, caster);
 
-						var hit = new HitInfo(caster, target, skill, skillHitResult);
+						var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-						Send.ZC_HIT_INFO(caster, target, skill, hit);
+						Send.ZC_SKILL_HIT_INFO(target, skillHit);
 
 						damagedTargets.Add(target);
 					}
@@ -147,7 +150,7 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		}
 
 		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Remove all entities from the attack list
 		/// </summary>
 		/// <param name="damagedTargets"></param>
 		/// <param name="cancellationToken"></param>

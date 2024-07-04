@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using System.Linq;
+using System;
 
 namespace Melia.Zone.Skills.Handlers.Sapper
 {
@@ -60,17 +61,17 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		{
 			var splashArea = new Circle(position, 45);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			Debug.ShowShape(caster.Map, splashArea, edgePoints: false);
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			foreach (var target in targets.LimitRandom(5))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-				Send.ZC_HIT_INFO(caster, target, skill, hit);
+				Send.ZC_SKILL_HIT_INFO(target, skillHit);
 			}
 		}
 	}

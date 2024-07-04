@@ -221,7 +221,6 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			{
 				skillHitResult.Damage *= 0.5f;
 				this.ApplySlow(target);
-				return;
 			}
 
 			var knockBackDistance = 100;
@@ -235,13 +234,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 
 			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult);
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Properties.HitDelay;
 
-			for (int i = 0; i < 4; i++)
-			{
-				Send.ZC_HIT_INFO(caster, target, skill, hit);
-				await Task.Delay(TimeSpan.FromMilliseconds(100));
-			}
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			Send.ZC_SKILL_HIT_INFO(target, skillHit);
 		}
 
 		/// <summary>

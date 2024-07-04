@@ -20,14 +20,14 @@ namespace Melia.Zone.Buffs.Handlers
 
 			buff.Vars.SetFloat(varName, dmgIncreasePercentage);
 
-			// @TODO: Increase all the Wugushi skills damage by a percentage
+			// TODO: Increase all the Wugushi skills damage by a percentage
 		}
 
 		public override void OnEnd(Buff buff)
 		{
 			if (buff.Vars.TryGetFloat(varName, out var bonus))
 			{
-				// @TODO: Decrease all the Wugushi skills damage by a percentage
+				// TODO: Decrease all the Wugushi skills damage by a percentage
 			}
 		}
 

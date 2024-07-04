@@ -132,15 +132,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				var targets3 = caster.Map.GetAttackableEntitiesIn(caster, circle3);
 
 				var targets = targets1.Concat(targets2).Concat(targets3).ToList();
+				var damageDelay = TimeSpan.FromMilliseconds(45);
+				var skillHitDelay = skill.Properties.HitDelay;
 
 				foreach (var target in targets.Distinct().ToList().LimitRandom(10))
 				{
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
 
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
+					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-					Send.ZC_HIT_INFO(caster, target, skill, hit);
+					Send.ZC_SKILL_HIT_INFO(target, skillHit);
 				}
 			}
 		}

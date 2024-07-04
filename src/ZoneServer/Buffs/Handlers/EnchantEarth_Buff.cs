@@ -1,4 +1,6 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System.Threading.Tasks;
+using System;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
@@ -13,6 +15,40 @@ namespace Melia.Zone.Buffs.Handlers
 	public class EnchantEarth_Buff : BuffHandler
 	{
 		private const string VarName = "Melia.BlockPenetrationBonus";
+		private const string DifferentMapVarName = "Melia.EnchantEarth_Buff.DifferentMap";
+
+		public override void WhileActive(Buff buff)
+		{
+			var characterCaster = buff.Caster as Character;
+
+			// End the Buff if the Caster is Disconnected
+			if (characterCaster != null && !characterCaster.Connection.LoggedIn)
+			{
+				buff.End();
+			}
+
+			// End the Buff if the Caster is Dead
+			if (buff.Caster.IsDead)
+			{
+				buff.End();
+			}
+
+			// Ends the Buff if the Caster and Target are not in the same map
+			if (buff.Caster.Map.Id != buff.Target.Map.Id)
+			{
+				var differentMapHelper = buff.Vars.GetInt(DifferentMapVarName);
+
+				if (differentMapHelper + 1 >= 3)
+				{
+					buff.End();
+				}
+
+				buff.Vars.SetInt(DifferentMapVarName, differentMapHelper + 1);
+			} else
+			{
+				buff.Vars.SetInt(DifferentMapVarName, 0);
+			}
+		}
 
 		public override void OnStart(Buff buff)
 		{
@@ -46,6 +82,7 @@ namespace Melia.Zone.Buffs.Handlers
 				}
 
 				buff.Vars.SetFloat(VarName, blockPenetrationBonus);
+				buff.Vars.SetInt(DifferentMapVarName, 0);
 
 				buff.Target.Properties.Modify(PropertyName.BLK_BREAK_BM, blockPenetrationBonus);
 			}

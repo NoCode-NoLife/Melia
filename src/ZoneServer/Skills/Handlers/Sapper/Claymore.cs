@@ -143,36 +143,18 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		private void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var skillHitDelay = skill.Properties.HitDelay;
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				this.ExecuteHitInfo(skill, caster, target);
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
+
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+
+				Send.ZC_SKILL_HIT_INFO(target, skillHit);
 			}
-		}
-
-		/// <summary>
-		/// Sends the actual Hit Info Packets.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="target"></param>
-		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
-		{
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
-			target.TakeDamage(skillHitResult.Damage, caster);
-
-			var hit = new HitInfo(caster, target, skill, skillHitResult);
-
-			Send.ZC_HIT_INFO(caster, target, skill, hit);
-
-			await Task.Delay(TimeSpan.FromMilliseconds(100));
-
-			var skillHitResult2 = SCR_SkillHit(caster, target, skill);
-			target.TakeDamage(skillHitResult2.Damage, caster);
-
-			var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
-
-			Send.ZC_HIT_INFO(caster, target, skill, hit2);
 		}
 	}
 }

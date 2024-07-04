@@ -60,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="position"></param>
-		async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
+		private async Task AreaOfEffect(Skill skill, ICombatEntity caster, Position position)
 		{
 			await Task.Delay(200);
 

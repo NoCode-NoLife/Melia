@@ -82,12 +82,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			{
 				// TODO: Apply healing reduction (3%) to the targets (stackable)
 
-				var skillHitDelay = TimeSpan.Zero;
-
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100), skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, skill.Properties.HitDelay, TimeSpan.Zero);
 				skillHit.HitEffect = HitEffect.Impact;
 
 				Send.ZC_SKILL_HIT_INFO(caster, skillHit);

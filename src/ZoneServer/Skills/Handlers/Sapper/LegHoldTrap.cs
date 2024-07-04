@@ -179,6 +179,8 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 			while (!cancellationToken.IsCancellationRequested)
 			{
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+				var damageDelay = TimeSpan.FromMilliseconds(45);
+				var skillHitDelay = skill.Properties.HitDelay;
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
@@ -197,13 +199,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 						var duration = TimeSpan.FromSeconds(5);
 						target.StartBuff(BuffId.LegHoldTrap_Debuff, skill.Level, 0, duration, caster);
 					}
-					
+
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
 
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
+					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-					Send.ZC_HIT_INFO(caster, target, skill, hit);
+					Send.ZC_SKILL_HIT_INFO(target, skillHit);
 				}
 
 				await Task.Delay(TimeSpan.FromSeconds(1));

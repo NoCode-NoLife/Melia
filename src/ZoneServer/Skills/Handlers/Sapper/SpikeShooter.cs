@@ -130,15 +130,17 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 					}
 
 					targets = caster.Map.GetAttackableEntitiesIn(caster, squareRight);
+					var damageDelay = TimeSpan.FromMilliseconds(45);
+					var skillHitDelay = skill.Properties.HitDelay;
 
 					foreach (var target in targets)
 					{
 						var skillHitResult = SCR_SkillHit(caster, target, skill);
 						target.TakeDamage(skillHitResult.Damage, caster);
 
-						var hit = new HitInfo(caster, target, skill, skillHitResult);
+						var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-						Send.ZC_HIT_INFO(caster, target, skill, hit);
+						Send.ZC_SKILL_HIT_INFO(target, skillHit);
 					}
 
 					Send.ZC_NORMAL.PlayForceEffect(caster, "I_arrow009", ForceId.GetNew(), "FAST", 500, leftPos, leftMovPos);

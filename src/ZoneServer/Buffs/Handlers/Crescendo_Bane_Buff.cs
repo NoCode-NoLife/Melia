@@ -10,13 +10,13 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Crescendo_Bane_Buff)]
 	public class Crescendo_Bane_Buff : BuffHandler
 	{
-		// @TODO: Implement this
+		// TODO: Implement this
 		public override void OnStart(Buff buff)
 		{
 
 		}
 
-		// @TODO: Implement this
+		// TODO: Implement this
 		public override void OnEnd(Buff buff)
 		{
 

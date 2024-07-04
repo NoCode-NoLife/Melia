@@ -20,6 +20,8 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 	[SkillHandler(SkillId.Enchanter_EnchantAura)]
 	public class EnchantAura : IGroundSkillHandler
 	{
+		private const float SPTickAmount = 21f;
+
 		/// <summary>
 		/// Handles the skill, creates an area of effect that damages the enemies inside
 		/// </summary>
@@ -106,7 +108,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				await Task.Delay(2000);
 
 				// Cancel if the caster has not enough SP
-				if (!caster.TrySpendSp(54f))
+				if (!caster.TrySpendSp(SPTickAmount))
 				{
 					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;
@@ -116,31 +118,22 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 
 				if ((character != null && !character.Connection.LoggedIn) || caster.IsDead)
 				{
+					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;
 				}
 
 				// Attack targets
 				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-				var damageDelay = TimeSpan.FromMilliseconds(150);
+				var damageDelay = TimeSpan.FromMilliseconds(45);
+				var skillHitDelay = skill.Properties.HitDelay;
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
 					var skillHitResult = SCR_SkillHit(caster, target, skill);
 					target.TakeDamage(skillHitResult.Damage, caster);
 
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
-
-					Send.ZC_HIT_INFO(caster, target, skill, hit);
-
-					if (!target.IsDead)
-					{
-						var skillHitResult2 = SCR_SkillHit(caster, target, skill);
-						target.TakeDamage(skillHitResult2.Damage, caster);
-
-						var hit2 = new HitInfo(caster, target, skill, skillHitResult2);
-
-						Send.ZC_HIT_INFO(caster, target, skill, hit2);
-					}
+					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+					Send.ZC_SKILL_HIT_INFO(target, skillHit);
 				}
 			}
 		}
