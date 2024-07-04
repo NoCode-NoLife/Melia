@@ -1612,6 +1612,7 @@ namespace Melia.Zone.Network
 		{
 			var mapId = packet.GetInt();
 			var visible = packet.GetBin(128);
+			var percentage = packet.GetFloat();
 
 			// Check if the map exists
 			var mapData = ZoneServer.Instance.Data.MapDb.Find(mapId);
@@ -1632,12 +1633,20 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			var revealedMap = new RevealedMap(mapId, visible, 0);
+			// Check the percentage for validity
+			if (percentage < 0 || percentage > 100)
+			{
+				Log.Warning("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
+				return;
+			}
+
+			var revealedMap = new RevealedMap(mapId, visible, percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
 		/// <summary>
 		/// Reports to the server a percentage of the map that has been explored.
+		/// This packet is seemingly no longer used, it's been combined with the above
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>

@@ -2031,6 +2031,8 @@ namespace Melia.Zone.Network
 			{
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
+				packet.PutFloat(revealedMap.Percentage);
+				packet.PutFloat(0);				
 			}
 			packet.PutLong(0);
 			packet.PutFloat(56.45161f);
