@@ -21,6 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	[SkillHandler(SkillId.Assassin_InstantaneousAcceleration)]
 	public class InstantAcceleration : IGroundSkillHandler
 	{
+		private const float DashDistance = 100f;
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -50,13 +51,17 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 100, width: 30, angle: 0);
+			var endingPosition = caster.Position.GetRelative(caster.Direction, DashDistance);
+			endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
+			var actualDistance = (float)endingPosition.Get2DDistance(caster.Position);
+
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: actualDistance, width: 30, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			caster.Position = caster.Position.GetRelative(caster.Direction, (float)100f);
+			caster.Position = endingPosition;
 			Send.ZC_SET_POS(caster);
 
 			this.Attack(skill, caster, splashArea);
