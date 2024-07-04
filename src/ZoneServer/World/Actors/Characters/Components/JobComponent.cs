@@ -62,7 +62,20 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public bool RemoveSilent(JobId jobId)
 		{
 			lock (_jobs)
-				return _jobs.Remove(jobId);
+			{
+				var removed = _jobs.Remove(jobId);
+				if (!removed)
+					return false;
+
+				// Switch character's job to another one if the active
+				// one was removed. We'll use the last one in the list
+				// for now, assuming that it's going to be the other
+				// most recent job selected.
+				if (this.Character.JobId == jobId)
+					this.Character.JobId = _jobs.Last().Value.Id;
+
+				return true;
+			}
 		}
 
 		/// <summary>

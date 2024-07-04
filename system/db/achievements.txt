@@ -562,6 +562,8 @@
 { id: 9021, className: "WEEKLY_BOSS_RANK_21", category: "Ranking", name: "Eroded Soul", point: "WeeklyRank_21", count: 1, repeatable: false, account: false },
 { id: 9022, className: "WEEKLY_BOSS_RANK_22", category: "Ranking", name: "Ruler of Dreams", point: "WeeklyRank_22", count: 1, repeatable: false, account: false },
 { id: 9023, className: "WEEKLY_BOSS_RANK_23", category: "Ranking", name: "End Abyss", point: "WeeklyRank_23", count: 1, repeatable: false, account: false },
+{ id: 9024, className: "WEEKLY_BOSS_RANK_24", category: "Ranking", name: "Corrupt Exterminator", point: "WeeklyRank_24", count: 1, repeatable: false, account: false },
+{ id: 9025, className: "WEEKLY_BOSS_RANK_25", category: "Ranking", name: "Labyrinth Victor", point: "WeeklyRank_25", count: 1, repeatable: false, account: false },
 { id: 100001, className: "Kill_1_50", category: "Kills", name: "Hunter", point: "MonKill", count: 10000, repeatable: false, account: false },
 { id: 100002, className: "Kill_1_100", category: "Kills", name: "Slaughterer", point: "MonKill", count: 1000000, repeatable: false, account: false },
 { id: 100005, className: "OverKill_1", category: "Overkill", name: "Adventurer", point: "OverKill", count: 10000, repeatable: false, account: false },

@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i386379
+//   Version: i386994
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29539,6 +29539,79 @@ string getPropertyName(int id)
         case 115328: return "dress_costume_ep16redhood_f";
         case 115329: return "ep16redhood_thstaff_cabinet";
         case 115330: return "CollectionDressRoomRead_149";
+        case 115331: return "AchieveReward_WEEKLY_BOSS_RANK_24";
+        case 115332: return "AchieveReward_WEEKLY_BOSS_RANK_25";
+        case 115333: return "Kill_hiddennpc_earring_raid_center";
+        case 115334: return "Kill_weekly_boss_spreader";
+        case 115335: return "Kill_weekly_boss_falouros";
+        case 115336: return "Capttion";
+        case 115337: return "CoolDownStartType";
+        case 115338: return "Cupole_Equip";
+        case 115339: return "Cupole_018";
+        case 115340: return "Cupole_019";
+        case 115341: return "Cupole_002";
+        case 115342: return "Cupole_014";
+        case 115343: return "Cupole_032";
+        case 115344: return "Cupole_027";
+        case 115345: return "mruta1";
+        case 115346: return "Cupole_021";
+        case 115347: return "Cupole_023";
+        case 115348: return "Cupole_010";
+        case 115349: return "Cupole_031";
+        case 115350: return "Cupole_007";
+        case 115351: return "Cupole_026";
+        case 115352: return "Cupole_024";
+        case 115353: return "Cupole_029";
+        case 115354: return "Cupole_003";
+        case 115355: return "Cupole_022";
+        case 115356: return "Cupole_016";
+        case 115357: return "Cupole_004";
+        case 115358: return "Cupole_030";
+        case 115359: return "Cupole_006";
+        case 115360: return "Cupole_025";
+        case 115361: return "Cupole_012";
+        case 115362: return "Cupole_009";
+        case 115363: return "Cupole_020";
+        case 115364: return "Cupole_005";
+        case 115365: return "Cupole_008";
+        case 115366: return "Cupole_001";
+        case 115367: return "Cupole_015";
+        case 115368: return "Cupole_028";
+        case 115369: return "Cupole_013";
+        case 115370: return "Cupole_017";
+        case 115371: return "Cupole_011";
+        case 115372: return "mruta2";
+        case 115373: return "EVENT_2407_KUPOLE_2";
+        case 115374: return "EVENT_2407_KUPOLE_16";
+        case 115375: return "EVENT_2407_KUPOLE_3";
+        case 115376: return "EVENT_2407_KUPOLE_9";
+        case 115377: return "EVENT_2407_W_KUPOLE_TOTAL_COIN_CNT";
+        case 115378: return "EVENT_2407_KUPOLE_6";
+        case 115379: return "EVENT_2407_KUPOLE_13";
+        case 115380: return "EVENT_2407_KUPOLE_5";
+        case 115381: return "EVENT_2407_W_KUPOLE_WEEKLY_COIN_CNT";
+        case 115382: return "EVENT_2407_KUPOLE_4";
+        case 115383: return "EVENT_2407_KUPOLE_11";
+        case 115384: return "EVENT_2407_KUPOLE_17";
+        case 115385: return "EVENT_2407_KUPOLE_10";
+        case 115386: return "EVENT_2407_KUPOLE_15";
+        case 115387: return "EVENT_2407_KUPOLE_1";
+        case 115388: return "EVENT_2407_KUPOLE_12";
+        case 115389: return "EVENT_2407_KUPOLE_7";
+        case 115390: return "EVENT_2407_KUPOLE_8";
+        case 115391: return "EVENT_2407_KUPOLE_14";
+        case 115392: return "dress_costume_ep16statue02_m";
+        case 115393: return "ep16statue_theme";
+        case 115394: return "CollectionDressRoomRead_152";
+        case 115395: return "dress_costume_ep16statue01_m";
+        case 115396: return "CollectionDressRoomRead_154";
+        case 115397: return "dress_costume_ep16statue01_f";
+        case 115398: return "CollectionDressRoomRead_151";
+        case 115399: return "ContentsTotalShop_2407_1";
+        case 115400: return "CollectionDressRoomRead_153";
+        case 115401: return "dress_costume_ep16statue02_f";
+        case 115402: return "ep16statue_dagger_cabinet";
+        case 115403: return "ep16statue_mace_cabinet";
         default: return "Unknown";
     }
 }
