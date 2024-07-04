@@ -49,6 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var bounceDamageDelay = TimeSpan.FromMilliseconds(55);
 			var skillHitDelay = TimeSpan.Zero;
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
@@ -72,8 +73,16 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				skillHitResult = SCR_SkillHit(caster, bounceTarget, skill);
 				bounceTarget.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult);
-				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+				var skillHit2 = new SkillHitInfo(caster, bounceTarget, skill, skillHitResult, bounceDamageDelay, skillHitDelay);
+				skillHit2.ForceId = ForceId.GetNew();
+				Send.ZC_SKILL_FORCE_TARGET(caster, bounceTarget, skill, skillHit2);
+
+				// The bounce target can also be slowed
+				if (RandomProvider.Next(100) < 50)
+				{
+					var duration = TimeSpan.FromSeconds(7);
+					bounceTarget.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
+				}
 			}
 		}
 
