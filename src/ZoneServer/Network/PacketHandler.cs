@@ -872,13 +872,13 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(IZoneConnection conn, Packet packet)
 		{
-			var type = packet.GetInt();
+			var ack = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
 			var storage = conn.SelectedCharacter.PersonalStorage;
 
 			// If storage was open, close it
-			if (storage.IsBrowsing && (type == 1))
+			if (storage.IsBrowsing && (ack == (int)DialogAcknowledgement.DialogOk))
 			{
 				storage.Close();
 				conn.CurrentDialog = null;
@@ -894,10 +894,8 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// The type seems to indicate what the client wants to do,
-			// 1 being sent when continuing normally and 0 or -1 when
-			// escape is pressed, to cancel the dialog.
-			if (type == 1)
+			// Resume or not the dialog
+			if (ack == (int)DialogAcknowledgement.DialogOk)
 			{
 				conn.CurrentDialog.Resume(null);
 			}
@@ -1412,7 +1410,6 @@ namespace Melia.Zone.Network
 
 			if (type == StorageType.PersonalStorage)
 			{
-				// Server allowance check
 				if (storage.IsBrowsing)
 				{
 					var storageItems = storage.GetStorage();
@@ -1455,7 +1452,7 @@ namespace Melia.Zone.Network
 			var inventory = character.Inventory;
 			var storage = character.PersonalStorage;
 
-			if ( (interaction != StorageInteraction.Store) && (interaction != StorageInteraction.Retrieve) )
+			if (!Enum.IsDefined(typeof(StorageInteraction), interaction))
 			{
 				Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
 				return;

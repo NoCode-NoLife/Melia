@@ -192,14 +192,16 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Adds the available amount of an item to storage.
+		/// Adds the item to any already existing stacks of same item type
+		/// in storage and creates new stack if there are leftovers after
+		/// reaching the maximum stack limit.
 		/// Updates client.
 		/// </summary>
 		/// <param name="character">Character to update</param>
 		/// <param name="itemToStore">Item to store</param>
 		/// <param name="invType">Type of storage inventory</param>
 		/// <returns></returns>
-		private StorageResult AddItemAvailableAmount(Character character, Item itemToStore, InventoryType invType)
+		private StorageResult AddItemStackWithResidue(Character character, Item itemToStore, InventoryType invType)
 		{
 			// For stackable items, add item to existing stacks.
 			if (itemToStore.IsStackable)
@@ -262,7 +264,7 @@ namespace Melia.Zone.World.Storage
 				return StorageResult.InvalidOperation;
 
 			// Add the amount to storage
-			var addResult = this.AddItemAvailableAmount(character, itemToStore, invType);
+			var addResult = this.AddItemStackWithResidue(character, itemToStore, invType);
 			if (addResult != StorageResult.Success)
 				return addResult;
 
@@ -288,7 +290,7 @@ namespace Melia.Zone.World.Storage
 				if (item == null)
 					return StorageResult.ItemNotFound;
 
-				var result = StoreItem(character, objectIds[i], amounts[i], invType);
+				var result = this.StoreItem(character, objectIds[i], amounts[i], invType);
 				if (result != StorageResult.Success)
 					return result;
 			}
@@ -308,7 +310,7 @@ namespace Melia.Zone.World.Storage
 		protected StorageResult RetrieveItem(Character character, long objectId, int amount, InventoryType invType)
 		{
 			// Checks item is in storage
-			var result = this.TryGetItem(objectId, out var item, out var itemPosition);
+			var result = this.GetItem(objectId, out var item, out var itemPosition);
 			if (result != StorageResult.Success)
 				return result;
 
@@ -343,11 +345,11 @@ namespace Melia.Zone.World.Storage
 
 			for (var i = 0; i < objectIds.Count; i++)
 			{
-				var result = this.TryGetItem(objectIds[i], out var item, out var itemPosition);
+				var result = this.GetItem(objectIds[i], out var item, out var itemPosition);
 				if (result != StorageResult.Success)
 					return result;
 
-				result = RetrieveItem(character, objectIds[i], amounts[i], invType);
+				result = this.RetrieveItem(character, objectIds[i], amounts[i], invType);
 				if (result != StorageResult.Success)
 					return result;
 			}
@@ -408,7 +410,7 @@ namespace Melia.Zone.World.Storage
 		{
 			addedPosition = -1;
 
-			if (CheckStorageFull())
+			if (this.CheckStorageFull())
 				return StorageResult.StorageFull;
 
 			// Add to new position
@@ -427,7 +429,8 @@ namespace Melia.Zone.World.Storage
 		/// <summary>
 		/// Adds a new item to the storage in a specific position.
 		/// If existing stackable item of same class exists in the position
-		/// this method will stack to it.
+		/// this method will stack to it. If item cannot be added to position and
+		/// cannot be stacked, we will add to first valid position instead.
 		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to add</param>
@@ -441,7 +444,7 @@ namespace Melia.Zone.World.Storage
 			if ((position < 0) || (position >= _storageSize))
 				return StorageResult.InvalidOperation;
 
-			var existingItem = this.TryGetItemAtPosition(position);
+			var existingItem = this.GetItemAtPosition(position);
 			if (existingItem == null)
 			{
 				// Adds item
@@ -454,19 +457,19 @@ namespace Melia.Zone.World.Storage
 			}
 			else
 			{
-				// Stacks item
-				if (existingItem.IsStackable && item.IsStackable)
+				// Stacks same item
+				if ( (existingItem.IsStackable && item.IsStackable) && (existingItem.Data.ClassName == item.Data.ClassName) )
 				{
-					if (existingItem.Data.ClassName == item.Data.ClassName)
-					{
-						lock (_syncLock)
-							addedAmount = AddItemStack(existingItem, item.Amount);
-						return StorageResult.Success;
-					}
+					lock (_syncLock)
+						addedAmount = this.AddItemStack(existingItem, item.Amount);
+					return StorageResult.Success;
+				}
+				// Cannot stack item, add to any available position
+				else
+				{
+					return this.Add(item, out var addedPosition);
 				}
 			}
-
-			return StorageResult.InvalidOperation;
 		}
 
 		/// <summary>
@@ -486,7 +489,7 @@ namespace Melia.Zone.World.Storage
 			if (amount <= 0)
 				return StorageResult.InvalidOperation;
 
-			var result = this.TryGetItem(item.ObjectId, out item, out var position);
+			var result = this.GetItem(item.ObjectId, out item, out var position);
 			if (result != StorageResult.Success)
 				return result;
 
@@ -494,7 +497,7 @@ namespace Melia.Zone.World.Storage
 			if (item.IsStackable)
 			{
 				lock (_syncLock)
-					removedAmount = RemoveItemStack(item, amount, position);
+					removedAmount = this.RemoveItemStack(item, amount, position);
 			}
 			else
 			{
@@ -526,7 +529,7 @@ namespace Melia.Zone.World.Storage
 			if (!result)
 				return StorageResult.ItemNotFound;
 
-			return Remove(item, amount, out var removedPosition, out removedAmount);
+			return this.Remove(item, amount, out var removedPosition, out removedAmount);
 		}
 
 		/// <summary>
@@ -557,7 +560,7 @@ namespace Melia.Zone.World.Storage
 		/// <param name="item">Item found</param>
 		/// <param name="position">Position of item found in storage</param>
 		/// <returns></returns>
-		public StorageResult TryGetItem(long objectId, out Item item, out int position)
+		public StorageResult GetItem(long objectId, out Item item, out int position)
 		{
 			item = null;
 			position = -1;
@@ -582,7 +585,7 @@ namespace Melia.Zone.World.Storage
 		/// </summary>
 		/// <param name="position"></param>
 		/// <returns></returns>
-		public Item TryGetItemAtPosition(int position)
+		public Item GetItemAtPosition(int position)
 		{
 			lock (_syncLock)
 				if (_storageItems.TryGetValue(position, out var item))
@@ -635,10 +638,10 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public StorageResult Swap(int position1, int position2)
 		{
-			var item1 = this.TryGetItemAtPosition(position1);
-			var item2 = this.TryGetItemAtPosition(position2);
+			var item1 = this.GetItemAtPosition(position1);
+			var item2 = this.GetItemAtPosition(position2);
 
-			if (item1 == null && item2 == null)
+			if ( (item1 == null && item2 == null) || (position1 == position2) )
 				return StorageResult.InvalidOperation;
 
 			lock (_syncLock)
@@ -673,8 +676,8 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public StorageResult Swap(long objectId1, long objectId2)
 		{
-			var result1 = this.TryGetItem(objectId1, out var item1, out var position1);
-			var result2 = this.TryGetItem(objectId2, out var item2, out var position2);
+			var result1 = this.GetItem(objectId1, out var item1, out var position1);
+			var result2 = this.GetItem(objectId2, out var item2, out var position2);
 
 			if (result1 != StorageResult.Success)
 				return result1;

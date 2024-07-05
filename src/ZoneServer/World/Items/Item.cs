@@ -126,7 +126,7 @@ namespace Melia.Zone.World.Items
 			this.RePickUpTime = other.RePickUpTime;
 			this.OwnerHandle = other.OwnerHandle;
 			this.LootProtectionEnd = other.LootProtectionEnd;
-			this.Properties = other.Properties;
+			other.Properties.CopyFrom(this.Properties);
 
 			this.Amount = other.Amount;
 		}

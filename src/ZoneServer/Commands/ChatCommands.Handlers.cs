@@ -1508,13 +1508,13 @@ namespace Melia.Zone.Commands
             if (!target.PersonalStorage.IsBrowsing)
             {
                 target.PersonalStorage.Open();
-                sender.ServerMessage("Opened personal storage.");
+                sender.ServerMessage(Localization.Get("Opened personal storage."));
                 if (sender != target)
-                    target.ServerMessage("Your personal storage was opened by {0}", sender.TeamName);
+                    target.ServerMessage(Localization.Get("Your personal storage was opened by '{0}'"), sender.TeamName);
             }
             else
             {
-                sender.ServerMessage("Already browsing personal storage.");
+                sender.ServerMessage(Localization.Get("Already browsing personal storage."));
             }
             return CommandResult.Okay;
         }
