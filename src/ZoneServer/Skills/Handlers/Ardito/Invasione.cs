@@ -76,22 +76,20 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				// TODO: Apply healing reduction (3%) to the targets (stackable)
+			// TODO: Apply healing reduction (3%) to the targets (stackable)
 
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
+			var damageDelay = TimeSpan.FromMilliseconds(150);
+			var skillHitDelay = TimeSpan.Zero;
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, skill.Properties.HitDelay, TimeSpan.Zero);
-				skillHit.HitEffect = HitEffect.Impact;
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-				Send.ZC_SKILL_HIT_INFO(caster, skillHit);
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			skillHit.HitEffect = HitEffect.Impact;
 
-				await Task.Delay(TimeSpan.FromMilliseconds(100));
-			}
+			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
 	}
 }

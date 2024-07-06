@@ -18,38 +18,43 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target as Character;
-
-			// It is not applyed to characters without Shoes
-			if (target != null && !(target.Inventory.GetEquip(EquipSlot.Shoes) is DummyEquipItem))
+			if (buff.Target is Character targetCharacter)
 			{
-				var skillLevel = buff.NumArg1;
-				var caster = buff.Caster as Character;
-
-				// Algorithm retrieved from client files.
-				var speedBonus = 1 + (skillLevel * 0.3);
-
-				if (caster != null && caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
+				// It is not applied to characters without Shoes
+				if (!(targetCharacter.Inventory.GetEquip(EquipSlot.Shoes) is DummyEquipItem))
 				{
-					var abilityBonus = buff.NumArg2;
-					speedBonus += abilityBonus;
+					var skillLevel = buff.NumArg1;
+
+					// formula retrieved from client files.
+					var speedBonus = 1 + (skillLevel * 0.3);
+
+					if (buff.Caster is Character)
+					{
+						var characterCaster = buff.Caster as Character;
+
+						if (characterCaster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter10))
+						{
+							var abilityBonus = buff.NumArg2;
+							speedBonus += abilityBonus;
+						}
+					}
+
+					var staminaRateBonus = (5 + skillLevel) / 100;
+
+					buff.Vars.SetFloat(VarNameMVSD, (float)speedBonus);
+					buff.Vars.SetFloat(VarNameSTA, (float)staminaRateBonus);
+
+					targetCharacter.Properties.Modify(PropertyName.MSPD_BM, (float)speedBonus);
+					targetCharacter.Properties.Modify(PropertyName.MOVESTA_RATE_BM, (float)staminaRateBonus);
+
+					Send.ZC_MOVE_SPEED(targetCharacter);
 				}
-
-				var staminaRateBonus = -0.5f;
-
-				buff.Vars.SetFloat(VarNameMVSD, (float)speedBonus);
-				buff.Vars.SetFloat(VarNameSTA, (float)staminaRateBonus);
-
-				target.Properties.Modify(PropertyName.MSPD_BM, (float)speedBonus);
-				target.Properties.Modify(PropertyName.MOVESTA_RATE_BM, (float)staminaRateBonus);
-
-				Send.ZC_MOVE_SPEED(target);
 			}
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Target is Character character)
+			if (buff.Target is Character targetCharacter)
 			{
 				var target = buff.Target as Character;
 
@@ -63,7 +68,7 @@ namespace Melia.Zone.Buffs.Handlers
 					buff.Target.Properties.Modify(PropertyName.MOVESTA_RATE_BM, bonusStamina);
 				}
 
-				Send.ZC_MOVE_SPEED(character);
+				Send.ZC_MOVE_SPEED(targetCharacter);
 			}
 		}
 	}

@@ -125,7 +125,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				if (!caster.IsCasting()) break;
 			}
 
-			Send.ZC_SKILL_DISABLE(caster as Character);
+			if (caster is Character casterCharacter)
+			{
+				Send.ZC_SKILL_DISABLE(casterCharacter);
+			}				
 		}
 	}
 }

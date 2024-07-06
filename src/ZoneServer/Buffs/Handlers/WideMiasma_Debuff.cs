@@ -14,9 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		public override void WhileActive(Buff buff)
 		{
-			var casterCharacter = buff.Caster as Character;
-
-			if (casterCharacter != null)
+			if (buff.Caster is Character casterCharacter)
 			{
 				if (buff.Target.IsDead)
 				{

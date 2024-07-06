@@ -5,7 +5,7 @@ using Melia.Zone.World.Actors.Characters;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handle for the Zhendu Buff, which increases the other wugushi skills final damage.
+	/// Handle for the Zhendu Buff, which increases the other Wugushi skills final damage.
 	/// </summary>
 	[BuffHandler(BuffId.Zhendu_Buff)]
 	public class Zhendu_Buff : BuffHandler
@@ -15,8 +15,6 @@ namespace Melia.Zone.Buffs.Handlers
 		public override void OnStart(Buff buff)
 		{
 			var dmgIncreasePercentage = 100 + this.GetDamagePercentageIncrease(buff);
-
-			var caster = buff.Caster as Character;
 
 			buff.Vars.SetFloat(varName, dmgIncreasePercentage);
 
@@ -31,7 +29,7 @@ namespace Melia.Zone.Buffs.Handlers
 			}
 		}
 
-		// This may be useful.
+		// This may be useful later.
 		/*private float GetRatio(Buff buff)
 		{
 			return Convert.ToSingle((15 * buff.Target.Level) + (buff.Skill.Level * buff.Target.Level * 3.3));

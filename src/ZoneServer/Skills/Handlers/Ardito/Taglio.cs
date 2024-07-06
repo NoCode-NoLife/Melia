@@ -117,14 +117,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			await Task.Delay(hitDelay);
 
-			var character = caster as Character;
-
-			if (character != null)
+			if (caster is Character casterCharacter)
 			{
-				if (character.Gender == Gender.Male)
-					Send.ZC_PLAY_SOUND(character, "voice_war_atk_long_cast");
+				if (casterCharacter.Gender == Gender.Male)
+					Send.ZC_PLAY_SOUND(casterCharacter, "voice_war_atk_long_cast");
 				else
-					Send.ZC_PLAY_SOUND(character, "voice_atk_long_cast_f");
+					Send.ZC_PLAY_SOUND(casterCharacter, "voice_atk_long_cast_f");
 			}
 
 			while(!cancellationToken.IsCancellationRequested)

@@ -35,6 +35,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				return;
 			}
 
+			farPos = caster.Position.GetRelative(caster.Direction, 50);
+			caster.TurnTowards(farPos);
+
 			if (!caster.Position.InRange2D(farPos, skill.Data.MaxRange))
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
@@ -49,10 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);
-
-			farPos = caster.Position.GetRelative(caster.Direction, 50);
-			caster.TurnTowards(farPos);
+			caster.SetAttackState(true);;
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
@@ -79,14 +79,18 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(45);
-			var skillHitDelay = skill.Properties.HitDelay;
+			var skillHitDelay = TimeSpan.FromMilliseconds(100);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				skillHitResult.HitCount = 6;
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
+				skillHit.ForceId = ForceId.GetNew();
+
 				Send.ZC_SKILL_HIT_INFO(target, skillHit);
 			}
 		}

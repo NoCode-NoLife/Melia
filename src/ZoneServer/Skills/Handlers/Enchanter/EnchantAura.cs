@@ -114,9 +114,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 					break;
 				}
 
-				var character = caster as Character;
-
-				if ((character != null && !character.Connection.LoggedIn) || caster.IsDead)
+				if ((caster is Character casterCharacter && !casterCharacter.Connection.LoggedIn) || caster.IsDead)
 				{
 					this.RemoveSkillEffect(skill, caster, position, effectId);
 					break;

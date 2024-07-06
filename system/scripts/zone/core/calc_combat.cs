@@ -184,6 +184,14 @@ public class CombatCalculationsScript : GeneralScript
 		{
 			return 2;
 		}
+		else if (skill.Id == SkillId.Arditi_Invasione)
+		{
+			return 4;
+		}
+		else if (skill.Id == SkillId.Arditi_Granata || skill.Id == SkillId.Arditi_Ritirarsi)
+		{
+			return 6;
+		}
 
 		return 1;
 	}

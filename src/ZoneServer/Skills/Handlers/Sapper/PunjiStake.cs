@@ -55,13 +55,11 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="caster"></param>
 		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			var character = caster as Character;
-
 			// Ability - Poonji Stake: Instance
 			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
 			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
 			// and the damage received from the caster is increased by 30%
-			if (character != null && character.Abilities.IsActive(AbilityId.Sapper42))
+			if (caster is Character casterCharacter && casterCharacter.Abilities.IsActive(AbilityId.Sapper42))
 			{
 				this.PlaceTrap(skill, caster);
 				return;
@@ -210,14 +208,13 @@ namespace Melia.Zone.Skills.Handlers.Sapper
 		/// <param name="trap"></param>
 		private async void ExecuteAttack(ICombatEntity caster, ICombatEntity target, Skill skill, Mob trap)
 		{
-			var character = caster as Character;
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 			// Ability - Poonji Stake: Instance
 			// Poonji Steak is immediately installed and damage is reduced by 50%{nl}*
 			// When attacked by Punji Steak, the movement speed is fixed at 10 for 5 seconds,
 			// and the damage received from the caster is increased by 30%
-			if (character != null && character.Abilities.IsActive(AbilityId.Sapper42))
+			if (caster is Character casterCharacter && casterCharacter.Abilities.IsActive(AbilityId.Sapper42))
 			{
 				skillHitResult.Damage *= 0.5f;
 				this.ApplySlow(target);

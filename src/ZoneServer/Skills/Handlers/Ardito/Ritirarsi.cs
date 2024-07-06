@@ -54,10 +54,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			farPos = caster.Position.GetRelative(caster.Direction, 25);
-
-			caster.TurnTowards(farPos);
-
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
@@ -86,12 +82,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.35f, 0.7f);
 			
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 50, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 75, width: 75, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(45);
-			var skillHitDelay = skill.Properties.HitDelay;
+			var skillHitDelay = TimeSpan.FromMilliseconds(150);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -99,6 +95,8 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
+				skillHit.ForceId = ForceId.GetNew();
 
 				Send.ZC_SKILL_HIT_INFO(target, skillHit);
 			}

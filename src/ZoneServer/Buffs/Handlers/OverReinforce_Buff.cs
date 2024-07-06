@@ -17,30 +17,26 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target as Character;
-
-			if (target != null)
+			if (buff.Caster is Character casterCharacter && buff.Target is Character)
 			{
-				var caster = buff.Caster as Character;
-
-				var maxpatk = caster.Properties.GetFloat(PropertyName.MAXPATK);
-				var minpatk = caster.Properties.GetFloat(PropertyName.MINPATK);
+				var maxpatk = casterCharacter.Properties.GetFloat(PropertyName.MAXPATK);
+				var minpatk = casterCharacter.Properties.GetFloat(PropertyName.MINPATK);
 
 				var skillLevel = buff.NumArg1;
 
 				// Algorithm retrieved from client files.
 				var rate = 0.015f + skillLevel * 0.004f;
 
-				// TODO: check if vaivora 'ITEM_VIBORA_Empowering' is being used
+				// TODO: check if Vaivora 'ITEM_VIBORA_Empowering' is being used
 
 				var attackBonus = ((maxpatk + minpatk) / 2) * rate;
 
 				attackBonus = (float)Math.Floor(attackBonus);
 
-				if (caster.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter15))
+				if (casterCharacter.Components.Get<AbilityComponent>().Has(AbilityId.Enchanter15))
 				{
 					var SCR_Get_SkillFactor = ScriptableFunctions.Skill.Get("SCR_Get_SkillFactor");
-					if (caster.Skills.TryGet(buff.SkillId, out var skill))
+					if (casterCharacter.Skills.TryGet(buff.SkillId, out var skill))
 					{
 						var abilityBonus = SCR_Get_SkillFactor(skill);
 						attackBonus += abilityBonus;
@@ -56,9 +52,7 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target as Character;
-
-			if (target != null)
+			if (buff.Target is Character)
 			{
 				if (buff.Vars.TryGetFloat(VarName, out var bonus))
 				{

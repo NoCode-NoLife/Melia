@@ -49,14 +49,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			caster.Heal(addHp, 0);
 
 			// RECOVERY STAMINA
-			var character = caster as Character;
-			if (character != null)
+			if (caster is Character casterCharacter)
 			{
 				var maxSta = target.Properties.GetFloat(PropertyName.MaxSta);
 				var addStamina = maxSta * this.GetStaminaRatio(skill);
-				var stamina = character.Properties.Stamina;
+				var stamina = casterCharacter.Properties.Stamina;
 				var addSta = Math.Min(Math.Max(0, maxSta), addStamina - maxSta);
-				character.ModifyStamina((int)addSta);
+				casterCharacter.ModifyStamina((int)addSta);
 			}
 		}
 
