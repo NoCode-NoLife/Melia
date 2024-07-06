@@ -15,13 +15,13 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Archer
 {
 	/// <summary>
-	/// Handles the Archer skill Oblique Shot.
+	/// Handles the Archer skill Heavy Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_HeavyShot)]
 	public class HeavyShot : ITargetSkillHandler
 	{
 		/// <summary>
-		/// Handles the skill, shoot missile at enemy that spreads to another target.
+		/// Handles the skill, deal damage and knockback.
 		/// </summary>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
