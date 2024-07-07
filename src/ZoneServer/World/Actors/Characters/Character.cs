@@ -219,10 +219,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public long TotalExp { get; set; }
 
 		/// <summary>
-		/// Returns the character's current class level, which is
-		/// equivalent to their current job's level.
+		/// Returns the character's current job level.
 		/// </summary>
-		public int ClassLevel
+		public int JobLevel
 		{
 			get
 			{
@@ -634,10 +633,46 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Gives skill points to the current job and updates client.
+		/// Increases character's job level by the given amount. Returns the amount
+		/// of levels actually gained.
 		/// </summary>
 		/// <param name="amount"></param>
-		private void ClassLevelUp(int amount = 1)
+		/// <returns></returns>
+		public int JobLevelUp(int amount)
+		{
+			// TODO: Should the whole job leveling up perhaps take place in
+			//   the job, instead of the character? That would seem to make
+			//   more sense, given that we exclusively operate on job props
+			//   in here.
+
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
+			if (this.Job.Level == this.Job.MaxLevel)
+				return 0;
+
+			var prevLevel = this.Job.Level;
+			var prevExp = this.Job.TotalExp;
+
+			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), prevLevel + amount - 1);
+
+			var expGained = (this.Job.TotalExp - prevExp);
+			var levelsGained = (this.Job.Level - prevLevel);
+
+			Send.ZC_JOB_EXP_UP(this, expGained);
+
+			if (levelsGained > 0)
+				this.FinishJobLevelUp(levelsGained);
+
+			return levelsGained;
+		}
+
+		/// <summary>
+		/// Gives skill points to job, heals character, and notifies client
+		/// about the job level up.
+		/// </summary>
+		/// <param name="amount"></param>
+		private void FinishJobLevelUp(int amount)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
@@ -758,16 +793,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Grants exp to character and handles level ups.
 		/// </summary>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
+		/// <param name="jobExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(long exp, long classExp, IMonster monster)
+		public void GiveExp(long exp, long jobExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;
 			this.TotalExp += exp;
 
-			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
-			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, jobExp, monster);
+			Send.ZC_EXP_UP(this, exp, jobExp); // Not always sent? Might be quest related?
 
 			var level = this.Level;
 			var levelUps = 0;
@@ -790,24 +825,24 @@ namespace Melia.Zone.World.Actors.Characters
 			if (levelUps > 0)
 				this.LevelUp(levelUps);
 
-			// Class EXP
-			// Increase the total EXP and check whether the class level,
+			// Job EXP
+			// Increase the total EXP and check whether the job level,
 			// which is calculcated from that value, has changed.
-			var classLevel = this.ClassLevel;
+			var jobLevel = this.JobLevel;
 			var rank = this.Jobs.GetCurrentRank();
 			var job = this.Job;
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.
-			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + classExp));
+			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + jobExp));
 
-			var newClassLevel = this.ClassLevel;
-			var classLevelsGained = (newClassLevel - classLevel);
+			var newJobLevel = this.JobLevel;
+			var jobLevelsGained = (newJobLevel - jobLevel);
 
-			Send.ZC_JOB_EXP_UP(this, classExp);
+			Send.ZC_JOB_EXP_UP(this, jobExp);
 
-			if (classLevelsGained > 0)
-				this.ClassLevelUp(classLevelsGained);
+			if (jobLevelsGained > 0)
+				this.FinishJobLevelUp(jobLevelsGained);
 		}
 
 		/// <summary>
