@@ -150,7 +150,7 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Reads given class EXP entry.
+		/// Reads given job EXP entry.
 		/// </summary>
 		/// <param name="jobExpEntry"></param>
 		protected void ReadJobExpEntry(JObject jobExpEntry)

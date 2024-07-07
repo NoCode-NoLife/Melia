@@ -14,7 +14,7 @@ namespace Melia.Zone.World.Quests.Rewards
 		public int ExpAmount { get; }
 
 		/// <summary>
-		/// Returns the amount of class EXP the player gets.
+		/// Returns the amount of job EXP the player gets.
 		/// </summary>
 		public int JobExpAmount { get; }
 
@@ -49,7 +49,7 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return string.Format(Localization.Get("{0} EXP, {1} Class EXP"), this.ExpAmount, this.JobExpAmount);
+			return string.Format(Localization.Get("{0} EXP, {1} Job EXP"), this.ExpAmount, this.JobExpAmount);
 		}
 	}
 }
