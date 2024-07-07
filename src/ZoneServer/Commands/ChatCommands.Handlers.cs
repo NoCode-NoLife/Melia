@@ -783,7 +783,7 @@ namespace Melia.Zone.Commands
 			{
 				if (sender == target)
 				{
-					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained
+					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
 				}
 				else
 				{
