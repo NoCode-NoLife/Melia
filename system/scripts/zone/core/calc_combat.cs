@@ -84,22 +84,6 @@ public class CombatCalculationsScript : GeneralScript
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		// Check for Concentrate
-		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.Concentrate_Buff, out var concentrateBuff))
-		{
-			var bonusDamage = concentrateBuff.NumArg2;
-			var variableName = "Melia.HitsLeft";
-			if (concentrateBuff.Vars.TryGetFloat(variableName, out var hitsLeft))
-			{
-				hitsLeft--;
-				if (hitsLeft > 0)
-					concentrateBuff.Vars.SetFloat(variableName, hitsLeft);
-				else
-					attacker.Components.Get<BuffComponent>().Remove(BuffId.Concentrate_Buff);
-			}
-			modifier.BonusDamage += bonusDamage;
-		}
-
 		// Check for Dagger Slash
 		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
 		{

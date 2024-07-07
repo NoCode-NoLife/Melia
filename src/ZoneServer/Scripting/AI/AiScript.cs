@@ -291,6 +291,20 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the entity is currently a valid target.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanTarget(ICombatEntity entity)
+		{
+			// Can never target cloaked entities
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			return IsHostileTowards(entity);
+		}
+
+		/// <summary>
 		/// Returns the enemy with the highest hate level in range.
 		/// </summary>
 		/// <returns></returns>
@@ -304,12 +318,12 @@ namespace Melia.Zone.Scripting.AI
 				var handle = entry.Key;
 				var hate = entry.Value;
 
-				if (hate < highestHate)
+				if (hate <= highestHate)
 					continue;
 
 				var entity = this.Entity.Map.GetCombatEntity(handle);
 
-				if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				if (entity != null && !this.CanTarget(entity))
 					continue;
 
 				highestHate = hate;
@@ -333,8 +347,7 @@ namespace Melia.Zone.Scripting.AI
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
 				return false;
 
-			// Cloaking blocks hate while it's active
-			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+			if (!this.CanTarget(entity))
 				return false;
 
 			return (hate >= _minAggroHateLevel);
