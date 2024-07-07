@@ -405,14 +405,14 @@ namespace Melia.Zone.Database
 
 			this.SaveCharacterItems(character);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
-			this.SaveSessionObjects(character);			
+			this.SaveSessionObjects(character);
+			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
-			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
 
 			return false;
 		}
@@ -954,11 +954,7 @@ namespace Melia.Zone.Database
 				foreach (var buff in character.Buffs.GetList())
 				{
 					if (!buff.Data.Save)
-					{
-						buff.End();
 						continue;
-					}
-						
 
 					var lastId = 0L;
 

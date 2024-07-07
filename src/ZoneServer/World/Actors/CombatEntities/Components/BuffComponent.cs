@@ -367,7 +367,35 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					this.Remove(buff);
 			}
 		}
-	}
+
+		/// <summary>
+		/// Remove all temp buffs (buffs that don't save on logout)
+		/// </summary>
+		public void StopTempBuffs()
+		{
+			List<Buff> toRemove = null;
+
+			lock (_buffs)
+			{
+				foreach (var buff in _buffs.Values)
+				{
+					if (!buff.Data.Save)
+					{
+						if (toRemove == null)
+							toRemove = new List<Buff>();
+
+						toRemove.Add(buff);
+					}
+				}
+			}
+
+			if (toRemove != null)
+			{
+				foreach (var buff in toRemove)
+					this.Remove(buff);
+			}
+		}
+	}	
 
 	/// <summary>
 	/// Exception for when a buff handler is not implemented.
