@@ -640,29 +640,39 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public int JobLevelUp(int amount)
 		{
+			// TODO: Should the whole job leveling up perhaps take place in
+			//   the job, instead of the character? That would seem to make
+			//   more sense, given that we exclusively operate on job props
+			//   in here.
+
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
 
-			var jobLevel = this.Job.Level;
-			var jobExpToAdd = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1) - this.Job.TotalExp;
+			if (this.Job.Level == this.Job.MaxLevel)
+				return 0;
+
+			var prevLevel = this.Job.Level;
+			var prevExp = this.Job.TotalExp;
+
 			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1);
-			var jobLevelsGained = (this.Job.Level - jobLevel);
 
-			Send.ZC_JOB_EXP_UP(this, jobExpToAdd);
+			var expGained = (this.Job.TotalExp - prevExp);
+			var levelsGained = (this.Job.Level - prevLevel);
 
-			if (jobLevelsGained > 0)
-			{
-				this.AllocateSkillPoint(jobLevelsGained);
-			}
+			Send.ZC_JOB_EXP_UP(this, expGained);
 
-			return jobLevelsGained;
+			if (levelsGained > 0)
+				this.FinishJobLevelUp(levelsGained);
+
+			return levelsGained;
 		}
 
 		/// <summary>
-		/// Allocates skill point to the current job and updates client.
+		/// Gives skill points to job, heals character, and notifies client
+		/// about the job level up.
 		/// </summary>
 		/// <param name="amount"></param>
-		private void AllocateSkillPoint(int amount)
+		private void FinishJobLevelUp(int amount)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
@@ -832,7 +842,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_JOB_EXP_UP(this, jobExp);
 
 			if (jobLevelsGained > 0)
-				this.AllocateSkillPoint(jobLevelsGained);
+				this.FinishJobLevelUp(jobLevelsGained);
 		}
 
 		/// <summary>
