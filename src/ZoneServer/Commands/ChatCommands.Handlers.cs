@@ -62,7 +62,7 @@ namespace Melia.Zone.Commands
 			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
 			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
-			this.Add("joblevelup", "<levels>", "Increases character's level.", this.HandleJobLevelUp);
+			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
@@ -775,25 +775,20 @@ namespace Melia.Zone.Commands
 			if (jobLevelsGained == 0)
 			{
 				if (sender == target)
-				{
-					sender.ServerMessage(Localization.Get("Your job level can not be changed."));
-				}
+					sender.ServerMessage(Localization.Get("Your current job's level can't be increased any further."));
 				else
-				{
-					target.ServerMessage(Localization.Get("Your job level can not be changed."), sender.TeamName);
-					sender.ServerMessage(Localization.Get("The target's job level can not be changed."));
-				}
+					sender.ServerMessage(Localization.Get("The level of the target's current job can't be increased any further."));
 			}
 			else
 			{
 				if (sender == target)
 				{
-					sender.ServerMessage(Localization.Get("Your job level was changed by {0} level(s)."), jobLevelsGained);
+					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained
 				}
 				else
 				{
-					target.ServerMessage(Localization.Get("Your job level was changed by {0} by {1} level(s)."), sender.TeamName, jobLevelsGained);
-					sender.ServerMessage(Localization.Get("The target's job level was changed by {0} level(s)."), jobLevelsGained);
+					target.ServerMessage(Localization.GetPlural("Your job level was increased by {0} by {1} level.", "Your job level was increased by {0} by {1} levels.", jobLevelsGained), sender.TeamName, jobLevelsGained);
+					sender.ServerMessage(Localization.GetPlural("The target's job level was increased by {0} level.", "The target's job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
 				}
 			}
 

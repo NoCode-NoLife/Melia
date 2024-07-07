@@ -633,10 +633,12 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Increases character's job level by the given amount.
+		/// Increases character's job level by the given amount. Returns the amount
+		/// of levels actually gained.
 		/// </summary>
 		/// <param name="amount"></param>
-		public int JobLevelUp(int amount = 1)
+		/// <returns></returns>
+		public int JobLevelUp(int amount)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
@@ -660,7 +662,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Allocates skill point to the current job and updates client.
 		/// </summary>
 		/// <param name="amount"></param>
-		private void AllocateSkillPoint(int amount = 1)
+		private void AllocateSkillPoint(int amount)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
