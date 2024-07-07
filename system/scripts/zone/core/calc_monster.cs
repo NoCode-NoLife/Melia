@@ -357,7 +357,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		
 		value = value + byBuffs + byRateBuffs;
 		
-		return (int)Math.Max(0, value);
+		return (int)value;
 	}
 	
 	/// <summary>
@@ -389,7 +389,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		
 		value *= decRatio;
 		
-		return (int)Math.Max(0, value);
+		return (int)value;
 	}
 
 	/// <summary>
@@ -408,13 +408,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var byBuffs = 0f;
 		byBuffs += monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
 		
-		var byRateBuffs = 0f;
-		//byRateBuffs += monster.Properties.GetFloat(PropertyName.CRTATK_RATE_BM);
-		byRateBuffs = value * byRateBuffs;
+		value += byBuffs;
 		
-		value = value + byBuffs + byRateBuffs;
-		
-		return (int)Math.Max(0, value);
+		return (int)value;
 	}
 
 	/// <summary>
@@ -434,14 +430,10 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var value = baseValue;
 		
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BM);
+
+		value += byBuffs;
 		
-		var byRateBuffs = 0f;
-		byRateBuffs += properties.GetFloat(PropertyName.BLK_RATE_BM);
-		byRateBuffs = (value * byRateBuffs);
-		
-		value += byBuffs + byRateBuffs;
-		
-		return value;
+		return (int)value;
 	}
 	
 	/// <summary>
@@ -462,12 +454,8 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BREAK_BM);
 		
-		var byRateBuffs = 0f;
-		byRateBuffs += properties.GetFloat(PropertyName.BLK_BREAK_RATE_BM);
-		byRateBuffs = (value * byRateBuffs);
+		value += byBuffs;
 		
-		value += byBuffs + byRateBuffs;
-		
-		return value;
+		return (int)value;
 	}
 }
