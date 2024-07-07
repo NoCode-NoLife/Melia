@@ -654,7 +654,7 @@ namespace Melia.Zone.World.Actors.Characters
 			var prevLevel = this.Job.Level;
 			var prevExp = this.Job.TotalExp;
 
-			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), this.Job.Level + amount - 1);
+			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), prevLevel + amount - 1);
 
 			var expGained = (this.Job.TotalExp - prevExp);
 			var levelsGained = (this.Job.Level - prevLevel);
