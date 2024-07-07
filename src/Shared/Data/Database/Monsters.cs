@@ -26,7 +26,7 @@ namespace Melia.Shared.Data.Database
 
 		public int Level { get; set; }
 		public int Exp { get; set; }
-		public int ClassExp { get; set; }
+		public int JobExp { get; set; }
 		public int Hp { get; set; }
 		public int Sp { get; set; }
 
@@ -129,7 +129,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "element", "race", "armor", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
+			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "jobExp", "element", "race", "armor", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
 
 			var data = new MonsterData();
 
@@ -149,7 +149,7 @@ namespace Melia.Shared.Data.Database
 
 			data.Level = entry.ReadInt("level");
 			data.Exp = entry.ReadInt("exp");
-			data.ClassExp = entry.ReadInt("classExp");
+			data.JobExp = entry.ReadInt("jobExp");
 			data.Hp = entry.ReadInt("hp");
 			data.Sp = entry.ReadInt("sp");
 
