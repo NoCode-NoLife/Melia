@@ -1224,6 +1224,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				character.TurnTowards(direction);
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)

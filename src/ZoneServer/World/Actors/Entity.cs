@@ -141,6 +141,17 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Makes the entity turn towards a given direction
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		public static void TurnTowards(this ICombatEntity entity, Direction dir)
+		{
+			entity.Direction = dir;
+			Send.ZC_ROTATE(entity);
+		}
+
+		/// <summary>
 		/// Attempts to reduce the entity's SP by the amount necessary
 		/// to use the skill. Returns false if it didn't have enough SP.
 		/// </summary>

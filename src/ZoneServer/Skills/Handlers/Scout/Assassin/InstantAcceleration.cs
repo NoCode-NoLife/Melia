@@ -31,24 +31,13 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			if (target == null)
-			{
-				caster.ServerMessage(Localization.Get("No target."));
-				Send.ZC_SKILL_CAST_CANCEL(caster);
-				return;
-			}
-
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
 			}
 
-			// This skill always aims towards a target.  The farpos is always just the player's position
-			farPos = target.Position;
-
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
 			var endingPosition = caster.Position.GetRelative(caster.Direction, DashDistance);
