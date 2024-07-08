@@ -197,7 +197,7 @@ namespace Melia.Zone.Scripting.AI
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
 
-				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.Cloaking_Buff))
+				if (potentialEnemy.IsBuffActive(BuffId.Cloaking_Buff))
 					continue;
 
 				var handle = potentialEnemy.Handle;
