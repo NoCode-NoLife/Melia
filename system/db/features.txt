@@ -81,6 +81,9 @@
 		// Changes guard bonus for active blocking to a flat number
 		{ name: "FlatGuardBonus", enabled: true },
 	]},
+
+	// Gives Clerics the Guard skill, allowing them to use shields actively
+	{ name: "GuardingClerics", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet
