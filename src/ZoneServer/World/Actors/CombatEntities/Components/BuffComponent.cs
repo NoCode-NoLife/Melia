@@ -13,7 +13,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class BuffComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
+		private readonly Dictionary<BuffId, Buff> _buffs = new();
 
 		/// <summary>
 		/// Raised when a buff starts.

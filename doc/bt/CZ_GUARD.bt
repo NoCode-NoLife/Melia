@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_GUARD.bt
-//   Authors: Salman T. Khan, exec
+//      File: CZ_GUARD.bt
+//   Authors: exec
 //   Version: i386994
 //   Purpose: 
 //  Category: 
@@ -13,8 +13,7 @@
 
 #include "inc/common.bt"
 
-ServerHeaderFixed header;
+ClientHeaderFixed header;
 
-int handle;
 byte active;
 direction dir;

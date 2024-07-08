@@ -385,7 +385,7 @@ namespace Melia.Zone.Commands
 			{
 				var itemName = args.Get(0);
 
-				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.Contains(itemName, StringComparison.InvariantCultureIgnoreCase));
 				if (classNameMatches.Length == 0)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
@@ -502,7 +502,7 @@ namespace Melia.Zone.Commands
 			{
 				var searchName = args.Get(0).ToLower();
 
-				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
+				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.Contains(searchName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 				if (monstersData.Count == 0)
 				{
 					sender.ServerMessage(Localization.Get("Monster not found by name."));
