@@ -2,7 +2,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Scout
 {
 	/// <summary>
 	/// Handler for Oblique Fire buff, which affects the target's movement
