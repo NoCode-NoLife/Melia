@@ -345,21 +345,21 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTHR, out var fixValue))
 			return fixValue;
-		
+
 		var value = (float)monster.Data.CritHitRate;
-		
+
 		var byBuffs = 0f;
 		byBuffs += monster.Properties.GetFloat(PropertyName.CRTHR_BM, 0);
-		
+
 		var byRateBuffs = 0f;
 		byRateBuffs += monster.Properties.GetFloat(PropertyName.CRTHR_RATE_BM);
 		byRateBuffs = value * byRateBuffs;
-		
+
 		value = value + byBuffs + byRateBuffs;
-		
+
 		return (int)value;
 	}
-	
+
 	/// <summary>
 	/// Returns the monster's Critical Dodge Rate (Critical resistance).
 	/// </summary>
@@ -370,25 +370,25 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTDR, out var fixValue))
 			return fixValue;
-		
+
 		var value = (float)monster.Data.CritDodgeRate;
-		
+
 		var byBuffs = 0f;
 		byBuffs += monster.Properties.GetFloat(PropertyName.CRTDR_BM, 0);
-		
+
 		var byRateBuffs = 0f;
 		byRateBuffs += monster.Properties.GetFloat(PropertyName.CRTDR_RATE_BM);
 		byRateBuffs = value * byRateBuffs;
-		
+
 		value = value + byBuffs + byRateBuffs;
-		
+
 		var decRatio = monster.Properties.GetFloat(PropertyName.CRTDR_RATE_MUL_BM, 1);
-		
+
 		if (decRatio < 0.5f)
 			decRatio = 0.5f;
-		
+
 		value *= decRatio;
-		
+
 		return (int)value;
 	}
 
@@ -404,12 +404,12 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 			return fixValue;
 
 		var value = (float)monster.Data.CritAttack;
-		
+
 		var byBuffs = 0f;
 		byBuffs += monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
-		
+
 		value += byBuffs;
-		
+
 		return (int)value;
 	}
 
@@ -423,19 +423,19 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK, out var fixValue))
 			return fixValue;
-		
+
 		var properties = monster.Properties;
-		
+
 		var baseValue = (float)monster.Data.BlockRate;
 		var value = baseValue;
-		
+
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BM);
 
 		value += byBuffs;
-		
+
 		return (int)value;
 	}
-	
+
 	/// <summary>
 	/// Returns the monster's block break (penetration).
 	/// </summary>
@@ -446,16 +446,16 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK_BREAK, out var fixValue))
 			return fixValue;
-		
+
 		var properties = monster.Properties;
-		
+
 		var baseValue = (float)monster.Data.BlockBreakRate;
 		var value = baseValue;
-		
+
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BREAK_BM);
-		
+
 		value += byBuffs;
-		
+
 		return (int)value;
 	}
 }
