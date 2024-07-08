@@ -83,23 +83,6 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
-
-		// Check for Concentrate
-		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.Concentrate_Buff, out var concentrateBuff))
-		{
-			var bonusDamage = concentrateBuff.NumArg2;
-			var variableName = "Melia.HitsLeft";
-			if (concentrateBuff.Vars.TryGetFloat(variableName, out var hitsLeft))
-			{
-				hitsLeft--;
-				if (hitsLeft > 0)
-					concentrateBuff.Vars.SetFloat(variableName, hitsLeft);
-				else
-					attacker.Components.Get<BuffComponent>().Remove(BuffId.Concentrate_Buff);
-			}
-			modifier.BonusDamage += bonusDamage;
-		}
-
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
 		damage *= skillFactor / 100f;
@@ -119,18 +102,6 @@ public class CombatCalculationsScript : GeneralScript
 		var def = target.Properties.GetFloat(defPropertyName);
 		def *= (1.0f - modifier.IgnoreDefPercent);
 		damage = Math.Max(1, damage - def);
-
-		// Check for Restrain
-		if (skill.Id == SkillId.Normal_Attack && attacker.Components.Get<BuffComponent>().TryGet(BuffId.Restrain_Buff, out var restrainBuff))
-		{
-			var stunChance = restrainBuff.NumArg2;
-			//TODO: Does anything affect resistance?
-
-			if (rnd.Next(100) < stunChance)
-			{
-				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), attacker);
-			}
-		}
 
 		// Check damage (de)buffs
 		// I'm not aware of a general purpose buff or debuff property for
