@@ -403,12 +403,10 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTATK, out var fixValue))
 			return fixValue;
 
-		var value = (float)monster.Data.CritAttack;
+		var baseValue = (float)monster.Data.CritAttack;
+		var byBuffs = monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
 
-		var byBuffs = 0f;
-		byBuffs += monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
-
-		value += byBuffs;
+		var value = baseValue + byBuffs;
 
 		return (int)value;
 	}
@@ -427,11 +425,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var properties = monster.Properties;
 
 		var baseValue = (float)monster.Data.BlockRate;
-		var value = baseValue;
-
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BM);
 
-		value += byBuffs;
+		var value = baseValue + byBuffs;
 
 		return (int)value;
 	}
@@ -450,11 +446,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var properties = monster.Properties;
 
 		var baseValue = (float)monster.Data.BlockBreakRate;
-		var value = baseValue;
-
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BREAK_BM);
 
-		value += byBuffs;
+		var value = baseValue + byBuffs;
 
 		return (int)value;
 	}
