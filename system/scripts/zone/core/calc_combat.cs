@@ -15,7 +15,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -67,6 +66,8 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
+		var SCR_GetBlockChance = ScriptableFunctions.Combat.Get("SCR_GetBlockChance");
+		var SCR_GetCritChance = ScriptableFunctions.Combat.Get("SCR_GetCritChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_HitCountMultiplier");
 		var SCR_SizeTypeBonus = ScriptableFunctions.Combat.Get("SCR_SizeTypeBonus");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
@@ -96,8 +97,20 @@ public class CombatCalculationsScript : GeneralScript
 		damage += skillAtkAdd + modifier.BonusDamage;
 		damage *= modifier.DamageMultiplier;
 
-		var crtHr = attacker.Properties.GetFloat(PropertyName.CRTHR);
-		if (rnd.Next(1000) < crtHr)
+		// Block needs to be calculated before criticals happen,
+		// but the damage must be reduced after defense reductions and modifiers
+		var blockChance = SCR_GetBlockChance(attacker, target, skill, skillHitResult);
+		if (rnd.Next(100) < blockChance)
+		{
+			skillHitResult.Result = HitResultType.Block;
+
+			// Nullify damage on successful classic block
+			if (!Feature.IsEnabled("NonNullifyBlocks"))
+				return 0;
+		}
+
+		var crtChance = SCR_GetCritChance(attacker, target, skill, skillHitResult);
+		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
 			damage += crtAtk;
@@ -162,10 +175,17 @@ public class CombatCalculationsScript : GeneralScript
 
 		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Cloaking_Buff, out var cloakingBuff))
 		{
-			// cloaking reduces damage by 25%
-
+			// Cloaking reduces damage by 25%
 			damage = Math.Max(1, damage - damage * 0.75f);
 		}
+    
+		// Block damage reduction
+		if (skillHitResult.Result == HitResultType.Block)
+			damage /= 2f;
+
+		// Critical damage bonus
+		if (skillHitResult.Result == HitResultType.Crit)
+			damage *= 1.5f;
 
 		return (int)damage;
 	}
@@ -531,5 +551,72 @@ public class CombatCalculationsScript : GeneralScript
 		var dodgeChance = Math2.Clamp(0, 80, Math.Pow(Math.Max(0, dr - hr), 0.65f));
 
 		return (float)dodgeChance;
+	}
+
+	/// <summary>
+	/// Returns the chance for the target to block a hit from the attacker.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
+		var block = target.Properties.GetFloat(PropertyName.BLK);
+		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
+
+		if (target.Components.Get<CombatComponent>()?.IsGuarding == true)
+		{
+			// The block amount added while actively guarding appears to have
+			// changed over time, but some sources say it was a flat 550 block
+			// bonus at some point at least. Pre-ReBuild sources on the other
+			// hand speak of a bonus based on the character's level.
+			if (Feature.IsEnabled("FlatGuardBonus"))
+				block += 550;
+			else
+				block += target.Level * 5.5f;
+		}
+
+		// The block chance cap appears to have been as much in flux as the bonus,
+		// which makes sense if blocks were once able to nullify damage entirely.
+		// As such, we're going to assume a base cap of 60% for nullifying and
+		// 90% for the newer blocking type that only lowers the damage. For PvP,
+		// the non-nullify cap is apparently supposed to be 30%.
+		var maxChance = 60;
+		if (Feature.IsEnabled("IncreasedBlockRate"))
+			maxChance = 90;
+
+		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
+		var blockChance = Math2.Clamp(0, maxChance, Math.Pow(Math.Max(0, Math.Max(0, block - blockBreak)), 0.7f));
+
+		return (float)blockChance;
+	}
+
+	/// <summary>
+	/// Returns the chance for the target to take a critical hit from the attacker.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
+		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
+		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
+
+		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
+		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
+
+		return (float)blockChance;
 	}
 }

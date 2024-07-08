@@ -11,6 +11,7 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -1063,14 +1064,14 @@ public class CharacterCalculationsScript : GeneralScript
 		var stat = properties.GetFloat(PropertyName.DEX);
 
 		var byStat = (stat * 4f) + ((float)Math.Floor(stat / 10f) * 10f);
-		var byItem = 0; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.CRTATK);
 
 		var value = byStat + byItem;
 
-		// Buffs: "CRTATK_BM"
-		var byBuffs = 0;
+		var byBuffs = properties.GetFloat(PropertyName.CRTATK_BM);
 
-		// Rate buffs: Does the game have something like CritATK +x%?
 		var rate = 0;
 		var byRateBuffs = (float)Math.Floor(value * rate);
 
@@ -1092,7 +1093,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level / 2f;
-		var byItem = 0; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.CRTHR);
 
 		var value = byLevel + byItem;
 
@@ -1119,7 +1122,9 @@ public class CharacterCalculationsScript : GeneralScript
 		var level = properties.GetFloat(PropertyName.Lv);
 
 		var byLevel = level / 2f;
-		var byItem = 0; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.CRTDR);
 
 		var value = byLevel + byItem;
 
@@ -1148,8 +1153,10 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var byLevel = level / 4f;
 		var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-		var byItem = 0; // HR, ADD_HR
+		var byItem = 0f;
 
+		byItem += character.Inventory.GetEquipProperties(PropertyName.HR);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_HR);
 		var value = byLevel + byStat + byItem;
 
 		var byBuffs = character.Properties.GetFloat(PropertyName.HR_BM);
@@ -1177,7 +1184,10 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var byLevel = level / 4f;
 		var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-		var byItem = 0; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.DR);
+		byItem += character.Inventory.GetEquipProperties(PropertyName.ADD_DR);
 
 		var value = byLevel + byStat + byItem;
 
@@ -1211,9 +1221,16 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var byLevel = Level / 4f;
 		var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-		var byItem = 0f; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.BLK);
 
 		var value = byLevel + byStat + byItem;
+
+		// The 'Increases final block rate by x%' on shields
+		var byItemBlockRate = character.Inventory.GetEquipProperties(PropertyName.BlockRate);
+		byItemBlockRate = (float)Math.Floor(value * (byItemBlockRate * 0.01f));
+		value += byItemBlockRate;
 
 		var byBuffs = character.Properties.GetFloat(PropertyName.BLK_BM);
 
@@ -1240,7 +1257,9 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var byLevel = level / 4f;
 		var byStat = (stat / 2f) + ((float)Math.Floor(stat / 15f) * 3f);
-		var byItem = 0; // TODO
+		var byItem = 0f;
+
+		byItem += character.Inventory.GetEquipProperties(PropertyName.BLK_BREAK);
 
 		var value = byLevel + byStat + byItem;
 
@@ -1404,5 +1423,32 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byItem + byBuff;
 		return value;
+	}
+
+	/// <summary>
+	/// Returns 1 or 0, depending on whether the character is able to guard.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_Guardable(Character character)
+	{
+		if (character.IsBuffActive(BuffId.Impaler_Buff))
+			return 0;
+
+		if (!character.HasSkill(SkillId.Warrior_Guard))
+			return 0;
+
+		// Characters can only guard if they have a shield equipped that does
+		// not grant a skill.
+		var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+
+		if (lhItem.Data.EquipType1 != EquipType.Shield)
+			return 0;
+
+		if (lhItem.Data.LeftHandSkill != SkillId.None)
+			return 0;
+
+		return 1;
 	}
 }
