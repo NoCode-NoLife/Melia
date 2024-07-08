@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/arguments.bt"
+
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif

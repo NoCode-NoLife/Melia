@@ -13,7 +13,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class BuffComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
+		private readonly Dictionary<BuffId, Buff> _buffs = new();
 
 		/// <summary>
 		/// Raised when a buff starts.
@@ -359,6 +359,34 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				foreach (var buff in toUpdate)
 					buff.Update(elapsed);
+			}
+
+			if (toRemove != null)
+			{
+				foreach (var buff in toRemove)
+					this.Remove(buff);
+			}
+		}
+
+		/// <summary>
+		/// Removes buffs that aren't saved on disconnect or map change.
+		/// </summary>
+		public void StopTempBuffs()
+		{
+			List<Buff> toRemove = null;
+
+			lock (_buffs)
+			{
+				foreach (var buff in _buffs.Values)
+				{
+					if (!buff.Data.Save)
+					{
+						if (toRemove == null)
+							toRemove = new List<Buff>();
+
+						toRemove.Add(buff);
+					}
+				}
 			}
 
 			if (toRemove != null)

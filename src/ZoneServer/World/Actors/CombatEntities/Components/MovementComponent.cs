@@ -16,11 +16,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class MovementComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly object _positionSyncLock = new object();
+		private readonly object _positionSyncLock = new();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
 
-		private ITriggerableArea[] _triggerAreas = new ITriggerableArea[0];
+		private ITriggerableArea[] _triggerAreas = [];
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -269,7 +269,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void CheckWarp()
 		{
-			if (!(this.Entity is Character character))
+			if (this.Entity is not Character character)
 				return;
 
 			var prevPos = character.Position;

@@ -173,6 +173,9 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
+			//Send.ZC_SEND_CASH_VALUE(conn);
+			//Send.ZC_SEND_PREMIUM_STATE(conn, new Shared.Game.PremiumState(PremiumType.Token, DateTime.Now.AddDays(7), 0));
+
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
 			// now. Yay.
@@ -2733,6 +2736,29 @@ namespace Melia.Zone.Network
 
 			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
+		}
+
+		/// <summary>
+		/// Request to change a character's guarding state.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_GUARD)]
+		public void CZ_GUARD(IZoneConnection conn, Packet packet)
+		{
+			var active = packet.GetBool();
+			var dir = packet.GetDirection();
+
+			var character = conn.SelectedCharacter;
+
+			var canGuard = character.Properties.GetFloat(PropertyName.Guardable) != 0;
+			if (!canGuard)
+				active = false;
+
+			if (character.Components.TryGet<CombatComponent>(out var combat))
+				combat.IsGuarding = active;
+
+			Send.ZC_GUARD(character, active, dir);
 		}
 	}
 }

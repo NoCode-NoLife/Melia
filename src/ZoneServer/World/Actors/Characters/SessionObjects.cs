@@ -10,7 +10,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// </summary>
 	public class SessionObjects
 	{
-		private readonly Dictionary<int, SessionObject> _objects = new Dictionary<int, SessionObject>();
+		private readonly Dictionary<int, SessionObject> _objects = new();
 
 		/// <summary>
 		/// Adds given session object to collection.

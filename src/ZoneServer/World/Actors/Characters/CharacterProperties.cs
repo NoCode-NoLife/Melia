@@ -139,6 +139,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
 
+			this.Create(PropertyName.Guardable, "SCR_Get_Character_Guardable");
+
 			// TODO: Update damage bonus properties based on equipment and
 			//   other potential factors.
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));
@@ -161,41 +163,41 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </remarks>
 		public void InitAutoUpdates()
 		{
-			this.AutoUpdate(PropertyName.STR, new[] { PropertyName.Lv, PropertyName.STR_ADD, PropertyName.STR_STAT, PropertyName.STR_JOB });
-			this.AutoUpdate(PropertyName.CON, new[] { PropertyName.Lv, PropertyName.CON_ADD, PropertyName.CON_STAT, PropertyName.CON_JOB });
-			this.AutoUpdate(PropertyName.INT, new[] { PropertyName.Lv, PropertyName.INT_ADD, PropertyName.INT_STAT, PropertyName.INT_JOB });
-			this.AutoUpdate(PropertyName.MNA, new[] { PropertyName.Lv, PropertyName.MNA_ADD, PropertyName.MNA_STAT, PropertyName.MNA_JOB });
-			this.AutoUpdate(PropertyName.DEX, new[] { PropertyName.Lv, PropertyName.DEX_ADD, PropertyName.DEX_STAT, PropertyName.DEX_JOB });
-			this.AutoUpdate(PropertyName.STR_JOB, new[] { PropertyName.Lv });
-			this.AutoUpdate(PropertyName.CON_JOB, new[] { PropertyName.Lv });
-			this.AutoUpdate(PropertyName.INT_JOB, new[] { PropertyName.Lv });
-			this.AutoUpdate(PropertyName.MNA_JOB, new[] { PropertyName.Lv });
-			this.AutoUpdate(PropertyName.DEX_JOB, new[] { PropertyName.Lv });
-			this.AutoUpdate(PropertyName.MHP, new[] { PropertyName.Lv, PropertyName.CON, PropertyName.MHP_BM, PropertyName.MHP_Bonus });
-			this.AutoUpdate(PropertyName.MSP, new[] { PropertyName.Lv, PropertyName.MNA, PropertyName.MSP_BM, PropertyName.MSP_Bonus });
-			this.AutoUpdate(PropertyName.StatPoint, new[] { PropertyName.StatByLevel, PropertyName.StatByBonus, PropertyName.UsedStat });
-			this.AutoUpdate(PropertyName.MSPD, new[] { PropertyName.MSPD_BM, PropertyName.MSPD_Bonus });
-			this.AutoUpdate(PropertyName.CastingSpeed, new[] { PropertyName.CastingSpeed_BM });
-			this.AutoUpdate(PropertyName.DEF, new[] { PropertyName.Lv, PropertyName.DEF_BM, PropertyName.DEF_RATE_BM });
-			this.AutoUpdate(PropertyName.MDEF, new[] { PropertyName.Lv, PropertyName.MDEF_BM, PropertyName.MDEF_RATE_BM });
-			this.AutoUpdate(PropertyName.CRTATK, new[] { PropertyName.CRTATK_BM });
-			this.AutoUpdate(PropertyName.CRTHR, new[] { PropertyName.Lv, PropertyName.CRTHR_BM });
-			this.AutoUpdate(PropertyName.CRTDR, new[] { PropertyName.Lv, PropertyName.CRTDR_BM });
-			this.AutoUpdate(PropertyName.HR, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.HR_BM, PropertyName.HR_RATE_BM });
-			this.AutoUpdate(PropertyName.DR, new[] { PropertyName.Lv, PropertyName.DEX, PropertyName.DR_BM, PropertyName.DR_RATE_BM });
-			this.AutoUpdate(PropertyName.BLK, new[] { PropertyName.Lv, PropertyName.CON, PropertyName.BLK_BM, PropertyName.BLK_RATE_BM });
-			this.AutoUpdate(PropertyName.BLK_BREAK, new[] { PropertyName.Lv, PropertyName.DEX, PropertyName.BLK_BREAK_BM, PropertyName.BLK_BREAK_RATE_BM });
-			this.AutoUpdate(PropertyName.SR, new[] { PropertyName.SR_BM });
-			this.AutoUpdate(PropertyName.SDR, new[] { PropertyName.FixedMinSDR_BM, PropertyName.SDR_BM });
-			this.AutoUpdate(PropertyName.MaxSta, new[] { PropertyName.CON, PropertyName.MAXSTA_Bonus, PropertyName.MaxSta_BM });
-			this.AutoUpdate(PropertyName.Sta_Run, new[] { PropertyName.DashRun });
-			this.AutoUpdate(PropertyName.Sta_Recover, new[] { PropertyName.REST_BM, PropertyName.RSta_BM });
-			this.AutoUpdate(PropertyName.MINPATK, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MINPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MINPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MINPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MINPATK_MAIN_RATE_BM });
-			this.AutoUpdate(PropertyName.MAXPATK, new[] { PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MAXPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MAXPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MAXPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MAXPATK_MAIN_RATE_BM });
-			this.AutoUpdate(PropertyName.MINMATK, new[] { PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MINMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MINMATK_RATE_BM });
-			this.AutoUpdate(PropertyName.MAXMATK, new[] { PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MAXMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MAXMATK_RATE_BM });
-			this.AutoUpdate(PropertyName.MaxWeight, new[] { PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus });
-			this.AutoUpdate(PropertyName.MovingShot, new[] { PropertyName.MovingShot_BM });
+			this.AutoUpdate(PropertyName.STR, [PropertyName.Lv, PropertyName.STR_ADD, PropertyName.STR_STAT, PropertyName.STR_JOB]);
+			this.AutoUpdate(PropertyName.CON, [PropertyName.Lv, PropertyName.CON_ADD, PropertyName.CON_STAT, PropertyName.CON_JOB]);
+			this.AutoUpdate(PropertyName.INT, [PropertyName.Lv, PropertyName.INT_ADD, PropertyName.INT_STAT, PropertyName.INT_JOB]);
+			this.AutoUpdate(PropertyName.MNA, [PropertyName.Lv, PropertyName.MNA_ADD, PropertyName.MNA_STAT, PropertyName.MNA_JOB]);
+			this.AutoUpdate(PropertyName.DEX, [PropertyName.Lv, PropertyName.DEX_ADD, PropertyName.DEX_STAT, PropertyName.DEX_JOB]);
+			this.AutoUpdate(PropertyName.STR_JOB, [PropertyName.Lv]);
+			this.AutoUpdate(PropertyName.CON_JOB, [PropertyName.Lv]);
+			this.AutoUpdate(PropertyName.INT_JOB, [PropertyName.Lv]);
+			this.AutoUpdate(PropertyName.MNA_JOB, [PropertyName.Lv]);
+			this.AutoUpdate(PropertyName.DEX_JOB, [PropertyName.Lv]);
+			this.AutoUpdate(PropertyName.MHP, [PropertyName.Lv, PropertyName.CON, PropertyName.MHP_BM, PropertyName.MHP_Bonus]);
+			this.AutoUpdate(PropertyName.MSP, [PropertyName.Lv, PropertyName.MNA, PropertyName.MSP_BM, PropertyName.MSP_Bonus]);
+			this.AutoUpdate(PropertyName.StatPoint, [PropertyName.StatByLevel, PropertyName.StatByBonus, PropertyName.UsedStat]);
+			this.AutoUpdate(PropertyName.MSPD, [PropertyName.MSPD_BM, PropertyName.MSPD_Bonus]);
+			this.AutoUpdate(PropertyName.CastingSpeed, [PropertyName.CastingSpeed_BM]);
+			this.AutoUpdate(PropertyName.DEF, [PropertyName.Lv, PropertyName.DEF_BM, PropertyName.DEF_RATE_BM]);
+			this.AutoUpdate(PropertyName.MDEF, [PropertyName.Lv, PropertyName.MDEF_BM, PropertyName.MDEF_RATE_BM]);
+			this.AutoUpdate(PropertyName.CRTATK, [PropertyName.CRTATK_BM]);
+			this.AutoUpdate(PropertyName.CRTHR, [PropertyName.Lv, PropertyName.CRTHR_BM]);
+			this.AutoUpdate(PropertyName.CRTDR, [PropertyName.Lv, PropertyName.CRTDR_BM]);
+			this.AutoUpdate(PropertyName.HR, [PropertyName.Lv, PropertyName.STR, PropertyName.HR_BM, PropertyName.HR_RATE_BM]);
+			this.AutoUpdate(PropertyName.DR, [PropertyName.Lv, PropertyName.DEX, PropertyName.DR_BM, PropertyName.DR_RATE_BM]);
+			this.AutoUpdate(PropertyName.BLK, [PropertyName.Lv, PropertyName.CON, PropertyName.BLK_BM, PropertyName.BLK_RATE_BM]);
+			this.AutoUpdate(PropertyName.BLK_BREAK, [PropertyName.Lv, PropertyName.DEX, PropertyName.BLK_BREAK_BM, PropertyName.BLK_BREAK_RATE_BM]);
+			this.AutoUpdate(PropertyName.SR, [PropertyName.SR_BM]);
+			this.AutoUpdate(PropertyName.SDR, [PropertyName.FixedMinSDR_BM, PropertyName.SDR_BM]);
+			this.AutoUpdate(PropertyName.MaxSta, [PropertyName.CON, PropertyName.MAXSTA_Bonus, PropertyName.MaxSta_BM]);
+			this.AutoUpdate(PropertyName.Sta_Run, [PropertyName.DashRun]);
+			this.AutoUpdate(PropertyName.Sta_Recover, [PropertyName.REST_BM, PropertyName.RSta_BM]);
+			this.AutoUpdate(PropertyName.MINPATK, [PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MINPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MINPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MINPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MINPATK_MAIN_RATE_BM]);
+			this.AutoUpdate(PropertyName.MAXPATK, [PropertyName.Lv, PropertyName.STR, PropertyName.PATK_BM, PropertyName.MAXPATK_BM, PropertyName.PATK_MAIN_BM, PropertyName.MAXPATK_MAIN_BM, PropertyName.PATK_RATE_BM, PropertyName.MAXPATK_RATE_BM, PropertyName.PATK_MAIN_RATE_BM, PropertyName.MAXPATK_MAIN_RATE_BM]);
+			this.AutoUpdate(PropertyName.MINMATK, [PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MINMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MINMATK_RATE_BM]);
+			this.AutoUpdate(PropertyName.MAXMATK, [PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MAXMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MAXMATK_RATE_BM]);
+			this.AutoUpdate(PropertyName.MaxWeight, [PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus]);
+			this.AutoUpdate(PropertyName.MovingShot, [PropertyName.MovingShot_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);
