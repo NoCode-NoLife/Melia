@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Zone.Network;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -28,6 +27,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// Returns the entity's casting state.
 		/// </summary>
 		public bool CastingState { get; set; }
+
+		/// <summary>
+		/// Returns the entity's guarding state.
+		/// </summary>
+		public bool IsGuarding { get; set; }
 
 		/// <summary>
 		/// Returns the last time the entity was involved in combat in

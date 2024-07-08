@@ -2032,7 +2032,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
 				packet.PutFloat(revealedMap.Percentage);
-				packet.PutFloat(0);				
+				packet.PutFloat(0);
 			}
 			packet.PutLong(0);
 			packet.PutFloat(56.45161f);
@@ -4238,6 +4238,23 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_CANCEL_FIXCAMERA);
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates entity's guard state on clients in range.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="active"></param>
+		/// <param name="dir"></param>
+		public static void ZC_GUARD(ICombatEntity entity, bool active, Direction dir)
+		{
+			var packet = new Packet(Op.ZC_GUARD);
+
+			packet.PutInt(entity.Handle);
+			packet.PutByte(active);
+			packet.PutDirection(dir);
+
+			entity.Map.Broadcast(packet, entity);
 		}
 	}
 }
