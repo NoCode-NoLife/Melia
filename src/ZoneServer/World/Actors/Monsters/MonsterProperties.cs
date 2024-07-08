@@ -59,6 +59,11 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Create(new CFloatProperty(PropertyName.HR, () => this.CalculateProperty("SCR_Get_MON_HR")));
 			this.Create(new CFloatProperty(PropertyName.SR, () => this.CalculateProperty("SCR_Get_MON_SR")));
 			this.Create(new CFloatProperty(PropertyName.SDR, () => this.CalculateProperty("SCR_Get_MON_SDR")));
+			this.Create(new CFloatProperty(PropertyName.CRTHR, () => this.CalculateProperty("SCR_Get_MON_CRTHR")));
+			this.Create(new CFloatProperty(PropertyName.CRTDR, () => this.CalculateProperty("SCR_Get_MON_CRTDR")));
+			this.Create(new CFloatProperty(PropertyName.CRTATK, () => this.CalculateProperty("SCR_Get_MON_CRTATK")));
+			this.Create(new CFloatProperty(PropertyName.BLK, () => this.CalculateProperty("SCR_Get_MON_BLK")));
+			this.Create(new CFloatProperty(PropertyName.BLK_BREAK, () => this.CalculateProperty("SCR_Get_MON_BLK_BREAK")));
 
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
