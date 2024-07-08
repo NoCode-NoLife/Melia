@@ -15,7 +15,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -95,6 +94,10 @@ public class CombatCalculationsScript : GeneralScript
 		if (rnd.Next(100) < blockChance)
 		{
 			skillHitResult.Result = HitResultType.Block;
+
+			// Nullify damage on successful classic block
+			if (!Feature.IsEnabled("NonNullifyBlocks"))
+				return 0;
 		}
 
 		var crtChance = SCR_GetCritChance(attacker, target, skill, skillHitResult);
@@ -545,14 +548,29 @@ public class CombatCalculationsScript : GeneralScript
 		var block = target.Properties.GetFloat(PropertyName.BLK);
 		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
 
-		// The block amount added while actively guarding appears to have changed
-		// over time, but some sources say it was a flat 550 block bonus at some
-		// point at least.
 		if (target.Components.Get<CombatComponent>()?.IsGuarding == true)
-			block += 550;
+		{
+			// The block amount added while actively guarding appears to have
+			// changed over time, but some sources say it was a flat 550 block
+			// bonus at some point at least. Pre-ReBuild sources on the other
+			// hand speak of a bonus based on the character's level.
+			if (Feature.IsEnabled("FlatGuardBonus"))
+				block += 550;
+			else
+				block += target.Level * 5.5f;
+		}
+
+		// The block chance cap appears to have been as much in flux as the bonus,
+		// which makes sense if blocks were once able to nullify damage entirely.
+		// As such, we're going to assume a base cap of 60% for nullifying and
+		// 90% for the newer blocking type that only lowers the damage. For PvP,
+		// the non-nullify cap is apparently supposed to be 30%.
+		var maxChance = 60;
+		if (Feature.IsEnabled("IncreasedBlockRate"))
+			maxChance = 90;
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
-		var blockChance = Math2.Clamp(0, 90, Math.Pow(Math.Max(0, Math.Max(0, block - blockBreak)), 0.7f));
+		var blockChance = Math2.Clamp(0, maxChance, Math.Pow(Math.Max(0, Math.Max(0, block - blockBreak)), 0.7f));
 
 		return (float)blockChance;
 	}
