@@ -651,6 +651,9 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.Job.Level == this.Job.MaxLevel)
 				return 0;
 
+			if (this.Job.Level + amount > this.Job.MaxLevel)
+				amount = this.Job.MaxLevel - this.Job.Level;
+
 			var prevLevel = this.Job.Level;
 			var prevExp = this.Job.TotalExp;
 
