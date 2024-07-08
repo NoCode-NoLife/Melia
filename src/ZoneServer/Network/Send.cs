@@ -2028,15 +2028,16 @@ namespace Melia.Zone.Network
 			var revealedMaps = conn.Account.GetRevealedMaps();
 
 			packet.PutInt(revealedMaps.Length);
+
+			// Officials appear to compress the actual data nowadays, but it seems
+			// like the client can still handle the raw data as well.
 			foreach (var revealedMap in revealedMaps)
 			{
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
 				packet.PutFloat(revealedMap.Percentage);
-				packet.PutFloat(0);
+				packet.PutFloat(revealedMap.Percentage);
 			}
-			packet.PutLong(0);
-			packet.PutFloat(56.45161f);
 
 			conn.Send(packet);
 		}
