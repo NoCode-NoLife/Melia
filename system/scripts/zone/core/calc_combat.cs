@@ -541,13 +541,19 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
-		
+
 		var block = target.Properties.GetFloat(PropertyName.BLK);
 		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
 
+		// The block amount added while actively guarding appears to have changed
+		// over time, but some sources say it was a flat 550 block bonus at some
+		// point at least.
+		if (target.Components.Get<CombatComponent>()?.IsGuarding == true)
+			block += 550;
+
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
 		var blockChance = Math2.Clamp(0, 90, Math.Pow(Math.Max(0, Math.Max(0, block - blockBreak)), 0.7f));
-		
+
 		return (float)blockChance;
 	}
 
@@ -564,13 +570,13 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
-		
+
 		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
 		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
-		
+
 		return (float)blockChance;
 	}
 }

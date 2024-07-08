@@ -139,6 +139,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
 
+			this.Create(PropertyName.Guardable, "SCR_Get_Character_Guardable");
+
 			// TODO: Update damage bonus properties based on equipment and
 			//   other potential factors.
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));

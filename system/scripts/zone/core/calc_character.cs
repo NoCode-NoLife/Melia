@@ -11,6 +11,7 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -1422,5 +1423,32 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var value = byItem + byBuff;
 		return value;
+	}
+
+	/// <summary>
+	/// Returns 1 or 0, depending on whether the character is able to guard.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_Guardable(Character character)
+	{
+		if (character.IsBuffActive(BuffId.Impaler_Buff))
+			return 0;
+
+		if (!character.HasSkill(SkillId.Warrior_Guard))
+			return 0;
+
+		// Characters can only guard if they have a shield equipped that does
+		// not grant a skill.
+		var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+
+		if (lhItem.Data.EquipType1 != EquipType.Shield)
+			return 0;
+
+		if (lhItem.Data.LeftHandSkill != SkillId.None)
+			return 0;
+
+		return 1;
 	}
 }
