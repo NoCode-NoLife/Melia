@@ -2624,6 +2624,10 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Updates premium state on client.
 		/// </summary>
+		/// <remarks>
+		/// May crash the client if a correct ZC_SEND_CASH_VALUE packet was not
+		/// sent first.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="state"></param>
 		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn, PremiumState state)
