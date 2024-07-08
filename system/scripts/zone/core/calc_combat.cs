@@ -176,7 +176,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Cloaking_Buff, out var cloakingBuff))
 		{
 			// Cloaking reduces damage by 25%
-			damage = Math.Max(1, damage - damage * 0.75f);
+			damage = Math.Max(1, damage - damage * 0.25f);
 		}
     
 		// Block damage reduction
