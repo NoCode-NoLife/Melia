@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.Network;
@@ -2544,92 +2545,95 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends premium state properties to client.
+		/// Updates premium state properties on client.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_SEND_CASH_VALUE(IZoneConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SEND_CASH_VALUE);
 
-			// Premium state 0?
+			// Normal
 			packet.PutInt(4); // count?
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(0);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(30);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(1);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(30);
+				packet.PutDouble(1);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(1);
+				packet.PutDouble(1);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(0);
 			}
 
-			// Premium state 1?
+			// Premium Type 1
 			packet.PutInt(4);
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(3);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(10);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(5);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(10);
+				packet.PutDouble(5);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(3);
+				packet.PutDouble(3);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(3);
 			}
 
-			// Premium state 2?
+			// Token
 			packet.PutInt(4);
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(3);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(10);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(10);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(10);
+				packet.PutDouble(10);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(2);
+				packet.PutDouble(2);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(3);
 			}
 
 			// ?
 			packet.PutInt(4);
 			{
-				packet.PutInt(7);
-				packet.PutFloat(2.5f);
-
 				packet.PutInt(5);
-				packet.PutFloat(2);
+				packet.PutFloat(1);
 
-				packet.PutInt(3);
-				packet.PutFloat(1.5f);
+				packet.PutInt(14);
+				packet.PutFloat(1);
 
 				packet.PutInt(1);
-				packet.PutFloat(1);
+				packet.PutFloat(0);
+
+				packet.PutInt(3);
+				packet.PutFloat(0);
 			}
+
+			packet.PutInt(33);
 
 			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends premium state properties to client.
+		/// Updates premium state on client.
 		/// </summary>
 		/// <param name="conn"></param>
-		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn)
+		/// <param name="state"></param>
+		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn, PremiumState state)
 		{
 			var packet = new Packet(Op.ZC_SEND_PREMIUM_STATE);
 
-			packet.PutShort(2); // Count?
-			packet.PutShort(0x4E6C);
-			packet.PutShort(0xE8EF);
-			packet.PutInt(0);
+			packet.PutByte((byte)state.Type);
+			packet.PutByte(state.Active);
+			packet.PutInt(state.RemainingSeconds);
+			packet.PutInt(state.NumArg);
 
 			conn.Send(packet);
 		}
