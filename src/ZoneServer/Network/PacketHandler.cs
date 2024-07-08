@@ -1639,7 +1639,7 @@ namespace Melia.Zone.Network
 			// Check the percentage for validity
 			if (percentage < 0 || percentage > 100)
 			{
-				Log.Warning("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
+				Log.Warning("CZ_MAP_REVEAL_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
 				return;
 			}
 
@@ -1649,8 +1649,11 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Reports to the server a percentage of the map that has been explored.
-		/// This packet is seemingly no longer used, it's been combined with the above
 		/// </summary>
+		/// <remarks>
+		/// This packet was last seen in logs from 2017 and is apparently no longer
+		/// used. The map percentage is now communicated via CZ_MAP_REVEAL_INFO.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_MAP_SEARCH_INFO)]
