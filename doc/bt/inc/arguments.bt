@@ -19,6 +19,9 @@
 #define TYPE_SEND (GetArg(0) == "send")
 #define TYPE_UNK  (GetArg(0) == "")
 
+local int logDate = (GetArg(1) != "" ? Atoi(GetArg(1)) : 99999999);
+#define LOG_DATE  logDate
+
 local int argc = GetNumArgs();
 if (argc)
 {
