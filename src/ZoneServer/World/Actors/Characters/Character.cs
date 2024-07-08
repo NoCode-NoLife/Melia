@@ -27,10 +27,10 @@ namespace Melia.Zone.World.Actors.Characters
 		private bool _warping;
 		private int _destinationChannelId;
 
-		private readonly object _lookAroundLock = new object();
-		private readonly object _hpLock = new object();
-		private IMonster[] _visibleMonsters = new IMonster[0];
-		private Character[] _visibleCharacters = new Character[0];
+		private readonly object _lookAroundLock = new();
+		private readonly object _hpLock = new();
+		private IMonster[] _visibleMonsters = [];
+		private Character[] _visibleCharacters = [];
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
@@ -881,7 +881,7 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-					if (monster.AttachableEffects.Count != 0)
+					if (monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
@@ -907,7 +907,7 @@ namespace Melia.Zone.World.Actors.Characters
 					Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(this.Connection, character);
 					//Send.ZC_SEND_MODE_HUD_SKIN(this.Connection, character);
 
-					if (character.AttachableEffects.Count != 0)
+					if (!character.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in character.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
@@ -950,8 +950,8 @@ namespace Melia.Zone.World.Actors.Characters
 				foreach (var character in _visibleCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
 
-				_visibleMonsters = new IMonster[0];
-				_visibleCharacters = new Character[0];
+				_visibleMonsters = [];
+				_visibleCharacters = [];
 			}
 		}
 
@@ -1047,7 +1047,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (args.Length > 0)
 				format = string.Format(format, args);
 
-			if (format.IndexOf("'") != -1)
+			if (format.Contains('\''))
 				format = format.Replace("'", "\\'");
 
 			Send.ZC_EXEC_CLIENT_SCP(this.Connection, "ui.MsgBox('" + format + "')");

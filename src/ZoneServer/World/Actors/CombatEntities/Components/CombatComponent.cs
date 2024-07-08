@@ -15,9 +15,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	{
 		private static readonly TimeSpan AttackStateDuration = TimeSpan.FromSeconds(10);
 
-		private readonly object _hitLock = new object();
-		private readonly Dictionary<int, float> _damageTaken = new Dictionary<int, float>();
-		private readonly Dictionary<int, int> _hitsTaken = new Dictionary<int, int>();
+		private readonly object _hitLock = new();
+		private readonly Dictionary<int, float> _damageTaken = new();
+		private readonly Dictionary<int, int> _hitsTaken = new();
 
 		/// <summary>
 		/// Returns the entity's attack state.

@@ -162,7 +162,7 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool TrySpendSp(this ICombatEntity entity, float amount)
 		{
-			if (!(entity is Character character))
+			if (entity is not Character character)
 				return true;
 
 			if (amount == 0)
