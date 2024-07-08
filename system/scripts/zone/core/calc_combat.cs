@@ -110,18 +110,6 @@ public class CombatCalculationsScript : GeneralScript
 		def *= (1.0f - modifier.IgnoreDefPercent);
 		damage = Math.Max(1, damage - def);
 
-		// Check for Restrain
-		if (skill.Id == SkillId.Normal_Attack && attacker.Components.Get<BuffComponent>().TryGet(BuffId.Restrain_Buff, out var restrainBuff))
-		{
-			var stunChance = restrainBuff.NumArg2;
-			//TODO: Does anything affect resistance?
-
-			if (rnd.Next(100) < stunChance)
-			{
-				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), attacker);
-			}
-		}
-
 		// Check damage (de)buffs
 		// I'm not aware of a general purpose buff or debuff property for
 		// modifying damage that we could utilize to handle buffs like
