@@ -20,4 +20,5 @@ int count;
 if (!checkCompression())
 {
     mapRevealData dataSets[count];
+    float spacer;
 }

@@ -15,8 +15,7 @@ typedef struct
 {
     int mapId;
     ubyte data[128];
-    float mapExplored1;
-    float mapExplored2;
+    float percentageExplored;
 }
 mapRevealData <read=mapRevealDataRead>;
 
