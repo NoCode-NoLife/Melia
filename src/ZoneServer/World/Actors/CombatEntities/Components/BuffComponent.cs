@@ -369,7 +369,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Remove all temp buffs (buffs that don't save on logout)
+		/// Removes buffs that aren't saved on disconnect or map change.
 		/// </summary>
 		public void StopTempBuffs()
 		{
@@ -395,7 +395,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					this.Remove(buff);
 			}
 		}
-	}	
+	}
 
 	/// <summary>
 	/// Exception for when a buff handler is not implemented.
