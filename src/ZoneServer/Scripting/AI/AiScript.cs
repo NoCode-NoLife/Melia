@@ -197,7 +197,7 @@ namespace Melia.Zone.Scripting.AI
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
 
-				if (potentialEnemy.IsBuffActive(BuffId.Cloaking_Buff))
+				if (!this.CanAccumulateHate(potentialEnemy))
 					continue;
 
 				var handle = potentialEnemy.Handle;
@@ -291,17 +291,31 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Returns true if the entity is currently a valid target.
+		/// Returns true if the given entity can accumulate hate, based on its
+		/// current state.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
-		protected bool CanTarget(ICombatEntity entity)
+		protected bool CanAccumulateHate(ICombatEntity entity)
 		{
-			// Can never target cloaked entities
 			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
 				return false;
 
-			return IsHostileTowards(entity);
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if the given entity is a valid target to be hated and
+		/// targetted, based on its current state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanBeHated(ICombatEntity entity)
+		{
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -323,7 +337,7 @@ namespace Melia.Zone.Scripting.AI
 
 				var entity = this.Entity.Map.GetCombatEntity(handle);
 
-				if (entity != null && !this.CanTarget(entity))
+				if (entity != null && !this.CanBeHated(entity))
 					continue;
 
 				highestHate = hate;
@@ -347,7 +361,7 @@ namespace Melia.Zone.Scripting.AI
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
 				return false;
 
-			if (!this.CanTarget(entity))
+			if (!this.CanBeHated(entity))
 				return false;
 
 			return (hate >= _minAggroHateLevel);
