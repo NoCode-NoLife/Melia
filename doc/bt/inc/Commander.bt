@@ -33,5 +33,10 @@ typedef struct
     int maxStamina;
     int shield;
     int maxShield;
+
+    byte unk2[32];
+
+    if (LOG_DATE >= 20240709)
+        byte unk3[8];
 }
 COMMANDER;

@@ -305,10 +305,10 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			if (this.MonsterType == MonsterType.Mob && beneficiary != null)
 			{
-				this.GetExpToGive(out var exp, out var classExp);
+				this.GetExpToGive(out var exp, out var jobExp);
 
 				this.DropItems(beneficiary);
-				beneficiary?.GiveExp(exp, classExp, this);
+				beneficiary?.GiveExp(exp, jobExp, this);
 			}
 
 			this.Died?.Invoke(this, killer);
@@ -342,32 +342,32 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// via out.
 		/// </summary>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
-		private void GetExpToGive(out long exp, out long classExp)
+		/// <param name="jobExp"></param>
+		private void GetExpToGive(out long exp, out long jobExp)
 		{
 			var worldConf = ZoneServer.Instance.Conf.World;
 
 			var expRate = worldConf.ExpRate / 100.0;
-			var classExpRate = worldConf.ClassExpRate / 100.0;
+			var jobExpRate = worldConf.JobExpRate / 100.0;
 
 			if (this.IsBuffActive(BuffId.SuperExp))
 			{
 				expRate *= worldConf.BlueJackpotExpRate / 100.0;
-				classExpRate *= worldConf.BlueJackpotExpRate / 100.0;
+				jobExpRate *= worldConf.BlueJackpotExpRate / 100.0;
 			}
 			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
 			{
 				expRate *= worldConf.EliteExpRate / 100.0;
-				classExpRate *= worldConf.EliteExpRate / 100.0;
+				jobExpRate *= worldConf.EliteExpRate / 100.0;
 			}
 
 			exp = 0L;
-			classExp = 0L;
+			jobExp = 0L;
 
 			if (this.Data.Exp > 0)
 				exp = (long)Math.Max(1, this.Data.Exp * expRate);
-			if (this.Data.ClassExp > 0)
-				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
+			if (this.Data.JobExp > 0)
+				jobExp = (long)Math.Max(1, this.Data.JobExp * jobExpRate);
 		}
 
 		/// <summary>

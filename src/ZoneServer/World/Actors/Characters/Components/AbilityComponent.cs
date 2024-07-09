@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class AbilityComponent : CharacterComponent
 	{
-		private readonly Dictionary<AbilityId, Ability> _abilities = new Dictionary<AbilityId, Ability>();
+		private readonly Dictionary<AbilityId, Ability> _abilities = new();
 
 		/// <summary>
 		/// Returns amount of abilities.
