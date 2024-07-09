@@ -9,7 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: i336041 - Added additional 4 bytes (int,float) between key and value (double).
-			  i3xxxxx - Turn float into a double.
+//			  i3xxxxx - Turn float into a double.
 //------------------------------------------------
 
 #include "inc/common.bt"

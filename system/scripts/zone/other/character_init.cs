@@ -26,6 +26,8 @@ public class CharacterInitializationScript : GeneralScript
 			InitCharacter(args.Character);
 			vars.Perm.SetBool("Melia.EverLoggedIn", true);
 		}
+
+		UpdateCharacter(args.Character);
 	}
 
 	private static void InitCharacter(Character character)
@@ -39,6 +41,22 @@ public class CharacterInitializationScript : GeneralScript
 			case JobId.Archer: InitArcher(character); break;
 			case JobId.Cleric: InitCleric(character); break;
 			case JobId.Scout: InitScout(character); break;
+		}
+	}
+
+	private void UpdateCharacter(Character character)
+	{
+		if (character.JobClass == JobClass.Cleric)
+		{
+			// Based on the client data, Warrior Guard is not officialy part of
+			// a cleric's skillset, but they get it on the latest version of the
+			// game and are able to use it. In older logs there was no sign of
+			// clerics getting Guard, however, so we'll make it optional.
+
+			if (Feature.IsEnabled("GuardingClerics"))
+				LearnSkill(character, SkillId.Warrior_Guard);
+			else
+				UnlearnSkill(character, SkillId.Warrior_Guard);
 		}
 	}
 
@@ -232,6 +250,11 @@ public class CharacterInitializationScript : GeneralScript
 
 		var skill = new Skill(character, skillId, 1);
 		character.Skills.AddSilent(skill);
+	}
+
+	private static void UnlearnSkill(Character character, SkillId skillId)
+	{
+		character.Skills.RemoveSilent(skillId);
 	}
 
 	private static void LearnAbility(Character character, AbilityId abilityId)

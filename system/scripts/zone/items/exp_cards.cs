@@ -17,9 +17,9 @@ public class ExpCardScripts : GeneralScript
 	public ItemUseResult SCR_USE_ITEM_EXPCARD(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
 		var baseExp = (long)numArg1;
-		var classExp = (long)(baseExp * 0.77f);
+		var jobExp = (long)(baseExp * 0.77f);
 
-		character.GiveExp(baseExp, classExp, null);
+		character.GiveExp(baseExp, jobExp, null);
 		character.PlayEffect("F_sys_expcard_normal");
 
 		return ItemUseResult.Okay;
@@ -38,13 +38,13 @@ public class ExpCardScripts : GeneralScript
 
 			var numArg1 = item.Data.Script.NumArg1;
 			var baseExp = (long)numArg1;
-			var classExp = (long)(baseExp * 0.77f);
+			var jobExp = (long)(baseExp * 0.77f);
 
 			baseExp *= amount;
-			classExp *= amount;
+			jobExp *= amount;
 
-			character.GiveExp(baseExp, classExp, null);
-			character.SystemMessage("GetExp{CHAR}{JOB}", new MsgParameter("CHAR", baseExp), new MsgParameter("JOB", classExp));
+			character.GiveExp(baseExp, jobExp, null);
+			character.SystemMessage("GetExp{CHAR}{JOB}", new MsgParameter("CHAR", baseExp), new MsgParameter("JOB", jobExp));
 
 			character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Used);
 		}
