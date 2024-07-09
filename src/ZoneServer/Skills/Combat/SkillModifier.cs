@@ -52,5 +52,39 @@
 		/// multiple hits.
 		/// </remarks>
 		public int HitCount { get; set; } = 1;
+
+		/// <summary>
+		/// Returns a new skill modifier with default values.
+		/// </summary>
+		public static SkillModifier Default { get; } = new SkillModifier();
+
+		/// <summary>
+		/// Returns a new skill modifier with the given hit count.
+		/// </summary>
+		/// <param name="hitCount">Number of hits to set.</param>
+		/// <returns></returns>
+		public static SkillModifier MultiHit(int hitCount)
+		{
+			var result = new SkillModifier();
+			result.HitCount = hitCount;
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a new skill modifier with the given hit count if condition is true.
+		/// </summary>
+		/// <param name="hitCount">Number of hits to set.</param>
+		/// <param name="condition">If false, hit count is set to the default of 1.</param>
+		/// <returns></returns>
+		public static SkillModifier MultiHitIf(int hitCount, bool condition)
+		{
+			var result = new SkillModifier();
+
+			if (condition)
+				result.HitCount = hitCount;
+
+			return result;
+		}
 	}
 }
