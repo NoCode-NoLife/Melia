@@ -94,7 +94,9 @@ public class CombatCalculationsScript : GeneralScript
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
 		damage *= skillFactor / 100f;
-		damage += skillAtkAdd + modifier.BonusDamage;
+		damage += skillAtkAdd;
+
+		damage += modifier.BonusDamage;
 		damage *= modifier.DamageMultiplier;
 
 		// Block needs to be calculated before criticals happen,
@@ -120,7 +122,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
-		def *= (1.0f - modifier.IgnoreDefPercent);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
 		damage = Math.Max(1, damage - def);
 
 		// Check damage (de)buffs
@@ -178,7 +180,7 @@ public class CombatCalculationsScript : GeneralScript
 			// Cloaking reduces damage by 25%
 			damage = Math.Max(1, damage - damage * 0.25f);
 		}
-    
+
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
 			damage /= 2f;
