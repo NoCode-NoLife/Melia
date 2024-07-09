@@ -53,9 +53,18 @@ typedef struct
     byte b3;
     byte wigVisible;
     byte subWeaponVisible;
-    int i2;
-    byte b4;
-    byte b5;
-    byte b6;
+
+    if (LOG_DATE < 20240709)
+    {
+        int i2;
+        byte gap1[3];
+    }
+    else
+    {
+        byte gap1[3];
+        int i3;
+        int i2;
+        int i4;
+    }
 }
 APPEARANCE_PC;

@@ -18,6 +18,10 @@ typedef struct
     int handle;
     int i1;
     APPEARANCE_PC appearancePc;
+
+    if (LOG_DATE >= 20240709)
+        byte unk1[16];
+
     position pos;
     int i2;
     int64 currentExp;
@@ -33,5 +37,10 @@ typedef struct
     int maxStamina;
     int shield;
     int maxShield;
+
+    byte unk2[32];
+
+    if (LOG_DATE >= 20240709)
+        byte unk3[8];
 }
 COMMANDER;

@@ -14,6 +14,10 @@
 typedef struct
 {
     APPEARANCE_PC appearancePc;
+
+    if (LOG_DATE >= 20240709)
+        byte unk1[16];
+
     int64 characterId;
     byte index;
     ubyte b1;
