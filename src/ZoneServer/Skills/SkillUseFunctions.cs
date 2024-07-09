@@ -83,7 +83,7 @@ namespace Melia.Zone.Skills
 		/// <param name="skill"></param>
 		/// <returns></returns>
 		public static SkillHitResult SCR_SkillHit(ICombatEntity caster, ICombatEntity target, Skill skill)
-			=> Call("SCR_SkillHit", caster, target, skill, new SkillModifier());
+			=> Call("SCR_SkillHit", caster, target, skill, SkillModifier.Default);
 
 		/// <summary>
 		/// Determines the result of skill hitting the target with the indicated skill modifiers

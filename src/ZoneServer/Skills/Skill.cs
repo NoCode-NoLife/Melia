@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -152,7 +150,7 @@ namespace Melia.Zone.Skills
 		public bool IncreaseOverheat(int overheatMaxCount)
 		{
 			// No cooldowns for monsters
-			if (!(this.Owner is Character character))
+			if (this.Owner is not Character character)
 				return false;
 
 			// Increase counter regardless of whether the skill can

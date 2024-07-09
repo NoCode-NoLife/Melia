@@ -51,7 +51,9 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				var targetLethargic = target.IsBuffActive(BuffId.Lethargy_Debuff);
+
+				var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHitIf(2, targetLethargic));
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);

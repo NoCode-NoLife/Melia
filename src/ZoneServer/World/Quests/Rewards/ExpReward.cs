@@ -14,9 +14,9 @@ namespace Melia.Zone.World.Quests.Rewards
 		public int ExpAmount { get; }
 
 		/// <summary>
-		/// Returns the amount of class EXP the player gets.
+		/// Returns the amount of job EXP the player gets.
 		/// </summary>
-		public int ClassExpAmount { get; }
+		public int JobExpAmount { get; }
 
 		/// <summary>
 		/// Returns the icon to display for this reward.
@@ -27,11 +27,11 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// Creates a quest reward for EXP.
 		/// </summary>
 		/// <param name="expAmount"></param>
-		/// <param name="classExpAmount"></param>
-		public ExpReward(int expAmount, int classExpAmount)
+		/// <param name="jobExpAmount"></param>
+		public ExpReward(int expAmount, int jobExpAmount)
 		{
 			this.ExpAmount = expAmount;
-			this.ClassExpAmount = classExpAmount;
+			this.JobExpAmount = jobExpAmount;
 		}
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// <param name="character"></param>
 		public override void Give(Character character)
 		{
-			character.GiveExp(this.ExpAmount, this.ClassExpAmount, null);
+			character.GiveExp(this.ExpAmount, this.JobExpAmount, null);
 		}
 
 		/// <summary>
@@ -49,7 +49,7 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// <returns></returns>
 		public override string ToString()
 		{
-			return string.Format(Localization.Get("{0} EXP, {1} Class EXP"), this.ExpAmount, this.ClassExpAmount);
+			return string.Format(Localization.Get("{0} EXP, {1} Job EXP"), this.ExpAmount, this.JobExpAmount);
 		}
 	}
 }

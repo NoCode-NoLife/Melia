@@ -69,6 +69,21 @@
 	
 	// Changed attacke type bonuses for the absolute worst
 	{ name: "AttackTypeBonusRevamp2", enabled: true },
+	
+	// Changes how blocks behave
+	{ name: "BlockRevamp", enabled: false, children: [
+		// Changes blocks to not nullify damage
+		{ name: "NonNullifyBlocks", enabled: true },
+		
+		// Increases max block chance to compensate for not nullifying damage
+		{ name: "IncreasedBlockRate", enabled: true },
+		
+		// Changes guard bonus for active blocking to a flat number
+		{ name: "FlatGuardBonus", enabled: true },
+	]},
+
+	// Gives Clerics the Guard skill, allowing them to use shields actively
+	{ name: "GuardingClerics", enabled: true },
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet

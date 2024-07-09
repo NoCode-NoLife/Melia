@@ -5,6 +5,8 @@ namespace Melia.Shared.Game.Const
 	/// </summary>
 	public enum SkillId
 	{
+		None = 0,
+
 		// Common
 		Normal_Attack = 1,
 		Bow_Attack = 2,
@@ -1520,6 +1522,25 @@ namespace Melia.Shared.Game.Const
 		Mon_weekly_boss_slogutis_Skill_15 = 64039,
 		Mon_weekly_boss_slogutis_Skill_16 = 64040,
 		Mon_weekly_boss_slogutis_Skill_17 = 64041,
+		Mon_weekly_boss_spreader_Skill_1 = 64042,
+		Mon_weekly_boss_spreader_Skill_2 = 64043,
+		Mon_weekly_boss_spreader_Skill_3 = 64044,
+		Mon_weekly_boss_spreader_Skill_4 = 64045,
+		Mon_weekly_boss_spreader_Skill_5 = 64046,
+		Mon_weekly_boss_spreader_Skill_6 = 64047,
+		Mon_weekly_boss_spreader_Skill_7 = 64048,
+		Mon_weekly_boss_spreader_Skill_8 = 64049,
+		Mon_weekly_boss_spreader_Skill_9 = 64050,
+		Mon_weekly_boss_spreader_Skill_10 = 64051,
+		Mon_weekly_boss_falouros_Skill_1 = 64052,
+		Mon_weekly_boss_falouros_Skill_2 = 64053,
+		Mon_weekly_boss_falouros_Skill_3 = 64054,
+		Mon_weekly_boss_falouros_Skill_4 = 64055,
+		Mon_weekly_boss_falouros_Skill_5 = 64056,
+		Mon_weekly_boss_falouros_Skill_6 = 64057,
+		Mon_weekly_boss_falouros_Skill_7 = 64058,
+		Mon_weekly_boss_falouros_Skill_8 = 64059,
+		Mon_weekly_boss_falouros_Skill_9 = 64060,
 		Mon_ep16_1_leader_carapace_Skill_1 = 65001,
 		Mon_ep16_1_leader_carapace_Skill_2 = 65002,
 		Mon_ep16_1_leader_carapace_Skill_3 = 65003,

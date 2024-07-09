@@ -44,8 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 55, width: 30, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
-			var buffDuration = TimeSpan.FromSeconds(2);
-			caster.StartBuff(BuffId.DaggerSlash_Buff, skill.Level, 0, buffDuration, caster);
+			caster.StartBuff(BuffId.DaggerSlash_Buff, skill.Level, 0, GetBuffDuration(), caster);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 
@@ -98,6 +97,19 @@ namespace Melia.Zone.Skills.Handlers.Scout
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
+		}
+
+		/// <summary>
+		/// Returns the duration of the buff.
+		/// </summary>
+		/// <returns></returns>
+		private static TimeSpan GetBuffDuration()
+		{
+			// The duration changed over time. It was 2 seconds once,
+			// then 3 seconds, and currently it's 10. We might want
+			// to add feature options for this at some point.
+
+			return TimeSpan.FromSeconds(10);
 		}
 	}
 }

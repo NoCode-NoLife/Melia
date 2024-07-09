@@ -13,6 +13,23 @@
 
 #include "inc/common.bt"
 
+// Similar to the struct in ZC_MAP_REVEAL_LIST,
+// but doesn't include a second float.
+typedef struct
+{
+    int mapId;
+    ubyte data[128];
+    float percentage;
+}
+MapRevealData <read=MapRevealDataRead>;
+
+string MapRevealDataRead(MapRevealData &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.mapId);
+    return result;
+}
+
 ClientHeaderFixed header;
 
-mapRevealData data;
+MapRevealData data;
