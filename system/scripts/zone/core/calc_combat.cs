@@ -243,7 +243,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.ClassType == SkillClassType.Magic)
 			return 0;
 
-		if (!(attacker is Character character))
+		if (attacker is not Character character)
 			return 0;
 
 		var weapon = character.Inventory.GetEquip(EquipSlot.RightHand);
