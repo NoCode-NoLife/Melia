@@ -6,7 +6,6 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Org.BouncyCastle.Asn1.X509;
 using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;

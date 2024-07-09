@@ -13,8 +13,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Characters;
-using Org.BouncyCastle.Asn1.X509;
-using g3;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
