@@ -18,10 +18,6 @@ typedef struct
     int handle;
     int i1;
     APPEARANCE_PC appearancePc;
-
-    if (LOG_DATE >= 20240709)
-        byte unk1[16];
-
     position pos;
     int i2;
     int64 currentExp;

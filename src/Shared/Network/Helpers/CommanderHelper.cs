@@ -15,14 +15,6 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutInt(0);
 			packet.AddAppearancePc(commander);
 
-			// [i387215 (2024-07-09)]
-			// Also added to AppearanceBarrackPc, right after AppearancePc,
-			// but seemingly not part of it, as the sizes of the relevant
-			// packets only increased by 8 byte.
-			{
-				packet.PutEmptyBin(16);
-			}
-
 			packet.PutFloat(commander.Position.X);
 			packet.PutFloat(commander.Position.Y);
 			packet.PutFloat(commander.Position.Z);

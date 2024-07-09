@@ -19,14 +19,6 @@ namespace Melia.Barracks.Network.Helpers
 		{
 			packet.AddAppearancePc(pc);
 
-			// [i387215 (2024-07-09)]
-			// Also added to Commander struct, right after AppearancePc,
-			// but seemingly not part of it, as the sizes of the relevant
-			// packets only increased by 8 byte.
-			{
-				packet.PutEmptyBin(16);
-			}
-
 			packet.PutLong(pc.Id);
 
 			// [i11025 (2016-02-26)]
