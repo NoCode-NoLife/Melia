@@ -13,11 +13,11 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class InventoryComponent : CharacterComponent
 	{
-		private readonly object _syncLock = new object();
+		private readonly object _syncLock = new();
 
-		private Dictionary<InventoryCategory, List<Item>> _items = new Dictionary<InventoryCategory, List<Item>>();
-		private readonly Dictionary<long, Item> _itemsWorldIndex = new Dictionary<long, Item>();
-		private readonly Dictionary<EquipSlot, Item> _equip = new Dictionary<EquipSlot, Item>(InventoryDefaults.EquipSlotCount);
+		private Dictionary<InventoryCategory, List<Item>> _items = new();
+		private readonly Dictionary<long, Item> _itemsWorldIndex = new();
+		private readonly Dictionary<EquipSlot, Item> _equip = new(InventoryDefaults.EquipSlotCount);
 
 		/// <summary>
 		/// Raised when the character equipped an item.
@@ -167,10 +167,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			lock (_syncLock)
 			{
-				if (!_items.ContainsKey(category))
+				if (!_items.TryGetValue(category, out var items))
 					throw new ArgumentException("Unknown item category.");
 
-				var items = _items[category];
 				for (var i = 0; i < items.Count; ++i)
 				{
 					var index = items[i].GetInventoryIndex(i);
@@ -298,7 +297,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				this.AddStack(item, addType, false);
 			}
 
-			UpdateWeight();
+			this.UpdateWeight();
 
 			// Temp fix. The amounts on item stacks that items were added
 			// to are sometimes wrong, a full updates fixes that. Maybe
@@ -459,7 +458,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// Unequip existing item first.
 			var collision = false;
 			lock (_syncLock)
-				collision = !(_equip[slot] is DummyEquipItem);
+				collision = _equip[slot] is not DummyEquipItem;
 
 			if (collision)
 				this.Unequip(slot);
@@ -770,7 +769,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			lock (_syncLock)
 			{
 				result += _items.SelectMany(a => a.Value).Sum(a => a.Amount * a.Data.Weight);
-				result += _equip.Values.Where(a => !(a is DummyEquipItem)).Sum(a => a.Amount * a.Data.Weight);
+				result += _equip.Values.Where(a => a is not DummyEquipItem).Sum(a => a.Amount * a.Data.Weight);
 			}
 
 			return result;

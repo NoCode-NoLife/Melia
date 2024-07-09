@@ -9,6 +9,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Composition;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.World.Actors
 {
@@ -173,7 +174,7 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool TrySpendSp(this ICombatEntity entity, float amount)
 		{
-			if (!(entity is Character character))
+			if (entity is not Character character)
 				return true;
 
 			if (amount == 0)
@@ -280,6 +281,20 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
 
 		/// <summary>
+		/// Returns the buff with the given id via out if it's active. Returns
+		/// false if the buff is not active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		public static bool TryGetBuff(this ICombatEntity entity, BuffId buffId, out Buff buff)
+		{
+			buff = null;
+			return entity.Components.Get<BuffComponent>()?.TryGet(buffId, out buff) ?? false;
+		}
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>
@@ -310,5 +325,19 @@ namespace Melia.Zone.World.Actors
 
 			return caster.Position.InRange2D(pos, maxRange);
 		}
+
+		/// <summary>
+		/// Returns true if the entity has the skill at at least the given level.
+		/// </summary>
+		/// <remarks>
+		/// Currently only works for characters, as monsters don't have a skill
+		/// component yet. It will always return false for monsters.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="skillId"></param>
+		/// <param name="minLevel"></param>
+		/// <returns></returns>
+		public static bool HasSkill(this ICombatEntity entity, SkillId skillId, int minLevel = 1)
+			=> entity.Components.Get<SkillComponent>()?.GetLevel(skillId) >= minLevel;
 	}
 }

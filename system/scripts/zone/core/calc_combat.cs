@@ -15,7 +15,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -67,6 +66,8 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
+		var SCR_GetBlockChance = ScriptableFunctions.Combat.Get("SCR_GetBlockChance");
+		var SCR_GetCritChance = ScriptableFunctions.Combat.Get("SCR_GetCritChance");
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_HitCountMultiplier");
 		var SCR_SizeTypeBonus = ScriptableFunctions.Combat.Get("SCR_SizeTypeBonus");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
@@ -83,14 +84,34 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+
+		// Increase damage multiplier based on dagger slash buff
+		// TODO: Move to a buff handler later.
+		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
+			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
+
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
 		damage *= skillFactor / 100f;
-		damage += skillAtkAdd + modifier.BonusDamage;
+		damage += skillAtkAdd;
+
+		damage += modifier.BonusDamage;
 		damage *= modifier.DamageMultiplier;
 
-		var crtHr = attacker.Properties.GetFloat(PropertyName.CRTHR);
-		if (rnd.Next(1000) < crtHr)
+		// Block needs to be calculated before criticals happen,
+		// but the damage must be reduced after defense reductions and modifiers
+		var blockChance = SCR_GetBlockChance(attacker, target, skill, modifier, skillHitResult);
+		if (rnd.Next(100) < blockChance)
+		{
+			skillHitResult.Result = HitResultType.Block;
+
+			// Nullify damage on successful classic block
+			if (!Feature.IsEnabled("NonNullifyBlocks"))
+				return 0;
+		}
+
+		var crtChance = SCR_GetCritChance(attacker, target, skill, modifier, skillHitResult);
+		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
 			damage += crtAtk;
@@ -100,7 +121,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
-		def *= (1.0f - modifier.IgnoreDefPercent);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
 		damage = Math.Max(1, damage - def);
 
 		// Check damage (de)buffs
@@ -110,7 +131,7 @@ public class CombatCalculationsScript : GeneralScript
 		// Though this is neither elegant nor efficient, and we won't be
 		// able to easily customize it either. It should probably be a
 		// scriptable function in itself... TODO.
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
+		if (target.TryGetBuff(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
 		{
 			var skillLevel = reflectShieldBuff.NumArg1;
 			var byBuffRate = (skillLevel * 3 / 100f);
@@ -119,6 +140,7 @@ public class CombatCalculationsScript : GeneralScript
 
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
 			var spRate = 0.7f / 100f;
+
 			target.TrySpendSp(maxSp * spRate);
 		}
 
@@ -153,6 +175,19 @@ public class CombatCalculationsScript : GeneralScript
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
+		// Cloaking reduces damage by 25%
+		// TODO: Move to a buff handler later.
+		if (target.IsBuffActive(BuffId.Cloaking_Buff))
+			damage = Math.Max(1, damage * 0.75f);
+
+		// Block damage reduction
+		if (skillHitResult.Result == HitResultType.Block)
+			damage /= 2f;
+
+		// Critical damage bonus
+		if (skillHitResult.Result == HitResultType.Crit)
+			damage *= 1.5f;
+
 		return (int)damage;
 	}
 
@@ -169,25 +204,10 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_HitCountMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		// TODO: Should this perhaps rather happen in the skill handlers?
-
-		var rnd = RandomProvider.Get();
-
-		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
-		{
-			var rate = 40;
-
-			if (rnd.Next(100) < rate)
-				return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EarthQuake && target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
-		{
-			return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
-		{
-			return 2;
-		}
+		// We originally used this method to "hardcode" hit counts for certain
+		// skills and scenarios, but the decision what hit count to use was
+		// since moved to the skill handlers. We'll keep this function around
+		// for the moment though, if only to allow overriding it from scripts.
 
 		return modifier.HitCount;
 	}
@@ -207,7 +227,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.ClassType == SkillClassType.Magic)
 			return 0;
 
-		if (!(attacker is Character character))
+		if (attacker is not Character character)
 			return 0;
 
 		var weapon = character.Inventory.GetEquip(EquipSlot.RightHand);
@@ -517,5 +537,72 @@ public class CombatCalculationsScript : GeneralScript
 		var dodgeChance = Math2.Clamp(0, 80, Math.Pow(Math.Max(0, dr - hr), 0.65f));
 
 		return (float)dodgeChance;
+	}
+
+	/// <summary>
+	/// Returns the chance for the target to block a hit from the attacker.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
+		var block = target.Properties.GetFloat(PropertyName.BLK);
+		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
+
+		if (target.Components.Get<CombatComponent>()?.IsGuarding == true)
+		{
+			// The block amount added while actively guarding appears to have
+			// changed over time, but some sources say it was a flat 550 block
+			// bonus at some point at least. Pre-ReBuild sources on the other
+			// hand speak of a bonus based on the character's level.
+			if (Feature.IsEnabled("FlatGuardBonus"))
+				block += 550;
+			else
+				block += target.Level * 5.5f;
+		}
+
+		// The block chance cap appears to have been as much in flux as the bonus,
+		// which makes sense if blocks were once able to nullify damage entirely.
+		// As such, we're going to assume a base cap of 60% for nullifying and
+		// 90% for the newer blocking type that only lowers the damage. For PvP,
+		// the non-nullify cap is apparently supposed to be 30%.
+		var maxChance = 60;
+		if (Feature.IsEnabled("IncreasedBlockRate"))
+			maxChance = 90;
+
+		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
+		var blockChance = Math2.Clamp(0, maxChance, Math.Pow(Math.Max(0, Math.Max(0, block - blockBreak)), 0.7f));
+
+		return (float)blockChance;
+	}
+
+	/// <summary>
+	/// Returns the chance for the target to take a critical hit from the attacker.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	{
+		if (skill.Data.AttackType == SkillAttackType.Magic)
+			return 0;
+
+		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
+		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
+
+		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
+		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
+
+		return (float)blockChance;
 	}
 }

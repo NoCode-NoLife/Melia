@@ -1,9 +1,9 @@
 //------------------------------------------------
-//--- 010 Editor v12.0.1 Binary Template
+//--- 010 Editor v8.0 Binary Template
 //
 //      File: ZC_GUARD.bt
-//   Authors: Salman T. Khan
-//   Version: i346841
+//   Authors: Salman T. Khan, exec
+//   Version: i386994
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,5 +16,5 @@
 ServerHeaderFixed header;
 
 int handle;
-byte b1; // 0 or 1 off or on?
-direction dir; // 0.707107, -0.707107 
+byte active;
+direction dir;

@@ -59,9 +59,10 @@ namespace Melia.Zone.Commands
 			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful]", "Spawns monster.", this.HandleSpawn);
+			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
 			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
+			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
@@ -384,7 +385,7 @@ namespace Melia.Zone.Commands
 			{
 				var itemName = args.Get(0);
 
-				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.Contains(itemName, StringComparison.InvariantCultureIgnoreCase));
 				if (classNameMatches.Length == 0)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
@@ -501,7 +502,7 @@ namespace Melia.Zone.Commands
 			{
 				var searchName = args.Get(0).ToLower();
 
-				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
+				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.Contains(searchName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 				if (monstersData.Count == 0)
 				{
 					sender.ServerMessage(Localization.Get("Monster not found by name."));
@@ -755,6 +756,46 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Levels up target's job level.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleJobLevelUp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			var levels = 1;
+			if (args.Count >= 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
+				return CommandResult.InvalidArgument;
+
+			var jobLevelsGained = target.JobLevelUp(levels);
+
+			if (jobLevelsGained == 0)
+			{
+				if (sender == target)
+					sender.ServerMessage(Localization.Get("Your current job's level can't be increased any further."));
+				else
+					sender.ServerMessage(Localization.Get("The level of the target's current job can't be increased any further."));
+			}
+			else
+			{
+				if (sender == target)
+				{
+					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+				else
+				{
+					target.ServerMessage(Localization.GetPlural("Your job level was increased by {0} by {1} level.", "Your job level was increased by {0} by {1} levels.", jobLevelsGained), sender.TeamName, jobLevelsGained);
+					sender.ServerMessage(Localization.GetPlural("The target's job level was increased by {0} level.", "The target's job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Changes target's speed.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -863,7 +904,7 @@ namespace Melia.Zone.Commands
 
 				monsterEntry.AppendFormat(Localization.Get("{{nl}}----- {0} ({1}, {2}) -----{{nl}}"), monsterData.Name, monsterData.Id, monsterData.ClassName);
 				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Attribute], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
-				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.JobExp * ZoneServer.Instance.Conf.World.JobExpRate / 100f));
 				monsterEntry.AppendFormat(Localization.Get("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"), monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
 				if (monsterData.Drops.Count != 0)

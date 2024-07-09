@@ -7,6 +7,7 @@ namespace Melia.Zone.Buffs
 	/// Used to mark buff handler classes, which are then automatically
 	/// loaded by the buff handler manager.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class BuffHandlerAttribute : Attribute
 	{
 		/// <summary>

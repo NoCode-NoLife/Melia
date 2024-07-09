@@ -49,7 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 
 			// TODO: Add more 50% damage to enemies using cloth armor type
 
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHit(2));
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
