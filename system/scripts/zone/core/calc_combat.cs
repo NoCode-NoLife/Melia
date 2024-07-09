@@ -205,25 +205,10 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_HitCountMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		// TODO: Should this perhaps rather happen in the skill handlers?
-
-		var rnd = RandomProvider.Get();
-
-		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
-		{
-			var rate = 40;
-
-			if (rnd.Next(100) < rate)
-				return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EarthQuake && target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
-		{
-			return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
-		{
-			return 2;
-		}
+		// We originally used this method to "hardcode" hit counts for certain
+		// skills and scenarios, but the decision what hit count to use was
+		// since moved to the skill handlers. We'll keep this function around
+		// for the moment though, if only to allow overriding it from scripts.
 
 		return modifier.HitCount;
 	}
