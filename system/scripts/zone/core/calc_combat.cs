@@ -101,7 +101,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
-		var blockChance = SCR_GetBlockChance(attacker, target, skill, skillHitResult);
+		var blockChance = SCR_GetBlockChance(attacker, target, skill, modifier, skillHitResult);
 		if (rnd.Next(100) < blockChance)
 		{
 			skillHitResult.Result = HitResultType.Block;
@@ -111,7 +111,7 @@ public class CombatCalculationsScript : GeneralScript
 				return 0;
 		}
 
-		var crtChance = SCR_GetCritChance(attacker, target, skill, skillHitResult);
+		var crtChance = SCR_GetCritChance(attacker, target, skill, modifier, skillHitResult);
 		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
