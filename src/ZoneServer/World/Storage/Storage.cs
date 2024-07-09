@@ -401,7 +401,6 @@ namespace Melia.Zone.World.Storage
 		/// <summary>
 		/// Adds a new item to the storage in first empty position.
 		/// Does nothing if storage is full.
-		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to add</param>
 		/// <param name="addedPosition">Position we added the item to. Defaults to -1</param>
@@ -431,7 +430,6 @@ namespace Melia.Zone.World.Storage
 		/// If existing stackable item of same class exists in the position
 		/// this method will stack to it. If item cannot be added to position and
 		/// cannot be stacked, we will add to first valid position instead.
-		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to add</param>
 		/// <param name="position">Position of item in storage to add to.</param>
@@ -474,7 +472,6 @@ namespace Melia.Zone.World.Storage
 
 		/// <summary>
 		/// Removes an item from storage.
-		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to remove</param>
 		/// <param name="amount">Amount of the item</param>
@@ -512,7 +509,6 @@ namespace Melia.Zone.World.Storage
 
 		/// <summary>
 		/// Removes an item from storage in a specific position.
-		/// Does not update client.
 		/// </summary>
 		/// <param name="item">Item to remove</param>
 		/// <param name="amount">Amount of the item</param>
@@ -614,14 +610,13 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Increases max storage size by the given number.
-		/// Storages can never decrease in size.
+		/// Changes max storage size by the given number.
 		/// Does not update client.
 		/// </summary>
 		/// <param name="size"></param>
-		public StorageResult AddSize(int size)
+		public StorageResult Resize(int size)
 		{
-			if (size <= 0)
+			if ((_storageSize + size) <= 0)
 				return StorageResult.InvalidOperation;
 
 			_storageSize += size;
