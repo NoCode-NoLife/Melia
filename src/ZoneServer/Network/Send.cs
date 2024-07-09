@@ -2012,7 +2012,7 @@ namespace Melia.Zone.Network
 		public static void ZC_LOGIN_TIME(IZoneConnection conn, DateTime now)
 		{
 			var packet = new Packet(Op.ZC_LOGIN_TIME);
-			packet.PutLong(now.GetUnixTimestamp() * 1000);
+			packet.PutLong(now.ToFileTime());
 
 			conn.Send(packet);
 		}
