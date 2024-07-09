@@ -14,6 +14,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
@@ -24,7 +25,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	public class Zornhau : IGroundSkillHandler
 	{
 		private const int BuffRemoveChancePerLevel = 5;
-		private const int ShockDuration = 5;
+		private const int DebuffDuration = 5;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -95,8 +96,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-				// This debuff is seemingly not applied on official, even though the description mentions it
-				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, TimeSpan.FromSeconds(ShockDuration), caster);
+				// TODO: On latest the game actually no longer applies this, even though it still lists it in the description.
+				// Should probably have some kind of feature to turn this on / off.
+				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, TimeSpan.FromSeconds(DebuffDuration), caster);
+
+				// If the caster has ability Doppelsoeldner36, this ability inflicts a second debuff that deals damage over time equal to 20% of the attack's damage
+				// (actually 40% of its single-hit damage)
+				if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Doppelsoeldner36, out var ability))
+					target.StartBuff(BuffId.Zornhau_Debuff, skill.Level, skillHitResult.Damage * 0.2f, TimeSpan.FromSeconds(DebuffDuration), caster);
 
 				// Also need to remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;

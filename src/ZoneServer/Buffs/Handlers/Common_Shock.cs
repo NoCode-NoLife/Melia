@@ -24,7 +24,6 @@ namespace Melia.Zone.Buffs.Handlers
 		public override void OnStart(Buff buff)
 		{
 			var target = buff.Target;
-			var caster = buff.Caster;
 
 			var reduceInt = target.Properties.GetFloat(PropertyName.INT) * IntDebuffRate;
 			buff.Vars.SetFloat(ReduceIntName, -reduceInt);
