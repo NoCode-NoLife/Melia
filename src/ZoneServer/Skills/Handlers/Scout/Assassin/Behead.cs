@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			{
 				SkillModifier modifier = new SkillModifier();
 				modifier.HitCount = 3;
-				modifier.IgnoreDefPercent = 0.15f;
+				modifier.DefensePenetrationRate = 0.15f;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -92,7 +92,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			{
 				SkillModifier modifier = new SkillModifier();
 				modifier.HitCount = 3;
-				modifier.IgnoreDefPercent = 0.15f;
+				modifier.DefensePenetrationRate = 0.15f;
 
 				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult2.Damage, caster);
