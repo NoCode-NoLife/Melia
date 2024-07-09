@@ -85,11 +85,10 @@ public class CombatCalculationsScript : GeneralScript
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		// Check for Dagger Slash
-		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
-		{
+		// Increase damage multiplier based on dagger slash buff
+		// TODO: Move to a buff handler later.
+		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
 			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
-		}
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
@@ -132,7 +131,7 @@ public class CombatCalculationsScript : GeneralScript
 		// Though this is neither elegant nor efficient, and we won't be
 		// able to easily customize it either. It should probably be a
 		// scriptable function in itself... TODO.
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
+		if (target.TryGetBuff(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
 		{
 			var skillLevel = reflectShieldBuff.NumArg1;
 			var byBuffRate = (skillLevel * 3 / 100f);
@@ -141,6 +140,7 @@ public class CombatCalculationsScript : GeneralScript
 
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
 			var spRate = 0.7f / 100f;
+
 			target.TrySpendSp(maxSp * spRate);
 		}
 
@@ -175,11 +175,10 @@ public class CombatCalculationsScript : GeneralScript
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Cloaking_Buff, out var cloakingBuff))
-		{
-			// Cloaking reduces damage by 25%
-			damage = Math.Max(1, damage - damage * 0.25f);
-		}
+		// Cloaking reduces damage by 25%
+		// TODO: Move to a buff handler later.
+		if (target.IsBuffActive(BuffId.Cloaking_Buff))
+			damage = Math.Max(1, damage * 0.75f);
 
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)

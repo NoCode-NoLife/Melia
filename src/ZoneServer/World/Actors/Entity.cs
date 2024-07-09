@@ -270,6 +270,20 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
 
 		/// <summary>
+		/// Returns the buff with the given id via out if it's active. Returns
+		/// false if the buff is not active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		public static bool TryGetBuff(this ICombatEntity entity, BuffId buffId, out Buff buff)
+		{
+			buff = null;
+			return entity.Components.Get<BuffComponent>()?.TryGet(buffId, out buff) ?? false;
+		}
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>
