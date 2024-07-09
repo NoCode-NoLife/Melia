@@ -6331,6 +6331,7 @@ public static class MonsterId
 	public const int Toy_Ep16redhood = 160211;
 	public const int Npc_Vanquisher = 160212;
 	public const int Effect_Ep16statue = 160213;
+	public const int Toy_Ep16statue = 160214;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;
