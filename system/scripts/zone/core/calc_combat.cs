@@ -564,7 +564,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
@@ -608,7 +608,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
