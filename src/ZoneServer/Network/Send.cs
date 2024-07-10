@@ -1814,7 +1814,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
-		/// <param name="skill"></param>
+		/// <param name="skillId"></param>
 		/// <param name="hitInfo"></param>
 		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, SkillId skillId, HitInfo hitInfo)
 		{

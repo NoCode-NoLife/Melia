@@ -14,6 +14,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Yggdrasil.Logging;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 {
@@ -23,6 +24,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	[SkillHandler(SkillId.Assassin_Behead)]
 	public class Behead : IGroundSkillHandler
 	{
+		private const float MaxMoveDistance = 150f;  // Will attempt to move up to 150 units
+
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -36,6 +39,26 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
+			}
+
+			// If the target is a player, Behead will teleport behind them
+			// If any of these conditions fail, you just swing normally
+			if (target is Character playerTarget)
+			{
+				// the target position is 10 units behind the target
+				var targetPosition = playerTarget.Position.GetRelative(playerTarget.Direction, -10f);
+				if (caster.Map.Ground.IsValidPosition(targetPosition)) 
+				{
+					// the teleport only occurs if the target position is within 150 units
+					var distanceToTarget = originPos.Get2DDistance(targetPosition);
+
+					if (distanceToTarget > 0 && distanceToTarget <= MaxMoveDistance)
+					{
+						caster.Position = targetPosition;
+						caster.TurnTowards(target);
+						Send.ZC_SET_POS(caster);
+					}
+				}
 			}
 
 			skill.IncreaseOverheat();
@@ -59,7 +82,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(30);
-			var damageDelay1 = TimeSpan.FromMilliseconds(50);
+			// The damage delay1 is unusually long, but confirmed with official
+			var damageDelay1 = TimeSpan.FromMilliseconds(240);
 			var damageDelay2 = TimeSpan.FromMilliseconds(80);
 			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
