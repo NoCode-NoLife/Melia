@@ -85,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 				if (targetSize == SizeType.S || targetSize == SizeType.M)
 				{
-					modifier.IgnoreDefPercent = BaseIgnoreDefRate + skill.Level * IgnoreDefRatePerLevel;
+					modifier.DefensePenetrationRate = BaseIgnoreDefRate + skill.Level * IgnoreDefRatePerLevel;
 				}
 
 

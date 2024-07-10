@@ -85,6 +85,23 @@ public class CombatCalculationsScript : GeneralScript
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
+		// Add extra attack damage based on concentrate
+		// TODO move this to a buff handler
+		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.Concentrate_Buff, out var concentrateBuff))
+		{
+			var bonusDamage = concentrateBuff.NumArg2;
+			var variableName = "Melia.HitsLeft";
+			if (concentrateBuff.Vars.TryGetFloat(variableName, out var hitsLeft))
+			{
+				hitsLeft--;
+				if (hitsLeft > 0)
+					concentrateBuff.Vars.SetFloat(variableName, hitsLeft);
+				else
+					attacker.Components.Get<BuffComponent>().Remove(BuffId.Concentrate_Buff);
+			}
+			modifier.BonusDamage += bonusDamage;
+		}
+
 		// Increase damage multiplier based on dagger slash buff
 		// TODO: Move to a buff handler later.
 		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
@@ -180,6 +197,15 @@ public class CombatCalculationsScript : GeneralScript
 		if (target.IsBuffActive(BuffId.Cloaking_Buff))
 			damage = Math.Max(1, damage * 0.75f);
 
+		// Bear reduces damage by 2% per level
+		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
+		{
+			var skillLevel = bearBuff.NumArg1;
+			var byBuffRate = skillLevel * 0.02f;
+
+			damage = Math.Max(1, damage * (1f - byBuffRate));
+		}
+
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
 			damage /= 2f;
@@ -187,6 +213,19 @@ public class CombatCalculationsScript : GeneralScript
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
+
+		// Added effects
+		// Check for Restrain's stun chance, this only activates on normal attacks,
+		// which are skills with ID < 1001
+		if ((int)skill.Id <= 1000 && attacker.TryGetBuff(BuffId.Restrain_Buff, out var restrainBuff))
+		{
+			var stunChance = restrainBuff.NumArg2;
+
+			if (rnd.Next(100) < stunChance)
+			{
+				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), attacker);
+			}
+		}
 
 		return (int)damage;
 	}
