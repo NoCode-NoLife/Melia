@@ -49,7 +49,8 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			}
 
 			var damageDelay = TimeSpan.FromMilliseconds(45);
-			var bounceDamageDelay = TimeSpan.FromMilliseconds(55);
+			// Oddly, the bounce shot hits first
+			var bounceDamageDelay = TimeSpan.FromMilliseconds(10);
 			var skillHitDelay = TimeSpan.Zero;
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
@@ -67,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
-			// Bounce shot
+			// Bounce shot.  The bounce target doesn't get slowed
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTarget))
 			{
 				skillHitResult = SCR_SkillHit(caster, bounceTarget, skill);
@@ -75,14 +76,8 @@ namespace Melia.Zone.Skills.Handlers.Archer
 
 				var skillHit2 = new SkillHitInfo(caster, bounceTarget, skill, skillHitResult, bounceDamageDelay, skillHitDelay);
 				skillHit2.ForceId = ForceId.GetNew();
+				// On official this is a ZC_Hit_Info, but this causes the animation not to display on Melia
 				Send.ZC_SKILL_FORCE_TARGET(caster, bounceTarget, skill, skillHit2);
-
-				// The bounce target can also be slowed
-				if (RandomProvider.Next(100) < 50)
-				{
-					var duration = TimeSpan.FromSeconds(7);
-					bounceTarget.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
-				}
 			}
 		}
 
@@ -98,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out ICombatEntity bounceTarget)
 		{
 			var splashPos = caster.Position;
-			var splashRadius = 50; // SplashHeight * 2?
+			var splashRadius = 100; // Seems to be bigger than what we had before as per official
 			var splashArea = new Circle(mainTarget.Position, splashRadius);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
