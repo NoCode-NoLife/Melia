@@ -239,6 +239,7 @@ namespace Melia.Shared.Game.Const
 		Earring,
 		BELT,
 		SHOULDER,
+		Item_Consume,
 	}
 
 	/// <summary>

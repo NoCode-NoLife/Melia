@@ -1909,14 +1909,14 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
+		/// <param name="jobExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, long exp, long classExp, IMonster monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, long exp, long jobExp, IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 
 			packet.PutLong(exp);
-			packet.PutLong(classExp);
+			packet.PutLong(jobExp);
 			packet.PutLong(exp);
 			packet.PutInt(monster?.Handle ?? 0);
 
@@ -1928,13 +1928,13 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
-		public static void ZC_EXP_UP(Character character, long exp, long classExp)
+		/// <param name="jobExp"></param>
+		public static void ZC_EXP_UP(Character character, long exp, long jobExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 
 			packet.PutLong(exp);
-			packet.PutLong(classExp);
+			packet.PutLong(jobExp);
 			packet.PutLong(exp);
 
 			character.Connection.Send(packet);
@@ -2049,6 +2049,8 @@ namespace Melia.Zone.Network
 			{
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
+				packet.PutFloat(revealedMap.Percentage);
+				packet.PutFloat(0);
 			}
 			packet.PutLong(0);
 			packet.PutFloat(56.45161f);
@@ -4258,6 +4260,23 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_CANCEL_FIXCAMERA);
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates entity's guard state on clients in range.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="active"></param>
+		/// <param name="dir"></param>
+		public static void ZC_GUARD(ICombatEntity entity, bool active, Direction dir)
+		{
+			var packet = new Packet(Op.ZC_GUARD);
+
+			packet.PutInt(entity.Handle);
+			packet.PutByte(active);
+			packet.PutDirection(dir);
+
+			entity.Map.Broadcast(packet, entity);
 		}
 	}
 }

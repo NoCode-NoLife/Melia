@@ -21,15 +21,15 @@ namespace Melia.Shared.Data.Database
 	public class SkillTreeDb : DatabaseJson<SkillTreeData>
 	{
 		/// <summary>
-		/// Returns all skills the given job can learn at a certain class
+		/// Returns all skills the given job can learn at a certain job
 		/// level.
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
 		/// <returns></returns>
-		public SkillTreeData[] FindSkills(JobId jobId, int classLevel)
+		public SkillTreeData[] FindSkills(JobId jobId, int jobLevel)
 		{
-			return this.Entries.Where(a => a.JobId == jobId && a.UnlockLevel <= classLevel).ToArray();
+			return this.Entries.Where(a => a.JobId == jobId && a.UnlockLevel <= jobLevel).ToArray();
 		}
 
 		/// <summary>

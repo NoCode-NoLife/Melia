@@ -25,7 +25,7 @@ namespace Melia.Shared.Configuration.Files
 
         // exp.conf
 		public float ExpRate { get; protected set; }
-		public float ClassExpRate { get; protected set; }
+		public float JobExpRate { get; protected set; }
 
 		// game_time.conf
 		public int TicksPerMinute { get; protected set; }
@@ -84,7 +84,7 @@ namespace Melia.Shared.Configuration.Files
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
-			this.ClassExpRate = this.GetFloat("class_exp_rate", 100);
+			this.JobExpRate = this.GetFloat("job_exp_rate", 100);
 
 			this.TicksPerMinute = this.GetInt("rt2gt_ms_per_minute", 1500) * 10000;
 			this.MinutesPerHour = this.GetInt("gt_minutes_per_hour", 60);

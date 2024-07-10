@@ -15,7 +15,7 @@ namespace Melia.Shared.Data.Database
 	}
 
 	[Serializable]
-	public class ClassExpData
+	public class JobExpData
 	{
 		public int Rank { get; set; }
 		public int Level { get; set; }
@@ -28,7 +28,7 @@ namespace Melia.Shared.Data.Database
 	public class ExpDb : DatabaseJson<object>
 	{
 		private readonly List<BaseExpData> _exp = new List<BaseExpData>();
-		private readonly List<ClassExpData> _classExp = new List<ClassExpData>();
+		private readonly List<JobExpData> _jobExp = new List<JobExpData>();
 
 		/// <summary>
 		/// Returns exp required to reach the next level after the
@@ -70,20 +70,20 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the total exp required to reach the next class level
+		/// Returns the total exp required to reach the next job level
 		/// after the given level, in the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
 		/// <param name="level"></param>
 		/// <returns></returns>
-		public long GetNextTotalClassExp(int rank, int level)
+		public long GetNextTotalJobExp(int rank, int level)
 		{
-			var maxLevel = this.GetMaxClassLevel(rank);
+			var maxLevel = this.GetMaxJobLevel(rank);
 
 			if (level < 1 || level > maxLevel)
 				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}).");
 
-			var data = _classExp.Where(a => a.Rank == rank);
+			var data = _jobExp.Where(a => a.Rank == rank);
 			if (!data.Any())
 				throw new KeyNotFoundException("No class exp data found for rank '" + rank + "' and level '" + level + "'.");
 
@@ -93,13 +93,13 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns the max class level for the given rank.
+		/// Returns the max job level for the given rank.
 		/// </summary>
 		/// <param name="rank"></param>
 		/// <returns></returns>
-		public int GetMaxClassLevel(int rank)
+		public int GetMaxJobLevel(int rank)
 		{
-			var data = _classExp.Where(a => a.Rank == rank);
+			var data = _jobExp.Where(a => a.Rank == rank);
 			return data.Max(a => a.Level);
 		}
 
@@ -124,8 +124,8 @@ namespace Melia.Shared.Data.Database
 		{
 			if (entry.ContainsKey("exp"))
 				this.ReadExpEntry(entry);
-			else if (entry.ContainsKey("classExp"))
-				this.ReadClassExpEntry(entry);
+			else if (entry.ContainsKey("jobExp"))
+				this.ReadJobExpEntry(entry);
 			else
 				throw new DatabaseErrorException("Unknown exp type.");
 		}
@@ -150,22 +150,22 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Reads given class EXP entry.
+		/// Reads given job EXP entry.
 		/// </summary>
-		/// <param name="classExpEntry"></param>
-		protected void ReadClassExpEntry(JObject classExpEntry)
+		/// <param name="jobExpEntry"></param>
+		protected void ReadJobExpEntry(JObject jobExpEntry)
 		{
-			foreach (JObject entry in classExpEntry["classExp"])
+			foreach (JObject entry in jobExpEntry["jobExp"])
 			{
 				entry.AssertNotMissing("rank", "level", "exp");
 
-				var data = new ClassExpData();
+				var data = new JobExpData();
 
 				data.Rank = entry.ReadInt("rank");
 				data.Level = entry.ReadInt("level");
 				data.Exp = entry.ReadLong("exp");
 
-				_classExp.Add(data);
+				_jobExp.Add(data);
 			}
 		}
 
@@ -176,7 +176,7 @@ namespace Melia.Shared.Data.Database
 		protected override void AfterLoad()
 		{
 			this.Entries.AddRange(_exp.Cast<object>());
-			this.Entries.AddRange(_classExp);
+			this.Entries.AddRange(_jobExp);
 		}
 	}
 }
