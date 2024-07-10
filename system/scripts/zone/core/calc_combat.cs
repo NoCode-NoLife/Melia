@@ -202,8 +202,8 @@ public class CombatCalculationsScript : GeneralScript
 					if (!linkTarget.IsDead && linkTarget.Handle != target.Handle)
 					{
 						linkTarget.TakeDamage(damage, attacker);
-						var hit = new HitInfo(attacker, linkTarget, null, damage, HitResultType.Hit);
-						Send.ZC_HIT_INFO(attacker, linkTarget, null, hit);
+						var hit = new HitInfo(attacker, linkTarget, skill, damage, HitResultType.Hit);
+						Send.ZC_HIT_INFO(attacker, linkTarget, skill, hit);
 					}
 				}
 			}
