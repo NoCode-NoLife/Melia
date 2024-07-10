@@ -304,28 +304,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unknown skill related
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="skillActorId"></param>
-			public static void SkillParticleEffect(ICombatEntity entity, int skillActorId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SkillParticleEffect);
-
-				packet.PutInt(entity.Handle);
-				packet.PutInt(skillActorId);
-				packet.PutInt(entity.Hp);
-				packet.PutShort(6904);
-				packet.PutShort(39);
-				packet.PutFloat(25);
-				packet.PutLpString("Melee");
-				packet.PutLong(0);
-
-				entity.Map.Broadcast(packet, entity);
-			}
-
-			/// <summary>
 			/// Adjusts the skill speed for a skill.
 			/// </summary>
 			/// <param name="character"></param>
