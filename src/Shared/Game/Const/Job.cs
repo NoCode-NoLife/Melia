@@ -27,6 +27,7 @@ namespace Melia.Shared.Game.Const
 		Luchador = 1023,
 		Shenji = 1024,
 		WingedHussar = 1025,
+		Vanquisher = 1026,
 
 		// Wizard
 		Wizard = 2001,

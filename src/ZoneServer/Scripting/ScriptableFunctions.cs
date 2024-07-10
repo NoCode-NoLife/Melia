@@ -141,7 +141,7 @@ namespace Melia.Zone.Scripting
 	/// <param name="skill"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
-	public delegate float CombatCalcFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult);
+	public delegate float CombatCalcFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
 
 	/// <summary>
 	/// A function that determines the result of a skill hitting a target.
@@ -150,7 +150,7 @@ namespace Melia.Zone.Scripting
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
 	/// <returns></returns>
-	public delegate SkillHitResult SkillHitFunction(ICombatEntity attacker, ICombatEntity target, Skill skill);
+	public delegate SkillHitResult SkillHitFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier);
 
 	/// <summary>
 	/// A function that determines whether an ability can be learned.

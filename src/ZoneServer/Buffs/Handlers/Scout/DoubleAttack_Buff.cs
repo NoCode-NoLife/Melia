@@ -1,7 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Scout
 {
 	/// <summary>
 	/// Handle for the Double Attack Buff, which increases the target's

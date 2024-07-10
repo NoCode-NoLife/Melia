@@ -13,12 +13,18 @@
 //   - i336041: bin added to client headers
 //------------------------------------------------
 
+// TODO: Check when exactly the header format changed.
+#define OLD_HEADERS (LOG_DATE < 20180101)
+#define NEW_HEADERS (LOG_DATE >= 20180101)
+
 typedef struct
 {
     short op;
     int sequence;
     int checksum;
-    byte bin[12];
+
+    if (NEW_HEADERS)
+        byte bin[12];
 }
 ClientHeaderFixed <optimize=false>;
 
@@ -27,27 +33,13 @@ typedef struct
     short op;
     int sequence;
     int checksum;
-}
-ClientHeaderFixedOld <optimize=false>;
 
-typedef struct
-{
-    short op;
-    int sequence;
-    int checksum;
-    byte bin[12];
+    if (NEW_HEADERS)
+        byte bin[12];
+
     short size;
 }
 ClientHeaderDynamic <optimize=false>;
-
-typedef struct
-{
-    short op;
-    int sequence;
-    int checksum;
-    short size;
-}
-ClientHeaderDynamicOld <optimize=false>;
 
 typedef struct
 {
@@ -61,15 +53,10 @@ typedef struct
 {
     short op;
     int sequence;
-    int checksum;
+
+    if (NEW_HEADERS)
+        int checksum;
+
     short size;
 }
 ServerHeaderDynamic <optimize=false>;
-
-typedef struct
-{
-    short op;
-    int sequence;
-    short size;
-}
-ServerHeaderDynamicOld <optimize=false>;

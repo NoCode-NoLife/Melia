@@ -19,7 +19,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -828,7 +828,7 @@ namespace Melia.Zone.Database
 		private void LoadChatMacros(Account account)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `chatMacros` WHERE `accountId` = @accountId ORDER BY `index` DESC", conn))
+			using (var mc = new MySqlCommand("SELECT * FROM `chatmacros` WHERE `accountId` = @accountId ORDER BY `index` DESC", conn))
 			{
 				mc.Parameters.AddWithValue("@accountId", account.Id);
 
@@ -856,7 +856,7 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `chatMacros` WHERE `accountId` = @accountId", conn, trans))
+				using (var mc = new MySqlCommand("DELETE FROM `chatmacros` WHERE `accountId` = @accountId", conn, trans))
 				{
 					mc.Parameters.AddWithValue("@accountId", account.Id);
 					mc.ExecuteNonQuery();
@@ -864,7 +864,7 @@ namespace Melia.Zone.Database
 
 				foreach (var macro in account.GetChatMacros().OrderBy(x => x.Index))
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `chatMacros` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `chatmacros` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("index", macro.Index);
@@ -886,7 +886,7 @@ namespace Melia.Zone.Database
 		private void LoadRevealedMaps(Account account)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `revealedMaps` WHERE `accountId` = @accountId", conn))
+			using (var mc = new MySqlCommand("SELECT * FROM `revealedmaps` WHERE `accountId` = @accountId", conn))
 			{
 				mc.Parameters.AddWithValue("@accountId", account.Id);
 
@@ -914,7 +914,7 @@ namespace Melia.Zone.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `revealedMaps` WHERE `accountId` = @accountId", conn, trans))
+				using (var mc = new MySqlCommand("DELETE FROM `revealedmaps` WHERE `accountId` = @accountId", conn, trans))
 				{
 					mc.Parameters.AddWithValue("@accountId", account.Id);
 					mc.ExecuteNonQuery();
@@ -922,7 +922,7 @@ namespace Melia.Zone.Database
 
 				foreach (var revealedMap in account.GetRevealedMaps())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `revealedMaps` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `revealedmaps` {0}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("map", revealedMap.MapId);
