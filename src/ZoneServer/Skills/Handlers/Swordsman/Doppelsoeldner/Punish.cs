@@ -53,17 +53,20 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				return;
 			}
 
-			skill.IncreaseOverheat();
-			caster.TurnTowards(target.Position);
-			caster.SetAttackState(true);
-
 			// If the distance to jump is < 0 (ie, the target is already within range), you don't move
+			// Also need to check that the teleport position is valid
 			if (distanceToTarget > 0)
 			{
 				var movementDistance = Math.Min(distanceToTarget, MaxMoveDistance);
-				caster.Position = caster.Position.GetRelative(caster.Direction, (float)movementDistance);
+				var endingPosition = caster.Position.GetRelative(caster.Direction, (float)movementDistance);
+				endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
+				caster.Position = endingPosition;
 				Send.ZC_SET_POS(caster);
 			}
+
+			skill.IncreaseOverheat();
+			caster.TurnTowards(target.Position);
+			caster.SetAttackState(true);
 
 			var splashParam = skill.GetSplashParameters(caster, caster.Position, caster.Position, length: 30, width: 30, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
