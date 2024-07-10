@@ -17,11 +17,9 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 		public override void WhileActive(Buff buff)
 		{
 			if (!buff.Target.IsDead) { 
-				var skill = new Skill(buff.Caster, SkillId.Assassin_Behead_DOT, (int)buff.NumArg1);
-
 				buff.Target.TakeDamage(buff.NumArg2, buff.Caster);
-				var hit = new HitInfo(buff.Caster, buff.Target, skill, buff.NumArg2, HitResultType.Hit);
-				Send.ZC_HIT_INFO(buff.Caster, buff.Target, skill, hit);
+				var hit = new HitInfo(buff.Caster, buff.Target, null, buff.NumArg2, HitResultType.Hit);
+				Send.ZC_HIT_INFO(buff.Caster, buff.Target, SkillId.Assassin_Behead_DOT, hit);
 			}
 		}
 	}
