@@ -164,7 +164,7 @@ namespace Melia.Zone.Database
 			this.LoadSkills(character);
 			this.LoadAbilities(character);
 			this.LoadBuffs(character);
-			this.LoadCooldowns(character);			
+			this.LoadCooldowns(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.LoadCollections(character);
@@ -1234,14 +1234,11 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Saves the characters's collections to the database.
 		/// Note that collections are account-level
-		/// This must run before properties because it modifies them
 		/// </summary>
 		/// <param name="character"></param>
 		/// <exception cref="InvalidOperationException"></exception>
 		private void SaveCollections(Character character)
 		{
-			character.Collections.RemoveAllBonuses();
-
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
