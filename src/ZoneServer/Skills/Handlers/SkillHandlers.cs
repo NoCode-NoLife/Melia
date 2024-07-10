@@ -12,8 +12,8 @@ namespace Melia.Zone.Skills.Handlers
 	/// </summary>
 	public class SkillHandlers
 	{
-		private readonly Dictionary<SkillId, ISkillHandler> _handlers = new Dictionary<SkillId, ISkillHandler>();
-		private readonly Dictionary<SkillId, int> _priorities = new Dictionary<SkillId, int>();
+		private readonly Dictionary<SkillId, ISkillHandler> _handlers = new();
+		private readonly Dictionary<SkillId, int> _priorities = new();
 
 		/// <summary>
 		/// Initializes the skill handlers, loading all it can find in
@@ -68,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers
 			if (!_handlers.TryGetValue(skillId, out var handler))
 				return default;
 
-			if (!(handler is TSkillHandler tHandler))
+			if (handler is not TSkillHandler tHandler)
 				throw new ArgumentException($"The skill handler for '{skillId}' is not of type '{typeof(TSkillHandler).Name}'.");
 
 			return tHandler;

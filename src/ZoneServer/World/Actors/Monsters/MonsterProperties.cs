@@ -43,26 +43,31 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Create(new RFloatProperty(PropertyName.Level, () => this.Monster.Data.Level));
 
-			this.Create(new CFloatProperty(PropertyName.MHP, () => this.CalculateProperty("SCR_Get_MON_MHP")));
+			this.Create(PropertyName.MHP, "SCR_Get_MON_MHP");
 			this.Create(new FloatProperty(PropertyName.HP, min: 0));
 
-			this.Create(new CFloatProperty(PropertyName.MSP, () => this.CalculateProperty("SCR_Get_MON_MSP")));
+			this.Create(PropertyName.MSP, "SCR_Get_MON_MSP");
 			this.Create(new FloatProperty(PropertyName.SP, min: 0));
 
-			this.Create(new CFloatProperty(PropertyName.MINPATK, () => this.CalculateProperty("SCR_Get_MON_MINPATK")));
-			this.Create(new CFloatProperty(PropertyName.MAXPATK, () => this.CalculateProperty("SCR_Get_MON_MAXPATK")));
-			this.Create(new CFloatProperty(PropertyName.MINMATK, () => this.CalculateProperty("SCR_Get_MON_MINMATK")));
-			this.Create(new CFloatProperty(PropertyName.MAXMATK, () => this.CalculateProperty("SCR_Get_MON_MAXMATK")));
-			this.Create(new CFloatProperty(PropertyName.DEF, () => this.CalculateProperty("SCR_Get_MON_DEF")));
-			this.Create(new CFloatProperty(PropertyName.MDEF, () => this.CalculateProperty("SCR_Get_MON_MDEF")));
-			this.Create(new CFloatProperty(PropertyName.DR, () => this.CalculateProperty("SCR_Get_MON_DR")));
-			this.Create(new CFloatProperty(PropertyName.HR, () => this.CalculateProperty("SCR_Get_MON_HR")));
-			this.Create(new CFloatProperty(PropertyName.SR, () => this.CalculateProperty("SCR_Get_MON_SR")));
-			this.Create(new CFloatProperty(PropertyName.SDR, () => this.CalculateProperty("SCR_Get_MON_SDR")));
+			this.Create(PropertyName.MINPATK, "SCR_Get_MON_MINPATK");
+			this.Create(PropertyName.MAXPATK, "SCR_Get_MON_MAXPATK");
+			this.Create(PropertyName.MINMATK, "SCR_Get_MON_MINMATK");
+			this.Create(PropertyName.MAXMATK, "SCR_Get_MON_MAXMATK");
+			this.Create(PropertyName.DEF, "SCR_Get_MON_DEF");
+			this.Create(PropertyName.MDEF, "SCR_Get_MON_MDEF");
+			this.Create(PropertyName.DR, "SCR_Get_MON_DR");
+			this.Create(PropertyName.HR, "SCR_Get_MON_HR");
+			this.Create(PropertyName.SR, "SCR_Get_MON_SR");
+			this.Create(PropertyName.SDR, "SCR_Get_MON_SDR");
+			this.Create(PropertyName.CRTHR, "SCR_Get_MON_CRTHR");
+			this.Create(PropertyName.CRTDR, "SCR_Get_MON_CRTDR");
+			this.Create(PropertyName.CRTATK, "SCR_Get_MON_CRTATK");
+			this.Create(PropertyName.BLK, "SCR_Get_MON_BLK");
+			this.Create(PropertyName.BLK_BREAK, "SCR_Get_MON_BLK_BREAK");
 
 			this.Create(new FloatProperty(PropertyName.WlkMSPD, this.Monster.Data.WalkSpeed));
 			this.Create(new FloatProperty(PropertyName.RunMSPD, this.Monster.Data.RunSpeed));
-			this.Create(new CFloatProperty(PropertyName.MSPD, () => this.CalculateProperty("SCR_Get_MON_MSPD")));
+			this.Create(PropertyName.MSPD, "SCR_Get_MON_MSPD");
 
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)this.Monster.Data.Attribute));
 			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)this.Monster.Data.ArmorMaterial));
@@ -73,20 +78,31 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		public void InitAutoUpdates()
 		{
-			this.AutoUpdate(PropertyName.MHP, new[] { PropertyName.MHP_BM });
-			this.AutoUpdate(PropertyName.MSP, new[] { PropertyName.MSP_BM });
-			this.AutoUpdate(PropertyName.MINPATK, new[] { PropertyName.PATK_BM });
-			this.AutoUpdate(PropertyName.MAXPATK, new[] { PropertyName.PATK_BM });
-			this.AutoUpdate(PropertyName.MINMATK, new[] { PropertyName.MATK_BM });
-			this.AutoUpdate(PropertyName.MAXMATK, new[] { PropertyName.MATK_BM });
-			this.AutoUpdate(PropertyName.DEF, new[] { PropertyName.DEF_BM });
-			this.AutoUpdate(PropertyName.MDEF, new[] { PropertyName.MDEF_BM });
-			this.AutoUpdate(PropertyName.MSPD, new[] { PropertyName.FIXMSPD_BM, PropertyName.WlkMSPD, PropertyName.RunMSPD, PropertyName.MSPD_BM });
-			this.AutoUpdate(PropertyName.SR, new[] { PropertyName.SR_BM });
-			this.AutoUpdate(PropertyName.SDR, new[] { PropertyName.SDR_BM });
+			this.AutoUpdate(PropertyName.MHP, [PropertyName.MHP_BM]);
+			this.AutoUpdate(PropertyName.MSP, [PropertyName.MSP_BM]);
+			this.AutoUpdate(PropertyName.MINPATK, [PropertyName.PATK_BM]);
+			this.AutoUpdate(PropertyName.MAXPATK, [PropertyName.PATK_BM]);
+			this.AutoUpdate(PropertyName.MINMATK, [PropertyName.MATK_BM]);
+			this.AutoUpdate(PropertyName.MAXMATK, [PropertyName.MATK_BM]);
+			this.AutoUpdate(PropertyName.DEF, [PropertyName.DEF_BM]);
+			this.AutoUpdate(PropertyName.MDEF, [PropertyName.MDEF_BM]);
+			this.AutoUpdate(PropertyName.MSPD, [PropertyName.FIXMSPD_BM, PropertyName.WlkMSPD, PropertyName.RunMSPD, PropertyName.MSPD_BM]);
+			this.AutoUpdate(PropertyName.SR, [PropertyName.SR_BM]);
+			this.AutoUpdate(PropertyName.SDR, [PropertyName.SDR_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);
+		}
+
+		/// <summary>
+		/// Creates a new calculated float property that uses the given
+		/// function.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="calcFuncName"></param>
+		private void Create(string propertyName, string calcFuncName)
+		{
+			this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
 		}
 
 		/// <summary>

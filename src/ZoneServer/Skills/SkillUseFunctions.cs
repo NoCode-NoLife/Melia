@@ -22,12 +22,12 @@ namespace Melia.Zone.Skills
 		/// Thrown if the skill use function with the given name was not
 		/// defined.
 		/// </exception>
-		public static SkillHitResult Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill)
+		public static SkillHitResult Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier)
 		{
 			if (!ScriptableFunctions.SkillHit.TryGet(name, out var func))
 				throw new ArgumentException($"Scriptable function '{name}' was not defined.");
 
-			return func(caster, target, skill);
+			return func(caster, target, skill, modifier);
 		}
 
 		/// <summary>
@@ -43,12 +43,12 @@ namespace Melia.Zone.Skills
 		/// Thrown if the skill use function with the given name was not
 		/// defined.
 		/// </exception>
-		public static float Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+		public static float Call(string name, ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			if (!ScriptableFunctions.Combat.TryGet(name, out var func))
 				throw new ArgumentException($"Scriptable function '{name}' was not defined.");
 
-			return func(caster, target, skill, skillHitResult);
+			return func(caster, target, skill, modifier, skillHitResult);
 		}
 
 		/// <summary>
@@ -60,8 +60,8 @@ namespace Melia.Zone.Skills
 		/// <param name="skill"></param>
 		/// <param name="skillHitInfo"></param>
 		/// <returns></returns>
-		public static float SCR_GetRandomAtk(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
-			=> Call("SCR_GetRandomAtk", caster, target, skill, skillHitResult);
+		public static float SCR_GetRandomAtk(ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+			=> Call("SCR_GetRandomAtk", caster, target, skill, modifier, skillHitResult);
 
 		/// <summary>
 		/// Calculates the damage for the given skill if used by the attacker
@@ -72,8 +72,8 @@ namespace Melia.Zone.Skills
 		/// <param name="skill"></param>
 		/// <param name="skillHitInfo"></param>
 		/// <returns></returns>
-		public static float SCR_CalculateDamage(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
-			=> Call("SCR_CalculateDamage", caster, target, skill, skillHitResult);
+		public static float SCR_CalculateDamage(ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+			=> Call("SCR_CalculateDamage", caster, target, skill, modifier, skillHitResult);
 
 		/// <summary>
 		/// Determines the result of skill hitting the target.
@@ -83,6 +83,16 @@ namespace Melia.Zone.Skills
 		/// <param name="skill"></param>
 		/// <returns></returns>
 		public static SkillHitResult SCR_SkillHit(ICombatEntity caster, ICombatEntity target, Skill skill)
-			=> Call("SCR_SkillHit", caster, target, skill);
+			=> Call("SCR_SkillHit", caster, target, skill, SkillModifier.Default);
+
+		/// <summary>
+		/// Determines the result of skill hitting the target with the indicated skill modifiers
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static SkillHitResult SCR_SkillHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier)
+			=> Call("SCR_SkillHit", caster, target, skill, modifier);
 	}
 }

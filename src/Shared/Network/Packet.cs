@@ -308,6 +308,13 @@ namespace Melia.Shared.Network
 			=> _buffer.WriteFloat(val);
 
 		/// <summary>
+		/// Writes double to buffer.
+		/// </summary>
+		/// <param name="val"></param>
+		public void PutDouble(double val)
+			=> _buffer.WriteDouble(val);
+
+		/// <summary>
 		/// Writes fixed-sized string to packet, padding it with zeroes
 		/// to reach the given byte length.
 		/// </summary>

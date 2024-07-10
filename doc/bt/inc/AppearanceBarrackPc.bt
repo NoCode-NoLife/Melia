@@ -14,6 +14,7 @@
 typedef struct
 {
     APPEARANCE_PC appearancePc;
+
     int64 characterId;
     byte index;
     ubyte b1;

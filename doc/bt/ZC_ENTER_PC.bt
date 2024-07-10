@@ -50,3 +50,6 @@ APPEARANCE_PC appearancePc;
 int i5;
 float f2;
 byte b3;
+
+if (LOG_DATE >= 20240709)
+    byte b4;

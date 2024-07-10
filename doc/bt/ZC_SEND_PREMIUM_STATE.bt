@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_SEND_PREMIUM_STATE.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i336041
 //   Purpose: 
 //  Category: 
@@ -15,7 +15,7 @@
 
 ServerHeaderFixed header;
 
-byte b1; // 2
-byte b2; // 0 or 1 (Premium State?)
-int i1;
-int itemId; // 490011
+byte premiumType;
+byte active;
+int time;
+int numArg; // e.g. item id 490011

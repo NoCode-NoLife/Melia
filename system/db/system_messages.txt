@@ -1467,6 +1467,7 @@
 { classId: 4626, className: "get_item{name}{count}", text: "{name} x{count}" },
 { classId: 4627, className: "cupole_item", text: "Kupole" },
 { classId: 4628, className: "CantAlreadyInputItem", text: "This item is already added." },
+{ classId: 4630, className: "DoNotEquipAndUnEquipMsg", text: "You can not equip or remove the equipment at the moment." },
 { classId: 5001, className: "CoolDown : {Sec} Sec", text: "Cooldown time: {Sec} seconds" },
 { classId: 5002, className: "WhenEquipToMainOrSubWeapon", text: "Weapon, Subweapon Equip Effect" },
 { classId: 5003, className: "WhenEquipToSubWeapon", text: "Secondary Weapon Effect" },
