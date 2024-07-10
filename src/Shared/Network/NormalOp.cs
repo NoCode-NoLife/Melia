@@ -55,8 +55,8 @@
 			public const int ItemCollectionList = 0xDD;
 			public const int UnlockCollection = 0xDF;
 			public const int UpdateCollection = 0xE0;
-			public const int SkillParticleEffect = 0xE3;
-			public const int PlayTextEffect = 0xE6;
+			public const int SkillParticleEffect = 0xE2;
+			public const int PlayTextEffect = 0xE3;
 			public const int Unknown_E4 = 0xE7;
 			public const int Unknown_EF = 0xF2;
 			public const int ChannelTraffic = 0x12D;
