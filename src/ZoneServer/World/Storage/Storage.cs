@@ -11,6 +11,7 @@ using Melia.Zone.Network;
 using System.Threading;
 using System.Collections;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Shared.World;
 
 namespace Melia.Zone.World.Storage
 {
@@ -611,7 +612,6 @@ namespace Melia.Zone.World.Storage
 
 		/// <summary>
 		/// Changes max storage size by the given number.
-		/// Does not update client.
 		/// </summary>
 		/// <param name="size"></param>
 		public StorageResult Resize(int size)
@@ -620,6 +620,15 @@ namespace Melia.Zone.World.Storage
 				return StorageResult.InvalidOperation;
 
 			_storageSize += size;
+
+			// Decrease in storage size may result in items being lost
+			if (size < 0)
+			{
+				for (var i = _storageItems.Count - 1; i >= _storageSize; i--)
+				{
+					_storageItems.RemoveAt(i);
+				}
+			}
 
 			return StorageResult.Success;
 		}

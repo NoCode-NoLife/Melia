@@ -105,6 +105,11 @@ namespace Melia.Zone.World.Items
 		public Item(int itemId, int amount = 1)
 		{
 			this.Id = itemId;
+			// Certain UIs in the client require the server to send
+			// at least one item property.
+			// We chose this property because this is what official
+			// seems to always send the client.
+			this.Properties.Modify("CoolDown", 0);
 			this.LoadData();
 
 			// Set amount after loading the data so we can clamp it

@@ -1416,13 +1416,6 @@ namespace Melia.Zone.Network
 					var itemList = storageItems.Values.ToList();
 					var itemPositions = storageItems.Keys.ToList();
 
-					// If items in storage have no properties the client will crash.
-					// For that reason, we get all items that do not have 'CoolDown'
-					// property and set it to zero. We chose this property because it seems
-					// official behaviour always sends this property by default.
-					var noPropertyList = itemList.Where(item => item.Properties.Get("CoolDown") == null).ToList();
-					noPropertyList.ForEach(item => item.Properties.Modify("CoolDown", 0));
-
 					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, (byte)type, itemList, itemPositions);
 				}
 			}
