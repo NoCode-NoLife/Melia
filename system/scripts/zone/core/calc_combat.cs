@@ -5,9 +5,12 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Buffs;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -188,6 +191,23 @@ public class CombatCalculationsScript : GeneralScript
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
 
+		// Check for Link
+		// Link shares damage among all linked targets
+		if (target.TryGetBuff(BuffId.Link, out var linkBuff))
+		{
+			if (linkBuff.Vars.TryGet<IEnumerable<ICombatEntity>>("Melia.LinkMembers", out var linkTargets))
+			{
+				foreach (var linkTarget in linkTargets)
+				{
+					if (!linkTarget.IsDead && linkTarget.Handle != target.Handle)
+					{
+						linkTarget.TakeDamage(damage, attacker);
+						var hit = new HitInfo(attacker, linkTarget, null, damage, HitResultType.Hit);
+						Send.ZC_HIT_INFO(attacker, linkTarget, null, hit);
+					}
+				}
+			}
+		}
 		return (int)damage;
 	}
 

@@ -15,6 +15,9 @@ using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Shared.Data.Database;
+using System.Linq;
+using Melia.Zone.Buffs;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Melia.Zone.Skills.Handlers.Archer
 {
@@ -92,17 +95,46 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var skillHits = new List<SkillHitInfo>();
 
-			foreach (var target in targets.LimitBySDR(caster, skill))
+			var hitTargets = targets.LimitBySDR(caster, skill);
+
+			foreach (var target in hitTargets)
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHits.Add(skillHit);
+
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+				skillHit.HitInfo.Type = HitType.KnockBack;
+				target.Position = skillHit.KnockBackInfo.ToPosition;
+
+				skillHits.Add(skillHit);				
 
 				var holdDuration = 5 + skill.Level;
 
-				target.StartBuff(BuffId.Hold, skill.Level, 0, TimeSpan.FromSeconds(holdDuration), caster);				
+				target.StartBuff(BuffId.Hold, skill.Level, 0, TimeSpan.FromSeconds(holdDuration), caster);
+			}
+
+			// Apply link if more than 1 target was hit
+			if (hitTargets.Count() > 1) 
+			{
+				var linkDuration = 5 + skill.Level;
+
+				foreach (var target in hitTargets)
+				{
+					// Can only be part of one link, end any existing links for all members
+					if (target.TryGetBuff(BuffId.Link, out var existingLink)) {
+						IEnumerable<ICombatEntity> existingTargets = (IEnumerable <ICombatEntity>)existingLink.Vars.Get("Melia.LinkMembers");
+						foreach (var existingTarget in existingTargets)
+						{
+							existingTarget.StopBuff(BuffId.Link);
+						}
+					}
+
+					var linkBuff = target.StartBuff(BuffId.Link, skill.Level, 0, TimeSpan.FromSeconds(linkDuration), caster);
+					linkBuff.Vars.Set("Melia.LinkMembers", targets);
+					Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_BUFF_TEXT", (float)BuffId.Link, null);
+				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHits);
