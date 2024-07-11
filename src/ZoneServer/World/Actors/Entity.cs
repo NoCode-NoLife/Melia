@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Melia.Shared.ObjectProperties;
+using System.Collections.Generic;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Composition;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.World.Actors
 {
@@ -328,5 +328,30 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool HasSkill(this ICombatEntity entity, SkillId skillId, int minLevel = 1)
 			=> entity.Components.Get<SkillComponent>()?.GetLevel(skillId) >= minLevel;
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
 	}
 }
