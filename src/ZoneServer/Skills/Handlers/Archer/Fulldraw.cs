@@ -132,8 +132,9 @@ namespace Melia.Zone.Skills.Handlers.Archer
 					}
 
 					var linkBuff = target.StartBuff(BuffId.Link, skill.Level, 0, TimeSpan.FromSeconds(linkDuration), caster);
-					linkBuff.Vars.Set("Melia.LinkMembers", targets);
-					Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_BUFF_TEXT", (float)BuffId.Link, null);
+					linkBuff.Vars.Set("Melia.LinkMembers", hitTargets);
+					// Confirmed with video footage that this is the correct visual
+					Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_CUSTOM_TEXT", 0, "Link", "Item");
 				}
 			}
 
