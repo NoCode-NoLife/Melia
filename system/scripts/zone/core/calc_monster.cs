@@ -234,6 +234,8 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSPD, out var fixValue))
 			return fixValue;
 
+		// It's currently not possible to set a fix value of 0 via the buff property,
+		// because 0 is the default value, indicating that the property is not set.
 		var fixMspd = monster.Properties.GetFloat(PropertyName.FIXMSPD_BM);
 		if (fixMspd != 0)
 			return fixMspd;
