@@ -228,6 +228,10 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_MSPD(Mob monster)
 	{
+		var movementComponent = monster.Components.Get<MovementComponent>();
+		if (movementComponent != null && movementComponent.IsHeld)
+			return 0;
+
 		// Unlike most monster properties, MSPD actually has a fix buff
 		// value that overrides the speed, but for constistency we'll
 		// also check for an override property.
@@ -240,7 +244,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var moveSpeedType = monster.Components.Get<MovementComponent>()?.MoveSpeedType ?? 0;
+		var moveSpeedType = movementComponent?.MoveSpeedType ?? MoveSpeedType.Walk;
 		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
 		var baseValue = monster.Properties.GetFloat(propertyName);
 
