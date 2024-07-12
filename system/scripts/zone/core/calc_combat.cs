@@ -204,11 +204,8 @@ public class CombatCalculationsScript : GeneralScript
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
 
-		// Added effects
-		// Check for Restrain's stun chance
-		Restrain.StunTarget(attacker, target, skill, rnd);
-
-		// Try to share damage with linked entities
+		// Bonus buff effects
+		Restrain.TryStunTarget(attacker, target, skill);
 		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
@@ -15,31 +14,32 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Restrain_Buff)]
 	public class Restrain : BuffHandler
 	{
-		private const string VarName = "Melia.MaxHPPenalty";
-		private const float MaxHPDropBase = 50f;
-		private const float MaxHPDropPerLevel = 28f;
-		private const float StunDuration = 3f;
+		private const float MaxHpDropBase = 50f;
+		private const float MaxHpDropPerLevel = 28f;
+		private static readonly TimeSpan StunDuration = TimeSpan.FromSeconds(3);
 
 		public override void OnStart(Buff buff)
 		{
-			var penalty = this.GetMaxHPPenalty(buff);
-			buff.Vars.SetFloat(VarName, penalty);
+			var penalty = this.GetMaxHpPenalty(buff);
 
-			buff.Target.Properties.Modify(PropertyName.MHP_BM, -penalty);
+			AddPropertyModifier(buff, buff.Target, PropertyName.MHP_BM, -penalty);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var penalty))
-				buff.Target.Properties.Modify(PropertyName.MHP_BM, penalty);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.MHP_BM);
 		}
 
-		private float GetMaxHPPenalty(Buff buff)
+		/// <summary>
+		/// Returns the HP penalty for the buff.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		private float GetMaxHpPenalty(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			return MaxHPDropBase + skillLevel * MaxHPDropPerLevel;
+			return MaxHpDropBase + skillLevel * MaxHpDropPerLevel;
 		}
-
 
 		/// <summary>
 		/// Attempts to stun the target
@@ -49,9 +49,8 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="damage"></param>
 		/// <returns></returns>
-		public static bool StunTarget(ICombatEntity attacker, ICombatEntity target, Skill skill, Random rnd)
+		public static bool TryStunTarget(ICombatEntity attacker, ICombatEntity target, Skill skill)
 		{
 			if (!attacker.TryGetBuff(BuffId.Restrain_Buff, out var restrainBuff))
 				return false;
@@ -61,9 +60,9 @@ namespace Melia.Zone.Buffs.Handlers
 
 			var stunChance = restrainBuff.NumArg2;
 
-			if (rnd.Next(100) < stunChance)
+			if (RandomProvider.Get().Next(100) < stunChance)
 			{
-				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(StunDuration), attacker);
+				target.StartBuff(BuffId.Stun, skill.Level, 0, StunDuration, attacker);
 				return true;
 			}
 
