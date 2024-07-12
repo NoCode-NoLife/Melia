@@ -9,21 +9,18 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.GungHo)]
 	public class GungHo : BuffHandler
 	{
-		private const string VarName = "Melia.AtkRateBonus";
-		private const float AtkRateBonusPerLevel = 0.02f; // 2%
+		private const float AtkRateBonusPerLevel = 0.02f;
 
 		public override void OnStart(Buff buff)
 		{
 			var bonus = this.GetAtkRateBonus(buff);
-			buff.Vars.SetFloat(VarName, bonus);
 
-			buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, bonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_RATE_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var bonus))
-				buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, -bonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.PATK_RATE_BM);
 		}
 
 		private float GetAtkRateBonus(Buff buff)

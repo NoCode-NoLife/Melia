@@ -12,17 +12,13 @@ namespace Melia.Zone.Buffs.Handlers
 	{
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-
-			if (target.Components.TryGet<MovementComponent>(out var movementComponent))
+			if (buff.Target.Components.TryGet<MovementComponent>(out var movementComponent))
 				movementComponent.ApplyHold();
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target;
-
-			if (target.Components.TryGet<MovementComponent>(out var movementComponent))
+			if (buff.Target.Components.TryGet<MovementComponent>(out var movementComponent))
 				movementComponent.ReleaseHold();
 		}
 	}

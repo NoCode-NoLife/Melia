@@ -10,9 +10,6 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 	[BuffHandler(BuffId.Hasisas_Buff)]
 	public class Hasisas : BuffHandler
 	{
-		private const string AspdVarName = "Melia.AttackSpeedBonus";
-		private const string CritVarName = "Melia.CritDamageBonus";
-
 		private const float AspdBonusBase = 155;
 		private const float AspdBonusPerLevel = 20;
 		private const float CritBonusBase = 3f;
@@ -21,23 +18,17 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 
 		public override void OnStart(Buff buff)
 		{
-			var aspdBonus = AspdBonusBase + AspdBonusPerLevel * buff.NumArg1;
-			buff.Vars.SetFloat(AspdVarName, aspdBonus);
-
+			var aspdBonus = this.GetAspdBonus(buff);
 			var critBonus = this.GetCritBonus(buff);
-			buff.Vars.SetFloat(CritVarName, critBonus);
 
-			buff.Target.Properties.Modify(PropertyName.ASPD_BM, aspdBonus);
-			buff.Target.Properties.Modify(PropertyName.CRTATK_BM, critBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, aspdBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.CRTATK_BM, critBonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(AspdVarName, out var aspdBonus))
-				buff.Target.Properties.Modify(PropertyName.ASPD_BM, -aspdBonus);
-
-			if (buff.Vars.TryGetFloat(CritVarName, out var critBonus))
-				buff.Target.Properties.Modify(PropertyName.CRTATK_BM, -critBonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.CRTATK_BM);
 		}
 
 		public override void WhileActive(Buff buff)
@@ -82,13 +73,17 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 			if (Feature.IsEnabled("HasisasNoHpCritBonus"))
 				return;
 
-			if (buff.Vars.TryGetFloat(CritVarName, out var prevCritBonus))
-				buff.Target.Properties.Modify(PropertyName.CRTATK_BM, -prevCritBonus);
+			UpdatePropertyModifier(buff, buff.Target, PropertyName.CRTATK_BM, this.GetCritBonus(buff));
+		}
 
-			var critBonus = this.GetCritBonus(buff);
-			buff.Vars.SetFloat(CritVarName, critBonus);
-
-			buff.Target.Properties.Modify(PropertyName.CRTATK_BM, critBonus);
+		/// <summary>
+		/// Returns the ASPD bonus to use.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		private float GetAspdBonus(Buff buff)
+		{
+			return AspdBonusBase + AspdBonusPerLevel * buff.NumArg1;
 		}
 
 		/// <summary>

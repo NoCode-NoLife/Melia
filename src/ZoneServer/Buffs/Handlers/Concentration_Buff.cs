@@ -10,21 +10,18 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Concentration_Buff)]
 	public class Concentration_Buff : BuffHandler
 	{
-		private const string VarName = "Melia.CritRateBonus";
 		private const float BonusPerLevel = 2;
 
 		public override void OnStart(Buff buff)
 		{
 			var bonus = this.GetCritRateBonus(buff);
-			buff.Vars.SetFloat(VarName, bonus);
 
-			buff.Target.Properties.Modify(PropertyName.CRTHR_BM, bonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var bonus))
-				buff.Target.Properties.Modify(PropertyName.CRTHR_BM, -bonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM);
 		}
 
 		private float GetCritRateBonus(Buff buff)

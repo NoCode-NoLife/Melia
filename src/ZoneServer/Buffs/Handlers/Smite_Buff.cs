@@ -9,16 +9,16 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Smite_Buff)]
 	public class Smite_Buff : BuffHandler
 	{
-		private const float AtkRateBonus = 0.1f; // 10%
+		private const float AtkRateBonus = 0.10f;
 
 		public override void OnStart(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.PATK_MAIN_RATE_BM, AtkRateBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_MAIN_RATE_BM, AtkRateBonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.PATK_MAIN_RATE_BM, -AtkRateBonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.PATK_MAIN_RATE_BM);
 		}
 	}
 }
