@@ -23,7 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.
 		/// </summary>
-		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
+		public async void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return;
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var damageDelay = TimeSpan.FromMilliseconds(45);			
 			var skillHitDelay = TimeSpan.Zero;
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
@@ -66,13 +66,21 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
-			// Bounce shot
+			// Bounce shot.  The bounce target doesn't get slowed
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTarget))
 			{
+				// On official, the bounce shot plays before the original target is hit, uncommenting the below fixes the animation
+				// var bounceHitDelay = TimeSpan.FromMilliseconds(420);
+				// await Task.Delay(bounceHitDelay);
+
 				skillHitResult = SCR_SkillHit(caster, bounceTarget, skill);
 				bounceTarget.TakeDamage(skillHitResult.Damage, caster);
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult);
+				hit.ForceId = ForceId.GetNew();
+				hit.ResultType = HitResultType.Unk8;
+
+				Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, bounceTarget, "I_arrow009_red", 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
 				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
 			}
 		}
@@ -89,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out ICombatEntity bounceTarget)
 		{
 			var splashPos = caster.Position;
-			var splashRadius = 50; // SplashHeight * 2?
+			var splashRadius = 100; // Seems to be bigger than what we had before as per official
 			var splashArea = new Circle(mainTarget.Position, splashRadius);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
