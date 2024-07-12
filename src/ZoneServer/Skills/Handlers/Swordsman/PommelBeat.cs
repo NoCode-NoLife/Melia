@@ -22,9 +22,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	[SkillHandler(SkillId.Swordman_PommelBeat)]
 	public class PommelBeat : IGroundSkillHandler
 	{
-		private const float StunDamageMultiplier = 3f; // 300% damage if target is stunned
-		private const float BaseIgnoreDefRate = 0.01f; // 1% ignore defense
-		private const float IgnoreDefRatePerLevel = 0.005f; // 0.5% ignore defense per level
+		private const float StunDamageMultiplier = 3f;
+		private const float DefPierceRate = 0.01f;
+		private const float DefPierceRatePerLevel = 0.005f;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -79,13 +79,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 				{
 					modifier.DamageMultiplier = StunDamageMultiplier;
 				}
-				var targetSize = SizeType.M; // non-mobs are always size M
+
+				var targetSize = SizeType.M;
 				if (target is Mob mob)
 					targetSize = mob.Data.Size;
 
 				if (targetSize == SizeType.S || targetSize == SizeType.M)
 				{
-					modifier.DefensePenetrationRate = BaseIgnoreDefRate + skill.Level * IgnoreDefRatePerLevel;
+					modifier.DefensePenetrationRate = DefPierceRate + skill.Level * DefPierceRatePerLevel;
 				}
 
 

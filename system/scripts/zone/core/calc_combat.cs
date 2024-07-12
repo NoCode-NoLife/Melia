@@ -219,17 +219,8 @@ public class CombatCalculationsScript : GeneralScript
 			damage *= 1.5f;
 
 		// Added effects
-		// Check for Restrain's stun chance, this only activates on normal attacks,
-		// which are skills with ID < 1001
-		if ((int)skill.Id <= 1000 && attacker.TryGetBuff(BuffId.Restrain_Buff, out var restrainBuff))
-		{
-			var stunChance = restrainBuff.NumArg2;
-
-			if (rnd.Next(100) < stunChance)
-			{
-				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), attacker);
-			}
-		}
+		// Check for Restrain's stun chance
+		Restrain.StunTarget(attacker, target, skill, rnd);
     
 		// Try to share damage with linked entities
 		Link.ShareDamage(attacker, target, skill, damage);

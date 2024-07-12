@@ -22,7 +22,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 	[SkillHandler(SkillId.Swordman_DoubleSlash)]
 	public class DoubleSlash : IGroundSkillHandler
 	{
-		private const float BleedDamageMultiplier = 3f; // 300% damage if target is bleeding
+		private const float BleedDamageMultiplier = 3f;
 
 		/// <summary>
 		/// Handles skill, damaging targets.

@@ -43,8 +43,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var target = caster;
 
 			var duration = TimeSpan.FromSeconds(45);
-			// val2 is the flat damage bonus
-			target.StartBuff(BuffId.Concentrate_Buff, skill.Level, BaseDamageBonus + DamageBonusPerLevel * skill.Level, duration, caster);
+			var damageBonus = BaseDamageBonus + DamageBonusPerLevel * skill.Level;
+
+			target.StartBuff(BuffId.Concentrate_Buff, skill.Level, damageBonus, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

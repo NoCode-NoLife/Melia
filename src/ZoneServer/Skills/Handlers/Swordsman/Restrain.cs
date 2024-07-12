@@ -19,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	[SkillHandler(SkillId.Swordman_Restrain)]
 	public class Restrain : ISelfSkillHandler
 	{
-		private const float ChancePerLevel = 6f; // 6% per level
+		private const float StunChancePerLevel = 6f;
 
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
@@ -42,8 +42,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			var target = caster;
 
 			var duration = TimeSpan.FromSeconds(30 + 3 * skill.Level);
-			// num2 is stun chance on normal attack
-			target.StartBuff(BuffId.Restrain_Buff, skill.Level, ChancePerLevel * skill.Level, duration, caster);
+			var stunChance = StunChancePerLevel * skill.Level;
+
+			target.StartBuff(BuffId.Restrain_Buff, skill.Level, stunChance, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}
