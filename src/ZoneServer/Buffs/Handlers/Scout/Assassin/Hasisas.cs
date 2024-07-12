@@ -24,7 +24,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 			var aspdBonus = AspdBonusBase + AspdBonusPerLevel * buff.NumArg1;
 			buff.Vars.SetFloat(AspdVarName, aspdBonus);
 
-			var critBonus = CritBonusBase + CritBonusPerLevel * buff.NumArg1;
+			var critBonus = this.GetCritBonus(buff);
 			buff.Vars.SetFloat(CritVarName, critBonus);
 
 			buff.Target.Properties.Modify(PropertyName.ASPD_BM, aspdBonus);
@@ -42,10 +42,18 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 
 		public override void WhileActive(Buff buff)
 		{
+			this.ReduceHp(buff);
+			this.UpdateCritBonus(buff);
+		}
+
+		/// <summary>
+		/// Reduces tha buff target's HP.
+		/// </summary>
+		/// <param name="buff"></param>
+		private void ReduceHp(Buff buff)
+		{
 			if (Feature.IsEnabled("HasisasNoHpLoss"))
 				return;
-
-			var target = buff.Target;
 
 			// The description stats an HP loss of 1% per 10 seconds,
 			// which matches the buff's update time. Should a user
@@ -54,15 +62,53 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 			// no great way of keeping track of passage of time.
 			// TODO: Pass time passed into WhileActive.
 
-			var maxHp = target.Properties.GetFloat(PropertyName.MHP);
+			var maxHp = buff.Target.Properties.GetFloat(PropertyName.MHP);
 			var loss = maxHp * HpLossRate;
 
 			// TODO: We probably don't need handling for monsters,
 			//   but this should still get updated once we have a
 			//   general HP modifier. Or perhaps it should be a
 			//   damage hit? TBD.
-			if (target is Character character)
+			if (buff.Target is Character character)
 				character.ModifyHp(-loss);
+		}
+
+		/// <summary>
+		/// Updates the crit bonus based on the amount of HP lost.
+		/// </summary>
+		/// <param name="buff"></param>
+		private void UpdateCritBonus(Buff buff)
+		{
+			if (Feature.IsEnabled("HasisasNoHpCritBonus"))
+				return;
+
+			if (buff.Vars.TryGetFloat(CritVarName, out var prevCritBonus))
+				buff.Target.Properties.Modify(PropertyName.CRTATK_BM, -prevCritBonus);
+
+			var critBonus = this.GetCritBonus(buff);
+			buff.Vars.SetFloat(CritVarName, critBonus);
+
+			buff.Target.Properties.Modify(PropertyName.CRTATK_BM, critBonus);
+		}
+
+		/// <summary>
+		/// Returns the crit bonus to use.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		private float GetCritBonus(Buff buff)
+		{
+			if (Feature.IsEnabled("HasisasNoHpCritBonus"))
+				return CritBonusBase + CritBonusPerLevel * buff.NumArg1;
+
+			var target = buff.Target;
+			var maxHp = target.Properties.GetFloat(PropertyName.MHP);
+			var hp = target.Properties.GetFloat(PropertyName.HP);
+
+			// The bonus is equal to the percentage of HP lost
+			var bonus = (1f - (hp / maxHp)) * 100f;
+
+			return bonus;
 		}
 	}
 }
