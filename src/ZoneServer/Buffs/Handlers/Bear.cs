@@ -9,21 +9,18 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.Bear_Buff)]
 	public class Bear : BuffHandler
 	{
-		private const string VarName = "Melia.DefenseRateBonus";
-		private const float DefenseRateBonusPerLevel = 0.02f; // 2%
+		private const float DefenseRateBonusPerLevel = 0.02f;
 
 		public override void OnStart(Buff buff)
 		{
 			var bonus = this.GetDefenseRateBonus(buff);
-			buff.Vars.SetFloat(VarName, bonus);
 
-			buff.Target.Properties.Modify(PropertyName.DEF_RATE_BM, bonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.DEF_RATE_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var bonus))
-				buff.Target.Properties.Modify(PropertyName.DEF_RATE_BM, -bonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.DEF_RATE_BM);
 		}
 
 		private float GetDefenseRateBonus(Buff buff)

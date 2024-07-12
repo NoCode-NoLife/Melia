@@ -1,4 +1,6 @@
-﻿namespace Melia.Zone.Skills.Combat
+﻿using System;
+
+namespace Melia.Zone.Skills.Combat
 {
 	/// <summary>
 	/// A class for properties that can modify the damage calculation for a skill.
@@ -83,6 +85,27 @@
 
 			if (condition)
 				result.HitCount = hitCount;
+
+			return result;
+		}
+
+		public SkillModifier Cond(Action<SkillModifier> action, bool condition)
+		{
+			if (condition)
+				action(this);
+
+			return this;
+		}
+
+		public static SkillModifier Create()
+		{
+			return new SkillModifier();
+		}
+
+		public static SkillModifier Create(Action<SkillModifier> action)
+		{
+			var result = new SkillModifier();
+			action(result);
 
 			return result;
 		}
