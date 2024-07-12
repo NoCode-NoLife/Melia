@@ -89,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				var skillHitPost = new SkillHitInfo(caster, bounceTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
 				var hit = new HitInfo(caster, bounceTarget, skill, skillHitResult.Damage, skillHitResult.Result);
 
-				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+				Send.ZC_HIT_INFO(caster, bounceTarget, hit);
 
 				if (applyDebuff)
 					bounceTarget.StartBuff(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);

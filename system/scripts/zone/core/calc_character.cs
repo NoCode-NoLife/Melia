@@ -1331,6 +1331,10 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
+		var movementComponent = character.Components.Get<MovementComponent>();
+		if (movementComponent.IsHeld)
+			return 0;
+
 		var fixMspd = properties.GetFloat(PropertyName.FIXMSPD_BM);
 		if (fixMspd != 0)
 			return fixMspd;

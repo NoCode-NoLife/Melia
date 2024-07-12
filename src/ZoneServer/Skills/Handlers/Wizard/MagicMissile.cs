@@ -103,7 +103,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, skillHits);
 
 			foreach (var hit in hits)
-				Send.ZC_HIT_INFO(hit.Attacker, hit.Target, hit.Skill, hit);
+				Send.ZC_HIT_INFO(hit.Attacker, hit.Target, hit);
 		}
 
 		// A shot into a bunch of monsters. The character hit 3 different

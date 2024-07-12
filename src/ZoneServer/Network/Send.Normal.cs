@@ -118,17 +118,72 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Plays effect on actor.
+			/// Plays text effect on actor.
 			/// </summary>
+			/// <remarks>
+			/// The text effect is a small floating text that appears above the
+			/// given actor. The actual string displayed is dictated by the
+			/// Lua function given as the "packetString" argument, which is
+			/// looked up in the packet string database, to send a reference
+			/// to that name in form of an integer. This means that you can
+			/// only use functions found inside that database by default.
+			/// The known functions used for this can also be found in the
+			/// script file "script_client.ipf\reaction\spcitem_text.lua".
+			/// 
+			/// The num and str arguments are then passed to the Lua function,
+			/// and using this data, it returns a string that the client will
+			/// then use for the floating text effect.
+			/// 
+			/// The look of the effect meanwhile is determined by the idSpace
+			/// and classId. Consider the idSpace a kind of category that
+			/// affects what the text looks like. For example, "Ability" will
+			/// produce a red text, while "Collection" will be green.
+			/// 
+			/// Known idSpaces:
+			/// - None: Orange text floating up
+			/// - Ability: Red text floating up
+			/// - Collection: Green text floating up
+			/// - Skill: Yellow text, emphasized in place
+			/// - Item: Yellow text floating up
+			/// - Card (Item+CardItemId): White text floating up + sound effect
+			/// 
+			/// The only known idSpace value that makes use of the classId is
+			/// "Item", which displays a different effect if the classId is
+			/// that of a card item.
+			/// 
+			/// For custom texts, we added a fake packet string called
+			/// "SHOW_CUSTOM_TEXT", which you can use to send custom
+			/// strings via the argStr argument. Unfortunately, the
+			/// client does not appear to support style formatting
+			/// for these effects.
+			/// </remarks>
+			/// <example>
+			/// PlayTextEffect(actor, caster, "SHOW_DMG_BLOCK");
+			/// PlayTextEffect(actor, caster, "SHOW_BUFF_TEXT", (float)BuffId.Link, null, "Skill");
+			/// PlayTextEffect(actor, caster, "SHOW_CUSTOM_TEXT", 0, "Hello, world!");
+			/// </example>
 			/// <param name="actor"></param>
 			/// <param name="caster"></param>
 			/// <param name="packetString"></param>
 			/// <param name="argNum"></param>
 			/// <param name="argStr"></param>
-			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum, string argStr)
+			/// <param name="idSpace"></param>
+			/// <param name="classId"></param>
+			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
 			{
+				// Replace SHOW_CUSTOM_TEXT with SHOW_BUFF_TEXT, to use that function,
+				// which we hijack
+				if (packetString == "SHOW_CUSTOM_TEXT")
+				{
+					packetString = "SHOW_BUFF_TEXT";
+					argStr = "CUSTOM:" + argStr;
+				}
+
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(idSpace, out var idSpaceData))
+					throw new ArgumentException($"Packet string '{idSpace}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
@@ -143,8 +198,8 @@ namespace Melia.Zone.Network
 				else
 					packet.PutLpString(argStr);
 
-				packet.PutInt(0);
-				packet.PutInt(0);
+				packet.PutInt(idSpaceData.Id);
+				packet.PutInt(classId);
 
 				actor.Map.Broadcast(packet, actor);
 			}

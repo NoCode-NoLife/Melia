@@ -1801,15 +1801,14 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
-		/// <param name="skill"></param>
 		/// <param name="hitInfo"></param>
-		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, Skill skill, HitInfo hitInfo)
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, HitInfo hitInfo)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
-			packet.PutInt((int)skill.Id);
+			packet.PutInt((int)hitInfo.SkillId);
 
 			packet.AddHitInfo(hitInfo);
 

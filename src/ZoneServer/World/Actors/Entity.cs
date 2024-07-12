@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Melia.Shared.ObjectProperties;
+using System.Collections.Generic;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Composition;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.World.Actors
 {
@@ -134,10 +135,21 @@ namespace Melia.Zone.World.Actors
 		/// Makes the entity turn towards the position.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
+		/// <param name="pos"></param>
 		public static void TurnTowards(this ICombatEntity entity, Position pos)
 		{
-			entity.Direction = entity.Position.GetDirection(pos);
+			var dir = entity.Position.GetDirection(pos);
+			TurnTowards(entity, dir);
+		}
+
+		/// <summary>
+		/// Makes the entity turn towards the given direction
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="dir"></param>
+		public static void TurnTowards(this ICombatEntity entity, Direction dir)
+		{
+			entity.Direction = dir;
 			Send.ZC_ROTATE(entity);
 		}
 
@@ -328,5 +340,74 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool HasSkill(this ICombatEntity entity, SkillId skillId, int minLevel = 1)
 			=> entity.Components.Get<SkillComponent>()?.GetLevel(skillId) >= minLevel;
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position and matches the predicate.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos, Func<ICombatEntity, bool> predicate)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				if (!predicate(entity))
+					continue;
+
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
+
+		/// <summary>
+		/// Applies a combat hit to the target, making it take damage.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="attacker"></param>
+		/// <param name="skillId"></param>
+		/// <param name="damage"></param>
+		public static void TakeSimpleHit(this ICombatEntity entity, float damage, ICombatEntity attacker, SkillId skillId)
+		{
+			entity.TakeDamage(damage, attacker);
+
+			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
+			Send.ZC_HIT_INFO(attacker, entity, hit);
+		}
 	}
 }

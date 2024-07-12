@@ -44,6 +44,8 @@ namespace Melia.Shared.Data.Database
 		public int CritDodgeRate { get; set; }
 		public int CritAttack { get; set; }
 
+		public string AiName { get; set; }
+
 		public List<DropData> Drops { get; set; } = new List<DropData>();
 		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
 	}
@@ -166,6 +168,10 @@ namespace Melia.Shared.Data.Database
 			data.CritHitRate = entry.ReadInt("critHitRate");
 			data.CritDodgeRate = entry.ReadInt("critDodgeRate");
 			data.CritAttack = entry.ReadInt("critAttack");
+
+			// We'll set a default AI for now to quickly and easily get all
+			// monsters to move and attack.
+			data.AiName = entry.ReadString("ai", "BasicMonster");
 
 			if (entry.ContainsKey("skills"))
 			{

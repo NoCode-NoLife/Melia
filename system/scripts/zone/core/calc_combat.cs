@@ -5,9 +5,13 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -226,6 +230,9 @@ public class CombatCalculationsScript : GeneralScript
 				target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), attacker);
 			}
 		}
+    
+		// Try to share damage with linked entities
+		Link.ShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;
 	}
