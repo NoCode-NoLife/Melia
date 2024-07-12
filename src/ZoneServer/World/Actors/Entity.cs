@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors
@@ -408,6 +409,26 @@ namespace Melia.Zone.World.Actors
 
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
+		}
+
+		/// <summary>
+		/// Returns the entity's effective size.
+		/// </summary>
+		/// <remarks>
+		/// The effective size is not necessarily the same as the entity's set
+		/// size, as some are classified as a certain size for some purposes,
+		/// but another size for other purposes. For example, player's have
+		/// their own "size" property called "PC", but for bonus purposes,
+		/// for example they are considered "M" size.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public static SizeType GetEffectiveSize(this ICombatEntity entity)
+		{
+			if (entity is Mob mob)
+				return mob.Data.Size;
+
+			return SizeType.M;
 		}
 	}
 }
