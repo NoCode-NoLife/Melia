@@ -71,7 +71,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skill"></param>
 		/// <param name="damage"></param>
 		/// <returns></returns>
-		public static bool ShareDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage)
+		public static bool TryShareDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage)
 		{
 			if (!target.TryGetBuff(BuffId.Link, out var linkBuff))
 				return false;

@@ -207,9 +207,9 @@ public class CombatCalculationsScript : GeneralScript
 		// Added effects
 		// Check for Restrain's stun chance
 		Restrain.StunTarget(attacker, target, skill, rnd);
-    
+
 		// Try to share damage with linked entities
-		Link.ShareDamage(attacker, target, skill, damage);
+		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;
 	}
