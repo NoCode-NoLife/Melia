@@ -89,22 +89,8 @@ public class CombatCalculationsScript : GeneralScript
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		// Add extra attack damage based on concentrate
-		// TODO move this to a buff handler
-		if (attacker.Components.Get<BuffComponent>().TryGet(BuffId.Concentrate_Buff, out var concentrateBuff))
-		{
-			var bonusDamage = concentrateBuff.NumArg2;
-			var variableName = "Melia.HitsLeft";
-			if (concentrateBuff.Vars.TryGetFloat(variableName, out var hitsLeft))
-			{
-				hitsLeft--;
-				if (hitsLeft > 0)
-					concentrateBuff.Vars.SetFloat(variableName, hitsLeft);
-				else
-					attacker.Components.Get<BuffComponent>().Remove(BuffId.Concentrate_Buff);
-			}
-			modifier.BonusDamage += bonusDamage;
-		}
+		// Bonuses from buffs
+		Concentrate.TryAddBonus(attacker, modifier);
 
 		// Increase damage multiplier based on dagger slash buff
 		// TODO: Move to a buff handler later.
