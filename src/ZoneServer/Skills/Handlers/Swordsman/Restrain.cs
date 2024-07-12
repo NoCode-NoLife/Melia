@@ -14,11 +14,13 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
 	/// <summary>
-	/// Handler for the Swordman skill Liberate.
+	/// Handler for the Swordman skill Restrain
 	/// </summary>
-	[SkillHandler(SkillId.Swordman_Liberate)]
-	public class Liberate : ISelfSkillHandler
+	[SkillHandler(SkillId.Swordman_Restrain)]
+	public class Restrain : ISelfSkillHandler
 	{
+		private const float StunChancePerLevel = 6f;
+
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
 		/// </summary>
@@ -39,8 +41,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 
 			var target = caster;
 
-			var duration = TimeSpan.FromSeconds(30);
-			target.StartBuff(BuffId.Liberate_Buff, skill.Level, 0, duration, caster);
+			var duration = TimeSpan.FromSeconds(30 + 3 * skill.Level);
+			var stunChance = StunChancePerLevel * skill.Level;
+
+			target.StartBuff(BuffId.Restrain_Buff, skill.Level, stunChance, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}
