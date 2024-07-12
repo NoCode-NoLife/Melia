@@ -18,6 +18,7 @@ using Melia.Shared.Data.Database;
 using System.Linq;
 using Melia.Zone.Buffs;
 using System.Reflection.Metadata.Ecma335;
+using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.Skills.Handlers.Archer
 {
@@ -74,7 +75,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-			
+
 			this.Attack(skill, caster, splashArea);
 		}
 
@@ -108,34 +109,18 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				skillHit.HitInfo.Type = HitType.KnockBack;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 
-				skillHits.Add(skillHit);				
+				skillHits.Add(skillHit);
 
 				var holdDuration = 5 + skill.Level;
 
 				target.StartBuff(BuffId.Hold, skill.Level, 0, TimeSpan.FromSeconds(holdDuration), caster);
 			}
 
-			// Apply link if more than 1 target was hit
-			if (hitTargets.Count() > 1) 
+			// Apply Link if more than 1 target was hit
+			if (hitTargets.Count() > 1)
 			{
-				var linkDuration = 5 + skill.Level;
-
-				foreach (var target in hitTargets)
-				{
-					// Can only be part of one link, end any existing links for all members
-					if (target.TryGetBuff(BuffId.Link, out var existingLink)) {
-						IEnumerable<ICombatEntity> existingTargets = (IEnumerable <ICombatEntity>)existingLink.Vars.Get("Melia.LinkMembers");
-						foreach (var existingTarget in existingTargets)
-						{
-							existingTarget.StopBuff(BuffId.Link);
-						}
-					}
-
-					var linkBuff = target.StartBuff(BuffId.Link, skill.Level, 0, TimeSpan.FromSeconds(linkDuration), caster);
-					linkBuff.Vars.Set("Melia.LinkMembers", hitTargets);
-					// Confirmed via video that this uses the "Item" text effect, despite being a skill
-					Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_BUFF_TEXT", (float)BuffId.Link, null, "Item");
-				}
+				var linkDuration = TimeSpan.FromSeconds(5 + skill.Level);
+				Link.Apply(caster, hitTargets, linkDuration);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHits);
