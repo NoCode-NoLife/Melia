@@ -2,19 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using static Melia.Zone.Skills.SkillUseFunctions;
-using Yggdrasil.Logging;
 using Melia.Zone.World.Actors.Characters;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 {
@@ -24,7 +21,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	[SkillHandler(SkillId.Assassin_Behead)]
 	public class Behead : IGroundSkillHandler
 	{
-		private const float MaxMoveDistance = 150f;  // Will attempt to move up to 150 units
+		private const float JumpBehindDistance = 10;
+		private const float MaxJumpDistance = 150;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -43,23 +41,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 
 			// If the target is a player, Behead will teleport behind them
 			// If any of these conditions fail, you just swing normally
-			if (target is Character playerTarget)
-			{
-				// the target position is 10 units behind the target
-				var targetPosition = playerTarget.Position.GetRelative(playerTarget.Direction, -10f);
-				if (caster.Map.Ground.IsValidPosition(targetPosition)) 
-				{
-					// the teleport only occurs if the target position is within 150 units
-					var distanceToTarget = originPos.Get2DDistance(targetPosition);
-
-					if (distanceToTarget > 0 && distanceToTarget <= MaxMoveDistance)
-					{
-						caster.Position = targetPosition;
-						caster.TurnTowards(target);
-						Send.ZC_SET_POS(caster);
-					}
-				}
-			}
+			if (target is Character)
+				this.JumpBehind(caster, target);
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
@@ -74,6 +57,36 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 		}
 
 		/// <summary>
+		/// Teleports caster behind the target.
+		/// </summary>
+		/// <remarks>
+		/// The jump destination is a position behind the target, but the jump
+		/// only occurs if the destination is valid and not too far away from
+		/// the caster's current position.
+		/// </remarks>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		private void JumpBehind(ICombatEntity caster, ICombatEntity target)
+		{
+			var casterPos = caster.Position;
+			var targetPos = target.Position;
+
+			var jumpDest = casterPos.GetRelative(targetPos, JumpBehindDistance);
+			var isValidDest = caster.Map.Ground.IsValidPosition(jumpDest);
+			if (!isValidDest)
+				return;
+
+			var dist = casterPos.Get2DDistance(jumpDest);
+			if (dist <= 0 || dist > MaxJumpDistance)
+				return;
+
+			caster.Position = jumpDest;
+			caster.TurnTowards(target);
+
+			Send.ZC_SET_POS(caster);
+		}
+
+		/// <summary>
 		/// Executes the actual attack after a delay.
 		/// </summary>
 		/// <param name="skill"></param>
@@ -81,8 +94,9 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
+			// The damageDelay1 is unusually long, but confirmed with official.
+
 			var hitDelay = TimeSpan.FromMilliseconds(30);
-			// The damage delay1 is unusually long, but confirmed with official
 			var damageDelay1 = TimeSpan.FromMilliseconds(240);
 			var damageDelay2 = TimeSpan.FromMilliseconds(80);
 			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
@@ -95,7 +109,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 				modifier.HitCount = 3;
 				modifier.DefensePenetrationRate = 0.15f;
 
@@ -114,7 +128,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 				modifier.HitCount = 3;
 				modifier.DefensePenetrationRate = 0.15f;
 
