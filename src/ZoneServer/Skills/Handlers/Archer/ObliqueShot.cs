@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -18,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handles the Archer skill Oblique Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_ObliqueShot)]
-	public class ObliqueFire : ITargetSkillHandler
+	public class ObliqueShot : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.
@@ -48,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return;
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(45);			
+			var damageDelay = TimeSpan.FromMilliseconds(45);
 			var skillHitDelay = TimeSpan.Zero;
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
@@ -66,10 +64,12 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
-			// Bounce shot.  The bounce target doesn't get slowed
+			// Bounce shot
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTarget))
 			{
-				// On official, the bounce shot plays before the original target is hit, uncommenting the below fixes the animation
+				// On officials, the bounce shot plays before the original target
+				// is hit. Uncommenting this delay will fix this, delaying the
+				// bounce shot animation.
 				// var bounceHitDelay = TimeSpan.FromMilliseconds(420);
 				// await Task.Delay(bounceHitDelay);
 
@@ -97,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out ICombatEntity bounceTarget)
 		{
 			var splashPos = caster.Position;
-			var splashRadius = 100; // Seems to be bigger than what we had before as per official
+			var splashRadius = 100;
 			var splashArea = new Circle(mainTarget.Position, splashRadius);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -107,7 +107,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return false;
 			}
 
-			bounceTarget = targets.Where(a => a != mainTarget).OrderBy(a => a.Position.Get2DDistance(mainTarget.Position)).FirstOrDefault();
+			bounceTarget = targets.GetClosest(mainTarget.Position, a => a != mainTarget);
 			return bounceTarget != null;
 		}
 	}

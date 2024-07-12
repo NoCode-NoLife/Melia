@@ -353,5 +353,34 @@ namespace Melia.Zone.World.Actors
 
 			return closest;
 		}
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position and matches the predicate.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos, Func<ICombatEntity, bool> predicate)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				if (!predicate(entity))
+					continue;
+
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
 	}
 }
