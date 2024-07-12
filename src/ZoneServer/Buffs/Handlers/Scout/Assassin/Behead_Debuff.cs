@@ -1,7 +1,5 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
