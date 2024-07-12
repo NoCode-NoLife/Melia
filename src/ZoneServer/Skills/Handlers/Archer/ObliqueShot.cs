@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				hit.ResultType = HitResultType.Unk8;
 
 				Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, bounceTarget, "I_arrow009_red", 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
-				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+				Send.ZC_HIT_INFO(caster, bounceTarget, hit);
 			}
 		}
 

@@ -406,8 +406,8 @@ namespace Melia.Zone.World.Actors
 		{
 			entity.TakeDamage(damage, attacker);
 
-			var hit = new HitInfo(attacker, entity, null, damage, HitResultType.Hit);
-			Send.ZC_HIT_INFO(attacker, entity, skillId, hit);
+			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
+			Send.ZC_HIT_INFO(attacker, entity, hit);
 		}
 	}
 }

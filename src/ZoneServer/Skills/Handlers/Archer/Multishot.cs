@@ -110,7 +110,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 						targetPos = target.Position;
 
 						var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result);
-						Send.ZC_HIT_INFO(caster, target, skill, hit);
+						Send.ZC_HIT_INFO(caster, target, hit);
 					}
 
 					// It seems like the game uses ZC_SYNC_* packets
