@@ -94,6 +94,15 @@
 // Latest Version, that reflects the current state of iToS.
 { name: "Latest", enabled: true, children: [
 	// Add features here that were added after the initial Re:Build.
+	
+	// Noteworthy skill changes between Re:Build and the latest version
+	{ name: "LatestSkillChanges", enabled: true, children: [
+		// Removes potion requirement for using Hasisas
+		{ name: "HasisasNoPotion", enabled: true },
+		
+		// Removes HP loss while using Hasisas
+		{ name: "HasisasNoHpLoss", enabled: true },
+	]},
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet
