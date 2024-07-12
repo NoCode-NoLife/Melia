@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
@@ -73,19 +71,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 
 				if (target.IsBuffActive(BuffId.HeavyBleeding))
-				{
 					modifier.DamageMultiplier = BleedDamageMultiplier;
-				}
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit);
+
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
 
@@ -94,19 +92,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 
 				if (target.IsBuffActive(BuffId.HeavyBleeding))
-				{
 					modifier.DamageMultiplier = BleedDamageMultiplier;
-				}
 
-				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult2.Damage, caster);
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
-				skillHit2.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit2);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay2, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
+
+				hits.Add(skillHit);
+
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
 		}

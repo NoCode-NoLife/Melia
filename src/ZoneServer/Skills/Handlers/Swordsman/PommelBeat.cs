@@ -69,16 +69,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var hits = new List<SkillHitInfo>();	
+			var hits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 
 				if (target.IsBuffActive(BuffId.Stun))
-				{
 					modifier.DamageMultiplier = StunDamageMultiplier;
-				}
 
 				var targetSize = SizeType.M;
 				if (target is Mob mob)
@@ -88,7 +86,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 				{
 					modifier.DefensePenetrationRate = DefPierceRate + skill.Level * DefPierceRatePerLevel;
 				}
-
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);

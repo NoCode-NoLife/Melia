@@ -75,7 +75,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = SkillModifier.Default;
 				modifier.HitCount = 4;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
