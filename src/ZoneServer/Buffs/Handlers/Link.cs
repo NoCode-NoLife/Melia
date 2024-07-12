@@ -84,10 +84,7 @@ namespace Melia.Zone.Buffs.Handlers
 				if (linkTarget.IsDead || linkTarget.Handle == target.Handle)
 					continue;
 
-				linkTarget.TakeDamage(damage, attacker);
-
-				var hit = new HitInfo(attacker, linkTarget, skill, damage, HitResultType.Hit);
-				Send.ZC_HIT_INFO(attacker, linkTarget, skill, hit);
+				linkTarget.TakeSimpleHit(damage, attacker, skill.Id);
 			}
 
 			return true;

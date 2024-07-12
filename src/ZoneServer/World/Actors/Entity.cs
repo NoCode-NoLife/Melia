@@ -6,6 +6,7 @@ using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -392,6 +393,21 @@ namespace Melia.Zone.World.Actors
 			}
 
 			return closest;
+		}
+
+		/// <summary>
+		/// Applies a combat hit to the target, making it take damage.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="attacker"></param>
+		/// <param name="skillId"></param>
+		/// <param name="damage"></param>
+		public static void TakeSimpleHit(this ICombatEntity entity, float damage, ICombatEntity attacker, SkillId skillId)
+		{
+			entity.TakeDamage(damage, attacker);
+
+			var hit = new HitInfo(attacker, entity, null, damage, HitResultType.Hit);
+			Send.ZC_HIT_INFO(attacker, entity, skillId, hit);
 		}
 	}
 }

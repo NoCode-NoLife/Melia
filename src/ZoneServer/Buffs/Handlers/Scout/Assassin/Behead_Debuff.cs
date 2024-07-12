@@ -2,6 +2,7 @@
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 {
@@ -19,10 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 				var target = buff.Target;
 				var damage = buff.NumArg2;
 
-				target.TakeDamage(damage, attacker);
-
-				var hit = new HitInfo(attacker, target, null, damage, HitResultType.Hit);
-				Send.ZC_HIT_INFO(attacker, target, SkillId.Assassin_Behead_DOT, hit);
+				target.TakeSimpleHit(damage, attacker, SkillId.Assassin_Behead_DOT);
 			}
 		}
 	}
