@@ -93,6 +93,11 @@ namespace Melia.Zone.World.Maps
 		public Ground Ground { get; } = new Ground();
 
 		/// <summary>
+		/// Returns the map's pathfinder data.
+		/// </summary>
+		public Pathfinder Pathfinder { get; }
+
+		/// <summary>
 		/// Returns the number of characters on the map.
 		/// </summary>
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
@@ -115,6 +120,8 @@ namespace Melia.Zone.World.Maps
 		{
 			this.Id = id;
 			this.ClassName = name;
+			Ground.GetBoundingBox(out var sizeX, out var sizeY);
+			this.Pathfinder = new Pathfinder(Ground, sizeX, sizeY);
 
 			this.Load();
 		}

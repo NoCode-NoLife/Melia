@@ -250,5 +250,42 @@ namespace Melia.Zone.World.Maps
 
 			return destination;
 		}
-	}
+
+        /// <summary>
+        /// Calculates the bounding box of the ground data.
+		/// Returns via out the bounding box of the ground.
+        /// </summary>
+        /// <returns></returns>
+        public void GetBoundingBox(out int sizeX, out int sizeY)
+        {
+			sizeX = 0;
+			sizeY = 0;
+
+            if (_cells == null || _cells.Length == 0)
+                return;
+
+            var minX = double.MaxValue;
+            var maxX = double.MinValue;
+            var minY = double.MaxValue;
+            var maxY = double.MinValue;
+
+            foreach (var cell in _cells)
+            {
+                foreach (var vertex in cell.Vertices)
+                {
+                    if (vertex.x < minX)
+                        minX = vertex.x;
+                    if (vertex.x > maxX)
+                        maxX = vertex.x;
+                    if (vertex.y < minY)
+                        minY = vertex.y;
+                    if (vertex.y > maxY)
+                        maxY = vertex.y;
+                }
+            }
+
+            sizeX = (int)(maxX - minX);
+            sizeY = (int)(maxX - minX);
+        }
+    }
 }
