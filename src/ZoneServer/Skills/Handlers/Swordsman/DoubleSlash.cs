@@ -83,9 +83,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				skillHit.HitEffect = HitEffect.Impact;
 
 				hits.Add(skillHit);
-
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			await Task.Delay(delayBetweenHits);
 			hits.Clear();
@@ -104,9 +104,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				skillHit.HitEffect = HitEffect.Impact;
 
 				hits.Add(skillHit);
-
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }
