@@ -135,18 +135,18 @@ namespace Melia.Zone.World.Actors
 		/// Makes the entity turn towards the position.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
+		/// <param name="pos"></param>
 		public static void TurnTowards(this ICombatEntity entity, Position pos)
 		{
-			entity.Direction = entity.Position.GetDirection(pos);
-			Send.ZC_ROTATE(entity);
+			var dir = entity.Position.GetDirection(pos);
+			TurnTowards(entity, dir);
 		}
 
 		/// <summary>
-		/// Makes the entity turn towards a given direction
+		/// Makes the entity turn towards the given direction
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
+		/// <param name="dir"></param>
 		public static void TurnTowards(this ICombatEntity entity, Direction dir)
 		{
 			entity.Direction = dir;
