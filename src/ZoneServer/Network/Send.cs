@@ -1805,11 +1805,24 @@ namespace Melia.Zone.Network
 		/// <param name="hitInfo"></param>
 		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, Skill skill, HitInfo hitInfo)
 		{
+			ZC_HIT_INFO(attacker, target, skill != null ? skill.Id : 0, hitInfo);
+		}
+
+		/// <summary>
+		/// Informs players about a hit that occured, and about the target's
+		/// new hp, after damage was applied.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skillId"></param>
+		/// <param name="hitInfo"></param>
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, SkillId skillId, HitInfo hitInfo)
+		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
-			packet.PutInt((int)skill.Id);
+			packet.PutInt((int)skillId);
 
 			packet.AddHitInfo(hitInfo);
 
