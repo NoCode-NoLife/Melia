@@ -83,6 +83,7 @@ namespace Melia.Zone.Network
 				{
 					character.Components.Get<BuffComponent>().StopTempBuffs();
 					character.Components.Get<CollectionComponent>().RemoveAllBonuses();
+
 					ZoneServer.Instance.Database.SaveCharacter(character);
 				}
 			}

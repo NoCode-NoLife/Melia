@@ -13,10 +13,10 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public Dictionary<string, int> RequiredItems { get; set; }
+		public Dictionary<int, int> RequiredItems { get; set; } = new();
+		public Dictionary<int, int> RewardItems { get; set; } = new();
 		public Dictionary<string, int> RewardProperties { get; set; } = new();
 		public Dictionary<string, int> RewardAccountProperties { get; set; } = new();
-		public Dictionary<string, int> RewardItems { get; set; } = new();
 	}
 
 	/// <summary>
@@ -55,10 +55,11 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 
-			data.RequiredItems = entry["requiredItems"].ToObject<Dictionary<string, int>>();
+			var requiredItems = entry["requiredItems"].ToObject<Dictionary<string, int>>();
+			var rewardItems = entry.ContainsKey("rewardItems") ? entry["rewardItems"].ToObject<Dictionary<string, int>>() : null;
+
 			if (entry.ContainsKey("rewardProperties")) data.RewardProperties = entry["rewardProperties"].ToObject<Dictionary<string, int>>();
 			if (entry.ContainsKey("rewardAccountProperties")) data.RewardAccountProperties = entry["rewardAccountProperties"].ToObject<Dictionary<string, int>>();
-			if (entry.ContainsKey("rewardItems")) data.RewardItems = entry["rewardItems"].ToObject<Dictionary<string, int>>();
 
 			foreach (var propertyName in data.RewardProperties.Keys)
 			{
@@ -72,16 +73,31 @@ namespace Melia.Shared.Data.Database
 					throw new DatabaseWarningException(null, $"Unknown account reward property name '{propertyName}' in collection '{data.ClassName}'.");
 			}
 
-			foreach (var className in data.RequiredItems.Keys)
+			foreach (var requiredItem in requiredItems)
 			{
-				if (_itemDb.FindByClass(className) == null)
+				var className = requiredItem.Key;
+				var amount = requiredItem.Value;
+
+				var itemData = _itemDb.FindByClass(className);
+				if (itemData == null)
 					throw new DatabaseWarningException(null, $"Unknown required item '{className}' in collection '{data.ClassName}'.");
+
+				data.RequiredItems[itemData.Id] = amount;
 			}
 
-			foreach (var className in data.RewardItems.Keys)
+			if (rewardItems != null)
 			{
-				if (_itemDb.FindByClass(className) == null)
-					throw new DatabaseWarningException(null, $"Unknown reward item '{className}' in collection '{data.ClassName}'.");
+				foreach (var rewardItem in rewardItems)
+				{
+					var className = rewardItem.Key;
+					var amount = rewardItem.Value;
+
+					var itemData = _itemDb.FindByClass(className);
+					if (itemData == null)
+						throw new DatabaseWarningException(null, $"Unknown reward item '{className}' in collection '{data.ClassName}'.");
+
+					data.RewardItems[itemData.Id] = amount;
+				}
 			}
 
 			this.Entries[data.ClassName] = data;

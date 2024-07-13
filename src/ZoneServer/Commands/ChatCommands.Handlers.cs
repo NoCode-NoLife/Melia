@@ -1880,7 +1880,6 @@ namespace Melia.Zone.Commands
 			return CommandResult.Okay;
 		}
 
-
 		/// <summary>
 		/// Official slash command, purpose unknown.
 		/// </summary>

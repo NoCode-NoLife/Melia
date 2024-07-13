@@ -16,7 +16,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	public class CollectionComponent : CharacterComponent
 	{
 		private readonly object _syncLock = new();
-		private readonly Dictionary<int, CollectionProgress> _collections = new();
+		private readonly Dictionary<int, Collection> _collections = new();
 
 		/// <summary>
 		/// Returns the total number of registered collections.
@@ -51,15 +51,14 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				if (_collections.ContainsKey(collectionId))
 					return false;
 
-				var newCollection = new CollectionProgress(collectionData);
-				newCollection.RedeemCount = redeemCount;
+				var collection = new Collection(collectionData);
+				collection.RedeemCount = redeemCount;
 
-				_collections.Add(collectionId, newCollection);
+				_collections.Add(collectionId, collection);
 
 				return true;
 			}
 		}
-
 
 		/// <summary>
 		/// Returns whether the given collection was completed.
@@ -116,48 +115,31 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns the list of all collections the user has registered
+		/// Returns the list of all collections the user has registered.
 		/// </summary>
 		/// <returns></returns>
-		public List<int> GetList()
+		public List<Collection> GetList()
 		{
 			lock (_syncLock)
-				return _collections.Keys.ToList();
+				return _collections.Values.ToList();
 		}
 
 		/// <summary>
-		/// Returns a list of ids for the items that were registered to
-		/// the given collection. Returns null if the collection hasn't
-		/// been registered yet.
+		/// Registers an item to this collection. Returns false if the collection
+		/// didn't exist yet or the item is not needed.
 		/// </summary>
 		/// <param name="collectionId"></param>
-		/// <returns></returns>
-		public List<int> GetProgress(int collectionId)
-		{
-			lock (_syncLock)
-			{
-				if (this.TryGetItems(collectionId, out var progress))
-					return progress;
-			}
-
-			return null;
-		}
-
-		/// <summary>
-		/// Registers an item to this collection.
-		/// </summary>
-		/// <param name="collectionId"></param>
-		/// <param name="itemData"></param>
+		/// <param name="itemId"></param>
 		/// <param name="silent">If true, the client is not updated.</param>
 		/// <returns></returns>
-		public bool RegisterItem(int collectionId, ItemData itemData, bool silent = false)
+		public bool RegisterItem(int collectionId, int itemId, bool silent = false)
 		{
 			lock (_syncLock)
 			{
 				if (!_collections.TryGetValue(collectionId, out var collectionProgress))
 					return false;
 
-				if (!collectionProgress.RegisterItem(itemData))
+				if (!collectionProgress.RegisterItem(itemId))
 					return false;
 
 				if (collectionProgress.IsComplete)
@@ -173,22 +155,28 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Grants the given bonus properties to the current character.
 		/// </summary>
+		/// <param name="bonuses">List of bonuses, they key being a property name and the value the bonus.</param>
 		/// <param name="silent">If true, the client is not updated.</param>
 		/// <param name="multiplier">Bonuses are multiplied by this amount, use -1 to remove the bonus.</param>
-		public void AddBonuses(Dictionary<string, int> bonusProperties, bool silent = false, int multiplier = 1)
+		private void AddBonuses(Dictionary<string, int> bonuses, bool silent = false, int multiplier = 1)
 		{
+			if (!bonuses.Any())
+				return;
+
 			var properties = this.Character.Properties;
 
-			if (bonusProperties.Any())
+			foreach (var bonus in bonuses)
 			{
-				foreach (var bonus in bonusProperties)
-					properties.Modify(bonus.Key, bonus.Value * multiplier);
+				var propertyName = bonus.Key;
+				var value = bonus.Value;
 
-				if (!silent)
-				{
-					properties.InvalidateAll();
-					Send.ZC_OBJECT_PROPERTY(this.Character);
-				}
+				properties.Modify(propertyName, value * multiplier);
+			}
+
+			if (!silent)
+			{
+				properties.InvalidateAll();
+				Send.ZC_OBJECT_PROPERTY(this.Character);
 			}
 		}
 
@@ -205,70 +193,68 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					this.AddBonuses(collection.Data.RewardProperties, true, -1);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Represents a collection of a player.
+	/// </summary>
+	public class Collection
+	{
+		/// <summary>
+		/// Returns the collection's id.
+		/// </summary>
+		public int Id { get; }
 
 		/// <summary>
-		/// Redeems all available collections one time.
+		/// Returns a reference to the collection data.
 		/// </summary>
-		/// <param name="toCharacterStorage">If false, the item is added to the character's storage.</param>
-		public void RedeemAll(bool toCharacterStorage)
+		public CollectionData Data { get; }
+
+		/// <summary>
+		/// Returns a list of ids for the items registered.
+		/// </summary>
+		public List<int> RegisteredItems { get; } = new();
+
+		/// <summary>
+		/// Returns the number of times the collection has been redeemed.
+		/// </summary>
+		public int RedeemCount { get; set; }
+
+		/// <summary>
+		/// Returns true if the collection is complete.
+		/// </summary>
+		public bool IsComplete => this.RegisteredItems.Count >= this.Data.RequiredItems.Count;
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="data"></param>
+		public Collection(CollectionData data)
 		{
-			// TODO: Implement.
+			this.Id = data.Id;
+			this.Data = data;
 		}
 
 		/// <summary>
-		/// Represents the progress made on a collection.
+		/// Registers an item to this collection. Returns false if the item is
+		/// not needed.
 		/// </summary>
-		private class CollectionProgress
+		/// <param name="itemId"></param>
+		/// <returns></returns>
+		public bool RegisterItem(int itemId)
 		{
-			/// <summary>
-			/// Returns a reference to the collection data.
-			/// </summary>
-			public CollectionData Data { get; }
+			if (!this.Data.RequiredItems.TryGetValue(itemId, out var neededCount))
+				return false;
 
-			/// <summary>
-			/// Returns a list of ids for the items registered.
-			/// </summary>
-			public List<int> RegisteredItems { get; } = new();
+			var registeredCount = this.RegisteredItems.Count(a => a == itemId);
+			var gotAll = registeredCount >= neededCount;
 
-			/// <summary>
-			/// Returns the number of times the collection has been redeemed.
-			/// </summary>
-			public int RedeemCount { get; set; }
+			if (gotAll)
+				return false;
 
-			/// <summary>
-			/// Returns true if the collection is complete.
-			/// </summary>
-			public bool IsComplete => this.Data.RequiredItems.Count == this.RegisteredItems.Count;
+			this.RegisteredItems.Add(itemId);
 
-			/// <summary>
-			/// Creates new instance.
-			/// </summary>
-			/// <param name="data"></param>
-			public CollectionProgress(CollectionData data)
-			{
-				this.Data = data;
-			}
-
-			/// <summary>
-			/// Registers an item to this collection.
-			/// </summary>
-			/// <param name="item"></param>
-			/// <returns></returns>
-			public bool RegisterItem(ItemData item)
-			{
-				if (!this.Data.RequiredItems.ContainsKey(item.ClassName))
-					return false;
-
-				var neededCount = this.Data.RequiredItems.Count(a => a.Equals(item.ClassName));
-				var addedCount = this.RegisteredItems.Count(a => a == item.Id);
-
-				if (addedCount >= neededCount)
-					return false;
-
-				this.RegisteredItems.Add(item.Id);
-
-				return true;
-			}
+			return true;
 		}
 	}
 }

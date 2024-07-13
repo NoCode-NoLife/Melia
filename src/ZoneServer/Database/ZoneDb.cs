@@ -1250,33 +1250,27 @@ namespace Melia.Zone.Database
 					cmd.ExecuteNonQuery();
 				}
 
-				foreach (var collectionId in character.Collections.GetList())
+				foreach (var collection in character.Collections.GetList())
 				{
-
 					using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
 					{
 						cmd.Set("accountId", character.AccountId);
-						cmd.Set("collectionId", collectionId);
-						cmd.Set("isComplete", character.Collections.IsComplete(collectionId));
-						cmd.Set("timesRedeemed", character.Collections.GetRedeemCount(collectionId));
+						cmd.Set("collectionId", collection.Id);
+						cmd.Set("isComplete", collection.IsComplete);
+						cmd.Set("timesRedeemed", collection.RedeemCount);
 
 						cmd.Execute();
 					}
 
-					var collectionProgress = character.Collections.GetProgress(collectionId);
-
-					if (collectionProgress.Count > 0)
+					foreach (var itemId in collection.RegisteredItems)
 					{
-						foreach (var collectionItem in collectionProgress)
+						using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
 						{
-							using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
-							{
-								cmd.Set("accountId", character.AccountId);
-								cmd.Set("collectionId", collectionId);
-								cmd.Set("itemId", collectionItem);
+							cmd.Set("accountId", character.AccountId);
+							cmd.Set("collectionId", collection.Id);
+							cmd.Set("itemId", itemId);
 
-								cmd.Execute();
-							}
+							cmd.Execute();
 						}
 					}
 				}
@@ -1287,7 +1281,7 @@ namespace Melia.Zone.Database
 
 		/// <summary>
 		/// Loads the character's collections from the database.
-		/// This must run after properties because it modifies them
+		/// This must run after properties because it modifies them.
 		/// </summary>
 		/// <param name="character"></param>
 		private void LoadCollections(Character character)
@@ -1321,12 +1315,12 @@ namespace Melia.Zone.Database
 							var collectionId = reader.GetInt32("collectionId");
 							var itemId = reader.GetInt32("itemId");
 
-							character.Collections.RegisterItem(collectionId, ZoneServer.Instance.Data.ItemDb.Find(itemId), true);
+							character.Collections.RegisterItem(collectionId, itemId, true);
 						}
 					}
-
-					character.Properties.InvalidateAll();
 				}
+
+				character.Properties.InvalidateAll();
 			}
 		}
 	}

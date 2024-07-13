@@ -1108,29 +1108,32 @@ namespace Melia.Zone.Network
 
 
 			/// <summary>
-			/// Sends the current status of the player's collections
+			/// Updated the player's collection list.
 			/// </summary>
 			/// <param name="character"></param>
 			public static void ItemCollectionList(Character character)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.ItemCollectionList);
+
 				packet.Zlib(true, zpacket =>
 				{
-					zpacket.PutLong(character.ObjectId);					
+					zpacket.PutLong(character.ObjectId);
 					zpacket.PutInt(character.Collections.Count);
-					foreach (var collectionId in character.Collections.GetList())
+
+					foreach (var collection in character.Collections.GetList())
 					{
-						zpacket.PutShort(collectionId);
-						var collectionProgress = character.Collections.GetProgress(collectionId);
-						zpacket.PutInt(collectionProgress.Count);
-						foreach (var collectionItem in collectionProgress)
+						var registeredItems = collection.RegisteredItems;
+
+						zpacket.PutShort(collection.Id);
+						zpacket.PutInt(registeredItems.Count);
+
+						foreach (var itemId in registeredItems)
 						{
-							zpacket.PutInt(collectionItem);
-							zpacket.PutLong(collectionItem);
+							zpacket.PutInt(itemId);
+							zpacket.PutLong(itemId);
 							zpacket.PutShort(0);
-						}						
+						}
 					}
 				});
 
@@ -1138,14 +1141,14 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sent after unlocking a collection
+			/// Unlocks a collection for the player.
 			/// </summary>
 			/// <param name="character"></param>
 			public static void UnlockCollection(Character character, int collectionId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.UnlockCollection);
+
 				packet.PutLong(character.ObjectId);
 				packet.PutInt(collectionId);
 
@@ -1154,14 +1157,14 @@ namespace Melia.Zone.Network
 
 
 			/// <summary>
-			/// Sent after unlocking a collection
+			/// Updates the collection for the player.
 			/// </summary>
 			/// <param name="character"></param>
 			public static void UpdateCollection(Character character, int collectionId, int itemId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.UpdateCollection);
+
 				packet.PutLong(character.ObjectId);
 				packet.PutInt(collectionId);
 				packet.PutLong(itemId);
