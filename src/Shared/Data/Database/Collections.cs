@@ -24,8 +24,8 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class CollectionDb : DatabaseJsonIndexed<string, CollectionData>
 	{
-		private PropertiesDb _propertiesDb;
-		private ItemDb _itemDb;
+		private readonly PropertiesDb _propertiesDb;
+		private readonly ItemDb _itemDb;
 
 		public CollectionDb(PropertiesDb propertiesDb, ItemDb itemDb)
 		{
@@ -36,13 +36,13 @@ namespace Melia.Shared.Data.Database
 		public bool TryFindByClassId(int classId, out CollectionData data)
 		{
 			data = this.Entries.Values.FirstOrDefault(c => c.Id == classId);
-			return data != default;
+			return data != null;
 		}
 
 		public bool TryFindByClassName(string className, out CollectionData data)
 		{
 			data = this.Entries.Values.FirstOrDefault(c => c.ClassName == className);
-			return data != default;
+			return data != null;
 		}
 
 		protected override void ReadEntry(JObject entry)

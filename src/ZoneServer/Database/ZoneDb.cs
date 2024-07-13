@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
@@ -1229,14 +1228,11 @@ namespace Melia.Zone.Database
 				}
 			}
 		}
-			
 
 		/// <summary>
 		/// Saves the characters's collections to the database.
-		/// Note that collections are account-level
 		/// </summary>
 		/// <param name="character"></param>
-		/// <exception cref="InvalidOperationException"></exception>
 		private void SaveCollections(Character character)
 		{
 			using (var conn = this.GetConnection())
@@ -1262,7 +1258,7 @@ namespace Melia.Zone.Database
 						cmd.Set("accountId", character.AccountId);
 						cmd.Set("collectionId", collectionId);
 						cmd.Set("isComplete", character.Collections.IsComplete(collectionId));
-						cmd.Set("timesRedeemed", character.Collections.getRedeemCount(collectionId));
+						cmd.Set("timesRedeemed", character.Collections.GetRedeemCount(collectionId));
 
 						cmd.Execute();
 					}
@@ -1282,7 +1278,7 @@ namespace Melia.Zone.Database
 								cmd.Execute();
 							}
 						}
-					}					
+					}
 				}
 
 				trans.Commit();
@@ -1298,7 +1294,7 @@ namespace Melia.Zone.Database
 		{
 			using (var conn = this.GetConnection())
 			{
-				using (var cmd = new MySqlCommand("SELECT collectionid, timesRedeemed FROM `collections` WHERE `accountid` = @accountId ", conn))
+				using (var cmd = new MySqlCommand("SELECT `collectionid`, `timesRedeemed` FROM `collections` WHERE `accountid` = @accountId ", conn))
 				{
 					cmd.AddParameter("@accountId", character.AccountId);
 
@@ -1314,7 +1310,7 @@ namespace Melia.Zone.Database
 					}
 				}
 
-				using (var cmd = new MySqlCommand("SELECT collectionid, itemid FROM `collection_items` WHERE `accountid` = @accountId ", conn))
+				using (var cmd = new MySqlCommand("SELECT `collectionid`, `itemid` FROM `collection_items` WHERE `accountid` = @accountId ", conn))
 				{
 					cmd.AddParameter("@accountId", character.AccountId);
 
@@ -1329,7 +1325,6 @@ namespace Melia.Zone.Database
 						}
 					}
 
-					// flag the character's stats to be recalculated
 					character.Properties.InvalidateAll();
 				}
 			}

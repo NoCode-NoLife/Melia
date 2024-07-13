@@ -21,7 +21,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Returns the total number of registered collections.
 		/// </summary>
-		/// <returns></returns>
 		public int Count { get { lock (_syncLock) return _collections.Count; } }
 
 		/// <summary>
@@ -41,6 +40,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="collectionId"></param>
 		/// <param name="redeemCount"></param>
 		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
 		public bool Add(int collectionId, int redeemCount = 0)
 		{
 			if (!ZoneServer.Instance.Data.CollectionDb.TryFindByClassId(collectionId, out var collectionData))
@@ -62,10 +62,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 
 		/// <summary>
-		/// Returns if a given collection is complete
+		/// Returns whether the given collection was completed.
 		/// </summary>
 		/// <param name="collectionId"></param>
-		/// <returns>false if the collection isn't complete or hasn't been registered at all</returns>
+		/// <returns></returns>
 		public bool IsComplete(int collectionId)
 		{
 			lock (_syncLock)
@@ -77,13 +77,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			return false;
 		}
 
-
 		/// <summary>
-		/// Returns the number of times a given collection was redeemed
+		/// Returns the number of times the given collection was redeemed.
 		/// </summary>
 		/// <param name="collectionId"></param>
-		/// <returns>0 if the collection isn't present at all</returns>
-		public int getRedeemCount(int collectionId)
+		/// <returns></returns>
+		public int GetRedeemCount(int collectionId)
 		{
 			lock (_syncLock)
 			{
@@ -127,10 +126,11 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns the list of items currently registered to the given collection
-		/// This list might be empty if no items are registered
-		/// Returns null if the collection isn't registered at all
+		/// Returns a list of ids for the items that were registered to
+		/// the given collection. Returns null if the collection hasn't
+		/// been registered yet.
 		/// </summary>
+		/// <param name="collectionId"></param>
 		/// <returns></returns>
 		public List<int> GetProgress(int collectionId)
 		{
@@ -143,13 +143,13 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			return null;
 		}
 
-
 		/// <summary>
-		/// Registers an item to this collection
+		/// Registers an item to this collection.
+		/// </summary>
 		/// <param name="collectionId"></param>
 		/// <param name="itemData"></param>
-		/// <param name="silent">Skips updating the client of any stat changes</param>
-		/// </summary>
+		/// <param name="silent">If true, the client is not updated.</param>
+		/// <returns></returns>
 		public bool RegisterItem(int collectionId, ItemData itemData, bool silent = false)
 		{
 			lock (_syncLock)
@@ -171,10 +171,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Grants bonus properties
-		/// <param name="silent">Skips updating the client</param>
-		/// <param name="multiplier">Multiplies by this amount, use -1 to remove the bonus</param>
+		/// Grants the given bonus properties to the current character.
 		/// </summary>
+		/// <param name="silent">If true, the client is not updated.</param>
+		/// <param name="multiplier">Bonuses are multiplied by this amount, use -1 to remove the bonus.</param>
 		public void AddBonuses(Dictionary<string, int> bonusProperties, bool silent = false, int multiplier = 1)
 		{
 			var properties = this.Character.Properties;
@@ -192,30 +192,27 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 		}
 
-
 		/// <summary>
-		/// Removes all bonus properties.  This must be done before saving the properties,
-		/// so the bonuses don't infinitely stack
-		/// <param name="silent">Skips updating the client</param>
+		/// Removes all property bonuses. This must be done before saving the
+		/// properties, so the bonuses don't stack infinitely.
 		/// </summary>
+		/// <param name="silent">If true, the client is not updated.</param>
 		public void RemoveAllBonuses()
 		{
-			foreach (var key in _collections.Keys)
+			foreach (var collection in _collections.Values)
 			{
-				var collection = _collections[key];
-
 				if (collection.IsComplete && collection.Data.RewardProperties.Any())
 					this.AddBonuses(collection.Data.RewardProperties, true, -1);
 			}
 		}
 
 		/// <summary>
-		/// Redeems all available collections one time
-		/// <param name="toCharacterStorage">If false, goes to team storage instead</param>
+		/// Redeems all available collections one time.
 		/// </summary>
+		/// <param name="toCharacterStorage">If false, the item is added to the character's storage.</param>
 		public void RedeemAll(bool toCharacterStorage)
 		{
-			// TODO: unimplemented
+			// TODO: Implement.
 		}
 
 		/// <summary>
