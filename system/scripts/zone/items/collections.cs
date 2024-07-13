@@ -34,7 +34,7 @@ public class CollectionItemScripts : GeneralScript
 		var collectionId = args.NumArgs[0];
 		var item = args.TxItems[0].Item;
 
-		if (!character.Collections.RegisterItem(collectionId, item.Id))
+		if (character.Collections.RegisterItem(collectionId, item.Id))
 		{
 			character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Destroyed);
 
