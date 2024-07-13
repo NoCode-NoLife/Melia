@@ -7,15 +7,13 @@ using Melia.Zone.Network;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handler for Common_Slow, which affects the movement speed on use.
+	/// Handler for Common_Shock, which reduces INT and SPR
 	/// </summary>
 	[BuffHandler(BuffId.Common_Shock)]
 	public class Common_Shock : BuffHandler
 	{
 		private const float IntDebuffRate = 0.1f;
 		private const float SprDebuffRate = 0.1f;
-		private const string ReduceIntName = "Melia.ReduceInt";
-		private const string ReduceSprName = "Melia.ReduceSpr";
 
 		/// <summary>
 		/// Starts buff, reducing Int and Spr
@@ -26,14 +24,10 @@ namespace Melia.Zone.Buffs.Handlers
 			var target = buff.Target;
 
 			var reduceInt = target.Properties.GetFloat(PropertyName.INT) * IntDebuffRate;
-			buff.Vars.SetFloat(ReduceIntName, -reduceInt);
-
-			target.Properties.Modify(PropertyName.INT_BM, -reduceInt);
+			AddPropertyModifier(buff, buff.Target, PropertyName.INT_BM, -reduceInt);
 
 			var reduceSpr = target.Properties.GetFloat(PropertyName.MNA) * SprDebuffRate;
-			buff.Vars.SetFloat(ReduceSprName, -reduceSpr);
-
-			target.Properties.Modify(PropertyName.MNA_BM, -reduceSpr);
+			AddPropertyModifier(buff, buff.Target, PropertyName.MNA_BM, -reduceSpr);
 		}
 
 		/// <summary>
@@ -42,19 +36,8 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(ReduceIntName, out var reduceInt))
-			{
-				var target = buff.Target;
-
-				target.Properties.Modify(PropertyName.INT_BM, reduceInt);
-			}
-
-			if (buff.Vars.TryGetFloat(ReduceSprName, out var reduceSpr))
-			{
-				var target = buff.Target;
-
-				target.Properties.Modify(PropertyName.MNA_BM, reduceSpr);
-			}
+			RemovePropertyModifier(buff, buff.Target, PropertyName.INT_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.MNA_BM);
 		}
 	}
 }

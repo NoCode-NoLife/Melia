@@ -4,26 +4,24 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handle for the Bear Buff, which increases the target's defense.
+	/// Handle for the Double Pay Earn buff, which increases Looting Chance (drop rate)
+	/// but increases the damage you take.
 	/// </summary>
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
-	public class DoublePayEarn : BuffHandler
+	public class Double_Pay_Earn_Buff : BuffHandler
 	{
-		private const string VarName = "Melia.LootingChanceBonus";
 		private const float LootingChanceBonusPerLevel = 30f; // 30 looting chance is 3% drop rate bonus
 
 		public override void OnStart(Buff buff)
 		{
 			var bonus = this.GetLootingChanceBonus(buff);
-			buff.Vars.SetFloat(VarName, bonus);
 
-			buff.Target.Properties.Modify(PropertyName.LootingChance_BM, bonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.LootingChance_BM, bonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(VarName, out var bonus))
-				buff.Target.Properties.Modify(PropertyName.LootingChance_BM, -bonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.LootingChance_BM);
 		}
 
 		private float GetLootingChanceBonus(Buff buff)

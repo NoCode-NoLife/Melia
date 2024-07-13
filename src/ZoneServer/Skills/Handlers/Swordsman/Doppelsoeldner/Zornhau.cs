@@ -22,7 +22,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Zornhau.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Zornhau)]
-	public class Zornhau : IGroundSkillHandler
+	public class Doppelsoeldner_Zornhau : IGroundSkillHandler
 	{
 		private const int BuffRemoveChancePerLevel = 5;
 		private const int DebuffDuration = 5;
@@ -81,9 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
-				// This skill always hits twice
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				// Deeds of Valor specifically influences final damage so we just multiply the damage after calculation

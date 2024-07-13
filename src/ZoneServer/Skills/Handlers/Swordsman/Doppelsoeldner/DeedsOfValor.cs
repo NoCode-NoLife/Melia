@@ -13,10 +13,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Deeds of Valor.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_DeedsOfValor)]
-	public class DeedsOfValor : ISelfSkillHandler
+	public class Doppelsoeldner_DeedsOfValor : ISelfSkillHandler
 	{
-		public const float baseDamageMultiplier = 1.15f;  // 15% damage bonus
-		public const float damageMultiplierPerLevel = 0.01f;  // 1% damage bonus per level
+		public const float BaseDamageMultiplier = 1.15f;
+		public const float DamageMultiplierPerLevel = 0.01f;
 
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
@@ -39,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			var target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.DeedsOfValor, skill.Level, baseDamageMultiplier + damageMultiplierPerLevel * skill.Level, duration, caster);
+			target.StartBuff(BuffId.DeedsOfValor, skill.Level, BaseDamageMultiplier + DamageMultiplierPerLevel * skill.Level, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

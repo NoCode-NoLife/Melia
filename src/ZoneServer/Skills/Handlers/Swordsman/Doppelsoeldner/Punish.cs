@@ -20,10 +20,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Punish.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Punish)]
-	public class Punish : IGroundSkillHandler
+	public class Doppelsoeldner_Punish : IGroundSkillHandler
 	{
 		private const float MaxMoveDistance = 140f;  // Will attempt to move up to 140 units
-		private const float KnockdownMultiplier = 1.5f;  // 50% bonus damage against knocked down enemies
+		private const float KnockdownMultiplier = 1.5f;
 		private const float HealDebuffPerLevel = 3300f;  // Packet needs this passed in at 100x the amount to display in the tooltip
 		private const float HealDebuffDuration = 5;
 
@@ -106,7 +106,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				SkillModifier modifier = new SkillModifier();
 
 				// TODO: This should do extra damage if the enemy is in a knockdown state
-				// but knockdown is not fully implemented so there's no way to check for it
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				skillHitResult.Damage *= deedsOfValorBonus;
