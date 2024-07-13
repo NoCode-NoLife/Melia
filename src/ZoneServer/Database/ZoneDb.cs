@@ -1261,7 +1261,7 @@ namespace Melia.Zone.Database
 					{
 						cmd.Set("accountId", character.AccountId);
 						cmd.Set("collectionId", collectionId);
-						cmd.Set("isComplete", character.Collections.isComplete(collectionId));
+						cmd.Set("isComplete", character.Collections.IsComplete(collectionId));
 						cmd.Set("timesRedeemed", character.Collections.getRedeemCount(collectionId));
 
 						cmd.Execute();
