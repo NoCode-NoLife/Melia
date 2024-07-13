@@ -16,10 +16,10 @@ using Melia.Zone.Skills.Combat;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Handler for the Wizard skill Lethargy.
+	/// Handler for the Peltasta skill Swash Buckling
 	/// </summary>
 	[SkillHandler(SkillId.Peltasta_SwashBuckling)]
-	public class SwashBuckling : IGroundSkillHandler
+	public class Peltasta_SwashBuckling : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, giving the caster a buff and debuffing enemies in target area.
@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 
-			// This buff is mentioned in the skill file, but seems to be tied to attributes that are not present in the current version
+			// This buff is mentioned in the skill file, but it seems like it was tied to abilities that have been removed
 			//caster.StartBuff(BuffId.SwashBucklingReduceDamage_Buff, skill.Level, 0, duration, caster);
 			//caster.StartBuff(BuffId.SwashBuckling_Buff, skill.Level, 0, duration, caster);
 
@@ -52,7 +52,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			// targets.LimitBySDR gets the wrong value for this skill, so we need to limit the targets manually
 			var maxTargets = 6 + 3 * skill.Level;
 
 			for (int i = 0; i < Math.Min(targets.Count, maxTargets); i++)

@@ -17,10 +17,10 @@ using Melia.Zone.World.Actors.Characters;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Handler for the Swordsman skill Bash.
+	/// Handler for the Peltasta skill Rim Blow.
 	/// </summary>
 	[SkillHandler(SkillId.Peltasta_RimBlow)]
-	public class Bash : IGroundSkillHandler
+	public class Peltasta_RimBlow : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -79,11 +79,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				var modifier = SkillModifier.Default;
 				modifier.BonusPAtk = bonusPatk;
-
-				// This skill always hits 4 times
 				modifier.HitCount = 4;
 
 				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))

@@ -14,7 +14,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	/// Handler for the Peltasta skill High Guard
 	/// </summary>
 	[SkillHandler(SkillId.Peltasta_HighGuard)]
-	public class HighGuard : ISelfSkillHandler
+	public class Peltasta_HighGuard : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.
