@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers.Scout.Assassin
@@ -18,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	/// Handler for the Assassin skill Hasisas.
 	/// </summary>
 	[SkillHandler(SkillId.Assassin_Hasisas)]
-	public class Hasisas : IGroundSkillHandler
+	public class Assassin_Hasisas : IGroundSkillHandler
 	{
 		private const int HasisasPotionId = 647010;
 		private static readonly TimeSpan BuffDuration = TimeSpan.FromMinutes(30);

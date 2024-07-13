@@ -8,7 +8,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// Handler for Common_Slow, which affects the movement speed on use.
 	/// </summary>
 	[BuffHandler(BuffId.Common_Slow)]
-	public class CommonSlowHandler : BuffHandler
+	public class Common_Slow : BuffHandler
 	{
 		private const float MspdDebuffRate = 0.5f;
 

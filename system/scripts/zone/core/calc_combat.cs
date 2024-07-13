@@ -90,7 +90,7 @@ public class CombatCalculationsScript : GeneralScript
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
 		// Bonuses from buffs
-		Concentrate.TryAddBonus(attacker, modifier);
+		Concentrate_Buff.TryAddBonus(attacker, modifier);
 
 		// Increase damage multiplier based on dagger slash buff
 		// TODO: Move to a buff handler later.
@@ -205,7 +205,7 @@ public class CombatCalculationsScript : GeneralScript
 			damage *= 1.5f;
 
 		// Bonus buff effects
-		Restrain.TryStunTarget(attacker, target, skill);
+		Restrain_Buff.TryStunTarget(attacker, target, skill);
 		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;

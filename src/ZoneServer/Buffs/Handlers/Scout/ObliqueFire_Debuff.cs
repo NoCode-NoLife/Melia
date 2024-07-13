@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// speed.
 	/// </summary>
 	[BuffHandler(BuffId.ObliqueFire_Debuff)]
-	public class ObliqueFire_DebuffHandler : BuffHandler
+	public class ObliqueFire_Debuff : BuffHandler
 	{
 		private const float DebuffPenaltyRate = -0.05f;
 

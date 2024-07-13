@@ -10,7 +10,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// Handle for the Concentrate Buff.
 	/// </summary>
 	[BuffHandler(BuffId.Concentrate_Buff)]
-	public class Concentrate : BuffHandler
+	public class Concentrate_Buff : BuffHandler
 	{
 		private const string HitsVarName = "Melia.HitsLeft";
 

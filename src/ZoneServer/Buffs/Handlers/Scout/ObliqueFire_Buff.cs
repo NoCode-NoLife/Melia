@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// speed.
 	/// </summary>
 	[BuffHandler(BuffId.ObliqueFire_Buff)]
-	public class ObliqueFireBuffHandler : BuffHandler
+	public class ObliqueFire_Buff : BuffHandler
 	{
 		private const float BuffBonus = 3f;
 

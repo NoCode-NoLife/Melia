@@ -18,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 	/// Handler for the Highlander skill Crosscut.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_DoubleSlash)]
-	public class DoubleSlash : IGroundSkillHandler
+	public class Swordman_DoubleSlash : IGroundSkillHandler
 	{
 		private const float BleedDamageMultiplier = 3f;
 

@@ -8,7 +8,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 	/// Handle for the Hasisas Buff, which increases the target's Attack speed and Crit damage
 	/// </summary>
 	[BuffHandler(BuffId.Hasisas_Buff)]
-	public class Hasisas : BuffHandler
+	public class Hasisas_Buff : BuffHandler
 	{
 		private const float AspdBonusBase = 155;
 		private const float AspdBonusPerLevel = 20;

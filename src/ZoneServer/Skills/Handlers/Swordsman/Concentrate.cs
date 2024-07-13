@@ -12,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordman skill Concentrate.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_Concentrate)]
-	public class Concentrate : ISelfSkillHandler
+	public class Swordman_Concentrate : ISelfSkillHandler
 	{
 		private const float BaseDamageBonus = 4f;
 		private const float DamageBonusPerLevel = 5f;

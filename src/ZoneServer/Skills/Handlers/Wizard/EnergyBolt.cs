@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Wizard
@@ -17,7 +15,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handler for the Wizard skill Energy Bolt.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_EnergyBolt)]
-	public class EnergyBolt : ITargetSkillHandler
+	public class Wizard_EnergyBolt : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, attacking the targets.

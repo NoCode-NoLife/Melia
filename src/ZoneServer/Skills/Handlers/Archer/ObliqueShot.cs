@@ -16,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handles the Archer skill Oblique Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_ObliqueShot)]
-	public class ObliqueShot : ITargetSkillHandler
+	public class Archer_ObliqueShot : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Archer
@@ -18,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handles the Archer skill Heavy Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_HeavyShot)]
-	public class HeavyShot : ITargetSkillHandler
+	public class Archer_HeavyShot : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, deal damage and knockback.
@@ -61,7 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			skillHit.HitInfo.Type = HitType.KnockBack;
 			target.Position = skillHit.KnockBackInfo.ToPosition;
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);			
+			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 		}
 	}
 }

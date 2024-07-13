@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Melia.Shared.L10N;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
-using Melia.Shared.World;
+using Melia.Shared.L10N;
+using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using Melia.Shared.Data.Database;
-using System.Linq;
-using Melia.Zone.Buffs;
-using System.Reflection.Metadata.Ecma335;
-using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.Skills.Handlers.Archer
 {
@@ -26,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handler for the Archer skill Multishot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_Fulldraw)]
-	public class Fulldraw : ITargetSkillHandler, IDynamicCasted
+	public class Archer_Fulldraw : ITargetSkillHandler, IDynamicCasted
 	{
 		/// <summary>
 		/// Called when the user starts casting the skill.

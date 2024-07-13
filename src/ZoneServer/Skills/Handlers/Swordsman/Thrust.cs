@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
@@ -19,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordsman skill Thrust.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_Thrust)]
-	public class Thrust : IGroundSkillHandler
+	public class Swordman_Thrust : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.

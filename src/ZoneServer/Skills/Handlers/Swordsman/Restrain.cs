@@ -12,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordman skill Restrain
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_Restrain)]
-	public class Restrain : ISelfSkillHandler
+	public class Swordman_Restrain : ISelfSkillHandler
 	{
 		private const float StunChancePerLevel = 6f;
 

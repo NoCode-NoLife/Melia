@@ -18,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordsman skill Pommel Beat.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_PommelBeat)]
-	public class PommelBeat : IGroundSkillHandler
+	public class Swordman_PommelBeat : IGroundSkillHandler
 	{
 		private const float StunDamageMultiplier = 3f;
 		private const float DefPierceRate = 0.01f;

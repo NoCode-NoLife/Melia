@@ -19,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	/// Handler for the Assassin skill Behead.
 	/// </summary>
 	[SkillHandler(SkillId.Assassin_Behead)]
-	public class Behead : IGroundSkillHandler
+	public class Assassin_Behead : IGroundSkillHandler
 	{
 		private const float JumpBehindDistance = 10;
 		private const float MaxJumpDistance = 150;

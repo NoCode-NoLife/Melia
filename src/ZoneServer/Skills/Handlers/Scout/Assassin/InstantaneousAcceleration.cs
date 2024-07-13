@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scout.Assassin
@@ -19,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Assassin
 	/// Handler for the Assassin skill Instant Acceleration
 	/// </summary>
 	[SkillHandler(SkillId.Assassin_InstantaneousAcceleration)]
-	public class InstantAcceleration : IGroundSkillHandler
+	public class Assassin_InstantaneousAcceleration : IGroundSkillHandler
 	{
 		private const float DashDistance = 100f;
 		/// <summary>

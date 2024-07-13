@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// in exchange for a chance to stun on normal attacks.
 	/// </summary>
 	[BuffHandler(BuffId.Restrain_Buff)]
-	public class Restrain : BuffHandler
+	public class Restrain_Buff : BuffHandler
 	{
 		private const float MaxHpDropBase = 50f;
 		private const float MaxHpDropPerLevel = 28f;
