@@ -13,9 +13,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Deeds of Valor.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Double_pay_earn)]
-	public class DoublePayEarn : ISelfSkillHandler
+	public class Doppelsoeldner_DoublePayEarn : ISelfSkillHandler
 	{
-		public const float damageTakenMultiplier = 2f;  // take double damage
+		public const float DamageTakenMultiplier = 2f;
 
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
@@ -38,7 +38,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			var target = caster;
 
 			var duration = TimeSpan.FromSeconds(60);
-			target.StartBuff(BuffId.Double_pay_earn_Buff, skill.Level, damageTakenMultiplier, duration, caster);
+			target.StartBuff(BuffId.Double_pay_earn_Buff, skill.Level, DamageTakenMultiplier, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

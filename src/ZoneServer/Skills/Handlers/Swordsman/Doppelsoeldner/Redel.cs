@@ -20,7 +20,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Redel.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Redel)]
-	public class Redel : IGroundSkillHandler
+	public class Doppelsoeldner_Redel : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -88,8 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);

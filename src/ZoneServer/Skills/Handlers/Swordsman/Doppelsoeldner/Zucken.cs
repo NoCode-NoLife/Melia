@@ -20,7 +20,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	/// Handler for the Doppelsoeldner skill Zucken.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Zucken)]
-	public class Zucken : IGroundSkillHandler
+	public class Doppelsoeldner_Zucken : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -91,8 +91,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
@@ -112,8 +111,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
@@ -133,8 +131,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				var skillHitResult3 = SCR_SkillHit(caster, target, skill, modifier);
@@ -154,8 +151,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
-
+				SkillModifier modifier = SkillModifier.Default;
 				modifier.HitCount = 2;
 
 				var skillHitResult4 = SCR_SkillHit(caster, target, skill, modifier);
