@@ -1,7 +1,5 @@
 // Melia
 // Database file
-// 
-// Class ID, Class Name, Name, Required Items, Reward Properties, Reward Account Properties, Reward Items
 //---------------------------------------------------------------------------
 
 [
@@ -20,7 +18,7 @@
 { classId: 113, className: "COLLECT_113", name: "Lv3 Card Collection", requiredItems: ["card_ginklas","card_Iltiswort","card_Shnayim","card_Rajatoad","card_archon","card_Kerberos"], rewardProperties: "MDEF_BM/3" },
 { classId: 114, className: "COLLECT_114", name: "Lv4 Card Collection", requiredItems: ["card_MagBurk","card_salamander","card_yonazolem","card_mineloader"], rewardProperties: "CON_BM/3" },
 { classId: 115, className: "COLLECT_115", name: "Necklace of the Five Sins", requiredItems: ["NECK01_132","NECK01_133","NECK01_134","NECK01_135","NECK01_136"], rewardProperties: "INT_BM/1" },
-{ classId: 116, className: "COLLECT_116", name: "Revelations : Conflict", requiredItems: ["stonetablet01","stonetablet02","stonetablet03"], rewardProperties: "MHP_BM/125" },
+{ classId: 116, className: "COLLECT_116", name: "Revelations: Conflict", requiredItems: ["stonetablet01","stonetablet02","stonetablet03"], rewardProperties: "MHP_BM/125" },
 { classId: 117, className: "COLLECT_117", name: "Revelation: The Hidden Side", requiredItems: ["stonetablet04","stonetablet05","stonetablet06"], rewardProperties: "MaxWeight_BM/100" },
 { classId: 118, className: "COLLECT_118", name: "Collection: West Siauliai Woods", requiredItems: ["misc_0001","Hat_628054","misc_0002","leaf_hanaming","misc_0004","misc_0005","misc_infroRocktor2"], rewardProperties: "PATK_BM/2" },
 { classId: 119, className: "COLLECT_119", name: "Collection: East Siauliai Woods", requiredItems: ["misc_0006","misc_chupacabra2","food_Popolion","misc_0008","misc_0009"], rewardProperties: "MATK_BM/2" },
@@ -220,11 +218,12 @@
 { classId: 313, className: "COLLECT_313", name: "Collection: Sage Master's Bookmark", requiredItems: ["misc_collect_gimk_001","misc_collect_gimk_002","misc_collect_gimk_003","misc_collect_gimk_004","misc_collect_gimk_005","misc_collect_gimk_006","misc_collect_gimk_007"], rewardItems: "COLLECT_313/3/kupole_emotion01/1" },
 { classId: 314, className: "COLLECT_314", name: "Collection: Explorer Finds", requiredItems: ["misc_collect_gimk_008","misc_collect_gimk_009","misc_collect_gimk_010","misc_collect_gimk_011","misc_collect_gimk_012","misc_collect_gimk_013","misc_collect_gimk_014","misc_collect_gimk_015"], rewardItems: "COLLECT_314/3/kupole_emotion02/1" },
 { classId: 315, className: "COLLECT_315", name: "Collection: Little Dexter's Gift", requiredItems: ["misc_collect_gimk_016","misc_collect_gimk_017","misc_collect_gimk_018","misc_collect_gimk_019","misc_collect_gimk_020","misc_collect_gimk_021","misc_collect_gimk_022"], rewardItems: "COLLECT_315/3/kupole_emotion03/1" },
+{ classId: 316, className: "COLLECT_316", name: "Collection: The Four Masters", requiredItems: ["Event_Book1","Event_Book2","Event_Book3","Event_Book4","Event_Book5","Event_Book6","Event_Book7","Event_Book8"], rewardAccountProperties: "MaxAccountWarehouseCount/1" },
 { classId: 317, className: "COLLECT_317", name: "Collection: Gabija’s Authority", requiredItems: ["Goddess_fragments_gabiaA","Goddess_fragments_gabiaB","Goddess_fragments_gabiaC"], rewardProperties: "PATK_BM/2000/MATK_BM/2000" },
 { classId: 318, className: "COLLECT_318", name: "Collection: Vakarine's Authority", requiredItems: ["Goddess_fragments_vakarineA","Goddess_fragments_vakarineB","Goddess_fragments_vakarineC"], rewardProperties: "PATK_BM/2200/MATK_BM/2200" },
 { classId: 319, className: "COLLECT_319", name: "Collection: Moon Rabbit", requiredItems: ["Event_2109_Gold_coin","Event_2109_Gold_coin","Event_2109_Gold_coin","Event_2109_Gold_coin"], rewardProperties: "STR_BM/20/DEX_BM/20/INT_BM/20/MNA_BM/20/CON_BM/20" },
-{ classId: 320, className: "COLLECT_320", name: "Collection: What Ferret Left Behind", requiredItems: ["misc_collect_ep14_2_1","misc_collect_ep14_2_2","misc_collect_ep14_2_3","misc_collect_ep14_2_4"], rewardProperties: "MHP_BM/6000" },
-{ classId: 321, className: "COLLECT_321", name: "Collection: What Grasme Left Behind", requiredItems: ["misc_collect_ep14_2_5","misc_collect_ep14_2_6"], rewardProperties: "MHP_BM/4000" },
+{ classId: 320, className: "COLLECT_320", name: "Collection: What Ferret Left Behind", requiredItems: ["misc_collect_ep14_2_1","misc_collect_ep14_2_2","misc_collect_ep14_2_3","misc_collect_ep14_2_4"], rewardProperties: "MHP_BM/7000" },
+{ classId: 321, className: "COLLECT_321", name: "Collection: What Grasme Left Behind", requiredItems: ["misc_collect_ep14_2_5","misc_collect_ep14_2_6"], rewardProperties: "MHP_BM/3000" },
 { classId: 322, className: "COLLECT_322", name: "Collection: Jolly Merry Winter Festival", requiredItems: ["Event_2212_Gold_Key","Event_2212_Gold_Key","Event_2212_Gold_Key"], rewardProperties: "STR_BM/20/DEX_BM/20/INT_BM/20/MNA_BM/20/CON_BM/20" },
 { classId: 323, className: "COLLECT_323", name: "Collection: Plunderer's Belongings", requiredItems: ["misc_collect_ep15_1_1","misc_collect_ep15_1_2","misc_collect_ep15_1_3"], rewardProperties: "MHP_BM/3000" },
 { classId: 324, className: "COLLECT_324", name: "Collection: Lada's Authority", requiredItems: ["Goddess_fragments_radaA","Goddess_fragments_radaB","Goddess_fragments_radaC"], rewardProperties: "PATK_BM/3300/MATK_BM/3300" },
