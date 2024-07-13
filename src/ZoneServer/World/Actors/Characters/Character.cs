@@ -606,7 +606,6 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Clean up temporary properties before saving
 			this.Components.Get<BuffComponent>().StopTempBuffs();
-			this.Components.Get<CollectionComponent>().RemoveAllBonuses();
 
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);

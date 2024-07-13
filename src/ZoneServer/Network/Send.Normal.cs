@@ -1123,7 +1123,7 @@ namespace Melia.Zone.Network
 
 					foreach (var collection in character.Collections.GetList())
 					{
-						var registeredItems = collection.RegisteredItems;
+						var registeredItems = collection.GetRegisteredItems();
 
 						zpacket.PutShort(collection.Id);
 						zpacket.PutInt(registeredItems.Count);

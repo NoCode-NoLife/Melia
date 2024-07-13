@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Zone.Network;
+using Yggdrasil.Network.Communication;
 
 namespace Melia.Zone.World.Actors.Characters.Components
 {
@@ -33,30 +34,70 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Adds a new collection, optionally specifying the number of times
-		/// it has already been redeemed. Returns false if the collection
-		/// already existed.
+		/// Returns the list of all collections the user has registered.
+		/// </summary>
+		/// <returns></returns>
+		public List<Collection> GetList()
+		{
+			lock (_syncLock)
+				return _collections.Values.ToList();
+		}
+
+		/// <summary>
+		/// Adds a new collection. Returns false if the collection already existed.
 		/// </summary>
 		/// <param name="collectionId"></param>
 		/// <param name="redeemCount"></param>
 		/// <returns></returns>
-		/// <exception cref="ArgumentException"></exception>
-		public bool Add(int collectionId, int redeemCount = 0)
+		public bool Add(int collectionId)
 		{
-			if (!ZoneServer.Instance.Data.CollectionDb.TryFindByClassId(collectionId, out var collectionData))
-				throw new ArgumentException($"Collection with id {collectionId} not found in data.");
-
 			lock (_syncLock)
 			{
 				if (_collections.ContainsKey(collectionId))
 					return false;
 
-				var collection = new Collection(collectionData);
-				collection.RedeemCount = redeemCount;
-
-				_collections.Add(collectionId, collection);
+				_collections.Add(collectionId, new Collection(collectionId));
 
 				return true;
+			}
+		}
+
+		/// <summary>
+		/// Adds the given collection or overrides it if it already exists.
+		/// </summary>
+		/// <remarks>
+		/// The method is primarily intended for loading collections from the
+		/// database.
+		/// </remarks>
+		/// <param name="collectionId"></param>
+		/// <param name="redeemCount"></param>
+		internal Collection InitAdd(int collectionId, int redeemCount)
+		{
+			lock (_syncLock)
+			{
+				var collection = new Collection(collectionId);
+				collection.RedeemCount = redeemCount;
+
+				return _collections[collectionId] = collection;
+			}
+		}
+
+		/// <summary>
+		/// Registers the item to the collection without triggering checks or
+		/// events.
+		/// </summary>
+		/// <remarks>
+		/// The method is primarily intended for loading collections from the
+		/// database.
+		/// </remarks>
+		/// <param name="collectionId"></param>
+		/// <param name="itemId"></param>
+		internal void InitRegisterItem(int collectionId, int itemId)
+		{
+			lock (_syncLock)
+			{
+				if (_collections.TryGetValue(collectionId, out var collection))
+					collection.RegisterItem(itemId);
 			}
 		}
 
@@ -74,54 +115,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			return false;
-		}
-
-		/// <summary>
-		/// Returns the number of times the given collection was redeemed.
-		/// </summary>
-		/// <param name="collectionId"></param>
-		/// <returns></returns>
-		public int GetRedeemCount(int collectionId)
-		{
-			lock (_syncLock)
-			{
-				if (_collections.TryGetValue(collectionId, out var progress))
-					return progress.RedeemCount;
-			}
-
-			return 0;
-		}
-
-		/// <summary>
-		/// Returns a list of ids for the items registered to the given collection.
-		/// Returns false if the collection hasn't been registered yet.
-		/// </summary>
-		/// <param name="collectionId"></param>
-		/// <param name="itemIds"></param>
-		/// <returns></returns>
-		public bool TryGetItems(int collectionId, out List<int> itemIds)
-		{
-			lock (_syncLock)
-			{
-				if (_collections.TryGetValue(collectionId, out var progress))
-				{
-					itemIds = progress.RegisteredItems.ToList();
-					return true;
-				}
-			}
-
-			itemIds = null;
-			return false;
-		}
-
-		/// <summary>
-		/// Returns the list of all collections the user has registered.
-		/// </summary>
-		/// <returns></returns>
-		public List<Collection> GetList()
-		{
-			lock (_syncLock)
-				return _collections.Values.ToList();
 		}
 
 		/// <summary>
@@ -143,55 +136,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					return false;
 
 				if (collectionProgress.IsComplete)
-				{
-					if (collectionProgress.Data.RewardProperties.Any())
-						this.AddBonuses(collectionProgress.Data.RewardProperties, silent);
-				}
+					this.OnCompleted(collectionProgress);
 
 				return true;
 			}
 		}
 
 		/// <summary>
-		/// Grants the given bonus properties to the current character.
+		/// Called when a collection was completed.
 		/// </summary>
-		/// <param name="bonuses">List of bonuses, they key being a property name and the value the bonus.</param>
-		/// <param name="silent">If true, the client is not updated.</param>
-		/// <param name="multiplier">Bonuses are multiplied by this amount, use -1 to remove the bonus.</param>
-		private void AddBonuses(Dictionary<string, int> bonuses, bool silent = false, int multiplier = 1)
+		/// <param name="collection"></param>
+		private void OnCompleted(Collection collection)
 		{
-			if (!bonuses.Any())
-				return;
-
-			var properties = this.Character.Properties;
-
-			foreach (var bonus in bonuses)
-			{
-				var propertyName = bonus.Key;
-				var value = bonus.Value;
-
-				properties.Modify(propertyName, value * multiplier);
-			}
-
-			if (!silent)
-			{
-				properties.InvalidateAll();
-				Send.ZC_OBJECT_PROPERTY(this.Character);
-			}
-		}
-
-		/// <summary>
-		/// Removes all property bonuses. This must be done before saving the
-		/// properties, so the bonuses don't stack infinitely.
-		/// </summary>
-		/// <param name="silent">If true, the client is not updated.</param>
-		public void RemoveAllBonuses()
-		{
-			foreach (var collection in _collections.Values)
-			{
-				if (collection.IsComplete && collection.Data.RewardProperties.Any())
-					this.AddBonuses(collection.Data.RewardProperties, true, -1);
-			}
+			// TODO: Grand rewards
 		}
 	}
 
@@ -200,6 +157,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class Collection
 	{
+		private readonly object _syncLock = new();
+		private readonly List<int> _registeredItems = new();
+
 		/// <summary>
 		/// Returns the collection's id.
 		/// </summary>
@@ -211,11 +171,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public CollectionData Data { get; }
 
 		/// <summary>
-		/// Returns a list of ids for the items registered.
-		/// </summary>
-		public List<int> RegisteredItems { get; } = new();
-
-		/// <summary>
 		/// Returns the number of times the collection has been redeemed.
 		/// </summary>
 		public int RedeemCount { get; set; }
@@ -223,16 +178,29 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Returns true if the collection is complete.
 		/// </summary>
-		public bool IsComplete => this.RegisteredItems.Count >= this.Data.RequiredItems.Count;
+		public bool IsComplete { get { lock (_syncLock) return _registeredItems.Count >= this.Data.RequiredItems.Count; } }
 
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
-		/// <param name="data"></param>
-		public Collection(CollectionData data)
+		/// <param name="collectionId"></param>
+		public Collection(int collectionId)
 		{
+			if (!ZoneServer.Instance.Data.CollectionDb.TryFindByClassId(collectionId, out var data))
+				throw new ArgumentException($"Collection with id {collectionId} not found in data.");
+
 			this.Id = data.Id;
 			this.Data = data;
+		}
+
+		/// <summary>
+		/// Returns a list of ids for the items registered to this collection.
+		/// </summary>
+		/// <returns></returns>
+		public List<int> GetRegisteredItems()
+		{
+			lock (_syncLock)
+				return _registeredItems.ToList();
 		}
 
 		/// <summary>
@@ -246,13 +214,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (!this.Data.RequiredItems.TryGetValue(itemId, out var neededCount))
 				return false;
 
-			var registeredCount = this.RegisteredItems.Count(a => a == itemId);
-			var gotAll = registeredCount >= neededCount;
+			lock (_syncLock)
+			{
+				var registeredCount = _registeredItems.Count(a => a == itemId);
+				var gotAll = registeredCount >= neededCount;
 
-			if (gotAll)
-				return false;
+				if (gotAll)
+					return false;
 
-			this.RegisteredItems.Add(itemId);
+				_registeredItems.Add(itemId);
+			}
 
 			return true;
 		}

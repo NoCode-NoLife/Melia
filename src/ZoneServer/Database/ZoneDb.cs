@@ -1262,7 +1262,7 @@ namespace Melia.Zone.Database
 						cmd.Execute();
 					}
 
-					foreach (var itemId in collection.RegisteredItems)
+					foreach (var itemId in collection.GetRegisteredItems())
 					{
 						using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
 						{
@@ -1299,7 +1299,7 @@ namespace Melia.Zone.Database
 							var collectionId = reader.GetInt32("collectionId");
 							var redeemCount = reader.GetInt32("timesRedeemed");
 
-							character.Collections.Add(collectionId, redeemCount);
+							character.Collections.InitAdd(collectionId, redeemCount);
 						}
 					}
 				}
@@ -1315,7 +1315,7 @@ namespace Melia.Zone.Database
 							var collectionId = reader.GetInt32("collectionId");
 							var itemId = reader.GetInt32("itemId");
 
-							character.Collections.RegisterItem(collectionId, itemId, true);
+							character.Collections.InitRegisterItem(collectionId, itemId);
 						}
 					}
 				}
