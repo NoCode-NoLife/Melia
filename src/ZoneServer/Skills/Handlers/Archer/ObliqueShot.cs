@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -18,12 +16,12 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handles the Archer skill Oblique Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_ObliqueShot)]
-	public class ObliqueFire : ITargetSkillHandler
+	public class Archer_ObliqueShot : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.
 		/// </summary>
-		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
+		public async void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -69,11 +67,21 @@ namespace Melia.Zone.Skills.Handlers.Archer
 			// Bounce shot
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTarget))
 			{
+				// On officials, the bounce shot plays before the original target
+				// is hit. Uncommenting this delay will fix this, delaying the
+				// bounce shot animation.
+				// var bounceHitDelay = TimeSpan.FromMilliseconds(420);
+				// await Task.Delay(bounceHitDelay);
+
 				skillHitResult = SCR_SkillHit(caster, bounceTarget, skill);
 				bounceTarget.TakeDamage(skillHitResult.Damage, caster);
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult);
-				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+				hit.ForceId = ForceId.GetNew();
+				hit.ResultType = HitResultType.Unk8;
+
+				Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, bounceTarget, "I_arrow009_red", 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
+				Send.ZC_HIT_INFO(caster, bounceTarget, hit);
 			}
 		}
 
@@ -89,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out ICombatEntity bounceTarget)
 		{
 			var splashPos = caster.Position;
-			var splashRadius = 50; // SplashHeight * 2?
+			var splashRadius = 100;
 			var splashArea = new Circle(mainTarget.Position, splashRadius);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -99,7 +107,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 				return false;
 			}
 
-			bounceTarget = targets.Where(a => a != mainTarget).OrderBy(a => a.Position.Get2DDistance(mainTarget.Position)).FirstOrDefault();
+			bounceTarget = targets.GetClosest(mainTarget.Position, a => a != mainTarget);
 			return bounceTarget != null;
 		}
 	}

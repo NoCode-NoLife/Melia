@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 	/// Handles the Scout skill Oblique Fire.
 	/// </summary>
 	[SkillHandler(SkillId.Scout_ObliqueFire)]
-	public class ObliqueFire : ITargetSkillHandler
+	public class Scout_ObliqueFire : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.
@@ -89,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 				var skillHitPost = new SkillHitInfo(caster, bounceTarget, skill, skillHitResultPost, damageDelay, skillHitDelay);
 				var hit = new HitInfo(caster, bounceTarget, skill, skillHitResult.Damage, skillHitResult.Result);
 
-				Send.ZC_HIT_INFO(caster, bounceTarget, skill, hit);
+				Send.ZC_HIT_INFO(caster, bounceTarget, hit);
 
 				if (applyDebuff)
 					bounceTarget.StartBuff(BuffId.ObliqueFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);

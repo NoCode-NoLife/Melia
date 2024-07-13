@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Wizard
@@ -20,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handler for the Wizard skill Earthquake.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_EarthQuake)]
-	public class Earthquake : IGroundSkillHandler
+	public class Wizard_EarthQuake : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.

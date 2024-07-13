@@ -1,12 +1,11 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Wizard
 {
@@ -14,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handler for the Wizard skill Lethargy.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_Lethargy)]
-	public class Lethargy : IGroundSkillHandler
+	public class Wizard_Lethargy : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, debuffing enemies in target area.

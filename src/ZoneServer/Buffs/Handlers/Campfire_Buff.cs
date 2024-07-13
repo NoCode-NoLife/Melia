@@ -16,12 +16,12 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnStart(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.RSta_BM, StaminaRecoveryBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.RSta_BM, StaminaRecoveryBonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.RSta_BM, -StaminaRecoveryBonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.RSta_BM);
 		}
 
 		public override void WhileActive(Buff buff)

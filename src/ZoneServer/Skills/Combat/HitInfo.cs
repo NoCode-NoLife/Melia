@@ -20,9 +20,9 @@ namespace Melia.Zone.Skills.Combat
 		public ICombatEntity Target { get; }
 
 		/// <summary>
-		/// Returns a reference to the skill used in the attack.
+		/// Returns the id of the skill used in the attack.
 		/// </summary>
-		public Skill Skill { get; }
+		public SkillId SkillId { get; }
 
 		/// <summary>
 		/// Returns the damage dealt.
@@ -75,10 +75,23 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="damage"></param>
 		/// <param name="resultType"></param>
 		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, HitResultType resultType)
+			: this(attacker, target, skill.Id, damage, resultType)
+		{
+		}
+
+		/// <summary>
+		/// Creates new hit.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skillId"></param>
+		/// <param name="damage"></param>
+		/// <param name="resultType"></param>
+		public HitInfo(ICombatEntity attacker, ICombatEntity target, SkillId skillId, float damage, HitResultType resultType)
 		{
 			this.Attacker = attacker;
 			this.Target = target;
-			this.Skill = skill;
+			this.SkillId = skillId;
 
 			this.Damage = damage;
 			this.ResultType = resultType;

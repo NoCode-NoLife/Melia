@@ -7,7 +7,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.Skills;
 
 namespace Melia.Zone.Network
 {
@@ -119,17 +118,72 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Plays effect on actor.
+			/// Plays text effect on actor.
 			/// </summary>
+			/// <remarks>
+			/// The text effect is a small floating text that appears above the
+			/// given actor. The actual string displayed is dictated by the
+			/// Lua function given as the "packetString" argument, which is
+			/// looked up in the packet string database, to send a reference
+			/// to that name in form of an integer. This means that you can
+			/// only use functions found inside that database by default.
+			/// The known functions used for this can also be found in the
+			/// script file "script_client.ipf\reaction\spcitem_text.lua".
+			/// 
+			/// The num and str arguments are then passed to the Lua function,
+			/// and using this data, it returns a string that the client will
+			/// then use for the floating text effect.
+			/// 
+			/// The look of the effect meanwhile is determined by the idSpace
+			/// and classId. Consider the idSpace a kind of category that
+			/// affects what the text looks like. For example, "Ability" will
+			/// produce a red text, while "Collection" will be green.
+			/// 
+			/// Known idSpaces:
+			/// - None: Orange text floating up
+			/// - Ability: Red text floating up
+			/// - Collection: Green text floating up
+			/// - Skill: Yellow text, emphasized in place
+			/// - Item: Yellow text floating up
+			/// - Card (Item+CardItemId): White text floating up + sound effect
+			/// 
+			/// The only known idSpace value that makes use of the classId is
+			/// "Item", which displays a different effect if the classId is
+			/// that of a card item.
+			/// 
+			/// For custom texts, we added a fake packet string called
+			/// "SHOW_CUSTOM_TEXT", which you can use to send custom
+			/// strings via the argStr argument. Unfortunately, the
+			/// client does not appear to support style formatting
+			/// for these effects.
+			/// </remarks>
+			/// <example>
+			/// PlayTextEffect(actor, caster, "SHOW_DMG_BLOCK");
+			/// PlayTextEffect(actor, caster, "SHOW_BUFF_TEXT", (float)BuffId.Link, null, "Skill");
+			/// PlayTextEffect(actor, caster, "SHOW_CUSTOM_TEXT", 0, "Hello, world!");
+			/// </example>
 			/// <param name="actor"></param>
 			/// <param name="caster"></param>
 			/// <param name="packetString"></param>
 			/// <param name="argNum"></param>
 			/// <param name="argStr"></param>
-			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum, string argStr)
+			/// <param name="idSpace"></param>
+			/// <param name="classId"></param>
+			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
 			{
+				// Replace SHOW_CUSTOM_TEXT with SHOW_BUFF_TEXT, to use that function,
+				// which we hijack
+				if (packetString == "SHOW_CUSTOM_TEXT")
+				{
+					packetString = "SHOW_BUFF_TEXT";
+					argStr = "CUSTOM:" + argStr;
+				}
+
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(idSpace, out var idSpaceData))
+					throw new ArgumentException($"Packet string '{idSpace}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
@@ -144,8 +198,8 @@ namespace Melia.Zone.Network
 				else
 					packet.PutLpString(argStr);
 
-				packet.PutInt(0);
-				packet.PutInt(0);
+				packet.PutInt(idSpaceData.Id);
+				packet.PutInt(classId);
 
 				actor.Map.Broadcast(packet, actor);
 			}
@@ -305,150 +359,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Creates a skill in client (MONSKL_CRE_PAD)
-			/// </summary>
-			/// <param name="caster"></param>
-			/// <param name="skill"></param>
-			/// <param name="animationName"></param>
-			/// <param name="position"></param>
-			/// <param name="direction"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			/// <param name="skillHandle"></param>
-			/// <param name="f3"></param>
-			public static void SkillPad(ICombatEntity caster, Skill skill, string animationName,
-				Position position, Direction direction, float f1, float f2, int skillHandle,
-				float f3, bool isVisible = true)
-			{
-				if (ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetString))
-					SkillPad(caster, skill, packetString.Id, position, direction, f1, f2, skillHandle, f3, isVisible);
-			}
-
-			/// <summary>
-			/// Creates a pad in client (MONSKL_CRE_PAD)
-			/// </summary>
-			/// <param name="caster"></param>
-			/// <param name="skill"></param>
-			/// <param name="packetStringId"></param>
-			/// <param name="position"></param>
-			/// <param name="direction"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			/// <param name="skillHandle"></param>
-			/// <param name="f3"></param>
-			public static void SkillPad(ICombatEntity caster, Skill skill, int packetStringId,
-				Position position, Direction direction, float f1, float f2, int skillHandle,
-				float f3, bool isVisible = true)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SkillRunScript);
-
-				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringId);
-				packet.PutInt((int)skill.Id);
-				packet.PutInt(skill.Level); // Skill Level ?
-				packet.PutPosition(position);
-				packet.PutDirection(direction);
-				packet.PutFloat(f1);
-				packet.PutFloat(f2);
-				packet.PutInt(skillHandle);
-				packet.PutInt(isVisible ? 1 : 0);
-				packet.PutEmptyBin(13); // Unknown Bytes
-				packet.PutFloat(f3);
-				packet.PutEmptyBin(16); // Unknown Bytes
-
-				caster.Map.Broadcast(packet, caster);
-			}
-
-			/// <summary>
-			/// Set actor's height
-			/// Used in Shield Lob
-			/// </summary>
-			/// <param name="actor"></param>
-			/// <param name="skillHandle"></param>
-			/// <param name="height"></param>
-			/// <param name="b1">Doesn't seem to do anything</param>
-			public static void Skill_SetActorHeight(IActor actor, int skillHandle, float height, byte b1 = 1)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_SetActorHeight);
-
-				packet.PutInt(skillHandle);
-				packet.PutInt(actor.Handle);
-				packet.PutFloat(height);
-				packet.PutByte(b1);
-
-				actor.Map.Broadcast(packet);
-			}
-
-			/// <summary>
-			/// Unknown skill related
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="skillActorId"></param>
-			public static void SkillParticleEffect(ICombatEntity entity, int skillActorId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SkillParticleEffect);
-
-				packet.PutInt(entity.Handle);
-				packet.PutInt(skillActorId);
-				packet.PutInt(entity.Hp);
-				packet.PutShort(6904);
-				packet.PutShort(39);
-				packet.PutFloat(25);
-				packet.PutLpString("Melee");
-				packet.PutLong(0);
-
-				entity.Map.Broadcast(packet, entity);
-			}
-
-
-			/// <summary>
-			/// A "skill" created via (Skill) is moved in a certain direction
-			/// </summary>
-			/// <param name="caster"></param>
-			/// <param name="skillHandle"></param>
-			/// <param name="position"></param>
-			/// <param name="b1"></param>
-			/// <param name="movementSpeed"></param>
-			/// <param name="f2"></param>
-			public static void Skill_EffectMovement(IActor caster, int skillHandle, Position position, float movementSpeed, byte b1 = 1, float f2 = 1)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_EffectMovement);
-
-				packet.PutInt(skillHandle);
-				packet.PutPosition(position);
-				packet.PutByte(b1);
-				packet.PutFloat(movementSpeed);
-				packet.PutFloat(f2);
-
-				caster.Map.Broadcast(packet, caster);
-			}
-
-			/// <summary>
-			/// Rotate an Item (Monster)
-			/// Used in Shield Lob Skill
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="direction"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			public static void Skill_ItemRotate(IActor actor, float direction, float f1 = 0, float f2 = 0)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-
-				packet.PutInt(NormalOp.Zone.Skill_ItemRotate);
-				packet.PutInt(actor.Handle);
-				packet.PutFloat(direction);
-				packet.PutFloat(f1); // Haven't seen other values yet other than 0
-				packet.PutFloat(f2); // Haven't seen other values yet other than 0
-
-				actor.Map.Broadcast(packet);
-			}
-
-			/// <summary>
 			/// Adjusts the skill speed for a skill.
 			/// </summary>
 			/// <param name="character"></param>
@@ -479,7 +389,7 @@ namespace Melia.Zone.Network
 				packet.PutFloat(value);
 
 				character.Connection.Send(packet);
-			}			
+			}
 
 			/// <summary>
 			/// Sends the session key to the client.
@@ -534,25 +444,6 @@ namespace Melia.Zone.Network
 				packet.PutByte((character.VisibleEquip & VisibleEquip.Wig) != 0);
 
 				character.Map.Broadcast(packet, character);
-			}
-
-			/// <summary>
-			/// Sets the model for a pad to a certain item,
-			/// used for things like Throw Spear and Shield Lob
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="str"></param>
-			/// <param name="itemId"></param>
-			public static void SetPadModel(IActor entity, string str, int itemId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-
-				packet.PutInt(NormalOp.Zone.SetPadModel);
-				packet.PutInt(entity.Handle);
-				packet.PutLpString(str);
-				packet.PutInt(itemId);
-
-				entity.Map.Broadcast(packet);
 			}
 
 			/// <summary>
@@ -637,25 +528,17 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Spins an object (actor)
+			/// Purpose currently unknown.
 			/// </summary>
-			/// <param name="actor"></param>
-			/// <param name="spinDelay"></param>
-			/// <param name="spinCount"></param>
-			/// <param name="rotationPerSecond"></param>
-			/// <param name="velocityChangeTerm"></param>
-			public static void SpinObject(IActor actor, float spinDelay = 0, float spinCount = -1, float rotationPerSecond = 0.2f, float velocityChangeTerm = 0)
+			/// <param name="character"></param>
+			/// <param name="i1"></param>
+			public static void Skill_45(IActor source, int i1)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SpinObject);
+				packet.PutInt(NormalOp.Zone.Skill_45);
+				packet.PutInt(i1);
 
-				packet.PutInt(actor.Handle);
-				packet.PutFloat(spinDelay);
-				packet.PutFloat(spinCount);
-				packet.PutFloat(rotationPerSecond);
-				packet.PutFloat(velocityChangeTerm);
-
-				actor.Map.Broadcast(packet);
+				source.Map.Broadcast(packet, source);
 			}
 
 			/// <summary>
@@ -1112,6 +995,41 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Purpose unknown, related to skills.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="casterHandle"></param>
+			/// <param name="packetString"></param>
+			/// <param name="skillId"></param>
+			/// <param name="targetPos"></param>
+			/// <param name="targetDir"></param>
+			/// <exception cref="ArgumentException"></exception>
+			public static void Skill_59(Character character, int casterHandle, string packetString, SkillId skillId, Position targetPos, Direction targetDir)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Unknown packet string '{packetString}'.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_59);
+
+				packet.PutInt(casterHandle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt((int)skillId);
+				packet.PutInt(1);
+				packet.PutPosition(targetPos);
+				packet.PutDirection(targetDir);
+				packet.PutFloat(-0.78f);
+				packet.PutFloat(0);
+				packet.PutInt(0);
+				packet.PutInt(1);
+				packet.PutEmptyBin(13);
+				packet.PutFloat(150);
+				packet.PutEmptyBin(16);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
 			/// Makes the entity jump to the target position.
 			/// </summary>
 			/// <param name="entity"></param>
@@ -1184,6 +1102,72 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(character.Handle);
 				packet.PutByte(0);
+
+				character.Connection.Send(packet);
+			}
+
+
+			/// <summary>
+			/// Updated the player's collection list.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void ItemCollectionList(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ItemCollectionList);
+
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutLong(character.ObjectId);
+					zpacket.PutInt(character.Collections.Count);
+
+					foreach (var collection in character.Collections.GetList())
+					{
+						var registeredItems = collection.GetRegisteredItems();
+
+						zpacket.PutShort(collection.Id);
+						zpacket.PutInt(registeredItems.Count);
+
+						foreach (var itemId in registeredItems)
+						{
+							zpacket.PutInt(itemId);
+							zpacket.PutLong(itemId);
+							zpacket.PutShort(0);
+						}
+					}
+				});
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Unlocks a collection for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UnlockCollection(Character character, int collectionId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UnlockCollection);
+
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+
+				character.Connection.Send(packet);
+			}
+
+
+			/// <summary>
+			/// Updates the collection for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UpdateCollection(Character character, int collectionId, int itemId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateCollection);
+
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+				packet.PutLong(itemId);
 
 				character.Connection.Send(packet);
 			}

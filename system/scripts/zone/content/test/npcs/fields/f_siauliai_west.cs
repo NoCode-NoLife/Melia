@@ -20,5 +20,12 @@ public class FSiauliaiWestNpcScript : GeneralScript
 			await OpenChest(dialog.Player, dialog.Npc);
 			dialog.Player.Inventory.Add(ItemId.BRC02_114, 1, InventoryAddType.PickUp);
 		});
+
+		// Collection Chest
+		AddNpc(147393, "Collection Chest", "f_siauliai_west", 1334, -1109, 45.0, async dialog =>
+		{
+			await OpenChest(dialog.Player, dialog.Npc);
+			dialog.Player.Inventory.Add(ItemId.COLLECT_118, 1, InventoryAddType.PickUp);
+		});
 	}
 }

@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Shared.L10N;
+using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.Skills.Handlers.Scout
 {
@@ -19,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 	/// Handler for the Scout skill Dagger Slash.
 	/// </summary>
 	[SkillHandler(SkillId.Scout_DaggerSlash)]
-	public class DaggerSlash : IGroundSkillHandler
+	public class Scout_DaggerSlash : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, do a slash attack to the nearby enemies.

@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Archer
@@ -14,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handles the Archer skill Twin Arrow.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_TwinArrows)]
-	public class TwinArrows : ITargetSkillHandler
+	public class Archer_TwinArrows : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, do two consecutive hits on the enemy.

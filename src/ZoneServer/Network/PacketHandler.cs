@@ -147,6 +147,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_NORMAL.Unknown_DA(character);
+			Send.ZC_NORMAL.ItemCollectionList(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
@@ -1227,6 +1228,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				character.TurnTowards(direction);
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)

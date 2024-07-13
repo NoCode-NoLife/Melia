@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.Dialogues;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Geometry;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
-using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
 {
@@ -23,7 +15,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 	/// Handler for the Cleric skill Cure.
 	/// </summary>
 	[SkillHandler(SkillId.Cleric_Cure)]
-	public class Cure : IGroundSkillHandler
+	public class Cleric_Cure : IGroundSkillHandler
 	{
 		private const float RemoveChancePerLevel = 10; // %
 

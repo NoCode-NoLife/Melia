@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Wizard
 {
@@ -13,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handler for the Wizard skill Magic Shield.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_ReflectShield)]
-	public class MagicShield : ISelfSkillHandler
+	public class Wizard_ReflectShield : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.

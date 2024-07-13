@@ -5,9 +5,13 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -84,6 +88,9 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+
+		// Bonuses from buffs
+		Concentrate_Buff.TryAddBonus(attacker, modifier);
 
 		// Increase damage multiplier based on dagger slash buff
 		// TODO: Move to a buff handler later.
@@ -180,6 +187,15 @@ public class CombatCalculationsScript : GeneralScript
 		if (target.IsBuffActive(BuffId.Cloaking_Buff))
 			damage = Math.Max(1, damage * 0.75f);
 
+		// Bear reduces damage by 2% per level
+		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
+		{
+			var skillLevel = bearBuff.NumArg1;
+			var byBuffRate = skillLevel * 0.02f;
+
+			damage = Math.Max(1, damage * (1f - byBuffRate));
+		}
+
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
 			damage /= 2f;
@@ -187,6 +203,10 @@ public class CombatCalculationsScript : GeneralScript
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
+
+		// Bonus buff effects
+		Restrain_Buff.TryStunTarget(attacker, target, skill);
+		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;
 	}

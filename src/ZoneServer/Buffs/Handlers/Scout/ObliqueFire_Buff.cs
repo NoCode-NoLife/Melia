@@ -9,9 +9,8 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// speed.
 	/// </summary>
 	[BuffHandler(BuffId.ObliqueFire_Buff)]
-	public class ObliqueFireBuffHandler : BuffHandler
+	public class ObliqueFire_Buff : BuffHandler
 	{
-		private const string VarName = "Melia.StatModifier";
 		private const float BuffBonus = 3f;
 
 		/// <summary>
@@ -20,20 +19,12 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 		/// <param name="buff"></param>
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-
 			// Limit it to 3 stacks since it only happens for the first
 			// three hits of Oblique Fire.
 			if (buff.OverbuffCounter <= 3)
 			{
-				var bonus = BuffBonus;
-
-				var modifier = buff.Vars.GetFloat(VarName);
-				buff.Vars.SetFloat(VarName, modifier + bonus);
-
-				target.Properties.Modify(PropertyName.MSPD_BM, bonus);
-
-				Send.ZC_MSPD(target);
+				AddPropertyModifier(buff, buff.Target, PropertyName.MSPD_BM, BuffBonus);
+				Send.ZC_MSPD(buff.Target);
 			}
 		}
 
@@ -43,13 +34,8 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target;
-
-			if (buff.Vars.TryGetFloat(VarName, out var modifier))
-			{
-				target.Properties.Modify(PropertyName.MSPD_BM, -modifier);
-				Send.ZC_MSPD(target);
-			}
+			RemovePropertyModifier(buff, buff.Target, PropertyName.MSPD_BM);
+			Send.ZC_MSPD(buff.Target);
 		}
 	}
 }

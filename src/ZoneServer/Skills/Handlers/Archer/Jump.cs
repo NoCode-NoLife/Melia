@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Archer
 {
@@ -13,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handler for the Archer skill Leap.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_Jump)]
-	public class Leap : IGroundSkillHandler
+	public class Archer_Jump : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, moving the character back.

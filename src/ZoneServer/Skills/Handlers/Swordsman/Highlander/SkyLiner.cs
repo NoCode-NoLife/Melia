@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -11,7 +11,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
@@ -20,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 	/// Handler for the Highlander skill SkyLiner.
 	/// </summary>
 	[SkillHandler(SkillId.Highlander_SkyLiner)]
-	public class SkyLiner : IGroundSkillHandler, IDynamicCasted
+	public class Highlander_SkyLiner : IGroundSkillHandler, IDynamicCasted
 	{
 		private const int TotalHits = 4;
 

@@ -15,14 +15,14 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 
 		public override void OnStart(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.CRTHR_BM, CritRateBonus);
-			buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, AttackRateBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, CritRateBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_RATE_BM, AttackRateBonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.CRTHR_BM, -CritRateBonus);
-			buff.Target.Properties.Modify(PropertyName.PATK_RATE_BM, -AttackRateBonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.PATK_RATE_BM);
 		}
 	}
 }

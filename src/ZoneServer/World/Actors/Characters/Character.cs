@@ -307,6 +307,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
+		/// Returns the character's collection manager.
+		/// </summary>
+		public CollectionComponent Collections { get; }
+
+		/// <summary>
 		/// Returns the character's movement component.
 		/// </summary>
 		public MovementComponent Movement { get; }
@@ -356,6 +361,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
@@ -749,7 +755,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// client with ZC_ADD_HP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void ModifyHp(int amount)
+		public void ModifyHp(float amount)
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);

@@ -166,6 +166,7 @@ namespace Melia.Zone.Database
 			this.LoadCooldowns(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.LoadCollections(character);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -406,6 +407,7 @@ namespace Melia.Zone.Database
 			this.SaveCharacterItems(character);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
+			this.SaveCollections(character);
 			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
@@ -1224,6 +1226,101 @@ namespace Melia.Zone.Database
 						}
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Saves the characters's collections to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveCollections(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new MySqlCommand("DELETE FROM `collections` WHERE `accountId` = @accountId", conn, trans))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+					cmd.ExecuteNonQuery();
+				}
+
+				using (var cmd = new MySqlCommand("DELETE FROM `collection_items` WHERE `accountId` = @accountId", conn, trans))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+					cmd.ExecuteNonQuery();
+				}
+
+				foreach (var collection in character.Collections.GetList())
+				{
+					using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+					{
+						cmd.Set("accountId", character.AccountId);
+						cmd.Set("collectionId", collection.Id);
+						cmd.Set("isComplete", collection.IsComplete);
+						cmd.Set("timesRedeemed", collection.RedeemCount);
+
+						cmd.Execute();
+					}
+
+					foreach (var itemId in collection.GetRegisteredItems())
+					{
+						using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
+						{
+							cmd.Set("accountId", character.AccountId);
+							cmd.Set("collectionId", collection.Id);
+							cmd.Set("itemId", itemId);
+
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Loads the character's collections from the database.
+		/// This must run after properties because it modifies them.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadCollections(Character character)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new MySqlCommand("SELECT `collectionid`, `timesRedeemed` FROM `collections` WHERE `accountid` = @accountId ", conn))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var collectionId = reader.GetInt32("collectionId");
+							var redeemCount = reader.GetInt32("timesRedeemed");
+
+							character.Collections.InitAdd(collectionId, redeemCount);
+						}
+					}
+				}
+
+				using (var cmd = new MySqlCommand("SELECT `collectionid`, `itemid` FROM `collection_items` WHERE `accountid` = @accountId ", conn))
+				{
+					cmd.AddParameter("@accountId", character.AccountId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var collectionId = reader.GetInt32("collectionId");
+							var itemId = reader.GetInt32("itemId");
+
+							character.Collections.InitRegisterItem(collectionId, itemId);
+						}
+					}
+				}
+
+				character.Properties.InvalidateAll();
 			}
 		}
 	}

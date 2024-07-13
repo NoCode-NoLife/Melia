@@ -1,8 +1,6 @@
--- Override GetClassByType to mark all items as destroyable.
-Melia.Override("GetClassByType", function(original, idSpace, classId)
+-- Hook GetClassByType to mark all items as destroyable.
+Melia.Hook("GetClassByType", function(original, result, idSpace, classId)
 
-	local result = original(idSpace, classId)
-	
 	if result ~= nil and idSpace == "Item" then
 		result.Destroyable = "YES"
 	end
