@@ -4,6 +4,8 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.World;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
+using Yggdrasil.Structures;
+using System.Drawing;
 
 namespace Melia.Zone.World.Maps
 {
@@ -13,11 +15,13 @@ namespace Melia.Zone.World.Maps
 	public class Ground
 	{
 		private const float RayOriginHeight = 20000;
+		private const int QuadtreeMaxObjectsPerLeaf = 4;
 
 		private GroundData _data;
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
 		private Polygon2d[] _cells;
+		private Quadtree<QuadObject> _quadtree;
 
 		/// <summary>
 		/// Loads the ground data.
@@ -29,6 +33,7 @@ namespace Melia.Zone.World.Maps
 
 			this.LoadGroundMesh();
 			this.LoadCells();
+			this.InitializeQuadtree();
 		}
 
 		/// <summary>
@@ -60,6 +65,35 @@ namespace Melia.Zone.World.Maps
 				_cells[i] = polygon;
 			}
 		}
+
+		/// <summary>
+		/// Initializes the quadtree with ground cells.
+		/// </summary>
+		private void InitializeQuadtree()
+		{
+			var bounds = new RectangleF(
+				(float)_cells.Min(cell => cell.Bounds.Min.x),
+				(float)_cells.Min(cell => cell.Bounds.Min.y),
+				(float)(_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x)),
+				(float)(_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y))
+			);
+
+			_quadtree = new Quadtree<QuadObject>(bounds.Size.ToSize(), QuadtreeMaxObjectsPerLeaf);
+
+			for (var i = 0; i < _cells.Length; ++i)
+			{
+				var cell = _cells[i];
+				var cellBounds = new RectangleF(
+					(float)cell.Bounds.Min.x,
+					(float)cell.Bounds.Min.y,
+					(float)(cell.Bounds.Max.x - cell.Bounds.Min.x),
+					(float)(cell.Bounds.Max.y - cell.Bounds.Min.y)
+				);
+				var quadObject = new QuadObject(cellBounds, i);
+				_quadtree.Insert(quadObject);
+			}
+		}
+
 
 		/// <summary>
 		/// Returns whether the given 2D position is a valid position for
@@ -156,16 +190,15 @@ namespace Melia.Zone.World.Maps
 			}
 
 			var vecPos = new Vector2d(pos.X, pos.Z);
+			var bounds = new RectangleF((float)vecPos.x, (float)vecPos.y, 1, 1);
+			var results = _quadtree.Query(bounds);
 
-			// TODO: Quadtree?
-
-			for (var i = 0; i < _data.Cells.Length; ++i)
+			foreach (var result in results)
 			{
-				var cell = _cells[i];
-
+				var cell = _cells[result.CellIndex];
 				if (cell.Contains(vecPos))
 				{
-					cellIndex = i;
+					cellIndex = result.CellIndex;
 					return true;
 				}
 			}
@@ -251,41 +284,31 @@ namespace Melia.Zone.World.Maps
 			return destination;
 		}
 
-        /// <summary>
-        /// Calculates the bounding box of the ground data.
-		/// Returns via out the bounding box of the ground.
-        /// </summary>
-        /// <returns></returns>
-        public void GetBoundingBox(out int sizeX, out int sizeY)
-        {
-			sizeX = 0;
-			sizeY = 0;
+		/// <summary>
+		/// Calculates the bounding box of 2D ground data.
+		/// Returns via out.
+		/// </summary>
+		/// <param name="sizeX"></param>
+		/// <param name="sizeY"></param>
+		public void GetBoundingBox(out int sizeX, out int sizeY)
+		{
+			sizeX = (int)(_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x));
+			sizeY = (int)(_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y));
+		}
 
-            if (_cells == null || _cells.Length == 0)
-                return;
+		/// <summary>
+		/// Quadtree Object
+		/// </summary>
+		private class QuadObject : IQuadObject
+		{
+			public RectangleF Bounds { get; }
+			public int CellIndex { get; }
 
-            var minX = double.MaxValue;
-            var maxX = double.MinValue;
-            var minY = double.MaxValue;
-            var maxY = double.MinValue;
-
-            foreach (var cell in _cells)
-            {
-                foreach (var vertex in cell.Vertices)
-                {
-                    if (vertex.x < minX)
-                        minX = vertex.x;
-                    if (vertex.x > maxX)
-                        maxX = vertex.x;
-                    if (vertex.y < minY)
-                        minY = vertex.y;
-                    if (vertex.y > maxY)
-                        maxY = vertex.y;
-                }
-            }
-
-            sizeX = (int)(maxX - minX);
-            sizeY = (int)(maxX - minX);
-        }
-    }
+			public QuadObject(RectangleF bounds, int cellIndex)
+			{
+				Bounds = bounds;
+				CellIndex = cellIndex;
+			}
+		}
+	}
 }

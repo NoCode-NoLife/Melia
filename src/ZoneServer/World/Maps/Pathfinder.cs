@@ -1,60 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using g3;
 using Melia.Shared.World;
-using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.World.Maps
 {
 	public class Pathfinder
 	{
-		private readonly Ground _ground;
-		private readonly int _gridWidth;
-		private readonly int _gridHeight;
-        private bool[,] _grid;
-
-        /// <summary>
-        /// Initializes a new instance of the Pathfinder class.
-        /// </summary>
-        /// <param name="ground"></param>
-        /// <param name="gridWidth"></param>
-        /// <param name="gridHeight"></param>
-        public Pathfinder(Ground ground, int gridWidth, int gridHeight)
-		{
-			_ground = ground;
-			_gridWidth = gridWidth;
-			_gridHeight = gridHeight;
-			this.InitializeGrid();
-		}
+		private readonly int _maxGridWidth = 80;
+		private readonly int _maxGridHeight = 80;
+		private readonly int _gridUnitMultiplier = 3;
+		
+		private Ground _ground;
+		private int _gridWidth;
+		private int _gridHeight;
+		private int _gridScale;
+		private int _gridUnit;
+		private bool[,] _grid;
 
 		/// <summary>
-		/// Initializes the grid based on the ground data.
+		/// Initializes the grid based on given ground.
 		/// </summary>
-		private void InitializeGrid()
+		public void Load(Ground ground, int width, int height)
 		{
+			_ground = ground;
+			_gridWidth = Math.Min(width, _maxGridWidth);
+			_gridHeight = Math.Min(height, _maxGridHeight);
 			_grid = new bool[_gridWidth, _gridHeight];
+			_gridScale = Math.Max(1, Math.Max(width, height) / Math.Max(_maxGridWidth, _maxGridHeight));
+			_gridUnit = _gridScale * _gridUnitMultiplier;
 
+			// Geometric projection of map vertices into grid scale
 			for (var x = 0; x < _gridWidth; x++)
 			{
 				for (var z = 0; z < _gridHeight; z++)
 				{
-					var pos = new Position(x, 0, z);
-					_grid[x, z] = _ground.IsValidPosition(pos);
+					var pos = new Position((x - _gridWidth / 2) * _gridScale, 0, (z - _gridHeight / 2) * _gridScale);
+					if (_ground.GetHeightAt(pos) == float.NaN)
+						_grid[x, z] = false;
+					else
+						_grid[x, z] = _ground.IsValidPosition(pos);
 				}
 			}
 		}
 
 		/// <summary>
+		/// Gets via out the grid index of a given position in the ground.
+		/// Returns -1, -1 if position is out of bounds.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public void GetGridIndex(Position pos, out int gridX, out int gridZ)
+		{
+			gridX = ((int)pos.X + (_gridWidth * _gridScale / 2)) / _gridScale;
+			gridZ = ((int)pos.Z + (_gridHeight * _gridScale / 2)) / _gridScale;
+
+			// Position is out of bounds
+			if (gridX < 0 || gridX >= _gridWidth || gridZ < 0 || gridZ >= _gridHeight)
+			{
+				gridX = -1;
+				gridZ = -1;
+			}
+		}
+
+		/// <summary>
 		/// Finds a path from the start position to the goal position using
-		/// the A* algorithm.
+		/// the A* algorithm. Returns List of valid positions to goal.
+		/// Returns null if no path can be found.
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
-		/// <returns>List of valid positions to goal</returns>
+		/// <returns></returns>
 		public List<Position> FindPath(Position start, Position goal)
 		{
-			var openSet = new SortedSet<(float F, Position Pos)>();
+			var openSet = new SortedSet<(float F, Position Pos)>(new PositionComparer());
 			var cameFrom = new Dictionary<Position, Position>();
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
@@ -66,7 +85,7 @@ namespace Melia.Zone.World.Maps
 				var current = openSet.First().Pos;
 				openSet.Remove(openSet.First());
 
-				if (current.Equals(goal))
+				if (current.Get2DDistance(goal) <= _gridUnit)
 					return this.ReconstructPath(cameFrom, current);
 
 				foreach (var neighbor in this.GetNeighbors(current))
@@ -86,7 +105,37 @@ namespace Melia.Zone.World.Maps
 				}
 			}
 
-			return null; // Path not found
+			// Path not found
+			return null;
+		}
+
+		/// <summary>
+		/// Compares two float and position tuples.
+		/// </summary>
+		private class PositionComparer : IComparer<(float F, Position Pos)>
+		{
+			public int Compare((float F, Position Pos) x, (float F, Position Pos) y)
+			{
+				var result = x.F.CompareTo(y.F);
+				if (result == 0)
+				{
+					if (x.Pos == y.Pos)
+					{
+						return 0;
+					}
+					// Define a consistent way to compare positions
+					result = x.Pos.X.CompareTo(y.Pos.X);
+					if (result == 0)
+					{
+						result = x.Pos.Y.CompareTo(y.Pos.Y);
+						if (result == 0)
+						{
+							result = x.Pos.Z.CompareTo(y.Pos.Z);
+						}
+					}
+				}
+				return result;
+			}
 		}
 
 		/// <summary>
@@ -101,6 +150,8 @@ namespace Melia.Zone.World.Maps
 			while (cameFrom.ContainsKey(current))
 			{
 				current = cameFrom[current];
+				var y = _ground.GetHeightAt(current);
+				current.Y = y;
 				totalPath.Add(current);
 			}
 			totalPath.Reverse();
@@ -127,13 +178,13 @@ namespace Melia.Zone.World.Maps
 		private List<Position> GetNeighbors(Position pos)
 		{
 			var neighbors = new List<Position>();
-			var directions = new (int X, int Z)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
+			var d = _gridUnit;
+			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
 
 			foreach (var dir in directions)
 			{
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
-				var gridX = (int)Math.Floor(neighbor.X);
-				var gridZ = (int)Math.Floor(neighbor.Z);
+				this.GetGridIndex(neighbor, out var gridX, out var gridZ);
 
 				if (this.IsValidGridPosition(gridX, gridZ) && _grid[gridX, gridZ])
 				{
