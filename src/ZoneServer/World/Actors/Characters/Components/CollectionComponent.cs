@@ -34,6 +34,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the collection with the given id via out. Returns false if
+		/// the collection doesn't exist.
+		/// </summary>
+		/// <param name="collectionId"></param>
+		/// <param name="collection"></param>
+		/// <returns></returns>
+		public bool TryGet(int collectionId, out Collection collection)
+		{
+			lock (_syncLock)
+				return _collections.TryGetValue(collectionId, out collection);
+		}
+
+		/// <summary>
 		/// Returns the list of all collections the user has registered.
 		/// </summary>
 		/// <returns></returns>
@@ -143,12 +156,38 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Called when a collection was completed.
+		/// Called when a collection was completed, grants rewards to current
+		/// character.
 		/// </summary>
 		/// <param name="collection"></param>
 		private void OnCompleted(Collection collection)
 		{
-			// TODO: Grand rewards
+			this.GrantRewards(collection, this.Character);
+		}
+
+		/// <summary>
+		/// Grants all rewards of all collections they are eligible for to the
+		/// current character.
+		/// </summary>
+		/// <param name="character"></param>
+		public void GrantEligibleRewards()
+		{
+			foreach (var collection in this.GetList().Where(a => a.IsComplete))
+				this.GrantRewards(collection, this.Character);
+		}
+
+		/// <summary>
+		/// Grants the collection's rewards to the given character.
+		/// </summary>
+		/// <param name="collection"></param>
+		/// <param name="character"></param>
+		private void GrantRewards(Collection collection, Character character)
+		{
+			if (!collection.GotPropertyBonuses(character))
+				collection.GrantPropertyBonuses(character);
+
+			if (!collection.GotAccountPropertyBonuses(character))
+				collection.GrantAccountPropertyBonuses(character);
 		}
 	}
 
@@ -171,9 +210,22 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public CollectionData Data { get; }
 
 		/// <summary>
-		/// Returns the number of times the collection has been redeemed.
+		/// Returns the number of times the collection's item rewards have
+		/// been redeemed.
 		/// </summary>
-		public int RedeemCount { get; set; }
+		public int RedeemCount { get; internal set; }
+
+		/// <summary>
+		/// Returns the maximum number of times the collection's item rewards
+		/// can be redeemed.
+		/// </summary>
+		public int RedeemMax => 3;
+
+		/// <summary>
+		/// Returns true if the collection's item rewards have been redeemed
+		/// the maximum number of times.
+		/// </summary>
+		public bool RedeemMaxReached => this.RedeemCount >= this.RedeemMax;
 
 		/// <summary>
 		/// Returns true if the collection is complete.
@@ -226,6 +278,85 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			return true;
+		}
+
+		/// <summary>
+		/// Grants the collection's property bonuses to the given character.
+		/// </summary>
+		/// <param name="character"></param>
+		public void GrantPropertyBonuses(Character character)
+		{
+			var rewardProperties = this.Data.RewardProperties;
+
+			foreach (var bonus in rewardProperties)
+			{
+				var propertyName = bonus.Key;
+				var value = bonus.Value;
+
+				character.Properties.Modify(propertyName, value);
+			}
+
+			character.Variables.Perm.SetBool("Melia.Collections.GotProperties_" + this.Id, true);
+		}
+
+		/// <summary>
+		/// Grants the collection's account property bonuses to the given
+		/// character's account.
+		/// </summary>
+		/// <param name="character"></param>
+		public void GrantAccountPropertyBonuses(Character character)
+		{
+			var account = character.Connection.Account;
+			var rewardProperties = this.Data.RewardAccountProperties;
+
+			foreach (var bonus in rewardProperties)
+			{
+				var propertyName = bonus.Key;
+				var value = bonus.Value;
+
+				account.Properties.Modify(propertyName, value);
+			}
+
+			account.Variables.Perm.SetBool("Melia.Collections.GotProperties_" + this.Id, true);
+		}
+
+		/// <summary>
+		/// Grants the collection's item rewards to the given character.
+		/// </summary>
+		/// <param name="character"></param>
+		public void GrantItemRewards(Character character)
+		{
+			var rewardItems = this.Data.RewardItems;
+
+			foreach (var rewardItem in rewardItems)
+			{
+				var itemId = rewardItem.Key;
+				var amount = rewardItem.Value;
+
+				character.Inventory.Add(itemId, amount);
+			}
+		}
+
+		/// <summary>
+		/// Returns whether the character was already granted the collection's
+		/// property bonuses.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool GotPropertyBonuses(Character character)
+		{
+			return character.Variables.Perm.GetBool("Melia.Collections.GotProperties_" + this.Id);
+		}
+
+		/// <summary>
+		/// Returns whether the character was already granted the collection's
+		/// account property bonuses.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public bool GotAccountPropertyBonuses(Character character)
+		{
+			return character.Connection.Account.Variables.Perm.GetBool("Melia.Collections.GotProperties_" + this.Id);
 		}
 	}
 }

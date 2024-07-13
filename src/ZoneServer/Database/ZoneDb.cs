@@ -168,6 +168,10 @@ namespace Melia.Zone.Database
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.LoadCollections(character);
 
+			// Give rewards for collections to the character, in case there
+			// are some they didn't get yet.
+			character.Collections.GrantEligibleRewards();
+
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
 			// hasn't received its initial properties based on their job's
