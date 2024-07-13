@@ -107,11 +107,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="itemId"></param>
 		internal void InitRegisterItem(int collectionId, int itemId)
 		{
-			lock (_syncLock)
-			{
-				if (_collections.TryGetValue(collectionId, out var collection))
-					collection.RegisterItem(itemId);
-			}
+			if (this.TryGet(collectionId, out var collection))
+				collection.RegisterItem(itemId);
 		}
 
 		/// <summary>
@@ -121,11 +118,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <returns></returns>
 		public bool IsComplete(int collectionId)
 		{
-			lock (_syncLock)
-			{
-				if (_collections.TryGetValue(collectionId, out var progress))
-					return progress.IsComplete;
-			}
+			if (this.TryGet(collectionId, out var collection))
+				return collection.IsComplete;
 
 			return false;
 		}
@@ -140,19 +134,16 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <returns></returns>
 		public bool RegisterItem(int collectionId, int itemId, bool silent = false)
 		{
-			lock (_syncLock)
-			{
-				if (!_collections.TryGetValue(collectionId, out var collectionProgress))
-					return false;
+			if (!this.TryGet(collectionId, out var collection))
+				return false;
 
-				if (!collectionProgress.RegisterItem(itemId))
-					return false;
+			if (!collection.RegisterItem(itemId))
+				return false;
 
-				if (collectionProgress.IsComplete)
-					this.OnCompleted(collectionProgress);
+			if (collection.IsComplete)
+				this.OnCompleted(collection);
 
-				return true;
-			}
+			return true;
 		}
 
 		/// <summary>
