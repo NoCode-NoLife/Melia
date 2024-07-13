@@ -85,7 +85,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				if (ZoneServer.Instance.Data.CollectionDb.TryFind(collectionId, out var collectionData) && !_collectionList.ContainsKey(collectionId))
+				if (ZoneServer.Instance.Data.CollectionDb.TryFindByClassId(collectionId, out var collectionData) && !_collectionList.ContainsKey(collectionId))
 				{
 					var newCollection = new CollectionProgress(collectionData);
 					newCollection.redeemCount = redeemCount;
@@ -141,7 +141,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				if (_collectionList.TryGetValue(collectionId, out var collectionProgress)) {
+				if (_collectionList.TryGetValue(collectionId, out var collectionProgress))
+				{
 					registeredItems = new List<int>(collectionProgress.registeredItems);
 					return true;
 				}
@@ -151,7 +152,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					return false;
 				}
 			}
-		}		
+		}
 
 		/// <summary>
 		/// Returns the list of all collections the user has registered
@@ -172,7 +173,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public List<int> GetProgress(int collectionId)
 		{
 			lock (_syncLock)
-			{ 
+			{
 				if (TryGetItems(collectionId, out var progress))
 					return progress;
 				return null;
@@ -200,11 +201,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				if (collectionProgress.isComplete)
 				{
-					if (collectionProgress.data.RewardProperties != "")
-					{
+					if (collectionProgress.data.RewardProperties.Any())
 						AddBonuses(collectionProgress.data.RewardProperties, silent);
-					}						
 				}
+
 				return true;
 			}
 		}
@@ -214,114 +214,15 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="silent">Skips updating the client</param>
 		/// <param name="multiplier">Multiplies by this amount, use -1 to remove the bonus</param>
 		/// </summary>
-		public void AddBonuses(string bonusProperties, bool silent = false, int multiplier = 1)
+		public void AddBonuses(Dictionary<string, int> bonusProperties, bool silent = false, int multiplier = 1)
 		{
 			var properties = Character.Properties;
 
-			string[] bonusList = bonusProperties.Split("/");
-			if (bonusList.Length >= 2)
+			if (bonusProperties.Any())
 			{
-				for (int i = 0; i < bonusList.Length; i += 2)
-				{
-					switch (bonusList[i])
-					{
-						case "STR_BM":
-							properties.Modify(PropertyName.STR_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "DEX_BM":
-							properties.Modify(PropertyName.DEX_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "INT_BM":
-							properties.Modify(PropertyName.INT_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MNA_BM":
-							properties.Modify(PropertyName.MNA_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "CON_BM":
-							properties.Modify(PropertyName.CON_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MHP_BM":
-							properties.Modify(PropertyName.MHP_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MSP_BM":
-							properties.Modify(PropertyName.MSP_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MaxSta_BM":
-							properties.Modify(PropertyName.MaxSta_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MaxWeight_BM":
-							properties.Modify(PropertyName.MaxWeight_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "RHP_BM":
-							properties.Modify(PropertyName.RHP_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "RSP_BM":
-							properties.Modify(PropertyName.RSP_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "HR_BM":
-							properties.Modify(PropertyName.HR_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "DR_BM":
-							properties.Modify(PropertyName.DR_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "PATK_BM":
-							properties.Modify(PropertyName.PATK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MATK_BM":
-							properties.Modify(PropertyName.MATK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "DEF_BM":
-							properties.Modify(PropertyName.DEF_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "MDEF_BM":
-							properties.Modify(PropertyName.MDEF_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "CRTATK_BM":
-							properties.Modify(PropertyName.CRTATK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "CRTMATK_BM":
-							properties.Modify(PropertyName.CRTMATK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "CRTHR_BM":
-							properties.Modify(PropertyName.CRTHR_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "CRTDR_BM":
-							properties.Modify(PropertyName.CRTDR_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResFire_BM":
-							properties.Modify(PropertyName.ResFire_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResIce_BM":
-							properties.Modify(PropertyName.ResIce_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResLightning_BM":
-							properties.Modify(PropertyName.ResLightning_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResEarth_BM":
-							properties.Modify(PropertyName.ResEarth_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResPoison_BM":
-							properties.Modify(PropertyName.ResPoison_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResDark_BM":
-							properties.Modify(PropertyName.ResDark_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "ResHoly_BM":
-							properties.Modify(PropertyName.ResHoly_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "BLK_BM":
-							properties.Modify(PropertyName.BLK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						case "BLK_BREAK_BM":
-							properties.Modify(PropertyName.BLK_BREAK_BM, multiplier * float.Parse(bonusList[i + 1]));
-							break;
-						default:
-							Log.Warning("Unknown collection reward property specified: {0}", bonusList[i]);
-							break;
-					}
-				}
+				foreach (var bonus in bonusProperties)
+					properties.Modify(bonus.Key, bonus.Value * multiplier);
 
-				// Tell the system it needs to recalculate the character's stats unless silent mode is on
 				if (!silent)
 				{
 					properties.InvalidateAll();
@@ -341,10 +242,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			foreach (var key in _collectionList.Keys)
 			{
 				var collection = _collectionList[key];
-				if (collection.isComplete && collection.data.RewardProperties != "")
-				{
+
+				if (collection.isComplete && collection.data.RewardProperties.Any())
 					AddBonuses(collection.data.RewardProperties, true, -1);
-				}
 			}
 		}
 

@@ -223,7 +223,6 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
 					this.LoadDb(this.Data.BuffDb, "db/buffs.txt");
 					this.LoadDb(this.Data.ChatMacroDb, "db/chatmacros.txt");
-					this.LoadDb(this.Data.CollectionDb, "db/collections.txt");
 					this.LoadDb(this.Data.CooldownDb, "db/cooldowns.txt");
 					this.LoadDb(this.Data.CustomCommandDb, "db/customcommands.txt");
 					this.LoadDb(this.Data.DialogDb, "db/dialogues.txt");
@@ -253,6 +252,10 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
+
+					// Load collections after properties and items, to enable
+					// data checks
+					this.LoadDb(this.Data.CollectionDb, "db/collections.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}

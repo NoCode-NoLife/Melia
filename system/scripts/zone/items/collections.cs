@@ -20,7 +20,7 @@ public class CollectionItemScripts : GeneralScript
 	{
 		var collectionName = strArg;
 
-		if (ZoneServer.Instance.Data.CollectionDb.Lookup(strArg, out var collectionData))
+		if (ZoneServer.Instance.Data.CollectionDb.TryFindByClassName(strArg, out var collectionData))
 		{
 			if (character.Collections.Add(collectionData.Id))
 			{

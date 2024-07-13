@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data;
 using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
@@ -15,9 +15,9 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public List<string> RequiredItems { get; set; }
-		public string RewardProperties { get; internal set; }
-		public string RewardAccountProperties { get; internal set; }
-		public string RewardItems { get; internal set; }
+		public Dictionary<string, int> RewardProperties { get; set; } = new();
+		public Dictionary<string, int> RewardAccountProperties { get; set; } = new();
+		public Dictionary<string, int> RewardItems { get; set; } = new();
 	}
 
 	/// <summary>
@@ -25,38 +25,67 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class CollectionDb : DatabaseJsonIndexed<string, CollectionData>
 	{
+		private PropertiesDb _propertiesDb;
+		private ItemDb _itemDb;
 
-
-		public bool TryFind(int collectionId, out CollectionData collection)
+		public CollectionDb(PropertiesDb propertiesDb, ItemDb itemDb)
 		{
-			collection = this.Entries.Values.FirstOrDefault(c => c.Id == collectionId);
-
-			return collection != default;
+			_propertiesDb = propertiesDb;
+			_itemDb = itemDb;
 		}
 
-
-		public bool Lookup(string className, out CollectionData collection)
+		public bool TryFindByClassId(int classId, out CollectionData data)
 		{
-			collection = this.Entries.Values.FirstOrDefault(c => c.ClassName == className);
+			data = this.Entries.Values.FirstOrDefault(c => c.Id == classId);
+			return data != default;
+		}
 
-			return collection != default;
+		public bool TryFindByClassName(string className, out CollectionData data)
+		{
+			data = this.Entries.Values.FirstOrDefault(c => c.ClassName == className);
+			return data != default;
 		}
 
 		protected override void ReadEntry(JObject entry)
 		{
 			entry.AssertNotMissing("classId", "className", "name", "requiredItems");
 
-			var collection = new CollectionData();
+			var data = new CollectionData();
 
-			collection.Id = entry.ReadInt("classId");
-			collection.ClassName = entry.ReadString("className");
-			collection.Name = entry.ReadString("name");
-			collection.RequiredItems = entry.ReadList<string>("requiredItems");
-			collection.RewardProperties = entry.ReadString("rewardProperties");
-			collection.RewardAccountProperties = entry.ReadString("rewardAccountProperties");
-			collection.RewardItems = entry.ReadString("rewardItems");
+			data.Id = entry.ReadInt("classId");
+			data.ClassName = entry.ReadString("className");
+			data.Name = entry.ReadString("name");
+			data.RequiredItems = entry.ReadList<string>("requiredItems");
 
-			this.Entries[collection.ClassName] = collection;
+			if (entry.ContainsKey("rewardProperties")) data.RewardProperties = entry["rewardProperties"].ToObject<Dictionary<string, int>>();
+			if (entry.ContainsKey("rewardAccountProperties")) data.RewardAccountProperties = entry["rewardAccountProperties"].ToObject<Dictionary<string, int>>();
+			if (entry.ContainsKey("rewardItems")) data.RewardItems = entry["rewardItems"].ToObject<Dictionary<string, int>>();
+
+			foreach (var propertyName in data.RewardProperties.Keys)
+			{
+				if (_propertiesDb.Find(a => a.Namespace == "PC" && a.Name == propertyName) == null)
+					throw new DatabaseWarningException(null, $"Unknown reward property name '{propertyName}' in collection '{data.ClassName}'.");
+			}
+
+			foreach (var propertyName in data.RewardAccountProperties.Keys)
+			{
+				if (_propertiesDb.Find(a => a.Namespace == "Account" && a.Name == propertyName) == null)
+					throw new DatabaseWarningException(null, $"Unknown account reward property name '{propertyName}' in collection '{data.ClassName}'.");
+			}
+
+			foreach (var className in data.RequiredItems)
+			{
+				if (_itemDb.FindByClass(className) == null)
+					throw new DatabaseWarningException(null, $"Unknown required item '{className}' in collection '{data.ClassName}'.");
+			}
+
+			foreach (var className in data.RewardItems.Keys)
+			{
+				if (_itemDb.FindByClass(className) == null)
+					throw new DatabaseWarningException(null, $"Unknown reward item '{className}' in collection '{data.ClassName}'.");
+			}
+
+			this.Entries[data.ClassName] = data;
 		}
 	}
 }

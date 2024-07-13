@@ -15,7 +15,7 @@ namespace Melia.Shared.Data
 		public BarrackDb BarrackDb = new BarrackDb();
 		public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
-		public CollectionDb CollectionDb = new CollectionDb();
+		public CollectionDb CollectionDb;
 		public CooldownDb CooldownDb = new CooldownDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
@@ -52,6 +52,9 @@ namespace Melia.Shared.Data
 			// the map list from the server db to determine which maps
 			// the zone servers serve.
 			this.ServerDb = new ServerDb(this.MapDb);
+
+			// Yup, still not entirely happy with this.
+			this.CollectionDb = new CollectionDb(this.PropertiesDb, this.ItemDb);
 		}
 	}
 }
