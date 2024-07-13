@@ -1,5 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
+using Melia.Shared.Scripting;
 using Melia.Zone;
+using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
@@ -46,5 +48,15 @@ public class CollectionItemScripts : GeneralScript
 		}
 
 		return DialogTxResult.Fail;
+	}
+
+	[On("PlayerReady")]
+	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	{
+		// Give rewards for collections to the character, in case there
+		// are some they didn't get yet. This needs to be done on login,
+		// but after the character, account, and connection were set up,
+		// in case we need them.
+		e.Character.Collections.GrantEligibleRewards();
 	}
 }

@@ -297,6 +297,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			character.Variables.Perm.SetBool("Melia.Collections.GotProperties_" + this.Id, true);
+
+			character.Properties.InvalidateAll();
+			Send.ZC_OBJECT_PROPERTY(character);
 		}
 
 		/// <summary>
@@ -318,6 +321,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			account.Variables.Perm.SetBool("Melia.Collections.GotProperties_" + this.Id, true);
+
+			account.Properties.InvalidateAll();
+			Send.ZC_NORMAL.AccountProperties(character);
 		}
 
 		/// <summary>
