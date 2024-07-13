@@ -307,6 +307,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
+		/// Returns the character's collection manager.
+		/// </summary>
+		public CollectionComponent Collections { get; }
+
+		/// <summary>
 		/// Returns the character's movement component.
 		/// </summary>
 		public MovementComponent Movement { get; }
@@ -356,6 +361,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
@@ -600,6 +606,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Clean up temporary properties before saving
 			this.Components.Get<BuffComponent>().StopTempBuffs();
+			this.Components.Get<CollectionComponent>().RemoveAllBonuses();
 
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);

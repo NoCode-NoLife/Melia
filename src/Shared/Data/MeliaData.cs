@@ -15,6 +15,7 @@ namespace Melia.Shared.Data
 		public BarrackDb BarrackDb = new BarrackDb();
 		public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
+		public CollectionDb CollectionDb = new CollectionDb();
 		public CooldownDb CooldownDb = new CooldownDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
