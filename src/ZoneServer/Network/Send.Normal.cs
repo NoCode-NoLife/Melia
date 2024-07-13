@@ -7,6 +7,8 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Shared.Data.Database;
+using System.Numerics;
 
 namespace Melia.Zone.Network
 {
@@ -229,16 +231,18 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
 				packet.PutFloat((float)duration1.TotalSeconds);
-				packet.PutInt(packetStringData2.Id);
+				packet.PutInt(packetStringData2?.Id ?? 0);
 				packet.PutFloat((float)duration1.TotalSeconds);
 				packet.PutPosition(position);
-				packet.PutFloat(30);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.PutFloat(10);
+				packet.PutFloat(0.6f);
+				packet.PutFloat(0f);
+				packet.PutFloat(600);
 				packet.PutFloat(1);
 				packet.PutLong(0);
-				packet.PutLpString("None");
+				packet.PutShort(0);
+				packet.PutString("None");
+				packet.PutByte(0);
 
 				entity.Map.Broadcast(packet, entity);
 			}

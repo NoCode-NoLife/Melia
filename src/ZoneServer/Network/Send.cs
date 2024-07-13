@@ -1820,10 +1820,10 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutFloat(0);
 			packet.PutFloat(0);
-			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutInt(hitInfo.HitCount);
+			packet.PutByte(1);
 			packet.PutFloat(0);
-			packet.PutInt(0);
+			packet.PutInt((int)hitInfo.DamageDelay.TotalMilliseconds);
 
 			target.Map.Broadcast(packet, target);
 		}
@@ -4264,5 +4264,32 @@ namespace Melia.Zone.Network
 
 			entity.Map.Broadcast(packet, entity);
 		}
+
+		/// <summary>
+		/// KnockDown a entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="active"></param>
+		/// <param name="dir"></param>
+		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity)
+		{
+			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
+
+			packet.PutInt(entity.Handle);
+			packet.PutPosition(entity.Position);
+			packet.PutPosition(entity.Position);
+			packet.PutInt(150); //unknow
+			packet.PutInt(-172); //unknow
+			packet.PutInt(0);
+			packet.PutInt(3); //unknow
+			packet.PutInt(0);
+			packet.PutFloat(1); //unknow
+			packet.PutFloat(1); //unknow
+			packet.PutFloat(0);
+			packet.PutFloat(2.625f); //unknow
+			packet.PutByte(3); //unknow
+
+			entity.Map.Broadcast(packet, entity);
+		}		
 	}
 }
