@@ -219,7 +219,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Returns the maximum number of times the collection's item rewards
 		/// can be redeemed.
 		/// </summary>
-		public int RedeemMax => 3;
+		public int RedeemMax => this.Data.RedeemMax;
 
 		/// <summary>
 		/// Returns true if the collection's item rewards have been redeemed

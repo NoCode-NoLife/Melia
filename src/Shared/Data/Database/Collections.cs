@@ -13,6 +13,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
+		public int RedeemMax { get; set; }
 		public Dictionary<int, int> RequiredItems { get; set; } = new();
 		public Dictionary<int, int> RewardItems { get; set; } = new();
 		public Dictionary<string, int> RewardProperties { get; set; } = new();
@@ -54,6 +55,8 @@ namespace Melia.Shared.Data.Database
 			data.Id = entry.ReadInt("classId");
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
+			data.Name = entry.ReadString("name");
+			data.RedeemMax = entry.ReadInt("redeemMax", 0);
 
 			var requiredItems = entry["requiredItems"].ToObject<Dictionary<string, int>>();
 			var rewardItems = entry.ContainsKey("rewardItems") ? entry["rewardItems"].ToObject<Dictionary<string, int>>() : null;
