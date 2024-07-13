@@ -259,7 +259,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			/// <returns></returns>
 			public bool RegisterItem(ItemData item)
 			{
-				if (!this.Data.RequiredItems.Contains(item.ClassName))
+				if (!this.Data.RequiredItems.ContainsKey(item.ClassName))
 					return false;
 
 				var neededCount = this.Data.RequiredItems.Count(a => a.Equals(item.ClassName));

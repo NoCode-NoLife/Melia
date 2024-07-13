@@ -13,7 +13,7 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string ClassName { get; set; }
 		public string Name { get; set; }
-		public List<string> RequiredItems { get; set; }
+		public Dictionary<string, int> RequiredItems { get; set; }
 		public Dictionary<string, int> RewardProperties { get; set; } = new();
 		public Dictionary<string, int> RewardAccountProperties { get; set; } = new();
 		public Dictionary<string, int> RewardItems { get; set; } = new();
@@ -54,8 +54,8 @@ namespace Melia.Shared.Data.Database
 			data.Id = entry.ReadInt("classId");
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
-			data.RequiredItems = entry.ReadList<string>("requiredItems");
 
+			data.RequiredItems = entry["requiredItems"].ToObject<Dictionary<string, int>>();
 			if (entry.ContainsKey("rewardProperties")) data.RewardProperties = entry["rewardProperties"].ToObject<Dictionary<string, int>>();
 			if (entry.ContainsKey("rewardAccountProperties")) data.RewardAccountProperties = entry["rewardAccountProperties"].ToObject<Dictionary<string, int>>();
 			if (entry.ContainsKey("rewardItems")) data.RewardItems = entry["rewardItems"].ToObject<Dictionary<string, int>>();
@@ -72,7 +72,7 @@ namespace Melia.Shared.Data.Database
 					throw new DatabaseWarningException(null, $"Unknown account reward property name '{propertyName}' in collection '{data.ClassName}'.");
 			}
 
-			foreach (var className in data.RequiredItems)
+			foreach (var className in data.RequiredItems.Keys)
 			{
 				if (_itemDb.FindByClass(className) == null)
 					throw new DatabaseWarningException(null, $"Unknown required item '{className}' in collection '{data.ClassName}'.");
