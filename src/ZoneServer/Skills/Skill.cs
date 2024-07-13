@@ -111,6 +111,17 @@ namespace Melia.Zone.Skills
 		public bool IsOnCooldown => this.Owner.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
 
 		/// <summary>
+		/// Returns true if the skill is a normal attack.
+		/// </summary>
+		/// <remarks>
+		/// This property is a temporary measure to not do this check randomly
+		/// somewhere in the code. We'll need some more research to determine
+		/// what exactly makes a normal attack and when they apply. Especially
+		/// because it seems like this might differ based on your stance.
+		/// </remarks>
+		public bool IsNormalAttack => (int)this.Id <= 1000;
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="owner"></param>

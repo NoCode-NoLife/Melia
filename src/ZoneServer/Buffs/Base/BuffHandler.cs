@@ -1,4 +1,5 @@
 ﻿using Melia.Zone.World;
+using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Base
 {
@@ -30,6 +31,69 @@ namespace Melia.Zone.Buffs.Base
 		/// <param name="buff"></param>
 		public virtual void OnEnd(Buff buff)
 		{
+		}
+
+		/// <summary>
+		/// Returns the name of the variable used to store modifiers for
+		/// the given property.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <returns></returns>
+		private static string GetModifierVarName(string propertyName)
+			=> "Melia.Modifier." + propertyName;
+
+		/// <summary>
+		/// Modifies the property on the target and saves the value in the buff,
+		/// to be able to later undo the change.
+		/// </summary>
+		/// <remarks>
+		/// Repeated calls to this method will stack the modifications, while
+		/// one call to RemovePropertyModifier will undo all of them.
+		/// </remarks>
+		/// <param name="buff"></param>
+		/// <param name="target"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		protected static void AddPropertyModifier(Buff buff, ICombatEntity target, string propertyName, float value)
+		{
+			var varName = GetModifierVarName(propertyName);
+
+			if (buff.Vars.TryGetFloat(varName, out var oldValue))
+				value += oldValue;
+
+			buff.Vars.SetFloat(varName, value);
+			target.Properties.Modify(propertyName, value);
+		}
+
+		/// <summary>
+		/// Undoes the modifications done to the property on target from
+		/// ApplyPropertyModifier.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="target"></param>
+		/// <param name="propertyName"></param>
+		protected static void RemovePropertyModifier(Buff buff, ICombatEntity target, string propertyName)
+		{
+			var varName = GetModifierVarName(propertyName);
+
+			if (buff.Vars.TryGetFloat(varName, out var value))
+			{
+				target.Properties.Modify(propertyName, -value);
+				buff.Vars.Remove(varName);
+			}
+		}
+
+		/// <summary>
+		/// Changes the value of a property modifier on the target.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="target"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		protected static void UpdatePropertyModifier(Buff buff, ICombatEntity target, string propertyName, float value)
+		{
+			RemovePropertyModifier(buff, target, propertyName);
+			AddPropertyModifier(buff, target, propertyName, value);
 		}
 	}
 }

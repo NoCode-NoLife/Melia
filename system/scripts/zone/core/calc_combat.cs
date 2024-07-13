@@ -5,9 +5,13 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -84,6 +88,9 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+
+		// Bonuses from buffs
+		Concentrate_Buff.TryAddBonus(attacker, modifier);
 
 		// Increase damage multiplier based on dagger slash buff
 		// TODO: Move to a buff handler later.
@@ -180,12 +187,13 @@ public class CombatCalculationsScript : GeneralScript
 		if (target.IsBuffActive(BuffId.Cloaking_Buff))
 			damage = Math.Max(1, damage * 0.75f);
 
-		// Double Pay Earn increases damage taken
-		// TODO: Move to a buff handler later.
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
+		// Bear reduces damage by 2% per level
+		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
 		{
-			var damageTakenMultiplier = doublePayEarnBuff.NumArg2;
-			damage *= damageTakenMultiplier;
+			var skillLevel = bearBuff.NumArg1;
+			var byBuffRate = skillLevel * 0.02f;
+
+			damage = Math.Max(1, damage * (1f - byBuffRate));
 		}
 
 		// Block damage reduction
@@ -195,6 +203,10 @@ public class CombatCalculationsScript : GeneralScript
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
+
+		// Bonus buff effects
+		Restrain_Buff.TryStunTarget(attacker, target, skill);
+		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;
 	}

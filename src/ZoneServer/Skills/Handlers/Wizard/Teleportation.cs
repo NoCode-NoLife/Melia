@@ -1,6 +1,6 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -13,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handler for the Wizard skill Teleportation.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_Teleportation)]
-	public class WizardTeleportation : IGroundSkillHandler
+	public class Wizard_Teleportation : IGroundSkillHandler
 	{
 		private const float TeleportationDistance = 100;
 		private static readonly TimeSpan ReUseTime = TimeSpan.FromSeconds(2);

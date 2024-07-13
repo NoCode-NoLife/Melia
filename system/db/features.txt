@@ -3,10 +3,15 @@
 //---------------------------------------------------------------------------
 
 [
-// Second Closed Beta Phase
+// Second Closed Beta Phase, which ran between Winter 2015 and Spring 2016.
 { name: "iCBT2", enabled: true, children: [
 	// Removes Centurion from the Swordman job tree
 	{ name: "CenturionRemoved", enabled: true },
+]},
+
+// Release Version, released in Spring 2016, after the closed beta.
+{ name: "Release", enabled: true, children: [
+	// Add features added after iCBT2 and before ReBuild here.
 ]},
 
 // Re:Build was a large update in late 2018, most notably changing how
@@ -84,6 +89,23 @@
 
 	// Gives Clerics the Guard skill, allowing them to use shields actively
 	{ name: "GuardingClerics", enabled: true },
+]},
+
+// Latest Version, that reflects the current state of iToS.
+{ name: "Latest", enabled: true, children: [
+	// Add features here that were added after the initial Re:Build.
+	
+	// Noteworthy skill changes between Re:Build and the latest version
+	{ name: "LatestSkillChanges", enabled: true, children: [
+		// Removes potion requirement for using Hasisas
+		{ name: "HasisasNoPotion", enabled: true },
+		
+		// Removes HP loss while using Hasisas
+		{ name: "HasisasNoHpLoss", enabled: true },
+		
+		// Changes Hasisas to not base crit bonus on HP lost
+		{ name: "HasisasNoHpCritBonus", enabled: true },
+	]},
 ]},
 
 // Miscellaneous changes that don't belong to a specific update or are yet

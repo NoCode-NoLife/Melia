@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
@@ -19,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 	/// Handler for the Swordsman skill Thrust.
 	/// </summary>
 	[SkillHandler(SkillId.Cleric_Smite)]
-	public class ClericSmite : IGroundSkillHandler
+	public class Cleric_Smite : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.

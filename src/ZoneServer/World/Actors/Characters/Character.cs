@@ -749,7 +749,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// client with ZC_ADD_HP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void ModifyHp(int amount)
+		public void ModifyHp(float amount)
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);
