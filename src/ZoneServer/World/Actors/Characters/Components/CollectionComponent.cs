@@ -335,6 +335,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 				character.Inventory.Add(itemId, amount);
 			}
+
+			this.RedeemCount++;
 		}
 
 		/// <summary>
