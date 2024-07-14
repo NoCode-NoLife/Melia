@@ -19,6 +19,7 @@ namespace Melia.Shared.Data.Database
 		public ArmorMaterialType ArmorMaterial { get; set; }
 		public SizeType Size { get; set; }
 		public FactionType Faction { get; set; }
+		public MonsterRank Rank { get; set; }
 
 		public MoveType MoveType { get; set; }
 		public int WalkSpeed { get; set; }
@@ -144,6 +145,7 @@ namespace Melia.Shared.Data.Database
 			data.ArmorMaterial = entry.ReadEnum<ArmorMaterialType>("armor");
 			data.Size = entry.ReadEnum<SizeType>("size");
 			data.Faction = entry.ReadEnum<FactionType>("faction");
+			data.Rank = entry.ReadEnum<MonsterRank>("rank");
 
 			data.MoveType = entry.ReadEnum<MoveType>("moveType");
 			data.WalkSpeed = entry.ReadInt("walkSpeed");
