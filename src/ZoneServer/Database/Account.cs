@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Game;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -112,6 +113,11 @@ namespace Melia.Zone.Database
 		public Properties Properties { get; } = new Properties("Account");
 
 		/// <summary>
+		/// Account's premium status
+		/// </summary>
+		public PremiumState PremiumStatus { get; set; }
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
@@ -119,6 +125,7 @@ namespace Melia.Zone.Database
 			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
 			this.Settings = new AccountSettings();
+			this.PremiumStatus = new PremiumState();
 			_chatMacros = new List<ChatMacro>();
 			_revealedMaps = new Dictionary<int, RevealedMap>();
 

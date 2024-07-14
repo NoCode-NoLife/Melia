@@ -2630,9 +2630,11 @@ namespace Melia.Zone.Network
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="state"></param>
-		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn, PremiumState state)
+		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SEND_PREMIUM_STATE);
+
+			var state = conn.Account.PremiumStatus;
 
 			packet.PutByte((byte)state.Type);
 			packet.PutByte(state.Active);
