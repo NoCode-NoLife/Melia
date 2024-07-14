@@ -106,7 +106,7 @@ public class CombatCalculationsScript : GeneralScript
 		// Increase damage multiplier based on Defiance
 		if (attacker is Character attackCharacter && target is Mob targetMob) 
 		{ 
-			if (targetMob.Data.ClassName.Contains("boss") && attackCharacter.Skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
+			if (targetMob.Data.Rank == MonsterRank.Boss && attackCharacter.Skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
 			{
 				modifier.DamageMultiplier += defiance.Level * 0.02f;
 			}
