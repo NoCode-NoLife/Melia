@@ -56,7 +56,7 @@
 		/// <summary>
 		/// Returns a new skill modifier with default values.
 		/// </summary>
-		public static SkillModifier Default { get; } = new SkillModifier();
+		public static SkillModifier Default => new();
 
 		/// <summary>
 		/// Returns a new skill modifier with the given hit count.
