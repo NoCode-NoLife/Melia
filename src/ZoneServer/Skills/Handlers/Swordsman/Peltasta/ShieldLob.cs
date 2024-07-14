@@ -187,9 +187,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			foreach (var target in targets)
 			{
-				var modifier = SkillModifier.Default;
+				var modifier = SkillModifier.MultiHit(4);
 				modifier.BonusPAtk = bonusPatk;
-				modifier.HitCount = 4;
 
 				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
 				{

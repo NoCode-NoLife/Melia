@@ -4,14 +4,10 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Shared.Data.Database;
-using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.Scripting.AI;
-using Melia.Zone.Skills.Combat;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {

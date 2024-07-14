@@ -15,14 +15,18 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Peltasta
 
 		public override void OnStart(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.BLK_RATE_BM, BlkRateBonus);
-			buff.Target.Properties.Modify(PropertyName.CRTDR_RATE_BM, CrtDrRateBonus);
+			var target = buff.Target;
+
+			AddPropertyModifier(buff, target, PropertyName.BLK_RATE_BM, BlkRateBonus);
+			AddPropertyModifier(buff, target, PropertyName.CRTDR_RATE_BM, CrtDrRateBonus);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			buff.Target.Properties.Modify(PropertyName.BLK_RATE_BM, -BlkRateBonus);
-			buff.Target.Properties.Modify(PropertyName.CRTDR_RATE_BM, -CrtDrRateBonus);
+			var target = buff.Target;
+
+			RemovePropertyModifier(buff, target, PropertyName.BLK_RATE_BM);
+			RemovePropertyModifier(buff, target, PropertyName.CRTDR_RATE_BM);
 		}
 	}
 }
