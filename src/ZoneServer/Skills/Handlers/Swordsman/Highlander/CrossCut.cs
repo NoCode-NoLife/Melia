@@ -86,8 +86,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			await Task.Delay(delayBetweenHits);
 			hits.Clear();
+            targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			foreach (var target in targets.LimitBySDR(caster, skill))
+            foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult2 = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult2.Damage, caster);
@@ -97,7 +98,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				hits.Add(skillHit2);
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-				target.StartBuff(BuffId.HeavyBleeding, skill.Level, 0, TimeSpan.FromSeconds(debuffTime), caster);
+				// TODO: Find out damage formula for the bleed damage
+				target.StartBuff(BuffId.HeavyBleeding, skill.Level, skillHitResult2.Damage * 0.05f, TimeSpan.FromSeconds(debuffTime), caster);
 			}
 		}
 	}
