@@ -96,6 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 					skillHit.HitEffect = HitEffect.Impact;
+
 					hits.Add(skillHit);
 				}
 
@@ -111,6 +112,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 					var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
 					skillHit2.HitEffect = HitEffect.Impact;
+
 					hits.Add(skillHit2);
 				}
 
@@ -121,7 +123,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				hits.Clear();
 
-				if (!caster.IsCasting()) break;
+				if (!caster.IsCasting())
+					break;
 			}
 
 			Send.ZC_SKILL_DISABLE(caster as Character);
