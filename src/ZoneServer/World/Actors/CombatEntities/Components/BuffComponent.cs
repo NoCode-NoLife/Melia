@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
@@ -137,6 +139,32 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return false;
 
 			return this.Remove(buff);
+		}
+
+		/// <summary>
+		/// Removes a random removable buff.  Many skills have this effect.
+		/// </summary>
+		/// <returns></returns>
+		public BuffId RemoveRandomBuff()
+		{
+			List<Buff> removeableBuffs = new List<Buff>();
+			foreach (var buff in _buffs.Values)
+			{
+				if (buff.Data.Removable)
+					removeableBuffs.Add(buff);
+			}
+
+			if (removeableBuffs.Count == 0)
+			{
+				return 0;
+			}
+
+			var rnd = RandomProvider.Get();
+			var removedBuff = removeableBuffs[rnd.Next(removeableBuffs.Count)];
+
+			this.Remove(removedBuff);
+
+			return removedBuff.Id;
 		}
 
 		/// <summary>

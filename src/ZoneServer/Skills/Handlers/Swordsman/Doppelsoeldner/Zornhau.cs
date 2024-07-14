@@ -103,12 +103,15 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Doppelsoeldner36, out var ability))
 					target.StartBuff(BuffId.Zornhau_Debuff, skill.Level, skillHitResult.Damage * 0.2f, TimeSpan.FromSeconds(DebuffDuration), caster);
 
-				// Also need to remove a buff from the target
+				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
 				var rnd = RandomProvider.Get();
 				if (rnd.Next(100) < buffRemoveChance)
 				{
-					// TODO: Need to remove a buff here, this probably needs to be a function as many skills can do this
+					if (target.Components.TryGet<BuffComponent>(out var buffComponent))
+					{
+						buffComponent.RemoveRandomBuff();
+					}
 				}
 			}
 
