@@ -150,7 +150,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			List<Buff> removeableBuffs = new List<Buff>();
 			foreach (var buff in _buffs.Values)
 			{
-				if (buff.Data.Removable)
+				if (buff.Data.Type == BuffType.Buff && buff.Data.Removable)
 					removeableBuffs.Add(buff);
 			}
 
