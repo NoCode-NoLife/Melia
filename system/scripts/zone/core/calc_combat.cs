@@ -187,6 +187,14 @@ public class CombatCalculationsScript : GeneralScript
 		if (target.IsBuffActive(BuffId.Cloaking_Buff))
 			damage = Math.Max(1, damage * 0.75f);
 
+		// Double Pay Earn increases damage taken
+		// TODO: Move to a buff handler later.
+		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
+		{
+			var damageTakenMultiplier = doublePayEarnBuff.NumArg2;
+			damage *= damageTakenMultiplier;
+		}
+
 		// Bear reduces damage by 2% per level
 		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
 		{

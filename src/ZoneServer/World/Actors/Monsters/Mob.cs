@@ -455,6 +455,9 @@ namespace Melia.Zone.World.Actors.Monsters
 
 				var originalDropChance = dropItemData.DropChance;
 				var adjustedDropChance = GetAdjustedDropRate(dropItemData);
+				// Each point of looting chance increases drops by 0.1%, so 500 looting chance = 1.5x drop rate
+				var lootingRate = 1f + (killer.Properties.GetFloat(PropertyName.LootingChance) + killer.Properties.GetFloat(PropertyName.LootingChance_BM)) * 0.001f;
+				adjustedDropChance *= lootingRate;
 
 				// Items with a chance of >0.5% always drop on super drop.
 				// We'll use the original drop chance for this check to
