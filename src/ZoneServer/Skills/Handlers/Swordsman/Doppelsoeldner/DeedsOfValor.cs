@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
@@ -39,7 +38,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			var target = caster;
 
 			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.DeedsOfValor, skill.Level, BaseDamageMultiplier + DamageMultiplierPerLevel * skill.Level, duration, caster);
+			var damage = BaseDamageMultiplier + DamageMultiplierPerLevel * skill.Level;
+
+			target.StartBuff(BuffId.DeedsOfValor, skill.Level, damage, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

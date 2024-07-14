@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
@@ -22,10 +20,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 	[SkillHandler(SkillId.Doppelsoeldner_Punish)]
 	public class Doppelsoeldner_Punish : IGroundSkillHandler
 	{
-		private const float MaxMoveDistance = 140f;  // Will attempt to move up to 140 units
+		private const float MaxTargetDistance = 30f;
+		private const float MaxMoveDistance = 140f;
 		private const float KnockdownMultiplier = 1.5f;
-		private const float HealDebuffPerLevel = 3300f;  // Packet needs this passed in at 100x the amount to display in the tooltip
-		private const float HealDebuffDuration = 5;
+		private const float HealDebuffPerLevel = 33f;
+		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -36,11 +35,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			// Punish will attempt to move you to towards the target before it activates.  We subtract 30 so the center of the circle hits the enemy
-			var distanceToTarget = caster.Position.Get2DDistance(target.Position) - 30d;
+			// Punish will attempt to move you towards the target before
+			// it activates. The position is just in front of the target.
+			var attackPosDist = caster.Position.Get2DDistance(target.Position) - MaxTargetDistance;
 
-			// On official, the skill fails if the target is too far away.  It should do this before spending SP.
-			if (distanceToTarget > MaxMoveDistance)
+			// Check distance before spending SP	
+			if (attackPosDist > MaxMoveDistance)
 			{
 				caster.ServerMessage(Localization.Get("Too far away."));
 				Send.ZC_SKILL_CAST_CANCEL(caster);
@@ -53,14 +53,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				return;
 			}
 
-			// If the distance to jump is < 0 (ie, the target is already within range), you don't move
-			// Also need to check that the teleport position is valid
-			if (distanceToTarget > 0)
+			// If the caster is already in range, they won't move.
+			if (attackPosDist > 0)
 			{
-				var movementDistance = Math.Min(distanceToTarget, MaxMoveDistance);
-				var endingPosition = caster.Position.GetRelative(caster.Direction, (float)movementDistance);
+				var endingPosition = caster.Position.GetRelative(caster.Direction, (float)attackPosDist);
 				endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
+
 				caster.Position = endingPosition;
+
 				Send.ZC_SET_POS(caster);
 			}
 
@@ -88,13 +88,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			var hitDelay = TimeSpan.FromMilliseconds(700);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
-			var deedsOfValorBonus = 1.0f;
-
-			if (caster.IsBuffActive(BuffId.DeedsOfValor))
-			{
-				var buff = caster.Components.Get<BuffComponent>().Get(BuffId.DeedsOfValor);
-				deedsOfValorBonus = buff.NumArg2;
-			}
 
 			await Task.Delay(hitDelay);
 
@@ -103,19 +96,27 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				SkillModifier modifier = new SkillModifier();
+				var modifier = new SkillModifier();
 
-				// TODO: This should do extra damage if the enemy is in a knockdown state
+				// TODO: Enable once we have a knock down state to check for.
+				//if (target.IsKnockedDown)
+				//	modifier.DamageMultiplier = KnockdownMultiplier;
+
+				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
+					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				skillHitResult.Damage *= deedsOfValorBonus;
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, HealDebuffPerLevel * skill.Level, TimeSpan.FromSeconds(HealDebuffDuration), caster);
+				// The debuff value is handled in hundreds, meaning we need to
+				// multiply it by 100 for it to display correctly in the tooltip.
+				var debuffVal = HealDebuffPerLevel * 100f * skill.Level;
+
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, HealDebuffDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

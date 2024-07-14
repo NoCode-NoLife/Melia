@@ -297,6 +297,15 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns true if the entity has the given ability and it's toggled on.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public static bool IsAbilityActive(this ICombatEntity entity, AbilityId abilityId)
+			=> entity.Components.Get<AbilityComponent>()?.IsActive(abilityId) ?? false;
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>

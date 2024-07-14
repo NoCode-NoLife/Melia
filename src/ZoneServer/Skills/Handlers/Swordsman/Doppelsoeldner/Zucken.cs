@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -37,16 +36,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				return;
 			}
 
-			// This is a combo skill, can only be cast when the previous skills adds this buff
+			// Zucken is a combo skill that can only be used if other skills added
+			// the necessary buff before. The buff ends the moment the skill is
+			// used.
 			if (!caster.IsBuffActive(BuffId.Zucken_Buff))
 			{
 				caster.ServerMessage(Localization.Get("Can't use this skill."));
 				return;
 			}
-			var buffComponent = caster.Components.Get<BuffComponent>();
-			if (buffComponent.Has(BuffId.Zucken_Buff))
-				buffComponent.Remove(BuffId.Zucken_Buff);
 
+			caster.StopBuff(BuffId.Zucken_Buff);
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(farPos);
@@ -74,97 +73,39 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			var damageDelay2 = TimeSpan.FromMilliseconds(60);
 			var delayBetweenHits = TimeSpan.FromMilliseconds(150);
 			var skillHitDelay = TimeSpan.Zero;
-			var deedsOfValorBonus = 1.0f;
-
-			if (caster.IsBuffActive(BuffId.DeedsOfValor))
-			{
-				var buff = caster.Components.Get<BuffComponent>().Get(BuffId.DeedsOfValor);
-				deedsOfValorBonus = buff.NumArg2;
-			}
 
 			await Task.Delay(hitDelay);
 
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
-
 			var hitSomething = false;
 
-			foreach (var target in targets.LimitBySDR(caster, skill))
+			for (var i = 0; i < 4; i++)
 			{
-				SkillModifier modifier = SkillModifier.Default;
-				modifier.HitCount = 2;
+				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				skillHitResult.Damage *= deedsOfValorBonus;
-				target.TakeDamage(skillHitResult.Damage, caster);
+				foreach (var target in targets.LimitBySDR(caster, skill))
+				{
+					var modifier = SkillModifier.Default;
+					modifier.HitCount = 2;
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit);
+					if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
+						modifier.FinalDamageMultiplier = dovBuff.NumArg2;
+
+					var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+					target.TakeDamage(skillHitResult.Damage, caster);
+
+					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
+					skillHit.HitEffect = HitEffect.Impact;
+					hits.Add(skillHit);
+
+					hitSomething = true;
+				}
+
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
-				hitSomething = true;
+
+				await Task.Delay(delayBetweenHits);
+				hits.Clear();
 			}
-
-			await Task.Delay(delayBetweenHits);
-			hits.Clear();
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				SkillModifier modifier = SkillModifier.Default;
-				modifier.HitCount = 2;
-
-				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
-				skillHitResult2.Damage *= deedsOfValorBonus;
-				target.TakeDamage(skillHitResult2.Damage, caster);
-
-				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
-				skillHit2.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit2);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
-				hitSomething = true;
-			}
-
-			await Task.Delay(delayBetweenHits);
-			hits.Clear();
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				SkillModifier modifier = SkillModifier.Default;
-				modifier.HitCount = 2;
-
-				var skillHitResult3 = SCR_SkillHit(caster, target, skill, modifier);
-				skillHitResult3.Damage *= deedsOfValorBonus;
-				target.TakeDamage(skillHitResult3.Damage, caster);
-
-				var skillHit3 = new SkillHitInfo(caster, target, skill, skillHitResult3, damageDelay2, skillHitDelay);
-				skillHit3.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit3);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
-				hitSomething = true;
-			}
-
-			await Task.Delay(delayBetweenHits);
-			hits.Clear();
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				SkillModifier modifier = SkillModifier.Default;
-				modifier.HitCount = 2;
-
-				var skillHitResult4 = SCR_SkillHit(caster, target, skill, modifier);
-				skillHitResult4.Damage *= deedsOfValorBonus;
-				target.TakeDamage(skillHitResult4.Damage, caster);
-
-				var skillHit4 = new SkillHitInfo(caster, target, skill, skillHitResult4, damageDelay2, skillHitDelay);
-				skillHit4.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit4);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
-				hitSomething = true;
-			}
-
 
 			if (hitSomething)
 			{

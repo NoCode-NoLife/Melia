@@ -4,13 +4,13 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handle for the Double Pay Earn buff, which increases Looting Chance (drop rate)
-	/// but increases the damage you take.
+	/// Handler for the Double Pay Earn buff, which increases the item drop rate,
+	/// but also the damage you take.
 	/// </summary>
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
 	public class Double_Pay_Earn_Buff : BuffHandler
 	{
-		private const float LootingChanceBonusPerLevel = 30f; // 30 looting chance is 3% drop rate bonus
+		private const float LootingChanceBonusPerLevel = 30;
 
 		public override void OnStart(Buff buff)
 		{

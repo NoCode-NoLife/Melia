@@ -189,10 +189,10 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Double Pay Earn increases damage taken
 		// TODO: Move to a buff handler later.
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
+		if (target.TryGetBuff(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
 		{
-			var damageTakenMultiplier = doublePayEarnBuff.NumArg2;
-			damage *= damageTakenMultiplier;
+			var damageMultiplier = doublePayEarnBuff.NumArg2;
+			damage *= damageMultiplier;
 		}
 
 		// Bear reduces damage by 2% per level
@@ -211,6 +211,8 @@ public class CombatCalculationsScript : GeneralScript
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
+
+		damage *= modifier.FinalDamageMultiplier;
 
 		// Bonus buff effects
 		Restrain_Buff.TryStunTarget(attacker, target, skill);

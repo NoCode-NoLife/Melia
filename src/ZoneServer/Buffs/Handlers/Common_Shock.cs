@@ -1,13 +1,10 @@
-﻿using Melia.Zone.Buffs.Base;
-using Melia.Zone.World;
-using Melia.Shared.Game.Const;
-using System;
-using Melia.Zone.Network;
+﻿using Melia.Shared.Game.Const;
+using Melia.Zone.Buffs.Base;
 
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handler for Common_Shock, which reduces INT and SPR
+	/// Handler for the Shock debuff, which reduces INT and SPR.
 	/// </summary>
 	[BuffHandler(BuffId.Common_Shock)]
 	public class Common_Shock : BuffHandler
@@ -24,9 +21,9 @@ namespace Melia.Zone.Buffs.Handlers
 			var target = buff.Target;
 
 			var reduceInt = target.Properties.GetFloat(PropertyName.INT) * IntDebuffRate;
-			AddPropertyModifier(buff, buff.Target, PropertyName.INT_BM, -reduceInt);
-
 			var reduceSpr = target.Properties.GetFloat(PropertyName.MNA) * SprDebuffRate;
+
+			AddPropertyModifier(buff, buff.Target, PropertyName.INT_BM, -reduceInt);
 			AddPropertyModifier(buff, buff.Target, PropertyName.MNA_BM, -reduceSpr);
 		}
 
