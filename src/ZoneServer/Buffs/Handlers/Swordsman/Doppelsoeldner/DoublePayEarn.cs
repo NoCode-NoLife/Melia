@@ -10,7 +10,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
 	public class Double_Pay_Earn_Buff : BuffHandler
 	{
-		private const float LootingChanceBonusPerLevel = 30;
+		private const float LootingChanceBonusPerLevel = 3;
 
 		public override void OnStart(Buff buff)
 		{
@@ -27,7 +27,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 		private float GetLootingChanceBonus(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			return skillLevel * LootingChanceBonusPerLevel;
+			var percentPerLevel = LootingChanceBonusPerLevel;
+
+			// The bonus is a value in tens, so a 3% bonus requires a value of 30.
+			return percentPerLevel * skillLevel * 10;
 		}
 	}
 }
