@@ -2,7 +2,7 @@
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 {
     /// <summary>
     /// Handler for SkullSwing_Debuff, which reduces Def
