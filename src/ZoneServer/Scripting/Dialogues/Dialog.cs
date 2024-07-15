@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
@@ -335,6 +336,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="text"></param>
 		public async Task Msg(string text)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 			Send.ZC_DIALOG_OK(this.Player.Connection, text);
 
@@ -407,6 +410,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task<int> Select(string text, IEnumerable<string> options)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 
 			var arguments = new List<string>();
