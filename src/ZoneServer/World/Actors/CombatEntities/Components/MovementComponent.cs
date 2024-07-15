@@ -23,7 +23,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
 		private List<Position> _path;
-		private int _currentPathIndex;
 
 		private ITriggerableArea[] _triggerAreas = [];
 
@@ -100,33 +99,15 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			lock (_positionSyncLock)
 			{
-				var position = this.Entity.Position;
-
 				// Don't move if the entity is already at the destination
-				if (destination == position)
+				if (destination == this.Entity.Position)
 					return TimeSpan.Zero;
 
-				// Use Pathfinder to find a path to the destination
-				var pathfinder = this.Entity.Map.Pathfinder;
-				var path = pathfinder.FindPath(position, destination);
-
-				if (path == null || path.Count == 0)
-					return TimeSpan.Zero; // No valid path found
-
-				// Get distance to next path
-				var nextPath = path[0];
-				var diffX = nextPath.X - position.X;
-				var diffZ = nextPath.Z - position.Z;
-
-				// Get total distance of paths
-				double totalDistance = 0;
-				totalDistance += position.Get2DDistance(nextPath);
-				var i = 0;
-				for (i = 0; i < path.Count - 1; i++)
-				{
-					totalDistance += path[i].Get2DDistance(path[i + 1]);
-				}
-				totalDistance += path[i].Get2DDistance(destination);
+				// Get distance to destination
+				var position = this.Entity.Position;
+				var diffX = destination.X - position.X;
+				var diffZ = destination.Z - position.Z;
+				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
 
 				// Get speed
 				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
@@ -136,33 +117,81 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					return TimeSpan.Zero;
 
 				// Don't move if too close to destination
-				if (position.Get2DDistance(destination) <= 10)
+				if (distance <= 10)
 					return TimeSpan.Zero;
 
-				// Calculate move time
-				_moveTime = TimeSpan.FromSeconds(totalDistance / speed);
-				_moveX = (diffX / _moveTime.TotalSeconds);
-				_moveZ = (diffZ / _moveTime.TotalSeconds);
+				// Use Pathfinder to find a path to the destination
+				var pathfinder = this.Entity.Map.Pathfinder;
+				_path = pathfinder.FindPath(position, destination);
 
+				// Don't move if no path found
+				if (_path == null || _path.Count < 2)
+					return TimeSpan.Zero;
+
+				// Debug
+				foreach (var p in _path)
+				{
+					Debug.ShowPosition(this.Entity.Map, p);
+				}
+
+				// Calculate total move time to destination
+				double totalDistance = 0;
+				for (var i = 0; i < _path.Count - 1; i++)
+				{
+					totalDistance += _path[i].Get2DDistance(_path[i + 1]);
+				}
+				var totalMoveTime = TimeSpan.FromSeconds(totalDistance / speed);
+
+				// Execute Movement
 				if (executeMove)
 				{
 					this.IsMoving = true;
 					this.Destination = destination;
 					this.MoveTarget = MoveTargetType.Position;
-					this._path = path;
-					this._currentPathIndex = 0;
 
-					// Set direction relative to current position
-					this.Entity.Direction = this.Entity.Position.GetDirection(nextPath);
-
-					var fromCellPos = this.Entity.Map.Ground.GetCellPosition(this.Entity.Position);
-					var toCellPos = this.Entity.Map.Ground.GetCellPosition(nextPath);
-
-					// Update clients
-					Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, speed);
+					this.MoveToNextPosition();
 				}
 
-				return _moveTime;
+				return totalMoveTime;
+			}
+		}
+
+		/// <summary>
+		/// Sets the target of entity to the next node in path
+		/// </summary>
+		private void MoveToNextPosition()
+		{
+			_path.RemoveAt(0);
+			
+			if (_path.Count == 0)
+			{
+				this.Entity.Position = this.Destination;
+				_moveTime = TimeSpan.Zero;
+				this.IsMoving = false;
+				return;
+			}
+
+			var nextPosition = _path[0];
+
+			lock (_positionSyncLock)
+			{
+				var position = this.Entity.Position;
+				var diffX = nextPosition.X - position.X;
+				var diffZ = nextPosition.Z - position.Z;
+				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
+
+				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
+				_moveTime = TimeSpan.FromSeconds(distance / speed);
+				_moveX = (diffX / _moveTime.TotalSeconds);
+				_moveZ = (diffZ / _moveTime.TotalSeconds);
+
+				this.Entity.Direction = position.GetDirection(nextPosition);
+
+				var fromCellPos = this.Entity.Map.Ground.GetCellPosition(this.Entity.Position);
+				var toCellPos = this.Entity.Map.Ground.GetCellPosition(nextPosition);
+
+				// Update clients
+				Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, this.Entity.Properties.GetFloat(PropertyName.MSPD));
 			}
 		}
 
@@ -394,53 +423,27 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				if (this.MoveTarget != MoveTargetType.Position)
 					return;
 
-				// If the move time reached 0, set position to destination
-				// and stop moving.
+				// If the move time reached 0, move to the next position
+				// in the path
 				if ((_moveTime -= elapsed) <= TimeSpan.Zero)
 				{
-					this.Entity.Position = this.Destination;
+					this.Entity.Position = _path[0];
 
-					this.IsMoving = false;
-					_moveTime = TimeSpan.Zero;
+					this.MoveToNextPosition();
 				}
 				// If there's still move time left, update the current position.
 				else
 				{
-					// Move along the path
-					if (_currentPathIndex < _path.Count)
-					{
-						var position = this.Entity.Position;
-						
-						position.X += (float)(_moveX * elapsed.TotalSeconds);
-						position.Z += (float)(_moveZ * elapsed.TotalSeconds);
+					var position = this.Entity.Position;
+					position.X += (float)(_moveX * elapsed.TotalSeconds);
+					position.Z += (float)(_moveZ * elapsed.TotalSeconds);
 
-						if (!this.Entity.Map.Ground.TryGetHeightAt(position, out var height))
-							height = 0;
+					if (!this.Entity.Map.Ground.TryGetHeightAt(position, out var height))
+						height = 0;
 
-						position.Y = height;
+					position.Y = height;
 
-						this.Entity.Position = position;
-
-						// Checks if we reached the current path
-						var distance = position.Get2DDistance(_path[_currentPathIndex]);
-						if (distance <= 10)
-						{
-							_currentPathIndex++;
-							if (_currentPathIndex < _path.Count)
-							{
-								var nextPath = _path[_currentPathIndex];
-								this.Entity.Direction = this.Entity.Position.GetDirection(nextPath);
-								var diffX = nextPath.X - position.X;
-								var diffZ = nextPath.Z - position.Z;
-								var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
-								_moveX = (diffX / _moveTime.TotalSeconds);
-								_moveZ = (diffZ / _moveTime.TotalSeconds);
-
-								// Note: We do not need to update clients here as
-								// the client implements its own pathfinding
-							}
-						}
-					}
+					this.Entity.Position = position;
 				}
 			}
 		}

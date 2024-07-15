@@ -6,6 +6,7 @@ using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 using Yggdrasil.Structures;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Melia.Zone.World.Maps
 {
@@ -24,16 +25,18 @@ namespace Melia.Zone.World.Maps
 		private Quadtree<QuadObject> _quadtree;
 
 		/// <summary>
-		/// Loads the ground data.
+		/// Quadtree Object
 		/// </summary>
-		/// <param name="data"></param>
-		public void Load(GroundData data)
+		private class QuadObject : IQuadObject
 		{
-			_data = data;
+			public RectangleF Bounds { get; }
+			public int CellIndex { get; }
 
-			this.LoadGroundMesh();
-			this.LoadCells();
-			this.InitializeQuadtree();
+			public QuadObject(RectangleF bounds, int cellIndex)
+			{
+				Bounds = bounds;
+				CellIndex = cellIndex;
+			}
 		}
 
 		/// <summary>
@@ -94,6 +97,18 @@ namespace Melia.Zone.World.Maps
 			}
 		}
 
+		/// <summary>
+		/// Loads the ground data.
+		/// </summary>
+		/// <param name="data"></param>
+		public void Load(GroundData data)
+		{
+			_data = data;
+
+			this.LoadGroundMesh();
+			this.LoadCells();
+			this.InitializeQuadtree();
+		}
 
 		/// <summary>
 		/// Returns whether the given 2D position is a valid position for
@@ -106,7 +121,35 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public bool IsValidPosition(Position pos)
 		{
-			return this.TryGetCellIndex(pos, out _);
+			return this.TryGetCellIndices(new RectangleF(pos.X, pos.Z, 1, 1), out _) && this.TryGetHeightAt(pos, out _);
+		}
+
+		/// <summary>
+		/// Returns whether the entire given 2D area is a valid for an
+		/// entity to stand on. If any positions within this area are invalid,
+		/// this will return false.
+		/// </summary>
+		/// <remarks>
+		/// Only X and Z are used by this function.
+		/// </remarks>
+		/// <param name="area"></param>
+		/// <returns></returns>
+		public bool IsValidArea(RectangleF area)
+		{
+			if (this.TryGetCellIndices(area, out var cellIndices))
+			{
+				for (var x = area.Left; x < area.Right; x += 1)
+				{
+					for (var z = area.Top; z < area.Bottom; z += 1)
+					{
+						var pos = new Position(x, 0, z);
+						if (!this.TryGetHeightAt(pos, out _))
+							return false;
+					}
+				}
+				return true;
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -161,50 +204,48 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Returns a copy of position, where Y is replaced with the cell
-		/// index. If no cell could be found, Y is -1.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <returns></returns>
-		public Position GetCellPosition(Position pos)
-		{
-			this.TryGetCellIndex(pos, out var cellIndex);
+        /// Returns a copy of position, where Y is replaced with the cell
+        /// index. If no cell could be found, Y is -1.
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public Position GetCellPosition(Position pos)
+        {
+            this.TryGetCellIndices(new RectangleF(pos.X, pos.Z, 1, 1), out var cellIndices);
 
-			pos.Y = cellIndex;
-			return pos;
-		}
+            pos.Y = cellIndices.Count > 0 ? cellIndices[0] : -1;
+            return pos;
+        }
 
 		/// <summary>
-		/// Returns the cell index for the given position via out. Returns
-		/// false if no cell exists at the position.
+		/// Returns the cell indices for the given position or area via out.
+		/// Returns false if no cell exists at the position or within the area.
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="cellIndex"></param>
+		/// <param name="area"></param>
+		/// <param name="cellIndices"></param>
 		/// <returns></returns>
-		public bool TryGetCellIndex(Position pos, out int cellIndex)
+		public bool TryGetCellIndices(RectangleF area, out List<int> cellIndices)
 		{
+			cellIndices = new List<int>();
+
 			if (_data == null)
 			{
-				cellIndex = -1;
 				return false;
 			}
 
-			var vecPos = new Vector2d(pos.X, pos.Z);
-			var bounds = new RectangleF((float)vecPos.x, (float)vecPos.y, 1, 1);
-			var results = _quadtree.Query(bounds);
+			var bounds = new AxisAlignedBox2d(new Vector2d(area.X, area.Y), area.Width, area.Height);
+			var results = _quadtree.Query(area);
 
 			foreach (var result in results)
 			{
 				var cell = _cells[result.CellIndex];
-				if (cell.Contains(vecPos))
+				if (cell.Bounds.Intersects(bounds))
 				{
-					cellIndex = result.CellIndex;
-					return true;
+					cellIndices.Add(result.CellIndex);
 				}
 			}
 
-			cellIndex = -1;
-			return false;
+			return cellIndices.Count > 0;
 		}
 
 		/// <summary>
@@ -294,21 +335,6 @@ namespace Melia.Zone.World.Maps
 		{
 			sizeX = (int)(_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x));
 			sizeY = (int)(_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y));
-		}
-
-		/// <summary>
-		/// Quadtree Object
-		/// </summary>
-		private class QuadObject : IQuadObject
-		{
-			public RectangleF Bounds { get; }
-			public int CellIndex { get; }
-
-			public QuadObject(RectangleF bounds, int cellIndex)
-			{
-				Bounds = bounds;
-				CellIndex = cellIndex;
-			}
 		}
 	}
 }

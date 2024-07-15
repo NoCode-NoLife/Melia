@@ -135,8 +135,7 @@ namespace Melia.Zone.World.Maps
 			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.ClassName, out var groundData))
 			{
 				this.Ground.Load(groundData);
-				this.Ground.GetBoundingBox(out var width, out var length);
-				this.Pathfinder.Load(this.Ground, width, length);
+				//this.Pathfinder.Load(this.Ground);
 			}
 		}
 
@@ -356,6 +355,10 @@ namespace Melia.Zone.World.Maps
 			// and afterwards they just appear.
 			this.UpdateVisibility();
 			monster.FromGround = false;
+
+			if ((this.ClassName == "f_gele_57_1") && (this.Pathfinder._grid == null))			{
+				this.Pathfinder.Load(this.Ground);
+			}
 		}
 
 		/// <summary>
