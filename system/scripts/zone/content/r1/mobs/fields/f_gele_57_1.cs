@@ -28,7 +28,7 @@ public class FGele571MobScript : GeneralScript
 		// Monster Spawn Points -----------------------------
 
 		// 'Npanto_Baby' GenType 142 Spawn Points
-		AddSpawnPoint("f_gele_57_1.Id7", "f_gele_57_1", Rectangle(-1184, -627, 1));
+		AddSpawnPoint("f_gele_57_1.Id7", "f_gele_57_1", Rectangle(-916, -647, 1));
 
 	}
 }

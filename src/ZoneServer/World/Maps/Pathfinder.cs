@@ -31,8 +31,6 @@ namespace Melia.Zone.World.Maps
 			_grid = new bool[_gridWidth, _gridHeight];
 			_gridScale = Math.Max(1, Math.Max(width, height) / Math.Max(_maxGridWidth, _maxGridHeight));
 
-			ZoneServer.Instance.World.TryGetMap("f_gele_57_1", out var map);
-
 			// Geometric projection of map vertices into grid scale
 			// In essence, this is spatial hashing
 			for (var x = 0; x < _gridWidth; x++)
@@ -41,13 +39,6 @@ namespace Melia.Zone.World.Maps
 				{
 					var pos = new Position((x - _gridWidth / 2) * _gridScale, 0, (z - _gridHeight / 2) * _gridScale);
 					_grid[x, z] = _ground.IsValidPosition(pos);
-
-					if (_grid[x, z] == true)
-					{
-						var p = _ground.GetHeightAt(pos);
-						pos.Y = p;
-						//Debug.ShowShape(map, new CircleF(new Vector2F(pos.X, pos.Z),1), TimeSpan.FromHours(7));
-					}
 				}
 			}
 		}
@@ -95,9 +86,11 @@ namespace Melia.Zone.World.Maps
 				var current = openSet.Dequeue();
 
 				// Found path
-				if (current.Get2DDistance(goal) <= _gridScale)
+				var distX = Math.Abs(goal.X - current.X);
+				var distZ = Math.Abs(goal.Z - current.Z);
+				if ( ((distX <= _gridScale) || (distZ <= _gridScale)) && (_ground.GetLastValidPosition(current, goal) == goal) )
 				{
-					var path = new List<Position> { start };
+					var path = new List<Position>();
 					path.AddRange(this.ReconstructPath(cameFrom, current));
 					path.Add(goal);
 					return path;
@@ -106,7 +99,7 @@ namespace Melia.Zone.World.Maps
 				// Compute neighbors
 				foreach (var neighbor in this.GetNeighbors(current))
 				{
-					var tentativeGScore = gScore[current] + 1;
+					var tentativeGScore = gScore[current] + _gridScale;
 
 					if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
 					{
@@ -131,24 +124,16 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		private class PositionComparer : IComparer<(float F, Position Pos)>
 		{
-			public int Compare((float F, Position Pos) x, (float F, Position Pos) y)
+			public int Compare((float F, Position Pos) p1, (float F, Position Pos) p2)
 			{
-				var result = x.F.CompareTo(y.F);
+				var result = p1.F.CompareTo(p2.F);
 				if (result == 0)
 				{
-					if (x.Pos == y.Pos)
-					{
-						return 0;
-					}
-					// Define a consistent way to compare positions
-					result = x.Pos.X.CompareTo(y.Pos.X);
+					// Ignore Y coord
+					result = p1.Pos.X.CompareTo(p2.Pos.X);
 					if (result == 0)
 					{
-						result = x.Pos.Y.CompareTo(y.Pos.Y);
-						if (result == 0)
-						{
-							result = x.Pos.Z.CompareTo(y.Pos.Z);
-						}
+						result = p1.Pos.Z.CompareTo(p2.Pos.Z);
 					}
 				}
 				return result;
@@ -164,14 +149,10 @@ namespace Melia.Zone.World.Maps
 		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position current)
 		{
 			var totalPath = new List<Position>();
-			var y = _ground.GetHeightAt(current);
-			current.Y = y;
 			totalPath.Add(current);
 			while (cameFrom.ContainsKey(current))
 			{
 				current = cameFrom[current];
-				y = _ground.GetHeightAt(current);
-				current.Y = y;
 				totalPath.Add(current);
 			}
 			totalPath.Reverse();
@@ -188,8 +169,8 @@ namespace Melia.Zone.World.Maps
 		private float Heuristic(Position a, Position b)
 		{
 			// Euclidean Distance
-			var dx = a.X - b.X;
-			var dz = a.Z - b.Z;
+			var dx = Math.Abs(a.X - b.X);
+			var dz = Math.Abs(a.Z - b.Z);
 			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dz, 2));
 		}
 
@@ -203,18 +184,25 @@ namespace Melia.Zone.World.Maps
 			var neighbors = new List<Position>();
 			var d = _gridScale;
 			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
-			//var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d) };
 
 			foreach (var dir in directions)
 			{
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
 				this.GetGridIndex(neighbor, out var gridX, out var gridZ);
 
+				// Neighbour is valid in grid
 				if (this.IsValidGridPosition(gridX, gridZ) && _grid[gridX, gridZ])
 				{
-					// Clear path to neighbour
-//					if (_ground.GetLastValidPosition(pos, neighbor) == neighbor)
-					neighbors.Add(neighbor);
+					// Neighbour is valid walkable position
+					if (_ground.TryGetHeightAt(neighbor, out var y))
+					{
+						// Clear path to neighbour
+						if (_ground.GetLastValidPosition(pos, neighbor) == neighbor)
+						{
+						
+							neighbors.Add(new Position(neighbor.X, y, neighbor.Z));
+						}
+					}
 				}
 			}
 
