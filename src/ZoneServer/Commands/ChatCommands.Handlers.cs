@@ -1106,6 +1106,8 @@ namespace Melia.Zone.Commands
 
 			if (args.Get(0).StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
 			else if (args.Get(0).StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args.Get(0).StartsWith("fedi")) target.Warp("c_fedimian", new Position(-243, 161, -303));
+			else if (args.Get(0).StartsWith("high")) target.Warp("c_highlander", new Position(-20, 1, 80));
 			else if (args.Get(0).StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
