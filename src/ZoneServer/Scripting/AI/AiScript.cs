@@ -376,10 +376,9 @@ namespace Melia.Zone.Scripting.AI
 		protected bool IsHating(ICombatEntity entity)
 		{
 			// Always hating the person that casted this buff
-			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var provocationImmunityDebuff))
 			{
-				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
-				if (entity == caster)
+				if (entity == provocationImmunityDebuff.Caster)
 					return true;
 			}
 

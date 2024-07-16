@@ -176,12 +176,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			var bonusPatk = 0f;
 
-			if (caster.IsBuffActive(BuffId.HighGuard_Abil_Buff) && caster is Character character)
+			if (caster.TryGetBuff(BuffId.HighGuard_Abil_Buff, out var highGuardAbilBuff) && caster is Character character)
 			{
 				// adds bonus Patk based on shield physical defense
-				var buff = caster.Components.Get<BuffComponent>().Get(BuffId.HighGuard_Abil_Buff);
 				var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
-				bonusPatk = buff.NumArg1 * 0.06f * shield.Def;
+				bonusPatk = highGuardAbilBuff.NumArg1 * 0.06f * shield.Def;
 			}
 
 			var hits = new List<SkillHitInfo>();
