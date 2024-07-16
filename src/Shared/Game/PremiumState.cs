@@ -26,7 +26,7 @@ namespace Melia.Shared.Game
 		/// <summary>
 		/// Returns whether the premium state is active.
 		/// </summary>
-		public bool Active => this.Expiration > DateTime.Now;
+		public bool Active => Type == PremiumType.Token && this.Expiration > DateTime.Now;
 
 		/// <summary>
 		/// Returns the remaining seconds until the premium state expires.
