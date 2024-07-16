@@ -174,13 +174,17 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
+			// ---- <PremiumStuff> --------------------------------------------------
+
 			//conn.Account.Premium.Token.Expiration = DateTime.Now.AddYears(5);
 
 			Send.ZC_SEND_CASH_VALUE(conn);
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
-			if (conn.Account.Premium.PremiumActive)
+			if (conn.Account.Premium.CanUseBuff)
 				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+
+			// ---- </PremiumStuff> -------------------------------------------------
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"

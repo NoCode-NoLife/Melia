@@ -30,5 +30,11 @@ namespace Melia.Zone.Database
 		/// Returns true if the account can use the token warp feature.
 		/// </summary>
 		public bool CanUseTokenWarp => this.Token.Active;
+
+		/// <summary>
+		/// Returns true if characters of this account receive the Premium
+		/// Token buff.
+		/// </summary>
+		public bool CanUseBuff => this.Token.Active;
 	}
 }

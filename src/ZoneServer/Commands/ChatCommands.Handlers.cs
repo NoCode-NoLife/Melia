@@ -301,8 +301,8 @@ namespace Melia.Zone.Commands
 		{
 			if (!sender.Connection.Account.Premium.CanUseTokenWarp)
 			{
-				sender.MsgBox(Localization.Get("You're not allowed to use this feature."));
-				return CommandResult.Fail;
+				sender.MsgBox(Localization.Get("Only premium token users are allowed to use this feature."));
+				return CommandResult.Okay;
 			}
 
 			if (args.Count == 0)
