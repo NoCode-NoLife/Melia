@@ -5,7 +5,7 @@ using Melia.Zone.Network;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handler for Premium_Token, which increases movement speed and exp gained
+	/// Handler for Premium_Token, which increases movement speed and exp gained.
 	/// </summary>
 	[BuffHandler(BuffId.Premium_Token)]
 	public class Premium_Token : BuffHandler

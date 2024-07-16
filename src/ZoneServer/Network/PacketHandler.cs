@@ -175,7 +175,7 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.AccountProperties(character);
 			//conn.Account.PremiumStatus = new Shared.Game.PremiumState(PremiumType.Token, DateTime.Now.AddDays(7), 0);
 
-			Send.ZC_SEND_CASH_VALUE(conn);			
+			Send.ZC_SEND_CASH_VALUE(conn);
 			Send.ZC_SEND_PREMIUM_STATE(conn);
 
 			if (conn.Account.PremiumStatus.Active)

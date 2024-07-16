@@ -8,12 +8,12 @@
 		Normal = 0,
 
 		/// <summary>
-		/// Unknown type.
+		/// Unknown type that was possibly used by Nexon or in internet cafes.
 		/// </summary>
-		Type1 = 1,
+		PC = 1,
 
 		/// <summary>
-		/// Premium state gained from a token item?
+		/// Premium state gained from a token item.
 		/// </summary>
 		Token = 2,
 	}

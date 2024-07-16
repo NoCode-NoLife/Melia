@@ -41,6 +41,7 @@ namespace Melia.Zone.Commands
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
 			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -51,9 +52,6 @@ namespace Melia.Zone.Commands
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
-
-			// Premium
-			this.Add("intewarpByToken", "", "Warps to the specified map", this.HandleTokenWarp);
 
 			// VIP
 			this.Add("autoloot", "", "Toggles autolooting.", this.HandleAutoloot);
