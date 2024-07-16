@@ -8,6 +8,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.Skills;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.Network
 {
@@ -360,7 +361,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <Summary>
-			/// Creates a skill in client (MONSKL_CRE_PAD)
+			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
 			/// <param name="caster"></param>
 			/// <param name="skill"></param>
@@ -375,31 +376,14 @@ namespace Melia.Zone.Network
 				Position position, Direction direction, float f1, float f2, int skillHandle,
 				float f3, bool isVisible = true)
 			{
-				if (ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetString))
-					SkillPad(caster, skill, packetString.Id, position, direction, f1, f2, skillHandle, f3, isVisible);
-			}
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+					throw new ArgumentException($"Packet string '{animationName}' not found.");
 
-			/// <summary>
-			/// Creates a pad in client (MONSKL_CRE_PAD)
-			/// </summary>
-			/// <param name="caster"></param>
-			/// <param name="skill"></param>
-			/// <param name="packetStringId"></param>
-			/// <param name="position"></param>
-			/// <param name="direction"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			/// <param name="skillHandle"></param>
-			/// <param name="f3"></param>
-			public static void SkillPad(ICombatEntity caster, Skill skill, int packetStringId,
-				Position position, Direction direction, float f1, float f2, int skillHandle,
-				float f3, bool isVisible = true)
-			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillRunScript);
 
 				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringId);
+				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skill.Id);
 				packet.PutInt(skill.Level); // Skill Level ?
 				packet.PutPosition(position);
@@ -411,7 +395,6 @@ namespace Melia.Zone.Network
 				packet.PutEmptyBin(13); // Unknown Bytes
 				packet.PutFloat(f3);
 				packet.PutEmptyBin(16); // Unknown Bytes
-
 				caster.Map.Broadcast(packet, caster);
 			}
 

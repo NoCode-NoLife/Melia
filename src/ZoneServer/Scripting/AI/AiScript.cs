@@ -214,14 +214,6 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="amount"></param>
 		protected void IncreaseHate(ICombatEntity entity, float amount)
 		{
-			// This debuff halts all hate accumulation from anything other than the caster, unless the caster is gone
-			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
-			{
-				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
-				if (entity != caster && !EntityGone(caster) && InRangeOf(caster, 300))
-						return;
-			}
-
 			var handle = entity.Handle;
 
 			// Increase the hate level at the normal rate up to the
@@ -308,6 +300,15 @@ namespace Melia.Zone.Scripting.AI
 		{
 			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
 				return false;
+
+			// Provocation Immunity prevents hate from all except its caster
+			// as long as the caster remains in range
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var provocationImmunityDebuff))
+			{
+				var caster = provocationImmunityDebuff.Caster;
+				if (entity != caster && !EntityGone(caster) && InRangeOf(caster, 300))
+					return false;
+			}
 
 			return true;
 		}

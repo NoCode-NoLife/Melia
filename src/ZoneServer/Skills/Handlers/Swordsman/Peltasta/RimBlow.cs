@@ -82,11 +82,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				var modifier = SkillModifier.MultiHit(4);
 				modifier.BonusPAtk = bonusPatk;
 
-				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
+				if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
 				{
 					// takes 10% more damage if under the effect of Swashbuckling from the caster
-					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
-					if (buff.Caster == caster)
+					if (swashBuckingDebuff.Caster == caster)
 						modifier.DamageMultiplier += 0.1f;
 				}
 

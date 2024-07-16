@@ -131,7 +131,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 		/// <param name="splashArea"></param>
 		private async void checkShieldCollision(Skill skill, ICombatEntity caster, Mob shieldMonster, CancellationTokenSource cancelToken)
 		{
-			// We have to track sr manually since this skill can hit targets sequentially
+			// We have to track sr manually since this skill
+			// checks for targets constantly as its hitbox moves
 			List<ICombatEntity> hitTargets = new List<ICombatEntity>();
 			var sr = (int)skill.Properties.GetFloat(PropertyName.SkillSR);
 			if (ZoneServer.Instance.Conf.World.DisableSDR)
@@ -190,11 +191,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				var modifier = SkillModifier.MultiHit(4);
 				modifier.BonusPAtk = bonusPatk;
 
-				if (target.IsBuffActive(BuffId.SwashBuckling_Debuff))
+				if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
 				{
 					// takes 10% more damage if under the effect of Swashbuckling from the caster
-					var buff = target.Components.Get<BuffComponent>().Get(BuffId.SwashBuckling_Debuff);
-					if (buff.Caster == caster)
+					if (swashBuckingDebuff.Caster == caster)
 						modifier.DamageMultiplier += 0.1f;
 				}
 
