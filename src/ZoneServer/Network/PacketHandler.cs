@@ -173,12 +173,13 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
-			//conn.Account.PremiumStatus = new Shared.Game.PremiumState(PremiumType.Token, DateTime.Now.AddDays(7), 0);
+
+			//conn.Account.Premium.Token.Expiration = DateTime.Now.AddYears(5);
 
 			Send.ZC_SEND_CASH_VALUE(conn);
-			Send.ZC_SEND_PREMIUM_STATE(conn);
+			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
-			if (conn.Account.PremiumStatus.Active)
+			if (conn.Account.Premium.PremiumActive)
 				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
 
 			// The ability points are longer read from the properties for

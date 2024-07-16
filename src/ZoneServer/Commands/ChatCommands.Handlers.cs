@@ -289,7 +289,7 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Warps target to the specified map
+		/// Warps target to the specified map.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
@@ -299,57 +299,39 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleTokenWarp(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (sender == target && !sender.Connection.Account.PremiumStatus.Active )
+			if (!sender.Connection.Account.Premium.CanUseTokenWarp)
 			{
-				sender.ServerMessage(Localization.Get("You're not authorized to use this command."));
+				sender.MsgBox(Localization.Get("You're not allowed to use this feature."));
 				return CommandResult.Fail;
 			}
 
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			// Get map id
-			if (!int.TryParse(args.Get(0), out var mapId))
-			{
-				var data = ZoneServer.Instance.Data.MapDb.Find(args.Get(0));
-				if (data == null)
-				{
-					sender.ServerMessage(Localization.Get("Map not found."));
-					return CommandResult.Okay;
-				}
+			// Find map id
+			var mapClassName = args.Get(0);
 
-				mapId = data.Id;
-			}
-
-			// Get map
-			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapClassName, out var mapData))
 			{
-				sender.ServerMessage(Localization.Get("Map not found."));
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to exist."));
 				return CommandResult.Okay;
 			}
 
-			// Get target position
-			Position targetPos = map.Data.DefaultPosition;
-			
-			// Warp
-			try
-			{
-				target.Warp(mapId, targetPos);
+			var mapId = mapData.Id;
 
-				if (sender == target)
-				{
-					sender.ServerMessage(Localization.Get("You were warped to {0}."), target.GetLocation());
-				}
-				else
-				{
-					target.ServerMessage(Localization.Get("You were warped to {0} by {1}."), target.GetLocation(), sender.TeamName);
-					sender.ServerMessage(Localization.Get("Target was warped."));
-				}
-			}
-			catch (ArgumentException)
+			// Get target position
+			var targetPos = mapData.DefaultPosition;
+
+			// Check if the map is available
+			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(mapId);
+			if (availableZones.Length == 0)
 			{
-				sender.ServerMessage("Map not found.");
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to be available."));
+				return CommandResult.Okay;
 			}
+
+			// Warp
+			target.Warp(mapId, targetPos);
 
 			return CommandResult.Okay;
 		}
