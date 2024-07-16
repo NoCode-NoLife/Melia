@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
@@ -17,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordman skill Pain Barrier.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_PainBarrier)]
-	public class PainBarrier : ISelfSkillHandler
+	public class Swordman_PainBarrier : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying the buffs to the caster.

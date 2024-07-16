@@ -147,6 +147,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_NORMAL.Unknown_DA(character);
+			Send.ZC_NORMAL.ItemCollectionList(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			character.SendPCEtcProperties(); // Quick Hack to send required packets
@@ -172,6 +173,16 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
+
+			// ---- <PremiumStuff> --------------------------------------------------
+
+			Send.ZC_SEND_CASH_VALUE(conn);
+			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
+
+			if (conn.Account.Premium.CanUseBuff)
+				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+
+			// ---- </PremiumStuff> -------------------------------------------------
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -1234,6 +1245,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				character.TurnTowards(direction);
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
@@ -1768,7 +1780,7 @@ namespace Melia.Zone.Network
 			// Check the percentage for validity
 			if (percentage < 0 || percentage > 100)
 			{
-				Log.Warning("CZ_MAP_SEARCH_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
+				Log.Warning("CZ_MAP_REVEAL_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
 				return;
 			}
 
@@ -1778,8 +1790,11 @@ namespace Melia.Zone.Network
 
 		/// <summary>
 		/// Reports to the server a percentage of the map that has been explored.
-		/// This packet is seemingly no longer used, it's been combined with the above
 		/// </summary>
+		/// <remarks>
+		/// This packet was last seen in logs from 2017 and is apparently no longer
+		/// used. The map percentage is now communicated via CZ_MAP_REVEAL_INFO.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_MAP_SEARCH_INFO)]
@@ -2888,6 +2903,23 @@ namespace Melia.Zone.Network
 				combat.IsGuarding = active;
 
 			Send.ZC_GUARD(character, active, dir);
+		}
+
+		/// <summary>
+		/// Send as a notification for taking certain actions, such as preparing
+		/// to teleport.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLIENT_DIRECT)]
+		public void CZ_CLIENT_DIRECT(IZoneConnection conn, Packet packet)
+		{
+			var type = packet.GetInt();
+			var argStr = packet.GetString(16);
+
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_CLIENT_DIRECT(character, type, argStr);
 		}
 	}
 }

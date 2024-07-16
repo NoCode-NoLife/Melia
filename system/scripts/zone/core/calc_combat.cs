@@ -5,9 +5,13 @@
 //---------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -16,6 +20,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -27,10 +32,11 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetRandomAtk(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetRandomAtk(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		var rnd = RandomProvider.Get();
 
@@ -38,13 +44,13 @@ public class CombatCalculationsScript : GeneralScript
 
 		if (skill.Data.ClassType <= SkillClassType.Missile)
 		{
-			min = attacker.Properties.GetFloat(PropertyName.MINPATK);
-			max = attacker.Properties.GetFloat(PropertyName.MAXPATK);
+			min = attacker.Properties.GetFloat(PropertyName.MINPATK) + modifier.BonusPAtk;
+			max = attacker.Properties.GetFloat(PropertyName.MAXPATK) + modifier.BonusPAtk;
 		}
 		else
 		{
-			min = attacker.Properties.GetFloat(PropertyName.MINMATK);
-			max = attacker.Properties.GetFloat(PropertyName.MAXMATK);
+			min = attacker.Properties.GetFloat(PropertyName.MINMATK) + modifier.BonusMAtk;
+			max = attacker.Properties.GetFloat(PropertyName.MAXMATK) + modifier.BonusMAtk;
 		}
 
 		return rnd.Between(min, max);
@@ -60,7 +66,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
 		var SCR_GetDodgeChance = ScriptableFunctions.Combat.Get("SCR_GetDodgeChance");
@@ -74,23 +80,34 @@ public class CombatCalculationsScript : GeneralScript
 
 		var rnd = RandomProvider.Get();
 
-		var dodgeChance = SCR_GetDodgeChance(attacker, target, skill, skillHitResult);
+		var dodgeChance = SCR_GetDodgeChance(attacker, target, skill, modifier, skillHitResult);
 		if (rnd.Next(100) < dodgeChance)
 		{
 			skillHitResult.Result = HitResultType.Dodge;
 			return 0;
 		}
 
-		var damage = SCR_GetRandomAtk(attacker, target, skill, skillHitResult);
+		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+
+		// Bonuses from buffs
+		Concentrate_Buff.TryAddBonus(attacker, modifier);
+
+		// Increase damage multiplier based on dagger slash buff
+		// TODO: Move to a buff handler later.
+		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
+			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
 		damage *= skillFactor / 100f;
 		damage += skillAtkAdd;
 
+		damage += modifier.BonusDamage;
+		damage *= modifier.DamageMultiplier;
+
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
-		var blockChance = SCR_GetBlockChance(attacker, target, skill, skillHitResult);
+		var blockChance = SCR_GetBlockChance(attacker, target, skill, modifier, skillHitResult);
 		if (rnd.Next(100) < blockChance)
 		{
 			skillHitResult.Result = HitResultType.Block;
@@ -100,7 +117,7 @@ public class CombatCalculationsScript : GeneralScript
 				return 0;
 		}
 
-		var crtChance = SCR_GetCritChance(attacker, target, skill, skillHitResult);
+		var crtChance = SCR_GetCritChance(attacker, target, skill, modifier, skillHitResult);
 		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
@@ -111,6 +128,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
 		damage = Math.Max(1, damage - def);
 
 		// Check damage (de)buffs
@@ -120,47 +138,70 @@ public class CombatCalculationsScript : GeneralScript
 		// Though this is neither elegant nor efficient, and we won't be
 		// able to easily customize it either. It should probably be a
 		// scriptable function in itself... TODO.
-		if (target.Components.Get<BuffComponent>().TryGet(BuffId.ReflectShield_Buff, out var buff))
+		if (target.TryGetBuff(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
 		{
-			var skillLevel = buff.NumArg1;
+			var skillLevel = reflectShieldBuff.NumArg1;
 			var byBuffRate = (skillLevel * 3 / 100f);
 
 			damage = Math.Max(1, damage - damage * byBuffRate);
 
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
 			var spRate = 0.7f / 100f;
+
 			target.TrySpendSp(maxSp * spRate);
 		}
 
-		var sizeBonusDamage = SCR_SizeTypeBonus(attacker, target, skill, skillHitResult);
+		var sizeBonusDamage = SCR_SizeTypeBonus(attacker, target, skill, modifier, skillHitResult);
 		if (sizeBonusDamage != 0)
 		{
 			damage += sizeBonusDamage;
 		}
 
-		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, skillHitResult);
+		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (attrMultiplier != 1)
 		{
 			damage *= attrMultiplier;
 		}
 
-		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, skillHitResult);
+		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (atkTypeMultiplier != 1)
 		{
 			damage *= atkTypeMultiplier;
 		}
 
-		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, skillHitResult);
+		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (raceMultiplier != 1)
 		{
 			damage *= raceMultiplier;
 		}
 
-		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, skillHitResult);
+		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (hitCountMultiplier != 1)
 		{
 			damage *= hitCountMultiplier;
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
+		}
+
+		// Cloaking reduces damage by 25%
+		// TODO: Move to a buff handler later.
+		if (target.IsBuffActive(BuffId.Cloaking_Buff))
+			damage = Math.Max(1, damage * 0.75f);
+
+		// Double Pay Earn increases damage taken
+		// TODO: Move to a buff handler later.
+		if (target.TryGetBuff(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
+		{
+			var damageMultiplier = doublePayEarnBuff.NumArg2;
+			damage *= damageMultiplier;
+		}
+
+		// Bear reduces damage by 2% per level
+		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
+		{
+			var skillLevel = bearBuff.NumArg1;
+			var byBuffRate = skillLevel * 0.02f;
+
+			damage = Math.Max(1, damage * (1f - byBuffRate));
 		}
 
 		// Block damage reduction
@@ -170,6 +211,12 @@ public class CombatCalculationsScript : GeneralScript
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
 			damage *= 1.5f;
+
+		damage *= modifier.FinalDamageMultiplier;
+
+		// Bonus buff effects
+		Restrain_Buff.TryStunTarget(attacker, target, skill);
+		Link.TryShareDamage(attacker, target, skill, damage);
 
 		return (int)damage;
 	}
@@ -181,32 +228,18 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	///	<param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_HitCountMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_HitCountMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		// TODO: Should this perhaps rather happen in the skill handlers?
+		// We originally used this method to "hardcode" hit counts for certain
+		// skills and scenarios, but the decision what hit count to use was
+		// since moved to the skill handlers. We'll keep this function around
+		// for the moment though, if only to allow overriding it from scripts.
 
-		var rnd = RandomProvider.Get();
-
-		if ((skill.Id == SkillId.Common_DaggerAries || skill.Id == SkillId.Pistol_Attack) && attacker.Components.Get<BuffComponent>().Has(BuffId.DoubleAttack_Buff))
-		{
-			var rate = 40;
-
-			if (rnd.Next(100) < rate)
-				return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EarthQuake && target.Components.Get<BuffComponent>().Has(BuffId.Lethargy_Debuff))
-		{
-			return 2;
-		}
-		else if (skill.Id == SkillId.Wizard_EnergyBolt || skill.Id == SkillId.Archer_TwinArrows)
-		{
-			return 2;
-		}
-
-		return 1;
+		return modifier.HitCount;
 	}
 
 	/// <summary>
@@ -215,15 +248,16 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_SizeTypeBonus(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_SizeTypeBonus(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.ClassType == SkillClassType.Magic)
 			return 0;
 
-		if (!(attacker is Character character))
+		if (attacker is not Character character)
 			return 0;
 
 		var weapon = character.Inventory.GetEquip(EquipSlot.RightHand);
@@ -248,7 +282,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_AttributeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_AttributeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.ClassType != SkillClassType.Magic)
 			return 1;
@@ -351,10 +385,11 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_AttackTypeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_AttackTypeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		var attackType = skill.Data.AttackType;
 		var targetArmor = target.ArmorMaterial;
@@ -458,10 +493,11 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_RaceMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_RaceMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.ClassType != SkillClassType.Magic)
 			return 1;
@@ -482,14 +518,15 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public SkillHitResult SCR_SkillHit(ICombatEntity attacker, ICombatEntity target, Skill skill)
+	public SkillHitResult SCR_SkillHit(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier)
 	{
 		var SCR_CalculateDamage = ScriptableFunctions.Combat.Get("SCR_CalculateDamage");
 
 		var result = new SkillHitResult();
-		result.Damage = SCR_CalculateDamage(attacker, target, skill, result);
+		result.Damage = SCR_CalculateDamage(attacker, target, skill, modifier, result);
 
 		// TODO: Find a better location to handle disabling buffs on attack?
 		var buffComponent = attacker.Components.Get<BuffComponent>();
@@ -505,10 +542,11 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
 	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
@@ -540,7 +578,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
@@ -584,7 +622,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult skillHitResult)
+	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;

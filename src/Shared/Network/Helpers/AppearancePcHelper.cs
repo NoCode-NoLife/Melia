@@ -81,6 +81,12 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.SubWeapon) != 0);
 				packet.PutEmptyBin(7);
 			}
+
+			// [i387215 (2024-07-09)]
+			// Might be a 24 byte block at the end, or part of the above bytes.
+			{
+				packet.PutEmptyBin(24);
+			}
 		}
 	}
 

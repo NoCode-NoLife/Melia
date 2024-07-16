@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman
 {
 	/// <summary>
-	/// Handler for the Swordman skill Gung Ho.
+	/// Handler for the Swordman skill Liberate.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_Liberate)]
-	public class Liberate : ISelfSkillHandler
+	public class Swordman_Liberate : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.

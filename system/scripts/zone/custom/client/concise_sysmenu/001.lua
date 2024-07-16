@@ -1,6 +1,5 @@
 ﻿Melia.Ui.SysMenu.SuspendRefresh()
 
-Melia.Ui.SysMenu.RemoveButton("BtnCollection")
 Melia.Ui.SysMenu.RemoveButton("BtnInstantDungeon")
 Melia.Ui.SysMenu.RemoveButton("BtnParty")
 Melia.Ui.SysMenu.RemoveButton("BtnAdvancement")

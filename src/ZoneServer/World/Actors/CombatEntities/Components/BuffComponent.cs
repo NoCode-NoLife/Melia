@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
+using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -140,6 +142,26 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Removes a random removable buff. Returns the id of the buff that was
+		/// removed, or 0 if no buff was removed.
+		/// </summary>
+		/// <remarks>
+		/// Only considers buffs of type Buff, not debuffs.
+		/// </remarks>
+		/// <returns></returns>
+		public BuffId RemoveRandomBuff()
+		{
+			var removableBuffs = this.GetAll(a => a.Data.Type == BuffType.Buff && a.Data.Removable);
+			if (removableBuffs.Count == 0)
+				return 0;
+
+			var buff = removableBuffs.Random();
+			this.Remove(buff);
+
+			return buff.Id;
+		}
+
+		/// <summary>
 		/// Stops and removes all active buffs.
 		/// </summary>
 		public void RemoveAll()
@@ -211,6 +233,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			lock (_buffs)
 				return _buffs.Values.ToList();
+		}
+
+		/// <summary>
+		/// Returns a list of all active buffs that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public List<Buff> GetAll(Func<Buff, bool> predicate)
+		{
+			lock (_buffs)
+				return _buffs.Values.Where(predicate).ToList();
 		}
 
 		/// <summary>

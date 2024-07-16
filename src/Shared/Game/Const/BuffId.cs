@@ -2107,6 +2107,7 @@ namespace Melia.Shared.Game.Const
 		EFFECT_SPACEPOPORI_BUFF = 4764,
 		EFFECT_REDHOOD_BUFF = 4765,
 		EFFECT_ANGELPOPORI_BUFF = 4766,
+		TOY_EP16_STATUE_BUFF = 4767,
 		Rage_Rockto_def = 5001,
 		Rage_Rockto_spd = 5002,
 		Rage_Rockto_atk = 5003,
@@ -4598,6 +4599,5 @@ namespace Melia.Shared.Game.Const
 		TEST_DAMAGE_BUFF3 = 999904,
 		TEST_DAMAGE_BUFF4 = 999905,
 		TEST_DAMAGE_BUFF5 = 999906,
-		CUPOLE_MUGOL_BUFF = 999999,
 	}
 }

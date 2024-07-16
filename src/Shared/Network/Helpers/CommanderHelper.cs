@@ -14,6 +14,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutInt(commander.Handle);
 			packet.PutInt(0);
 			packet.AddAppearancePc(commander);
+
 			packet.PutFloat(commander.Position.X);
 			packet.PutFloat(commander.Position.Y);
 			packet.PutFloat(commander.Position.Z);
@@ -33,6 +34,20 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutInt(commander.MaxStamina);
 			packet.PutInt(0); // Shield
 			packet.PutInt(0); // MaxShield
+
+			// [i3XXXXX (202X-XX-XX)]
+			// It's currently unclear when these were added, but it seems like
+			// they've been here for a while... Guess we were lucky and the
+			// client didn't actual try to read them.
+			packet.PutEmptyBin(32);
+
+			// [i387215 (2024-07-09)]
+			// These were seemingly added in this patch, because this is the point
+			// where the client started to mis-parse the packets, causing issues.
+			// It's possible that they go before the 32 above though.
+			{
+				packet.PutEmptyBin(8);
+			}
 		}
 	}
 
