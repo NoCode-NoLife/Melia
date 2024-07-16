@@ -4,9 +4,6 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.World;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
-using Yggdrasil.Structures;
-using System.Drawing;
-using System.Collections.Generic;
 
 namespace Melia.Zone.World.Maps
 {
@@ -16,27 +13,22 @@ namespace Melia.Zone.World.Maps
 	public class Ground
 	{
 		private const float RayOriginHeight = 20000;
-		private const int QuadtreeMaxObjectsPerLeaf = 4;
 
 		private GroundData _data;
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
 		private Polygon2d[] _cells;
-		private Quadtree<QuadObject> _quadtree;
 
 		/// <summary>
-		/// Quadtree Object
+		/// Loads the ground data.
 		/// </summary>
-		private class QuadObject : IQuadObject
+		/// <param name="data"></param>
+		public void Load(GroundData data)
 		{
-			public RectangleF Bounds { get; }
-			public int CellIndex { get; }
+			_data = data;
 
-			public QuadObject(RectangleF bounds, int cellIndex)
-			{
-				Bounds = bounds;
-				CellIndex = cellIndex;
-			}
+			this.LoadGroundMesh();
+			this.LoadCells();
 		}
 
 		/// <summary>
@@ -70,47 +62,6 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Initializes the quadtree with ground cells.
-		/// </summary>
-		private void InitializeQuadtree()
-		{
-			var bounds = new RectangleF(
-				(float)_cells.Min(cell => cell.Bounds.Min.x),
-				(float)_cells.Min(cell => cell.Bounds.Min.y),
-				(float)(_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x)),
-				(float)(_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y))
-			);
-
-			_quadtree = new Quadtree<QuadObject>(bounds.Size.ToSize(), QuadtreeMaxObjectsPerLeaf);
-
-			for (var i = 0; i < _cells.Length; ++i)
-			{
-				var cell = _cells[i];
-				var cellBounds = new RectangleF(
-					(float)cell.Bounds.Min.x,
-					(float)cell.Bounds.Min.y,
-					(float)(cell.Bounds.Max.x - cell.Bounds.Min.x),
-					(float)(cell.Bounds.Max.y - cell.Bounds.Min.y)
-				);
-				var quadObject = new QuadObject(cellBounds, i);
-				_quadtree.Insert(quadObject);
-			}
-		}
-
-		/// <summary>
-		/// Loads the ground data.
-		/// </summary>
-		/// <param name="data"></param>
-		public void Load(GroundData data)
-		{
-			_data = data;
-
-			this.LoadGroundMesh();
-			this.LoadCells();
-			this.InitializeQuadtree();
-		}
-
-		/// <summary>
 		/// Returns whether the given 2D position is a valid position for
 		/// an entity to stand on.
 		/// </summary>
@@ -121,35 +72,7 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public bool IsValidPosition(Position pos)
 		{
-			return this.TryGetCellIndices(new RectangleF(pos.X, pos.Z, 1, 1), out _) && this.TryGetHeightAt(pos, out _);
-		}
-
-		/// <summary>
-		/// Returns whether the entire given 2D area is a valid for an
-		/// entity to stand on. If any positions within this area are invalid,
-		/// this will return false.
-		/// </summary>
-		/// <remarks>
-		/// Only X and Z are used by this function.
-		/// </remarks>
-		/// <param name="area"></param>
-		/// <returns></returns>
-		public bool IsValidArea(RectangleF area)
-		{
-			if (this.TryGetCellIndices(area, out var cellIndices))
-			{
-				for (var x = area.Left; x < area.Right; x += 1)
-				{
-					for (var z = area.Top; z < area.Bottom; z += 1)
-					{
-						var pos = new Position(x, 0, z);
-						if (!this.TryGetHeightAt(pos, out _))
-							return false;
-					}
-				}
-				return true;
-			}
-			return false;
+			return this.TryGetCellIndex(pos, out _);
 		}
 
 		/// <summary>
@@ -204,48 +127,51 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-        /// Returns a copy of position, where Y is replaced with the cell
-        /// index. If no cell could be found, Y is -1.
-        /// </summary>
-        /// <param name="pos"></param>
-        /// <returns></returns>
-        public Position GetCellPosition(Position pos)
-        {
-            this.TryGetCellIndices(new RectangleF(pos.X, pos.Z, 1, 1), out var cellIndices);
+		/// Returns a copy of position, where Y is replaced with the cell
+		/// index. If no cell could be found, Y is -1.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public Position GetCellPosition(Position pos)
+		{
+			this.TryGetCellIndex(pos, out var cellIndex);
 
-            pos.Y = cellIndices.Count > 0 ? cellIndices[0] : -1;
-            return pos;
-        }
+			pos.Y = cellIndex;
+			return pos;
+		}
 
 		/// <summary>
-		/// Returns the cell indices for the given position or area via out.
-		/// Returns false if no cell exists at the position or within the area.
+		/// Returns the cell index for the given position via out. Returns
+		/// false if no cell exists at the position.
 		/// </summary>
-		/// <param name="area"></param>
-		/// <param name="cellIndices"></param>
+		/// <param name="pos"></param>
+		/// <param name="cellIndex"></param>
 		/// <returns></returns>
-		public bool TryGetCellIndices(RectangleF area, out List<int> cellIndices)
+		public bool TryGetCellIndex(Position pos, out int cellIndex)
 		{
-			cellIndices = new List<int>();
-
 			if (_data == null)
 			{
+				cellIndex = -1;
 				return false;
 			}
 
-			var bounds = new AxisAlignedBox2d(new Vector2d(area.X, area.Y), area.Width, area.Height);
-			var results = _quadtree.Query(area);
+			var vecPos = new Vector2d(pos.X, pos.Z);
 
-			foreach (var result in results)
+			// TODO: Quadtree?
+
+			for (var i = 0; i < _data.Cells.Length; ++i)
 			{
-				var cell = _cells[result.CellIndex];
-				if (cell.Bounds.Intersects(bounds))
+				var cell = _cells[i];
+
+				if (cell.Contains(vecPos))
 				{
-					cellIndices.Add(result.CellIndex);
+					cellIndex = i;
+					return true;
 				}
 			}
 
-			return cellIndices.Count > 0;
+			cellIndex = -1;
+			return false;
 		}
 
 		/// <summary>
@@ -331,10 +257,10 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="sizeX"></param>
 		/// <param name="sizeY"></param>
-		public void GetBoundingBox(out int sizeX, out int sizeY)
+		public void GetBoundingBox(out double sizeX, out double sizeY)
 		{
-			sizeX = (int)(_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x));
-			sizeY = (int)(_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y));
+			sizeX = (_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x));
+			sizeY = (_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y));
 		}
 	}
 }

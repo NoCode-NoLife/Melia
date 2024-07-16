@@ -25,7 +25,10 @@ namespace Melia.Zone.World.Maps
 		public void Load(Ground ground)
 		{
 			_ground = ground;
-			_ground.GetBoundingBox(out var width, out var height);
+			_ground.GetBoundingBox(out var w, out var h);
+			var width = (int)w;
+			var height = (int)h;
+
 			_gridWidth = Math.Min(width, _maxGridWidth);
 			_gridHeight = Math.Min(height, _maxGridHeight);
 			_grid = new bool[_gridWidth, _gridHeight];
@@ -65,8 +68,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Finds a path from the start position to the goal position using
 		/// the A* algorithm. Returns List of valid positions to goal.
-		/// The return list first element is always the start and the
-		/// last element is always the goal.
+		/// Last element is always the goal.
 		/// Returns null if no path can be found.
 		/// </summary>
 		/// <param name="start"></param>
@@ -193,16 +195,9 @@ namespace Melia.Zone.World.Maps
 				// Neighbour is valid in grid
 				if (this.IsValidGridPosition(gridX, gridZ) && _grid[gridX, gridZ])
 				{
-					// Neighbour is valid walkable position
-					if (_ground.TryGetHeightAt(neighbor, out var y))
-					{
-						// Clear path to neighbour
-						if (_ground.GetLastValidPosition(pos, neighbor) == neighbor)
-						{
-						
-							neighbors.Add(new Position(neighbor.X, y, neighbor.Z));
-						}
-					}
+					// Closest walkable point to neighbour
+					var valid = _ground.GetLastValidPosition(pos, neighbor);
+					neighbors.Add(valid);
 				}
 			}
 
