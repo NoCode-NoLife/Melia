@@ -176,8 +176,6 @@ namespace Melia.Zone.Network
 
 			// ---- <PremiumStuff> --------------------------------------------------
 
-			//conn.Account.Premium.Token.Expiration = DateTime.Now.AddYears(5);
-
 			Send.ZC_SEND_CASH_VALUE(conn);
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
