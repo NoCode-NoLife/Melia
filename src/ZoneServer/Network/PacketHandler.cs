@@ -2774,5 +2774,22 @@ namespace Melia.Zone.Network
 
 			Send.ZC_GUARD(character, active, dir);
 		}
+
+		/// <summary>
+		/// Send as a notification for taking certain actions, such as preparing
+		/// to teleport.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLIENT_DIRECT)]
+		public void CZ_CLIENT_DIRECT(IZoneConnection conn, Packet packet)
+		{
+			var type = packet.GetInt();
+			var argStr = packet.GetString(16);
+
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_CLIENT_DIRECT(character, type, argStr);
+		}
 	}
 }
