@@ -84,13 +84,33 @@ namespace Melia.Zone.Buffs.Base
 		}
 
 		/// <summary>
-		/// Changes the value of a property modifier on the target.
+		/// Sets the value of a property modifier on the target.
 		/// </summary>
+		/// <remarks>
+		/// Removes existing modifiers for the property and then applies the new one.
+		/// This is essentially the same as calling RemovePropertyModifier followed
+		/// by AddPropertyModifier.
+		/// </remarks>
 		/// <param name="buff"></param>
 		/// <param name="target"></param>
 		/// <param name="propertyName"></param>
 		/// <param name="value"></param>
 		protected static void UpdatePropertyModifier(Buff buff, ICombatEntity target, string propertyName, float value)
+			=> SetPropertyModifier(buff, target, propertyName, value);
+
+		/// <summary>
+		/// Updates the value of a property modifier on the target.
+		/// </summary>
+		/// <remarks>
+		/// Removes existing modifiers for the property and then applies the new one.
+		/// This is essentially the same as calling RemovePropertyModifier followed
+		/// by AddPropertyModifier.
+		/// </remarks>
+		/// <param name="buff"></param>
+		/// <param name="target"></param>
+		/// <param name="propertyName"></param>
+		/// <param name="value"></param>
+		protected static void SetPropertyModifier(Buff buff, ICombatEntity target, string propertyName, float value)
 		{
 			RemovePropertyModifier(buff, target, propertyName);
 			AddPropertyModifier(buff, target, propertyName, value);
