@@ -80,9 +80,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			await Task.Delay(delayBetweenHits);
 			hits.Clear();
@@ -94,11 +96,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
 				skillHit2.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit2);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 				target.StartBuff(BuffId.HeavyBleeding, skill.Level, 0, TimeSpan.FromSeconds(debuffTime), caster);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }

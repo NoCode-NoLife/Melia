@@ -155,10 +155,10 @@ namespace Melia.Shared.World
 		/// given one.
 		/// </summary>
 		/// <remarks>
-		/// When you knock someone back, he gets pushed in the opposite
-		/// direction. The other position would be the enemy, the distance
-		/// the amount how far to push them away. A negative distance will
-		/// return a position between you two.
+		/// Example: When you knock someone back, they get pushed in the
+		/// opposite direction. The other position would be the enemy,
+		/// the distance the amount how far to push them away. A negative
+		/// distance will return a position between you two.
 		/// </remarks>
 		public Position GetRelative(Position other, float distance)
 		{

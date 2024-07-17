@@ -4266,6 +4266,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Notifies clients around the character about the action taken.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_CLIENT_DIRECT(Character character, int type, string argStr)
+		{
+			var packet = new Packet(Op.ZC_CLIENT_DIRECT);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(type);
+			packet.PutString(argStr, 16);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Notifies nearby clients that an entity was knocked down/back
 		/// </summary>
 		/// <param name="entity"></param>

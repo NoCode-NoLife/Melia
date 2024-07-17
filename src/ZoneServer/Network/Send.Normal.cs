@@ -362,28 +362,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unknown skill related
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="skillActorId"></param>
-			public static void SkillParticleEffect(ICombatEntity entity, int skillActorId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SkillParticleEffect);
-
-				packet.PutInt(entity.Handle);
-				packet.PutInt(skillActorId);
-				packet.PutInt(entity.Hp);
-				packet.PutShort(6904);
-				packet.PutShort(39);
-				packet.PutFloat(25);
-				packet.PutLpString("Melee");
-				packet.PutLong(0);
-
-				entity.Map.Broadcast(packet, entity);
-			}
-
-			/// <summary>
 			/// Adjusts the skill speed for a skill.
 			/// </summary>
 			/// <param name="character"></param>
@@ -1136,6 +1114,72 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(character.Handle);
 				packet.PutByte(0);
+
+				character.Connection.Send(packet);
+			}
+
+
+			/// <summary>
+			/// Updated the player's collection list.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void ItemCollectionList(Character character)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ItemCollectionList);
+
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutLong(character.ObjectId);
+					zpacket.PutInt(character.Collections.Count);
+
+					foreach (var collection in character.Collections.GetList())
+					{
+						var registeredItems = collection.GetRegisteredItems();
+
+						zpacket.PutShort(collection.Id);
+						zpacket.PutInt(registeredItems.Count);
+
+						foreach (var itemId in registeredItems)
+						{
+							zpacket.PutInt(itemId);
+							zpacket.PutLong(itemId);
+							zpacket.PutShort(0);
+						}
+					}
+				});
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Unlocks a collection for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UnlockCollection(Character character, int collectionId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UnlockCollection);
+
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+
+				character.Connection.Send(packet);
+			}
+
+
+			/// <summary>
+			/// Updates the collection for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void UpdateCollection(Character character, int collectionId, int itemId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateCollection);
+
+				packet.PutLong(character.ObjectId);
+				packet.PutInt(collectionId);
+				packet.PutLong(itemId);
 
 				character.Connection.Send(packet);
 			}

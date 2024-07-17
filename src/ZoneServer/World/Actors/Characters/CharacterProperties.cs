@@ -138,8 +138,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.MovingShot, "SCR_Get_Character_MovingShot");
 
 			this.Create(PropertyName.SkillRange, "SCR_Get_SkillRange");
-
 			this.Create(PropertyName.Guardable, "SCR_Get_Character_Guardable");
+			this.Create(PropertyName.LootingChance, "SCR_Get_Character_LootingChance");
 
 			// TODO: Update damage bonus properties based on equipment and
 			//   other potential factors.
@@ -198,6 +198,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate(PropertyName.MAXMATK, [PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MAXMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MAXMATK_RATE_BM]);
 			this.AutoUpdate(PropertyName.MaxWeight, [PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus]);
 			this.AutoUpdate(PropertyName.MovingShot, [PropertyName.MovingShot_BM]);
+			this.AutoUpdate(PropertyName.LootingChance, [PropertyName.LootingChance_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);

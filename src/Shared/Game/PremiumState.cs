@@ -6,22 +6,22 @@ namespace Melia.Shared.Game
 	/// <summary>
 	/// Represents an account's premium state.
 	/// </summary>
-	public readonly struct PremiumState
+	public class PremiumState
 	{
 		/// <summary>
 		/// Returns the type of premium state this represents.
 		/// </summary>
-		public readonly PremiumType Type;
+		public PremiumType Type { get; }
 
 		/// <summary>
-		/// Returns the expiration date of the premium state.
+		/// Gets or sets the expiration date of the premium state.
 		/// </summary>
-		public readonly DateTime Expiration;
+		public DateTime Expiration { get; set; }
 
 		/// <summary>
-		/// Returns a numeric argument associated with the premium state.
+		/// Gets or sets a numeric argument associated with the premium state.
 		/// </summary>
-		public readonly int NumArg;
+		public int NumArg { get; set; }
 
 		/// <summary>
 		/// Returns whether the premium state is active.

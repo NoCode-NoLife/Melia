@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i387215
+//   Version: i387360
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29612,6 +29612,13 @@ string getPropertyName(int id)
         case 115401: return "dress_costume_ep16statue02_f";
         case 115402: return "ep16statue_dagger_cabinet";
         case 115403: return "ep16statue_mace_cabinet";
+        case 115404: return "Pose_LIBERTY";
+        case 115405: return "Pose_DAVID";
+        case 115406: return "Pose_RODIN";
+        case 115407: return "CONTENTS_TOTAL_SHOP_POSE_22";
+        case 115408: return "KupoleResetTime";
+        case 115409: return "CONTENTS_TOTAL_SHOP_POSE_23";
+        case 115410: return "CONTENTS_TOTAL_SHOP_POSE_21";
         default: return "Unknown";
     }
 }

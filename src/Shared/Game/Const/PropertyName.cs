@@ -9247,6 +9247,10 @@
 		public const string dress_costume_ep16statue02_f = "dress_costume_ep16statue02_f";
 		public const string ep16statue_dagger_cabinet = "ep16statue_dagger_cabinet";
 		public const string ep16statue_mace_cabinet = "ep16statue_mace_cabinet";
+		public const string CONTENTS_TOTAL_SHOP_POSE_22 = "CONTENTS_TOTAL_SHOP_POSE_22";
+		public const string KupoleResetTime = "KupoleResetTime";
+		public const string CONTENTS_TOTAL_SHOP_POSE_23 = "CONTENTS_TOTAL_SHOP_POSE_23";
+		public const string CONTENTS_TOTAL_SHOP_POSE_21 = "CONTENTS_TOTAL_SHOP_POSE_21";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -20214,6 +20218,9 @@
 		public const string Kill_weekly_boss_spreader = "Kill_weekly_boss_spreader";
 		public const string Kill_weekly_boss_falouros = "Kill_weekly_boss_falouros";
 		public const string Cupole_Equip = "Cupole_Equip";
+		public const string Pose_LIBERTY = "Pose_LIBERTY";
+		public const string Pose_DAVID = "Pose_DAVID";
+		public const string Pose_RODIN = "Pose_RODIN";
 
 		// SessionObject
 		public const string PosX = "PosX";

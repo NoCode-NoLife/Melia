@@ -95,6 +95,12 @@
 		/// Opens the TP shop UI Help
 		/// </summary>
 		public const string TP_SHOP_UI_OPEN = "TP_SHOP_UI_OPEN";
+
+
+		/// <summary>
+		/// Sent when reading a new collection
+		/// </summary>
+		public const string UPDATE_READ_COLLECTION_COUNT = "UPDATE_READ_COLLECTION_COUNT";
 	}
 
 	public static class SystemMessage

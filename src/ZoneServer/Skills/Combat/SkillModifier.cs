@@ -33,9 +33,8 @@
 		public float DefensePenetrationRate { get; set; }
 
 		/// <summary>
-		/// Gets or sets damage multiplier applied to skill damage.
-		/// Multiplies the attack damage before enemy defense is applied
-		/// This is a percentage with 1.00 as the base, so 1.02 adds 2% damage
+		/// Gets or sets damage multiplier applied to skill damage before
+		/// defense, crit, and other modifiers are applied.
 		/// </summary>
 		/// <remarks>
 		/// This multiplier applies directly to damage, so a value of 1.02 will
@@ -43,6 +42,17 @@
 		/// and before defense, crits, etc. are calculated.
 		/// </remarks>
 		public float DamageMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets damage multiplier applied to skill damage after
+		/// defense, crit, and other modifiers were applied.
+		/// </summary>
+		/// <remarks>
+		/// This multiplier applies directly to damage, so a value of 1.02 will
+		/// increase the damage by 2%. It's applied after all other calculations
+		/// are finished.
+		/// </remarks>
+		public float FinalDamageMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets the number of times an attack hits.
@@ -56,7 +66,7 @@
 		/// <summary>
 		/// Returns a new skill modifier with default values.
 		/// </summary>
-		public static SkillModifier Default { get; } = new SkillModifier();
+		public static SkillModifier Default => new();
 
 		/// <summary>
 		/// Returns a new skill modifier with the given hit count.

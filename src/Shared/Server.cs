@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using Melia.Shared.Configuration;
 using Melia.Shared.Data;
@@ -253,6 +255,10 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
 
+					// Load collections after properties and items, to enable
+					// data checks
+					this.LoadDb(this.Data.CollectionDb, "db/collections.txt");
+
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}
 				else if (serverType == ServerType.Web)
@@ -370,6 +376,14 @@ namespace Melia.Shared
 				var systemPath = Path.Combine("system", "scripts", scriptFolderName);
 
 				this.ScriptLoader = new ScriptLoader(cachePath);
+
+				// Required for HTTP stuff that might be used in scripts.
+				// To make this more flexible, we could potentially add
+				// a way for scripts to specify their own references.
+				this.ScriptLoader.References.Add(typeof(JsonSerializer).Assembly.Location);
+				this.ScriptLoader.References.Add(typeof(HttpClient).Assembly.Location);
+				this.ScriptLoader.References.Add(typeof(Uri).Assembly.Location);
+
 				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
 
 				foreach (var ex in this.ScriptLoader.ReferenceExceptions)

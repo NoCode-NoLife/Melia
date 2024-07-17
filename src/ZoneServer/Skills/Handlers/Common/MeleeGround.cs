@@ -16,7 +16,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 	/// <summary>
 	/// Handles melee skills targeting the ground in front of the caster.
 	/// </summary>
-	[SkillHandler(SkillId.Normal_Attack, SkillId.Hammer_Attack, SkillId.Common_DaggerAries)]
+	[SkillHandler(SkillId.Normal_Attack, SkillId.Normal_Attack_TH, SkillId.Hammer_Attack, SkillId.Common_DaggerAries)]
 	public class MeleeGroundSkillHandler : IMeleeGroundSkillHandler
 	{
 		private const int DoubleAttackRate = 40;
