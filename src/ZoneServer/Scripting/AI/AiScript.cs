@@ -301,6 +301,15 @@ namespace Melia.Zone.Scripting.AI
 			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
 				return false;
 
+			// Provocation Immunity prevents hate from all except its caster
+			// as long as the caster remains in range
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var provocationImmunityDebuff))
+			{
+				var caster = provocationImmunityDebuff.Caster;
+				if (entity != caster && !EntityGone(caster) && InRangeOf(caster, 300))
+					return false;
+			}
+
 			return true;
 		}
 
@@ -324,6 +333,14 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
 		{
+			// this buff overrides most hated as long as the caster is in range
+			if (this.Entity.IsBuffActive(BuffId.ProvocationImmunity_Debuff))
+			{
+				var caster = this.Entity.Components.Get<BuffComponent>().Get(BuffId.ProvocationImmunity_Debuff).Caster;
+				if (!EntityGone(caster) && InRangeOf(caster, 300))
+					return caster;
+			}
+
 			var highestHate = 0f;
 			ICombatEntity mostHated = null;
 
@@ -358,6 +375,13 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected bool IsHating(ICombatEntity entity)
 		{
+			// Always hating the person that casted this buff
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var provocationImmunityDebuff))
+			{
+				if (entity == provocationImmunityDebuff.Caster)
+					return true;
+			}
+
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
 				return false;
 

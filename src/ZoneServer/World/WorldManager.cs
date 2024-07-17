@@ -24,6 +24,12 @@ namespace Melia.Zone.World
 		// Unique handles for buffs
 		private int _buffhandles = 0;
 
+		// Unique handles for skills
+		private int _skillHandles = 0;
+
+		// Unique handles for effects
+		private int _effectHandles = 0;
+
 		private int _genTypes = 1_000_000;
 
 		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
@@ -76,6 +82,24 @@ namespace Melia.Zone.World
 		public int CreateBuffHandle()
 		{
 			return Interlocked.Increment(ref _buffhandles);
+		}
+
+		/// <summary>
+		/// Returns a new handle to be used for an effect added to the map.
+		/// </summary>
+		/// <returns></returns>
+		public int CreateEffectHandle()
+		{
+			return Interlocked.Increment(ref _effectHandles);
+		}
+
+		/// <summary>
+		/// Returns a new handle to be used for a casted Skill.
+		/// </summary>
+		/// <returns></returns>
+		public int CreateSkillHandle()
+		{
+			return Interlocked.Increment(ref _skillHandles);
 		}
 
 		/// <summary>
