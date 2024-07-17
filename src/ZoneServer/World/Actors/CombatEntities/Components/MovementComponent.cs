@@ -120,6 +120,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				if (distance <= 10)
 					return TimeSpan.Zero;
 
+				//DEBUG ONLY, REMOVE ME
 				if (IsMoving)
 					return TimeSpan.Zero;
 
@@ -143,7 +144,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				if (executeMove)
 				{
 					this.IsMoving = true;
-					this.Destination = destination;
+					this.Destination = _path.Last();
 					this.MoveTarget = MoveTargetType.Position;
 
 					this.MoveToNextPosition();
@@ -154,7 +155,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Sets the target of entity to the next node in path
+		/// Sets the target of entity to the next path node
 		/// </summary>
 		private void MoveToNextPosition()
 		{
@@ -162,7 +163,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return;
 
 			// Remove completed path node
-			var currentPosition = _path[0];
 			_path.RemoveAt(0);
 			
 			// No next position to move towards

@@ -88,9 +88,12 @@ namespace Melia.Zone.World.Maps
 				var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
 				if ((distX <= _gridScale) && (distY <= 10) && (distZ <= _gridScale))
 				{
+					// Our current is now the walkable position closest to goal
 					cameFrom[nearestToGoal] = current;
-					//if (nearestToGoal == current)
-					//	cameFrom.Remove(current);
+					if (nearestToGoal == current)
+						cameFrom.Remove(current);
+
+					// Reconstruct
 					path.AddRange(this.ReconstructPath(cameFrom, nearestToGoal, entitySize));
 					return path;
 				}
