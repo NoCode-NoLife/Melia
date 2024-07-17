@@ -125,7 +125,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 				// Use Pathfinder to find a path to the destination
 				var pathfinder = this.Entity.Map.Pathfinder;
-				_path = pathfinder.FindPath(position, destination);
+				_path = pathfinder.FindPath(position, destination, this.Entity.Size);
 
 				// Don't move if no path found
 				if (_path == null || _path.Count < 2)
@@ -161,8 +161,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (_path == null || _path.Count == 0)
 				return;
 
+			// Remove completed path node
+			var currentPosition = _path[0];
 			_path.RemoveAt(0);
 			
+			// No next position to move towards
 			if (_path.Count == 0)
 			{
 				this.Entity.Position = this.Destination;
@@ -171,6 +174,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return;
 			}
 
+			// Select next path node to move towards
 			var nextPosition = _path[0];
 
 			lock (_positionSyncLock)

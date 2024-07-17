@@ -39,6 +39,11 @@ namespace Melia.Zone.World.Actors
 		ArmorMaterialType ArmorMaterial { get; }
 
 		/// <summary>
+		/// Returns the entity's size.
+		/// </summary>
+		SizeType Size { get; }
+
+		/// <summary>
 		/// Returns the entity's mode of movement.
 		/// </summary>
 		MoveType MoveType { get; }

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.World;
-using System.Drawing;
-using Yggdrasil.Geometry;
-using Yggdrasil.Geometry.Shapes;
+using Melia.Shared.Game.Const;
+using g3;
 
 namespace Melia.Zone.World.Maps
 {
@@ -12,12 +11,23 @@ namespace Melia.Zone.World.Maps
 	{
 		private readonly int _maxGridWidth = 100;
 		private readonly int _maxGridHeight = 100;
-		
+
+		private readonly Dictionary<SizeType, float> _entitySizeRadius = new Dictionary<SizeType, float>
+		{
+			{ SizeType.None, 0 },
+			{ SizeType.Hidden, 0 },
+			{ SizeType.S, 12 },
+			{ SizeType.M, 15 },
+			{ SizeType.L, 20 },
+			{ SizeType.XL, 40 },
+			{ SizeType.XXL, 40 }
+		};
+
 		private Ground _ground;
 		private int _gridWidth;
 		private int _gridHeight;
 		private int _gridScale;
-		public bool[,] _grid;
+		private bool[,] _grid;
 
 		/// <summary>
 		/// Initializes the pathfinding spatial grid based on given ground.
@@ -54,33 +64,47 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
+		/// <param name="entitySize"></param>
 		/// <returns></returns>
-		public List<Position> FindPath(Position start, Position goal)
+		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
+			var path = new List<Position>();
 			var openSet = new PriorityQueue<Position, float>();
 			var cameFrom = new Dictionary<Position, Position>();
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
-
+			var radius = _entitySizeRadius[entitySize];
+			
+			// Start A*
 			openSet.Enqueue(start, fScore[start]);
-
 			while (openSet.Count > 0)
 			{
 				var current = openSet.Dequeue();
 
-				// Found path
-				var distX = Math.Abs(goal.X - current.X);
-				var distZ = Math.Abs(goal.Z - current.Z);
-				if ( ((distX <= _gridScale) || (distZ <= _gridScale)) && (_ground.GetLastValidPosition(current, goal) == goal) )
+				// Found path within goal distance
+				var nearestToGoal = _ground.GetLastValidCirclePosition(current, radius, goal);
+				var distX = Math.Abs(goal.X - nearestToGoal.X);
+				var distY = Math.Abs(goal.Y - nearestToGoal.Y);
+				var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
+				if ((distX <= _gridScale) && (distY <= 10) && (distZ <= _gridScale))
 				{
-					var path = new List<Position>();
-					cameFrom[goal] = current;
-					path.AddRange(this.ReconstructPath(cameFrom, goal));
+					cameFrom[nearestToGoal] = current;
+					//if (nearestToGoal == current)
+					//	cameFrom.Remove(current);
+					path.AddRange(this.ReconstructPath(cameFrom, nearestToGoal, entitySize));
 					return path;
 				}
 
+				// For the first iteration, ignore the entity size.
+				// We do this to guarantee entities partially inside walls
+				// can also move out of them.
+				var size = entitySize;
+				if (current == start)
+					size = SizeType.None;
+
 				// Compute neighbors
-				foreach (var neighbor in this.GetNeighbors(current))
+				var neighborhood = this.GetNeighbors(current, size);
+				foreach (var neighbor in neighborhood)
 				{
 					var tentativeGScore = gScore[current] + _gridScale;
 
@@ -144,13 +168,16 @@ namespace Melia.Zone.World.Maps
 
 		/// <summary>
 		/// Reconstructs the path from the given position,
-		/// merging nodes together if there are no obstacles between them.
+		/// merging nodes together if there are no obstacles between them
+		/// considering the entity size.
 		/// </summary>
 		/// <param name="cameFrom"></param>
 		/// <param name="position"></param>
+		/// <param name="entitySize"></param>
 		/// <returns></returns>
-		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position position)
+		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position position, SizeType entitySize)
 		{
+			var radius = _entitySizeRadius[entitySize];
 			var totalPath = new List<Position>();
 			totalPath.Add(position);
 
@@ -159,11 +186,11 @@ namespace Melia.Zone.World.Maps
 				var nextNode = cameFrom[position];
 
 				// Check if we can skip intermediate nodes
-				var lastValidPos = _ground.GetLastValidPosition(nextNode, position);
+				var lastValidPos = _ground.GetLastValidCirclePosition(nextNode, radius, position);
 				while (cameFrom.ContainsKey(nextNode) && lastValidPos.Equals(position))
 				{
 					nextNode = cameFrom[nextNode];
-					lastValidPos = _ground.GetLastValidPosition(nextNode, position);
+					lastValidPos = _ground.GetLastValidCirclePosition(nextNode, radius, position);
 				}
 
 				position = nextNode;
@@ -189,15 +216,18 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Gets the neighboring positions for a given position.
+		/// Gets the neighboring positions for a given position considering
+		/// the entity size.
 		/// </summary>
 		/// <param name="pos"></param>
+		/// <param name="entitySize"></param>
 		/// <returns>A list of neighboring positions.</returns>
-		private List<Position> GetNeighbors(Position pos)
+		private List<Position> GetNeighbors(Position pos, SizeType entitySize)
 		{
 			var neighbors = new List<Position>();
 			var d = _gridScale;
 			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
+			var radius = _entitySizeRadius[entitySize];
 
 			foreach (var dir in directions)
 			{
@@ -207,7 +237,8 @@ namespace Melia.Zone.World.Maps
 				// Neighbor is within grid and is a valid position
 				if (this.IsWithinGrid(gridX, gridZ) && _grid[gridX, gridZ])
 				{
-					var isWalkable = _ground.GetLastValidPosition(pos, neighbor) == neighbor;
+					// Entity can walk to neighbor
+					var isWalkable = _ground.GetLastValidCirclePosition(pos, radius, neighbor) == neighbor;
 					if (_ground.TryGetHeightAt(neighbor, out var height) && isWalkable)
 					{
 						neighbor.Y = height;
