@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Swordsman.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
@@ -61,31 +60,25 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var hitDelay = TimeSpan.FromMilliseconds(50);
 			var damageDelay = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
-			var delayBetweenHits = TimeSpan.FromMilliseconds(100);
 
 			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			float bonusPatk = 0;
-			if (caster.TryGetBuff(BuffId.HighGuard_Abil_Buff, out var highGuardAbilBuff) && caster is Character character)
-			{
-				// adds bonus Patk based on shield physical defense
-				var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
-				bonusPatk = highGuardAbilBuff.NumArg1 * 0.06f * shield.Def;
-			}
+			var bonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(4);
-				modifier.BonusPAtk = bonusPatk;
+				modifier.BonusPAtk = bonusPAtk;
 
+				// Increase damage by 10% if target is under the effect of
+				// Swashbuckling from the caster
 				if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
 				{
-					// takes 10% more damage if under the effect of Swashbuckling from the caster
 					if (swashBuckingDebuff.Caster == caster)
-						modifier.DamageMultiplier += 0.1f;
+						modifier.DamageMultiplier += 0.10f;
 				}
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
@@ -97,10 +90,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 				skillHit.HitInfo.Type = HitType.KnockBack;
-
-				// Have to manually calculate knockback because the current formula doesn't take into account hitcount
-				for (int i = 0; i < skillHit.HitCount; i++)
-					target.Position = target.Position.GetRelative(skillHit.KnockBackInfo.Direction, 22f);
+				target.Position = skillHit.KnockBackInfo.ToPosition;
 
 				hits.Add(skillHit);
 			}

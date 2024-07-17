@@ -4,8 +4,8 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Handle for the High Guard Buff, which increases the target's block rate and critical defense,
-	/// but prevents evasion
+	/// Handle for the High Guard Buff, which increases the target's block rate
+	/// and critical defense, but prevents evasion.
 	/// </summary>
 	[BuffHandler(BuffId.HighGuard_Buff)]
 	public class HighGuard_Buff : BuffHandler

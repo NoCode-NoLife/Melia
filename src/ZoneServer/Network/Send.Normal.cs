@@ -1,14 +1,13 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.Skills;
-using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.Network
 {
@@ -370,95 +369,94 @@ namespace Melia.Zone.Network
 			/// <param name="direction"></param>
 			/// <param name="f1"></param>
 			/// <param name="f2"></param>
-			/// <param name="skillHandle"></param>
+			/// <param name="padHandle"></param>
 			/// <param name="f3"></param>
-			public static void SkillPad(ICombatEntity caster, Skill skill, string animationName,
-				Position position, Direction direction, float f1, float f2, int skillHandle,
-				float f3, bool isVisible = true)
+			/// <param name="isVisible"></param>
+			public static void SkillPad(ICombatEntity caster, Skill skill, string animationName, Position position, Direction direction, float f1, float f2, int padHandle, float f3, bool isVisible)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
 					throw new ArgumentException($"Packet string '{animationName}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.SkillRunScript);
+				packet.PutInt(NormalOp.Zone.SkillPad);
 
 				packet.PutInt(caster.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skill.Id);
-				packet.PutInt(skill.Level); // Skill Level ?
+				packet.PutInt(skill.Level);
 				packet.PutPosition(position);
 				packet.PutDirection(direction);
 				packet.PutFloat(f1);
 				packet.PutFloat(f2);
-				packet.PutInt(skillHandle);
-				packet.PutInt(isVisible ? 1 : 0);
-				packet.PutEmptyBin(13); // Unknown Bytes
+				packet.PutInt(padHandle);
+				packet.PutInt(isVisible ? 1 : 0); // Possibly a bool with a 3 byte gap
+				packet.PutEmptyBin(13);
 				packet.PutFloat(f3);
-				packet.PutEmptyBin(16); // Unknown Bytes
+				packet.PutEmptyBin(16);
+
 				caster.Map.Broadcast(packet, caster);
 			}
 
 			/// <summary>
-			/// Set actor's height
-			/// Used in Shield Lob
+			/// Updates actor's height on clients around actor.
 			/// </summary>
+			/// <remarks>
+			/// Used in skills like Shield Lob.
+			/// </remarks>
 			/// <param name="actor"></param>
-			/// <param name="skillHandle"></param>
+			/// <param name="padHandle"></param>
 			/// <param name="height"></param>
-			/// <param name="b1">Doesn't seem to do anything</param>
-			public static void Skill_SetActorHeight(IActor actor, int skillHandle, float height, byte b1 = 1)
+			public static void SkillSetActorHeight(IActor actor, int padHandle, float height)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_SetActorHeight);
+				packet.PutInt(NormalOp.Zone.SkillSetActorHeight);
 
-				packet.PutInt(skillHandle);
+				packet.PutInt(padHandle);
 				packet.PutInt(actor.Handle);
 				packet.PutFloat(height);
-				packet.PutByte(b1);
+				packet.PutByte(1);
 
 				actor.Map.Broadcast(packet);
 			}
 
 			/// <summary>
-			/// A "skill" created via (Skill) is moved in a certain direction
+			/// Moves pad on clients around actor.
 			/// </summary>
 			/// <param name="caster"></param>
-			/// <param name="skillHandle"></param>
+			/// <param name="padHandle"></param>
 			/// <param name="position"></param>
-			/// <param name="b1"></param>
 			/// <param name="movementSpeed"></param>
-			/// <param name="f2"></param>
-			public static void Skill_EffectMovement(IActor caster, int skillHandle, Position position, float movementSpeed, byte b1 = 1, float f2 = 1)
+			public static void SkillEffectMovement(IActor caster, int padHandle, Position position, float movementSpeed)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_EffectMovement);
+				packet.PutInt(NormalOp.Zone.SkillEffectMovement);
 
-				packet.PutInt(skillHandle);
+				packet.PutInt(padHandle);
 				packet.PutPosition(position);
-				packet.PutByte(b1);
+				packet.PutByte(1);
 				packet.PutFloat(movementSpeed);
-				packet.PutFloat(f2);
+				packet.PutFloat(1);
 
 				caster.Map.Broadcast(packet, caster);
 			}
 
 			/// <summary>
-			/// Rotate an Item (Monster)
-			/// Used in Shield Lob Skill
+			/// Rotates an actor in the given direction.
 			/// </summary>
+			/// <remarks>
+			/// Used in skills like Shield Lob.
+			/// </remarks>
 			/// <param name="entity"></param>
 			/// <param name="direction"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			public static void Skill_ItemRotate(IActor actor, float direction, float f1 = 0, float f2 = 0)
+			public static void SkillItemRotate(IActor actor, float direction)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SkillItemRotate);
 
-				packet.PutInt(NormalOp.Zone.Skill_ItemRotate);
 				packet.PutInt(actor.Handle);
 				packet.PutFloat(direction);
-				packet.PutFloat(f1); // Haven't seen other values yet other than 0
-				packet.PutFloat(f2); // Haven't seen other values yet other than 0
+				packet.PutFloat(0);
+				packet.PutFloat(0);
 
 				actor.Map.Broadcast(packet);
 			}
@@ -552,17 +550,19 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Sets the model for a pad to a certain item,
-			/// used for things like Throw Spear and Shield Lob
+			/// Sets the model for a pad to a certain item.
 			/// </summary>
+			/// <remarks>
+			/// Used in skills like Throw Spear and Shield Lob.
+			/// </remarks>
 			/// <param name="entity"></param>
 			/// <param name="str"></param>
 			/// <param name="itemId"></param>
 			public static void SetPadModel(IActor entity, string str, int itemId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.SetPadModel);
+
 				packet.PutInt(entity.Handle);
 				packet.PutLpString(str);
 				packet.PutInt(itemId);
@@ -652,7 +652,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Spins an object (actor)
+			/// Makes actor spin on clients near it.
 			/// </summary>
 			/// <param name="actor"></param>
 			/// <param name="spinDelay"></param>
