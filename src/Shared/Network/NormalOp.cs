@@ -44,7 +44,7 @@
 			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
 			public const int UnkDynamicCastEnd = 0x50;
-			public const int Skill_59 = 0x59;
+			public const int GroundEffect = 0x59;
 			public const int ParticleEffect = 0x61;
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;

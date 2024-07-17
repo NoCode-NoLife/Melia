@@ -1834,7 +1834,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="hits"></param>
-		public static void ZC_SKILL_HIT_INFO(IActor attacker, params SkillHitInfo[] hits)
+		public static void ZC_SKILL_HIT_INFO(ICombatEntity attacker, params SkillHitInfo[] hits)
 			=> ZC_SKILL_HIT_INFO(attacker, (IEnumerable<SkillHitInfo>)hits);
 
 		/// <summary>
@@ -1843,7 +1843,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="hits"></param>
-		public static void ZC_SKILL_HIT_INFO(IActor attacker, IEnumerable<SkillHitInfo> hits)
+		public static void ZC_SKILL_HIT_INFO(ICombatEntity attacker, IEnumerable<SkillHitInfo> hits)
 		{
 			var packet = new Packet(Op.ZC_SKILL_HIT_INFO);
 
@@ -4266,30 +4266,31 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// KnockDown a entity.
+		/// Notifies nearby clients that an entity was knocked down/back
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="active"></param>
-		/// <param name="dir"></param>
-		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity)
+		/// <param name="target"></param>
+		/// <param name="knockBackInfo"></param>
+		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knockBackInfo)
 		{
 			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
 
-			packet.PutInt(entity.Handle);
-			packet.PutPosition(entity.Position);
-			packet.PutPosition(entity.Position);
-			packet.PutInt(150); //unknow
-			packet.PutInt(-172); //unknow
+			packet.PutInt(target.Handle);
+			packet.PutPosition(knockBackInfo.FromPosition);
+			packet.PutPosition(knockBackInfo.ToPosition);
+			packet.PutInt(knockBackInfo.Velocity);
+			packet.PutInt(knockBackInfo.HAngle);
+			packet.PutInt(knockBackInfo.VAngle);
 			packet.PutInt(0);
-			packet.PutInt(3); //unknow
+			packet.PutShort((short)knockBackInfo.Time.TotalMilliseconds);
+			packet.PutShort(0);
+			packet.PutFloat(1);
+			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutFloat(1); //unknow
-			packet.PutFloat(1); //unknow
-			packet.PutFloat(0);
-			packet.PutFloat(2.625f); //unknow
-			packet.PutByte(3); //unknow
+			packet.PutInt(0);
+			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet, entity);
-		}		
+		}
 	}
 }

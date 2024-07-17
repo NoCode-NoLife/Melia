@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="resultType"></param>
 		/// <param name="hitCount"></param>
 		/// <param name="damageDelay"></param>
-		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, HitResultType resultType, int hitCount = 1, TimeSpan damageDelay = default)
+		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, HitResultType resultType, int hitCount = 0, TimeSpan damageDelay = default)
 			: this(attacker, target, skill.Id, damage, resultType, hitCount, damageDelay)
 		{
 		}
@@ -103,7 +103,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="resultType"></param>
 		///	<param name="hitCount"></param>
 		///	<param name="damageDelay"></param>
-		public HitInfo(ICombatEntity attacker, ICombatEntity target, SkillId skillId, float damage, HitResultType resultType, int hitCount = 1, TimeSpan damageDelay = default)
+		public HitInfo(ICombatEntity attacker, ICombatEntity target, SkillId skillId, float damage, HitResultType resultType, int hitCount = 0, TimeSpan damageDelay = default)
 		{
 			this.Attacker = attacker;
 			this.Target = target;

@@ -12,6 +12,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors
 {
@@ -216,7 +217,7 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction from the actor to the given position.
 		/// </summary>
 		/// <param name="actor"></param>
-		/// <param name="otherActor"></param>
+		/// <param name="pos"></param>
 		/// <returns></returns>
 		public static Direction GetDirection(this IActor actor, Position pos)
 			=> actor.Position.GetDirection(pos);
@@ -224,21 +225,20 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Sets the entity's attack state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inAttackState"></param>
 		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
 			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
 
 		/// <summary>
 		/// Sets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inCastingState"></param>
 		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
 			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
 
 		/// <summary>
 		/// Gets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
 		public static bool IsCasting(this ICombatEntity entity)
 			=> entity.Components.Get<CombatComponent>().CastingState;
 
@@ -430,5 +430,29 @@ namespace Melia.Zone.World.Actors
 
 			return SizeType.M;
 		}
+
+		/// <summary>
+		/// Removes a random Debuff from a CombatEntity
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void RemoveRandomDebuff(this ICombatEntity entity)
+		{
+			var buffs = entity.Components.Get<BuffComponent>().GetList();
+			List<Buff> debuffs = new List<Buff>();
+
+			foreach (var buff in buffs)
+			{
+				if (buff.Data.Type == Shared.Data.Database.BuffType.Debuff)
+				{
+					debuffs.Add(buff);
+				}
+			}
+
+			if (debuffs.Count > 0) {
+				var rnd = RandomProvider.Get();
+				debuffs[rnd.Next(debuffs.Count)].End();
+			}				
+		}
+
 	}
 }

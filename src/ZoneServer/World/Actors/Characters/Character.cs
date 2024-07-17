@@ -714,7 +714,9 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
+			var healingModifier = this.Properties.GetFloat(PropertyName.HEAL_BM);
+
+			this.ModifyHpSafe(hpAmount * (healingModifier > 0 ? healingModifier : 1), out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);
@@ -1199,6 +1201,9 @@ namespace Melia.Zone.World.Actors.Characters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out _, out _);

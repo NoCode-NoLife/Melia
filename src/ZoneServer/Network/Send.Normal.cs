@@ -232,17 +232,16 @@ namespace Melia.Zone.Network
 				packet.PutInt(packetStringData1.Id);
 				packet.PutFloat((float)duration1.TotalSeconds);
 				packet.PutInt(packetStringData2?.Id ?? 0);
-				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutFloat((float)duration2.TotalSeconds);
 				packet.PutPosition(position);
-				packet.PutFloat(10);
-				packet.PutFloat(0.6f);
+				packet.PutFloat(70);
+				packet.PutFloat(0.3f);
 				packet.PutFloat(0f);
 				packet.PutFloat(600);
 				packet.PutFloat(1);
 				packet.PutLong(0);
-				packet.PutShort(0);
+				packet.PutShort(5);
 				packet.PutString("None");
-				packet.PutByte(0);
 
 				entity.Map.Broadcast(packet, entity);
 			}
@@ -1023,45 +1022,54 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Purpose unknown, related to skills.
 			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="casterHandle"></param>
+			/// <param name="entity"></param>
+			/// <param name="direction"></param>
 			/// <param name="packetString"></param>
 			/// <param name="skillId"></param>
 			/// <param name="targetPos"></param>
-			/// <param name="targetDir"></param>
+			/// <param name="forceId"></param>
+			/// <param name="startEffect"></param>
 			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_59(Character character, int casterHandle, string packetString, SkillId skillId, Position targetPos, Direction targetDir)
+			public static void GroundEffect(ICombatEntity entity, Direction direction, string packetString, SkillId skillId, Position targetPos, int forceId, bool startEffect)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Unknown packet string '{packetString}'.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_59);
+				packet.PutInt(NormalOp.Zone.GroundEffect);
 
-				packet.PutInt(casterHandle);
+								int starEffect = startEffect ? 1 : 0;
+
+				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData.Id);
 				packet.PutInt((int)skillId);
 				packet.PutInt(1);
 				packet.PutPosition(targetPos);
-				packet.PutDirection(targetDir);
-				packet.PutFloat(-0.78f);
+				packet.PutDirection(direction);
 				packet.PutFloat(0);
-				packet.PutInt(0);
-				packet.PutInt(1);
+				packet.PutFloat(0);
+				packet.PutInt(forceId);
+				packet.PutInt(starEffect);
 				packet.PutEmptyBin(13);
 				packet.PutFloat(150);
 				packet.PutEmptyBin(16);
 
-				character.Connection.Send(packet);
+				entity.Map.Broadcast(packet, entity);
 			}
+
 
 			/// <summary>
 			/// Makes the entity jump to the target position.
 			/// </summary>
 			/// <param name="entity"></param>
 			/// <param name="targetPos"></param>
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			/// <param name="f5"></param>
 			/// <param name="jumpHeight"></param>
-			public static void LeapJump(ICombatEntity entity, Position targetPos, float jumpHeight = 20)
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight = 30)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
@@ -1069,11 +1077,11 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutPosition(targetPos);
 				packet.PutFloat(jumpHeight);
-				packet.PutFloat(0.1f); // jump speed?
-				packet.PutFloat(0.1f);
-				packet.PutFloat(1);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(1);
+				packet.PutFloat(f1); // jump speed?
+				packet.PutFloat(f2); // unknow float 2
+				packet.PutFloat(f3); // unknow float 3
+				packet.PutFloat(f4); // unknow float 4
+				packet.PutFloat(f5); // unknow float 5
 
 				entity.Map.Broadcast(packet, entity);
 			}

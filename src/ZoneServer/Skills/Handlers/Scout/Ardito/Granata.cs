@@ -19,6 +19,8 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 	[SkillHandler(SkillId.Arditi_Granata)]
 	public class Granata : IGroundSkillHandler
 	{
+		const int castLength = 70;
+
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -44,11 +46,20 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			Send.ZC_SKILL_READY(caster, skill, farPos, farPos);
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), farPos);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
+			Direction direction = Direction.Zero;
 
-			this.Attack(skill, caster, originPos, farPos);
+			if (originPos == farPos)
+				direction = caster.Direction;
+			else
+				direction = originPos.GetDirection(farPos);
+
+			var castPosition = caster.Position.GetRelative(direction, castLength);
+
+			Send.ZC_SKILL_READY(caster, skill, originPos, originPos);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(castPosition), Position.Zero);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
+
+			this.Attack(skill, caster, originPos, farPos, castPosition);
 		}
 
 		/// <summary>
@@ -58,11 +69,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
+		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos, Position castPosition)
 		{
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", TimeSpan.FromMilliseconds(600), "F_scout_Granata_explosion", TimeSpan.FromSeconds(3), farPos);
+			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 45, width: 45, angle: 0);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", TimeSpan.FromMilliseconds(600), "F_scout_Granata_explosion", TimeSpan.FromSeconds(3), castPosition);
+
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: castLength, width: 45, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -78,7 +91,13 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100));
 				Send.ZC_HIT_INFO(caster, target, hit);
-				Send.ZC_KNOCKDOWN_INFO(target);
+
+				var knockBackDistance = 1;
+				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);
+				var angle = target.GetDirection(knockBackPos).DegreeAngle;
+				var kb = new KnockBackInfo(caster.Position, knockBackPos, skill);
+
+				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 			}
 		}
 	}

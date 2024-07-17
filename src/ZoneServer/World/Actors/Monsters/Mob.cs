@@ -275,6 +275,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return true;
 
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
 
@@ -713,7 +716,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			var healingModifier = this.Properties.GetFloat(PropertyName.HEAL_BM);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * (healingModifier > 0 ? healingModifier : 1));
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;
