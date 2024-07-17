@@ -86,8 +86,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var movement = shieldMonster.Components.Get<MovementComponent>();
 			movement.SetFixedMoveSpeed(150f);
 			movement.SetMoveSpeedType(MoveSpeedType.Run);
-			var moveTime = movement.MoveTo(originPos.GetRelative(caster.Direction, 100f));
-			Send.ZC_NORMAL.Skill_EffectMovement(caster, skillHandle, originPos.GetRelative(caster.Direction, 100f), 150);
+			var endingPosition = originPos.GetRelative(caster.Direction, 100f);
+			endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
+			var moveTime = movement.MoveTo(endingPosition);
+			Send.ZC_NORMAL.Skill_EffectMovement(caster, skillHandle, endingPosition, 150);
 			
 			var cancelToken = new CancellationTokenSource();
 			checkShieldCollision(skill, caster, shieldMonster, cancelToken);
