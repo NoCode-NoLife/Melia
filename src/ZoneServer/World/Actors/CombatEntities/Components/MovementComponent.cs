@@ -120,6 +120,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				if (distance <= 10)
 					return TimeSpan.Zero;
 
+				if (IsMoving)
+					return TimeSpan.Zero;
+
 				// Use Pathfinder to find a path to the destination
 				var pathfinder = this.Entity.Map.Pathfinder;
 				_path = pathfinder.FindPath(position, destination);
@@ -155,6 +158,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void MoveToNextPosition()
 		{
+			if (_path == null || _path.Count == 0)
+				return;
+
 			_path.RemoveAt(0);
 			
 			if (_path.Count == 0)
@@ -421,7 +427,10 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				// in the path
 				if ((_moveTime -= elapsed) <= TimeSpan.Zero)
 				{
-					this.Entity.Position = _path[0];
+					if (_path != null && _path.Count > 0)
+					{
+						this.Entity.Position = _path[0];
+					}
 
 					this.MoveToNextPosition();
 				}

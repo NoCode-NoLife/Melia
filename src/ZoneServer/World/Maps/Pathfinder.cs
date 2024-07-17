@@ -20,7 +20,7 @@ namespace Melia.Zone.World.Maps
 		public bool[,] _grid;
 
 		/// <summary>
-		/// Initializes the grid based on given ground.
+		/// Initializes the pathfinding spatial grid based on given ground.
 		/// </summary>
 		public void Load(Ground ground)
 		{
@@ -47,27 +47,8 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Gets via out the grid index of a given position in the ground.
-		/// Returns -1, -1 if position is out of bounds.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <returns></returns>
-		public void GetGridIndex(Position pos, out int gridX, out int gridZ)
-		{
-			gridX = ((int)pos.X + (_gridWidth * _gridScale / 2)) / _gridScale;
-			gridZ = ((int)pos.Z + (_gridHeight * _gridScale / 2)) / _gridScale;
-
-			// Position is out of bounds
-			if (gridX < 0 || gridX >= _gridWidth || gridZ < 0 || gridZ >= _gridHeight)
-			{
-				gridX = -1;
-				gridZ = -1;
-			}
-		}
-
-		/// <summary>
-		/// Finds a path from the start position to the goal position using
-		/// the A* algorithm. Returns List of valid positions to goal.
+		/// Finds a path from start position to the goal position using
+		/// A* algorithm. Returns List of valid positions to goal.
 		/// Last element is always the goal.
 		/// Returns null if no path can be found.
 		/// </summary>
@@ -93,8 +74,8 @@ namespace Melia.Zone.World.Maps
 				if ( ((distX <= _gridScale) || (distZ <= _gridScale)) && (_ground.GetLastValidPosition(current, goal) == goal) )
 				{
 					var path = new List<Position>();
-					path.AddRange(this.ReconstructPath(cameFrom, current));
-					path.Add(goal);
+					cameFrom[goal] = current;
+					path.AddRange(this.ReconstructPath(cameFrom, goal));
 					return path;
 				}
 
@@ -122,6 +103,25 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Gets via out the grid index of a given position in the ground.
+		/// Returns -1, -1 if position is out of bounds.
+		/// </summary>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		private void GetGridIndex(Position pos, out int gridX, out int gridZ)
+		{
+			gridX = ((int)pos.X + (_gridWidth * _gridScale / 2)) / _gridScale;
+			gridZ = ((int)pos.Z + (_gridHeight * _gridScale / 2)) / _gridScale;
+
+			// Position is out of bounds
+			if (!this.IsWithinGrid(gridX, gridZ))
+			{
+				gridX = -1;
+				gridZ = -1;
+			}
+		}
+
+		/// <summary>
 		/// Compares two float and position tuples.
 		/// </summary>
 		private class PositionComparer : IComparer<(float F, Position Pos)>
@@ -143,31 +143,43 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Reconstructs the path from the start position to the goal position.
+		/// Reconstructs the path from the given position,
+		/// merging nodes together if there are no obstacles between them.
 		/// </summary>
-		/// <param name="cameFrom"</param>
-		/// <param name="current"></param>
-		/// <returns>A list of positions representing the path.</returns>
-		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position current)
+		/// <param name="cameFrom"></param>
+		/// <param name="position"></param>
+		/// <returns></returns>
+		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position position)
 		{
 			var totalPath = new List<Position>();
-			totalPath.Add(current);
-			while (cameFrom.ContainsKey(current))
+			totalPath.Add(position);
+
+			while (cameFrom.ContainsKey(position))
 			{
-				current = cameFrom[current];
-				totalPath.Add(current);
+				var nextNode = cameFrom[position];
+
+				// Check if we can skip intermediate nodes
+				var lastValidPos = _ground.GetLastValidPosition(nextNode, position);
+				while (cameFrom.ContainsKey(nextNode) && lastValidPos.Equals(position))
+				{
+					nextNode = cameFrom[nextNode];
+					lastValidPos = _ground.GetLastValidPosition(nextNode, position);
+				}
+
+				position = nextNode;
+				totalPath.Add(position);
 			}
+
 			totalPath.Reverse();
 			return totalPath;
 		}
 
 		/// <summary>
-		/// Calculates the heuristic cost from the current position to the
-		/// goal position.
+		/// Calculates the heuristic cost from position a to position b.
 		/// </summary>
-		/// <param name="a">The current position.</param>
-		/// <param name="b">The goal position.</param>
-		/// <returns>The heuristic cost.</returns>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <returns></returns>
 		private float Heuristic(Position a, Position b)
 		{
 			// Euclidean Distance
@@ -192,12 +204,15 @@ namespace Melia.Zone.World.Maps
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
 				this.GetGridIndex(neighbor, out var gridX, out var gridZ);
 
-				// Neighbour is valid in grid
-				if (this.IsValidGridPosition(gridX, gridZ) && _grid[gridX, gridZ])
+				// Neighbor is within grid and is a valid position
+				if (this.IsWithinGrid(gridX, gridZ) && _grid[gridX, gridZ])
 				{
-					// Closest walkable point to neighbour
-					var valid = _ground.GetLastValidPosition(pos, neighbor);
-					neighbors.Add(valid);
+					var isWalkable = _ground.GetLastValidPosition(pos, neighbor) == neighbor;
+					if (_ground.TryGetHeightAt(neighbor, out var height) && isWalkable)
+					{
+						neighbor.Y = height;
+						neighbors.Add(neighbor);
+					}
 				}
 			}
 
@@ -210,9 +225,8 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="x"></param>
 		/// <param name="z"></param>
-		/// <returns>True if the coordinates are within the bounds of the grid,
-		/// otherwise false.</returns>
-		private bool IsValidGridPosition(int x, int z)
+		/// <returns></returns>
+		private bool IsWithinGrid(int x, int z)
 		{
 			return x >= 0 && x < _gridWidth && z >= 0 && z < _gridHeight;
 		}
