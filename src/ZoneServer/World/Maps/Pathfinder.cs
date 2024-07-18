@@ -81,33 +81,33 @@ namespace Melia.Zone.World.Maps
 			{
 				var current = openSet.Dequeue();
 
-				// Found path within goal distance
-				var nearestToGoal = _ground.GetLastValidCirclePosition(current, radius, goal);
-				var distX = Math.Abs(goal.X - nearestToGoal.X);
-				var distY = Math.Abs(goal.Y - nearestToGoal.Y);
-				var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
-				if ((distX <= _gridScale) && (distY <= 10) && (distZ <= _gridScale))
+				// Arbitrary constraint so we don't make too many
+				// position checks if goal is too far away.
+				if (current.Get3DDistance(goal) < 50)
 				{
-					// Our current is now the walkable position closest to goal
-					cameFrom[nearestToGoal] = current;
-					if (nearestToGoal == current)
-						cameFrom.Remove(current);
+					// Attempts possible walkable path to goal
+					var nearestToGoal = _ground.GetLastValidCirclePosition(current, radius, goal);
+					var distX = Math.Abs(goal.X - nearestToGoal.X);
+					var distY = Math.Abs(goal.Y - nearestToGoal.Y);
+					var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
+					if ((distX <= _gridScale) && (distY <= 10) && (distZ <= _gridScale))
+					{
+						// 'nearestToGoal' is closer or equal in distance to
+						// goal compared to 'current', so we exchange 'current'
+						// for 'nearestToGoal'.
+						cameFrom[nearestToGoal] = current;
+						if (nearestToGoal == current)
+							cameFrom.Remove(current);
 
-					// Reconstruct
-					path.AddRange(this.ReconstructPath(cameFrom, nearestToGoal, entitySize));
-					return path;
+						// Reconstruct
+						path.AddRange(this.ReconstructPath(cameFrom, nearestToGoal, entitySize));
+						return path;
+					}
 				}
 
-				// For the first iteration, ignore the entity size.
-				// We do this to guarantee entities partially inside walls
-				// can also move out of them.
-				var size = entitySize;
-				if (current == start)
-					size = SizeType.None;
-
 				// Compute neighbors
-				var neighborhood = this.GetNeighbors(current, size);
-				foreach (var neighbor in neighborhood)
+				var neighbors = this.GetNeighbors(current, entitySize, _gridScale);
+				foreach (var neighbor in neighbors)
 				{
 					var tentativeGScore = gScore[current] + _gridScale;
 
@@ -219,19 +219,25 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Gets the neighboring positions for a given position considering
-		/// the entity size.
+		/// Gets the neighboring positions for a given position under a given
+		/// grid scale.
 		/// </summary>
 		/// <param name="pos"></param>
 		/// <param name="entitySize"></param>
+		/// <param name="gridScale"></param>
 		/// <returns>A list of neighboring positions.</returns>
-		private List<Position> GetNeighbors(Position pos, SizeType entitySize)
+		private List<Position> GetNeighbors(Position pos, SizeType entitySize, int gridScale)
 		{
-			var neighbors = new List<Position>();
-			var d = _gridScale;
-			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
-			var radius = _entitySizeRadius[entitySize];
+			// Scale is too low
+			if (gridScale <= 0)
+				return new List<Position>();
 
+			var radius = _entitySizeRadius[entitySize];
+			var neighbors = new List<Position>();
+			var d = gridScale;
+			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
+
+			// Search in all adjacent directions
 			foreach (var dir in directions)
 			{
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
@@ -248,6 +254,13 @@ namespace Melia.Zone.World.Maps
 						neighbors.Add(neighbor);
 					}
 				}
+			}
+
+			// No adjacent neighbors found
+			if (neighbors.Count == 0)
+			{
+				// Try again recursively with lower scale
+				return this.GetNeighbors(pos, entitySize, gridScale/2);
 			}
 
 			return neighbors;
