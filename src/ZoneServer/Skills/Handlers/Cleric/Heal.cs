@@ -163,11 +163,11 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 		/// <summary>
 		/// Called when a target enters a healing pad.
 		/// </summary>
-		/// <param name="dialog"></param>
+		/// <param name="args"></param>
 		/// <returns></returns>
-		private Task OnEnterHealingPad(Dialog dialog)
+		private Task OnEnterHealingPad(TriggerActorArgs args)
 		{
-			if (!(dialog.Initiator is ICombatEntity initiator))
+			if (args.Initiator is not ICombatEntity initiator)
 				return Task.CompletedTask;
 
 			// I don't know how exactly the heal pads worked in the past,
@@ -178,7 +178,8 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 			if (initiator.Components.Get<BuffComponent>().Has(BuffId.Heal_Buff))
 				return Task.CompletedTask;
 
-			var trigger = dialog.Npc;
+			if (args.Trigger is not Npc trigger)
+				return Task.CompletedTask;
 
 			var caster = trigger.Vars.Get<ICombatEntity>("Melia.HealCaster");
 			var skill = trigger.Vars.Get<Skill>("Melia.HealSkill");
