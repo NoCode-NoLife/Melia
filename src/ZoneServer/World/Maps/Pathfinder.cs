@@ -52,14 +52,35 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
+			return this.FindPathScale(start, goal, _gridScale, entitySize);
+		}
+
+		/// <summary>
+		/// Finds a path from start position to the goal position using
+		/// A* algorithm and a path node scale.
+		/// Returns null if no path can be found.
+		/// </summary>
+		/// <param name="start"></param>
+		/// <param name="goal"></param>
+		/// <param name="scale"></param>
+		/// <param name="entitySize"></param>
+		/// <returns></returns>
+		private List<Position> FindPathScale(Position start, Position goal, int scale, SizeType entitySize = SizeType.M)
+		{
 			var path = new List<Position>();
 			var openSet = new PriorityQueue<Position, float>();
 			var cameFrom = new Dictionary<Position, Position>();
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
 			var radius = _entitySizeRadius[entitySize];
-			var scale = _gridScale;
-			var scaleCounter = 0;
+
+			// Stopping condition
+			var distance = start.Get2DDistance(goal);
+			if ((distance <= radius/2) || (scale <= radius/2))
+			{
+				path.Add(goal);
+				return path;
+			}
 			
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
@@ -67,36 +88,18 @@ namespace Melia.Zone.World.Maps
 			{
 				var current = openSet.Dequeue();
 
-				// Arbitrary constraint so we don't make too many
-				// position checks if goal is too far away.
-				var distance = current.Get2DDistance(goal);
-				if (distance < _gridScale)
+				// Check if we need to improve our search
+				distance = current.Get2DDistance(goal);
+				if (distance < scale)
 				{
-					// Reduce our neighbors scale if goal is near
-					if (scaleCounter > 10)
-						scaleCounter = 0;
-					if (scaleCounter == 0)
-						scale /= 2;
-					scaleCounter++;
-
-					// Attempts possible walkable path to goal
-					var nearestToGoal = _ground.GetLastValidCirclePosition(current, radius, goal);
-					var distX = Math.Abs(goal.X - nearestToGoal.X);
-					var distY = Math.Abs(goal.Y - nearestToGoal.Y);
-					var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
-					if ((distX <= 10) && (distY <= 10) && (distZ <= 10))
+					scale /= 2;
+					path.AddRange(this.ReconstructPath(cameFrom, current, entitySize));
+					var subPath = FindPathScale(current, goal, scale, entitySize);
+					if (subPath != null)
 					{
-						// 'nearestToGoal' is closer or equal in distance to
-						// goal compared to 'current', so we exchange 'current'
-						// for 'nearestToGoal'.
-						cameFrom[nearestToGoal] = current;
-						if (nearestToGoal == current)
-							cameFrom.Remove(current);
-
-						// Reconstruct
-						path.AddRange(this.ReconstructPath(cameFrom, nearestToGoal, entitySize));
-						return path;
+						path.AddRange(subPath);
 					}
+					return path;
 				}
 
 				// Compute neighbors
