@@ -60,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="splashArea"></param>
+		/// <param name="originPos"></param>
 		private async void ThrowShield(Skill skill, ICombatEntity caster, Position originPos)
 		{
 			var cancelToken = new CancellationTokenSource();
@@ -205,7 +205,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", shield.Id);
 			}
 
-			Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90);
+			Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90, 0, 0);
 			Send.ZC_NORMAL.SpinObject(shieldMonster);
 			Send.ZC_NORMAL.SkillSetActorHeight(shieldMonster, padHandle, 22);
 			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);

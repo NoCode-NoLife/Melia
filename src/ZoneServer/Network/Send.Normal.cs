@@ -441,22 +441,24 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Rotates an actor in the given direction.
+			/// Rotates an actor .
 			/// </summary>
 			/// <remarks>
 			/// Used in skills like Shield Lob.
 			/// </remarks>
-			/// <param name="entity"></param>
-			/// <param name="direction"></param>
-			public static void SkillItemRotate(IActor actor, float direction)
+			/// <param name="actor"></param>
+			/// <param name="angleX"></param>
+			/// <param name="angleY"></param>
+			/// <param name="angleZ"></param>
+			public static void SkillItemRotate(IActor actor, float angleX, float angleY, float angleZ)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillItemRotate);
 
 				packet.PutInt(actor.Handle);
-				packet.PutFloat(direction);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.PutFloat(angleX);
+				packet.PutFloat(angleY);
+				packet.PutFloat(angleZ);
 
 				actor.Map.Broadcast(packet);
 			}
