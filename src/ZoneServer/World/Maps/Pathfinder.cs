@@ -4,6 +4,7 @@ using System.Linq;
 using Melia.Shared.World;
 using Melia.Shared.Game.Const;
 using g3;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Maps
 {
@@ -24,13 +25,10 @@ namespace Melia.Zone.World.Maps
 		};
 
 		private Ground _ground;
-		private int _gridWidth;
-		private int _gridHeight;
 		private int _gridScale;
-		private bool[,] _grid;
 
 		/// <summary>
-		/// Initializes the pathfinding spatial grid based on given ground.
+		/// Initializes a spatial grid for a given ground.
 		/// </summary>
 		public void Load(Ground ground)
 		{
@@ -39,21 +37,7 @@ namespace Melia.Zone.World.Maps
 			var width = (int)w;
 			var height = (int)h;
 
-			_gridWidth = Math.Min(width, _maxGridWidth);
-			_gridHeight = Math.Min(height, _maxGridHeight);
-			_grid = new bool[_gridWidth, _gridHeight];
 			_gridScale = Math.Max(1, Math.Max(width, height) / Math.Max(_maxGridWidth, _maxGridHeight));
-
-			// Geometric projection of map vertices into grid scale
-			// In essence, this is spatial hashing
-			for (var x = 0; x < _gridWidth; x++)
-			{
-				for (var z = 0; z < _gridHeight; z++)
-				{
-					var pos = new Position((x - _gridWidth / 2) * _gridScale, 0, (z - _gridHeight / 2) * _gridScale);
-					_grid[x, z] = _ground.IsValidPosition(pos);
-				}
-			}
 		}
 
 		/// <summary>
@@ -74,6 +58,8 @@ namespace Melia.Zone.World.Maps
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
 			var radius = _entitySizeRadius[entitySize];
+			var scale = _gridScale;
+			var scaleCounter = 0;
 			
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
@@ -83,14 +69,22 @@ namespace Melia.Zone.World.Maps
 
 				// Arbitrary constraint so we don't make too many
 				// position checks if goal is too far away.
-				if (current.Get3DDistance(goal) < 50)
+				var distance = current.Get2DDistance(goal);
+				if (distance < _gridScale)
 				{
+					// Reduce our neighbors scale if goal is near
+					if (scaleCounter > 10)
+						scaleCounter = 0;
+					if (scaleCounter == 0)
+						scale /= 2;
+					scaleCounter++;
+
 					// Attempts possible walkable path to goal
 					var nearestToGoal = _ground.GetLastValidCirclePosition(current, radius, goal);
 					var distX = Math.Abs(goal.X - nearestToGoal.X);
 					var distY = Math.Abs(goal.Y - nearestToGoal.Y);
 					var distZ = Math.Abs(goal.Z - nearestToGoal.Z);
-					if ((distX <= _gridScale) && (distY <= 10) && (distZ <= _gridScale))
+					if ((distX <= 10) && (distY <= 10) && (distZ <= 10))
 					{
 						// 'nearestToGoal' is closer or equal in distance to
 						// goal compared to 'current', so we exchange 'current'
@@ -106,16 +100,16 @@ namespace Melia.Zone.World.Maps
 				}
 
 				// Compute neighbors
-				var neighbors = this.GetNeighbors(current, entitySize, _gridScale);
+				var neighbors = this.GetNeighbors(current, entitySize, scale);
 				foreach (var neighbor in neighbors)
 				{
-					var tentativeGScore = gScore[current] + _gridScale;
+					var tentativeGScore = gScore[current] + scale;
 
 					if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
 					{
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tentativeGScore;
-						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal);
+						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + RandomProvider.Next(scale);
 
 						if (!openSet.UnorderedItems.Any(item => item.Element.Equals(neighbor)))
 						{
@@ -127,25 +121,6 @@ namespace Melia.Zone.World.Maps
 
 			// No path found
 			return null;
-		}
-
-		/// <summary>
-		/// Gets via out the grid index of a given position in the ground.
-		/// Returns -1, -1 if position is out of bounds.
-		/// </summary>
-		/// <param name="pos"></param>
-		/// <returns></returns>
-		private void GetGridIndex(Position pos, out int gridX, out int gridZ)
-		{
-			gridX = ((int)pos.X + (_gridWidth * _gridScale / 2)) / _gridScale;
-			gridZ = ((int)pos.Z + (_gridHeight * _gridScale / 2)) / _gridScale;
-
-			// Position is out of bounds
-			if (!this.IsWithinGrid(gridX, gridZ))
-			{
-				gridX = -1;
-				gridZ = -1;
-			}
 		}
 
 		/// <summary>
@@ -188,14 +163,6 @@ namespace Melia.Zone.World.Maps
 			{
 				var nextNode = cameFrom[position];
 
-				// Check if we can skip intermediate nodes
-				var lastValidPos = _ground.GetLastValidCirclePosition(nextNode, radius, position);
-				while (cameFrom.ContainsKey(nextNode) && lastValidPos.Equals(position))
-				{
-					nextNode = cameFrom[nextNode];
-					lastValidPos = _ground.GetLastValidCirclePosition(nextNode, radius, position);
-				}
-
 				position = nextNode;
 				totalPath.Add(position);
 			}
@@ -214,8 +181,9 @@ namespace Melia.Zone.World.Maps
 		{
 			// Euclidean Distance
 			var dx = Math.Abs(a.X - b.X);
+			var dy = Math.Abs(a.Y - b.Y);
 			var dz = Math.Abs(a.Z - b.Z);
-			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dz, 2));
+			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy,2) + Math.Pow(dz, 2));
 		}
 
 		/// <summary>
@@ -241,14 +209,12 @@ namespace Melia.Zone.World.Maps
 			foreach (var dir in directions)
 			{
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
-				this.GetGridIndex(neighbor, out var gridX, out var gridZ);
 
-				// Neighbor is within grid and is a valid position
-				if (this.IsWithinGrid(gridX, gridZ) && _grid[gridX, gridZ])
+				// Position at neighbor is valid
+				if (_ground.TryGetHeightAt(neighbor, out var height))
 				{
-					// Entity can walk to neighbor
-					var isWalkable = _ground.GetLastValidCirclePosition(pos, radius, neighbor) == neighbor;
-					if (_ground.TryGetHeightAt(neighbor, out var height) && isWalkable)
+					// Our entity can stand there
+					if (_ground.IsValidCirclePosition(neighbor, radius))
 					{
 						neighbor.Y = height;
 						neighbors.Add(neighbor);
@@ -263,19 +229,8 @@ namespace Melia.Zone.World.Maps
 				return this.GetNeighbors(pos, entitySize, gridScale/2);
 			}
 
+			// Shuffle our neighbors
 			return neighbors;
-		}
-
-		/// <summary>
-		/// Checks if the given grid coordinates are within the bounds of the
-		/// grid.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="z"></param>
-		/// <returns></returns>
-		private bool IsWithinGrid(int x, int z)
-		{
-			return x >= 0 && x < _gridWidth && z >= 0 && z < _gridHeight;
 		}
 	}
 }

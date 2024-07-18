@@ -295,7 +295,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="center"></param>
 		/// <param name="radius"></param>
 		/// <returns></returns>
-		private bool IsValidCirclePosition(Position center, float radius)
+		public bool IsValidCirclePosition(Position center, float radius)
 		{
 			var perimeterOffsets = new List<Vector2f>
 			{
