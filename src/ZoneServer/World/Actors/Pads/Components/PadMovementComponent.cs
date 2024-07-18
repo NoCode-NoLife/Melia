@@ -12,11 +12,6 @@ namespace Melia.Zone.World.Actors.Pads.Components
 		public Pad Pad { get; }
 
 		/// <summary>
-		/// Returns the pad's movement speed.
-		/// </summary>
-		public override float Speed => this.Pad.Speed;
-
-		/// <summary>
 		/// Creates new instance for pad.
 		/// </summary>
 		/// <param name="pad"></param>

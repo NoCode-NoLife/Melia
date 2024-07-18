@@ -42,9 +42,9 @@ namespace Melia.Zone.World.Actors.Components
 		private MoveTargetType MoveTarget { get; set; }
 
 		/// <summary>
-		/// Returns the owner's movement speed.
+		/// Gets or sets the owner's movement speed.
 		/// </summary>
-		public abstract float Speed { get; }
+		public virtual float Speed { get; set; } = 30;
 
 		/// <summary>
 		/// Creates new movement component.

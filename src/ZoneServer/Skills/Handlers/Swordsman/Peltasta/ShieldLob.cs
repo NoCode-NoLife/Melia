@@ -12,10 +12,8 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
-using Melia.Zone.World.Actors.Pads.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
@@ -51,19 +49,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			//this.ThrowShield(skill, caster, farPos);
-			//return;
-
 			var pad = new Pad("Peltasta_ShieldLob", caster, skill, new Circle(caster.Position, 40));
 			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
-			pad.Speed = ShieldFlySpeedForward;
 
-			pad.Components.Get<TriggerComponent>().UpdateInterval = TimeSpan.FromMilliseconds(100);
+			//if (caster.Map.IsPvp)
+			//	pad.ActorMaxCount = 4;
 
-			pad.Components.Get<TriggerComponent>().Created += async (sender, args) =>
+			pad.Trigger.Created += async (sender, args) =>
 			{
 				var pad = args.Trigger as Pad;
 				var creator = pad.Creator as ICombatEntity;
+
+				pad.Movement.Speed = ShieldFlySpeedForward;
+				pad.Trigger.MaxActorCount = 8;
 
 				var shieldMonster = new Mob(57001, MonsterType.Friendly);
 
@@ -89,28 +87,25 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				pad.Variables.Set("shieldMonster", shieldMonster);
 
 				var flyDest = creator.Position.GetRelative(creator.Direction, ShieldFlyDistance);
-				var moveTime = pad.Components.Get<PadMovementComponent>().MoveTo(flyDest);
+				var moveTime = pad.Movement.MoveTo(flyDest);
 				await Task.Delay(moveTime);
 
 				await Task.Delay(500);
 
-				moveTime = pad.Components.Get<PadMovementComponent>().MoveTo(creator.Position);
+				moveTime = pad.Movement.MoveTo(creator.Position);
 				await Task.Delay(moveTime);
 
 				pad.Destroy();
 			};
 
-			pad.Components.Get<TriggerComponent>().Entered += (sender, args) =>
+			pad.Trigger.Entered += (sender, args) =>
 			{
 				var pad = args.Trigger as Pad;
 				var creator = pad.Creator as ICombatEntity;
 				var target = args.Initiator as ICombatEntity;
 
-				var concurrentCount = pad.Variables.GetInt("concurrentCount", 0);
-				if (concurrentCount >= 8)
+				if (pad.Trigger.AtCapacity)
 					return;
-
-				pad.Variables.Set("concurrentCount", concurrentCount + 1);
 
 				if (!creator.CanAttack(target))
 					return;
@@ -118,13 +113,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				this.Attack(skill, caster, [target]);
 			};
 
-			pad.Components.Get<TriggerComponent>().Left += (sender, args) =>
-			{
-				var concurrentCount = pad.Variables.GetInt("concurrentCount", 0);
-				pad.Variables.Set("concurrentCount", Math.Max(0, concurrentCount - 1));
-			};
-
-			pad.Components.Get<TriggerComponent>().Destroyed += (sender, args) =>
+			pad.Trigger.Destroyed += (sender, args) =>
 			{
 				var pad = args.Trigger as Pad;
 				var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");

@@ -21,7 +21,11 @@ namespace Melia.Zone.World.Actors.Components
 		private readonly static TimeSpan DefaultUpdateInterval = TimeSpan.FromSeconds(1);
 
 		private readonly object _syncLock = new();
+
 		private List<IActor> _actorsInside = new();
+		private int _actorCount = 0;
+		private int _maxActorCount = short.MaxValue;
+
 		private TimeSpan _updateDelay = DefaultUpdateInterval;
 		private bool _destroyed;
 
@@ -44,6 +48,35 @@ namespace Melia.Zone.World.Actors.Components
 		/// might not trigger in time if the interval is too short.
 		/// </remarks>
 		public TimeSpan UpdateInterval { get; set; } = DefaultUpdateInterval;
+
+		/// <summary>
+		/// Returns the number of actors currently inside the pad.
+		/// </summary>
+		public int ActorCount
+		{
+			get => _actorCount;
+			set => _actorCount = Math.Max(0, value);
+		}
+
+		/// <summary>
+		/// Returns the maximum number of actors that can be inside the pad
+		/// at a time.
+		/// </summary>
+		/// <remarks>
+		/// The enter and leave events will not be raised if the pad has
+		/// reached its maximum actor count. But as actors leave the pad,
+		/// new ones will be considered again.
+		/// </remarks>
+		public int MaxActorCount
+		{
+			get => _maxActorCount;
+			set => _maxActorCount = Math.Max(0, value);
+		}
+
+		/// <summary>
+		/// Returns true if the max actor count has been reached.
+		/// </summary>
+		public bool AtCapacity => this.ActorCount >= this.MaxActorCount;
 
 		/// <summary>
 		/// Event that is triggered when the actor added to a map.
@@ -125,6 +158,7 @@ namespace Melia.Zone.World.Actors.Components
 					this.Left?.Invoke(this, new TriggerActorArgs(TriggerType.Leave, this.Owner, actor));
 
 				_actorsInside = nowInside;
+				this.ActorCount = nowInside.Count;
 			}
 
 			_updateDelay -= elapsed;

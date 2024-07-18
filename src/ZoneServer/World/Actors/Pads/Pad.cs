@@ -41,9 +41,14 @@ namespace Melia.Zone.World.Actors.Pads
 		public IShapeF Area { get; }
 
 		/// <summary>
-		/// Gets or sets the pad's movement speed.
+		/// Returns the pad's movement component.
 		/// </summary>
-		public float Speed { get; set; } = 30;
+		public PadMovementComponent Movement { get; }
+
+		/// <summary>
+		/// Returns the pad's trigger component.
+		/// </summary>
+		public TriggerComponent Trigger { get; }
 
 		/// <summary>
 		/// Returns the pad's components.
@@ -77,8 +82,8 @@ namespace Melia.Zone.World.Actors.Pads
 			this.Position = creator.Position;
 			this.Direction = creator.Direction;
 
-			this.Components.Add(new PadMovementComponent(this));
-			this.Components.Add(new TriggerComponent(this, triggerArea));
+			this.Components.Add(this.Movement = new PadMovementComponent(this));
+			this.Components.Add(this.Trigger = new TriggerComponent(this, triggerArea));
 		}
 
 		/// <summary>
