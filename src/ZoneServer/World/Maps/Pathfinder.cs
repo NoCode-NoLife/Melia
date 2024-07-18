@@ -10,9 +10,6 @@ namespace Melia.Zone.World.Maps
 {
 	public class Pathfinder
 	{
-		private readonly int _maxGridWidth = 100;
-		private readonly int _maxGridHeight = 100;
-
 		private readonly Dictionary<SizeType, float> _entitySizeRadius = new Dictionary<SizeType, float>
 		{
 			{ SizeType.None, 0 },
@@ -25,26 +22,12 @@ namespace Melia.Zone.World.Maps
 		};
 
 		private Ground _ground;
-		private int _gridScale;
-
-		/// <summary>
-		/// Initializes a spatial grid for a given ground.
-		/// </summary>
-		public void Load(Ground ground)
-		{
-			_ground = ground;
-			_ground.GetBoundingBox(out var w, out var h);
-			var width = (int)w;
-			var height = (int)h;
-
-			_gridScale = Math.Max(1, Math.Max(width, height) / Math.Max(_maxGridWidth, _maxGridHeight));
-		}
 
 		/// <summary>
 		/// Finds a path from start position to the goal position using
 		/// A* algorithm. Returns List of valid positions to goal.
 		/// Last element is always the goal.
-		/// Returns null if no path can be found.
+		/// Returns empty list if no path can be found.
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
@@ -52,13 +35,14 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
-			return this.FindPathScale(start, goal, _gridScale, entitySize);
+			var scale = (int)_entitySizeRadius[entitySize] * 2;
+			return this.FindPathScale(start, goal, scale, entitySize);
 		}
 
 		/// <summary>
 		/// Finds a path from start position to the goal position using
 		/// A* algorithm and a path node scale.
-		/// Returns null if no path can be found.
+		/// Returns empty list if no path can be found.
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
@@ -75,13 +59,16 @@ namespace Melia.Zone.World.Maps
 			var radius = _entitySizeRadius[entitySize];
 
 			// Stopping condition
-			var distance = start.Get2DDistance(goal);
-			if ((distance <= radius/2) || (scale <= radius/2))
+			if (scale <= 0)
+				return path;
+
+			// Stopping condition
+			if (start.Get2DDistance(goal) < radius)
 			{
 				path.Add(goal);
 				return path;
 			}
-			
+
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
 			while (openSet.Count > 0)
@@ -89,16 +76,10 @@ namespace Melia.Zone.World.Maps
 				var current = openSet.Dequeue();
 
 				// Check if we need to improve our search
-				distance = current.Get2DDistance(goal);
-				if (distance < scale)
+				if (current.Get2DDistance(goal) < scale)
 				{
-					scale /= 2;
 					path.AddRange(this.ReconstructPath(cameFrom, current, entitySize));
-					var subPath = FindPathScale(current, goal, scale, entitySize);
-					if (subPath != null)
-					{
-						path.AddRange(subPath);
-					}
+					path.Add(goal); // Add the goal to the path
 					return path;
 				}
 
@@ -123,7 +104,7 @@ namespace Melia.Zone.World.Maps
 			}
 
 			// No path found
-			return null;
+			return path;
 		}
 
 		/// <summary>

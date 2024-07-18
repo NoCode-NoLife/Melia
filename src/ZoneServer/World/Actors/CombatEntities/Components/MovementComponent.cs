@@ -125,7 +125,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				_path = pathfinder.FindPath(position, destination, this.Entity.Size);
 
 				// Don't move if no path found
-				if (_path == null || _path.Count < 2)
+				if (_path.Count == 0)
 					return TimeSpan.Zero;
 
 				// Calculate total move time to destination
@@ -155,7 +155,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void MoveToNextPosition()
 		{
-			if (_path == null || _path.Count == 0)
+			if (_path.Count == 0)
 				return;
 
 			// Remove completed path node
@@ -427,7 +427,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				// in the path
 				if ((_moveTime -= elapsed) <= TimeSpan.Zero)
 				{
-					if (_path != null && _path.Count > 0)
+					if (_path.Count > 0)
 					{
 						this.Entity.Position = _path[0];
 					}
