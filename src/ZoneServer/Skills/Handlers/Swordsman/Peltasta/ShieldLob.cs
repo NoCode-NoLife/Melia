@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -25,9 +24,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	[SkillHandler(SkillId.Peltasta_ShieldLob)]
 	public class Peltasta_ShieldLob : IGroundSkillHandler
 	{
-		private const float ShieldFlyDistance = 100f;
-		private const float ShieldFlySpeedForward = 150f;
-		private const float ShieldFlySpeedBack = 200f;
+		private const float ShieldFlyDistance = 100;
+		private const float ShieldFlySpeedForward = 150;
+		private const float ShieldFlySpeedBack = 200;
+		private const float ShieldMinReturnDistance = 50;
+		private const int ShieldUpdateInterval = 100;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -123,16 +124,28 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var cancelToken = new CancellationTokenSource();
 			this.CheckShieldCollision(skill, caster, shieldMonster, cancelToken);
 
-			// We loop over this a few times so the shield homes in on your location
-			// even if you're moving
-			for (var i = 0; i < 5; i++)
+			// We'll try to chase down the player for a bit, continously moving
+			// the shield their way until it's close enough to return to them
+			for (var i = 0; i < 100; ++i)
 			{
-				var moveTime = movement.MoveTo(caster.Position);
-				Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, caster.Position, ShieldFlySpeedBack);
+				var casterPos = caster.Position;
+				var shieldPos = shieldMonster.Position;
 
-				await Task.Delay(250);
+				if (shieldPos.InRange2D(casterPos, ShieldMinReturnDistance))
+					break;
+
+				// Aim past the character to ensure smooth movement should we
+				// end up flying past them
+				var dest = shieldPos.GetRelative(casterPos, 100);
+
+				movement.MoveTo(dest);
+				Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, dest, ShieldFlySpeedBack);
+
+				await Task.Delay(ShieldUpdateInterval);
 			}
 
+			// Once the shield is in range, we're going to make one last push
+			// to fly it to their exact position before it's going to be removed
 			var endMoveTime = movement.MoveTo(caster.Position);
 			Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, caster.Position, ShieldFlySpeedBack);
 
@@ -237,7 +250,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 					this.Attack(skill, caster, targets);
 				}
 
-				await Task.Delay(100);
+				await Task.Delay(ShieldUpdateInterval);
 			}
 		}
 
