@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -13,7 +12,10 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Actors.Pads.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
@@ -26,9 +28,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	{
 		private const float ShieldFlyDistance = 100;
 		private const float ShieldFlySpeedForward = 150;
-		private const float ShieldFlySpeedBack = 200;
-		private const float ShieldMinReturnDistance = 50;
-		private const int ShieldUpdateInterval = 100;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -52,206 +51,89 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.ThrowShield(skill, caster, farPos);
-		}
+			//this.ThrowShield(skill, caster, farPos);
+			//return;
 
-		/// <summary>
-		/// Handles the spawning and throwing of the shield
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="originPos"></param>
-		private async void ThrowShield(Skill skill, ICombatEntity caster, Position originPos)
-		{
-			var cancelToken = new CancellationTokenSource();
+			var pad = new Pad("Peltasta_ShieldLob", caster, skill, new Circle(caster.Position, 40));
+			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
+			pad.Speed = ShieldFlySpeedForward;
 
-			var padHandle = ZoneServer.Instance.World.CreatePadHandle();
-			var shieldMonster = this.CreateShieldMonster(skill, caster, padHandle);
+			pad.Components.Get<TriggerComponent>().UpdateInterval = TimeSpan.FromMilliseconds(100);
 
-			// Throw shield, hitting targets while it's moving, with a slight
-			// delay in between
-			await this.MoveShieldForward(shieldMonster, caster, skill, padHandle, originPos);
-			await Task.Delay(TimeSpan.FromMilliseconds(500));
-			await this.MoveShieldBack(shieldMonster, caster, skill, padHandle, originPos);
-
-			this.RemoveShieldMonster(shieldMonster, caster, skill, padHandle, originPos);
-		}
-
-		/// <summary>
-		/// Makes shield fly forward in the direction the caster is facing.
-		/// Method returns once it arrived.
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="skill"></param>
-		/// <param name="shieldMonster"></param>
-		/// <param name="padHandle"></param>
-		/// <param name="originPos"></param>
-		/// <returns></returns>
-		private async Task MoveShieldForward(Mob shieldMonster, ICombatEntity caster, Skill skill, int padHandle, Position originPos)
-		{
-			var movement = shieldMonster.Components.Get<MovementComponent>();
-			movement.SetFixedMoveSpeed(ShieldFlySpeedForward);
-			movement.SetMoveSpeedType(MoveSpeedType.Run);
-
-			var dest = originPos.GetRelative(caster.Direction, ShieldFlyDistance);
-			var moveTime = movement.MoveTo(dest);
-
-			Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, dest, ShieldFlySpeedForward);
-
-			var cancelToken = new CancellationTokenSource();
-			this.CheckShieldCollision(skill, caster, shieldMonster, cancelToken);
-
-			await Task.Delay(moveTime);
-			cancelToken.Cancel();
-		}
-
-		/// <summary>
-		/// Makes shield fly back to the caster. Method returns once it arrived.
-		/// </summary>
-		/// <param name="shieldMonster"></param>
-		/// <param name="caster"></param>
-		/// <param name="skill"></param>
-		/// <param name="padHandle"></param>
-		/// <param name="originPos"></param>
-		/// <param name="distance"></param>
-		/// <returns></returns>
-		private async Task MoveShieldBack(Mob shieldMonster, ICombatEntity caster, Skill skill, int padHandle, Position originPos)
-		{
-			var movement = shieldMonster.Components.Get<MovementComponent>();
-			movement.SetFixedMoveSpeed(ShieldFlySpeedBack);
-			movement.SetMoveSpeedType(MoveSpeedType.Run);
-
-			var cancelToken = new CancellationTokenSource();
-			this.CheckShieldCollision(skill, caster, shieldMonster, cancelToken);
-
-			// We'll try to chase down the player for a bit, continously moving
-			// the shield their way until it's close enough to return to them
-			for (var i = 0; i < 100; ++i)
+			pad.Components.Get<TriggerComponent>().Created += async (sender, args) =>
 			{
-				var casterPos = caster.Position;
-				var shieldPos = shieldMonster.Position;
+				var pad = args.Trigger as Pad;
+				var creator = pad.Creator as ICombatEntity;
 
-				if (shieldPos.InRange2D(casterPos, ShieldMinReturnDistance))
-					break;
+				var shieldMonster = new Mob(57001, MonsterType.Friendly);
 
-				// Aim past the character to ensure smooth movement should we
-				// end up flying past them
-				var dest = shieldPos.GetRelative(casterPos, 100);
+				shieldMonster.Position = creator.Position.GetRelative(creator.Direction, 25f);
+				shieldMonster.Direction = creator.Direction;
+				shieldMonster.FromGround = false;
+				shieldMonster.Components.Add(new MovementComponent(shieldMonster));
 
-				movement.MoveTo(dest);
-				Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, dest, ShieldFlySpeedBack);
+				Send.ZC_NORMAL.SkillPad(creator, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, pad.Handle, 30, true);
+				creator.Map.AddMonster(shieldMonster);
 
-				await Task.Delay(ShieldUpdateInterval);
-			}
-
-			// Once the shield is in range, we're going to make one last push
-			// to fly it to their exact position before it's going to be removed
-			var endMoveTime = movement.MoveTo(caster.Position);
-			Send.ZC_NORMAL.SkillEffectMovement(caster, padHandle, caster.Position, ShieldFlySpeedBack);
-
-			await Task.Delay(endMoveTime);
-			cancelToken.Cancel();
-		}
-
-		/// <summary>
-		/// Creates a monster that represents the shield being thrown.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="padHandle"></param>
-		/// <returns></returns>
-		private Mob CreateShieldMonster(Skill skill, ICombatEntity caster, int padHandle)
-		{
-			var shieldMonster = new Mob(57001, MonsterType.Friendly);
-
-			shieldMonster.Position = caster.Position.GetRelative(caster.Direction, 25f);
-			shieldMonster.Direction = caster.Direction;
-			shieldMonster.FromGround = false;
-			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
-
-			Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, padHandle, 30, true);
-			caster.Map.AddMonster(shieldMonster);
-
-			this.DressUpShield(caster, padHandle, shieldMonster);
-
-			return shieldMonster;
-		}
-
-		/// <summary>
-		/// Removes the shield monster from the map.
-		/// </summary>
-		/// <param name="shieldMonster"></param>
-		/// <param name="caster"></param>
-		/// <param name="skill"></param>
-		/// <param name="padHandle"></param>
-		/// <param name="originPos"></param>
-		private void RemoveShieldMonster(Mob shieldMonster, ICombatEntity caster, Skill skill, int padHandle, Position originPos)
-		{
-			Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", originPos, caster.Direction, 0, 145.8735f, padHandle, 30, false);
-			caster.Map.RemoveMonster(shieldMonster);
-		}
-
-		/// <summary>
-		/// Dresses up the shield monster to look like the player's shield.
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="padHandle"></param>
-		/// <param name="shieldMonster"></param>
-		private void DressUpShield(ICombatEntity caster, int padHandle, Mob shieldMonster)
-		{
-			if (caster is Character character)
-			{
-				var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
-				Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", shield.Id);
-			}
-
-			Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90, 0, 0);
-			Send.ZC_NORMAL.SpinObject(shieldMonster);
-			Send.ZC_NORMAL.SkillSetActorHeight(shieldMonster, padHandle, 22);
-			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);
-		}
-
-		/// <summary>
-		/// Checks to see if the Shield collides with any enemies
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="shieldMonster"></param>
-		/// <param name="cancelToken"></param>
-		private async void CheckShieldCollision(Skill skill, ICombatEntity caster, Mob shieldMonster, CancellationTokenSource cancelToken)
-		{
-			// We have to track sr manually since this skill
-			// checks for targets constantly as its hitbox moves
-
-			var hitTargets = new List<ICombatEntity>();
-
-			var sr = (int)skill.Properties.GetFloat(PropertyName.SkillSR);
-			if (ZoneServer.Instance.Conf.World.DisableSDR)
-				sr = int.MaxValue;
-
-			while (!cancelToken.IsCancellationRequested)
-			{
-				var splashArea = new Circle(shieldMonster.Position, 40);
-
-				// You can't hit the same target twice (until the shield is on
-				// the way back)
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-				if (targets.Count > 0)
-					targets.RemoveAll(hitTargets.Contains);
-
-				var targetsLeft = sr - hitTargets.Count;
-
-				if (targets.Count > targetsLeft)
-					targets.RemoveRange(targetsLeft, targets.Count - targetsLeft);
-
-				if (targets.Count > 0)
+				if (creator is Character character)
 				{
-					hitTargets.AddRange(targets);
-					this.Attack(skill, caster, targets);
+					var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
+					Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", shield.Id);
 				}
 
-				await Task.Delay(ShieldUpdateInterval);
-			}
+				Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90, 0, 0);
+				Send.ZC_NORMAL.SpinObject(shieldMonster);
+				Send.ZC_NORMAL.SkillSetActorHeight(shieldMonster, pad.Handle, 22);
+				Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);
+
+				pad.Variables.Set("shieldMonster", shieldMonster);
+
+				var flyDest = creator.Position.GetRelative(creator.Direction, ShieldFlyDistance);
+				var moveTime = pad.Components.Get<PadMovementComponent>().MoveTo(flyDest);
+				await Task.Delay(moveTime);
+
+				await Task.Delay(500);
+
+				moveTime = pad.Components.Get<PadMovementComponent>().MoveTo(creator.Position);
+				await Task.Delay(moveTime);
+
+				pad.Destroy();
+			};
+
+			pad.Components.Get<TriggerComponent>().Entered += (sender, args) =>
+			{
+				var pad = args.Trigger as Pad;
+				var creator = pad.Creator as ICombatEntity;
+				var target = args.Initiator as ICombatEntity;
+
+				var concurrentCount = pad.Variables.GetInt("concurrentCount", 0);
+				if (concurrentCount >= 8)
+					return;
+
+				pad.Variables.Set("concurrentCount", concurrentCount + 1);
+
+				if (!creator.CanAttack(target))
+					return;
+
+				this.Attack(skill, caster, [target]);
+			};
+
+			pad.Components.Get<TriggerComponent>().Left += (sender, args) =>
+			{
+				var concurrentCount = pad.Variables.GetInt("concurrentCount", 0);
+				pad.Variables.Set("concurrentCount", Math.Max(0, concurrentCount - 1));
+			};
+
+			pad.Components.Get<TriggerComponent>().Destroyed += (sender, args) =>
+			{
+				var pad = args.Trigger as Pad;
+				var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
+
+				Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", originPos, caster.Direction, 0, 145.8735f, pad.Handle, 30, false);
+				caster.Map.RemoveMonster(shieldMonster);
+			};
+
+			caster.Map.AddPad(pad);
 		}
 
 		/// <summary>
