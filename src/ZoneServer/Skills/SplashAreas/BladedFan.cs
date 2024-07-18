@@ -14,7 +14,7 @@ namespace Melia.Zone.Skills.SplashAreas
 	/// </summary>
 	public class BladedFan : ISplashArea, IRotatableF
 	{
-		private readonly PolygonF[] _blades;
+		private PolygonF[] _blades;
 		private Vector2F[] _edgePoints;
 		private OutlineF[] _outlines;
 
@@ -55,6 +55,21 @@ namespace Melia.Zone.Skills.SplashAreas
 		public Position Position { get; private set; }
 
 		/// <summary>
+		/// Returns the number of blades in the area.
+		/// </summary>
+		public int BladeCount { get; }
+
+		/// <summary>
+		/// Returns the length of the individual blades.
+		/// </summary>
+		public float BladeLength { get; }
+
+		/// <summary>
+		/// Returns the width of the individual blades.
+		/// </summary>
+		public float BladeWidth { get; }
+
+		/// <summary>
 		/// Creates a new bladed fan based on the given parameters.
 		/// </summary>
 		/// <param name="centerPos"></param>
@@ -66,6 +81,26 @@ namespace Melia.Zone.Skills.SplashAreas
 		{
 			if (bladeCount < 1)
 				throw new ArgumentException($"Blade count must be at least 1.");
+
+			this.Position = centerPos;
+			this.BladeCount = bladeCount;
+			this.BladeLength = bladeLength;
+			this.BladeWidth = bladeWidth;
+			this.Height = bladeLength;
+			this.Width = bladeLength;
+
+			this.CreateBlades();
+		}
+
+		/// <summary>
+		/// Generates the blades from the area's properties.
+		/// </summary>
+		private void CreateBlades()
+		{
+			var centerPos = this.Position;
+			var bladeCount = this.BladeCount;
+			var bladeLength = this.BladeLength;
+			var bladeWidth = this.BladeWidth;
 
 			_blades = new PolygonF[bladeCount];
 
@@ -80,10 +115,6 @@ namespace Melia.Zone.Skills.SplashAreas
 
 				_blades[i] = blade;
 			}
-
-			this.Position = centerPos;
-			this.Height = bladeLength;
-			this.Width = bladeLength;
 		}
 
 		/// <summary>
@@ -155,6 +186,19 @@ namespace Melia.Zone.Skills.SplashAreas
 
 			_edgePoints = null;
 			_outlines = null;
+		}
+
+		/// <summary>
+		/// Moves area to the given position and recalculates its properties.
+		/// </summary>
+		/// <param name="position"></param>
+		public void UpdatePosition(Vector2F position)
+		{
+			this.Position = new Position(position.X, this.Position.Y, position.Y);
+			_edgePoints = null;
+			_outlines = null;
+
+			this.CreateBlades();
 		}
 	}
 }
