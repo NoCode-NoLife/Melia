@@ -24,6 +24,14 @@ namespace Melia.Zone.World.Maps
 		private Ground _ground;
 
 		/// <summary>
+		/// Loads the ground
+		/// </summary>
+		public void Load(Ground ground)
+		{
+			_ground = ground;
+		}
+
+		/// <summary>
 		/// Finds a path from start position to the goal position using
 		/// A* algorithm. Returns List of valid positions to goal.
 		/// Last element is always the goal.
