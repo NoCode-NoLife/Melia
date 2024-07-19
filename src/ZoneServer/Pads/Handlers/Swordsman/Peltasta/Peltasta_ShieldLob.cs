@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
@@ -19,6 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 	{
 		private const float ShieldFlyDistance = 100;
 		private const float ShieldFlySpeedForward = 150;
+		private readonly static TimeSpan HomingTickTime = TimeSpan.FromMilliseconds(250);
 
 		/// <summary>
 		/// Called when the pad is created.
@@ -116,7 +118,31 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// <returns></returns>
 		private async Task FlyBack(Pad pad, ICombatEntity creator)
 		{
-			var moveTime = pad.Movement.MoveTo(creator.Position);
+			// Try homing in on the creator for a while
+			for (var i = 0; i < 20; ++i)
+			{
+				// Stop if the pad is close enough to get to the creator
+				// in one tick
+				var moveTimeToCreator = pad.Movement.CalcMoveToTime(creator.Position);
+				if (moveTimeToCreator <= HomingTickTime)
+					break;
+
+				// Aim past the creator to ensure smooth movement if they're
+				// moving away during the wait time
+				var dest = pad.Position.GetRelative(creator.Position, 300);
+				pad.Movement.MoveTo(dest);
+
+				await Task.Delay(HomingTickTime);
+			}
+
+			// Final push to get back to the creator. Aim past the creator
+			// if they're moving, to close the gap between them and where
+			// the shield will disappear
+			var finalDest = creator.Position;
+			if (creator.Components.TryGet<MovementComponent>(out var movement) && movement.IsMoving)
+				finalDest = creator.Position.GetRelative(creator.Direction, 50);
+
+			var moveTime = pad.Movement.MoveTo(finalDest);
 			await Task.Delay(moveTime);
 		}
 	}
