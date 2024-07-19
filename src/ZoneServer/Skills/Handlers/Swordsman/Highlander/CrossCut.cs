@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -11,7 +11,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
@@ -20,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 	/// Handler for the Highlander skill Crosscut.
 	/// </summary>
 	[SkillHandler(SkillId.Highlander_CrossCut)]
-	public class CrossCut : IGroundSkillHandler
+	public class Highlander_CrossCut : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -81,9 +80,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			await Task.Delay(delayBetweenHits);
 			hits.Clear();
@@ -95,11 +96,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
 				skillHit2.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit2);
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 				target.StartBuff(BuffId.HeavyBleeding, skill.Level, 0, TimeSpan.FromSeconds(debuffTime), caster);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }

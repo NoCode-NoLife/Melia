@@ -172,7 +172,9 @@ namespace Melia.Zone.World.Spawning
 				this.OverrideProperties(monster, map);
 
 				monster.Components.Add(new MovementComponent(monster));
-				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
+
+				if (!string.IsNullOrWhiteSpace(monster.Data.AiName) && monster.Data.AiName != "None")
+					monster.Components.Add(new AiComponent(monster, monster.Data.AiName));
 
 				map.AddMonster(monster);
 				monster.PossiblyBecomeRare();

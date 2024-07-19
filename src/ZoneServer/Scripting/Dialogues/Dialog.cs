@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
@@ -24,11 +25,11 @@ namespace Melia.Zone.Scripting.Dialogues
 	{
 		private const string NpcNameSeperator = "*@*";
 		private const string NpcDialogTextSeperator = "\\";
-		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex ReplaceWhitespace = new(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		private string _response;
-		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
-		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
+		private readonly SemaphoreSlim _resumeSignal = new(0);
+		private readonly CancellationTokenSource _cancellation = new();
 
 		/// <summary>
 		/// Returns a reference to the actor that initiated the trigger.
@@ -47,7 +48,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			get
 			{
-				if (!(this.Initiator is Character character))
+				if (this.Initiator is not Character character)
 					throw new InvalidOperationException($"The triggerer is not of type Character, but {this.Initiator.GetType().Name}.");
 
 				return character;
@@ -61,7 +62,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			get
 			{
-				if (!(this.Trigger is Npc npc))
+				if (this.Trigger is not Npc npc)
 					throw new InvalidOperationException($"The trigger is not of type Npc, but {this.Initiator.GetType().Name}.");
 
 				return npc;
@@ -277,15 +278,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		private string ReplaceCustomCodes(string message)
 		{
 			// {pcname} Character name
-			if (message.IndexOf("{pcname}") != -1)
+			if (message.Contains("{pcname}"))
 				message = message.Replace("{pcname}", this.Player.Name);
 
 			// {teamname} Character team name
-			if (message.IndexOf("{teamname}") != -1)
+			if (message.Contains("{teamname}"))
 				message = message.Replace("{teamname}", this.Player.TeamName);
 
 			// {fullname} Character name + team name
-			if (message.IndexOf("{fullname}") != -1)
+			if (message.Contains("{fullname}"))
 				message = message.Replace("{fullname}", this.Player.Name + " " + this.Player.TeamName);
 
 			return message;
@@ -335,6 +336,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="text"></param>
 		public async Task Msg(string text)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 			Send.ZC_DIALOG_OK(this.Player.Connection, text);
 
@@ -355,7 +358,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="options"></param>
 		/// <returns></returns>
 		public DialogOptionList Options(params DialogOption[] options)
-			=> new DialogOptionList(options);
+			=> new(options);
 
 		/// <summary>
 		/// Shows a menu with options to select from, returns the key
@@ -407,6 +410,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task<int> Select(string text, IEnumerable<string> options)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 
 			var arguments = new List<string>();

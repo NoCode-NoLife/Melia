@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// Handler for Heal_Buff, which is primarily triggered by Cleric_Heal.
 	/// </summary>
 	[BuffHandler(BuffId.Heal_Buff)]
-	public class HealBuffHandler : BuffHandler
+	public class Heal_Buff : BuffHandler
 	{
 		/// <summary>
 		/// Starts the buff, healing the target.

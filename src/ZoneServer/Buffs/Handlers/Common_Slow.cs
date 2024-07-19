@@ -1,7 +1,5 @@
-﻿using Melia.Zone.Buffs.Base;
-using Melia.Zone.World;
-using Melia.Shared.Game.Const;
-using System;
+﻿using Melia.Shared.Game.Const;
+using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 
 namespace Melia.Zone.Buffs.Handlers
@@ -10,7 +8,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// Handler for Common_Slow, which affects the movement speed on use.
 	/// </summary>
 	[BuffHandler(BuffId.Common_Slow)]
-	public class CommonSlowHandler : BuffHandler
+	public class Common_Slow : BuffHandler
 	{
 		private const float MspdDebuffRate = 0.5f;
 
@@ -27,9 +25,8 @@ namespace Melia.Zone.Buffs.Handlers
 			Send.ZC_NORMAL.PlayTextEffect(target, caster, "SHOW_BUFF_TEXT", (float)BuffId.Common_Slow, null);
 
 			var reduceMspd = target.Properties.GetFloat(PropertyName.MSPD) * MspdDebuffRate;
-			buff.Vars.SetFloat("Melia.ReduceMspd", reduceMspd);
 
-			target.Properties.Modify(PropertyName.MSPD_BM, -reduceMspd);
+			AddPropertyModifier(buff, target, PropertyName.MSPD_BM, -reduceMspd);
 			Send.ZC_MSPD(target);
 		}
 
@@ -39,13 +36,8 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat("Melia.ReduceMspd", out var reduceMspd))
-			{
-				var target = buff.Target;
-
-				target.Properties.Modify(PropertyName.MSPD_BM, reduceMspd);
-				Send.ZC_MSPD(target);
-			}
+			RemovePropertyModifier(buff, buff.Target, PropertyName.MSPD_BM);
+			Send.ZC_MSPD(buff.Target);
 		}
 	}
 }

@@ -1331,6 +1331,10 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
+		var movementComponent = character.Components.Get<MovementComponent>();
+		if (movementComponent.IsHeld)
+			return 0;
+
 		var fixMspd = properties.GetFloat(PropertyName.FIXMSPD_BM);
 		if (fixMspd != 0)
 			return fixMspd;
@@ -1450,5 +1454,22 @@ public class CharacterCalculationsScript : GeneralScript
 			return 0;
 
 		return 1;
+	}
+
+	/// <summary>
+	/// Returns the character's looting chance, representing a bonus to
+	/// the drop rates they experience.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_LootingChance(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.LootingChance);
+		var byBuff = character.Properties.GetFloat(PropertyName.LootingChance_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
 	}
 }
