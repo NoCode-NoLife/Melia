@@ -174,8 +174,15 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
 
-			//Send.ZC_SEND_CASH_VALUE(conn);
-			//Send.ZC_SEND_PREMIUM_STATE(conn, new Shared.Game.PremiumState(PremiumType.Token, DateTime.Now.AddDays(7), 0));
+			// ---- <PremiumStuff> --------------------------------------------------
+
+			Send.ZC_SEND_CASH_VALUE(conn);
+			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
+
+			if (conn.Account.Premium.CanUseBuff)
+				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+
+			// ---- </PremiumStuff> -------------------------------------------------
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -2764,6 +2771,23 @@ namespace Melia.Zone.Network
 				combat.IsGuarding = active;
 
 			Send.ZC_GUARD(character, active, dir);
+		}
+
+		/// <summary>
+		/// Send as a notification for taking certain actions, such as preparing
+		/// to teleport.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLIENT_DIRECT)]
+		public void CZ_CLIENT_DIRECT(IZoneConnection conn, Packet packet)
+		{
+			var type = packet.GetInt();
+			var argStr = packet.GetString(16);
+
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_CLIENT_DIRECT(character, type, argStr);
 		}
 	}
 }

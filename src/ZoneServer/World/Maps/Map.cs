@@ -15,6 +15,8 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
+using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.World.Maps
 {
@@ -51,6 +53,13 @@ namespace Melia.Zone.World.Maps
 		/// Collection of trigger areas on the map.
 		/// </summary>
 		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
+
+		/// <summary>
+		/// Collection of pads on the map.
+		/// <para>Key: <see cref="Pad.Handle"/></para>
+		/// <para>Value: <see cref="Pad"/></para>
+		/// </summary>
+		private readonly Dictionary<int, Pad> _pads = new Dictionary<int, Pad>();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
@@ -173,6 +182,9 @@ namespace Melia.Zone.World.Maps
 
 				lock (_characters)
 					_updateEntities.AddRange(_characters.Values);
+
+				lock (_pads)
+					_updateEntities.AddRange(_pads.Values);
 
 				foreach (var entity in _updateEntities)
 					entity.Update(elapsed);
@@ -645,6 +657,41 @@ namespace Melia.Zone.World.Maps
 
 			lock (_monsters)
 				return _monsters.Values.OfType<WarpMonster>().FirstOrDefault(a => a.Position.InRange2D(pos, 35));
+		}
+
+		/// <summary>
+		/// Adds pad to map and executes its first update.
+		/// </summary>
+		/// <param name="pad"></param>
+		public void AddPad(Pad pad)
+		{
+			pad.Map = this;
+
+			lock (_pads)
+				_pads[pad.Handle] = pad;
+
+			// Notify the pad about its new map after adding it, so potential
+			// events can reference the map.
+			// It would be kinda nice if the pad could manage this by itself,
+			// or all actors really, but we do have to tell the actor about
+			// it somehow. Maybe a generic OnAddedToMap method in Actor? TBD.
+			pad.Components.Get<TriggerComponent>()?.OnAddedToMap();
+		}
+
+		/// <summary>
+		/// Removes pad from map.
+		/// </summary>
+		/// <param name="pad"></param>
+		public void RemovePad(Pad pad)
+		{
+			// Notify the pad about its removal before actually removing it,
+			// so any potential event handlers can still reference its map.
+			pad.Components.Get<TriggerComponent>()?.OnRemovingFromMap();
+
+			lock (_pads)
+				_pads.Remove(pad.Handle);
+
+			pad.Map = null;
 		}
 
 		/// <summary>

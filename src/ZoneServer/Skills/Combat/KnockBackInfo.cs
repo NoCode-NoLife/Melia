@@ -108,8 +108,16 @@ namespace Melia.Zone.Skills.Combat
 				var distance = 30.570992087511f;
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
-				var finalPosition = this.FromPosition.GetRelative(this.Direction, distance);
-				this.ToPosition = finalPosition;
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 250 && this.VAngle == 10) // Rim Blow
+			{
+				// TODO: Double check this distance. In the PR it was a for loop
+				//   over the hit count (4)?
+				var distance = 22f * 4;
+
+				this.Time = TimeSpan.FromMilliseconds(180);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
 			else
 			{

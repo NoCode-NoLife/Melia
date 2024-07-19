@@ -23,7 +23,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MapDb : DatabaseJsonIndexed<int, MapData>
 	{
-		private readonly Dictionary<string, MapData> _nameIndex = new Dictionary<string, MapData>();
+		private readonly Dictionary<string, MapData> _nameIndex = new();
 
 		/// <summary>
 		/// Returns the map entry with given class name, or null if there was
@@ -33,7 +33,7 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public MapData Find(string className)
 		{
-			_nameIndex.TryGetValue(className, out var result);
+			_nameIndex.TryGetValue(className.ToLowerInvariant(), out var result);
 			return result;
 		}
 
@@ -66,7 +66,7 @@ namespace Melia.Shared.Data.Database
 			var defaultPosEntry = (JObject)entry["defaultPosition"];
 			data.DefaultPosition = new Position(defaultPosEntry.ReadFloat("x"), defaultPosEntry.ReadFloat("y"), defaultPosEntry.ReadFloat("z"));
 
-			_nameIndex[data.ClassName] = data;
+			_nameIndex[data.ClassName.ToLowerInvariant()] = data;
 
 			this.AddOrReplace(data.Id, data);
 		}

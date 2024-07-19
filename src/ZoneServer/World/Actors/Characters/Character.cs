@@ -550,11 +550,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		/// <param name="mapId"></param>
 		/// <param name="pos"></param>
-		/// <exception cref="ArgumentException">Thrown if map doesn't exist in world.</exception>
+		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
 		public void Warp(int mapId, Position pos)
 		{
-			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
-				throw new ArgumentException($"Map with id '{mapId}' doesn't exist in world.");
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
+				throw new ArgumentException("Map '" + mapId + "' not found in data.");
 
 			this.Position = pos;
 
@@ -893,7 +893,7 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-					if (monster.AttachableEffects.IsEmpty)
+					if (!monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);

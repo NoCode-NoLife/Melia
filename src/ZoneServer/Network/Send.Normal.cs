@@ -1,12 +1,14 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.Network
 {
@@ -358,6 +360,108 @@ namespace Melia.Zone.Network
 				character.Connection.Send(packet);
 			}
 
+			/// <Summary>
+			/// Used to show complex visual effects related to skills, called Pads.
+			/// </summary>
+			/// <param name="caster"></param>
+			/// <param name="pad"></param>
+			/// <param name="animationName"></param>
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="isVisible"></param>
+			public static void PadUpdate(ICombatEntity caster, Pad pad, string animationName, float f1, float f2, float f3, bool isVisible)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+					throw new ArgumentException($"Packet string '{animationName}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PadUpdate);
+
+				packet.PutInt(caster.Handle);
+				packet.PutInt(packetStringData.Id);
+				packet.PutInt((int)pad.Skill.Id);
+				packet.PutInt(pad.Skill.Level);
+				packet.PutPosition(pad.Position);
+				packet.PutDirection(pad.Direction);
+				packet.PutFloat(f1);
+				packet.PutFloat(f2);
+				packet.PutInt(pad.Handle);
+				packet.PutInt(isVisible ? 1 : 0); // Possibly a bool with a 3 byte gap
+				packet.PutEmptyBin(13);
+				packet.PutFloat(f3);
+				packet.PutEmptyBin(16);
+
+				caster.Map.Broadcast(packet, caster);
+			}
+
+			/// <summary>
+			/// Sets the altitude of an actor associated with a pad.
+			/// </summary>
+			/// <remarks>
+			/// Used in skills like Shield Lob to make the shield hover in the air.
+			/// </remarks>
+			/// <param name="pad"></param>
+			/// <param name="actor"></param>
+			/// <param name="altitude"></param>
+			public static void PadSetMonsterAltitude(Pad pad, IActor actor, float altitude)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PadSetMonsterAltitude);
+
+				packet.PutInt(pad.Handle);
+				packet.PutInt(actor.Handle);
+				packet.PutFloat(altitude);
+				packet.PutByte(1);
+
+				pad.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Moves pad to the position on clients around it.
+			/// </summary>
+			/// <param name="caster"></param>
+			/// <param name="pad"></param>
+			/// <param name="dest"></param>
+			/// <param name="movementSpeed"></param>
+			public static void PadMoveTo(Pad pad, Position dest, float movementSpeed)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PadMoveTo);
+
+				packet.PutInt(pad.Handle);
+				packet.PutPosition(dest);
+				packet.PutByte(1);
+				packet.PutFloat(movementSpeed);
+				packet.PutFloat(1);
+
+				pad.Map.Broadcast(packet, pad);
+			}
+
+			/// <summary>
+			/// Rotates an actor on the given axes.
+			/// </summary>
+			/// <remarks>
+			/// One usage example is Shield Lob where this is used to rotate the
+			/// shield onto its side.
+			/// </remarks>
+			/// <param name="actor"></param>
+			/// <param name="angleX"></param>
+			/// <param name="angleY"></param>
+			/// <param name="angleZ"></param>
+			public static void ActorRotate(IActor actor, float angleX, float angleY, float angleZ)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ActorRotate);
+
+				packet.PutInt(actor.Handle);
+				packet.PutFloat(angleX);
+				packet.PutFloat(angleY);
+				packet.PutFloat(angleZ);
+
+				actor.Map.Broadcast(packet);
+			}
+
 			/// <summary>
 			/// Adjusts the skill speed for a skill.
 			/// </summary>
@@ -447,6 +551,27 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Sets the model for a pad to a certain item.
+			/// </summary>
+			/// <remarks>
+			/// Used in skills like Throw Spear and Shield Lob.
+			/// </remarks>
+			/// <param name="actor"></param>
+			/// <param name="str"></param>
+			/// <param name="itemId"></param>
+			public static void PadSetModel(IActor actor, string str, int itemId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PadSetModel);
+
+				packet.PutInt(actor.Handle);
+				packet.PutLpString(str);
+				packet.PutInt(itemId);
+
+				actor.Map.Broadcast(packet);
+			}
+
+			/// <summary>
 			/// Updates weather wig eequipment is visible for the character
 			/// on clients in range.
 			/// </summary>
@@ -528,17 +653,25 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Purpose currently unknown.
+			/// Makes actor spin on clients near it.
 			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="i1"></param>
-			public static void Skill_45(IActor source, int i1)
+			/// <param name="actor"></param>
+			/// <param name="spinDelay"></param>
+			/// <param name="spinCount"></param>
+			/// <param name="rotationsPerSecond"></param>
+			/// <param name="velocityChangeTerm"></param>
+			public static void SpinObject(IActor actor, float spinDelay = 0, float spinCount = -1, float rotationsPerSecond = 0.2f, float velocityChangeTerm = 0)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_45);
-				packet.PutInt(i1);
+				packet.PutInt(NormalOp.Zone.SpinObject);
 
-				source.Map.Broadcast(packet, source);
+				packet.PutInt(actor.Handle);
+				packet.PutFloat(spinDelay);
+				packet.PutFloat(spinCount);
+				packet.PutFloat(rotationsPerSecond);
+				packet.PutFloat(velocityChangeTerm);
+
+				actor.Map.Broadcast(packet);
 			}
 
 			/// <summary>
@@ -990,41 +1123,6 @@ namespace Melia.Zone.Network
 				packet.PutByte(active);
 				packet.PutByte(movable);
 				packet.PutByte(hideUi);
-
-				character.Connection.Send(packet);
-			}
-
-			/// <summary>
-			/// Purpose unknown, related to skills.
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="casterHandle"></param>
-			/// <param name="packetString"></param>
-			/// <param name="skillId"></param>
-			/// <param name="targetPos"></param>
-			/// <param name="targetDir"></param>
-			/// <exception cref="ArgumentException"></exception>
-			public static void Skill_59(Character character, int casterHandle, string packetString, SkillId skillId, Position targetPos, Direction targetDir)
-			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Unknown packet string '{packetString}'.");
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Skill_59);
-
-				packet.PutInt(casterHandle);
-				packet.PutInt(packetStringData.Id);
-				packet.PutInt((int)skillId);
-				packet.PutInt(1);
-				packet.PutPosition(targetPos);
-				packet.PutDirection(targetDir);
-				packet.PutFloat(-0.78f);
-				packet.PutFloat(0);
-				packet.PutInt(0);
-				packet.PutInt(1);
-				packet.PutEmptyBin(13);
-				packet.PutFloat(150);
-				packet.PutEmptyBin(16);
 
 				character.Connection.Send(packet);
 			}

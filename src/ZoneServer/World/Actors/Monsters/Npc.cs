@@ -7,6 +7,7 @@ using Melia.Zone.Scripting.Dialogues;
 using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 using System.Threading.Tasks;
+using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -34,13 +35,13 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns the function called when someone steps into the NPC's
 		/// trigger area.
 		/// </summary>
-		public DialogFunc EnterFunc { get; private set; }
+		public TriggerActorFuncAsync EnterFunc { get; private set; }
 
 		/// <summary>
 		/// Returns the function called when someone steps out of the NPC's
 		/// trigger area.
 		/// </summary>
-		public DialogFunc LeaveFunc { get; private set; }
+		public TriggerActorFuncAsync LeaveFunc { get; private set; }
 
 		/// <summary>
 		/// Returns the area in which the NPC's enter and leave functions
@@ -100,7 +101,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="func"></param>
-		public void SetEnterTrigger(string name, DialogFunc func)
+		public void SetEnterTrigger(string name, TriggerActorFuncAsync func)
 		{
 			this.EnterName = name;
 			this.EnterFunc = func;
@@ -112,11 +113,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="func"></param>
-		public void SetEnterTriggerSync(string name, TriggerCallbackSync func)
+		public void SetEnterTrigger(string name, TriggerActorFuncSync func)
 		{
-			this.SetEnterTrigger(name, async dialog =>
+			this.SetEnterTrigger(name, async (args) =>
 			{
-				func(dialog);
+				func(args);
 				await Task.CompletedTask;
 			});
 		}
@@ -127,7 +128,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="func"></param>
-		public void SetLeaveTrigger(string name, DialogFunc func)
+		public void SetLeaveTrigger(string name, TriggerActorFuncAsync func)
 		{
 			this.LeaveName = name;
 			this.LeaveFunc = func;
@@ -164,16 +165,150 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Returns a function to call when someone enters the area.
 		/// </summary>
-		DialogFunc EnterFunc { get; }
+		TriggerActorFuncAsync EnterFunc { get; }
 
 		/// <summary>
 		/// Returns a function to call when someone leaves the area.
 		/// </summary>
-		DialogFunc LeaveFunc { get; }
+		TriggerActorFuncAsync LeaveFunc { get; }
 
 		/// <summary>
 		/// Area in which the enter and leave functions are triggered.
 		/// </summary>
 		IShapeF Area { get; }
+	}
+
+	/// <summary>
+	/// A function that can be used as a synchronous trigger callback.
+	/// </summary>
+	/// <param name="args"></param>
+	/// <returns></returns>
+	public delegate void TriggerFuncSync(TriggerArgs args);
+
+	/// <summary>
+	/// A function that can be used as an asynchronous trigger callback.
+	/// </summary>
+	/// <param name="args"></param>
+	/// <returns></returns>
+	public delegate Task TriggerFuncAsync(TriggerArgs args);
+
+	/// <summary>
+	/// A function that can be used as a synchronous trigger callback.
+	/// </summary>
+	/// <param name="args"></param>
+	/// <returns></returns>
+	public delegate void TriggerActorFuncSync(TriggerActorArgs args);
+
+	/// <summary>
+	/// A function that can be used as an asynchronous trigger callback.
+	/// </summary>
+	/// <param name="args"></param>
+	/// <returns></returns>
+	public delegate Task TriggerActorFuncAsync(TriggerActorArgs args);
+
+	/// <summary>
+	/// The event arguments for pad trigger events.
+	/// </summary>
+	public class TriggerArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns how the trigger was triggered.
+		/// </summary>
+		public TriggerType Type { get; }
+
+		/// <summary>
+		/// Returns the trigger that was triggered.
+		/// </summary>
+		public IActor Trigger { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="trigger"></param>
+		/// <param name="initiator"></param>
+		public TriggerArgs(TriggerType type, IActor trigger)
+		{
+			this.Type = type;
+			this.Trigger = trigger;
+		}
+	}
+
+	/// <summary>
+	/// The event arguments for pad trigger events.
+	/// </summary>
+	public class TriggerActorArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns how the trigger was triggered.
+		/// </summary>
+		public TriggerType Type { get; }
+
+		/// <summary>
+		/// Returns the trigger that was triggered.
+		/// </summary>
+		public IActor Trigger { get; }
+
+		/// <summary>
+		/// Returns the triggering actor that triggered the triggerarable trigger
+		/// in a most triggerable way. Trigger.
+		/// </summary>
+		public IActor Initiator { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="trigger"></param>
+		/// <param name="initiator"></param>
+		public TriggerActorArgs(TriggerType type, IActor trigger, IActor initiator)
+		{
+			this.Type = type;
+			this.Trigger = trigger;
+			this.Initiator = initiator;
+		}
+	}
+
+	/// <summary>
+	/// Defines how a trigger was triggered.
+	/// </summary>
+	public enum TriggerType
+	{
+		/// <summary>
+		/// The trigger was created.
+		/// </summary>
+		Create,
+
+		/// <summary>
+		/// The trigger was destroyed.
+		/// </summary>
+		Destroy,
+
+		/// <summary>
+		/// An actor stepped into the trigger area.
+		/// </summary>
+		/// <remarks>
+		/// Triggers only once per actor, when they initially enter the area.
+		/// </remarks>
+		Enter,
+
+		/// <summary>
+		/// An actor stepped out of the trigger area.
+		/// </summary>
+		/// <remarks>
+		/// Triggers only once per actor, when they leave the area.
+		/// </remarks>
+		Leave,
+
+		/// <summary>
+		/// An update trigger that is raised in regular intervals while the
+		/// trigger exists.
+		/// </summary>
+		/// <remarks>
+		/// Triggers only once, regardless of the number of actors inside a
+		/// trigger area. Use TriggerComponent.GetActors to retrieve a list
+		/// of actors currently inside the area.
+		/// </remarks>
+		Update,
 	}
 }
