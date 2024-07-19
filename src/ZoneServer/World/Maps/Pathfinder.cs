@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.World;
 using Melia.Shared.Game.Const;
-using g3;
 using Yggdrasil.Util;
-using System.ComponentModel;
 
 namespace Melia.Zone.World.Maps
 {
