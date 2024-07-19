@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -10,8 +8,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -24,9 +20,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	[SkillHandler(SkillId.Peltasta_ShieldLob)]
 	public class Peltasta_ShieldLob : IGroundSkillHandler
 	{
-		private const float ShieldFlyDistance = 100;
-		private const float ShieldFlySpeedForward = 150;
-
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -49,120 +42,63 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			var pad = new Pad("Peltasta_ShieldLob", caster, skill, new Circle(caster.Position, 40));
+			var pad = new Pad(PadName.Peltasta_ShieldLob, caster, skill, new Circle(caster.Position, 40));
+			pad.Trigger.Entered += this.OnShieldCollision;
+
 			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
-
-			//if (caster.Map.IsPvp)
-			//	pad.ActorMaxCount = 4;
-
-			pad.Trigger.Created += async (sender, args) =>
-			{
-				var pad = args.Trigger as Pad;
-				var creator = pad.Creator as ICombatEntity;
-
-				pad.Movement.Speed = ShieldFlySpeedForward;
-				pad.Trigger.MaxActorCount = 8;
-
-				var shieldMonster = new Mob(57001, MonsterType.Friendly);
-
-				shieldMonster.Position = creator.Position.GetRelative(creator.Direction, 25f);
-				shieldMonster.Direction = creator.Direction;
-				shieldMonster.FromGround = false;
-				shieldMonster.Components.Add(new MovementComponent(shieldMonster));
-
-				Send.ZC_NORMAL.SkillPad(creator, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, pad.Handle, 30, true);
-				creator.Map.AddMonster(shieldMonster);
-
-				if (creator is Character character)
-				{
-					var shield = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
-					Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", shield.Id);
-				}
-
-				Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90, 0, 0);
-				Send.ZC_NORMAL.SpinObject(shieldMonster);
-				Send.ZC_NORMAL.SkillSetActorHeight(shieldMonster, pad.Handle, 22);
-				Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);
-
-				pad.Variables.Set("shieldMonster", shieldMonster);
-
-				var flyDest = creator.Position.GetRelative(creator.Direction, ShieldFlyDistance);
-				var moveTime = pad.Movement.MoveTo(flyDest);
-				await Task.Delay(moveTime);
-
-				await Task.Delay(500);
-
-				moveTime = pad.Movement.MoveTo(creator.Position);
-				await Task.Delay(moveTime);
-
-				pad.Destroy();
-			};
-
-			pad.Trigger.Entered += (sender, args) =>
-			{
-				var pad = args.Trigger as Pad;
-				var creator = pad.Creator as ICombatEntity;
-				var target = args.Initiator as ICombatEntity;
-
-				if (pad.Trigger.AtCapacity)
-					return;
-
-				if (!creator.CanAttack(target))
-					return;
-
-				this.Attack(skill, caster, [target]);
-			};
-
-			pad.Trigger.Destroyed += (sender, args) =>
-			{
-				var pad = args.Trigger as Pad;
-				var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
-
-				Send.ZC_NORMAL.SkillPad(caster, skill, "Peltasta_ShieldLob2", originPos, caster.Direction, 0, 145.8735f, pad.Handle, 30, false);
-				caster.Map.RemoveMonster(shieldMonster);
-			};
-
 			caster.Map.AddPad(pad);
 		}
 
 		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Called when an actor enters the shield's area.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnShieldCollision(object sender, TriggerActorArgs args)
+		{
+			var pad = args.Trigger as Pad;
+			var creator = pad.Creator as ICombatEntity;
+			var skill = pad.Skill;
+			var target = args.Initiator as ICombatEntity;
+
+			if (pad.Trigger.AtCapacity)
+				return;
+
+			if (!creator.CanAttack(target))
+				return;
+
+			this.Attack(skill, creator, target);
+		}
+
+		/// <summary>
+		/// Attacks the target one time.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="targets"></param>
-		private void Attack(Skill skill, ICombatEntity caster, List<ICombatEntity> targets)
+		/// <param name="target"></param>
+		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			var damageDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var bonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
+			var modifier = SkillModifier.MultiHit(4);
+			modifier.BonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
 
-			var hits = new List<SkillHitInfo>();
-
-			foreach (var target in targets)
+			// Increase damage by 10% if target is under the effect of
+			// Swashbuckling from the caster
+			if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
 			{
-				var modifier = SkillModifier.MultiHit(4);
-				modifier.BonusPAtk = bonusPAtk;
-
-				// Increase damage by 10% if target is under the effect of
-				// Swashbuckling from the caster
-				if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
-				{
-					if (swashBuckingDebuff.Caster == caster)
-						modifier.DamageMultiplier += 0.10f;
-				}
-
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult.Damage, caster);
-
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
-
-				hits.Add(skillHit);
+				if (swashBuckingDebuff.Caster == caster)
+					modifier.DamageMultiplier += 0.10f;
 			}
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
+			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+			target.TakeDamage(skillHitResult.Damage, caster);
+
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			skillHit.HitEffect = HitEffect.Impact;
+
+			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
 	}
 }
