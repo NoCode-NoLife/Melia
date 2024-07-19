@@ -5,11 +5,13 @@ using Melia.Shared.World;
 using Melia.Shared.Game.Const;
 using g3;
 using Yggdrasil.Util;
+using System.ComponentModel;
 
 namespace Melia.Zone.World.Maps
 {
 	public class Pathfinder
 	{
+		private readonly int _maxNodeExpand = 50;
 		private readonly Dictionary<SizeType, float> _entitySizeRadius = new Dictionary<SizeType, float>
 		{
 			{ SizeType.None, 0 },
@@ -43,8 +45,28 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
-			var scale = (int)_entitySizeRadius[entitySize] * 2;
-			return this.FindPathScale(start, goal, scale, entitySize);
+			// Initial dynamic grid size
+			var radius = _entitySizeRadius[entitySize];
+			var distance = start.Get2DDistance(goal);
+			var scale = (int)Math.Min(distance / 2, radius * 3);
+
+			// Finds path
+			var path = this.FindPathScale(start, goal, scale, entitySize);
+
+			// Removes repeated positions
+			var visited = new HashSet<Position>();
+			var finalPath = new List<Position>();
+			foreach (var pos in path)
+			{
+				// Adds only nonrepeating positions
+				if (!visited.Contains(pos))
+				{
+					finalPath.Add(pos);
+					visited.Add(pos);
+				}
+			}
+			
+			return finalPath;
 		}
 
 		/// <summary>
@@ -67,32 +89,38 @@ namespace Melia.Zone.World.Maps
 			var radius = _entitySizeRadius[entitySize];
 
 			// Stopping condition
-			if (scale <= 0)
-				return path;
-
-			// Stopping condition
-			if (start.Get2DDistance(goal) < radius)
+			if ( (scale <= 0) || (start.Get3DDistance(goal) < radius) )
 			{
-				path.Add(goal);
+				if (_ground.IsValidCirclePosition(start, radius))
+					path.Add(start);
 				return path;
 			}
-
+			
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
-			while (openSet.Count > 0)
+			while ((openSet.Count > 0) && openSet.Count < _maxNodeExpand)
 			{
 				var current = openSet.Dequeue();
+				var distance = current.Get2DDistance(goal);
 
-				// Check if we need to improve our search
-				if (current.Get2DDistance(goal) < scale)
+				// Make our grid scale smaller as we approach target.
+				if (distance < scale * 2)
 				{
-					path.AddRange(this.ReconstructPath(cameFrom, current, entitySize));
-					path.Add(goal); // Add the goal to the path
+					path.AddRange(this.ReconstructPath(cameFrom, current));
+					scale = (int)Math.Min(distance / 2, radius * 3);
+					path.AddRange(this.FindPathScale(current, goal, scale, entitySize));
 					return path;
 				}
 
-				// Compute neighbors
+				// Adjacent neighbors
 				var neighbors = this.GetNeighbors(current, entitySize, scale);
+
+				// Always add one neighbor in last valid position towards goal
+				var direction = current.GetDirection(goal);
+				var neighborTowardsGoal = current.GetRelative(direction, scale);
+				neighbors.Add(_ground.GetLastValidCirclePosition(current, radius, neighborTowardsGoal));
+
+				// Update scores
 				foreach (var neighbor in neighbors)
 				{
 					var tentativeGScore = gScore[current] + scale;
@@ -137,17 +165,13 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Reconstructs the path from the given position,
-		/// merging nodes together if there are no obstacles between them
-		/// considering the entity size.
+		/// Reconstructs the path from the given position.
 		/// </summary>
 		/// <param name="cameFrom"></param>
 		/// <param name="position"></param>
-		/// <param name="entitySize"></param>
 		/// <returns></returns>
-		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position position, SizeType entitySize)
+		private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position position)
 		{
-			var radius = _entitySizeRadius[entitySize];
 			var totalPath = new List<Position>();
 			totalPath.Add(position);
 
@@ -221,7 +245,6 @@ namespace Melia.Zone.World.Maps
 				return this.GetNeighbors(pos, entitySize, gridScale/2);
 			}
 
-			// Shuffle our neighbors
 			return neighbors;
 		}
 	}
