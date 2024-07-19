@@ -43,9 +43,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			var pad = new Pad(PadName.Peltasta_ShieldLob, caster, skill, new Circle(caster.Position, 40));
+			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
 			pad.Trigger.Entered += this.OnShieldCollision;
 
-			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
 			caster.Map.AddPad(pad);
 		}
 
@@ -56,10 +56,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 		/// <param name="args"></param>
 		private void OnShieldCollision(object sender, TriggerActorArgs args)
 		{
-			var pad = args.Trigger as Pad;
-			var creator = pad.Creator as ICombatEntity;
-			var skill = pad.Skill;
-			var target = args.Initiator as ICombatEntity;
+			if (args.Trigger is not Pad pad) return;
+			if (args.Initiator is not ICombatEntity target) return;
+			if (pad.Creator is not ICombatEntity creator) return;
 
 			if (pad.Trigger.AtCapacity)
 				return;
@@ -67,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			if (!creator.CanAttack(target))
 				return;
 
-			this.Attack(skill, creator, target);
+			this.Attack(pad.Skill, creator, target);
 		}
 
 		/// <summary>

@@ -29,9 +29,8 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// <param name="args"></param>
 		public void Created(object sender, TriggerArgs args)
 		{
-			var pad = args.Trigger as Pad;
-			var creator = pad.Creator as ICombatEntity;
-			var skill = pad.Skill;
+			if (args.Trigger is not Pad pad) return;
+			if (pad.Creator is not ICombatEntity creator) return;
 
 			pad.Movement.Speed = ShieldFlySpeedForward;
 			pad.Trigger.MaxActorCount = 8;
@@ -46,7 +45,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 			shieldMonster.FromGround = false;
 			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
 
-			Send.ZC_NORMAL.SkillPad(creator, skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, pad.Handle, 30, true);
+			Send.ZC_NORMAL.SkillPad(creator, pad.Skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, pad.Handle, 30, true);
 			creator.Map.AddMonster(shieldMonster);
 
 			if (creator is Character character)
@@ -72,12 +71,12 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// <param name="args"></param>
 		public void Destroyed(object sender, TriggerArgs args)
 		{
-			var pad = args.Trigger as Pad;
-			var creator = pad.Creator as ICombatEntity;
-			var skill = pad.Skill;
+			if (args.Trigger is not Pad pad) return;
+			if (pad.Creator is not ICombatEntity creator) return;
+
 			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
 
-			Send.ZC_NORMAL.SkillPad(creator, skill, "Peltasta_ShieldLob2", creator.Position, creator.Direction, 0, 145.8735f, pad.Handle, 30, false);
+			Send.ZC_NORMAL.SkillPad(creator, pad.Skill, "Peltasta_ShieldLob2", creator.Position, creator.Direction, 0, 145.8735f, pad.Handle, 30, false);
 			creator.Map.RemoveMonster(shieldMonster);
 		}
 
