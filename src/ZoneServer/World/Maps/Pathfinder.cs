@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Maps
 {
 	public class Pathfinder
 	{
-		private readonly int _maxNodeExpand = 50;
+		private readonly int _maxNodeExpand = 500;
 		private readonly Dictionary<SizeType, float> _entitySizeRadius = new Dictionary<SizeType, float>
 		{
 			{ SizeType.None, 0 },
@@ -36,7 +36,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Finds a path from start position to the goal position using
 		/// A* algorithm. Returns List of valid positions to goal.
-		/// Last element is always the goal.
+		/// Last element is always the closest position to goal.
 		/// Returns empty list if no path can be found.
 		/// </summary>
 		/// <param name="start"></param>
@@ -46,9 +46,8 @@ namespace Melia.Zone.World.Maps
 		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
 			// Initial dynamic grid size
-			var radius = _entitySizeRadius[entitySize];
 			var distance = start.Get2DDistance(goal);
-			var scale = (int)Math.Min(distance / 2, radius * 3);
+			var scale = this.GetGridScale(distance, entitySize);
 
 			// Finds path
 			var path = this.FindPathScale(start, goal, scale, entitySize);
@@ -89,7 +88,7 @@ namespace Melia.Zone.World.Maps
 			var radius = _entitySizeRadius[entitySize];
 
 			// Stopping condition
-			if ( (scale <= 0) || (start.Get3DDistance(goal) < radius) )
+			if ( (scale <= 0) || (start.Get2DDistance(goal) < radius) )
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
@@ -107,7 +106,7 @@ namespace Melia.Zone.World.Maps
 				if (distance < scale * 2)
 				{
 					path.AddRange(this.ReconstructPath(cameFrom, current));
-					scale = (int)Math.Min(distance / 2, radius * 3);
+					scale = this.GetGridScale(distance, entitySize);
 					path.AddRange(this.FindPathScale(current, goal, scale, entitySize));
 					return path;
 				}
@@ -162,6 +161,23 @@ namespace Melia.Zone.World.Maps
 				}
 				return result;
 			}
+		}
+
+		/// <summary>
+		/// Gets the dynamic grid scale.
+		/// </summary>
+		/// <param name="distance"></param>
+		/// <param name="entitySize"></param>
+		/// <returns></returns>
+		private int GetGridScale(double distance, SizeType entitySize)
+		{
+			var radius = _entitySizeRadius[entitySize];
+			// radius * 2 is the maximum guaranteed value to not cause entities
+			// to go through objects. The client cannot handle this, so it
+			// displays as if entities are teleporting around. Values higher
+			// may cause this visual issue but it may also be desirable due
+			// to computational reasons.
+			return (int)Math.Min(distance / 2, radius * 2);
 		}
 
 		/// <summary>
