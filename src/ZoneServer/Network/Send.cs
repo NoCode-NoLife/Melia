@@ -3907,21 +3907,29 @@ namespace Melia.Zone.Network
 		public static void ZC_MOVE_PATH(IActor actor, Position fromCellPos, Position toCellPos, float speed)
 		{
 			var packet = new Packet(Op.ZC_MOVE_PATH);
-
-			packet.PutInt(actor.Handle);
-			packet.PutInt((int)fromCellPos.X);
-			packet.PutInt((int)fromCellPos.Z);
-			packet.PutInt((int)fromCellPos.Y);
-			packet.PutInt((int)toCellPos.X);
-			packet.PutInt((int)toCellPos.Z);
-			packet.PutInt((int)toCellPos.Y);
-			packet.PutFloat(speed);
-
-			// [i354444] Float removed, byte added. Same thing?
-			//packet.PutFloat(0);
-			packet.PutByte(0);
+			packet.AddCellMovement(actor, fromCellPos, toCellPos, speed);
 
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Makes actor move between the given positions on the character's client.
+		/// </summary>
+		/// <remarks>
+		/// The positions must use the cell for Y, instead of the height,
+		/// otherwise the client is not able to handle the packet.
+		/// </remarks>
+		/// <param name="character"></param>
+		/// <param name="actor"></param>
+		/// <param name="fromCellPos"></param>
+		/// <param name="toCellPos"></param>
+		/// <param name="speed"></param>
+		public static void ZC_MOVE_PATH(Character character, IActor actor, Position fromCellPos, Position toCellPos, float speed)
+		{
+			var packet = new Packet(Op.ZC_MOVE_PATH);
+			packet.AddCellMovement(actor, fromCellPos, toCellPos, speed);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
