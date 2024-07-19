@@ -120,7 +120,7 @@ namespace Melia.Zone.World.Maps
 		{
 			this.Id = id;
 			this.ClassName = name;
-			
+
 			this.Load();
 		}
 
