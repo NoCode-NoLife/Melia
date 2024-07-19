@@ -40,6 +40,10 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, "Peltasta_ShieldLob2", -0.7853982f, 0, 30, true);
 
+			// TODO: Add a way to more easily create and manage monsters spawned
+			//   by pads? Does this happen so often that we'll need it? Let's wait
+			//   and see for now.
+
 			var shieldMonster = new Mob(57001, MonsterType.Friendly);
 			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
 			shieldMonster.Position = pad.Position;
@@ -51,6 +55,9 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 
 			if (creator is Character character)
 			{
+				// Check item type for shield? Though it will be funny when
+				// someone manages to throw something else, and it's only
+				// a visual effect anyway.
 				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
 				Send.ZC_NORMAL.PadSetModel(shieldMonster, "warrior_f_", lhItem.Id);
 			}
