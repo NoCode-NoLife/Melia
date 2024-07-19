@@ -121,6 +121,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the given ability via out if it exists, regardless of
+		/// whether it's active or not.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public bool TryGet(AbilityId abilityId, out Ability ability)
+		{
+			ability = this.Get(abilityId);
+			return (ability != null);
+		}
+
+		/// <summary>
 		/// Returns the ability with the given id, or null if it didn't
 		/// exist.
 		/// </summary>

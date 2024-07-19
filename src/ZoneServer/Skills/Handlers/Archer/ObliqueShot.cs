@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 		/// <summary>
 		/// Handles the skill, shoot missile at enemy that spreads to another target.
 		/// </summary>
-		public async void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
+		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
