@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers
                 var target = buff.Target;
                 var damage = buff.NumArg2;
 
-                target.TakeSimpleHit(damage, attacker, 0);
+                target.TakeSimpleHit(damage, attacker, SkillId.None);
             }
         }
     }

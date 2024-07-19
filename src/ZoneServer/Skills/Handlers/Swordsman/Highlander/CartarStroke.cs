@@ -86,7 +86,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 			List<ICombatEntity> targets;
 			var hits = new List<SkillHitInfo>();
 
-			for (int i = 0; i < 3; i++) { 
+			for (var i = 0; i < 3; i++) { 
 								
 				targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 

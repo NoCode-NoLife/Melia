@@ -9,7 +9,7 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 {
 	/// <summary>
-	/// Handler for the Highlander skill Crown.
+	/// Handler for the Highlander skill Cross Guard.
 	/// </summary>
 	[SkillHandler(SkillId.Highlander_CrossGuard)]
 	public class Highlander_CrossGuard : IGroundSkillHandler, IDynamicCasted
@@ -35,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 		}
 
 		/// <summary>
-		/// Handles skill, damaging targets.
+		/// Handles skill, ending block animation.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -43,7 +43,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			// Have to send this to prevent immobilization if you hold to max duration
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}

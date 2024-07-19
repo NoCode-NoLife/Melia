@@ -57,25 +57,26 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <returns></returns>
 		public static bool TryHitCrossGuardEffect(ICombatEntity attacker, ICombatEntity target)
 		{
-			if (target.TryGetBuff(BuffId.CrossGuard_Buff, out var buff))
+			if (!target.TryGetBuff(BuffId.CrossGuard_Buff, out var buff))
 			{
-				// this previously instead applied a debuff to the attacker
-				// attacker.StartBuff(BuffId.CrossGuard_Debuff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
-
-				target.StartBuff(BuffId.CrossGuard_Damage_Buff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
-				
-				if (target is Character targetCharacter && target.Components.TryGet<CooldownComponent>(out var cooldownComponent))
-				{
-					if (targetCharacter.Skills.TryGet(SkillId.Highlander_CrossGuard, out var skill))
-					{
-						cooldownComponent.Start(skill.Data.CooldownGroup, TimeSpan.FromSeconds(15));
-						Send.ZC_OVERHEAT_CHANGED(targetCharacter, skill);
-					}
-				}
-
-				return true;
+				return false;
 			}
-			return false;
+
+			// this previously instead applied a debuff to the attacker
+			// attacker.StartBuff(BuffId.CrossGuard_Debuff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
+
+			target.StartBuff(BuffId.CrossGuard_Damage_Buff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
+			
+			if (target is Character targetCharacter && target.Components.TryGet<CooldownComponent>(out var cooldownComponent))
+			{
+				if (targetCharacter.Skills.TryGet(SkillId.Highlander_CrossGuard, out var skill))
+				{
+					cooldownComponent.Start(skill.Data.CooldownGroup, TimeSpan.FromSeconds(15));
+					Send.ZC_OVERHEAT_CHANGED(targetCharacter, skill);
+				}
+			}
+
+			return true;
 		}
 	}
 }
