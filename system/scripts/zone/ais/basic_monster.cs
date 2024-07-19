@@ -39,7 +39,7 @@ public class BasicMonsterAiScript : AiScript
 		SwitchRandom();
 		if (Case(80))
 		{
-			//yield return MoveRandom();
+			yield return MoveRandom();
 		}
 		else
 		{
