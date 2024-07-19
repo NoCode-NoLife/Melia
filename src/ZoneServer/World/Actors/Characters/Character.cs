@@ -893,7 +893,7 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-					if (monster.AttachableEffects.IsEmpty)
+					if (!monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
