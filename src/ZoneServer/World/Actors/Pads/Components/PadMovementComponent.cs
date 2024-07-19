@@ -28,7 +28,7 @@ namespace Melia.Zone.World.Actors.Pads.Components
 		/// <param name="speed"></param>
 		protected override void UpdateMoveTo(Position pos, Position dest, float speed)
 		{
-			Send.ZC_NORMAL.SkillEffectMovement(this.Pad.Creator, this.Pad.Handle, dest, speed);
+			Send.ZC_NORMAL.PadMoveTo(this.Pad, dest, speed);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Melia.Zone.World.Actors.Pads.Components
 			// but for now we'll just send a move with a very high speed, so it
 			// snaps there instantly and stops moving. Alternatively, we could
 			// just not send anything and hope it's in the right place.
-			Send.ZC_NORMAL.SkillEffectMovement(this.Pad.Creator, this.Pad.Handle, pos, 10000);
+			Send.ZC_NORMAL.PadMoveTo(this.Pad, pos, 10000);
 		}
 	}
 }

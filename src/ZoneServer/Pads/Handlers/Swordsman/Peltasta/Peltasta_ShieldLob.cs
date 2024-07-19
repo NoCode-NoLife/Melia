@@ -38,28 +38,26 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 			//if (creator.Map.IsPvp)
 			//	pad.Trigger.ActorMaxCount = 4;
 
+			Send.ZC_NORMAL.PadUpdate(creator, pad, "Peltasta_ShieldLob2", -0.7853982f, 0, 30, true);
+
 			var shieldMonster = new Mob(57001, MonsterType.Friendly);
-
-			shieldMonster.Position = creator.Position.GetRelative(creator.Direction, 25f);
-			shieldMonster.Direction = creator.Direction;
-			shieldMonster.FromGround = false;
 			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
-
-			Send.ZC_NORMAL.SkillPad(creator, pad.Skill, "Peltasta_ShieldLob2", shieldMonster.Position, shieldMonster.Direction, -0.7853982f, 0, pad.Handle, 30, true);
+			shieldMonster.Position = pad.Position;
+			shieldMonster.Direction = pad.Direction;
+			shieldMonster.AttachEffect("I_light004_violet", 1.5f);
 			creator.Map.AddMonster(shieldMonster);
+
+			pad.Variables.Set("shieldMonster", shieldMonster);
 
 			if (creator is Character character)
 			{
 				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
-				Send.ZC_NORMAL.SetPadModel(shieldMonster, "warrior_f_", lhItem.Id);
+				Send.ZC_NORMAL.PadSetModel(shieldMonster, "warrior_f_", lhItem.Id);
 			}
 
-			Send.ZC_NORMAL.SkillItemRotate(shieldMonster, 90, 0, 0);
+			Send.ZC_NORMAL.ActorRotate(shieldMonster, 90, 0, 0);
 			Send.ZC_NORMAL.SpinObject(shieldMonster);
-			Send.ZC_NORMAL.SkillSetActorHeight(shieldMonster, pad.Handle, 22);
-			Send.ZC_NORMAL.AttachEffect(shieldMonster, "I_light004_violet", 1.5f);
-
-			pad.Variables.Set("shieldMonster", shieldMonster);
+			Send.ZC_NORMAL.PadSetMonsterAltitude(pad, shieldMonster, 22);
 
 			this.FlyShieldFly(pad, creator);
 		}
@@ -76,7 +74,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 
 			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
 
-			Send.ZC_NORMAL.SkillPad(creator, pad.Skill, "Peltasta_ShieldLob2", creator.Position, creator.Direction, 0, 145.8735f, pad.Handle, 30, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, "Peltasta_ShieldLob2", 0, 145.8735f, 30, false);
 			creator.Map.RemoveMonster(shieldMonster);
 		}
 
