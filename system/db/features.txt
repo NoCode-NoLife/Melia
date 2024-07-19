@@ -105,6 +105,9 @@
 		
 		// Changes Hasisas to not base crit bonus on HP lost
 		{ name: "HasisasNoHpCritBonus", enabled: true },
+
+		// Changes Pierce to not base its hit count on target size
+		{ name: "PierceNoSizeEffect", enabled: true },
 	]},
 ]},
 

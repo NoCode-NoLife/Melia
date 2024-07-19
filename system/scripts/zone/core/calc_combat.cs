@@ -115,10 +115,19 @@ public class CombatCalculationsScript : GeneralScript
 		damage += modifier.BonusDamage;
 		damage *= modifier.DamageMultiplier;
 
+		// Check for forced block situations
+		// TODO: Move to a buff handler later.
+		var forcedBlock = false;
+		if (target.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var momentaryBlockBuff))
+		{
+			forcedBlock = true;
+			Skill_MomentaryBlock_Buff.BlockedAnAttack(momentaryBlockBuff);
+		}
+
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
 		var blockChance = SCR_GetBlockChance(attacker, target, skill, modifier, skillHitResult);
-		if (rnd.Next(100) < blockChance)
+		if (forcedBlock || rnd.Next(100) < blockChance)
 		{
 			skillHitResult.Result = HitResultType.Block;
 
@@ -128,7 +137,7 @@ public class CombatCalculationsScript : GeneralScript
 		}
 
 		var crtChance = SCR_GetCritChance(attacker, target, skill, modifier, skillHitResult);
-		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
+		if (skillHitResult.Result != HitResultType.Block && (modifier.ForcedCritical || rnd.Next(100) < crtChance))
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
 			damage += crtAtk;
