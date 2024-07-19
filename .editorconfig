@@ -160,3 +160,12 @@ dotnet_diagnostic.CA1862.severity = none
 
 # IDE0074: Prefer ??=
 dotnet_diagnostic.IDE0074.severity = none
+
+# CS8618: Nullable field must have non-null value after ctor.
+dotnet_diagnostic.CS8618.severity = none
+
+# CS8603: Potential null ref return value.
+dotnet_diagnostic.CS8603.severity = none
+
+# CS8604: Potential null ref parameter.
+dotnet_diagnostic.CS8604.severity = none

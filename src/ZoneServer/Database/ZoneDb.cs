@@ -41,6 +41,7 @@ namespace Melia.Zone.Database
 			{
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("settings", account.Settings.ToString());
+				cmd.Set("premiumTokenExpiration", account.Premium.Token.Expiration);
 
 				if (cmd.Execute() == 0)
 					return false;
@@ -81,7 +82,7 @@ namespace Melia.Zone.Database
 					account.Medals = reader.GetInt32("medals");
 					account.GiftMedals = reader.GetInt32("giftMedals");
 					account.PremiumMedals = reader.GetInt32("premiumMedals");
-
+					account.Premium.Token.Expiration = reader.GetDateTimeSafe("premiumTokenExpiration");
 				}
 			}
 

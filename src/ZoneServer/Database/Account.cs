@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Game;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -17,12 +18,12 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// List of chat macros associated with the account.
 		/// </summary>
-		private readonly IList<ChatMacro> _chatMacros;
+		private readonly IList<ChatMacro> _chatMacros = new List<ChatMacro>();
 
 		/// <summary>
 		/// List of the revealed maps the user has explored.
 		/// </summary>
-		private readonly Dictionary<int, RevealedMap> _revealedMaps;
+		private readonly Dictionary<int, RevealedMap> _revealedMaps = new();
 
 		/// <summary>
 		/// Account id
@@ -99,7 +100,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// The account's settings.
 		/// </summary>
-		public AccountSettings Settings { get; private set; }
+		public AccountSettings Settings { get; } = new AccountSettings();
 
 		/// <summary>
 		/// Account's scripting variables.
@@ -112,15 +113,17 @@ namespace Melia.Zone.Database
 		public Properties Properties { get; } = new Properties("Account");
 
 		/// <summary>
+		/// Returns the account's premium status manager.
+		/// </summary>
+		public PremiumStatus Premium { get; } = new();
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
 		{
 			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
-			this.Settings = new AccountSettings();
-			_chatMacros = new List<ChatMacro>();
-			_revealedMaps = new Dictionary<int, RevealedMap>();
 
 			this.LoadDefaultChatMacros();
 		}

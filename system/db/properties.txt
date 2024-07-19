@@ -9244,6 +9244,10 @@
 	{ namespace: "Account", name: "dress_costume_ep16statue02_f", type: "Number", id: 115401 },
 	{ namespace: "Account", name: "ep16statue_dagger_cabinet", type: "Number", id: 115402 },
 	{ namespace: "Account", name: "ep16statue_mace_cabinet", type: "Number", id: 115403 },
+	{ namespace: "Account", name: "CONTENTS_TOTAL_SHOP_POSE_22", type: "Number", id: 115407 },
+	{ namespace: "Account", name: "KupoleResetTime", type: "Number", id: 115408 },
+	{ namespace: "Account", name: "CONTENTS_TOTAL_SHOP_POSE_23", type: "Number", id: 115409 },
+	{ namespace: "Account", name: "CONTENTS_TOTAL_SHOP_POSE_21", type: "Number", id: 115410 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },
@@ -21366,6 +21370,9 @@
 	{ namespace: "PCEtc", name: "Kill_weekly_boss_spreader", type: "Number", id: 115334 },
 	{ namespace: "PCEtc", name: "Kill_weekly_boss_falouros", type: "Number", id: 115335 },
 	{ namespace: "PCEtc", name: "Cupole_Equip", type: "Number", id: 115338 },
+	{ namespace: "PCEtc", name: "Pose_LIBERTY", type: "Number", id: 115404 },
+	{ namespace: "PCEtc", name: "Pose_DAVID", type: "Number", id: 115405 },
+	{ namespace: "PCEtc", name: "Pose_RODIN", type: "Number", id: 115406 },
 ]},
 { namespace: "SessionObject", properties: [
 	{ namespace: "SessionObject", name: "PosX", type: "Number", id: 142 },

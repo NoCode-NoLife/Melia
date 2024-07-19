@@ -41,6 +41,7 @@ namespace Melia.Zone.Commands
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
 			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -283,6 +284,54 @@ namespace Melia.Zone.Commands
 				target.ServerMessage(Localization.Get("You were warped to {0} by {1}."), target.Position, sender.TeamName);
 				sender.ServerMessage(Localization.Get("Target was warped."));
 			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Warps target to the specified map.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleTokenWarp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!sender.Connection.Account.Premium.CanUseTokenWarp)
+			{
+				sender.MsgBox(Localization.Get("Only premium token users are allowed to use this feature."));
+				return CommandResult.Okay;
+			}
+
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			// Find map id
+			var mapClassName = args.Get(0);
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapClassName, out var mapData))
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to exist."));
+				return CommandResult.Okay;
+			}
+
+			var mapId = mapData.Id;
+
+			// Get target position
+			var targetPos = mapData.DefaultPosition;
+
+			// Check if the map is available
+			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(mapId);
+			if (availableZones.Length == 0)
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to be available."));
+				return CommandResult.Okay;
+			}
+
+			// Warp
+			target.Warp(mapId, targetPos);
 
 			return CommandResult.Okay;
 		}
@@ -1057,6 +1106,8 @@ namespace Melia.Zone.Commands
 
 			if (args.Get(0).StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
 			else if (args.Get(0).StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args.Get(0).StartsWith("fedi")) target.Warp("c_fedimian", new Position(-243, 161, -303));
+			else if (args.Get(0).StartsWith("high")) target.Warp("c_highlander", new Position(-20, 1, 80));
 			else if (args.Get(0).StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{

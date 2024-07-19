@@ -1,0 +1,17 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = false
+
+# Dotnet code style settings:
+[*.{cs,vb}]
+
+# Don't suggest access qualifiers
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_event = false
+dotnet_diagnostic.IDE1006.severity = none
+
+# CA1050: Declare types in namespaces
+dotnet_diagnostic.CA1050.severity = none
