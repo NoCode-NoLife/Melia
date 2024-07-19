@@ -1,4 +1,6 @@
 ﻿using System;
+using Melia.Zone.Pads;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Pads.Components;
@@ -68,10 +70,28 @@ namespace Melia.Zone.World.Actors.Pads
 		/// <summary>
 		/// Creates a new pad.
 		/// </summary>
-		/// <param name="name"></param>
 		/// <param name="creator"></param>
 		/// <param name="skill"></param>
 		/// <param name="triggerArea"></param>
+		public Pad(IActor creator, Skill skill, IShapeF triggerArea)
+			: this(null, creator, skill, triggerArea)
+		{
+		}
+
+		/// <summary>
+		/// Creates a new pad.
+		/// </summary>
+		/// <param name="name">
+		/// If not null, a pad handler with the given name will be looked up.
+		/// And its methods will be registered as trigger events. The given
+		/// handler must exist. Use null if no handler is needed.
+		/// </param>
+		/// <param name="creator"></param>
+		/// <param name="skill"></param>
+		/// <param name="triggerArea"></param>
+		/// <exception cref="ArgumentException">
+		/// Thrown if a handler with the given name does not exist.
+		/// </exception>
 		public Pad(string name, IActor creator, Skill skill, IShapeF triggerArea)
 		{
 			this.Name = name;
@@ -84,6 +104,26 @@ namespace Melia.Zone.World.Actors.Pads
 
 			this.Components.Add(this.Movement = new PadMovementComponent(this));
 			this.Components.Add(this.Trigger = new TriggerComponent(this, triggerArea));
+
+			if (name != null)
+				this.RegisterHandler(name);
+		}
+
+		/// <summary>
+		/// Looks up the handler for the given name and registers its methods
+		/// as trigger events.
+		/// </summary>
+		/// <param name="name"></param>
+		private void RegisterHandler(string name)
+		{
+			if (!ZoneServer.Instance.PadHandlers.TryGetHandler(name, out var handler))
+				throw new ArgumentException($"No handler found for pad '{name}'.");
+
+			if (handler is ICreatePadHandler create) this.Trigger.Created += create.Created;
+			if (handler is IDestroyPadHandler destroy) this.Trigger.Destroyed += destroy.Destroyed;
+			if (handler is IEnterPadHandler entered) this.Trigger.Entered += entered.Entered;
+			if (handler is ILeavePadHandler left) this.Trigger.Left += left.Left;
+			if (handler is IUpdatePadHandler update) this.Trigger.Updated += update.Updated;
 		}
 
 		/// <summary>
