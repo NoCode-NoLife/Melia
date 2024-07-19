@@ -319,17 +319,5 @@ namespace Melia.Zone.World.Maps
 
 			return true;
 		}
-
-		/// <summary>
-		/// Calculates the bounding box of 2D ground data.
-		/// Returns via out.
-		/// </summary>
-		/// <param name="sizeX"></param>
-		/// <param name="sizeY"></param>
-		public void GetBoundingBox(out double sizeX, out double sizeY)
-		{
-			sizeX = (_cells.Max(cell => cell.Bounds.Max.x) - _cells.Min(cell => cell.Bounds.Min.x));
-			sizeY = (_cells.Max(cell => cell.Bounds.Max.y) - _cells.Min(cell => cell.Bounds.Min.y));
-		}
 	}
 }

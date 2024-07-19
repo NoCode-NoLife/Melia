@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using g3;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Maps;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -71,8 +69,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Makes entity move to the given destination in a straight
-		/// line. Returns the amount of time the move will take.
+		/// Makes entity move to the given destination using pathfinding.
+		/// Returns the amount of time the move will take.
 		/// </summary>
 		/// <remarks>
 		/// The position doesn't need a correct Y coordinate, as the

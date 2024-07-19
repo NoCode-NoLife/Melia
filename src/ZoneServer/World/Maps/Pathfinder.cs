@@ -45,10 +45,10 @@ namespace Melia.Zone.World.Maps
 		{
 			// Initial dynamic grid size
 			var distance = start.Get2DDistance(goal);
-			var scale = this.GetGridScale(distance, entitySize);
+			var gridScale = this.GetGridScale(distance, entitySize);
 
 			// Finds path
-			var path = this.FindPathScale(start, goal, scale, entitySize);
+			var path = this.FindPathScale(start, goal, gridScale, entitySize);
 
 			// Removes repeated positions
 			var visited = new HashSet<Position>();
@@ -73,10 +73,10 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
-		/// <param name="scale"></param>
+		/// <param name="gridScale"></param>
 		/// <param name="entitySize"></param>
 		/// <returns></returns>
-		private List<Position> FindPathScale(Position start, Position goal, int scale, SizeType entitySize = SizeType.M)
+		private List<Position> FindPathScale(Position start, Position goal, int gridScale, SizeType entitySize = SizeType.M)
 		{
 			var path = new List<Position>();
 			var openSet = new PriorityQueue<Position, float>();
@@ -86,7 +86,7 @@ namespace Melia.Zone.World.Maps
 			var radius = _entitySizeRadius[entitySize];
 
 			// Stopping condition
-			if ( (scale <= 0) || (start.Get2DDistance(goal) < radius) )
+			if ( (gridScale <= 0) || (start.Get2DDistance(goal) < radius) )
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
@@ -101,32 +101,32 @@ namespace Melia.Zone.World.Maps
 				var distance = current.Get2DDistance(goal);
 
 				// Make our grid scale smaller as we approach target.
-				if (distance < scale * 2)
+				if (distance < gridScale * 2)
 				{
 					path.AddRange(this.ReconstructPath(cameFrom, current));
-					scale = this.GetGridScale(distance, entitySize);
-					path.AddRange(this.FindPathScale(current, goal, scale, entitySize));
+					gridScale = this.GetGridScale(distance, entitySize);
+					path.AddRange(this.FindPathScale(current, goal, gridScale, entitySize));
 					return path;
 				}
 
 				// Adjacent neighbors
-				var neighbors = this.GetNeighbors(current, entitySize, scale);
+				var neighbors = this.GetNeighbors(current, entitySize, gridScale);
 
 				// Always add one neighbor in last valid position towards goal
 				var direction = current.GetDirection(goal);
-				var neighborTowardsGoal = current.GetRelative(direction, scale);
+				var neighborTowardsGoal = current.GetRelative(direction, gridScale);
 				neighbors.Add(_ground.GetLastValidCirclePosition(current, radius, neighborTowardsGoal));
 
 				// Update scores
 				foreach (var neighbor in neighbors)
 				{
-					var tentativeGScore = gScore[current] + scale;
+					var tentativeGScore = gScore[current] + gridScale;
 
 					if (!gScore.ContainsKey(neighbor) || tentativeGScore < gScore[neighbor])
 					{
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tentativeGScore;
-						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + RandomProvider.Next(scale);
+						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + RandomProvider.Next(gridScale);
 
 						if (!openSet.UnorderedItems.Any(item => item.Element.Equals(neighbor)))
 						{
