@@ -224,7 +224,14 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
-			damage /= 2f;
+		{
+			var blockMultiplier = 0.50f;
+
+			if (target.IsBuffActive(BuffId.HighGuard_Abil_Buff))
+				blockMultiplier += 0.20f;
+
+			damage -= (damage * blockMultiplier);
+		}
 
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)

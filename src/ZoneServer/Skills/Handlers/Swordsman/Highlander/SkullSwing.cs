@@ -79,7 +79,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				skillHit.HitInfo.Type = HitType.KnockBack;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 
-				// In earlier versions, this skill instead inflicted Armor Break, which zeros PDef
+				// In earlier versions, this skill instead inflicted Armor Break,
+				// which zeroes physical defense.
 				target.StartBuff(BuffId.ScullSwing_Debuff, skill.Level, DebuffDefDropRatePerLevel * skill.Level, TimeSpan.FromSeconds(10), caster);
 			}
 

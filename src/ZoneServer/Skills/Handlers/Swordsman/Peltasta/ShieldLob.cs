@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var skillHitDelay = TimeSpan.Zero;
 
 			var modifier = SkillModifier.MultiHit(4);
-			modifier.BonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
+			modifier.BonusPAtk = Peltasta38.GetBonusPAtk(caster);
 
 			// Increase damage by 10% if target is under the effect of
 			// Swashbuckling from the caster

@@ -1,46 +1,42 @@
 ﻿using Melia.Shared.Game.Const;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.Buffs.Base;
+using Melia.Zone.Network;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Contains code related to the High Guard ability buff.
+	/// Handler for the High Guard ability buff.
 	/// </summary>
 	/// <remarks>
-	/// HighGuard_Abil_Buff is a buff that is started or stopped from the skill
-	/// High Guard under certain conditions. It provides a bonus to the physical
-	/// attack of some attacks made by the caster. We don't need a buff handler
-	/// for it, but this class provides an accessible way to get the bonus.
+	/// One effect of this buff that is currently unimplemented is that,
+	/// with it, your "Shield" and "Hard Shield" buffs can't be removed
+	/// by enemies. We'll have to see how and where exactly to implement
+	/// this. TODO.
 	/// </remarks>
-	public static class HighGuard_Abil_Buff
+	[BuffHandler(BuffId.HighGuard_Abil_Buff)]
+	public class HighGuard_Abil_Buff : BuffHandler
 	{
-		private const float BonusPerLevel = 0.06f;
+		private const float MSpdReduction = 8;
+		private const float DamageRateReduction = 0.20f;
 
-		/// <summary>
-		/// Returns a physical attack bonus based on the High Guard ability.
-		/// Returns 0 if no bonus applies.
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <returns></returns>
-		public static float GetBonusPAtk(ICombatEntity caster)
+		public override void OnStart(Buff buff)
 		{
-			if (!caster.TryGetBuff(BuffId.HighGuard_Abil_Buff, out var buff))
-				return 0;
+			var target = buff.Target;
 
-			if (caster is not Character character)
-				return 0;
+			AddPropertyModifier(buff, target, PropertyName.MSPD_BM, -MSpdReduction);
+			AddPropertyModifier(buff, target, PropertyName.PATK_RATE_BM, -DamageRateReduction);
 
-			var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
-			if (lhItem.Data.EquipType1 != EquipType.Shield)
-				return 0;
+			Send.ZC_MSPD(target);
+		}
 
-			var abilityLevel = buff.NumArg1;
-			var shieldDef = lhItem.Data.Def;
+		public override void OnEnd(Buff buff)
+		{
+			var target = buff.Target;
 
-			var bonusPatk = abilityLevel * BonusPerLevel * shieldDef;
+			RemovePropertyModifier(buff, target, PropertyName.MSPD_BM);
+			RemovePropertyModifier(buff, target, PropertyName.PATK_RATE_BM);
 
-			return bonusPatk;
+			Send.ZC_MSPD(target);
 		}
 	}
 }
