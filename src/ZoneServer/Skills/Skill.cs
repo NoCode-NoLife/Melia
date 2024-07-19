@@ -189,6 +189,27 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
+		/// Resets the skill's overheat and puts it on a cooldown that lasts
+		/// for the given amount of time.
+		/// </summary>
+		/// <param name="cooldownTime"></param>
+		public void StartCooldown(TimeSpan cooldownTime)
+		{
+			if (this.Owner is not Character character)
+				return;
+
+			if (!this.Owner.Components.TryGet<CooldownComponent>(out var cooldownComponent))
+				return;
+
+			cooldownComponent.Start(this.Data.CooldownGroup, cooldownTime);
+
+			this.OverheatCounter = 0;
+			this.OverheatTimeRemaining = TimeSpan.Zero;
+
+			Send.ZC_OVERHEAT_CHANGED(character, this);
+		}
+
+		/// <summary>
 		/// Returns the minimum range to the target within which the skill
 		/// can be used.
 		/// </summary>

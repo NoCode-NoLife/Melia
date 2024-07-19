@@ -5,23 +5,20 @@
 //---------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Buffs.Handlers.Swordsman.Highlander;
-using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -104,12 +101,10 @@ public class CombatCalculationsScript : GeneralScript
 			modifier.DamageMultiplier += crossGuardDamageBuff.NumArg1 * 0.05f;
 
 		// Increase damage multiplier based on Defiance
-		if (attacker is Character attackCharacter && target is Mob targetMob) 
-		{ 
-			if (targetMob.Data.Rank == MonsterRank.Boss && attackCharacter.Skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
-			{
+		if (target is Mob targetMob)
+		{
+			if (targetMob.Data.Rank == MonsterRank.Boss && attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
 				modifier.DamageMultiplier += defiance.Level * 0.02f;
-			}
 		}
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
@@ -212,7 +207,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Crossguard_Debuff increases damage taken
 		// TODO: Move to a buff handler later.
-		if (target.TryGetBuff(BuffId.Double_pay_earn_Buff, out var crossGuardDebuff))
+		if (target.TryGetBuff(BuffId.CrossCut_Debuff, out var crossGuardDebuff))
 		{
 			var damageMultiplier = 1f + crossGuardDebuff.NumArg1 * 0.05f;
 			damage *= damageMultiplier;
@@ -238,7 +233,7 @@ public class CombatCalculationsScript : GeneralScript
 		damage *= modifier.FinalDamageMultiplier;
 
 		// Bonus buff effects
-		CrossGuard_Buff.TryHitCrossGuardEffect(attacker, target);
+		CrossGuard_Buff.TryApplyEffect(attacker, target);
 		Restrain_Buff.TryStunTarget(attacker, target, skill);
 		Link.TryShareDamage(attacker, target, skill, damage);
 

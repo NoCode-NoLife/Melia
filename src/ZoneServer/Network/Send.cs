@@ -351,14 +351,13 @@ namespace Melia.Zone.Network
 		/// <param name="skill"></param>
 		public static void ZC_SKILL_ADD(Character character, Skill skill)
 		{
-			var packet = new Packet(Op.ZC_SKILL_ADD);
-
-			packet.PutLong(character.ObjectId);
-
 			// Passive skills aren't added to the quickbar
 			var addToQuickbar = skill.Data.AttackType != SkillAttackType.None;
 
-			packet.PutByte(addToQuickbar); // REGISTER_QUICK_SKILL
+			var packet = new Packet(Op.ZC_SKILL_ADD);
+
+			packet.PutLong(character.ObjectId);
+			packet.PutByte(addToQuickbar);
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
 			packet.AddSkill(skill);

@@ -58,21 +58,22 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 			var hitDelay = TimeSpan.FromMilliseconds(10);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
-			TimeSpan[] delayBetweenHits =
-			[
+
+			var delayBetweenHits = new[]
+			{
 				TimeSpan.FromMilliseconds(140),
 				TimeSpan.FromMilliseconds(100),
 				TimeSpan.FromMilliseconds(140),
 				TimeSpan.FromMilliseconds(160),
-			];
+			};
+
 			await Task.Delay(hitDelay);
 
-			List<ICombatEntity> targets;
 			var hits = new List<SkillHitInfo>();
 
 			for (var i = 0; i < 5; i++)
 			{
-				targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
@@ -87,6 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 				hits.Clear();
+
 				if (i < 4)
 					await Task.Delay(delayBetweenHits[i]);
 			}

@@ -99,7 +99,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				hits.Add(skillHit2);
 
-				// TODO: Find out damage formula for the bleed damage, using the same formula as Behead for now
+				// TODO: Find out damage formula for the bleed damage, using the
+				//   same formula as Behead for now
 				target.StartBuff(BuffId.HeavyBleeding, skill.Level, skillHitResult2.Damage * 0.05f, TimeSpan.FromSeconds(debuffTime), caster);
 			}
 
