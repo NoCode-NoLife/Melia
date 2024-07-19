@@ -166,9 +166,7 @@ namespace Melia.Zone.World.Actors.Components
 			if (_updateDelay <= TimeSpan.Zero)
 			{
 				_updateDelay = this.UpdateInterval;
-
-				foreach (var actor in nowInside)
-					this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
+				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
 			}
 		}
 

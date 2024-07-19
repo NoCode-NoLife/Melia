@@ -301,10 +301,13 @@ namespace Melia.Zone.World.Actors.Monsters
 		Leave,
 
 		/// <summary>
-		/// A regular interval update for actors inside the trigger area.
+		/// An update trigger that is raised in regular intervals while the
+		/// trigger exists.
 		/// </summary>
 		/// <remarks>
-		/// Triggers for every actor inside the area every time the trigger updates.
+		/// Triggers only once, regardless of the number of actors inside a
+		/// trigger area. Use TriggerComponent.GetActors to retrieve a list
+		/// of actors currently inside the area.
 		/// </remarks>
 		Update,
 	}
