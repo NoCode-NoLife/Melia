@@ -27,7 +27,7 @@ namespace Melia.Zone.World.Actors.Components
 		private int _actorCount = 0;
 		private int _maxActorCount = short.MaxValue;
 
-		private TimeSpan _updateDelay = DefaultUpdateInterval;
+		private DateTime _lastUpdate;
 		private bool _destroyed;
 
 		/// <summary>
@@ -162,12 +162,13 @@ namespace Melia.Zone.World.Actors.Components
 				this.ActorCount = nowInside.Count;
 			}
 
-			_updateDelay -= elapsed;
+			var now = DateTime.Now;
+			var sinceLastUpdate = now - _lastUpdate;
 
-			if (_updateDelay <= TimeSpan.Zero)
+			if (sinceLastUpdate >= this.UpdateInterval)
 			{
-				_updateDelay = this.UpdateInterval;
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
+				_lastUpdate = now;
 			}
 		}
 
@@ -177,9 +178,9 @@ namespace Melia.Zone.World.Actors.Components
 		internal void OnAddedToMap()
 		{
 			_destroyed = false;
+			_lastUpdate = DateTime.Now;
 
 			this.Created?.Invoke(this, new TriggerArgs(TriggerType.Create, this.Owner));
-			this.Update(TimeSpan.Zero);
 		}
 
 		/// <summary>
