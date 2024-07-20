@@ -17,7 +17,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 	/// which displays an explosion effect in a given position
 	/// </summary>
 	[PadHandler("ThrouwingSpear_Hoplite33_Pad")]
-	public class ThrouwingSpear_Hoplite33_Pad : ICreatePadHandler, IDestroyPadHandler
+	public class ThrouwingSpear_Hoplite33_Pad : ICreatePadHandler, IUpdatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -30,8 +30,6 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 			if (pad.Creator is not ICombatEntity creator) return;
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, "ThrouwingSpear_Hoplite33_Pad", -0.7853982f, 0, 30, true);
-
-			this.Explode(pad, creator);
 		}
 
 		/// <summary>
@@ -49,14 +47,16 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 			Send.ZC_NORMAL.PadUpdate(creator, pad, "ThrouwingSpear_Hoplite33_Pad", 0, 145.8735f, 30, false);
 		}
 
+
 		/// <summary>
-		/// Creates an explosion after 2 seconds pass
+		/// Called when the pad is destroyed.
 		/// </summary>
-		/// <param name="pad"></param>
-		/// <param name="creator"></param>
-		private async void Explode(Pad pad, ICombatEntity creator)
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		public void Updated(object sender, TriggerArgs args)
 		{
-			await Task.Delay(TimeSpan.FromSeconds(2));
+			if (args.Trigger is not Pad pad) return;
+			if (pad.Creator is not ICombatEntity creator) return;
 
 			pad.Destroy();
 		}

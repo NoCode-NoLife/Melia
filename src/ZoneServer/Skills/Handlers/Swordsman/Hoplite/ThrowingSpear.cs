@@ -81,6 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
 				pad.Position = farPos;
+				pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(2);
 				pad.Trigger.Destroyed += this.SpearExplosion;
 
 				caster.Map.AddPad(pad);
@@ -113,7 +114,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
-				}				
+				}
 
 				target.TakeDamage(skillHitResult.Damage, caster);
 
@@ -149,7 +150,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			if (pad.Creator is not ICombatEntity creator) return;
 			if (pad.Skill is not Skill skill) return;
 
-			this.ExplosionAttack(pad.Skill, creator, new Circle(pad.Position, 50f));
+			this.ExplosionAttack(pad.Skill, creator, (ISplashArea)pad.Area);
 		}
 
 		/// <summary>
