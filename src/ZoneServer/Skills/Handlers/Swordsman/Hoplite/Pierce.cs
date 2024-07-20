@@ -59,8 +59,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(50);
-			var damageDelay = TimeSpan.FromMilliseconds(325);
+			var hitDelay = TimeSpan.FromMilliseconds(325);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);

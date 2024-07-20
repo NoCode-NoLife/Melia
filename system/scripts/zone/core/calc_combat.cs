@@ -100,6 +100,15 @@ public class CombatCalculationsScript : GeneralScript
 		if (attacker.TryGetBuff(BuffId.CrossGuard_Damage_Buff, out var crossGuardDamageBuff))
 			modifier.DamageMultiplier += crossGuardDamageBuff.NumArg1 * 0.05f;
 
+		// Increase damage multiplier based on SpearLunge_Debuff
+		// TODO: Move to a buff handler later.
+		if (target.IsBuffActive(BuffId.SpearLunge_Debuff) && attacker is Character spearLungeAttacker)
+		{
+			var spearLungeWeapon = spearLungeAttacker.Inventory.GetItem(EquipSlot.RightHand);
+			if (spearLungeWeapon.Data.EquipType1 == EquipType.Spear || spearLungeWeapon.Data.EquipType1 == EquipType.THSpear)
+				modifier.DamageMultiplier += 0.5f;
+		}
+
 		// Increase damage multiplier based on Defiance
 		if (target is Mob targetMob)
 		{
