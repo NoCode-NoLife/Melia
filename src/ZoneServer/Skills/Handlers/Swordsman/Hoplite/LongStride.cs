@@ -49,13 +49,17 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			// There's an issue with this, the client always sends the Farpos as 40 units away
-			// need to investigate further on how to get the actual jump distance
-			var distance = originPos.Get2DDistance(farPos);
-			Log.Warning("Distance is {0}", distance);
+			if (!skill.Vars.TryGet<Position>("Melia.ToolGroundPos", out var targetPos))
+			{
+				caster.ServerMessage(Localization.Get("No target location specified."));
+				return;
+			}
 
-			var endingPosition = new Position(farPos);
-			endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
+			if (!caster.Map.Ground.IsValidPosition(targetPos))
+			{
+				caster.ServerMessage(Localization.Get("Invalid target location."));
+				return;
+			}
 			
 			if (!caster.TrySpendSp(skill))
 			{
@@ -66,13 +70,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			Send.ZC_SKILL_READY(caster, skill, originPos, endingPosition);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, endingPosition, null);
+			Send.ZC_SKILL_READY(caster, skill, originPos, targetPos);
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPos, null);
 			
-			Send.ZC_NORMAL.LeapJump(caster, endingPosition, 0, 0, 0.5f, 0.35f, 0.7f, 45);
-			caster.Position = endingPosition;
+			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.7f, 0.7f, 90);
+			caster.Position = targetPos;
 
-			this.Attack(skill, caster, new Circle(endingPosition.GetRelative(caster.Direction, 15f), 30));
+			this.Attack(skill, caster, new Circle(targetPos.GetRelative(caster.Direction, 15f), 30));
 		}
 
 		/// <summary>
@@ -121,7 +125,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			// This skill requires an additional cast cancel at the end
-			await Task.Delay(damageDelay);
+			await Task.Delay(TimeSpan.FromMilliseconds(80));
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}
