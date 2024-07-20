@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 
@@ -192,6 +193,193 @@ namespace Melia.Zone.World.Actors.Components
 			_destroyed = true;
 
 			this.Destroyed?.Invoke(this, new TriggerArgs(TriggerType.Destroy, this.Owner));
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<TriggerArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Create: this.Created += handler; break;
+				case TriggerType.Destroy: this.Destroyed += handler; break;
+				case TriggerType.Update: this.Updated += handler; break;
+				case TriggerType.Enter: this.Entered += ArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += ArgsToActorArgs(handler); break;
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<TriggerActorArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Enter: this.Entered += handler; break;
+				case TriggerType.Leave: this.Left += handler; break;
+
+				case TriggerType.Create:
+				case TriggerType.Destroy:
+				case TriggerType.Update:
+					throw new ArgumentException("Event handler not supported for this trigger type.");
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<PadTriggerArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Create: this.Created += PadArgsToArgs(handler); break;
+				case TriggerType.Destroy: this.Destroyed += PadArgsToArgs(handler); break;
+				case TriggerType.Enter: this.Entered += PadArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += PadArgsToActorArgs(handler); break;
+				case TriggerType.Update: this.Updated += PadArgsToArgs(handler); break;
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<PadTriggerActorArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Enter: this.Entered += PadActorArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += PadActorArgsToActorArgs(handler); break;
+
+				case TriggerType.Create:
+				case TriggerType.Destroy:
+				case TriggerType.Update:
+					throw new ArgumentException("Event handler not supported for this trigger type.");
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Returns an event handler that downgrades an actor trigger event to 
+		/// one without actors.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> ArgsToActorArgs(EventHandler<TriggerArgs> handler)
+			=> (sender, args) => handler(sender, new TriggerArgs(args.Type, args.Trigger));
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerArgs> PadArgsToArgs(EventHandler<PadTriggerArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				handler(sender, new PadTriggerArgs(args.Type, pad, creator, pad.Skill));
+			};
+		}
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> PadArgsToActorArgs(EventHandler<PadTriggerArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				var skill = pad.Skill;
+
+				handler(sender, new PadTriggerArgs(args.Type, pad, creator, skill));
+			};
+		}
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> PadActorArgsToActorArgs(EventHandler<PadTriggerActorArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (args.Initiator is not ICombatEntity initiator)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				var skill = pad.Skill;
+
+				handler(sender, new PadTriggerActorArgs(args.Type, pad, initiator, creator, skill));
+			};
 		}
 	}
 }

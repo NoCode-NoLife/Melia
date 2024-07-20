@@ -8,6 +8,7 @@ using Yggdrasil.Geometry;
 using Yggdrasil.Util;
 using System.Threading.Tasks;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.Skills;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -266,6 +267,96 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Type = type;
 			this.Trigger = trigger;
 			this.Initiator = initiator;
+		}
+	}
+
+	/// <summary>
+	/// The event arguments for pad trigger events.
+	/// </summary>
+	public class PadTriggerArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns how the trigger was triggered.
+		/// </summary>
+		public TriggerType Type { get; }
+
+		/// <summary>
+		/// Returns the pad that was triggered.
+		/// </summary>
+		public Pad Trigger { get; }
+
+		/// <summary>
+		/// Returns the actor that created the pad.
+		/// </summary>
+		public ICombatEntity Creator { get; }
+
+		/// <summary>
+		/// Returns the skill used in the creation of the pad.
+		/// </summary>
+		public Skill Skill { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="trigger"></param>
+		/// <param name="creator"></param>
+		/// <param name="skill"></param>
+		public PadTriggerArgs(TriggerType type, Pad trigger, ICombatEntity creator, Skill skill)
+		{
+			this.Type = type;
+			this.Trigger = trigger;
+			this.Creator = creator;
+			this.Skill = skill;
+		}
+	}
+
+	/// <summary>
+	/// The event arguments for pad trigger events.
+	/// </summary>
+	public class PadTriggerActorArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns how the trigger was triggered.
+		/// </summary>
+		public TriggerType Type { get; }
+
+		/// <summary>
+		/// Returns the pad that was triggered.
+		/// </summary>
+		public Pad Trigger { get; }
+
+		/// <summary>
+		/// Returns the triggering actor that triggered the triggerarable trigger
+		/// in a most triggerable way. Trigger.
+		/// </summary>
+		public ICombatEntity Initiator { get; }
+
+		/// <summary>
+		/// Returns the actor that created the pad.
+		/// </summary>
+		public ICombatEntity Creator { get; }
+
+		/// <summary>
+		/// Returns the skill used in the creation of the pad.
+		/// </summary>
+		public Skill Skill { get; }
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <param name="trigger"></param>
+		/// <param name="initiator"></param>
+		/// <param name="creator"></param>
+		/// <param name="skill"></param>
+		public PadTriggerActorArgs(TriggerType type, Pad trigger, ICombatEntity initiator, ICombatEntity creator, Skill skill)
+		{
+			this.Type = type;
+			this.Trigger = trigger;
+			this.Initiator = initiator;
+			this.Creator = creator;
+			this.Skill = skill;
 		}
 	}
 

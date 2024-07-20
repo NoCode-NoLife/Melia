@@ -12,7 +12,7 @@ namespace Melia.Zone.Pads
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		void Created(object sender, TriggerArgs args);
+		void Created(object sender, PadTriggerArgs args);
 	}
 
 	/// <summary>
@@ -25,7 +25,7 @@ namespace Melia.Zone.Pads
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		void Destroyed(object sender, TriggerArgs args);
+		void Destroyed(object sender, PadTriggerArgs args);
 	}
 
 	/// <summary>
@@ -38,7 +38,7 @@ namespace Melia.Zone.Pads
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		void Entered(object sender, TriggerActorArgs args);
+		void Entered(object sender, PadTriggerActorArgs args);
 	}
 
 	/// <summary>
@@ -51,7 +51,7 @@ namespace Melia.Zone.Pads
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		void Left(object sender, TriggerActorArgs args);
+		void Left(object sender, PadTriggerActorArgs args);
 	}
 
 	/// <summary>
@@ -64,7 +64,7 @@ namespace Melia.Zone.Pads
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		void Updated(object sender, TriggerArgs args);
+		void Updated(object sender, PadTriggerArgs args);
 	}
 
 	/// <summary>
