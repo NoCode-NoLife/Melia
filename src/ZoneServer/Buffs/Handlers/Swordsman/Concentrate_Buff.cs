@@ -1,6 +1,5 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -15,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// NumArg2: Bonus Damage
 	/// </remarks>
 	[BuffHandler(BuffId.Concentrate_Buff)]
-	public class Concentrate_Buff : BuffHandler
+	public class Concentrate_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
 	{
 		private const string HitsVarName = "Melia.HitsLeft";
 
@@ -36,26 +35,21 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		[ScriptableFunction]
-		public static float SCR_Combat_BeforeCalc_Concentrate_Buff(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!attacker.TryGetBuff(BuffId.Concentrate_Buff, out var concentrateBuff))
-				return 0;
+			if (!buff.Vars.TryGetFloat(HitsVarName, out var hitsLeft))
+				return;
 
-			if (!concentrateBuff.Vars.TryGetFloat(HitsVarName, out var hitsLeft))
-				return 0;
+			if (--hitsLeft <= 0)
+			{
+				attacker.StopBuff(buff.Id);
+				return;
+			}
 
-			hitsLeft--;
+			buff.Vars.SetFloat(HitsVarName, hitsLeft);
 
-			if (hitsLeft > 0)
-				concentrateBuff.Vars.SetFloat(HitsVarName, hitsLeft);
-			else
-				attacker.StopBuff(BuffId.Concentrate_Buff);
-
-			var bonusDamage = concentrateBuff.NumArg2;
+			var bonusDamage = buff.NumArg2;
 			modifier.BonusDamage += bonusDamage;
-
-			return 0;
 		}
 	}
 }

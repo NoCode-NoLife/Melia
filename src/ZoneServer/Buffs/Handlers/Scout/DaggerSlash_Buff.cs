@@ -11,26 +11,20 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// Handler for the Dagger Slash Buff.
 	/// </summary>
 	[BuffHandler(BuffId.DaggerSlash_Buff)]
-	public class DaggerSlash_Buff : BuffHandler
+	public class DaggerSlash_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
 	{
 		/// <summary>
-		/// Applies the buff's effect during combat calculations.
+		/// Applies the buff's effect before the damage calculation.
 		/// </summary>
+		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		/// <returns></returns>
-		[ScriptableFunction]
-		public static float SCR_Combat_BeforeCalc_DaggerSlash_Buff(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
-				return 0;
-
-			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
-
-			return 0;
+			modifier.DamageMultiplier += buff.OverbuffCounter * 0.07f;
 		}
 	}
 }
