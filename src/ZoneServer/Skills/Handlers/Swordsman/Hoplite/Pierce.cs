@@ -70,24 +70,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var hitCount = 4;
-
-				if (!Feature.IsEnabled("PierceNoSizeEffect")) { 
-					var targetSize = target.GetEffectiveSize();
-					if (targetSize == SizeType.M)
-						hitCount = 2;
-					if (targetSize == SizeType.L)
-						hitCount = 3;
-					if (targetSize == SizeType.XL || targetSize == SizeType.XXL)
-						hitCount = 4;
-				}
-
+				var hitCount = GetHitCount(target);
 				var modifier = SkillModifier.MultiHit(hitCount);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
-					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
+				if (skillHitResult.Result == HitResultType.Crit && caster.TryGetSkill(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}
@@ -107,6 +95,24 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
+		}
+
+
+		public static int GetHitCount(ICombatEntity target)
+		{
+			if (Feature.IsEnabled("PierceNoSizeEffect"))
+				return 4;
+
+			var targetSize = target.GetEffectiveSize();
+
+			if (targetSize == SizeType.M)
+				return 2;
+			if (targetSize == SizeType.L)
+				return 3;
+			if (targetSize == SizeType.XL || targetSize == SizeType.XXL)
+				return 4;
+
+			return 1;
 		}
 	}
 }

@@ -22,12 +22,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 	[SkillHandler(SkillId.Hoplite_LongStride)]
 	public class Hoplite_LongStride : IGroundSkillHandler, IDynamicCasted
 	{
+		public const int MaxDistance = 100;
+
 		/// <summary>
 		/// Called when the user starts casting the skill.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		public async void StartDynamicCast(Skill skill, ICombatEntity caster)
+		public void StartDynamicCast(Skill skill, ICombatEntity caster)
 		{
 		}
 
@@ -52,21 +54,30 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			if (!skill.Vars.TryGet<Position>("Melia.ToolGroundPos", out var targetPos))
 			{
 				caster.ServerMessage(Localization.Get("No target location specified."));
+				Send.ZC_SKILL_CAST_CANCEL(caster);
 				return;
-			}
+			}			
 
 			if (!caster.Map.Ground.IsValidPosition(targetPos))
 			{
 				caster.ServerMessage(Localization.Get("Invalid target location."));
+				Send.ZC_SKILL_CAST_CANCEL(caster);
 				return;
 			}
-			
+
+			if ((int)originPos.Get2DDistance(targetPos) > MaxDistance)
+			{
+				caster.ServerMessage(Localization.Get("Too far."));
+				Send.ZC_SKILL_CAST_CANCEL(caster);
+				return;
+			}
+
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
 			}
-			
+
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
@@ -90,6 +101,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			var hitDelay = TimeSpan.FromMilliseconds(800);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
+			var afterLandingDelay = TimeSpan.FromMilliseconds(400);
 
 			await Task.Delay(hitDelay);
 
@@ -100,8 +112,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 
-				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
-					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
+				if (skillHitResult.Result == HitResultType.Crit && caster.TryGetSkill(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}
@@ -116,7 +127,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				hits.Add(skillHit);
 
-				if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.IsActive(AbilityId.Hoplite30))
+				if (caster.IsAbilityActive(AbilityId.Hoplite30))
 				{
 					target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(2), caster);
 				}
@@ -124,8 +135,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			// This skill requires an additional cast cancel at the end
-			await Task.Delay(TimeSpan.FromMilliseconds(80));
+			// This skill leaves you immobile for significant time after the
+			// animation ends, seems to require an extra cast cancel
+			await Task.Delay(afterLandingDelay);
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}

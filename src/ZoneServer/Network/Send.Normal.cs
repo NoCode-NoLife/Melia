@@ -258,13 +258,13 @@ namespace Melia.Zone.Network
 			/// <param name="tossScale"></param>
 			/// <param name="hangScale"></param>
 			/// <param name="speed"></param>
-			/// <param name="f5"></param>
-			/// <param name="f6"></param>
+			/// <param name="startAngle"></param>
+			/// <param name="endAngle"></param>
 			/// <param name="f7"></param>
 			/// <param name="itemScale"></param>
-			/// <param name="itemAppearOnFloorDuration"></param>
+			/// <param name="itemStayOnGroundSeconds"></param>
 			public static void Skill_ItemToss(IActor character, string str, string str2, Position position, string packetString,
-				float scale, float tossScale, float hangScale, float speed, float f5, float f6, float f7, float itemScale = 0, float itemAppearOnFloorDuration = 0)
+				float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale = 0, float itemStayOnGroundSeconds = 0)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
 					throw new ArgumentException($"Packet string '{packetString}' not found.");
@@ -281,11 +281,11 @@ namespace Melia.Zone.Network
 				packet.PutFloat(tossScale);
 				packet.PutFloat(hangScale);
 				packet.PutFloat(speed);
-				packet.PutFloat(f5);
-				packet.PutFloat(f6);
+				packet.PutFloat(startAngle);
+				packet.PutFloat(endAngle);
 				packet.PutFloat(f7);
 				packet.PutFloat(itemScale);
-				packet.PutFloat(itemAppearOnFloorDuration);
+				packet.PutFloat(itemStayOnGroundSeconds);
 
 				character.Map.Broadcast(packet, character);
 			}

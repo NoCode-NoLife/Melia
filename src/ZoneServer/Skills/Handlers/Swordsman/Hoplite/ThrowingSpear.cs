@@ -68,24 +68,23 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			if (caster is Character character)
 			{ 
-				Send.ZC_NORMAL.PadSetModel(caster, "warrior_f_", character.Inventory.GetItem(EquipSlot.RightHand).Id);
-				Send.ZC_NORMAL.Skill_ItemToss(caster, "warrior_f_", "RH", farPos, "F_smoke177", 3, 0.2f, 0, 600, 1, 435, 485, 0, 3);
+				Send.ZC_NORMAL.Skill_ItemToss(caster, "warrior_f_", "RH", farPos, "F_smoke177", 3, 0.2f, 0, 600, 1, 240, 295, 0, 3);
 			}
 
 			this.Attack(skill, caster, new Circle(farPos, 50));
 
 			// This skill has a follow-up that uses a pad if Hoplite33 is active
-			if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.IsActive(AbilityId.Hoplite33))
-			{ 
+			//if (caster.IsAbilityActive(AbilityId.Hoplite33))
+			//{ 
 				await Task.Delay(hitDelay);
 
 				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
 				pad.Position = farPos;
 				pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(2);
-				pad.Trigger.Destroyed += this.SpearExplosion;
+				pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
 
 				caster.Map.AddPad(pad);
-			}
+			//}
 		}
 
 		/// <summary>
@@ -110,8 +109,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
-					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
+				if (skillHitResult.Result == HitResultType.Crit && caster.TryGetSkill(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}
@@ -167,20 +165,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			// The explosion has its own SR which is separate from the skill
-			var sr = 8;
+			// The explosion has its own maximum target count which is separate from the skill
+			var maxTargets = 8;
 
 			if (ZoneServer.Instance.Conf.World.DisableSDR)
-				sr = int.MaxValue;
+				maxTargets = int.MaxValue;
 
-			foreach (var target in targets.LimitRandom(sr))
+			foreach (var target in targets.LimitRandom(maxTargets))
 			{
 				var modifier = SkillModifier.MultiHit(3);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
-					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
+				if (skillHitResult.Result == HitResultType.Crit && caster.TryGetSkill(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}

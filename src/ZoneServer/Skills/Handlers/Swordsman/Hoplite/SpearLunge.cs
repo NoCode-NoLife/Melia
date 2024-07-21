@@ -74,8 +74,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
-					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
+				if (skillHitResult.Result == HitResultType.Crit && caster.TryGetSkill(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
 					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}
@@ -99,20 +98,20 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				var modifier = SkillModifier.Default;
 				modifier.DefensePenetrationRate = 0.15f;
 
-				var skillHitResult2 = SCR_SkillHit(caster, target, skill, modifier);
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-				if (skillHitResult2.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
+				if (skillHitResult.Result == HitResultType.Crit && caster.Components.TryGet<SkillComponent>(out var skills)
 					&& skills.TryGet(SkillId.Hoplite_SharpSpear, out var sharpSpear))
 				{
-					skillHitResult2.Damage += skillHitResult2.Damage *= (0.1f + sharpSpear.Level * 0.02f);
+					skillHitResult.Damage += skillHitResult.Damage *= (0.1f + sharpSpear.Level * 0.02f);
 				}
 
-				target.TakeDamage(skillHitResult2.Damage, caster);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay, skillHitDelay);
-				skillHit2.HitEffect = HitEffect.Impact;
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
 
-				hits.Add(skillHit2);
+				hits.Add(skillHit);
 
 				// This used to apply a debuff that increases Spear damage by 50%
 				//target.StartBuff(BuffId.SpearLunge_Debuff, skill.Level, 0, TimeSpan.FromSeconds(6), caster);

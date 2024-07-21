@@ -16,7 +16,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 	/// Handler for the ThrouwingSpear_Hoplite33_Pad,
 	/// which displays an explosion effect in a given position
 	/// </summary>
-	[PadHandler("ThrouwingSpear_Hoplite33_Pad")]
+	[PadHandler(PadName.ThrouwingSpear_Hoplite33_Pad)]
 	public class ThrouwingSpear_Hoplite33_Pad : ICreatePadHandler, IUpdatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
@@ -24,12 +24,9 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void Created(object sender, TriggerArgs args)
+		public void Created(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
-
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "ThrouwingSpear_Hoplite33_Pad", -0.7853982f, 0, 30, true);
+			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, "ThrouwingSpear_Hoplite33_Pad", -0.7853982f, 0, 30, true);
 		}
 
 		/// <summary>
@@ -37,14 +34,9 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void Destroyed(object sender, TriggerArgs args)
+		public void Destroyed(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
-
-			var spearMonster = pad.Variables.Get<Mob>("spearMonster");
-
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "ThrouwingSpear_Hoplite33_Pad", 0, 145.8735f, 30, false);
+			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, "ThrouwingSpear_Hoplite33_Pad", 0, 145.8735f, 30, false);
 		}
 
 
@@ -53,12 +45,9 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void Updated(object sender, TriggerArgs args)
+		public void Updated(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
-
-			pad.Destroy();
+			args.Trigger.Destroy();
 		}
 	}
 }
