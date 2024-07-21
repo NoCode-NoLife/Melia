@@ -37,11 +37,8 @@ namespace Melia.Zone.Buffs
 				var handler = Activator.CreateInstance(type) as IBuffHandler;
 				var buffIds = (attributes.First() as BuffHandlerAttribute).BuffIds;
 
-				lock (_buffHandlers)
-				{
-					foreach (var buffId in buffIds)
-						this.Register(buffId, handler);
-				}
+				foreach (var buffId in buffIds)
+					this.Register(buffId, handler);
 			}
 		}
 

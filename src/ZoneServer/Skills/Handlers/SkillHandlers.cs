@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills.Handlers.Base;
 
 namespace Melia.Zone.Skills.Handlers
@@ -45,11 +46,22 @@ namespace Melia.Zone.Skills.Handlers
 								continue;
 						}
 
-						_handlers[skillId] = handler;
+						this.Register(skillId, handler);
 						_priorities[skillId] = attr.Priority;
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Registers a handler for the given skill id.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="handler"></param>
+		public void Register(SkillId skillId, ISkillHandler handler)
+		{
+			lock (_handlers)
+				_handlers[skillId] = handler;
 		}
 
 		/// <summary>
@@ -65,13 +77,16 @@ namespace Melia.Zone.Skills.Handlers
 		/// </exception>
 		public TSkillHandler GetHandler<TSkillHandler>(SkillId skillId) where TSkillHandler : ISkillHandler
 		{
-			if (!_handlers.TryGetValue(skillId, out var handler))
-				return default;
+			lock (_handlers)
+			{
+				if (!_handlers.TryGetValue(skillId, out var handler))
+					return default;
 
-			if (handler is not TSkillHandler tHandler)
-				throw new ArgumentException($"The skill handler for '{skillId}' is not of type '{typeof(TSkillHandler).Name}'.");
+				if (handler is not TSkillHandler tHandler)
+					throw new ArgumentException($"The skill handler for '{skillId}' is not of type '{typeof(TSkillHandler).Name}'.");
 
-			return tHandler;
+				return tHandler;
+			}
 		}
 
 		/// <summary>
