@@ -52,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			if (caster is Character character)
 			{
 				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
-				if (lhItem.Data.EquipType1 != EquipType.Shield)
+				if (lhItem.Data.EquipType1 == EquipType.Shield)
 					character.StartBuff(BuffId.Skill_MomentaryBlock_Buff, BlockDuration);
 			}
 			
