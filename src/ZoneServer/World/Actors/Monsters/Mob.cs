@@ -474,22 +474,21 @@ namespace Melia.Zone.World.Actors.Monsters
 							superMobRerolls = worldConf.SilverJackpotRolls;
 							superMobGuaranteedItemDrop = originalDropChance > worldConf.SilverJackpotGuaranteedItemThreshold;
 							superMobIncreaseMoney = worldConf.SilverJackpotRolls;
-							superMobMoneyStacks = RandomProvider.Next(40, 50);
-
+							superMobMoneyStacks = rnd.Next(40, 50);
 							break;
+
 						case SuperMobType.Gold:
 							superMobRerolls = worldConf.GoldJackpotRolls;
 							superMobGuaranteedItemDrop = originalDropChance > worldConf.GoldJackpotGuaranteedItemThreshold;
 							superMobIncreaseMoney = worldConf.SilverJackpotRolls * 4;
-							superMobMoneyStacks = RandomProvider.Next(40, 50);
+							superMobMoneyStacks = rnd.Next(40, 50);
 							break;
+
 						case SuperMobType.Elite:
 							superMobRerolls = worldConf.EliteRolls;
 							superMobGuaranteedItemDrop = originalDropChance > worldConf.EliteGuaranteedItemThreshold;
 							superMobIncreaseMoney = worldConf.EliteRolls;
-							superMobMoneyStacks = RandomProvider.Next(40, 50);
-							break;
-						default:
+							superMobMoneyStacks = rnd.Next(40, 50);
 							break;
 					}
 				}
@@ -570,7 +569,7 @@ namespace Melia.Zone.World.Actors.Monsters
 					superMobType = SuperMobType.Silver;
 					return true;
 				}
-				else if(buff.NumArg2 == 1)
+				else if (buff.NumArg2 == 1)
 				{
 					superMobType = SuperMobType.Gold;
 					return true;
