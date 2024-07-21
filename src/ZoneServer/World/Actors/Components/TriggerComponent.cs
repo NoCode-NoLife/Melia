@@ -227,9 +227,9 @@ namespace Melia.Zone.World.Actors.Components
 
 			switch (this.Owner)
 			{
-				case Pad pad: pad.Destroy(); break;
-				case IMonster monster: monster.Map.RemoveMonster(monster); break;
-				case Character character: character.Map.RemoveCharacter(character); break;
+				case Pad pad: pad.Destroy(); return;
+				case IMonster monster: monster.Map.RemoveMonster(monster); return;
+				case Character character: character.Map.RemoveCharacter(character); return;
 			}
 
 			throw new InvalidOperationException($"Unknown owner type '{this.Owner.GetType()}'.");
