@@ -36,11 +36,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 					return;
 				}
 
-				// This is a stance, it lasts indefinitely until removed
-				caster.StartBuff(BuffId.HighGuard_Buff, skill.Level, 0, TimeSpan.Zero, caster);
-
+				// If "High Guard: Iron Defense" is active, use the ability buff.
+				// Otherwise use the normal one.
 				if (caster.TryGetActiveAbilityLevel(AbilityId.Peltasta43, out var level))
 					caster.StartBuff(BuffId.HighGuard_Abil_Buff, level, 0, TimeSpan.Zero, caster);
+				else
+					caster.StartBuff(BuffId.HighGuard_Buff, skill.Level, 0, TimeSpan.Zero, caster);
 			}
 
 			skill.IncreaseOverheat();

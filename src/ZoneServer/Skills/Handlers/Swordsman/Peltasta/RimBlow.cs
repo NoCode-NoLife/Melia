@@ -66,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			var bonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
+			var bonusPAtk = Peltasta38.GetBonusPAtk(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{

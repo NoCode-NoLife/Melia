@@ -27,10 +27,10 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void Created(object sender, TriggerArgs args)
+		public void Created(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
+			var pad = args.Trigger;
+			var creator = args.Creator;
 
 			pad.Movement.Speed = ShieldFlySpeedForward;
 			pad.Trigger.MaxActorCount = 8;
@@ -74,10 +74,10 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		public void Destroyed(object sender, TriggerArgs args)
+		public void Destroyed(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
+			var pad = args.Trigger;
+			var creator = args.Creator;
 
 			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
 

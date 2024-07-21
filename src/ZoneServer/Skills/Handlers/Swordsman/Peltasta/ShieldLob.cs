@@ -44,7 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 			var pad = new Pad(PadName.Peltasta_ShieldLob, caster, skill, new Circle(caster.Position, 40));
 			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
-			pad.Trigger.Entered += this.OnShieldCollision;
+			pad.Trigger.Subscribe(TriggerType.Enter, this.OnShieldCollision);
 
 			caster.Map.AddPad(pad);
 		}
@@ -54,11 +54,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnShieldCollision(object sender, TriggerActorArgs args)
+		private void OnShieldCollision(object sender, PadTriggerActorArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (args.Initiator is not ICombatEntity target) return;
-			if (pad.Creator is not ICombatEntity creator) return;
+			var pad = args.Trigger;
+			var creator = args.Creator;
+			var target = args.Initiator;
 
 			if (pad.Trigger.AtCapacity)
 				return;
@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var skillHitDelay = TimeSpan.Zero;
 
 			var modifier = SkillModifier.MultiHit(4);
-			modifier.BonusPAtk = HighGuard_Abil_Buff.GetBonusPAtk(caster);
+			modifier.BonusPAtk = Peltasta38.GetBonusPAtk(caster);
 
 			// Increase damage by 10% if target is under the effect of
 			// Swashbuckling from the caster

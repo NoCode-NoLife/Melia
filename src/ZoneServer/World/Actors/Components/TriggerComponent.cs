@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 
@@ -25,8 +27,10 @@ namespace Melia.Zone.World.Actors.Components
 		private List<IActor> _actorsInside = new();
 		private int _actorCount = 0;
 		private int _maxActorCount = short.MaxValue;
+		private int _useCount;
 
-		private TimeSpan _updateDelay = DefaultUpdateInterval;
+		private DateTime _creationTime;
+		private DateTime _lastUpdate;
 		private bool _destroyed;
 
 		/// <summary>
@@ -40,7 +44,7 @@ namespace Melia.Zone.World.Actors.Components
 		public IShapeF Area { get; }
 
 		/// <summary>
-		/// Gets or sets the interval in which the pad's interval update event
+		/// Gets or sets the interval in which the trigger's interval update event
 		/// is raised.
 		/// </summary>
 		/// <remarks>
@@ -50,7 +54,14 @@ namespace Melia.Zone.World.Actors.Components
 		public TimeSpan UpdateInterval { get; set; } = DefaultUpdateInterval;
 
 		/// <summary>
-		/// Returns the number of actors currently inside the pad.
+		/// Gets or sets the life time of the trigger. Once the trigger has
+		/// existed on a map for this amount of time, it will be destroyed
+		/// automatically.
+		/// </summary>
+		public TimeSpan LifeTime { get; set; } = TimeSpan.MaxValue;
+
+		/// <summary>
+		/// Returns the number of actors currently inside the trigger.
 		/// </summary>
 		public int ActorCount
 		{
@@ -59,12 +70,12 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
-		/// Returns the maximum number of actors that can be inside the pad
+		/// Returns the maximum number of actors that can be inside the trigger
 		/// at a time.
 		/// </summary>
 		/// <remarks>
-		/// The enter and leave events will not be raised if the pad has
-		/// reached its maximum actor count. But as actors leave the pad,
+		/// The enter and leave events will not be raised if the trigger has
+		/// reached its maximum actor count. But as actors leave the trigger,
 		/// new ones will be considered again.
 		/// </remarks>
 		public int MaxActorCount
@@ -79,6 +90,20 @@ namespace Melia.Zone.World.Actors.Components
 		public bool AtCapacity => this.ActorCount >= this.MaxActorCount;
 
 		/// <summary>
+		/// Gets or sets the maximum number of "uses" for the trigger.
+		/// If the max count is reached, the trigger will be destroyed
+		/// automatically.
+		/// </summary>
+		/// <remarks>
+		/// What constitues a use is entirely dependent on the trigger's
+		/// subscribers and how they increase the use count. One example
+		/// might be a type of "safety wall" skill/pad, that increases
+		/// its use count every time an actor inside it is hit, destroying
+		/// it automatically after X hits.
+		/// </remarks>
+		public int MaxUseCount { get; set; } = short.MaxValue;
+
+		/// <summary>
 		/// Event that is triggered when the actor added to a map.
 		/// </summary>
 		public event EventHandler<TriggerArgs> Created;
@@ -89,17 +114,18 @@ namespace Melia.Zone.World.Actors.Components
 		public event EventHandler<TriggerArgs> Destroyed;
 
 		/// <summary>
-		/// Event that is triggered when an actor enters the pad.
+		/// Event that is triggered when an actor enters the trigger.
 		/// </summary>
 		public event EventHandler<TriggerActorArgs> Entered;
 
 		/// <summary>
-		/// Event that is triggered when an actor leaves the pad.
+		/// Event that is triggered when an actor leaves the trigger.
 		/// </summary>
 		public event EventHandler<TriggerActorArgs> Left;
 
 		/// <summary>
-		/// Event that is triggered for actors inside the pad in regular intervals.
+		/// Event that is triggered for actors inside the trigger in
+		/// regular intervals.
 		/// </summary>
 		public event EventHandler<TriggerArgs> Updated;
 
@@ -161,13 +187,52 @@ namespace Melia.Zone.World.Actors.Components
 				this.ActorCount = nowInside.Count;
 			}
 
-			_updateDelay -= elapsed;
+			var now = DateTime.Now;
+			var sinceLastUpdate = now - _lastUpdate;
 
-			if (_updateDelay <= TimeSpan.Zero)
+			if (sinceLastUpdate >= this.UpdateInterval)
 			{
-				_updateDelay = this.UpdateInterval;
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
+				_lastUpdate = now;
 			}
+
+			var destroyTime = _creationTime + this.LifeTime;
+
+			if (now >= destroyTime)
+				this.DestroyOwner();
+		}
+
+		/// <summary>
+		/// Increases the trigger's use count and automatically destroys
+		/// the owner if the max use count is reached. Returns true if
+		/// the max use count was reached.
+		/// </summary>
+		public bool IncreaseUseCount()
+		{
+			_useCount++;
+
+			var usedUp = _useCount >= this.MaxUseCount;
+			if (usedUp)
+				this.DestroyOwner();
+
+			return usedUp;
+		}
+
+		/// <summary>
+		/// Destroys the component's owner, removing them from the world.
+		/// </summary>
+		private void DestroyOwner()
+		{
+			// TODO: Make more generic, so we don't need explicit conversions.
+
+			switch (this.Owner)
+			{
+				case Pad pad: pad.Destroy(); return;
+				case IMonster monster: monster.Map.RemoveMonster(monster); return;
+				case Character character: character.Map.RemoveCharacter(character); return;
+			}
+
+			throw new InvalidOperationException($"Unknown owner type '{this.Owner.GetType()}'.");
 		}
 
 		/// <summary>
@@ -176,9 +241,10 @@ namespace Melia.Zone.World.Actors.Components
 		internal void OnAddedToMap()
 		{
 			_destroyed = false;
+			_creationTime = DateTime.Now;
+			_lastUpdate = DateTime.Now;
 
 			this.Created?.Invoke(this, new TriggerArgs(TriggerType.Create, this.Owner));
-			this.Update(TimeSpan.Zero);
 		}
 
 		/// <summary>
@@ -192,6 +258,193 @@ namespace Melia.Zone.World.Actors.Components
 			_destroyed = true;
 
 			this.Destroyed?.Invoke(this, new TriggerArgs(TriggerType.Destroy, this.Owner));
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<TriggerArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Create: this.Created += handler; break;
+				case TriggerType.Destroy: this.Destroyed += handler; break;
+				case TriggerType.Update: this.Updated += handler; break;
+				case TriggerType.Enter: this.Entered += ArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += ArgsToActorArgs(handler); break;
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<TriggerActorArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Enter: this.Entered += handler; break;
+				case TriggerType.Leave: this.Left += handler; break;
+
+				case TriggerType.Create:
+				case TriggerType.Destroy:
+				case TriggerType.Update:
+					throw new ArgumentException("Event handler not supported for this trigger type.");
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<PadTriggerArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Create: this.Created += PadArgsToArgs(handler); break;
+				case TriggerType.Destroy: this.Destroyed += PadArgsToArgs(handler); break;
+				case TriggerType.Enter: this.Entered += PadArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += PadArgsToActorArgs(handler); break;
+				case TriggerType.Update: this.Updated += PadArgsToArgs(handler); break;
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Subscribes to a trigger event.
+		/// </summary>
+		/// <remarks>
+		/// Subscribe effectively does the same thing as subscribing to the
+		/// events directly, but it dynamically adjusts the event arguments
+		/// for easier and more flexible use.
+		/// </remarks>
+		/// <param name="type"></param>
+		/// <param name="handler"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void Subscribe(TriggerType type, EventHandler<PadTriggerActorArgs> handler)
+		{
+			switch (type)
+			{
+				case TriggerType.Enter: this.Entered += PadActorArgsToActorArgs(handler); break;
+				case TriggerType.Leave: this.Left += PadActorArgsToActorArgs(handler); break;
+
+				case TriggerType.Create:
+				case TriggerType.Destroy:
+				case TriggerType.Update:
+					throw new ArgumentException("Event handler not supported for this trigger type.");
+
+				default:
+					throw new ArgumentException($"Unknown trigger type '{type}'.");
+			}
+		}
+
+		/// <summary>
+		/// Returns an event handler that downgrades an actor trigger event to 
+		/// one without actors.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> ArgsToActorArgs(EventHandler<TriggerArgs> handler)
+			=> (sender, args) => handler(sender, new TriggerArgs(args.Type, args.Trigger));
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerArgs> PadArgsToArgs(EventHandler<PadTriggerArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				handler(sender, new PadTriggerArgs(args.Type, pad, creator, pad.Skill));
+			};
+		}
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> PadArgsToActorArgs(EventHandler<PadTriggerArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				var skill = pad.Skill;
+
+				handler(sender, new PadTriggerArgs(args.Type, pad, creator, skill));
+			};
+		}
+
+		/// <summary>
+		/// Returns an event handler that calls the given handler with appropriate
+		/// arguments, assuming the arguments could be gathered. If not, nothing
+		/// happens.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <returns></returns>
+		private static EventHandler<TriggerActorArgs> PadActorArgsToActorArgs(EventHandler<PadTriggerActorArgs> handler)
+		{
+			return (sender, args) =>
+			{
+				if (args.Trigger is not Pad pad)
+					return;
+
+				if (args.Initiator is not ICombatEntity initiator)
+					return;
+
+				if (pad.Creator is not ICombatEntity creator)
+					return;
+
+				var skill = pad.Skill;
+
+				handler(sender, new PadTriggerActorArgs(args.Type, pad, initiator, creator, skill));
+			};
 		}
 	}
 }
