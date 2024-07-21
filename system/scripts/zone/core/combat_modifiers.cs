@@ -1,11 +1,10 @@
 ﻿//--- Melia Script ----------------------------------------------------------
-// Combat Calculation Script
+// Combat Modifier Script
 //--- Description -----------------------------------------------------------
-// Functions that calculate combat-related values, such as damage.
+// Collection of functions that modify combat calculations based on
+// combatants's buffs and other properties.
 //---------------------------------------------------------------------------
 
-using System.Collections;
-using System.Collections.Generic;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -24,7 +23,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 	/// <param name="skill"></param>
 	/// <param name="modifier"></param>
 	/// <param name="skillHitResult"></param>
-	private void CallForBuffs(string funcName, ICombatEntity entity, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	private void CallForBuffs(string baseFuncName, ICombatEntity entity, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (!entity.Components.TryGet<BuffComponent>(out var buffs))
 			return;
@@ -33,7 +32,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 
 		foreach (var buff in activeBuffs)
 		{
-			funcName += "_" + buff.Data.ClassName;
+			var funcName = baseFuncName + "_" + buff.Data.ClassName;
 
 			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
 				continue;
