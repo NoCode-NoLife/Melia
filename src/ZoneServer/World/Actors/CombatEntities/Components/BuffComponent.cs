@@ -73,6 +73,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// and over.
 			if (overbuff != buff.OverbuffCounter)
 				buff.Start();
+			// If we don't start the buff again, we need to at least
+			// extend its duration. Otherwise it may end before the
+			// time displayed by the client.
+			else
+				buff.ExtendDuration();
 
 			Send.ZC_BUFF_UPDATE(this.Entity, buff);
 		}
