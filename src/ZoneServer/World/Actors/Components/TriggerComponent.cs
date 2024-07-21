@@ -42,7 +42,7 @@ namespace Melia.Zone.World.Actors.Components
 		public IShapeF Area { get; }
 
 		/// <summary>
-		/// Gets or sets the interval in which the pad's interval update event
+		/// Gets or sets the interval in which the trigger's interval update event
 		/// is raised.
 		/// </summary>
 		/// <remarks>
@@ -68,12 +68,12 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
-		/// Returns the maximum number of actors that can be inside the pad
+		/// Returns the maximum number of actors that can be inside the trigger
 		/// at a time.
 		/// </summary>
 		/// <remarks>
-		/// The enter and leave events will not be raised if the pad has
-		/// reached its maximum actor count. But as actors leave the pad,
+		/// The enter and leave events will not be raised if the trigger has
+		/// reached its maximum actor count. But as actors leave the trigger,
 		/// new ones will be considered again.
 		/// </remarks>
 		public int MaxActorCount
@@ -98,17 +98,18 @@ namespace Melia.Zone.World.Actors.Components
 		public event EventHandler<TriggerArgs> Destroyed;
 
 		/// <summary>
-		/// Event that is triggered when an actor enters the pad.
+		/// Event that is triggered when an actor enters the trigger.
 		/// </summary>
 		public event EventHandler<TriggerActorArgs> Entered;
 
 		/// <summary>
-		/// Event that is triggered when an actor leaves the pad.
+		/// Event that is triggered when an actor leaves the trigger.
 		/// </summary>
 		public event EventHandler<TriggerActorArgs> Left;
 
 		/// <summary>
-		/// Event that is triggered for actors inside the pad in regular intervals.
+		/// Event that is triggered for actors inside the trigger in
+		/// regular intervals.
 		/// </summary>
 		public event EventHandler<TriggerArgs> Updated;
 
