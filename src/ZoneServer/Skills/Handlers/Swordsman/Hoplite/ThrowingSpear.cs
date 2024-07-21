@@ -74,8 +74,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			this.Attack(skill, caster, new Circle(farPos, 50));
 
 			// This skill has a follow-up that uses a pad if Hoplite33 is active
-			//if (caster.IsAbilityActive(AbilityId.Hoplite33))
-			//{ 
+			if (caster.IsAbilityActive(AbilityId.Hoplite33))
+			{ 
 				await Task.Delay(hitDelay);
 
 				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
@@ -84,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
 
 				caster.Map.AddPad(pad);
-			//}
+			}
 		}
 
 		/// <summary>
