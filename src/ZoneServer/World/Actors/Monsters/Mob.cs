@@ -522,7 +522,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				{
 					rerolls--;
 
-					// Items below the given threshold will
+					// Items above the given threshold will
 					// always drop at least once for super mobs.
 					var dropSuccess = rnd.NextDouble() < adjustedDropChance / 100f;
 					if (!dropSuccess && !guaranteed)
