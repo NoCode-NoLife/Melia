@@ -80,7 +80,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
 				pad.Position = farPos;
-				pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(2);
+				pad.Trigger.LifeTime = TimeSpan.FromSeconds(2);
 				pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
 
 				caster.Map.AddPad(pad);

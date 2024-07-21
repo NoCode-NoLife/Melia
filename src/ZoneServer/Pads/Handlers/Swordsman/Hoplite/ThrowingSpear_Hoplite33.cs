@@ -17,7 +17,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 	/// which displays an explosion effect in a given position
 	/// </summary>
 	[PadHandler(PadName.ThrouwingSpear_Hoplite33_Pad)]
-	public class ThrouwingSpear_Hoplite33_Pad : ICreatePadHandler, IUpdatePadHandler, IDestroyPadHandler
+	public class ThrouwingSpear_Hoplite33_Pad : ICreatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -37,17 +37,6 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		public void Destroyed(object sender, PadTriggerArgs args)
 		{
 			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, "ThrouwingSpear_Hoplite33_Pad", 0, 145.8735f, 30, false);
-		}
-
-
-		/// <summary>
-		/// Called when the pad is destroyed.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		public void Updated(object sender, PadTriggerArgs args)
-		{
-			args.Trigger.Destroy();
 		}
 	}
 }
