@@ -27,6 +27,7 @@ namespace Melia.Zone.World.Actors.Components
 		private int _actorCount = 0;
 		private int _maxActorCount = short.MaxValue;
 
+		private DateTime _creationTime;
 		private DateTime _lastUpdate;
 		private bool _destroyed;
 
@@ -51,7 +52,14 @@ namespace Melia.Zone.World.Actors.Components
 		public TimeSpan UpdateInterval { get; set; } = DefaultUpdateInterval;
 
 		/// <summary>
-		/// Returns the number of actors currently inside the pad.
+		/// Gets or sets the life time of the trigger. Once the trigger has
+		/// existed on a map for this amount of time, it will be destroyed
+		/// automatically.
+		/// </summary>
+		public TimeSpan LifeTime { get; set; } = TimeSpan.MaxValue;
+
+		/// <summary>
+		/// Returns the number of actors currently inside the trigger.
 		/// </summary>
 		public int ActorCount
 		{
@@ -170,6 +178,16 @@ namespace Melia.Zone.World.Actors.Components
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
 				_lastUpdate = now;
 			}
+
+			var destroyTime = _creationTime + this.LifeTime;
+
+			if (now >= destroyTime)
+			{
+				// TODO: Make more generic, so we don't need an explicit conversion.
+				if (this.Owner is Pad pad)
+					pad.Destroy();
+			}
+
 		}
 
 		/// <summary>
@@ -178,6 +196,7 @@ namespace Melia.Zone.World.Actors.Components
 		internal void OnAddedToMap()
 		{
 			_destroyed = false;
+			_creationTime = DateTime.Now;
 			_lastUpdate = DateTime.Now;
 
 			this.Created?.Invoke(this, new TriggerArgs(TriggerType.Create, this.Owner));
