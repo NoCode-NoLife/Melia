@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
@@ -26,6 +27,7 @@ namespace Melia.Zone.World.Actors.Components
 		private List<IActor> _actorsInside = new();
 		private int _actorCount = 0;
 		private int _maxActorCount = short.MaxValue;
+		private int _useCount;
 
 		private DateTime _creationTime;
 		private DateTime _lastUpdate;
@@ -86,6 +88,20 @@ namespace Melia.Zone.World.Actors.Components
 		/// Returns true if the max actor count has been reached.
 		/// </summary>
 		public bool AtCapacity => this.ActorCount >= this.MaxActorCount;
+
+		/// <summary>
+		/// Gets or sets the maximum number of "uses" for the trigger.
+		/// If the max count is reached, the trigger will be destroyed
+		/// automatically.
+		/// </summary>
+		/// <remarks>
+		/// What constitues a use is entirely dependent on the trigger's
+		/// subscribers and how they increase the use count. One example
+		/// might be a type of "safety wall" skill/pad, that increases
+		/// its use count every time an actor inside it is hit, destroying
+		/// it automatically after X hits.
+		/// </remarks>
+		public int MaxUseCount { get; set; } = short.MaxValue;
 
 		/// <summary>
 		/// Event that is triggered when the actor added to a map.
@@ -183,12 +199,40 @@ namespace Melia.Zone.World.Actors.Components
 			var destroyTime = _creationTime + this.LifeTime;
 
 			if (now >= destroyTime)
+				this.DestroyOwner();
+		}
+
+		/// <summary>
+		/// Increases the trigger's use count and automatically destroys
+		/// the owner if the max use count is reached. Returns true if
+		/// the max use count was reached.
+		/// </summary>
+		public bool IncreaseUseCount()
+		{
+			_useCount++;
+
+			var usedUp = _useCount >= this.MaxUseCount;
+			if (usedUp)
+				this.DestroyOwner();
+
+			return usedUp;
+		}
+
+		/// <summary>
+		/// Destroys the component's owner, removing them from the world.
+		/// </summary>
+		private void DestroyOwner()
+		{
+			// TODO: Make more generic, so we don't need explicit conversions.
+
+			switch (this.Owner)
 			{
-				// TODO: Make more generic, so we don't need an explicit conversion.
-				if (this.Owner is Pad pad)
-					pad.Destroy();
+				case Pad pad: pad.Destroy(); break;
+				case IMonster monster: monster.Map.RemoveMonster(monster); break;
+				case Character character: character.Map.RemoveCharacter(character); break;
 			}
 
+			throw new InvalidOperationException($"Unknown owner type '{this.Owner.GetType()}'.");
 		}
 
 		/// <summary>
