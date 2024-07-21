@@ -758,7 +758,9 @@ namespace Melia.Zone.World.Actors.Monsters
 				// we swap to the override properties that the calculation
 				// functions use for each property as necessary.
 				var properties = this.Properties as Properties;
-				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+
+				var canSet = !properties.TryGet(propertyName, out var property) || (property is not CFloatProperty && property is not RFloatProperty);
+				if (!canSet)
 					properties = this.Properties.Overrides;
 
 				switch (propertyOverride.Value)
