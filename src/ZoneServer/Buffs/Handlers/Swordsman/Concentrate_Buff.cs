@@ -1,14 +1,19 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting;
+using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
 	/// Handle for the Concentrate Buff.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: Bonus Damage
+	/// </remarks>
 	[BuffHandler(BuffId.Concentrate_Buff)]
 	public class Concentrate_Buff : BuffHandler
 	{
@@ -17,8 +22,9 @@ namespace Melia.Zone.Buffs.Handlers
 		public override void OnStart(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
+			var maxHitCount = skillLevel * 2;
 
-			buff.Vars.SetFloat(HitsVarName, skillLevel * 2);
+			buff.Vars.SetFloat(HitsVarName, maxHitCount);
 		}
 
 		/// <summary>
@@ -26,24 +32,30 @@ namespace Melia.Zone.Buffs.Handlers
 		/// Concentrate buff.
 		/// </summary>
 		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
-		public static void TryAddBonus(ICombatEntity attacker, SkillModifier modifier)
+		/// <param name="skillHitResult"></param>
+		[ScriptableFunction]
+		public static float SCR_Combat_BeforeCalc_Concentrate_Buff(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!attacker.Components.Get<BuffComponent>().TryGet(BuffId.Concentrate_Buff, out var concentrateBuff))
-				return;
+			if (!attacker.TryGetBuff(BuffId.Concentrate_Buff, out var concentrateBuff))
+				return 0;
 
 			if (!concentrateBuff.Vars.TryGetFloat(HitsVarName, out var hitsLeft))
-				return;
+				return 0;
 
 			hitsLeft--;
 
 			if (hitsLeft > 0)
 				concentrateBuff.Vars.SetFloat(HitsVarName, hitsLeft);
 			else
-				attacker.Components.Get<BuffComponent>().Remove(BuffId.Concentrate_Buff);
+				attacker.StopBuff(BuffId.Concentrate_Buff);
 
 			var bonusDamage = concentrateBuff.NumArg2;
 			modifier.BonusDamage += bonusDamage;
+
+			return 0;
 		}
 	}
 }
