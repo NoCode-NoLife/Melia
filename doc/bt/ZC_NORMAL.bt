@@ -608,8 +608,7 @@ switch (type)
     case 0x8A:
         int handle;
         float f1; // 0
-        //float f2; // -1
-        int i1; // 5
+        float f2; // -1
         float f3; // 0.2
         float f4; // 0
         break;
@@ -654,7 +653,7 @@ switch (type)
         break;
 
     // NPC Related? Summoned monster 
-    case 0x97:
+    case 0x99:
         int handle;
         float f1; // 0
         break;

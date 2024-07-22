@@ -11,7 +11,7 @@ using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 // TODO: Implement Ability "Granata: Aim" (AbilityId.Arditi20). A new handler probably will be necessary
-namespace Melia.Zone.Skills.Handlers.Ardito
+namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Ardito skill Granata.

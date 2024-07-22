@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
+using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Zone.Network;
+using Melia.Zone.Pads;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Ardito
+namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Ardito skill Taglio.
@@ -20,8 +22,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 	[SkillHandler(SkillId.Arditi_Taglio)]
 	public class Taglio : IDynamicCasted
 	{
-		private int forceId;
-
 		/// <summary>
 		/// Called when the user starts casting the skill.
 		/// </summary>
@@ -38,8 +38,6 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var cancellationTokenSource = new CancellationTokenSource();
-
 			// Taglio: Tenacity
 			// - Duration changed to 5 seconds
 			// - Movement speed increase effect removed
@@ -53,10 +51,25 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			// Never trust the client.
 			var maxCastingTime = this.GetMaxCastTime(caster);
-			cancellationTokenSource.CancelAfter(TimeSpan.FromSeconds(maxCastingTime));
+
 			caster.StartBuff(BuffId.Taglio_Buff, TimeSpan.FromSeconds(maxCastingTime));
 
-			this.AreaOfEffect(skill, caster, cancellationTokenSource.Token);
+			if (caster is Character casterCharacter)
+			{
+				if (casterCharacter.Gender == Gender.Male)
+					Send.ZC_PLAY_SOUND(casterCharacter, "voice_war_atk_long_cast");
+				else
+					Send.ZC_PLAY_SOUND(casterCharacter, "voice_atk_long_cast_f");
+			}
+
+			var pad = new Pad(PadName.Arditi_Taglio, caster, skill, new Square(caster.Position, caster.Direction, 45, 30));
+			pad.Position = caster.Position;			
+			pad.Trigger.LifeTime = TimeSpan.FromSeconds(maxCastingTime);
+			pad.Trigger.MaxActorCount = 10;
+			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(250);
+			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
+
+			caster.Map.AddPad(pad);
 		}
 
 		/// <summary>
@@ -70,10 +83,14 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				caster.StopBuff(BuffId.Taglio_Buff);
 
 			if (caster is Character casterCharacter)
+			{
 				Send.ZC_NORMAL.UnkDynamicCastEnd(casterCharacter, skill.Id, 2.1f);
 
-			Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_Taglio", skill.Id, caster.Position, forceId, false);
+				if (casterCharacter.Gender == Gender.Male)
+					Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
+				else
+					Send.ZC_STOP_SOUND(caster, "voice_atk_long_cast_f");
+			}
 
 			// Taglio: Tenacity
 			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
@@ -85,52 +102,36 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		}
 
 		/// <summary>
-		/// Executes the actual attack after a delay.
+		/// Called when an actor enters the area of the attack.
 		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="cancellationToken"></param>
-		private async void AreaOfEffect(Skill skill, ICombatEntity caster, CancellationToken cancellationToken)
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnTriggerUpdate(object sender, PadTriggerArgs args)
 		{
-			await Task.Delay(150);
+			var pad = args.Trigger;
+			var caster = args.Creator;
+			var skill = args.Skill;
 
-			forceId = ForceId.GetNew();
+			Debug.ShowShape(caster.Map, args.Trigger.Area, edgePoints: false, duration: TimeSpan.FromSeconds(1));
 
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_Taglio", skill.Id, caster.Position, forceId, true);
+			var targets = pad.Trigger.GetActors().Cast<ICombatEntity>().ToList();
 
-			await Task.Delay(TimeSpan.FromMilliseconds(500));
-
-			if (caster is Character casterCharacter)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				if (casterCharacter.Gender == Gender.Male)
-					Send.ZC_PLAY_SOUND(casterCharacter, "voice_war_atk_long_cast");
-				else
-					Send.ZC_PLAY_SOUND(casterCharacter, "voice_atk_long_cast_f");
-			}
+				if (!caster.CanAttack(target))
+					continue;
 
-			while (!cancellationToken.IsCancellationRequested)
-			{
-				var splashParam = skill.GetSplashParameters(caster, caster.Position, caster.Position, length: 80, width: 50, angle: 180);
-				var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
-
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-				foreach (var target in targets.LimitBySDR(caster, skill))
-				{
-					this.ExecuteHitInfo(skill, caster, target);
-				}
-
-				await Task.Delay(TimeSpan.FromMilliseconds(300));
-			}
+				this.Attack(skill, caster, target);
+			}			
 		}
 
 		/// <summary>
-		/// Sends the Hit Info.
+		/// Attacks the target one time.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private void ExecuteHitInfo(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
@@ -164,7 +165,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		}
 
 		/// <summary>
-		/// Returns the Max CastTime
+		/// Returns the Max CastTime in seconds
 		/// </summary>
 		/// <returns></returns>
 		private float GetMaxCastTime(ICombatEntity caster)

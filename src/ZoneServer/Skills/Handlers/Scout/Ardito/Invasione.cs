@@ -11,7 +11,7 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Ardito
+namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Ardito skill Invasione.

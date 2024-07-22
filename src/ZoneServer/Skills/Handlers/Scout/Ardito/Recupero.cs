@@ -10,7 +10,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.Skills.Handlers.Ardito
+namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Ardito skill Recupero.

@@ -14,6 +14,7 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 
+		public SkillActivationType ActivationType { get; set; }
 		public SkillUseType UseType { get; set; }
 		public SkillAttackType AttackType { get; set; }
 		public SkillAttribute Attribute { get; set; }
@@ -139,6 +140,22 @@ namespace Melia.Shared.Data.Database
 	}
 
 	/// <summary>
+	/// Defines how a skill is activated.
+	/// </summary>
+	public enum SkillActivationType
+	{
+		/// <summary>
+		/// Skill is used actively by an actor.
+		/// </summary>
+		ActiveSkill,
+
+		/// <summary>
+		/// Skill is not used and its effects are passive.
+		/// </summary>
+		PassiveSkill,
+	}
+
+	/// <summary>
 	/// Skill database, indexed by skill id.
 	/// </summary>
 	public class SkillDb : DatabaseJsonIndexed<SkillId, SkillData>
@@ -166,6 +183,7 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 
+			data.ActivationType = entry.ReadEnum<SkillActivationType>("activationType");
 			data.UseType = entry.ReadEnum<SkillUseType>("useType");
 			data.AttackType = entry.ReadEnum<SkillAttackType>("attackType");
 			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");

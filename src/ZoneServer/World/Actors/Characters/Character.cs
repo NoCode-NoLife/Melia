@@ -895,7 +895,7 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-					if (monster.AttachableEffects.IsEmpty)
+					if (!monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
@@ -907,6 +907,22 @@ namespace Melia.Zone.World.Actors.Characters
 
 						if (entity.Components.Get<BuffComponent>()?.Count != 0)
 							Send.ZC_BUFF_LIST(this.Connection, entity);
+
+						// Send a movement update to the client if the monster
+						// is currently moving, otherwise it will just stand
+						// there until the next movement starts.
+						// This could be done prettier, but it's a start
+						if (entity.Components.TryGet<MovementComponent>(out var movement))
+						{
+							if (movement.IsMoving && movement.MoveTarget == MoveTargetType.Position)
+							{
+								var fromCellPos = entity.Map.Ground.GetCellPosition(entity.Position);
+								var toCellPos = entity.Map.Ground.GetCellPosition(movement.Destination);
+								var speed = entity.Properties.GetFloat(PropertyName.MSPD);
+
+								Send.ZC_MOVE_PATH(this, entity, fromCellPos, toCellPos, speed);
+							}
+						}
 					}
 				}
 

@@ -5,22 +5,20 @@
 //---------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers;
-using Melia.Zone.Network;
+using Melia.Zone.Buffs.Handlers.Swordsman.Highlander;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Extensions;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -96,6 +94,18 @@ public class CombatCalculationsScript : GeneralScript
 		// TODO: Move to a buff handler later.
 		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
 			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
+
+		// Increase damage multiplier based on Crossguard_damage_buff
+		// TODO: Move to a buff handler later.
+		if (attacker.TryGetBuff(BuffId.CrossGuard_Damage_Buff, out var crossGuardDamageBuff))
+			modifier.DamageMultiplier += crossGuardDamageBuff.NumArg1 * 0.05f;
+
+		// Increase damage multiplier based on Defiance
+		if (target is Mob targetMob)
+		{
+			if (targetMob.Data.Rank == MonsterRank.Boss && attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
+				modifier.DamageMultiplier += defiance.Level * 0.02f;
+		}
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
@@ -195,6 +205,14 @@ public class CombatCalculationsScript : GeneralScript
 			damage *= damageMultiplier;
 		}
 
+		// Crossguard_Debuff increases damage taken
+		// TODO: Move to a buff handler later.
+		if (target.TryGetBuff(BuffId.CrossCut_Debuff, out var crossGuardDebuff))
+		{
+			var damageMultiplier = 1f + crossGuardDebuff.NumArg1 * 0.05f;
+			damage *= damageMultiplier;
+		}
+
 		// Bear reduces damage by 2% per level
 		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
 		{
@@ -206,7 +224,14 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
-			damage /= 2f;
+		{
+			var blockMultiplier = 0.50f;
+
+			if (target.IsBuffActive(BuffId.HighGuard_Abil_Buff))
+				blockMultiplier += 0.20f;
+
+			damage -= (damage * blockMultiplier);
+		}
 
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
@@ -215,6 +240,7 @@ public class CombatCalculationsScript : GeneralScript
 		damage *= modifier.FinalDamageMultiplier;
 
 		// Bonus buff effects
+		CrossGuard_Buff.TryApplyEffect(attacker, target);
 		Restrain_Buff.TryStunTarget(attacker, target, skill);
 		Link.TryShareDamage(attacker, target, skill, damage);
 

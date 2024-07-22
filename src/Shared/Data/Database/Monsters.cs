@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -46,6 +47,9 @@ namespace Melia.Shared.Data.Database
 		public int CritAttack { get; set; }
 
 		public string AiName { get; set; }
+
+		public BoundingBox BoundingBox { get; set; }
+		public bool HasBoundingBox => !this.BoundingBox.IsEmpty;
 
 		public List<DropData> Drops { get; set; } = new List<DropData>();
 		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
@@ -174,6 +178,17 @@ namespace Melia.Shared.Data.Database
 			// We'll set a default AI for now to quickly and easily get all
 			// monsters to move and attack.
 			data.AiName = entry.ReadString("ai", "BasicMonster");
+
+			if (entry.TryGetObject("obb", out var obbEntry))
+			{
+				obbEntry.AssertNotMissing("x", "y", "z");
+
+				var x = obbEntry.ReadFloat("x");
+				var y = obbEntry.ReadFloat("y");
+				var z = obbEntry.ReadFloat("z");
+
+				data.BoundingBox = new BoundingBox(x, y, z);
+			}
 
 			if (entry.ContainsKey("skills"))
 			{

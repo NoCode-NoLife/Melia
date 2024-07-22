@@ -306,6 +306,28 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<AbilityComponent>()?.IsActive(abilityId) ?? false;
 
 		/// <summary>
+		/// Returns true if the entity has the given ability and it's toggled on.
+		/// Returns the ability's level via out if it's active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public static bool TryGetActiveAbilityLevel(this ICombatEntity entity, AbilityId abilityId, out int level)
+		{
+			level = 0;
+
+			if (!entity.Components.TryGet<AbilityComponent>(out var abilities))
+				return false;
+
+			if (!abilities.TryGetActive(abilityId, out var ability))
+				return false;
+
+			level = ability.Level;
+			return ability.Active;
+		}
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>
