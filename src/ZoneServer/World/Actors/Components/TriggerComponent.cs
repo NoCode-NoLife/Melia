@@ -196,10 +196,13 @@ namespace Melia.Zone.World.Actors.Components
 				_lastUpdate = now;
 			}
 
-			var destroyTime = _creationTime + this.LifeTime;
+			if (this.LifeTime != TimeSpan.MaxValue)
+			{
+				var destroyTime = _creationTime + this.LifeTime;
 
-			if (now >= destroyTime)
-				this.DestroyOwner();
+				if (now >= destroyTime)
+					this.DestroyOwner();
+			}
 		}
 
 		/// <summary>
