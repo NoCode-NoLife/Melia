@@ -14,34 +14,6 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 public class CombatModifierCalculationsScript : GeneralScript
 {
 	/// <summary>
-	/// Calls the given scriptable function for all active buffs on the given entity.
-	/// </summary>
-	/// <param name="funcName"></param>
-	/// <param name="entity"></param>
-	/// <param name="attacker"></param>
-	/// <param name="target"></param>
-	/// <param name="skill"></param>
-	/// <param name="modifier"></param>
-	/// <param name="skillHitResult"></param>
-	private void CallForBuffs(string baseFuncName, ICombatEntity entity, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
-	{
-		if (!entity.Components.TryGet<BuffComponent>(out var buffs))
-			return;
-
-		var activeBuffs = buffs.GetList();
-
-		foreach (var buff in activeBuffs)
-		{
-			var funcName = baseFuncName + "_" + buff.Data.ClassName;
-
-			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
-				continue;
-
-			func(attacker, target, skill, modifier, skillHitResult);
-		}
-	}
-
-	/// <summary>
 	/// Calls scriptable functions for all active buffs before combat calculations.
 	/// </summary>
 	/// <param name="attacker"></param>
@@ -113,5 +85,33 @@ public class CombatModifierCalculationsScript : GeneralScript
 		CallForBuffs(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
 
 		return 0;
+	}
+
+	/// <summary>
+	/// Calls the given scriptable function for all active buffs on the given entity.
+	/// </summary>
+	/// <param name="funcName"></param>
+	/// <param name="entity"></param>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
+	/// <param name="skillHitResult"></param>
+	private void CallForBuffs(string baseFuncName, ICombatEntity entity, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	{
+		if (!entity.Components.TryGet<BuffComponent>(out var buffs))
+			return;
+
+		var activeBuffs = buffs.GetList();
+
+		foreach (var buff in activeBuffs)
+		{
+			var funcName = baseFuncName + "_" + buff.Data.ClassName;
+
+			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
+				continue;
+
+			func(attacker, target, skill, modifier, skillHitResult);
+		}
 	}
 }

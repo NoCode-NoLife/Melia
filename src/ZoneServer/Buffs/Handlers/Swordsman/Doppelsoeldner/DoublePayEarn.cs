@@ -1,5 +1,8 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
+using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 {
@@ -8,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 	/// but also the damage you take.
 	/// </summary>
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
-	public class Double_Pay_Earn_Buff : BuffHandler
+	public class Double_Pay_Earn_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
 	{
 		private const float LootingChanceBonusPerLevel = 3;
 
@@ -31,6 +34,12 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 
 			// The bonus is a value in tens, so a 3% bonus requires a value of 30.
 			return percentPerLevel * skillLevel * 10;
+		}
+
+		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		{
+			// Add 100% Damage via multiplier
+			modifier.DamageMultiplier += 1;
 		}
 	}
 }
