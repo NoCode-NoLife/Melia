@@ -113,7 +113,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 
 		foreach (var buff in activeBuffs)
 		{
-			var funcName = baseFuncName + "_" + buff.Data.ClassName;
+			var funcName = baseFuncName + "_" + buff.Id;
 
 			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
 				continue;
