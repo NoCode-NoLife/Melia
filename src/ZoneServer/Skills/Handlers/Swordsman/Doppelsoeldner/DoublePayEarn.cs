@@ -9,10 +9,10 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handler for the Doppelsoeldner skill Doubl ePay Earn.
+	/// Handler for the Doppelsoeldner skill Double Pay Earn.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Double_pay_earn)]
-	public class Doppelsoeldner_DoublePayEarn : ISelfSkillHandler
+	public class Doppelsoeldner_Double_pay_earn : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.

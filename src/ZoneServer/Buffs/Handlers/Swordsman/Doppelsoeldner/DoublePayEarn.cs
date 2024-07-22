@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 	/// but also the damage you take.
 	/// </summary>
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
-	public class Double_Pay_Earn_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class Double_pay_earn_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
 	{
 		private const float LootingChanceBonusPerLevel = 3;
 
