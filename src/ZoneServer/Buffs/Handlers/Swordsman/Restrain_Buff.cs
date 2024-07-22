@@ -12,6 +12,10 @@ namespace Melia.Zone.Buffs.Handlers
 	/// Handle for the Restrain Buff, which reduces maximum HP
 	/// in exchange for a chance to stun on normal attacks.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: Stun Chance
+	/// </remarks>
 	[BuffHandler(BuffId.Restrain_Buff)]
 	public class Restrain_Buff : BuffHandler, IBuffCombatAttackAfterCalcHandler
 	{

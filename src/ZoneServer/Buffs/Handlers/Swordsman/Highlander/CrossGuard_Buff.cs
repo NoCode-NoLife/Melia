@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.CrossGuard_Buff)]
-	public class CrossGuard_Buff : BuffHandler, IBuffCombatAttackAfterCalcHandler
+	public class CrossGuard_Buff : BuffHandler, IBuffCombatDefenseAfterCalcHandler
 	{
 		private const float BlkRateBonusPerLevel = 0.01f;
 		private const float DebuffDuration = 5f;
@@ -54,7 +54,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// this previously instead applied a debuff to the attacker
 			// attacker.StartBuff(BuffId.CrossGuard_Debuff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);

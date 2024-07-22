@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// <summary>
 	/// Handler for the Cloaking buff.
 	/// </summary>
-	public class Cloaking_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
+	public class Cloaking_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effects during the combat calculations.
@@ -21,7 +21,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		/// <exception cref="NotImplementedException"></exception>
-		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			modifier.DamageMultiplier -= 0.25f;
 		}

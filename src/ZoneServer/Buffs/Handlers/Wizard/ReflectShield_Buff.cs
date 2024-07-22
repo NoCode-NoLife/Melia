@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Wizard
 	/// <summary>
 	/// Handler for the Reflect Shield buff.
 	/// </summary>
-	public class ReflectShield_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
+	public class ReflectShield_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effects during the combat calculations.
@@ -20,17 +20,15 @@ namespace Melia.Zone.Buffs.Handlers.Wizard
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = skillLevel * 3 / 100f;
 
 			// We originally reduced the damage directly from inside the combat
-			// calculations, on BeforeBonuses, but we can't do that from here
-			// currently. This should not have a big effect on the final damage,
-			// but let's keep an eye on it.
+			// calculations, on BeforeBonuses, but setting the multiplier seems
+			// much easier. Is this correct? Who knows.
 
-			//damage = Math.Max(1, damage - damage * rate);
 			modifier.DamageMultiplier -= multiplierReduction;
 
 			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
