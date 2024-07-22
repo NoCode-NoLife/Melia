@@ -4,7 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers
 {
@@ -62,6 +64,27 @@ namespace Melia.Zone.Skills.Handlers
 		{
 			lock (_handlers)
 				_handlers[skillId] = handler;
+
+			this.LoadCombatEvents(skillId, handler);
+		}
+
+		/// <summary>
+		/// Sets up events for the combat events/hooks the handler implements.
+		/// </summary>
+		/// <param name="skillId"></param>
+		/// <param name="handler"></param>
+		private void LoadCombatEvents(SkillId skillId, ISkillHandler handler)
+		{
+			if (handler is ISkillCombatBeforeCalcHandler beforeCalcHandler)
+			{
+				ScriptableFunctions.Combat.Register("SCR_Combat_BeforeCalc_" + skillId, (attacker, target, attackerSkill, modifier, skillHitResult) =>
+				{
+					if (attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(skillId, out var skill))
+						beforeCalcHandler.OnBeforeCalc(skill, attacker, target, attackerSkill, modifier, skillHitResult);
+
+					return 0;
+				});
+			}
 		}
 
 		/// <summary>

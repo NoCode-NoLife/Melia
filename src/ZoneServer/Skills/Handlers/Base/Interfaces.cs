@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Skills.Handlers.Base
@@ -42,5 +44,19 @@ namespace Melia.Zone.Skills.Handlers.Base
 	{
 		void StartDynamicCast(Skill skill, ICombatEntity caster);
 		void EndDynamicCast(Skill skill, ICombatEntity caster);
+	}
+
+	public interface ISkillCombatBeforeCalcHandler
+	{
+		/// <summary>
+		/// Called before the combat calculations.
+		/// </summary>
+		/// <param name="passiveSkill">The </param>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="modifier"></param>
+		/// <param name="skillHitResult"></param>
+		void OnBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult);
 	}
 }
