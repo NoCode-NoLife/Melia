@@ -58,11 +58,16 @@ public class CombatCalculationsScript : GeneralScript
 	/// Calculates the damage for the given skill if used by the attacker
 	/// on the target, factoring in attack and defense properties.
 	/// </summary>
-	/// <param name="attacker"></param>
-	/// <param name="target"></param>
-	/// <param name="skill"></param>
-	/// <param name="skillHitResult"></param>
-	/// <returns></returns>
+	/// <param name="attacker">The combatant attacking the target.</param>
+	/// <param name="target">The combatant that's being attacked.</param>
+	/// <param name="skill">The skill used for this attack hit.</param>
+	/// <param name="skillHitResult">
+	/// The result of the hit, which is modified directly to indicate
+	/// how the attack turned out. After the call it will reflect the
+	/// damage dealt, whether it was a crit, or the attacks was perhaps
+	/// dodged, etc. None of this is automatically applied to the target.
+	/// </param>
+	/// <returns>Returns the resulting damage rounded down.</returns>
 	[ScriptableFunction]
 	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
@@ -98,15 +103,15 @@ public class CombatCalculationsScript : GeneralScript
 				modifier.DamageMultiplier += defiance.Level * 0.02f;
 		}
 
-		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-		damage *= skillFactor / 100f;
-		damage += skillAtkAdd;
+		skillHitResult.Damage *= skillFactor / 100f;
+		skillHitResult.Damage += skillAtkAdd;
 
-		damage += modifier.BonusDamage;
-		damage *= modifier.DamageMultiplier;
+		skillHitResult.Damage += modifier.BonusDamage;
+		skillHitResult.Damage *= modifier.DamageMultiplier;
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
@@ -124,7 +129,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
-			damage += crtAtk;
+			skillHitResult.Damage += crtAtk;
 
 			skillHitResult.Result = HitResultType.Crit;
 		}
@@ -132,38 +137,38 @@ public class CombatCalculationsScript : GeneralScript
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
 		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
-		damage = Math.Max(1, damage - def);
+		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
 		SCR_Combat_BeforeBonuses(attacker, target, skill, modifier, skillHitResult);
 
 		var sizeBonusDamage = SCR_SizeTypeBonus(attacker, target, skill, modifier, skillHitResult);
 		if (sizeBonusDamage != 0)
 		{
-			damage += sizeBonusDamage;
+			skillHitResult.Damage += sizeBonusDamage;
 		}
 
 		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (attrMultiplier != 1)
 		{
-			damage *= attrMultiplier;
+			skillHitResult.Damage *= attrMultiplier;
 		}
 
 		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (atkTypeMultiplier != 1)
 		{
-			damage *= atkTypeMultiplier;
+			skillHitResult.Damage *= atkTypeMultiplier;
 		}
 
 		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (raceMultiplier != 1)
 		{
-			damage *= raceMultiplier;
+			skillHitResult.Damage *= raceMultiplier;
 		}
 
 		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (hitCountMultiplier != 1)
 		{
-			damage *= hitCountMultiplier;
+			skillHitResult.Damage *= hitCountMultiplier;
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
@@ -177,18 +182,18 @@ public class CombatCalculationsScript : GeneralScript
 			if (target.IsBuffActive(BuffId.HighGuard_Abil_Buff))
 				blockMultiplier += 0.20f;
 
-			damage -= (damage * blockMultiplier);
+			skillHitResult.Damage -= (skillHitResult.Damage * blockMultiplier);
 		}
 
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
-			damage *= 1.5f;
+			skillHitResult.Damage *= 1.5f;
 
-		damage *= modifier.FinalDamageMultiplier;
+		skillHitResult.Damage *= modifier.FinalDamageMultiplier;
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
-		return (int)damage;
+		return (int)skillHitResult.Damage;
 	}
 
 	/// <summary>
