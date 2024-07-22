@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// NumArg2: Bonus Damage
 	/// </remarks>
 	[BuffHandler(BuffId.Concentrate_Buff)]
-	public class Concentrate_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class Concentrate_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
 		private const string HitsVarName = "Melia.HitsLeft";
 
@@ -35,7 +35,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			if (!buff.Vars.TryGetFloat(HitsVarName, out var hitsLeft))
 				return;

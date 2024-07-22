@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.CrossGuard_Damage_Buff)]
-	public class CrossGuard_Damage_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class CrossGuard_Damage_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
@@ -25,7 +25,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierIncrease = skillLevel * 0.05f;

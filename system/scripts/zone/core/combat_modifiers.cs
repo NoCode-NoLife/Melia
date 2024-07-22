@@ -106,6 +106,9 @@ public class CombatModifierCalculationsScript : GeneralScript
 		if (!entity.Components.TryGet<BuffComponent>(out var buffs))
 			return;
 
+		var type = entity == attacker ? "Attack" : "Defense";
+		baseFuncName += "_" + type;
+
 		var activeBuffs = buffs.GetList();
 
 		foreach (var buff in activeBuffs)
@@ -133,6 +136,9 @@ public class CombatModifierCalculationsScript : GeneralScript
 	{
 		if (!entity.Components.TryGet<SkillComponent>(out var skills))
 			return;
+
+		var type = entity == attacker ? "Attack" : "Defense";
+		baseFuncName += "_" + type;
 
 		var passiveSkills = skills.GetList(a => a.IsPassive);
 

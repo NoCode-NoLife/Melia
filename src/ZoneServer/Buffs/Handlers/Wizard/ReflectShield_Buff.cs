@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Wizard
 	/// <summary>
 	/// Handler for the Reflect Shield buff.
 	/// </summary>
-	public class ReflectShield_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class ReflectShield_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effects during the combat calculations.
@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Wizard
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = skillLevel * 3 / 100f;

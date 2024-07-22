@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// shared damage.
 	/// </summary>
 	[BuffHandler(BuffId.Link)]
-	public class Link : BuffHandler, IBuffCombatAfterCalcHandler
+	public class Link : BuffHandler, IBuffCombatAttackAfterCalcHandler
 	{
 		/// <summary>
 		/// Applies link to the specified targets.
@@ -71,7 +71,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			if (!buff.Vars.TryGet<IEnumerable<ICombatEntity>>("Melia.LinkMembers", out var linkTargets))
 				return;

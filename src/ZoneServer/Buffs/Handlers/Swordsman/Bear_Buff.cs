@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 	/// <summary>
 	/// Handler for the Bear buff.
 	/// </summary>
-	public class Bear_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class Bear_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
@@ -21,7 +21,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		/// <exception cref="NotImplementedException"></exception>
-		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = skillLevel * 0.02f;

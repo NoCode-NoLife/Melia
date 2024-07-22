@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 	/// but also the damage you take.
 	/// </summary>
 	[BuffHandler(BuffId.Double_pay_earn_Buff)]
-	public class Double_pay_earn_Buff : BuffHandler, IBuffCombatBeforeCalcHandler
+	public class Double_pay_earn_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
 		private const float LootingChanceBonusPerLevel = 3;
 
@@ -36,7 +36,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Doppelsoeldner
 			return percentPerLevel * skillLevel * 10;
 		}
 
-		public void OnBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// Add 100% Damage via multiplier
 			modifier.DamageMultiplier += 1;

@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers
@@ -75,17 +79,36 @@ namespace Melia.Zone.Skills.Handlers
 		/// <param name="handler"></param>
 		private void LoadCombatEvents(SkillId skillId, ISkillHandler handler)
 		{
-			if (handler is ISkillCombatBeforeCalcHandler beforeCalcHandler)
+			// Implement hooks via scriptable functions that call the given
+			// handler for now. In terms of performance this isn't the absolute
+			// best solution, but it is very flexible, and using scriptable
+			// functions is idiomatic inside our combat scripting system.
+
+			void registerFunc(string name, CombatCalcHookFunction func)
 			{
-				ScriptableFunctions.Combat.Register("SCR_Combat_BeforeCalc_" + skillId, (attacker, target, attackerSkill, modifier, skillHitResult) =>
+				ScriptableFunctions.Combat.Register(name, (attacker, target, attackerSkill, modifier, skillHitResult) =>
 				{
 					if (attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(skillId, out var skill))
-						beforeCalcHandler.OnBeforeCalc(skill, attacker, target, attackerSkill, modifier, skillHitResult);
+						func(skill, attacker, target, attackerSkill, modifier, skillHitResult);
 
 					return 0;
 				});
 			}
+
+			if (handler is ISkillCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerFunc("SCR_Combat_BeforeCalc_Attack_" + skillId, beforeCalcAttackHandler.OnAttackBeforeCalc);
+			if (handler is ISkillCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerFunc("SCR_Combat_BeforeCalc_Defense_" + skillId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
+
+			if (handler is ISkillCombatAttackAfterCalcHandler afterCalcAttackHandler) registerFunc("SCR_Combat_AfterCalc_Attack_" + skillId, afterCalcAttackHandler.OnAttackAfterCalc);
+			if (handler is ISkillCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerFunc("SCR_Combat_AfterCalc_Defense_" + skillId, afterCalcDefenseHandler.OnDefenseAfterCalc);
+
+			if (handler is ISkillCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerFunc("SCR_Combat_BeforeBonuses_Attack_" + skillId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
+			if (handler is ISkillCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerFunc("SCR_Combat_BeforeBonuses_Defense_" + skillId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
+
+			if (handler is ISkillCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerFunc("SCR_Combat_AfterBonuses_Attack_" + skillId, afterBonusesAttackHandler.OnAttackAfterBonuses);
+			if (handler is ISkillCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerFunc("SCR_Combat_AfterBonuses_Defense_" + skillId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
 		}
+
+		private delegate void CombatCalcHookFunction(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult);
 
 		/// <summary>
 		/// Returns the handler for the given skill. If no handlers was

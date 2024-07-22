@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// in exchange for a chance to stun on normal attacks.
 	/// </summary>
 	[BuffHandler(BuffId.Restrain_Buff)]
-	public class Restrain_Buff : BuffHandler, IBuffCombatAfterCalcHandler
+	public class Restrain_Buff : BuffHandler, IBuffCombatAttackAfterCalcHandler
 	{
 		private const float MaxHpDropBase = 50f;
 		private const float MaxHpDropPerLevel = 28f;
@@ -51,7 +51,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			if (!skill.IsNormalAttack)
 				return;
