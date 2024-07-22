@@ -65,8 +65,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			var debuffTime = 5 + skill.Properties.GetFloat(PropertyName.Level, 0) * 1;
 
-			if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.TryGetActive(AbilityId.Highlander34, out var ability))
-				debuffTime += ability.Level;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Highlander34, out var abilityLevel))
+				debuffTime += abilityLevel;
 
 			await Task.Delay(hitDelay);
 
@@ -94,10 +94,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				var skillHitResult2 = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult2.Damage, caster);
 
-				var skillHit2 = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
-				skillHit2.HitEffect = HitEffect.Impact;
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult2, damageDelay2, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
 
-				hits.Add(skillHit2);
+				hits.Add(skillHit);
 
 				// TODO: Find out damage formula for the bleed damage, using the
 				//   same formula as Behead for now

@@ -4,6 +4,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers
@@ -13,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// shared damage.
 	/// </summary>
 	[BuffHandler(BuffId.Link)]
-	public class Link : BuffHandler
+	public class Link : BuffHandler, IBuffCombatDefenseAfterCalcHandler
 	{
 		/// <summary>
 		/// Applies link to the specified targets.
@@ -62,31 +63,30 @@ namespace Melia.Zone.Buffs.Handlers
 		}
 
 		/// <summary>
-		/// Attempts to share damage with entities linked to the target.
-		/// Returns false if the target is not linked or the link is invalid.
+		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
+		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="damage"></param>
-		/// <returns></returns>
-		public static bool TryShareDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage)
+		/// <param name="modifier"></param>
+		/// <param name="skillHitResult"></param>
+		public void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!target.TryGetBuff(BuffId.Link, out var linkBuff))
-				return false;
+			if (!buff.Vars.TryGet<IEnumerable<ICombatEntity>>("Melia.LinkMembers", out var linkTargets))
+				return;
 
-			if (!linkBuff.Vars.TryGet<IEnumerable<ICombatEntity>>("Melia.LinkMembers", out var linkTargets))
-				return false;
+			// Is the shared damage really the full amount? That would seem like
+			// a lot to me, but who knows. TBD.
+			var sharedDamage = (int)skillHitResult.Damage;
 
 			foreach (var linkTarget in linkTargets)
 			{
 				if (linkTarget.IsDead || linkTarget.Handle == target.Handle)
 					continue;
 
-				linkTarget.TakeSimpleHit(damage, attacker, skill.Id);
+				linkTarget.TakeSimpleHit(sharedDamage, attacker, skill.Id);
 			}
-
-			return true;
 		}
 	}
 }

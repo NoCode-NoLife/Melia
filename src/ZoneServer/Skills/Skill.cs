@@ -122,6 +122,11 @@ namespace Melia.Zone.Skills
 		public bool IsNormalAttack => (int)this.Id <= 1000;
 
 		/// <summary>
+		/// Returns true if this skill is a passive skill.
+		/// </summary>
+		public bool IsPassive => this.Data.ActivationType == SkillActivationType.PassiveSkill;
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="owner"></param>
