@@ -26,7 +26,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		/// <param name="args"></param>
 		public void Created(object sender, PadTriggerArgs args)
 		{
-			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, "ThrouwingSpear_Hoplite33_Pad", -0.7853982f, 0, 30, true);
+			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, PadName.ThrouwingSpear_Hoplite33_Pad, -0.7853982f, 0, 30, true);
 		}
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Hoplite
 		/// <param name="args"></param>
 		public void Destroyed(object sender, PadTriggerArgs args)
 		{
-			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, "ThrouwingSpear_Hoplite33_Pad", 0, 145.8735f, 30, false);
+			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, PadName.ThrouwingSpear_Hoplite33_Pad, 0, 145.8735f, 30, false);
 		}
 	}
 }
