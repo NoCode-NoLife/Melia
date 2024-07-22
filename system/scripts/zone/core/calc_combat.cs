@@ -96,14 +96,6 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
-		// Increase damage multiplier based on Defiance
-		// TODO: Move to skill handler.
-		if (target is Mob targetMob)
-		{
-			if (targetMob.Data.Rank == MonsterRank.Boss && attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
-				modifier.DamageMultiplier += defiance.Level * 0.02f;
-		}
-
 		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
