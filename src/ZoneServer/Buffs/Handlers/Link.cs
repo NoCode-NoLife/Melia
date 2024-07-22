@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -77,10 +76,9 @@ namespace Melia.Zone.Buffs.Handlers
 			if (!buff.Vars.TryGet<IEnumerable<ICombatEntity>>("Melia.LinkMembers", out var linkTargets))
 				return;
 
-			// TODO: Make skillHitResult.Damage usable, so we have direct access
-			//   to the damage. Until then, we'll get some fallback damage.
-			var SCR_GetRandomAtk = ScriptableFunctions.Combat.Get("SCR_GetRandomAtk");
-			var sharedDamage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+			// Is the shared damage really the full amount? That would seem like
+			// a lot to me, but who knows. TBD.
+			var sharedDamage = (int)skillHitResult.Damage;
 
 			foreach (var linkTarget in linkTargets)
 			{
