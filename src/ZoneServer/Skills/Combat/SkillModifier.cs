@@ -64,6 +64,14 @@
 		public int HitCount { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets forced block status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack is always blocked.
+		/// </remarks>
+		public bool ForcedBlock { get; set; }
+
+		/// <summary>
 		/// Gets or sets forced critical status.
 		/// </summary>
 		/// <remarks>
