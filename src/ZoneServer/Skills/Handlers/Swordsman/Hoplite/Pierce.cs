@@ -103,7 +103,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			if (Feature.IsEnabled("PierceNoSizeEffect"))
 				return 4;
 
-			var targetSize = target.GetEffectiveSize();
+			var targetSize = target.EffectiveSize;
 
 			if (targetSize == SizeType.M)
 				return 2;
