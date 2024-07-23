@@ -46,6 +46,18 @@ namespace Melia.Zone.World.Actors
 		MoveType MoveType { get; }
 
 		/// <summary>
+		/// Returns the entity's effective size.
+		/// </summary>
+		/// <remarks>
+		/// The effective size is not necessarily the same as the entity's set
+		/// size, as some are classified as a certain size for some purposes,
+		/// but another size for others. For example, players have their own
+		/// "size" property called "PC", but for bonus purposes they are
+		/// considered "M" size.
+		/// </remarks>
+		SizeType EffectiveSize => (this is Mob mob ? mob.Data.Size : SizeType.M);
+
+		/// <summary>
 		/// Returns the entity's monster rank. Returns Normal if entity is
 		/// not a mob.
 		/// </summary>
@@ -446,26 +458,6 @@ namespace Melia.Zone.World.Actors
 
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
-		}
-
-		/// <summary>
-		/// Returns the entity's effective size.
-		/// </summary>
-		/// <remarks>
-		/// The effective size is not necessarily the same as the entity's set
-		/// size, as some are classified as a certain size for some purposes,
-		/// but another size for other purposes. For example, player's have
-		/// their own "size" property called "PC", but for bonus purposes,
-		/// for example they are considered "M" size.
-		/// </remarks>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		public static SizeType GetEffectiveSize(this ICombatEntity entity)
-		{
-			if (entity is Mob mob)
-				return mob.Data.Size;
-
-			return SizeType.M;
 		}
 	}
 }
