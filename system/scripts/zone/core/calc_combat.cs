@@ -599,7 +599,7 @@ public class CombatCalculationsScript : GeneralScript
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
-		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
+		var blockChance = Math2.Clamp(modifier.MinimumCritical, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
 
 		return (float)blockChance;
 	}

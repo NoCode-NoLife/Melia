@@ -99,6 +99,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 
 			await Task.Delay(spinLength);
 
+			// TODO: Is there any way to stop the spin without sending this packet?
 			foreach (var target in hitTargets)
 			{
 				Send.ZC_NORMAL.SpinObject(target, 0, 0, 0, 0);

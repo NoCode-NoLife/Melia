@@ -44,6 +44,15 @@
 		public float DamageMultiplier { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the minimum critical chance
+		/// </summary>
+		/// <remarks>
+		/// This acts as the lowest possible chance for a critical when this
+		/// value is set
+		/// </remarks>
+		public float MinimumCritical { get; set; } = 0;
+
+		/// <summary>
 		/// Gets or sets damage multiplier applied to skill damage after
 		/// defense, crit, and other modifiers were applied.
 		/// </summary>
