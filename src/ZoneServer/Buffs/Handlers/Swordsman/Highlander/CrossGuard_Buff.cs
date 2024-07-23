@@ -1,6 +1,8 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 
@@ -10,8 +12,12 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 	/// Handle for the Cross Guard Buff, which increases the target's block rate,
 	/// but prevents evasion.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: None
+	/// </remarks>
 	[BuffHandler(BuffId.CrossGuard_Buff)]
-	public class CrossGuard_Buff : BuffHandler
+	public class CrossGuard_Buff : BuffHandler, IBuffCombatDefenseAfterCalcHandler
 	{
 		private const float BlkRateBonusPerLevel = 0.01f;
 		private const float DebuffDuration = 5f;
@@ -40,31 +46,23 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		}
 
 		/// <summary>
-		/// Handles Cross Guard's hit effects. Returns false if the target doesn't
-		/// have the buff.
+		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <remarks>
-		/// The behavior of this buff has changed over time, but generally it
-		/// applies (de)buffs and might put the Cross Guard skill on cooldown.
-		/// </remarks>
+		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <returns></returns>
-		public static bool TryApplyEffect(ICombatEntity attacker, ICombatEntity target)
+		/// <param name="modifier"></param>
+		/// <param name="skillHitResult"></param>
+		public void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!target.TryGetBuff(BuffId.CrossGuard_Buff, out var buff))
-				return false;
-
 			// this previously instead applied a debuff to the attacker
 			// attacker.StartBuff(BuffId.CrossGuard_Debuff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
 
 			target.StartBuff(BuffId.CrossGuard_Damage_Buff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
 
-			if (target.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_CrossGuard, out var skill))
-				skill.StartCooldown(TimeSpan.FromSeconds(15));
-
-			return true;
+			if (target.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_CrossGuard, out var crossGuardSkill))
+				crossGuardSkill.StartCooldown(TimeSpan.FromSeconds(15));
 		}
 	}
 }

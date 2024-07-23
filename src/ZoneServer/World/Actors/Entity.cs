@@ -46,6 +46,12 @@ namespace Melia.Zone.World.Actors
 		MoveType MoveType { get; }
 
 		/// <summary>
+		/// Returns the entity's monster rank. Returns Normal if entity is
+		/// not a mob.
+		/// </summary>
+		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
+
+		/// <summary>
 		/// Returns the entity's level.
 		/// </summary>
 		int Level { get; }
