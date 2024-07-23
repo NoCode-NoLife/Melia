@@ -71,7 +71,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 				// If the target is M or L size and has ScullSwing_Debuff, increases damage proportionally
 				// the debuff's defense drop
-				var targetSize = target.GetEffectiveSize();
+				var targetSize = target.EffectiveSize;
 				if (targetSize >= SizeType.M && targetSize <= SizeType.L && target.TryGetBuff(BuffId.ScullSwing_Debuff, out var scullSwingDebuff))
 					modifier.DamageMultiplier += scullSwingDebuff.NumArg2;
 

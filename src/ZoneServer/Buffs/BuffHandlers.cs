@@ -8,6 +8,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs
 {
@@ -71,7 +72,7 @@ namespace Melia.Zone.Buffs
 			// best solution, but it is very flexible, and using scriptable
 			// functions is idiomatic inside our combat scripting system.
 
-			void registerFunc(string name, CombatCalcHookFunction func)
+			void registerAttackFunc(string name, CombatCalcHookFunction func)
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
 				{
@@ -82,17 +83,28 @@ namespace Melia.Zone.Buffs
 				});
 			}
 
-			if (handler is IBuffCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerFunc("SCR_Combat_BeforeCalc_Attack_" + buffId, beforeCalcAttackHandler.OnAttackBeforeCalc);
-			if (handler is IBuffCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerFunc("SCR_Combat_BeforeCalc_Defense_" + buffId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
+			void registerDefenseFunc(string name, CombatCalcHookFunction func)
+			{
+				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
+				{
+					if (target.TryGetBuff(buffId, out var buff))
+						func(buff, attacker, target, skill, modifier, skillHitResult);
 
-			if (handler is IBuffCombatAttackAfterCalcHandler afterCalcAttackHandler) registerFunc("SCR_Combat_AfterCalc_Attack_" + buffId, afterCalcAttackHandler.OnAttackAfterCalc);
-			if (handler is IBuffCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerFunc("SCR_Combat_AfterCalc_Defense_" + buffId, afterCalcDefenseHandler.OnDefenseAfterCalc);
+					return 0;
+				});
+			}
 
-			if (handler is IBuffCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerFunc("SCR_Combat_BeforeBonuses_Attack_" + buffId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
-			if (handler is IBuffCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerFunc("SCR_Combat_BeforeBonuses_Defense_" + buffId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
+			if (handler is IBuffCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + buffId, beforeCalcAttackHandler.OnAttackBeforeCalc);
+			if (handler is IBuffCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + buffId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
 
-			if (handler is IBuffCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerFunc("SCR_Combat_AfterBonuses_Attack_" + buffId, afterBonusesAttackHandler.OnAttackAfterBonuses);
-			if (handler is IBuffCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerFunc("SCR_Combat_AfterBonuses_Defense_" + buffId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
+			if (handler is IBuffCombatAttackAfterCalcHandler afterCalcAttackHandler) registerAttackFunc("SCR_Combat_AfterCalc_Attack_" + buffId, afterCalcAttackHandler.OnAttackAfterCalc);
+			if (handler is IBuffCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerDefenseFunc("SCR_Combat_AfterCalc_Defense_" + buffId, afterCalcDefenseHandler.OnDefenseAfterCalc);
+
+			if (handler is IBuffCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerAttackFunc("SCR_Combat_BeforeBonuses_Attack_" + buffId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
+			if (handler is IBuffCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeBonuses_Defense_" + buffId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
+
+			if (handler is IBuffCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerAttackFunc("SCR_Combat_AfterBonuses_Attack_" + buffId, afterBonusesAttackHandler.OnAttackAfterBonuses);
+			if (handler is IBuffCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_AfterBonuses_Defense_" + buffId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
 		}
 
 		private delegate void CombatCalcHookFunction(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
