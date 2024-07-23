@@ -24,11 +24,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public bool AttackState { get; private set; }
 
 		/// <summary>
-		/// Returns true if the entity is immune to damage.
-		/// </summary>
-		public bool ImmuneToDamage { get; set; }
-
-		/// <summary>
 		/// Returns the entity's casting state.
 		/// </summary>
 		public bool CastingState { get; set; }
