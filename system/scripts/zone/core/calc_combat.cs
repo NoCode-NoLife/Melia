@@ -58,11 +58,16 @@ public class CombatCalculationsScript : GeneralScript
 	/// Calculates the damage for the given skill if used by the attacker
 	/// on the target, factoring in attack and defense properties.
 	/// </summary>
-	/// <param name="attacker"></param>
-	/// <param name="target"></param>
-	/// <param name="skill"></param>
-	/// <param name="skillHitResult"></param>
-	/// <returns></returns>
+	/// <param name="attacker">The combatant attacking the target.</param>
+	/// <param name="target">The combatant that's being attacked.</param>
+	/// <param name="skill">The skill used for this attack hit.</param>
+	/// <param name="skillHitResult">
+	/// The result of the hit, which is modified directly to indicate
+	/// how the attack turned out. After the call it will reflect the
+	/// damage dealt, whether it was a crit, or the attacks was perhaps
+	/// dodged, etc. None of this is automatically applied to the target.
+	/// </param>
+	/// <returns>Returns the resulting damage rounded down.</returns>
 	[ScriptableFunction]
 	public float SCR_CalculateDamage(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
@@ -75,6 +80,10 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
 		var SCR_AttackTypeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttackTypeMultiplier");
 		var SCR_RaceMultiplier = ScriptableFunctions.Combat.Get("SCR_RaceMultiplier");
+		var SCR_Combat_BeforeCalc = ScriptableFunctions.Combat.Get("SCR_Combat_BeforeCalc");
+		var SCR_Combat_AfterCalc = ScriptableFunctions.Combat.Get("SCR_Combat_AfterCalc");
+		var SCR_Combat_BeforeBonuses = ScriptableFunctions.Combat.Get("SCR_Combat_BeforeBonuses");
+		var SCR_Combat_AfterBonuses = ScriptableFunctions.Combat.Get("SCR_Combat_AfterBonuses");
 
 		var rnd = RandomProvider.Get();
 
@@ -85,35 +94,17 @@ public class CombatCalculationsScript : GeneralScript
 			return 0;
 		}
 
-		var damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
+		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
-		// Bonuses from buffs
-		Concentrate_Buff.TryAddBonus(attacker, modifier);
-
-		// Increase damage multiplier based on dagger slash buff
-		// TODO: Move to a buff handler later.
-		if (attacker.TryGetBuff(BuffId.DaggerSlash_Buff, out var daggerSlashBuff))
-			modifier.DamageMultiplier += daggerSlashBuff.OverbuffCounter * 0.07f;
-
-		// Increase damage multiplier based on Crossguard_damage_buff
-		// TODO: Move to a buff handler later.
-		if (attacker.TryGetBuff(BuffId.CrossGuard_Damage_Buff, out var crossGuardDamageBuff))
-			modifier.DamageMultiplier += crossGuardDamageBuff.NumArg1 * 0.05f;
-
-		// Increase damage multiplier based on Defiance
-		if (target is Mob targetMob)
-		{
-			if (targetMob.Data.Rank == MonsterRank.Boss && attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_Defiance, out var defiance))
-				modifier.DamageMultiplier += defiance.Level * 0.02f;
-		}
+		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-		damage *= skillFactor / 100f;
-		damage += skillAtkAdd;
+		skillHitResult.Damage *= skillFactor / 100f;
+		skillHitResult.Damage += skillAtkAdd;
 
-		damage += modifier.BonusDamage;
-		damage *= modifier.DamageMultiplier;
+		skillHitResult.Damage += modifier.BonusDamage;
+		skillHitResult.Damage *= modifier.DamageMultiplier;
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
@@ -131,7 +122,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (rnd.Next(100) < crtChance && skillHitResult.Result != HitResultType.Block)
 		{
 			var crtAtk = attacker.Properties.GetFloat(PropertyName.CRTATK);
-			damage += crtAtk;
+			skillHitResult.Damage += crtAtk;
 
 			skillHitResult.Result = HitResultType.Crit;
 		}
@@ -139,88 +130,42 @@ public class CombatCalculationsScript : GeneralScript
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
 		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
-		damage = Math.Max(1, damage - def);
+		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
-		// Check damage (de)buffs
-		// I'm not aware of a general purpose buff or debuff property for
-		// modifying damage that we could utilize to handle buffs like
-		// ReflectShield_Buff, so we'll have to check for it explicitly.
-		// Though this is neither elegant nor efficient, and we won't be
-		// able to easily customize it either. It should probably be a
-		// scriptable function in itself... TODO.
-		if (target.TryGetBuff(BuffId.ReflectShield_Buff, out var reflectShieldBuff))
-		{
-			var skillLevel = reflectShieldBuff.NumArg1;
-			var byBuffRate = (skillLevel * 3 / 100f);
-
-			damage = Math.Max(1, damage - damage * byBuffRate);
-
-			var maxSp = target.Properties.GetFloat(PropertyName.MSP);
-			var spRate = 0.7f / 100f;
-
-			target.TrySpendSp(maxSp * spRate);
-		}
+		SCR_Combat_BeforeBonuses(attacker, target, skill, modifier, skillHitResult);
 
 		var sizeBonusDamage = SCR_SizeTypeBonus(attacker, target, skill, modifier, skillHitResult);
 		if (sizeBonusDamage != 0)
 		{
-			damage += sizeBonusDamage;
+			skillHitResult.Damage += sizeBonusDamage;
 		}
 
 		var attrMultiplier = SCR_AttributeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (attrMultiplier != 1)
 		{
-			damage *= attrMultiplier;
+			skillHitResult.Damage *= attrMultiplier;
 		}
 
 		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (atkTypeMultiplier != 1)
 		{
-			damage *= atkTypeMultiplier;
+			skillHitResult.Damage *= atkTypeMultiplier;
 		}
 
 		var raceMultiplier = SCR_RaceMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (raceMultiplier != 1)
 		{
-			damage *= raceMultiplier;
+			skillHitResult.Damage *= raceMultiplier;
 		}
 
 		var hitCountMultiplier = SCR_HitCountMultiplier(attacker, target, skill, modifier, skillHitResult);
 		if (hitCountMultiplier != 1)
 		{
-			damage *= hitCountMultiplier;
+			skillHitResult.Damage *= hitCountMultiplier;
 			skillHitResult.HitCount = (int)Math.Round(skillHitResult.HitCount * hitCountMultiplier);
 		}
 
-		// Cloaking reduces damage by 25%
-		// TODO: Move to a buff handler later.
-		if (target.IsBuffActive(BuffId.Cloaking_Buff))
-			damage = Math.Max(1, damage * 0.75f);
-
-		// Double Pay Earn increases damage taken
-		// TODO: Move to a buff handler later.
-		if (target.TryGetBuff(BuffId.Double_pay_earn_Buff, out var doublePayEarnBuff))
-		{
-			var damageMultiplier = doublePayEarnBuff.NumArg2;
-			damage *= damageMultiplier;
-		}
-
-		// Crossguard_Debuff increases damage taken
-		// TODO: Move to a buff handler later.
-		if (target.TryGetBuff(BuffId.CrossCut_Debuff, out var crossGuardDebuff))
-		{
-			var damageMultiplier = 1f + crossGuardDebuff.NumArg1 * 0.05f;
-			damage *= damageMultiplier;
-		}
-
-		// Bear reduces damage by 2% per level
-		if (target.TryGetBuff(BuffId.Bear_Buff, out var bearBuff))
-		{
-			var skillLevel = bearBuff.NumArg1;
-			var byBuffRate = skillLevel * 0.02f;
-
-			damage = Math.Max(1, damage * (1f - byBuffRate));
-		}
+		SCR_Combat_AfterBonuses(attacker, target, skill, modifier, skillHitResult);
 
 		// Block damage reduction
 		if (skillHitResult.Result == HitResultType.Block)
@@ -230,21 +175,18 @@ public class CombatCalculationsScript : GeneralScript
 			if (target.IsBuffActive(BuffId.HighGuard_Abil_Buff))
 				blockMultiplier += 0.20f;
 
-			damage -= (damage * blockMultiplier);
+			skillHitResult.Damage -= (skillHitResult.Damage * blockMultiplier);
 		}
 
 		// Critical damage bonus
 		if (skillHitResult.Result == HitResultType.Crit)
-			damage *= 1.5f;
+			skillHitResult.Damage *= 1.5f;
 
-		damage *= modifier.FinalDamageMultiplier;
+		skillHitResult.Damage *= modifier.FinalDamageMultiplier;
 
-		// Bonus buff effects
-		CrossGuard_Buff.TryApplyEffect(attacker, target);
-		Restrain_Buff.TryStunTarget(attacker, target, skill);
-		Link.TryShareDamage(attacker, target, skill, damage);
+		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
-		return (int)damage;
+		return (int)skillHitResult.Damage;
 	}
 
 	/// <summary>

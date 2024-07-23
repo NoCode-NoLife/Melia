@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 				if (target.IsBuffActive(BuffId.Stun))
 					modifier.DamageMultiplier = StunDamageMultiplier;
 
-				var targetSize = target.GetEffectiveSize();
+				var targetSize = target.EffectiveSize;
 				if (targetSize >= SizeType.S && targetSize <= SizeType.M)
 					modifier.DefensePenetrationRate = DefPierceRate + skill.Level * DefPierceRatePerLevel;
 

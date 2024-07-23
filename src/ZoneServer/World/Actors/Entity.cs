@@ -47,6 +47,24 @@ namespace Melia.Zone.World.Actors
 		MoveType MoveType { get; }
 
 		/// <summary>
+		/// Returns the entity's effective size.
+		/// </summary>
+		/// <remarks>
+		/// The effective size is not necessarily the same as the entity's set
+		/// size, as some are classified as a certain size for some purposes,
+		/// but another size for others. For example, players have their own
+		/// "size" property called "PC", but for bonus purposes they are
+		/// considered "M" size.
+		/// </remarks>
+		SizeType EffectiveSize => (this is Mob mob ? mob.Data.Size : SizeType.M);
+
+		/// <summary>
+		/// Returns the entity's monster rank. Returns Normal if entity is
+		/// not a mob.
+		/// </summary>
+		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
+
+		/// <summary>
 		/// Returns the entity's level.
 		/// </summary>
 		int Level { get; }
@@ -484,6 +502,5 @@ namespace Melia.Zone.World.Actors
 				debuffs[rnd.Next(debuffs.Count)].End();
 			}				
 		}
-
 	}
 }

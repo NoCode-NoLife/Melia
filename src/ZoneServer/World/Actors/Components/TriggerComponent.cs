@@ -151,6 +151,30 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
+		/// Returns a list of actors currently inside the trigger area
+		/// that are of the given type.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <returns></returns>
+		public List<TActor> GetActors<TActor>() where TActor : IActor
+		{
+			lock (_syncLock)
+				return _actorsInside.OfType<TActor>().ToList();
+		}
+
+		/// <summary>
+		/// Returns a list of actors currently inside the trigger area
+		/// that can be attacked by the given actor.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <returns></returns>
+		public List<ICombatEntity> GetAttackableEntities(ICombatEntity attacker)
+		{
+			lock (_syncLock)
+				return _actorsInside.OfType<ICombatEntity>().Where(attacker.CanAttack).ToList();
+		}
+
+		/// <summary>
 		/// Updates the component, triggering events.
 		/// </summary>
 		/// <param name="elapsed"></param>
