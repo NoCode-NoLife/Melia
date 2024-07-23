@@ -15,6 +15,7 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -739,9 +740,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			var healingModifier = this.Properties.GetFloat(PropertyName.HEAL_BM);
+			float healingReduction = 0;
 
-			this.Properties.Modify(PropertyName.HP, hpAmount * (healingModifier > 0 ? healingModifier : 1));
+			if (this.TryGetBuff(BuffId.DecreaseHeal_Debuff, out Buff decreaseHealDebuff))
+			{
+				healingReduction = decreaseHealDebuff.Vars.GetFloat("DecreaseHeal_Debuff.HealingReduction");
+			}
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;

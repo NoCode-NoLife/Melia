@@ -16,6 +16,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Buffs;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -720,9 +722,16 @@ namespace Melia.Zone.World.Actors.Characters
 			if (hpAmount == 0 && spAmount == 0)
 				return;
 
-			var healingModifier = this.Properties.GetFloat(PropertyName.HEAL_BM);
+			float healingReduction = 0;
 
-			this.ModifyHpSafe(hpAmount * (healingModifier > 0 ? healingModifier : 1), out var hp, out var priority);
+			if (this.TryGetBuff(BuffId.DecreaseHeal_Debuff, out Buff decreaseHealDebuff))
+			{
+				healingReduction = decreaseHealDebuff.Vars.GetFloat("DecreaseHeal_Debuff.HealingReduction");
+			}
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.ModifyHpSafe(hpAmount * healingModifier, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);

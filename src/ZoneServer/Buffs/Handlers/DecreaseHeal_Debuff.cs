@@ -1,6 +1,8 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -11,21 +13,12 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.DecreaseHeal_Debuff)]
 	public class DecreaseHeal_Debuff : BuffHandler
 	{
-		private const float AtkReductionRatePerLevel = 2;
-		private const float EvasionReductionRatePerLevel = 1;
-
 		public override void OnStart(Buff buff)
 		{
-			var actualHealingModifier = buff.Caster.Properties.GetFloat(PropertyName.HEAL_BM);
-			var healingReduction = this.GetHealingReduction(buff);
-			var healingModifier = actualHealingModifier - healingReduction;
-			AddPropertyModifier(buff, buff.Target, PropertyName.HEAL_BM, healingModifier);
+			buff.Vars.SetFloat("DecreaseHeal_Debuff.HealingReduction", this.GetHealingReduction(buff));
 		}
 
-		public override void OnEnd(Buff buff)
-		{
-			RemovePropertyModifier(buff, buff.Target, PropertyName.HEAL_BM);
-		}
+		public override void OnEnd(Buff buff) { }
 
 		/// <summary>
 		/// Return the Buff Healing Reduction value
@@ -35,7 +28,7 @@ namespace Melia.Zone.Buffs.Handlers
 		private float GetHealingReduction(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			return Math.Max((3 * skillLevel) / 100, 1);
+			return (3 * skillLevel) / 100;
 		}
 	}
 }
