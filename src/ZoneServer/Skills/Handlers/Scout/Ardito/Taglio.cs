@@ -2,6 +2,7 @@
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
+using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Pads;
 using Melia.Zone.Skills.Combat;
@@ -63,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			}
 
 			var pad = new Pad(PadName.Arditi_Taglio, caster, skill, new Square(caster.Position, caster.Direction, 45, 30));
-			pad.Position = caster.Position;			
+			pad.Position = caster.Position;
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(maxCastingTime);
 			pad.Trigger.MaxActorCount = 10;
 			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(250);
@@ -111,8 +112,6 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var caster = args.Creator;
 			var skill = args.Skill;
-
-			Debug.ShowShape(caster.Map, args.Trigger.Area, edgePoints: false, duration: TimeSpan.FromSeconds(1));
 
 			var targets = pad.Trigger.GetActors().Cast<ICombatEntity>().ToList();
 

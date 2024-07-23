@@ -5,7 +5,7 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handle for the Lethargy main debuff that reduces a target's attack
+	/// Handle for the DecreaseHeal_Debuff that changes the character's healing reduction
 	/// and evasion properties.
 	/// </summary>
 	[BuffHandler(BuffId.DecreaseHeal_Debuff)]

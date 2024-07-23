@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Ardito
@@ -49,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			this.Attack(skill, caster, farPos, caster.Direction);
+			this.PrepareAttack(skill, caster, farPos, caster.Direction);
 		}
 
 		/// <summary>
@@ -59,45 +62,78 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
 		/// <param name="direction"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
+		private async void PrepareAttack(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
+			var pos1 = farPos.GetRelative(direction, 50);
+			var pos2 = pos1.GetRelative(direction, 50);
+			var pos3 = pos2.GetRelative(direction, 50);
+
+			var circle1 = new Circle(pos1, 50);
+			var circle2 = new Circle(pos2, 50);
+			var circle3 = new Circle(pos3, 50);
+
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-			var pos2 = farPos.GetRelative(direction, 50);
-			var pos3 = pos2.GetRelative(direction, 50);
-			var pos4 = pos3.GetRelative(direction, 50);
-
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos1);
 			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos2);
 			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos3);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos4);
 
 			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750), "", TimeSpan.FromMilliseconds(2500), pos2);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(400));
 
-			var effectId1 = ForceId.GetNew();
-			var effectId2 = ForceId.GetNew();
-			var effectId3 = ForceId.GetNew();
-			var effectId4 = ForceId.GetNew();
+			var pad1 = new Pad(PadName.Arditi_TreGranata, caster, skill, circle1);
+			pad1.Position = pos1;
+			pad1.Trigger.LifeTime = TimeSpan.FromSeconds(10);
+			pad1.Trigger.MaxActorCount = 15;
 
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos2, effectId1, true);
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos3, effectId2, true);
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos4, effectId3, true);
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, true);
+			var pad2 = new Pad(PadName.Arditi_TreGranata, caster, skill, circle2);
+			pad2.Position = pos2;
+			pad2.Trigger.LifeTime = TimeSpan.FromSeconds(10);
+			pad2.Trigger.MaxActorCount = 15;
+	
+			var pad3 = new Pad(PadName.Arditi_TreGranata, caster, skill, circle3);
+			pad3.Position = pos3;
+			pad3.Trigger.LifeTime = TimeSpan.FromSeconds(10);
+			pad3.Trigger.MaxActorCount = 15;
+			pad3.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
 
-			var cancelationTokenSource = new CancellationTokenSource();
+			var pad4Position = farPos.GetRelative(direction, 25);
 
-			this.AreaOfEffect(skill, caster, pos2, pos3, pos4, cancelationTokenSource);
+			var pad4 = new Pad(PadName.Arditi_TreGranata_DamagePad, caster, skill, new Square(pad4Position, caster.Direction, 150, 50));
+			pad4.Position = new Position(pad4.Trigger.Area.Center.X, pad4Position.Y, pad4.Trigger.Area.Center.Y);
+			pad4.Trigger.LifeTime = TimeSpan.FromSeconds(10);
+			pad4.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
+			pad4.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
 
-			await Task.Delay(TimeSpan.FromSeconds(10));
+			caster.Map.AddPad(pad1);
+			caster.Map.AddPad(pad2);
+			caster.Map.AddPad(pad3);
+			caster.Map.AddPad(pad4);
 
-			cancelationTokenSource.Cancel();
+			Debug.ShowShape(caster.Map, (Square)pad4.Trigger.Area, edgePoints: false, duration: TimeSpan.FromSeconds(10));
+		}
 
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos2, effectId1, false);
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos3, effectId2, false);
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata", skill.Id, pos4, effectId3, false);
+		/// <summary>
+		/// Called when an actor enters the area of the attack.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnUpdate(object sender, PadTriggerArgs args)
+		{
+			var pad = args.Trigger;
+			var caster = args.Creator;
+			var skill = args.Skill;
 
-			Send.ZC_NORMAL.GroundEffect(caster, caster.Direction, "Arditi_TreGranata_DamagePad", skill.Id, pos2, effectId4, false);
+			var targets = pad.Trigger.GetActors().OfType<ICombatEntity>();
+
+			foreach (var target in targets.LimitBySDR(caster, skill))
+			{
+				if (!caster.CanAttack(target))
+					continue;
+
+				this.Attack(skill, caster, target);
+			}
 		}
 
 		/// <summary>
@@ -105,38 +141,14 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		/// <param name="pos2"></param>
-		/// <param name="pos3"></param>
-		/// <param name="pos4"></param>
-		/// <param name="cancelationTokenSource"></param>
-		private async void AreaOfEffect(Skill skill, ICombatEntity caster, Position pos2, Position pos3, Position pos4, CancellationTokenSource cancelationTokenSource)
+		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var circle = new Circle(pos2, 50);
-			var circle2 = new Circle(pos3, 50);
-			var circle3 = new Circle(pos4, 50);
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
-			while (!cancelationTokenSource.Token.IsCancellationRequested)
-			{
-				await Task.Delay(TimeSpan.FromSeconds(1));
+			target.TakeDamage(skillHitResult.Damage, caster);
 
-				var targets1 = caster.Map.GetAttackableEntitiesIn(caster, circle);
-				var targets2 = caster.Map.GetAttackableEntitiesIn(caster, circle2);
-				var targets3 = caster.Map.GetAttackableEntitiesIn(caster, circle3);
-
-				var targets = targets1.Concat(targets2).Concat(targets3).ToList();
-				var damageDelay = TimeSpan.FromMilliseconds(45);
-				var skillHitDelay = skill.Properties.HitDelay;
-
-				foreach (var target in targets.Distinct().ToList().LimitRandom(10))
-				{
-					var skillHitResult = SCR_SkillHit(caster, target, skill);
-
-					target.TakeDamage(skillHitResult.Damage, caster);
-
-					var hit = new HitInfo(caster, target, skill, skillHitResult);
-					Send.ZC_HIT_INFO(caster, target, hit);
-				}
-			}
+			var hit = new HitInfo(caster, target, skill, skillHitResult);
+			Send.ZC_HIT_INFO(caster, target, hit);
 		}
 	}
 }

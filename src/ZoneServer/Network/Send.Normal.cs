@@ -396,44 +396,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Purpose unknown, related to skills.
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="direction"></param>
-			/// <param name="packetString"></param>
-			/// <param name="skillId"></param>
-			/// <param name="targetPos"></param>
-			/// <param name="forceId"></param>
-			/// <param name="startEffect"></param>
-			/// <exception cref="ArgumentException"></exception>
-			public static void GroundEffect(ICombatEntity entity, Direction direction, string packetString, SkillId skillId, Position targetPos, int forceId, bool startEffect)
-			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Unknown packet string '{packetString}'.");
-
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.PadUpdate);
-
-				int starEffect = startEffect ? 1 : 0;
-
-				packet.PutInt(entity.Handle);
-				packet.PutInt(packetStringData.Id);
-				packet.PutInt((int)skillId);
-				packet.PutInt(1);
-				packet.PutPosition(targetPos);
-				packet.PutDirection(direction);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
-				packet.PutInt(forceId);
-				packet.PutInt(starEffect);
-				packet.PutEmptyBin(13);
-				packet.PutFloat(150);
-				packet.PutEmptyBin(16);
-
-				entity.Map.Broadcast(packet, entity);
-			}
-
-			/// <summary>
 			/// Sets the altitude of an actor associated with a pad.
 			/// </summary>
 			/// <remarks>
