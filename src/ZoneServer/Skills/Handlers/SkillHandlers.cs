@@ -84,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers
 			// best solution, but it is very flexible, and using scriptable
 			// functions is idiomatic inside our combat scripting system.
 
-			void registerFunc(string name, CombatCalcHookFunction func)
+			void registerAttackFunc(string name, CombatCalcHookFunction func)
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, attackerSkill, modifier, skillHitResult) =>
 				{
@@ -95,17 +95,28 @@ namespace Melia.Zone.Skills.Handlers
 				});
 			}
 
-			if (handler is ISkillCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerFunc("SCR_Combat_BeforeCalc_Attack_" + skillId, beforeCalcAttackHandler.OnAttackBeforeCalc);
-			if (handler is ISkillCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerFunc("SCR_Combat_BeforeCalc_Defense_" + skillId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
+			void registerDefenseFunc(string name, CombatCalcHookFunction func)
+			{
+				ScriptableFunctions.Combat.Register(name, (attacker, target, attackerSkill, modifier, skillHitResult) =>
+				{
+					if (target.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(skillId, out var skill))
+						func(skill, attacker, target, attackerSkill, modifier, skillHitResult);
 
-			if (handler is ISkillCombatAttackAfterCalcHandler afterCalcAttackHandler) registerFunc("SCR_Combat_AfterCalc_Attack_" + skillId, afterCalcAttackHandler.OnAttackAfterCalc);
-			if (handler is ISkillCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerFunc("SCR_Combat_AfterCalc_Defense_" + skillId, afterCalcDefenseHandler.OnDefenseAfterCalc);
+					return 0;
+				});
+			}
 
-			if (handler is ISkillCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerFunc("SCR_Combat_BeforeBonuses_Attack_" + skillId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
-			if (handler is ISkillCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerFunc("SCR_Combat_BeforeBonuses_Defense_" + skillId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
+			if (handler is ISkillCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + skillId, beforeCalcAttackHandler.OnAttackBeforeCalc);
+			if (handler is ISkillCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + skillId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
 
-			if (handler is ISkillCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerFunc("SCR_Combat_AfterBonuses_Attack_" + skillId, afterBonusesAttackHandler.OnAttackAfterBonuses);
-			if (handler is ISkillCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerFunc("SCR_Combat_AfterBonuses_Defense_" + skillId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
+			if (handler is ISkillCombatAttackAfterCalcHandler afterCalcAttackHandler) registerAttackFunc("SCR_Combat_AfterCalc_Attack_" + skillId, afterCalcAttackHandler.OnAttackAfterCalc);
+			if (handler is ISkillCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerDefenseFunc("SCR_Combat_AfterCalc_Defense_" + skillId, afterCalcDefenseHandler.OnDefenseAfterCalc);
+
+			if (handler is ISkillCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerAttackFunc("SCR_Combat_BeforeBonuses_Attack_" + skillId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
+			if (handler is ISkillCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeBonuses_Defense_" + skillId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
+
+			if (handler is ISkillCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerAttackFunc("SCR_Combat_AfterBonuses_Attack_" + skillId, afterBonusesAttackHandler.OnAttackAfterBonuses);
+			if (handler is ISkillCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_AfterBonuses_Defense_" + skillId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
 		}
 
 		private delegate void CombatCalcHookFunction(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult);
