@@ -216,13 +216,16 @@ namespace Melia.Zone.Network
 			/// <param name="packetString2"></param>
 			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position, float f1, float f2, float f3, float f4)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
 
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{packetString2}' not found.");
+				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
@@ -233,14 +236,13 @@ namespace Melia.Zone.Network
 				packet.PutInt(packetStringData2?.Id ?? 0);
 				packet.PutFloat((float)duration2.TotalSeconds);
 				packet.PutPosition(position);
-				packet.PutFloat(70);
-				packet.PutFloat(0.3f);
-				packet.PutFloat(0f);
-				packet.PutFloat(600);
+				packet.PutFloat(f1);
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
 				packet.PutFloat(1);
 				packet.PutLong(0);
-				packet.PutShort(5);
-				packet.PutString("None");
+				packet.PutLpString("None");
 
 				entity.Map.Broadcast(packet, entity);
 			}
@@ -1147,10 +1149,10 @@ namespace Melia.Zone.Network
 				packet.PutPosition(targetPos);
 				packet.PutFloat(jumpHeight);
 				packet.PutFloat(f1); // jump speed?
-				packet.PutFloat(f2); // unknow float 2
-				packet.PutFloat(f3); // unknow float 3
-				packet.PutFloat(f4); // unknow float 4
-				packet.PutFloat(f5); // unknow float 5
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
+				packet.PutFloat(f5);
 
 				entity.Map.Broadcast(packet, entity);
 			}

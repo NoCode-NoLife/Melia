@@ -8,6 +8,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Scout.Ardito
@@ -38,12 +39,12 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			caster.SetAttackState(true);
 
 			// Remove Buff
-			var removeDebuffRatio = Math.Clamp(this.GetRemoveDebuffRatio(skill), 0, 100);
-			var rnd = RandomProvider.Get();
+			var removeDebuffRatio = this.GetRemoveDebuffRatio(skill);
 
-			if (removeDebuffRatio == 100 || rnd.Next(100) < removeDebuffRatio)
+			if (RandomProvider.Get().Next(100) < removeDebuffRatio)
 			{
-				caster.RemoveRandomDebuff();
+				if (caster.Components.TryGet<BuffComponent>(out var buffComponent))
+					buffComponent.RemoveRandomDebuff();
 			}
 
 			// Recovery HP
@@ -115,7 +116,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <returns></returns>
 		private int GetRemoveDebuffRatio(Skill skill)
 		{
-			return skill.Level * 10;
+			return Math.Clamp(skill.Level * 10, 0, 100);
 		}
 	}
 }

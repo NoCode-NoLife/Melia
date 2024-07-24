@@ -16,6 +16,7 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -742,9 +743,10 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			float healingReduction = 0;
 
+			// TODO: Improve the healing reduction
 			if (this.TryGetBuff(BuffId.DecreaseHeal_Debuff, out Buff decreaseHealDebuff))
 			{
-				healingReduction = decreaseHealDebuff.Vars.GetFloat("DecreaseHeal_Debuff.HealingReduction");
+				healingReduction = decreaseHealDebuff.Vars.GetFloat(DecreaseHeal_Debuff.DebuffVarName);
 			}
 
 			var healingModifier = Math.Max(0, 1 - healingReduction);

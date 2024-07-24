@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			// - Duration changed to 5 seconds
 			// - Movement speed increase effect removed
 			// - Cooldown increased by 10 seconds
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
+			if (!caster.IsAbilityActive(AbilityId.Arditi19))
 			{
 				var moveSpeed = this.GetBonusMoveSpeed();
 				caster.Properties.Modify(PropertyName.MSPD_BM, moveSpeed);
@@ -80,8 +80,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <param name="caster"></param>
 		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			if (caster.IsBuffActive(BuffId.Taglio_Buff))
-				caster.StopBuff(BuffId.Taglio_Buff);
+			caster.StopBuff(BuffId.Taglio_Buff);
 
 			if (caster is Character casterCharacter)
 			{
@@ -94,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			}
 
 			// Taglio: Tenacity
-			if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19))
+			if (!caster.IsAbilityActive(AbilityId.Arditi19))
 			{
 				var moveSpeed = this.GetBonusMoveSpeed();
 				caster.Properties.Modify(PropertyName.MSPD_BM, -moveSpeed);
@@ -113,13 +112,10 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			var caster = args.Creator;
 			var skill = args.Skill;
 
-			var targets = pad.Trigger.GetActors().Cast<ICombatEntity>().ToList();
+			var targets = pad.Trigger.GetAttackableEntities(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				if (!caster.CanAttack(target))
-					continue;
-
 				this.Attack(skill, caster, target);
 			}			
 		}
@@ -140,17 +136,15 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			Send.ZC_HIT_INFO(caster, target, hit);
 
 			// Ability - Taglio: Remove Knockback
-			var abilityComponent = caster.Components.Get<AbilityComponent>();
-			if (abilityComponent != null && !abilityComponent.IsActive(AbilityId.Arditi8))
+			if (!caster.IsAbilityActive(AbilityId.Arditi8))
 			{
 				var knockBackDistance = 10;
 				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);
 				var angle = target.GetDirection(knockBackPos).DegreeAngle;
 				var kb = new KnockBackInfo(caster.Position, knockBackPos, skill);
+				target.Position = kb.ToPosition;
 
 				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
-
-				target.Position = kb.ToPosition;
 			}
 		}
 
@@ -169,7 +163,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <returns></returns>
 		private float GetMaxCastTime(ICombatEntity caster)
 		{
-			return caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi19) ? 5f : 2f;
+			return caster.IsAbilityActive(AbilityId.Arditi19) ? 5f : 2f;
 		}
 	}
 }

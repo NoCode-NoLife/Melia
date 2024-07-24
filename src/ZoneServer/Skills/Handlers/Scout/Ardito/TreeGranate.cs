@@ -52,17 +52,17 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			this.PrepareAttack(skill, caster, farPos, caster.Direction);
+			this.CreateAttackArea(skill, caster, farPos, caster.Direction);
 		}
 
 		/// <summary>
-		/// Execute the skill, throw bombs
+		/// Execute the skill, create the area of the skill's effect
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
 		/// <param name="direction"></param>
-		private async void PrepareAttack(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
+		private async void CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
 			var pos1 = farPos.GetRelative(direction, 50);
 			var pos2 = pos1.GetRelative(direction, 50);
@@ -74,11 +74,19 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos1);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos2);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos3);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
+				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
+				pos1, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
+				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
+				pos2, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
+				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
+				pos3, 70f, 0.3f, 0, 600);
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750), "", TimeSpan.FromMilliseconds(2500), pos2);
+			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750),
+				"", TimeSpan.FromMilliseconds(2500), pos2,
+				70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(400));
 
@@ -110,12 +118,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			caster.Map.AddPad(pad2);
 			caster.Map.AddPad(pad3);
 			caster.Map.AddPad(pad4);
-
-			Debug.ShowShape(caster.Map, (Square)pad4.Trigger.Area, edgePoints: false, duration: TimeSpan.FromSeconds(10));
 		}
 
 		/// <summary>
-		/// Called when an actor enters the area of the attack.
+		/// Called in regular intervals while the pad is on a map.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
@@ -125,13 +131,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var caster = args.Creator;
 			var skill = args.Skill;
 
-			var targets = pad.Trigger.GetActors().OfType<ICombatEntity>();
+			var targets = pad.Trigger.GetAttackableEntities(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				if (!caster.CanAttack(target))
-					continue;
-
 				this.Attack(skill, caster, target);
 			}
 		}

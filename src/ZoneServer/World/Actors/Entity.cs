@@ -459,48 +459,5 @@ namespace Melia.Zone.World.Actors
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
 		}
-
-		/// <summary>
-		/// Returns the entity's effective size.
-		/// </summary>
-		/// <remarks>
-		/// The effective size is not necessarily the same as the entity's set
-		/// size, as some are classified as a certain size for some purposes,
-		/// but another size for other purposes. For example, player's have
-		/// their own "size" property called "PC", but for bonus purposes,
-		/// for example they are considered "M" size.
-		/// </remarks>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		public static SizeType GetEffectiveSize(this ICombatEntity entity)
-		{
-			if (entity is Mob mob)
-				return mob.Data.Size;
-
-			return SizeType.M;
-		}
-
-		/// <summary>
-		/// Removes a random Debuff from a CombatEntity
-		/// </summary>
-		/// <param name="entity"></param>
-		public static void RemoveRandomDebuff(this ICombatEntity entity)
-		{
-			var buffs = entity.Components.Get<BuffComponent>().GetList();
-			List<Buff> debuffs = new List<Buff>();
-
-			foreach (var buff in buffs)
-			{
-				if (buff.Data.Type == Shared.Data.Database.BuffType.Debuff)
-				{
-					debuffs.Add(buff);
-				}
-			}
-
-			if (debuffs.Count > 0) {
-				var rnd = RandomProvider.Get();
-				debuffs[rnd.Next(debuffs.Count)].End();
-			}				
-		}
 	}
 }

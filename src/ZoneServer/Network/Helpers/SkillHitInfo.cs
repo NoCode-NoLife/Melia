@@ -40,20 +40,7 @@ namespace Melia.Zone.Network.Helpers
 
 			if (skillHitInfo.IsKnockBack)
 			{
-				var kb = skillHitInfo.KnockBackInfo;
-
-				packet.PutPosition(kb.FromPosition);
-				packet.PutPosition(kb.ToPosition);
-				packet.PutInt(kb.Velocity);
-				packet.PutInt(kb.HAngle);
-				packet.PutInt(kb.VAngle);
-				packet.PutInt(0);
-				packet.PutShort((short)kb.Time.TotalMilliseconds);
-				packet.PutShort(0);
-				packet.PutFloat(1);
-				packet.PutFloat(1);
-				packet.PutInt(0);
-				packet.PutInt(0);
+				packet.AddKnockbackInfo(skillHitInfo.KnockBackInfo);
 			}
 
 			// for count2

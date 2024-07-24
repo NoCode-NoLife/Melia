@@ -8,7 +8,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 	/// Handler for the Arditi_TreGranata pad, creates and disables the effect
 	/// </summary>
 	[PadHandler("Arditi_TreGranata_DamagePad")]
-	public class Arditi_TreGranata_DamagePad : ICreatePadHandler, IDestroyPadHandler, IUpdatePadHandler
+	public class Arditi_TreGranata_DamagePad : ICreatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -35,12 +35,5 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, "Arditi_TreGranata_DamagePad", 0, 0, 150, false);
 		}
-
-		/// <summary>
-		/// Called in regular intervals while the pad is on a map.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		public void Updated(object sender, PadTriggerArgs args) { }
 	}
 }

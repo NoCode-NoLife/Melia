@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -47,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			// Debuffed enemies explode after 3 seconds to attack up to 7 enemies{nl}*
 			// Can be attached to enemies from a certain distance away {nl}* Delays respawn by 10 seconds{nl}*
 			// Ignores respawn buffs
-			if (caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Arditi18)) {}
+			if (caster.IsAbilityActive(AbilityId.Arditi18)) {}
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);			
@@ -57,12 +58,12 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			var removeDebuffRatio = Math.Clamp(this.GetRemoveDebuffRatio(skill), 0, 100);
-			var rnd = RandomProvider.Get();
+			var removeDebuffRatio = this.GetRemoveDebuffRatio(skill);
 
-			if (removeDebuffRatio == 100 || rnd.Next(100) < removeDebuffRatio)
+			if (removeDebuffRatio == 100 || RandomProvider.Get().Next(100) < removeDebuffRatio)
 			{
-				caster.RemoveRandomDebuff();
+				if (caster.Components.TryGet<BuffComponent>(out var buffComponent))
+					buffComponent.RemoveRandomDebuff();
 			}
 
 			this.Attack(skill, caster, originPos, farPos);
@@ -88,7 +89,9 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_scout_Ritirarsi", TimeSpan.FromSeconds(4), effectPosition);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND",
+				TimeSpan.FromMilliseconds(750), "F_scout_Ritirarsi", TimeSpan.FromSeconds(4),
+				effectPosition, 70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(600));
 
@@ -132,7 +135,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <returns></returns>
 		private int GetRemoveDebuffRatio(Skill skill)
 		{
-			return skill.Level * 2;
+			return Math.Clamp(skill.Level * 2, 0, 100);
 		}
 	}
 }
