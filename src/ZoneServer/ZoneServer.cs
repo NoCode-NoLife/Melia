@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
@@ -242,6 +243,12 @@ namespace Melia.Zone
 						character.MsgBox(Localization.Get("You were kicked by {0}."), kickMessage.OriginName);
 						character.Connection.Close(100);
 					}
+					break;
+				}
+				case ForceLogOutMessage logoutMessage:
+				{
+					var connection = this.World.GetCharacters().Select(a => a.Connection).FirstOrDefault(a => a?.Account?.Id == logoutMessage.AccountId);
+					connection?.Close();
 					break;
 				}
 			}

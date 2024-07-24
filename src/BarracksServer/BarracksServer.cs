@@ -193,6 +193,12 @@ namespace Melia.Barracks
 					this.Communicator_OnRequestReceived(sender, requestMessage);
 					break;
 				}
+				case ForceLogOutMessage logoutMessage:
+				{
+					var connection = this.GetAllConnections().FirstOrDefault(a => a?.Account?.Id == logoutMessage.AccountId);
+					connection?.Close();
+					break;
+				}
 			}
 		}
 
