@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -246,6 +247,50 @@ namespace Melia.Zone.Network
 				packet.PutLpString("None");
 
 				entity.Map.Broadcast(packet, entity);
+			}
+
+			/// <summary>
+			/// Plays an animation of a character throwing one of their items
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="str"></param>
+			/// <param name="str2"></param>
+			/// <param name="position"></param>
+			/// <param name="animationId"></param>
+			/// <param name="scale"></param>
+			/// <param name="tossScale"></param>
+			/// <param name="hangScale"></param>
+			/// <param name="speed"></param>
+			/// <param name="startAngle"></param>
+			/// <param name="endAngle"></param>
+			/// <param name="f7"></param>
+			/// <param name="itemScale"></param>
+			/// <param name="itemStayOnGroundSeconds"></param>
+			public static void Skill_ItemToss(IActor character, string str, string str2, Position position, string packetString,
+				float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale = 0, float itemStayOnGroundSeconds = 0)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+					throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.SkillItemToss);
+				packet.PutInt(character.Handle);
+				packet.PutLpString(str);
+				packet.PutLpString(str2);
+				packet.PutPosition(position);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutFloat(tossScale);
+				packet.PutFloat(hangScale);
+				packet.PutFloat(speed);
+				packet.PutFloat(startAngle);
+				packet.PutFloat(endAngle);
+				packet.PutFloat(f7);
+				packet.PutFloat(itemScale);
+				packet.PutFloat(itemStayOnGroundSeconds);
+
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
