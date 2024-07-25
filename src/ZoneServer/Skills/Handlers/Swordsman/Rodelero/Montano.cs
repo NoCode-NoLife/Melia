@@ -10,8 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
@@ -61,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
-			var spinLength = TimeSpan.FromMilliseconds(600);
+			var spinLength = TimeSpan.FromMilliseconds(300);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
@@ -74,6 +72,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			foreach (var target in hitTargets)
 			{
 				var modifier = SkillModifier.MultiHit(2);
+				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -85,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 				//if (caster.Map.IsPvp)
 				//	target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration / 2, caster);
 				//else
-				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration, caster);				
+				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
