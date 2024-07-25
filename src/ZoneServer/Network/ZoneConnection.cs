@@ -3,6 +3,8 @@ using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Network.TCP;
 
 namespace Melia.Zone.Network
@@ -72,12 +74,16 @@ namespace Melia.Zone.Network
 			if (!justSaved)
 			{
 				if (account != null)
+				{
 					ZoneServer.Instance.Database.SaveAccount(account);
+					ZoneServer.Instance.Database.UpdateLoginState(account.Id, 0, LoginState.LoggedOut);
+				}
 
 				if (character != null)
+				{
+					character.Components.Get<BuffComponent>().StopTempBuffs();
 					ZoneServer.Instance.Database.SaveCharacter(character);
-
-				ZoneServer.Instance.Database.UpdateLoginState(this.Account.Id, 0, LoginState.LoggedOut);
+				}
 			}
 
 			character?.Map.RemoveCharacter(character);

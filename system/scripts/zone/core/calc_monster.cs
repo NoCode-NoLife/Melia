@@ -228,17 +228,23 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_MSPD(Mob monster)
 	{
+		var movementComponent = monster.Components.Get<MovementComponent>();
+		if (movementComponent != null && movementComponent.IsHeld)
+			return 0;
+
 		// Unlike most monster properties, MSPD actually has a fix buff
 		// value that overrides the speed, but for constistency we'll
 		// also check for an override property.
 		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSPD, out var fixValue))
 			return fixValue;
 
+		// It's currently not possible to set a fix value of 0 via the buff property,
+		// because 0 is the default value, indicating that the property is not set.
 		var fixMspd = monster.Properties.GetFloat(PropertyName.FIXMSPD_BM);
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var moveSpeedType = monster.Components.Get<MovementComponent>()?.MoveSpeedType ?? 0;
+		var moveSpeedType = movementComponent?.MoveSpeedType ?? MoveSpeedType.Walk;
 		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
 		var baseValue = monster.Properties.GetFloat(propertyName);
 
@@ -333,5 +339,123 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		var value = baseValue + byBuffs;
 
 		return (int)Math.Max(1, value);
+	}
+
+	/// <summary>
+	/// Returns the monster's Critical Hit Rate.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_CRTHR(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTHR, out var fixValue))
+			return fixValue;
+
+		var value = (float)monster.Data.CritHitRate;
+
+		var byBuffs = 0f;
+		byBuffs += monster.Properties.GetFloat(PropertyName.CRTHR_BM, 0);
+
+		var byRateBuffs = 0f;
+		byRateBuffs += monster.Properties.GetFloat(PropertyName.CRTHR_RATE_BM);
+		byRateBuffs = value * byRateBuffs;
+
+		value = value + byBuffs + byRateBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's Critical Dodge Rate (Critical resistance).
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_CRTDR(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTDR, out var fixValue))
+			return fixValue;
+
+		var value = (float)monster.Data.CritDodgeRate;
+
+		var byBuffs = 0f;
+		byBuffs += monster.Properties.GetFloat(PropertyName.CRTDR_BM, 0);
+
+		var byRateBuffs = 0f;
+		byRateBuffs += monster.Properties.GetFloat(PropertyName.CRTDR_RATE_BM);
+		byRateBuffs = value * byRateBuffs;
+
+		value = value + byBuffs + byRateBuffs;
+
+		var decRatio = monster.Properties.GetFloat(PropertyName.CRTDR_RATE_MUL_BM, 1);
+
+		if (decRatio < 0.5f)
+			decRatio = 0.5f;
+
+		value *= decRatio;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's Critical Attack.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_CRTATK(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTATK, out var fixValue))
+			return fixValue;
+
+		var baseValue = (float)monster.Data.CritAttack;
+		var byBuffs = monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
+
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's block rate.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_BLK(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK, out var fixValue))
+			return fixValue;
+
+		var properties = monster.Properties;
+
+		var baseValue = (float)monster.Data.BlockRate;
+		var byBuffs = properties.GetFloat(PropertyName.BLK_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's block break (penetration).
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_MON_BLK_BREAK(Mob monster)
+	{
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK_BREAK, out var fixValue))
+			return fixValue;
+
+		var properties = monster.Properties;
+
+		var baseValue = (float)monster.Data.BlockBreakRate;
+		var byBuffs = properties.GetFloat(PropertyName.BLK_BREAK_BM);
+
+		var value = baseValue + byBuffs;
+
+		return (int)value;
 	}
 }

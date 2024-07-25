@@ -5,6 +5,8 @@ namespace Melia.Shared.Game.Const
 	/// </summary>
 	public enum SkillId
 	{
+		None = 0,
+
 		// Common
 		Normal_Attack = 1,
 		Bow_Attack = 2,

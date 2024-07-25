@@ -111,7 +111,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 			return CustomCommandResult.Fail;
 		}
 
-		if (character.Jobs.GetCurrentRank() >= 4)
+		if (character.Jobs.GetCurrentRank() >= ZoneServer.Instance.Conf.World.JobMaxRank)
 		{
 			Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change at or above the max rank of 4.", username, jobId);
 			return CustomCommandResult.Fail;

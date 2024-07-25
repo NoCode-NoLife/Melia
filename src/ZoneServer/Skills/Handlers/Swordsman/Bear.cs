@@ -13,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman
 	/// Handler for the Swordman skill Bear.
 	/// </summary>
 	[SkillHandler(SkillId.Swordman_Bear)]
-	public class DoubleAttack : IGroundSkillHandler
+	public class Swordman_Bear : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.

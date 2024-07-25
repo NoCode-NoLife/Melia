@@ -27,10 +27,10 @@ namespace Melia.Zone.World.Actors.Characters
 		private bool _warping;
 		private int _destinationChannelId;
 
-		private readonly object _lookAroundLock = new object();
-		private readonly object _hpLock = new object();
-		private IMonster[] _visibleMonsters = new IMonster[0];
-		private Character[] _visibleCharacters = new Character[0];
+		private readonly object _lookAroundLock = new();
+		private readonly object _hpLock = new();
+		private IMonster[] _visibleMonsters = [];
+		private Character[] _visibleCharacters = [];
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
@@ -219,10 +219,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public long TotalExp { get; set; }
 
 		/// <summary>
-		/// Returns the character's current class level, which is
-		/// equivalent to their current job's level.
+		/// Returns the character's current job level.
 		/// </summary>
-		public int ClassLevel
+		public int JobLevel
 		{
 			get
 			{
@@ -308,6 +307,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
+		/// Returns the character's collection manager.
+		/// </summary>
+		public CollectionComponent Collections { get; }
+
+		/// <summary>
 		/// Returns the character's movement component.
 		/// </summary>
 		public MovementComponent Movement { get; }
@@ -357,6 +361,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
+			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
@@ -545,11 +550,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		/// <param name="mapId"></param>
 		/// <param name="pos"></param>
-		/// <exception cref="ArgumentException">Thrown if map doesn't exist in world.</exception>
+		/// <exception cref="ArgumentException">Thrown if map doesn't exist in data.</exception>
 		public void Warp(int mapId, Position pos)
 		{
-			if (!ZoneServer.Instance.World.TryGetMap(mapId, out var map))
-				throw new ArgumentException($"Map with id '{mapId}' doesn't exist in world.");
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
+				throw new ArgumentException("Map '" + mapId + "' not found in data.");
 
 			this.Position = pos;
 
@@ -599,6 +604,9 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
+			// Clean up temporary properties before saving
+			this.Components.Get<BuffComponent>().StopTempBuffs();
+
 			// Save everything before leaving the server
 			ZoneServer.Instance.Database.SaveCharacter(this);
 			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
@@ -634,10 +642,49 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Gives skill points to the current job and updates client.
+		/// Increases character's job level by the given amount. Returns the amount
+		/// of levels actually gained.
 		/// </summary>
 		/// <param name="amount"></param>
-		private void ClassLevelUp(int amount = 1)
+		/// <returns></returns>
+		public int JobLevelUp(int amount)
+		{
+			// TODO: Should the whole job leveling up perhaps take place in
+			//   the job, instead of the character? That would seem to make
+			//   more sense, given that we exclusively operate on job props
+			//   in here.
+
+			if (amount < 1)
+				throw new ArgumentException("Amount can't be lower than 1.");
+
+			if (this.Job.Level == this.Job.MaxLevel)
+				return 0;
+
+			if (this.Job.Level + amount > this.Job.MaxLevel)
+				amount = this.Job.MaxLevel - this.Job.Level;
+
+			var prevLevel = this.Job.Level;
+			var prevExp = this.Job.TotalExp;
+
+			this.Job.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Jobs.GetCurrentRank(), prevLevel + amount - 1);
+
+			var expGained = (this.Job.TotalExp - prevExp);
+			var levelsGained = (this.Job.Level - prevLevel);
+
+			Send.ZC_JOB_EXP_UP(this, expGained);
+
+			if (levelsGained > 0)
+				this.FinishJobLevelUp(levelsGained);
+
+			return levelsGained;
+		}
+
+		/// <summary>
+		/// Gives skill points to job, heals character, and notifies client
+		/// about the job level up.
+		/// </summary>
+		/// <param name="amount"></param>
+		private void FinishJobLevelUp(int amount)
 		{
 			if (amount < 1)
 				throw new ArgumentException("Amount can't be lower than 1.");
@@ -708,7 +755,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// client with ZC_ADD_HP.
 		/// </summary>
 		/// <param name="amount"></param>
-		public void ModifyHp(int amount)
+		public void ModifyHp(float amount)
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);
@@ -758,16 +805,16 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Grants exp to character and handles level ups.
 		/// </summary>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
+		/// <param name="jobExp"></param>
 		/// <param name="monster"></param>
-		public void GiveExp(long exp, long classExp, IMonster monster)
+		public void GiveExp(long exp, long jobExp, IMonster monster)
 		{
 			// Base EXP
 			this.Exp += exp;
 			this.TotalExp += exp;
 
-			Send.ZC_EXP_UP_BY_MONSTER(this, exp, classExp, monster);
-			Send.ZC_EXP_UP(this, exp, classExp); // Not always sent? Might be quest related?
+			Send.ZC_EXP_UP_BY_MONSTER(this, exp, jobExp, monster);
+			Send.ZC_EXP_UP(this, exp, jobExp); // Not always sent? Might be quest related?
 
 			var level = this.Level;
 			var levelUps = 0;
@@ -790,24 +837,24 @@ namespace Melia.Zone.World.Actors.Characters
 			if (levelUps > 0)
 				this.LevelUp(levelUps);
 
-			// Class EXP
-			// Increase the total EXP and check whether the class level,
+			// Job EXP
+			// Increase the total EXP and check whether the job level,
 			// which is calculcated from that value, has changed.
-			var classLevel = this.ClassLevel;
+			var jobLevel = this.JobLevel;
 			var rank = this.Jobs.GetCurrentRank();
 			var job = this.Job;
 
 			// Limit EXP to the total max, otherwise the client will
 			// display level 1 with 0%.
-			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + classExp));
+			job.TotalExp = Math.Min(job.TotalMaxExp, (job.TotalExp + jobExp));
 
-			var newClassLevel = this.ClassLevel;
-			var classLevelsGained = (newClassLevel - classLevel);
+			var newJobLevel = this.JobLevel;
+			var jobLevelsGained = (newJobLevel - jobLevel);
 
-			Send.ZC_JOB_EXP_UP(this, classExp);
+			Send.ZC_JOB_EXP_UP(this, jobExp);
 
-			if (classLevelsGained > 0)
-				this.ClassLevelUp(classLevelsGained);
+			if (jobLevelsGained > 0)
+				this.FinishJobLevelUp(jobLevelsGained);
 		}
 
 		/// <summary>
@@ -846,7 +893,7 @@ namespace Melia.Zone.World.Actors.Characters
 				{
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
-					if (monster.AttachableEffects.Count != 0)
+					if (!monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
@@ -858,6 +905,22 @@ namespace Melia.Zone.World.Actors.Characters
 
 						if (entity.Components.Get<BuffComponent>()?.Count != 0)
 							Send.ZC_BUFF_LIST(this.Connection, entity);
+
+						// Send a movement update to the client if the monster
+						// is currently moving, otherwise it will just stand
+						// there until the next movement starts.
+						// This could be done prettier, but it's a start
+						if (entity.Components.TryGet<MovementComponent>(out var movement))
+						{
+							if (movement.IsMoving && movement.MoveTarget == MoveTargetType.Position)
+							{
+								var fromCellPos = entity.Map.Ground.GetCellPosition(entity.Position);
+								var toCellPos = entity.Map.Ground.GetCellPosition(movement.Destination);
+								var speed = entity.Properties.GetFloat(PropertyName.MSPD);
+
+								Send.ZC_MOVE_PATH(this, entity, fromCellPos, toCellPos, speed);
+							}
+						}
 					}
 				}
 
@@ -872,7 +935,7 @@ namespace Melia.Zone.World.Actors.Characters
 					Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(this.Connection, character);
 					//Send.ZC_SEND_MODE_HUD_SKIN(this.Connection, character);
 
-					if (character.AttachableEffects.Count != 0)
+					if (!character.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in character.AttachableEffects)
 							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
@@ -915,8 +978,8 @@ namespace Melia.Zone.World.Actors.Characters
 				foreach (var character in _visibleCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
 
-				_visibleMonsters = new IMonster[0];
-				_visibleCharacters = new Character[0];
+				_visibleMonsters = [];
+				_visibleCharacters = [];
 			}
 		}
 
@@ -1012,7 +1075,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (args.Length > 0)
 				format = string.Format(format, args);
 
-			if (format.IndexOf("'") != -1)
+			if (format.Contains('\''))
 				format = format.Replace("'", "\\'");
 
 			Send.ZC_EXEC_CLIENT_SCP(this.Connection, "ui.MsgBox('" + format + "')");

@@ -12,7 +12,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class TimeActionComponent : CharacterComponent, IUpdateable
 	{
-		private readonly object _syncLock = new object();
+		private readonly object _syncLock = new();
 
 		private TimeAction _activeTimeAction;
 		private TimeSpan _remainingTime;

@@ -151,3 +151,21 @@ dotnet_diagnostic.CA1816.severity = none
 
 # IDE0305: Simplify collection initialization
 dotnet_diagnostic.IDE0305.severity = none
+
+# CA1860: Avoid usage of extension method „Enumerable.Any()“
+dotnet_diagnostic.CA1860.severity = none
+
+# CA1862: Prefer usage of "StringComparison"-method
+dotnet_diagnostic.CA1862.severity = none
+
+# IDE0074: Prefer ??=
+dotnet_diagnostic.IDE0074.severity = none
+
+# CS8618: Nullable field must have non-null value after ctor.
+dotnet_diagnostic.CS8618.severity = none
+
+# CS8603: Potential null ref return value.
+dotnet_diagnostic.CS8603.severity = none
+
+# CS8604: Potential null ref parameter.
+dotnet_diagnostic.CS8604.severity = none

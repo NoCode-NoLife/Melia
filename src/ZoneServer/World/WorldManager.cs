@@ -8,7 +8,6 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Spawning;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -24,12 +23,15 @@ namespace Melia.Zone.World
 		// Unique handles for buffs
 		private int _buffhandles = 0;
 
+		// Unique handles for pads? Potentially part of the normal handle pool.
+		private int _padHandles = 0;
+
 		private int _genTypes = 1_000_000;
 
-		private readonly Dictionary<int, Map> _mapsId = new Dictionary<int, Map>();
-		private readonly Dictionary<string, Map> _mapsName = new Dictionary<string, Map>();
-		private readonly Dictionary<int, MonsterSpawner> _spawners = new Dictionary<int, MonsterSpawner>();
-		private readonly Dictionary<string, SpawnAreaCollection> _spawnAreaCollections = new Dictionary<string, SpawnAreaCollection>();
+		private readonly Dictionary<int, Map> _mapsId = new();
+		private readonly Dictionary<string, Map> _mapsName = new();
+		private readonly Dictionary<int, MonsterSpawner> _spawners = new();
+		private readonly Dictionary<string, SpawnAreaCollection> _spawnAreaCollections = new();
 		private readonly object _mapsLock = new object();
 
 		/// <summary>
@@ -76,6 +78,15 @@ namespace Melia.Zone.World
 		public int CreateBuffHandle()
 		{
 			return Interlocked.Increment(ref _buffhandles);
+		}
+
+		/// <summary>
+		/// Returns a new handle to be used with a skill/pad.
+		/// </summary>
+		/// <returns></returns>
+		public int CreatePadHandle()
+		{
+			return Interlocked.Increment(ref _padHandles);
 		}
 
 		/// <summary>

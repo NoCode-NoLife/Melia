@@ -3,7 +3,6 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -187,10 +186,17 @@ namespace Melia.Zone.Buffs
 		/// </summary>
 		public void Start()
 		{
+			this.ExtendDuration();
+			this.Handler?.OnStart(this);
+		}
+
+		/// <summary>
+		/// Extens the buff's removal time by its duration if applicable.
+		/// </summary>
+		internal void ExtendDuration()
+		{
 			if (this.HasDuration)
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
-
-			this.Handler?.OnStart(this);
 		}
 
 		/// <summary>

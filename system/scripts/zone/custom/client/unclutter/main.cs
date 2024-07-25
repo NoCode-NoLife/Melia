@@ -22,6 +22,7 @@ public class UnclutterClientScript : ClientScript
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
 		this.SendLuaScript(e.Character, "001.lua");
+		this.SendLuaScript(e.Character, "003.lua");
 
 		if (e.Character.Connection.Account.Variables.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
 			this.SendLuaScript(e.Character, "002.lua");

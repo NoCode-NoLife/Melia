@@ -9,15 +9,32 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
-//   - i174236: l1+f1 were added
 //------------------------------------------------
 
 #include "inc/common.bt"
+
+// Similar to the struct in CZ_MAP_REVEAL_INFO,
+// but includes an additional float.
+typedef struct
+{
+    int mapId;
+    ubyte data[128];
+    float percentage1;
+    float percentage2; // always same as 1?
+}
+MapRevealData <read=MapRevealDataRead>;
+
+string MapRevealDataRead(MapRevealData &v)
+{
+    local string result;
+    SPrintf(result, "%d", v.mapId);
+    return result;
+}
 
 ServerHeaderDynamic header;
 
 int count;
 if (!checkCompression())
 {
-    mapRevealData dataSets[count];
+    MapRevealData dataSets[count];
 }

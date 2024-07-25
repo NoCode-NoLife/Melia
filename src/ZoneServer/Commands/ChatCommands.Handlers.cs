@@ -39,7 +39,9 @@ namespace Melia.Zone.Commands
 
 			// Client Commands
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
+			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -59,9 +61,10 @@ namespace Melia.Zone.Commands
 			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful]", "Spawns monster.", this.HandleSpawn);
+			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
 			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
+			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
@@ -286,6 +289,54 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Warps target to the specified map.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleTokenWarp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!sender.Connection.Account.Premium.CanUseTokenWarp)
+			{
+				sender.MsgBox(Localization.Get("Only premium token users are allowed to use this feature."));
+				return CommandResult.Okay;
+			}
+
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			// Find map id
+			var mapClassName = args.Get(0);
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapClassName, out var mapData))
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to exist."));
+				return CommandResult.Okay;
+			}
+
+			var mapId = mapData.Id;
+
+			// Get target position
+			var targetPos = mapData.DefaultPosition;
+
+			// Check if the map is available
+			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(mapId);
+			if (availableZones.Length == 0)
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to be available."));
+				return CommandResult.Okay;
+			}
+
+			// Warp
+			target.Warp(mapId, targetPos);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Warps target to given location.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -384,7 +435,7 @@ namespace Melia.Zone.Commands
 			{
 				var itemName = args.Get(0);
 
-				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.Contains(itemName, StringComparison.InvariantCultureIgnoreCase));
 				if (classNameMatches.Length == 0)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
@@ -501,7 +552,7 @@ namespace Melia.Zone.Commands
 			{
 				var searchName = args.Get(0).ToLower();
 
-				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
+				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.Contains(searchName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 				if (monstersData.Count == 0)
 				{
 					sender.ServerMessage(Localization.Get("Monster not found by name."));
@@ -755,6 +806,46 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Levels up target's job level.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleJobLevelUp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			var levels = 1;
+			if (args.Count >= 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
+				return CommandResult.InvalidArgument;
+
+			var jobLevelsGained = target.JobLevelUp(levels);
+
+			if (jobLevelsGained == 0)
+			{
+				if (sender == target)
+					sender.ServerMessage(Localization.Get("Your current job's level can't be increased any further."));
+				else
+					sender.ServerMessage(Localization.Get("The level of the target's current job can't be increased any further."));
+			}
+			else
+			{
+				if (sender == target)
+				{
+					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+				else
+				{
+					target.ServerMessage(Localization.GetPlural("Your job level was increased by {0} by {1} level.", "Your job level was increased by {0} by {1} levels.", jobLevelsGained), sender.TeamName, jobLevelsGained);
+					sender.ServerMessage(Localization.GetPlural("The target's job level was increased by {0} level.", "The target's job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Changes target's speed.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -863,7 +954,7 @@ namespace Melia.Zone.Commands
 
 				monsterEntry.AppendFormat(Localization.Get("{{nl}}----- {0} ({1}, {2}) -----{{nl}}"), monsterData.Name, monsterData.Id, monsterData.ClassName);
 				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Attribute], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
-				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.JobExp * ZoneServer.Instance.Conf.World.JobExpRate / 100f));
 				monsterEntry.AppendFormat(Localization.Get("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"), monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
 				if (monsterData.Drops.Count != 0)
@@ -1015,6 +1106,8 @@ namespace Melia.Zone.Commands
 
 			if (args.Get(0).StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
 			else if (args.Get(0).StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args.Get(0).StartsWith("fedi")) target.Warp("c_fedimian", new Position(-243, 161, -303));
+			else if (args.Get(0).StartsWith("high")) target.Warp("c_highlander", new Position(-20, 1, 80));
 			else if (args.Get(0).StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
@@ -1834,6 +1927,22 @@ namespace Melia.Zone.Commands
 			// Comment in the client's Lua files:
 			//   내구도 회복 유료템 때문에 정확한 값을 지금 알아야 함.
 			//   (Durability recovery Due to the paid system, you need to know the correct value now.)
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command, purpose unknown.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReadCollection(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Command is sent when a collection is viewed, purpose unknown
+			// officials don't seem to send anything back.
 
 			return CommandResult.Okay;
 		}

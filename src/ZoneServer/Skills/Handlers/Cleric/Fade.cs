@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Cleric
 {
@@ -13,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric
 	/// Handler for the Cleric skill Fade.
 	/// </summary>
 	[SkillHandler(SkillId.Cleric_Fade)]
-	public class Fade : IGroundSkillHandler
+	public class Cleric_Fade : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying buff to the caster.

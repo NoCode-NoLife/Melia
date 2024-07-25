@@ -140,6 +140,12 @@ namespace Melia.Zone.Events
 		public event EventHandler<PlayerItemEventArgs> PlayerRemovedItem;
 		public void OnPlayerRemovedItem(Character character, int itemId, int amount) => PlayerRemovedItem?.Invoke(ZoneServer.Instance, new PlayerItemEventArgs(character, itemId, amount));
 
+		/// <summary>
+		/// Raised when a dialog message is sent to a player.
+		/// </summary>
+		public event EventHandler<PlayerDialogEventArgs> PlayerDialog;
+		public void OnPlayerDialog(PlayerDialogEventArgs args) => PlayerDialog?.Invoke(ZoneServer.Instance, args);
+
 		// Combat Events
 		//-------------------------------------------------------------------
 

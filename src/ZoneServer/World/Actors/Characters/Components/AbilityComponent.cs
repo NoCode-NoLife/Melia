@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class AbilityComponent : CharacterComponent
 	{
-		private readonly Dictionary<AbilityId, Ability> _abilities = new Dictionary<AbilityId, Ability>();
+		private readonly Dictionary<AbilityId, Ability> _abilities = new();
 
 		/// <summary>
 		/// Returns amount of abilities.
@@ -118,6 +118,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			ability = this.Get(abilityId);
 			return (ability != null && ability.Active);
+		}
+
+		/// <summary>
+		/// Returns the given ability via out if it exists, regardless of
+		/// whether it's active or not.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public bool TryGet(AbilityId abilityId, out Ability ability)
+		{
+			ability = this.Get(abilityId);
+			return (ability != null);
 		}
 
 		/// <summary>

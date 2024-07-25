@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
@@ -16,11 +17,14 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class MovementComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly object _positionSyncLock = new object();
+		private readonly object _positionSyncLock = new();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
 
-		private ITriggerableArea[] _triggerAreas = new ITriggerableArea[0];
+		private readonly object _holdSyncLock = new();
+		private int _holdCount;
+
+		private ITriggerableArea[] _triggerAreas = [];
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -36,13 +40,18 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <summary>
 		/// Gets or sets where the entity is moving to.
 		/// </summary>
-		private MoveTargetType MoveTarget { get; set; }
+		public MoveTargetType MoveTarget { get; private set; }
 
 		/// <summary>
 		/// Returns whether the entity is currently on the ground or
 		/// in the air.
 		/// </summary>
 		public bool IsGrounded { get; private set; }
+
+		/// <summary>
+		/// Returns true if the entity is currently held in place.
+		/// </summary>
+		public bool IsHeld => _holdCount > 0;
 
 		/// <summary>
 		/// Returns the entity's current movement speed type.
@@ -269,7 +278,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void CheckWarp()
 		{
-			if (!(this.Entity is Character character))
+			if (this.Entity is not Character character)
 				return;
 
 			var prevPos = character.Position;
@@ -417,31 +426,50 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
 
 			foreach (var triggerArea in enteredTriggerAreas)
-			{
-				if (triggerArea.EnterFunc == null)
-					continue;
-
-				var dialog = new Dialog(this.Entity, triggerArea);
-				triggerArea.EnterFunc.Invoke(dialog);
-			}
+				triggerArea.EnterFunc?.Invoke(new TriggerActorArgs(TriggerType.Enter, triggerArea, this.Entity));
 
 			foreach (var triggerArea in leftTriggerAreas)
-			{
-				if (triggerArea.LeaveFunc == null)
-					continue;
-
-				var dialog = new Dialog(this.Entity, triggerArea);
-				triggerArea.LeaveFunc.Invoke(dialog);
-			}
+				triggerArea.LeaveFunc?.Invoke(new TriggerActorArgs(TriggerType.Leave, triggerArea, this.Entity));
 
 			_triggerAreas = triggerAreas;
 		}
 
-		private enum MoveTargetType
+		/// <summary>
+		/// Stops the entity's movement and locks it in place.
+		/// </summary>
+		public void ApplyHold()
 		{
-			Position,
-			Direction,
+			// Temporary implementation, replace with a proper state lock
+			// system. Read: Copy it over from Lela.
+			// --exec
+			lock (_holdSyncLock)
+				_holdCount++;
+
+			this.Stop();
+			this.Entity.Properties.Invalidate(PropertyName.MSPD);
 		}
+
+		/// <summary>
+		/// Releases the entity from a hold.
+		/// </summary>
+		/// <remarks>
+		/// Holds are counted, so the entity will not be able to move again
+		/// until all holds have been released.
+		/// </remarks>
+		public void ReleaseHold()
+		{
+			lock (_holdSyncLock)
+				_holdCount = Math.Max(0, _holdCount - 1);
+
+			this.Stop();
+			this.Entity.Properties.Invalidate(PropertyName.MSPD);
+		}
+	}
+
+	public enum MoveTargetType
+	{
+		Position,
+		Direction,
 	}
 
 	public enum MoveSpeedType

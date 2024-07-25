@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
+using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
@@ -13,7 +15,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class BuffComponent : CombatEntityComponent, IUpdateable
 	{
-		private readonly Dictionary<BuffId, Buff> _buffs = new Dictionary<BuffId, Buff>();
+		private readonly Dictionary<BuffId, Buff> _buffs = new();
 
 		/// <summary>
 		/// Raised when a buff starts.
@@ -71,6 +73,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// and over.
 			if (overbuff != buff.OverbuffCounter)
 				buff.Start();
+			// If we don't start the buff again, we need to at least
+			// extend its duration. Otherwise it may end before the
+			// time displayed by the client.
+			else
+				buff.ExtendDuration();
 
 			Send.ZC_BUFF_UPDATE(this.Entity, buff);
 		}
@@ -137,6 +144,26 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return false;
 
 			return this.Remove(buff);
+		}
+
+		/// <summary>
+		/// Removes a random removable buff. Returns the id of the buff that was
+		/// removed, or 0 if no buff was removed.
+		/// </summary>
+		/// <remarks>
+		/// Only considers buffs of type Buff, not debuffs.
+		/// </remarks>
+		/// <returns></returns>
+		public BuffId RemoveRandomBuff()
+		{
+			var removableBuffs = this.GetAll(a => a.Data.Type == BuffType.Buff && a.Data.Removable);
+			if (removableBuffs.Count == 0)
+				return 0;
+
+			var buff = removableBuffs.Random();
+			this.Remove(buff);
+
+			return buff.Id;
 		}
 
 		/// <summary>
@@ -211,6 +238,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			lock (_buffs)
 				return _buffs.Values.ToList();
+		}
+
+		/// <summary>
+		/// Returns a list of all active buffs that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public List<Buff> GetAll(Func<Buff, bool> predicate)
+		{
+			lock (_buffs)
+				return _buffs.Values.Where(predicate).ToList();
 		}
 
 		/// <summary>
@@ -359,6 +397,34 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				foreach (var buff in toUpdate)
 					buff.Update(elapsed);
+			}
+
+			if (toRemove != null)
+			{
+				foreach (var buff in toRemove)
+					this.Remove(buff);
+			}
+		}
+
+		/// <summary>
+		/// Removes buffs that aren't saved on disconnect or map change.
+		/// </summary>
+		public void StopTempBuffs()
+		{
+			List<Buff> toRemove = null;
+
+			lock (_buffs)
+			{
+				foreach (var buff in _buffs.Values)
+				{
+					if (!buff.Data.Save)
+					{
+						if (toRemove == null)
+							toRemove = new List<Buff>();
+
+						toRemove.Add(buff);
+					}
+				}
 			}
 
 			if (toRemove != null)

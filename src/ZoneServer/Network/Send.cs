@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.Network;
@@ -350,10 +351,13 @@ namespace Melia.Zone.Network
 		/// <param name="skill"></param>
 		public static void ZC_SKILL_ADD(Character character, Skill skill)
 		{
+			// Passive skills aren't added to the quickbar
+			var addToQuickbar = skill.Data.ActivationType == SkillActivationType.ActiveSkill;
+
 			var packet = new Packet(Op.ZC_SKILL_ADD);
 
 			packet.PutLong(character.ObjectId);
-			packet.PutByte(1); // REGISTER_QUICK_SKILL ?
+			packet.PutByte(addToQuickbar);
 			packet.PutByte(0); // SKILL_LIST_GET ?
 			packet.PutLong(0); // ?
 			packet.AddSkill(skill);
@@ -1800,15 +1804,14 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
-		/// <param name="skill"></param>
 		/// <param name="hitInfo"></param>
-		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, Skill skill, HitInfo hitInfo)
+		public static void ZC_HIT_INFO(ICombatEntity attacker, ICombatEntity target, HitInfo hitInfo)
 		{
 			var packet = new Packet(Op.ZC_HIT_INFO);
 
 			packet.PutInt(target.Handle);
 			packet.PutInt(attacker.Handle);
-			packet.PutInt((int)skill.Id);
+			packet.PutInt((int)hitInfo.SkillId);
 
 			packet.AddHitInfo(hitInfo);
 
@@ -1891,14 +1894,14 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
+		/// <param name="jobExp"></param>
 		/// <param name="monster"></param>
-		public static void ZC_EXP_UP_BY_MONSTER(Character character, long exp, long classExp, IMonster monster)
+		public static void ZC_EXP_UP_BY_MONSTER(Character character, long exp, long jobExp, IMonster monster)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP_BY_MONSTER);
 
 			packet.PutLong(exp);
-			packet.PutLong(classExp);
+			packet.PutLong(jobExp);
 			packet.PutLong(exp);
 			packet.PutInt(monster?.Handle ?? 0);
 
@@ -1910,13 +1913,13 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="exp"></param>
-		/// <param name="classExp"></param>
-		public static void ZC_EXP_UP(Character character, long exp, long classExp)
+		/// <param name="jobExp"></param>
+		public static void ZC_EXP_UP(Character character, long exp, long jobExp)
 		{
 			var packet = new Packet(Op.ZC_EXP_UP);
 
 			packet.PutLong(exp);
-			packet.PutLong(classExp);
+			packet.PutLong(jobExp);
 			packet.PutLong(exp);
 
 			character.Connection.Send(packet);
@@ -2011,7 +2014,7 @@ namespace Melia.Zone.Network
 		public static void ZC_LOGIN_TIME(IZoneConnection conn, DateTime now)
 		{
 			var packet = new Packet(Op.ZC_LOGIN_TIME);
-			packet.PutLong(now.GetUnixTimestamp() * 1000);
+			packet.PutLong(now.ToFileTime());
 
 			conn.Send(packet);
 		}
@@ -2027,13 +2030,16 @@ namespace Melia.Zone.Network
 			var revealedMaps = conn.Account.GetRevealedMaps();
 
 			packet.PutInt(revealedMaps.Length);
+
+			// Officials appear to compress the actual data nowadays, but it seems
+			// like the client can still handle the raw data as well.
 			foreach (var revealedMap in revealedMaps)
 			{
 				packet.PutInt(revealedMap.MapId);
 				packet.PutBin(revealedMap.Explored);
+				packet.PutFloat(revealedMap.Percentage);
+				packet.PutFloat(revealedMap.Percentage);
 			}
-			packet.PutLong(0);
-			packet.PutFloat(56.45161f);
 
 			conn.Send(packet);
 		}
@@ -2542,92 +2548,99 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends premium state properties to client.
+		/// Updates premium state properties on client.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_SEND_CASH_VALUE(IZoneConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SEND_CASH_VALUE);
 
-			// Premium state 0?
+			// Normal
 			packet.PutInt(4); // count?
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(0);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(30);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(1);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(30);
+				packet.PutDouble(1);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(1);
+				packet.PutDouble(1);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(0);
 			}
 
-			// Premium state 1?
+			// Premium Type 1
 			packet.PutInt(4);
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(3);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(10);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(5);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(10);
+				packet.PutDouble(5);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(3);
+				packet.PutDouble(3);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(3);
 			}
 
-			// Premium state 2?
+			// Token
 			packet.PutInt(4);
 			{
-				packet.PutLpString("speedUp");
-				packet.PutFloat(3);
+				packet.PutLpString("marketSellCom");
+				packet.PutDouble(10);
 
 				packet.PutLpString("marketUpMax");
-				packet.PutFloat(10);
-
-				packet.PutLpString("marketSellCom");
-				packet.PutFloat(10);
+				packet.PutDouble(10);
 
 				packet.PutLpString("abilityMax");
-				packet.PutFloat(2);
+				packet.PutDouble(2);
+
+				packet.PutLpString("speedUp");
+				packet.PutDouble(3);
 			}
 
 			// ?
 			packet.PutInt(4);
 			{
-				packet.PutInt(7);
-				packet.PutFloat(2.5f);
-
 				packet.PutInt(5);
-				packet.PutFloat(2);
+				packet.PutFloat(1);
 
-				packet.PutInt(3);
-				packet.PutFloat(1.5f);
+				packet.PutInt(14);
+				packet.PutFloat(1);
 
 				packet.PutInt(1);
-				packet.PutFloat(1);
+				packet.PutFloat(0);
+
+				packet.PutInt(3);
+				packet.PutFloat(0);
 			}
+
+			packet.PutInt(33);
 
 			conn.Send(packet);
 		}
 
 		/// <summary>
-		/// Sends premium state properties to client.
+		/// Updates premium state on client.
 		/// </summary>
+		/// <remarks>
+		/// May crash the client if a correct ZC_SEND_CASH_VALUE packet was not
+		/// sent first.
+		/// </remarks>
 		/// <param name="conn"></param>
-		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn)
+		/// <param name="state"></param>
+		public static void ZC_SEND_PREMIUM_STATE(IZoneConnection conn, PremiumState state)
 		{
 			var packet = new Packet(Op.ZC_SEND_PREMIUM_STATE);
 
-			packet.PutShort(2); // Count?
-			packet.PutShort(0x4E6C);
-			packet.PutShort(0xE8EF);
-			packet.PutInt(0);
+			packet.PutByte((byte)state.Type);
+			packet.PutByte(state.Active);
+			packet.PutInt(state.RemainingSeconds);
+			packet.PutInt(state.NumArg);
 
 			conn.Send(packet);
 		}
@@ -3897,21 +3910,29 @@ namespace Melia.Zone.Network
 		public static void ZC_MOVE_PATH(IActor actor, Position fromCellPos, Position toCellPos, float speed)
 		{
 			var packet = new Packet(Op.ZC_MOVE_PATH);
-
-			packet.PutInt(actor.Handle);
-			packet.PutInt((int)fromCellPos.X);
-			packet.PutInt((int)fromCellPos.Z);
-			packet.PutInt((int)fromCellPos.Y);
-			packet.PutInt((int)toCellPos.X);
-			packet.PutInt((int)toCellPos.Z);
-			packet.PutInt((int)toCellPos.Y);
-			packet.PutFloat(speed);
-
-			// [i354444] Float removed, byte added. Same thing?
-			//packet.PutFloat(0);
-			packet.PutByte(0);
+			packet.AddCellMovement(actor, fromCellPos, toCellPos, speed);
 
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Makes actor move between the given positions on the character's client.
+		/// </summary>
+		/// <remarks>
+		/// The positions must use the cell for Y, instead of the height,
+		/// otherwise the client is not able to handle the packet.
+		/// </remarks>
+		/// <param name="character"></param>
+		/// <param name="actor"></param>
+		/// <param name="fromCellPos"></param>
+		/// <param name="toCellPos"></param>
+		/// <param name="speed"></param>
+		public static void ZC_MOVE_PATH(Character character, IActor actor, Position fromCellPos, Position toCellPos, float speed)
+		{
+			var packet = new Packet(Op.ZC_MOVE_PATH);
+			packet.AddCellMovement(actor, fromCellPos, toCellPos, speed);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -4236,6 +4257,40 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_CANCEL_FIXCAMERA);
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Updates entity's guard state on clients in range.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="active"></param>
+		/// <param name="dir"></param>
+		public static void ZC_GUARD(ICombatEntity entity, bool active, Direction dir)
+		{
+			var packet = new Packet(Op.ZC_GUARD);
+
+			packet.PutInt(entity.Handle);
+			packet.PutByte(active);
+			packet.PutDirection(dir);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Notifies clients around the character about the action taken.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="type"></param>
+		/// <param name="argStr"></param>
+		public static void ZC_CLIENT_DIRECT(Character character, int type, string argStr)
+		{
+			var packet = new Packet(Op.ZC_CLIENT_DIRECT);
+
+			packet.PutInt(character.Handle);
+			packet.PutInt(type);
+			packet.PutString(argStr, 16);
+
+			character.Map.Broadcast(packet, character);
 		}
 	}
 }
