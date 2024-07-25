@@ -15,6 +15,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -274,6 +276,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
@@ -736,7 +741,17 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			float healingReduction = 0;
+
+			// TODO: Improve the healing reduction
+			if (this.TryGetBuff(BuffId.DecreaseHeal_Debuff, out Buff decreaseHealDebuff))
+			{
+				healingReduction = decreaseHealDebuff.Vars.GetFloat(DecreaseHeal_Debuff.DebuffVarName);
+			}
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;

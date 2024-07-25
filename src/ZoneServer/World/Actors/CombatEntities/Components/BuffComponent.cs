@@ -167,6 +167,26 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Removes a random removable Debuff. Returns the id of the buff that was
+		/// removed, or 0 if no buff was removed.
+		/// </summary>
+		/// <remarks>
+		/// Only considers buffs of type Buff, not debuffs.
+		/// </remarks>
+		/// <returns></returns>
+		public BuffId RemoveRandomDebuff()
+		{
+			var removableDeBuffs = this.GetAll(a => a.Data.Type == BuffType.Debuff && a.Data.Removable);
+			if (removableDeBuffs.Count == 0)
+				return 0;
+
+			var buff = removableDeBuffs.Random();
+			this.Remove(buff);
+
+			return buff.Id;
+		}
+
+		/// <summary>
 		/// Stops and removes all active buffs.
 		/// </summary>
 		public void RemoveAll()

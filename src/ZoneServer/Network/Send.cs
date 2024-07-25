@@ -1823,10 +1823,10 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutFloat(0);
 			packet.PutFloat(0);
-			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutInt(hitInfo.HitCount);
+			packet.PutByte(1);
 			packet.PutFloat(0);
-			packet.PutInt(0);
+			packet.PutInt((int)hitInfo.DamageDelay.TotalMilliseconds);
 
 			target.Map.Broadcast(packet, target);
 		}
@@ -4291,6 +4291,23 @@ namespace Melia.Zone.Network
 			packet.PutString(argStr, 16);
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Notifies nearby clients that an entity was knocked down/back
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="knockBackInfo"></param>
+		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knockBackInfo)
+		{
+			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
+
+			packet.PutInt(target.Handle);
+			packet.AddKnockbackInfo(knockBackInfo);
+			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet, entity);
 		}
 	}
 }

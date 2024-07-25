@@ -3,7 +3,6 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -217,13 +216,16 @@ namespace Melia.Zone.Network
 			/// <param name="packetString2"></param>
 			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position, float f1, float f2, float f3, float f4)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
 
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{packetString2}' not found.");
+				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
@@ -231,13 +233,13 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
 				packet.PutFloat((float)duration1.TotalSeconds);
-				packet.PutInt(packetStringData2.Id);
-				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutInt(packetStringData2?.Id ?? 0);
+				packet.PutFloat((float)duration2.TotalSeconds);
 				packet.PutPosition(position);
-				packet.PutFloat(30);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.PutFloat(f1);
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
 				packet.PutFloat(1);
 				packet.PutLong(0);
 				packet.PutLpString("None");
@@ -359,7 +361,7 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
-
+			
 			/// <Summary>
 			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
@@ -1132,8 +1134,13 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="entity"></param>
 			/// <param name="targetPos"></param>
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			/// <param name="f5"></param>
 			/// <param name="jumpHeight"></param>
-			public static void LeapJump(ICombatEntity entity, Position targetPos, float jumpHeight = 20)
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight = 30)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
@@ -1141,11 +1148,11 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutPosition(targetPos);
 				packet.PutFloat(jumpHeight);
-				packet.PutFloat(0.1f); // jump speed?
-				packet.PutFloat(0.1f);
-				packet.PutFloat(1);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(1);
+				packet.PutFloat(f1); // jump speed?
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
+				packet.PutFloat(f5);
 
 				entity.Map.Broadcast(packet, entity);
 			}
