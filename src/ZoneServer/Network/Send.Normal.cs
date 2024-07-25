@@ -1186,7 +1186,7 @@ namespace Melia.Zone.Network
 			/// <param name="f4"></param>
 			/// <param name="f5"></param>
 			/// <param name="jumpHeight"></param>
-			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight = 30)
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
