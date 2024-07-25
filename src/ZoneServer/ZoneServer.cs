@@ -314,6 +314,8 @@ namespace Melia.Zone
 				this.IesMods.Add("SkillTree", 10508, "MaxLevel", 5);
 				this.IesMods.Add("SkillTree", 10509, "MaxLevel", 5);
 			}
+
+			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank);
 		}
 
 		/// <summary>
