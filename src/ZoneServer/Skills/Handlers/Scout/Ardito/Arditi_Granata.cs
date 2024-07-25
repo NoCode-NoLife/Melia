@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Shared.Network;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -11,14 +10,16 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-// TODO: Implement Ability "Granata: Aim" (AbilityId.Arditi20). A new handler probably will be necessary
+// TODO: Implement Ability "Granata: Aim" (AbilityId.Arditi20).
+//   A new handler probably will be necessary
+
 namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Ardito skill Granata.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_Granata)]
-	public class Granata : IGroundSkillHandler
+	public class Arditi_Granata : IGroundSkillHandler
 	{
 		private const int CastLength = 70;
 
@@ -47,13 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var direction = Direction.Zero;
-
-			if (originPos == farPos)
-				direction = caster.Direction;
-			else
-				direction = originPos.GetDirection(farPos);
-
+			var direction = (originPos == farPos) ? caster.Direction : originPos.GetDirection(farPos);
 			var castPosition = caster.Position.GetRelative(direction, CastLength);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, originPos);
@@ -74,9 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND",
-				TimeSpan.FromMilliseconds(600), "F_scout_Granata_explosion", TimeSpan.FromSeconds(3),
-				castPosition, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", TimeSpan.FromMilliseconds(600), "F_scout_Granata_explosion", TimeSpan.FromSeconds(3), castPosition, 70f, 0.3f, 0, 600);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: CastLength, width: 45, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
@@ -88,8 +81,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			{
 				var modifier = SkillModifier.Default;
 				modifier.HitCount = 6;
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100));

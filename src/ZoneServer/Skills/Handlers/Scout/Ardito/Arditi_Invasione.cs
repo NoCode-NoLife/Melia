@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 	/// Handler for the Ardito skill Invasione.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_Invasione)]
-	public class Invasione : IGroundSkillHandler
+	public class Arditi_Invasione : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.

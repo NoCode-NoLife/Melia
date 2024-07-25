@@ -39,9 +39,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte(0);
 
 			if (skillHitInfo.IsKnockBack)
-			{
 				packet.AddKnockbackInfo(skillHitInfo.KnockBackInfo);
-			}
 
 			// for count2
 			{

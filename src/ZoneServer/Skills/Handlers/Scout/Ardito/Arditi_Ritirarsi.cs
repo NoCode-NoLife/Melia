@@ -8,7 +8,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -19,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 	/// Handler for the Ardito skill Ritirarsi.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_Ritirarsi)]
-	public class Ritirarsi : IGroundSkillHandler
+	public class Arditi_Ritirarsi : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -44,23 +43,27 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			}
 
 			// TODO: Ability "Ritirarsi: Attach"
-			// Doesn't jump backwards{nl}* Applies [Ritirarsi: Attach] debuff to enemies{nl}*
-			// Debuffed enemies explode after 3 seconds to attack up to 7 enemies{nl}*
-			// Can be attached to enemies from a certain distance away {nl}* Delays respawn by 10 seconds{nl}*
-			// Ignores respawn buffs
-			if (caster.IsAbilityActive(AbilityId.Arditi18)) {}
+			// * Does not Leap
+			// * Applies [Ritirarsi] debuff to enemy
+			// * Debuff applied enemy explodes after 3 seconds and attack up to 7 enemies
+			// * Can be attached to the enemy in a certain distance
+			// * Delays the resurrection for 10 seconds
+			// * Ignores the resurrection buff
+			if (caster.IsAbilityActive(AbilityId.Arditi18))
+			{
+				// ...
+			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);			
+			caster.SetAttackState(true);
 			caster.StartBuff(BuffId.Skill_NoDamage_Buff, 0, 0, TimeSpan.FromMilliseconds(1300), caster);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			var removeDebuffRatio = this.GetRemoveDebuffRatio(skill);
-
-			if (removeDebuffRatio == 100 || RandomProvider.Get().Next(100) < removeDebuffRatio)
+			var removeDebuffChance = this.GetRemoveDebuffChance(skill);
+			if (RandomProvider.Get().Next(100) < removeDebuffChance)
 			{
 				if (caster.Components.TryGet<BuffComponent>(out var buffComponent))
 					buffComponent.RemoveRandomDebuff();
@@ -78,20 +81,12 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <param name="farPos"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
-			Direction direction = Direction.Zero;
-
-			if (originPos == farPos)
-				direction = caster.Direction;
-			else
-				direction = originPos.GetDirection(farPos);
-
+			var direction = (originPos == farPos) ? caster.Direction : originPos.GetDirection(farPos);
 			var effectPosition = caster.Position.GetRelative(direction, 40);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND",
-				TimeSpan.FromMilliseconds(750), "F_scout_Ritirarsi", TimeSpan.FromSeconds(4),
-				effectPosition, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_scout_Ritirarsi", TimeSpan.FromSeconds(4), effectPosition, 70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(600));
 
@@ -111,8 +106,8 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			{
 				var modifier = SkillModifier.Default;
 				modifier.HitCount = 6;
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100));
@@ -133,7 +128,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// Returns the remove Debuff ratio
 		/// </summary>
 		/// <returns></returns>
-		private int GetRemoveDebuffRatio(Skill skill)
+		private int GetRemoveDebuffChance(Skill skill)
 		{
 			return Math.Clamp(skill.Level * 2, 0, 100);
 		}

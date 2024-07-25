@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -21,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 	/// Handler for the Ardito skill Tre Granata.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_TreGranata)]
-	public class TreGranate : IGroundSkillHandler
+	public class Arditi_TreGranata : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -74,19 +71,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
-				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
-				pos1, 70f, 0.3f, 0, 600);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
-				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
-				pos2, 70f, 0.3f, 0, 600);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND",
-				TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500),
-				pos3, 70f, 0.3f, 0, 600);
-
-			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750),
-				"", TimeSpan.FromMilliseconds(2500), pos2,
-				70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos1, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos2, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos3, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750), "", TimeSpan.FromMilliseconds(2500), pos2, 70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(400));
 
@@ -99,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			pad2.Position = pos2;
 			pad2.Trigger.LifeTime = TimeSpan.FromSeconds(10);
 			pad2.Trigger.MaxActorCount = 15;
-	
+
 			var pad3 = new Pad(PadName.Arditi_TreGranata, caster, skill, circle3);
 			pad3.Position = pos3;
 			pad3.Trigger.LifeTime = TimeSpan.FromSeconds(10);

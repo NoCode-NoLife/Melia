@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Pads;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -21,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 	/// Handler for the Ardito skill Taglio.
 	/// </summary>
 	[SkillHandler(SkillId.Arditi_Taglio)]
-	public class Taglio : IDynamicCasted
+	public class Arditi_Taglio : IDynamicCasted
 	{
 		/// <summary>
 		/// Called when the user starts casting the skill.
@@ -50,9 +46,9 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 				Send.ZC_MSPD(caster);
 			}
 
-			// Never trust the client.
+			// Use a fix buff duration, as to not rely on the client to end
+			// the cast in time.
 			var maxCastingTime = this.GetMaxCastTime(caster);
-
 			caster.StartBuff(BuffId.Taglio_Buff, TimeSpan.FromSeconds(maxCastingTime));
 
 			if (caster is Character casterCharacter)
@@ -117,7 +113,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				this.Attack(skill, caster, target);
-			}			
+			}
 		}
 
 		/// <summary>

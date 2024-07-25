@@ -4294,7 +4294,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Notifies nearby clients that an entity was knocked down/back
+		/// Notifies nearby clients that an entity was knocked down/back.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="target"></param>

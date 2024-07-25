@@ -151,7 +151,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// removed, or 0 if no buff was removed.
 		/// </summary>
 		/// <remarks>
-		/// Only considers buffs of type Buff, not debuffs.
+		/// Only considers buffs of type Buff, not Debuff.
 		/// </remarks>
 		/// <returns></returns>
 		public BuffId RemoveRandomBuff()
@@ -167,11 +167,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Removes a random removable Debuff. Returns the id of the buff that was
+		/// Removes a random removable debuff. Returns the id of the buff that was
 		/// removed, or 0 if no buff was removed.
 		/// </summary>
 		/// <remarks>
-		/// Only considers buffs of type Buff, not debuffs.
+		/// Only considers buffs of type Debuff, not Buff.
 		/// </remarks>
 		/// <returns></returns>
 		public BuffId RemoveRandomDebuff()

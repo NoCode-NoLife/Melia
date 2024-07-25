@@ -1,8 +1,5 @@
-﻿using System.Text;
-using Melia.Shared.Network;
+﻿using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Game.Const;
-using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.Skills.Combat;
 
 namespace Melia.Zone.Network.Helpers
@@ -10,7 +7,7 @@ namespace Melia.Zone.Network.Helpers
 	public static class KnockbackHelper
 	{
 		/// <summary>
-		/// Adds information about the monster to the packet.
+		/// Adds information about the knock back to the packet.
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="knockBackInfo"></param>
