@@ -55,12 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		private void RemoveRandomDebuff(ICombatEntity caster, Skill skill)
 		{
 			var chance = this.GetRemoveDebuffChance(skill);
-
-			if (RandomProvider.Get().Next(100) < chance)
-			{
-				if (caster.Components.TryGet<BuffComponent>(out var buffComponent))
-					buffComponent.RemoveRandomDebuff();
-			}
+			caster.RemoveRandomDebuff(chance);
 		}
 
 		/// <summary>

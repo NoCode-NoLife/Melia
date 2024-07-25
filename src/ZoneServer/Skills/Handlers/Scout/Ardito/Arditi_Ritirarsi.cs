@@ -62,12 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			var removeDebuffChance = this.GetRemoveDebuffChance(skill);
-			if (RandomProvider.Get().Next(100) < removeDebuffChance)
-			{
-				if (caster.Components.TryGet<BuffComponent>(out var buffComponent))
-					buffComponent.RemoveRandomDebuff();
-			}
+			caster.RemoveRandomDebuff(this.GetRemoveDebuffChance(skill));
 
 			this.Attack(skill, caster, originPos, farPos);
 		}

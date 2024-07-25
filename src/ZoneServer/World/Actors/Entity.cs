@@ -459,5 +459,39 @@ namespace Melia.Zone.World.Actors
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
 		}
+
+		/// <summary>
+		/// Removes a random buff from the entity with the given chance in percent.
+		/// </summary>
+		/// <remarks>
+		/// If chance is 100 or above, a random buff will always be removed,
+		/// assuming there is one to remove.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="chance"></param>
+		public static void RemoveRandomBuff(this ICombatEntity entity, float chance = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomBuff();
+		}
+
+		/// <summary>
+		/// Removes a random debuff from the entity with the given chance in percent.
+		/// </summary>
+		/// <remarks>
+		/// If chance is 100 or above, a random debuff will always be removed,
+		/// assuming there is one to remove.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="chance"></param>
+		public static void RemoveRandomDebuff(this ICombatEntity entity, float chance = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomDebuff();
+		}
 	}
 }
