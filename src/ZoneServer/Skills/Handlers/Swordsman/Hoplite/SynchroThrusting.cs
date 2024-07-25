@@ -77,14 +77,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var hitCount = 3;
-				var forcedCritical = false;
+				var forceCrit = Skill_MomentaryBlock_Buff.WasAttackBlocked(caster);
 
-				if (caster.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var buff) && Skill_MomentaryBlock_Buff.WasAttackBlocked(buff))
-					forcedCritical = true;
-
-				var modifier = SkillModifier.MultiHit(hitCount);
-				modifier.ForcedCritical = forcedCritical;
+				var modifier = SkillModifier.MultiHit(3);
+				modifier.ForcedCritical = forceCrit;
 
 				if (caster is Character character)
 				{

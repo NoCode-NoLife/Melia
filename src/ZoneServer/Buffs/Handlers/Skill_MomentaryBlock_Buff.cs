@@ -1,10 +1,9 @@
-﻿using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Shared.Data.Database;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -13,9 +12,9 @@ namespace Melia.Zone.Buffs.Handlers
 	/// </summary>
 	/// <remarks>
 	/// This buff is granted by certain skills and causes you to always
-	/// block for a duration.  It also provides a method to determine
+	/// block for a duration. It also provides a method to determine
 	/// if an attack was successfully blocked, as some skills have
-	/// an extra effect if it was
+	/// an extra effect if it was.
 	/// </remarks>
 	[BuffHandler(BuffId.Skill_MomentaryBlock_Buff)]
 	public class Skill_MomentaryBlock_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
@@ -28,18 +27,20 @@ namespace Melia.Zone.Buffs.Handlers
 		}
 
 		/// <summary>
-		/// This can be called to see if an attack was blocked
+		/// Returns true if the entity has the buff and an attack was blocked
+		/// at some point.
 		/// </summary>
-		/// <param name="buff"></param>
+		/// <param name="entity"></param>
 		/// <returns></returns>
-		public static bool WasAttackBlocked(Buff buff)
+		public static bool WasAttackBlocked(ICombatEntity entity)
 		{
-			if (buff.Vars.TryGetBool(VarName, out var value)) 
-			{
-				return value;
-			}
+			if (!entity.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var buff))
+				return false;
 
-			return false;
+			if (!buff.Vars.TryGetBool(VarName, out var value))
+				return false;
+
+			return value;
 		}
 
 		/// <summary>
@@ -53,13 +54,12 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			Log.Warning("Checking forced block");
-			// Magic is unblockable, so it doesn't register a block in this case
-			if (skill.Data.ClassType != SkillClassType.Magic)
-			{ 
-				modifier.ForcedBlock = true;
-				buff.Vars.SetBool(VarName, true);
-			}
+			// Magic is unblockable
+			if (skill.Data.ClassType == SkillClassType.Magic)
+				return;
+
+			modifier.ForcedBlock = true;
+			buff.Vars.SetBool(VarName, true);
 		}
 	}
 }
