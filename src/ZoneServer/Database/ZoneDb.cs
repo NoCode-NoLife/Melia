@@ -967,7 +967,8 @@ namespace Melia.Zone.Database
 						cmd.Set("classId", buff.Id);
 						cmd.Set("numArg1", buff.NumArg1);
 						cmd.Set("numArg2", buff.NumArg2);
-						cmd.Set("remainingDuration", buff.RemainingDuration);
+						cmd.Set("duration", buff.Duration);
+						cmd.Set("runTime", buff.RunTime);
 
 						cmd.Execute();
 						lastId = cmd.LastId;
@@ -1002,9 +1003,10 @@ namespace Melia.Zone.Database
 							var classId = (BuffId)reader.GetInt32("classId");
 							var numArg1 = reader.GetInt32("numArg1");
 							var numArg2 = reader.GetInt32("numArg2");
-							var remainingDuration = reader.GetTimeSpan("remainingDuration");
+							var duration = reader.GetTimeSpan("duration");
+							var runTime = reader.GetTimeSpan("runTime");
 
-							var buff = new Buff(classId, numArg1, numArg2, remainingDuration, character, character);
+							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character);
 							buffs.Add(dbId, buff);
 						}
 					}
