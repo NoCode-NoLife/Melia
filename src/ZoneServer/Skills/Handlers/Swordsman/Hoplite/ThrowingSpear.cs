@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -24,7 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 	[SkillHandler(SkillId.Hoplite_ThrouwingSpear)]
 	public class Hoplite_ThrouwingSpear : IGroundSkillHandler, IDynamicCasted
 	{
-		private static readonly TimeSpan hitDelay = TimeSpan.FromMilliseconds(435);
+		private static readonly TimeSpan HitDelay = TimeSpan.FromMilliseconds(435);
 		private readonly static TimeSpan DebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
@@ -53,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
 		public async void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
-		{ 
+		{
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
@@ -73,8 +72,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			// This skill has a follow-up that uses a pad if Hoplite33 is active
 			if (caster.IsAbilityActive(AbilityId.Hoplite33))
-			{ 
-				await Task.Delay(hitDelay);
+			{
+				await Task.Delay(HitDelay);
 
 				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
 				pad.Position = farPos;
@@ -96,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await Task.Delay(HitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -118,8 +117,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				if (caster.Components.TryGet<AbilityComponent>(out var abilities) && abilities.IsActive(AbilityId.Hoplite33))
 				{
-					skillHit.HitEffect = HitEffect.Impact;					
-				} else
+					skillHit.HitEffect = HitEffect.Impact;
+				}
+				else
 				{
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
@@ -127,7 +127,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				}
 
 				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, DebuffDuration, caster);
-				
+
 				hits.Add(skillHit);
 			}
 
@@ -140,11 +140,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void SpearExplosion(object sender, TriggerArgs args)
+		private void SpearExplosion(object sender, PadTriggerArgs args)
 		{
-			if (args.Trigger is not Pad pad) return;
-			if (pad.Creator is not ICombatEntity creator) return;
-			if (pad.Skill is not Skill skill) return;
+			var pad = args.Trigger;
+			var creator = args.Creator;
 
 			this.ExplosionAttack(pad.Skill, creator, (ISplashArea)pad.Area);
 		}
@@ -184,6 +183,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
 				hits.Add(skillHit);
 			}
 

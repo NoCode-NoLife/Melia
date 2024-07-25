@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -49,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);			
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			this.Attack(skill, caster, splashArea);
 		}
@@ -96,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				if (RandomProvider.Get().Next(10000) < buffRemoveChance)
 				{
 					if (target.Components.TryGet<BuffComponent>(out var buffComponent))
-					{ 
+					{
 						buffComponent.RemoveRandomBuff();
 						buffComponent.RemoveRandomBuff();
 					}
@@ -106,7 +105,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
 
-			await Task.Delay(delayBeforeLoop);			
+			await Task.Delay(delayBeforeLoop);
 
 			for (var i = 0; i < 15; i++)
 			{

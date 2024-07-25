@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -10,8 +9,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
@@ -56,7 +53,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				caster.ServerMessage(Localization.Get("No target location specified."));
 				Send.ZC_SKILL_CAST_CANCEL(caster);
 				return;
-			}			
+			}
 
 			if (!caster.Map.Ground.IsValidPosition(targetPos))
 			{
@@ -83,7 +80,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, targetPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, targetPos, null);
-			
+
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.7f, 0.7f, 90);
 			caster.Position = targetPos;
 
@@ -128,9 +125,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				hits.Add(skillHit);
 
 				if (caster.IsAbilityActive(AbilityId.Hoplite30))
-				{
 					target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(2), caster);
-				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

@@ -12,7 +12,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
@@ -55,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				if (lhItem.Data.EquipType1 == EquipType.Shield)
 					character.StartBuff(BuffId.Skill_MomentaryBlock_Buff, BlockDuration);
 			}
-			
+
 			this.Attack(skill, caster, splashArea);
 		}
 
@@ -81,13 +80,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				var hitCount = 3;
 				var forcedCritical = false;
 
-				if (caster.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var buff))
-				{
-					if (Skill_MomentaryBlock_Buff.WasAttackBlocked(buff))
-					{
-						forcedCritical = true;
-					}
-				}
+				if (caster.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var buff) && Skill_MomentaryBlock_Buff.WasAttackBlocked(buff))
+					forcedCritical = true;
 
 				var modifier = SkillModifier.MultiHit(hitCount);
 				modifier.ForcedCritical = forcedCritical;
