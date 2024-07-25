@@ -53,9 +53,11 @@ namespace Melia.Barracks.Database
 		public DateTime CreatedDate { get; set; }
 
 		/// <summary>
-		/// Returns if the message is read,
-		/// every other state except unread is treated as read.
+		/// Returns whether the message was read.
 		/// </summary>
+		/// <remarks>
+		/// All states but "Unread" are considered read.
+		/// </remarks>
 		public bool IsRead => this.State != MailboxMessageState.Unread;
 
 		/// <summary>
@@ -66,20 +68,14 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Returns true if any item is unreceived.
 		/// </summary>
-		public byte ReceivableItemsCount
-		{
-			get
-			{
-				lock (_items)
-					return (byte)_items.Count(item => !item.IsReceived);
-			}
-		}
+		public int ReceivableItemsCount { get { lock (_items) return _items.Count(item => !item.WasReceived); } }
 
 		/// <summary>
 		/// Allows the item to be selectable via checkbox in UI for receive all.
 		/// </summary>
 		/// <remarks>
-		/// Controls check box for select all, but is useless without message status being "Unread"
+		/// Controls check box for select all, only returns true if the message
+		/// is "Unread".
 		/// </remarks>
 		public bool CanReceive => this.State == MailboxMessageState.Unread && this.ReceivableItemsCount > 0;
 
@@ -112,10 +108,9 @@ namespace Melia.Barracks.Database
 		public bool TryGetItem(int mailItemId, out MailItem item)
 		{
 			lock (_items)
-			{
 				item = _items.Find(a => a.DbId == mailItemId);
-				return item != null;
-			}
+
+			return item != null;
 		}
 	}
 
@@ -130,7 +125,7 @@ namespace Melia.Barracks.Database
 		public int DbId { get; set; }
 
 		/// <summary>
-		/// Gets or sets the mail items item's database id.
+		/// Gets or sets the mail item's database id.
 		/// </summary>
 		public long ItemDbId { get; set; }
 
@@ -145,8 +140,8 @@ namespace Melia.Barracks.Database
 		public int Amount { get; set; }
 
 		/// <summary>
-		/// Gets or sets if the item is received or not.
+		/// Gets or sets if the item was received or not.
 		/// </summary>
-		public bool IsReceived { get; set; }
+		public bool WasReceived { get; set; }
 	}
 }

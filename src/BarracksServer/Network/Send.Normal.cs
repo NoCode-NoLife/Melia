@@ -194,28 +194,28 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Retrieves mail messages from the mailbox for an account and sends them to the client via the provided connection.
+			/// Updates the message list on the account's mailbox.
 			/// </summary>
 			/// <param name="conn">The connection used to send the mailbox data to the client.</param>
+			/// <param name="messages"></param>
 			/// <param name="page"></param>
-			/// <param name="mailList"></param>
-			public static void Mailbox(IBarracksConnection conn, byte page, IEnumerable<MailMessage> mailList)
+			/// <param name="totalMessageCount"></param>
+			public static void Mailbox(IBarracksConnection conn, IEnumerable<MailMessage> messages, int page, int totalMessageCount)
 			{
-				var totalMessages = conn.Account.Mailbox.MessageCount;
-				var messageCount = mailList.Count();
+				var messageCount = messages.Count();
 
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.Mailbox);
 
 				packet.Zlib(true, zpacket =>
 				{
-					zpacket.PutByte(page);
+					zpacket.PutByte((byte)page);
 					zpacket.PutByte(messageCount == 0);
 					zpacket.PutEmptyBin(3); // Alignment?
 					zpacket.PutInt(messageCount);
-					zpacket.PutInt(totalMessages);
+					zpacket.PutInt(totalMessageCount);
 
-					foreach (var message in mailList)
+					foreach (var message in messages)
 					{
 						var items = message.GetItems();
 
@@ -231,7 +231,7 @@ namespace Melia.Barracks.Network
 						zpacket.PutByte(0); // Alignment Byte?
 						zpacket.PutByte((byte)message.State);
 						zpacket.PutByte(0);
-						zpacket.PutByte(message.ReceivableItemsCount);
+						zpacket.PutByte((byte)message.ReceivableItemsCount);
 						zpacket.PutShort(0);
 						zpacket.PutInt(items.Count);
 
@@ -240,7 +240,7 @@ namespace Melia.Barracks.Network
 							zpacket.PutInt(item.DbId);
 							zpacket.PutInt(item.Id);
 							zpacket.PutInt(item.Amount);
-							zpacket.PutByte(item.IsReceived);
+							zpacket.PutByte(item.WasReceived);
 							zpacket.PutEmptyBin(3); // Alignment
 						}
 					}
@@ -272,7 +272,7 @@ namespace Melia.Barracks.Network
 			public static void MailUpdate(IBarracksConnection conn, MailMessage message)
 			{
 				var items = message.GetItems();
-				var receivedItemCount = items.Count(item => item.IsReceived);
+				var receivedItemCount = items.Count(item => item.WasReceived);
 
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.MailUpdate);
@@ -287,7 +287,7 @@ namespace Melia.Barracks.Network
 					packet.PutInt(item.DbId);
 					packet.PutInt(item.Id);
 					packet.PutInt(item.Amount);
-					packet.PutInt(item.IsReceived ? 1 : 0);
+					packet.PutInt(item.WasReceived ? 1 : 0);
 				}
 
 				conn.Send(packet);

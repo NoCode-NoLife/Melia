@@ -161,8 +161,11 @@ namespace Melia.Barracks.Network
 
 			if (conn.Account.Mailbox.HasMessages)
 			{
-				var mail = conn.Account.Mailbox.GetPagedMail();
-				Send.BC_NORMAL.Mailbox(conn, 1, mail);
+				var messages = conn.Account.Mailbox.GetPagedMessages();
+				var totalMessageCount = conn.Account.Mailbox.MessageCount;
+				var page = 1;
+
+				Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
 			}
 
 			// Update account properties with Lua code to send scripts
@@ -672,18 +675,19 @@ namespace Melia.Barracks.Network
 
 			var mailbox = conn.Account.Mailbox;
 
-			if (!mailbox.TryGetMail(messageId, out var mail))
+			if (!mailbox.TryGetMail(messageId, out var message))
 			{
 				Log.Warning("CB_REQ_CHANGE_POSTBOX_STATE: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
 				return;
 			}
 
-			mail.State = state;
-			Send.BC_NORMAL.UpdateMailboxState(conn, mail.Id, mail.State);
+			message.State = state;
+
+			Send.BC_NORMAL.UpdateMailboxState(conn, message.Id, message.State);
 		}
 
 		/// <summary>
-		/// Request to get item from mail box
+		/// Request to get item from mail box.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -704,13 +708,13 @@ namespace Melia.Barracks.Network
 				return;
 			}
 
-			if (!mailbox.TryGetMail(messageId, out var mail))
+			if (!mailbox.TryGetMail(messageId, out var message))
 			{
 				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
 				return;
 			}
 
-			if (mail.IsExpired)
+			if (message.IsExpired)
 			{
 				Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
 				return;
@@ -719,26 +723,26 @@ namespace Melia.Barracks.Network
 			var splitItems = itemListStr.Split('/');
 			foreach (var itemStr in splitItems)
 			{
-				if (int.TryParse(itemStr, out var mailItemId))
-				{
-					if (!mail.TryGetItem(mailItemId, out var item) || item.IsReceived)
-						continue;
+				if (!int.TryParse(itemStr, out var mailItemId))
+					continue;
 
-					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
-					item.IsReceived = true;
-				}
+				if (!message.TryGetItem(mailItemId, out var item) || item.WasReceived)
+					continue;
+
+				BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+				item.WasReceived = true;
 			}
 
-			if (mail.ReceivableItemsCount > 0 && !mail.IsExpired)
-				mail.State = MailboxMessageState.Unread;
+			if (message.ReceivableItemsCount > 0 && !message.IsExpired)
+				message.State = MailboxMessageState.Unread;
 			else
-				mail.State = MailboxMessageState.Store;
+				message.State = MailboxMessageState.Store;
 
-			Send.BC_NORMAL.MailUpdate(conn, mail);
+			Send.BC_NORMAL.MailUpdate(conn, message);
 		}
 
 		/// <summary>
-		/// Request to get items from multiple mail.
+		/// Request to get items from multiple mail messages.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -746,14 +750,7 @@ namespace Melia.Barracks.Network
 		public void CB_REQ_GET_POSTBOX_ITEM_LIST(IBarracksConnection conn, Packet packet)
 		{
 			var b1 = packet.GetByte();
-			var messageIdList = new List<long>();
-
-			for (var i = 0; i < 20; i++)
-			{
-				var messageId = packet.GetLong();
-				if (messageId != 0)
-					messageIdList.Add(messageId);
-			}
+			var messageIdList = packet.GetList(20, packet.GetLong).Where(a => a != 0);
 			var characterId = packet.GetLong();
 
 			var mailbox = conn.Account.Mailbox;
@@ -767,44 +764,48 @@ namespace Melia.Barracks.Network
 
 			foreach (var messageId in messageIdList)
 			{
-				if (!mailbox.TryGetMail(messageId, out var mail))
+				if (!mailbox.TryGetMail(messageId, out var message))
 				{
 					Log.Warning("CB_REQ_GET_POSTBOX_ITEM_LIST: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
 					continue;
 				}
 
-				if (mail.IsExpired)
+				if (message.IsExpired)
 				{
 					Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
 					continue;
 				}
 
-				foreach (var item in mail.GetItems())
+				foreach (var item in message.GetItems())
 				{
-					if (item.IsReceived)
+					if (item.WasReceived)
 						continue;
 
 					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
-					item.IsReceived = true;
+					item.WasReceived = true;
 				}
-				mail.State = MailboxMessageState.Read;
-				Send.BC_NORMAL.MailUpdate(conn, mail);
+
+				message.State = MailboxMessageState.Read;
+
+				Send.BC_NORMAL.MailUpdate(conn, message);
 			}
 		}
 
 		/// <summary>
-		/// Request to get the next page of mail with a count.
+		/// Request to get the next page of mail message with a count.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_REQ_POSTBOX_PAGE)]
 		public void CB_REQ_POSTBOX_PAGE(IBarracksConnection conn, Packet packet)
 		{
-			var count = packet.GetInt();
-			var mailList = conn.Account.Mailbox.GetPagedMail(count);
-			var mailPage = (byte)((count / Mailbox.MailPerPage) + 1);
+			var skipCount = packet.GetInt();
 
-			Send.BC_NORMAL.Mailbox(conn, mailPage, mailList);
+			var messages = conn.Account.Mailbox.GetPagedMessages(skipCount);
+			var totalMessageCount = conn.Account.Mailbox.MessageCount;
+			var page = 1 + (skipCount / Mailbox.MailPerPage);
+
+			Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
 		}
 
 		/// <summary>

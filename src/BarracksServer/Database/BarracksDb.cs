@@ -419,7 +419,7 @@ namespace Melia.Barracks.Database
 							continue;
 
 						var expiration = reader.GetDateTimeSafe("expirationDate");
-						if (expiration < DateTime.Now)
+						if (DateTime.Now >= expiration)
 							continue;
 
 						var mail = new MailMessage
@@ -439,7 +439,8 @@ namespace Melia.Barracks.Database
 				}
 			}
 
-			foreach (var mail in account.Mailbox.GetMail())
+			// XXX: Optimize to get get all items at once?
+			foreach (var mail in account.Mailbox.GetMessages())
 			{
 				foreach (var item in this.LoadMailItems(mail.Id))
 					mail.AddItem(item);
@@ -470,13 +471,15 @@ namespace Melia.Barracks.Database
 								ItemDbId = reader.GetInt64("itemId"),
 								Id = reader.GetInt32("id"),
 								Amount = reader.GetInt32("amount"),
-								IsReceived = reader.GetByte("status") == 1,
+								WasReceived = reader.GetByte("status") == 1,
 							};
+
 							items.Add(mailItem);
 						}
 					}
 				}
 			}
+
 			return items;
 		}
 
@@ -489,7 +492,7 @@ namespace Melia.Barracks.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				foreach (var mail in account.Mailbox.GetMail())
+				foreach (var mail in account.Mailbox.GetMessages())
 				{
 					using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `mailId` = @mailId", conn, trans))
 					{
@@ -515,7 +518,7 @@ namespace Melia.Barracks.Database
 							cmd.Set("itemId", item.ItemDbId);
 							cmd.Set("id", item.Id);
 							cmd.Set("amount", item.Amount);
-							cmd.Set("status", item.IsReceived);
+							cmd.Set("status", item.WasReceived);
 							cmd.Execute();
 						}
 					}

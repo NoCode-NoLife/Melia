@@ -5,66 +5,55 @@ using Melia.Shared.Game.Const;
 namespace Melia.Barracks.Database
 {
 	/// <summary>
-	/// Represents a mailbox that allows accounts
-	/// to receive items via mail messages.
+	/// Represents a mailbox that allows accounts to receive items via mail messages.
 	/// </summary>
 	public class Mailbox
 	{
 		private readonly List<MailMessage> _mail = new();
 
-		public static int MailPerPage { get; } = 20;
+		/// <summary>
+		/// Returns the amount of messages per page.
+		/// </summary>
+		public const int MailPerPage = 20;
 
 		/// <summary>
 		/// Returns the mail messages
 		/// </summary>
-		public List<MailMessage> GetMail()
+		public List<MailMessage> GetMessages()
 		{
 			lock (_mail)
 				return _mail.ToList();
 		}
 
 		/// <summary>
-		/// Returns a subset mail messages
+		/// Returns a subset of mail messages, skipping the given amount.
 		/// </summary>
-		public List<MailMessage> GetPagedMail(int skip = 0)
+		/// <param name="skip"></param>
+		public List<MailMessage> GetPagedMessages(int skip = 0)
 		{
 			lock (_mail)
 				return _mail.Skip(skip).Take(MailPerPage).ToList();
 		}
 
 		/// <summary>
-		/// Returns if the mail box has messages
+		/// Returns whether there's any messages in the mailbox.
 		/// </summary>
 		public bool HasMessages => this.MessageCount > 0;
 
 		/// <summary>
 		/// Returns the number of unread messages
 		/// </summary>
-		public int UnreadMessageCount
-		{
-			get
-			{
-				lock (_mail)
-					return this._mail.Count(a => a.State == MailboxMessageState.Unread);
-			}
-		}
+		public int UnreadMessageCount { get { lock (_mail) return _mail.Count(a => a.State == MailboxMessageState.Unread); } }
 
 		/// <summary>
 		/// Returns the number of read messages
 		/// </summary>
-		public int ReadMessageCount
-		{
-			get
-			{
-				lock (_mail)
-					return this._mail.Count(a => a.State == MailboxMessageState.Read);
-			}
-		}
+		public int ReadMessageCount { get { lock (_mail) return _mail.Count(a => a.State == MailboxMessageState.Read); } }
 
 		/// <summary>
 		/// Returns the numbers of messages
 		/// </summary>
-		public int MessageCount { get { lock (_mail) return this._mail.Count; } }
+		public int MessageCount { get { lock (_mail) return _mail.Count; } }
 
 		/// <summary>
 		/// Add a mail message
@@ -73,7 +62,7 @@ namespace Melia.Barracks.Database
 		public void AddMail(MailMessage mail)
 		{
 			lock (_mail)
-				this._mail.Add(mail);
+				_mail.Add(mail);
 		}
 
 		/// <summary>
@@ -85,7 +74,8 @@ namespace Melia.Barracks.Database
 		public bool TryGetMail(long messageId, out MailMessage message)
 		{
 			lock (_mail)
-				message = this._mail.Find(m => m.Id == messageId);
+				message = _mail.Find(m => m.Id == messageId);
+
 			return message != null;
 		}
 	}
