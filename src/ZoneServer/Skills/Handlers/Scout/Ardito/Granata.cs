@@ -79,8 +79,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.Default;
-				modifier.HitCount = 6;
+				var modifier = SkillModifier.MultiHit(6);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -88,10 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 				var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100));
 				Send.ZC_HIT_INFO(caster, target, hit);
 
-				var knockBackDistance = 1;
-				var knockBackPos = target.Position.GetRelative(caster.Direction, knockBackDistance);
-				var angle = target.GetDirection(knockBackPos).DegreeAngle;
-				var kb = new KnockBackInfo(caster.Position, knockBackPos, skill);
+				var kb = new KnockBackInfo(caster.Position, target.Position, skill);
 				target.Position = kb.ToPosition;
 
 				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);

@@ -99,8 +99,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.Default;
-				modifier.HitCount = 6;
+				var modifier = SkillModifier.MultiHit(6);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
