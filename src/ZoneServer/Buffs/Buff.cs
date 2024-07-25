@@ -200,9 +200,10 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// End buff behavior
+		/// Executes the buff handler's end behavior. Does not actually
+		/// end or remove the buff.
 		/// </summary>
-		public void End()
+		internal void End()
 		{
 			this.Handler?.OnEnd(this);
 		}
