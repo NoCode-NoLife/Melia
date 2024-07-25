@@ -551,6 +551,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.ForcedBlock)
+			return 100;
+
 		var block = target.Properties.GetFloat(PropertyName.BLK);
 		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
 
@@ -594,6 +597,9 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
+
+		if (modifier.ForcedCritical)
+			return 100;
 
 		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);

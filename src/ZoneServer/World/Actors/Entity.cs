@@ -315,6 +315,20 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns the skill with the given ID if the entity knows that skill.
+		/// Returns false if the entity doesn't know that skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static bool TryGetSkill(this ICombatEntity entity, SkillId skillId, out Skill skill)
+		{
+			skill = null;
+			return entity.Components.Get<SkillComponent>()?.TryGet(skillId, out skill) ?? false;
+		}
+
+		/// <summary>
 		/// Returns true if the entity has the given ability and it's toggled on.
 		/// </summary>
 		/// <param name="entity"></param>

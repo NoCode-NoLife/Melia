@@ -91,7 +91,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 			caster.Position = targetPos;
 
-			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.35f, 0.7f);
+			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.35f, 0.7f, 30);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 75, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);

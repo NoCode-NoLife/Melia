@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -246,6 +247,49 @@ namespace Melia.Zone.Network
 				packet.PutLpString("None");
 
 				entity.Map.Broadcast(packet, entity);
+			}
+
+			/// <summary>
+			/// Plays an animation of a character throwing one of their items
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="str"></param>
+			/// <param name="str2"></param>
+			/// <param name="position"></param>
+			/// <param name="animationName"></param>
+			/// <param name="scale"></param>
+			/// <param name="tossScale"></param>
+			/// <param name="hangScale"></param>
+			/// <param name="speed"></param>
+			/// <param name="startAngle"></param>
+			/// <param name="endAngle"></param>
+			/// <param name="f7"></param>
+			/// <param name="itemScale"></param>
+			/// <param name="itemStayTime"></param>
+			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+					throw new ArgumentException($"Packet string '{animationName}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SkillItemToss);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(str);
+				packet.PutLpString(str2);
+				packet.PutPosition(position);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutFloat(tossScale);
+				packet.PutFloat(hangScale);
+				packet.PutFloat(speed);
+				packet.PutFloat(startAngle);
+				packet.PutFloat(endAngle);
+				packet.PutFloat(f7);
+				packet.PutFloat(itemScale);
+				packet.PutFloat(itemStayTime.Seconds);
+
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
@@ -1141,7 +1185,7 @@ namespace Melia.Zone.Network
 			/// <param name="f4"></param>
 			/// <param name="f5"></param>
 			/// <param name="jumpHeight"></param>
-			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight = 30)
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
