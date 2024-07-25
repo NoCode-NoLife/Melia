@@ -225,7 +225,8 @@ namespace Melia.Zone.Network
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
 
-				ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2);
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
+					throw new ArgumentException($"Packet string '{packetString2}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
@@ -233,7 +234,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
 				packet.PutFloat((float)duration1.TotalSeconds);
-				packet.PutInt(packetStringData2?.Id ?? 0);
+				packet.PutInt(packetStringData2.Id);
 				packet.PutFloat((float)duration2.TotalSeconds);
 				packet.PutPosition(position);
 				packet.PutFloat(f1);
@@ -361,7 +362,7 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
-			
+
 			/// <Summary>
 			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
