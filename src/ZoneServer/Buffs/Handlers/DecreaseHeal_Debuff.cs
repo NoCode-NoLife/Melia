@@ -1,20 +1,40 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers
 {
 	/// <summary>
-	/// Handle for the DecreaseHeal_Debuff that changes the character's healing reduction
-	/// and evasion properties.
+	/// Handle for the DecreaseHeal_Debuff that changes the character's
+	/// healing reduction and evasion properties.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: None
+	/// </remarks>
 	[BuffHandler(BuffId.DecreaseHeal_Debuff)]
 	public class DecreaseHeal_Debuff : BuffHandler
 	{
-		public const string DebuffVarName = "DecreaseHeal_Debuff.HealingReduction";
-
-		public override void OnStart(Buff buff)
+		/// <summary>
+		/// Applies decrease heal debuff to the hpAmount the entity is to be
+		/// healed by if applicable. Returns false if they don't have the debuff
+		/// and the amount was not changed.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="hpAmount"></param>
+		/// <returns></returns>
+		public static bool TryApply(ICombatEntity entity, ref float hpAmount)
 		{
-			buff.Vars.SetFloat(DebuffVarName, this.GetHealingReduction(buff));
+			if (!entity.TryGetBuff(BuffId.DecreaseHeal_Debuff, out var buff))
+				return false;
+
+			var reduction = GetHealingReduction(buff);
+			var multiplier = Math.Max(0, 1f - reduction);
+
+			hpAmount *= multiplier;
+
+			return true;
 		}
 
 		/// <summary>
@@ -22,10 +42,10 @@ namespace Melia.Zone.Buffs.Handlers
 		/// </summary>
 		/// <param name="buff"></param>
 		/// <returns></returns>
-		public float GetHealingReduction(Buff buff)
+		private static float GetHealingReduction(Buff buff)
 		{
 			var skillLevel = buff.NumArg1;
-			return (3 * skillLevel) / 100;
+			return (3 * skillLevel) / 100f;
 		}
 	}
 }

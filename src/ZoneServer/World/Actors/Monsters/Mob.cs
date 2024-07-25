@@ -735,7 +735,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Heals the monster's HP and SP by the given amounts.
+		/// Heals the monster's HP and SP by the given amounts. Applies potential
+		/// (de)buffs that affect healing.
 		/// </summary>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
@@ -743,11 +744,8 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			float healingReduction = 0;
 
-			// TODO: Improve the healing reduction
-			if (this.TryGetBuff(BuffId.DecreaseHeal_Debuff, out Buff decreaseHealDebuff))
-			{
-				healingReduction = decreaseHealDebuff.Vars.GetFloat(DecreaseHeal_Debuff.DebuffVarName);
-			}
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
 
 			var healingModifier = Math.Max(0, 1 - healingReduction);
 
