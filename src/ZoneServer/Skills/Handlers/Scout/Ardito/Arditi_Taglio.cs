@@ -51,13 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			var maxCastingTime = this.GetMaxCastTime(caster);
 			caster.StartBuff(BuffId.Taglio_Buff, TimeSpan.FromSeconds(maxCastingTime));
 
-			if (caster is Character casterCharacter)
-			{
-				if (casterCharacter.Gender == Gender.Male)
-					Send.ZC_PLAY_SOUND(casterCharacter, "voice_war_atk_long_cast");
-				else
-					Send.ZC_PLAY_SOUND(casterCharacter, "voice_atk_long_cast_f");
-			}
+			Send.ZC_PLAY_SOUND_Gendered(caster, "voice_war_atk_long_cast", "voice_atk_long_cast_f");
 
 			var pad = new Pad(PadName.Arditi_Taglio, caster, skill, new Square(caster.Position, caster.Direction, 45, 30));
 			pad.Position = caster.Position;
@@ -79,14 +73,9 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			caster.StopBuff(BuffId.Taglio_Buff);
 
 			if (caster is Character casterCharacter)
-			{
 				Send.ZC_NORMAL.UnkDynamicCastEnd(casterCharacter, skill.Id, 2.1f);
 
-				if (casterCharacter.Gender == Gender.Male)
-					Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
-				else
-					Send.ZC_STOP_SOUND(caster, "voice_atk_long_cast_f");
-			}
+			Send.ZC_STOP_SOUND_Gendered(caster, "voice_war_atk_long_cast", "voice_atk_long_cast_f");
 
 			// Taglio: Tenacity
 			if (!caster.IsAbilityActive(AbilityId.Arditi19))

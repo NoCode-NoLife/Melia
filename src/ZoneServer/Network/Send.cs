@@ -3034,6 +3034,37 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Plays sound for clients in range of the actor, sending the packet with
+		/// either the male or female string, depending on the actor's gender.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetStringMale"></param>
+		/// <param name="packetStringFemale"></param>
+		public static void ZC_PLAY_SOUND_Gendered(IActor actor, string packetStringMale, string packetStringFemale)
+		{
+			var gender = (actor is Character character ? character.Gender : Gender.Male);
+			var packetString = (gender == Gender.Male ? packetStringMale : packetStringFemale);
+
+			ZC_PLAY_SOUND(actor, packetString);
+		}
+
+		/// <summary>
+		/// Stops the sound for all clients in range of the actor, sending
+		/// the packet with either the male or female string, depending on
+		/// the actor's gender.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetStringMale"></param>
+		/// <param name="packetStringFemale"></param>
+		public static void ZC_STOP_SOUND_Gendered(IActor actor, string packetStringMale, string packetStringFemale)
+		{
+			var gender = (actor is Character character ? character.Gender : Gender.Male);
+			var packetString = (gender == Gender.Male ? packetStringMale : packetStringFemale);
+
+			ZC_STOP_SOUND(actor, packetString);
+		}
+
+		/// <summary>
 		/// Updates character's stamina.
 		/// </summary>
 		/// <param name="character"></param>
