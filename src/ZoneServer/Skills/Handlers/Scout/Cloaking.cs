@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Scout
 {
@@ -18,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Scout
 	/// Handler for the Scout skill Cloaking.
 	/// </summary>
 	[SkillHandler(SkillId.Scout_Cloaking)]
-	public class Cloaking : ISelfSkillHandler
+	public class Scout_Cloaking : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.

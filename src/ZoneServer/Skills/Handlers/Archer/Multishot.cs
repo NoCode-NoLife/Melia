@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -21,7 +20,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 	/// Handler for the Archer skill Multishot.
 	/// </summary>
 	[SkillHandler(SkillId.Archer_Multishot)]
-	public class Multishot : IGroundSkillHandler, IDynamicCasted
+	public class Archer_Multishot : IGroundSkillHandler, IDynamicCasted
 	{
 		private const float SplashRadius = 30;
 		private const int TotalHits = 10;
@@ -110,7 +109,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 						targetPos = target.Position;
 
 						var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result);
-						Send.ZC_HIT_INFO(caster, target, skill, hit);
+						Send.ZC_HIT_INFO(caster, target, hit);
 					}
 
 					// It seems like the game uses ZC_SYNC_* packets

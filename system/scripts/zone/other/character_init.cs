@@ -4,8 +4,8 @@
 // Grants default items, skills, and abilities to newly created characters.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Scripting;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
@@ -26,6 +26,27 @@ public class CharacterInitializationScript : GeneralScript
 			InitCharacter(args.Character);
 			vars.Perm.SetBool("Melia.EverLoggedIn", true);
 		}
+
+		UpdateCharacter(args.Character);
+		UpdateAccount(args.Character);
+	}
+
+	private void UpdateAccount(Character character)
+	{
+		// Unlock special classes by default if the respective class feature
+		// is enabled, but vouchers are disabled.
+
+		var unlockByDefault = Feature.IsEnabled("SpecialClasses") && !Feature.IsEnabled("SpecialClassVouchers");
+		if (!unlockByDefault)
+			return;
+
+		var props = character.Connection.Account.Properties;
+		props.SetFloat("UnlockQuest_Char1_25", 1); // Winged Hussar
+		props.SetFloat("UnlockQuest_Char1_26", 1); // Vanquisher
+		props.SetFloat("UnlockQuest_Char2_25", 1); // Illusionist
+		props.SetFloat("UnlockQuest_Char3_24", 1); // Godeye
+		props.SetFloat("UnlockQuest_Char4_23", 1); // Pontifex
+		props.SetFloat("UnlockQuest_Char5_19", 1); // Desperado
 	}
 
 	private static void InitCharacter(Character character)
@@ -39,6 +60,22 @@ public class CharacterInitializationScript : GeneralScript
 			case JobId.Archer: InitArcher(character); break;
 			case JobId.Cleric: InitCleric(character); break;
 			case JobId.Scout: InitScout(character); break;
+		}
+	}
+
+	private void UpdateCharacter(Character character)
+	{
+		if (character.JobClass == JobClass.Cleric)
+		{
+			// Based on the client data, Warrior Guard is not officialy part of
+			// a cleric's skillset, but they get it on the latest version of the
+			// game and are able to use it. In older logs there was no sign of
+			// clerics getting Guard, however, so we'll make it optional.
+
+			if (Feature.IsEnabled("GuardingClerics"))
+				LearnSkill(character, SkillId.Warrior_Guard);
+			else
+				UnlearnSkill(character, SkillId.Warrior_Guard);
 		}
 	}
 
@@ -232,6 +269,11 @@ public class CharacterInitializationScript : GeneralScript
 
 		var skill = new Skill(character, skillId, 1);
 		character.Skills.AddSilent(skill);
+	}
+
+	private static void UnlearnSkill(Character character, SkillId skillId)
+	{
+		character.Skills.RemoveSilent(skillId);
 	}
 
 	private static void LearnAbility(Character character, AbilityId abilityId)

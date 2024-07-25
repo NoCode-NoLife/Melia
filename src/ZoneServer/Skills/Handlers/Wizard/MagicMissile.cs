@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Extensions;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -20,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 	/// Handles the Wizard skill Magic Missile.
 	/// </summary>
 	[SkillHandler(SkillId.Wizard_MagicMissile)]
-	public class MagicMissile : IGroundSkillHandler
+	public class Wizard_MagicMissile : IGroundSkillHandler
 	{
 		private const int BulletsPerUse = 3;
 		private const float SubSplashAreaSize = 200;
@@ -103,7 +102,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, skillHits);
 
 			foreach (var hit in hits)
-				Send.ZC_HIT_INFO(hit.Attacker, hit.Target, hit.Skill, hit);
+				Send.ZC_HIT_INFO(hit.Attacker, hit.Target, hit);
 		}
 
 		// A shot into a bunch of monsters. The character hit 3 different

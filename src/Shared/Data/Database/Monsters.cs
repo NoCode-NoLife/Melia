@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -19,6 +20,7 @@ namespace Melia.Shared.Data.Database
 		public ArmorMaterialType ArmorMaterial { get; set; }
 		public SizeType Size { get; set; }
 		public FactionType Faction { get; set; }
+		public MonsterRank Rank { get; set; }
 
 		public MoveType MoveType { get; set; }
 		public int WalkSpeed { get; set; }
@@ -26,7 +28,7 @@ namespace Melia.Shared.Data.Database
 
 		public int Level { get; set; }
 		public int Exp { get; set; }
-		public int ClassExp { get; set; }
+		public int JobExp { get; set; }
 		public int Hp { get; set; }
 		public int Sp { get; set; }
 
@@ -43,6 +45,11 @@ namespace Melia.Shared.Data.Database
 		public int CritHitRate { get; set; }
 		public int CritDodgeRate { get; set; }
 		public int CritAttack { get; set; }
+
+		public string AiName { get; set; }
+
+		public BoundingBox BoundingBox { get; set; }
+		public bool HasBoundingBox => !this.BoundingBox.IsEmpty;
 
 		public List<DropData> Drops { get; set; } = new List<DropData>();
 		public List<MonsterSkillData> Skills { get; set; } = new List<MonsterSkillData>();
@@ -129,7 +136,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "classExp", "element", "race", "armor", "size", "faction", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
+			entry.AssertNotMissing("monsterId", "className", "name", "level", "exp", "jobExp", "element", "race", "armor", "size", "faction", "rank", "moveType", "walkSpeed", "runSpeed", "hp", "sp", "pAttackMin", "pAttackMax", "mAttackMin", "mAttackMax", "pDefense", "mDefense", "hitRate", "dodgeRate", "blockRate", "blockBreakRate", "critHitRate", "critDodgeRate", "critAttack");
 
 			var data = new MonsterData();
 
@@ -142,6 +149,7 @@ namespace Melia.Shared.Data.Database
 			data.ArmorMaterial = entry.ReadEnum<ArmorMaterialType>("armor");
 			data.Size = entry.ReadEnum<SizeType>("size");
 			data.Faction = entry.ReadEnum<FactionType>("faction");
+			data.Rank = entry.ReadEnum<MonsterRank>("rank");
 
 			data.MoveType = entry.ReadEnum<MoveType>("moveType");
 			data.WalkSpeed = entry.ReadInt("walkSpeed");
@@ -149,7 +157,7 @@ namespace Melia.Shared.Data.Database
 
 			data.Level = entry.ReadInt("level");
 			data.Exp = entry.ReadInt("exp");
-			data.ClassExp = entry.ReadInt("classExp");
+			data.JobExp = entry.ReadInt("jobExp");
 			data.Hp = entry.ReadInt("hp");
 			data.Sp = entry.ReadInt("sp");
 
@@ -166,6 +174,21 @@ namespace Melia.Shared.Data.Database
 			data.CritHitRate = entry.ReadInt("critHitRate");
 			data.CritDodgeRate = entry.ReadInt("critDodgeRate");
 			data.CritAttack = entry.ReadInt("critAttack");
+
+			// We'll set a default AI for now to quickly and easily get all
+			// monsters to move and attack.
+			data.AiName = entry.ReadString("ai", "BasicMonster");
+
+			if (entry.TryGetObject("obb", out var obbEntry))
+			{
+				obbEntry.AssertNotMissing("x", "y", "z");
+
+				var x = obbEntry.ReadFloat("x");
+				var y = obbEntry.ReadFloat("y");
+				var z = obbEntry.ReadFloat("z");
+
+				data.BoundingBox = new BoundingBox(x, y, z);
+			}
 
 			if (entry.ContainsKey("skills"))
 			{

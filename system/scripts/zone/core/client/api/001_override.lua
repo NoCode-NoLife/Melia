@@ -30,3 +30,35 @@ Melia.OverrideIn = function (parent, original, override)
 	
 	return backup
 end
+
+MELIA_HOOKS = {}
+
+Melia.Hook = function(originalName, hook)
+	local listName = "_G_." .. originalName
+
+	local list = MELIA_HOOKS[listName]
+	local listExisted = list ~= nil
+
+	if list == nil then
+		list = {}
+		MELIA_HOOKS[listName] = list
+	end
+
+	table.insert(list, hook)
+
+	if not listExisted then
+		Melia.Override(originalName, function(original, ...)
+			local list = MELIA_HOOKS[listName]
+		
+			local result = original(...)
+		
+			if list then
+				for _, hook in pairs(list) do
+					result = hook(original, result, ...)
+				end
+			end
+
+			return result
+		end)
+	end
+end

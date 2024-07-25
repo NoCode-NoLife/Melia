@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Events
 {
@@ -136,6 +137,46 @@ namespace Melia.Zone.Events
 		public PlayerGameReadyEventArgs(Character character)
 		{
 			this.Character = character;
+		}
+	}
+
+	/// <summary>
+	/// Arguments for the PlayerDialog event.
+	/// </summary>
+	public class PlayerDialogEventArgs : EventArgs
+	{
+		/// <summary>
+		/// Returns a reference to the character.
+		/// </summary>
+		public Character Character { get; }
+
+		/// <summary>
+		/// Returns a reference to the NPC associated with the dialog.
+		/// </summary>
+		public Npc Npc { get; }
+
+		/// <summary>
+		/// Returns the dialog title.
+		/// </summary>
+		public string DialogTitle { get; }
+
+		/// <summary>
+		/// Returns the dialog text.
+		/// </summary>
+		public string DialogText { get; }
+
+		/// <summary>
+		/// Creates new event arguments.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="npc"></param>
+		/// <param name="dialogText"></param>
+		public PlayerDialogEventArgs(Character character, Npc npc, string dialogTitle, string dialogText)
+		{
+			this.Character = character;
+			this.Npc = npc;
+			this.DialogTitle = dialogTitle;
+			this.DialogText = dialogText;
 		}
 	}
 }

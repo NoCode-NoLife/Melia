@@ -1,5 +1,10 @@
 local function M_REMOVE_ELEMENT(name, frame, child)
 	local frm = ui.GetFrame(frame)
+	if frm == nil then
+		Melia.Log.Warning("Unclutter: Frame '{0}' not found", frame)
+		return
+	end
+
 	frm:RemoveChild(child)
 end
 

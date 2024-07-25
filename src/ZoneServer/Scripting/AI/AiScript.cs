@@ -197,7 +197,7 @@ namespace Melia.Zone.Scripting.AI
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
 
-				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.Cloaking_Buff))
+				if (!this.CanAccumulateHate(potentialEnemy))
 					continue;
 
 				var handle = potentialEnemy.Handle;
@@ -291,11 +291,59 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the given entity can accumulate hate, based on its
+		/// current state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanAccumulateHate(ICombatEntity entity)
+		{
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			// Provocation Immunity prevents hate from all except its caster
+			// as long as the caster remains in range
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				var caster = piDebuff.Caster;
+
+				if (entity != caster && !this.EntityGone(caster) && this.InRangeOf(caster, 300))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if the given entity is a valid target to be hated and
+		/// targetted, based on its current state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanBeHated(ICombatEntity entity)
+		{
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns the enemy with the highest hate level in range.
 		/// </summary>
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
 		{
+			// This buff overrides the most hated target as long as the caster
+			// remains in range.
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				var caster = piDebuff.Caster;
+
+				if (!this.EntityGone(caster) && this.InRangeOf(caster, 300))
+					return caster;
+			}
+
 			var highestHate = 0f;
 			ICombatEntity mostHated = null;
 
@@ -304,11 +352,16 @@ namespace Melia.Zone.Scripting.AI
 				var handle = entry.Key;
 				var hate = entry.Value;
 
-				if (hate > highestHate)
-				{
-					highestHate = hate;
-					mostHated = this.Entity.Map.GetCombatEntity(handle);
-				}
+				if (hate <= highestHate)
+					continue;
+
+				var entity = this.Entity.Map.GetCombatEntity(handle);
+
+				if (entity != null && !this.CanBeHated(entity))
+					continue;
+
+				highestHate = hate;
+				mostHated = entity;
 			}
 
 			if (highestHate < _minAggroHateLevel)
@@ -325,7 +378,17 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected bool IsHating(ICombatEntity entity)
 		{
+			// Always hating the person that casted this buff
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				if (entity == piDebuff.Caster)
+					return true;
+			}
+
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
+				return false;
+
+			if (!this.CanBeHated(entity))
 				return false;
 
 			return (hate >= _minAggroHateLevel);

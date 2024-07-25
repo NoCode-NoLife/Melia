@@ -59,6 +59,17 @@ Parameters:
 Returns:
 - (function): A reference to the original function.
 
+### Melia.Hook
+
+Hooks a global function to allow the modification of its natural result.
+This is accomplished via an override on the original function, which
+iterates over all hooks, passing the result of the previous hook,
+replacing the current result with the return value of the hook.
+
+Parameters:
+- original (string): The name of the original function.
+- override (function): The function to override the original with.
+
 ## Utility Functions
 
 Miscellaneous utility functions.
@@ -251,3 +262,48 @@ Enables refreshes of the menu again and executes one right away.
 
 Parameters:
 - None
+
+## IES Functions
+
+Functions for modifying IES data.
+
+### Melia.Ies.AddClass
+
+Adds an object that is returned by the class getter functions. The objects can
+consist of new or old data, replacing or adding to the existing data.
+
+Parameters:
+- idSpace (string): The id space to add the object to.
+- cls (any): The object to add.
+
+### Melia.Ies.GetClassById
+
+Returns the custom object with the given id added by `Melia.Ies.AddClass`.
+
+Parameters:
+- idSpace (string): The id space to add the object to.
+- clsId (number): The id of the class to get.
+
+Returns:
+- (any): The custom class object.
+
+### Melia.Ies.GetClassByName
+
+Returns the custom object with the given name added by `Melia.Ies.AddClass`.
+
+Parameters:
+- idSpace (string): The id space to add the object to.
+- clsName (string): The name of the class to get.
+
+Returns:
+- (any): The custom class object.
+
+### Melia.Ies.GetIdSpace
+
+Attempts to look up the id space of the given class list.
+
+Parameters:
+- clsList (userdata): The class list to check the id space of.
+
+Returns:
+- (string): The name of the id space or nil.

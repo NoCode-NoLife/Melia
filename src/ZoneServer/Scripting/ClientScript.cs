@@ -97,6 +97,14 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Returns the path to the script file that called this method.
+		/// </summary>
+		/// <param name="sourceFilePath"></param>
+		/// <returns></returns>
+		protected string GetCallingFilePath([CallerFilePath] string sourceFilePath = "")
+			=> sourceFilePath;
+
+		/// <summary>
 		/// Sends all loaded Lua scripts to the character's client.
 		/// </summary>
 		/// <param name="character"></param>

@@ -11,21 +11,16 @@ namespace Melia.Zone.Buffs.Handlers
 	[BuffHandler(BuffId.SwiftStep_Buff)]
 	public class SwiftStep_Buff : BuffHandler
 	{
-		private const string DrVarName = "Melia.DodgeRateBonus";
-		private const string MovingShotVarName = "Melia.MovingShotBonus";
 		private const float DodgeRateBonusPerLevel = 0.03f;
 		private const float MovingShotBonusPerLevel = 0.2f;
 
 		public override void OnStart(Buff buff)
 		{
 			var drBonus = this.GetDodgeRateBonus(buff);
-			buff.Vars.SetFloat(DrVarName, drBonus);
-
 			var movingShotBonus = this.GetMovingShotBonus(buff);
-			buff.Vars.SetFloat(MovingShotVarName, movingShotBonus);
 
-			buff.Target.Properties.Modify(PropertyName.DR_RATE_BM, drBonus);
-			buff.Target.Properties.Modify(PropertyName.MovingShot_BM, movingShotBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.DR_RATE_BM, drBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM, movingShotBonus);
 
 			if (buff.Target is Character character)
 				Send.ZC_MOVE_SPEED(character);
@@ -33,11 +28,8 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Vars.TryGetFloat(DrVarName, out var drBonus))
-				buff.Target.Properties.Modify(PropertyName.DR_RATE_BM, -drBonus);
-
-			if (buff.Vars.TryGetFloat(MovingShotVarName, out var movingShotBonus))
-				buff.Target.Properties.Modify(PropertyName.MovingShot_BM, -movingShotBonus);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.DR_RATE_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM);
 
 			if (buff.Target is Character character)
 				Send.ZC_MOVE_SPEED(character);

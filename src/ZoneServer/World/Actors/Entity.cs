@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Melia.Shared.ObjectProperties;
+using System.Collections.Generic;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
 
 namespace Melia.Zone.World.Actors
@@ -41,6 +44,24 @@ namespace Melia.Zone.World.Actors
 		/// Returns the entity's mode of movement.
 		/// </summary>
 		MoveType MoveType { get; }
+
+		/// <summary>
+		/// Returns the entity's effective size.
+		/// </summary>
+		/// <remarks>
+		/// The effective size is not necessarily the same as the entity's set
+		/// size, as some are classified as a certain size for some purposes,
+		/// but another size for others. For example, players have their own
+		/// "size" property called "PC", but for bonus purposes they are
+		/// considered "M" size.
+		/// </remarks>
+		SizeType EffectiveSize => (this is Mob mob ? mob.Data.Size : SizeType.M);
+
+		/// <summary>
+		/// Returns the entity's monster rank. Returns Normal if entity is
+		/// not a mob.
+		/// </summary>
+		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
 
 		/// <summary>
 		/// Returns the entity's level.
@@ -133,10 +154,21 @@ namespace Melia.Zone.World.Actors
 		/// Makes the entity turn towards the position.
 		/// </summary>
 		/// <param name="entity"></param>
-		/// <param name="otherEntity"></param>
+		/// <param name="pos"></param>
 		public static void TurnTowards(this ICombatEntity entity, Position pos)
 		{
-			entity.Direction = entity.Position.GetDirection(pos);
+			var dir = entity.Position.GetDirection(pos);
+			TurnTowards(entity, dir);
+		}
+
+		/// <summary>
+		/// Makes the entity turn towards the given direction
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="dir"></param>
+		public static void TurnTowards(this ICombatEntity entity, Direction dir)
+		{
+			entity.Direction = dir;
 			Send.ZC_ROTATE(entity);
 		}
 
@@ -162,7 +194,7 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool TrySpendSp(this ICombatEntity entity, float amount)
 		{
-			if (!(entity is Character character))
+			if (entity is not Character character)
 				return true;
 
 			if (amount == 0)
@@ -269,6 +301,51 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
 
 		/// <summary>
+		/// Returns the buff with the given id via out if it's active. Returns
+		/// false if the buff is not active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <param name="buff"></param>
+		/// <returns></returns>
+		public static bool TryGetBuff(this ICombatEntity entity, BuffId buffId, out Buff buff)
+		{
+			buff = null;
+			return entity.Components.Get<BuffComponent>()?.TryGet(buffId, out buff) ?? false;
+		}
+
+		/// <summary>
+		/// Returns true if the entity has the given ability and it's toggled on.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <returns></returns>
+		public static bool IsAbilityActive(this ICombatEntity entity, AbilityId abilityId)
+			=> entity.Components.Get<AbilityComponent>()?.IsActive(abilityId) ?? false;
+
+		/// <summary>
+		/// Returns true if the entity has the given ability and it's toggled on.
+		/// Returns the ability's level via out if it's active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public static bool TryGetActiveAbilityLevel(this ICombatEntity entity, AbilityId abilityId, out int level)
+		{
+			level = 0;
+
+			if (!entity.Components.TryGet<AbilityComponent>(out var abilities))
+				return false;
+
+			if (!abilities.TryGetActive(abilityId, out var ability))
+				return false;
+
+			level = ability.Level;
+			return ability.Active;
+		}
+
+		/// <summary>
 		/// Returns true if the distance between the caster and the target
 		/// doesn't exceed the skill's max range.
 		/// </summary>
@@ -298,6 +375,89 @@ namespace Melia.Zone.World.Actors
 			maxRange *= 1.25f;
 
 			return caster.Position.InRange2D(pos, maxRange);
+		}
+
+		/// <summary>
+		/// Returns true if the entity has the skill at at least the given level.
+		/// </summary>
+		/// <remarks>
+		/// Currently only works for characters, as monsters don't have a skill
+		/// component yet. It will always return false for monsters.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="skillId"></param>
+		/// <param name="minLevel"></param>
+		/// <returns></returns>
+		public static bool HasSkill(this ICombatEntity entity, SkillId skillId, int minLevel = 1)
+			=> entity.Components.Get<SkillComponent>()?.GetLevel(skillId) >= minLevel;
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
+
+		/// <summary>
+		/// Returns the entity from the collection that is closest to the
+		/// given position and matches the predicate.
+		/// </summary>
+		/// <param name="entities"></param>
+		/// <param name="pos"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public static ICombatEntity GetClosest(this IEnumerable<ICombatEntity> entities, Position pos, Func<ICombatEntity, bool> predicate)
+		{
+			var closest = (ICombatEntity)null;
+			var closestDist = float.MaxValue;
+
+			foreach (var entity in entities)
+			{
+				if (!predicate(entity))
+					continue;
+
+				var dist = (float)entity.Position.Get2DDistance(pos);
+				if (dist < closestDist)
+				{
+					closest = entity;
+					closestDist = dist;
+				}
+			}
+
+			return closest;
+		}
+
+		/// <summary>
+		/// Applies a combat hit to the target, making it take damage.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="attacker"></param>
+		/// <param name="skillId"></param>
+		/// <param name="damage"></param>
+		public static void TakeSimpleHit(this ICombatEntity entity, float damage, ICombatEntity attacker, SkillId skillId)
+		{
+			entity.TakeDamage(damage, attacker);
+
+			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
+			Send.ZC_HIT_INFO(attacker, entity, hit);
 		}
 	}
 }
