@@ -94,6 +94,7 @@ namespace Melia.Zone.Commands
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
+			this.Add("resetcd", "", "Reset skill's Cooldowns.", this.HandleResetSkillCooldown);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -1846,6 +1847,30 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
 			else
 				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Reloads all data files.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleResetSkillCooldown(Character sender, Character target, string message, string command, Arguments args)
+		{
+			sender.ServerMessage(Localization.Get("Reseting skills cooldowns..."));
+
+			foreach(var skill in sender.Skills.GetList())
+			{
+				if (skill.IsOnCooldown)
+				{
+					skill.ResetCooldown();
+				}
+			}
 
 			return CommandResult.Okay;
 		}

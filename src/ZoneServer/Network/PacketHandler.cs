@@ -2789,5 +2789,23 @@ namespace Melia.Zone.Network
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
 		}
+
+
+		/// <summary>
+		/// Removes a buff from the player character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_BUFF_REMOVE)]
+		public void CZ_BUFF_REMOVE(IZoneConnection conn, Packet packet)
+		{
+			var buffId = (BuffId)packet.GetInt();
+			var character = conn.SelectedCharacter;
+
+			if (character.TryGetBuff(buffId, out var buff) && buff.Data.Removable)
+			{
+				character.StopBuff(buffId);
+			}
+		}
 	}
 }

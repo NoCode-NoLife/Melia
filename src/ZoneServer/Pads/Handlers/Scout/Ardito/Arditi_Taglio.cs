@@ -1,13 +1,13 @@
-﻿using Melia.Zone.Network;
+﻿using Melia.Shared.Game.Const;
+using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 {
 	/// <summary>
 	/// Handler for the Arditi_Taglio pad, creates and disables the effect
 	/// </summary>
-	[PadHandler("Arditi_Taglio")]
+	[PadHandler(PadName.Arditi_Taglio)]
 	public class Arditi_Taglio : ICreatePadHandler, IDestroyPadHandler, IUpdatePadHandler
 	{
 		/// <summary>
@@ -20,7 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Arditi_Taglio", 0, 0, 150, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Arditi_Taglio, 0, 0, 150, true);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Arditi_Taglio", 0, 0, 150, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Arditi_Taglio, 0, 0, 150, false);
 		}
 
 		/// <summary>

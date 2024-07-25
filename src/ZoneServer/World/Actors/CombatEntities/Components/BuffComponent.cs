@@ -156,7 +156,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public BuffId RemoveRandomBuff()
 		{
-			var removableBuffs = this.GetAll(a => a.Data.Type == BuffType.Buff && a.Data.Removable);
+			var removableBuffs = this.GetAll(a => a.Data.Type == BuffType.Buff && a.Data.RemoveBySkill);
 			if (removableBuffs.Count == 0)
 				return 0;
 
@@ -176,7 +176,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public BuffId RemoveRandomDebuff()
 		{
-			var removableDeBuffs = this.GetAll(a => a.Data.Type == BuffType.Debuff && a.Data.Removable);
+			var removableDeBuffs = this.GetAll(a => a.Data.Type == BuffType.Debuff && a.Data.RemoveBySkill);
 			if (removableDeBuffs.Count == 0)
 				return 0;
 

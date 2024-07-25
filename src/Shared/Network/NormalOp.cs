@@ -41,6 +41,8 @@
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AttackCancel = 0x41;
+			public const int Skill_42 = 0x42;
+			public const int Skill_43 = 0x43;
 			public const int Skill_45 = 0x45;
 			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
