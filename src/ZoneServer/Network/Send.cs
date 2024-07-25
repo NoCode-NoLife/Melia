@@ -1823,10 +1823,10 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 			packet.PutFloat(0);
 			packet.PutFloat(0);
-			packet.PutInt(0);
-			packet.PutByte(0);
+			packet.PutInt(hitInfo.HitCount);
+			packet.PutByte(1);
 			packet.PutFloat(0);
-			packet.PutInt(0);
+			packet.PutInt((int)hitInfo.DamageDelay.TotalMilliseconds);
 
 			target.Map.Broadcast(packet, target);
 		}
@@ -3031,6 +3031,37 @@ namespace Melia.Zone.Network
 			packet.PutInt(packetStringData.Id);
 
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Plays sound for clients in range of the actor, sending the packet with
+		/// either the male or female string, depending on the actor's gender.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetStringMale"></param>
+		/// <param name="packetStringFemale"></param>
+		public static void ZC_PLAY_SOUND_Gendered(IActor actor, string packetStringMale, string packetStringFemale)
+		{
+			var gender = (actor is Character character ? character.Gender : Gender.Male);
+			var packetString = (gender == Gender.Male ? packetStringMale : packetStringFemale);
+
+			ZC_PLAY_SOUND(actor, packetString);
+		}
+
+		/// <summary>
+		/// Stops the sound for all clients in range of the actor, sending
+		/// the packet with either the male or female string, depending on
+		/// the actor's gender.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="packetStringMale"></param>
+		/// <param name="packetStringFemale"></param>
+		public static void ZC_STOP_SOUND_Gendered(IActor actor, string packetStringMale, string packetStringFemale)
+		{
+			var gender = (actor is Character character ? character.Gender : Gender.Male);
+			var packetString = (gender == Gender.Male ? packetStringMale : packetStringFemale);
+
+			ZC_STOP_SOUND(actor, packetString);
 		}
 
 		/// <summary>
@@ -4291,6 +4322,23 @@ namespace Melia.Zone.Network
 			packet.PutString(argStr, 16);
 
 			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Notifies nearby clients that an entity was knocked down/back.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="knockBackInfo"></param>
+		public static void ZC_KNOCKDOWN_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knockBackInfo)
+		{
+			var packet = new Packet(Op.ZC_KNOCKDOWN_INFO);
+
+			packet.PutInt(target.Handle);
+			packet.AddKnockbackInfo(knockBackInfo);
+			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet, entity);
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 			// which allows gives the user a brief window in which they
 			// can teleport back to the position they teleported from.
 			var overheatMaxCount = 1;
-			if (caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard30))
+			if (caster.IsAbilityActive(AbilityId.Wizard30))
 				overheatMaxCount = 2;
 
 			skill.IncreaseOverheat(overheatMaxCount);
