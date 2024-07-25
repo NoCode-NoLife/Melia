@@ -256,7 +256,7 @@ namespace Melia.Zone.Network
 			/// <param name="str"></param>
 			/// <param name="str2"></param>
 			/// <param name="position"></param>
-			/// <param name="animationId"></param>
+			/// <param name="animationName"></param>
 			/// <param name="scale"></param>
 			/// <param name="tossScale"></param>
 			/// <param name="hangScale"></param>
@@ -265,16 +265,15 @@ namespace Melia.Zone.Network
 			/// <param name="endAngle"></param>
 			/// <param name="f7"></param>
 			/// <param name="itemScale"></param>
-			/// <param name="itemStayOnGroundSeconds"></param>
-			public static void Skill_ItemToss(IActor character, string str, string str2, Position position, string packetString,
-				float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale = 0, float itemStayOnGroundSeconds = 0)
+			/// <param name="itemStayTime"></param>
+			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+					throw new ArgumentException($"Packet string '{animationName}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
-
 				packet.PutInt(NormalOp.Zone.SkillItemToss);
+
 				packet.PutInt(character.Handle);
 				packet.PutLpString(str);
 				packet.PutLpString(str2);
@@ -288,7 +287,7 @@ namespace Melia.Zone.Network
 				packet.PutFloat(endAngle);
 				packet.PutFloat(f7);
 				packet.PutFloat(itemScale);
-				packet.PutFloat(itemStayOnGroundSeconds);
+				packet.PutFloat(itemStayTime.Seconds);
 
 				character.Map.Broadcast(packet, character);
 			}

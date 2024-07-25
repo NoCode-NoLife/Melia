@@ -67,9 +67,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			if (caster is Character character)
-			{ 
-				Send.ZC_NORMAL.Skill_ItemToss(caster, "warrior_f_", "RH", farPos, "F_smoke177", 3, 0.2f, 0, 600, 1, 240, 295, 0, 3);
-			}
+				Send.ZC_NORMAL.SkillItemToss(caster, "warrior_f_", "RH", farPos, "F_smoke177", 3, 0.2f, 0, 600, 1, 240, 295, 0, TimeSpan.FromSeconds(3));
 
 			this.Attack(skill, caster, new Circle(farPos, 50));
 
