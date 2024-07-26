@@ -3607,17 +3607,16 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates the list of sold items in an NPC shop.
+		/// Updates the list of sold items in an NPC shop or the warehouse items.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="type"></param>
-		/// <param name="items"></param>
-		/// <param name="itemsPositions"></param>
-		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, byte type, List<Item> items, List<int> itemsPositions = null)
+		/// <param name="items">List of items, with the key being the position/indices.</param>
+		public static void ZC_SOLD_ITEM_DIVISION_LIST(Character character, StorageType type, Dictionary<int, Item> items)
 		{
 			var packet = new Packet(Op.ZC_SOLD_ITEM_DIVISION_LIST);
 
-			packet.PutByte(type);
+			packet.PutByte((byte)type);
 			packet.PutInt(items.Count);
 			packet.PutByte(true);
 			packet.PutByte(true);
@@ -3627,12 +3626,12 @@ namespace Melia.Zone.Network
 			{
 				packet.Zlib(true, zpacket =>
 				{
-					for (var i = 0; i < items.Count; i++)
+					foreach (var itemKV in items.OrderBy(a => a.Key))
 					{
-						var item = items[i];
-						var isSilver = item.Id == ItemId.Silver;
-						var index = items.Count - i - 1;
+						var position = itemKV.Key;
+						var item = itemKV.Value;
 
+						var isSilver = item.Id == ItemId.Silver;
 						var propertyList = item.Properties.GetAll();
 
 						// Forces every item to have at least one property.
@@ -3649,10 +3648,7 @@ namespace Melia.Zone.Network
 						zpacket.PutInt(item.Amount);
 						zpacket.PutInt(item.Price);
 						zpacket.PutInt(1);
-						if (itemsPositions != null)
-							zpacket.PutInt(itemsPositions.ElementAt(i));
-						else
-							zpacket.PutInt(index);
+						zpacket.PutInt(position);
 						zpacket.AddProperties(propertyList);
 
 						if (!isSilver && item.ObjectId > 0)

@@ -12,6 +12,7 @@ namespace Melia.Shared.Game.Const
 	public enum StorageType
 	{
 		PersonalStorage = 1,
+		Sold = 3,
 		TeamStorage = 6,
 	}
 }

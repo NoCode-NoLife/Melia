@@ -1424,11 +1424,9 @@ namespace Melia.Zone.Network
 			{
 				if (storage.IsBrowsing)
 				{
-					var storageItems = storage.GetStorage();
-					var itemList = storageItems.Values.ToList();
-					var itemPositions = storageItems.Keys.ToList();
+					var storageItems = storage.GetItems();
 
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, (byte)type, itemList, itemPositions);
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storageItems);
 				}
 			}
 			else if (type == StorageType.TeamStorage)
@@ -1662,7 +1660,8 @@ namespace Melia.Zone.Network
 
 			// Remove items and count revenue
 			var totalMoney = 0;
-			var itemsSold = new List<Item>();
+			var itemsSold = new Dictionary<int, Item>();
+
 			foreach (var itemToSell in itemsToSell)
 			{
 				var worldId = itemToSell.Key;
@@ -1684,22 +1683,22 @@ namespace Melia.Zone.Network
 				}
 
 				// Try to remove item
-				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
 				{
-					totalMoney += item.Data.SellPrice * amount;
-					itemsSold.Add(item);
-				}
-				else
 					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
+					continue;
+				}
+
+				totalMoney += item.Data.SellPrice * amount;
+				itemsSold.Add(itemsSold.Count, item);
 			}
 
 			// Give money
 			if (totalMoney > 0)
 				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
-
 			// Need to keep track of items sold, server sends this list to the client
-			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, 3, itemsSold);
+			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, StorageType.Sold, itemsSold);
 		}
 
 		/// <summary>

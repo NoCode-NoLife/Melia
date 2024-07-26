@@ -539,7 +539,7 @@ namespace Melia.Zone.World.Storage
 		/// of storage.
 		/// </summary>
 		/// <returns></returns>
-		public Dictionary<int, Item> GetStorage()
+		public Dictionary<int, Item> GetItems()
 		{
 			lock (_syncLock)
 				return _storageItems.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
