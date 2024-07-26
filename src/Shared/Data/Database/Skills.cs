@@ -20,7 +20,6 @@ namespace Melia.Shared.Data.Database
 		public SkillAttribute Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
 
-		public int MaxLevel { get; set; }
 		public float BasicSp { get; set; }
 		public float BasicStamina { get; set; }
 
@@ -178,7 +177,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "hitCount", "multiHitCount", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "hitCount", "multiHitCount", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -192,7 +191,6 @@ namespace Melia.Shared.Data.Database
 			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
-			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.BasicSp = entry.ReadFloat("basicSp", 0);
 			data.BasicStamina = entry.ReadFloat("basicStamina", 0);
 
