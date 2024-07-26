@@ -16,24 +16,10 @@ namespace Melia.Zone.World.Storage
 	/// </summary>
 	public abstract class Storage
 	{
-		private static long Ids;
 		private readonly object _syncLock = new();
 
 		private readonly SortedList<int, Item> _storageItems = new();
 		private int _storageSize = 0;
-
-		/// <summary>
-		/// Storage's unique Id
-		/// </summary>
-		public long Id { get; private set; }
-
-		/// <summary>
-		/// Creates a new storage.
-		/// </summary>
-		public Storage()
-		{
-			this.Id = Interlocked.Increment(ref Ids);
-		}
 
 		/// <summary>
 		/// Gets the first available position in storage.
