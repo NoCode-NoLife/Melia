@@ -13,7 +13,8 @@ public class CKlaipeNpcScript : GeneralScript
 	{
 		// Storage Keeper
 		//-------------------------------------------------------------------------
-		AddNpc(154018, "[Storage Keeper] Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
+
+		AddNpc(154018, "[Storage Keeper] Rita", "Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
 		{
 			dialog.SetTitle("Rita");
 			dialog.SetPortrait("WAREHOUSE_DLG");
@@ -26,7 +27,6 @@ public class CKlaipeNpcScript : GeneralScript
 			if (response == "personal")
 				await dialog.OpenPersonalStorage();
 		});
-
 
 		// Equipment Merchant
 		//-------------------------------------------------------------------------

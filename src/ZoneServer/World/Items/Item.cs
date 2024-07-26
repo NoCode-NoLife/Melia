@@ -113,19 +113,21 @@ namespace Melia.Zone.World.Items
 		}
 
 		/// <summary>
-		/// Copy constructor
+		/// Creates a copy of the given item.
 		/// </summary>
 		/// <param name="other"></param>
-		public Item (Item other)
+		public Item(Item other)
 		{
 			this.Id = other.Id;
 			this.LoadData();
+
 			this.Price = other.Price;
 			this.IsLocked = other.IsLocked;
 			this.OriginalOwnerHandle = other.OriginalOwnerHandle;
 			this.RePickUpTime = other.RePickUpTime;
 			this.OwnerHandle = other.OwnerHandle;
 			this.LootProtectionEnd = other.LootProtectionEnd;
+
 			other.Properties.CopyFrom(this.Properties);
 
 			this.Amount = other.Amount;

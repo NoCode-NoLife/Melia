@@ -875,21 +875,20 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent to continue dialog?
-		/// Also sent when closing storage.
+		/// Sent to continue dialog or close storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(IZoneConnection conn, Packet packet)
 		{
-			var ack = packet.GetInt();
+			var ack = (DialogAcknowledgement)packet.GetInt();
 
 			var character = conn.SelectedCharacter;
 			var storage = conn.SelectedCharacter.PersonalStorage;
 
 			// If storage was open, close it
-			if (storage.IsBrowsing && (ack == (int)DialogAcknowledgement.DialogOk))
+			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
 			{
 				storage.Close();
 				conn.CurrentDialog = null;
@@ -906,7 +905,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Resume or not the dialog
-			if (ack == (int)DialogAcknowledgement.DialogOk)
+			if (ack == DialogAcknowledgement.Okay)
 			{
 				conn.CurrentDialog.Resume(null);
 			}
@@ -1417,7 +1416,6 @@ namespace Melia.Zone.Network
 			var type = (StorageType)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var inventory = character.Inventory;
 			var storage = character.PersonalStorage;
 
 			if (type == StorageType.PersonalStorage)
@@ -1431,8 +1429,7 @@ namespace Melia.Zone.Network
 			}
 			else if (type == StorageType.TeamStorage)
 			{
-				Log.Warning("CZ_REQ_ITEM_LIST: Team storage not yet implemented");
-				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
 			}
 		}
 
@@ -1471,23 +1468,15 @@ namespace Melia.Zone.Network
 
 				if (inventory.CountItem(ItemId.Silver) < 20)
 				{
-					var interactionName = "operate";
-					if (interaction == StorageInteraction.Store)
-						interactionName = "store to";
-					else if (interaction == StorageInteraction.Retrieve)
-						interactionName = "retrieve from";
-
-					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to {1} storage without silver", conn.Account.Name, interactionName);
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
 					return;
 				}
 
-				// Storing items
 				if (interaction == StorageInteraction.Store)
 				{
 					if (storage.StoreItem(worldId, amount) == StorageResult.Success)
 						inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
 				}
-				// Retrieving items
 				else if (interaction == StorageInteraction.Retrieve)
 				{
 					if (storage.RetrieveItem(worldId, amount) == StorageResult.Success)
@@ -1496,17 +1485,16 @@ namespace Melia.Zone.Network
 			}
 			else if (type == StorageType.TeamStorage)
 			{
-				Log.Warning("CZ_WAREHOUSE_CMD: Team storage not yet implemented");
-				character.ServerMessage(Localization.Get("This action has not been implemented yet."));
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
 			}
 			else
 			{
-				Log.Warning("CZ_WAREHOUSE_CMD: No valid storage type for value: '{0}'", type);
+				Log.Warning("CZ_WAREHOUSE_CMD: Unknown storage type '{0}'.", type);
 			}
 		}
 
 		/// <summary>
-		/// Swap items in storage
+		/// Swap items in storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1520,10 +1508,13 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (character.PersonalStorage.IsBrowsing)
+			if (!character.PersonalStorage.IsBrowsing)
 			{
-				character.PersonalStorage.Swap(fromSlot, toSlot);
+				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+				return;
 			}
+
+			character.PersonalStorage.Swap(fromSlot, toSlot);
 		}
 
 		/// <summary>

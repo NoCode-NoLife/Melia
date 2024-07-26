@@ -1543,6 +1543,7 @@ namespace Melia.Zone.Network
 		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg, int argNum = 0)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
+
 			packet.PutString(close, 33);
 			packet.PutString(msg, 32);
 			packet.PutInt(argNum);
