@@ -7,6 +7,7 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
@@ -93,8 +94,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.35f, 0.7f, 30);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 75, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
+			var splashArea = new Circle(effectPosition, 50);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))

@@ -51,5 +51,15 @@
 		/// Same as Unk4? Seen with Magic Missile.
 		/// </summary>
 		MagicMissile = 9,
+
+		/// <summary>
+		/// Hit done by Buffs
+		/// </summary>
+		Buff12 = 12,
+
+		/// <summary>
+		/// Hit done by Buffs
+		/// </summary>
+		Buff26 = 26,
 	}
 }

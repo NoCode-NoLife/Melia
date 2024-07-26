@@ -5,10 +5,10 @@ using Melia.Zone.World.Actors.Monsters;
 namespace Melia.Zone.Pads.Handlers.Archer.Wugushi
 {
 	/// <summary>
-	/// Handler for the Arditi_TreGranata pad, creates and disables the effect
+	/// Handler for the Golden Frog pad, creates and disables the effect
 	/// </summary>
-	[PadHandler(PadName.Archer_Zhendu)]
-	public class Archer_Zhendu : ICreatePadHandler, IDestroyPadHandler
+	[PadHandler(PadName.Archer_JincanGu_Abil)]
+	public class Archer_JincanGu_Abil : ICreatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -20,7 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Archer.Wugushi
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_Zhendu, 0.6774842f, 0.4766329f, 150, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_JincanGu_Abil, -0.2067194f, 81.61429f, 100, true);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Melia.Zone.Pads.Handlers.Archer.Wugushi
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_Zhendu, 0.6774842f, 0.4766329f, 150, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_JincanGu_Abil, -0.2067194f, 81.61429f, 100, false);
 		}
 	}
 }

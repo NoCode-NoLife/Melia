@@ -5,7 +5,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using System;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 {
 	/// <summary>
 	/// Handle for the Virus Debuff, which ticks damage while active.
@@ -22,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers
 				// The damage amount is unknow, for now we are dealing
 				// the same amount as the original skill hit, which is given as NumberArg2
 				target.TakeDamage(buff.NumArg2, buff.Caster);
-				var hit = new HitInfo(buff.Caster, target, SkillId.Wugushi_WugongGu, buff.NumArg2, HitResultType.Hit);
+				var hit = new HitInfo(buff.Caster, target, SkillId.Wugushi_WugongGu, buff.NumArg2, HitResultType.Buff26);
 
 				Send.ZC_HIT_INFO(buff.Caster, target, hit);
 			} else

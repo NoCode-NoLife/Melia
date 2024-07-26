@@ -8,16 +8,16 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
+namespace Melia.Zone.Skills.Handlers.Wugushi
 {
 	/// <summary>
-	/// Handler for the Wugushi skill Wugong Gu.
+	/// Handler for the Wugushi skill WugongGu.
 	/// </summary>
-	[SkillHandler(SkillId.Wugushi_WugongGu)]
-	public class WugongGu : ITargetSkillHandler
+	[SkillHandler(SkillId.Wugushi_LatentVenom)]
+	public class LatentVenom : ITargetSkillHandler
 	{
 		/// <summary>
-		/// Handles skill, damages targets and apply a debuff.
+		/// Handles skill, hits the target applying a debuff to it. 
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -35,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 
 			if (target == null)
 			{
-				Send.ZC_NORMAL.Skill_42(caster, skill.Id, caster.Direction, ForceId.GetNew());				
+				Send.ZC_NORMAL.Skill_42(caster, skill.Id, caster.Direction, ForceId.GetNew());
 				Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, caster.Position, caster.Direction, Position.Zero);
 				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				Send.ZC_NORMAL.Skill_43(caster);
@@ -44,8 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 
 			caster.TurnTowards(target.Position);
 
-			var damageDelay = TimeSpan.FromMilliseconds(600);
-
+			var damageDelay = TimeSpan.FromMilliseconds(200);
 			var damageMultiplier = 1f;
 
 			if (caster.TryGetBuff(BuffId.Zhendu_Buff, out var buff))			
@@ -61,8 +60,9 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Direction, target.Position);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
+			Send.ZC_SHOW_EMOTICON(target, "I_emo_poison", TimeSpan.FromSeconds(100));
 
-			target.StartBuff(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
+			target.StartBuff(BuffId.LatentVenom_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(100), caster);
 		}
 	}
 }
