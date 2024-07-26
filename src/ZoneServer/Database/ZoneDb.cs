@@ -158,6 +158,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
+			this.LoadCharacterStorage(character);
 			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
@@ -406,6 +407,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveCharacterItems(character);
+			this.SaveCharacterStorage(character);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
 			this.SaveCollections(character);
@@ -632,6 +634,85 @@ namespace Melia.Zone.Database
 						cmd.Set("itemId", newId);
 						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", (byte)item.Key);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Load storage for a character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		private void LoadCharacterStorage(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT `i`.*, `stg`.`itemId`, `stg`.`position` FROM `storage_personal` AS `stg` INNER JOIN `items` AS `i` ON `stg`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var itemId = reader.GetInt32("itemId");
+						var amount = reader.GetInt32("amount");
+						var position = reader.GetInt32("position");
+
+						// Check item, in case its data was removed
+						if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
+						{
+							Log.Warning("ZoneDb.LoadStorageItems: Item '{0}' not found, removing it from storage.", itemId);
+							continue;
+						}
+
+						var item = new Item(itemId, amount);
+
+						character.PersonalStorage.AddAtPosition(item, position, out var addedAmount);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves storage for given character.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <returns></returns>
+		public void SaveCharacterStorage(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand("DELETE FROM `storage_personal` WHERE `characterId` = @characterId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var storageItem in character.PersonalStorage.GetStorage())
+				{
+					var newId = 0L;
+
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					{
+						cmd.Set("itemId", storageItem.Value.Id);
+						cmd.Set("amount", storageItem.Value.Amount);
+
+						cmd.Execute();
+
+						newId = cmd.LastId;
+					}
+
+					using (var cmd = new InsertCommand("INSERT INTO `storage_personal` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("itemId", newId);
+						cmd.Set("position", storageItem.Key);
 
 						cmd.Execute();
 					}

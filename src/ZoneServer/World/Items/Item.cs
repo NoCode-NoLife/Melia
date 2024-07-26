@@ -105,11 +105,35 @@ namespace Melia.Zone.World.Items
 		public Item(int itemId, int amount = 1)
 		{
 			this.Id = itemId;
+			// Certain UIs in the client require the server to send
+			// at least one item property.
+			// We chose this property because this is what official
+			// seems to always send the client.
+			this.Properties.Modify("CoolDown", 0);
 			this.LoadData();
 
 			// Set amount after loading the data so we can clamp it
 			// to the max stack size
 			this.Amount = amount;
+		}
+
+		/// <summary>
+		/// Copy constructor
+		/// </summary>
+		/// <param name="other"></param>
+		public Item (Item other)
+		{
+			this.Id = other.Id;
+			this.LoadData();
+			this.Price = other.Price;
+			this.IsLocked = other.IsLocked;
+			this.OriginalOwnerHandle = other.OriginalOwnerHandle;
+			this.RePickUpTime = other.RePickUpTime;
+			this.OwnerHandle = other.OwnerHandle;
+			this.LootProtectionEnd = other.LootProtectionEnd;
+			other.Properties.CopyFrom(this.Properties);
+
+			this.Amount = other.Amount;
 		}
 
 		/// <summary>
