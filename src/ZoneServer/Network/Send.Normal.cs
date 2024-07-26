@@ -221,7 +221,7 @@ namespace Melia.Zone.Network
 			/// <param name="f2"></param>
 			/// <param name="f3"></param>
 			/// <param name="f4"></param>
-			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position, float f1, float f2, float f3, float f4)
+			public static void SkillProjectile(ICombatEntity entity, string packetString1, float scale1, string packetString2, float scale2, Position position, float f1, float f2, float f3, float f4)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
@@ -234,9 +234,9 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
-				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutFloat(scale1);
 				packet.PutInt(packetStringData2.Id);
-				packet.PutFloat((float)duration2.TotalSeconds);
+				packet.PutFloat(scale2);
 				packet.PutPosition(position);
 				packet.PutFloat(f1);
 				packet.PutFloat(f2);

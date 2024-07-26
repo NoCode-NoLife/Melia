@@ -71,10 +71,10 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 
 			await Task.Delay(TimeSpan.FromMilliseconds(100));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos1, 70f, 0.3f, 0, 600);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos2, 70f, 0.3f, 0, 600);
-			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_explosion125_explosion2", TimeSpan.FromMilliseconds(2500), pos3, 70f, 0.3f, 0, 600);
-			Send.ZC_NORMAL.SkillProjectile(caster, "", TimeSpan.FromMilliseconds(750), "", TimeSpan.FromMilliseconds(2500), pos2, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos1, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "", 0.75f, "", 2.5f, pos2, 70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(400));
 
