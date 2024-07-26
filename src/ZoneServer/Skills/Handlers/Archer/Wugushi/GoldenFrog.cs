@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -8,17 +7,14 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.Skills.Combat;
-using System.Collections.Generic;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 
-namespace Melia.Zone.Skills.Handlers.Enchanter
+namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 {
 	/// <summary>
-	/// Handler for the Wugushi skill Golden Frog
+	/// Handler for the skill Golden Frog
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_JincanGu)]
 	public class GoldenFrog : IGroundSkillHandler
@@ -102,16 +98,8 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				if (++i >= maxAmount)
 					break;
 
-				var damageMultiplier = 1f;
-
-				if (caster.TryGetBuff(BuffId.Zhendu_Buff, out var buff))
-					damageMultiplier = buff.NumArg1;
-
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				skillHitResult.Damage *= damageMultiplier;
-
 				if (!target.IsBuffActive(BuffId.JincanGu_Abil_Debuff))
-					target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(60), caster);
+					target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(60), caster);
 			}
 		}
 	}

@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Direction, target.Position);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
-			target.StartBuff(BuffId.Virus_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(10), caster);
+			target.StartBuff(BuffId.Virus_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(10), caster);
 		}
 	}
 }

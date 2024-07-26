@@ -8,7 +8,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Wugushi
+namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 {
 	/// <summary>
 	/// Handler for the Wugushi skill WugongGu.
@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Wugushi
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 			Send.ZC_SHOW_EMOTICON(target, "I_emo_poison", TimeSpan.FromSeconds(100));
 
-			target.StartBuff(BuffId.LatentVenom_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(100), caster);
+			target.StartBuff(BuffId.LatentVenom_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(100), caster);
 		}
 	}
 }

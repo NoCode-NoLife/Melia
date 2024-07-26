@@ -23,7 +23,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		private const float MaxTargetDistance = 30f;
 		private const float MaxMoveDistance = 140f;
 		private const float KnockdownMultiplier = 1.5f;
-		private const float HealDebuffPerLevel = 33f;
+		private const float HealDebuffPerLevel = 3.3f;
 		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
@@ -112,14 +112,20 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-				// The debuff value is handled in hundreds, meaning we need to
-				// multiply it by 100 for it to display correctly in the tooltip.
-				var debuffVal = HealDebuffPerLevel * 100f * skill.Level;
-
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, HealDebuffDuration, caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), HealDebuffDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
+		}
+
+		/// <summary>
+		/// Return the Healing Reduction value
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return Math.Min(1, (HealDebuffPerLevel * skill.Level) / 100);
 		}
 	}
 }

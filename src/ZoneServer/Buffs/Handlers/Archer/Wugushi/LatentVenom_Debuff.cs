@@ -4,6 +4,8 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.World.Actors;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 {
@@ -18,15 +20,31 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 			if (buff.Target.IsDead)
 				return;
 
-			// The damage amount is unknow, for now we are dealing
-			// the same amount as the original skill hit is passed as NumberArg2
-			buff.Target.TakeDamage(buff.NumArg2, buff.Caster);
+			if (buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+			{
+				var damageMultiplier = 1f;
 
-			var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_LatentVenom, buff.NumArg2, HitResultType.Buff26);
+				if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
+					damageMultiplier = ZhenduBuff.NumArg1;
 
-			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
+				var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
+				skillHitResult.Damage *= damageMultiplier;
 
-			await Task.Delay(TimeSpan.FromSeconds(1));
+				// The damage amount is unknow, for now we are dealing
+				// the same amount as the original skill does
+				buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
+
+				var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_LatentVenom, skillHitResult.Damage, HitResultType.Buff26);
+
+				Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
+			}
+
+			var damageThickDelay = 1000f;
+			var skillLevel = (int)buff.NumArg1;
+
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+
+			await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
 		}
 	}
 }

@@ -54,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 
 			caster.Map.AddPad(pad);
 
-			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Position.GetDirection(caster.Position), Position.Zero);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, caster.Position, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 
 			// Reduces the Poison property resistance of enemies
@@ -77,6 +77,10 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 			}
 		}
 
+		/// <summary>
+		/// Return the multiplier value that will increase the Wugushi skill's damage by a percentage
+		/// </summary>
+		/// <param name="skill"></param>
 		private float GetIncreaseDamageValue(Skill skill)
 		{
 			return 1 + ((5 + skill.Level * 2) / 100);

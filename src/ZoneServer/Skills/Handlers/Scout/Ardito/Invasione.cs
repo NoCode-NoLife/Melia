@@ -4,6 +4,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -64,7 +65,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(3), caster);
 				this.ExecuteHit(skill, caster, target);
 			}
 		}
@@ -92,6 +93,16 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 			await Task.Delay(TimeSpan.FromMilliseconds(125));
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
+		}
+
+		/// <summary>
+		/// Return the skill Healing Reduction value
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return (3 * skill.Level) / 100f;
 		}
 	}
 }

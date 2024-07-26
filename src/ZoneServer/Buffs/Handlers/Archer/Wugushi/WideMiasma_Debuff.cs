@@ -10,10 +10,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 {
 	/// <summary>
-	/// Handle for the VerminPot Debuff (PoisonPot), which ticks damage every second.
+	/// Handle for the WideMiasma Debuff, which ticks damage every second.
 	/// </summary>
-	[BuffHandler(BuffId.Archer_VerminPot_Debuff)]
-	public class Archer_VerminPot_Debuff : BuffHandler
+	[BuffHandler(BuffId.WideMiasma_Debuff)]
+	public class WideMiasma_Debuff : BuffHandler
 	{
 		public override async void WhileActive(Buff buff)
 		{
@@ -31,10 +31,10 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 				skillHitResult.Damage *= damageMultiplier;
 
 				// The damage amount is unknow, for now we are dealing
-				// the same amount as the original skill does
+				// the same amount as the original skill hit is passed as NumberArg2
 				buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
 
-				var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_ThrowGuPot, skillHitResult.Damage, HitResultType.Buff26);
+				var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_WideMiasma, skillHitResult.Damage, HitResultType.Buff26);
 
 				Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
 			}
@@ -46,5 +46,5 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 
 			await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
 		}
-	}	
+	}
 }

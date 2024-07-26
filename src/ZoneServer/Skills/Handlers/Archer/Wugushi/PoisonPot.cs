@@ -12,7 +12,7 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 
-namespace Melia.Zone.Skills.Handlers.Enchanter
+namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 {
 	/// <summary>
 	/// Handler for the Wugushi skill Poison Pot.
@@ -106,7 +106,7 @@ namespace Melia.Zone.Skills.Handlers.Enchanter
 				skillHitResult.Damage *= damageMultiplier;
 
 				if (!target.IsBuffActive(BuffId.Archer_VerminPot_Debuff))
-					target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, skillHitResult.Damage, TimeSpan.FromSeconds(15), caster);
+					target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(15), caster);
 			}
 		}
 	}
