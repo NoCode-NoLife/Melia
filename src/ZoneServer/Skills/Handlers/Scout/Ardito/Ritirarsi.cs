@@ -82,7 +82,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", TimeSpan.FromMilliseconds(750), "F_scout_Ritirarsi", TimeSpan.FromSeconds(4), effectPosition, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash002#Dummy_R_HAND", 0.75f, "F_scout_Ritirarsi", 4, effectPosition, 70f, 0.3f, 0, 600);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(600));
 

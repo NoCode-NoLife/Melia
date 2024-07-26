@@ -362,7 +362,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity);
+				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity);
 				this.Add(buff);
 			}
 			else

@@ -14,9 +14,10 @@
 			public const int ZoneTraffic = 0x0D;
 			public const int StartGameFailed = 0x0F;
 			public const int Run = 0x10;
-			public const int Message = 0x11;
-			public const int PostBoxState = 0x12;
-			public const int SetSessionKey = 0x14;
+			public const int Mailbox = 0x11;
+			public const int MailboxState = 0x13;
+			public const int MailUpdate = 0x14;
+			public const int SetSessionKey = 0x15;
 			public const int ClientIntegrityFailure = 0x18;
 			public const int BarrackSlotCount = 0x19;
 			public const int NGSCallback = 0x1A;

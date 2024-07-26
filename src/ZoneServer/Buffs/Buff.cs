@@ -54,7 +54,7 @@ namespace Melia.Zone.Buffs
 		/// <summary>
 		/// Returns the time the buff has left to run.
 		/// </summary>
-		public TimeSpan RemainingDuration => Math2.Max(TimeSpan.Zero, this.Duration - this.RunTime);
+		public TimeSpan RemainingDuration => Math2.Max(TimeSpan.Zero, this.RemovalTime - DateTime.Now);
 
 		/// <summary>
 		/// Index in world collection?
@@ -137,16 +137,18 @@ namespace Melia.Zone.Buffs
 		/// <param name="buffId"></param>
 		/// <param name="numArg1"></param>
 		/// <param name="numArg2"></param>
-		/// <param name="duration">Use MinValue to use the buff's default duration.</param>
+		/// <param name="duration">The full duration of the buff. Use MinValue to use the buff's default duration.</param>
+		/// <param name="runTime">The amount of time the buff was already active.</param>
 		/// <param name="target"></param>
 		/// <param name="caster"></param>
 		/// <param name="skillId">Id of the skill associated with this buff.</param>
-		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity target, ICombatEntity caster, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId = SkillId.Normal_Attack)
 		{
 			this.Id = buffId;
 			this.NumArg1 = numArg1;
 			this.NumArg2 = numArg2;
 			this.Duration = duration;
+			this.RunTime = runTime;
 			this.Target = target;
 			this.Caster = caster;
 			this.SkillId = skillId;
@@ -167,7 +169,10 @@ namespace Melia.Zone.Buffs
 				this.Duration = this.Data.Duration;
 
 			if (this.HasDuration)
-				this.RemovalTime = DateTime.Now.Add(this.Duration);
+			{
+				var remaining = Math2.Max(TimeSpan.Zero, this.Duration - this.RunTime);
+				this.RemovalTime = DateTime.Now.Add(remaining);
+			}
 
 			if (this.HasUpdateTime)
 				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
@@ -183,27 +188,32 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// Start buff behavior
+		/// Extends the buff's duration and executes the buff handler's start
+		/// behavior. Does not add the buff to the actor.
 		/// </summary>
-		public void Start()
+		internal void Start()
 		{
 			this.ExtendDuration();
 			this.Handler?.OnStart(this);
 		}
 
 		/// <summary>
-		/// Extens the buff's removal time by its duration if applicable.
+		/// Extends the buff's removal time by its duration if applicable.
 		/// </summary>
 		internal void ExtendDuration()
 		{
 			if (this.HasDuration)
+			{
+				this.RunTime = TimeSpan.Zero;
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
+			}
 		}
 
 		/// <summary>
-		/// End buff behavior
+		/// Executes the buff handler's end behavior. Does not actually
+		/// end or remove the buff.
 		/// </summary>
-		public void End()
+		internal void End()
 		{
 			this.Handler?.OnEnd(this);
 		}

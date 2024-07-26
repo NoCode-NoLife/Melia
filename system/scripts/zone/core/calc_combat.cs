@@ -18,6 +18,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -50,6 +51,9 @@ public class CombatCalculationsScript : GeneralScript
 			min = attacker.Properties.GetFloat(PropertyName.MINMATK) + modifier.BonusMAtk;
 			max = attacker.Properties.GetFloat(PropertyName.MAXMATK) + modifier.BonusMAtk;
 		}
+
+		if (min > max)
+			return max;
 
 		return rnd.Between(min, max);
 	}
@@ -361,6 +365,16 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		var attackType = skill.Data.AttackType;
 		var targetArmor = target.ArmorMaterial;
+
+		// Use the right-hand weapon's attack type if a weapon is equipped.
+		// This doesn't necessarily take into account off-hand attacks,
+		// but it's currently unclear if/how those would be handled.
+		if (attacker.Components.TryGet<InventoryComponent>(out var inventory))
+		{
+			var rhItem = inventory.GetEquip(EquipSlot.RightHand);
+			if (rhItem is not DummyEquipItem)
+				attackType = rhItem.Data.AttackType;
+		}
 
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{

@@ -38,6 +38,8 @@ namespace Melia.Shared.Data.Database
 		public float FactorByLevel { get; set; }
 		public float AtkAdd { get; set; }
 		public float AtkAddByLevel { get; set; }
+		public int HitCount { get; set; }
+		public int MultiHitCount { get; set; }
 
 		public TimeSpan DefaultHitDelay { get; set; }
 		public TimeSpan DeadHitDelay { get; set; }
@@ -176,7 +178,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "hitCount", "multiHitCount", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -208,6 +210,8 @@ namespace Melia.Shared.Data.Database
 			data.FactorByLevel = entry.ReadFloat("factorByLevel");
 			data.AtkAdd = entry.ReadFloat("atkAdd");
 			data.AtkAddByLevel = entry.ReadFloat("atkAddByLevel");
+			data.HitCount = entry.ReadInt("hitCount");
+			data.MultiHitCount = entry.ReadInt("multiHitCount");
 
 			data.DefaultHitDelay = entry.ReadTimeSpan("defaultHitDelay");
 			data.DeadHitDelay = entry.ReadTimeSpan("deadHitDelay");
