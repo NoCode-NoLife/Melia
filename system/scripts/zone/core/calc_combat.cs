@@ -52,6 +52,9 @@ public class CombatCalculationsScript : GeneralScript
 			max = attacker.Properties.GetFloat(PropertyName.MAXMATK) + modifier.BonusMAtk;
 		}
 
+		if (min > max)
+			return max;
+
 		return rnd.Between(min, max);
 	}
 
