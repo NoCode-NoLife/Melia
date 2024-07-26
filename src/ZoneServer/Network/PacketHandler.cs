@@ -1458,6 +1458,15 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
+			var silver = inventory.CountItem(ItemId.Silver);
+
+			if (silver < interactionCost)
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
+				return;
+			}
+
 			if (type == StorageType.PersonalStorage)
 			{
 				if (!storage.IsBrowsing)
@@ -1466,21 +1475,15 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				if (inventory.CountItem(ItemId.Silver) < 20)
-				{
-					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
-					return;
-				}
-
 				if (interaction == StorageInteraction.Store)
 				{
 					if (storage.StoreItem(worldId, amount) == StorageResult.Success)
-						inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
 				}
 				else if (interaction == StorageInteraction.Retrieve)
 				{
 					if (storage.RetrieveItem(worldId, amount) == StorageResult.Success)
-						inventory.Remove(ItemId.Silver, 20, InventoryItemRemoveMsg.Given);
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
 				}
 			}
 			else if (type == StorageType.TeamStorage)
