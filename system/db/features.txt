@@ -76,7 +76,7 @@
 	{ name: "AttackTypeBonusRevamp2", enabled: true },
 	
 	// Changes how blocks behave
-	{ name: "BlockRevamp", enabled: false, children: [
+	{ name: "BlockRevamp", enabled: true, children: [
 		// Changes blocks to not nullify damage
 		{ name: "NonNullifyBlocks", enabled: true },
 		
