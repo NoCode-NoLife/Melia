@@ -1,11 +1,6 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.Skills;
-using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 {

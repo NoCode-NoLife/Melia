@@ -32,8 +32,16 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (skill.Data.AttackType == SkillAttackType.Strike)
+			if (skill.IsNormalAttack && skill.Data.AttackType == SkillAttackType.Strike)
+			{
 				modifier.DamageMultiplier += StrikeDamageIncrease;
+			}
+			else if (skill.IsNormalAttack && attacker is Character character)
+			{
+				var weapon = character.Inventory.GetItem(EquipSlot.RightHand);
+				if (weapon != null || weapon.Data.AttackType == SkillAttackType.Strike)
+					modifier.DamageMultiplier += StrikeDamageIncrease;
+			}
 		}
 	}
 }

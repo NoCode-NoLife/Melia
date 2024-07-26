@@ -562,6 +562,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.Unblockable)
+			return 0;
+
 		if (modifier.ForcedBlock)
 			return 100;
 
