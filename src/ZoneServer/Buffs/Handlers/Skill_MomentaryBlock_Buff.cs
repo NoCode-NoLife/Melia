@@ -54,6 +54,10 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			// Don't let magic trigger forced block
+			if (skill.Data.ClassType == SkillClassType.Magic)
+				return;
+
 			modifier.ForcedBlock = true;
 			buff.Vars.SetBool(VarName, true);
 		}
