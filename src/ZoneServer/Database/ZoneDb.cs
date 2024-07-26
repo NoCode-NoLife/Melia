@@ -646,7 +646,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Load storage for a character.
 		/// </summary>
-		/// <param name="characterId"></param>
+		/// <param name="character"></param>
 		/// <returns></returns>
 		private void LoadCharacterStorage(Character character)
 		{
@@ -681,7 +681,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// Saves storage for given character.
 		/// </summary>
-		/// <param name="characterId"></param>
+		/// <param name="character"></param>
 		/// <returns></returns>
 		public void SaveCharacterStorage(Character character)
 		{
