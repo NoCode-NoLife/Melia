@@ -270,8 +270,10 @@ namespace Melia.Zone.Database
 						var circle = (JobCircle)reader.GetInt32("circle");
 						var skillPoints = reader.GetInt32("skillPoints");
 						var totalExp = reader.GetInt64("totalExp");
+						var selectionDate = reader.GetDateTimeSafe("selectionDate");
 
 						var job = new Job(character, jobId, totalExp, circle, skillPoints);
+						job.SelectionDate = selectionDate;
 
 						character.Jobs.AddSilent(job);
 					}
@@ -515,6 +517,7 @@ namespace Melia.Zone.Database
 						cmd.Set("circle", job.Circle);
 						cmd.Set("skillPoints", job.SkillPoints);
 						cmd.Set("totalExp", job.TotalExp);
+						cmd.Set("selectionDate", job.SelectionDate);
 
 						cmd.Execute();
 					}

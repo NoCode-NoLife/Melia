@@ -1148,7 +1148,7 @@ namespace Melia.Zone.Network
 					packet.PutByte((byte)job.SkillPoints);
 					packet.PutShort(41857);
 					packet.PutEmptyBin(5);
-					packet.PutLong(132735996030000000);
+					packet.PutLong(job.SelectionDate.ToFileTime());
 					packet.PutLong(0);
 				}
 
