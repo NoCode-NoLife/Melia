@@ -377,14 +377,15 @@ namespace Melia.Zone.Database
 		/// Saves character information.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <returns></returns>
-		public bool SaveCharacter(Character character)
+		public void SaveCharacter(Character character)
 		{
+			var noSave = character.Variables.Temp.GetBool("Melia.NoSave", false);
+			if (noSave)
+				return;
+
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 			{
-				var characterProperties = (CharacterProperties)character.Properties;
-
 				cmd.AddParameter("@characterId", character.DbId);
 				cmd.Set("name", character.Name);
 				cmd.Set("job", (short)character.JobId);
@@ -418,8 +419,6 @@ namespace Melia.Zone.Database
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
-
-			return false;
 		}
 
 		/// <summary>
