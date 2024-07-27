@@ -1257,12 +1257,20 @@ namespace Melia.Zone.Network
 		/// their appearance.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character) => ZC_UPDATED_PCAPPEARANCE(character, character);
+
+		/// <summary>
+		/// Broadcasts ZC_UPDATED_PCAPPEARANCE in range of character, updating
+		/// their appearance.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="targetCharacter"></param>
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character, Character targetCharacter)
 		{
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
-			packet.PutInt(character.Handle);
-			packet.AddAppearancePc(character);
+			packet.PutInt(targetCharacter.Handle);
+			packet.AddAppearancePc(targetCharacter);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -3176,10 +3184,20 @@ namespace Melia.Zone.Network
 		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false)
+			=> ZC_PLAY_ANI(actor, packetStringId, actor.Handle, stopOnLastFrame);
+
+		/// <summary>
+		/// Plays animation for actor on nearby clients.
+		/// </summary>
+		/// <param name="actor">Entity to animate.</param>
+		/// <param name="packetStringId">Id of the string for the animation to play.</param>
+		/// <param name="actorHandle">This is used in case of the target animation is different from the original actor.</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, int actorHandle, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(actor.Handle);
+			packet.PutInt(actorHandle);
 			packet.PutInt(packetStringId);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
@@ -4356,6 +4374,39 @@ namespace Melia.Zone.Network
 			packet.PutInt(target.Handle);
 			packet.AddKnockbackInfo(knockBackInfo);
 			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Display an effect on the floor for nearby players
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="packetString"></param>
+		/// <param name="position"></param>
+		/// <param name="f1"></param>
+		/// <param name="f2"></param>
+		/// <param name="f3"></param>
+		/// <param name="f4"></param>
+		/// <param name="f5"></param>
+		public static void ZC_GROUND_EFFECT(ICombatEntity entity, string packetString, Position position, float f1, float f2, float f3, float f4, float f5)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
+				throw new ArgumentException($"Packet string '{packetString}' not found.");
+
+			var packet = new Packet(Op.ZC_GROUND_EFFECT);
+
+			packet.PutInt(entity.Handle);			
+			packet.PutInt(packetStringData.Id);
+			packet.PutPosition(position);
+			packet.PutFloat(f1);
+			packet.PutFloat(f2);
+			packet.PutFloat(f3);
+			packet.PutFloat(f4);
+			packet.PutShort(0);
+			packet.PutShort(-16696);
+			packet.PutFloat(f5);
+			packet.PutShort(0);
 
 			entity.Map.Broadcast(packet, entity);
 		}

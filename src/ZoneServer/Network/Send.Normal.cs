@@ -376,12 +376,21 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
-			public static void UnkDynamicCastStart(Character character, SkillId skillId)
+			public static void UnkDynamicCastStart(Character character, SkillId skillId) => UnkDynamicCastStart(character, skillId, character.Handle);
+
+			/// <summary>
+			/// Packet with unknown purpose that's sent during dynamic
+			/// casting.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			/// <param name="targetHandle"></param>
+			public static void UnkDynamicCastStart(Character character, SkillId skillId, int targetHandle)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
 
-				packet.PutInt(character.Handle);
+				packet.PutInt(targetHandle);
 				packet.PutInt((int)skillId);
 
 				character.Connection.Send(packet);
@@ -583,16 +592,24 @@ namespace Melia.Zone.Network
 			/// clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void HeadgearVisibilityUpdate(Character character)
+			public static void HeadgearVisibilityUpdate(Character character) => HeadgearVisibilityUpdate(character, character);
+
+			/// <summary>
+			/// Updates which headgears are visible for the character on
+			/// clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="targetCharacter"></param>
+			public static void HeadgearVisibilityUpdate(Character character, Character targetCharacter)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.HeadgearVisibilityUpdate);
 
-				packet.PutInt(character.Handle);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear1) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear2) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear3) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Wig) != 0);
+				packet.PutInt(targetCharacter.Handle);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear1) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear2) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear3) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Wig) != 0);
 
 				character.Map.Broadcast(packet, character);
 			}
@@ -1318,6 +1335,68 @@ namespace Melia.Zone.Network
 				packet.PutLong(character.ObjectId);
 				packet.PutInt(collectionId);
 				packet.PutLong(itemId);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the entity model color
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="red"></param>
+			/// <param name="green"></param>
+			/// <param name="blue"></param>
+			/// <param name="alpha"></param>
+			/// <param name="f1"></param>
+			public static void UpdateModelColor(Character character, int red, int green, int blue, int alpha, float f1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateModelColor);
+
+				packet.PutInt(character.Handle);
+				packet.PutByte((byte)red);
+				packet.PutByte((byte)green);
+				packet.PutByte((byte)blue);
+				packet.PutByte((byte)alpha);				
+				packet.PutByte(1);
+				packet.PutFloat(f1);
+				packet.PutByte(1);
+
+				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Enable to use a skill while being out of body (Sadhu).
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="buffId"></param>
+			/// <param name="skillId"></param>
+			/// <param name="enable"></param>
+			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, SkillId skillId, bool enable)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.EnableUseSkillWhileOutOfBody);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(buffId.ToString());
+				packet.PutInt((int)skillId);
+				packet.PutByte(enable);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Set the buff that will be used while out of body (Sadhu).
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="buffId"></param>
+			public static void EndOutOfBodyBuff(Character character, BuffId buffId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.EndOutOfBodyBuff);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(buffId.ToString());
 
 				character.Connection.Send(packet);
 			}
