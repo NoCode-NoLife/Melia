@@ -22,7 +22,7 @@ namespace Melia.Zone.Abilities.Handlers
 		/// <param name="skillHitResult"></param>
 		public void OnAttackAfterCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			// Do something after combat calculations if ability was active
+			// Do something after combat calculations if ability is active
 		}
 	}
 }
