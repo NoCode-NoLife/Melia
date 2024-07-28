@@ -13,6 +13,7 @@ using Melia.Zone.Commands;
 using Melia.Zone.Database;
 using Melia.Zone.Events;
 using Melia.Zone.Network;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills.Handlers;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
@@ -62,6 +63,11 @@ namespace Melia.Zone
 		/// Returns reference to the server's buff handlers.
 		/// </summary>
 		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
+
+		/// <summary>
+		/// Returns reference to the server's pad handlers.
+		/// </summary>
+		public PadHandlers PadHandlers { get; } = new PadHandlers();
 
 		/// <summary>
 		/// Returns reference to the server's chat command manager.
@@ -308,6 +314,9 @@ namespace Melia.Zone
 				this.IesMods.Add("SkillTree", 10508, "MaxLevel", 5);
 				this.IesMods.Add("SkillTree", 10509, "MaxLevel", 5);
 			}
+
+			this.IesMods.Add("SharedConst", 177, "Value", this.Conf.World.StorageFee); // WAREHOUSE_PRICE
+			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
 		}
 
 		/// <summary>

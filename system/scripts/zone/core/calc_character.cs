@@ -1177,6 +1177,10 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Character_DR(Character character)
 	{
+		// Highguard completely negates evasion
+		if (character.IsBuffActive(BuffId.HighGuard_Buff))
+			return 0;
+
 		var properties = character.Properties;
 
 		var level = properties.GetFloat(PropertyName.Lv);

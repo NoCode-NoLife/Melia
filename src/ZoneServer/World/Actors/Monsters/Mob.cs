@@ -15,6 +15,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -280,6 +282,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return true;
 
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
 
@@ -448,8 +453,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			var autolootChance = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
 			var worldConf = ZoneServer.Instance.Conf.World;
 
-			var superDropLevel = this.GetSuperDropLevel();
-
 			foreach (var dropItemData in this.Data.Drops)
 			{
 				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
@@ -467,23 +470,37 @@ namespace Melia.Zone.World.Actors.Monsters
 				var lootingRate = 1f + lootingChance * 0.001f;
 				adjustedDropChance *= lootingRate;
 
-				// Items with a chance of >0.5% always drop on super drop.
-				// We'll use the original drop chance for this check to
-				// get a constistent drop behavior
-				var guaranteedDrop = superDropLevel > 0 && originalDropChance > 0.5f;
-				if (!guaranteedDrop)
+				// Calculate Enhanced drops for super mobs
+				var isSuperMob = this.TryGetSuperMob(out var superMobType);
+				var superMobRerolls = 0;
+				var superMobGuaranteedItemDrop = false;
+				var superMobIncreaseMoney = 0;
+				var superMobMoneyStacks = 0;
+				if (isSuperMob)
 				{
-					var superAdjustedDropChance = adjustedDropChance;
+					switch (superMobType)
+					{
+						case SuperMobType.Silver:
+							superMobRerolls = worldConf.SilverJackpotRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.SilverJackpotGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.SilverJackpotRolls;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
 
-					// Increase drop chance for super drops
-					if (superDropLevel == 1)
-						superAdjustedDropChance += 1;
-					else if (superDropLevel == 2)
-						superAdjustedDropChance += 10;
+						case SuperMobType.Gold:
+							superMobRerolls = worldConf.GoldJackpotRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.GoldJackpotGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.SilverJackpotRolls * 4;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
 
-					var dropSuccess = rnd.NextDouble() < superAdjustedDropChance / 100f;
-					if (!dropSuccess)
-						continue;
+						case SuperMobType.Elite:
+							superMobRerolls = worldConf.EliteRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.EliteGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.EliteRolls;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
+					}
 				}
 
 				var isMoney = itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold;
@@ -497,49 +514,45 @@ namespace Melia.Zone.World.Actors.Monsters
 					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
 
 					// Increased number of stacks and items per stack for
-					// super drops
-					if (superDropLevel == 1)
+					// super mobs
+					if (isSuperMob)
 					{
-						minAmount *= 5;
-						maxAmount *= 5;
-						stackCount = 20;
-					}
-					else if (superDropLevel == 2)
-					{
-						minAmount *= 5;
-						maxAmount *= 5;
-						stackCount = 50;
-					}
-				}
-				else
-				{
-					// Increase number of stacks based on the original
-					// drop chance
-					if (superDropLevel > 1 && originalDropChance > 0.05f && originalDropChance <= 5f)
-					{
-						stackCount = rnd.Next(2, 3);
-					}
-					else if (superDropLevel > 0 && originalDropChance > 0.5f)
-					{
-						stackCount = (int)Math2.Clamp(1, 15, originalDropChance);
+						minAmount *= superMobIncreaseMoney;
+						maxAmount *= superMobIncreaseMoney;
+						stackCount += superMobMoneyStacks;
 					}
 				}
 
 				var itemId = dropItemData.ItemId;
 				var amount = rnd.Next(minAmount, maxAmount + 1);
-
-				for (var i = 0; i < stackCount; ++i)
+				var rerolls = superMobRerolls;
+				var guaranteed = superMobGuaranteedItemDrop;
+				do
 				{
-					var dropStack = new DropStack(itemId, amount, originalDropChance, adjustedDropChance);
-					result.Add(dropStack);
+					rerolls--;
+
+					// Items above the given threshold will
+					// always drop at least once for super mobs.
+					var dropSuccess = rnd.NextDouble() < adjustedDropChance / 100f;
+					if (!dropSuccess && !guaranteed)
+						continue;
+
+					for (var i = 0; i < stackCount; ++i)
+					{
+						var dropStack = new DropStack(itemId, amount, originalDropChance, adjustedDropChance);
+						result.Add(dropStack);
+					}
+
+					guaranteed = false;
 				}
+				while (rerolls > 0 && !isMoney);
 			}
 
 			return result;
 		}
 
 		/// <summary>
-		/// Returns the super drop level of the monster based on its buffs.
+		/// Checks if the given entity is a super mob
 		/// </summary>
 		/// <remarks>
 		/// The super drop level affects the drop chance and drop rate
@@ -548,23 +561,32 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// even more.
 		/// </remarks>
 		/// <returns></returns>
-		private int GetSuperDropLevel()
+		private bool TryGetSuperMob(out SuperMobType superMobType)
 		{
+			superMobType = (SuperMobType)(-1);
+
+			// Note: The client cannot handle SuperDrop and EliteMonsterBuff
+			// together.
 			if (this.Buffs.Has(BuffId.EliteMonsterBuff))
-				return 1;
-
-			if (this.Buffs.TryGet(BuffId.SuperDrop, out var buff))
 			{
-				// NumArg2 is the type, 0 being silver and 1 gold
-
+				superMobType = SuperMobType.Elite;
+				return true;
+			}
+			else if (this.Buffs.TryGet(BuffId.SuperDrop, out var buff))
+			{
 				if (buff.NumArg2 == 0)
-					return 1;
-
-				if (buff.NumArg2 == 1)
-					return 2;
+				{
+					superMobType = SuperMobType.Silver;
+					return true;
+				}
+				else if (buff.NumArg2 == 1)
+				{
+					superMobType = SuperMobType.Gold;
+					return true;
+				}
 			}
 
-			return 0;
+			return false;
 		}
 
 		/// <summary>
@@ -718,13 +740,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Heals the monster's HP and SP by the given amounts.
+		/// Heals the monster's HP and SP by the given amounts. Applies potential
+		/// (de)buffs that affect healing.
 		/// </summary>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			float healingReduction = 0;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;
@@ -746,7 +776,9 @@ namespace Melia.Zone.World.Actors.Monsters
 				// we swap to the override properties that the calculation
 				// functions use for each property as necessary.
 				var properties = this.Properties as Properties;
-				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+
+				var canSet = !properties.TryGet(propertyName, out var property) || (property is not CFloatProperty && property is not RFloatProperty);
+				if (!canSet)
 					properties = this.Properties.Overrides;
 
 				switch (propertyOverride.Value)

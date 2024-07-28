@@ -115,5 +115,16 @@ namespace Melia.Zone.Skills.SplashAreas
 		/// <returns></returns>
 		public bool IsInside(Vector2F pos)
 			=> _baseOuter.IsInside(pos) && !_baseInner.IsInside(pos);
+
+
+		/// <summary>
+		/// Moves area to the given position and recalculates its properties.
+		/// </summary>
+		/// <param name="position"></param>
+		public void UpdatePosition(Vector2F position)
+		{
+			_baseOuter.UpdatePosition(position);
+			_baseInner.UpdatePosition(position);
+		}
 	}
 }

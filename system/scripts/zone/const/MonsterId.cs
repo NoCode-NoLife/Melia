@@ -3339,6 +3339,7 @@ public static class MonsterId
 	public const int RidePet_Peacock = 65025;
 	public const int RidePet_Bluedragon = 65026;
 	public const int RidePet_Ep16yongyong = 65027;
+	public const int RidePet_Capybara = 65028;
 	public const int ET_NetherBovine_Minimal = 100001;
 	public const int ET_Necrovanter_Minimal = 100002;
 	public const int ET_Spector_M_Minimal = 100003;

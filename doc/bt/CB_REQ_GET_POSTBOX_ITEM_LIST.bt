@@ -15,4 +15,7 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-int i1;
+byte b1;
+int64 messageIds[20];
+int64 characterId;
+byte b2;

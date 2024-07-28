@@ -21,4 +21,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			this.Entity = entity;
 		}
 	}
+
+	/// <summary>
+	/// A component for an actor.
+	/// </summary>
+	public interface IActorComponent : IComponent
+	{
+		IActor Owner { get; }
+	}
 }

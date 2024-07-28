@@ -398,5 +398,159 @@ namespace Melia.Barracks.Database
 				mc.ExecuteNonQuery();
 			}
 		}
+
+		/// <summary>
+		/// Loads mail for the account.
+		/// </summary>
+		/// <param name="account"></param>
+		public void LoadMailbox(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `mail` WHERE `accountId` = @accountId", conn))
+			{
+				mc.Parameters.AddWithValue("@accountId", account.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var state = (MailboxMessageState)reader.GetByte("status");
+						if (state == MailboxMessageState.Delete)
+							continue;
+
+						var expiration = reader.GetDateTimeSafe("expirationDate");
+						if (DateTime.Now >= expiration)
+							continue;
+
+						var mail = new MailMessage
+						{
+							Id = reader.GetInt64("mailId"),
+							State = state,
+							Sender = reader.GetStringSafe("sender"),
+							Subject = reader.GetStringSafe("subject"),
+							Message = reader.GetStringSafe("message"),
+							StartDate = reader.GetDateTimeSafe("startDate"),
+							ExpirationDate = expiration,
+							CreatedDate = reader.GetDateTimeSafe("createdDate"),
+						};
+
+						account.Mailbox.AddMail(mail);
+					}
+				}
+			}
+
+			// XXX: Optimize to get get all items at once?
+			foreach (var mail in account.Mailbox.GetMessages())
+			{
+				foreach (var item in this.LoadMailItems(mail.Id))
+					mail.AddItem(item);
+			}
+		}
+
+		/// <summary>
+		/// Loads mail items for a specific mail.
+		/// </summary>
+		/// <param name="mailId"></param>
+		/// <returns></returns>
+		public List<MailItem> LoadMailItems(long mailId)
+		{
+			var items = new List<MailItem>();
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `mail_items` WHERE `mailId` = @mailId", conn))
+				{
+					mc.Parameters.AddWithValue("@mailId", mailId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var mailItem = new MailItem
+							{
+								DbId = (int)reader.GetInt64("mailItemId"),
+								ItemDbId = reader.GetInt64("itemId"),
+								Id = reader.GetInt32("id"),
+								Amount = reader.GetInt32("amount"),
+								WasReceived = reader.GetByte("status") == 1,
+							};
+
+							items.Add(mailItem);
+						}
+					}
+				}
+			}
+
+			return items;
+		}
+
+		/// <summary>
+		/// Persists the account's mail to the database.
+		/// </summary>
+		/// <param name="account"></param>
+		public void SaveMail(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				foreach (var mail in account.Mailbox.GetMessages())
+				{
+					using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `mailId` = @mailId", conn, trans))
+					{
+						cmd.AddParameter("@mailId", mail.Id);
+						cmd.Set("accountId", account.Id);
+						cmd.Set("sender", mail.Sender);
+						cmd.Set("subject", mail.Subject);
+						cmd.Set("message", mail.Message);
+						cmd.Set("status", (byte)mail.State);
+						cmd.Set("startDate", mail.StartDate);
+						cmd.Set("expirationDate", mail.ExpirationDate);
+						cmd.Set("createdDate", mail.CreatedDate);
+
+						cmd.Execute();
+					}
+
+					foreach (var item in mail.GetItems())
+					{
+						using (var cmd = new UpdateCommand("UPDATE `mail_items` SET {0} WHERE `mailItemId` = @mailItemId", conn, trans))
+						{
+							cmd.AddParameter("@mailItemId", item.DbId);
+							cmd.Set("mailId", mail.Id);
+							cmd.Set("itemId", item.ItemDbId);
+							cmd.Set("id", item.Id);
+							cmd.Set("amount", item.Amount);
+							cmd.Set("status", item.WasReceived);
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+
+		/// <summary>
+		/// Adds an item to the character's inventory.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <param name="itemId"></param>
+		public void SaveItem(long characterId, long itemId)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+				{
+					cmd.Set("characterId", characterId);
+					cmd.Set("itemId", itemId);
+					cmd.Set("sort", 0);
+					cmd.Set("equipSlot", 0x7F);
+
+					cmd.Execute();
+				}
+
+				trans.Commit();
+			}
+		}
 	}
 }

@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
@@ -539,6 +540,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Opens warehouse
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenPersonalStorage()
+		{
+			this.Player.PersonalStorage.Open();
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
 		/// Opens the shop with the given name for the player.
 		/// </summary>
 		/// <param name="shopName"></param>
@@ -610,13 +621,6 @@ namespace Melia.Zone.Scripting.Dialogues
 	/// <param name="dialog"></param>
 	/// <returns></returns>
 	public delegate Task DialogFunc(Dialog dialog);
-
-	/// <summary>
-	/// A function that can be used as a synchronous trigger callback.
-	/// </summary>
-	/// <param name="dialog"></param>
-	/// <returns></returns>
-	public delegate void TriggerCallbackSync(Dialog dialog);
 
 	/// <summary>
 	/// A function that returns a variable number of options and returns

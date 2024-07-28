@@ -12044,6 +12044,9 @@ public static class ItemId
 
 	// Item_Consume
 	//-----------------------------------------------------------------------
+	public const int Rerun_Ticket_2023_Special = 490501;
+	public const int Rerun_Ticket_2023_Costume = 490502;
+	public const int Rerun_Ticket_2023_Weapon = 490503;
 	public const int Cupole_Rankup_UR = 11200379;
 	public const int Cupole_Rankup_SR = 11200380;
 	public const int Cupole_Rankup_R = 11200381;
@@ -14923,6 +14926,11 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char1_26 = 494431;
 	public const int Selectbox_Beachwear01_Blue = 494433;
 	public const int Selectbox_Beachwear02_Red = 494434;
+	public const int HiddenJobUnlock_Char3_24_NoTrade = 494435;
+	public const int HiddenJobUnlock_Char5_19_NoTrade = 494436;
+	public const int HiddenJobUnlock_Char2_25_NoTrade = 494437;
+	public const int HiddenJobUnlock_Char1_25_NoTrade = 494438;
+	public const int HiddenJobUnlock_Char4_23_NoTrade = 494439;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -16081,6 +16089,8 @@ public static class ItemId
 	public const int GACHA_HAIRACC_ReSale_2024_001_TWN = 1000160;
 	public const int GACHA_HAIRACC_ReSale_2024_010_TWN = 1000161;
 	public const int Gacha_Mini_Medal_Cube = 1000162;
+	public const int GACHA_HAIRACC_ReRun_2024_001_TWN = 1000163;
+	public const int GACHA_HAIRACC_ReRun_2024_010_TWN = 1000164;
 	public const int PersonalHousing_Item_Voucher_1 = 1249900;
 	public const int PersonalHousing_Item_Voucher_2 = 1249901;
 	public const int PersonalHousing_Item_Voucher_3 = 1249902;
@@ -18432,6 +18442,7 @@ public static class ItemId
 	public const int Selectbox_Gacha_2024_TWN_Resale = 11035768;
 	public const int Egg_Pet_Ep13strawberry = 11035769;
 	public const int Not_Trade_Egg_Pet_Ep13strawberry = 11035770;
+	public const int Selectbox_Gacha_2024_TWN_ReRun = 11035771;
 	public const int EP13_Reputation_Costume_1 = 11040101;
 	public const int EP13_Reputation_Costume_2 = 11040102;
 	public const int EP13_Reputation_Costume_3 = 11040103;
@@ -18966,6 +18977,9 @@ public static class ItemId
 	public const int I202407_Cupole_Package02 = 11205214;
 	public const int I202407_Cupole_Package03 = 11205215;
 	public const int I202407_Cupole_Package04 = 11205216;
+	public const int Certificate_RidePet_Capybara = 11205217;
+	public const int Selectbox_Specialclass_01 = 11205218;
+	public const int Goddess_Fragments_Lada_AIO = 11205219;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

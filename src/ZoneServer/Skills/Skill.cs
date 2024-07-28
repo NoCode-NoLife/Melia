@@ -122,6 +122,11 @@ namespace Melia.Zone.Skills
 		public bool IsNormalAttack => (int)this.Id <= 1000;
 
 		/// <summary>
+		/// Returns true if this skill is a passive skill.
+		/// </summary>
+		public bool IsPassive => this.Data.ActivationType == SkillActivationType.PassiveSkill;
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="owner"></param>
@@ -186,6 +191,27 @@ namespace Melia.Zone.Skills
 			Send.ZC_OVERHEAT_CHANGED(character, this);
 
 			return overheated;
+		}
+
+		/// <summary>
+		/// Resets the skill's overheat and puts it on a cooldown that lasts
+		/// for the given amount of time.
+		/// </summary>
+		/// <param name="cooldownTime"></param>
+		public void StartCooldown(TimeSpan cooldownTime)
+		{
+			if (this.Owner is not Character character)
+				return;
+
+			if (!this.Owner.Components.TryGet<CooldownComponent>(out var cooldownComponent))
+				return;
+
+			cooldownComponent.Start(this.Data.CooldownGroup, cooldownTime);
+
+			this.OverheatCounter = 0;
+			this.OverheatTimeRemaining = TimeSpan.Zero;
+
+			Send.ZC_OVERHEAT_CHANGED(character, this);
 		}
 
 		/// <summary>

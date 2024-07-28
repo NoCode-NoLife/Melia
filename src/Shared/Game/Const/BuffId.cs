@@ -3559,6 +3559,7 @@ namespace Melia.Shared.Game.Const
 		RIDE_PET_RIDEPET_28 = 17105,
 		RIDE_PET_BLUEDRAGON_EFFECT_BUFF = 17106,
 		RIDE_PET_RIDEPET_29 = 17107,
+		RIDE_PET_RIDEPET_30 = 17108,
 		Pollen_Buff = 20000,
 		Pollen_Debuff = 20001,
 		Nuodai_Poison_Debuff = 20002,

@@ -9,13 +9,11 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handler for the Doppelsoeldner skill Doubl ePay Earn.
+	/// Handler for the Doppelsoeldner skill Double Pay Earn.
 	/// </summary>
 	[SkillHandler(SkillId.Doppelsoeldner_Double_pay_earn)]
-	public class Doppelsoeldner_DoublePayEarn : ISelfSkillHandler
+	public class Doppelsoeldner_Double_pay_earn : ISelfSkillHandler
 	{
-		public const float DamageTakenMultiplier = 2f;
-
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
 		/// </summary>
@@ -38,7 +36,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			var duration = TimeSpan.FromSeconds(60);
 
-			target.StartBuff(BuffId.Double_pay_earn_Buff, skill.Level, DamageTakenMultiplier, duration, caster);
+			target.StartBuff(BuffId.Double_pay_earn_Buff, skill.Level, 0, duration, caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

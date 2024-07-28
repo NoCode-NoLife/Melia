@@ -9251,6 +9251,7 @@
 		public const string KupoleResetTime = "KupoleResetTime";
 		public const string CONTENTS_TOTAL_SHOP_POSE_23 = "CONTENTS_TOTAL_SHOP_POSE_23";
 		public const string CONTENTS_TOTAL_SHOP_POSE_21 = "CONTENTS_TOTAL_SHOP_POSE_21";
+		public const string EVENT_2407_RAINBOW_WEEK_COUNT = "EVENT_2407_RAINBOW_WEEK_COUNT";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

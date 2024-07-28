@@ -1,4 +1,5 @@
-﻿using Melia.Zone.World;
+﻿using Melia.Zone.Scripting;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Base
@@ -8,6 +9,14 @@ namespace Melia.Zone.Buffs.Base
 	/// </summary>
 	public abstract class BuffHandler : IBuffHandler
 	{
+		/// <summary>
+		/// Initializes buff handler.
+		/// </summary>
+		public BuffHandler()
+		{
+			ScriptableFunctions.Load(this);
+		}
+
 		/// <summary>
 		/// Starts the buff, adding the initial effects.
 		/// </summary>
