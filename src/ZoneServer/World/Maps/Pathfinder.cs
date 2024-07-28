@@ -86,7 +86,7 @@ namespace Melia.Zone.World.Maps
 			var radius = _entitySizeRadius[entitySize];
 
 			// Stopping condition
-			if ( (gridScale <= 0) || (start.Get2DDistance(goal) < radius) )
+			if ( (gridScale <= 10) || (start.Get2DDistance(goal) < radius) )
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
@@ -126,7 +126,8 @@ namespace Melia.Zone.World.Maps
 					{
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tentativeGScore;
-						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + RandomProvider.Next(gridScale);
+						var randomFactor = RandomProvider.Get().Next(gridScale * 2);
+						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + randomFactor;
 
 						if (!openSet.UnorderedItems.Any(item => item.Element.Equals(neighbor)))
 						{
