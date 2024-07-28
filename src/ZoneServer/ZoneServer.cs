@@ -65,6 +65,11 @@ namespace Melia.Zone
 		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
 
 		/// <summary>
+		/// Returns reference to the server's ability handlers.
+		/// </summary>
+		public AbilityHandlers AbilityHandlers { get; } = new();
+
+		/// <summary>
 		/// Returns reference to the server's pad handlers.
 		/// </summary>
 		public PadHandlers PadHandlers { get; } = new PadHandlers();

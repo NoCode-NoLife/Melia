@@ -338,6 +338,20 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<AbilityComponent>()?.IsActive(abilityId) ?? false;
 
 		/// <summary>
+		/// Returns the ability with the given id via out if the entity has it.
+		/// Returns false if the entity doesn't have the ability.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public static bool TryGetAbility(this ICombatEntity entity, AbilityId abilityId, out Ability ability)
+		{
+			ability = null;
+			return entity.Components.Get<AbilityComponent>()?.TryGet(abilityId, out ability) ?? false;
+		}
+
+		/// <summary>
 		/// Returns true if the entity has the given ability and it's toggled on.
 		/// Returns the ability's level via out if it's active.
 		/// </summary>
