@@ -14,12 +14,12 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 
+		public SkillActivationType ActivationType { get; set; }
 		public SkillUseType UseType { get; set; }
 		public SkillAttackType AttackType { get; set; }
 		public SkillAttribute Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
 
-		public int MaxLevel { get; set; }
 		public float BasicSp { get; set; }
 		public float BasicStamina { get; set; }
 
@@ -37,6 +37,8 @@ namespace Melia.Shared.Data.Database
 		public float FactorByLevel { get; set; }
 		public float AtkAdd { get; set; }
 		public float AtkAddByLevel { get; set; }
+		public int HitCount { get; set; }
+		public int MultiHitCount { get; set; }
 
 		public TimeSpan DefaultHitDelay { get; set; }
 		public TimeSpan DeadHitDelay { get; set; }
@@ -54,6 +56,7 @@ namespace Melia.Shared.Data.Database
 
 		public HitType KnockDownHitType { get; set; }
 		public int KnockDownVelocity { get; set; }
+		public int KnockDownHAngle { get; set; }
 		public int KnockDownVAngle { get; set; }
 
 		public AbilityId ReinforceAbility { get; set; }
@@ -139,6 +142,22 @@ namespace Melia.Shared.Data.Database
 	}
 
 	/// <summary>
+	/// Defines how a skill is activated.
+	/// </summary>
+	public enum SkillActivationType
+	{
+		/// <summary>
+		/// Skill is used actively by an actor.
+		/// </summary>
+		ActiveSkill,
+
+		/// <summary>
+		/// Skill is not used and its effects are passive.
+		/// </summary>
+		PassiveSkill,
+	}
+
+	/// <summary>
 	/// Skill database, indexed by skill id.
 	/// </summary>
 	public class SkillDb : DatabaseJsonIndexed<SkillId, SkillData>
@@ -158,7 +177,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "maxLevel", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
+			entry.AssertNotMissing("skillId", "className", "name", "useType", "attackType", "attribute", "classType", "enableAngle", "maxRange", "waveLength", "splashType", "splashRange", "splashHeight", "splashAngle", "splashRate", "factor", "factorByLevel", "atkAdd", "atkAddByLevel", "hitCount", "multiHitCount", "defaultHitDelay", "deadHitDelay", "shootTime", "delayTime", "cancelTime", "hitTime", "holdTime", "speedRate", "speedRateAffectedByDex", "speedRateAffectedByBuff", "enableCastMove");
 
 			var data = new SkillData();
 
@@ -166,12 +185,12 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 
+			data.ActivationType = entry.ReadEnum<SkillActivationType>("activationType");
 			data.UseType = entry.ReadEnum<SkillUseType>("useType");
 			data.AttackType = entry.ReadEnum<SkillAttackType>("attackType");
 			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
 			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
-			data.MaxLevel = entry.ReadInt("maxLevel");
 			data.BasicSp = entry.ReadFloat("basicSp", 0);
 			data.BasicStamina = entry.ReadFloat("basicStamina", 0);
 
@@ -189,6 +208,8 @@ namespace Melia.Shared.Data.Database
 			data.FactorByLevel = entry.ReadFloat("factorByLevel");
 			data.AtkAdd = entry.ReadFloat("atkAdd");
 			data.AtkAddByLevel = entry.ReadFloat("atkAddByLevel");
+			data.HitCount = entry.ReadInt("hitCount");
+			data.MultiHitCount = entry.ReadInt("multiHitCount");
 
 			data.DefaultHitDelay = entry.ReadTimeSpan("defaultHitDelay");
 			data.DeadHitDelay = entry.ReadTimeSpan("deadHitDelay");
@@ -206,6 +227,7 @@ namespace Melia.Shared.Data.Database
 
 			data.KnockDownHitType = entry.ReadEnum<HitType>("knockDownType", HitType.Normal);
 			data.KnockDownVelocity = entry.ReadInt("knockDownVelocity", 0);
+			data.KnockDownHAngle = entry.ReadInt("knockDownHAngle", 0);
 			data.KnockDownVAngle = entry.ReadInt("knockDownVAngle", 0);
 
 			data.ReinforceAbility = entry.ReadEnum<AbilityId>("reinforceAbility", 0);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data;
 using Yggdrasil.Data.JSON;
@@ -83,9 +84,13 @@ namespace Melia.Shared.Data.Database
 			if (level < 1 || level > maxLevel)
 				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}).");
 
+			var highestRank = _jobExp.Max(a => a.Rank);
+			if (rank > highestRank)
+				rank = highestRank;
+
 			var data = _jobExp.Where(a => a.Rank == rank);
 			if (!data.Any())
-				throw new KeyNotFoundException("No class exp data found for rank '" + rank + "' and level '" + level + "'.");
+				throw new KeyNotFoundException("No job exp data found for rank '" + rank + "' and level '" + level + "'.");
 
 			var result = data.Where(a => a.Level <= level).Sum(a => a.Exp);
 
@@ -99,7 +104,14 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public int GetMaxJobLevel(int rank)
 		{
+			var highestRank = _jobExp.Max(a => a.Rank);
+			if (rank > highestRank)
+				rank = highestRank;
+
 			var data = _jobExp.Where(a => a.Rank == rank);
+			if (!data.Any())
+				throw new KeyNotFoundException("No job exp data found for rank '" + rank + "'.");
+
 			return data.Max(a => a.Level);
 		}
 

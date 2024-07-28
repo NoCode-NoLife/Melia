@@ -4,8 +4,8 @@
 // Grants default items, skills, and abilities to newly created characters.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Scripting;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
@@ -28,6 +28,25 @@ public class CharacterInitializationScript : GeneralScript
 		}
 
 		UpdateCharacter(args.Character);
+		UpdateAccount(args.Character);
+	}
+
+	private void UpdateAccount(Character character)
+	{
+		// Unlock special classes by default if the respective class feature
+		// is enabled, but vouchers are disabled.
+
+		var unlockByDefault = Feature.IsEnabled("SpecialClasses") && !Feature.IsEnabled("SpecialClassVouchers");
+		if (!unlockByDefault)
+			return;
+
+		var props = character.Connection.Account.Properties;
+		props.SetFloat("UnlockQuest_Char1_25", 1); // Winged Hussar
+		props.SetFloat("UnlockQuest_Char1_26", 1); // Vanquisher
+		props.SetFloat("UnlockQuest_Char2_25", 1); // Illusionist
+		props.SetFloat("UnlockQuest_Char3_24", 1); // Godeye
+		props.SetFloat("UnlockQuest_Char4_23", 1); // Pontifex
+		props.SetFloat("UnlockQuest_Char5_19", 1); // Desperado
 	}
 
 	private static void InitCharacter(Character character)

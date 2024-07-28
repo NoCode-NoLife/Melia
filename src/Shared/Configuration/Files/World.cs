@@ -34,9 +34,16 @@ namespace Melia.Shared.Configuration.Files
 		public int MonthsPerYear { get; protected set; }
 		public bool EnableDayNightCycle { get; protected set; }
 
+		// jobs.conf
+		public int JobMaxRank { get; protected set; }
+
 		// skills.conf
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
+
+		// storage.conf
+		public int StorageFee { get; protected set; }
+		public bool StorageMultiStack { get; protected set; }
 
 		// summons.conf
 		public bool BlueOrbFollowWarp { get; protected set; }
@@ -47,13 +54,16 @@ namespace Melia.Shared.Configuration.Files
 		public float BlueJackpotExpRate { get; protected set; }
 		public float SilverJackpotSpawnChance { get; protected set; }
 		public int SilverJackpotRolls { get; protected set; }
+		public float SilverJackpotGuaranteedItemThreshold { get; protected set; }
 		public float GoldJackpotSpawnChance { get; protected set; }
 		public int GoldJackpotRolls { get; protected set; }
+		public float GoldJackpotGuaranteedItemThreshold { get; protected set; }
 		public float EliteSpawnChance { get; protected set; }
 		public float EliteHPSPRate { get; protected set; }
 		public float EliteStatRate { get; protected set; }
 		public float EliteExpRate { get; protected set; }
 		public int EliteRolls { get; protected set; }
+		public float EliteGuaranteedItemThreshold { get; protected set; }
 		public int EliteMinLevel { get; protected set; }
 		public bool EliteAlwaysAggressive { get; protected set; }
 		public float RedOrbJackpotRate { get; protected set; }
@@ -81,6 +91,9 @@ namespace Melia.Shared.Configuration.Files
 			this.Littering = this.GetBool("littering", false);
 			this.TargetedLittering = this.GetBool("targeted_littering", false);
 
+			this.StorageFee = this.GetInt("storage_fee", 20);
+			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
+
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.JobExpRate = this.GetFloat("job_exp_rate", 100);
 
@@ -90,6 +103,8 @@ namespace Melia.Shared.Configuration.Files
 			this.DaysPerMonth = this.GetInt("gt_days_per_month", 40);
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
+
+			this.JobMaxRank = this.GetInt("job_max_rank", 4);
 
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
@@ -101,13 +116,16 @@ namespace Melia.Shared.Configuration.Files
 			this.BlueJackpotExpRate = this.GetFloat("blue_jackpot_exp_rate", 10000);
 			this.SilverJackpotSpawnChance = this.GetFloat("silver_jackpot_spawn_chance", 0.05f);
 			this.SilverJackpotRolls = this.GetInt("silver_jackpot_rolls", 100);
+			this.SilverJackpotGuaranteedItemThreshold = this.GetFloat("silver_guaranteed_item_threshold", 0.5f);
 			this.GoldJackpotSpawnChance = this.GetFloat("gold_jackpot_spawn_chance", 0.01f);
 			this.GoldJackpotRolls = this.GetInt("gold_jackpot_rolls", 1000);
+			this.GoldJackpotGuaranteedItemThreshold = this.GetFloat("gold_guaranteed_item_threshold", 0.5f);
 			this.EliteSpawnChance = this.GetFloat("elite_spawn_chance", 2);
 			this.EliteHPSPRate = this.GetFloat("elite_hpsp_rate", 150);
 			this.EliteStatRate = this.GetFloat("elite_stat_rate", 150);
 			this.EliteExpRate = this.GetFloat("elite_exp_rate", 2);
 			this.EliteRolls = this.GetInt("elite_rolls", 2);
+			this.EliteGuaranteedItemThreshold = this.GetFloat("elite_guaranteed_item_threshold", 0.5f);
 			this.EliteMinLevel = this.GetInt("elite_min_level", 100);
 			this.EliteAlwaysAggressive = this.GetBool("elite_always_aggressive", true);
 			this.RedOrbJackpotRate = this.GetFloat("red_orb_jackpot_rate", 10000);

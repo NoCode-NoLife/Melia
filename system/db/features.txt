@@ -105,6 +105,16 @@
 		
 		// Changes Hasisas to not base crit bonus on HP lost
 		{ name: "HasisasNoHpCritBonus", enabled: true },
+
+		// Changes Pierce to not base its hit count on target size
+		{ name: "PierceNoSizeEffect", enabled: true },
+	]},
+	
+	// Enables special classes, such as Desperado
+	{ name: "SpecialClasses", enabled: true, children: [
+		// If enabled, special classes need to be unlocked via vouchers.
+		// If disabled, the classes are freely available.
+		{ name: "SpecialClassVouchers", enabled: true },
 	]},
 ]},
 

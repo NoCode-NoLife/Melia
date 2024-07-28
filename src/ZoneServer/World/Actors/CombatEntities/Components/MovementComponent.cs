@@ -40,7 +40,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <summary>
 		/// Gets or sets where the entity is moving to.
 		/// </summary>
-		private MoveTargetType MoveTarget { get; set; }
+		public MoveTargetType MoveTarget { get; private set; }
 
 		/// <summary>
 		/// Returns whether the entity is currently on the ground or
@@ -464,12 +464,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			this.Stop();
 			this.Entity.Properties.Invalidate(PropertyName.MSPD);
 		}
+	}
 
-		private enum MoveTargetType
-		{
-			Position,
-			Direction,
-		}
+	public enum MoveTargetType
+	{
+		Position,
+		Direction,
 	}
 
 	public enum MoveSpeedType

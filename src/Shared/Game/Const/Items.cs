@@ -362,6 +362,7 @@ namespace Melia.Shared.Game.Const
 
 	public enum InventoryAddType : byte
 	{
+		New = 0,
 		Buy = 1,
 		Sell = 2,
 		PickUp = 3, // ?

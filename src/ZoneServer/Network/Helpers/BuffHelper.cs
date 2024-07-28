@@ -38,7 +38,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt(0); // NumArg4?
 			packet.PutInt(0); // NumArg5?
 			packet.PutInt(buff.OverbuffCounter);
-			packet.PutInt((int)buff.Duration.TotalMilliseconds);
+			packet.PutInt((int)buff.RemainingDuration.TotalMilliseconds);
 			packet.PutInt(0);
 			packet.PutInt(0);
 

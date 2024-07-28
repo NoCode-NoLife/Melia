@@ -27,9 +27,8 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="max">Maximum distance to move.</param>
 		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
 		/// <returns></returns>
-		protected IEnumerable MoveRandom(int min = 35, int max = 50, bool wait = true)
+		protected IEnumerable MoveRandom(int min = 50, int max = 100, bool wait = true)
 		{
-			min = 100;
 			min = Math.Max(1, min);
 			max = Math.Max(min, max);
 

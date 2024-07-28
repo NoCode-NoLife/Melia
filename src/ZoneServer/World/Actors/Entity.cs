@@ -12,6 +12,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors
 {
@@ -44,6 +45,24 @@ namespace Melia.Zone.World.Actors
 		/// Returns the entity's mode of movement.
 		/// </summary>
 		MoveType MoveType { get; }
+
+		/// <summary>
+		/// Returns the entity's effective size.
+		/// </summary>
+		/// <remarks>
+		/// The effective size is not necessarily the same as the entity's set
+		/// size, as some are classified as a certain size for some purposes,
+		/// but another size for others. For example, players have their own
+		/// "size" property called "PC", but for bonus purposes they are
+		/// considered "M" size.
+		/// </remarks>
+		SizeType EffectiveSize => (this is Mob mob ? mob.Data.Size : SizeType.M);
+
+		/// <summary>
+		/// Returns the entity's monster rank. Returns Normal if entity is
+		/// not a mob.
+		/// </summary>
+		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
 
 		/// <summary>
 		/// Returns the entity's level.
@@ -216,7 +235,7 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction from the actor to the given position.
 		/// </summary>
 		/// <param name="actor"></param>
-		/// <param name="otherActor"></param>
+		/// <param name="pos"></param>
 		/// <returns></returns>
 		public static Direction GetDirection(this IActor actor, Position pos)
 			=> actor.Position.GetDirection(pos);
@@ -224,21 +243,20 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Sets the entity's attack state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inAttackState"></param>
 		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
 			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
 
 		/// <summary>
 		/// Sets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inCastingState"></param>
 		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
 			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
 
 		/// <summary>
 		/// Gets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
 		public static bool IsCasting(this ICombatEntity entity)
 			=> entity.Components.Get<CombatComponent>().CastingState;
 
@@ -294,6 +312,20 @@ namespace Melia.Zone.World.Actors
 		{
 			buff = null;
 			return entity.Components.Get<BuffComponent>()?.TryGet(buffId, out buff) ?? false;
+		}
+
+		/// <summary>
+		/// Returns the skill with the given ID if the entity knows that skill.
+		/// Returns false if the entity doesn't know that skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static bool TryGetSkill(this ICombatEntity entity, SkillId skillId, out Skill skill)
+		{
+			skill = null;
+			return entity.Components.Get<SkillComponent>()?.TryGet(skillId, out skill) ?? false;
 		}
 
 		/// <summary>
@@ -443,23 +475,37 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
-		/// Returns the entity's effective size.
+		/// Removes a random buff from the entity with the given chance in percent.
 		/// </summary>
 		/// <remarks>
-		/// The effective size is not necessarily the same as the entity's set
-		/// size, as some are classified as a certain size for some purposes,
-		/// but another size for other purposes. For example, player's have
-		/// their own "size" property called "PC", but for bonus purposes,
-		/// for example they are considered "M" size.
+		/// If chance is 100 or above, a random buff will always be removed,
+		/// assuming there is one to remove.
 		/// </remarks>
 		/// <param name="entity"></param>
-		/// <returns></returns>
-		public static SizeType GetEffectiveSize(this ICombatEntity entity)
+		/// <param name="chance"></param>
+		public static void RemoveRandomBuff(this ICombatEntity entity, float chance = 100)
 		{
-			if (entity is Mob mob)
-				return mob.Data.Size;
+			var rnd = RandomProvider.Get();
 
-			return SizeType.M;
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomBuff();
+		}
+
+		/// <summary>
+		/// Removes a random debuff from the entity with the given chance in percent.
+		/// </summary>
+		/// <remarks>
+		/// If chance is 100 or above, a random debuff will always be removed,
+		/// assuming there is one to remove.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="chance"></param>
+		public static void RemoveRandomDebuff(this ICombatEntity entity, float chance = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomDebuff();
 		}
 	}
 }

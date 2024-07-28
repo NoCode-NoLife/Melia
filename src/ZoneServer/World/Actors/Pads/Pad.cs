@@ -3,6 +3,7 @@ using Melia.Zone.Pads;
 using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads.Components;
 using Yggdrasil.Composition;
 using Yggdrasil.Geometry;
@@ -119,11 +120,11 @@ namespace Melia.Zone.World.Actors.Pads
 			if (!ZoneServer.Instance.PadHandlers.TryGetHandler(name, out var handler))
 				throw new ArgumentException($"No handler found for pad '{name}'.");
 
-			if (handler is ICreatePadHandler create) this.Trigger.Created += create.Created;
-			if (handler is IDestroyPadHandler destroy) this.Trigger.Destroyed += destroy.Destroyed;
-			if (handler is IEnterPadHandler entered) this.Trigger.Entered += entered.Entered;
-			if (handler is ILeavePadHandler left) this.Trigger.Left += left.Left;
-			if (handler is IUpdatePadHandler update) this.Trigger.Updated += update.Updated;
+			if (handler is ICreatePadHandler create) this.Trigger.Subscribe(TriggerType.Create, create.Created);
+			if (handler is IDestroyPadHandler destroy) this.Trigger.Subscribe(TriggerType.Destroy, destroy.Destroyed);
+			if (handler is IEnterPadHandler enter) this.Trigger.Subscribe(TriggerType.Enter, enter.Entered);
+			if (handler is ILeavePadHandler leave) this.Trigger.Subscribe(TriggerType.Leave, leave.Left);
+			if (handler is IUpdatePadHandler update) this.Trigger.Subscribe(TriggerType.Update, update.Updated);
 		}
 
 		/// <summary>

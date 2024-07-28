@@ -17,9 +17,9 @@
 ClientHeaderFixed header;
 
 InventoryType type; // 1 = personal / 6 = team
-int64 worldId; // ?
+int64 worldId;
 int i1;
 int amount;
 int i2; // Added at some point noticed during 366809
-WAREHOUSE_INTERACTION interaction; // 0=in, 1=out?
+WAREHOUSE_INTERACTION interaction; // 0=store, 1=retrieve
 int i3;
