@@ -94,11 +94,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
-		/// Returns the character's size.
-		/// </summary>
-		public SizeType Size => SizeType.M;
-
-		/// <summary>
 		/// Returns the character's mode of movement.
 		/// </summary>
 		public MoveType MoveType => MoveType.Normal;
