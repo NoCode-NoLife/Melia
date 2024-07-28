@@ -143,7 +143,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public Job[] GetList()
 		{
 			lock (_jobs)
-				return _jobs.Values.ToArray();
+				return _jobs.Values.OrderBy(a => a.SelectionDate).ToArray();
 		}
 
 		/// <summary>
@@ -373,6 +373,11 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				return ZoneServer.Instance.Data.ExpDb.GetMaxJobLevel(rank);
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the date the character chose this job.
+		/// </summary>
+		public DateTime SelectionDate { get; set; } = DateTime.Now;
 
 		/// <summary>
 		/// Creates new instance for character.

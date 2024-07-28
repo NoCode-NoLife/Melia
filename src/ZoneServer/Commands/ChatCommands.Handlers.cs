@@ -95,11 +95,47 @@ namespace Melia.Zone.Commands
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
+			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
 			this.AddAlias("monsterinfo", "mi");
 			this.AddAlias("reloadscripts", "rs");
+		}
+
+		/// <summary>
+		/// Sets whether the target character will be saved on logout.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
+					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
+				else
+					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
+
+				return CommandResult.Okay;
+			}
+
+			if (!bool.TryParse(args.Get(0), out var enabled))
+				return CommandResult.InvalidArgument;
+
+			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
+			else
+				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+
+			return CommandResult.Okay;
 		}
 
 		/// <summary>
@@ -1593,41 +1629,41 @@ namespace Melia.Zone.Commands
 			return CommandResult.Okay;
 		}
 
-        /// <summary>
-        /// Opens personal storage of target character
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="target"></param>
-        /// <param name="message"></param>
-        /// <param name="command"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private CommandResult HandlePersonalStorage(Character sender, Character target, string message, string command, Arguments args)
-        {
-            if (!target.PersonalStorage.IsBrowsing)
-            {
-                target.PersonalStorage.Open();
-                sender.ServerMessage(Localization.Get("Opened personal storage."));
-                if (sender != target)
-                    target.ServerMessage(Localization.Get("Your personal storage was opened by '{0}'"), sender.TeamName);
-            }
-            else
-            {
-                sender.ServerMessage(Localization.Get("Already browsing personal storage."));
-            }
-            return CommandResult.Okay;
-        }
+		/// <summary>
+		/// Opens personal storage of target character
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePersonalStorage(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!target.PersonalStorage.IsBrowsing)
+			{
+				target.PersonalStorage.Open();
+				sender.ServerMessage(Localization.Get("Opened personal storage."));
+				if (sender != target)
+					target.ServerMessage(Localization.Get("Your personal storage was opened by '{0}'"), sender.TeamName);
+			}
+			else
+			{
+				sender.ServerMessage(Localization.Get("Already browsing personal storage."));
+			}
+			return CommandResult.Okay;
+		}
 
-        /// <summary>
-        /// Toggles autoloot.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="target"></param>
-        /// <param name="message"></param>
-        /// <param name="command"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        private CommandResult HandleAutoloot(Character sender, Character target, string message, string command, Arguments args)
+		/// <summary>
+		/// Toggles autoloot.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleAutoloot(Character sender, Character target, string message, string command, Arguments args)
 		{
 			var autoloot = sender.Variables.Temp.Get("Autoloot", 0);
 
