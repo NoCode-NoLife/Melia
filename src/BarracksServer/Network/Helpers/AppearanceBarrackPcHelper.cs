@@ -17,7 +17,7 @@ namespace Melia.Barracks.Network.Helpers
 		/// <param name="pc"></param>
 		public static void AddAppearanceBarrackPc(this Packet packet, IAppearanceBarrackPc pc)
 		{
-			packet.AddAppearancePc(pc);
+			packet.AddAppearancePc(pc, pc.GetEquipIds());
 
 			packet.PutLong(pc.Id);
 

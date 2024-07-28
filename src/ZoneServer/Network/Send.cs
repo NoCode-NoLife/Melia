@@ -125,7 +125,16 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_ENTER_PC(IZoneConnection conn, Character character)
+		public static void ZC_ENTER_PC(IZoneConnection conn, Character character) => ZC_ENTER_PC(conn, character, character.GetEquipIds(), false);
+
+		/// <summary>
+		/// Makes character appear on connection's client, by sending ZC_ENTER_PC.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="character"></param>
+		/// <param name="equipIds"></param>
+		/// <param name="isDummy"></param>
+		public static void ZC_ENTER_PC(IZoneConnection conn, Character character, int[] equipIds, bool isDummy)
 		{
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
@@ -149,13 +158,13 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
-			packet.PutShort(0);
+			packet.PutShort(isDummy ? 5 : 0);
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
-			packet.AddAppearancePc(character);
+			packet.AddAppearancePc(character, equipIds);
 			packet.PutInt(0);
-			packet.PutFloat(405494.3f);
+			packet.PutFloat(isDummy ? 330012.6f : 405494.3f);
 			packet.PutByte(0);
 
 			// [i381490 (2023-12-XX)]
@@ -1257,20 +1266,13 @@ namespace Melia.Zone.Network
 		/// their appearance.
 		/// </summary>
 		/// <param name="character"></param>
-		public static void ZC_UPDATED_PCAPPEARANCE(Character character) => ZC_UPDATED_PCAPPEARANCE(character, character);
-
-		/// <summary>
-		/// Broadcasts ZC_UPDATED_PCAPPEARANCE in range of character, updating
-		/// their appearance.
-		/// </summary>
-		/// <param name="character"></param>
 		/// <param name="targetCharacter"></param>
-		public static void ZC_UPDATED_PCAPPEARANCE(Character character, Character targetCharacter)
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
 		{
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
-			packet.PutInt(targetCharacter.Handle);
-			packet.AddAppearancePc(targetCharacter);
+			packet.PutInt(character.Handle);
+			packet.AddAppearancePc(character, character.GetEquipIds());
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -3184,20 +3186,10 @@ namespace Melia.Zone.Network
 		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false)
-			=> ZC_PLAY_ANI(actor, packetStringId, actor.Handle, stopOnLastFrame);
-
-		/// <summary>
-		/// Plays animation for actor on nearby clients.
-		/// </summary>
-		/// <param name="actor">Entity to animate.</param>
-		/// <param name="packetStringId">Id of the string for the animation to play.</param>
-		/// <param name="actorHandle">This is used in case of the target animation is different from the original actor.</param>
-		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, int actorHandle, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(actorHandle);
+			packet.PutInt(actor.Handle);
 			packet.PutInt(packetStringId);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
@@ -3742,7 +3734,7 @@ namespace Melia.Zone.Network
 			packet.PutShort(propertiesSize);
 			packet.PutShort(0); // etcPropertySize
 
-			packet.AddAppearancePc(character);
+			packet.AddAppearancePc(character, character.GetEquipIds());
 
 			packet.AddProperties(properties);
 			//packet.AddProperties(etcProperties);

@@ -15,7 +15,7 @@ namespace Melia.Shared.Network.Helpers
 		/// <param name="packet"></param>
 		/// <param name="appearancePc"></param>
 		/// <exception cref="InvalidOperationException"></exception>
-		public static void AddAppearancePc(this Packet packet, IAppearancePc appearancePc)
+		public static void AddAppearancePc(this Packet packet, IAppearancePc appearancePc, int[] equipIds)
 		{
 			packet.PutString(appearancePc.Name, 65);
 			packet.PutString(appearancePc.TeamName, 65);
@@ -31,7 +31,6 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutInt(0); // i2 1 or 0
 
 			// Items
-			var equipIds = appearancePc.GetEquipIds();
 			if (equipIds.Length != InventoryDefaults.EquipSlotCount)
 				throw new InvalidOperationException("Incorrect amount of equipment (" + equipIds.Length + ").");
 

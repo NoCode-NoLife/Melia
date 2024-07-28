@@ -376,21 +376,13 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
-			public static void UnkDynamicCastStart(Character character, SkillId skillId) => UnkDynamicCastStart(character, skillId, character.Handle);
-
-			/// <summary>
-			/// Packet with unknown purpose that's sent during dynamic
-			/// casting.
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="skillId"></param>
 			/// <param name="targetHandle"></param>
-			public static void UnkDynamicCastStart(Character character, SkillId skillId, int targetHandle)
+			public static void UnkDynamicCastStart(Character character, SkillId skillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
 
-				packet.PutInt(targetHandle);
+				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
 
 				character.Connection.Send(packet);
