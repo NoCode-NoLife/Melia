@@ -1,11 +1,14 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System.Threading.Tasks;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 {
 	/// <summary>
-	/// Handler for the Arditi_TreGranata pad, creates and disables the effect
+	/// Handler for the Sadhu Prakriti Pad, creates and disables the effect
 	/// </summary>
 	[PadHandler(PadName.Sadhu_Prakriti_Pad)]
 	public class Sadhu_Prakriti_Pad : ICreatePadHandler, IDestroyPadHandler

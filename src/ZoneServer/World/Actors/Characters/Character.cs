@@ -19,6 +19,7 @@ using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Buffs;
+using System.Collections.Generic;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -565,6 +566,9 @@ namespace Melia.Zone.World.Actors.Characters
 			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
 				throw new ArgumentException("Map '" + mapId + "' not found in data.");
 
+			if (this.IsOutOfBody())			
+				return;
+			
 			this.Position = pos;
 
 			if (this.MapId == mapId)
@@ -1377,6 +1381,25 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Hair = hairTypeIndex;
 			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
+
+		/// <summary>
+		/// Return true in case of the character has used Out Of Body Skill
+		/// </summary>
+		/// <returns></returns>
+		private bool IsOutOfBody()
+		{
+			var buffList = new List<BuffId>() {
+				BuffId.OOBE_Prakriti_Buff, BuffId.OOBE_Anila_Buff, BuffId.OOBE_Possession_Buff, BuffId.OOBE_Patati_Buff,
+				BuffId.OOBE_Moksha_Buff, BuffId.OOBE_Tanoti_Buff, BuffId.OOBE_Strong_Buff, BuffId.OOBE_Stack_Buff
+			};
+
+			foreach (var buffId in buffList) {
+				if (this.IsBuffActive(buffId))
+					return true;
+			}
+
+			return false;
 		}
 	}
 }

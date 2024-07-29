@@ -12,10 +12,10 @@ using Melia.Zone.World.Actors.Characters;
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
 	/// <summary>
-	/// Handler for the Sadhu skill Prakriti.
+	/// Handler for the Sadhu skill Enira (Anila).
 	/// </summary>
-	[SkillHandler(SkillId.Sadhu_Prakriti)]
-	public class Prakriti : IGroundSkillHandler
+	[SkillHandler(SkillId.Sadhu_Anila)]
+	public class Enira : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.
@@ -32,7 +32,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			// This skill doesn't enter on Cooldown on the first usage.
 			// On the second usage it will return to the original body.
-			if (caster.IsBuffActive(BuffId.OOBE_Prakriti_Buff))
+			if (caster.IsBuffActive(BuffId.OOBE_Anila_Buff))
 			{
 				this.ReturnToBody(caster, skill, farPos);
 				return;
@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			this.SendAvailableSkills(casterCharacter);
 
-			casterCharacter.StartBuff(BuffId.OOBE_Prakriti_Buff, moveSpeedBonus, dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
+			casterCharacter.StartBuff(BuffId.OOBE_Anila_Buff, moveSpeedBonus, dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
 			casterCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
 			dummyCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
 			dummyCharacter.StartBuff(BuffId.ReduceDmgCommonAbil_Buff, TimeSpan.Zero);
@@ -131,10 +131,10 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 				}
 
 				// We are skipping all Sadhu skills besides this current own (that may be used a second time)
-				if (isSadhuSkill && availableSkill.Id != SkillId.Sadhu_Prakriti)
+				if (isSadhuSkill && availableSkill.Id != SkillId.Sadhu_Anila)
 					continue;
 
-				Send.ZC_NORMAL.EnableUseSkillWhileOutOfBody(casterCharacter, BuffId.OOBE_Prakriti_Buff, (int)availableSkill.Id);
+				Send.ZC_NORMAL.EnableUseSkillWhileOutOfBody(casterCharacter, BuffId.OOBE_Anila_Buff, (int)availableSkill.Id);
 			}
 		}
 
@@ -157,7 +157,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			if (caster.TryGetBuff(BuffId.OOBE_Soulmaster_Buff, out var buff))
 				buff.End();
 
-			caster.StopBuff(BuffId.OOBE_Prakriti_Buff);
+			caster.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 
 		/// <summary>

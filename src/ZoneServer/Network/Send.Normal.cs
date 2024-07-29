@@ -679,6 +679,18 @@ namespace Melia.Zone.Network
 			/// Appears to update information about a skill effect on the
 			/// clients in range of entity.
 			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="targetHandle"></param>
+			/// <param name="originPos"></param>
+			/// <param name="direction"></param>
+			/// <param name="farPos"></param>
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
+					=> UpdateSkillEffect(entity, targetHandle, originPos, direction, farPos, 0);
+
+			/// <summary>
+			/// Appears to update information about a skill effect on the
+			/// clients in range of entity.
+			/// </summary>
 			/// <remarks>
 			/// Observed updating the origin position of the Earthquake
 			/// effect. Once the packet was sent once, the dust cloud
@@ -692,13 +704,14 @@ namespace Melia.Zone.Network
 			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
 			/// <param name="farPos"></param>
-			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
+			/// <param name="unknowInt"></param>
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos, int unknowInt)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateSkillEffect);
 
 				packet.PutInt(entity.Handle);
-				packet.PutInt(0);
+				packet.PutInt(unknowInt);
 				packet.PutInt(0);
 				packet.PutInt(targetHandle);
 				packet.PutPosition(originPos);

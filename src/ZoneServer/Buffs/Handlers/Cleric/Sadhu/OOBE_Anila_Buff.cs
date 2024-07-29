@@ -9,18 +9,17 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Shared.World;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 {
 	/// <summary>
-	/// Handler for the Out Of Body Experience (OOBE) Prakriti Buff
+	/// Handler for the Out Of Body Experience (OOBE) Anila Buff
 	/// which makes the character go back to original position after a while
-	/// and leave a effect that damages enemies inside
+	/// and leave a effect that damages enemies on hit by a wave effect
 	/// </summary>
-	[BuffHandler(BuffId.OOBE_Prakriti_Buff)]
-	public class OOBE_Prakriti_Buff : BuffHandler
+	[BuffHandler(BuffId.OOBE_Anila_Buff)]
+	public class OOBE_Anila_Buff : BuffHandler
 	{
 		public override void OnEnd(Buff buff)
 		{
@@ -29,14 +28,16 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			if (caster.TryGetSkill(SkillId.Sadhu_Prakriti, out var skill)) {
+			if (caster.TryGetSkill(SkillId.Sadhu_Prakriti, out var skill))
+			{
 				caster.SetAttackState(true);
-				var pad = new Pad(PadName.Sadhu_Prakriti_Pad, caster, skill, new Circle(caster.Position, 90));
-				pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
-				pad.Trigger.MaxActorCount = 10;
+
+				var pad = new Pad(PadName.Sadhu_Anila_Effect_Pad, caster, skill, new Square(caster.Position, caster.Direction, 50, 65));
+				
+				// pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
+				pad.Trigger.MaxActorCount = 7;
 				pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
-				pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
-				pad.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
+				pad.Trigger.Subscribe(TriggerType.Enter, this.OnCollisionEnter);
 
 				caster.Map.AddPad(pad);
 				skill.IncreaseOverheat();
@@ -44,7 +45,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
-			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Prakriti_Buff);
+			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Anila_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);
 
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
@@ -64,22 +65,23 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		}
 
 		/// <summary>
-		/// Called in regular intervals while the pad is on a map.
+		/// Called when an actor enters the skill's pad area.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnUpdate(object sender, PadTriggerArgs args)
+		private void OnCollisionEnter(object sender, PadTriggerActorArgs args)
 		{
 			var pad = args.Trigger;
-			var caster = args.Creator;
-			var skill = args.Skill;
+			var creator = args.Creator;
+			var target = args.Initiator;
 
-			var targets = pad.Trigger.GetAttackableEntities(caster);
+			if (pad.Trigger.AtCapacity)
+				return;
 
-			foreach (var target in targets.LimitRandom(pad.Trigger.MaxActorCount))
-			{
-				this.Attack(skill, caster, target);
-			}
+			if (!creator.CanAttack(target))
+				return;
+
+			this.Attack(pad.Skill, creator, target);
 		}
 
 		/// <summary>
@@ -89,12 +91,15 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		/// <param name="caster"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			var modifier = SkillModifier.MultiHit(3);
+
+			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+			skillHitResult.HitCount = 3;
 
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var hit = new HitInfo(caster, target, skill, skillHitResult);
-			hit.Type = HitType.Type33;
+			hit.Type = HitType.Normal;
 
 			Send.ZC_HIT_INFO(caster, target, hit);
 		}
