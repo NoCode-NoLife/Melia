@@ -6,10 +6,10 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
 	/// <summary>
-	/// Handler for the Sadhu skill Enira (Anila).
+	/// Handler for the Sadhu skill Posession.
 	/// </summary>
-	[SkillHandler(SkillId.Sadhu_Anila)]
-	public class Enira : SadhuSkillBase, IGroundSkillHandler
+	[SkillHandler(SkillId.Sadhu_Possession)]
+	public class Possession : SadhuSkillBase, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.
@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			base.Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Anila_Buff);
+			base.Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Possession_Buff);
 		}
 	}
 }

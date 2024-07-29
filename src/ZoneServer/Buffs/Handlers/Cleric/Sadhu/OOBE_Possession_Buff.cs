@@ -4,24 +4,28 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Pads;
-using Melia.Zone.World.Actors.Monsters;
-using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Zone.Skills.SplashAreas;
 using System.Threading.Tasks;
+using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Shared.World;
 
 namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 {
 	/// <summary>
-	/// Handler for the Out Of Body Experience (OOBE) Anila Buff
+	/// Handler for the Out Of Body Experience (OOBE) Prakriti Buff
 	/// which makes the character go back to original position after a while
-	/// and leave a effect that damages enemies on hit by a wave effect
+	/// and leave a effect that damages enemies inside
 	/// </summary>
-	[BuffHandler(BuffId.OOBE_Anila_Buff)]
-	public class OOBE_Anila_Buff : BuffHandler
+	[BuffHandler(BuffId.OOBE_Possession_Buff)]
+	public class OOBE_Possession_Buff : BuffHandler
 	{
+		private const int MaxTargets = 7;
+		// The skill tooltip says that a movement hold just be applied
+		// but it doesn't happen. For that reason I left this here in that case it changes
+		private const bool ApplyHold = false;
+
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
@@ -29,28 +33,34 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			if (caster.TryGetSkill(SkillId.Sadhu_Anila, out var skill))
+			if (caster.TryGetSkill(SkillId.Sadhu_Possession, out var skill))
 			{
 				caster.SetAttackState(true);
 				skill.IncreaseOverheat();
 
-				var pad = new Pad(PadName.Sadhu_Anila_Effect_Pad, caster, skill, new Square(caster.Position, caster.Direction, 50, 65));
+				this.AreaOfEffect(caster, skill, caster.Position);
 
-				pad.Trigger.MaxActorCount = 7;
-				pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
-				pad.Trigger.Subscribe(TriggerType.Enter, this.OnCollisionEnter);
-
-				caster.Map.AddPad(pad);
+				if (ApplyHold)				
+					casterCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));								
 			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
-			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Anila_Buff);
+			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Possession_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);
 
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
 
 			this.ReturnToBody(casterCharacter, (int)buff.NumArg2);
+		}
+
+		/// <summary>
+		/// Returns the amount of hold time in milliseconds
+		/// </summary>
+		/// <param name="skill"></param>
+		private int GetHoldTime(Skill skill)
+		{
+			return 1000 + (300 * skill.Level);
 		}
 
 		/// <summary>
@@ -76,23 +86,24 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		}
 
 		/// <summary>
-		/// Called when an actor enters the skill's pad area.
+		/// Creates the Area of Effect
 		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		private void OnCollisionEnter(object sender, PadTriggerActorArgs args)
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		private void AreaOfEffect(ICombatEntity caster, Skill skill, Position position)
 		{
-			var pad = args.Trigger;
-			var creator = args.Creator;
-			var target = args.Initiator;
+			Send.ZC_GROUND_EFFECT(caster, "F_spread_out026_mint", position, 3f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_explosion086_mint", position, 1.2f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_burstup047_mint", position, 0.7f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_pattern025_loop", position, 1.5f, 3f, 0, 0, 0);
 
-			if (pad.Trigger.AtCapacity)
-				return;
+			var circle = new Circle(position, 120);
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, circle);
 
-			if (!creator.CanAttack(target))
-				return;
-
-			this.Attack(pad.Skill, creator, target);
+			foreach (var target in targets.LimitRandom(MaxTargets))
+			{
+				this.Attack(skill, caster, target);
+			}
 		}
 
 		/// <summary>
@@ -102,7 +113,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		/// <param name="caster"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var modifier = SkillModifier.MultiHit(3);
+			var modifier = SkillModifier.MultiHit(5);
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
 			target.TakeDamage(skillHitResult.Damage, caster);

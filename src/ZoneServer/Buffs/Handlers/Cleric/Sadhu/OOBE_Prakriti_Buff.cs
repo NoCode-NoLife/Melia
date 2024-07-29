@@ -29,9 +29,13 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			if (caster.TryGetSkill(SkillId.Sadhu_Prakriti, out var skill)) {
+			if (caster.TryGetSkill(SkillId.Sadhu_Prakriti, out var skill))
+			{
 				caster.SetAttackState(true);
+				skill.IncreaseOverheat();
+
 				var pad = new Pad(PadName.Sadhu_Prakriti_Pad, caster, skill, new Circle(caster.Position, 90));
+
 				pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
 				pad.Trigger.MaxActorCount = 10;
 				pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
@@ -39,7 +43,6 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 				pad.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
 
 				caster.Map.AddPad(pad);
-				skill.IncreaseOverheat();
 			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
@@ -49,17 +52,28 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
 
-			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
+			this.ReturnToBody(casterCharacter, (int)buff.NumArg2);
+		}
+
+		/// <summary>
+		/// Makes the chararacter returns to original position
+		/// and also get ride of the dummy character
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="dummyHandle"></param>
+		private void ReturnToBody(Character character, int dummyHandle)
+		{
+			var dummyCharacter = character.Map.GetDummyCharacter(dummyHandle);
 
 			if (dummyCharacter != null)
 			{
-				casterCharacter.Position = dummyCharacter.Position;
-				casterCharacter.Direction = dummyCharacter.Direction;
-				Send.ZC_ROTATE(casterCharacter);
-				Send.ZC_SET_POS(casterCharacter, dummyCharacter.Position);
-				Send.ZC_OWNER(casterCharacter, dummyCharacter, 0);
+				character.Position = dummyCharacter.Position;
+				character.Direction = dummyCharacter.Direction;
+				Send.ZC_ROTATE(character);
+				Send.ZC_SET_POS(character, dummyCharacter.Position);
+				Send.ZC_OWNER(character, dummyCharacter, 0);
 				Send.ZC_LEAVE(dummyCharacter);
-				casterCharacter.Map.RemoveDummyCharacter(dummyCharacter);
+				character.Map.RemoveDummyCharacter(dummyCharacter);
 			}
 		}
 

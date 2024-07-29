@@ -14,7 +14,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 	public class Sadhu_Anila_Effect_Pad : ICreatePadHandler, IDestroyPadHandler
 	{
 		private const float PadMoveDistance = 200;
-		private const float PadMoveSpeedForward = 180;
+		private const float PadMoveSpeedForward = 250;
 
 		/// <summary>
 		/// Called when the pad is created.
