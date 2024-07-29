@@ -8,5 +8,6 @@
 		KnockBack = 3,
 		KnockDown = 4,
 		Type18 = 18,
+		Type33 = 33,
 	}
 }

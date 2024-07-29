@@ -25,6 +25,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -125,16 +126,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_ENTER_PC(IZoneConnection conn, Character character) => ZC_ENTER_PC(conn, character, character.GetEquipIds(), false);
-
-		/// <summary>
-		/// Makes character appear on connection's client, by sending ZC_ENTER_PC.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="character"></param>
 		/// <param name="equipIds"></param>
 		/// <param name="isDummy"></param>
-		public static void ZC_ENTER_PC(IZoneConnection conn, Character character, int[] equipIds, bool isDummy)
+		public static void ZC_ENTER_PC(IZoneConnection conn, Character character, bool isDummy = false)
 		{
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
@@ -162,7 +156,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
-			packet.AddAppearancePc(character, equipIds);
+			packet.AddAppearancePc(character);
 			packet.PutInt(0);
 			packet.PutFloat(isDummy ? 330012.6f : 405494.3f);
 			packet.PutByte(0);
@@ -576,7 +570,7 @@ namespace Melia.Zone.Network
 			packet.PutInt((int)overheatTime);
 			packet.PutInt(0);
 			packet.PutInt((int)resetTime);
-			packet.PutInt(4352);
+			packet.PutInt(47872);
 			packet.PutLong(0);
 
 			character.Connection.Send(packet);
@@ -1272,7 +1266,7 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
 			packet.PutInt(character.Handle);
-			packet.AddAppearancePc(character, character.GetEquipIds());
+			packet.AddAppearancePc(character);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -1501,6 +1495,10 @@ namespace Melia.Zone.Network
 		/// <param name="propertyList"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
+			// TODO: Find a better way to check this - This was done to avoid sending packets for dummies (while receiving buffs)
+			if (conn == null)
+				return;
+
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
@@ -3185,7 +3183,7 @@ namespace Melia.Zone.Network
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false)
+		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false, bool unknowBoolean = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
@@ -3196,10 +3194,9 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			// [i373230] Maybe added earlier
+			// [i373230] Maybe added earlier [Updated ib 28/07/24]
 			{
-				packet.PutByte(0);
-				packet.PutByte(0);
+				packet.PutShort(unknowBoolean ? 248 : 0);
 			}
 
 			actor.Map.Broadcast(packet, actor);
@@ -3734,7 +3731,7 @@ namespace Melia.Zone.Network
 			packet.PutShort(propertiesSize);
 			packet.PutShort(0); // etcPropertySize
 
-			packet.AddAppearancePc(character, character.GetEquipIds());
+			packet.AddAppearancePc(character);
 
 			packet.AddProperties(properties);
 			//packet.AddProperties(etcProperties);
@@ -4396,7 +4393,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(f3);
 			packet.PutFloat(f4);
 			packet.PutShort(0);
-			packet.PutShort(-16696);
+			packet.PutShort(11336);
 			packet.PutFloat(f5);
 			packet.PutShort(0);
 

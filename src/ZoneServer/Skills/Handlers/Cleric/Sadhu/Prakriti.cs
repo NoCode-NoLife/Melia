@@ -2,19 +2,16 @@
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Items;
-using Yggdrasil.Variables.DefaultGetters;
 
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
 	/// <summary>
-	/// Handler for the Cleric skill Prakriti.
+	/// Handler for the Sadhu skill Prakriti.
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Prakriti)]
 	public class Prakriti : IGroundSkillHandler
@@ -38,7 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 				return;
 			}
 
-			farPos = caster.Position.GetRelative(farPos, 25);
+			farPos = caster.Position.GetRelative(caster.Direction, 30);
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
@@ -53,50 +50,32 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, this.GetMoveSpeedBonus(skill));
 
-			// Creates the dummy Character
-			var dummyCharacter = new Character();
+			// We are loading a new Character from the DB
+			var dummyCharacter = ZoneServer.Instance.Database.GetCharacter(casterCharacter.AccountId, casterCharacter.DbId);
 
-			dummyCharacter.Name = casterCharacter.Name;
-			dummyCharacter.TeamName = casterCharacter.TeamName;
-			dummyCharacter.JobId = casterCharacter.JobId;
-			dummyCharacter.Gender = casterCharacter.Gender;
-			dummyCharacter.Hair = casterCharacter.Hair;
-			dummyCharacter.SkinColor = casterCharacter.SkinColor;
-			dummyCharacter.Map = casterCharacter.Map;
-			dummyCharacter.MapId = casterCharacter.MapId;
-			dummyCharacter.Position = casterCharacter.Position;
-			dummyCharacter.Direction = casterCharacter.Direction;
-			dummyCharacter.DbId = casterCharacter.DbId;
-			dummyCharacter.AccountId = casterCharacter.AccountId;
-			dummyCharacter.VisibleEquip = casterCharacter.VisibleEquip;
-			dummyCharacter.HeadDirection = casterCharacter.HeadDirection;
-			dummyCharacter.Properties.SetFloat(PropertyName.Lv, casterCharacter.Properties.GetFloat(PropertyName.Lv));
-			dummyCharacter.Properties.Modify(PropertyName.HP, casterCharacter.Properties.GetFloat(PropertyName.HP));
-			dummyCharacter.Properties.Modify(PropertyName.SP, casterCharacter.Properties.GetFloat(PropertyName.SP));
-			dummyCharacter.UpdateStance();
+			dummyCharacter.Position = caster.Position;
+			dummyCharacter.Direction = caster.Direction;
 
-			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter, casterCharacter.GetEquipIds(), true);
+			casterCharacter.Map.AddDummyCharacter(dummyCharacter);
+
+			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter, true);
 
 			Send.ZC_OWNER(casterCharacter, dummyCharacter);
-			Send.ZC_PLAY_ANI(dummyCharacter, 13705);
+			Send.ZC_PLAY_ANI(dummyCharacter, 13705, false, true);
 			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
 
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
 
-			var buff = new Buff(BuffId.ReduceDmgCommonAbil_Buff, 0, 0, TimeSpan.Zero, TimeSpan.Zero, dummyCharacter, casterCharacter);
-
-			Send.ZC_BUFF_ADD(dummyCharacter, buff);
-
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 1, 0.7f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 3, 0.5f, 0, 0, 0);
 
 			casterCharacter.Position = farPos;
 			Send.ZC_SET_POS(casterCharacter, farPos);
 
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 200, 100, 150, 0.01f);
-			Send.ZC_PLAY_ANI(casterCharacter, 5289);
+			Send.ZC_PLAY_ANI(dummyCharacter, 5289, true, false);
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, SkillId.None);
 
 			foreach (var availableSkill in casterCharacter.Skills.GetList())
@@ -104,9 +83,10 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 				Send.ZC_NORMAL.EnableUseSkillWhileOutOfBody(casterCharacter, BuffId.OOBE_Prakriti_Buff, availableSkill.Id, true);
 			}
 
-			casterCharacter.StartBuff(BuffId.OOBE_Prakriti_Buff, (int)skill.Id, dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
-
-			//casterCharacter.Map.AddCharacter(dummyCharacter);
+			casterCharacter.StartBuff(BuffId.OOBE_Prakriti_Buff, this.GetMoveSpeedBonus(skill), dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
+			casterCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
+			dummyCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
+			dummyCharacter.StartBuff(BuffId.ReduceDmgCommonAbil_Buff, TimeSpan.Zero);			
 		}
 
 		/// <summary>

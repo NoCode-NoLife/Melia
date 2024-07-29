@@ -7,6 +7,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
 using Melia.Zone.Buffs;
 using Melia.Shared.Data.Database;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.World.Actors.Characters
 {

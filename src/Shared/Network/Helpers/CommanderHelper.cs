@@ -13,7 +13,7 @@ namespace Melia.Shared.Network.Helpers
 		{
 			packet.PutInt(commander.Handle);
 			packet.PutInt(0);
-			packet.AddAppearancePc(commander, commander.GetEquipIds());
+			packet.AddAppearancePc(commander);
 
 			packet.PutFloat(commander.Position.X);
 			packet.PutFloat(commander.Position.Y);
