@@ -39,6 +39,7 @@ namespace Melia.Zone.Buffs.Handlers
 				pad.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
 
 				caster.Map.AddPad(pad);
+				skill.IncreaseOverheat();
 			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
@@ -46,17 +47,21 @@ namespace Melia.Zone.Buffs.Handlers
 			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Prakriti_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);
 
+			Send.ZC_PLAY_SOUND(casterCharacter, "I_force0082_1");
+
 			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
 
 			if (dummyCharacter != null)
 			{
 				casterCharacter.Position = dummyCharacter.Position;
-				Send.ZC_SET_POS(casterCharacter, dummyCharacter.Position);				
+				casterCharacter.Direction = dummyCharacter.Direction;
+				Send.ZC_ROTATE(casterCharacter);
+				Send.ZC_SET_POS(casterCharacter, dummyCharacter.Position);
+				Send.ZC_OWNER(casterCharacter, dummyCharacter, 0);
 				Send.ZC_LEAVE(dummyCharacter);
 				casterCharacter.Map.RemoveDummyCharacter(dummyCharacter);
 			}
 		}
-
 
 		/// <summary>
 		/// Called in regular intervals while the pad is on a map.

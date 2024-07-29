@@ -20,7 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, -3.054326f, 0, 70, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, 1.570796f, 0, 70, true);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, -3.054326f, 0, 70, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, 1.570796f, 0, 70, false);
 		}
 	}
 }

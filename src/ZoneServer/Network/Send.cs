@@ -2208,6 +2208,11 @@ namespace Melia.Zone.Network
 		/// <param name="position2"></param>
 		public static void ZC_SKILL_READY(ICombatEntity entity, Skill skill, Position position1, Position position2)
 		{
+			// Temporary solution until our skill handling system is
+			// more streamlined
+			if (entity is not Character character)
+				return;
+
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
 			packet.PutInt(entity.Handle);
@@ -2217,11 +2222,8 @@ namespace Melia.Zone.Network
 			packet.PutInt(0);
 			packet.PutPosition(position1);
 			packet.PutPosition(position2);
-
-			// Temporary solution until our skill handling system is
-			// more streamlined
-			if (entity is Character character)
-				character.Connection.Send(packet);
+						
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -2257,11 +2259,11 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="actor"></param>
-		public static void ZC_OWNER(Character character, IActor actor)
+		public static void ZC_OWNER(Character character, IActor actor, int ownerHandle)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
 			packet.PutInt(actor.Handle);
-			packet.PutInt(character.Handle);
+			packet.PutInt(ownerHandle);
 
 			character.Connection.Send(packet);
 		}

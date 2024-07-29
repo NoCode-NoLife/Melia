@@ -1364,15 +1364,15 @@ namespace Melia.Zone.Network
 			/// <param name="buffId"></param>
 			/// <param name="skillId"></param>
 			/// <param name="enable"></param>
-			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, SkillId skillId, bool enable)
+			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, int skillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.EnableUseSkillWhileOutOfBody);
 
 				packet.PutInt(character.Handle);
 				packet.PutLpString(buffId.ToString());
-				packet.PutInt((int)skillId);
-				packet.PutByte(enable);
+				packet.PutInt(skillId);
+				packet.PutByte(1);
 
 				character.Connection.Send(packet);
 			}
