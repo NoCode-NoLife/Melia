@@ -8,8 +8,6 @@ using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Buffs.Handlers;
-using Melia.Zone.Buffs.Handlers.Swordsman.Highlander;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
