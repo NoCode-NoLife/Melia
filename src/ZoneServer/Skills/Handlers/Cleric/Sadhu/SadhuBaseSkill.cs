@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -7,13 +9,15 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
 	/// <summary>
 	/// Base skill class Sadhu skills.
 	/// </summary>
-	public class SadhuSkillBase
+	public class SadhuBaseSkill
 	{
 		/// <summary>
 		/// Handles a sadhu skill for the given BuffId
@@ -81,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 		/// <param name="skill"></param>
 		private float GetMoveSpeedBonus(Skill skill)
 		{
-			return 18 - (skill.Level + 6);
+			return skill.Id == SkillId.Sadhu_Prakriti ? 18 - (skill.Level + 6) : 18;
 		}
 
 		/// <summary>
@@ -91,10 +95,38 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 		private Character SpawnDummyClone(Character casterCharacter)
 		{
 			// We are loading a new Character from the DB
-			var dummyCharacter = ZoneServer.Instance.Database.GetCharacter(casterCharacter.AccountId, casterCharacter.DbId);
+			//var dummyCharacter = ZoneServer.Instance.Database.GetCharacter(casterCharacter.AccountId, casterCharacter.DbId);
+			var dummyCharacter = new Character();
+
+			dummyCharacter.DbId = casterCharacter.DbId;
+			dummyCharacter.AccountId = casterCharacter.AccountId;
+			dummyCharacter.Name = casterCharacter.Name;
+			dummyCharacter.TeamName = casterCharacter.TeamName;
+			dummyCharacter.JobId = casterCharacter.JobId;
+			dummyCharacter.Gender = casterCharacter.Gender;
+			dummyCharacter.Hair = casterCharacter.Hair;
+			dummyCharacter.SkinColor = casterCharacter.SkinColor;
+			dummyCharacter.MapId = casterCharacter.MapId;
 
 			dummyCharacter.Position = casterCharacter.Position;
 			dummyCharacter.Direction = casterCharacter.Direction;
+			dummyCharacter.Owner = casterCharacter;
+
+			foreach(var item in casterCharacter.Inventory.GetEquip())
+			{
+				var newItem = new Item(item.Value.Id, item.Value.Amount);
+				dummyCharacter.Inventory.SetEquipSilent(item.Key, newItem);
+			}
+
+			foreach(var job in casterCharacter.Jobs.GetList())
+			{
+				dummyCharacter.Jobs.AddSilent(new Job(dummyCharacter, job.Id));
+			}
+
+			dummyCharacter.InitProperties();
+			dummyCharacter.Properties.Stamina = (int)casterCharacter.Properties.GetFloat(PropertyName.MaxSta);
+			dummyCharacter.UpdateStance();
+			dummyCharacter.ModifyHpSafe(casterCharacter.MaxHp, out var hp, out var priority);
 
 			casterCharacter.Map.AddDummyCharacter(dummyCharacter);
 

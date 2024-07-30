@@ -18,7 +18,6 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs.Handlers;
-using Melia.Zone.Buffs;
 using System.Collections.Generic;
 
 namespace Melia.Zone.World.Actors.Characters
@@ -351,9 +350,24 @@ namespace Melia.Zone.World.Actors.Characters
 		private Localizer _localizer;
 
 		/// <summary>
+		/// Returns reference to the character's owner (In case of being a dummy).
+		/// </summary>
+		public ICombatEntity Owner { get; set; }
+
+		/// <summary>
+		/// Gets the condition that makes this character a dummy
+		/// </summary>
+		public bool IsDummy => Owner != null;
+
+		/// <summary>
 		/// Raised when the characters sits down or stands up.
 		/// </summary>
 		public event Action<Character> SitStatusChanged;
+
+		/// <summary>
+		/// Raised when the character died.
+		/// </summary>
+		public event Action<Character, ICombatEntity> Died;
 
 		/// <summary>
 		/// Creates new character.
@@ -1270,6 +1284,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_DEAD(this);
 
+			this.Died?.Invoke(this, killer);
+
 			_resurrectDialogTimer = ResurrectDialogDelay;
 		}
 
@@ -1387,7 +1403,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Return true in case of the character has used Out Of Body Skill
 		/// </summary>
 		/// <returns></returns>
-		private bool IsOutOfBody()
+		public bool IsOutOfBody()
 		{
 			var buffList = new List<BuffId>() {
 				BuffId.OOBE_Prakriti_Buff, BuffId.OOBE_Anila_Buff, BuffId.OOBE_Possession_Buff, BuffId.OOBE_Patati_Buff,

@@ -190,6 +190,17 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// TODO: There may be a better place to check this
+		// While in OOBE the character won't receive damage from any sources
+		// besides Holy Damage (which will double) or if the attacker is Elite/Boss
+		if (target is Character tagetCharacter && tagetCharacter.IsOutOfBody())
+		{
+			if (attacker.Rank != MonsterRank.Boss && (skill.Data.Attribute != SkillAttribute.Holy || !attacker.IsBuffActive(BuffId.EliteMonsterBuff)))
+				return 0;
+			else if (skill.Data.Attribute == SkillAttribute.Holy)
+				return (int)(skillHitResult.Damage * 2);
+		}
+
 		return (int)skillHitResult.Damage;
 	}
 
@@ -514,6 +525,8 @@ public class CombatCalculationsScript : GeneralScript
 		var buffComponent = attacker.Components.Get<BuffComponent>();
 		if (buffComponent.Has(BuffId.Cloaking_Buff))
 			buffComponent.Remove(BuffId.Cloaking_Buff);
+		if (target.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+			result.Damage = 0;
 
 		return result;
 	}

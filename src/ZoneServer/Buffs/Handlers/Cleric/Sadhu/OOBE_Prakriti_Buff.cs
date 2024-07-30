@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 	/// <summary>
 	/// Handler for the Out Of Body Experience (OOBE) Prakriti Buff
 	/// which makes the character go back to original position after a while
-	/// and leave a effect that damages enemies inside
+	/// and creates an effect that damages enemies inside
 	/// </summary>
 	[BuffHandler(BuffId.OOBE_Prakriti_Buff)]
 	public class OOBE_Prakriti_Buff : BuffHandler
@@ -44,6 +44,11 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 				caster.Map.AddPad(pad);
 			}
+
+			// This is the case of the [Arts] Spirit Expert: Wandering Soul is activated
+			// and we are dealing with a Clone as a target (and the main character as a caster).
+			if (caster.Handle != buff.Target.Handle && caster.IsAbilityActive(AbilityId.Sadhu35))
+				return;
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
@@ -92,12 +97,13 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 			foreach (var target in targets.LimitRandom(pad.Trigger.MaxActorCount))
 			{
+				target.StartBuff(BuffId.Common_Hold, 0, 0, TimeSpan.FromMilliseconds(5500), caster);
 				this.Attack(skill, caster, target);
 			}
 		}
 
 		/// <summary>
-		/// Area of effect that ticks dealing damage on the enemies inside
+		/// Attacks the target
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>

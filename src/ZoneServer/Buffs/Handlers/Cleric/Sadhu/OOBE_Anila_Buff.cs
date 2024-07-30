@@ -10,18 +10,32 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using System.Threading.Tasks;
 
 namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 {
 	/// <summary>
 	/// Handler for the Out Of Body Experience (OOBE) Anila Buff
 	/// which makes the character go back to original position after a while
-	/// and leave a effect that damages enemies on hit by a wave effect
+	/// and leave an effect that damages enemies on hit by a wave effect
 	/// </summary>
 	[BuffHandler(BuffId.OOBE_Anila_Buff)]
 	public class OOBE_Anila_Buff : BuffHandler
 	{
+		public override void OnStart(Buff buff)
+		{
+			var caster = buff.Caster;
+
+			if (caster is not Character casterCharacter)
+				return;
+
+			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
+
+			if (dummyCharacter != null)
+			{
+				dummyCharacter.Died += this.OnDummyDied;
+			}
+		}
+
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
@@ -42,6 +56,11 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 				caster.Map.AddPad(pad);
 			}
+
+			// This is the case of the [Arts] Spirit Expert: Wandering Soul is activated
+			// and we are dealing with a Clone as a target (and the main character as a caster).
+			if (caster.Handle != buff.Target.Handle && caster.IsAbilityActive(AbilityId.Sadhu35))
+				return;
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
@@ -67,10 +86,14 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			{
 				character.Position = dummyCharacter.Position;
 				character.Direction = dummyCharacter.Direction;
+
+				dummyCharacter.Died -= this.OnDummyDied;
+
 				Send.ZC_ROTATE(character);
 				Send.ZC_SET_POS(character, dummyCharacter.Position);
 				Send.ZC_OWNER(character, dummyCharacter, 0);
 				Send.ZC_LEAVE(dummyCharacter);
+				
 				character.Map.RemoveDummyCharacter(dummyCharacter);
 			}
 		}
@@ -96,7 +119,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		}
 
 		/// <summary>
-		/// Area of effect that ticks dealing damage on the enemies inside
+		/// Attacks the target
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -110,6 +133,17 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
+		}
+
+		/// <summary>
+		/// Called when the dummy character died
+		/// disappeared.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="killer"></param>
+		private void OnDummyDied(Character character, ICombatEntity killer)
+		{
+			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 	}
 }

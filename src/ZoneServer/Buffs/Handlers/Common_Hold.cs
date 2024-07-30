@@ -14,9 +14,8 @@ namespace Melia.Zone.Buffs.Handlers
 		{
 			var movementComponent = buff.Target.Components.Get<MovementComponent>();
 
-			if (movementComponent != null) {
-				movementComponent.ApplyHold();
-			}
+			if (movementComponent != null)
+				movementComponent.ApplyHold();			
 		}
 
 		public override void OnEnd(Buff buff)
@@ -24,9 +23,7 @@ namespace Melia.Zone.Buffs.Handlers
 			var movementComponent = buff.Target.Components.Get<MovementComponent>();
 
 			if (movementComponent != null)
-			{
-				movementComponent.ReleaseHold();
-			}
+				movementComponent.ReleaseHold();			
 		}
 	}
 }
