@@ -37,7 +37,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			if (caster.TryGetActiveAbilityLevel(AbilityId.Doppelsoeldner17, out var level)) 
 			{
-				// TODO: 15% chance to resist debuffs per level
 				caster.StartBuff(BuffId.Cyclone_Buff_ImmuneAbil, level, 0, TimeSpan.Zero, caster);
 			}
 		}

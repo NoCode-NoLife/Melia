@@ -10,22 +10,16 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handler for the Doppelsoeldner skill Zornhau.
+	/// Handler for the Doppelsoeldner skill Zwerchhau.
 	/// </summary>
-	[SkillHandler(SkillId.Doppelsoeldner_Zornhau)]
-	public class Doppelsoeldner_Zornhau : IGroundSkillHandler
+	[SkillHandler(SkillId.Doppelsoeldner_Zwerchhau)]
+	public class Doppelsoeldner_Zwerchhau : IGroundSkillHandler
 	{
-		private const int BuffRemoveChancePerLevel = 5;
-		private readonly static TimeSpan DebuffDuration = TimeSpan.FromSeconds(5);
-
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -42,11 +36,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 			}
 
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 30, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 90, width: 0, angle: 50);
+			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -62,23 +55,20 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(400);
-			var damageDelay = TimeSpan.FromMilliseconds(150);
+			var hitDelay = TimeSpan.FromMilliseconds(170);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
-			var hitSomething = false;
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var hitSomething = false;
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.MultiHit(2);
-
-				if (caster.TryGetActiveAbilityLevel(AbilityId.Doppelsoeldner22, out var deepCutLevel))
-					modifier.HitCount += deepCutLevel;
+				var modifier = SkillModifier.MultiHit(3);
 
 				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
 					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
@@ -87,27 +77,26 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
+
+				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner38))
+				{
+					// TODO: This knockdown effect pulls the enemies towards you
+					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+					target.Position = skillHit.KnockBackInfo.ToPosition;
+				}
+				else
+				{ 
+					skillHit.HitEffect = HitEffect.Impact;
+				}
+
+
 				hits.Add(skillHit);
-
-				// TODO: On latest the game actually no longer applies this,
-				// even though it still lists it in the description. Should
-				// probably have some kind of feature to turn this on/off.
-				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, DebuffDuration, caster);
-
-				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner36))
-					target.StartBuff(BuffId.Zornhau_Debuff, skill.Level, skillHitResult.Damage * 0.2f, DebuffDuration, caster);
-
-				// Also need to potentially remove a buff from the target
-				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(100) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
 
 				hitSomething = true;
 			}
 
-			// Must hit at least 1 enemy to continue combo?
-			if (hitSomething)
+			if (caster.IsAbilityActive(AbilityId.Doppelsoeldner26) && hitSomething)
 			{
 				var duration = TimeSpan.FromSeconds(3);
 				caster.StartBuff(BuffId.Zucken_Buff, skill.Level, 0, duration, caster);
@@ -117,4 +106,3 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		}
 	}
 }
-

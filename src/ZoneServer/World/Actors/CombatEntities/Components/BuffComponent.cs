@@ -7,6 +7,7 @@ using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
@@ -360,6 +361,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
 		{
+			// Attempt status resistance against debuffs
+			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
+			{
+				if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
+				{
+					if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
+						return null;
+				}
+			}
+
 			if (!this.TryGet(buffId, out var buff))
 			{
 				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity);
