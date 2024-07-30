@@ -2,6 +2,7 @@
 using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -12,6 +13,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
@@ -136,6 +138,8 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
 
 			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), dummyCharacter);
+
+			dummyCharacter.Components.Add(new AiComponent(dummyCharacter, "BasicMonster"));
 		}
 
 		/// <summary>
