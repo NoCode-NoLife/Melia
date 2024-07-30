@@ -119,6 +119,8 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			farPos = caster.Position.GetRelative(caster.Direction, 20);
 
 			caster.SetAttackState(true);
+			skill.IncreaseOverheat();
+
 			this.SkillReady(caster, skill, caster.Position);
 
 			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
@@ -137,7 +139,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, dummyCharacter.Handle, 255, 200, 100, 150, 0.01f);
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
 
-			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), dummyCharacter);
+			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), casterCharacter);
 
 			dummyCharacter.Components.Add(new AiComponent(dummyCharacter, "BasicMonster"));
 		}

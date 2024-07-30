@@ -27,10 +27,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			var caster = buff.Caster;
 
 			// [Arts] Spirit Expert: Wandering Soul
-			if (caster.IsAbilityActive(AbilityId.Sadhu35))
-				return;
-
-			if (caster is not Character casterCharacter)
+			if (caster.IsAbilityActive(AbilityId.Sadhu35) || caster is not Character casterCharacter)
 				return;
 
 			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);

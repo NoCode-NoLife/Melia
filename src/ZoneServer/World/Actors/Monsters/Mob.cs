@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Shared.Configuration.Files;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
@@ -15,7 +14,6 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.World.Actors.Monsters
