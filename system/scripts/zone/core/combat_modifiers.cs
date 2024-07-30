@@ -5,6 +5,7 @@
 // combatants's buffs and other properties.
 //---------------------------------------------------------------------------
 
+using System.Linq;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -31,6 +32,9 @@ public class CombatModifierCalculationsScript : GeneralScript
 
 		CallForPassiveSkills(nameof(SCR_Combat_BeforeCalc), attacker, attacker, target, skill, modifier, skillHitResult);
 		CallForPassiveSkills(nameof(SCR_Combat_BeforeCalc), target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForAbilities(nameof(SCR_Combat_BeforeCalc), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForAbilities(nameof(SCR_Combat_BeforeCalc), target, attacker, target, skill, modifier, skillHitResult);
 
 		return 0;
 	}
@@ -145,6 +149,37 @@ public class CombatModifierCalculationsScript : GeneralScript
 		foreach (var passiveSkill in passiveSkills)
 		{
 			var funcName = baseFuncName + "_" + passiveSkill.Data.ClassName;
+
+			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
+				continue;
+
+			func(attacker, target, skill, modifier, skillHitResult);
+		}
+	}
+
+	/// <summary>
+	/// Calls the given scriptable function for all active abilities on the given entity.
+	/// </summary>
+	/// <param name="baseFuncName"></param>
+	/// <param name="entity"></param>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
+	/// <param name="skillHitResult"></param>
+	private void CallForAbilities(string baseFuncName, ICombatEntity entity, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	{
+		if (!entity.Components.TryGet<AbilityComponent>(out var abilities))
+			return;
+
+		var type = entity == attacker ? "Attack" : "Defense";
+		baseFuncName += "_" + type;
+
+		var activeAbilities = abilities.GetList(a => a.Active);
+
+		foreach (var ability in activeAbilities)
+		{
+			var funcName = baseFuncName + "_" + ability.Id;
 
 			if (!ScriptableFunctions.Combat.TryGet(funcName, out var func))
 				continue;

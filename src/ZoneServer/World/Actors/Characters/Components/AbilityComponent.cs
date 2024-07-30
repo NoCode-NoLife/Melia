@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
@@ -67,6 +68,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_abilities)
 				return _abilities.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Returns a list of abilities that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Ability[] GetList(Func<Ability, bool> predicate)
+		{
+			lock (_abilities)
+				return _abilities.Values.Where(predicate).ToArray();
 		}
 
 		/// <summary>

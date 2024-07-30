@@ -875,14 +875,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent to continue dialog?
+		/// Sent to continue dialog or close storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(IZoneConnection conn, Packet packet)
 		{
-			var type = packet.GetInt();
+			var ack = (DialogAcknowledgement)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var storage = conn.SelectedCharacter.PersonalStorage;
+
+			// If storage was open, close it
+			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
+			{
+				storage.Close();
+				conn.CurrentDialog = null;
+				return;
+			}
 
 			// Check state
 			if (conn.CurrentDialog == null)
@@ -893,10 +904,8 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// The type seems to indicate what the client wants to do,
-			// 1 being sent when continuing normally and 0 or -1 when
-			// escape is pressed, to cancel the dialog.
-			if (type == 1)
+			// Resume or not the dialog
+			if (ack == DialogAcknowledgement.Okay)
 			{
 				conn.CurrentDialog.Resume(null);
 			}
@@ -1397,6 +1406,121 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Sent when opening storage and requesting item list in the storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_LIST)]
+		public void CZ_REQ_ITEM_LIST(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+			var storage = character.PersonalStorage;
+
+			if (type == StorageType.PersonalStorage)
+			{
+				if (storage.IsBrowsing)
+				{
+					var storageItems = storage.GetItems();
+
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storageItems);
+				}
+			}
+			else if (type == StorageType.TeamStorage)
+			{
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+			}
+		}
+
+		/// <summary>
+		/// Sent when retrieving or storing items to storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WAREHOUSE_CMD)]
+		public void CZ_WAREHOUSE_CMD(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+			var worldId = packet.GetLong();
+			var i1 = packet.GetInt();
+			var amount = packet.GetInt();
+			var i2 = packet.GetInt();
+			var interaction = (StorageInteraction)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+			var inventory = character.Inventory;
+			var storage = character.PersonalStorage;
+
+			if (!Enum.IsDefined(typeof(StorageInteraction), interaction))
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
+				return;
+			}
+
+			var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
+			var silver = inventory.CountItem(ItemId.Silver);
+
+			if (silver < interactionCost)
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
+				return;
+			}
+
+			if (type == StorageType.PersonalStorage)
+			{
+				if (!storage.IsBrowsing)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+					return;
+				}
+
+				if (interaction == StorageInteraction.Store)
+				{
+					if (storage.StoreItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+				}
+				else if (interaction == StorageInteraction.Retrieve)
+				{
+					if (storage.RetrieveItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+				}
+			}
+			else if (type == StorageType.TeamStorage)
+			{
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+			}
+			else
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: Unknown storage type '{0}'.", type);
+			}
+		}
+
+		/// <summary>
+		/// Swap items in storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SWAP_ITEM_IN_WAREHOUSE)]
+		public void CZ_SWAP_ITEM_IN_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var fromSlot = packet.GetInt();
+			var toSlot = packet.GetInt();
+			var item1ObjectId = packet.GetLong();
+			var item2ObjectId = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.PersonalStorage.IsBrowsing)
+			{
+				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+				return;
+			}
+
+			character.PersonalStorage.Swap(fromSlot, toSlot);
+		}
+
+		/// <summary>
 		/// Sent when clicking Confirm in a shop, with items in the "Bought" list.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -1530,7 +1654,8 @@ namespace Melia.Zone.Network
 
 			// Remove items and count revenue
 			var totalMoney = 0;
-			var itemsSold = new List<Item>();
+			var itemsSold = new Dictionary<int, Item>();
+
 			foreach (var itemToSell in itemsToSell)
 			{
 				var worldId = itemToSell.Key;
@@ -1552,22 +1677,22 @@ namespace Melia.Zone.Network
 				}
 
 				// Try to remove item
-				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
 				{
-					totalMoney += item.Data.SellPrice * amount;
-					itemsSold.Add(item);
-				}
-				else
 					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
+					continue;
+				}
+
+				totalMoney += item.Data.SellPrice * amount;
+				itemsSold.Add(itemsSold.Count, item);
 			}
 
 			// Give money
 			if (totalMoney > 0)
 				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
-
 			// Need to keep track of items sold, server sends this list to the client
-			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, 3, itemsSold);
+			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, StorageType.Sold, itemsSold);
 		}
 
 		/// <summary>

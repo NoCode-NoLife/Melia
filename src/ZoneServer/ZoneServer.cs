@@ -8,6 +8,7 @@ using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
+using Melia.Zone.Abilities;
 using Melia.Zone.Buffs;
 using Melia.Zone.Commands;
 using Melia.Zone.Database;
@@ -42,47 +43,52 @@ namespace Melia.Zone
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
 		/// </summary>
-		public PacketHandler PacketHandler { get; } = new PacketHandler();
+		public PacketHandler PacketHandler { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's database interface.
 		/// </summary>
-		public ZoneDb Database { get; } = new ZoneDb();
+		public ZoneDb Database { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's world manager.
 		/// </summary>
-		public WorldManager World { get; } = new WorldManager();
+		public WorldManager World { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's skill handlers.
 		/// </summary>
-		public SkillHandlers SkillHandlers { get; } = new SkillHandlers();
+		public SkillHandlers SkillHandlers { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's buff handlers.
 		/// </summary>
-		public BuffHandlers BuffHandlers { get; } = new BuffHandlers();
+		public BuffHandlers BuffHandlers { get; } = new();
+
+		/// <summary>
+		/// Returns reference to the server's ability handlers.
+		/// </summary>
+		public AbilityHandlers AbilityHandlers { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's pad handlers.
 		/// </summary>
-		public PadHandlers PadHandlers { get; } = new PadHandlers();
+		public PadHandlers PadHandlers { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's chat command manager.
 		/// </summary>
-		public ChatCommands ChatCommands { get; } = new ChatCommands();
+		public ChatCommands ChatCommands { get; } = new();
 
 		/// <summary>
 		/// Returns a reference to the server's event manager.
 		/// </summary>
-		public ServerEvents ServerEvents { get; } = new ServerEvents();
+		public ServerEvents ServerEvents { get; } = new();
 
 		/// <summary>
 		/// Returns reference to the server's IES mods.
 		/// </summary>
-		public IesModList IesMods { get; } = new IesModList();
+		public IesModList IesMods { get; } = new();
 
 		/// <summary>
 		/// Runs the server.
@@ -315,7 +321,8 @@ namespace Melia.Zone
 				this.IesMods.Add("SkillTree", 10509, "MaxLevel", 5);
 			}
 
-			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank);
+			this.IesMods.Add("SharedConst", 177, "Value", this.Conf.World.StorageFee); // WAREHOUSE_PRICE
+			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
 		}
 
 		/// <summary>
