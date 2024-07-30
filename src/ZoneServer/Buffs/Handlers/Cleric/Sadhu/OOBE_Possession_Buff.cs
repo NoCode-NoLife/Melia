@@ -25,6 +25,25 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		// but it doesn't happen. For that reason I left this here in that case it changes
 		private const bool ApplySelfHold = false;
 
+		public override void OnStart(Buff buff)
+		{
+			var caster = buff.Caster;
+
+			// [Arts] Spirit Expert: Wandering Soul
+			if (caster.IsAbilityActive(AbilityId.Sadhu35))
+				return;
+
+			if (caster is not Character casterCharacter)
+				return;
+
+			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
+
+			if (dummyCharacter != null)
+			{
+				dummyCharacter.Died += this.OnDummyDied;
+			}
+		}
+
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
@@ -35,18 +54,31 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster.TryGetSkill(SkillId.Sadhu_Possession, out var skill))
 			{
 				caster.SetAttackState(true);
-				skill.IncreaseOverheat();
 
 				this.AreaOfEffect(caster, skill, caster.Position);
 
 				if (ApplySelfHold)				
-					casterCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));								
+					casterCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));
+
+				// [Arts] Spirit Expert: Wandering Soul
+				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				{
+					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
+					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
+					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
+				}
+				else
+				{
+					skill.IncreaseOverheat();
+				}
 			}
 
-			// This is the case of the [Arts] Spirit Expert: Wandering Soul is activated
-			// and we are dealing with a Clone as a target (and the main character as a caster).
-			if (caster.Handle != buff.Target.Handle && caster.IsAbilityActive(AbilityId.Sadhu35))
+			// [Arts] Spirit Expert: Wandering Soul
+			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			{
+				this.RemoveDummyCharacter(casterCharacter);
 				return;
+			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
@@ -56,6 +88,20 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
 
 			this.ReturnToBody(casterCharacter, (int)buff.NumArg2);
+		}
+
+		/// <summary>
+		/// Remove the dummy character from the map
+		/// </summary>
+		/// <param name="character"></param>
+		private void RemoveDummyCharacter(Character character)
+		{
+			if (character.Owner is Character ownerCharacter)
+				Send.ZC_OWNER(ownerCharacter, character, 0);
+
+			Send.ZC_LEAVE(character);
+
+			character.Map.RemoveDummyCharacter(character);
 		}
 
 		/// <summary>
@@ -125,6 +171,17 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
+		}
+
+		/// <summary>
+		/// Called when the dummy character died
+		/// disappeared.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="killer"></param>
+		private void OnDummyDied(Character character, ICombatEntity killer)
+		{
+			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 	}
 }

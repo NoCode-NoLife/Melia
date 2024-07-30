@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Reflection.Emit;
 using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -33,6 +35,12 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			if (!caster.IsBuffActive(BuffId.OOBE_Soulmaster_Buff) || caster is not Character casterCharacter)
 				return;
 
+			if (caster.IsAbilityActive(AbilityId.Sadhu35))
+			{
+				this.CreateClone(skill, caster, originPos, farPos, target, buffId);
+				return;
+			}
+
 			// This skill doesn't enter on Cooldown on the first usage.
 			// On the second usage it will return to the original body.
 			if (caster.IsBuffActive(buffId))
@@ -51,13 +59,14 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			caster.SetAttackState(true);
 			this.SkillReady(caster, skill, farPos);
-			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
 
 			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, moveSpeedBonus);
 
-			var dummyCharacter = this.SpawnDummyClone(casterCharacter);
+			var dummyCharacter = this.SpawnDummyClone(casterCharacter, caster.Position);
 
+			Send.ZC_PLAY_ANI(dummyCharacter, 13705, false, true);
+			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
@@ -74,9 +83,59 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			this.SendAvailableSkills(casterCharacter, buffId, skill);
 
 			casterCharacter.StartBuff(buffId, moveSpeedBonus, dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
-			casterCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
-			dummyCharacter.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(10));
-			dummyCharacter.StartBuff(BuffId.ReduceDmgCommonAbil_Buff, TimeSpan.Zero);
+		}
+
+		/// <summary>
+		/// Creates a clone of the character that attacks nearby monster
+		/// and disappears after a while leaving an effect
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="originPos"></param>
+		/// <param name="farPos"></param>
+		/// <param name="target"></param>
+		/// <param name="buffId"></param>
+		public void CreateClone(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target, BuffId buffId)
+		{
+			if (!caster.IsBuffActive(BuffId.OOBE_Soulmaster_Buff) || caster is not Character casterCharacter)
+				return;
+
+			// This skill doesn't enter on Cooldown on the first usage.
+			// On the second usage it will return to the original body.
+			if (caster.IsBuffActive(buffId))
+			{
+				this.ReturnToBody(caster, skill, farPos, buffId);
+				return;
+			}
+
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
+
+			farPos = caster.Position.GetRelative(caster.Direction, 20);
+
+			caster.SetAttackState(true);
+			this.SkillReady(caster, skill, caster.Position);
+
+			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
+			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, moveSpeedBonus);
+
+			var dummyCharacter = this.SpawnDummyClone(casterCharacter, farPos);
+
+			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
+			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 3, 0.5f, 0, 0, 0);
+			Send.ZC_SET_POS(casterCharacter, dummyCharacter.Handle, farPos);
+			Send.ZC_PLAY_ANI(dummyCharacter, 13705, false, true);
+
+			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, dummyCharacter.Handle, 255, 200, 100, 150, 0.01f);
+			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
+
+			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), dummyCharacter);
 		}
 
 		/// <summary>
@@ -92,10 +151,8 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 		/// Spawns a dummy character that will looks like the original character
 		/// </summary>
 		/// <param name="casterCharacter"></param>
-		private Character SpawnDummyClone(Character casterCharacter)
+		private Character SpawnDummyClone(Character casterCharacter, Position position)
 		{
-			// We are loading a new Character from the DB
-			//var dummyCharacter = ZoneServer.Instance.Database.GetCharacter(casterCharacter.AccountId, casterCharacter.DbId);
 			var dummyCharacter = new Character();
 
 			dummyCharacter.DbId = casterCharacter.DbId;
@@ -108,19 +165,25 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			dummyCharacter.SkinColor = casterCharacter.SkinColor;
 			dummyCharacter.MapId = casterCharacter.MapId;
 
-			dummyCharacter.Position = casterCharacter.Position;
+			dummyCharacter.Position = position;
 			dummyCharacter.Direction = casterCharacter.Direction;
 			dummyCharacter.Owner = casterCharacter;
 
-			foreach(var item in casterCharacter.Inventory.GetEquip())
+			foreach (var item in casterCharacter.Inventory.GetEquip())
 			{
 				var newItem = new Item(item.Value.Id, item.Value.Amount);
 				dummyCharacter.Inventory.SetEquipSilent(item.Key, newItem);
 			}
 
-			foreach(var job in casterCharacter.Jobs.GetList())
+			foreach (var job in casterCharacter.Jobs.GetList())
 			{
 				dummyCharacter.Jobs.AddSilent(new Job(dummyCharacter, job.Id));
+			}
+
+			foreach (var skill in casterCharacter.Skills.GetList())
+			{
+				var newSkill = new Skill(dummyCharacter, skill.Id, skill.Level);
+				dummyCharacter.Skills.AddSilent(newSkill);
 			}
 
 			dummyCharacter.InitProperties();
@@ -131,8 +194,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			casterCharacter.Map.AddDummyCharacter(dummyCharacter);
 
 			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter, true);
-			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);
-			Send.ZC_PLAY_ANI(dummyCharacter, 13705, false, true);
+			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);			
 			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
 
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);

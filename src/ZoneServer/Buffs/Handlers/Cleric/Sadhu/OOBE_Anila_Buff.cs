@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Shared.World;
 
 namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 {
@@ -24,6 +25,10 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		public override void OnStart(Buff buff)
 		{
 			var caster = buff.Caster;
+
+			// [Arts] Spirit Expert: Wandering Soul
+			if (caster.IsAbilityActive(AbilityId.Sadhu35))
+				return;
 
 			if (caster is not Character casterCharacter)
 				return;
@@ -46,7 +51,6 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster.TryGetSkill(SkillId.Sadhu_Anila, out var skill))
 			{
 				caster.SetAttackState(true);
-				skill.IncreaseOverheat();
 
 				var pad = new Pad(PadName.Sadhu_Anila_Effect_Pad, caster, skill, new Square(caster.Position, caster.Direction, 50, 65));
 
@@ -55,12 +59,25 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 				pad.Trigger.Subscribe(TriggerType.Enter, this.OnCollisionEnter);
 
 				caster.Map.AddPad(pad);
+
+				// [Arts] Spirit Expert: Wandering Soul
+				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				{
+					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
+					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
+					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
+				} else
+				{
+					skill.IncreaseOverheat();
+				}
 			}
 
-			// This is the case of the [Arts] Spirit Expert: Wandering Soul is activated
-			// and we are dealing with a Clone as a target (and the main character as a caster).
-			if (caster.Handle != buff.Target.Handle && caster.IsAbilityActive(AbilityId.Sadhu35))
+			// [Arts] Spirit Expert: Wandering Soul
+			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			{
+				this.RemoveDummyCharacter(casterCharacter);
 				return;
+			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
@@ -70,6 +87,20 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
 
 			this.ReturnToBody(casterCharacter, (int)buff.NumArg2);
+		}
+
+		/// <summary>
+		/// Remove the dummy character from the map
+		/// </summary>
+		/// <param name="character"></param>
+		private void RemoveDummyCharacter(Character character)
+		{
+			if (character.Owner is Character ownerCharacter)
+				Send.ZC_OWNER(ownerCharacter, character, 0);
+
+			Send.ZC_LEAVE(character);
+
+			character.Map.RemoveDummyCharacter(character);
 		}
 
 		/// <summary>

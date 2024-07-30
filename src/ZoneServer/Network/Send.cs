@@ -462,6 +462,17 @@ namespace Melia.Zone.Network
 		/// <param name="forceId"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
+			=> ZC_SKILL_MELEE_GROUND(entity, entity, skill, targetPos, forceId, hits);
+
+		/// <summary>
+		/// Shows entity using the skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, ICombatEntity target, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
 			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
 			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
@@ -469,9 +480,9 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
 			packet.PutInt((int)skill.Id);
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Direction.Cos);
-			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(target.Handle);
+			packet.PutFloat(target.Direction.Cos);
+			packet.PutFloat(target.Direction.Sin);
 			packet.PutInt(1);
 			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
@@ -1364,10 +1375,17 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="actor"></param>
 		public static void ZC_SET_POS(IActor actor, Position pos)
+			=> ZC_SET_POS(actor, actor.Handle, actor.Position);
+
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
+		/// </summary>
+		/// <param name="actor"></param>
+		public static void ZC_SET_POS(IActor actor, int targetHandle, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(actor.Handle);
+			packet.PutInt(targetHandle);
 			packet.PutPosition(pos);
 			packet.PutByte(0);
 
@@ -2207,6 +2225,18 @@ namespace Melia.Zone.Network
 		/// <param name="position1"></param>
 		/// <param name="position2"></param>
 		public static void ZC_SKILL_READY(ICombatEntity entity, Skill skill, Position position1, Position position2)
+			=> ZC_SKILL_READY(entity, entity, skill, position1, position2);
+
+		/// <summary>
+		/// Notifies the client that the skill is ready? Exact purpose
+		/// currently unknown.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="position1"></param>
+		/// <param name="position2"></param>
+		public static void ZC_SKILL_READY(ICombatEntity entity, ICombatEntity caster, Skill skill, Position position1, Position position2)
 		{
 			// Temporary solution until our skill handling system is
 			// more streamlined
@@ -2215,7 +2245,7 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(caster.Handle);
 			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);

@@ -22,6 +22,25 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 	[BuffHandler(BuffId.OOBE_Prakriti_Buff)]
 	public class OOBE_Prakriti_Buff : BuffHandler
 	{
+		public override void OnStart(Buff buff)
+		{
+			var caster = buff.Caster;
+
+			// [Arts] Spirit Expert: Wandering Soul
+			if (caster.IsAbilityActive(AbilityId.Sadhu35))
+				return;
+
+			if (caster is not Character casterCharacter)
+				return;
+
+			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
+
+			if (dummyCharacter != null)
+			{
+				dummyCharacter.Died += this.OnDummyDied;
+			}
+		}
+
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
@@ -32,7 +51,6 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster.TryGetSkill(SkillId.Sadhu_Prakriti, out var skill))
 			{
 				caster.SetAttackState(true);
-				skill.IncreaseOverheat();
 
 				var pad = new Pad(PadName.Sadhu_Prakriti_Pad, caster, skill, new Circle(caster.Position, 90));
 
@@ -43,12 +61,26 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 				pad.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
 
 				caster.Map.AddPad(pad);
+
+				// [Arts] Spirit Expert: Wandering Soul
+				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				{
+					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
+					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
+					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
+				}
+				else
+				{
+					skill.IncreaseOverheat();
+				}
 			}
 
-			// This is the case of the [Arts] Spirit Expert: Wandering Soul is activated
-			// and we are dealing with a Clone as a target (and the main character as a caster).
-			if (caster.Handle != buff.Target.Handle && caster.IsAbilityActive(AbilityId.Sadhu35))
+			// [Arts] Spirit Expert: Wandering Soul
+			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			{
+				this.RemoveDummyCharacter(casterCharacter);
 				return;
+			}
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
@@ -61,7 +93,21 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		}
 
 		/// <summary>
-		/// Makes the chararacter returns to original position
+		/// Remove the dummy character from the map
+		/// </summary>
+		/// <param name="character"></param>
+		private void RemoveDummyCharacter(Character character)
+		{
+			if (character.Owner is Character ownerCharacter)
+				Send.ZC_OWNER(ownerCharacter, character, 0);
+
+			Send.ZC_LEAVE(character);
+
+			character.Map.RemoveDummyCharacter(character);
+		}
+
+		/// <summary>
+		/// Makes the character returns to original position
 		/// and also get ride of the dummy character
 		/// </summary>
 		/// <param name="character"></param>
@@ -117,6 +163,17 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			hit.Type = HitType.Type33;
 
 			Send.ZC_HIT_INFO(caster, target, hit);
+		}
+
+		/// <summary>
+		/// Called when the dummy character died
+		/// disappeared.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="killer"></param>
+		private void OnDummyDied(Character character, ICombatEntity killer)
+		{
+			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 	}
 }
