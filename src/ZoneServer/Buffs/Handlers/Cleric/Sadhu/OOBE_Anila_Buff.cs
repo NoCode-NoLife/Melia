@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Shared.World;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 {
@@ -58,7 +59,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 				caster.Map.AddPad(pad);
 
 				// [Arts] Spirit Expert: Wandering Soul
-				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
 				{
 					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
 					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
@@ -70,7 +71,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			}
 
 			// [Arts] Spirit Expert: Wandering Soul
-			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
 			{
 				this.RemoveDummyCharacter(casterCharacter);
 				return;
@@ -96,6 +97,8 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 				Send.ZC_OWNER(ownerCharacter, character, 0);
 
 			Send.ZC_LEAVE(character);
+
+			Log.Info("Removing Dummy Character");
 
 			character.Map.RemoveDummyCharacter(character);
 		}

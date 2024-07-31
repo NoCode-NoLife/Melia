@@ -15,6 +15,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
@@ -88,8 +89,8 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 		}
 
 		/// <summary>
-		/// Creates a clone of the character that attacks nearby monster
-		/// and disappears after a while leaving an effect
+		/// Creates a clone of the character that attacks nearby
+		/// entities and disappears after a while leaving an effect
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -141,7 +142,11 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), casterCharacter);
 
-			dummyCharacter.Components.Add(new AiComponent(dummyCharacter, "BasicMonster"));
+			var aiComponent = new AiComponent(dummyCharacter, "SadhuDummy");
+			aiComponent.Script.SetMaster(casterCharacter);
+			aiComponent.Script.SetViewDistance(200);
+
+			dummyCharacter.Components.Add(aiComponent);
 		}
 
 		/// <summary>

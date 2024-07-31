@@ -3271,11 +3271,18 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_MSPD(ICombatEntity entity)
+			=> ZC_MSPD(entity, entity);
+
+		/// <summary>
+		/// Updates character's movement speed.
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_MSPD(ICombatEntity entity, ICombatEntity target)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutInt(target.Handle);
+			packet.PutFloat(target.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
 			entity.Map.Broadcast(packet, entity);

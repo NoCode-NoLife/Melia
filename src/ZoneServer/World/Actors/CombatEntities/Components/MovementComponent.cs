@@ -328,6 +328,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				this.Entity.Properties.Invalidate(PropertyName.MSPD);
 
 				Send.ZC_MSPD(this.Entity);
+			} else if (this.Entity is Character character && character.IsDummy)
+			{
+				this.MoveSpeedType = type;
+				character.Properties.Invalidate(PropertyName.MSPD);
+
+				Send.ZC_MSPD(character.Owner, character);
 			}
 		}
 

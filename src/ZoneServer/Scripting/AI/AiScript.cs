@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
@@ -63,6 +64,16 @@ namespace Melia.Zone.Scripting.AI
 
 			if (combatEntity is Mob mob)
 				this.SetTendency(mob.Tendency);
+
+			if (combatEntity is Character character && character.IsDummy)
+			{
+				this.SetTendency(TendencyType.Aggressive);
+				this.HatesFaction(FactionType.Peaceful);
+				this.HatesFaction(FactionType.Pet);
+				this.HatesFaction(FactionType.Monster);
+				this.HatesFaction(FactionType.Neutral);
+				this.HatesFaction(FactionType.Summon);
+			}
 
 			if (ZoneServer.Instance.Data.FactionDb.TryFind(this.Entity.Faction, out var factionData))
 				this.HatesFaction(factionData.Hostile);
@@ -271,6 +282,15 @@ namespace Melia.Zone.Scripting.AI
 		protected void HatesFaction(IEnumerable<FactionType> factions)
 		{
 			_hatedFactions.UnionWith(factions);
+		}
+
+		/// <summary>
+		/// Makes AI hostile towards the given faction.
+		/// </summary>
+		/// <param name="faction"></param>
+		protected void HatesFaction(FactionType faction)
+		{
+			_hatedFactions.Add(faction);
 		}
 
 		/// <summary>
@@ -526,7 +546,7 @@ namespace Melia.Zone.Scripting.AI
 		/// Sets the range in which the AI can see potential enemies.
 		/// </summary>
 		/// <param name="viewRange"></param>
-		protected void SetViewDistance(float viewRange)
+		public void SetViewDistance(float viewRange)
 		{
 			_viewRange = viewRange;
 		}

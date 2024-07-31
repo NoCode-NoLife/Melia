@@ -188,7 +188,8 @@ namespace Melia.Zone.Skills
 
 			// Update the overheat after the max was checked so we reset it
 			// to 0 if we went into cooldown
-			Send.ZC_OVERHEAT_CHANGED(character, this);
+			if (!character.IsDummy)
+				Send.ZC_OVERHEAT_CHANGED(character, this);
 
 			return overheated;
 		}
