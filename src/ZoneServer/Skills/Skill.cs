@@ -122,6 +122,16 @@ namespace Melia.Zone.Skills
 		public bool IsNormalAttack => (int)this.Id <= 1000;
 
 		/// <summary>
+		/// Returns true if the skill is a monster skill
+		/// </summary>
+		/// <remarks>
+		/// This property is a temporary measure to not do this check randomly
+		/// somewhere in the code. We'll need some more research to determine
+		/// what exactly makes a monster attack and when they apply.
+		/// </remarks>
+		public bool IsMonsterSkill => (int)this.Id >= 160000;
+
+		/// <summary>
 		/// Returns true if this skill is a passive skill.
 		/// </summary>
 		public bool IsPassive => this.Data.ActivationType == SkillActivationType.PassiveSkill;
@@ -229,6 +239,13 @@ namespace Melia.Zone.Skills
 			// the way to get the min distance. It seems a little counter-
 			// intuitive, but let's try MaxR, which seems to have rather
 			// fitting values for this purpose.
+
+			// TODO: find a way to make this work for player skills
+			if (this.Id == SkillId.Highlander_CrossCut)
+				return 40f;
+			if (this.Id == SkillId.Wizard_EarthQuake)
+				return 45f;
+
 			return this.Properties.GetFloat(PropertyName.MaxR);
 		}
 

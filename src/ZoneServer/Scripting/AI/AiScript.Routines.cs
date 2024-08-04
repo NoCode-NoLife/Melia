@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Threading;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -149,12 +150,18 @@ namespace Melia.Zone.Scripting.AI
 			// attack for the given monster.
 
 			//var rndSkillId = mob.Data.Skills.Random().SkillId;
-			var rndSkillId = mob.Data.Skills.First().SkillId;
 
-			// Should we give monsters a skill manager? We might not
-			// actually need it, though we should probably at least
-			// cache the skills if we create them on demand.
-			skill = new Skill(this.Entity, rndSkillId, 1);
+			if (mob.ExtraSkill != null && RandomProvider.Get().Next(100) <= mob.ExtraSkillUseRate)
+				skill = mob.ExtraSkill;
+			else
+			{
+				var rndSkillId = mob.Data.Skills.First().SkillId;
+
+				// Should we give monsters a skill manager? We might not
+				// actually need it, though we should probably at least
+				// cache the skills if we create them on demand.
+				skill = new Skill(this.Entity, rndSkillId, 1);
+			}
 
 			return true;
 		}
@@ -168,15 +175,44 @@ namespace Melia.Zone.Scripting.AI
 		protected IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
 			this.Entity.TurnTowards(target);
-
-			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))
+			switch (skill.Data.UseType)
 			{
-				Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
-				yield return this.Wait(2000);
-				yield break;
-			}
+				case SkillUseType.MeleeGround:
+				{
+					if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IGroundSkillHandler>(skill.Id, out var handler))
+					{
+						Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
+						yield return this.Wait(2000);
+						yield break;
+					}
+					var skillTarget = target;
 
-			handler.Handle(skill, this.Entity, target);
+					if (skill.Id == SkillId.Cleric_Heal)
+					{
+						if (GetMaster() != null)
+							skillTarget = GetMaster();
+						else
+							skillTarget = this.Entity;
+					}
+
+					skill.Vars.Set("Melia.ToolGroundPos", skillTarget.Position);
+					
+					handler.Handle(skill, this.Entity, this.Entity.Position, skillTarget.Position, skillTarget);
+					break;
+				}
+				default:
+				{ 
+					if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))
+					{
+						Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
+						yield return this.Wait(2000);
+						yield break;
+					}
+					handler.Handle(skill, this.Entity, target);
+
+					break;
+				}
+			}			
 
 			var useTime = skill.Properties.ShootTime;
 			yield return this.Wait(useTime);
@@ -226,7 +262,7 @@ namespace Melia.Zone.Scripting.AI
 
 			while (true)
 			{
-				if (followTarget.Map.Id != this.Entity.Map.Id)
+				if (followTarget == null || followTarget.Map.Id != this.Entity.Map.Id)
 				{
 					movement.Stop();
 
@@ -236,7 +272,7 @@ namespace Melia.Zone.Scripting.AI
 					// removes the entity is set.
 
 					var worldConf = ZoneServer.Instance.Conf.World;
-					var removeOnWarp = (worldConf.BlueOrbFollowWarp || worldConf.BlueOrbPetSystem);
+					var removeOnWarp = (worldConf.BlueOrbFollowWarp);
 
 					if (removeOnWarp)
 					{

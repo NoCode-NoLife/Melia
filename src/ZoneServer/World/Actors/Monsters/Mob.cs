@@ -17,6 +17,7 @@ using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Skills;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -217,6 +218,28 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Return the monster's temporary variables.
 		/// </summary>
 		public Variables Vars { get; } = new Variables();
+
+		/// <summary>
+		/// Return the mob's extra skill
+		/// </summary>
+		public Skill ExtraSkill { get; set; }
+
+		/// <summary>
+		/// Return the mob's extra skill use rate
+		/// </summary>
+		public int ExtraSkillUseRate { get; set; }
+
+		/// <summary>
+		/// Return if the Mob is a Blue Orb
+		/// This should eventually move to a Minion Type
+		/// </summary>
+		public bool IsBlueOrb { get; set; }
+
+		/// <summary>
+		/// Return if the Mob is a Red Orb
+		/// This should eventually move to a Minion Type
+		/// </summary>
+		public bool IsRedOrb { get; set; }
 
 		/// <summary>
 		/// Creates new NPC.

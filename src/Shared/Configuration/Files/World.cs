@@ -47,7 +47,10 @@ namespace Melia.Shared.Configuration.Files
 
 		// summons.conf
 		public bool BlueOrbFollowWarp { get; protected set; }
+		public bool BlueOrbUnlimitedDuration { get; protected set; }
+		public bool BlueOrbScaleToLevel { get; protected set; }
 		public bool BlueOrbPetSystem { get; protected set; }
+		public bool RedOrbPetSystem { get; protected set; }
 
 		// rare_monsters.conf
 		public float BlueJackpotSpawnChance { get; protected set; }
@@ -110,7 +113,10 @@ namespace Melia.Shared.Configuration.Files
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
+			this.BlueOrbUnlimitedDuration = this.GetBool("blue_orb_unlimited_duration", false);
+			this.BlueOrbScaleToLevel = this.GetBool("blue_orb_unlimited_duration", false);
 			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);
+			this.RedOrbPetSystem = this.GetBool("red_orb_pet_system", false);
 
 			this.BlueJackpotSpawnChance = this.GetFloat("blue_jackpot_spawn_chance", 0.05f);
 			this.BlueJackpotExpRate = this.GetFloat("blue_jackpot_exp_rate", 10000);

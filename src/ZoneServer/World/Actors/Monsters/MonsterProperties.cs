@@ -3,6 +3,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -41,7 +42,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// </summary>
 		private void AddDefaultProperties()
 		{
-			this.Create(new RFloatProperty(PropertyName.Level, () => this.Monster.Data.Level));
+			this.Create(new FloatProperty(PropertyName.Level, this.Monster.Data.Level));
 
 			this.Create(PropertyName.MHP, "SCR_Get_MON_MHP");
 			this.Create(new FloatProperty(PropertyName.HP, min: 0));
@@ -87,20 +88,68 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.AutoUpdate(PropertyName.DEF, [PropertyName.DEF_BM]);
 			this.AutoUpdate(PropertyName.MDEF, [PropertyName.MDEF_BM]);
 			this.AutoUpdate(PropertyName.MSPD, [PropertyName.FIXMSPD_BM, PropertyName.WlkMSPD, PropertyName.RunMSPD, PropertyName.MSPD_BM]);
+			this.AutoUpdate(PropertyName.DR, [PropertyName.DR_BM]);
+			this.AutoUpdate(PropertyName.HR, [PropertyName.HR_BM]);
 			this.AutoUpdate(PropertyName.SR, [PropertyName.SR_BM]);
 			this.AutoUpdate(PropertyName.SDR, [PropertyName.SDR_BM]);
+			this.AutoUpdate(PropertyName.CRTDR, [PropertyName.CRTDR_BM]);
+			this.AutoUpdate(PropertyName.CRTHR, [PropertyName.CRTHR_BM]);
+			this.AutoUpdate(PropertyName.CRTATK, [PropertyName.CRTATK_BM]);
+			this.AutoUpdate(PropertyName.BLK, [PropertyName.BLK_BM]);
+			this.AutoUpdate(PropertyName.BLK_BREAK, [PropertyName.BLK_BREAK_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);
 		}
 
 		/// <summary>
-		/// Creates a new calculated float property that uses the given
-		/// function.
+		/// Scales the monster's stats based on a target level
 		/// </summary>
-		/// <param name="propertyName"></param>
-		/// <param name="calcFuncName"></param>
-		private void Create(string propertyName, string calcFuncName)
+		/// <remarks>
+		/// The monster's stats change by 2% per level
+		/// </remarks>
+		public void ScaleStatsToLevel(int targetLevel)
+		{
+			var currentLevel = this.GetFloat(PropertyName.Level);
+
+			if (targetLevel == currentLevel)
+				return;
+
+			var mob = this.Monster;
+			var mobData = mob.Data;
+
+			var levelDifferential = Math.Abs(targetLevel - currentLevel);
+			var statMultiplier = 1f;
+
+			if (targetLevel > currentLevel)
+				statMultiplier = (float)Math.Pow(1.02f, levelDifferential);
+
+			if (targetLevel < currentLevel)
+				statMultiplier = (float)Math.Pow(0.98f, levelDifferential);
+
+			this.SetFloat(PropertyName.Level, targetLevel);
+			this.Modify(PropertyName.MHP_BM, mobData.Hp * statMultiplier);
+			this.Modify(PropertyName.MSP_BM, mobData.Sp * statMultiplier);
+			this.Modify(PropertyName.PATK_BM, mobData.PhysicalAttackMin * statMultiplier);
+			this.Modify(PropertyName.MATK_BM, mobData.MagicalAttackMin * statMultiplier);
+			this.Modify(PropertyName.DEF_BM, mobData.PhysicalDefense * statMultiplier);
+			this.Modify(PropertyName.MDEF_BM, mobData.MagicalDefense * statMultiplier);
+			this.Modify(PropertyName.DR_BM, mobData.DodgeRate * statMultiplier);
+			this.Modify(PropertyName.HR_BM, mobData.HitRate * statMultiplier);
+			this.Modify(PropertyName.CRTDR_BM, mobData.CritDodgeRate * statMultiplier);
+			this.Modify(PropertyName.CRTHR_BM, mobData.CritHitRate * statMultiplier);
+			this.Modify(PropertyName.CRTATK_BM, mobData.CritAttack * statMultiplier);
+			this.Modify(PropertyName.BLK_BM, mobData.BlockRate * statMultiplier);
+			this.Modify(PropertyName.BLK_BREAK_BM, mobData.BlockBreakRate * statMultiplier);			
+		}
+
+	/// <summary>
+	/// Creates a new calculated float property that uses the given
+	/// function.
+	/// </summary>
+	/// <param name="propertyName"></param>
+	/// <param name="calcFuncName"></param>
+	private void Create(string propertyName, string calcFuncName)
 		{
 			this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
 		}

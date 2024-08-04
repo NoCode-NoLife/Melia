@@ -465,7 +465,16 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
-			packet.PutInt((int)skill.Id);
+			var skillId = skill.Id;
+
+			// This is a silly workaround for monsters using player skills
+			// that allows them to use their standard attack animation
+			if (entity is Mob mob && !skill.IsMonsterSkill)
+			{
+				skillId = mob.Data.Skills.First().SkillId;
+			}
+
+			packet.PutInt((int)skillId);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
