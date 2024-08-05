@@ -98,15 +98,27 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// Calculate base damage first.  Notably mulipliers go before defense reduction
 		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-		skillHitResult.Damage *= skillFactor / 100f;
 		skillHitResult.Damage += skillAtkAdd;
 
 		skillHitResult.Damage += modifier.BonusDamage;
 		skillHitResult.Damage *= modifier.DamageMultiplier;
+
+		// Defense reduction occurs before skill factors and bonuses
+		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
+		var def = target.Properties.GetFloat(defPropertyName);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
+		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
+
+
+		// Now add in Skill Factors and all other multiplicative bonuses
+		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
+		
+		skillHitResult.Damage *= skillFactor / 100f;
+		
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
@@ -128,11 +140,6 @@ public class CombatCalculationsScript : GeneralScript
 
 			skillHitResult.Result = HitResultType.Crit;
 		}
-
-		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
-		var def = target.Properties.GetFloat(defPropertyName);
-		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
-		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
 		SCR_Combat_BeforeBonuses(attacker, target, skill, modifier, skillHitResult);
 
