@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -9,6 +10,7 @@ namespace Melia.Zone.Buffs.Handlers.Scout
 	/// <summary>
 	/// Handler for the Cloaking buff.
 	/// </summary>
+	[BuffHandler(BuffId.Cloaking_Buff)]
 	public class Cloaking_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
