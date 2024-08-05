@@ -152,7 +152,9 @@ namespace Melia.Zone.Scripting.AI
 			//var rndSkillId = mob.Data.Skills.Random().SkillId;
 
 			if (mob.ExtraSkill != null && RandomProvider.Get().Next(100) <= mob.ExtraSkillUseRate)
+			{
 				skill = mob.ExtraSkill;
+			}
 			else
 			{
 				var rndSkillId = mob.Data.Skills.First().SkillId;

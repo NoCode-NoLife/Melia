@@ -103,10 +103,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Scales the monster's stats based on a target level
+		/// Scales the monster's stats based on a target level, mostly for
+		/// use with pets.
 		/// </summary>
 		/// <remarks>
-		/// The monster's stats change by 2% per level
+		/// Currently using 2% per level as an approximate level of power.
 		/// </remarks>
 		public void ScaleStatsToLevel(int targetLevel)
 		{
@@ -121,11 +122,16 @@ namespace Melia.Zone.World.Actors.Monsters
 			var levelDifferential = Math.Abs(targetLevel - currentLevel);
 			var statMultiplier = 1f;
 
+			// We use the power function so the stat boosts are boosted cumulatively, this
+			// makes a big difference when the level differential is high.
 			if (targetLevel > currentLevel)
 				statMultiplier = (float)Math.Pow(1.02f, levelDifferential);
 
 			if (targetLevel < currentLevel)
 				statMultiplier = (float)Math.Pow(0.98f, levelDifferential);
+
+			// Need to subtract 1 because the modify method affects stats additively.
+			statMultiplier--;
 
 			this.SetFloat(PropertyName.Level, targetLevel);
 			this.Modify(PropertyName.MHP_BM, mobData.Hp * statMultiplier);
@@ -143,13 +149,13 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Modify(PropertyName.BLK_BREAK_BM, mobData.BlockBreakRate * statMultiplier);			
 		}
 
-	/// <summary>
-	/// Creates a new calculated float property that uses the given
-	/// function.
-	/// </summary>
-	/// <param name="propertyName"></param>
-	/// <param name="calcFuncName"></param>
-	private void Create(string propertyName, string calcFuncName)
+		/// <summary>
+		/// Creates a new calculated float property that uses the given
+		/// function.
+		/// </summary>
+		/// <param name="propertyName"></param>
+		/// <param name="calcFuncName"></param>
+		private void Create(string propertyName, string calcFuncName)
 		{
 			this.Create(new CFloatProperty(propertyName, () => this.CalculateProperty(calcFuncName)));
 		}

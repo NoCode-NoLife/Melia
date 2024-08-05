@@ -129,7 +129,7 @@ namespace Melia.Zone.Skills
 		/// somewhere in the code. We'll need some more research to determine
 		/// what exactly makes a monster attack and when they apply.
 		/// </remarks>
-		public bool IsMonsterSkill => (int)this.Id >= 160000;
+		public bool IsMonsterSkill => (int)this.Id >= 60000;
 
 		/// <summary>
 		/// Returns true if this skill is a passive skill.
@@ -231,16 +231,14 @@ namespace Melia.Zone.Skills
 		/// <returns></returns>
 		public float GetAttackRange()
 		{
-			// Guessed, see GetSplashArea. Take a little off the top,
-			// so entities actually have to get into the splash area.
-			//return this.Properties.GetFloat(PropertyName.SplHeight);
+			// For monster skills, the MaxR value appears to correspond to their
+			// range, but for player skills, this value is almost always 100,
+			// regardless of their hitbox size.  Is there any reliable method
+			// of calculating the range for a player skill?
 
-			// After testing splash height, it seems unlikely that that's
-			// the way to get the min distance. It seems a little counter-
-			// intuitive, but let's try MaxR, which seems to have rather
-			// fitting values for this purpose.
-
-			// TODO: find a way to make this work for player skills
+			// TODO: Remove these placeholders once a method of calculating the
+			// range can be found.  Currently just using the length of the skill's
+			// hitbox -5f.
 			if (this.Id == SkillId.Highlander_CrossCut)
 				return 40f;
 			if (this.Id == SkillId.Wizard_EarthQuake)

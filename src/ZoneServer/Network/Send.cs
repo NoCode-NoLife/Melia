@@ -463,8 +463,6 @@ namespace Melia.Zone.Network
 			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
 			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
 
-			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
-
 			var skillId = skill.Id;
 
 			// This is a silly workaround for monsters using player skills
@@ -474,6 +472,7 @@ namespace Melia.Zone.Network
 				skillId = mob.Data.Skills.First().SkillId;
 			}
 
+			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 			packet.PutInt((int)skillId);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(entity.Direction.Cos);
