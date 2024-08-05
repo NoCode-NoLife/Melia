@@ -98,7 +98,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
-		// Calculate base damage first.  Notably mulipliers go before defense reduction
+		// Get base damage, incl. basic bonuses
 		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
@@ -107,18 +107,20 @@ public class CombatCalculationsScript : GeneralScript
 		skillHitResult.Damage += modifier.BonusDamage;
 		skillHitResult.Damage *= modifier.DamageMultiplier;
 
-		// Defense reduction occurs before skill factors and bonuses
+		// Apply defense to the base damage. This might've been done at different
+		// points in some versions of the game, but for the latest version it's
+		// important to do it before the skill factors are applied, as these may
+		// raise the damage to such heights that the target's defense becomes
+		// meaningless.
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
 		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
 		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
-
-		// Now add in Skill Factors and all other multiplicative bonuses
+		// Apply the skill factor, raising the damage based on the skill's
+		// damage multiplier
 		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
-		
 		skillHitResult.Damage *= skillFactor / 100f;
-		
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
