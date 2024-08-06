@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -119,6 +120,8 @@ namespace Melia.Zone
 			this.LoadScripts("zone");
 			this.LoadIesMods();
 			this.StartWorld();
+
+			var skill = this.Data.SkillDb.Find("Bow_Hanging_Attack");
 
 			this.StartCommunicator();
 			this.StartAcceptor();
