@@ -244,7 +244,8 @@ namespace Melia.Zone.World.Maps
 				}
 			}
 
-			// No neighbors found, try again with more angle subdivisions
+			// Too little neighbors found, try again with
+			// more angle subdivisions
 			if (neighbors.Count <= 3 && angleSubdivisions < 8)
 			{
 				return this.GetNeighbors(pos, entitySize, gridScale, angleSubdivisions * 2);
