@@ -144,16 +144,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Physical defense.
-		/// </summary>
-		public float Defense
-		{
-			get { return _defense; }
-			private set { _defense = Math.Max(0, value); }
-		}
-		private float _defense;
-
-		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<Mob, ICombatEntity> Died;
@@ -244,7 +234,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
 			this.InitProperties();
