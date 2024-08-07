@@ -146,12 +146,12 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <summary>
 		/// Physical defense.
 		/// </summary>
-		public int Defense
+		public float Defense
 		{
 			get { return _defense; }
 			private set { _defense = Math.Max(0, value); }
 		}
-		private int _defense;
+		private float _defense;
 
 		/// <summary>
 		/// Raised when the monster died.

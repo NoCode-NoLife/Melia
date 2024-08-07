@@ -20,10 +20,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_MHP(Mob monster)
 	{
-		var baseValue = (float)monster.Data.Hp;
-
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MHP, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.Hp;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MHP, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuff = monster.Properties.GetFloat(PropertyName.MHP_BM);
 
@@ -38,9 +37,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_MSP(Mob monster)
 	{
-		var baseValue = (float)monster.Data.Sp;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSP, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.Sp;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSP, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuff = monster.Properties.GetFloat(PropertyName.MSP_BM);
 
@@ -54,12 +53,12 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	/// <returns></returns>
 	[ScriptableFunction]
 	public float SCR_Get_MON_MINPATK(Mob monster)
-	{		
+	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.PhysicalAttackMin;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MINPATK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.PhysicalAttackMin;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MINPATK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -87,9 +86,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.PhysicalAttackMax;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MAXPATK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.PhysicalAttackMax;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MAXPATK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -117,9 +116,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.MagicalAttackMin;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MINMATK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.MagicalAttackMin;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MINMATK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -147,9 +146,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.MagicalAttackMax;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MAXMATK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.MagicalAttackMax;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MAXMATK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -177,9 +176,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.PhysicalDefense;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.DEF, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.PhysicalDefense;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.DEF, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -204,9 +203,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.MagicalDefense;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MDEF, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.MagicalDefense;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MDEF, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -236,8 +235,8 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		// Unlike most monster properties, MSPD actually has a fix buff
 		// value that overrides the speed, but for constistency we'll
 		// also check for an override property.
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSPD, out var fixValue))
-			return fixValue;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.MSPD, out var overrideValue))
+			return overrideValue;
 
 		// It's currently not possible to set a fix value of 0 via the buff property,
 		// because 0 is the default value, indicating that the property is not set.
@@ -266,9 +265,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.DodgeRate;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.DR, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.DodgeRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.DR, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuffs = properties.GetFloat(PropertyName.DR_BM);
 
@@ -285,9 +284,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.HitRate;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.HR, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.HitRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.HR, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuffs = properties.GetFloat(PropertyName.HR_BM);
 
@@ -350,10 +349,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_CRTHR(Mob monster)
 	{
-		var baseValue = (float)monster.Data.CritHitRate;
-
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTHR, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.CritHitRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTHR, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -377,10 +375,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_CRTDR(Mob monster)
 	{
-		var baseValue = (float)monster.Data.CritDodgeRate;
-
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTDR, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.CritDodgeRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTDR, out var overrideValue))
+			baseValue = overrideValue;
 
 		var value = baseValue;
 
@@ -411,9 +408,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_CRTATK(Mob monster)
 	{
-		var baseValue = (float)monster.Data.CritAttack;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTATK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.CritAttack;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.CRTATK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuffs = monster.Properties.GetFloat(PropertyName.CRTATK_BM, 0);
 
@@ -432,9 +429,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.BlockRate;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.BlockRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BM);
 
@@ -453,9 +450,9 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	{
 		var properties = monster.Properties;
 
-		var baseValue = (float)monster.Data.BlockBreakRate;
-		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK_BREAK, out var fixValue))
-			baseValue = fixValue;
+		var baseValue = monster.Data.BlockBreakRate;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.BLK_BREAK, out var overrideValue))
+			baseValue = overrideValue;
 
 		var byBuffs = properties.GetFloat(PropertyName.BLK_BREAK_BM);
 
