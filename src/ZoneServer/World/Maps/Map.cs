@@ -104,7 +104,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Returns the map's pathfinder data.
 		/// </summary>
-		public Pathfinder Pathfinder { get; } = new Pathfinder();
+		public IPathfinder Pathfinder { get; } = new BasicPathfinder();
 
 		/// <summary>
 		/// Returns the number of characters on the map.
@@ -144,7 +144,7 @@ namespace Melia.Zone.World.Maps
 			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.ClassName, out var groundData))
 			{
 				this.Ground.Load(groundData);
-				this.Pathfinder.Load(this.Ground);
+				this.Pathfinder.Load(this);
 			}
 		}
 

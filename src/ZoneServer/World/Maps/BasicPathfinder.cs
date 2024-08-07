@@ -7,10 +7,10 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Maps
 {
-	public class Pathfinder
+	public class BasicPathfinder : IPathfinder
 	{
-		private readonly int _maxNodeExpand = 500;
-		private readonly Dictionary<SizeType, float> _entitySizeRadius = new Dictionary<SizeType, float>
+		private readonly static int MaxNodeExpand = 500;
+		private readonly static Dictionary<SizeType, float> EntitySizeRadius = new()
 		{
 			{ SizeType.None, 0 },
 			{ SizeType.Hidden, 0 },
@@ -24,16 +24,18 @@ namespace Melia.Zone.World.Maps
 		private Ground _ground;
 
 		/// <summary>
-		/// Loads the ground
+		/// Loads pathfinding data given a map.
 		/// </summary>
-		public void Load(Ground ground)
+		/// <param name="map"></param>
+		public void Load(Map map)
 		{
-			_ground = ground;
+			_ground = map.Ground;
 		}
 
 		/// <summary>
 		/// Finds a path from start position to the goal position using
 		/// A* algorithm. Returns List of valid positions to goal.
+		/// First element is always start.
 		/// Last element is always the closest position to goal.
 		/// Returns empty list if no path can be found.
 		/// </summary>
@@ -43,6 +45,10 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
 		{
+			// Entity size not valid
+			if (!Enum.IsDefined(typeof(SizeType), entitySize))
+				return new List<Position>();
+
 			// Initial dynamic grid size
 			var distance = start.Get2DDistance(goal);
 			var gridScale = this.GetGridScale(distance, entitySize);
@@ -62,7 +68,7 @@ namespace Melia.Zone.World.Maps
 					visited.Add(pos);
 				}
 			}
-			
+
 			return finalPath;
 		}
 
@@ -83,19 +89,19 @@ namespace Melia.Zone.World.Maps
 			var cameFrom = new Dictionary<Position, Position>();
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
-			var radius = _entitySizeRadius[entitySize];
+			var radius = EntitySizeRadius[entitySize];
 
 			// Stopping condition
-			if ( (gridScale <= 10) || (start.Get2DDistance(goal) < radius) )
+			if ((gridScale <= 10) || (start.Get2DDistance(goal) < radius))
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
 				return path;
 			}
-			
+
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
-			while ((openSet.Count > 0) && openSet.Count < _maxNodeExpand)
+			while ((openSet.Count > 0) && openSet.Count < MaxNodeExpand)
 			{
 				var current = openSet.Dequeue();
 				var distance = current.Get2DDistance(goal);
@@ -142,27 +148,6 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
-		/// Compares two float and position tuples.
-		/// </summary>
-		private class PositionComparer : IComparer<(float F, Position Pos)>
-		{
-			public int Compare((float F, Position Pos) p1, (float F, Position Pos) p2)
-			{
-				var result = p1.F.CompareTo(p2.F);
-				if (result == 0)
-				{
-					// Ignore Y coord
-					result = p1.Pos.X.CompareTo(p2.Pos.X);
-					if (result == 0)
-					{
-						result = p1.Pos.Z.CompareTo(p2.Pos.Z);
-					}
-				}
-				return result;
-			}
-		}
-
-		/// <summary>
 		/// Gets the dynamic grid scale.
 		/// </summary>
 		/// <param name="distance"></param>
@@ -170,7 +155,7 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		private int GetGridScale(double distance, SizeType entitySize)
 		{
-			var radius = _entitySizeRadius[entitySize];
+			var radius = EntitySizeRadius[entitySize];
 			// radius * 2 is the maximum guaranteed value to not cause entities
 			// to go through objects. The client cannot handle this, so it
 			// displays as if entities are teleporting around. Values higher
@@ -210,11 +195,15 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		private float Heuristic(Position a, Position b)
 		{
+			// Applying a height penalty makes the algorithm attempt to
+			// equalize the height distance first (i.e. go up a ladder).
+			var heightPenalty = 10f;
+
 			// Euclidean Distance
 			var dx = Math.Abs(a.X - b.X);
-			var dy = Math.Abs(a.Y - b.Y);
+			var dy = Math.Abs(a.Y - b.Y) * heightPenalty;
 			var dz = Math.Abs(a.Z - b.Z);
-			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy,2) + Math.Pow(dz, 2));
+			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
 		}
 
 		/// <summary>
@@ -225,18 +214,20 @@ namespace Melia.Zone.World.Maps
 		/// <param name="entitySize"></param>
 		/// <param name="gridScale"></param>
 		/// <returns>A list of neighboring positions.</returns>
-		private List<Position> GetNeighbors(Position pos, SizeType entitySize, int gridScale)
+		private List<Position> GetNeighbors(Position pos, SizeType entitySize, int gridScale, int angleSubdivisions = 1)
 		{
 			// Scale is too low
 			if (gridScale <= 0)
 				return new List<Position>();
 
-			var radius = _entitySizeRadius[entitySize];
+			var radius = EntitySizeRadius[entitySize];
 			var neighbors = new List<Position>();
 			var d = gridScale;
-			var directions = new (int X, int Z)[] { (-d, 0), (d, 0), (0, -d), (0, d), (-d, d), (-d, -d), (d, -d), (d, d) };
 
-			// Search in all adjacent directions
+			// Generate directions based on angle subdivisions
+			var directions = this.GenerateDirections(d, angleSubdivisions);
+
+			// Search in all generated directions
 			foreach (var dir in directions)
 			{
 				var neighbor = new Position(pos.X + dir.X, 0, pos.Z + dir.Z);
@@ -253,14 +244,42 @@ namespace Melia.Zone.World.Maps
 				}
 			}
 
-			// No adjacent neighbors found
+			// No neighbors found, try again with more angle subdivisions
+			if (neighbors.Count <= 3 && angleSubdivisions < 8)
+			{
+				return this.GetNeighbors(pos, entitySize, gridScale, angleSubdivisions * 2);
+			}
+
+			// If still no neighbors, try with lower scale
 			if (neighbors.Count == 0)
 			{
-				// Try again recursively with lower scale
-				return this.GetNeighbors(pos, entitySize, gridScale/2);
+				return this.GetNeighbors(pos, entitySize, gridScale / 2);
 			}
 
 			return neighbors;
+		}
+
+		/// <summary>
+		/// Generates a list of directions based on a specified distance
+		/// and number of subdivisions.
+		/// </summary>
+		/// <param name="distance"></param>
+		/// <param name="subdivisions"></param>
+		/// <returns></returns>
+		private List<(int X, int Z)> GenerateDirections(int distance, int subdivisions)
+		{
+			var directions = new List<(int X, int Z)>();
+			var angleStep = 2 * Math.PI / (8 * subdivisions);
+
+			for (var i = 0; i < 8 * subdivisions; i++)
+			{
+				var angle = i * angleStep;
+				var x = (int)Math.Round(distance * Math.Cos(angle));
+				var z = (int)Math.Round(distance * Math.Sin(angle));
+				directions.Add((x, z));
+			}
+
+			return directions;
 		}
 	}
 }
