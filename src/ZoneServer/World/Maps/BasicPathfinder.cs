@@ -197,7 +197,7 @@ namespace Melia.Zone.World.Maps
 		{
 			// Applying a height penalty makes the algorithm attempt to
 			// equalize the height distance first (i.e. go up a ladder).
-			var heightPenalty = 10f;
+			var heightPenalty = 3f;
 
 			// Euclidean Distance
 			var dx = Math.Abs(a.X - b.X);
