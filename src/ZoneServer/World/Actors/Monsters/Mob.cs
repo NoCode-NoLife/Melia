@@ -15,6 +15,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -142,16 +144,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Physical defense.
-		/// </summary>
-		public int Defense
-		{
-			get { return _defense; }
-			private set { _defense = Math.Max(0, value); }
-		}
-		private int _defense;
-
-		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<Mob, ICombatEntity> Died;
@@ -242,7 +234,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
 			this.InitProperties();
@@ -274,6 +265,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
@@ -730,13 +724,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Heals the monster's HP and SP by the given amounts.
+		/// Heals the monster's HP and SP by the given amounts. Applies potential
+		/// (de)buffs that affect healing.
 		/// </summary>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			float healingReduction = 0;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;

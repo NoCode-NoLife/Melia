@@ -117,7 +117,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 					// are actually handled by the client instead of
 					// sending them on precise timers, though timers
 					// also seem to get employed... Needs more research.
-					Send.ZC_NORMAL.SkillProjectile(caster, "I_arrow013_mash_yellow#Dummy_Force", TimeSpan.FromMilliseconds(600), "F_explosion092_hit", TimeSpan.FromMilliseconds(600), targetPos);
+					Send.ZC_NORMAL.SkillProjectile(caster, "I_arrow013_mash_yellow#Dummy_Force", 0.6f, "F_explosion092_hit", 0.6f, targetPos, 30, 0.2f, 0, 0);
 
 					if (i < TotalHits - 1)
 						await Task.Delay(DelayBetweenHits);

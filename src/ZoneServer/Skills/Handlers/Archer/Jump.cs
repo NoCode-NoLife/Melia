@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
+using Melia.Shared.Network;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -44,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Archer
 
 			caster.Position = targetPos;
 
-			Send.ZC_NORMAL.LeapJump(caster, targetPos);
+			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 20);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 		}
 

@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Buffs.Handlers
@@ -66,7 +67,7 @@ namespace Melia.Zone.Buffs.Handlers
 			var minStamina = target.Properties.GetFloat(PropertyName.Sta_Runable);
 
 			if (target.Properties.Stamina < minStamina)
-				buff.End();
+				target.StopBuff(BuffId.DashRun);
 		}
 
 		/// <summary>

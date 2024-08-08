@@ -44,6 +44,7 @@ namespace Melia.Shared.Data.Database
 		public float LargeSizeBonus { get; set; }
 		public ArmorMaterialType Material { get; set; }
 		public SkillId LeftHandSkill { get; set; }
+		public SkillAttackType AttackType { get; set; }
 
 		public float Slash { get; set; }
 		public float Aries { get; set; }
@@ -179,6 +180,7 @@ namespace Melia.Shared.Data.Database
 			data.LargeSizeBonus = entry.ReadFloat("largeSizeBonus", 0);
 			data.Material = entry.ReadEnum<ArmorMaterialType>("material", ArmorMaterialType.None);
 			data.LeftHandSkill = entry.ReadEnum<SkillId>("leftHandSkill", SkillId.None);
+			data.AttackType = entry.ReadEnum<SkillAttackType>("attackType", SkillAttackType.None);
 
 			data.Aries = entry.ReadFloat("aries", 0);
 			data.Slash = entry.ReadFloat("slash", 0);

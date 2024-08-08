@@ -370,7 +370,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 						// or NotNew if only some was just added to a stack.
 						var adjustedAddType = (amount == 0 ? addType : InventoryAddType.NotNew);
 
-						Send.ZC_ITEM_ADD(this.Character, categoryItem, categoryIndex, add, adjustedAddType);
+						Send.ZC_ITEM_ADD(this.Character, categoryItem, categoryIndex, add, adjustedAddType, InventoryType.Inventory);
 					}
 				}
 
@@ -398,7 +398,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				if (!silent)
 				{
 					var categoryIndex = item.GetInventoryIndex(_items[cat].Count - 1);
-					Send.ZC_ITEM_ADD(this.Character, item, categoryIndex, item.Amount, addType);
+					Send.ZC_ITEM_ADD(this.Character, item, categoryIndex, item.Amount, addType, InventoryType.Inventory);
 				}
 			}
 		}

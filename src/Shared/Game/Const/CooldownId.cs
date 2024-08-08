@@ -1596,5 +1596,7 @@ namespace Melia.Shared.Game.Const
 		DayLight = 6003,
 		CalmSea = 6004,
 		KupoleNormalBuff = 6005,
+		AquaWind = 6006,
+		WheelOfFate = 6007,
 	}
 }

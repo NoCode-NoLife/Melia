@@ -29,22 +29,22 @@ namespace Melia.Shared.Data.Database
 		public int Level { get; set; }
 		public int Exp { get; set; }
 		public int JobExp { get; set; }
-		public int Hp { get; set; }
-		public int Sp { get; set; }
 
-		public int PhysicalAttackMin { get; set; }
-		public int PhysicalAttackMax { get; set; }
-		public int MagicalAttackMin { get; set; }
-		public int MagicalAttackMax { get; set; }
-		public int PhysicalDefense { get; set; }
-		public int MagicalDefense { get; set; }
-		public int HitRate { get; set; }
-		public int DodgeRate { get; set; }
-		public int BlockRate { get; set; }
-		public int BlockBreakRate { get; set; }
-		public int CritHitRate { get; set; }
-		public int CritDodgeRate { get; set; }
-		public int CritAttack { get; set; }
+		public float Hp { get; set; }
+		public float Sp { get; set; }
+		public float PhysicalAttackMin { get; set; }
+		public float PhysicalAttackMax { get; set; }
+		public float MagicalAttackMin { get; set; }
+		public float MagicalAttackMax { get; set; }
+		public float PhysicalDefense { get; set; }
+		public float MagicalDefense { get; set; }
+		public float HitRate { get; set; }
+		public float DodgeRate { get; set; }
+		public float BlockRate { get; set; }
+		public float BlockBreakRate { get; set; }
+		public float CritHitRate { get; set; }
+		public float CritDodgeRate { get; set; }
+		public float CritAttack { get; set; }
 
 		public string AiName { get; set; }
 
@@ -158,9 +158,9 @@ namespace Melia.Shared.Data.Database
 			data.Level = entry.ReadInt("level");
 			data.Exp = entry.ReadInt("exp");
 			data.JobExp = entry.ReadInt("jobExp");
+
 			data.Hp = entry.ReadInt("hp");
 			data.Sp = entry.ReadInt("sp");
-
 			data.PhysicalAttackMin = entry.ReadInt("pAttackMin");
 			data.PhysicalAttackMax = entry.ReadInt("pAttackMax");
 			data.MagicalAttackMin = entry.ReadInt("mAttackMin");
