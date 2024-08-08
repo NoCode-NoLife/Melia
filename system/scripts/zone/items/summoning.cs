@@ -17,6 +17,8 @@ using Melia.Zone.Network;
 
 public class SummoningItemScripts : GeneralScript
 {
+	private const bool OrbPetsScaleToLevel = true;
+
 	[ScriptableFunction]
 	public ItemUseResult SCR_USE_SUMMONORB_FRIEND(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
@@ -35,19 +37,11 @@ public class SummoningItemScripts : GeneralScript
 		{
 			if (monsterData.Id == monsterClassId)
 			{
-				if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-				{
-					RemoveBlueOrbSummon(character);
-					ResetBlueOrbVariables(character);
-					return ItemUseResult.OkayNotConsumed;
-				}
-				else
-				{
-					character.ServerMessage(Localization.Get("This monster is already summoned."));
-					return ItemUseResult.OkayNotConsumed;
-				}
+				RemoveBlueOrbSummon(character);
+				ResetBlueOrbVariables(character);
+				return ItemUseResult.OkayNotConsumed;
 			}
-			else if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
+			else
 			{
 				RemoveBlueOrbSummon(character);
 				ResetBlueOrbVariables(character);
@@ -56,22 +50,17 @@ public class SummoningItemScripts : GeneralScript
 
 		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
+		monster.Vars.SetString("Melia.MinionType", "BlueOrb");
 		character.Map.AddMonster(monster);
-		if (ZoneServer.Instance.Conf.World.BlueOrbScaleToLevel)
-			monster.Properties.ScaleStatsToLevel(character.Level);
+
+		if (OrbPetsScaleToLevel)
+			ScaleMobToLevel(monster, character.Level);
 
 		character.Variables.Perm.SetInt("Melia.BlueOrbSummon.MonsterId", monsterData.Id);
 
-		// Add the buff here.  Currently every Blue Orb gives you 5 patk
 		ApplyBlueOrbBuff(character, monsterData.Id);
 
-		if (!ZoneServer.Instance.Conf.World.BlueOrbUnlimitedDuration)
-			character.Variables.Perm.Set("Melia.BlueOrbSummon.DisappearTime", monster.DisappearTime);
-
-		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-			return ItemUseResult.OkayNotConsumed;
-		
-		return ItemUseResult.Okay;
+		return ItemUseResult.OkayNotConsumed;
 	}
 
 	[ScriptableFunction]
@@ -84,51 +73,34 @@ public class SummoningItemScripts : GeneralScript
 			return ItemUseResult.Fail;
 		}
 
-		if (ZoneServer.Instance.Conf.World.RedOrbPetSystem)
+		if (character.Variables.Perm.TryGetInt("Melia.RedOrbSummon.MonsterId", out var monsterClassId))
 		{
-			// If the pet system is on and you try to resummon the same monster,
-			// it desummons it, otherwise we summon the new monster and desummon
-			// the old one. If the pet system is not enabled using an orb for a
-			// monster that's already out fails so you don't waste the orb.
-			if (character.Variables.Perm.TryGetInt("Melia.RedOrbSummon.MonsterId", out var monsterClassId))
+			if (monsterData.Id == monsterClassId)
 			{
-				if (monsterData.Id == monsterClassId)
-				{
-					RemoveRedOrbSummon(character);
-					ResetRedOrbVariables(character);
-					return ItemUseResult.OkayNotConsumed;
-				}
-				else
-				{
-					RemoveRedOrbSummon(character);
-					ResetRedOrbVariables(character);
-				}
+				RemoveRedOrbSummon(character);
+				ResetRedOrbVariables(character);
+				return ItemUseResult.OkayNotConsumed;
 			}
-
-			var summon = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
-			summon.Components.Get<AiComponent>()?.Script.SetMaster(character);
-			SetRedOrbExtraSkill(summon);
-
-
-			character.Map.AddMonster(summon);
-			if (ZoneServer.Instance.Conf.World.BlueOrbScaleToLevel)
-				summon.Properties.ScaleStatsToLevel(character.Level);
-
-			character.Variables.Perm.SetInt("Melia.RedOrbSummon.MonsterId", monsterData.Id);
-
-			if (!ZoneServer.Instance.Conf.World.BlueOrbUnlimitedDuration)
-				character.Variables.Perm.Set("Melia.RedOrbSummon.DisappearTime", summon.DisappearTime);
-
-			return ItemUseResult.OkayNotConsumed;
+			else
+			{
+				RemoveRedOrbSummon(character);
+				ResetRedOrbVariables(character);
+			}
 		}
 
-		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
+		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
+		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
+		monster.Vars.SetString("Melia.MinionType", "RedOrb");
+		SetRedOrbExtraSkill(monster);
+
+
 		character.Map.AddMonster(monster);
+		if (OrbPetsScaleToLevel)
+			ScaleMobToLevel(monster, character.Level);
 
-		var worldconf = ZoneServer.Instance.Conf.World;
-		monster.PossiblyBecomeRare(worldconf.RedOrbJackpotRate, worldconf.RedOrbEliteRate);
+		character.Variables.Perm.SetInt("Melia.RedOrbSummon.MonsterId", monsterData.Id);
 
-		return ItemUseResult.Okay;
+		return ItemUseResult.OkayNotConsumed;
 	}
 
 	[On("PlayerReady")]
@@ -138,71 +110,23 @@ public class SummoningItemScripts : GeneralScript
 
 		if (character.Variables.Perm.TryGetInt("Melia.BlueOrbSummon.MonsterId", out var blueMonsterClassId))
 		{
-			// If follow warp is not enabled, your monster is released from you
-			// when you leave a map, functionally causing the master to forget
-			// about it and be able to summon another monster.
-			if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
-			{
-				ResetBlueOrbVariables(character);
-				return;
-			}
-
-			// If follow warp is on, but the monster's disappear time passed
-			// during the warp, we don't resummon it and instead clean it up
-			// here.
-			if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out var disappearTime))
-			{
-				if (DateTime.Now > disappearTime)
-				{
-					ResetBlueOrbVariables(character);
-					return;
-				}
-			}
-
 			var monster = CreateMonster(blueMonsterClassId, MonsterType.NPC, "BasicMonster", character);
 			monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
-
-			if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out disappearTime))
-				monster.DisappearTime = disappearTime;
-
+			monster.Vars.SetString("Melia.MinionType", "BlueOrb");
 			character.Map.AddMonster(monster);
-			if (ZoneServer.Instance.Conf.World.BlueOrbScaleToLevel)
-				monster.Properties.ScaleStatsToLevel(character.Level);
+			if (OrbPetsScaleToLevel)
+				ScaleMobToLevel(monster, character.Level);
 		}
 
 		if (character.Variables.Perm.TryGetInt("Melia.RedOrbSummon.MonsterId", out var redMonsterClassId))
 		{
-			// If follow warp is not enabled, your monster is released from you
-			// when you leave a map, functionally causing the master to forget
-			// about it and be able to summon another monster.
-			if (!ZoneServer.Instance.Conf.World.BlueOrbFollowWarp)
-			{
-				ResetRedOrbVariables(character);
-				return;
-			}
-
-			// If follow warp is on, but the monster's disappear time passed
-			// during the warp, we don't resummon it and instead clean it up
-			// here.
-			if (character.Variables.Perm.TryGet<DateTime>("Melia.RedOrbSummon.DisappearTime", out var disappearTime))
-			{
-				if (DateTime.Now > disappearTime)
-				{
-					ResetRedOrbVariables(character);
-					return;
-				}
-			}
-
 			var monster = CreateMonster(redMonsterClassId, MonsterType.NPC, "BasicMonster", character);
 			monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
 			SetRedOrbExtraSkill(monster);
-
-			if (character.Variables.Perm.TryGet<DateTime>("Melia.RedOrbSummon.DisappearTime", out disappearTime))
-				monster.DisappearTime = disappearTime;
-
+			monster.Vars.SetString("Melia.MinionType", "RedOrb");
 			character.Map.AddMonster(monster);
-			if (ZoneServer.Instance.Conf.World.BlueOrbScaleToLevel)
-				monster.Properties.ScaleStatsToLevel(character.Level);
+			if (OrbPetsScaleToLevel)
+				ScaleMobToLevel(monster, character.Level);
 		}
 	}
 
@@ -214,11 +138,11 @@ public class SummoningItemScripts : GeneralScript
 		var target = args.Target;
 		var master = target.Components.Get<AiComponent>()?.Script.GetMaster();
 
-		if (master is Character masterCharacter && sender is Mob mob)
+		if (master is Character masterCharacter && target is Mob mob)
 		{
-			if (mob.IsBlueOrb)
-				ResetBlueOrbVariables(masterCharacter);		
-			if (mob.IsRedOrb)
+			if (mob.Vars.GetString("Melia.MinionType") == "BlueOrb")
+				ResetBlueOrbVariables(masterCharacter);
+			if (mob.Vars.GetString("Melia.MinionType") == "RedOrb")
 				ResetRedOrbVariables(masterCharacter);
 		}
 	}
@@ -235,13 +159,13 @@ public class SummoningItemScripts : GeneralScript
 		{
 			var master = mob.Components.Get<AiComponent>()?.Script.GetMaster();
 
-			if (master is Character masterCharacter && !mob.IsDead)
+			if (master is Character masterCharacter)
 			{
-				if (mob.IsBlueOrb)
+				if (mob.Vars.GetString("Melia.MinionType") == "BlueOrb")
 					ResetBlueOrbVariables(masterCharacter);
-				if (mob.IsRedOrb)
+				if (mob.Vars.GetString("Melia.MinionType") == "RedOrb")
 					ResetRedOrbVariables(masterCharacter);
-			}			
+			}
 		}
 	}
 
@@ -259,9 +183,6 @@ public class SummoningItemScripts : GeneralScript
 
 		var monster = new Mob(monsterClassId, monsterType);
 		monster.Position = itemUser.Position;
-
-		if (!ZoneServer.Instance.Conf.World.BlueOrbUnlimitedDuration || monsterType == MonsterType.Mob)
-			monster.DisappearTime = DateTime.Now + TimeSpan.FromSeconds(180);
 
 		if (itemUser.Map.TryGetPropertyOverrides(monsterClassId, out var propertyOverrides))
 			monster.ApplyOverrides(propertyOverrides);
@@ -306,10 +227,7 @@ public class SummoningItemScripts : GeneralScript
 		if (!character.Variables.Perm.Has("Melia.BlueOrbSummon.MonsterId"))
 			return;
 
-		if (ZoneServer.Instance.Conf.World.BlueOrbPetSystem)
-		{
-			RemoveBlueOrbBuff(character, character.Variables.Perm.GetInt("Melia.BlueOrbSummon.MonsterId"));
-		}
+		RemoveBlueOrbBuff(character, character.Variables.Perm.GetInt("Melia.BlueOrbSummon.MonsterId"));
 
 		character.Variables.Perm.Remove("Melia.BlueOrbSummon.MonsterId");
 		character.Variables.Perm.Remove("Melia.BlueOrbSummon.DisappearTime");		
@@ -455,34 +373,90 @@ public class SummoningItemScripts : GeneralScript
 		{
 			case RaceType.Forester:
 			{
-				mob.ExtraSkill = new Skill(mob, SkillId.Cleric_Heal, 1);
-				mob.ExtraSkillUseRate = 20;
+				mob.Vars.SetInt("Melia.Mob.ExtraSkill", (int)SkillId.Cleric_Heal);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillLevel", 1);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillUseRate", 20);
 				break;
 			}
 			case RaceType.Widling:
 			{
-				mob.ExtraSkill = new Skill(mob, SkillId.Highlander_CrossCut, 1);
-				mob.ExtraSkillUseRate = 40;
+				mob.Vars.SetInt("Melia.Mob.ExtraSkill", (int)SkillId.Highlander_CrossCut);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillLevel", 1);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillUseRate", 40);
 				break;
 			}
 			case RaceType.Paramune:
 			{
-				mob.ExtraSkill = new Skill(mob, SkillId.Wizard_EarthQuake, 1);
-				mob.ExtraSkillUseRate = 30;
+				mob.Vars.SetInt("Melia.Mob.ExtraSkill", (int)SkillId.Wizard_EarthQuake);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillLevel", 1);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillUseRate", 30);
 				break;
 			}
 			case RaceType.Klaida:
 			{
-				mob.ExtraSkill = new Skill(mob, SkillId.Wizard_Lethargy, 1);
-				mob.ExtraSkillUseRate = 30;
+				mob.Vars.SetInt("Melia.Mob.ExtraSkill", (int)SkillId.Wizard_Lethargy);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillLevel", 1);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillUseRate", 30);
 				break;
 			}
 			case RaceType.Velnias:
 			{
-				mob.ExtraSkill = new Skill(mob, SkillId.Wizard_EnergyBolt, 1);
-				mob.ExtraSkillUseRate = 50;
+				mob.Vars.SetInt("Melia.Mob.ExtraSkill", (int)SkillId.Wizard_EnergyBolt);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillLevel", 1);
+				mob.Vars.SetInt("Melia.Mob.ExtraSkillUseRate", 50);
 				break;
 			}
 		}
+	}
+
+
+	/// <summary>
+	/// Scales the monster's stats based on a target level, mostly for
+	/// use with pets.
+	/// </summary>
+	/// <remarks>
+	/// Currently using 2% per level as an approximate level of power.
+	/// </remarks>
+	public void ScaleMobToLevel(Mob mob, int targetLevel)
+	{
+		var mobProperties = mob.Properties;
+
+		var currentLevel = mobProperties.GetFloat(PropertyName.Level);
+
+		if (targetLevel == currentLevel)
+			return;
+
+		var mobData = mob.Data;
+
+		var levelDifferential = Math.Abs(targetLevel - currentLevel);
+		var statMultiplier = 1f;
+
+		// We use the power function so the stat boosts are boosted cumulatively, this
+		// makes a big difference when the level differential is high.
+		if (targetLevel > currentLevel)
+			statMultiplier = (float)Math.Pow(1.02f, levelDifferential);
+
+		if (targetLevel < currentLevel)
+			statMultiplier = (float)Math.Pow(0.98f, levelDifferential);
+
+		// Need to subtract 1 because the modify method affects stats additively.
+		statMultiplier--;
+
+		// Have to remove the existing level because it's unchangeable
+		mobProperties.Remove(PropertyName.Level);
+		mobProperties.SetFloat(PropertyName.Level, targetLevel);
+		mobProperties.Modify(PropertyName.MHP_BM, mobData.Hp * statMultiplier);
+		mobProperties.Modify(PropertyName.MSP_BM, mobData.Sp * statMultiplier);
+		mobProperties.Modify(PropertyName.PATK_BM, mobData.PhysicalAttackMin * statMultiplier);
+		mobProperties.Modify(PropertyName.MATK_BM, mobData.MagicalAttackMin * statMultiplier);
+		mobProperties.Modify(PropertyName.DEF_BM, mobData.PhysicalDefense * statMultiplier);
+		mobProperties.Modify(PropertyName.MDEF_BM, mobData.MagicalDefense * statMultiplier);
+		mobProperties.Modify(PropertyName.DR_BM, mobData.DodgeRate * statMultiplier);
+		mobProperties.Modify(PropertyName.HR_BM, mobData.HitRate * statMultiplier);
+		mobProperties.Modify(PropertyName.CRTDR_BM, mobData.CritDodgeRate * statMultiplier);
+		mobProperties.Modify(PropertyName.CRTHR_BM, mobData.CritHitRate * statMultiplier);
+		mobProperties.Modify(PropertyName.CRTATK_BM, mobData.CritAttack * statMultiplier);
+		mobProperties.Modify(PropertyName.BLK_BM, mobData.BlockRate * statMultiplier);
+		mobProperties.Modify(PropertyName.BLK_BREAK_BM, mobData.BlockBreakRate * statMultiplier);
 	}
 }

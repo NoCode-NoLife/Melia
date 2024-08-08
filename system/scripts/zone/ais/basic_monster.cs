@@ -1,7 +1,17 @@
 ﻿using System.Collections;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
+using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Logging;
+using Melia.Zone.Network;
+using Melia.Zone.World.Actors.Monsters;
+using System.Linq;
+using Yggdrasil.Util;
 
 [Ai("BasicMonster")]
 public class BasicMonsterAiScript : AiScript
@@ -121,5 +131,96 @@ public class BasicMonsterAiScript : AiScript
 			RemoveAllHate();
 			StartRoutine("StopAndIdle", StopAndIdle());
 		}
+	}
+
+
+	/// <summary>
+	/// Returns a random skill the entity can use
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	protected override bool TryGetRandomSkill(out Skill skill)
+	{
+		skill = null;
+
+		if (!(this.Entity is Mob mob))
+			return false;
+
+		if (!mob.Data.Skills.Any())
+			return false;
+
+		var hasExtraSkill = mob.Vars.Has("Melia.Mob.ExtraSkill");
+
+		if (hasExtraSkill && RandomProvider.Get().Next(100) <= mob.Vars.GetInt("Melia.Mob.ExtraSkillUseRate"))
+		{
+			skill = new Skill(mob, (SkillId)mob.Vars.GetInt("Melia.Mob.ExtraSkill"), mob.Vars.GetInt("Melia.Mob.ExtraSkillLevel"));
+		}
+		else
+		{
+			var rndSkillId = mob.Data.Skills.First().SkillId;
+
+			// Should we give monsters a skill manager? We might not
+			// actually need it, though we should probably at least
+			// cache the skills if we create them on demand.
+			skill = new Skill(this.Entity, rndSkillId, 1);
+		}
+
+		return true;
+	}
+
+
+	/// <summary>
+	/// Makes entity use the given skill on the target.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <param name="target"></param>
+	/// <returns></returns>
+	protected override IEnumerable UseSkill(Skill skill, ICombatEntity target)
+	{
+		this.Entity.TurnTowards(target);
+		switch (skill.Data.UseType)
+		{
+			case SkillUseType.MeleeGround:
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IGroundSkillHandler>(skill.Id, out var handler))
+				{
+					Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
+					yield return this.Wait(2000);
+					yield break;
+				}
+				var skillTarget = target;
+
+				if (skill.Id == SkillId.Cleric_Heal)
+				{
+					if (GetMaster() != null)
+						skillTarget = GetMaster();
+					else
+						skillTarget = this.Entity;
+				}				
+
+				skill.Vars.Set("Melia.ToolGroundPos", skillTarget.Position);
+
+				handler.Handle(skill, this.Entity, this.Entity.Position, skillTarget.Position, skillTarget);
+
+				if (this.Entity is Mob mob)
+					Send.ZC_SKILL_MELEE_GROUND(this.Entity, new Skill(mob, mob.Data.Skills.First().SkillId, 1), skillTarget.Position, null);
+				break;
+			}
+			default:
+			{
+				if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))
+				{
+					Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
+					yield return this.Wait(2000);
+					yield break;
+				}
+				handler.Handle(skill, this.Entity, target);
+
+				break;
+			}
+		}
+
+		var useTime = skill.Properties.ShootTime;
+		yield return this.Wait(useTime);
 	}
 }

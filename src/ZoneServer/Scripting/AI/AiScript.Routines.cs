@@ -132,7 +132,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <returns></returns>
-		protected bool TryGetRandomSkill(out Skill skill)
+		protected virtual bool TryGetRandomSkill(out Skill skill)
 		{
 			skill = null;
 
@@ -151,19 +151,14 @@ namespace Melia.Zone.Scripting.AI
 
 			//var rndSkillId = mob.Data.Skills.Random().SkillId;
 
-			if (mob.ExtraSkill != null && RandomProvider.Get().Next(100) <= mob.ExtraSkillUseRate)
-			{
-				skill = mob.ExtraSkill;
-			}
-			else
-			{
-				var rndSkillId = mob.Data.Skills.First().SkillId;
+			
+			var rndSkillId = mob.Data.Skills.First().SkillId;
 
-				// Should we give monsters a skill manager? We might not
-				// actually need it, though we should probably at least
-				// cache the skills if we create them on demand.
-				skill = new Skill(this.Entity, rndSkillId, 1);
-			}
+			// Should we give monsters a skill manager? We might not
+			// actually need it, though we should probably at least
+			// cache the skills if we create them on demand.
+			skill = new Skill(this.Entity, rndSkillId, 1);
+			
 
 			return true;
 		}
@@ -174,7 +169,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="skill"></param>
 		/// <param name="target"></param>
 		/// <returns></returns>
-		protected IEnumerable UseSkill(Skill skill, ICombatEntity target)
+		protected virtual IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
 			this.Entity.TurnTowards(target);
 			switch (skill.Data.UseType)
