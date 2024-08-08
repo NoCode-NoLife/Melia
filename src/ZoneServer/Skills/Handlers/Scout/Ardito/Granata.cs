@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", TimeSpan.FromMilliseconds(600), "F_scout_Granata_explosion", TimeSpan.FromSeconds(3), castPosition, 70f, 0.3f, 0, 600);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3, castPosition, 70f, 0.3f, 0, 600);
 
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: CastLength, width: 45, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);

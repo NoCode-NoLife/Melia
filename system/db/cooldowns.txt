@@ -1596,4 +1596,6 @@
 { id: 6003, className: "DayLight", isOverheat: false, overheatResetTime: 40000 },
 { id: 6004, className: "CalmSea", isOverheat: false, overheatResetTime: 40000 },
 { id: 6005, className: "KupoleNormalBuff", isOverheat: false, overheatResetTime: 40000 },
+{ id: 6006, className: "AquaWind", isOverheat: false, overheatResetTime: 40000 },
+{ id: 6007, className: "WheelOfFate", isOverheat: false, overheatResetTime: 40000 },
 ]

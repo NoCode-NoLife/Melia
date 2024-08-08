@@ -6,7 +6,7 @@ using Yggdrasil.Data.JSON;
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
-	public class BuffData
+	public class BuffData : ITagged
 	{
 		public BuffId Id { get; set; }
 		public string ClassName { get; set; }
@@ -21,6 +21,7 @@ namespace Melia.Shared.Data.Database
 		public bool RemoveOnDeath { get; set; }
 		public bool RemoveBySkill { get; set; }
 		public bool Save { get; set; }
+		public Tags Tags { get; set; }
 		public string[] UpdateProperties { get; set; }
 	}
 
@@ -59,6 +60,8 @@ namespace Melia.Shared.Data.Database
 			data.RemoveBySkill = entry.ReadBool("removeBySkill");
 			data.Save = entry.ReadBool("save");
 			data.UpdateProperties = entry.ReadArray("updateProperties", new string[0]);
+
+			data.Tags = new Tags(entry.ReadList<string>("tags", []));
 
 			this.AddOrReplace(data.Id, data);
 		}

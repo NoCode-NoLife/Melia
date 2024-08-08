@@ -217,6 +217,7 @@ namespace Melia.Barracks.Database
 				{
 					cmd.Set("characterId", character.Id);
 					cmd.Set("jobId", character.JobId);
+					cmd.Set("selectionDate", DateTime.Now);
 
 					cmd.Execute();
 				}

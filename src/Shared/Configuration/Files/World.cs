@@ -41,6 +41,10 @@ namespace Melia.Shared.Configuration.Files
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
 
+		// storage.conf
+		public int StorageFee { get; protected set; }
+		public bool StorageMultiStack { get; protected set; }
+
 		// summons.conf
 		public bool BlueOrbFollowWarp { get; protected set; }
 		public bool BlueOrbPetSystem { get; protected set; }
@@ -86,6 +90,9 @@ namespace Melia.Shared.Configuration.Files
 			this.DropDisappearSeconds = this.GetInt("drop_disappear_time", 100);
 			this.Littering = this.GetBool("littering", false);
 			this.TargetedLittering = this.GetBool("targeted_littering", false);
+
+			this.StorageFee = this.GetInt("storage_fee", 20);
+			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.JobExpRate = this.GetFloat("job_exp_rate", 100);
