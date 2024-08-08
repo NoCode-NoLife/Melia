@@ -463,9 +463,18 @@ namespace Melia.Zone.Network
 			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
 			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
 
+			var skillId = skill.Id;
+
+			if (!skill.IsMonsterSkill && entity is Mob mob)
+			{
+				// Mobs don't have animations for player skills.  We can use a workaround
+				// to instead show their normal attack animation in this case.
+				skillId = mob.Data.Skills.First().SkillId;
+			}
+
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
-			packet.PutInt((int)skill.Id);
+			packet.PutInt((int)skillId);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
