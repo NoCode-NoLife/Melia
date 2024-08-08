@@ -100,6 +100,11 @@ namespace Melia.Barracks.Database
 		public int TeamExp { get; set; }
 
 		/// <summary>
+		/// Gets or sets the account's mail box.
+		/// </summary>
+		public Mailbox Mailbox { get; } = new Mailbox();
+
+		/// <summary>
 		/// Returns a reference to the account's properties.
 		/// </summary>
 		public Properties Properties { get; } = new Properties("Account");
@@ -197,6 +202,8 @@ namespace Melia.Barracks.Database
 			var characters = BarracksServer.Instance.Database.GetCharacters(account.Id);
 			foreach (var character in characters)
 				account.AddCharacter(character);
+
+			BarracksServer.Instance.Database.LoadMailbox(account);
 
 			return account;
 		}
@@ -307,6 +314,7 @@ namespace Melia.Barracks.Database
 		public void Save()
 		{
 			BarracksServer.Instance.Database.SaveAccount(this);
+			BarracksServer.Instance.Database.SaveMail(this);
 
 			lock (_characters)
 			{

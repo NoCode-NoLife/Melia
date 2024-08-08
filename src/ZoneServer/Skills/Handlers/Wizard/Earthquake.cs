@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Wizard
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
 
 				// Ability "Earthquake: Remove Knockdown"
-				if (!caster.Components.Get<AbilityComponent>().IsActive(AbilityId.Wizard23))
+				if (!caster.IsAbilityActive(AbilityId.Wizard23))
 				{
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;

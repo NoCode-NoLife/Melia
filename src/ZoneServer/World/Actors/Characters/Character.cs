@@ -12,10 +12,13 @@ using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs.Handlers;
+using Melia.Zone.Buffs;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -168,6 +171,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets whether the character is sitting.
 		/// </summary>
 		public bool IsSitting { get; set; }
+
+		/// <summary>
+		/// Returns the characters's personal storage.
+		/// </summary>
+		public PersonalStorage PersonalStorage { get; }
 
 		/// <summary>
 		/// The character's inventory.
@@ -365,6 +373,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
+			this.PersonalStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}
@@ -632,7 +641,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.Modify(PropertyName.StatByLevel, amount);
 
 			this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
-			this.Heal();
+			this.FullHeal();
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
@@ -690,7 +699,7 @@ namespace Melia.Zone.World.Actors.Characters
 				throw new ArgumentException("Amount can't be lower than 1.");
 
 			this.Jobs.ModifySkillPoints(this.JobId, amount);
-			this.Heal();
+			this.FullHeal();
 
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
@@ -701,24 +710,30 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Heals character's HP, SP, and Stamina fully and updates
 		/// the client.
 		/// </summary>
-		public void Heal()
+		public void FullHeal()
 		{
-			var maxHp = this.Properties.GetFloat(PropertyName.MHP);
-			var maxSp = this.Properties.GetFloat(PropertyName.MSP);
-
-			this.Heal(maxHp, maxSp);
+			// Use the modifiers, so we actually get a full heal, unaffected by
+			// potential (de)buffs in Heal.
+			this.ModifyHp(this.MaxHp);
+			this.ModifySp(this.MaxSp);
 		}
 
 		/// <summary>
 		/// Heals character's HP and SP by the given amounts and updates
-		/// the client.
+		/// the client. Applies potential (de)buffs that affect healing.
 		/// </summary>
+		/// <remarks>
+		/// For healing unaffected by (de)buffs, use FullHeal or ModifyHp/Sp.
+		/// </remarks>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
 			if (hpAmount == 0 && spAmount == 0)
 				return;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
 
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
@@ -1221,6 +1236,9 @@ namespace Melia.Zone.World.Actors.Characters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out _, out _);

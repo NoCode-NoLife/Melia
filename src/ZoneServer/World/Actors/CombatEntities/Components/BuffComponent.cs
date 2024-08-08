@@ -151,7 +151,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// removed, or 0 if no buff was removed.
 		/// </summary>
 		/// <remarks>
-		/// Only considers buffs of type Buff, not debuffs.
+		/// Only considers buffs of type Buff, not Debuff.
 		/// </remarks>
 		/// <returns></returns>
 		public BuffId RemoveRandomBuff()
@@ -161,6 +161,26 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return 0;
 
 			var buff = removableBuffs.Random();
+			this.Remove(buff);
+
+			return buff.Id;
+		}
+
+		/// <summary>
+		/// Removes a random removable debuff. Returns the id of the buff that was
+		/// removed, or 0 if no buff was removed.
+		/// </summary>
+		/// <remarks>
+		/// Only considers buffs of type Debuff, not Buff.
+		/// </remarks>
+		/// <returns></returns>
+		public BuffId RemoveRandomDebuff()
+		{
+			var removableDeBuffs = this.GetAll(a => a.Data.Type == BuffType.Debuff && a.Data.Removable);
+			if (removableDeBuffs.Count == 0)
+				return 0;
+
+			var buff = removableDeBuffs.Random();
 			this.Remove(buff);
 
 			return buff.Id;
@@ -342,7 +362,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, this.Entity, caster ?? this.Entity);
+				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity);
 				this.Add(buff);
 			}
 			else

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Barracks.Database;
 using Melia.Barracks.Network.Helpers;
@@ -180,22 +180,6 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Updates the state of a postbox message.
-			/// </summary>
-			/// <param name="conn"></param>
-			/// <param name="messageId"></param>
-			/// <param name="state"></param>
-			public static void UpdatePostBoxState(IBarracksConnection conn, long messageId, PostBoxMessageState state)
-			{
-				var packet = new Packet(Op.BC_NORMAL);
-				packet.PutInt(NormalOp.Barrack.PostBoxState);
-				packet.PutLong(messageId);
-				packet.PutByte((byte)state);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
 			/// Invokes a lua function.
 			/// </summary>
 			/// <param name="conn"></param>
@@ -205,6 +189,106 @@ namespace Melia.Barracks.Network
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.Run);
 				packet.PutLpString(str);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the message list on the account's mailbox.
+			/// </summary>
+			/// <param name="conn">The connection used to send the mailbox data to the client.</param>
+			/// <param name="messages"></param>
+			/// <param name="page"></param>
+			/// <param name="totalMessageCount"></param>
+			public static void Mailbox(IBarracksConnection conn, IEnumerable<MailMessage> messages, int page, int totalMessageCount)
+			{
+				var messageCount = messages.Count();
+
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.Mailbox);
+
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutByte((byte)page);
+					zpacket.PutByte(messageCount == 0);
+					zpacket.PutEmptyBin(3); // Alignment?
+					zpacket.PutInt(messageCount);
+					zpacket.PutInt(totalMessageCount);
+
+					foreach (var message in messages)
+					{
+						var items = message.GetItems();
+
+						zpacket.PutLpString(message.Sender);
+						zpacket.PutLpString(message.Subject);
+						zpacket.PutLpString(message.Message);
+						zpacket.PutDate(message.StartDate);
+						zpacket.PutDate(message.ExpirationDate);
+						zpacket.PutDate(message.CreatedDate);
+						zpacket.PutLong(message.Id);
+						zpacket.PutByte(message.IsRead);
+						zpacket.PutByte(message.CanReceive);
+						zpacket.PutByte(0); // Alignment Byte?
+						zpacket.PutByte((byte)message.State);
+						zpacket.PutByte(0);
+						zpacket.PutByte((byte)message.ReceivableItemsCount);
+						zpacket.PutShort(0);
+						zpacket.PutInt(items.Count);
+
+						foreach (var item in items)
+						{
+							zpacket.PutInt(item.DbId);
+							zpacket.PutInt(item.Id);
+							zpacket.PutInt(item.Amount);
+							zpacket.PutByte(item.WasReceived);
+							zpacket.PutEmptyBin(3); // Alignment
+						}
+					}
+				});
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the state of a mailbox message.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="messageId"></param>
+			/// <param name="state"></param>
+			public static void UpdateMailboxState(IBarracksConnection conn, long messageId, MailboxMessageState state)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.MailboxState);
+				packet.PutLong(messageId);
+				packet.PutByte((byte)state);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Mail Update
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void MailUpdate(IBarracksConnection conn, MailMessage message)
+			{
+				var items = message.GetItems();
+				var receivedItemCount = items.Count(item => item.WasReceived);
+
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.MailUpdate);
+
+				packet.PutLong(message.Id);
+				packet.PutByte((byte)message.State);
+				packet.PutInt(receivedItemCount); // This is a guess, could be a different value.
+				packet.PutInt(items.Count);
+
+				foreach (var item in items)
+				{
+					packet.PutInt(item.DbId);
+					packet.PutInt(item.Id);
+					packet.PutInt(item.Amount);
+					packet.PutInt(item.WasReceived ? 1 : 0);
+				}
 
 				conn.Send(packet);
 			}
@@ -244,43 +328,6 @@ namespace Melia.Barracks.Network
 				var packet = new Packet(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Barrack.BarrackSlotCount);
 				packet.PutInt(count);
-
-				conn.Send(packet);
-			}
-
-			/// <summary>
-			/// Mailbox
-			/// </summary>
-			/// <param name="conn"></param>
-			public static void MESSAGE_MAIL(IBarracksConnection conn)
-			{
-				var packet = new Packet(Op.BC_NORMAL);
-				packet.PutInt(NormalOp.Barrack.Message);
-
-				packet.Zlib(true, zpacket =>
-				{
-					zpacket.PutByte(1);
-					zpacket.PutInt(0);
-					zpacket.PutInt(1); //Message Count?
-
-					var sender = "GM.";
-					var title = "Compensation on for Temporary Maintenance";
-					var message = "";
-
-					zpacket.PutLpString(sender);
-					zpacket.PutLpString(title);
-					zpacket.PutLpString(message);
-					zpacket.PutDate(DateTime.Now); // Date Sent?
-					zpacket.PutDate(DateTime.Now); // Expiration
-					zpacket.PutDate(DateTime.Now);
-					zpacket.PutLong(1); // Message Id
-					zpacket.PutByte(0);
-					zpacket.PutShort(3);
-					zpacket.PutShort(0);
-					zpacket.PutShort(1);
-					zpacket.PutByte(0);
-					zpacket.PutInt(0); // Message Item Count
-				});
 
 				conn.Send(packet);
 			}

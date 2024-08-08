@@ -8,8 +8,6 @@ using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Buffs.Handlers;
-using Melia.Zone.Buffs.Handlers.Swordsman.Highlander;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -18,6 +16,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
@@ -50,6 +49,9 @@ public class CombatCalculationsScript : GeneralScript
 			min = attacker.Properties.GetFloat(PropertyName.MINMATK) + modifier.BonusMAtk;
 			max = attacker.Properties.GetFloat(PropertyName.MAXMATK) + modifier.BonusMAtk;
 		}
+
+		if (min > max)
+			return max;
 
 		return rnd.Between(min, max);
 	}
@@ -96,15 +98,29 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// Get base damage, incl. basic bonuses
 		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-		skillHitResult.Damage *= skillFactor / 100f;
 		skillHitResult.Damage += skillAtkAdd;
 
 		skillHitResult.Damage += modifier.BonusDamage;
 		skillHitResult.Damage *= modifier.DamageMultiplier;
+
+		// Apply defense to the base damage. This might've been done at different
+		// points in some versions of the game, but for the latest version it's
+		// important to do it before the skill factors are applied, as these may
+		// raise the damage to such heights that the target's defense becomes
+		// meaningless.
+		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
+		var def = target.Properties.GetFloat(defPropertyName);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
+		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
+
+		// Apply the skill factor, raising the damage based on the skill's
+		// damage multiplier
+		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
+		skillHitResult.Damage *= skillFactor / 100f;
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
@@ -126,11 +142,6 @@ public class CombatCalculationsScript : GeneralScript
 
 			skillHitResult.Result = HitResultType.Crit;
 		}
-
-		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
-		var def = target.Properties.GetFloat(defPropertyName);
-		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
-		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
 		SCR_Combat_BeforeBonuses(attacker, target, skill, modifier, skillHitResult);
 
@@ -362,6 +373,16 @@ public class CombatCalculationsScript : GeneralScript
 		var attackType = skill.Data.AttackType;
 		var targetArmor = target.ArmorMaterial;
 
+		// Use the right-hand weapon's attack type if a weapon is equipped.
+		// This doesn't necessarily take into account off-hand attacks,
+		// but it's currently unclear if/how those would be handled.
+		if (attacker.Components.TryGet<InventoryComponent>(out var inventory))
+		{
+			var rhItem = inventory.GetEquip(EquipSlot.RightHand);
+			if (rhItem is not DummyEquipItem)
+				attackType = rhItem.Data.AttackType;
+		}
+
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{
 			if (attackType == SkillAttackType.Slash)
@@ -551,6 +572,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.ForcedBlock)
+			return 100;
+
 		var block = target.Properties.GetFloat(PropertyName.BLK);
 		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
 
@@ -594,6 +618,9 @@ public class CombatCalculationsScript : GeneralScript
 	{
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
+
+		if (modifier.ForcedCritical)
+			return 100;
 
 		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
