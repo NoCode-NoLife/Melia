@@ -9,7 +9,7 @@ namespace Melia.Zone.Scripting.AI
 {
 	public abstract partial class AiScript
 	{
-		private readonly static Dictionary<string, Type> AiScriptTypes = new Dictionary<string, Type>();
+		private readonly static Dictionary<string, Type> AiScriptTypes = new();
 
 		/// <summary>
 		/// Initializes the AI script upon loading.

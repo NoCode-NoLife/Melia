@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Threading;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -18,7 +17,7 @@ namespace Melia.Zone.Scripting.AI
 {
 	public abstract partial class AiScript
 	{
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Moves entity to a random location within the given distance.
@@ -135,7 +134,7 @@ namespace Melia.Zone.Scripting.AI
 		{
 			skill = null;
 
-			if (!(this.Entity is Mob mob))
+			if (this.Entity is not Mob mob)
 				return false;
 
 			if (!mob.Data.Skills.Any())
