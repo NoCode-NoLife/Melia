@@ -73,12 +73,8 @@
 		public int HitCount { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets unblockable status
+		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
 		/// </summary>
-		/// <remarks>
-		/// If this is true, the attack cannot be blocked.
-		/// This beats Forced Block.
-		/// </remarks>
 		public bool Unblockable { get; set; }
 
 		/// <summary>
