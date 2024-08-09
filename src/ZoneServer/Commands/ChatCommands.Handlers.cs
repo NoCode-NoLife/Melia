@@ -62,7 +62,20 @@ namespace Melia.Zone.Commands
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
 			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
-			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
+
+			this.Add("madhatter", "", "Spawns all hair accessories.", this.HandleGetAllHairAccessories);
+			this.Add("getallwings", "", "Spawns all wings.", this.HandleGetAllWings);
+			this.Add("getalltoys", "", "Spawns all toys.", this.HandleGetAllToys);
+			this.Add("getallarmbands", "", "Spawns all armbands.", this.HandleGetAllArmbands);
+			this.Add("getallcostumes", "", "Spawns all costumes.", this.HandleGetAllCostumes);
+			this.Add("getalllens", "", "Spawns all lens.", this.HandleGetAllLens);
+			this.Add("getalleffectcostumes", "", "Spawns all effect costumes.", this.HandleGetAllEffectCostumes);
+			this.Add("getallspecialcostumes", "", "Spawns all special costumes.", this.HandleGetAllSpecialCostumes);
+			this.Add("getallspecialcostumeskins", "", "Spawns all special costume skins.", this.HandleGetAllSpecialCostumeSkins);
+			this.Add("getallhairs", "", "Spawns all hairs.", this.HandleGetAllHairs);
+			this.Add("getallhelmets", "", "Spawns all helmets.", this.HandleGetAllHelmets);
+			this.Add("getalldolls", "", "Spawns all dolls.", this.HandleGetAllDolls);
+
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
 			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
@@ -682,10 +695,243 @@ namespace Melia.Zone.Commands
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleGetAllHats(Character sender, Character target, string message, string command, Arguments args)
+		private CommandResult HandleGetAllHairAccessories(Character sender, Character target, string message, string command, Arguments args)
+		{	
+			int startId=628001;
+			int endId=629511;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "hair accessories";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available wings to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllWings(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=637000;
+			int endId=637999;
+			int[] additionalItems = new int[] { 635572 }; // Add the Little Ghost Balloon which is off ID range
+    		string itemTypeName = "wings";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available toys to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllToys(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=630001;
+			int endId=635121;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "toys";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available armbands to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllArmbands(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=11101;
+			int endId=11147;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "armbands";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available costumes to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllCostumes(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=620101;
+			int endId=635510;
+			int[] additionalItems = new int[] { 635570, 635571 };  // Reissue Cafe T-shirt Male and Female
+    		string itemTypeName = "costumes";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available lens to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllLens(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=18001;
+			int endId=18016;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "lens";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available effect costumes to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllEffectCostumes(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=639101;
+			int endId=639126;
+			int[] additionalItems = new int[] { 640000 }; // White Snowflake Crystal
+    		string itemTypeName = "effect costumes";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available special costumes to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllSpecialCostumes(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=638000;
+			int endId=638012;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "special costumes";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+	
+		/// <summary>
+		/// Adds all available special costume skins to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllSpecialCostumeSkins(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=750000;
+			int endId=750008;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "special costume skins";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+	
+		/// <summary>
+		/// Adds all available hairs to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllHairs(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=12111;
+			int endId=19003;
+			int[] additionalItems = new int[] { 635054, 635055 }; // [EVENT] Cockatrice Head (Male, Female)
+    		string itemTypeName = "hairs";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available helmets to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllHelmets(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=10001;
+			int endId=19030;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "helmets";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all available dolls to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllDolls(Character sender, Character target, string message, string command, Arguments args)
+		{
+			int startId=900001;
+			int endId=900004;
+			int[] additionalItems = new int[] { };
+    		string itemTypeName = "dolls";
+		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
+		}
+
+		/// <summary>
+		/// Adds all requested and availabled items to target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <param name="startId"></param>
+		/// <param name="endId"></param>
+		/// <param name="additionalItems"></param>
+		/// <param name="itemTypeName"></param>
+		/// <returns></returns>
+		private CommandResult HandleGetAllSelectedItems(Character sender, Character target, string message, string command, Arguments args, int startId, int endId, int[] additionalItems, string itemTypeName)
 		{
 			var addedCount = 0;
-			for (var itemId = 628001; itemId <= 629503; ++itemId)
+			for (var itemId = startId; itemId <= endId; ++itemId)
+			{
+				if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
+					continue;
+
+				if (!sender.Inventory.HasItem(itemId))
+				{
+					sender.Inventory.Add(new Item(itemId), InventoryAddType.PickUp);
+					addedCount++;
+				}
+			}
+
+			//  for each additional item
+			foreach (var itemId in additionalItems)
 			{
 				if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 					continue;
@@ -699,12 +945,12 @@ namespace Melia.Zone.Commands
 
 			if (sender == target)
 			{
-				sender.ServerMessage(Localization.Get("Added {0} hats to your inventory."), addedCount);
+				sender.ServerMessage(Localization.Get("Added {0} {1} to your inventory."), addedCount, itemTypeName);
 			}
 			else
 			{
-				target.ServerMessage(Localization.Get("{1} added {0} hats to your inventory."), addedCount, sender.TeamName);
-				sender.ServerMessage(Localization.Get("Added {0} hats to target's inventory."), addedCount);
+				target.ServerMessage(Localization.Get("{1} added {0} {2} to your inventory."), addedCount, sender.TeamName, itemTypeName);
+				sender.ServerMessage(Localization.Get("Added {0} {1} to target's inventory."), addedCount, itemTypeName);
 			}
 
 			return CommandResult.Okay;
