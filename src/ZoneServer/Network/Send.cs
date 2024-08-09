@@ -465,12 +465,13 @@ namespace Melia.Zone.Network
 
 			var skillId = skill.Id;
 
+			// Mobs don't have animations for player skills. We can use a
+			// workaround to instead show their normal attack animation in
+			// this case. We might want to extend this in the future to do
+			// the same for characters if they use a skill they shouldn't
+			// be able to use.
 			if (!skill.IsMonsterSkill && entity is Mob mob)
-			{
-				// Mobs don't have animations for player skills.  We can use a workaround
-				// to instead show their normal attack animation in this case.
 				skillId = mob.Data.Skills.First().SkillId;
-			}
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
