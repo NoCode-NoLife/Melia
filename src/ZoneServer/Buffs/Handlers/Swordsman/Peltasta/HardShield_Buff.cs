@@ -1,7 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Peltasta
 {
@@ -16,32 +15,25 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Peltasta
 
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-
-			var defBonus = GetDefBonus(buff);
-
-			AddPropertyModifier(buff, target, PropertyName.DEF_BM, defBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.DEF_BM, this.GetDefBonus(buff));
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target;
-
-			RemovePropertyModifier(buff, target, PropertyName.DEF_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.DEF_BM);
 		}
 
 		private float GetDefBonus(Buff buff)
 		{
-			var caster = buff.Caster;
-
 			var shieldDef = 0f;
-			if (caster is Character character) 
+
+			if (buff.Caster.Components.TryGet<InventoryComponent>(out var inv))
 			{
-				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+				var lhItem = inv.GetItem(EquipSlot.LeftHand);
 				if (lhItem.Data.EquipType1 == EquipType.Shield)
 					shieldDef = lhItem.Data.Def;
 			}
-			
+
 			return shieldDef * DefMultiplierPerLevel * buff.NumArg1;
 		}
 	}

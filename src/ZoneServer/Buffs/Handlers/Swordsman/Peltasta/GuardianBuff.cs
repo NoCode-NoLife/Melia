@@ -4,9 +4,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
-using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman
 {
@@ -23,26 +21,25 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-
-			var sdrBonus = GetSDRBonus(buff);
-
-			AddPropertyModifier(buff, target, PropertyName.SDR_BM, sdrBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.SDR_BM, this.GetSDRBonus(buff));
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target;
+			var target = ;
 
-			RemovePropertyModifier(buff, target, PropertyName.SDR_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.SDR_BM);
 		}
 
-
+		/// <summary>
+		/// Returns the SDR bonus for the buff.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <returns></returns>
 		private float GetSDRBonus(Buff buff)
 		{
 			return SDRBonusBase + buff.NumArg1 * SDRBonusPerLevel;
 		}
-
 
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
@@ -53,16 +50,13 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = DamageReductionBase + skillLevel * DamageReductionPerLevel;
 
 			if (!target.IsAbilityActive(AbilityId.Peltasta39))
-			{
 				modifier.DamageMultiplier -= multiplierReduction;
-			}
 		}
 
 		/// <summary>
@@ -74,7 +68,6 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public async void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
@@ -82,14 +75,15 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 
 			var delayTime = TimeSpan.FromMilliseconds(100);
 
-
-			// Peltasta39 turns this into a damage reflect instead
-			// though the damage taken isn't reduced
+			// Peltasta39 turns this into a damage reflect instead,
+			// though the damage taken isn't reduced.
 			if (target.IsAbilityActive(AbilityId.Peltasta39))
 			{
-			var reflectedDamage = skillHitResult.Damage * multiplierReduction;
-				// we delay this so the reflect animation looks better
+				var reflectedDamage = skillHitResult.Damage * multiplierReduction;
+
+				// We delay the reflect hit so the animation looks better
 				await Task.Delay(delayTime);
+
 				attacker.TakeSimpleHit(reflectedDamage, target, SkillId.None);
 			}
 		}

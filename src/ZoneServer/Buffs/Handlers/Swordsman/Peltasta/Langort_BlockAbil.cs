@@ -1,5 +1,4 @@
-﻿using Melia.Shared.Data.Database;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -12,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers
 	/// </summary>
 	/// <remarks>
 	/// This is completely identical to Momentary Block,
-	/// but without the counter effect
+	/// but without the counter effect.
 	/// </remarks>
 	[BuffHandler(BuffId.Langort_BlkAbil)]
 	public class Langort_BlkAbil : BuffHandler, IBuffCombatDefenseBeforeCalcHandler

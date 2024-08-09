@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
@@ -42,10 +39,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var duration = TimeSpan.FromSeconds(15);
 			target.StartBuff(BuffId.Guardian_Buff, skill.Level, 0, duration, caster);
 
-			// Also need to potentially remove a debuff from the caster
 			var debuffRemoveChance = DebuffRemoveChancePerLevel * skill.Level;
-			if (RandomProvider.Get().Next(100) < debuffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-				buffs.RemoveRandomDebuff();
+			target.RemoveRandomDebuff(debuffRemoveChance);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

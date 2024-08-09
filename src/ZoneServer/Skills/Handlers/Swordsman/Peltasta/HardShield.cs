@@ -1,6 +1,6 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
@@ -12,8 +12,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	/// Handler for the Peltasta Skill Hard Shield
 	/// </summary>
 	/// <remarks>
-	/// This needs to be immediately removed if your shield
-	/// is removed, probably need an equipment change hook
 	/// </remarks>
 	[SkillHandler(SkillId.Peltasta_HardShield)]
 	public class Peltasta_HardShield : IGroundSkillHandler
@@ -37,6 +35,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			caster.SetAttackState(true);
 
 			target = caster;
+
+			/// TODO: This needs to be immediately removed if your shield
+			///   is removed, probably need an equipment change hook.
 
 			var duration = TimeSpan.FromMinutes(30);
 			target.StartBuff(BuffId.HardShield_Buff, skill.Level, 0, duration, caster);

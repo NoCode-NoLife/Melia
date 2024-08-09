@@ -5,14 +5,13 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.Handlers.Swordsman.Peltasta;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
@@ -50,11 +49,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			if (caster is Character character)
+			if (caster.Components.TryGet<InventoryComponent>(out var inv))
 			{
-				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+				var lhItem = inv.GetItem(EquipSlot.LeftHand);
 				if (lhItem.Data.EquipType1 == EquipType.Shield)
-					character.StartBuff(BuffId.Langort_BlkAbil, BlockDuration);
+					caster.StartBuff(BuffId.Langort_BlkAbil, BlockDuration);
 			}
 
 			this.Attack(skill, caster, splashArea);
@@ -111,7 +110,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Hoplite
 				}
 
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
-				hits.Clear();				
+				hits.Clear();
 
 				if (i < 3)
 					await Task.Delay(delayBetweenHits);

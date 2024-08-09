@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -94,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-				if (caster.TryGetActiveAbilityLevel(AbilityId.Peltasta8, out int knockdownLevel)) 
+				if (caster.TryGetActiveAbilityLevel(AbilityId.Peltasta8, out var knockdownLevel))
 				{
 					// Knockback power is 40 * level
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
@@ -105,21 +104,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				{
 					skillHit.HitEffect = HitEffect.Impact;
 				}
-				
+
 				hits.Add(skillHit);
 
 				// Note: This ability was repurposed to Rim Blow after Umbo Blow was removed,
 				// which is why the description mentions it affects Umbo Blow.
-				if (caster.TryGetActiveAbilityLevel(AbilityId.Impact, out int stunLevel) && RandomProvider.Get().Next(100) < stunLevel * StunChancePerLevel)
-				{
+				if (caster.TryGetActiveAbilityLevel(AbilityId.Impact, out var stunLevel) && RandomProvider.Get().Next(100) < stunLevel * StunChancePerLevel)
 					target.StartBuff(BuffId.Stun, stunLevel, 0, StunDuration, caster);
-				}
 
-
-				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(1000) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
+				target.RemoveRandomBuff(buffRemoveChance);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

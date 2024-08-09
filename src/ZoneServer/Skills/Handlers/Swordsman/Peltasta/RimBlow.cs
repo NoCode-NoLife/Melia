@@ -5,7 +5,6 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs.Handlers.Swordsman.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -99,9 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				hits.Add(skillHit);
 
 				if (caster.TryGetActiveAbilityLevel(AbilityId.Impact, out int stunLevel) && RandomProvider.Get().Next(100) < stunLevel * StunChancePerLevel)
-				{
 					target.StartBuff(BuffId.Stun, stunLevel, 0, StunDuration, caster);
-				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
