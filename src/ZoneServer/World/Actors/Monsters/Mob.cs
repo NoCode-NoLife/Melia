@@ -41,11 +41,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
 
 		/// <summary>
-		/// Returns the monster's armor material.
-		/// </summary>
-		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
-
-		/// <summary>
 		/// Returns the monster's mode of movement.
 		/// </summary>
 		public MoveType MoveType => this.Data.MoveType;
