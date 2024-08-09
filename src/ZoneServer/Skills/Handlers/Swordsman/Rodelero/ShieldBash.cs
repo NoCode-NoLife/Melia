@@ -10,8 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
@@ -86,10 +84,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 
 				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, DebuffDuration, caster);
 
-				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(100) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
+				target.RemoveRandomBuff(buffRemoveChance);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

@@ -10,9 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
@@ -74,20 +71,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(3);
-				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);				
+				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
 
 				// Deals double damage if behind the enemy
-				// If you are behind someone, you'll be facing in the same
-				// direction as them, so we check that the direction is close
-				var casterAngle = caster.Direction.DegreeAngle;
-				var targetAngle = target.Direction.DegreeAngle;
-				if (Math.Abs(casterAngle - targetAngle) < 90 || Math.Abs(casterAngle + 360f - targetAngle) < 90 || Math.Abs(casterAngle - targetAngle + 360f) < 90)
+				if (caster.IsBehind(target))
 				{
 					modifier.DamageMultiplier += 1f;
 				}
+				// If the back attack fails, it changes the target's direction
 				else
 				{
-					// if the back attack fails, it changes the target's direction
 					target.TurnTowards(caster.Direction);
 				}
 
@@ -100,19 +93,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 
 				target.StartBuff(BuffId.ShieldPush_DEF_Debuff, skill.Level, 0, DefDownDuration, caster);
 
-				var inflictUnbalance = true;
-				if (target is Mob mob && mob.Data.Rank == MonsterRank.Boss)
-				{
-					inflictUnbalance = false;
-				}
-
+				var inflictUnbalance = (target.Rank == MonsterRank.Boss);
 				if (inflictUnbalance)
 					target.StartBuff(BuffId.ShieldPush_Debuff, skill.Level, 0, UnbalanceDuration, caster);
 
-				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(1000) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
+				target.RemoveRandomBuff(buffRemoveChance);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

@@ -59,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
-			var spinLength = TimeSpan.FromMilliseconds(300);
+			var spinDuration = TimeSpan.FromMilliseconds(300);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
@@ -92,17 +92,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			await Task.Delay(damageDelay);
 
 			foreach (var target in hitTargets)
-			{
 				Send.ZC_NORMAL.SpinObject(target, 0, 5, 0.2f, 1);
-			}
 
-			await Task.Delay(spinLength);
+			await Task.Delay(spinDuration);
 
 			// TODO: Is there any way to stop the spin without sending this packet?
 			foreach (var target in hitTargets)
-			{
 				Send.ZC_NORMAL.SpinObject(target, 0, 0, 0, 0);
-			}
 		}
 	}
 }

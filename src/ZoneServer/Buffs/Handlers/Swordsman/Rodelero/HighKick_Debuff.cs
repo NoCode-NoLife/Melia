@@ -4,7 +4,7 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 {
@@ -32,16 +32,26 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (skill.IsNormalAttack && skill.Data.AttackType == SkillAttackType.Strike)
-			{
+			if (skill.IsNormalAttack && IsStrike(attacker, skill))
 				modifier.DamageMultiplier += StrikeDamageIncrease;
-			}
-			else if (skill.IsNormalAttack && attacker is Character character)
-			{
-				var weapon = character.Inventory.GetItem(EquipSlot.RightHand);
-				if (weapon != null || weapon.Data.AttackType == SkillAttackType.Strike)
-					modifier.DamageMultiplier += StrikeDamageIncrease;
-			}
+		}
+
+		/// <summary>
+		/// Returns true if the skill attack is classified as a strike.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="attacker"></param>
+		/// <returns></returns>
+		private static bool IsStrike(ICombatEntity attacker, Skill skill)
+		{
+			if (skill.Data.AttackType == SkillAttackType.Strike)
+				return true;
+
+			var weaponAttackType = attacker.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.AttackType;
+			if (weaponAttackType == SkillAttackType.Strike)
+				return true;
+
+			return false;
 		}
 	}
 }

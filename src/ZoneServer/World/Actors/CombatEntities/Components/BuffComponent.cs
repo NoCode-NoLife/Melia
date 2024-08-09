@@ -272,6 +272,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Returns the number of active buffs that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public int CountActive(Func<Buff, bool> predicate)
+		{
+			lock (_buffs)
+				return _buffs.Values.Count(predicate);
+		}
+
+		/// <summary>
 		/// Returns true if the buff exists.
 		/// </summary>
 		/// <param name="buffId"></param>

@@ -1,5 +1,4 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero

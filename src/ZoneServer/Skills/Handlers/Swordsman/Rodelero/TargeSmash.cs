@@ -11,7 +11,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
@@ -77,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			{
 				var modifier = SkillModifier.MultiHit(6);
 				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
-				modifier.MinimumCritical = 20f;
+				modifier.MinCritChance = 20f;
 
 				// This skill used to do bonus damage to shocked enemies
 				//if (target.IsBuffActive(BuffId.Common_Shock)) 
@@ -85,8 +84,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 				//	modifier.DamageMultiplier += ShockDamageBonusMultiplier;
 				//}
 
-				// If the target is frozen or petrified,
-				// Rodelero1 deals more damage but ends the debuff
+				// If the target is frozen or petrified, Rodelero1 deals more
+				// damage but ends the debuff
 				if (caster.TryGetActiveAbilityLevel(AbilityId.Rodelero1, out var level))
 				{
 					if (target.IsBuffActive(BuffId.Frozen))
@@ -135,15 +134,15 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			// The Ability Rodelero32 adds a second hitbox
 			if (caster.IsAbilityActive(AbilityId.Rodelero32))
 			{
-				hits.Clear();		
+				hits.Clear();
 
 				await Task.Delay(hitDelay2);
 
-				foreach (var target in GetTargetsForBreak(skill, caster, splashArea))
+				foreach (var target in this.GetTargetsForBreak(skill, caster, splashArea))
 				{
 					var modifier = SkillModifier.MultiHit(6);
 					modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
-					modifier.MinimumCritical = 20f;
+					modifier.MinCritChance = 20f;
 
 					var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 					target.TakeDamage(skillHitResult.Damage, caster);
@@ -152,47 +151,24 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 					skillHit.HitEffect = HitEffect.Impact;
 					hits.Add(skillHit);
 				}
+
 				Send.ZC_SKILL_HIT_INFO(caster, hits);
 			}
 		}
 
 		/// <summary>
-		/// Gets the targets for Targe Smash: Break
-		/// a follow-up based on Rodelero32.
-		/// It requires targets to have at least 1 debuff
+		/// Gets the targets for Targe Smash: Break, a follow-up based on
+		/// Rodelero32. It requires targets to have at least 1 debuff.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private List<ICombatEntity> GetTargetsForBreak(Skill skill, ICombatEntity caster, ISplashArea splashArea) 
+		private List<ICombatEntity> GetTargetsForBreak(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var potentialTargets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var toRemove = new List<ICombatEntity>();
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			targets.RemoveAll(target => !target.Components.TryGet<BuffComponent>(out var buffs) || buffs.CountActive(a => a.Data.Type == BuffType.Debuff) == 0);
 
-			foreach (var potentialTarget in potentialTargets)
-			{
-				var isValid = false;
-				if (potentialTarget.Components.TryGet<BuffComponent>(out var buffComponent))
-				{
-					foreach (var buff in buffComponent.GetList())
-					{
-						if (buff.Data.Type == BuffType.Debuff)
-						{
-							isValid = true;
-							break;
-						}
-					}
-				}
-				if (!isValid)
-					toRemove.Add(potentialTarget);
-			}
-
-			foreach (var target in toRemove)
-			{
-				potentialTargets.Remove(target);
-			}
-
-			return potentialTargets;
+			return targets;
 		}
 	}
 }

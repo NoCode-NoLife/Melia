@@ -521,5 +521,24 @@ namespace Melia.Zone.World.Actors
 			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
 				buffs.RemoveRandomDebuff();
 		}
+
+		/// <summary>
+		/// Returns true if the entity is behind the target.
+		/// </summary>
+		/// <remarks>
+		/// Uses the target's current direction and the given max angle to
+		/// determine if the entity is behind it.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="maxAngle"></param>
+		/// <returns></returns>
+		public static bool IsBehind(this ICombatEntity entity, ICombatEntity target, float maxAngle = 90)
+		{
+			var casterAngle = entity.Direction.DegreeAngle;
+			var targetAngle = target.Direction.DegreeAngle;
+
+			return Math.Abs(casterAngle - targetAngle) < maxAngle || Math.Abs(casterAngle + 360f - targetAngle) < maxAngle || Math.Abs(casterAngle - targetAngle + 360f) < maxAngle;
+		}
 	}
 }

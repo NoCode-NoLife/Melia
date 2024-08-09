@@ -12,14 +12,14 @@ namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
 	{
 		public override void WhileActive(Buff buff)
 		{
-			if (!buff.Target.IsDead)
-			{
-				var attacker = buff.Caster;
-				var target = buff.Target;
-				var damage = buff.NumArg2;
+			if (buff.Target.IsDead)
+				return;
 
-				target.TakeSimpleHit(damage, attacker, SkillId.None);
-			}
+			var attacker = buff.Caster;
+			var target = buff.Target;
+			var damage = buff.NumArg2;
+
+			target.TakeSimpleHit(damage, attacker, SkillId.None);
 		}
 	}
 }

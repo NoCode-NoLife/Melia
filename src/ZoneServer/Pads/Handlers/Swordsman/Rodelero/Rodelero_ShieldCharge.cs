@@ -2,12 +2,11 @@
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Rodelero
 {
 	/// <summary>
-	/// Handler for the Rodelero_ShieldCharge pad, creates and disables the effect
+	/// Handler for the Rodelero_ShieldCharge pad, creates and disables the effect.
 	/// </summary>
 	[PadHandler(PadName.Rodelero_ShieldCharge)]
 	public class Rodelero_ShieldCharge : ICreatePadHandler, IDestroyPadHandler, IUpdatePadHandler
@@ -50,8 +49,8 @@ namespace Melia.Zone.Pads.Handlers.Scout.Rodelero
 				args.Trigger.Destroy();
 				return;
 			}
-			var dest = args.Creator.Position;
-			args.Trigger.Position = dest;
+
+			args.Trigger.Position = args.Creator.Position;
 		}
 	}
 }

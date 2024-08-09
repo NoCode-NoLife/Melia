@@ -1,6 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 {
@@ -23,10 +23,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			if (!caster.TryGetActiveAbilityLevel(AbilityId.Rodelero31, out var abilityLevel))
 				return 0;
 
-			if (caster is not Character character)
+			if (!caster.Components.TryGet<InventoryComponent>(out var inv))
 				return 0;
 
-			var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+			var lhItem = inv.GetItem(EquipSlot.LeftHand);
 			if (lhItem.Data.EquipType1 != EquipType.Shield)
 				return 0;
 

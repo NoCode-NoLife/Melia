@@ -102,6 +102,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				if (caster.TryGetActiveAbilityLevel(AbilityId.Rodelero29, out var level))
 				{
 					target.StartBuff(BuffId.Slithering_Debuff, level, 0, DebuffDuration, caster);
+
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
 					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 					target.Position = skillHit.KnockBackInfo.ToPosition;
@@ -110,10 +111,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				{
 					skillHit.HitEffect = HitEffect.Impact;
 				}
-				
-				hits.Add(skillHit);
 
-				
+				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

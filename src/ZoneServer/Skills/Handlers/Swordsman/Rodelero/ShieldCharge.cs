@@ -4,10 +4,8 @@ using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.Handlers.Common;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -44,8 +42,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			pad.Position = caster.Position;
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(5);
 			pad.Trigger.MaxActorCount = 3;
-			// TODO: this is clearly impractically low.  We really need an option to just
-			// use the creator's position instead of the pad's position for collision
+
+			// TODO: This update interval is impractically low. We need an option
+			//   to just use the creator's position instead of the pad's position
+			//   for collisions.
 			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(50);
 			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
 
@@ -76,9 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			var targets = pad.Trigger.GetAttackableEntities(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
 				this.Attack(skill, caster, target);
-			}
 		}
 
 		/// <summary>
@@ -102,9 +100,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			target.Position = skillHit.KnockBackInfo.ToPosition;
 
 			if (caster.IsBuffActive(BuffId.DashRun))
-			{
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration, caster);
-			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}

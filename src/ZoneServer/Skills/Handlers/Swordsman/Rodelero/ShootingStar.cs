@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
@@ -79,7 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 			{
 				var modifier = SkillModifier.MultiHit(2);
 				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
-				modifier.MinimumCritical = 20f;
+				modifier.MinCritChance = 20f;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -94,13 +93,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Rodelero
 
 			await Task.Delay(delayBetweenHits);
 			hits.Clear();
+
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(2);
 				modifier.BonusPAtk = Rodelero31.GetBonusPAtk(caster);
-				modifier.MinimumCritical = 20f;
+				modifier.MinCritChance = 20f;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);

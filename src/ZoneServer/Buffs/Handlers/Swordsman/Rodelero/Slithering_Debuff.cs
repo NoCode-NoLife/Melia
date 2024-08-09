@@ -1,5 +1,4 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 
@@ -23,6 +22,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, -this.GetDodgePenalty(buff));
 			AddPropertyModifier(buff, buff.Target, PropertyName.MSPD_BM, -this.GetMSPDPenalty(buff));
+
 			Send.ZC_MSPD(buff.Target);
 		}
 
@@ -30,6 +30,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 		{
 			RemovePropertyModifier(buff, buff.Target, PropertyName.DR_BM);
 			RemovePropertyModifier(buff, buff.Target, PropertyName.MSPD_BM);
+
 			Send.ZC_MSPD(buff.Target);
 		}
 

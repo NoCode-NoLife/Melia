@@ -1,5 +1,4 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
@@ -41,8 +40,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 		private float GetBlockPenalty(Buff buff)
 		{
 			var curVal = buff.Target.Properties.GetFloat(PropertyName.BLK);
-
 			var reduction = curVal * BlkPenaltyRate;
+
 			return reduction;
 		}
 
@@ -54,8 +53,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 		private float GetDodgePenalty(Buff buff)
 		{
 			var curVal = buff.Target.Properties.GetFloat(PropertyName.DR);
-
 			var reduction = curVal * DRPenaltyRate;
+
 			return reduction;
 		}
 
@@ -67,8 +66,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Rodelero
 		private float GetCritDodgePenalty(Buff buff)
 		{
 			var curVal = buff.Target.Properties.GetFloat(PropertyName.CRTDR);
-
 			var reduction = curVal * CRTDRPenaltyRate;
+
 			return reduction;
 		}
 	}
