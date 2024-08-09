@@ -39,7 +39,7 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Returns the entity's armor material.
 		/// </summary>
-		ArmorMaterialType ArmorMaterial { get; }
+		ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the entity's mode of movement.

@@ -85,8 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 				foreach (var target in targets.LimitBySDR(caster, skill))
 				{
-					var modifier = SkillModifier.Default;
-					modifier.HitCount = 2;
+					var modifier = SkillModifier.MultiHit(2);
 
 					if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
 						modifier.FinalDamageMultiplier = dovBuff.NumArg2;
