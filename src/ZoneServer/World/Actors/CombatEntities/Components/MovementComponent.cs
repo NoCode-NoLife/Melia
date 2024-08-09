@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private readonly object _positionSyncLock = new();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
+		private Queue<Position> _path;
 
 		private readonly object _holdSyncLock = new();
 		private int _holdCount;
@@ -67,86 +69,215 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Makes entity move to the given destination in a straight
-		/// line. Returns the amount of time the move will take.
+		/// Makes entity move to the given destination.
+		/// Returns the amount of time the move will take.
 		/// </summary>
 		/// <remarks>
 		/// The position doesn't need a correct Y coordinate, as the
 		/// method sets it as needed.
 		/// </remarks>
 		/// <param name="destination"></param>
+		/// <param name="usePathfinding"></param>
 		/// <returns></returns>
-		public TimeSpan MoveTo(Position destination)
+		public TimeSpan MoveTo(Position destination, bool usePathfinding)
 		{
-			return this.MoveToConditional(destination, true);
+			if (usePathfinding)
+				return this.MoveToPathfinding(destination, true);
+			else
+				return this.MoveToStraightLine(destination, true);
 		}
 
 		/// <summary>
 		/// Calculates and returns the time it would take the entity
 		/// to move to the destination from its current position.
+		/// The entity will not perform movevement but its path
+		/// will be stored and can be used afterwards.
 		/// </summary>
 		/// <param name="destination"></param>
-		/// <param name="walk"></param>
+		/// <param name="usePathfinding"></param>
 		/// <returns></returns>
-		public TimeSpan CalcMoveToTime(Position destination)
+		public TimeSpan CalculatePath(Position destination, bool usePathfinding)
 		{
-			return this.MoveToConditional(destination, false);
+			var time = TimeSpan.Zero;
+			if (usePathfinding)
+				time = this.MoveToPathfinding(destination, false);
+			else
+				time = this.MoveToStraightLine(destination, false);
+
+			return time;
 		}
 
 		/// <summary>
-		/// Starts movement to destination if execution is requested,
+		/// Moves through the currently calculated path.
+		/// </summary>
+		public void MoveToCalculatedPath()
+		{
+			this.StartMove();
+		}
+
+		/// <summary>
+		/// Starts movement to destination in straight line,
 		/// returns the amount of time it will/would take the entity
 		/// to get there.
 		/// </summary>
 		/// <param name="destination"></param>
 		/// <param name="executeMove"></param>
-		private TimeSpan MoveToConditional(Position destination, bool executeMove)
+		private TimeSpan MoveToStraightLine(Position destination, bool executeMove)
 		{
 			lock (_positionSyncLock)
 			{
-				// Don't move if the entity is already at the destination
-				if (destination == this.Entity.Position)
+				if (!this.CanMoveTo(destination))
 					return TimeSpan.Zero;
 
-				// Get distance to destination
-				var position = this.Entity.Position;
-				var diffX = destination.X - position.X;
-				var diffZ = destination.Z - position.Z;
-				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
+				var path = new List<Position> { this.Entity.Position, destination };
+				return this.PrepareMove(path, executeMove);
+			}
+		}
 
-				// Get speed
+		/// <summary>
+		/// Starts movement to destination using pathfinding,
+		/// returns the amount of time it will/would take the entity
+		/// to get there.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="executeMove"></param>
+		private TimeSpan MoveToPathfinding(Position destination, bool executeMove)
+		{
+			lock (_positionSyncLock)
+			{
+				if (!this.CanMoveTo(destination))
+					return TimeSpan.Zero;
+
+				var pathfinder = this.Entity.Map.Pathfinder;
+				var pathList = pathfinder.FindPath(this.Entity.Position, destination, this.Entity.EffectiveSize);
+
+				if (pathList.Count == 0)
+					return TimeSpan.Zero;
+
+				return this.PrepareMove(pathList, executeMove);
+			}
+		}
+
+		/// <summary>
+		/// Prepares and possibly starts movement through the given
+		/// path list, returning the amount of time it will/would 
+		/// take the entity to get there.
+		/// </summary>
+		/// <remarks>
+		/// The path list is expected to include the start
+		/// and destination positons.
+		/// </remarks>
+		/// <param name="pathList"></param>
+		/// <param name="executeMove"></param>
+		/// <returns></returns>
+		private TimeSpan PrepareMove(List<Position> pathList, bool executeMove)
+		{
+			lock (_positionSyncLock)
+			{
+				var position = this.Entity.Position;
 				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
 
-				// With 0 speed, we can't move anywhere
-				if (speed == 0)
-					return TimeSpan.Zero;
+				_path = new Queue<Position>(pathList);
+
+				var totalDistance = 0d;
+				var previousPosition = position;
+				foreach (var pos in _path)
+				{
+					totalDistance += previousPosition.Get2DDistance(pos);
+					previousPosition = pos;
+				}
+				var totalMoveTime = TimeSpan.FromSeconds(totalDistance / speed);
+
+				if (executeMove)
+					this.StartMove();
+
+				return totalMoveTime;
+			}
+		}
+
+		/// <summary>
+		/// Starts the movement through current assigned path.
+		/// </summary>
+		private void StartMove()
+		{
+			this.IsMoving = true;
+			this.Destination = _path.Last();
+			this.MoveTarget = MoveTargetType.Position;
+
+			this.MoveToNextPosition();
+		}
+
+		/// <summary>
+		/// Returns if entity can move to a target position.
+		/// </summary>
+		/// <param name="targetPos"></param>
+		/// <returns></returns>
+		private bool CanMoveTo(Position targetPos)
+		{
+			lock (_positionSyncLock)
+			{
+				var distance = this.Entity.Position.Get3DDistance(targetPos);
+				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
 
 				// Don't move if too close to destination
 				if (distance <= 10)
-					return TimeSpan.Zero;
+					return false;
 
-				// Calculate movement and move time
+				// With 0 speed, we can't move anywhere
+				if (speed == 0)
+					return false;
+
+				// Can't move if entity is casting
+				if (this.Entity.IsCasting())
+					return false;
+
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Sets the target of entity to the next position
+		/// in its path list.
+		/// </summary>
+		private void MoveToNextPosition()
+		{
+			if (_path.Count == 0)
+				return;
+
+			// Remove completed path node
+			_path.Dequeue();
+
+			// No next position to move towards
+			if (_path.Count == 0)
+			{
+				this.Entity.Position = this.Destination;
+				_moveTime = TimeSpan.Zero;
+				this.IsMoving = false;
+				return;
+			}
+
+			// Select next path node to move towards
+			var nextPosition = _path.Peek();
+
+			lock (_positionSyncLock)
+			{
+				var position = this.Entity.Position;
+				var diffX = nextPosition.X - position.X;
+				var diffZ = nextPosition.Z - position.Z;
+				var distance = Math.Sqrt(diffX * diffX + diffZ * diffZ);
+
+				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
 				_moveTime = TimeSpan.FromSeconds(distance / speed);
 				_moveX = (diffX / _moveTime.TotalSeconds);
 				_moveZ = (diffZ / _moveTime.TotalSeconds);
 
-				if (executeMove)
-				{
-					this.IsMoving = true;
-					this.Destination = destination;
-					this.MoveTarget = MoveTargetType.Position;
+				this.Entity.Direction = position.GetDirection(nextPosition);
 
-					// Set direction relative to current position
-					this.Entity.Direction = position.GetDirection(destination);
+				var fromCellPos = this.Entity.Map.Ground.GetCellPosition(this.Entity.Position);
+				var toCellPos = this.Entity.Map.Ground.GetCellPosition(nextPosition);
 
-					var fromCellPos = this.Entity.Map.Ground.GetCellPosition(this.Entity.Position);
-					var toCellPos = this.Entity.Map.Ground.GetCellPosition(this.Destination);
-
-					// Update clients
-					Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, speed);
-				}
-
-				return _moveTime;
+				// Update clients
+				Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, this.Entity.Properties.GetFloat(PropertyName.MSPD));
 			}
 		}
 
@@ -378,14 +509,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				if (this.MoveTarget != MoveTargetType.Position)
 					return;
 
-				// If the move time reached 0, set position to destination
-				// and stop moving.
+				// If the move time reached 0, move to the next position
+				// in the path
 				if ((_moveTime -= elapsed) <= TimeSpan.Zero)
 				{
-					this.Entity.Position = this.Destination;
+					if (_path.Count > 0)
+					{
+						this.Entity.Position = _path.Peek();
+					}
 
-					this.IsMoving = false;
-					_moveTime = TimeSpan.Zero;
+					this.MoveToNextPosition();
 				}
 				// If there's still move time left, update the current position.
 				else

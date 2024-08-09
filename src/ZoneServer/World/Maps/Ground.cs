@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World;
@@ -249,6 +251,73 @@ namespace Melia.Zone.World.Maps
 			}
 
 			return destination;
+		}
+
+		/// <summary>
+		/// Returns the last valid center position of a circle on the path
+		/// between the center and destination. If there are no obstacles
+		/// between the two positions, the position returned is the center of
+		/// circle at destination.
+		/// </summary>
+		/// <param name="originCenter"></param>
+		/// <param name="radius"></param>
+		/// <param name="destinationCenter"></param>
+		/// <returns></returns>
+		public Position GetLastValidCirclePosition(Position originCenter, float radius, Position destinationCenter)
+		{
+			var dir = originCenter.GetDirection(destinationCenter);
+			var stepSize = 10;
+			var currentPos = originCenter;
+			var lastValidPos = currentPos;
+
+			while (currentPos.Get2DDistance(destinationCenter) > stepSize)
+			{
+				currentPos = currentPos.GetRelative(dir, stepSize);
+
+				if (!this.TryGetHeightAt(currentPos, out var height))
+					return lastValidPos;
+
+				if (!this.IsValidCirclePosition(currentPos, radius))
+					return lastValidPos;
+
+				lastValidPos = currentPos;
+				lastValidPos.Y = height;
+			}
+
+			return destinationCenter;
+		}
+
+		/// <summary>
+		/// Checks if the circle at the given center position with the
+		/// specified radius is valid by verifying the heights at 8 points
+		/// on its perimeter.
+		/// </summary>
+		/// <param name="center"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public bool IsValidCirclePosition(Position center, float radius)
+		{
+			var perimeterOffsets = new List<Vector2f>
+			{
+				new Vector2f(radius, 0),
+				new Vector2f(-radius, 0),
+				new Vector2f(0, radius),
+				new Vector2f(0, -radius),
+				new Vector2f(radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new Vector2f(-radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new Vector2f(radius / Math.Sqrt(2), -radius / Math.Sqrt(2)),
+				new Vector2f(-radius / Math.Sqrt(2), -radius / Math.Sqrt(2))
+			};
+
+			foreach (var offset in perimeterOffsets)
+			{
+				var perimeterPos = new Position(center.X + offset.x, center.Y, center.Z + offset.y);
+
+				if (!this.TryGetHeightAt(perimeterPos, out var height))
+					return false;
+			}
+
+			return true;
 		}
 	}
 }
