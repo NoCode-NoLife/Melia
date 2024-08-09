@@ -54,7 +54,7 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Moves entity to the given destination.
+		/// Moves entity to the given destination on a path.
 		/// </summary>
 		/// <param name="destination"></param>
 		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
@@ -62,7 +62,7 @@ namespace Melia.Zone.Scripting.AI
 		protected IEnumerable MoveTo(Position destination, bool wait = true)
 		{
 			var movement = this.Entity.Components.Get<MovementComponent>();
-			var moveTime = movement.MoveTo(destination, true);
+			var moveTime = movement.MoveTo(destination);
 
 			if (wait)
 				yield return this.Wait(moveTime);
