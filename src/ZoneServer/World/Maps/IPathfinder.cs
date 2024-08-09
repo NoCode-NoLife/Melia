@@ -1,28 +1,26 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.World;
-using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.World.Maps
 {
+	/// <summary>
+	/// Describes a path finder.
+	/// </summary>
 	public interface IPathfinder
 	{
 		/// <summary>
-		/// Loads pathfinding data given a map.
+		/// Finds a path that leads from the start position to the destination,
+		/// returning it via out. Returns false if no path could be found.
 		/// </summary>
-		/// <param name="map"></param>
-		void Load(Map map);
-
-		/// <summary>
-		/// Finds a path from start position to the goal position using
-		/// A* algorithm. Returns List of valid positions to goal.
-		/// First element is always start.
-		/// Last element is always the closest position to goal.
-		/// Returns empty list if no path can be found.
-		/// </summary>
+		/// <remarks>
+		/// The first element is always the start and the last one is the position
+		/// closest to the destination.
+		/// </remarks>
 		/// <param name="start"></param>
-		/// <param name="goal"></param>
-		/// <param name="entitySize"></param>
+		/// <param name="destination"></param>
+		/// <param name="actorRadius"></param>
+		/// <param name="path"></param>
 		/// <returns></returns>
-		List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M);
+		bool TryFindPath(Position start, Position destination, float actorRadius, out List<Position> path);
 	}
 }

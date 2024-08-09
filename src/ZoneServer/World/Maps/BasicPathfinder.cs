@@ -2,74 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.World;
-using Melia.Shared.Game.Const;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Maps
 {
+	/// <summary>
+	/// A pathfinder that uses a dynamic grid to find paths.
+	/// </summary>
 	public class BasicPathfinder : IPathfinder
 	{
 		private readonly static int MaxNodeExpand = 500;
-		private readonly static Dictionary<SizeType, float> EntitySizeRadius = new()
-		{
-			{ SizeType.None, 0 },
-			{ SizeType.Hidden, 0 },
-			{ SizeType.S, 12 },
-			{ SizeType.M, 15 },
-			{ SizeType.L, 20 },
-			{ SizeType.XL, 40 },
-			{ SizeType.XXL, 40 }
-		};
 
-		private Ground _ground;
+		private readonly Ground _ground;
 
 		/// <summary>
-		/// Loads pathfinding data given a map.
+		/// Creates a new instance for the given map.
 		/// </summary>
 		/// <param name="map"></param>
-		public void Load(Map map)
+		public BasicPathfinder(Map map)
 		{
 			_ground = map.Ground;
 		}
 
 		/// <summary>
-		/// Finds a path from start position to the goal position using
-		/// A* algorithm. Returns List of valid positions to goal.
-		/// First element is always start.
-		/// Last element is always the closest position to goal.
-		/// Returns empty list if no path can be found.
+		/// Finds a path that leads from the start position to the destination,
+		/// returning it via out. Returns false if no path could be found.
 		/// </summary>
+		/// <remarks>
+		/// Uses A* algorithm and a dynamic grid to find the path between the
+		/// two positions. The first element is always the start and the last one
+		/// is the position closest to the destination.
+		/// </remarks>
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
 		/// <param name="entitySize"></param>
+		/// <param name="path"></param>
 		/// <returns></returns>
-		public List<Position> FindPath(Position start, Position goal, SizeType entitySize = SizeType.M)
+		public bool TryFindPath(Position start, Position goal, float actorRadius, out List<Position> path)
 		{
-			// Entity size not valid
-			if (!Enum.IsDefined(typeof(SizeType), entitySize))
-				return new List<Position>();
+			path = null;
+
+			if (_ground == null)
+				return false;
 
 			// Initial dynamic grid size
 			var distance = start.Get2DDistance(goal);
-			var gridScale = this.GetGridScale(distance, entitySize);
+			var gridScale = this.GetGridScale(distance, actorRadius);
 
 			// Finds path
-			var path = this.FindPathScale(start, goal, gridScale, entitySize);
+			var roughPath = this.FindPathScale(start, goal, gridScale, actorRadius);
 
 			// Removes repeated positions
 			var visited = new HashSet<Position>();
-			var finalPath = new List<Position>();
-			foreach (var pos in path)
+			path = new List<Position>();
+
+			foreach (var pos in roughPath)
 			{
 				// Adds only nonrepeating positions
 				if (!visited.Contains(pos))
 				{
-					finalPath.Add(pos);
+					path.Add(pos);
 					visited.Add(pos);
 				}
 			}
 
-			return finalPath;
+			// Positive result if path is not empty
+			return path.Count != 0;
 		}
 
 		/// <summary>
@@ -80,22 +78,23 @@ namespace Melia.Zone.World.Maps
 		/// <param name="start"></param>
 		/// <param name="goal"></param>
 		/// <param name="gridScale"></param>
-		/// <param name="entitySize"></param>
+		/// <param name="actorRadius"></param>
 		/// <returns></returns>
-		private List<Position> FindPathScale(Position start, Position goal, int gridScale, SizeType entitySize = SizeType.M)
+		private List<Position> FindPathScale(Position start, Position goal, int gridScale, float actorRadius)
 		{
 			var path = new List<Position>();
 			var openSet = new PriorityQueue<Position, float>();
 			var cameFrom = new Dictionary<Position, Position>();
 			var gScore = new Dictionary<Position, float> { [start] = 0 };
 			var fScore = new Dictionary<Position, float> { [start] = this.Heuristic(start, goal) };
-			var radius = EntitySizeRadius[entitySize];
+			var radius = actorRadius;
 
 			// Stopping condition
 			if ((gridScale <= 10) || (start.Get2DDistance(goal) < radius))
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
+
 				return path;
 			}
 
@@ -110,13 +109,13 @@ namespace Melia.Zone.World.Maps
 				if (distance < gridScale * 2)
 				{
 					path.AddRange(this.ReconstructPath(cameFrom, current));
-					gridScale = this.GetGridScale(distance, entitySize);
-					path.AddRange(this.FindPathScale(current, goal, gridScale, entitySize));
+					gridScale = this.GetGridScale(distance, actorRadius);
+					path.AddRange(this.FindPathScale(current, goal, gridScale, actorRadius));
 					return path;
 				}
 
 				// Adjacent neighbors
-				var neighbors = this.GetNeighbors(current, entitySize, gridScale);
+				var neighbors = this.GetNeighbors(current, actorRadius, gridScale);
 
 				// Always add one neighbor in last valid position towards goal
 				var direction = current.GetDirection(goal);
@@ -151,17 +150,17 @@ namespace Melia.Zone.World.Maps
 		/// Gets the dynamic grid scale.
 		/// </summary>
 		/// <param name="distance"></param>
-		/// <param name="entitySize"></param>
+		/// <param name="actorRadius"></param>
 		/// <returns></returns>
-		private int GetGridScale(double distance, SizeType entitySize)
+		private int GetGridScale(double distance, float actorRadius)
 		{
-			var radius = EntitySizeRadius[entitySize];
 			// radius * 2 is the maximum guaranteed value to not cause entities
 			// to go through objects. The client cannot handle this, so it
 			// displays as if entities are teleporting around. Values higher
 			// may cause this visual issue but it may also be desirable due
 			// to computational reasons.
-			return (int)Math.Min(distance / 2, radius * 2);
+
+			return (int)Math.Min(distance / 2, actorRadius * 2);
 		}
 
 		/// <summary>
@@ -203,6 +202,7 @@ namespace Melia.Zone.World.Maps
 			var dx = Math.Abs(a.X - b.X);
 			var dy = Math.Abs(a.Y - b.Y) * heightPenalty;
 			var dz = Math.Abs(a.Z - b.Z);
+
 			return (float)Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
 		}
 
@@ -211,16 +211,16 @@ namespace Melia.Zone.World.Maps
 		/// grid scale.
 		/// </summary>
 		/// <param name="pos"></param>
-		/// <param name="entitySize"></param>
+		/// <param name="actorRadius"></param>
 		/// <param name="gridScale"></param>
 		/// <returns>A list of neighboring positions.</returns>
-		private List<Position> GetNeighbors(Position pos, SizeType entitySize, int gridScale, int angleSubdivisions = 1)
+		private List<Position> GetNeighbors(Position pos, float actorRadius, int gridScale, int angleSubdivisions = 1)
 		{
 			// Scale is too low
 			if (gridScale <= 0)
 				return new List<Position>();
 
-			var radius = EntitySizeRadius[entitySize];
+			var radius = actorRadius;
 			var neighbors = new List<Position>();
 			var d = gridScale;
 
@@ -248,13 +248,13 @@ namespace Melia.Zone.World.Maps
 			// more angle subdivisions
 			if (neighbors.Count <= 3 && angleSubdivisions < 8)
 			{
-				return this.GetNeighbors(pos, entitySize, gridScale, angleSubdivisions * 2);
+				return this.GetNeighbors(pos, actorRadius, gridScale, angleSubdivisions * 2);
 			}
 
 			// If still no neighbors, try with lower scale
 			if (neighbors.Count == 0)
 			{
-				return this.GetNeighbors(pos, entitySize, gridScale / 2);
+				return this.GetNeighbors(pos, actorRadius, gridScale / 2);
 			}
 
 			return neighbors;

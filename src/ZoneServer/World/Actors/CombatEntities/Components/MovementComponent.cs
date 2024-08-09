@@ -19,10 +19,23 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 	/// </summary>
 	public class MovementComponent : CombatEntityComponent, IUpdateable
 	{
+		private readonly static Dictionary<SizeType, float> EntitySizeRadius = new()
+		{
+			{ SizeType.None, 0 },
+			{ SizeType.Hidden, 0 },
+			{ SizeType.S, 12 },
+			{ SizeType.M, 15 },
+			{ SizeType.L, 20 },
+			{ SizeType.XL, 40 },
+			{ SizeType.XXL, 40 }
+		};
+
+		private Queue<Position> _path;
+		private float _actorRadius = EntitySizeRadius[SizeType.M];
+
 		private readonly object _positionSyncLock = new();
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
-		private Queue<Position> _path;
 
 		private readonly object _holdSyncLock = new();
 		private int _holdCount;
@@ -73,6 +86,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="entity"></param>
 		public MovementComponent(ICombatEntity entity) : base(entity)
 		{
+			if (EntitySizeRadius.TryGetValue(entity.EffectiveSize, out var radius))
+				_actorRadius = radius;
 		}
 
 		/// <summary>
@@ -91,9 +106,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				return TimeSpan.Zero;
 
 			var pathfinder = this.Entity.Map.Pathfinder;
-			var path = pathfinder.FindPath(this.Entity.Position, destination, this.Entity.EffectiveSize);
+			var start = this.Entity.Position;
+			var end = destination;
+			var radius = _actorRadius;
 
-			if (path.Count == 0)
+			if (!pathfinder.TryFindPath(start, end, radius, out var path))
 				return TimeSpan.Zero;
 
 			return this.MovePath(path, true);
