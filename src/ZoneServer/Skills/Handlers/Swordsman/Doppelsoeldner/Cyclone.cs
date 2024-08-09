@@ -5,14 +5,11 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
@@ -35,10 +32,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 				Send.ZC_MOVE_SPEED(character);
 			}
 
-			if (caster.TryGetActiveAbilityLevel(AbilityId.Doppelsoeldner17, out var level)) 
-			{
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Doppelsoeldner17, out var level))
 				caster.StartBuff(BuffId.Cyclone_Buff_ImmuneAbil, level, 0, TimeSpan.Zero, caster);
-			}
 		}
 
 		/// <summary>
@@ -75,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 			}
 
 			skill.IncreaseOverheat();
-			caster.SetAttackState(true);			
+			caster.SetAttackState(true);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -90,18 +85,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 		/// <param name="caster"></param>
 		private async void Attack(Skill skill, ICombatEntity caster)
 		{
-			var totalHits = 17;
 			var hits = new List<SkillHitInfo>();
 			var hitDelay = TimeSpan.FromMilliseconds(30);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
-			var delayBetweenRepeats = TimeSpan.FromMilliseconds(200);
 			var skillHitDelay = TimeSpan.Zero;
+
+			var totalHits = 17;
 			var attackWidth = 50f;
+			var delayBetweenRepeats = TimeSpan.FromMilliseconds(200);
 
 			// Doppelsoeldner35 makes a bigger but slower attack
-			if (caster.IsAbilityActive(AbilityId.Doppelsoeldner35)) 
+			if (caster.IsAbilityActive(AbilityId.Doppelsoeldner35))
 			{
-				totalHits = 10;				
+				totalHits = 10;
 				attackWidth = 75f;
 				delayBetweenRepeats = TimeSpan.FromMilliseconds(330);
 			}

@@ -10,9 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
@@ -98,10 +95,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner36))
 					target.StartBuff(BuffId.Zornhau_Debuff, skill.Level, skillHitResult.Damage * 0.2f, DebuffDuration, caster);
 
-				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(100) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
+				target.RemoveRandomBuff(buffRemoveChance);
 
 				hitSomething = true;
 			}

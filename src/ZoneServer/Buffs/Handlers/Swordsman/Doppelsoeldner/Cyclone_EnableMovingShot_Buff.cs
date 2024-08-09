@@ -1,8 +1,5 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers
 {
@@ -17,9 +14,7 @@ namespace Melia.Zone.Buffs.Handlers
 
 		public override void OnStart(Buff buff)
 		{
-			var movingShotBonus = this.GetMovingShotBonus(buff);
-
-			AddPropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM, 1f);
+			AddPropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM, this.GetMovingShotBonus(buff));
 		}
 
 		public override void OnEnd(Buff buff)

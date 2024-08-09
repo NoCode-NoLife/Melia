@@ -85,6 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			hits.Clear();
 			await Task.Delay(delayBetweenHits);
+
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))

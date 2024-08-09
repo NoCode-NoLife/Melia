@@ -351,7 +351,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
-		/// it gets overbuffed. Returns the created or modified buff.
+		/// it gets overbuffed. Returns the created or modified buff. May
+		/// return null if the buff was resisted for some reason.
 		/// </summary>
 		/// <param name="buffId"></param>
 		/// <param name="numArg1"></param>
@@ -362,6 +363,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
 		{
 			// Attempt status resistance against debuffs
+			// TODO: Ideally, this should happen from the buff handler,
+			//   and we might also move the check to somewhere else,
+			//   so we're still able to force-apply buffs if necessary.
 			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
 			{
 				if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
