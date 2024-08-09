@@ -10,17 +10,18 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
+namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Handler for the Highlander skill Crosscut.
+	/// Handler for the Peltasta Skill Umbo Thrust.
 	/// </summary>
-	[SkillHandler(SkillId.Highlander_CrossCut)]
-	public class Highlander_CrossCut : IGroundSkillHandler
+	[SkillHandler(SkillId.Peltasta_UmboThrust)]
+	public class Peltasta_UmboThrust : IGroundSkillHandler
 	{
+		private readonly static TimeSpan DebuffDuration = TimeSpan.FromSeconds(3);
+
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -37,10 +38,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 			}
 
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 45, width: 30, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 25, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
@@ -57,16 +57,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(30);
-			var damageDelay1 = TimeSpan.FromMilliseconds(50);
-			var damageDelay2 = TimeSpan.FromMilliseconds(80);
-			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
+			var hitDelay = TimeSpan.FromMilliseconds(250);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
-
-			var debuffTime = TimeSpan.FromSeconds(5 + skill.Properties.GetFloat(PropertyName.Level, 0) * 1);
-
-			if (caster.TryGetActiveAbilityLevel(AbilityId.Highlander34, out var abilityLevel))
-				debuffTime += TimeSpan.FromSeconds(abilityLevel);
 
 			await Task.Delay(hitDelay);
 
@@ -75,36 +68,29 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Highlander
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				var modifier = SkillModifier.Default;
+
+				// Technically, this skill specifies that it just adds 15%
+				// of your shield's defense to attack, but it likely wasn't
+				// updated after this ability was added
+				modifier.BonusPAtk = Peltasta38.GetBonusPAtk(caster);
+
+				// Increase damage by 10% if target is under the effect of
+				// Swashbuckling from the caster
+				if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
+				{
+					if (swashBuckingDebuff.Caster == caster)
+						modifier.DamageMultiplier += 0.10f;
+				}
+
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
-
-				hits.Add(skillHit);
-			}
-
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
-
-			await Task.Delay(delayBetweenHits);
-			hits.Clear();
-
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
-
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay2, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
-
 				hits.Add(skillHit);
 
-				// TODO: Find out damage formula for the bleed damage, using the
-				//   same formula as Behead for now
-				var damage = skillHitResult.Damage * 0.05f;
-				target.StartBuff(BuffId.HeavyBleeding, skill.Level, damage, debuffTime, caster);
+				target.StartBuff(BuffId.UC_armorbreak, skill.Level, 0, DebuffDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
