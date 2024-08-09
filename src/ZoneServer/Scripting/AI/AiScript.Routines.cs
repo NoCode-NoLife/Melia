@@ -35,10 +35,10 @@ namespace Melia.Zone.Scripting.AI
 			var destination = this.Entity.Position;
 			var foundValidDest = false;
 
-			for (var i = 0; i < 10; ++i)
+			for (var i = 0; i < 5; ++i)
 			{
 				destination = this.Entity.Position.GetRandomInRange2D(radius, _rnd);
-				if (this.Entity.Map.Ground.IsValidPosition(destination))
+				if (!this.Entity.Map.Ground.AnyObstacles(this.Entity.Position, destination))
 				{
 					foundValidDest = true;
 					break;
@@ -46,7 +46,7 @@ namespace Melia.Zone.Scripting.AI
 			}
 
 			if (foundValidDest)
-				yield return this.MoveTo(destination, wait);
+				yield return this.MoveStraight(destination, wait);
 			else if (wait)
 				yield return this.Wait(2000);
 

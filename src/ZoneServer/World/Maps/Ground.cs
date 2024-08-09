@@ -319,5 +319,41 @@ namespace Melia.Zone.World.Maps
 
 			return true;
 		}
+
+		/// <summary>
+		/// Returns true if there are any invalid positions on the line
+		/// between the two positions.
+		/// </summary>
+		/// <remarks>
+		/// Uses plotting with a step size of 5 to determine if there are
+		/// invalid positions. 
+		/// </remarks>
+		/// <param name="pos1"></param>
+		/// <param name="pos2"></param>
+		/// <returns></returns>
+		public bool AnyObstacles(Position pos1, Position pos2)
+		{
+			// TODO: This is fine for now, but we should really create an
+			//   outline of the ground and check if the line between the
+			//   positions intersects with it, as this will not only be
+			//   more performant, but also accurate.
+
+			if (!this.IsValidPosition(pos1) || !this.IsValidPosition(pos2))
+				return true;
+
+			var stepSize = 5;
+			var curPos = pos1;
+			var dir = pos1.GetDirection(pos2);
+
+			while (curPos.Get2DDistance(pos2) > stepSize)
+			{
+				curPos = curPos.GetRelative(dir, stepSize);
+
+				if (!this.IsValidPosition(curPos))
+					return true;
+			}
+
+			return false;
+		}
 	}
 }
