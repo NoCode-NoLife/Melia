@@ -35,10 +35,10 @@ namespace Melia.Zone.Scripting.AI
 			var destination = this.Entity.Position;
 			var foundValidDest = false;
 
-			for (var i = 0; i < 10; ++i)
+			for (var i = 0; i < 5; ++i)
 			{
 				destination = this.Entity.Position.GetRandomInRange2D(radius, _rnd);
-				if (this.Entity.Map.Ground.IsValidPosition(destination))
+				if (!this.Entity.Map.Ground.AnyObstacles(this.Entity.Position, destination))
 				{
 					foundValidDest = true;
 					break;
@@ -46,7 +46,7 @@ namespace Melia.Zone.Scripting.AI
 			}
 
 			if (foundValidDest)
-				yield return this.MoveTo(destination, wait);
+				yield return this.MoveStraight(destination, wait);
 			else if (wait)
 				yield return this.Wait(2000);
 
@@ -54,7 +54,7 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Moves entity to the given destination.
+		/// Moves entity to the given destination on a path.
 		/// </summary>
 		/// <param name="destination"></param>
 		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
@@ -63,6 +63,23 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var movement = this.Entity.Components.Get<MovementComponent>();
 			var moveTime = movement.MoveTo(destination);
+
+			if (wait)
+				yield return this.Wait(moveTime);
+			else
+				yield break;
+		}
+
+		/// <summary>
+		/// Moves entity to the given destination in a straight line.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="wait"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveStraight(Position destination, bool wait = true)
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+			var moveTime = movement.MoveStraight(destination);
 
 			if (wait)
 				yield return this.Wait(moveTime);

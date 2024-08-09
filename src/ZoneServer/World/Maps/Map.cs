@@ -102,6 +102,11 @@ namespace Melia.Zone.World.Maps
 		public Ground Ground { get; } = new Ground();
 
 		/// <summary>
+		/// Returns the map's pathfinder.
+		/// </summary>
+		public IPathfinder Pathfinder { get; private set; }
+
+		/// <summary>
 		/// Returns the number of characters on the map.
 		/// </summary>
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
@@ -138,6 +143,10 @@ namespace Melia.Zone.World.Maps
 			// A few maps don't seem to have any ground data.
 			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.ClassName, out var groundData))
 				this.Ground.Load(groundData);
+
+			// Load pathfinder regardless of whether there's ground data,
+			// so it's not null
+			this.Pathfinder = new DynamicGridPathfinder(this);
 		}
 
 		/// <summary>
