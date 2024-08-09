@@ -15,10 +15,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handler for the Doppelsoeldner skill Redel.
+	/// Handler for the Doppelsoeldner skill Mordschlag.
 	/// </summary>
-	[SkillHandler(SkillId.Doppelsoeldner_Redel)]
-	public class Doppelsoeldner_Redel : IGroundSkillHandler
+	[SkillHandler(SkillId.Doppelsoeldner_Mordschlag)]
+	public class Doppelsoeldner_Mordschlag : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -35,22 +35,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				return;
 			}
 
-			// Redel is a combo skill that can only be used if other skills added
-			// the necessary buff before. The buff ends the moment the skill is
-			// used.
-			if (!caster.IsBuffActive(BuffId.Redel_Buff))
-			{
-				caster.ServerMessage(Localization.Get("Can't use this skill."));
-				return;
-			}
-
-			caster.StopBuff(BuffId.Redel_Buff);
-
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 30, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 58.5f, width: 30, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
@@ -67,41 +55,35 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(600);
-			var damageDelay1 = TimeSpan.FromMilliseconds(50);
-			var damageDelay2 = TimeSpan.FromMilliseconds(50);
-			var delayBetweenHits = TimeSpan.FromMilliseconds(200);
+			var hitDelay = TimeSpan.FromMilliseconds(500);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
 
-			for (var i = 0; i < 5; i++)
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+				var modifier = SkillModifier.Default;
 
-				foreach (var target in targets.LimitBySDR(caster, skill))
-				{
-					var modifier = SkillModifier.MultiHit(2);
+				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
+					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
 
-					if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
-						modifier.FinalDamageMultiplier = dovBuff.NumArg2;
+				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner2) && target.ArmorMaterial == ArmorMaterialType.Cloth)
+					modifier.ForcedCritical = true;
 
-					var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-					target.TakeDamage(skillHitResult.Damage, caster);
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
-					skillHit.HitEffect = HitEffect.Impact;
-
-					hits.Add(skillHit);
-				}
-
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
-
-				hits.Clear();
-				await Task.Delay(delayBetweenHits);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				skillHit.HitEffect = HitEffect.Impact;
+				hits.Add(skillHit);
 			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }

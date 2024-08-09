@@ -15,10 +15,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 {
 	/// <summary>
-	/// Handler for the Doppelsoeldner skill Redel.
+	/// Handler for the Doppelsoeldner skill Zwerchhau.
 	/// </summary>
-	[SkillHandler(SkillId.Doppelsoeldner_Redel)]
-	public class Doppelsoeldner_Redel : IGroundSkillHandler
+	[SkillHandler(SkillId.Doppelsoeldner_Zwerchhau)]
+	public class Doppelsoeldner_Zwerchhau : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -35,23 +35,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				return;
 			}
 
-			// Redel is a combo skill that can only be used if other skills added
-			// the necessary buff before. The buff ends the moment the skill is
-			// used.
-			if (!caster.IsBuffActive(BuffId.Redel_Buff))
-			{
-				caster.ServerMessage(Localization.Get("Can't use this skill."));
-				return;
-			}
-
-			caster.StopBuff(BuffId.Redel_Buff);
-
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 30, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 90, width: 0, angle: 50);
+			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -67,41 +55,54 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(600);
-			var damageDelay1 = TimeSpan.FromMilliseconds(50);
-			var damageDelay2 = TimeSpan.FromMilliseconds(50);
-			var delayBetweenHits = TimeSpan.FromMilliseconds(200);
+			var hitDelay = TimeSpan.FromMilliseconds(170);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
 
-			for (var i = 0; i < 5; i++)
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var hitSomething = false;
+
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+				var modifier = SkillModifier.MultiHit(3);
 
-				foreach (var target in targets.LimitBySDR(caster, skill))
+				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
+					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
+
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+				target.TakeDamage(skillHitResult.Damage, caster);
+
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+
+				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner38))
 				{
-					var modifier = SkillModifier.MultiHit(2);
-
-					if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
-						modifier.FinalDamageMultiplier = dovBuff.NumArg2;
-
-					var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-					target.TakeDamage(skillHitResult.Damage, caster);
-
-					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
+					// TODO: This knockdown effect pulls the enemies towards you
+					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+					target.Position = skillHit.KnockBackInfo.ToPosition;
+				}
+				else
+				{ 
 					skillHit.HitEffect = HitEffect.Impact;
-
-					hits.Add(skillHit);
 				}
 
-				Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-				hits.Clear();
-				await Task.Delay(delayBetweenHits);
+				hits.Add(skillHit);
+
+				hitSomething = true;
 			}
+
+			if (caster.IsAbilityActive(AbilityId.Doppelsoeldner26) && hitSomething)
+			{
+				var duration = TimeSpan.FromSeconds(3);
+				caster.StartBuff(BuffId.Zucken_Buff, skill.Level, 0, duration, caster);
+			}
+
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 	}
 }

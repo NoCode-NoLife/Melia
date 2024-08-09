@@ -1394,7 +1394,7 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Character_MovingShotable(Character character)
 	{
-		return character.JobClass == JobClass.Archer ? 1 : 0;
+		return (character.IsBuffActive(BuffId.Cyclone_EnableMovingShot_Buff) || character.JobClass == JobClass.Archer) ? 1 : 0;
 	}
 
 	/// <summary>
