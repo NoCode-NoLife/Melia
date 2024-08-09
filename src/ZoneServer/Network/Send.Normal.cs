@@ -619,7 +619,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather wig equipment is visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
@@ -635,7 +635,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather sub weapons are visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
