@@ -130,7 +130,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <returns></returns>
-		protected bool TryGetRandomSkill(out Skill skill)
+		protected virtual bool TryGetRandomSkill(out Skill skill)
 		{
 			skill = null;
 
@@ -164,7 +164,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="skill"></param>
 		/// <param name="target"></param>
 		/// <returns></returns>
-		protected IEnumerable UseSkill(Skill skill, ICombatEntity target)
+		protected virtual IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
 			this.Entity.TurnTowards(target);
 

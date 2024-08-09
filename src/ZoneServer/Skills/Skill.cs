@@ -122,6 +122,17 @@ namespace Melia.Zone.Skills
 		public bool IsNormalAttack => (int)this.Id <= 1000;
 
 		/// <summary>
+		/// Returns true if the skill is a monster skill
+		/// </summary>
+		/// <remarks>
+		/// This property is a temporary measure to not do this check randomly
+		/// somewhere in the code. We'll need some more research to determine
+		/// what exactly makes a normal attack and when they apply. Especially
+		/// because it seems like this might differ based on your stance.
+		/// </remarks>
+		public bool IsMonsterSkill => (int)this.Id >= 60000;
+
+		/// <summary>
 		/// Returns true if this skill is a passive skill.
 		/// </summary>
 		public bool IsPassive => this.Data.ActivationType == SkillActivationType.PassiveSkill;
