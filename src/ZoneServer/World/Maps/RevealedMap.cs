@@ -3,17 +3,18 @@
 	public class RevealedMap
 	{
 		/// <summary>
-		/// Class ID of the map.
+		/// Gets or sets the class id of the map.
 		/// </summary>
 		public int MapId { get; set; }
 
 		/// <summary>
-		/// An array of 128 bytes where each bit represents an explored sector of a map.
+		/// Gets or sets an array of 128 bytes where each bit represents an
+		/// explored sector of a map.
 		/// </summary>
 		public byte[] Explored { get; set; }
 
 		/// <summary>
-		/// Percentage of the entire map that has been revealed.
+		/// Gets or sets the percentage of the entire map that has been revealed.
 		/// </summary>
 		public float Percentage { get; set; }
 

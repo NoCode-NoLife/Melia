@@ -146,7 +146,7 @@ namespace Melia.Zone.World.Maps
 
 			// Load pathfinder regardless of whether there's ground data,
 			// so it's not null
-			this.Pathfinder = new BasicPathfinder(this);
+			this.Pathfinder = new DynamicGridPathfinder(this);
 		}
 
 		/// <summary>

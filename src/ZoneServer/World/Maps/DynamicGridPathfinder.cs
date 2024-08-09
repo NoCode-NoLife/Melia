@@ -9,7 +9,7 @@ namespace Melia.Zone.World.Maps
 	/// <summary>
 	/// A pathfinder that uses a dynamic grid to find paths.
 	/// </summary>
-	public class BasicPathfinder : IPathfinder
+	public class DynamicGridPathfinder : IPathfinder
 	{
 		private readonly static int MaxNodeExpand = 500;
 
@@ -19,7 +19,7 @@ namespace Melia.Zone.World.Maps
 		/// Creates a new instance for the given map.
 		/// </summary>
 		/// <param name="map"></param>
-		public BasicPathfinder(Map map)
+		public DynamicGridPathfinder(Map map)
 		{
 			_ground = map.Ground;
 		}
