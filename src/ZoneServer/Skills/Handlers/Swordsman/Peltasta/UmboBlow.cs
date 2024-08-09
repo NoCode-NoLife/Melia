@@ -5,24 +5,26 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs.Handlers.Swordsman.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 {
 	/// <summary>
-	/// Handler for the Peltasta skill Rim Blow.
+	/// Handler for the Peltasta Skill Umbo Blow.
 	/// </summary>
-	[SkillHandler(SkillId.Peltasta_RimBlow)]
-	public class Peltasta_RimBlow : IGroundSkillHandler
+	[SkillHandler(SkillId.Peltasta_UmboBlow)]
+	public class Peltasta_UmboBlow : IGroundSkillHandler
 	{
 		private readonly static TimeSpan StunDuration = TimeSpan.FromSeconds(3);
+		private const int BuffRemoveChancePerLevel = 8;
+		private const float LoopholeDamageMultiplier = 0.5f;
 		private const float StunChancePerLevel = 5f;
 
 		/// <summary>
@@ -41,11 +43,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			}
 
 			skill.IncreaseOverheat();
-			caster.TurnTowards(farPos);
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 55, width: 25, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 25, width: 45, angle: 0);
+			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -61,8 +62,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 		/// <param name="splashArea"></param>
 		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(50);
-			var damageDelay = TimeSpan.FromMilliseconds(330);
+			var hitDelay = TimeSpan.FromMilliseconds(400);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
@@ -70,12 +71,15 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
-			var bonusPAtk = Peltasta38.GetBonusPAtk(caster);
-
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.MultiHit(4);
-				modifier.BonusPAtk = bonusPAtk;
+				var modifier = SkillModifier.Default;
+				modifier.BonusPAtk = Peltasta38.GetBonusPAtk(caster);
+
+				// At one point this seemed to instead use a status that was applied
+				// by the removed Peltasta7 ability and the bonus was 200%
+				if (caster.IsBuffActive(BuffId.Peltasta5_Guard_Buff))
+					modifier.DamageMultiplier += LoopholeDamageMultiplier;
 
 				// Increase damage by 10% if target is under the effect of
 				// Swashbuckling from the caster
@@ -86,22 +90,36 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				}
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
 
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = HitType.KnockBack;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
-
+				if (caster.TryGetActiveAbilityLevel(AbilityId.Peltasta8, out int knockdownLevel)) 
+				{
+					// Knockback power is 40 * level
+					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
+					target.Position = skillHit.KnockBackInfo.ToPosition;
+				}
+				else
+				{
+					skillHit.HitEffect = HitEffect.Impact;
+				}
+				
 				hits.Add(skillHit);
 
+				// Note: This ability was repurposed to Rim Blow after Umbo Blow was removed,
+				// which is why the description mentions it affects Umbo Blow.
 				if (caster.TryGetActiveAbilityLevel(AbilityId.Impact, out int stunLevel) && RandomProvider.Get().Next(100) < stunLevel * StunChancePerLevel)
 				{
 					target.StartBuff(BuffId.Stun, stunLevel, 0, StunDuration, caster);
 				}
+
+
+				// Also need to potentially remove a buff from the target
+				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
+				if (RandomProvider.Get().Next(1000) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
+					buffs.RemoveRandomBuff();
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
