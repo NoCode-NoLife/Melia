@@ -71,6 +71,23 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Moves entity to the given destination in a straight line.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="wait"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveStraight(Position destination, bool wait = true)
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+			var moveTime = movement.MoveStraight(destination);
+
+			if (wait)
+				yield return this.Wait(moveTime);
+			else
+				yield break;
+		}
+
+		/// <summary>
 		/// Stops entity movement.
 		/// </summary>
 		/// <returns></returns>

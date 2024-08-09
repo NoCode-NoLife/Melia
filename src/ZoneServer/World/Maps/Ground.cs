@@ -299,14 +299,14 @@ namespace Melia.Zone.World.Maps
 		{
 			var perimeterOffsets = new List<Vector2f>
 			{
-				new Vector2f(radius, 0),
-				new Vector2f(-radius, 0),
-				new Vector2f(0, radius),
-				new Vector2f(0, -radius),
-				new Vector2f(radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
-				new Vector2f(-radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
-				new Vector2f(radius / Math.Sqrt(2), -radius / Math.Sqrt(2)),
-				new Vector2f(-radius / Math.Sqrt(2), -radius / Math.Sqrt(2))
+				new (radius, 0),
+				new (-radius, 0),
+				new (0, radius),
+				new (0, -radius),
+				new (radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new (-radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new (radius / Math.Sqrt(2), -radius / Math.Sqrt(2)),
+				new (-radius / Math.Sqrt(2), -radius / Math.Sqrt(2))
 			};
 
 			foreach (var offset in perimeterOffsets)

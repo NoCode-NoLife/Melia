@@ -113,9 +113,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (!this.IsValidDestination(destination))
 				return TimeSpan.Zero;
 
-			var path = new[] { this.Entity.Position, destination };
-
-			return this.MovePath(path, true);
+			return this.MovePath([destination], true);
 		}
 
 		/// <summary>
@@ -136,18 +134,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public TimeSpan MovePath(IEnumerable<Position> destinations, bool executeMove)
 		{
-			var position = this.Entity.Position;
-			var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
+			var destQueue = new Queue<Position>(destinations);
 
 			lock (_positionSyncLock)
 			{
-				var destQueue = new Queue<Position>(destinations);
+				var curPos = this.Entity.Position;
 
 				// We're treating the path as a list of destinations, so we'll
 				// dequeue the first destination if it's the current position,
 				// just in case someone decided to start the path with the
 				// current position, as path finding algorithms tend to do.
-				if (destQueue.Peek() == position)
+				if (destQueue.Peek() == curPos)
 					destQueue.Dequeue();
 
 				// Check the destinations we have left after potentially removing
@@ -156,7 +153,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					return TimeSpan.Zero;
 
 				var totalDistance = 0.0;
-				var prevPos = position;
+				var prevPos = curPos;
 
 				foreach (var pos in destQueue)
 				{
@@ -164,6 +161,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					prevPos = pos;
 				}
 
+				var speed = this.Entity.Properties.GetFloat(PropertyName.MSPD);
 				var totalMoveTime = TimeSpan.FromSeconds(totalDistance / speed);
 
 				if (executeMove)
