@@ -147,7 +147,10 @@ namespace Melia.Zone.World.Maps
 
 			// Load pathfinder regardless of whether there's ground data,
 			// so it's not null
-			this.Pathfinder = new DynamicGridPathfinder(this);
+			if (ZoneServer.Instance.Conf.World.MonstersUsePathfinding)
+				this.Pathfinder = new DynamicGridPathfinder(this);
+			else
+				this.Pathfinder = new NonePathfinder();
 		}
 
 		/// <summary>

@@ -7,6 +7,9 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class WorldConfFile : ConfFile
 	{
+		// ai.conf
+		public bool MonstersUsePathfinding { get; protected set; }
+
 		// drops.conf
 		public float SilverDropAmount { get; protected set; }
 		public float SilverDropRate { get; protected set; }
@@ -76,6 +79,8 @@ namespace Melia.Shared.Configuration.Files
 		public void Load(string filePath)
 		{
 			this.Include(filePath);
+
+			this.MonstersUsePathfinding = this.GetBool("monsters_use_pathfinding", true);
 
 			this.SilverDropAmount = this.GetFloat("silver_drop_amount", 100);
 			this.SilverDropRate = this.GetFloat("silver_drop_rate", 100);
