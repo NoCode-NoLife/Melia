@@ -378,6 +378,22 @@ namespace Melia.Zone.World.Maps
 			}
 
 			return false;
+
+			// Outlines example
+			// This works as a replacement for plotting the line, but on
+			// large maps we'd potentially be checking hundreds of lines
+			// for intersections, which obviously isn't ideal. Let's do
+			// it properly and add a QuadTree before switching. TODO.
+
+			//var line = new LineF(pos1, pos2);
+
+			//foreach (var outline in _outlines)
+			//{
+			//	if (line.Intersects(outline, out _))
+			//		return true;
+			//}
+
+			//return false;
 		}
 	}
 }
