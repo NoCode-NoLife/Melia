@@ -17,6 +17,7 @@ using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Maps.Pathfinding;
 
 namespace Melia.Zone.World.Maps
 {

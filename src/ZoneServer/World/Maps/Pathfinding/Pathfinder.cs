@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.World;
 
-namespace Melia.Zone.World.Maps
+namespace Melia.Zone.World.Maps.Pathfinding
 {
 	/// <summary>
 	/// Describes a path finder.

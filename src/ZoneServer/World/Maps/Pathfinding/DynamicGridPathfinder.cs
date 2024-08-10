@@ -4,7 +4,7 @@ using System.Linq;
 using Melia.Shared.World;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.World.Maps
+namespace Melia.Zone.World.Maps.Pathfinding
 {
 	/// <summary>
 	/// A pathfinder that uses a dynamic grid to find paths.
@@ -90,7 +90,7 @@ namespace Melia.Zone.World.Maps
 			var radius = actorRadius;
 
 			// Stopping condition
-			if ((gridScale <= 10) || (start.Get2DDistance(goal) < radius))
+			if (gridScale <= 10 || start.Get2DDistance(goal) < radius)
 			{
 				if (_ground.IsValidCirclePosition(start, radius))
 					path.Add(start);
@@ -100,7 +100,7 @@ namespace Melia.Zone.World.Maps
 
 			// Start A*
 			openSet.Enqueue(start, fScore[start]);
-			while ((openSet.Count > 0) && openSet.Count < MaxNodeExpand)
+			while (openSet.Count > 0 && openSet.Count < MaxNodeExpand)
 			{
 				var current = openSet.Dequeue();
 				var distance = current.Get2DDistance(goal);
