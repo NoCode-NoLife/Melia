@@ -33,53 +33,53 @@ namespace Melia.Zone.World.Maps
 		/// <para>Key: <see cref="ICombatEntity.Handle"/></para>
 		/// <para>Value: <see cref="ICombatEntity"/></para>
 		/// </summary>
-		private readonly Dictionary<int, ICombatEntity> _combatEntities = new Dictionary<int, ICombatEntity>();
+		private readonly Dictionary<int, ICombatEntity> _combatEntities = new();
 
 		/// <summary>
 		/// Collection of characters.
 		/// <para>Key: <see cref="Character.Handle"/></para>
 		/// <para>Value: <see cref="Character"/></para>
 		/// </summary>
-		private readonly Dictionary<int, Character> _characters = new Dictionary<int, Character>();
+		private readonly Dictionary<int, Character> _characters = new();
 
 		/// <summary>
 		/// Collection of monsters.
 		/// <para>Key: <see cref="IMonster.Handle"/></para>
 		/// <para>Value: <see cref="IMonster"/></para>
 		/// </summary>
-		private readonly Dictionary<int, IMonster> _monsters = new Dictionary<int, IMonster>();
+		private readonly Dictionary<int, IMonster> _monsters = new();
 
 		/// <summary>
 		/// Collection of trigger areas on the map.
 		/// </summary>
-		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
+		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new();
 
 		/// <summary>
 		/// Collection of pads on the map.
 		/// <para>Key: <see cref="Pad.Handle"/></para>
 		/// <para>Value: <see cref="Pad"/></para>
 		/// </summary>
-		private readonly Dictionary<int, Pad> _pads = new Dictionary<int, Pad>();
+		private readonly Dictionary<int, Pad> _pads = new();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
 		/// </summary>
-		private readonly Queue<IMonster> _addMonsters = new Queue<IMonster>();
+		private readonly Queue<IMonster> _addMonsters = new();
 
 		/// <summary>
 		/// List for entities during entity update.
 		/// </summary>
-		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
+		private readonly List<IUpdateable> _updateEntities = new();
 
 		/// <summary>
 		/// List for characters during visibility update.
 		/// </summary>
-		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
+		private readonly List<Character> _updateVisibleCharacters = new();
 
 		/// <summary>
 		/// List of property overrides for monsters spawned on this map.
 		/// </summary>
-		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new Dictionary<int, PropertyOverrides>();
+		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new();
 
 		/// <summary>
 		/// Returns the map's unique class name.
@@ -640,7 +640,7 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public IMonster[] GetVisibleMonsters(Character character)
 			// TODO: Move responsibility about visibility to Character.
-			=> this.GetMonsters(a => (!(a is Npc npc) || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
+			=> this.GetMonsters(a => (a is not Npc npc || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
 		/// Removes all scripted entities, like NPCs, monsters, and warps.
@@ -763,7 +763,7 @@ namespace Melia.Zone.World.Maps
 					if (!monster.Position.InRange2D(source.Position, VisibleRange))
 						continue;
 
-					if (!(monster is ICombatEntity combatEntity))
+					if (monster is not ICombatEntity combatEntity)
 						continue;
 
 					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
