@@ -26,8 +26,6 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = ;
-
 			RemovePropertyModifier(buff, buff.Target, PropertyName.SDR_BM);
 		}
 
