@@ -75,6 +75,7 @@ namespace Melia.Zone.Commands
 			this.Add("getallhairs", "", "Spawns all hairs.", this.HandleGetAllHairs);
 			this.Add("getallhelmets", "", "Spawns all helmets.", this.HandleGetAllHelmets);
 			this.Add("getalldolls", "", "Spawns all dolls.", this.HandleGetAllDolls);
+			this.Add("removeallfromgender", "<gender>", "Remove All from gender.", this.HandleRemoveAllFromGender);
 
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
 			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
