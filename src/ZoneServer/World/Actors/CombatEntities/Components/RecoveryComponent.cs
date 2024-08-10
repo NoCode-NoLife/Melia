@@ -1,5 +1,7 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
+using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Scheduling;
@@ -81,6 +83,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				this.RecoverStamina();
 				_staminaTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.Sta_R_Delay));
+
+
 			}
 		}
 
@@ -130,7 +134,21 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (character.Movement.IsMoving)
 			{
 				var runDrain = (int)character.Properties.GetFloat(PropertyName.Sta_Run, 0);
-				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);
+
+				// This serves as the update for Dashrun, since it doesn't call its update normally
+				if (runDrain > 0 && character.Properties.GetFloat("DashRun", 0) > 0)
+				{
+					//if (target.IsAbilityActive(AbilityId.Barbarian28))
+					//{
+					var buffDuration = 5;
+					if (character.IsAbilityActive(AbilityId.Barbarian28))
+						buffDuration += 5;
+
+					character.StartBuff(BuffId.ScudInstinct_Buff, 1, 0, TimeSpan.FromSeconds(buffDuration), character);
+					//}
+				}
+
+				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);				
 			}
 			else
 			{

@@ -108,6 +108,10 @@
 
 		// Changes Pierce to not base its hit count on target size
 		{ name: "PierceNoSizeEffect", enabled: true },
+
+		// Barbarian_Cleave applies Aggressor instead of Cleave_Debuff
+                //   and Aggressor has a much weaker effect
+		{ name: "CleaveApplyAggressor", enabled: true },
 	]},
 	
 	// Enables special classes, such as Desperado
