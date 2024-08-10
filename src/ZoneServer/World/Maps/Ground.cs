@@ -20,6 +20,7 @@ namespace Melia.Zone.World.Maps
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
 		private Polygon2d[] _cells;
+		private LineF[] _outlines;
 
 		/// <summary>
 		/// Loads the ground data.
@@ -31,6 +32,29 @@ namespace Melia.Zone.World.Maps
 
 			this.LoadGroundMesh();
 			this.LoadCells();
+			this.LoadOutlines();
+		}
+
+		/// <summary>
+		/// Generates the outline of the ground, for simpler collision checks.
+		/// </summary>
+		private void LoadOutlines()
+		{
+			var outlines = new List<LineF>();
+
+			var edges = _mesh.Edges();
+			var outerEdges = edges.Where(a => a.d == -1);
+
+			foreach (var edge in outerEdges)
+			{
+				var vert1 = _mesh.GetVertex(edge.a);
+				var vert2 = _mesh.GetVertex(edge.b);
+
+				var line = new LineF(new((float)vert1.x, (float)vert1.z), new((float)vert2.x, (float)vert2.z));
+				outlines.Add(line);
+			}
+
+			_outlines = outlines.ToArray();
 		}
 
 		/// <summary>
