@@ -902,6 +902,47 @@ namespace Melia.Zone.Commands
 		    return HandleGetAllSelectedItems(sender, target, message, command, args, startId, endId, additionalItems, itemTypeName);
 		}
 
+
+		/// <summary>
+		/// Remove all available gendered items from target's inventory.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleRemoveAllFromGender(Character sender, Character target, string message, string command, Arguments args)
+		{
+    		string itemTypeName = "item";
+			var addedCount = 0;
+
+			string strCompare = sender.Gender == Gender.Male ? "(Female)" : "(Male)";
+
+			foreach (var item in sender.Inventory.GetItems())
+			{
+				
+				Log.Warning(item.Value.Data.Name);
+				var itemIsToBeDeleted = item.Value.Data.Name.Contains(strCompare, StringComparison.InvariantCultureIgnoreCase);
+				if(itemIsToBeDeleted)
+				{
+					sender.Inventory.Remove(item.Value, 1, InventoryItemRemoveMsg.Destroyed);
+					addedCount++;
+				}
+			};
+			if (sender == target)
+			{
+				sender.ServerMessage(Localization.Get("Removed {0} {1} from your inventory."), addedCount, itemTypeName);
+			}
+			else
+			{
+				target.ServerMessage(Localization.Get("{1} removed {0} {2} from your inventory."), addedCount, sender.TeamName, itemTypeName);
+				sender.ServerMessage(Localization.Get("Removed {0} {1} to target's inventory."), addedCount, itemTypeName);
+			}
+
+			return CommandResult.Okay;
+		}
+
 		/// <summary>
 		/// Adds all requested and availabled items to target's inventory.
 		/// </summary>
