@@ -335,6 +335,11 @@ namespace Melia.Zone.World.Actors.Characters
 		Properties IPropertyHolder.Properties => this.Properties;
 
 		/// <summary>
+		/// Returns the character's PCEtc properties.
+		/// </summary>
+		public Properties EtcProperties { get; } = new Properties("PCEtc");
+
+		/// <summary>
 		/// Gets or sets the player's localizer.
 		/// </summary>
 		public Localizer Localizer
@@ -369,6 +374,15 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Properties = new CharacterProperties(this);
 			this.PersonalStorage = new PersonalStorage(this);
+
+			// Set up some default etc properties
+			this.EtcProperties.Create(new StringProperty(PropertyName.SkintoneName, "skintone2"));
+			this.EtcProperties.Create(new StringProperty(PropertyName.StartHairName, "UnbalancedShortcut"));
+			this.EtcProperties.Create(new RFloatProperty(PropertyName.LobbyMapID, () => this.MapId));
+			this.EtcProperties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => this.JobId.ToString()));
+			this.EtcProperties.Create(new FloatProperty(PropertyName.LastPlayDate, 20210728));
+			this.EtcProperties.Create(new FloatProperty(PropertyName.CTRLTYPE_RESET_EXCEPT, 1));
+			this.EtcProperties.Create(new FloatProperty(PropertyName.MaxWarehouseCount, 60));
 
 			this.AddSessionObjects();
 		}
@@ -1200,23 +1214,6 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Stance = ZoneServer.Instance.Data.StanceConditionDb.FindStanceId(jobId, riding, rightHand, leftHand);
 
 			return this.Stance;
-		}
-
-		/// <summary>
-		/// These should be reference properties?
-		/// PCETC Properties
-		/// </summary>
-		public void SendPCEtcProperties()
-		{
-			var pcEtcProps = new Properties("PCEtc");
-			pcEtcProps.SetString("SkintoneName", "skintone2");
-			pcEtcProps.SetString("StartHairName", "UnbalancedShortcut");
-			pcEtcProps.SetFloat("LobbyMapID", this.MapId);
-			pcEtcProps.SetString("RepresentationClassID", this.JobId.ToString());
-			pcEtcProps.SetFloat("LastPlayDate", 20210728);
-			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1);
-
-			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
 		}
 
 		/// <summary>

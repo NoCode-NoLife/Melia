@@ -149,8 +149,8 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.Unknown_DA(character);
 			Send.ZC_NORMAL.ItemCollectionList(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
-			Send.ZC_OBJECT_PROPERTY(conn, character);
-			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			Send.ZC_OBJECT_PROPERTY(conn, character, character.Properties);
+			Send.ZC_OBJECT_PROPERTY(conn, character.SocialUserId, character.EtcProperties.GetAll());
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 0);
 			Send.ZC_MOVE_SPEED(character);
