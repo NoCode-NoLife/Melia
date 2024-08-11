@@ -2899,7 +2899,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Send as a notification for taking certain actions, such as preparing
+		/// Sent as a notification for taking certain actions, such as preparing
 		/// to teleport.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -2913,6 +2913,36 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
+		}
+
+		/// <summary>
+		/// Request to increase the size of a specific storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXTEND_WAREHOUSE)]
+		public void CZ_EXTEND_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				case StorageType.PersonalStorage:
+				{
+					var result = character.PersonalStorage.TryExtendStorage(10);
+					if (result != StorageResult.Success)
+						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
+					break;
+				}
+				default:
+				{
+					character.ServerMessage(Localization.Get("Something went wrong while extending the storage, please report this issue."));
+					Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend an unsupported warehouse type ({1}).", conn.Account.Name, type);
+					break;
+				}
+			}
 		}
 	}
 }
