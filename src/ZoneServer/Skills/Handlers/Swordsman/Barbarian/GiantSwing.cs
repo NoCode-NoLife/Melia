@@ -107,7 +107,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 
 			// This is an optional custom effect that causes the spin to also
 			// deal damage in the chain's radius
-			SpinAttack(skill, caster, target, new Circle(caster.Position, ChainLength));
+			// SpinAttack(skill, caster, target, new Circle(caster.Position, ChainLength));
 
 			var modifier = SkillModifier.Default;
 
