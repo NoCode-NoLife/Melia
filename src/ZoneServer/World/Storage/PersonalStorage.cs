@@ -41,6 +41,8 @@ namespace Melia.Zone.World.Storage
 		public override StorageResult Open()
 		{
 			this.IsBrowsing = true;
+			this.Owner.CurrentStorage = this;
+
 			Send.ZC_CUSTOM_DIALOG(this.Owner, "warehouse", "");
 
 			return StorageResult.Success;
@@ -54,6 +56,8 @@ namespace Melia.Zone.World.Storage
 		public override StorageResult Close()
 		{
 			this.IsBrowsing = false;
+			this.Owner.CurrentStorage = null;
+
 			Send.ZC_DIALOG_CLOSE(this.Owner.Connection);
 
 			return StorageResult.Success;

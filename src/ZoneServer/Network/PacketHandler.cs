@@ -886,7 +886,7 @@ namespace Melia.Zone.Network
 			var ack = (DialogAcknowledgement)packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var storage = character.PersonalStorage;
+			var storage = character.CurrentStorage;
 
 			// If storage was open, close it
 			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
@@ -1420,7 +1420,7 @@ namespace Melia.Zone.Network
 
 			if (type == StorageType.PersonalStorage)
 			{
-				var storage = character.PersonalStorage;
+				var storage = character.CurrentStorage;
 
 				if (storage.IsBrowsing)
 					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storage.GetItems());
@@ -1457,7 +1457,7 @@ namespace Melia.Zone.Network
 			if (type == StorageType.PersonalStorage)
 			{
 				var inventory = character.Inventory;
-				var storage = character.PersonalStorage;
+				var storage = character.CurrentStorage;
 
 				var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
 				var silver = inventory.CountItem(ItemId.Silver);
@@ -1509,7 +1509,7 @@ namespace Melia.Zone.Network
 			var item2ObjectId = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var storage = character.PersonalStorage;
+			var storage = character.CurrentStorage;
 
 			if (!storage.IsBrowsing)
 			{
@@ -1536,7 +1536,7 @@ namespace Melia.Zone.Network
 			{
 				case StorageType.PersonalStorage:
 				{
-					var storage = character.PersonalStorage;
+					var storage = character.CurrentStorage;
 
 					var result = storage.TryExtendStorage(PersonalStorage.ExtensionSize);
 					if (result != StorageResult.Success)

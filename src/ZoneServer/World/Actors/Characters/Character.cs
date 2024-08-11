@@ -177,6 +177,20 @@ namespace Melia.Zone.World.Actors.Characters
 		public PersonalStorage PersonalStorage { get; }
 
 		/// <summary>
+		/// Returns a reference to the character's current storage.
+		/// </summary>
+		/// <remarks>
+		/// The result of this method depends on the character's variables,
+		/// to support the dynamic opening of arbitrary storages. If no
+		/// special storage was set, it defaults to the personal storage.
+		/// </remarks>
+		public PersonalStorage CurrentStorage
+		{
+			get => this.Variables.Temp.Get<PersonalStorage>("Melia.Storage") ?? this.PersonalStorage;
+			set => this.Variables.Temp.Set("Melia.Storage", value);
+		}
+
+		/// <summary>
 		/// The character's inventory.
 		/// </summary>
 		public InventoryComponent Inventory { get; }
