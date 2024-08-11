@@ -1,7 +1,7 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Geometry.Shapes;
 
 namespace Melia.Zone.World.Storage
 {
@@ -86,20 +86,23 @@ namespace Melia.Zone.World.Storage
 		/// Extends the storage by the given size. The operation may fail if
 		/// the owner does not have enough TP.
 		/// </summary>
-		/// <param name="size"></param>
+		/// <param name="addSize"></param>
 		/// <returns></returns>
-		public StorageResult TryExtendStorage(int size)
+		public StorageResult TryExtendStorage(int addSize)
 		{
 			var account = this.Owner.Connection.Account;
 			var character = this.Owner.Connection.SelectedCharacter;
 
-			var medalCost = 20;
+			var curSize = this.GetStorageSize();
+			var newSize = curSize + addSize;
 
-			if (!account.Charge(medalCost))
+			var extCost = this.GetExtensionCost(newSize);
+
+			if (!account.Charge(extCost))
 				return StorageResult.InvalidOperation;
 
-			this.ModifySize(size);
-			this.Owner.Etc.Properties.Modify(PropertyName.MaxWarehouseCount, size);
+			this.ModifySize(addSize);
+			this.Owner.Etc.Properties.Modify(PropertyName.MaxWarehouseCount, addSize);
 
 			Send.ZC_NORMAL.AccountProperties(character);
 			Send.ZC_OBJECT_PROPERTY(character.Connection, character.Etc);
@@ -108,6 +111,23 @@ namespace Melia.Zone.World.Storage
 			Send.ZC_ADDON_MSG(character, "ACCOUNT_UPDATE", 0, null);
 
 			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Returns the cost of extending the storage to the given size.
+		/// </summary>
+		/// <param name="newSize"></param>
+		/// <returns></returns>
+		private int GetExtensionCost(int newSize)
+		{
+			// The price increases as the number of total rows increases
+			var addSize = newSize - DefaultSize;
+			var addRows = addSize / 10f;
+
+			var baseCost = 20;
+			var cost = (int)Math.Pow(baseCost / 10f, addRows) * 10;
+
+			return cost;
 		}
 	}
 }
