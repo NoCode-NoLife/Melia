@@ -159,7 +159,6 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
-			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
 			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
@@ -187,6 +186,11 @@ namespace Melia.Zone.Database
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.
 			character.UpdateStance();
+
+			// Load storage items after we got everything else, so we can
+			// set the size and then load in the items.
+			character.PersonalStorage.SetStorageSize((int)character.Etc.Properties.GetFloat(PropertyName.MaxWarehouseCount, PersonalStorage.DefaultSize));
+			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
 
 			return character;
 		}
