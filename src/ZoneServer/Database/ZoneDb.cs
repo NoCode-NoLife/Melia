@@ -168,6 +168,7 @@ namespace Melia.Zone.Database
 			this.LoadCooldowns(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.EtcProperties);
 			this.LoadCollections(character);
 
 			// Initialize the properties to trigger calculated properties
@@ -415,6 +416,7 @@ namespace Melia.Zone.Database
 			this.SaveSessionObjects(character);
 			this.SaveCollections(character);
 			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.SaveProperties("character_etc_properties", "characterId", character.DbId, character.EtcProperties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
