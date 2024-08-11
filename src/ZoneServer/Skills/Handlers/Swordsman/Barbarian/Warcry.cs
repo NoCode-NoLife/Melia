@@ -46,9 +46,17 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			foreach (var target in targets.LimitRandom(10))
+			var maxTargets = 10;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Barbarian1, out var barbarian1Level))
+				maxTargets += barbarian1Level;
+
+			var debuffDuration = 10;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Barbarian2, out var barbarian2Level))
+				debuffDuration += barbarian2Level * 2;
+
+			foreach (var target in targets.LimitRandom(maxTargets))
 			{
-				target.StartBuff(BuffId.Warcry_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
+				target.StartBuff(BuffId.Warcry_Debuff, skill.Level, 0, TimeSpan.FromSeconds(debuffDuration), caster);
 
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
 				if (RandomProvider.Get().Next(1000) < buffRemoveChance)

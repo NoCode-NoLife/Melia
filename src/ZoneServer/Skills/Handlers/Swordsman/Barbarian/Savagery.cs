@@ -36,7 +36,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 
 			var target = caster;
 
-			target.StartBuff(BuffId.Savagery_Buff, skill.Level, 0, TimeSpan.FromSeconds(BuffDuration), caster);
+			var criticalBonus = 0;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Barbarian5, out var barbarian5Level))
+				criticalBonus = 5 * barbarian5Level;
+
+			target.StartBuff(BuffId.Savagery_Buff, skill.Level, criticalBonus, TimeSpan.FromSeconds(BuffDuration), caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}
