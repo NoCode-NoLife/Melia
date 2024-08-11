@@ -127,6 +127,10 @@ namespace Melia.Zone.Database
 			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
 
+			this.Properties.Create(new RFloatProperty(PropertyName.Medal, () => this.Medals));
+			this.Properties.Create(new RFloatProperty(PropertyName.GiftMedal, () => this.GiftMedals));
+			this.Properties.Create(new RFloatProperty(PropertyName.PremiumMedal, () => this.PremiumMedals));
+
 			this.LoadDefaultChatMacros();
 		}
 
