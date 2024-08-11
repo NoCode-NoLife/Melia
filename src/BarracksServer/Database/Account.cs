@@ -116,6 +116,8 @@ namespace Melia.Barracks.Database
 		{
 			this.Properties.Create(new RFloatProperty(PropertyName.SelectedBarrack, () => this.SelectedBarrack));
 			this.Properties.Create(new RFloatProperty(PropertyName.Medal, () => this.Medals));
+			this.Properties.Create(new RFloatProperty(PropertyName.GiftMedal, () => this.GiftMedals));
+			this.Properties.Create(new RFloatProperty(PropertyName.PremiumMedal, () => this.PremiumMedals));
 			this.Properties.Create(new StringProperty(PropertyName.Medal_Get_Date, "202107321185720"));
 			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_1, "x64_OS"));
 			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_2, "x86_Client"));
