@@ -32,26 +32,6 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Attempts to remove the extend storage cost from character.
-		/// </summary>
-		/// <param name="character">Character to check</param>
-		/// <param name="size">Size to expand</param>
-		/// <returns>True if successful</returns>
-		private bool TryRemoveExtendStorageCost(Character character, int size)
-		{
-			var medalCost = 20;
-
-			var accountProperties = character.Connection.Account.Properties;
-			var medals = accountProperties.GetFloat(PropertyName.Medal);
-			var hasMedals = medals >= medalCost;
-
-			if (hasMedals)
-				accountProperties.Modify(PropertyName.Medal, -medalCost);
-
-			return hasMedals;
-		}
-
-		/// <summary>
 		/// Opens storage.
 		/// Updates client for owner.
 		/// </summary>
@@ -102,9 +82,8 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
-		/// Checks if owner can extend storage by given size
-		/// and removes TP from owner.
-		/// Updates client for owner.
+		/// Extends the storage by the given size. The operation may fail if
+		/// the owner does not have enough TP.
 		/// </summary>
 		/// <param name="size"></param>
 		/// <returns></returns>
@@ -112,7 +91,7 @@ namespace Melia.Zone.World.Storage
 		{
 			var character = this.Owner.Connection.SelectedCharacter;
 
-			if (!this.TryRemoveExtendStorageCost(character, size))
+			if (!this.RemoveExtendStorageCost(character))
 				return StorageResult.InvalidOperation;
 
 			this.ModifySize(size);
@@ -123,6 +102,26 @@ namespace Melia.Zone.World.Storage
 			Send.ZC_ADDON_MSG(character, "ACCOUNT_UPDATE", 0, null);
 
 			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Removes the cost for extending storage from owner. Returns false
+		/// if owner does not have enough TP.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		private bool RemoveExtendStorageCost(Character character)
+		{
+			var medalCost = 20;
+
+			var accountProperties = character.Connection.Account.Properties;
+			var medals = accountProperties.GetFloat(PropertyName.Medal);
+			var hasMedals = medals >= medalCost;
+
+			if (hasMedals)
+				accountProperties.Modify(PropertyName.Medal, -medalCost);
+
+			return hasMedals;
 		}
 	}
 }
