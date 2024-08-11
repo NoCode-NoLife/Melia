@@ -70,13 +70,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			{
 				var modifier = SkillModifier.MultiHit(3);
 
-				// Activates Wild Nature buff for Barbarian skills while dashing.{nl}* Wild Nature Buff: Increases Barbarian skill damage by{nl}
-				// 6% per stack{nl}    Adds additional effects for each skill{nl}* Embowel: Adds [Stun] debuff for 2 seconds per stack{nl}
-				// (Reduced to 1/4 duration in PVP){nl}* Stomping Kick: Increases range by 2 per stack{nl}* Cleave: Increases the critical
-				// rate of [Cleave] by 10 per{nl}    stack{nl}* Helm Chopper: Increases the chance of inflicting [Stun]{nl}
-				// by 7% per stack{nl}* Seism: If at 5 stacks, increases number of hits from 3 -> 5{nl}*
-				// Giant Swing: Increases damage gain per stack for{nl}    [Giant Swing] from Wild Nature by 2x{nl}*
-				// Pouncing: Increases chance of additional damage on{nl}    enemies with [Stun] by 6%	
+				// Wild Nature effects - 6% damage per stack
+				// deals 5 hits instead of 3 at 5 stacks
 				if (caster.TryGetBuff(BuffId.ScudInstinct_Buff, out var wildNature))
 				{
 					modifier.DamageMultiplier += 0.06f * wildNature.OverbuffCounter;

@@ -26,6 +26,14 @@ namespace Melia.Zone.Buffs.Base
 		}
 
 		/// <summary>
+		/// Called when overbuffing
+		/// </summary>
+		/// <param name="buff"></param>
+		public virtual void OnOverbuff(Buff buff)
+		{
+		}
+
+		/// <summary>
 		/// Called regularly, for effects that occur during while the
 		/// buff is active.
 		/// </summary>
