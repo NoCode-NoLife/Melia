@@ -10,7 +10,7 @@ namespace Melia.Zone.World.Storage
 	/// </summary>
 	public class PersonalStorage : Storage
 	{
-		private const int DefaultStorageSize = 60;
+		public const int DefaultSize = 60;
 
 		/// <summary>
 		/// Character that owns this personal storage.
@@ -29,7 +29,7 @@ namespace Melia.Zone.World.Storage
 		public PersonalStorage(Character owner) : base()
 		{
 			this.Owner = owner;
-			this.SetStorageSize(DefaultStorageSize);
+			this.SetStorageSize(DefaultSize);
 		}
 
 		/// <summary>

@@ -377,17 +377,10 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
-			this.PersonalStorage = new PersonalStorage(this);
-
-			// Set up some default etc properties
 			this.Etc = new PCEtc(this);
-			this.Etc.Properties.Create(new StringProperty(PropertyName.SkintoneName, "skintone2"));
-			this.Etc.Properties.Create(new StringProperty(PropertyName.StartHairName, "UnbalancedShortcut"));
-			this.Etc.Properties.Create(new RFloatProperty(PropertyName.LobbyMapID, () => this.MapId));
-			this.Etc.Properties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => this.JobId.ToString()));
-			this.Etc.Properties.Create(new FloatProperty(PropertyName.LastPlayDate, 20210728));
-			this.Etc.Properties.Create(new FloatProperty(PropertyName.CTRLTYPE_RESET_EXCEPT, 1));
-			this.Etc.Properties.Create(new FloatProperty(PropertyName.MaxWarehouseCount, 60));
+
+			// Init storage after etc, since it uses etc properties
+			this.PersonalStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}
