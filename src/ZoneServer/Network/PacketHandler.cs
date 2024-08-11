@@ -21,6 +21,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -885,7 +886,7 @@ namespace Melia.Zone.Network
 			var ack = (DialogAcknowledgement)packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var storage = conn.SelectedCharacter.PersonalStorage;
+			var storage = character.PersonalStorage;
 
 			// If storage was open, close it
 			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
@@ -1416,16 +1417,13 @@ namespace Melia.Zone.Network
 			var type = (StorageType)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var storage = character.PersonalStorage;
 
 			if (type == StorageType.PersonalStorage)
 			{
-				if (storage.IsBrowsing)
-				{
-					var storageItems = storage.GetItems();
+				var storage = character.PersonalStorage;
 
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storageItems);
-				}
+				if (storage.IsBrowsing)
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storage.GetItems());
 			}
 			else if (type == StorageType.TeamStorage)
 			{
@@ -1449,8 +1447,6 @@ namespace Melia.Zone.Network
 			var interaction = (StorageInteraction)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var inventory = character.Inventory;
-			var storage = character.PersonalStorage;
 
 			if (!Enum.IsDefined(typeof(StorageInteraction), interaction))
 			{
@@ -1458,17 +1454,20 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
-			var silver = inventory.CountItem(ItemId.Silver);
-
-			if (silver < interactionCost)
-			{
-				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
-				return;
-			}
-
 			if (type == StorageType.PersonalStorage)
 			{
+				var inventory = character.Inventory;
+				var storage = character.PersonalStorage;
+
+				var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
+				var silver = inventory.CountItem(ItemId.Silver);
+
+				if (silver < interactionCost)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
+					return;
+				}
+
 				if (!storage.IsBrowsing)
 				{
 					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
@@ -1510,14 +1509,47 @@ namespace Melia.Zone.Network
 			var item2ObjectId = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
+			var storage = character.PersonalStorage;
 
-			if (!character.PersonalStorage.IsBrowsing)
+			if (!storage.IsBrowsing)
 			{
 				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
 				return;
 			}
 
-			character.PersonalStorage.Swap(fromSlot, toSlot);
+			storage.Swap(fromSlot, toSlot);
+		}
+
+		/// <summary>
+		/// Request to increase the size of a specific storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXTEND_WAREHOUSE)]
+		public void CZ_EXTEND_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				case StorageType.PersonalStorage:
+				{
+					var storage = character.PersonalStorage;
+
+					var result = storage.TryExtendStorage(PersonalStorage.ExtensionSize);
+					if (result != StorageResult.Success)
+						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
+					break;
+				}
+				default:
+				{
+					character.ServerMessage(Localization.Get("Something went wrong while extending the storage, please report this issue."));
+					Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend an unsupported warehouse type ({1}).", conn.Account.Name, type);
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -2913,36 +2945,6 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
-		}
-
-		/// <summary>
-		/// Request to increase the size of a specific storage.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CZ_EXTEND_WAREHOUSE)]
-		public void CZ_EXTEND_WAREHOUSE(IZoneConnection conn, Packet packet)
-		{
-			var type = (StorageType)packet.GetByte();
-
-			var character = conn.SelectedCharacter;
-
-			switch (type)
-			{
-				case StorageType.PersonalStorage:
-				{
-					var result = character.PersonalStorage.TryExtendStorage(PersonalStorage.ExtensionSize);
-					if (result != StorageResult.Success)
-						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
-					break;
-				}
-				default:
-				{
-					character.ServerMessage(Localization.Get("Something went wrong while extending the storage, please report this issue."));
-					Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend an unsupported warehouse type ({1}).", conn.Account.Name, type);
-					break;
-				}
-			}
 		}
 	}
 }

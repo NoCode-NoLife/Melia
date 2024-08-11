@@ -540,7 +540,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
-		/// Opens warehouse
+		/// Opens the player's personal storage.
 		/// </summary>
 		/// <returns></returns>
 		public async Task OpenPersonalStorage()

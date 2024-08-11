@@ -172,7 +172,7 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsSitting { get; set; }
 
 		/// <summary>
-		/// Returns the characters's personal storage.
+		/// Returns the character's personal storage.
 		/// </summary>
 		public PersonalStorage PersonalStorage { get; }
 
