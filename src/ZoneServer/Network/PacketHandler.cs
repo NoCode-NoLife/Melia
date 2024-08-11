@@ -2931,7 +2931,7 @@ namespace Melia.Zone.Network
 			{
 				case StorageType.PersonalStorage:
 				{
-					var result = character.PersonalStorage.TryExtendStorage(10);
+					var result = character.PersonalStorage.TryExtendStorage(PersonalStorage.ExtensionSize);
 					if (result != StorageResult.Success)
 						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
 					break;

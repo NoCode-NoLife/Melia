@@ -11,6 +11,7 @@ namespace Melia.Zone.World.Storage
 	public class PersonalStorage : Storage
 	{
 		public const int DefaultSize = 60;
+		public const int ExtensionSize = 10;
 
 		/// <summary>
 		/// Character that owns this personal storage.
@@ -122,7 +123,7 @@ namespace Melia.Zone.World.Storage
 		{
 			// The price increases as the number of total rows increases
 			var addSize = newSize - DefaultSize;
-			var addRows = addSize / 10f;
+			var addRows = addSize / ExtensionSize;
 
 			var baseCost = 20;
 			var cost = (int)Math.Pow(baseCost / 10f, addRows) * 10;
