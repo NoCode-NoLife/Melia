@@ -65,6 +65,22 @@ namespace Melia.Zone.World.Actors
 		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
 
 		/// <summary>
+		/// Returns the entity's radius for pathfinding purposes.
+		/// </summary>
+		/// <remarks>
+		/// Based on shape.ies.
+		/// </remarks>
+		float AgentRadius => this.EffectiveSize switch
+		{
+			SizeType.S => 12,
+			SizeType.M => 15,
+			SizeType.L => 20,
+			SizeType.XL => 40,
+			SizeType.XXL => 40,
+			_ => 0,
+		};
+
+		/// <summary>
 		/// Returns the entity's level.
 		/// </summary>
 		int Level { get; }
