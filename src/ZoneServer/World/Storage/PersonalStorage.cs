@@ -28,7 +28,7 @@ namespace Melia.Zone.World.Storage
 		public PersonalStorage(Character owner) : base()
 		{
 			this.Owner = owner;
-			this.Resize(DefaultStorageSize);
+			this.SetStorageSize(DefaultStorageSize);
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace Melia.Zone.World.Storage
 			if (!this.TryRemoveExtendStorageCost(character, size))
 				return StorageResult.InvalidOperation;
 
-			this.Resize(size);
+			this.ModifySize(size);
 			this.Owner.Properties.Modify(PropertyName.MaxWarehouseCount, size);
 
 			Send.ZC_NORMAL.AccountProperties(character);

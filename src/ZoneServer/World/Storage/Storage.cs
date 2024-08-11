@@ -596,19 +596,30 @@ namespace Melia.Zone.World.Storage
 		}
 
 		/// <summary>
+		/// Changes max storage size to the given number.
+		/// </summary>
+		/// <param name="newSize"></param>
+		/// <returns></returns>
+		public StorageResult SetStorageSize(int newSize)
+		{
+			var diff = newSize - _storageSize;
+			return this.ModifySize(diff);
+		}
+
+		/// <summary>
 		/// Changes max storage size by the given number.
 		/// </summary>
-		/// <param name="size"></param>
-		public StorageResult Resize(int size)
+		/// <param name="addSize"></param>
+		public StorageResult ModifySize(int addSize)
 		{
-			var newSize = _storageSize + size;
+			var newSize = _storageSize + addSize;
 			if (newSize <= 0)
 				return StorageResult.InvalidOperation;
 
-			_storageSize += size;
+			_storageSize += addSize;
 
 			// Decrease in storage size may result in items being lost
-			if (size < 0)
+			if (addSize < 0)
 			{
 				for (var i = _storageItems.Count - 1; i >= _storageSize; i--)
 					_storageItems.RemoveAt(i);
