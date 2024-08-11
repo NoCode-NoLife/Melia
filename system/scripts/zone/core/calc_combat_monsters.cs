@@ -22,6 +22,8 @@ public class MonsterCombatCalculationsScript : GeneralScript
 	[ScriptableFunction("SCR_CalculateDamage_Monster_anvil_platinum_mon")]
 	[ScriptableFunction("SCR_CalculateDamage_Monster_anvil_ruby_mon")]
 	[ScriptableFunction("SCR_CalculateDamage_Monster_anvil_diamond_mon")]
+	[ScriptableFunction("SCR_CalculateDamage_Monster_Event_LuckyBreak_Moru")]
+	[ScriptableFunction("SCR_CalculateDamage_Monster_goddess_Moru")]
 	public float DamageFixedTo1(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		skillHitResult.Damage = 1;
