@@ -125,7 +125,7 @@ namespace Melia.Zone.World.Storage
 			var addSize = newSize - DefaultSize;
 			var addRows = addSize / ExtensionSize;
 
-			var baseCost = 20;
+			var baseCost = ZoneServer.Instance.Conf.World.StorageExtCost;
 			var cost = (int)Math.Pow(baseCost / 10f, addRows) * 10;
 
 			return cost;

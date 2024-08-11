@@ -46,6 +46,7 @@ namespace Melia.Shared.Configuration.Files
 
 		// storage.conf
 		public int StorageFee { get; protected set; }
+		public int StorageExtCost { get; protected set; }
 		public bool StorageMultiStack { get; protected set; }
 
 		// summons.conf
@@ -97,6 +98,7 @@ namespace Melia.Shared.Configuration.Files
 			this.TargetedLittering = this.GetBool("targeted_littering", false);
 
 			this.StorageFee = this.GetInt("storage_fee", 20);
+			this.StorageExtCost = this.GetInt("storage_ext_cost", 20);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
