@@ -197,6 +197,14 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// Let monster-specific functions override the damage calculation,
+		// but do it after the basic calculations have been done, so we
+		// can utilize them. For example, we can double or half damage
+		// that way, or let crit animations happen, even if we might
+		// reduce the damage to 1.
+		if (target is Mob mob && ScriptableFunctions.Combat.TryGet("SCR_CalculateDamage_Monster_" + mob.Data.ClassName, out var mobCalcFunc))
+			mobCalcFunc(attacker, target, skill, modifier, skillHitResult);
+
 		return (int)skillHitResult.Damage;
 	}
 
