@@ -95,9 +95,11 @@ namespace Melia.Zone.World.Storage
 				return StorageResult.InvalidOperation;
 
 			this.ModifySize(size);
-			this.Owner.Properties.Modify(PropertyName.MaxWarehouseCount, size);
+			this.Owner.Etc.Properties.Modify(PropertyName.MaxWarehouseCount, size);
 
 			Send.ZC_NORMAL.AccountProperties(character);
+			Send.ZC_OBJECT_PROPERTY(character.Connection, character.Etc);
+
 			Send.ZC_ADDON_MSG(character, "WAREHOUSE_ITEM_LIST", 0, null);
 			Send.ZC_ADDON_MSG(character, "ACCOUNT_UPDATE", 0, null);
 

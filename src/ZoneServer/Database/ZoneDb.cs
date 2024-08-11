@@ -18,6 +18,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
+using Melia.Zone.World.Storage;
 using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -168,7 +169,7 @@ namespace Melia.Zone.Database
 			this.LoadCooldowns(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
-			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.EtcProperties);
+			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.LoadCollections(character);
 
 			// Initialize the properties to trigger calculated properties
@@ -416,7 +417,7 @@ namespace Melia.Zone.Database
 			this.SaveSessionObjects(character);
 			this.SaveCollections(character);
 			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
-			this.SaveProperties("character_etc_properties", "characterId", character.DbId, character.EtcProperties);
+			this.SaveProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
@@ -689,34 +690,83 @@ namespace Melia.Zone.Database
 		/// <returns></returns>
 		public void SaveCharacterStorage(Character character)
 		{
+			this.SaveStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
+
+			//using (var conn = this.GetConnection())
+			//using (var trans = conn.BeginTransaction())
+			//{
+			//	using (var mc = new MySqlCommand("DELETE FROM `storage_personal` WHERE `characterId` = @characterId", conn, trans))
+			//	{
+			//		mc.Parameters.AddWithValue("@characterId", character.DbId);
+			//		mc.ExecuteNonQuery();
+			//	}
+
+			//	foreach (var storageItem in character.PersonalStorage.GetItems())
+			//	{
+			//		var newId = 0L;
+
+			//		using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+			//		{
+			//			cmd.Set("itemId", storageItem.Value.Id);
+			//			cmd.Set("amount", storageItem.Value.Amount);
+
+			//			cmd.Execute();
+
+			//			newId = cmd.LastId;
+			//		}
+
+			//		using (var cmd = new InsertCommand("INSERT INTO `storage_personal` {0}", conn, trans))
+			//		{
+			//			cmd.Set("characterId", character.DbId);
+			//			cmd.Set("itemId", newId);
+			//			cmd.Set("position", storageItem.Key);
+
+			//			cmd.Execute();
+			//		}
+			//	}
+
+			//	trans.Commit();
+			//}
+		}
+
+		/// <summary>
+		/// Saves storage to the given table.
+		/// </summary>
+		/// <param name="storage"></param>
+		/// <param name="tableName"></param>
+		/// <param name="idFieldName"></param>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public void SaveStorage(Storage storage, string tableName, string idFieldName, long id)
+		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `storage_personal` WHERE `characterId` = @characterId", conn, trans))
+				using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE `{idFieldName}` = @id", conn, trans))
 				{
-					mc.Parameters.AddWithValue("@characterId", character.DbId);
+					mc.Parameters.AddWithValue("@id", id);
 					mc.ExecuteNonQuery();
 				}
 
-				foreach (var storageItem in character.PersonalStorage.GetItems())
+				foreach (var item in storage.GetItems())
 				{
 					var newId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
-						cmd.Set("itemId", storageItem.Value.Id);
-						cmd.Set("amount", storageItem.Value.Amount);
+						cmd.Set("itemId", item.Value.Id);
+						cmd.Set("amount", item.Value.Amount);
 
 						cmd.Execute();
 
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `storage_personal` {0}", conn, trans))
+					using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.DbId);
+						cmd.Set(idFieldName, id);
 						cmd.Set("itemId", newId);
-						cmd.Set("position", storageItem.Key);
+						cmd.Set("position", item.Key);
 
 						cmd.Execute();
 					}

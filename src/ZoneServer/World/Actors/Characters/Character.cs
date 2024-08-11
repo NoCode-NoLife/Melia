@@ -66,6 +66,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's globally unique id on the social server.
 		/// </summary>
+		/// <remarks>
+		/// This id might not actually be the social user id, or at least not
+		/// solely, seeing how it's used as the id of the etc property object.
+		/// </remarks>
 		public long SocialUserId => ObjectIdRanges.SocialUser + this.DbId;
 
 		/// <summary>
@@ -337,7 +341,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's PCEtc properties.
 		/// </summary>
-		public Properties EtcProperties { get; } = new Properties("PCEtc");
+		public PCEtc Etc { get; }
 
 		/// <summary>
 		/// Gets or sets the player's localizer.
@@ -376,13 +380,14 @@ namespace Melia.Zone.World.Actors.Characters
 			this.PersonalStorage = new PersonalStorage(this);
 
 			// Set up some default etc properties
-			this.EtcProperties.Create(new StringProperty(PropertyName.SkintoneName, "skintone2"));
-			this.EtcProperties.Create(new StringProperty(PropertyName.StartHairName, "UnbalancedShortcut"));
-			this.EtcProperties.Create(new RFloatProperty(PropertyName.LobbyMapID, () => this.MapId));
-			this.EtcProperties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => this.JobId.ToString()));
-			this.EtcProperties.Create(new FloatProperty(PropertyName.LastPlayDate, 20210728));
-			this.EtcProperties.Create(new FloatProperty(PropertyName.CTRLTYPE_RESET_EXCEPT, 1));
-			this.EtcProperties.Create(new FloatProperty(PropertyName.MaxWarehouseCount, 60));
+			this.Etc = new PCEtc(this);
+			this.Etc.Properties.Create(new StringProperty(PropertyName.SkintoneName, "skintone2"));
+			this.Etc.Properties.Create(new StringProperty(PropertyName.StartHairName, "UnbalancedShortcut"));
+			this.Etc.Properties.Create(new RFloatProperty(PropertyName.LobbyMapID, () => this.MapId));
+			this.Etc.Properties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => this.JobId.ToString()));
+			this.Etc.Properties.Create(new FloatProperty(PropertyName.LastPlayDate, 20210728));
+			this.Etc.Properties.Create(new FloatProperty(PropertyName.CTRLTYPE_RESET_EXCEPT, 1));
+			this.Etc.Properties.Create(new FloatProperty(PropertyName.MaxWarehouseCount, 60));
 
 			this.AddSessionObjects();
 		}
