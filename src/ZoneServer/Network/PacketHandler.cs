@@ -114,11 +114,21 @@ namespace Melia.Zone.Network
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
-			Send.ZC_STANCE_CHANGE(character);
-			Send.ZC_CONNECT_OK(conn, character);
-			Send.ZC_NORMAL.AdventureBook(conn);
-			Send.ZC_SET_CHATBALLOON_SKIN(conn);
-			Send.ZC_NORMAL.Unknown_1B4(character);
+			// Officials always send the following packets, even if we're coming
+			// from the barracks and don't need most of them. Since the client
+			// complains about this though, let's actually do the check.
+			if (fromBarracks1)
+			{
+				Send.ZC_CONNECT_OK(conn, character);
+			}
+			else
+			{
+				Send.ZC_STANCE_CHANGE(character);
+				Send.ZC_CONNECT_OK(conn, character);
+				Send.ZC_NORMAL.AdventureBook(conn);
+				Send.ZC_SET_CHATBALLOON_SKIN(conn);
+				Send.ZC_NORMAL.Unknown_1B4(character);
+			}
 		}
 
 		/// <summary>
