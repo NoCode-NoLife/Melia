@@ -58,12 +58,20 @@ namespace Melia.Zone.Network
 			var accountName = packet.GetString(56);
 
 			var mac = packet.GetString(48);
-			var socialId = packet.GetLong();
+			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var bin2 = packet.GetBin(12);
-			var bin3 = packet.GetBin(10);
+			var i1 = packet.GetInt();
+			var i2 = packet.GetInt();
+			var i3 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
+			var s3 = packet.GetShort();
+			var fromBarracks1 = packet.GetBool();
+			var fromBarracks2 = packet.GetBool();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
 
 			// TODO: Check session key or something.
