@@ -35,11 +35,10 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.Create(new StringProperty(PropertyName.SkintoneName, "skintone2"));
 			this.Properties.Create(new StringProperty(PropertyName.StartHairName, "UnbalancedShortcut"));
 			this.Properties.Create(new RFloatProperty(PropertyName.LobbyMapID, () => _character.MapId));
-			this.Properties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => _character.JobId.ToString()));
+			this.Properties.Create(new RStringProperty(PropertyName.RepresentationClassID, () => ((int)_character.JobId).ToString()));
 			this.Properties.Create(new FloatProperty(PropertyName.LastPlayDate, 20210728));
 			this.Properties.Create(new FloatProperty(PropertyName.CTRLTYPE_RESET_EXCEPT, 1));
 			this.Properties.Create(new FloatProperty(PropertyName.MaxWarehouseCount, PersonalStorage.DefaultSize));
-
 		}
 	}
 }
