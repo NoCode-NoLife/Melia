@@ -32,7 +32,7 @@ namespace Melia.Zone.World.Storage
 		public PersonalStorage(Character owner) : base()
 		{
 			this.Owner = owner;
-			this.SetStorageSize(DefaultSize);
+			this.SetStorageSize(ZoneServer.Instance.Conf.World.StorageDefaultSize);
 		}
 
 		/// <summary>
@@ -131,12 +131,19 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		private int GetExtensionCost(int newSize)
 		{
-			// The price increases as the number of total rows increases
+			var cost = ZoneServer.Instance.Conf.World.StorageExtCost;
 			var addSize = newSize - DefaultSize;
-			var addRows = addSize / ExtensionSize;
 
-			var baseCost = ZoneServer.Instance.Conf.World.StorageExtCost;
-			var cost = (int)Math.Pow(baseCost / 10f, addRows) * 10;
+			// The price increases as the number of total rows increases,
+			// but the client hardcodes a default size of 60. This means
+			// we might get a negative add size if one were to configure
+			// a storage size < 60. In that case the client will show
+			// the default cost as the price, and we'll match that.
+			if (addSize > 0)
+			{
+				var addRows = addSize / ExtensionSize;
+				cost = (int)Math.Pow(cost / 10f, addRows) * 10;
+			}
 
 			return cost;
 		}
@@ -171,7 +178,17 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		protected virtual int GetSavedSize()
 		{
-			return (int)this.Owner.Etc.Properties.GetFloat(PropertyName.MaxWarehouseCount, this.GetStorageSize());
+			var size = (int)this.Owner.Etc.Properties.GetFloat(PropertyName.MaxWarehouseCount, this.GetStorageSize());
+
+			// Upgrade sizes of storages that were created/extended when there
+			// was a lower default.
+			if (size < ZoneServer.Instance.Conf.World.StorageDefaultSize)
+			{
+				size = ZoneServer.Instance.Conf.World.StorageDefaultSize;
+				this.SetSavedSize(size);
+			}
+
+			return size;
 		}
 
 		/// <summary>

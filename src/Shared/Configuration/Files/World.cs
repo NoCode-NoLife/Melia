@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System;
+using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {
@@ -47,6 +48,7 @@ namespace Melia.Shared.Configuration.Files
 		// storage.conf
 		public int StorageFee { get; protected set; }
 		public int StorageExtCost { get; protected set; }
+		public int StorageDefaultSize { get; protected set; }
 		public bool StorageMultiStack { get; protected set; }
 
 		// summons.conf
@@ -99,6 +101,7 @@ namespace Melia.Shared.Configuration.Files
 
 			this.StorageFee = this.GetInt("storage_fee", 20);
 			this.StorageExtCost = this.GetInt("storage_ext_cost", 20);
+			this.StorageDefaultSize = this.GetInt("storage_default_size", 60);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
@@ -137,6 +140,15 @@ namespace Melia.Shared.Configuration.Files
 			this.EliteAlwaysAggressive = this.GetBool("elite_always_aggressive", true);
 			this.RedOrbJackpotRate = this.GetFloat("red_orb_jackpot_rate", 10000);
 			this.RedOrbEliteRate = this.GetFloat("red_orb_elite_rate", 1000);
+
+			this.ManualAdjustments();
+		}
+
+		private void ManualAdjustments()
+		{
+			// Round storage size to next full 10, since the client only extends
+			// in multiples of 10.
+			this.StorageDefaultSize = (int)Math.Ceiling(this.StorageDefaultSize / 10f) * 10;
 		}
 	}
 }
