@@ -30,7 +30,7 @@ namespace Melia.Zone.Buffs.Handlers
 				return false;
 
 			var reduction = buff.NumArg2;
-			var multiplier = Math.Max(0, 1f - reduction);
+			var multiplier = Math.Max(0, 1f - (reduction / 100000));
 
 			hpAmount *= multiplier;
 

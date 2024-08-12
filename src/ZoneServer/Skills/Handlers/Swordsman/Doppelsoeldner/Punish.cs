@@ -125,7 +125,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 		/// <returns></returns>
 		private float GetHealingReduction(Skill skill)
 		{
-			return Math.Min(1, (HealDebuffPerLevel * skill.Level) / 100);
+			return (HealDebuffPerLevel * skill.Level) * 1000;
 		}
 	}
 }

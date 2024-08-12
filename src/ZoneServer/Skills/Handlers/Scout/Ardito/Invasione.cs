@@ -102,7 +102,7 @@ namespace Melia.Zone.Skills.Handlers.Scout.Ardito
 		/// <returns></returns>
 		private float GetHealingReduction(Skill skill)
 		{
-			return (3 * skill.Level) / 100f;
+			return (3 * skill.Level) * 1000;
 		}
 	}
 }
