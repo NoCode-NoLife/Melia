@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="caster"></param>
 		/// <param name="damageThickDelay"></param>
 		/// <returns></returns>
-		public static bool TryApply(ICombatEntity caster, ref float damageThickDelay)
+		public static bool TryApply(ICombatEntity caster, ref TimeSpan damageThickDelay)
 		{
 			if (!caster.TryGetBuff(BuffId.Crescendo_Bane_Buff, out var buff))
 				return false;

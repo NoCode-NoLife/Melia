@@ -1924,13 +1924,15 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleResetSkillCooldown(Character sender, Character target, string message, string command, Arguments args)
 		{
-			sender.ServerMessage(Localization.Get("Reseting skills cooldowns..."));
+			sender.ServerMessage(Localization.Get("Skills cooldowns reset."));
 
-			foreach(var skill in sender.Skills.GetList())
+			target = target ?? sender;
+
+			foreach (var skill in target.Skills.GetList())
 			{
 				if (skill.IsOnCooldown)
 				{
-					skill.ResetCooldown();
+					skill.StartCooldown(TimeSpan.Zero);
 				}
 			}
 

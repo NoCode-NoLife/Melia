@@ -40,12 +40,10 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 					Send.ZC_HIT_INFO(buff.Caster, target, hit);
 				}
 
-				var damageThickDelay = 1000f;
-				var skillLevel = (int)buff.NumArg1;
+				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
 
 				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-
-				await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
+				await Task.Delay(damageThickDelay);
 			} else
 			{
 				var maxSpreadAmount = 5;

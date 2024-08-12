@@ -16,10 +16,11 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 	public class JincanGu_Abil_Debuff : BuffHandler
 	{
 		private const string AdditionalHits = "Wugushi.JincanGu_Abil_Debuff";
+		private const int AdditionalHitsCount = 5;
 
 		public override async void OnStart(Buff buff)
 		{
-			buff.Vars.SetInt(AdditionalHits, 5);
+			buff.Vars.SetInt(AdditionalHits, AdditionalHitsCount);
 		}
 
 		public override async void WhileActive(Buff buff)
@@ -30,52 +31,49 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 			this.DamagesTarget(buff);
 
 			// We are Damaging 5x additional hits
-			if (buff.Vars.GetInt(AdditionalHits) <= 5 && buff.Vars.GetInt(AdditionalHits) >= 1)
+			if (buff.Vars.GetInt(AdditionalHits) <= AdditionalHitsCount && buff.Vars.GetInt(AdditionalHits) >= 1)
 			{
-				var damageThickDelay = 1000f;
-				var skillLevel = (int)buff.NumArg1;
+				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
 
 				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-
-				await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
+				await Task.Delay(damageThickDelay);
 
 				var remaningAdditionalHits = buff.Vars.GetInt(AdditionalHits);
 				buff.Vars.SetInt(AdditionalHits, remaningAdditionalHits - 2);
 
 				this.DamagesTarget(buff);
 
-				await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
-			} else
+				await Task.Delay(damageThickDelay);
+			}
+			else
 			{
-				var damageThickDelay = 2000f;
-				var skillLevel = (int)buff.NumArg1;
+				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
 
 				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-
-				await Task.Delay(TimeSpan.FromMilliseconds(damageThickDelay));
+				await Task.Delay(damageThickDelay);
 			}
 		}
 
 		private void DamagesTarget(Buff buff)
 		{
-			if (buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
-			{
-				var damageMultiplier = 1f;
+			if (!buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+				return;
 
-				if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
-					damageMultiplier = ZhenduBuff.NumArg1;
+			var damageMultiplier = 1f;
 
-				var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
-				skillHitResult.Damage *= damageMultiplier;
+			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
+				damageMultiplier = ZhenduBuff.NumArg1;
 
-				// The damage amount is unknow, for now we are dealing
-				// the same amount as the original skill does
-				buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
+			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
+			skillHitResult.Damage *= damageMultiplier;
 
-				var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_JincanGu, skillHitResult.Damage, HitResultType.Buff12);
+			// The damage amount is unknow, for now we are dealing
+			// the same amount as the original skill does
+			buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
 
-				Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
-			}
+			var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_JincanGu, skillHitResult.Damage, HitResultType.Buff12);
+
+			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);			
 		}
 	}
 }

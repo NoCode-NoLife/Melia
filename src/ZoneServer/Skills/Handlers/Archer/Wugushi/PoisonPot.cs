@@ -49,7 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Archer.Wugushi
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
 
 			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_poison_pot_force#Bip01 R Hand",
-				TimeSpan.FromMilliseconds(500), "", TimeSpan.FromSeconds(1), farPos, 10, 0.6f, 0, 500);
+				0.5f, "", 1, farPos, 10, 0.6f, 0, 500);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
