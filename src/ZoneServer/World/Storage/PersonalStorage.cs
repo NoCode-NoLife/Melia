@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 
@@ -44,6 +46,25 @@ namespace Melia.Zone.World.Storage
 			this.Owner.CurrentStorage = this;
 
 			Send.ZC_CUSTOM_DIALOG(this.Owner, "warehouse", "");
+
+			// Send a property update for the storage size and redraw the slots,
+			// so the client shows the correct number for this potentially custom
+			// storage.
+			var properties = new Properties("PCEtc");
+			properties.SetFloat(PropertyName.MaxWarehouseCount, this.GetStorageSize());
+			Send.ZC_OBJECT_PROPERTY(this.Owner.Connection, this.Owner.SocialUserId, properties.GetAll());
+
+			Task.Delay(100).ContinueWith(_ =>
+			{
+				Send.ZC_EXEC_CLIENT_SCP(this.Owner.Connection, @"
+					local frame = ui.GetFrame('warehouse')
+					local gbox = frame:GetChild('gbox')
+					local slotset = gbox:GetChild('slotset')
+					AUTO_CAST(slotset)
+
+					slotset:AutoAdjustRow()
+				");
+			});
 
 			return StorageResult.Success;
 		}
@@ -107,7 +128,7 @@ namespace Melia.Zone.World.Storage
 				return StorageResult.InvalidOperation;
 
 			this.ModifySize(addSize);
-			this.Owner.Etc.Properties.Modify(PropertyName.MaxWarehouseCount, addSize);
+			this.SetSavedSize(newSize);
 
 			Send.ZC_NORMAL.AccountProperties(character);
 			Send.ZC_OBJECT_PROPERTY(character.Connection, character.Etc);
@@ -133,6 +154,32 @@ namespace Melia.Zone.World.Storage
 			var cost = (int)Math.Pow(baseCost / 10f, addRows) * 10;
 
 			return cost;
+		}
+
+		/// <summary>
+		/// Initializes the size of the storage.
+		/// </summary>
+		public virtual void InitSize()
+		{
+			this.SetStorageSize(this.GetSavedSize());
+		}
+
+		/// <summary>
+		/// Returns the saved size of the storage.
+		/// </summary>
+		/// <returns></returns>
+		protected virtual int GetSavedSize()
+		{
+			return (int)this.Owner.Etc.Properties.GetFloat(PropertyName.MaxWarehouseCount, this.GetStorageSize());
+		}
+
+		/// <summary>
+		/// Sets the saved size of the storage.
+		/// </summary>
+		/// <param name="size"></param>
+		protected virtual void SetSavedSize(int size)
+		{
+			this.Owner.Etc.Properties.SetFloat(PropertyName.MaxWarehouseCount, size);
 		}
 	}
 }
