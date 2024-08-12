@@ -5,8 +5,9 @@
 /log/
 /logs/
 /cache/
-
+/.mysql/
 /user/**
+/.env
 
 !/user/conf/database-example.conf
 !/user/db/items-example.txt
