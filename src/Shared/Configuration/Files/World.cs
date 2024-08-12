@@ -49,6 +49,8 @@ namespace Melia.Shared.Configuration.Files
 		public int StorageFee { get; protected set; }
 		public int StorageExtCost { get; protected set; }
 		public int StorageDefaultSize { get; protected set; }
+		public int StorageMaxSize { get; protected set; }
+		public int StorageMaxExtensions { get; protected set; }
 		public bool StorageMultiStack { get; protected set; }
 
 		// summons.conf
@@ -102,6 +104,7 @@ namespace Melia.Shared.Configuration.Files
 			this.StorageFee = this.GetInt("storage_fee", 20);
 			this.StorageExtCost = this.GetInt("storage_ext_cost", 20);
 			this.StorageDefaultSize = this.GetInt("storage_default_size", 60);
+			this.StorageMaxSize = this.GetInt("storage_max_size", 110);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
@@ -149,6 +152,11 @@ namespace Melia.Shared.Configuration.Files
 			// Round storage size to next full 10, since the client only extends
 			// in multiples of 10.
 			this.StorageDefaultSize = (int)Math.Ceiling(this.StorageDefaultSize / 10f) * 10;
+			this.StorageMaxSize = (int)Math.Ceiling(this.StorageMaxSize / 10f) * 10;
+
+			// Get the max number of storage extensions relative to the client's
+			// default (60), as that's the value the client works with.
+			this.StorageMaxExtensions = Math.Max(0, this.StorageMaxSize - 60) / 10;
 		}
 	}
 }

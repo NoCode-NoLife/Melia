@@ -107,6 +107,10 @@ namespace Melia.Zone.World.Storage
 			var curSize = this.GetStorageSize();
 			var newSize = curSize + addSize;
 
+			// Sanity check, the client shouldn't let us get to this point
+			if (newSize > ZoneServer.Instance.Conf.World.StorageMaxSize)
+				return StorageResult.InvalidOperation;
+
 			var extCost = this.GetExtensionCost(newSize);
 
 			if (!account.Charge(extCost))
