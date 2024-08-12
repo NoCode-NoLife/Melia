@@ -45,26 +45,11 @@ namespace Melia.Zone.World.Storage
 			this.IsBrowsing = true;
 			this.Owner.CurrentStorage = this;
 
-			Send.ZC_CUSTOM_DIALOG(this.Owner, "warehouse", "");
+			// Here we would have refresh the storage window's slots,
+			// to adjust them to the size of the current storage.
+			// See InitSize below for more information.
 
-			// Send a property update for the storage size and redraw the slots,
-			// so the client shows the correct number for this potentially custom
-			// storage.
-			var properties = new Properties("PCEtc");
-			properties.SetFloat(PropertyName.MaxWarehouseCount, this.GetStorageSize());
-			Send.ZC_OBJECT_PROPERTY(this.Owner.Connection, this.Owner.SocialUserId, properties.GetAll());
-
-			Task.Delay(100).ContinueWith(_ =>
-			{
-				Send.ZC_EXEC_CLIENT_SCP(this.Owner.Connection, @"
-					local frame = ui.GetFrame('warehouse')
-					local gbox = frame:GetChild('gbox')
-					local slotset = gbox:GetChild('slotset')
-					AUTO_CAST(slotset)
-
-					slotset:AutoAdjustRow()
-				");
-			});
+			Send.ZC_CUSTOM_DIALOG(this.Owner, "warehouse");
 
 			return StorageResult.Success;
 		}
@@ -161,6 +146,22 @@ namespace Melia.Zone.World.Storage
 		/// </summary>
 		public virtual void InitSize()
 		{
+			// My hope was that we would be able to adjust the size of the
+			// storage dynamically, so we could have arbitrary storages of
+			// various sizes that we can access through the personal storage
+			// system. You might have a guid storage, or chests, etc. However,
+			// it seems like the client is not a big fan of trying to resize
+			// the storage up and down on the fly. It's inherently designed
+			// for extension only, and in my attempts to force it to shrink
+			// the storage, I experienced some odd behavior, such as the
+			// client locking up, trying to connect to barrack servers that
+			// don't exist, and refusing to launch afterwards. As such, I'm
+			// going to put a pin in this for now and we'll live with all
+			// storages, including custom ones, having the same size.
+			// I recommend not messing with the sizing too much unless you
+			// want to try to get this working.
+			// -- exec
+
 			this.SetStorageSize(this.GetSavedSize());
 		}
 

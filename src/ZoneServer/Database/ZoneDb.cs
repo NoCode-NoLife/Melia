@@ -187,16 +187,14 @@ namespace Melia.Zone.Database
 			// triggered this call.
 			character.UpdateStance();
 
-			// Load storage items after we got everything else, so we can
-			// set the size and then load in the items.
+			// Load storage items after we got everything else, so we can set
+			// the size and then load in the items. Storages that might require
+			// non-character information, like account properties, have to be
+			// loaded from a different location.
 			character.PersonalStorage.InitSize();
+			character.TeamStorage.InitSize();
 			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
-
-			// The team storage we can unfortunately not load from here,
-			// because we don't have access to the account yet. Moved
-			// to the login packet handler.
-			//character.TeamStorage.InitSize();
-			//this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
+			this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
 
 			return character;
 		}
