@@ -43,6 +43,9 @@ namespace Melia.Zone.Database
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("settings", account.Settings.ToString());
 				cmd.Set("premiumTokenExpiration", account.Premium.Token.Expiration);
+				cmd.Set("medals", account.Medals);
+				cmd.Set("giftMedals", account.GiftMedals);
+				cmd.Set("premiumMedals", account.PremiumMedals);
 
 				if (cmd.Execute() == 0)
 					return false;
