@@ -550,6 +550,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Opens the player's team/account storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenTeamStorage()
+		{
+			this.Player.TeamStorage.Open();
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
 		/// Opens the shop with the given name for the player.
 		/// </summary>
 		/// <param name="shopName"></param>

@@ -189,8 +189,14 @@ namespace Melia.Zone.Database
 
 			// Load storage items after we got everything else, so we can
 			// set the size and then load in the items.
-			character.PersonalStorage.SetStorageSize((int)character.Etc.Properties.GetFloat(PropertyName.MaxWarehouseCount, PersonalStorage.DefaultSize));
+			character.PersonalStorage.InitSize();
 			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
+
+			// The team storage we can unfortunately not load from here,
+			// because we don't have access to the account yet. Moved
+			// to the login packet handler.
+			//character.TeamStorage.InitSize();
+			//this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
 
 			return character;
 		}
@@ -417,6 +423,7 @@ namespace Melia.Zone.Database
 
 			this.SaveCharacterItems(character);
 			this.SaveStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
+			this.SaveStorage(character.TeamStorage, "storage_team", "accountId", character.Connection.Account.Id);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
 			this.SaveCollections(character);
@@ -660,7 +667,7 @@ namespace Melia.Zone.Database
 		/// <param name="idFieldName"></param>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		private void LoadStorage(Storage storage, string tableName, string idFieldName, long id)
+		internal void LoadStorage(Storage storage, string tableName, string idFieldName, long id)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand(

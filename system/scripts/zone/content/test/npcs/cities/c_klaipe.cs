@@ -21,11 +21,14 @@ public class CKlaipeNpcScript : GeneralScript
 
 			var response = await dialog.Select("Can I help you store your items?",
 				Option("Personal Storage", "personal"),
+				Option("Team Storage", "team"),
 				Option("Cancel", "cancel")
 			);
 
 			if (response == "personal")
 				await dialog.OpenPersonalStorage();
+			else if (response == "team")
+				await dialog.OpenTeamStorage();
 		});
 
 		// Equipment Merchant

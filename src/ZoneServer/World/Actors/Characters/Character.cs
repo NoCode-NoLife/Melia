@@ -177,6 +177,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public PersonalStorage PersonalStorage { get; }
 
 		/// <summary>
+		/// Returns the character's account's team storage.
+		/// </summary>
+		public CustomTeamStorage TeamStorage { get; }
+
+		/// <summary>
 		/// Returns a reference to the character's current storage.
 		/// </summary>
 		/// <remarks>
@@ -395,6 +400,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Init storage after etc, since it uses etc properties
 			this.PersonalStorage = new PersonalStorage(this);
+			this.TeamStorage = new CustomTeamStorage(this);
 
 			this.AddSessionObjects();
 		}

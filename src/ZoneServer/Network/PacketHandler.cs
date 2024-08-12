@@ -99,6 +99,13 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
+			// Load team storage after the connection was assigned, so we have
+			// access to the account and its variables, which we need for the
+			// storage size. This kind of sucks, and should perhaps be improved.
+			// TODO.
+			character.TeamStorage.InitSize();
+			ZoneServer.Instance.Database.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
+
 			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
 
 			map.AddCharacter(character);
