@@ -45,7 +45,7 @@ public class SadhuDummyAiScript : AiScript
 		var master = GetMaster();
 		if (master != null)
 		{
-			yield return Follow(master);
+			yield return Follow(master, 25, true, false);
 			yield break;
 		}
 
@@ -64,7 +64,8 @@ public class SadhuDummyAiScript : AiScript
 	}
 
 	protected IEnumerable Attack()
-	{
+	{		
+		ExecuteOnce(Emoticon("I_emo_damagerank1_crown"));
 		Log.Info("IEnumerable Attack()");
 
 		// Remove the dummy character if the master is gone
@@ -127,9 +128,9 @@ public class SadhuDummyAiScript : AiScript
 		Log.Info("[StopAndAttack] target: {0}", target);
 
 		yield return StopMove();
-		Log.Info("[StopAndAttack] Calling Attack()");
+		Log.Info("[StopAndAttack] Starting Attack() Routine");
 
-		yield return Attack();
+		StartRoutine("Attack", Attack());
 	}
 
 	/// <summary>
