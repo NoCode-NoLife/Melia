@@ -65,6 +65,22 @@ namespace Melia.Zone.World.Actors
 		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
 
 		/// <summary>
+		/// Returns the entity's radius for pathfinding purposes.
+		/// </summary>
+		/// <remarks>
+		/// Based on shape.ies.
+		/// </remarks>
+		float AgentRadius => this.EffectiveSize switch
+		{
+			SizeType.S => 12,
+			SizeType.M => 15,
+			SizeType.L => 20,
+			SizeType.XL => 40,
+			SizeType.XXL => 40,
+			_ => 0,
+		};
+
+		/// <summary>
 		/// Returns the entity's level.
 		/// </summary>
 		int Level { get; }
@@ -265,10 +281,19 @@ namespace Melia.Zone.World.Actors
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
 		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, Buff.DefaultDuration, entity, SkillId.None);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
 		/// <param name="duration"></param>
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, TimeSpan duration)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity);
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity, SkillId.None);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
@@ -279,9 +304,10 @@ namespace Melia.Zone.World.Actors
 		/// <param name="numArg2"></param>
 		/// <param name="duration"></param>
 		/// <param name="caster"></param>
+		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId = SkillId.None)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster, skillId);
 
 		/// <summary>
 		/// Stops the buff with the given id.

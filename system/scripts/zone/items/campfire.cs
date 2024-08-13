@@ -16,6 +16,8 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Actors;
+using Melia.Zone.Buffs;
 
 public class CampfireActionScript : GeneralScript
 {
@@ -103,7 +105,7 @@ public class CampfireActionScript : GeneralScript
 			foreach (var character in characters)
 			{
 				if (character.IsSitting && !character.Buffs.Has(BuffId.campfire_Buff))
-					character.Buffs.Start(BuffId.campfire_Buff, TimeSpan.Zero);
+					character.StartBuff(BuffId.campfire_Buff);
 			}
 
 			await Task.Delay(BuffApplyCheckDelay);

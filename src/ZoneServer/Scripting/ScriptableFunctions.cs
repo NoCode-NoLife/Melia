@@ -27,18 +27,18 @@ namespace Melia.Zone.Scripting
 
 		private static readonly List<IDelegateCollection> Collections = new List<IDelegateCollection>();
 
-		public static readonly DelegateCollection<CharacterCalcFunc> Character = new DelegateCollection<CharacterCalcFunc>();
-		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new DelegateCollection<MonsterCalcFunc>();
-		public static readonly DelegateCollection<SkillCalcFunc> Skill = new DelegateCollection<SkillCalcFunc>();
-		public static readonly DelegateCollection<CombatCalcFunction> Combat = new DelegateCollection<CombatCalcFunction>();
-		public static readonly DelegateCollection<SkillHitFunction> SkillHit = new DelegateCollection<SkillHitFunction>();
-		public static readonly DelegateCollection<ItemScriptFunc> Item = new DelegateCollection<ItemScriptFunc>();
-		public static readonly DelegateCollection<NormalTxScriptFunc> NormalTx = new DelegateCollection<NormalTxScriptFunc>();
-		public static readonly DelegateCollection<NormalTxNumScriptFunc> NormalTxNum = new DelegateCollection<NormalTxNumScriptFunc>();
-		public static readonly DelegateCollection<DialogTxScriptFunc> DialogTx = new DelegateCollection<DialogTxScriptFunc>();
-		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new DelegateCollection<CustomCommandScriptFunc>();
-		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new DelegateCollection<AbilityUnlockFunc>();
-		public static readonly DelegateCollection<AbilityPriceFunc> AbilityPrice = new DelegateCollection<AbilityPriceFunc>();
+		public static readonly DelegateCollection<CharacterCalcFunc> Character = new();
+		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new();
+		public static readonly DelegateCollection<SkillCalcFunc> Skill = new();
+		public static readonly DelegateCollection<CombatCalcFunction> Combat = new();
+		public static readonly DelegateCollection<SkillHitFunction> SkillHit = new();
+		public static readonly DelegateCollection<ItemScriptFunc> Item = new();
+		public static readonly DelegateCollection<NormalTxScriptFunc> NormalTx = new();
+		public static readonly DelegateCollection<NormalTxNumScriptFunc> NormalTxNum = new();
+		public static readonly DelegateCollection<DialogTxScriptFunc> DialogTx = new();
+		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new();
+		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new();
+		public static readonly DelegateCollection<AbilityPriceFunc> AbilityPrice = new();
 
 		/// <summary>
 		/// Sets up delegate collections.
@@ -168,7 +168,6 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	/// <param name="character"></param>
 	/// <param name="abilityData"></param>
-	/// <param name="abilityTreeData"></param>
 	/// <param name="abilityLevel"></param>
 	/// <param name="maxLevel"></param>
 	/// <param name="price"></param>

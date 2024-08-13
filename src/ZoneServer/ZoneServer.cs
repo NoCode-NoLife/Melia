@@ -325,6 +325,8 @@ namespace Melia.Zone
 			}
 
 			this.IesMods.Add("SharedConst", 177, "Value", this.Conf.World.StorageFee); // WAREHOUSE_PRICE
+			this.IesMods.Add("SharedConst", 10004, "Value", this.Conf.World.StorageExtCost); // WAREHOUSE_EXTEND_PRICE
+			this.IesMods.Add("SharedConst", 10010, "Value", this.Conf.World.StorageMaxExtensions); // WAREHOUSE_MAX_COUNT
 			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
 		}
 

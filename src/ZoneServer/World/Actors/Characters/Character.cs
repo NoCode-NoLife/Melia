@@ -17,8 +17,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs.Handlers;
 using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers.Common;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -66,6 +66,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's globally unique id on the social server.
 		/// </summary>
+		/// <remarks>
+		/// This id might not actually be the social user id, or at least not
+		/// solely, seeing how it's used as the id of the etc property object.
+		/// </remarks>
 		public long SocialUserId => ObjectIdRanges.SocialUser + this.DbId;
 
 		/// <summary>
@@ -168,9 +172,28 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsSitting { get; set; }
 
 		/// <summary>
-		/// Returns the characters's personal storage.
+		/// Returns the character's personal storage.
 		/// </summary>
 		public PersonalStorage PersonalStorage { get; }
+
+		/// <summary>
+		/// Returns the character's account's team storage.
+		/// </summary>
+		public PersonalStorage TeamStorage { get; }
+
+		/// <summary>
+		/// Returns a reference to the character's current storage.
+		/// </summary>
+		/// <remarks>
+		/// The result of this method depends on the character's variables,
+		/// to support the dynamic opening of arbitrary storages. If no
+		/// special storage was set, it defaults to the personal storage.
+		/// </remarks>
+		public PersonalStorage CurrentStorage
+		{
+			get => this.Variables.Temp.Get<PersonalStorage>("Melia.Storage") ?? this.PersonalStorage;
+			set => this.Variables.Temp.Set("Melia.Storage", value);
+		}
 
 		/// <summary>
 		/// The character's inventory.
@@ -335,6 +358,11 @@ namespace Melia.Zone.World.Actors.Characters
 		Properties IPropertyHolder.Properties => this.Properties;
 
 		/// <summary>
+		/// Returns the character's PCEtc properties.
+		/// </summary>
+		public PCEtc Etc { get; }
+
+		/// <summary>
 		/// Gets or sets the player's localizer.
 		/// </summary>
 		public Localizer Localizer
@@ -368,7 +396,11 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
+			this.Etc = new PCEtc(this);
+
+			// Init storage after etc, since it uses etc properties
 			this.PersonalStorage = new PersonalStorage(this);
+			this.TeamStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}
@@ -1200,23 +1232,6 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Stance = ZoneServer.Instance.Data.StanceConditionDb.FindStanceId(jobId, riding, rightHand, leftHand);
 
 			return this.Stance;
-		}
-
-		/// <summary>
-		/// These should be reference properties?
-		/// PCETC Properties
-		/// </summary>
-		public void SendPCEtcProperties()
-		{
-			var pcEtcProps = new Properties("PCEtc");
-			pcEtcProps.SetString("SkintoneName", "skintone2");
-			pcEtcProps.SetString("StartHairName", "UnbalancedShortcut");
-			pcEtcProps.SetFloat("LobbyMapID", this.MapId);
-			pcEtcProps.SetString("RepresentationClassID", this.JobId.ToString());
-			pcEtcProps.SetFloat("LastPlayDate", 20210728);
-			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1);
-
-			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
 		}
 
 		/// <summary>

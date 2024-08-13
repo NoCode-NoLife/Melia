@@ -18,6 +18,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
+using Melia.Zone.World.Storage;
 using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -42,6 +43,9 @@ namespace Melia.Zone.Database
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("settings", account.Settings.ToString());
 				cmd.Set("premiumTokenExpiration", account.Premium.Token.Expiration);
+				cmd.Set("medals", account.Medals);
+				cmd.Set("giftMedals", account.GiftMedals);
+				cmd.Set("premiumMedals", account.PremiumMedals);
 
 				if (cmd.Execute() == 0)
 					return false;
@@ -158,7 +162,6 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
-			this.LoadCharacterStorage(character);
 			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
@@ -168,6 +171,7 @@ namespace Melia.Zone.Database
 			this.LoadCooldowns(character);
 			this.LoadQuests(character);
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.LoadCollections(character);
 
 			// Initialize the properties to trigger calculated properties
@@ -185,6 +189,15 @@ namespace Melia.Zone.Database
 			// Update stance, in case no equip was added, which would've
 			// triggered this call.
 			character.UpdateStance();
+
+			// Load storage items after we got everything else, so we can set
+			// the size and then load in the items. Storages that might require
+			// non-character information, like account properties, have to be
+			// loaded from a different location.
+			character.PersonalStorage.InitSize();
+			character.TeamStorage.InitSize();
+			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
+			this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
 
 			return character;
 		}
@@ -410,11 +423,13 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveCharacterItems(character);
-			this.SaveCharacterStorage(character);
+			this.SaveStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
+			this.SaveStorage(character.TeamStorage, "storage_team", "accountId", character.Connection.Account.Id);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.SaveSessionObjects(character);
 			this.SaveCollections(character);
 			this.SaveProperties("character_properties", "characterId", character.DbId, character.Properties);
+			this.SaveProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.SaveJobs(character);
 			this.SaveSkills(character);
 			this.SaveAbilities(character);
@@ -646,16 +661,23 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
-		/// Load storage for a character.
+		/// Load storage items into given storage.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="storage"></param>
+		/// <param name="tableName"></param>
+		/// <param name="idFieldName"></param>
+		/// <param name="id"></param>
 		/// <returns></returns>
-		private void LoadCharacterStorage(Character character)
+		internal void LoadStorage(Storage storage, string tableName, string idFieldName, long id)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT `i`.*, `stg`.`itemId`, `stg`.`position` FROM `storage_personal` AS `stg` INNER JOIN `items` AS `i` ON `stg`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId", conn))
+			using (var mc = new MySqlCommand(
+				"SELECT `i`.*, `stg`.`itemId`, `stg`.`position` FROM `" + tableName + "` AS `stg` " +
+				"INNER JOIN `items` AS `i` ON `stg`.`itemId` = `i`.`itemUniqueId` " +
+				"WHERE `" + idFieldName + "` = @id"
+			, conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", character.DbId);
+				mc.Parameters.AddWithValue("@id", id);
 
 				using (var reader = mc.ExecuteReader())
 				{
@@ -668,53 +690,56 @@ namespace Melia.Zone.Database
 						// Check item, in case its data was removed
 						if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
 						{
-							Log.Warning("ZoneDb.LoadStorageItems: Item '{0}' not found, removing it from storage.", itemId);
+							Log.Warning("ZoneDb.LoadStorage: Item '{0}' not found, removing it from storage.", itemId);
 							continue;
 						}
 
 						var item = new Item(itemId, amount);
 
-						character.PersonalStorage.AddAtPosition(item, position, out var addedAmount);
+						storage.AddAtPosition(item, position, out var addedAmount);
 					}
 				}
 			}
 		}
 
 		/// <summary>
-		/// Saves storage for given character.
+		/// Saves storage to the given table.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="storage"></param>
+		/// <param name="tableName"></param>
+		/// <param name="idFieldName"></param>
+		/// <param name="id"></param>
 		/// <returns></returns>
-		public void SaveCharacterStorage(Character character)
+		public void SaveStorage(Storage storage, string tableName, string idFieldName, long id)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var mc = new MySqlCommand("DELETE FROM `storage_personal` WHERE `characterId` = @characterId", conn, trans))
+				using (var mc = new MySqlCommand("DELETE FROM `" + tableName + "` WHERE `" + idFieldName + "` = @id", conn, trans))
 				{
-					mc.Parameters.AddWithValue("@characterId", character.DbId);
+					mc.Parameters.AddWithValue("@id", id);
 					mc.ExecuteNonQuery();
 				}
 
-				foreach (var storageItem in character.PersonalStorage.GetItems())
+				foreach (var item in storage.GetItems())
 				{
 					var newId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
 					{
-						cmd.Set("itemId", storageItem.Value.Id);
-						cmd.Set("amount", storageItem.Value.Amount);
+						cmd.Set("itemId", item.Value.Id);
+						cmd.Set("amount", item.Value.Amount);
 
 						cmd.Execute();
 
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `storage_personal` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {0}", conn, trans))
 					{
-						cmd.Set("characterId", character.DbId);
+						cmd.Set(idFieldName, id);
 						cmd.Set("itemId", newId);
-						cmd.Set("position", storageItem.Key);
+						cmd.Set("position", item.Key);
 
 						cmd.Execute();
 					}
@@ -1052,6 +1077,7 @@ namespace Melia.Zone.Database
 						cmd.Set("numArg2", buff.NumArg2);
 						cmd.Set("duration", buff.Duration);
 						cmd.Set("runTime", buff.RunTime);
+						cmd.Set("skillId", (int)buff.SkillId);
 
 						cmd.Execute();
 						lastId = cmd.LastId;
@@ -1088,8 +1114,9 @@ namespace Melia.Zone.Database
 							var numArg2 = reader.GetInt32("numArg2");
 							var duration = reader.GetTimeSpan("duration");
 							var runTime = reader.GetTimeSpan("runTime");
+							var skillId = (SkillId)reader.GetInt32("skillId");
 
-							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character);
+							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character, skillId);
 							buffs.Add(dbId, buff);
 						}
 					}
