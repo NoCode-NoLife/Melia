@@ -93,7 +93,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			{
 				Send.ZC_PLAY_ANI(caster, "idle1");
 				Send.ZC_NORMAL.ClearEffects(caster);
-				Send.ZC_SKILL_CAST_CANCEL(caster);				
+				Send.ZC_SKILL_CAST_CANCEL(caster);
+				Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
 				return;
 			}
 
@@ -136,10 +137,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			Send.ZC_NORMAL.SpinObject(caster, 0, 0, 0, 0);
 			Send.ZC_PLAY_ANI(caster, "idle1");
 			caster.TurnTowards(chainDirection);
-			Send.ZC_NORMAL.ClearEffects(target);
-			// A glitch exists where the chain remains stuck
-			// to you if you use this move twice
-			// Probably needs to send some other packet
+			Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
 
 
 			target.StartBuff(BuffId.giantswing_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
