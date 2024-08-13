@@ -4,7 +4,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers.Wizard
+namespace Melia.Zone.Buffs.Handlers.Wizards.Wizard
 {
 	/// <summary>
 	/// Handler for the Reflect Shield buff.

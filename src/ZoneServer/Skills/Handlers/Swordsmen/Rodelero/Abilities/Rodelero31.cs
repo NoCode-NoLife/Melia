@@ -1,14 +1,14 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 
-namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero.Abilities
 {
 	/// <summary>
-	/// Contains code related to the "Peltasta: Shield Attack" ability,
-	/// used by several Peltasta skills.
+	/// Contains code related to the "Rodelero: Shield Attack" ability,
+	/// used by several Rodelero skills.
 	/// </summary>
-	public static class Peltasta38
+	public static class Rodelero31
 	{
 		private const float BonusPerLevel = 0.06f;
 
@@ -20,13 +20,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 		/// <returns></returns>
 		public static float GetBonusPAtk(ICombatEntity caster)
 		{
-			if (!caster.TryGetActiveAbilityLevel(AbilityId.Peltasta38, out var abilityLevel))
+			if (!caster.TryGetActiveAbilityLevel(AbilityId.Rodelero31, out var abilityLevel))
 				return 0;
 
-			if (caster is not Character character)
+			if (!caster.Components.TryGet<InventoryComponent>(out var inv))
 				return 0;
 
-			var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand);
+			var lhItem = inv.GetItem(EquipSlot.LeftHand);
 			if (lhItem.Data.EquipType1 != EquipType.Shield)
 				return 0;
 
