@@ -370,12 +370,13 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="numArg2"></param>
 		/// <param name="duration">Custom duration of the buff.</param>
 		/// <param name="caster">The entity that casted the buff.</param>
+		/// <param name="skillId">The id of the skill associated with the buff.</param>
 		/// <returns></returns>
-		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
+		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId = SkillId.None)
 		{
 			// Attempt status resistance against debuffs
 			// TODO: Ideally, this should happen from the buff handler,
-			//   and we might also move the check to somewhere else,
+			//   and we might also want to move the check somewhere else,
 			//   so we're still able to force-apply buffs if necessary.
 			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
 			{
@@ -388,7 +389,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity);
+				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity, skillId);
 				this.Add(buff);
 			}
 			else

@@ -1077,6 +1077,7 @@ namespace Melia.Zone.Database
 						cmd.Set("numArg2", buff.NumArg2);
 						cmd.Set("duration", buff.Duration);
 						cmd.Set("runTime", buff.RunTime);
+						cmd.Set("skillId", (int)buff.SkillId);
 
 						cmd.Execute();
 						lastId = cmd.LastId;
@@ -1113,8 +1114,9 @@ namespace Melia.Zone.Database
 							var numArg2 = reader.GetInt32("numArg2");
 							var duration = reader.GetTimeSpan("duration");
 							var runTime = reader.GetTimeSpan("runTime");
+							var skillId = (SkillId)reader.GetInt32("skillId");
 
-							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character);
+							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character, skillId);
 							buffs.Add(dbId, buff);
 						}
 					}

@@ -150,7 +150,7 @@ namespace Melia.Zone.Buffs
 		/// <param name="target"></param>
 		/// <param name="caster"></param>
 		/// <param name="skillId">Id of the skill associated with this buff.</param>
-		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId)
 		{
 			this.Id = buffId;
 			this.NumArg1 = numArg1;
@@ -160,6 +160,11 @@ namespace Melia.Zone.Buffs
 			this.Target = target;
 			this.Caster = caster;
 			this.SkillId = skillId;
+
+			// We used to default this to Normal_Attack in the arguments.
+			// Guess we'll keep that? We probably did it for a reason.
+			if (this.SkillId == SkillId.None)
+				this.SkillId = SkillId.Normal_Attack;
 
 			this.Handle = ZoneServer.Instance.World.CreateBuffHandle();
 			this.Data = ZoneServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
