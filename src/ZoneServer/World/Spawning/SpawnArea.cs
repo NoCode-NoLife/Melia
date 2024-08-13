@@ -17,7 +17,7 @@ namespace Melia.Zone.World.Spawning
 		private const int MaxValidPositionTries = 50;
 		private static int Ids;
 
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Returns the unique id of this spawn area.

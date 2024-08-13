@@ -35,7 +35,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="key">Key to return if the option was selected.</param>
 		/// <returns></returns>
 		public static DialogOption Option(string text, string key)
-			=> new DialogOption(text, key);
+			=> new(text, key);
 
 		/// <summary>
 		/// Returns a localized version of the given string.
@@ -126,7 +126,7 @@ namespace Melia.Zone.Scripting
 				name = Dialog.WrapLocalizationKey(name);
 			}
 			// Insert line breaks in tagged NPC names that don't have one
-			else if (name.StartsWith("[") && !name.Contains("{nl}"))
+			else if (name.StartsWith('[') && !name.Contains("{nl}"))
 			{
 				var endIndex = name.LastIndexOf("] ");
 				if (endIndex != -1)
@@ -274,7 +274,7 @@ namespace Melia.Zone.Scripting
 				var propertyNameObj = properties[i];
 				var propertyValueObj = properties[i + 1];
 
-				if (!(propertyNameObj is string propertyName))
+				if (propertyNameObj is not string propertyName)
 					throw new ArgumentException($"Expected a string for key, got '{propertyValueObj.GetType().Name}'.");
 
 				switch (propertyValueObj)
