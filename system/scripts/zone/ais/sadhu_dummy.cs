@@ -16,8 +16,8 @@ using Yggdrasil.Logging;
 [Ai("SadhuDummy")]
 public class SadhuDummyAiScript : AiScript
 {
-	private const int MaxChaseDistance = 45;
-	private const int MaxMasterDistance = 35;
+	private const int MaxChaseDistance = 75;
+	private const int MaxMasterDistance = 75;
 
 	ICombatEntity target;
 
@@ -31,6 +31,7 @@ public class SadhuDummyAiScript : AiScript
 	protected override void Root()
 	{
 		StartRoutine("Idle", Idle());
+		Log.Info("[Root] Idle Routine Started.");
 	}
 
 	protected IEnumerable Idle()
@@ -56,10 +57,6 @@ public class SadhuDummyAiScript : AiScript
 		if (Case(80))
 		{
 			yield return MoveRandom();
-		}
-		else
-		{
-			yield return Animation("IDLE");
 		}
 	}
 
@@ -99,9 +96,9 @@ public class SadhuDummyAiScript : AiScript
 			}
 
 			Log.Info("skill.GetAttackRange(): {0}", skill.GetAttackRange());
-			Log.Info("InAttackRange: {0}", InRangeOf(target, skill.GetAttackRange()));
+			Log.Info("InAttackRange: {0}", InRangeOf(target, 15));
 
-			while (!InRangeOf(target, skill.GetAttackRange() / 2))
+			while (!InRangeOf(target, 15))
 				yield return MoveTo(target.Position, wait: false);
 
 			yield return StopMove();
@@ -117,6 +114,7 @@ public class SadhuDummyAiScript : AiScript
 	{
 		yield return StopMove();
 		StartRoutine("Idle", Idle());
+		Log.Info("[StopAndIdle] Idle Routine Started.");
 	}
 
 	protected IEnumerable StopAndAttack()
@@ -125,12 +123,11 @@ public class SadhuDummyAiScript : AiScript
 		ExecuteOnce(Emoticon("I_emo_exclamation"));
 		ExecuteOnce(TurnTowards(target));
 
-		Log.Info("[StopAndAttack] target: {0}", target);
+		Log.Info("[StopAndAttack] target.Name: {0}", target.Name);
 
 		yield return StopMove();
-		Log.Info("[StopAndAttack] Starting Attack() Routine");
-
 		StartRoutine("Attack", Attack());
+		Log.Info("[StopAndAttack] Attack() Routine Started");
 	}
 
 	/// <summary>
@@ -167,22 +164,24 @@ public class SadhuDummyAiScript : AiScript
 
 	private void CheckEnemies()
 	{
-		var mostHated = GetMostHated();
+		var attackableEntities = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, Entity.Position, 75);
 
-		if (mostHated != null)
+		if (attackableEntities != null && attackableEntities.Count > 0)
 		{
-			target = mostHated;
+			target = attackableEntities[0];
 			StartRoutine("StopAndAttack", StopAndAttack());
+			Log.Info("[CheckEnemies] StopAndAttack Routine Started.");
 		}
 	}
 
 	private void CheckTarget()
 	{
 		// Transition to idle if the target has vanished or is out of range
-		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance) || !IsHating(target))
+		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance))
 		{
 			target = null;
 			StartRoutine("StopAndIdle", StopAndIdle());
+			Log.Info("[CheckTarget] StopAndIdle Routine Started.");
 		}
 	}
 
@@ -198,8 +197,8 @@ public class SadhuDummyAiScript : AiScript
 		if (!InRangeOf(master, MaxMasterDistance))
 		{
 			target = null;
-			RemoveAllHate();
 			StartRoutine("StopAndIdle", StopAndIdle());
+			Log.Info("[CheckMaster] StopAndIdle Routine Started.");
 		}
 	}
 }
