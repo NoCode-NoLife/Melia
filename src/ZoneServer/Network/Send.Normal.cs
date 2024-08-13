@@ -1,5 +1,4 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
@@ -637,7 +636,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather wig equipment is visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
@@ -653,7 +652,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather sub weapons are visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
@@ -738,7 +737,7 @@ namespace Melia.Zone.Network
 			/// <param name="spinCount"></param>
 			/// <param name="rotationsPerSecond"></param>
 			/// <param name="velocityChangeTerm"></param>
-			public static void SpinObject(IActor actor, float spinDelay = 0, float spinCount = -1, float rotationsPerSecond = 0.2f, float velocityChangeTerm = 0)
+			public static void SpinObject(IActor actor, float spinDelay, float spinCount, float rotationsPerSecond, float velocityChangeTerm)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SpinObject);

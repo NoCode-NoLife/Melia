@@ -10,9 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
@@ -75,8 +72,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.Default;
-				modifier.HitCount = 2;
+				var modifier = SkillModifier.MultiHit(2);
+
+				if (caster.TryGetActiveAbilityLevel(AbilityId.Doppelsoeldner22, out var deepCutLevel))
+					modifier.HitCount += deepCutLevel;
 
 				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
 					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
@@ -96,12 +95,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Doppelsoeldner
 				if (caster.IsAbilityActive(AbilityId.Doppelsoeldner36))
 					target.StartBuff(BuffId.Zornhau_Debuff, skill.Level, skillHitResult.Damage * 0.2f, DebuffDuration, caster);
 
-				// Also need to potentially remove a buff from the target
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(100) < buffRemoveChance && target.Components.TryGet<BuffComponent>(out var buffs))
-					buffs.RemoveRandomBuff();
+				target.RemoveRandomBuff(buffRemoveChance);
 
-				hitSomething = false;
+				hitSomething = true;
 			}
 
 			// Must hit at least 1 enemy to continue combo?

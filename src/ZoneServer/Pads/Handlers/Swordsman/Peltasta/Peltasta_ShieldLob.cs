@@ -63,7 +63,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 			}
 
 			Send.ZC_NORMAL.ActorRotate(shieldMonster, 90, 0, 0);
-			Send.ZC_NORMAL.SpinObject(shieldMonster);
+			Send.ZC_NORMAL.SpinObject(shieldMonster, 0, -1, 0.2f, 0);
 			Send.ZC_NORMAL.PadSetMonsterAltitude(pad, shieldMonster, 22);
 
 			this.FlyShieldFly(pad, creator);

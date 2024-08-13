@@ -5,12 +5,12 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs.Handlers.Swordsman.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
@@ -21,6 +21,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 	[SkillHandler(SkillId.Peltasta_RimBlow)]
 	public class Peltasta_RimBlow : IGroundSkillHandler
 	{
+		private readonly static TimeSpan StunDuration = TimeSpan.FromSeconds(3);
+		private const float StunChancePerLevel = 5f;
+
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -93,6 +96,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Peltasta
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 
 				hits.Add(skillHit);
+
+				if (caster.TryGetActiveAbilityLevel(AbilityId.Impact, out int stunLevel) && RandomProvider.Get().Next(100) < stunLevel * StunChancePerLevel)
+					target.StartBuff(BuffId.Stun, stunLevel, 0, StunDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

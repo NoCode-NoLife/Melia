@@ -54,8 +54,10 @@ namespace Melia.Zone.Buffs.Handlers
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			// Don't let magic trigger forced block
-			if (skill.Data.ClassType == SkillClassType.Magic)
+			// Don't let magic or unblockable attacks trigger the buff's effect.
+			// While we check for magic before a forced block as well, we don't
+			// want to flag the buff as having blocked something.
+			if (skill.Data.ClassType == SkillClassType.Magic || modifier.Unblockable)
 				return;
 
 			modifier.ForcedBlock = true;

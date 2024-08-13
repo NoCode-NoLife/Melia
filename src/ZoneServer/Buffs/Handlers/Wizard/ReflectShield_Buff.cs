@@ -9,6 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Wizard
 	/// <summary>
 	/// Handler for the Reflect Shield buff.
 	/// </summary>
+	[BuffHandler(BuffId.ReflectShield_Buff)]
 	public class ReflectShield_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>

@@ -39,11 +39,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
 
 		/// <summary>
-		/// Returns the monster's armor material.
-		/// </summary>
-		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
-
-		/// <summary>
 		/// Returns the monster's mode of movement.
 		/// </summary>
 		public MoveType MoveType => this.Data.MoveType;
@@ -142,16 +137,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Physical defense.
-		/// </summary>
-		public int Defense
-		{
-			get { return _defense; }
-			private set { _defense = Math.Max(0, value); }
-		}
-		private int _defense;
-
-		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<Mob, ICombatEntity> Died;
@@ -242,7 +227,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
 			this.InitProperties();

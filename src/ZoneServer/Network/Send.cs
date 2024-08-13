@@ -11,7 +11,6 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
-using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -476,6 +475,16 @@ namespace Melia.Zone.Network
 		{
 			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
 			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
+			var skillId = skill.Id;
+
+			// Mobs don't have animations for player skills. We can use a
+			// workaround to instead show their normal attack animation in
+			// this case. We might want to extend this in the future to do
+			// the same for characters if they use a skill they shouldn't
+			// be able to use.
+			if (!skill.IsMonsterSkill && entity is Mob mob)
+				skillId = mob.Data.Skills.First().SkillId;
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
@@ -1560,18 +1569,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends a custom dialog message.
+		/// Broadcasts a Lua addon event on the client with the given name,
+		/// prefixed with "OPEN_DLG_".
 		/// </summary>
+		/// <example>
+		/// ZC_CUSTOM_DIALOG(character, "warehouse", "", 0);
+		/// This call raises "OPEN_DLG_WAREHOUSE", which the client scripts
+		/// subscribe to as such:
+		/// addon:RegisterMsg("OPEN_DLG_WAREHOUSE", "ON_OPEN_WAREHOUSE");
+		/// </example>
 		/// <param name="character"></param>
-		/// <param name="close"></param>
-		/// <param name="msg"></param>
+		/// <param name="evName"></param>
+		/// <param name="argStr"></param>
 		/// <param name="argNum"></param>
-		public static void ZC_CUSTOM_DIALOG(Character character, string close, string msg, int argNum = 0)
+		public static void ZC_CUSTOM_DIALOG(Character character, string evName, string argStr = "", int argNum = 0)
 		{
 			var packet = new Packet(Op.ZC_CUSTOM_DIALOG);
 
-			packet.PutString(close, 33);
-			packet.PutString(msg, 32);
+			packet.PutString(evName, 33);
+			packet.PutString(argStr, 32);
 			packet.PutInt(argNum);
 
 			character.Connection.Send(packet);

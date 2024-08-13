@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -9,6 +10,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman
 	/// <summary>
 	/// Handler for the Bear buff.
 	/// </summary>
+	[BuffHandler(BuffId.Bear_Buff)]
 	public class Bear_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>

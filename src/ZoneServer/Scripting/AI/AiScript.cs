@@ -33,10 +33,10 @@ namespace Melia.Zone.Scripting.AI
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
 
-		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
-		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
-		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
-		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
+		private readonly HashSet<int> _hateLevelsToRemove = new();
+		private readonly Dictionary<int, float> _hateLevels = new();
+		private readonly HashSet<FactionType> _hatedFactions = new();
+		private readonly HashSet<int> _hatedMonsters = new();
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
 

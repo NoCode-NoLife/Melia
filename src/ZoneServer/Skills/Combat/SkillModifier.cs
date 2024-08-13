@@ -44,6 +44,15 @@
 		public float DamageMultiplier { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the minimum critical chance.
+		/// </summary>
+		/// <remarks>
+		/// If set, this value acts as the minimum possible chance for a crit
+		/// to occur.
+		/// </remarks>
+		public float MinCritChance { get; set; } = 0;
+
+		/// <summary>
 		/// Gets or sets damage multiplier applied to skill damage after
 		/// defense, crit, and other modifiers were applied.
 		/// </summary>
@@ -62,6 +71,11 @@
 		/// multiple hits.
 		/// </remarks>
 		public int HitCount { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
+		/// </summary>
+		public bool Unblockable { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced block status.
