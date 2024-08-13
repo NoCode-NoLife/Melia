@@ -8,6 +8,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 	/// <summary>
 	/// Handler for the passive Highlander skill Defiance.
 	/// </summary>
+	[SkillHandler(SkillId.Highlander_Defiance)]
 	public class Highlander_Defiance : ISkillHandler, ISkillCombatAttackBeforeCalcHandler
 	{
 		/// <summary>
