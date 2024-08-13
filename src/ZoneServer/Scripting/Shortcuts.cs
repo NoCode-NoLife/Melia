@@ -253,6 +253,13 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
+		/// Returns a specialized shape that is considered a map-wide area
+		/// by certain systems, such as monster spawners.
+		/// </summary>
+		/// <returns></returns>
+		public static IShapeF MapWide => RectangleF.Centered(Vector2F.Zero, new(-1, -1));
+
+		/// <summary>
 		/// Returns a list of named properties based on a list of key/value
 		/// pairs.
 		/// </summary>
