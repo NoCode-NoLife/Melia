@@ -193,7 +193,7 @@ namespace Melia.Zone.World.Spawning
 				map.AddMonster(monster);
 				monster.PossiblyBecomeRare();
 
-				this.Spawning?.Invoke(this, new SpawnEventArgs(this, monster));
+				this.Spawned?.Invoke(this, new SpawnEventArgs(this, monster));
 			}
 
 			this.Amount += amount;
