@@ -587,7 +587,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				if (autoloot)
 				{
 					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
-					return;
+					continue;
 				}
 
 				var direction = new Direction(rnd.Next(0, 360));
