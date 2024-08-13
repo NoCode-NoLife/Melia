@@ -10,6 +10,7 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Ardito
@@ -49,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			this.CreateAttackArea(skill, caster, farPos, caster.Direction);
+			CallSafe(this.CreateAttackArea(skill, caster, farPos, caster.Direction));
 		}
 
 		/// <summary>
@@ -59,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
 		/// <param name="direction"></param>
-		private async void CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
+		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
 			var pos1 = farPos.GetRelative(direction, 50);
 			var pos2 = pos1.GetRelative(direction, 50);

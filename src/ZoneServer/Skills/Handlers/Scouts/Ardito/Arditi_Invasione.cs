@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
@@ -45,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -54,7 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 
@@ -65,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
-				this.ExecuteHit(skill, caster, target);
+				CallSafe(this.ExecuteHit(skill, caster, target));
 			}
 		}
 
@@ -75,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void ExecuteHit(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private async Task ExecuteHit(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			var modifier = SkillModifier.Default;
 			modifier.HitCount = 2;

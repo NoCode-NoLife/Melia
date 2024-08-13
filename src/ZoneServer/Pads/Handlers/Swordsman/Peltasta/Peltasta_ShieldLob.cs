@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 {
@@ -66,7 +67,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 			Send.ZC_NORMAL.SpinObject(shieldMonster, 0, -1, 0.2f, 0);
 			Send.ZC_NORMAL.PadSetMonsterAltitude(pad, shieldMonster, 22);
 
-			this.FlyShieldFly(pad, creator);
+			CallSafe(this.FlyShieldFly(pad, creator));
 		}
 
 		/// <summary>
@@ -90,7 +91,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 		/// </summary>
 		/// <param name="pad"></param>
 		/// <param name="creator"></param>
-		private async void FlyShieldFly(Pad pad, ICombatEntity creator)
+		private async Task FlyShieldFly(Pad pad, ICombatEntity creator)
 		{
 			// Forward and back, hovering a moment in between.
 			await this.FlyForward(pad, creator);

@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
@@ -84,7 +85,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.7f, 0.7f, 90);
 			caster.Position = targetPos;
 
-			this.Attack(skill, caster, new Circle(targetPos.GetRelative(caster.Direction, 15f), 30));
+			var splashArea = new Circle(targetPos.GetRelative(caster.Direction, 15f), 30);
+
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -93,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(800);
 			var damageDelay = TimeSpan.FromMilliseconds(50);

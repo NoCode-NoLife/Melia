@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
@@ -45,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -54,7 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			// For monster skills the delay until the attack occurs
 			// appears to be be the hit delay, but while the hit delay

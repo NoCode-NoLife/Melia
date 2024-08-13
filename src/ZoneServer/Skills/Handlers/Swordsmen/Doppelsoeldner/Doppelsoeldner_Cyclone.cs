@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
@@ -75,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster);
+			CallSafe(this.Attack(skill, caster));
 		}
 
 		/// <summary>
@@ -83,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		private async void Attack(Skill skill, ICombatEntity caster)
+		private async Task Attack(Skill skill, ICombatEntity caster)
 		{
 			var hits = new List<SkillHitInfo>();
 			var hitDelay = TimeSpan.FromMilliseconds(30);

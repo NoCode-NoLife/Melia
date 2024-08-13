@@ -5,6 +5,7 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 {
@@ -66,24 +67,33 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public async void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = DamageReductionBase + skillLevel * DamageReductionPerLevel;
 
-			var delayTime = TimeSpan.FromMilliseconds(100);
+			var reflectedDamage = skillHitResult.Damage * multiplierReduction;
 
 			// Peltasta39 turns this into a damage reflect instead,
 			// though the damage taken isn't reduced.
 			if (target.IsAbilityActive(AbilityId.Peltasta39))
-			{
-				var reflectedDamage = skillHitResult.Damage * multiplierReduction;
+				CallSafe(this.ReflectDamage(attacker, target, reflectedDamage));
+		}
 
-				// We delay the reflect hit so the animation looks better
-				await Task.Delay(delayTime);
+		/// <summary>
+		/// Hits target with a reflected hit.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skillHitResult"></param>
+		/// <param name="damage"></param>
+		/// <returns></returns>
+		private async Task ReflectDamage(ICombatEntity attacker, ICombatEntity target, float damage)
+		{
+			// We delay the reflect hit so the animation looks better
+			await Task.Delay(100);
 
-				attacker.TakeSimpleHit(reflectedDamage, target, SkillId.None);
-			}
+			attacker.TakeSimpleHit(damage, target, SkillId.None);
 		}
 	}
 }

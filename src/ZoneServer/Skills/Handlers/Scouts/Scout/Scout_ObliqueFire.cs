@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scouts.Scout
@@ -49,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Scout
 
 			caster.StartBuff(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
-			this.Attack(skill, caster, target);
+			CallSafe(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -58,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Scout
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
+		private async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			var damageDelay = TimeSpan.FromMilliseconds(270);
 			var skillHitDelay = TimeSpan.Zero;

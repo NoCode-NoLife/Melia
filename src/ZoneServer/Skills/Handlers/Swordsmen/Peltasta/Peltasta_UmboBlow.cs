@@ -12,6 +12,7 @@ using Melia.Zone.Skills.Handlers.Swordsmen.Peltasta.Abilities;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Util;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
@@ -51,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -60,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(400);
 			var damageDelay = TimeSpan.FromMilliseconds(50);

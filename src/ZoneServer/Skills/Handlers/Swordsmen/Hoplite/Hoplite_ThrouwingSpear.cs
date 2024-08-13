@@ -13,6 +13,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
@@ -51,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		public async void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
+		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -68,20 +69,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			if (caster is Character character)
 				Send.ZC_NORMAL.SkillItemToss(caster, "warrior_f_", "RH", farPos, "F_smoke177", 3, 0.2f, 0, 600, 1, 240, 295, 0, TimeSpan.FromSeconds(3));
 
-			this.Attack(skill, caster, new Circle(farPos, 50));
-
-			// This skill has a follow-up that uses a pad if Hoplite33 is active
-			if (caster.IsAbilityActive(AbilityId.Hoplite33))
-			{
-				await Task.Delay(HitDelay);
-
-				var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
-				pad.Position = farPos;
-				pad.Trigger.LifeTime = TimeSpan.FromSeconds(2);
-				pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
-
-				caster.Map.AddPad(pad);
-			}
+			CallSafe(this.Attack(skill, caster, new Circle(farPos, 50)));
+			CallSafe(this.Explosion(caster, skill, farPos));
 		}
 
 		/// <summary>
@@ -90,7 +79,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
@@ -128,6 +117,27 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 
+		/// <summary>
+		/// Executes follow-up attack if Hoplite33 is active.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="farPos"></param>
+		/// <returns></returns>
+		private async Task Explosion(ICombatEntity caster, Skill skill, Position farPos)
+		{
+			if (!caster.IsAbilityActive(AbilityId.Hoplite33))
+				return;
+
+			await Task.Delay(HitDelay);
+
+			var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
+			pad.Position = farPos;
+			pad.Trigger.LifeTime = TimeSpan.FromSeconds(2);
+			pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
+
+			caster.Map.AddPad(pad);
+		}
 
 		/// <summary>
 		/// Called by the spear explosion effect
