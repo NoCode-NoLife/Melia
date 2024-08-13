@@ -613,7 +613,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			var rnd = RandomProvider.Get();
 
-			foreach (var dropItem in this.StaticDrops)
+			while (this.StaticDrops.TryTake(out var dropItem))
 			{
 				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
 				var autoloot = autolootThreshold > 0;
