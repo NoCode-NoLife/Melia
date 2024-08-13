@@ -9,7 +9,6 @@
 /user/**
 /.env
 
-!/user/conf/
 !/user/conf/database-example.conf
 !/user/conf/database-example-for-docker.conf
 !/user/db/items-example.txt
