@@ -104,10 +104,19 @@ namespace Melia.Zone.Buffs
 		public bool HasDuration => this.Duration != TimeSpan.Zero;
 
 		/// <summary>
+		/// Gets or sets the time between updates.
+		/// </summary>
+		/// <remarks>
+		/// Defaults to the buff's update time from its data, but can be modified
+		/// to increase or decrease the time between updates going forward.
+		/// </remarks>
+		public TimeSpan UpdateTime { get; set; }
+
+		/// <summary>
 		/// Returns true if the the buff's data defines an update time.
 		/// </summary>
 		/// <returns></returns>
-		public bool HasUpdateTime => this.Data.UpdateTime != TimeSpan.Zero;
+		public bool HasUpdateTime => this.UpdateTime != TimeSpan.Zero;
 
 		/// <summary>
 		/// Gets or sets the next time the buff is updated.
@@ -173,8 +182,10 @@ namespace Melia.Zone.Buffs
 				this.RemovalTime = DateTime.Now.Add(remaining);
 			}
 
+			this.UpdateTime = this.Data.UpdateTime;
+
 			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
+				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
 		}
 
 		/// <summary>
@@ -227,8 +238,8 @@ namespace Melia.Zone.Buffs
 			if (DateTime.Now >= this.NextUpdateTime)
 			{
 				this.Handler?.WhileActive(this);
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
-				this.RunTime += this.Data.UpdateTime;
+				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
+				this.RunTime += this.UpdateTime;
 			}
 		}
 	}
