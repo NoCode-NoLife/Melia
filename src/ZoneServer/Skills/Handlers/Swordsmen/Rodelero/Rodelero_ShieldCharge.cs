@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -36,7 +37,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			caster.StartBuff(BuffId.ShieldCharge_Buff, TimeSpan.Zero);
+			caster.StartBuff(BuffId.ShieldCharge_Buff);
 
 			var pad = new Pad(PadName.Rodelero_ShieldCharge, caster, skill, new Square(caster.Position, caster.Direction, 20, 20));
 			pad.Position = caster.Position;

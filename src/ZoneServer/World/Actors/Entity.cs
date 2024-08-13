@@ -281,10 +281,9 @@ namespace Melia.Zone.World.Actors
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
 		/// <param name="buffId"></param>
-		/// <param name="duration"></param>
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, TimeSpan.MinValue, entity, SkillId.None);
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, Buff.DefaultDuration, entity, SkillId.None);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,

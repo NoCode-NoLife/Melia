@@ -13,6 +13,24 @@ namespace Melia.Zone.Buffs
 	/// </summary>
 	public class Buff : IUpdateable
 	{
+		/// <summary>
+		/// Returns a value that is recognized as the default duration for a buff.
+		/// </summary>
+		/// <remarks>
+		/// If this value is passed as the duration for a buff, it will use
+		/// the buff's default from its data.
+		/// </remarks>
+		public readonly static TimeSpan DefaultDuration = TimeSpan.MinValue;
+
+		/// <summary>
+		/// Returns a value that is recognized as an infinite duration for a buff.
+		/// </summary>
+		/// <remarks>
+		/// If this value is passed as the duration for a buff, it won't end
+		/// until it's removed manually.
+		/// </remarks>
+		public readonly static TimeSpan InfiniteDuration = TimeSpan.Zero;
+
 		private int _overbuffCounter;
 
 		/// <summary>
@@ -178,7 +196,7 @@ namespace Melia.Zone.Buffs
 			//if (this.Handler == null)
 			//	Log.Debug("Buff: No handler found for '{0}'.", buffId);
 
-			if (this.Duration == TimeSpan.MinValue)
+			if (this.Duration == DefaultDuration)
 				this.Duration = this.Data.Duration;
 
 			if (this.HasDuration)

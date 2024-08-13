@@ -199,7 +199,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
 			if (conn.Account.Premium.CanUseBuff)
-				character.StartBuff(BuffId.Premium_Token, TimeSpan.Zero);
+				character.StartBuff(BuffId.Premium_Token);
 
 			// ---- </PremiumStuff> -------------------------------------------------
 
