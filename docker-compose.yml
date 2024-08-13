@@ -12,7 +12,6 @@ services:
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
       - ./.mysql/:/var/lib/mysql
-      - ./Servers/entrypoint.sh:/docker-entrypoint.sh
     restart: ${SERVER_RESTART}
     env_file:
       - ./.env
@@ -21,9 +20,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 40
+
   melia-server:
     container_name: melia-server
     command: "./start ${ENVIRONMENT}"
+    # command: "tail -f /dev/null"
     build: "./Servers"
     networks:
       - melia-network

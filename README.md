@@ -12,7 +12,6 @@ with any services provided by game developers or publishers, and we don't
 endorse such actions. We're here to learn and create, not to steal or
 destroy.
 
-
 State of Development
 -----------------------------------------------------------------------------
 
@@ -23,6 +22,7 @@ of the typical features you would expect from an online RPG, but
 there's still a way to go before we'd call it truly playable.
 
 Specifically, some of the major features that are working are as follows:
+
 - Characters (creation, deletion, etc.)
 - Inventory (managing items, equipping, etc.)
 - Chat
@@ -34,7 +34,6 @@ Specifically, some of the major features that are working are as follows:
 - NPC dialogues and shops
 - Monster spawns
 - Quests
-
 
 Installation with Docker
 -----------------------------------------------------------------------------
@@ -50,9 +49,9 @@ pre-installed, so you don't have to worry about it.
 
 After cloning or downloading this repository, rename file `.env.example` to
 `.env` and change configuration as needed. Then, navigate to the project folder
-(where you'll find `docker-compose.yml` ) and run: 
+(where you'll find `docker-compose.yml` ) and run:
 
-```
+```bash
 docker compose build
 ```
 
@@ -61,13 +60,15 @@ build a new image with `./Servers/Dockerfile`, where our server dependencies
 are listed.
 
 Now, you can run:
-```
+
+```bash
 docker compose run --rm melia-server dotnet build
 ```
 
 This will create our server binaries, making it ready to start with our next
 command:
-```
+
+```bash
 docker compose up -d
 ```
 
@@ -76,14 +77,14 @@ browser and access [http://127.0.0.1/toslive/patch/serverlist.xml] to check
 if server is up and running.
 
 You can restart server if anything goes wrong using:
-```
+
+```bash
 docker compose restart
 ```
 
-If you change anything on source code, you need to run 
+If you change anything on source code, you need to run
 `docker compose run --rm melia-server dotnet build` again and restart your
 server with `docker compose restart`
-
 
 Database with Docker
 -----------------------------------------------------------------------------
@@ -92,9 +93,6 @@ With the Docker containers, we've added a PHPMyAdmin container, which can be
 accessed via [http://127.0.0.1:8080]. Default user is `root` and password
 is `123456` (You can change password on `.env`, but remember to change on
 `user/conf/database.conf` as well).
-
-By default, database will be loaded with data from `sql_start/Merge_All_SQLs.sql`.
-
 
 Client
 -----------------------------------------------------------------------------
@@ -108,7 +106,8 @@ Manage > Browse Local Files). Then, open `release/client.xml` with a text
 editor.
 
 Change the line which starts with `<GameOption ServerList [...]` to this:
-```
+
+```xml
 <GameOption ServerListURL="http://127.0.0.1/toslive/patch/serverlist.xml" StaticConfigURL="http://127.0.0.1/toslive/patch/" NewAccountURL="http://127.0.0.1/" PaymentURL="http://127.0.0.1/" LoadingImgURL="http://127.0.0.1/toslive/patch/loadingimg/" LoadingImgCount="10"/>
 ```
 
@@ -122,7 +121,8 @@ account, so, when logging in for the first time, use `new__` as a prefix
 to your username.
 
 Example:
-```
+
+```bash
 Username: new__myaccount
 Password: mypassword
 ```
@@ -132,19 +132,17 @@ This will create an account with username `myaccount` and password
 but you'll already be connected and playing. Next time, just login with
 your username without the `new__` prefix.
 
-
 Installation from scratch
 -----------------------------------------------------------------------------
 
-* Compile Melia
-* Run `sql/main.sql` to setup the database
-* Copy `system/conf/database.conf` to `user/conf/`,
+- Compile Melia
+- Run `sql/main.sql` to setup the database
+- Copy `system/conf/database.conf` to `user/conf/`,
   adjust the necessary values and remove the rest.
 
 Afterwards, you should be able to start Melia via the provided scripts or
 directly from the bin directories. If not, or if you need a more detailed
 guide, head over to our forum, the chat, or the wiki.
-
 
 Requirements to build from scratch
 -----------------------------------------------------------------------------
@@ -162,7 +160,6 @@ macOS, you will need to install the SDK as well.
 For more detailed instructions, please wait patiently while we give
 our documentation a much-needed overhaul. It's only a matter of time.
 
-
 Contribution
 -----------------------------------------------------------------------------
 
@@ -171,8 +168,7 @@ Check the file CONTRIBUTING.md for instructions on how you may contribute.
 Links
 -----------------------------------------------------------------------------
 
-* GitHub: https://github.com/NoCode-NoLife/melia
-* Wiki: https://github.com/NoCode-NoLife/melia/wiki
-* Forum: https://nocodenolife.org/forum/65-melia/
-* Chat: https://discord.gg/5sszEgw
-
+- GitHub: https://github.com/NoCode-NoLife/melia
+- Wiki: https://github.com/NoCode-NoLife/melia/wiki
+- Forum: https://nocodenolife.org/forum/65-melia/
+- Chat: https://discord.gg/5sszEgw
