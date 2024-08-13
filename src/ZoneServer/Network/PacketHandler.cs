@@ -199,7 +199,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
 			if (conn.Account.Premium.CanUseBuff)
-				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+				character.StartBuff(BuffId.Premium_Token, TimeSpan.Zero);
 
 			// ---- </PremiumStuff> -------------------------------------------------
 
@@ -2351,7 +2351,7 @@ namespace Melia.Zone.Network
 			// should handle it. Alternatively, we could also add a check
 			// here, to see if DashRun is already active. What's better
 			// is TBD.
-			character.Buffs.Start(BuffId.DashRun);
+			character.StartBuff(BuffId.DashRun);
 		}
 
 		/// <summary>
