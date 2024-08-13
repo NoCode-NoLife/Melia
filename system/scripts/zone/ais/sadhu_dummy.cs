@@ -40,7 +40,7 @@ public class SadhuDummyAiScript : AiScript
 		movement.SetMoveSpeedType(MoveSpeedType.Run);
 		movement.SetFixedMoveSpeed(45);
 
-		Log.Info("Setting the MoveType to run: {0}", 45);
+		Log.Info("Setting the MoveType to run - Speed: {0}", 45);
 
 		var master = GetMaster();
 		if (master != null)
