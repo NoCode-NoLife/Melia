@@ -1,4 +1,5 @@
-﻿using Yggdrasil.Configuration;
+﻿using System;
+using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
 {
@@ -7,6 +8,9 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class WorldConfFile : ConfFile
 	{
+		// ai.conf
+		public bool MonstersUsePathfinding { get; protected set; }
+
 		// drops.conf
 		public float SilverDropAmount { get; protected set; }
 		public float SilverDropRate { get; protected set; }
@@ -43,6 +47,10 @@ namespace Melia.Shared.Configuration.Files
 
 		// storage.conf
 		public int StorageFee { get; protected set; }
+		public int StorageExtCost { get; protected set; }
+		public int StorageDefaultSize { get; protected set; }
+		public int StorageMaxSize { get; protected set; }
+		public int StorageMaxExtensions { get; protected set; }
 		public bool StorageMultiStack { get; protected set; }
 
 		// summons.conf
@@ -77,6 +85,8 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
+			this.MonstersUsePathfinding = this.GetBool("monsters_use_pathfinding", true);
+
 			this.SilverDropAmount = this.GetFloat("silver_drop_amount", 100);
 			this.SilverDropRate = this.GetFloat("silver_drop_rate", 100);
 			this.EquipmentDropRate = this.GetFloat("equipment_drop_rate", 100);
@@ -92,6 +102,9 @@ namespace Melia.Shared.Configuration.Files
 			this.TargetedLittering = this.GetBool("targeted_littering", false);
 
 			this.StorageFee = this.GetInt("storage_fee", 20);
+			this.StorageExtCost = this.GetInt("storage_ext_cost", 20);
+			this.StorageDefaultSize = this.GetInt("storage_default_size", 60);
+			this.StorageMaxSize = this.GetInt("storage_max_size", 110);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
@@ -130,6 +143,20 @@ namespace Melia.Shared.Configuration.Files
 			this.EliteAlwaysAggressive = this.GetBool("elite_always_aggressive", true);
 			this.RedOrbJackpotRate = this.GetFloat("red_orb_jackpot_rate", 10000);
 			this.RedOrbEliteRate = this.GetFloat("red_orb_elite_rate", 1000);
+
+			this.ManualAdjustments();
+		}
+
+		private void ManualAdjustments()
+		{
+			// Round storage size to next full 10, since the client only extends
+			// in multiples of 10.
+			this.StorageDefaultSize = (int)Math.Ceiling(this.StorageDefaultSize / 10f) * 10;
+			this.StorageMaxSize = (int)Math.Ceiling(this.StorageMaxSize / 10f) * 10;
+
+			// Get the max number of storage extensions relative to the client's
+			// default (60), as that's the value the client works with.
+			this.StorageMaxExtensions = Math.Max(0, this.StorageMaxSize - 60) / 10;
 		}
 	}
 }

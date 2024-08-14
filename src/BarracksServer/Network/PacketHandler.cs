@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
 using Melia.Shared.Database;
@@ -574,18 +576,43 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(IBarracksConnection conn, Packet packet)
 		{
-			var checksum = packet.GetString(64);
+			var clientChecksum = packet.GetString(64);
 
 			if (!BarracksServer.Instance.Conf.Barracks.VerifyIpf)
 				return;
 
-			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Barracks.IpfChecksum + 0 /*conn.IntegritySeed*/);
-			var hash = MD5.Encode(bytes);
+			var serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum;
 
-			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();
-
-			if (!checksum.Equals(result, StringComparison.InvariantCultureIgnoreCase))
+			if (conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
 			{
+				Log.Info("Updating IPF checksum to '{0}' based on user '{1}'s request.", clientChecksum, conn.Account.Name);
+
+				serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum = clientChecksum;
+
+				var filePath = "user/conf/barracks.conf";
+
+				if (File.Exists(filePath))
+				{
+					var contents = File.ReadAllText(filePath);
+
+					if (contents.Contains("ipf_checksum"))
+						contents = Regex.Replace(contents, @"ipf_checksum\s*:\s*[a-fA-F0-9]+", "ipf_checksum: " + clientChecksum);
+					else
+						contents += Environment.NewLine + "ipf_checksum: " + clientChecksum;
+
+					File.WriteAllText(filePath, contents);
+				}
+				else
+				{
+					var contents = "ipf_checksum: " + clientChecksum + Environment.NewLine;
+					File.WriteAllText(filePath, contents);
+				}
+			}
+
+			if (!clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
+			{
+				Log.Warning("CB_CHECK_CLIENT_INTEGRITY: User '{0}' tried to log in with an invalid IPF checksum ({1}).", conn.Account.Name, clientChecksum);
+
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 
 				// Send these packets as well, even if the integrity check

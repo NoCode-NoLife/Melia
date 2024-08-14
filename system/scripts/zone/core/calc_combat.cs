@@ -98,15 +98,29 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_BeforeCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// Get base damage, incl. basic bonuses
 		skillHitResult.Damage = SCR_GetRandomAtk(attacker, target, skill, modifier, skillHitResult);
 
-		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
 		var skillAtkAdd = skill.Properties.GetFloat(PropertyName.SkillAtkAdd);
-		skillHitResult.Damage *= skillFactor / 100f;
 		skillHitResult.Damage += skillAtkAdd;
 
 		skillHitResult.Damage += modifier.BonusDamage;
 		skillHitResult.Damage *= modifier.DamageMultiplier;
+
+		// Apply defense to the base damage. This might've been done at different
+		// points in some versions of the game, but for the latest version it's
+		// important to do it before the skill factors are applied, as these may
+		// raise the damage to such heights that the target's defense becomes
+		// meaningless.
+		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
+		var def = target.Properties.GetFloat(defPropertyName);
+		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
+		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
+
+		// Apply the skill factor, raising the damage based on the skill's
+		// damage multiplier
+		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
+		skillHitResult.Damage *= skillFactor / 100f;
 
 		// Block needs to be calculated before criticals happen,
 		// but the damage must be reduced after defense reductions and modifiers
@@ -128,11 +142,6 @@ public class CombatCalculationsScript : GeneralScript
 
 			skillHitResult.Result = HitResultType.Crit;
 		}
-
-		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
-		var def = target.Properties.GetFloat(defPropertyName);
-		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
-		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
 		SCR_Combat_BeforeBonuses(attacker, target, skill, modifier, skillHitResult);
 
@@ -187,6 +196,14 @@ public class CombatCalculationsScript : GeneralScript
 		skillHitResult.Damage *= modifier.FinalDamageMultiplier;
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
+
+		// Let monster-specific functions override the damage calculation,
+		// but do it after the basic calculations have been done, so we
+		// can utilize them. For example, we can double or half damage
+		// that way, or let crit animations happen, even if we might
+		// reduce the damage to 1.
+		if (target is Mob mob && ScriptableFunctions.Combat.TryGet("SCR_CalculateDamage_Monster_" + mob.Data.ClassName, out var mobCalcFunc))
+			mobCalcFunc(attacker, target, skill, modifier, skillHitResult);
 
 		return (int)skillHitResult.Damage;
 	}
@@ -563,6 +580,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.Unblockable)
+			return 0;
+
 		if (modifier.ForcedBlock)
 			return 100;
 
@@ -617,8 +637,10 @@ public class CombatCalculationsScript : GeneralScript
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
-		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
+		var critChance = Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f);
 
-		return (float)blockChance;
+		critChance = Math2.Clamp(modifier.MinCritChance, 100, critChance);
+
+		return (float)critChance;
 	}
 }

@@ -9252,6 +9252,10 @@
 		public const string CONTENTS_TOTAL_SHOP_POSE_23 = "CONTENTS_TOTAL_SHOP_POSE_23";
 		public const string CONTENTS_TOTAL_SHOP_POSE_21 = "CONTENTS_TOTAL_SHOP_POSE_21";
 		public const string EVENT_2407_RAINBOW_WEEK_COUNT = "EVENT_2407_RAINBOW_WEEK_COUNT";
+		public const string PAPAYA_RETURN_REWARD_ONCE_139129 = "PAPAYA_RETURN_REWARD_ONCE_139129";
+		public const string laima1 = "laima1";
+		public const string laima2 = "laima2";
+		public const string Cupole_033 = "Cupole_033";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

@@ -4104,6 +4104,7 @@ public static class MonsterId
 	public const int Kupole_Saule_UR = 600042;
 	public const int Kupole_Laima_UR = 600043;
 	public const int Kupole_Maid_Ruta_UR = 600044;
+	public const int Kupole_Summer_Zesty_UR = 600045;
 	public const int Cupole_Amongd_R_Render = 610013;
 	public const int Cupole_Aristowl_Sr_Render = 610014;
 	public const int Cupole_Amongdmage_R_Render = 610015;
@@ -4135,6 +4136,7 @@ public static class MonsterId
 	public const int Kupole_Saule_UR_Render = 610042;
 	public const int Kupole_Laima_UR_Render = 610043;
 	public const int Kupole_Maid_Ruta_UR_Render = 610044;
+	public const int Kupole_Summer_Zesty_UR_Render = 610045;
 	public const int GRB_SAMPLE_1 = 700000;
 	public const int GFB_Boss_Hauberk = 700001;
 	public const int GFB_Boss_Woodspirit = 700002;

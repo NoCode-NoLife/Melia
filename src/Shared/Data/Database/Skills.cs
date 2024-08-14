@@ -8,7 +8,7 @@ using Yggdrasil.Data.JSON;
 namespace Melia.Shared.Data.Database
 {
 	[Serializable]
-	public class SkillData
+	public class SkillData : ITagged
 	{
 		public SkillId Id { get; set; }
 		public string ClassName { get; set; }
@@ -19,6 +19,7 @@ namespace Melia.Shared.Data.Database
 		public SkillAttackType AttackType { get; set; }
 		public SkillAttribute Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
+		public Tags Tags { get; set; }
 
 		public float BasicSp { get; set; }
 		public float BasicStamina { get; set; }
@@ -240,6 +241,8 @@ namespace Melia.Shared.Data.Database
 			data.OverheatGroup = entry.ReadEnum<CooldownId>("overheatGroup", CooldownId.Default);
 			data.OverheatCount = entry.ReadInt("overheatCount", 0);
 			data.OverHeatDelay = entry.ReadTimeSpan("overheatDelay", TimeSpan.Zero);
+
+			data.Tags = new Tags(entry.ReadList<string>("tags", []));
 
 			this.AddOrReplace(data.Id, data);
 		}

@@ -5678,6 +5678,20 @@ public static class ItemId
 	public const int Event_PAPAYA_Attendance_Welcome_Box_12 = 10003677;
 	public const int Event_PAPAYA_Attendance_Welcome_Box_13 = 10003678;
 	public const int Event_PAPAYA_Attendance_Welcome_Box_14 = 10003679;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_1 = 10003681;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_2 = 10003682;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_3 = 10003683;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_4 = 10003684;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_5 = 10003685;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_6 = 10003686;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_7 = 10003687;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_8 = 10003688;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_9 = 10003689;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_10 = 10003690;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_11 = 10003691;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_12 = 10003692;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_13 = 10003693;
+	public const int Event_PAPAYA_Attendance_Welcome_Box_139129_14 = 10003694;
 	public const int TWN_Event_2303_Attendance_Box_0 = 10006501;
 	public const int TWN_Event_2303_Attendance_Box_1 = 10006502;
 	public const int TWN_Event_2303_Attendance_Box_2 = 10006503;
@@ -12044,12 +12058,18 @@ public static class ItemId
 
 	// Item_Consume
 	//-----------------------------------------------------------------------
-	public const int Rerun_Ticket_2023_Special = 490501;
-	public const int Rerun_Ticket_2023_Costume = 490502;
-	public const int Rerun_Ticket_2023_Weapon = 490503;
 	public const int Cupole_Rankup_UR = 11200379;
 	public const int Cupole_Rankup_SR = 11200380;
 	public const int Cupole_Rankup_R = 11200381;
+	public const int I2023_Reprint_Ticket_Special = 11205220;
+	public const int I2023_Reprint_Ticket_Costume = 11205221;
+	public const int I2023_Reprint_Ticket_Weapon = 11205222;
+	public const int I2022_Reprint_Ticket_Special = 11205224;
+	public const int I2022_Reprint_Ticket_Costume = 11205225;
+	public const int I2022_Reprint_Ticket_Weapon = 11205226;
+	public const int I2021_Reprint_Ticket_Special = 11205229;
+	public const int I2021_Reprint_Ticket_Costume = 11205230;
+	public const int I2021_Reprint_Ticket_Weapon = 11205231;
 
 	// LegendMaterial
 	//-----------------------------------------------------------------------
@@ -14931,6 +14951,7 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char2_25_NoTrade = 494437;
 	public const int HiddenJobUnlock_Char1_25_NoTrade = 494438;
 	public const int HiddenJobUnlock_Char4_23_NoTrade = 494439;
+	public const int HiddenJobUnlock_Char1_26_NoTrade = 494440;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -17549,6 +17570,8 @@ public static class ItemId
 	public const int Wing_Ep14furry01 = 11008042;
 	public const int Wing_Poporion = 11008043;
 	public const int Wing_GoddessLaima_Papaya = 11008044;
+	public const int Wing_Ocelotbag_Black_NoTrade = 11008045;
+	public const int Wing_Ocelotbag_White_NoTrade = 11008046;
 	public const int Effect_Littleprince = 11009001;
 	public const int Effect_Ep12wedding = 11009002;
 	public const int Effect_Catagnan = 11009003;
@@ -18980,6 +19003,10 @@ public static class ItemId
 	public const int Certificate_RidePet_Capybara = 11205217;
 	public const int Selectbox_Specialclass_01 = 11205218;
 	public const int Goddess_Fragments_Lada_AIO = 11205219;
+	public const int Special_Gift_Box_Leticia_2407_PAPAYA = 11205223;
+	public const int Special_Gift_Box_Leticia_2408 = 11205227;
+	public const int Selectbox_Ocelot_Bag_NoTrade = 11205228;
+	public const int Selectbox_Specialclass_01_Trade = 11205232;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

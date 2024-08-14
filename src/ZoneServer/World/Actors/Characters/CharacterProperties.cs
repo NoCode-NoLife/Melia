@@ -267,7 +267,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			if (character.IsSitting)
 			{
-				character.Buffs.Start(BuffId.Rest, TimeSpan.Zero);
+				character.StartBuff(BuffId.Rest);
 			}
 			else
 			{

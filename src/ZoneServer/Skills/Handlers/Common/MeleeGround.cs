@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Util;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Common
@@ -42,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, originPos, farPos, targets);
+			CallSafe(this.Attack(skill, caster, originPos, farPos, targets));
 		}
 
 		/// <summary>
@@ -53,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 		/// <param name="castPosition"></param>
 		/// <param name="targetPosition"></param>
 		/// <param name="targets"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets)
+		private async Task Attack(Skill skill, ICombatEntity caster, Position castPosition, Position targetPosition, IEnumerable<ICombatEntity> targets)
 		{
 			// Based on Normal_Attack posessing a hit delay of 100ms,
 			// and Common_DaggerAries one of 50ms, and these two values

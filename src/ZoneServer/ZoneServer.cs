@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -119,6 +120,8 @@ namespace Melia.Zone
 			this.LoadScripts("zone");
 			this.LoadIesMods();
 			this.StartWorld();
+
+			var skill = this.Data.SkillDb.Find("Bow_Hanging_Attack");
 
 			this.StartCommunicator();
 			this.StartAcceptor();
@@ -322,6 +325,8 @@ namespace Melia.Zone
 			}
 
 			this.IesMods.Add("SharedConst", 177, "Value", this.Conf.World.StorageFee); // WAREHOUSE_PRICE
+			this.IesMods.Add("SharedConst", 10004, "Value", this.Conf.World.StorageExtCost); // WAREHOUSE_EXTEND_PRICE
+			this.IesMods.Add("SharedConst", 10010, "Value", this.Conf.World.StorageMaxExtensions); // WAREHOUSE_MAX_COUNT
 			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
 		}
 
