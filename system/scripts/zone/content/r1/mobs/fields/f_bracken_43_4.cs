@@ -16,7 +16,7 @@ public class FBracken434MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_4.Id1", MonsterId.Vilkas_Warrior, min: 30, max: 40);
-		AddSpawner("f_bracken_43_4.Id2", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_4.Id2", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_bracken_43_4.Id3", MonsterId.Vilkas_Spearman, min: 23, max: 30);
 		AddSpawner("f_bracken_43_4.Id4", MonsterId.Vilkas_Fighter, amount: 1);
 		AddSpawner("f_bracken_43_4.Id5", MonsterId.Vilkas_Mage, min: 19, max: 25);

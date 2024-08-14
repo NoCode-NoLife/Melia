@@ -20,7 +20,7 @@ public class DUnderfortress593MobScript : GeneralScript
 		AddSpawner("d_underfortress_59_3.Id3", MonsterId.FD_Deadbornscab, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_3.Id4", MonsterId.FD_Hallowventor, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_3.Id5", MonsterId.Fortress_Rock, amount: 1, tendency: TendencyType.Peaceful);
-		AddSpawner("d_underfortress_59_3.Id6", MonsterId.Rootcrystal_03, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_3.Id6", MonsterId.Rootcrystal_03, min: 14, max: 18, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_59_3.Id7", MonsterId.FD_Shredded, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_3.Id8", MonsterId.FD_Deadbornscab, min: 12, max: 15, tendency: TendencyType.Aggressive);
 

@@ -15,7 +15,7 @@ public class FTableland282MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_28_2.Id1", MonsterId.Rootcrystal_03, min: 9, max: 11, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_tableland_28_2.Id1", MonsterId.Rootcrystal_03, min: 9, max: 11, respawn: Seconds(5));
 		AddSpawner("f_tableland_28_2.Id2", MonsterId.Siaulav_Blue, min: 23, max: 30);
 		AddSpawner("f_tableland_28_2.Id3", MonsterId.Siaulav_Mage_Blue, min: 12, max: 15);
 		AddSpawner("f_tableland_28_2.Id4", MonsterId.Siaulav_Bow_Blue, min: 12, max: 15);

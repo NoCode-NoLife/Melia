@@ -23,7 +23,7 @@ public class F3Cmlake271MobScript : GeneralScript
 
 		AddSpawner("f_3cmlake_27_1.Id1", MonsterId.Amacalf, min: 88, max: 117);
 		AddSpawner("f_3cmlake_27_1.Id2", MonsterId.Amphibigola, min: 92, max: 122);
-		AddSpawner("f_3cmlake_27_1.Id3", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_27_1.Id3", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

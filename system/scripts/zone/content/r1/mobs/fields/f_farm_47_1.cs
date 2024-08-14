@@ -23,7 +23,7 @@ public class FFarm471MobScript : GeneralScript
 		AddSpawner("f_farm_47_1.Id1", MonsterId.Pino_White, min: 30, max: 40);
 		AddSpawner("f_farm_47_1.Id2", MonsterId.Geppetto_White, min: 30, max: 40);
 		AddSpawner("f_farm_47_1.Id3", MonsterId.Pino_White, min: 12, max: 15);
-		AddSpawner("f_farm_47_1.Id4", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_farm_47_1.Id4", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

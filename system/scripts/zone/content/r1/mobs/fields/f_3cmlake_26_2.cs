@@ -15,7 +15,7 @@ public class F3Cmlake262MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_3cmlake_26_2.Id1", MonsterId.RootCrystal_A, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("f_3cmlake_26_2.Id1", MonsterId.RootCrystal_A, min: 18, max: 23, respawn: Seconds(10));
 		AddSpawner("f_3cmlake_26_2.Id2", MonsterId.Lakegolem, min: 6, max: 7);
 		AddSpawner("f_3cmlake_26_2.Id3", MonsterId.Pondus, min: 27, max: 36);
 		AddSpawner("f_3cmlake_26_2.Id4", MonsterId.Anchor_Golem, min: 13, max: 17);

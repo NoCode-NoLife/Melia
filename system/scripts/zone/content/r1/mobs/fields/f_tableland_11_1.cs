@@ -15,12 +15,12 @@ public class FTableland111MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_tableland_11_1.Id1", MonsterId.Saltisdaughter_Red, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_11_1.Id2", MonsterId.Saltisdaughter_Bow_Green, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_11_1.Id3", MonsterId.Repusbunny_Mage_Green, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_11_1.Id4", MonsterId.Groll_White, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_11_1.Id5", MonsterId.Groll_White, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_11_1.Id6", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_11_1.Id1", MonsterId.Saltisdaughter_Red, min: 23, max: 30, respawn: Minutes(1));
+		AddSpawner("f_tableland_11_1.Id2", MonsterId.Saltisdaughter_Bow_Green, min: 15, max: 20, respawn: Minutes(1));
+		AddSpawner("f_tableland_11_1.Id3", MonsterId.Repusbunny_Mage_Green, min: 15, max: 20, respawn: Minutes(1));
+		AddSpawner("f_tableland_11_1.Id4", MonsterId.Groll_White, min: 19, max: 25, respawn: Minutes(1));
+		AddSpawner("f_tableland_11_1.Id5", MonsterId.Groll_White, min: 30, max: 40, respawn: Minutes(1));
+		AddSpawner("f_tableland_11_1.Id6", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

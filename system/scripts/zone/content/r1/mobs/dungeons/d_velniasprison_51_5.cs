@@ -21,7 +21,7 @@ public class DVelniasprison515MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_velniasprison_51_5.Id1", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_51_5.Id1", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_velniasprison_51_5.Id2", MonsterId.Mushroom_Boy_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_5.Id3", MonsterId.Hohen_Mage, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_5.Id4", MonsterId.Mushroom_Boy_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);

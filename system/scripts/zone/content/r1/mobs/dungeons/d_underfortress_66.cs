@@ -26,7 +26,7 @@ public class DUnderfortress66MobScript : GeneralScript
 		AddSpawner("d_underfortress_66.Id1", MonsterId.Chafperor_Purple, min: 75, max: 100, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_66.Id2", MonsterId.Chafperor_Mage_Purple, min: 12, max: 16, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_66.Id3", MonsterId.Ticen_Mage_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_66.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_66.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: Seconds(20), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

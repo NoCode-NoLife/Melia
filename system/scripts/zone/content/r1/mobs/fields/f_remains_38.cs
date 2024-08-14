@@ -21,7 +21,7 @@ public class FRemains38MobScript : GeneralScript
 		AddSpawner("f_remains_38.Id4", MonsterId.Lizardman, min: 8, max: 10);
 		AddSpawner("f_remains_38.Id5", MonsterId.Lizardman, min: 15, max: 20);
 		AddSpawner("f_remains_38.Id6", MonsterId.InfroBurk, min: 23, max: 30);
-		AddSpawner("f_remains_38.Id7", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_38.Id7", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: Minutes(1));
 		AddSpawner("f_remains_38.Id8", MonsterId.Stub_Tree_Mage, min: 8, max: 10);
 		AddSpawner("f_remains_38.Id9", MonsterId.Long_Arm, min: 23, max: 30);
 

@@ -15,7 +15,7 @@ public class FKatyn13MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_13.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_13.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(5));
 		AddSpawner("f_katyn_13.Id2", MonsterId.HighBube_Spear, min: 15, max: 20);
 		AddSpawner("f_katyn_13.Id3", MonsterId.HighBube_Archer, min: 15, max: 20);
 		AddSpawner("f_katyn_13.Id4", MonsterId.Arburn_Pokubu_Green, min: 30, max: 40);

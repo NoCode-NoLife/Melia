@@ -15,7 +15,7 @@ public class FRokas26MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_rokas_26.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_26.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: Seconds(5));
 		AddSpawner("f_rokas_26.Id2", MonsterId.Wendigo, min: 19, max: 25);
 		AddSpawner("f_rokas_26.Id3", MonsterId.Dumaro, min: 49, max: 65);
 		AddSpawner("f_rokas_26.Id4", MonsterId.Dumaro, min: 9, max: 12);

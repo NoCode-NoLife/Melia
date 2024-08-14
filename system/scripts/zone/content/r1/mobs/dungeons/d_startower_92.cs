@@ -28,7 +28,7 @@ public class DStartower92MobScript : GeneralScript
 		AddSpawner("d_startower_92.Id2", MonsterId.Piang, min: 42, max: 55);
 		AddSpawner("d_startower_92.Id3", MonsterId.Vespera, min: 22, max: 29);
 		AddSpawner("d_startower_92.Id4", MonsterId.Vesperia, min: 6, max: 7);
-		AddSpawner("d_startower_92.Id5", MonsterId.Rootcrystal_02, min: 17, max: 22, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_92.Id5", MonsterId.Rootcrystal_02, min: 17, max: 22, respawn: Seconds(10));
 
 		// Monster Spawn Points -----------------------------
 

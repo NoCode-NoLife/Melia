@@ -15,13 +15,13 @@ public class FWhitetrees561MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_56_1.Id1", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_whitetrees_56_1.Id1", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_whitetrees_56_1.Id2", MonsterId.Floron, min: 23, max: 30);
 		AddSpawner("f_whitetrees_56_1.Id3", MonsterId.Florabbi, min: 23, max: 30);
 		AddSpawner("f_whitetrees_56_1.Id4", MonsterId.Budny, min: 23, max: 30);
 		AddSpawner("f_whitetrees_56_1.Id5", MonsterId.Bloom, min: 30, max: 40);
-		AddSpawner("f_whitetrees_56_1.Id6", MonsterId.Castle_Gardner, amount: 1, respawn: TimeSpan.FromMilliseconds(1800000));
-		AddSpawner("f_whitetrees_56_1.Id7", MonsterId.Florabbi, min: 7, max: 9, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_whitetrees_56_1.Id6", MonsterId.Castle_Gardner, amount: 1, respawn: Minutes(30));
+		AddSpawner("f_whitetrees_56_1.Id7", MonsterId.Florabbi, min: 7, max: 9, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

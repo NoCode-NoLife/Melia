@@ -23,7 +23,7 @@ public class FFlash59MobScript : GeneralScript
 
 		AddSpawner("f_flash_59.Id1", MonsterId.Jukopus_Gray, min: 23, max: 30);
 		AddSpawner("f_flash_59.Id2", MonsterId.Rambear, min: 12, max: 15);
-		AddSpawner("f_flash_59.Id3", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_59.Id3", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(20));
 		AddSpawner("f_flash_59.Id4", MonsterId.Rambear, min: 9, max: 12);
 		AddSpawner("f_flash_59.Id5", MonsterId.Goblin2_Wand1, min: 8, max: 10);
 		AddSpawner("f_flash_59.Id6", MonsterId.Jukopus_Gray, min: 57, max: 75);

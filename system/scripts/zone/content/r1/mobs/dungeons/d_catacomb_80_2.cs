@@ -27,7 +27,7 @@ public class DCatacomb802MobScript : GeneralScript
 		AddSpawner("d_catacomb_80_2.Id10", MonsterId.ERD_Wendigo_Magician_Blue, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_catacomb_80_2.Id11", MonsterId.ERD_Kepari_Mage, min: 12, max: 16, tendency: TendencyType.Aggressive);
 		AddSpawner("d_catacomb_80_2.Id12", MonsterId.ERD_Mushroom_Ent_Green, min: 4, max: 5, tendency: TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_2.Id13", MonsterId.Rootcrystal_05, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_catacomb_80_2.Id13", MonsterId.Rootcrystal_05, min: 15, max: 20, respawn: Seconds(20), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

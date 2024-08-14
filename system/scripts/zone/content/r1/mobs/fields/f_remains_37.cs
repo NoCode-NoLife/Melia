@@ -22,7 +22,7 @@ public class FRemains37MobScript : GeneralScript
 		AddSpawner("f_remains_37.Id5", MonsterId.TreeAmbulo, min: 19, max: 25);
 		AddSpawner("f_remains_37.Id6", MonsterId.Tama, min: 30, max: 40);
 		AddSpawner("f_remains_37.Id7", MonsterId.TreeAmbulo, min: 30, max: 40);
-		AddSpawner("f_remains_37.Id8", MonsterId.Rootcrystal_01, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_37.Id8", MonsterId.Rootcrystal_01, min: 4, max: 5, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

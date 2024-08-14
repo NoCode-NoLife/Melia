@@ -29,7 +29,7 @@ public class DChapel576MobScript : GeneralScript
 		AddSpawner("d_chapel_57_6.Id4", MonsterId.Corylus, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_6.Id5", MonsterId.Pawnd, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_6.Id6", MonsterId.Pawnd, min: 12, max: 15, tendency: TendencyType.Aggressive);
-		AddSpawner("d_chapel_57_6.Id7", MonsterId.Rootcrystal_01, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_chapel_57_6.Id7", MonsterId.Rootcrystal_01, min: 15, max: 20, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_chapel_57_6.Id8", MonsterId.Galok, amount: 3, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_6.Id9", MonsterId.Pawndel, min: 5, max: 6, tendency: TendencyType.Aggressive);
 

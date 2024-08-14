@@ -25,7 +25,7 @@ public class DPrison78MobScript : GeneralScript
 		AddSpawner("d_prison_78.Id1", MonsterId.TerraNymph_Brown, min: 34, max: 45, tendency: TendencyType.Aggressive);
 		AddSpawner("d_prison_78.Id2", MonsterId.NightMaiden_Mage_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_prison_78.Id3", MonsterId.Elet_Blue, min: 8, max: 10, tendency: TendencyType.Aggressive);
-		AddSpawner("d_prison_78.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_prison_78.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("d_prison_78.Id5", MonsterId.TerraNymph_Brown, min: 27, max: 35, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------

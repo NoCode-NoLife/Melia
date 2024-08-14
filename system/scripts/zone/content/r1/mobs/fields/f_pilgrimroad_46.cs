@@ -23,7 +23,7 @@ public class FPilgrimroad46MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_pilgrimroad_46.Id1", MonsterId.Kepari, min: 12, max: 15);
-		AddSpawner("f_pilgrimroad_46.Id2", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_46.Id2", MonsterId.Rootcrystal_01, min: 11, max: 14, respawn: Seconds(5));
 		AddSpawner("f_pilgrimroad_46.Id3", MonsterId.Kepari, min: 12, max: 15);
 		AddSpawner("f_pilgrimroad_46.Id4", MonsterId.Kepo_Seed, min: 12, max: 15);
 		AddSpawner("f_pilgrimroad_46.Id5", MonsterId.Kepo_Seed, min: 8, max: 10);

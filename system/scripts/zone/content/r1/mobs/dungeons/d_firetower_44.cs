@@ -24,7 +24,7 @@ public class DFiretower44MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_44.Id1", MonsterId.Rootcrystal_01, min: 9, max: 11, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_44.Id1", MonsterId.Rootcrystal_01, min: 9, max: 11, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_44.Id2", MonsterId.New_Desmodus_Black, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_44.Id3", MonsterId.Wizards_Marmotte, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_44.Id4", MonsterId.Flask, min: 12, max: 15, tendency: TendencyType.Aggressive);

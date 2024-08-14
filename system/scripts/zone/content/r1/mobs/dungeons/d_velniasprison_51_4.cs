@@ -29,7 +29,7 @@ public class DVelniasprison514MobScript : GeneralScript
 		AddSpawner("d_velniasprison_51_4.Id3", MonsterId.Nuo, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_4.Id4", MonsterId.Nuo, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_4.Id5", MonsterId.Socket, min: 23, max: 30, tendency: TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_4.Id6", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_51_4.Id6", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_velniasprison_51_4.Id7", MonsterId.Mushroom_Ent_Green, min: 4, max: 5, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------

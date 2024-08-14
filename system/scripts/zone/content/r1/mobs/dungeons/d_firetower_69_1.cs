@@ -23,7 +23,7 @@ public class DFiretower691MobScript : GeneralScript
 		AddSpawner("d_firetower_69_1.Id6", MonsterId.Wizards_Marmotte_Red, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_69_1.Id7", MonsterId.Wizards_Marmotte_Red, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_69_1.Id8", MonsterId.Pyran_Yellow, min: 15, max: 20, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_69_1.Id9", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_69_1.Id9", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

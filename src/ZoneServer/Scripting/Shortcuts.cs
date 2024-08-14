@@ -117,5 +117,37 @@ namespace Melia.Zone.Scripting
 
 			return result.ToString();
 		}
+
+		/// <summary>
+		/// Returns a time span of the given amount of hours.
+		/// </summary>
+		/// <param name="hours"></param>
+		/// <returns></returns>
+		public static TimeSpan Hours(double hours)
+			=> TimeSpan.FromHours(hours);
+
+		/// <summary>
+		/// Returns a time span of the given amount of minutes.
+		/// </summary>
+		/// <param name="minutes"></param>
+		/// <returns></returns>
+		public static TimeSpan Minutes(double minutes)
+			=> TimeSpan.FromMinutes(minutes);
+
+		/// <summary>
+		/// Returns a time span of the given amount of seconds.
+		/// </summary>
+		/// <param name="seconds"></param>
+		/// <returns></returns>
+		public static TimeSpan Seconds(double seconds)
+			=> TimeSpan.FromSeconds(seconds);
+
+		/// <summary>
+		/// Returns a time span of the given amount of milliseconds.
+		/// </summary>
+		/// <param name="milliseconds"></param>
+		/// <returns></returns>
+		public static TimeSpan Milliseconds(double milliseconds)
+			=> TimeSpan.FromMilliseconds(milliseconds);
 	}
 }

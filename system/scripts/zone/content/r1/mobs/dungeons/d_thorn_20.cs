@@ -25,7 +25,7 @@ public class DThorn20MobScript : GeneralScript
 
 		AddSpawner("d_thorn_20.Id1", MonsterId.Flower_Blue, min: 9, max: 12);
 		AddSpawner("d_thorn_20.Id2", MonsterId.Groll, min: 57, max: 75);
-		AddSpawner("d_thorn_20.Id3", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_thorn_20.Id3", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(30));
 		AddSpawner("d_thorn_20.Id4", MonsterId.Groll, min: 15, max: 20);
 		AddSpawner("d_thorn_20.Id5", MonsterId.Merog_Wizzard, min: 12, max: 15);
 		AddSpawner("d_thorn_20.Id6", MonsterId.Bagworm, min: 15, max: 20);
