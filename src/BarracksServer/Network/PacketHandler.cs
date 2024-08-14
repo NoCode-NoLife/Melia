@@ -1,13 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
+using Melia.Barracks.Events;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -45,6 +47,17 @@ namespace Melia.Barracks.Network
 			if (serviceNation == "TAIWAN")
 			{
 				Send.BC_MESSAGE(conn, "The TAIWAN service nation login is currently not supported. Please use the GLOBAL service nation instead.");
+				conn.Close(100);
+				return;
+			}
+
+			// Check the account name, which is commonly empty if the static
+			// configuration is set up incorrectly. Shouldn't cause any false
+			// positives, because the client won't allow you to click Enter
+			// without an account name.
+			if (accountName == "")
+			{
+				Send.BC_MESSAGE(conn, "It appears like your client is not configured incorrectly. Please check your static configuration.");
 				conn.Close(100);
 				return;
 			}
@@ -95,6 +108,8 @@ namespace Melia.Barracks.Network
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 
 			Send.BC_LOGINOK(conn);
+
+			BarracksServer.Instance.ServerEvents.OnUserLoggedIn(conn);
 		}
 
 		/// <summary>
@@ -123,6 +138,8 @@ namespace Melia.Barracks.Network
 			// Client closes connection without this as well, but it waits a
 			// few seconds to do so.
 			Send.BC_LOGOUTOK(conn);
+
+			BarracksServer.Instance.ServerEvents.OnUserLoggedOut(conn);
 		}
 
 		/// <summary>
@@ -148,12 +165,22 @@ namespace Melia.Barracks.Network
 			Send.BC_NORMAL.CharacterInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
 			Send.BC_NORMAL.ZoneTraffic(conn);
-			//Send.BC_NORMAL.MESSAGE_MAIL(conn);
+
+			if (conn.Account.Mailbox.HasMessages)
+			{
+				var messages = conn.Account.Mailbox.GetPagedMessages();
+				var totalMessageCount = conn.Account.Mailbox.MessageCount;
+				var page = 1;
+
+				Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
+			}
 
 			// Update account properties with Lua code to send scripts
 			// to the client
 			//conn.Account.Properties.String("foobar").Value = "print('Hello, World!')";
 			//Send.BC_ACCOUNT_PROP(conn, conn.Account);
+
+			BarracksServer.Instance.ServerEvents.OnUserEntered(conn);
 		}
 
 		/// <summary>
@@ -272,8 +299,8 @@ namespace Melia.Barracks.Network
 			var barrackPos = packet.GetPosition();
 			var lodge = packet.GetInt();
 			var startMap = packet.GetInt(); // [i354444] Added. 0 = lv 440 character, 1 = lv 1 character, internally called map select
-			var hair = packet.GetByte();
-			var bin1 = packet.GetBin(5);
+			var hair = packet.GetShort();
+			var skinColor = packet.GetUInt();
 
 			// Check job
 			if (job != JobId.Swordsman && job != JobId.Wizard && job != JobId.Archer && job != JobId.Cleric && job != JobId.Scout)
@@ -287,6 +314,21 @@ namespace Melia.Barracks.Network
 			if (gender < Gender.Male || gender > Gender.Female)
 			{
 				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to create character with invalid gender '{1}'.", conn.Account.Name, gender);
+				conn.Close();
+				return;
+			}
+
+			// Check skin color
+			if (!BarracksServer.Instance.Data.SkinToneDb.TryGetByColor(skinColor, out var skinToneData))
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the unregistered skin tone '0x{1:X8}'.", conn.Account.Name, skinColor);
+				conn.Close();
+				return;
+			}
+
+			if (!skinToneData.Creation)
+			{
+				Log.Warning("CB_COMMANDER_CREATE: User '{0}' tried to use the skin ton '0x{1:X8}', which can't be used on creation.", conn.Account.Name, skinColor);
 				conn.Close();
 				return;
 			}
@@ -331,6 +373,7 @@ namespace Melia.Barracks.Network
 			character.JobId = job;
 			character.Gender = gender;
 			character.Hair = hair;
+			character.SkinColor = skinColor;
 
 			character.MapId = startMapData.Id;
 			character.Position = startPosition;
@@ -351,10 +394,14 @@ namespace Melia.Barracks.Network
 			//character.SprByJob = jobData.Spr;
 			//character.DexByJob = jobData.Dex;
 
+			BarracksServer.Instance.ServerEvents.OnCreatingCharacter(new CharacterEventArgs(conn, character));
+
 			conn.Account.CreateCharacter(character);
 
 			Send.BC_COMMANDER_CREATE_SLOTID(conn, character);
 			Send.BC_COMMANDER_CREATE(conn, character);
+
+			BarracksServer.Instance.ServerEvents.OnCharacterCreated(new CharacterEventArgs(conn, character));
 		}
 
 		/// <summary>
@@ -386,6 +433,8 @@ namespace Melia.Barracks.Network
 
 			Send.BC_COMMANDER_DESTROY(conn, character.Index);
 			Send.BC_NORMAL.TeamUI(conn);
+
+			BarracksServer.Instance.ServerEvents.OnCharacterRemoved(new CharacterEventArgs(conn, character));
 		}
 
 		/// <summary>
@@ -532,18 +581,43 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(IBarracksConnection conn, Packet packet)
 		{
-			var checksum = packet.GetString(64);
+			var clientChecksum = packet.GetString(64);
 
 			if (!BarracksServer.Instance.Conf.Barracks.VerifyIpf)
 				return;
 
-			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Barracks.IpfChecksum + 0 /*conn.IntegritySeed*/);
-			var hash = MD5.Encode(bytes);
+			var serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum;
 
-			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();
-
-			if (checksum.ToLower() != result)
+			if (conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
 			{
+				Log.Info("Updating IPF checksum to '{0}' based on user '{1}'s request.", clientChecksum, conn.Account.Name);
+
+				serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum = clientChecksum;
+
+				var filePath = "user/conf/barracks.conf";
+
+				if (File.Exists(filePath))
+				{
+					var contents = File.ReadAllText(filePath);
+
+					if (contents.Contains("ipf_checksum"))
+						contents = Regex.Replace(contents, @"ipf_checksum\s*:\s*[a-fA-F0-9]+", "ipf_checksum: " + clientChecksum);
+					else
+						contents += Environment.NewLine + "ipf_checksum: " + clientChecksum;
+
+					File.WriteAllText(filePath, contents);
+				}
+				else
+				{
+					var contents = "ipf_checksum: " + clientChecksum + Environment.NewLine;
+					File.WriteAllText(filePath, contents);
+				}
+			}
+
+			if (!clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
+			{
+				Log.Warning("CB_CHECK_CLIENT_INTEGRITY: User '{0}' tried to log in with an invalid IPF checksum ({1}).", conn.Account.Name, clientChecksum);
+
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 
 				// Send these packets as well, even if the integrity check
@@ -620,7 +694,7 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Request to update the state of a postbox message.
+		/// Request to update the state of a mailbox message.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -629,23 +703,141 @@ namespace Melia.Barracks.Network
 		{
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
-			var state = (PostBoxMessageState)packet.GetByte();
+			var state = (MailboxMessageState)packet.GetByte();
 
-			// TODO: Implement use of changing state.
-			Send.BC_MESSAGE(conn, "Updating mail isn't working yet.");
+			var mailbox = conn.Account.Mailbox;
+
+			if (!mailbox.TryGetMail(messageId, out var message))
+			{
+				Log.Warning("CB_REQ_CHANGE_POSTBOX_STATE: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+				return;
+			}
+
+			message.State = state;
+
+			Send.BC_NORMAL.UpdateMailboxState(conn, message.Id, message.State);
 		}
 
 		/// <summary>
-		/// Request to get the next page of mail with a count.
+		/// Request to get item from mail box.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_GET_POSTBOX_ITEM)]
+		public void CB_REQ_GET_POSTBOX_ITEM(IBarracksConnection conn, Packet packet)
+		{
+			var dbType = packet.GetByte();
+			var messageId = packet.GetLong();
+			var characterId = packet.GetLong();
+			var itemListStr = packet.GetString();
+
+			var mailbox = conn.Account.Mailbox;
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character == null)
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Character not found by id '{0}' received from '{1}'.", characterId, conn.Account.Name);
+				return;
+			}
+
+			if (!mailbox.TryGetMail(messageId, out var message))
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+				return;
+			}
+
+			if (message.IsExpired)
+			{
+				Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
+				return;
+			}
+
+			var splitItems = itemListStr.Split('/');
+			foreach (var itemStr in splitItems)
+			{
+				if (!int.TryParse(itemStr, out var mailItemId))
+					continue;
+
+				if (!message.TryGetItem(mailItemId, out var item) || item.WasReceived)
+					continue;
+
+				BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+				item.WasReceived = true;
+			}
+
+			if (message.ReceivableItemsCount > 0 && !message.IsExpired)
+				message.State = MailboxMessageState.Unread;
+			else
+				message.State = MailboxMessageState.Store;
+
+			Send.BC_NORMAL.MailUpdate(conn, message);
+		}
+
+		/// <summary>
+		/// Request to get items from multiple mail messages.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_GET_POSTBOX_ITEM_LIST)]
+		public void CB_REQ_GET_POSTBOX_ITEM_LIST(IBarracksConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var messageIdList = packet.GetList(20, packet.GetLong).Where(a => a != 0);
+			var characterId = packet.GetLong();
+
+			var mailbox = conn.Account.Mailbox;
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character == null)
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM_LIST: Character not found by id '{0}' received from '{1}'.", characterId, conn.Account.Name);
+				return;
+			}
+
+			foreach (var messageId in messageIdList)
+			{
+				if (!mailbox.TryGetMail(messageId, out var message))
+				{
+					Log.Warning("CB_REQ_GET_POSTBOX_ITEM_LIST: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+					continue;
+				}
+
+				if (message.IsExpired)
+				{
+					Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
+					continue;
+				}
+
+				foreach (var item in message.GetItems())
+				{
+					if (item.WasReceived)
+						continue;
+
+					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+					item.WasReceived = true;
+				}
+
+				message.State = MailboxMessageState.Read;
+
+				Send.BC_NORMAL.MailUpdate(conn, message);
+			}
+		}
+
+		/// <summary>
+		/// Request to get the next page of mail message with a count.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_POSTBOX_PAGE)]
 		public void CB_REQ_POSTBOX_PAGE(IBarracksConnection conn, Packet packet)
 		{
-			var count = packet.GetInt();
+			var skipCount = packet.GetInt();
 
-			// TODO: Implement postbox message paging.
-			Send.BC_MESSAGE(conn, "Fetching mail isn't working yet.");
+			var messages = conn.Account.Mailbox.GetPagedMessages(skipCount);
+			var totalMessageCount = conn.Account.Mailbox.MessageCount;
+			var page = 1 + (skipCount / Mailbox.MailPerPage);
+
+			Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
 		}
 
 		/// <summary>

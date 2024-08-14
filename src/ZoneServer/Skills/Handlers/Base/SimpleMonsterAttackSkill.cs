@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Util;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Base
@@ -26,7 +26,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			this.Attack(skill, caster, target);
+			CallSafe(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -34,7 +34,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
+		private async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
 		{
 			var splashArea = this.GetSplashArea(skill, caster, designatedTarget);
 			var damageDelay = this.GetDamageDelay(skill);

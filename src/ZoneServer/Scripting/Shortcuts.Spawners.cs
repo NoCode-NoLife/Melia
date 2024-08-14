@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Spawning;
 using Yggdrasil.Geometry;
 
@@ -43,9 +43,9 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monster to spawn.</param>
 		/// <param name="amount">Amount of monsters to spawn at a time. The minimum will default to 50% of the max.</param>
+		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <param name="map">Class name of the map to spawn monsters one.</param>
 		/// <param name="area">Area in which to spawn monsters in.</param>
-		/// <param name="respawn">Constant delay until killed monsters respawn.</param>
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShapeF area)
 			=> AddSpawner(monsterClassId, amount, respawn, map, area, TendencyType.Peaceful);

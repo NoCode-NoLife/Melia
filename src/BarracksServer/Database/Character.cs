@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Barracks.Network.Helpers;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Shared.ObjectProperties;
 
@@ -51,6 +51,15 @@ namespace Melia.Barracks.Database
 		/// Gets or sets id of the character's hair style.
 		/// </summary>
 		public int Hair { get; set; }
+
+		/// <summary>
+		/// Gets or sets the character's skin color.
+		/// </summary>
+		/// <remarks>
+		/// This is a normal color code in integer format, i.e. white is
+		/// 0xFFFFFF, red is 0xFF0000, etc.
+		/// </remarks>
+		public uint SkinColor { get; set; }
 
 		/// <summary>
 		/// Returns a list of equipped items.

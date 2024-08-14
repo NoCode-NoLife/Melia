@@ -1,0 +1,10 @@
+// Melia
+// Script list
+// 
+// This file extends the custom scripts list in the system folder.
+// All scripts listed in this file will be loaded.
+//---------------------------------------------------------------------------
+
+// Example of loading the stylist NPC, found at
+// system/scripts/zone/custom/npcs/stylist.cs
+custom/npcs/stylist.cs

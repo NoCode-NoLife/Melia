@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -35,9 +35,9 @@ namespace Melia.Zone.World.Spawning
 		private bool _initialSpawnDone;
 		private float _flexMeter = 0;
 		private TimeSpan _flexSpawnDelay = TimeSpan.MaxValue;
-		private readonly List<TimeSpan> _respawnDelays = new List<TimeSpan>();
+		private readonly List<TimeSpan> _respawnDelays = new();
 
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
 
 		private SpawnAreaCollection _spawnAreas;
 		private bool _spawnPointsLoadFailed;
@@ -108,6 +108,18 @@ namespace Melia.Zone.World.Spawning
 		public PropertyOverrides PropertyOverrides { get; set; }
 
 		/// <summary>
+		/// Raised for every monster the spawner creates, just before it's
+		/// added to the world.
+		/// </summary>
+		public event EventHandler<SpawnEventArgs> Spawning;
+
+		/// <summary>
+		/// Raised for every monster the spawner creates, just after it was
+		/// added to the world.
+		/// </summary>
+		public event EventHandler<SpawnEventArgs> Spawned;
+
+		/// <summary>
 		/// Creates a new monster spawner.
 		/// </summary>
 		/// <param name="monsterClassId">Id of the monsters spawned by this instance.</param>
@@ -172,9 +184,16 @@ namespace Melia.Zone.World.Spawning
 				this.OverrideProperties(monster, map);
 
 				monster.Components.Add(new MovementComponent(monster));
-				monster.Components.Add(new AiComponent(monster, "BasicMonster"));
+
+				if (!string.IsNullOrWhiteSpace(monster.Data.AiName) && monster.Data.AiName != "None")
+					monster.Components.Add(new AiComponent(monster, monster.Data.AiName));
+
+				this.Spawning?.Invoke(this, new SpawnEventArgs(this, monster));
 
 				map.AddMonster(monster);
+				monster.PossiblyBecomeRare();
+
+				this.Spawned?.Invoke(this, new SpawnEventArgs(this, monster));
 			}
 
 			this.Amount += amount;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
 
 namespace Melia.Shared.Network.Helpers

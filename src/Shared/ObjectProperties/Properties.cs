@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Yggdrasil.Variables;
 
 namespace Melia.Shared.ObjectProperties

@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors;
@@ -24,11 +26,11 @@ namespace Melia.Zone.Scripting.Dialogues
 	{
 		private const string NpcNameSeperator = "*@*";
 		private const string NpcDialogTextSeperator = "\\";
-		private static readonly Regex ReplaceWhitespace = new Regex(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+		private static readonly Regex ReplaceWhitespace = new(@"\s+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 		private string _response;
-		private readonly SemaphoreSlim _resumeSignal = new SemaphoreSlim(0);
-		private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
+		private readonly SemaphoreSlim _resumeSignal = new(0);
+		private readonly CancellationTokenSource _cancellation = new();
 
 		/// <summary>
 		/// Returns a reference to the actor that initiated the trigger.
@@ -47,7 +49,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			get
 			{
-				if (!(this.Initiator is Character character))
+				if (this.Initiator is not Character character)
 					throw new InvalidOperationException($"The triggerer is not of type Character, but {this.Initiator.GetType().Name}.");
 
 				return character;
@@ -61,7 +63,7 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			get
 			{
-				if (!(this.Trigger is Npc npc))
+				if (this.Trigger is not Npc npc)
 					throw new InvalidOperationException($"The trigger is not of type Npc, but {this.Initiator.GetType().Name}.");
 
 				return npc;
@@ -173,9 +175,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// Sets the dialog class to use in message, which affects the
 		/// displayed portrait. Set to null for the default.
 		/// </summary>
-		/// <param name="portrait"></param>
-		public void SetPortrait(string portrait)
-			=> this.Portrait = portrait;
+		/// <remarks>
+		/// The image name refers to the name of an image file in the
+		/// client's npcimg folder, without the file extension. However,
+		/// the desired image needs to be referenced in the dialog database
+		/// for the image to be recognized.
+		/// </remarks>
+		/// <param name="imageName"></param>
+		public void SetPortrait(string imageName)
+			=> this.Portrait = imageName;
 
 		/// <summary>
 		/// Returns delegates that translate strings to the language
@@ -212,6 +220,14 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		private string AddNpcIdenty(string message)
 		{
+			// If the title was set to a valid dialog entry, we'll use that
+			// one to get the title and portrait from the dialog database
+			if (this.Title != null && this.Portrait == null && ZoneServer.Instance.Data.DialogDb.Contains(this.Title))
+			{
+				message = this.Title + NpcDialogTextSeperator + message;
+				return message;
+			}
+
 			// Prepend title, controlling title displayed on the dialog
 			// window.
 			if (!message.Contains(NpcNameSeperator) && !message.Contains(NpcDialogTextSeperator))
@@ -263,15 +279,15 @@ namespace Melia.Zone.Scripting.Dialogues
 		private string ReplaceCustomCodes(string message)
 		{
 			// {pcname} Character name
-			if (message.IndexOf("{pcname}") != -1)
+			if (message.Contains("{pcname}"))
 				message = message.Replace("{pcname}", this.Player.Name);
 
 			// {teamname} Character team name
-			if (message.IndexOf("{teamname}") != -1)
+			if (message.Contains("{teamname}"))
 				message = message.Replace("{teamname}", this.Player.TeamName);
 
 			// {fullname} Character name + team name
-			if (message.IndexOf("{fullname}") != -1)
+			if (message.Contains("{fullname}"))
 				message = message.Replace("{fullname}", this.Player.Name + " " + this.Player.TeamName);
 
 			return message;
@@ -321,11 +337,29 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="text"></param>
 		public async Task Msg(string text)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 			Send.ZC_DIALOG_OK(this.Player.Connection, text);
 
 			await this.GetClientResponse();
 		}
+
+		/// <summary>
+		/// Creates a mutable list of options that can be modified before
+		/// it's passed to the Select method.
+		/// </summary>
+		/// <example>
+		// var options = dialog.Options(Option("Nothing", "nothing"), Option("Everything", "everything"));
+		// if (xHappened)
+		//     options.Add(Option("OMG, did you hear?", "omg"));
+		// 
+		// await dialog.Select("What's up?", options);
+		/// </example>
+		/// <param name="options"></param>
+		/// <returns></returns>
+		public DialogOptionList Options(params DialogOption[] options)
+			=> new(options);
 
 		/// <summary>
 		/// Shows a menu with options to select from, returns the key
@@ -335,6 +369,16 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <param name="options">List of options to select from.</param>
 		/// <returns></returns>
 		public async Task<string> Select(string text, params DialogOption[] options)
+			=> await this.Select(text, (IEnumerable<DialogOption>)options);
+
+		/// <summary>
+		/// Shows a menu with options to select from, returns the key
+		/// of the selected option.
+		/// </summary>
+		/// <param name="text">Text to display with the options.</param>
+		/// <param name="options">List of options to select from.</param>
+		/// <returns></returns>
+		public async Task<string> Select(string text, IEnumerable<DialogOption> options)
 		{
 			// Go through SelectSimple to get the integer response
 			// and then look up the key in the options to return it.
@@ -342,7 +386,7 @@ namespace Melia.Zone.Scripting.Dialogues
 			var optionsTexts = options.Select(a => a.Text);
 			var selectedIndex = await this.Select(text, optionsTexts);
 
-			var response = options[selectedIndex - 1].Key;
+			var response = options.ElementAt(selectedIndex - 1).Key;
 			return response;
 		}
 
@@ -367,6 +411,8 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task<int> Select(string text, IEnumerable<string> options)
 		{
+			ZoneServer.Instance.ServerEvents.OnPlayerDialog(new PlayerDialogEventArgs(this.Player, this.Npc, this.GetNpcDialogTitle(), text));
+
 			text = this.FrameMessage(text);
 
 			var arguments = new List<string>();
@@ -491,6 +537,26 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
 			throw new OperationCanceledException("Dialog closed by script.");
+		}
+
+		/// <summary>
+		/// Opens the player's personal storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenPersonalStorage()
+		{
+			this.Player.PersonalStorage.Open();
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
+		/// Opens the player's team/account storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenTeamStorage()
+		{
+			this.Player.TeamStorage.Open();
+			await this.GetClientResponse();
 		}
 
 		/// <summary>

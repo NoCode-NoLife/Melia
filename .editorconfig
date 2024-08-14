@@ -118,3 +118,54 @@ dotnet_diagnostic.IDE0220.severity = none
 
 # IDE0180: Use Tuple to swap variables
 dotnet_diagnostic.IDE0180.severity = none
+
+# SYSLIB1045: Convert to „GeneratedRegexAttribute“
+dotnet_diagnostic.SYSLIB1045.severity = none
+
+# IDE0028: Simplify collection initialization
+dotnet_diagnostic.IDE0028.severity = none
+
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none
+
+# CA1822: Mark member as static
+dotnet_diagnostic.CA1822.severity = none
+
+# IDE0063: Use simplified using instruction
+dotnet_diagnostic.IDE0063.severity = none
+
+# IDE0057: User range operator
+dotnet_diagnostic.IDE0057.severity = none
+
+# CA1861: Avoid constant matrixes as arguments
+dotnet_diagnostic.CA1861.severity = none
+
+# CA1510: Use ArgumentNullException-Throw-Helper
+dotnet_diagnostic.CA1510.severity = none
+
+# IDE0066: Convert switch instruction to expression
+dotnet_diagnostic.IDE0066.severity = none
+
+# CA1816: Dispose methods must call SuppressFinalize
+dotnet_diagnostic.CA1816.severity = none
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = none
+
+# CA1860: Avoid usage of extension method „Enumerable.Any()“
+dotnet_diagnostic.CA1860.severity = none
+
+# CA1862: Prefer usage of "StringComparison"-method
+dotnet_diagnostic.CA1862.severity = none
+
+# IDE0074: Prefer ??=
+dotnet_diagnostic.IDE0074.severity = none
+
+# CS8618: Nullable field must have non-null value after ctor.
+dotnet_diagnostic.CS8618.severity = none
+
+# CS8603: Potential null ref return value.
+dotnet_diagnostic.CS8603.severity = none
+
+# CS8604: Potential null ref parameter.
+dotnet_diagnostic.CS8604.severity = none

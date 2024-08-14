@@ -8,7 +8,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
@@ -39,7 +39,9 @@ namespace Melia.Zone.Commands
 
 			// Client Commands
 			this.Add("requpdateequip", "", "", this.HandleReqUpdateEquip);
+			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
+			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -59,9 +61,10 @@ namespace Melia.Zone.Commands
 			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
-			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful]", "Spawns monster.", this.HandleSpawn);
+			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
 			this.Add("madhatter", "", "Spawns all headgears.", this.HandleGetAllHats);
 			this.Add("levelup", "<levels>", "Increases character's level.", this.HandleLevelUp);
+			this.Add("joblevelup", "<levels>", "Increases character's job level.", this.HandleJobLevelUp);
 			this.Add("speed", "<speed>", "Modifies character's speed.", this.HandleSpeed);
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
@@ -79,6 +82,9 @@ namespace Melia.Zone.Commands
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
 			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
+			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
+			this.Add("daytime", "[timeOfDay=day|night|dawn|dusk]", "Sets the current day time.", this.HandleDayTime);
+			this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -89,11 +95,47 @@ namespace Melia.Zone.Commands
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
+			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
 			this.AddAlias("monsterinfo", "mi");
 			this.AddAlias("reloadscripts", "rs");
+		}
+
+		/// <summary>
+		/// Sets whether the target character will be saved on logout.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
+					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
+				else
+					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
+
+				return CommandResult.Okay;
+			}
+
+			if (!bool.TryParse(args.Get(0), out var enabled))
+				return CommandResult.InvalidArgument;
+
+			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
+			else
+				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+
+			return CommandResult.Okay;
 		}
 
 		/// <summary>
@@ -146,7 +188,7 @@ namespace Melia.Zone.Commands
 			var now = GameTime.Now;
 
 			target.ServerMessage(Localization.Get("Server Time: {0:yyyy-MM-dd HH:mm}"), now.DateTime);
-			target.ServerMessage(Localization.Get("Game Time: {0:y-M-dd HH:mm}"), now);
+			target.ServerMessage(Localization.Get("Game Time: {0:y-M-dd HH:mm} ({1})"), now, now.TimeOfDay);
 
 			return CommandResult.Okay;
 		}
@@ -284,6 +326,54 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Warps target to the specified map.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleTokenWarp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!sender.Connection.Account.Premium.CanUseTokenWarp)
+			{
+				sender.MsgBox(Localization.Get("Only premium token users are allowed to use this feature."));
+				return CommandResult.Okay;
+			}
+
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			// Find map id
+			var mapClassName = args.Get(0);
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapClassName, out var mapData))
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to exist."));
+				return CommandResult.Okay;
+			}
+
+			var mapId = mapData.Id;
+
+			// Get target position
+			var targetPos = mapData.DefaultPosition;
+
+			// Check if the map is available
+			var availableZones = ZoneServer.Instance.ServerList.GetZoneServers(mapId);
+			if (availableZones.Length == 0)
+			{
+				sender.MsgBox(Localization.Get("Error: The destination does not appear to be available."));
+				return CommandResult.Okay;
+			}
+
+			// Warp
+			target.Warp(mapId, targetPos);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Warps target to given location.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -382,7 +472,7 @@ namespace Melia.Zone.Commands
 			{
 				var itemName = args.Get(0);
 
-				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.ToLower().Contains(itemName.ToLower()));
+				var classNameMatches = ZoneServer.Instance.Data.ItemDb.FindAll(a => a.ClassName.Contains(itemName, StringComparison.InvariantCultureIgnoreCase));
 				if (classNameMatches.Length == 0)
 				{
 					sender.ServerMessage(Localization.Get("Item '{0}' not found."), itemName);
@@ -499,7 +589,7 @@ namespace Melia.Zone.Commands
 			{
 				var searchName = args.Get(0).ToLower();
 
-				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.ToLower().Contains(searchName)).ToList();
+				var monstersData = ZoneServer.Instance.Data.MonsterDb.Entries.Values.Where(a => a.ClassName.Contains(searchName, StringComparison.InvariantCultureIgnoreCase)).ToList();
 				if (monstersData.Count == 0)
 				{
 					sender.ServerMessage(Localization.Get("Monster not found by name."));
@@ -753,6 +843,46 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Levels up target's job level.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleJobLevelUp(Character sender, Character target, string message, string command, Arguments args)
+		{
+			var levels = 1;
+			if (args.Count >= 1 && (!int.TryParse(args.Get(0), out levels) || levels < 1))
+				return CommandResult.InvalidArgument;
+
+			var jobLevelsGained = target.JobLevelUp(levels);
+
+			if (jobLevelsGained == 0)
+			{
+				if (sender == target)
+					sender.ServerMessage(Localization.Get("Your current job's level can't be increased any further."));
+				else
+					sender.ServerMessage(Localization.Get("The level of the target's current job can't be increased any further."));
+			}
+			else
+			{
+				if (sender == target)
+				{
+					sender.ServerMessage(Localization.GetPlural("Your job level was increased by {0} level.", "Your job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+				else
+				{
+					target.ServerMessage(Localization.GetPlural("Your job level was increased by {0} by {1} level.", "Your job level was increased by {0} by {1} levels.", jobLevelsGained), sender.TeamName, jobLevelsGained);
+					sender.ServerMessage(Localization.GetPlural("The target's job level was increased by {0} level.", "The target's job level was increased by {0} levels.", jobLevelsGained), jobLevelsGained);
+				}
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Changes target's speed.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -860,8 +990,8 @@ namespace Melia.Zone.Commands
 				var monsterEntry = new StringBuilder();
 
 				monsterEntry.AppendFormat(Localization.Get("{{nl}}----- {0} ({1}, {2}) -----{{nl}}"), monsterData.Name, monsterData.Id, monsterData.ClassName);
-				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Element], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
-				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.ClassExp * ZoneServer.Instance.Conf.World.ClassExpRate / 100f));
+				monsterEntry.AppendFormat(Localization.Get("{0} / {1} / {2} / {3}{{nl}}"), monsterRaces[(int)monsterData.Race], monsterElements[(int)monsterData.Attribute], monsterArmors[(int)monsterData.ArmorMaterial], monsterSizes[(int)monsterData.Size]);
+				monsterEntry.AppendFormat(Localization.Get("HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"), monsterData.Hp, monsterData.Sp, (int)(monsterData.Exp * ZoneServer.Instance.Conf.World.ExpRate / 100f), (int)(monsterData.JobExp * ZoneServer.Instance.Conf.World.JobExpRate / 100f));
 				monsterEntry.AppendFormat(Localization.Get("Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"), monsterData.PhysicalAttackMin, monsterData.PhysicalAttackMax, monsterData.MagicalAttackMin, monsterData.MagicalAttackMax, monsterData.PhysicalDefense, monsterData.MagicalDefense);
 
 				if (monsterData.Drops.Count != 0)
@@ -874,7 +1004,8 @@ namespace Melia.Zone.Commands
 						if (itemData == null)
 							continue;
 
-						var dropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
+						var dropChance = Math2.Clamp(0, 100, currentDrop.DropChance);
+						var adjustedDropChance = Math2.Clamp(0, 100, Mob.GetAdjustedDropRate(currentDrop));
 						var isMoney = (currentDrop.ItemId == ItemId.Silver || currentDrop.ItemId == ItemId.Gold);
 
 						var minAmount = currentDrop.MinAmount;
@@ -892,13 +1023,13 @@ namespace Melia.Zone.Commands
 						if (displayAmount)
 						{
 							if (minAmount == maxAmount)
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}%)"), minAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} {1} ({2:0.####}% -> {3:0.####}%)"), minAmount, itemData.Name, dropChance, adjustedDropChance);
 							else
-								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance);
+								monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0}~{1} {2} ({3:0.####}% -> {4:0.####}%)"), minAmount, maxAmount, itemData.Name, dropChance, adjustedDropChance);
 						}
 						else
 						{
-							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}%)"), itemData.Name, dropChance);
+							monsterEntry.AppendFormat(Localization.Get("{{nl}}- {0} ({1:0.####}% -> {2:0.####}%)"), itemData.Name, dropChance, adjustedDropChance);
 						}
 					}
 				}
@@ -1012,6 +1143,8 @@ namespace Melia.Zone.Commands
 
 			if (args.Get(0).StartsWith("klaip")) target.Warp("c_Klaipe", new Position(-75, 148, -24));
 			else if (args.Get(0).StartsWith("ors")) target.Warp("c_orsha", new Position(271, 176, 292));
+			else if (args.Get(0).StartsWith("fedi")) target.Warp("c_fedimian", new Position(-243, 161, -303));
+			else if (args.Get(0).StartsWith("high")) target.Warp("c_highlander", new Position(-20, 1, 80));
 			else if (args.Get(0).StartsWith("start")) target.Warp("f_siauliai_west", new Position(-628, 260, -1025));
 			else
 			{
@@ -1395,6 +1528,12 @@ namespace Melia.Zone.Commands
 
 			var jobId = (JobId)iJobId;
 
+			if (target.Jobs.Count <= 1)
+			{
+				sender.ServerMessage(Localization.Get("You can't remove the last remaining job."));
+				return CommandResult.Okay;
+			}
+
 			if (!target.Jobs.Remove(jobId))
 			{
 				sender.ServerMessage(Localization.Get("The job doesn't exist."));
@@ -1472,8 +1611,8 @@ namespace Melia.Zone.Commands
 			if (!int.TryParse(args.Get(0), out var amount) || amount < 1)
 				return CommandResult.InvalidArgument;
 
-			// Modification for stat points is a little tricky, because ToS
-			// has 3 stat points properties:
+			// Modification for stat points is a little tricky, because
+			// the game has 3 stat point properties:
 			// - Stat points gained by leveling
 			// - Stat points gained in another way
 			// - Used stat points
@@ -1487,6 +1626,31 @@ namespace Melia.Zone.Commands
 			if (sender != target)
 				sender.ServerMessage(Localization.Get("{1} added {0} stat points to your character."), amount, sender.TeamName);
 
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Opens personal storage of target character
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePersonalStorage(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!target.PersonalStorage.IsBrowsing)
+			{
+				target.PersonalStorage.Open();
+				sender.ServerMessage(Localization.Get("Opened personal storage."));
+				if (sender != target)
+					target.ServerMessage(Localization.Get("Your personal storage was opened by '{0}'"), sender.TeamName);
+			}
+			else
+			{
+				sender.ServerMessage(Localization.Get("Already browsing personal storage."));
+			}
 			return CommandResult.Okay;
 		}
 
@@ -1830,6 +1994,22 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
+		/// Official slash command, purpose unknown.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleReadCollection(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Command is sent when a collection is viewed, purpose unknown
+			// officials don't seem to send anything back.
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
 		/// Official slash command, exchanges silver for ability points.
 		/// </summary>
 		/// <param name="sender"></param>
@@ -1943,6 +2123,69 @@ namespace Melia.Zone.Commands
 			sender.Variables.Temp.SetFloat("MouseY", float.Parse(args.Get(1), CultureInfo.InvariantCulture));
 			sender.Variables.Temp.SetFloat("ScreenWidth", float.Parse(args.Get(2), CultureInfo.InvariantCulture));
 			sender.Variables.Temp.SetFloat("ScreenHeight", float.Parse(args.Get(3), CultureInfo.InvariantCulture));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Fixes or unfixes target's camera position.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleFixCamera(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var isFixed = target.Variables.Temp.GetBool("Melia.Commands.FixedCamera", false);
+
+			if (!isFixed)
+			{
+				Send.ZC_FIXCAMERA(target, target.Position, 0);
+				sender.ServerMessage(Localization.Get("The camera was fixed in place."));
+			}
+			else
+			{
+				Send.ZC_CANCEL_FIXCAMERA(target);
+				sender.ServerMessage(Localization.Get("The camera was unfixed."));
+			}
+
+			target.Variables.Temp.SetBool("Melia.Commands.FixedCamera", !isFixed);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Sets current in-game time and updates the day night cycle.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleDayTime(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				ZoneServer.Instance.World.DayNightCycle.UnfixTimeOfDay();
+				sender.ServerMessage(Localization.Get("Unfixed time of day, it's now '{0}'."), GameTime.Now.TimeOfDay);
+
+				return CommandResult.Okay;
+			}
+
+			var timeOfDayStr = args.Get(0);
+			timeOfDayStr = char.ToUpper(timeOfDayStr[0]) + timeOfDayStr.Substring(1).ToLower();
+
+			if (!Enum.TryParse<TimeOfDay>(timeOfDayStr, out var timeOfDay))
+			{
+				sender.ServerMessage(Localization.Get("Invalid time of day."));
+				return CommandResult.Okay;
+			}
+
+			ZoneServer.Instance.World.DayNightCycle.FixTimeOfDay(timeOfDay);
+			sender.ServerMessage(Localization.Get("Fixed time of day to '{0}'."), timeOfDay);
 
 			return CommandResult.Okay;
 		}

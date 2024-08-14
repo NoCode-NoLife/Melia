@@ -15,8 +15,8 @@ namespace Melia.Zone.World.Quests
 	{
 		private static long Ids = ObjectIdRanges.Quests;
 
-		private readonly List<QuestProgress> _progresses = new List<QuestProgress>();
-		private readonly Dictionary<string, QuestProgress> _indexedProgresses = new Dictionary<string, QuestProgress>();
+		private readonly List<QuestProgress> _progresses = new();
+		private readonly Dictionary<string, QuestProgress> _indexedProgresses = new();
 
 		/// <summary>
 		/// Returns the quest's globally unique object id.

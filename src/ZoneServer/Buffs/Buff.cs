@@ -1,9 +1,8 @@
 ﻿using System;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -14,6 +13,24 @@ namespace Melia.Zone.Buffs
 	/// </summary>
 	public class Buff : IUpdateable
 	{
+		/// <summary>
+		/// Returns a value that is recognized as the default duration for a buff.
+		/// </summary>
+		/// <remarks>
+		/// If this value is passed as the duration for a buff, it will use
+		/// the buff's default from its data.
+		/// </remarks>
+		public readonly static TimeSpan DefaultDuration = TimeSpan.MinValue;
+
+		/// <summary>
+		/// Returns a value that is recognized as an infinite duration for a buff.
+		/// </summary>
+		/// <remarks>
+		/// If this value is passed as the duration for a buff, it won't end
+		/// until it's removed manually.
+		/// </remarks>
+		public readonly static TimeSpan InfiniteDuration = TimeSpan.Zero;
+
 		private int _overbuffCounter;
 
 		/// <summary>
@@ -54,7 +71,7 @@ namespace Melia.Zone.Buffs
 		/// <summary>
 		/// Returns the time the buff has left to run.
 		/// </summary>
-		public TimeSpan RemainingDuration => Math2.Max(TimeSpan.Zero, this.Duration - this.RunTime);
+		public TimeSpan RemainingDuration => Math2.Max(TimeSpan.Zero, this.RemovalTime - DateTime.Now);
 
 		/// <summary>
 		/// Index in world collection?
@@ -105,10 +122,19 @@ namespace Melia.Zone.Buffs
 		public bool HasDuration => this.Duration != TimeSpan.Zero;
 
 		/// <summary>
+		/// Gets or sets the time between updates.
+		/// </summary>
+		/// <remarks>
+		/// Defaults to the buff's update time from its data, but can be modified
+		/// to increase or decrease the time between updates going forward.
+		/// </remarks>
+		public TimeSpan UpdateTime { get; set; }
+
+		/// <summary>
 		/// Returns true if the the buff's data defines an update time.
 		/// </summary>
 		/// <returns></returns>
-		public bool HasUpdateTime => this.Data.UpdateTime != TimeSpan.Zero;
+		public bool HasUpdateTime => this.UpdateTime != TimeSpan.Zero;
 
 		/// <summary>
 		/// Gets or sets the next time the buff is updated.
@@ -137,19 +163,26 @@ namespace Melia.Zone.Buffs
 		/// <param name="buffId"></param>
 		/// <param name="numArg1"></param>
 		/// <param name="numArg2"></param>
-		/// <param name="duration">Use MinValue to use the buff's default duration.</param>
+		/// <param name="duration">The full duration of the buff. Use MinValue to use the buff's default duration.</param>
+		/// <param name="runTime">The amount of time the buff was already active.</param>
 		/// <param name="target"></param>
 		/// <param name="caster"></param>
 		/// <param name="skillId">Id of the skill associated with this buff.</param>
-		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity target, ICombatEntity caster, SkillId skillId = SkillId.Normal_Attack)
+		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId)
 		{
 			this.Id = buffId;
 			this.NumArg1 = numArg1;
 			this.NumArg2 = numArg2;
 			this.Duration = duration;
+			this.RunTime = runTime;
 			this.Target = target;
 			this.Caster = caster;
 			this.SkillId = skillId;
+
+			// We used to default this to Normal_Attack in the arguments.
+			// Guess we'll keep that? We probably did it for a reason.
+			if (this.SkillId == SkillId.None)
+				this.SkillId = SkillId.Normal_Attack;
 
 			this.Handle = ZoneServer.Instance.World.CreateBuffHandle();
 			this.Data = ZoneServer.Instance.Data.BuffDb.Find(buffId) ?? throw new ArgumentException($"Unknown buff '{buffId}'.");
@@ -163,14 +196,19 @@ namespace Melia.Zone.Buffs
 			//if (this.Handler == null)
 			//	Log.Debug("Buff: No handler found for '{0}'.", buffId);
 
-			if (this.Duration == TimeSpan.MinValue)
+			if (this.Duration == DefaultDuration)
 				this.Duration = this.Data.Duration;
 
 			if (this.HasDuration)
-				this.RemovalTime = DateTime.Now.Add(this.Duration);
+			{
+				var remaining = Math2.Max(TimeSpan.Zero, this.Duration - this.RunTime);
+				this.RemovalTime = DateTime.Now.Add(remaining);
+			}
+
+			this.UpdateTime = this.Data.UpdateTime;
 
 			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
+				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
 		}
 
 		/// <summary>
@@ -183,20 +221,32 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// Start buff behavior
+		/// Extends the buff's duration and executes the buff handler's start
+		/// behavior. Does not add the buff to the actor.
 		/// </summary>
-		public void Start()
+		internal void Start()
 		{
-			if (this.HasDuration)
-				this.RemovalTime = DateTime.Now.Add(this.Duration);
-
+			this.ExtendDuration();
 			this.Handler?.OnStart(this);
 		}
 
 		/// <summary>
-		/// End buff behavior
+		/// Extends the buff's removal time by its duration if applicable.
 		/// </summary>
-		public void End()
+		internal void ExtendDuration()
+		{
+			if (this.HasDuration)
+			{
+				this.RunTime = TimeSpan.Zero;
+				this.RemovalTime = DateTime.Now.Add(this.Duration);
+			}
+		}
+
+		/// <summary>
+		/// Executes the buff handler's end behavior. Does not actually
+		/// end or remove the buff.
+		/// </summary>
+		internal void End()
 		{
 			this.Handler?.OnEnd(this);
 		}
@@ -211,8 +261,8 @@ namespace Melia.Zone.Buffs
 			if (DateTime.Now >= this.NextUpdateTime)
 			{
 				this.Handler?.WhileActive(this);
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
-				this.RunTime += this.Data.UpdateTime;
+				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
+				this.RunTime += this.UpdateTime;
 			}
 		}
 	}

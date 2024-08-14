@@ -32,5 +32,5 @@ uint lodge;
 // Reference: barrack_startmap_select.lua
 int startMap;
 
-byte hair;
-ubyte bin1[5]; // byte, int (color)?
+short hair;
+uint skinColor <format=hex>;

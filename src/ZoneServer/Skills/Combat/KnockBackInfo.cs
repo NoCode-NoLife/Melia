@@ -1,6 +1,5 @@
 ﻿using System;
-using g3;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 
@@ -101,6 +100,36 @@ namespace Melia.Zone.Skills.Combat
 				var distance = 93.570992087511f;
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 250 && this.VAngle == 85) // Wagon Wheel
+			{
+				var distance = 30.570992087511f;
+
+				this.Time = TimeSpan.FromMilliseconds(6747);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 250 && this.VAngle == 10) // Rim Blow
+			{
+				// TODO: Double check this distance. In the PR it was a for loop
+				//   over the hit count (4)?
+				var distance = 22f * 4;
+
+				this.Time = TimeSpan.FromMilliseconds(180);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 150 && this.VAngle == 10) // Taglio
+			{
+				var distance = 10;
+
+				this.Time = TimeSpan.FromMilliseconds(180);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 100 && this.VAngle == 85) // Granata
+			{
+				var distance = 1;
+
+				this.Time = TimeSpan.FromMilliseconds(180);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
 			else
