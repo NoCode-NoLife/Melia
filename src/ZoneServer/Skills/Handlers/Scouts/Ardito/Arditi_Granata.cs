@@ -8,6 +8,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 // TODO: Implement Ability "Granata: Aim" (AbilityId.Arditi20).
@@ -55,7 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(castPosition), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
 
-			this.Attack(skill, caster, originPos, farPos, castPosition);
+			CallSafe(this.Attack(skill, caster, originPos, farPos, castPosition));
 		}
 
 		/// <summary>
@@ -65,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos, Position castPosition)
+		private async Task Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos, Position castPosition)
 		{
 			await Task.Delay(TimeSpan.FromMilliseconds(200));
 

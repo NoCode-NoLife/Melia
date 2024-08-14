@@ -11,6 +11,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.Handlers.Swordsmen.Rodelero.Abilities;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
@@ -47,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 
 			if (!caster.IsAbilityActive(AbilityId.Rodelero41))
 			{
-				this.Attack(skill, caster, splashArea);
+				CallSafe(this.Attack(skill, caster, splashArea));
 			}
 			else
 			{
@@ -62,7 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(100);
 			var damageDelay1 = TimeSpan.FromMilliseconds(50);

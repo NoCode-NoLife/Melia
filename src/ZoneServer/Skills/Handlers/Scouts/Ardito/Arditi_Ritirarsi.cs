@@ -8,8 +8,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Util;
+using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
@@ -64,7 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 
 			caster.RemoveRandomDebuff(this.GetRemoveDebuffChance(skill));
 
-			this.Attack(skill, caster, originPos, farPos);
+			CallSafe(this.Attack(skill, caster, originPos, farPos));
 		}
 
 		/// <summary>
@@ -74,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
+		private async Task Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
 			var direction = (originPos == farPos) ? caster.Direction : originPos.GetDirection(farPos);
 			var effectPosition = caster.Position.GetRelative(direction, 40);
