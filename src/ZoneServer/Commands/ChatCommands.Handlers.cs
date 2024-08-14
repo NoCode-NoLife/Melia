@@ -104,41 +104,6 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Sets whether the target character will be saved on logout.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="target"></param>
-		/// <param name="message"></param>
-		/// <param name="commandName"></param>
-		/// <param name="args"></param>
-		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
-		{
-			if (args.Count < 1)
-			{
-				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
-					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
-				else
-					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
-
-				return CommandResult.Okay;
-			}
-
-			if (!bool.TryParse(args.Get(0), out var enabled))
-				return CommandResult.InvalidArgument;
-
-			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
-
-			if (enabled)
-				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
-			else
-				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
-
-			return CommandResult.Okay;
-		}
-
-		/// <summary>
 		/// Test command, modify to quickly test something, but never
 		/// commit the changes to it.
 		/// </summary>
@@ -2186,6 +2151,41 @@ namespace Melia.Zone.Commands
 
 			ZoneServer.Instance.World.DayNightCycle.FixTimeOfDay(timeOfDay);
 			sender.ServerMessage(Localization.Get("Fixed time of day to '{0}'."), timeOfDay);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Sets whether the target character will be saved on logout.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
+					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
+				else
+					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
+
+				return CommandResult.Okay;
+			}
+
+			if (!bool.TryParse(args.Get(0), out var enabled))
+				return CommandResult.InvalidArgument;
+
+			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
+			else
+				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
 
 			return CommandResult.Okay;
 		}
