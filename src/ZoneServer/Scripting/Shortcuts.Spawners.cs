@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Spawning;
 using Yggdrasil.Geometry;
+using Yggdrasil.Geometry.Shapes;
 
 namespace Melia.Zone.Scripting
 {
@@ -166,5 +168,138 @@ namespace Melia.Zone.Scripting
 
 			return spawner;
 		}
+
+		/// <summary>
+		/// Adds an override for the properties of a monster on a specific
+		/// map. These override the stats of monsters spawned via spawners
+		/// if no property overrides are specified for the spawner itself.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <param name="monsterClassId"></param>
+		/// <param name="propertyOverrides"></param>
+		/// <returns></returns>
+		public static void AddPropertyOverrides(string mapClassName, int monsterClassId, PropertyOverrides propertyOverrides)
+		{
+			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
+				throw new ArgumentException($"Map '{mapClassName}' not found.");
+
+			map.AddPropertyOverrides(monsterClassId, propertyOverrides);
+		}
+
+		/// <summary>
+		/// Returns a list of named properties based on a list of key/value
+		/// pairs.
+		/// </summary>
+		/// <example>
+		/// Properties("MHP", 1000, "EXP", 5) // { "MHP": 1000, "EXP": 5 }
+		/// </example>
+		/// <param name="properties"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public static PropertyOverrides Properties(params object[] properties)
+		{
+			var result = new PropertyOverrides();
+
+			if (properties.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of arguments for key/value pairs.");
+
+			for (var i = 0; i < properties.Length; i += 2)
+			{
+				var propertyNameObj = properties[i];
+				var propertyValueObj = properties[i + 1];
+
+				if (propertyNameObj is not string propertyName)
+					throw new ArgumentException($"Expected a string for key, got '{propertyValueObj.GetType().Name}'.");
+
+				switch (propertyValueObj)
+				{
+					case int _:
+					case float _:
+					case string _:
+						result[propertyName] = propertyValueObj;
+						break;
+
+					default:
+						throw new ArgumentException($"Expected an int, float or string for value, got '{propertyValueObj.GetType().Name}'.");
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Returns a polygonal shape made up of the given coordinates.
+		/// </summary>
+		/// <param name="coordinates">Evenly numbered list of at least 3 X and Y coordinates.</param>
+		/// <returns></returns>
+		/// <example>
+		/// Area(0, 0, 0, 10, 10, 10, 10, 0) // 10x10 square
+		/// </example>
+		public static IShapeF Area(params double[] coordinates)
+		{
+			if (coordinates.Length == 0 || coordinates.Length % 2 != 0)
+				throw new ArgumentException("Expected an even amount of coordinates for area.");
+
+			if (coordinates.Length < 3)
+				throw new ArgumentException("Needs at least 3 points (6 X/Y coordinates).");
+
+			var points = new List<Vector2F>();
+			for (var i = 0; i < coordinates.Length;)
+			{
+				var point = new Vector2F((float)coordinates[i++], (float)coordinates[i++]);
+				points.Add(point);
+			}
+
+			return new PolygonF(points);
+		}
+
+		/// <summary>
+		/// Returns a circular shape with the given coordinates and radius.
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public static IShapeF Spot(double x, double y, double radius = 0)
+		{
+			var center = new Vector2F((float)x, (float)y);
+			return new CircleF(center, (int)radius);
+		}
+
+		/// <summary>
+		/// Returns a rectangular shape at the given coordinates.
+		/// </summary>
+		/// <remarks>
+		/// The rectangle is created centered around the given coordinates,
+		/// stretching out in all directions based on the width and height
+		/// arguments.
+		/// </remarks>
+		/// <param name="x">X-coordinate of the shape's center.</param>
+		/// <param name="y">Z-Coordinate of the shape's center.</param>
+		/// <param name="width">Width of the rectangle.</param>
+		/// <param name="height">Height of the rectangle. Defaults to width.</param>
+		/// <returns></returns>
+		public static IShapeF Rectangle(double x, double y, double width, double height = 0)
+		{
+			var center = new Vector2F((float)x, (float)y);
+			var size = new Vector2F((float)width, (float)(height != 0 ? height : width));
+
+			return RectangleF.Centered(center, size);
+		}
+
+		/// <summary>
+		/// Returns a specialized shape that is considered a map-wide area
+		/// by certain systems, such as monster spawners.
+		/// </summary>
+		/// <returns></returns>
+		public static IShapeF MapWide => RectangleF.Centered(Vector2F.Zero, new(-1, -1));
+	}
+
+	/// <summary>
+	/// A list of properties that can be used to override default values
+	/// for spawned monsters.
+	/// </summary>
+	public class PropertyOverrides : Dictionary<string, object>
+	{
 	}
 }
