@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Melia.Shared.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
 using Melia.Social.World;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace Melia.Social.Database
 {

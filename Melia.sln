@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsBarracks", "system\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsZoneUser", "user\scripts\zone\ScriptsZoneUser.csproj", "{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialServer", "src\SocialServer\SocialServer.csproj", "{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialServer", "src\SocialServer\SocialServer.csproj", "{B3856739-7B3F-4F5E-9B36-BC8C8920D03B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

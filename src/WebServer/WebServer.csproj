@@ -5,9 +5,8 @@
     <RootNamespace>Melia.Web</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyTitle>WebServer</AssemblyTitle>
-    <Company>Microsoft</Company>
     <Product>WebServer</Product>
-    <Copyright>Copyright © Microsoft 2015</Copyright>
+    <Copyright>Copyright ©  2023</Copyright>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
