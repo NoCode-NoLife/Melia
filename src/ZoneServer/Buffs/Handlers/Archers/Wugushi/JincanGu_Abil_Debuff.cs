@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
+namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 {
 	/// <summary>
 	/// Handle for the JincanGu Debuff (GoldenFrog), which ticks damage every second.
@@ -18,12 +16,18 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 		private const string AdditionalHits = "Wugushi.JincanGu_Abil_Debuff";
 		private const int AdditionalHitsCount = 5;
 
-		public override async void OnStart(Buff buff)
+		public override void OnStart(Buff buff)
 		{
 			buff.Vars.SetInt(AdditionalHits, AdditionalHitsCount);
+
+			var damageThickDelay = buff.Data.UpdateTime;
+
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+
+			buff.Data.UpdateTime = damageThickDelay;
 		}
 
-		public override async void WhileActive(Buff buff)
+		public override void WhileActive(Buff buff)
 		{
 			if (buff.Target.IsDead)
 				return;
@@ -33,24 +37,10 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 			// We are Damaging 5x additional hits
 			if (buff.Vars.GetInt(AdditionalHits) <= AdditionalHitsCount && buff.Vars.GetInt(AdditionalHits) >= 1)
 			{
-				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
-
-				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-				await Task.Delay(damageThickDelay);
-
 				var remaningAdditionalHits = buff.Vars.GetInt(AdditionalHits);
 				buff.Vars.SetInt(AdditionalHits, remaningAdditionalHits - 2);
 
 				this.DamagesTarget(buff);
-
-				await Task.Delay(damageThickDelay);
-			}
-			else
-			{
-				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
-
-				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-				await Task.Delay(damageThickDelay);
 			}
 		}
 

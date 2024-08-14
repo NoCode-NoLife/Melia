@@ -5,9 +5,8 @@ using Melia.Zone.Skills.Combat;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using System.Threading.Tasks;
 
-namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
+namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 {
 	/// <summary>
 	/// Handle for the Virus Debuff, which ticks damage while active.
@@ -15,7 +14,16 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 	[BuffHandler(BuffId.Virus_Debuff)]
 	public class Virus_Debuff : BuffHandler
 	{
-		public override async void WhileActive(Buff buff)
+		public override void OnStart(Buff buff)
+		{
+			var damageThickDelay = buff.Data.UpdateTime;
+
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+
+			buff.Data.UpdateTime = damageThickDelay;
+		}
+
+		public override void WhileActive(Buff buff)
 		{
 			var target = buff.Target;
 
@@ -39,11 +47,6 @@ namespace Melia.Zone.Buffs.Handlers.Archer.Wugushi
 
 					Send.ZC_HIT_INFO(buff.Caster, target, hit);
 				}
-
-				var damageThickDelay = TimeSpan.FromMilliseconds(1000);
-
-				Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
-				await Task.Delay(damageThickDelay);
 			} else
 			{
 				var maxSpreadAmount = 5;

@@ -3,7 +3,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers
+namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 {
 	/// <summary>
 	/// Handle for the Crescendo Bane Buff, which decreases Wugushi skill damage cycle
