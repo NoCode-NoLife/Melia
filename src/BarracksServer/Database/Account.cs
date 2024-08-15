@@ -47,6 +47,12 @@ namespace Melia.Barracks.Database
 		private string _teamName;
 
 		/// <summary>
+		/// The account's authority level, used to determine if a character
+		/// can use a specific GM command.
+		/// </summary>
+		public int Authority { get; set; }
+
+		/// <summary>
 		/// Amount of Free TP.
 		/// </summary>
 		public int Medals { get; set; } = 500;

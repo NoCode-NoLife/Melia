@@ -309,58 +309,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Starts the buff with the given name or overbuffs it if it's
-		/// already active. Returns the new or modified buff.
-		/// </summary>
-		/// <param name="buffClassName"></param>
-		/// <param name="numArg1"></param>
-		/// <param name="numArg2"></param>
-		/// <param name="duration"></param>
-		/// <returns></returns>
-		/// <exception cref="ArgumentException">
-		/// Thrown if the buff doesn't exist in the data.
-		/// </exception>
-		/// <exception cref="InvalidOperationException">
-		/// Thrown if the buff doesn't have a handler.
-		/// </exception>
-		public Buff Start(string buffClassName, float numArg1, float numArg2, TimeSpan duration)
-		{
-			if (!ZoneServer.Instance.Data.BuffDb.TryFind(a => a.ClassName == buffClassName, out var buffData))
-				throw new ArgumentException($"Buff with class name '{buffClassName}' not found.");
-
-			// I'm split on whether we should let buffs run without a
-			// handler, but this method will primarily used from item
-			// scripts, and we don't want items to be used when they
-			// start a buff that isn't implemented.
-			if (!ZoneServer.Instance.BuffHandlers.Has(buffData.Id))
-				throw new BuffNotImplementedException(buffData.Id);
-
-			return this.Start(buffData.Id, numArg1, numArg2, duration, null);
-		}
-
-		/// <summary>
-		/// Starts the buff with the given id, returns the created buff.
-		/// If the buff was already active, it gets overbuffed.
-		/// </summary>
-		/// <remarks>
-		/// Uses the duration from the buff's data by default.
-		/// </remarks>
-		/// <param name="buffId"></param>
-		/// <returns></returns>
-		public Buff Start(BuffId buffId)
-			=> this.Start(buffId, TimeSpan.MinValue);
-
-		/// <summary>
-		/// Starts the buff with the given id. If the buff is already active,
-		/// it gets overbuffed. Returns the created or modified buff.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <param name="duration">Custom duration of the buff.</param>
-		/// <returns></returns>
-		public Buff Start(BuffId buffId, TimeSpan duration)
-			=> this.Start(buffId, 0, 0, duration, this.Entity);
-
-		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
 		/// it gets overbuffed. Returns the created or modified buff. May
 		/// return null if the buff was resisted for some reason.
@@ -370,12 +318,13 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="numArg2"></param>
 		/// <param name="duration">Custom duration of the buff.</param>
 		/// <param name="caster">The entity that casted the buff.</param>
+		/// <param name="skillId">The id of the skill associated with the buff.</param>
 		/// <returns></returns>
-		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
+		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId)
 		{
 			// Attempt status resistance against debuffs
 			// TODO: Ideally, this should happen from the buff handler,
-			//   and we might also move the check to somewhere else,
+			//   and we might also want to move the check somewhere else,
 			//   so we're still able to force-apply buffs if necessary.
 			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
 			{
@@ -388,7 +337,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity);
+				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity, skillId);
 				this.Add(buff);
 			}
 			else

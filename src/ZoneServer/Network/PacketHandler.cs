@@ -58,12 +58,20 @@ namespace Melia.Zone.Network
 			var accountName = packet.GetString(56);
 
 			var mac = packet.GetString(48);
-			var socialId = packet.GetLong();
+			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var bin2 = packet.GetBin(12);
-			var bin3 = packet.GetBin(10);
+			var i1 = packet.GetInt();
+			var i2 = packet.GetInt();
+			var i3 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
+			var s3 = packet.GetShort();
+			var fromBarracks1 = packet.GetBool();
+			var fromBarracks2 = packet.GetBool();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
 
 			// TODO: Check session key or something.
@@ -106,11 +114,21 @@ namespace Melia.Zone.Network
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
-			Send.ZC_STANCE_CHANGE(character);
-			Send.ZC_CONNECT_OK(conn, character);
-			Send.ZC_NORMAL.AdventureBook(conn);
-			Send.ZC_SET_CHATBALLOON_SKIN(conn);
-			Send.ZC_NORMAL.Unknown_1B4(character);
+			// Officials always send the following packets, even if we're coming
+			// from the barracks and don't need most of them. Since the client
+			// complains about this though, let's actually do the check.
+			if (fromBarracks1)
+			{
+				Send.ZC_CONNECT_OK(conn, character);
+			}
+			else
+			{
+				Send.ZC_STANCE_CHANGE(character);
+				Send.ZC_CONNECT_OK(conn, character);
+				Send.ZC_NORMAL.AdventureBook(conn);
+				Send.ZC_SET_CHATBALLOON_SKIN(conn);
+				Send.ZC_NORMAL.Unknown_1B4(character);
+			}
 		}
 
 		/// <summary>
@@ -181,7 +199,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
 			if (conn.Account.Premium.CanUseBuff)
-				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+				character.StartBuff(BuffId.Premium_Token);
 
 			// ---- </PremiumStuff> -------------------------------------------------
 
@@ -2333,7 +2351,7 @@ namespace Melia.Zone.Network
 			// should handle it. Alternatively, we could also add a check
 			// here, to see if DashRun is already active. What's better
 			// is TBD.
-			character.Buffs.Start(BuffId.DashRun);
+			character.StartBuff(BuffId.DashRun);
 		}
 
 		/// <summary>

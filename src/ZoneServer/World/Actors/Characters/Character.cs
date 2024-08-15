@@ -17,8 +17,8 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs.Handlers;
 using System.Collections.Generic;
+using Melia.Zone.Buffs.Handlers.Common;
 
 namespace Melia.Zone.World.Actors.Characters
 {

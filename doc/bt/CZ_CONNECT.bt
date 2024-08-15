@@ -19,14 +19,22 @@
 
 ClientHeaderFixed header;
 
-byte bin1[1024];
+byte bin1[1024]; // Some kind of auth key?
 char sessionKey[64];
 char accountName[56];
 char mac[48];
-int64 characterId;
+int64 l2;
 int64 l1; // same object id (?) that appears in BC_LOGINOK
 int64 accountId;
-int64 characterId2;
-byte bin2[12];
-byte bin3[10];
+int64 characterId;
+int i1;
+int i2;
+int i3;
+short s1;
+short s2;
+short s3;
+byte fromBarracks1; // These two bytes are 1 if we're coming from
+byte fromBarracks2; // the barracks and 0 if we're changing channels.
+byte b2;
+byte b3;
 byte b1;
