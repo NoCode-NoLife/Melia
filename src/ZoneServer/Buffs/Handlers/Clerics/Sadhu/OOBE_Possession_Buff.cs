@@ -1,5 +1,4 @@
 ﻿using System;
-using Yggdrasil.Util;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
@@ -11,17 +10,20 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Shared.World;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
+namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 {
 	/// <summary>
-	/// Handler for the Out Of Body Experience (OOBE) Prakriti Buff
+	/// Handler for the Out Of Body Experience (OOBE) Posession Buff
 	/// which makes the character go back to original position after a while
-	/// and creates an effect that damages enemies inside within a chance of pulling then
+	/// and leave an effect that damages enemies inside
 	/// </summary>
-	[BuffHandler(BuffId.OOBE_Tanoti_Buff)]
-	public class OOBE_Tanoti_Buff : BuffHandler
+	[BuffHandler(BuffId.OOBE_Possession_Buff)]
+	public class OOBE_Possession_Buff : BuffHandler
 	{
-		private const int MaxTargets = 5;
+		private const int MaxTargets = 7;
+		// The skill tooltip says that a movement hold just be applied
+		// but it doesn't happen. For that reason I left this here in that case it changes
+		private const bool ApplySelfHold = false;
 
 		public override void OnStart(Buff buff)
 		{
@@ -46,11 +48,18 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			if (caster.TryGetSkill(SkillId.Sadhu_Tanoti, out var skill))
-			{
-				caster.SetAttackState(true);
+			var skillCharacter = casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? casterCharacter.Owner
+				: caster;
 
-				this.AreaOfEffect(caster, skill, caster.Position);
+			if (skillCharacter.TryGetSkill(SkillId.Sadhu_Possession, out var skill))
+			{
+				skillCharacter.SetAttackState(true);
+
+				this.AreaOfEffect(skillCharacter, skill, caster.Position);
+
+				if (ApplySelfHold && !casterCharacter.IsDummy)
+					skillCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));
 
 				// [Arts] Spirit Expert: Wandering Soul
 				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
@@ -74,7 +83,7 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
-			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Tanoti_Buff);
+			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Possession_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);
 
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
@@ -97,6 +106,15 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		}
 
 		/// <summary>
+		/// Returns the amount of hold time in milliseconds
+		/// </summary>
+		/// <param name="skill"></param>
+		private int GetHoldTime(Skill skill)
+		{
+			return 1000 + (300 * skill.Level);
+		}
+
+		/// <summary>
 		/// Makes the chararacter returns to original position
 		/// and also get ride of the dummy character
 		/// </summary>
@@ -106,16 +124,16 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		{
 			var dummyCharacter = character.Map.GetDummyCharacter(dummyHandle);
 
-			if (dummyCharacter != null)
-			{
-				character.Position = dummyCharacter.Position;
-				character.Direction = dummyCharacter.Direction;
-				Send.ZC_ROTATE(character);
-				Send.ZC_SET_POS(character, dummyCharacter.Position);
-				Send.ZC_OWNER(character, dummyCharacter, 0);
-				Send.ZC_LEAVE(dummyCharacter);
-				character.Map.RemoveDummyCharacter(dummyCharacter);
-			}
+			if (dummyCharacter == null)
+				return;
+
+			character.Position = dummyCharacter.Position;
+			character.Direction = dummyCharacter.Direction;
+			Send.ZC_ROTATE(character);
+			Send.ZC_SET_POS(character, dummyCharacter.Position);
+			Send.ZC_OWNER(character, dummyCharacter, 0);
+			Send.ZC_LEAVE(dummyCharacter);
+			character.Map.RemoveDummyCharacter(dummyCharacter);			
 		}
 
 		/// <summary>
@@ -125,17 +143,16 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 		/// <param name="skill"></param>
 		private void AreaOfEffect(ICombatEntity caster, Skill skill, Position position)
 		{
-			Send.ZC_GROUND_EFFECT(caster, "F_cleric_patati_explosion", position, 0.8f, 1f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_spread_out026_mint", position, 3f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_explosion086_mint", position, 1.2f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_burstup047_mint", position, 0.7f, 3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_pattern025_loop", position, 1.5f, 3f, 0, 0, 0);
 
-			var circle = new Circle(position, 60);
+			var circle = new Circle(position, 120);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, circle);
-			var chance = this.GetPullChance(skill);
 
 			foreach (var target in targets.LimitRandom(MaxTargets))
 			{
-				if (chance >= RandomProvider.Get().Next(100))
-					this.PullEntity(caster, target);
-
 				this.Attack(skill, caster, target);
 			}
 		}
@@ -155,26 +172,6 @@ namespace Melia.Zone.Buffs.Handlers.Cleric.Sadhu
 			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
-		}
-
-		/// <summary>
-		/// Pull the entity close to the caster position
-		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="target"></param>
-		private void PullEntity(ICombatEntity caster, ICombatEntity target)
-		{
-			target.Position = caster.Position;
-			Send.ZC_SET_POS(target, caster.Position);
-		}
-
-		/// <summary>
-		/// Returns the pull chance once the monster is hit
-		/// </summary>
-		/// <param name="skill"></param>
-		private float GetPullChance(Skill skill)
-		{
-			return  35 + (4.5f * skill.Level);
 		}
 
 		/// <summary>

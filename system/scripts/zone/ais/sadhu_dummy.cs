@@ -16,8 +16,8 @@ using Yggdrasil.Logging;
 [Ai("SadhuDummy")]
 public class SadhuDummyAiScript : AiScript
 {
-	private const int MaxChaseDistance = 75;
-	private const int MaxMasterDistance = 75;
+	private const int MaxChaseDistance = 50;
+	private const int MaxMasterDistance = 100;
 
 	ICombatEntity target;
 
@@ -31,7 +31,6 @@ public class SadhuDummyAiScript : AiScript
 	protected override void Root()
 	{
 		StartRoutine("Idle", Idle());
-		Log.Info("[Root] Idle Routine Started.");
 	}
 
 	protected IEnumerable Idle()
@@ -39,18 +38,15 @@ public class SadhuDummyAiScript : AiScript
 		var movement = this.Entity.Components.Get<MovementComponent>();
 
 		movement.SetMoveSpeedType(MoveSpeedType.Run);
-		movement.SetFixedMoveSpeed(45);
-
-		Log.Info("Setting the MoveType to run - Speed: {0}", 45);
 
 		var master = GetMaster();
-		if (master != null)
+		if (master != null && !InRangeOf(master, MaxMasterDistance))
 		{
 			yield return Follow(master, 25, true, false);
 			yield break;
 		}
 
-		yield return Wait(1000, 2000);
+		yield return Wait(250, 500);
 
 		SwitchRandom();
 
@@ -62,9 +58,6 @@ public class SadhuDummyAiScript : AiScript
 
 	protected IEnumerable Attack()
 	{		
-		ExecuteOnce(Emoticon("I_emo_damagerank1_crown"));
-		Log.Info("IEnumerable Attack()");
-
 		// Remove the dummy character if the master is gone
 		if (TryGetMaster(out var master) && EntityGone(master) && this.Entity is Character dummyCharacter)
 		{
@@ -83,11 +76,9 @@ public class SadhuDummyAiScript : AiScript
 		{
 			if (!TryGetAutoAttackSkill(SkillId.Normal_Attack, out var skill))
 			{
-				Log.Info("skill is null");
 				if (TryGetAutoAttackSkill(SkillId.Hammer_Attack, out var skillHammer))
 				{
 					skill = skillHammer;
-					Log.Info("skillHammer is NOT null");
 				} else
 				{
 					yield return Wait(3000);
@@ -95,16 +86,13 @@ public class SadhuDummyAiScript : AiScript
 				}
 			}
 
-			Log.Info("skill.GetAttackRange(): {0}", skill.GetAttackRange());
-			Log.Info("InAttackRange: {0}", InRangeOf(target, 15));
-
-			while (!InRangeOf(target, 15))
-				yield return MoveTo(target.Position, wait: false);
+			while (!InRangeOf(target, 30))
+				yield return MoveTo(target.Position.GetRelative(this.Entity.Position, 25), wait: false);
 
 			yield return StopMove();
 
 			yield return UseAutoAttackSkill(skill, target);
-			yield return Wait(skill.Properties.Delay);
+			yield return Wait(250, 500);
 		}
 
 		yield break;
@@ -114,7 +102,6 @@ public class SadhuDummyAiScript : AiScript
 	{
 		yield return StopMove();
 		StartRoutine("Idle", Idle());
-		Log.Info("[StopAndIdle] Idle Routine Started.");
 	}
 
 	protected IEnumerable StopAndAttack()
@@ -123,11 +110,8 @@ public class SadhuDummyAiScript : AiScript
 		ExecuteOnce(Emoticon("I_emo_exclamation"));
 		ExecuteOnce(TurnTowards(target));
 
-		Log.Info("[StopAndAttack] target.Name: {0}", target.Name);
-
 		yield return StopMove();
 		StartRoutine("Attack", Attack());
-		Log.Info("[StopAndAttack] Attack() Routine Started");
 	}
 
 	/// <summary>
@@ -164,13 +148,12 @@ public class SadhuDummyAiScript : AiScript
 
 	private void CheckEnemies()
 	{
-		var attackableEntities = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, Entity.Position, 75);
+		var attackableEntities = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, Entity.Position, MaxChaseDistance);
 
 		if (attackableEntities != null && attackableEntities.Count > 0)
 		{
 			target = attackableEntities[0];
 			StartRoutine("StopAndAttack", StopAndAttack());
-			Log.Info("[CheckEnemies] StopAndAttack Routine Started.");
 		}
 	}
 
@@ -181,7 +164,6 @@ public class SadhuDummyAiScript : AiScript
 		{
 			target = null;
 			StartRoutine("StopAndIdle", StopAndIdle());
-			Log.Info("[CheckTarget] StopAndIdle Routine Started.");
 		}
 	}
 
@@ -198,7 +180,6 @@ public class SadhuDummyAiScript : AiScript
 		{
 			target = null;
 			StartRoutine("StopAndIdle", StopAndIdle());
-			Log.Info("[CheckMaster] StopAndIdle Routine Started.");
 		}
 	}
 }

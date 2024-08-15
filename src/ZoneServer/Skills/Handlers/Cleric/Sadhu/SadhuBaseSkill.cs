@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 {
@@ -134,7 +135,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, dummyCharacter.Handle, 255, 200, 100, 150, 0.01f);
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
 
-			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), casterCharacter);
+			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), dummyCharacter);
 
 			var aiComponent = new AiComponent(dummyCharacter, "SadhuDummy");
 			aiComponent.Script.SetMaster(casterCharacter);
@@ -172,7 +173,6 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 
 			dummyCharacter.Position = position;
 			dummyCharacter.Direction = casterCharacter.Direction;
-			dummyCharacter.Owner = casterCharacter;
 
 			foreach (var item in casterCharacter.Inventory.GetEquip())
 			{
@@ -196,7 +196,11 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			dummyCharacter.UpdateStance();
 			dummyCharacter.ModifyHpSafe(casterCharacter.MaxHp, out var hp, out var priority);
 
+			dummyCharacter.Owner = casterCharacter;
+
 			casterCharacter.Map.AddDummyCharacter(dummyCharacter);
+
+			Log.Info("[SpawnDummyClone] casterCharacter.IsDummy: {0}", casterCharacter.IsDummy);
 
 			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter, true);
 			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);			
