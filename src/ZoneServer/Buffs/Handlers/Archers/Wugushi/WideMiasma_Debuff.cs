@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 
 			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
 
-			buff.Data.UpdateTime = damageThickDelay;
+			buff.UpdateTime = damageThickDelay;
 		}
 
 		public override void WhileActive(Buff buff)
