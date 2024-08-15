@@ -21,6 +21,7 @@
 #include "inc/equipSlots.bt"
 
 #include "inc/LpString.bt"
+#include "inc/Bool.bt"
 #include "inc/Property.bt"
 #include "inc/MsgParameter.bt"
 #include "inc/Position.bt"
