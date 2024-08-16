@@ -269,6 +269,16 @@ namespace Melia.Barracks
 			// even though people might still be logged in on a zone.
 			// This should be pretty rare though, and we can improve
 			// it once the servers talk to each other. TODO.
+			// 
+			// Update: Actually, even now that the servers are talking
+			// to each other, we can't just clear a login state, because
+			// even if the coordinator broadcasts a disconnect message,
+			// a zone server that is not connected to the coordinator
+			// for whatever reason will miss that, and then we might
+			// still get a double login. Hm, new idea: session ids.
+			// You can only save if the session id matches the latest
+			// one in the db. We'll have to check if that's feasible.
+			// TODO.
 			this.Database.ClearLoginStates();
 		}
 
