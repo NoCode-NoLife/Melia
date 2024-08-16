@@ -172,7 +172,7 @@ namespace Melia.Web
 		{
 			Log.Info("Attempting to connect to coordinator...");
 
-			var commName = ServerType.Barracks.ToString();
+			var commName = ServerType.Web.ToString();
 
 			this.Communicator = new Communicator(commName);
 			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
