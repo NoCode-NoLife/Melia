@@ -4,27 +4,25 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.Skills.SplashAreas;
-using Melia.Shared.World;
+using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Shared.World;
+using System.Collections.Generic;
 
 namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 {
 	/// <summary>
-	/// Handler for the Out Of Body Experience (OOBE) Posession Buff
+	/// Handler for the Out Of Body Experience (OOBE) Anila Buff
 	/// which makes the character go back to original position after a while
-	/// and leave an effect that damages enemies inside
+	/// and leave an effect that damages enemies on hit by a wave effect
 	/// </summary>
-	[BuffHandler(BuffId.OOBE_Possession_Buff)]
-	public class OOBE_Possession_Buff : BuffHandler
+	[BuffHandler(BuffId.OOBE_Moksha_Buff)]
+	public class OOBE_Moksha_Buff : BuffHandler
 	{
-		private const int MaxTargets = 7;
-		// The skill tooltip says that a movement hold just be applied
-		// but it doesn't happen. For that reason I left this here in that case it changes
-		private const bool ApplySelfHold = false;
-
 		public override void OnStart(Buff buff)
 		{
 			var caster = buff.Caster;
@@ -52,30 +50,35 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				? casterCharacter.Owner
 				: caster;
 
-			if (skillCharacter.TryGetSkill(SkillId.Sadhu_Possession, out var skill))
+			if (skillCharacter.TryGetSkill(SkillId.Sadhu_Moksha, out var skill))
 			{
 				skillCharacter.SetAttackState(true);
 
-				this.AreaOfEffect(skillCharacter, skill, caster.Position);
+				var pad = new Pad(PadName.Sadhu_Moksha_Pad, skillCharacter, skill, new Circle(caster.Position, 100));
 
-				if (ApplySelfHold && !casterCharacter.IsDummy)
-					skillCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));
+				pad.Position = caster.Position;
+				pad.Trigger.MaxActorCount = 10;
+				pad.Trigger.LifeTime = TimeSpan.FromSeconds(5);
+				pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
+				pad.Trigger.Subscribe(TriggerType.Update, this.OnUpdate);
+				pad.Trigger.Subscribe(TriggerType.Destroy, this.OnDestroyPad);
+
+				caster.Map.AddPad(pad);
 
 				// [Arts] Spirit Expert: Wandering Soul
-				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
 				{
 					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
 					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
 					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
-				}
-				else
+				} else
 				{
 					skill.IncreaseOverheat();
 				}
 			}
 
 			// [Arts] Spirit Expert: Wandering Soul
-			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
 			{
 				this.RemoveDummyCharacter(casterCharacter);
 				return;
@@ -83,7 +86,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
-			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Possession_Buff);
+			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Moksha_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);
 
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
@@ -106,15 +109,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Returns the amount of hold time in milliseconds
-		/// </summary>
-		/// <param name="skill"></param>
-		private int GetHoldTime(Skill skill)
-		{
-			return 1000 + (300 * skill.Level);
-		}
-
-		/// <summary>
 		/// Makes the chararacter returns to original position
 		/// and also get ride of the dummy character
 		/// </summary>
@@ -126,35 +120,56 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 
 			if (dummyCharacter == null)
 				return;
-
+			
 			character.Position = dummyCharacter.Position;
 			character.Direction = dummyCharacter.Direction;
+
+			dummyCharacter.Died -= this.OnDummyDied;
+
 			Send.ZC_ROTATE(character);
 			Send.ZC_SET_POS(character, dummyCharacter.Position);
 			Send.ZC_OWNER(character, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
+				
 			character.Map.RemoveDummyCharacter(dummyCharacter);			
 		}
 
 		/// <summary>
-		/// Creates the Area of Effect
+		/// Called in regular intervals while the pad is on a map.
 		/// </summary>
-		/// <param name="caster"></param>
-		/// <param name="skill"></param>
-		private void AreaOfEffect(ICombatEntity caster, Skill skill, Position position)
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnUpdate(object sender, PadTriggerArgs args)
 		{
-			Send.ZC_GROUND_EFFECT(caster, "F_spread_out026_mint", position, 3f, 3f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(caster, "F_explosion086_mint", position, 1.2f, 3f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(caster, "F_burstup047_mint", position, 0.7f, 3f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(caster, "F_pattern025_loop", position, 1.5f, 3f, 0, 0, 0);
+			var pad = args.Trigger;
+			var caster = args.Creator;
+			var skill = args.Skill;
 
-			var circle = new Circle(position, 120);
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, circle);
+			var targets = pad.Trigger.GetAttackableEntities(caster);
 
-			foreach (var target in targets.LimitRandom(MaxTargets))
+			// The explosion has its own maximum target count which is separate from the skill
+			var maxTargets = pad.Trigger.MaxActorCount;
+
+			if (ZoneServer.Instance.Conf.World.DisableSDR)
+				maxTargets = int.MaxValue;
+
+			foreach (var target in targets.LimitRandom(maxTargets))
 			{
 				this.Attack(skill, caster, target);
 			}
+		}
+
+		/// <summary>
+		/// Executes end attack when the pad ends.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnDestroyPad(object sender, PadTriggerArgs args)
+		{
+			var pad = args.Trigger;
+			var creator = args.Creator;
+
+			this.EndAttack(pad.Skill, creator, (ISplashArea)pad.Area);
 		}
 
 		/// <summary>
@@ -164,14 +179,47 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="caster"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var modifier = SkillModifier.MultiHit(5);
-			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
+			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(0));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
+		}
+
+		/// <summary>
+		/// Executes the end attack when the skill's pad ends
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="splashArea"></param>
+		private void EndAttack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		{
+			var damageDelay = TimeSpan.FromMilliseconds(50);
+			var skillHitDelay = TimeSpan.Zero;
+
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+
+			// The explosion has its own maximum target count which is separate from the skill
+			var maxTargets = 10;
+
+			if (ZoneServer.Instance.Conf.World.DisableSDR)
+				maxTargets = int.MaxValue;
+
+			foreach (var target in targets.LimitRandom(maxTargets))
+			{
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+				target.TakeDamage(skillHitResult.Damage, caster);
+
+				// 6 Consecutive hits instead of a single packet
+				for (int i = 0; i < 6; i++)
+				{
+					var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(i * 150));
+					Send.ZC_HIT_INFO(caster, target, hit);
+				}
+			}
 		}
 
 		/// <summary>
@@ -182,7 +230,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="killer"></param>
 		private void OnDummyDied(Character character, ICombatEntity killer)
 		{
-			character.Owner.StopBuff(BuffId.OOBE_Possession_Buff);
+			character.Owner.StopBuff(BuffId.OOBE_Moksha_Buff);
 		}
 	}
 }

@@ -12,7 +12,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
+namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
 	/// <summary>
 	/// Base skill class Sadhu skills.
@@ -120,7 +120,6 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			this.SkillReady(caster, skill, caster.Position);
 
 			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
-			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, moveSpeedBonus);
 
 			var dummyCharacter = this.SpawnDummyClone(casterCharacter, farPos);
 
@@ -203,7 +202,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			Log.Info("[SpawnDummyClone] casterCharacter.IsDummy: {0}", casterCharacter.IsDummy);
 
 			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter, true);
-			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);			
+			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);
 			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
 
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
@@ -223,7 +222,7 @@ namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
 			{
 				var isSadhuSkill = false;
 
-				for (int i = 0; i < skillTreeData.Length; i++)
+				for (var i = 0; i < skillTreeData.Length; i++)
 				{
 					if (skillTreeData[i].SkillId == availableSkill.Id)
 					{

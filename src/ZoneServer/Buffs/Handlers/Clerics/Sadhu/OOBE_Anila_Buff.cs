@@ -11,7 +11,6 @@ using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Shared.World;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 {
@@ -102,8 +101,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				Send.ZC_OWNER(ownerCharacter, character, 0);
 
 			Send.ZC_LEAVE(character);
-
-			Log.Info("Removing Dummy Character");
 
 			character.Map.RemoveDummyCharacter(character);
 		}

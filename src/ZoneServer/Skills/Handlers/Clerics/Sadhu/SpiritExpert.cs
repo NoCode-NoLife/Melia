@@ -7,7 +7,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Skills.Handlers.Cleric.SadHu
+namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
 	/// <summary>
 	/// Handler for the Cleric skill Spirit Expert.

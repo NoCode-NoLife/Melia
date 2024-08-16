@@ -16,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	/// <summary>
 	/// Handler for the Out Of Body Experience (OOBE) Tanoti Buff
 	/// which makes the character go back to original position after a while
-	/// and creates an effect that damages enemies inside within a chance of pulling then
+	/// and creates an effect that damages enemies inside within a chance of pulling them
 	/// </summary>
 	[BuffHandler(BuffId.OOBE_Tanoti_Buff)]
 	public class OOBE_Tanoti_Buff : BuffHandler
@@ -94,7 +94,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="killer"></param>
 		private void OnDummyDied(Character character, ICombatEntity killer)
 		{
-			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
+			character.Owner.StopBuff(BuffId.OOBE_Tanoti_Buff);
 		}
 
 		/// <summary>
@@ -140,14 +140,16 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="skill"></param>
 		private void AreaOfEffect(ICombatEntity caster, Skill skill, Position position)
 		{
-			Send.ZC_GROUND_EFFECT(caster, "F_cleric_patati_explosion", position, 0.8f, 1f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "F_pose_magical2_light01_mint", position, 1.5f, 1f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(caster, "E_cleric_tanoti001", position, 1f, 1f, 0, 0, 0);
 
 			var circle = new Circle(position, 60);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, circle);
-			var chance = this.GetPullChance(skill);
 
 			foreach (var target in targets.LimitRandom(MaxTargets))
 			{
+				var chance = this.GetPullChance(skill);
+
 				if (chance >= RandomProvider.Get().Next(100))
 					this.PullEntity(caster, target);
 

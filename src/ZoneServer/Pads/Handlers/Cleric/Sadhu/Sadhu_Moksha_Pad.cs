@@ -7,8 +7,8 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 	/// <summary>
 	/// Handler for the Sadhu Prakriti Pad, creates and disables the effect
 	/// </summary>
-	[PadHandler(PadName.Sadhu_Prakriti_Pad)]
-	public class Sadhu_Prakriti_Pad : ICreatePadHandler, IDestroyPadHandler
+	[PadHandler(PadName.Sadhu_Moksha_Pad)]
+	public class Sadhu_Moksha_Pad : ICreatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -20,7 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, 1.570796f, 0, 70, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Moksha_Pad, -0.7853982f, 0, 100, true);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Prakriti_Pad, 1.570796f, 0, 70, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Moksha_Pad, -0.7853982f, 0, 100, false);
 		}
 	}
 }

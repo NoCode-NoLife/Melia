@@ -17,7 +17,7 @@ using Yggdrasil.Logging;
 public class SadhuDummyAiScript : AiScript
 {
 	private const int MaxChaseDistance = 50;
-	private const int MaxMasterDistance = 100;
+	private const int MaxMasterDistance = 80;
 
 	ICombatEntity target;
 
@@ -38,7 +38,14 @@ public class SadhuDummyAiScript : AiScript
 		var movement = this.Entity.Components.Get<MovementComponent>();
 
 		movement.SetMoveSpeedType(MoveSpeedType.Run);
-
+		
+		if (this.Entity is Character entityCharacter && entityCharacter.IsDummy)
+		{
+			SetRunning(true);
+			entityCharacter.Properties.Modify(PropertyName.MSPD_BM, 55);
+			Send.ZC_MSPD(entityCharacter.Owner, entityCharacter);
+		}
+		
 		var master = GetMaster();
 		if (master != null && !InRangeOf(master, MaxMasterDistance))
 		{
@@ -69,8 +76,6 @@ public class SadhuDummyAiScript : AiScript
 			dummyCharacter.Map.RemoveDummyCharacter(dummyCharacter);
 			yield break;
 		}
-
-		SetRunning(true);
 
 		while (!target.IsDead)
 		{
@@ -106,8 +111,6 @@ public class SadhuDummyAiScript : AiScript
 
 	protected IEnumerable StopAndAttack()
 	{
-		// TODO: remove this emote
-		ExecuteOnce(Emoticon("I_emo_exclamation"));
 		ExecuteOnce(TurnTowards(target));
 
 		yield return StopMove();

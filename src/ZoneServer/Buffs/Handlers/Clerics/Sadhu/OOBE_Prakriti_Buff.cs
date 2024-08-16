@@ -174,7 +174,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="killer"></param>
 		private void OnDummyDied(Character character, ICombatEntity killer)
 		{
-			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
+			character.Owner.StopBuff(BuffId.OOBE_Prakriti_Buff);
 		}
 	}
 }
