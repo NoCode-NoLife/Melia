@@ -27,8 +27,8 @@ public class DStartower88MobScript : GeneralScript
 		AddSpawner("d_startower_88.Id3", MonsterId.NightPanto_Mage, min: 9, max: 11);
 		AddSpawner("d_startower_88.Id4", MonsterId.NightPanto_Mage, min: 8, max: 10);
 		AddSpawner("d_startower_88.Id5", MonsterId.Mushuta, min: 30, max: 39);
-		AddSpawner("d_startower_88.Id6", MonsterId.Rootcrystal_02, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(10000));
-		AddSpawner("d_startower_88.Id7", MonsterId.Mushuta, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("d_startower_88.Id6", MonsterId.Rootcrystal_02, min: 12, max: 16, respawn: Seconds(10));
+		AddSpawner("d_startower_88.Id7", MonsterId.Mushuta, min: 30, max: 40, respawn: Seconds(25));
 
 		// Monster Spawn Points -----------------------------
 

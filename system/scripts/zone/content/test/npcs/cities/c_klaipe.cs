@@ -11,6 +11,26 @@ public class CKlaipeNpcScript : GeneralScript
 {
 	public override void Load()
 	{
+		// Storage Keeper
+		//-------------------------------------------------------------------------
+
+		AddNpc(154018, "[Storage Keeper] Rita", "Rita", "c_Klaipe", 317, 279, 90.0, async dialog =>
+		{
+			dialog.SetTitle("Rita");
+			dialog.SetPortrait("WAREHOUSE_DLG");
+
+			var response = await dialog.Select("Can I help you store your items?",
+				Option("Personal Storage", "personal"),
+				Option("Team Storage", "team"),
+				Option("Cancel", "cancel")
+			);
+
+			if (response == "personal")
+				await dialog.OpenPersonalStorage();
+			else if (response == "team")
+				await dialog.OpenTeamStorage();
+		});
+
 		// Equipment Merchant
 		//-------------------------------------------------------------------------
 

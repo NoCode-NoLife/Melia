@@ -18,7 +18,7 @@ public class FKatyn452MobScript : GeneralScript
 		AddSpawner("f_katyn_45_2.Id1", MonsterId.Ridimed_Blue, min: 30, max: 40);
 		AddSpawner("f_katyn_45_2.Id2", MonsterId.Puragi_Red, min: 12, max: 15);
 		AddSpawner("f_katyn_45_2.Id3", MonsterId.Pappus_Kepa_Purple, min: 12, max: 15);
-		AddSpawner("f_katyn_45_2.Id4", MonsterId.Rootcrystal_04, min: 26, max: 34, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_katyn_45_2.Id4", MonsterId.Rootcrystal_04, min: 26, max: 34, respawn: Seconds(30));
 		AddSpawner("f_katyn_45_2.Id5", MonsterId.Ridimed_Blue, min: 30, max: 40);
 
 		// Monster Spawn Points -----------------------------

@@ -15,7 +15,7 @@ public class DAbbey416MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_41_6.Id1", MonsterId.Rootcrystal_01, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("d_abbey_41_6.Id1", MonsterId.Rootcrystal_01, min: 12, max: 16, respawn: Seconds(5));
 		AddSpawner("d_abbey_41_6.Id2", MonsterId.Ticen_Bow_Red, min: 12, max: 15);
 		AddSpawner("d_abbey_41_6.Id3", MonsterId.Ticen_Red, min: 105, max: 140);
 		AddSpawner("d_abbey_41_6.Id4", MonsterId.Ticen_Mage_Red, min: 12, max: 15);

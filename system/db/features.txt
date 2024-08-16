@@ -76,7 +76,7 @@
 	{ name: "AttackTypeBonusRevamp2", enabled: true },
 	
 	// Changes how blocks behave
-	{ name: "BlockRevamp", enabled: false, children: [
+	{ name: "BlockRevamp", enabled: true, children: [
 		// Changes blocks to not nullify damage
 		{ name: "NonNullifyBlocks", enabled: true },
 		
@@ -105,6 +105,9 @@
 		
 		// Changes Hasisas to not base crit bonus on HP lost
 		{ name: "HasisasNoHpCritBonus", enabled: true },
+
+		// Changes Pierce to not base its hit count on target size
+		{ name: "PierceNoSizeEffect", enabled: true },
 	]},
 	
 	// Enables special classes, such as Desperado

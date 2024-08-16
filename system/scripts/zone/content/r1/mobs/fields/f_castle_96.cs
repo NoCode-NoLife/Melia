@@ -24,8 +24,8 @@ public class FCastle96MobScript : GeneralScript
 		AddSpawner("f_castle_96.Id1", MonsterId.Gigglecat, min: 68, max: 90);
 		AddSpawner("f_castle_96.Id2", MonsterId.Ghoscat, min: 38, max: 50);
 		AddSpawner("f_castle_96.Id3", MonsterId.ArchGargoyle, min: 15, max: 20);
-		AddSpawner("f_castle_96.Id4", MonsterId.Ghoscat, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("f_castle_96.Id5", MonsterId.Rootcrystal_04, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_castle_96.Id4", MonsterId.Ghoscat, min: 16, max: 21, respawn: Seconds(40));
+		AddSpawner("f_castle_96.Id5", MonsterId.Rootcrystal_04, min: 23, max: 30, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

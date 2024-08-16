@@ -3,7 +3,6 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -217,7 +216,11 @@ namespace Melia.Zone.Network
 			/// <param name="packetString2"></param>
 			/// <param name="duration2"></param>
 			/// <param name="position"></param>
-			public static void SkillProjectile(ICombatEntity entity, string packetString1, TimeSpan duration1, string packetString2, TimeSpan duration2, Position position)
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			public static void SkillProjectile(ICombatEntity entity, string packetString1, float scale1, string packetString2, float scale2, Position position, float f1, float f2, float f3, float f4)
 			{
 				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
 					throw new ArgumentException($"Packet string '{packetString1}' not found.");
@@ -230,19 +233,62 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(entity.Handle);
 				packet.PutInt(packetStringData1.Id);
-				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutFloat(scale1);
 				packet.PutInt(packetStringData2.Id);
-				packet.PutFloat((float)duration1.TotalSeconds);
+				packet.PutFloat(scale2);
 				packet.PutPosition(position);
-				packet.PutFloat(30);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.PutFloat(f1);
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
 				packet.PutFloat(1);
 				packet.PutLong(0);
 				packet.PutLpString("None");
 
 				entity.Map.Broadcast(packet, entity);
+			}
+
+			/// <summary>
+			/// Plays an animation of a character throwing one of their items
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="str"></param>
+			/// <param name="str2"></param>
+			/// <param name="position"></param>
+			/// <param name="animationName"></param>
+			/// <param name="scale"></param>
+			/// <param name="tossScale"></param>
+			/// <param name="hangScale"></param>
+			/// <param name="speed"></param>
+			/// <param name="startAngle"></param>
+			/// <param name="endAngle"></param>
+			/// <param name="f7"></param>
+			/// <param name="itemScale"></param>
+			/// <param name="itemStayTime"></param>
+			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
+			{
+				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
+					throw new ArgumentException($"Packet string '{animationName}' not found.");
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SkillItemToss);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(str);
+				packet.PutLpString(str2);
+				packet.PutPosition(position);
+				packet.PutInt(packetStringData.Id);
+				packet.PutFloat(scale);
+				packet.PutFloat(tossScale);
+				packet.PutFloat(hangScale);
+				packet.PutFloat(speed);
+				packet.PutFloat(startAngle);
+				packet.PutFloat(endAngle);
+				packet.PutFloat(f7);
+				packet.PutFloat(itemScale);
+				packet.PutFloat(itemStayTime.Seconds);
+
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
@@ -572,7 +618,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather wig equipment is visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
@@ -588,7 +634,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Updates weather wig eequipment is visible for the character
+			/// Updates weather sub weapons are visible for the character
 			/// on clients in range.
 			/// </summary>
 			/// <param name="character"></param>
@@ -660,7 +706,7 @@ namespace Melia.Zone.Network
 			/// <param name="spinCount"></param>
 			/// <param name="rotationsPerSecond"></param>
 			/// <param name="velocityChangeTerm"></param>
-			public static void SpinObject(IActor actor, float spinDelay = 0, float spinCount = -1, float rotationsPerSecond = 0.2f, float velocityChangeTerm = 0)
+			public static void SpinObject(IActor actor, float spinDelay, float spinCount, float rotationsPerSecond, float velocityChangeTerm)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SpinObject);
@@ -1101,7 +1147,7 @@ namespace Melia.Zone.Network
 					packet.PutByte((byte)job.SkillPoints);
 					packet.PutShort(41857);
 					packet.PutEmptyBin(5);
-					packet.PutLong(132735996030000000);
+					packet.PutLong(job.SelectionDate.ToFileTime());
 					packet.PutLong(0);
 				}
 
@@ -1132,8 +1178,13 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="entity"></param>
 			/// <param name="targetPos"></param>
+			/// <param name="f1"></param>
+			/// <param name="f2"></param>
+			/// <param name="f3"></param>
+			/// <param name="f4"></param>
+			/// <param name="f5"></param>
 			/// <param name="jumpHeight"></param>
-			public static void LeapJump(ICombatEntity entity, Position targetPos, float jumpHeight = 20)
+			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
@@ -1141,11 +1192,11 @@ namespace Melia.Zone.Network
 				packet.PutInt(entity.Handle);
 				packet.PutPosition(targetPos);
 				packet.PutFloat(jumpHeight);
-				packet.PutFloat(0.1f); // jump speed?
-				packet.PutFloat(0.1f);
-				packet.PutFloat(1);
-				packet.PutFloat(0.2f);
-				packet.PutFloat(1);
+				packet.PutFloat(f1); // jump speed?
+				packet.PutFloat(f2);
+				packet.PutFloat(f3);
+				packet.PutFloat(f4);
+				packet.PutFloat(f5);
 
 				entity.Map.Broadcast(packet, entity);
 			}

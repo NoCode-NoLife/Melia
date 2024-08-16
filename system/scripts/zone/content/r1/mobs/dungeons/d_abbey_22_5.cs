@@ -15,16 +15,16 @@ public class DAbbey225MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_22_5.Id1", MonsterId.Rootcrystal_01, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_5.Id1", MonsterId.Rootcrystal_01, min: 16, max: 21, respawn: Minutes(1));
 		AddSpawner("d_abbey_22_5.Id2", MonsterId.Hohen_Orben_Black, min: 15, max: 20);
 		AddSpawner("d_abbey_22_5.Id3", MonsterId.Harugal_Black, min: 15, max: 20);
 		AddSpawner("d_abbey_22_5.Id4", MonsterId.Drooper, min: 15, max: 20);
 		AddSpawner("d_abbey_22_5.Id5", MonsterId.StonOrca_Red, min: 128, max: 170);
-		AddSpawner("d_abbey_22_5.Id6", MonsterId.Hohen_Orben_Black, min: 5, max: 6, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("d_abbey_22_5.Id7", MonsterId.Drooper, amount: 2, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("d_abbey_22_5.Id8", MonsterId.Harugal_Black, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("d_abbey_22_5.Id9", MonsterId.Harugal_Black, amount: 3, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("d_abbey_22_5.Id10", MonsterId.Drooper, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_5.Id6", MonsterId.Hohen_Orben_Black, min: 5, max: 6, respawn: Seconds(40));
+		AddSpawner("d_abbey_22_5.Id7", MonsterId.Drooper, amount: 2, respawn: Seconds(40));
+		AddSpawner("d_abbey_22_5.Id8", MonsterId.Harugal_Black, min: 3, max: 4, respawn: Seconds(40));
+		AddSpawner("d_abbey_22_5.Id9", MonsterId.Harugal_Black, amount: 3, respawn: Seconds(20));
+		AddSpawner("d_abbey_22_5.Id10", MonsterId.Drooper, amount: 1, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

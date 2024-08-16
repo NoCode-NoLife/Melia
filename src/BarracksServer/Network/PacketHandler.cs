@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
 using Melia.Shared.Database;
@@ -158,7 +161,15 @@ namespace Melia.Barracks.Network
 			Send.BC_NORMAL.CharacterInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
 			Send.BC_NORMAL.ZoneTraffic(conn);
-			//Send.BC_NORMAL.MESSAGE_MAIL(conn);
+
+			if (conn.Account.Mailbox.HasMessages)
+			{
+				var messages = conn.Account.Mailbox.GetPagedMessages();
+				var totalMessageCount = conn.Account.Mailbox.MessageCount;
+				var page = 1;
+
+				Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
+			}
 
 			// Update account properties with Lua code to send scripts
 			// to the client
@@ -566,18 +577,43 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(IBarracksConnection conn, Packet packet)
 		{
-			var checksum = packet.GetString(64);
+			var clientChecksum = packet.GetString(64);
 
 			if (!BarracksServer.Instance.Conf.Barracks.VerifyIpf)
 				return;
 
-			var bytes = Encoding.UTF8.GetBytes(BarracksServer.Instance.Conf.Barracks.IpfChecksum + 0 /*conn.IntegritySeed*/);
-			var hash = MD5.Encode(bytes);
+			var serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum;
 
-			var result = BitConverter.ToString(hash).Replace("-", "").ToLower();
-
-			if (!checksum.Equals(result, StringComparison.InvariantCultureIgnoreCase))
+			if (conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
 			{
+				Log.Info("Updating IPF checksum to '{0}' based on user '{1}'s request.", clientChecksum, conn.Account.Name);
+
+				serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum = clientChecksum;
+
+				var filePath = "user/conf/barracks.conf";
+
+				if (File.Exists(filePath))
+				{
+					var contents = File.ReadAllText(filePath);
+
+					if (contents.Contains("ipf_checksum"))
+						contents = Regex.Replace(contents, @"ipf_checksum\s*:\s*[a-fA-F0-9]+", "ipf_checksum: " + clientChecksum);
+					else
+						contents += Environment.NewLine + "ipf_checksum: " + clientChecksum;
+
+					File.WriteAllText(filePath, contents);
+				}
+				else
+				{
+					var contents = "ipf_checksum: " + clientChecksum + Environment.NewLine;
+					File.WriteAllText(filePath, contents);
+				}
+			}
+
+			if (!clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
+			{
+				Log.Warning("CB_CHECK_CLIENT_INTEGRITY: User '{0}' tried to log in with an invalid IPF checksum ({1}).", conn.Account.Name, clientChecksum);
+
 				Send.BC_MESSAGE(conn, MsgType.InvalidIpf);
 
 				// Send these packets as well, even if the integrity check
@@ -654,7 +690,7 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Request to update the state of a postbox message.
+		/// Request to update the state of a mailbox message.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -663,23 +699,141 @@ namespace Melia.Barracks.Network
 		{
 			var dbType = packet.GetByte();
 			var messageId = packet.GetLong();
-			var state = (PostBoxMessageState)packet.GetByte();
+			var state = (MailboxMessageState)packet.GetByte();
 
-			// TODO: Implement use of changing state.
-			Send.BC_MESSAGE(conn, "Updating mail isn't working yet.");
+			var mailbox = conn.Account.Mailbox;
+
+			if (!mailbox.TryGetMail(messageId, out var message))
+			{
+				Log.Warning("CB_REQ_CHANGE_POSTBOX_STATE: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+				return;
+			}
+
+			message.State = state;
+
+			Send.BC_NORMAL.UpdateMailboxState(conn, message.Id, message.State);
 		}
 
 		/// <summary>
-		/// Request to get the next page of mail with a count.
+		/// Request to get item from mail box.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_GET_POSTBOX_ITEM)]
+		public void CB_REQ_GET_POSTBOX_ITEM(IBarracksConnection conn, Packet packet)
+		{
+			var dbType = packet.GetByte();
+			var messageId = packet.GetLong();
+			var characterId = packet.GetLong();
+			var itemListStr = packet.GetString();
+
+			var mailbox = conn.Account.Mailbox;
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character == null)
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Character not found by id '{0}' received from '{1}'.", characterId, conn.Account.Name);
+				return;
+			}
+
+			if (!mailbox.TryGetMail(messageId, out var message))
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+				return;
+			}
+
+			if (message.IsExpired)
+			{
+				Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
+				return;
+			}
+
+			var splitItems = itemListStr.Split('/');
+			foreach (var itemStr in splitItems)
+			{
+				if (!int.TryParse(itemStr, out var mailItemId))
+					continue;
+
+				if (!message.TryGetItem(mailItemId, out var item) || item.WasReceived)
+					continue;
+
+				BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+				item.WasReceived = true;
+			}
+
+			if (message.ReceivableItemsCount > 0 && !message.IsExpired)
+				message.State = MailboxMessageState.Unread;
+			else
+				message.State = MailboxMessageState.Store;
+
+			Send.BC_NORMAL.MailUpdate(conn, message);
+		}
+
+		/// <summary>
+		/// Request to get items from multiple mail messages.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_GET_POSTBOX_ITEM_LIST)]
+		public void CB_REQ_GET_POSTBOX_ITEM_LIST(IBarracksConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var messageIdList = packet.GetList(20, packet.GetLong).Where(a => a != 0);
+			var characterId = packet.GetLong();
+
+			var mailbox = conn.Account.Mailbox;
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (character == null)
+			{
+				Log.Warning("CB_REQ_GET_POSTBOX_ITEM_LIST: Character not found by id '{0}' received from '{1}'.", characterId, conn.Account.Name);
+				return;
+			}
+
+			foreach (var messageId in messageIdList)
+			{
+				if (!mailbox.TryGetMail(messageId, out var message))
+				{
+					Log.Warning("CB_REQ_GET_POSTBOX_ITEM_LIST: Mail not found by id '{0}' received from '{1}'.", messageId, conn.Account.Name);
+					continue;
+				}
+
+				if (message.IsExpired)
+				{
+					Send.BC_MESSAGE(conn, Localization.Get("Mail has expired, can't receive items."));
+					continue;
+				}
+
+				foreach (var item in message.GetItems())
+				{
+					if (item.WasReceived)
+						continue;
+
+					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+					item.WasReceived = true;
+				}
+
+				message.State = MailboxMessageState.Read;
+
+				Send.BC_NORMAL.MailUpdate(conn, message);
+			}
+		}
+
+		/// <summary>
+		/// Request to get the next page of mail message with a count.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_POSTBOX_PAGE)]
 		public void CB_REQ_POSTBOX_PAGE(IBarracksConnection conn, Packet packet)
 		{
-			var count = packet.GetInt();
+			var skipCount = packet.GetInt();
 
-			// TODO: Implement postbox message paging.
-			Send.BC_MESSAGE(conn, "Fetching mail isn't working yet.");
+			var messages = conn.Account.Mailbox.GetPagedMessages(skipCount);
+			var totalMessageCount = conn.Account.Mailbox.MessageCount;
+			var page = 1 + (skipCount / Mailbox.MailPerPage);
+
+			Send.BC_NORMAL.Mailbox(conn, messages, page, totalMessageCount);
 		}
 
 		/// <summary>

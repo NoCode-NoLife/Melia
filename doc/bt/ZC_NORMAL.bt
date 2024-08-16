@@ -129,6 +129,7 @@ switch (type)
         float f4;
         float f5;
         int64 l1;
+        lpString str1;
         break;
 
     // ?

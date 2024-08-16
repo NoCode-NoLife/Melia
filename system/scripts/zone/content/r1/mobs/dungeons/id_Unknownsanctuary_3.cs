@@ -23,18 +23,18 @@ public class IdUnknownsanctuary3MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_Unknownsanctuary_3.Id1", MonsterId.RE_Boss_Helga, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id2", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id3", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id4", MonsterId.RE_Boss_Zawra, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id5", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id6", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id7", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id8", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id9", MonsterId.RE_Boss_Zawra, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id10", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id11", MonsterId.RE_Boss_Helga, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id12", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id1", MonsterId.RE_Boss_Helga, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id2", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id3", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id4", MonsterId.RE_Boss_Zawra, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id5", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id6", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id7", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id8", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id9", MonsterId.RE_Boss_Zawra, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id10", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id11", MonsterId.RE_Boss_Helga, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id12", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

@@ -25,7 +25,7 @@ public class FSiauliaiOutMobScript : GeneralScript
 
 		AddSpawner("f_siauliai_out.Id1", MonsterId.Jukopus, min: 5, max: 6);
 		AddSpawner("f_siauliai_out.Id2", MonsterId.Goblin_Spear, min: 12, max: 15);
-		AddSpawner("f_siauliai_out.Id3", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_siauliai_out.Id3", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Seconds(20));
 		AddSpawner("f_siauliai_out.Id4", MonsterId.Onion_Red, min: 5, max: 6);
 		AddSpawner("f_siauliai_out.Id5", MonsterId.Jukopus, min: 12, max: 15);
 		AddSpawner("f_siauliai_out.Id6", MonsterId.Goblin_Spear, min: 6, max: 8);

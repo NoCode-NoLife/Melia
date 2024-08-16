@@ -23,7 +23,7 @@ public class DThorn19MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_19.Id1", MonsterId.Rootcrystal_01, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_thorn_19.Id1", MonsterId.Rootcrystal_01, min: 18, max: 23, respawn: Seconds(30));
 		AddSpawner("d_thorn_19.Id2", MonsterId.Thornball, min: 17, max: 22);
 		AddSpawner("d_thorn_19.Id3", MonsterId.Whip_Vine, min: 8, max: 10);
 		AddSpawner("d_thorn_19.Id4", MonsterId.Operor, min: 12, max: 15);

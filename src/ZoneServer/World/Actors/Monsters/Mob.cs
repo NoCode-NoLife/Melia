@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using Melia.Shared.Configuration.Files;
 using Melia.Shared.Data.Database;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
@@ -37,11 +38,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns the monster's element/attribute.
 		/// </summary>
 		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
-
-		/// <summary>
-		/// Returns the monster's armor material.
-		/// </summary>
-		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the monster's mode of movement.
@@ -142,16 +138,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Physical defense.
-		/// </summary>
-		public int Defense
-		{
-			get { return _defense; }
-			private set { _defense = Math.Max(0, value); }
-		}
-		private int _defense;
-
-		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<Mob, ICombatEntity> Died;
@@ -217,6 +203,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
+		/// Returns a list of fixed items the monster drops as is when it dies.
+		/// </summary>
+		public ConcurrentBag<Item> StaticDrops { get; } = new ConcurrentBag<Item>();
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Mob(int id, MonsterType type) : base()
@@ -242,7 +233,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
 			this.InitProperties();
@@ -274,6 +264,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
@@ -422,11 +415,13 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="killer"></param>
 		private void DropItems(Character killer)
 		{
-			if (this.Data.Drops == null)
-				return;
+			if (this.Data.Drops != null)
+			{
+				var dropStacks = this.GenerateDropStacks(killer);
+				this.DropStacks(killer, dropStacks);
+			}
 
-			var dropStacks = this.GenerateDropStacks(killer);
-			this.DropStacks(killer, dropStacks);
+			this.DropStatic(killer);
 		}
 
 		/// <summary>
@@ -598,7 +593,35 @@ namespace Melia.Zone.World.Actors.Monsters
 				if (autoloot)
 				{
 					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
-					return;
+					continue;
+				}
+
+				var direction = new Direction(rnd.Next(0, 360));
+				var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+				dropItem.Drop(this.Map, this.Position, direction, distance);
+			}
+		}
+
+		/// <summary>
+		/// Drops the monster's static drops if any were added.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropStatic(Character killer)
+		{
+			var rnd = RandomProvider.Get();
+
+			while (this.StaticDrops.TryTake(out var dropItem))
+			{
+				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
+				var autoloot = autolootThreshold > 0;
+
+				if (autoloot)
+				{
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					continue;
 				}
 
 				var direction = new Direction(rnd.Next(0, 360));
@@ -730,13 +753,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Heals the monster's HP and SP by the given amounts.
+		/// Heals the monster's HP and SP by the given amounts. Applies potential
+		/// (de)buffs that affect healing.
 		/// </summary>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			float healingReduction = 0;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;

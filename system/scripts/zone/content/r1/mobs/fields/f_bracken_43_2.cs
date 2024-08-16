@@ -17,11 +17,11 @@ public class FBracken432MobScript : GeneralScript
 
 		AddSpawner("f_bracken_43_2.Id1", MonsterId.Dorong, min: 23, max: 30);
 		AddSpawner("f_bracken_43_2.Id2", MonsterId.Darong, min: 19, max: 25);
-		AddSpawner("f_bracken_43_2.Id3", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_2.Id3", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_bracken_43_2.Id4", MonsterId.Nukarong, min: 4, max: 5);
-		AddSpawner("f_bracken_43_2.Id5", MonsterId.Dorong, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_bracken_43_2.Id6", MonsterId.Darong, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_bracken_43_2.Id7", MonsterId.Dorong, min: 6, max: 8, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_2.Id5", MonsterId.Dorong, amount: 3, respawn: Minutes(1));
+		AddSpawner("f_bracken_43_2.Id6", MonsterId.Darong, min: 3, max: 4, respawn: Minutes(1));
+		AddSpawner("f_bracken_43_2.Id7", MonsterId.Dorong, min: 6, max: 8, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

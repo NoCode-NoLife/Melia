@@ -19,7 +19,7 @@ public class FKatyn453MobScript : GeneralScript
 		AddSpawner("f_katyn_45_3.Id2", MonsterId.Sakmoli_Purple, min: 12, max: 15);
 		AddSpawner("f_katyn_45_3.Id3", MonsterId.Jellyfish_Green, min: 12, max: 15);
 		AddSpawner("f_katyn_45_3.Id4", MonsterId.Fisherman_Blue, min: 12, max: 15);
-		AddSpawner("f_katyn_45_3.Id5", MonsterId.Rootcrystal_04, min: 17, max: 22, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_katyn_45_3.Id5", MonsterId.Rootcrystal_04, min: 17, max: 22, respawn: Seconds(30));
 		AddSpawner("f_katyn_45_3.Id6", MonsterId.Mushroom_Boy_Yellow, min: 27, max: 35);
 		AddSpawner("f_katyn_45_3.Id7", MonsterId.Mushroom_Boy_Yellow, min: 30, max: 40);
 

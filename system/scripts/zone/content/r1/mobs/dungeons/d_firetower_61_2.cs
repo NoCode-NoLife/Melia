@@ -19,10 +19,10 @@ public class DFiretower612MobScript : GeneralScript
 		AddSpawner("d_firetower_61_2.Id2", MonsterId.Glyquare, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_2.Id3", MonsterId.Colifly_Black, min: 38, max: 50, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_2.Id4", MonsterId.Glyquare, min: 6, max: 7, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_2.Id5", MonsterId.Altarcrystal_R1, amount: 1, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id6", MonsterId.Altarcrystal_R1, amount: 2, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id7", MonsterId.Altarcrystal_R1, amount: 2, respawn: TimeSpan.FromMilliseconds(180000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_firetower_61_2.Id8", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id5", MonsterId.Altarcrystal_R1, amount: 1, respawn: Minutes(2), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id6", MonsterId.Altarcrystal_R1, amount: 2, respawn: Minutes(2), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id7", MonsterId.Altarcrystal_R1, amount: 2, respawn: Minutes(3), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_2.Id8", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_61_2.Id9", MonsterId.Colifly_Black, min: 15, max: 20, tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------

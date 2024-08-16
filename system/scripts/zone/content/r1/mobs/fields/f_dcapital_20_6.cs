@@ -19,7 +19,7 @@ public class FDcapital206MobScript : GeneralScript
 		AddSpawner("f_dcapital_20_6.Id2", MonsterId.Ellomago_Green, min: 23, max: 30);
 		AddSpawner("f_dcapital_20_6.Id3", MonsterId.Ragged_Bird, min: 38, max: 50);
 		AddSpawner("f_dcapital_20_6.Id4", MonsterId.Ragged_Butcher, min: 27, max: 35);
-		AddSpawner("f_dcapital_20_6.Id5", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_dcapital_20_6.Id5", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

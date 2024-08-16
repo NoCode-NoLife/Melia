@@ -25,21 +25,21 @@ public class FGele574MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_gele_57_4.Id1", MonsterId.Seedmia, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(3000000));
+		AddSpawner("f_gele_57_4.Id1", MonsterId.Seedmia, min: 19, max: 25, respawn: Minutes(50));
 		AddSpawner("f_gele_57_4.Id2", MonsterId.Npanto_Archer, min: 12, max: 15);
 		AddSpawner("f_gele_57_4.Id3", MonsterId.Mallardu, min: 12, max: 15);
 		AddSpawner("f_gele_57_4.Id4", MonsterId.Colifly_Bow, min: 12, max: 15);
 		AddSpawner("f_gele_57_4.Id5", MonsterId.Zombiegirl2_Brown, min: 12, max: 15);
-		AddSpawner("f_gele_57_4.Id6", MonsterId.Seedmia, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_gele_57_4.Id7", MonsterId.Seedmia, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(180000));
+		AddSpawner("f_gele_57_4.Id6", MonsterId.Seedmia, min: 15, max: 20, respawn: Seconds(15));
+		AddSpawner("f_gele_57_4.Id7", MonsterId.Seedmia, min: 12, max: 15, respawn: Minutes(3));
 		AddSpawner("f_gele_57_4.Id8", MonsterId.Mallardu, min: 15, max: 20);
-		AddSpawner("f_gele_57_4.Id9", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_gele_57_4.Id9", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_gele_57_4.Id10", MonsterId.Npanto_Archer, min: 19, max: 25);
-		AddSpawner("f_gele_57_4.Id11", MonsterId.Panto_Javelin_Elite, amount: 1, respawn: TimeSpan.FromMilliseconds(1200000));
-		AddSpawner("f_gele_57_4.Id12", MonsterId.Mallardu, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_gele_57_4.Id13", MonsterId.Npanto_Archer, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_gele_57_4.Id14", MonsterId.Seedmia, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(180000));
-		AddSpawner("f_gele_57_4.Id15", MonsterId.Seedmia, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(180000));
+		AddSpawner("f_gele_57_4.Id11", MonsterId.Panto_Javelin_Elite, amount: 1, respawn: Minutes(20));
+		AddSpawner("f_gele_57_4.Id12", MonsterId.Mallardu, min: 15, max: 20, respawn: Seconds(20));
+		AddSpawner("f_gele_57_4.Id13", MonsterId.Npanto_Archer, min: 12, max: 15, respawn: Seconds(20));
+		AddSpawner("f_gele_57_4.Id14", MonsterId.Seedmia, min: 8, max: 10, respawn: Minutes(3));
+		AddSpawner("f_gele_57_4.Id15", MonsterId.Seedmia, min: 12, max: 15, respawn: Minutes(3));
 
 		// Monster Spawn Points -----------------------------
 

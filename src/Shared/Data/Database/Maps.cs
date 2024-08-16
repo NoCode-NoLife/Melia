@@ -45,7 +45,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="result"></param>
 		/// <returns></returns>
 		public bool TryFind(string className, out MapData result)
-			=> _nameIndex.TryGetValue(className, out result);
+			=> _nameIndex.TryGetValue(className.ToLowerInvariant(), out result);
 
 		/// <summary>
 		/// Reads given entry and adds it to the database.

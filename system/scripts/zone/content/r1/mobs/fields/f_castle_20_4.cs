@@ -15,7 +15,7 @@ public class FCastle204MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_castle_20_4.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_castle_20_4.Id2", MonsterId.Shardstatue_Black, min: 15, max: 20);
 		AddSpawner("f_castle_20_4.Id3", MonsterId.Templeslave_Black, min: 15, max: 20);
 		AddSpawner("f_castle_20_4.Id4", MonsterId.Templeslave_Sword_Black, min: 15, max: 20);

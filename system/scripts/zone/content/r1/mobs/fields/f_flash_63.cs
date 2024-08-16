@@ -25,7 +25,7 @@ public class FFlash63MobScript : GeneralScript
 		AddSpawner("f_flash_63.Id2", MonsterId.Lemur, min: 53, max: 70);
 		AddSpawner("f_flash_63.Id3", MonsterId.Goblin2_Hammer, min: 19, max: 25);
 		AddSpawner("f_flash_63.Id4", MonsterId.Goblin2_Wand3, min: 12, max: 15);
-		AddSpawner("f_flash_63.Id5", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_flash_63.Id5", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(20));
 		AddSpawner("f_flash_63.Id6", MonsterId.Lemur, min: 9, max: 12);
 		AddSpawner("f_flash_63.Id7", MonsterId.Goblin2_Wand3, min: 15, max: 20);
 		AddSpawner("f_flash_63.Id8", MonsterId.Lemur, min: 6, max: 7);

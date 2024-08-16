@@ -12,10 +12,13 @@ using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Handlers.Common;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -63,6 +66,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's globally unique id on the social server.
 		/// </summary>
+		/// <remarks>
+		/// This id might not actually be the social user id, or at least not
+		/// solely, seeing how it's used as the id of the etc property object.
+		/// </remarks>
 		public long SocialUserId => ObjectIdRanges.SocialUser + this.DbId;
 
 		/// <summary>
@@ -84,11 +91,6 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Returns the character's element/attribute.
 		/// </summary>
 		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
-
-		/// <summary>
-		/// Returns the character's armor material.
-		/// </summary>
-		public ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the character's mode of movement.
@@ -168,6 +170,30 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets whether the character is sitting.
 		/// </summary>
 		public bool IsSitting { get; set; }
+
+		/// <summary>
+		/// Returns the character's personal storage.
+		/// </summary>
+		public PersonalStorage PersonalStorage { get; }
+
+		/// <summary>
+		/// Returns the character's account's team storage.
+		/// </summary>
+		public PersonalStorage TeamStorage { get; }
+
+		/// <summary>
+		/// Returns a reference to the character's current storage.
+		/// </summary>
+		/// <remarks>
+		/// The result of this method depends on the character's variables,
+		/// to support the dynamic opening of arbitrary storages. If no
+		/// special storage was set, it defaults to the personal storage.
+		/// </remarks>
+		public PersonalStorage CurrentStorage
+		{
+			get => this.Variables.Temp.Get<PersonalStorage>("Melia.Storage") ?? this.PersonalStorage;
+			set => this.Variables.Temp.Set("Melia.Storage", value);
+		}
 
 		/// <summary>
 		/// The character's inventory.
@@ -332,6 +358,11 @@ namespace Melia.Zone.World.Actors.Characters
 		Properties IPropertyHolder.Properties => this.Properties;
 
 		/// <summary>
+		/// Returns the character's PCEtc properties.
+		/// </summary>
+		public PCEtc Etc { get; }
+
+		/// <summary>
 		/// Gets or sets the player's localizer.
 		/// </summary>
 		public Localizer Localizer
@@ -365,6 +396,11 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Movement = new MovementComponent(this));
 
 			this.Properties = new CharacterProperties(this);
+			this.Etc = new PCEtc(this);
+
+			// Init storage after etc, since it uses etc properties
+			this.PersonalStorage = new PersonalStorage(this);
+			this.TeamStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}
@@ -632,7 +668,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.Modify(PropertyName.StatByLevel, amount);
 
 			this.MaxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp((int)newLevel);
-			this.Heal();
+			this.FullHeal();
 
 			Send.ZC_MAX_EXP_CHANGED(this, 0);
 			Send.ZC_PC_LEVELUP(this);
@@ -690,7 +726,7 @@ namespace Melia.Zone.World.Actors.Characters
 				throw new ArgumentException("Amount can't be lower than 1.");
 
 			this.Jobs.ModifySkillPoints(this.JobId, amount);
-			this.Heal();
+			this.FullHeal();
 
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_skill", 3, "!@#$Auto_KeulLeSeu_LeBeli_SangSeungHayeossSeupNiDa#@!");
@@ -701,24 +737,30 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Heals character's HP, SP, and Stamina fully and updates
 		/// the client.
 		/// </summary>
-		public void Heal()
+		public void FullHeal()
 		{
-			var maxHp = this.Properties.GetFloat(PropertyName.MHP);
-			var maxSp = this.Properties.GetFloat(PropertyName.MSP);
-
-			this.Heal(maxHp, maxSp);
+			// Use the modifiers, so we actually get a full heal, unaffected by
+			// potential (de)buffs in Heal.
+			this.ModifyHp(this.MaxHp);
+			this.ModifySp(this.MaxSp);
 		}
 
 		/// <summary>
 		/// Heals character's HP and SP by the given amounts and updates
-		/// the client.
+		/// the client. Applies potential (de)buffs that affect healing.
 		/// </summary>
+		/// <remarks>
+		/// For healing unaffected by (de)buffs, use FullHeal or ModifyHp/Sp.
+		/// </remarks>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
 			if (hpAmount == 0 && spAmount == 0)
 				return;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
 
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
@@ -1193,23 +1235,6 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// These should be reference properties?
-		/// PCETC Properties
-		/// </summary>
-		public void SendPCEtcProperties()
-		{
-			var pcEtcProps = new Properties("PCEtc");
-			pcEtcProps.SetString("SkintoneName", "skintone2");
-			pcEtcProps.SetString("StartHairName", "UnbalancedShortcut");
-			pcEtcProps.SetFloat("LobbyMapID", this.MapId);
-			pcEtcProps.SetString("RepresentationClassID", this.JobId.ToString());
-			pcEtcProps.SetFloat("LastPlayDate", 20210728);
-			pcEtcProps.SetFloat("CTRLTYPE_RESET_EXCEPT", 1);
-
-			Send.ZC_OBJECT_PROPERTY(this.Connection, this, pcEtcProps);
-		}
-
-		/// <summary>
 		/// Makes character take damage and kills them if their HP reached 0.
 		/// Returns true if the character is dead.
 		/// </summary>
@@ -1221,6 +1246,9 @@ namespace Melia.Zone.World.Actors.Characters
 			// Don't hit an already dead monster
 			if (this.IsDead)
 				return true;
+
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
 
 			this.Components.Get<CombatComponent>().SetAttackState(true);
 			this.ModifyHpSafe(-damage, out _, out _);

@@ -4,6 +4,7 @@ using System.Threading;
 using Melia.Shared.World;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Geometry;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Spawning
@@ -17,7 +18,7 @@ namespace Melia.Zone.World.Spawning
 		private const int MaxValidPositionTries = 50;
 		private static int Ids;
 
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Returns the unique id of this spawn area.
@@ -66,6 +67,17 @@ namespace Melia.Zone.World.Spawning
 			// a couple of positions and see if we can find a valid one.
 			// If we can't, we have to fail the attempt because even the
 			// area's center or edge points might be invalid.
+
+			// A rectangle with a size of -1,-1 is a special case that's
+			// treated as if it spans the whole map.
+			if (this.Area is RectangleF rect && rect.Size.X == -1 && rect.Size.Y == -1)
+			{
+				if (this.Map.Ground.TryGetRandomPosition(out pos))
+					return true;
+
+				pos = Position.Zero;
+				return false;
+			}
 
 			for (var i = 0; i < MaxValidPositionTries; ++i)
 			{

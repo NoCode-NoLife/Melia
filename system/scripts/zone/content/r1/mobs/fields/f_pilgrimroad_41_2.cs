@@ -22,7 +22,7 @@ public class FPilgrimroad412MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_pilgrimroad_41_2.Id1", MonsterId.Rootcrystal_02, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_41_2.Id1", MonsterId.Rootcrystal_02, min: 12, max: 15, respawn: Seconds(5));
 		AddSpawner("f_pilgrimroad_41_2.Id2", MonsterId.Spion_Red, min: 53, max: 70);
 		AddSpawner("f_pilgrimroad_41_2.Id3", MonsterId.Tiny_Mage_Green, min: 15, max: 20);
 		AddSpawner("f_pilgrimroad_41_2.Id4", MonsterId.Spion_Bow_Red, min: 8, max: 10);

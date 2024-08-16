@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Events;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
@@ -536,6 +537,26 @@ namespace Melia.Zone.Scripting.Dialogues
 		{
 			Send.ZC_DIALOG_CLOSE(this.Player.Connection);
 			throw new OperationCanceledException("Dialog closed by script.");
+		}
+
+		/// <summary>
+		/// Opens the player's personal storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenPersonalStorage()
+		{
+			this.Player.PersonalStorage.Open();
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
+		/// Opens the player's team/account storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenTeamStorage()
+		{
+			this.Player.TeamStorage.Open();
+			await this.GetClientResponse();
 		}
 
 		/// <summary>

@@ -19,7 +19,7 @@ public class FNicopolis813MobScript : GeneralScript
 		AddSpawner("f_nicopolis_81_3.Id2", MonsterId.Slime_Wizard, min: 24, max: 32);
 		AddSpawner("f_nicopolis_81_3.Id3", MonsterId.Popup_Cat, min: 42, max: 55);
 		AddSpawner("f_nicopolis_81_3.Id4", MonsterId.Slime_Gemini, min: 6, max: 8);
-		AddSpawner("f_nicopolis_81_3.Id5", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_nicopolis_81_3.Id5", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

@@ -29,19 +29,19 @@ public class IdUnknownsanctuary2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_Unknownsanctuary_2.Id1", MonsterId.FD_Boss_Froster_Lord, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id2", MonsterId.FD_Boss_Kucarry_Balzermancer, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id3", MonsterId.FD_Boss_Wastrel, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id4", MonsterId.FD_Boss_Ignas, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id5", MonsterId.FD_Boss_Asiomage, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id6", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id7", MonsterId.FD_Boss_Moringponia, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id8", MonsterId.FD_Boss_Tantaliser, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id9", MonsterId.FD_Boss_Pbeta, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id10", MonsterId.FD_Boss_Glacier, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id11", MonsterId.FD_Boss_Velcoffer, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id12", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_2.Id13", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id1", MonsterId.FD_Boss_Froster_Lord, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id2", MonsterId.FD_Boss_Kucarry_Balzermancer, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id3", MonsterId.FD_Boss_Wastrel, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id4", MonsterId.FD_Boss_Ignas, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id5", MonsterId.FD_Boss_Asiomage, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id6", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id7", MonsterId.FD_Boss_Moringponia, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id8", MonsterId.FD_Boss_Tantaliser, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id9", MonsterId.FD_Boss_Pbeta, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id10", MonsterId.FD_Boss_Glacier, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id11", MonsterId.FD_Boss_Velcoffer, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id12", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_2.Id13", MonsterId.FD_Boss_Skiaclipse, amount: 1, respawn: Seconds(15), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

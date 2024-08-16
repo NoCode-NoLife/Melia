@@ -12,6 +12,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors
 {
@@ -38,7 +39,7 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Returns the entity's armor material.
 		/// </summary>
-		ArmorMaterialType ArmorMaterial { get; }
+		ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the entity's mode of movement.
@@ -62,6 +63,22 @@ namespace Melia.Zone.World.Actors
 		/// not a mob.
 		/// </summary>
 		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
+
+		/// <summary>
+		/// Returns the entity's radius for pathfinding purposes.
+		/// </summary>
+		/// <remarks>
+		/// Based on shape.ies.
+		/// </remarks>
+		float AgentRadius => this.EffectiveSize switch
+		{
+			SizeType.S => 12,
+			SizeType.M => 15,
+			SizeType.L => 20,
+			SizeType.XL => 40,
+			SizeType.XXL => 40,
+			_ => 0,
+		};
 
 		/// <summary>
 		/// Returns the entity's level.
@@ -234,7 +251,7 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction from the actor to the given position.
 		/// </summary>
 		/// <param name="actor"></param>
-		/// <param name="otherActor"></param>
+		/// <param name="pos"></param>
 		/// <returns></returns>
 		public static Direction GetDirection(this IActor actor, Position pos)
 			=> actor.Position.GetDirection(pos);
@@ -242,23 +259,31 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Sets the entity's attack state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inAttackState"></param>
 		public static void SetAttackState(this ICombatEntity entity, bool inAttackState)
 			=> entity.Components.Get<CombatComponent>()?.SetAttackState(inAttackState);
 
 		/// <summary>
 		/// Sets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
+		/// <param name="inCastingState"></param>
 		public static void SetCastingState(this ICombatEntity entity, bool inCastingState)
 			=> entity.Components.Get<CombatComponent>().CastingState = inCastingState;
 
 		/// <summary>
 		/// Gets the entity's casting state.
 		/// </summary>
-		/// <param name="state"></param>
 		public static bool IsCasting(this ICombatEntity entity)
 			=> entity.Components.Get<CombatComponent>().CastingState;
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, Buff.DefaultDuration, entity, SkillId.None);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
@@ -268,7 +293,7 @@ namespace Melia.Zone.World.Actors
 		/// <param name="duration"></param>
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, TimeSpan duration)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity);
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity, SkillId.None);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
@@ -279,9 +304,10 @@ namespace Melia.Zone.World.Actors
 		/// <param name="numArg2"></param>
 		/// <param name="duration"></param>
 		/// <param name="caster"></param>
+		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId = SkillId.None)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster, skillId);
 
 		/// <summary>
 		/// Stops the buff with the given id.
@@ -315,6 +341,20 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns the skill with the given ID if the entity knows that skill.
+		/// Returns false if the entity doesn't know that skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skillId"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		public static bool TryGetSkill(this ICombatEntity entity, SkillId skillId, out Skill skill)
+		{
+			skill = null;
+			return entity.Components.Get<SkillComponent>()?.TryGet(skillId, out skill) ?? false;
+		}
+
+		/// <summary>
 		/// Returns true if the entity has the given ability and it's toggled on.
 		/// </summary>
 		/// <param name="entity"></param>
@@ -322,6 +362,20 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool IsAbilityActive(this ICombatEntity entity, AbilityId abilityId)
 			=> entity.Components.Get<AbilityComponent>()?.IsActive(abilityId) ?? false;
+
+		/// <summary>
+		/// Returns the ability with the given id via out if the entity has it.
+		/// Returns false if the entity doesn't have the ability.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public static bool TryGetAbility(this ICombatEntity entity, AbilityId abilityId, out Ability ability)
+		{
+			ability = null;
+			return entity.Components.Get<AbilityComponent>()?.TryGet(abilityId, out ability) ?? false;
+		}
 
 		/// <summary>
 		/// Returns true if the entity has the given ability and it's toggled on.
@@ -458,6 +512,59 @@ namespace Melia.Zone.World.Actors
 
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
+		}
+
+		/// <summary>
+		/// Removes a random buff from the entity with the given chance in percent.
+		/// </summary>
+		/// <remarks>
+		/// If chance is 100 or above, a random buff will always be removed,
+		/// assuming there is one to remove.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="chance"></param>
+		public static void RemoveRandomBuff(this ICombatEntity entity, float chance = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomBuff();
+		}
+
+		/// <summary>
+		/// Removes a random debuff from the entity with the given chance in percent.
+		/// </summary>
+		/// <remarks>
+		/// If chance is 100 or above, a random debuff will always be removed,
+		/// assuming there is one to remove.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="chance"></param>
+		public static void RemoveRandomDebuff(this ICombatEntity entity, float chance = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
+				buffs.RemoveRandomDebuff();
+		}
+
+		/// <summary>
+		/// Returns true if the entity is behind the target.
+		/// </summary>
+		/// <remarks>
+		/// Uses the target's current direction and the given max angle to
+		/// determine if the entity is behind it.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="maxAngle"></param>
+		/// <returns></returns>
+		public static bool IsBehind(this ICombatEntity entity, ICombatEntity target, float maxAngle = 90)
+		{
+			var casterAngle = entity.Direction.DegreeAngle;
+			var targetAngle = target.Direction.DegreeAngle;
+
+			return Math.Abs(casterAngle - targetAngle) < maxAngle || Math.Abs(casterAngle + 360f - targetAngle) < maxAngle || Math.Abs(casterAngle - targetAngle + 360f) < maxAngle;
 		}
 	}
 }

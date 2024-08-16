@@ -16,16 +16,32 @@ namespace Melia.Barracks.Database
 	public class BarracksDb : MeliaDb
 	{
 		/// <summary>
-		/// Checks whether the SQL update file has already been applied.
+		/// Normalizes/Updates the file names in the update db.
 		/// </summary>
-		/// <param name="updateFile"></param>
+		/// <remarks>
+		/// Temporary fix, since we had some issues with the update names.
+		/// </remarks>
 		/// <returns></returns>
-		public bool CheckUpdate(string updateFile)
+		public void NormalizeUpdateNames()
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("UPDATE `updates` SET `path` = REPLACE(LOWER(`path`), \"update-\", \"update_\")", conn))
+			{
+				mc.ExecuteNonQuery();
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the update with the given name was already applied.
+		/// </summary>
+		/// <param name="updateName"></param>
+		/// <returns></returns>
+		public bool CheckUpdate(string updateName)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `updates` WHERE `path` = @path", conn))
 			{
-				mc.Parameters.AddWithValue("@path", updateFile);
+				mc.Parameters.AddWithValue("@path", updateName);
 
 				using (var reader = mc.ExecuteReader())
 					return reader.Read();
@@ -33,32 +49,33 @@ namespace Melia.Barracks.Database
 		}
 
 		/// <summary>
-		/// Executes SQL update file.
+		/// Executes SQL update.
 		/// </summary>
-		/// <param name="updateFile"></param>
-		public void RunUpdate(string updateFile)
+		/// <param name="updateName"></param>
+		/// <param name="query"></param>
+		public void RunUpdate(string updateName, string query)
 		{
 			try
 			{
 				using (var conn = this.GetConnection())
 				{
 					// Run update
-					using (var cmd = new MySqlCommand(File.ReadAllText(Path.Combine("sql", updateFile)), conn))
+					using (var cmd = new MySqlCommand(query, conn))
 						cmd.ExecuteNonQuery();
 
 					// Log update
 					using (var cmd = new InsertCommand("INSERT INTO `updates` {0}", conn))
 					{
-						cmd.Set("path", updateFile);
+						cmd.Set("path", updateName);
 						cmd.Execute();
 					}
 
-					Log.Info("Successfully applied '{0}'.", updateFile);
+					Log.Info("Successfully applied '{0}'.", updateName);
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Error("RunUpdate: Failed to run '{0}': {1}", updateFile, ex.Message);
+				Log.Error("RunUpdate: Failed to run '{0}': {1}", updateName, ex.Message);
 				ConsoleUtil.Exit(1);
 			}
 		}
@@ -113,6 +130,7 @@ namespace Melia.Barracks.Database
 					account.Id = reader.GetInt64("accountId");
 					account.Name = reader.GetStringSafe("name");
 					account.TeamName = reader.GetStringSafe("teamName");
+					account.Authority = reader.GetInt32("authority");
 					account.Password = reader.GetStringSafe("password");
 					account.Medals = reader.GetInt32("medals");
 					account.GiftMedals = reader.GetInt32("giftMedals");
@@ -217,6 +235,7 @@ namespace Melia.Barracks.Database
 				{
 					cmd.Set("characterId", character.Id);
 					cmd.Set("jobId", character.JobId);
+					cmd.Set("selectionDate", DateTime.Now);
 
 					cmd.Execute();
 				}
@@ -396,6 +415,160 @@ namespace Melia.Barracks.Database
 				mc.Parameters.AddWithValue("@password", hashedPassword);
 
 				mc.ExecuteNonQuery();
+			}
+		}
+
+		/// <summary>
+		/// Loads mail for the account.
+		/// </summary>
+		/// <param name="account"></param>
+		public void LoadMailbox(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `mail` WHERE `accountId` = @accountId", conn))
+			{
+				mc.Parameters.AddWithValue("@accountId", account.Id);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var state = (MailboxMessageState)reader.GetByte("status");
+						if (state == MailboxMessageState.Delete)
+							continue;
+
+						var expiration = reader.GetDateTimeSafe("expirationDate");
+						if (DateTime.Now >= expiration)
+							continue;
+
+						var mail = new MailMessage
+						{
+							Id = reader.GetInt64("mailId"),
+							State = state,
+							Sender = reader.GetStringSafe("sender"),
+							Subject = reader.GetStringSafe("subject"),
+							Message = reader.GetStringSafe("message"),
+							StartDate = reader.GetDateTimeSafe("startDate"),
+							ExpirationDate = expiration,
+							CreatedDate = reader.GetDateTimeSafe("createdDate"),
+						};
+
+						account.Mailbox.AddMail(mail);
+					}
+				}
+			}
+
+			// XXX: Optimize to get get all items at once?
+			foreach (var mail in account.Mailbox.GetMessages())
+			{
+				foreach (var item in this.LoadMailItems(mail.Id))
+					mail.AddItem(item);
+			}
+		}
+
+		/// <summary>
+		/// Loads mail items for a specific mail.
+		/// </summary>
+		/// <param name="mailId"></param>
+		/// <returns></returns>
+		public List<MailItem> LoadMailItems(long mailId)
+		{
+			var items = new List<MailItem>();
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `mail_items` WHERE `mailId` = @mailId", conn))
+				{
+					mc.Parameters.AddWithValue("@mailId", mailId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var mailItem = new MailItem
+							{
+								DbId = (int)reader.GetInt64("mailItemId"),
+								ItemDbId = reader.GetInt64("itemId"),
+								Id = reader.GetInt32("id"),
+								Amount = reader.GetInt32("amount"),
+								WasReceived = reader.GetByte("status") == 1,
+							};
+
+							items.Add(mailItem);
+						}
+					}
+				}
+			}
+
+			return items;
+		}
+
+		/// <summary>
+		/// Persists the account's mail to the database.
+		/// </summary>
+		/// <param name="account"></param>
+		public void SaveMail(Account account)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				foreach (var mail in account.Mailbox.GetMessages())
+				{
+					using (var cmd = new UpdateCommand("UPDATE `mail` SET {0} WHERE `mailId` = @mailId", conn, trans))
+					{
+						cmd.AddParameter("@mailId", mail.Id);
+						cmd.Set("accountId", account.Id);
+						cmd.Set("sender", mail.Sender);
+						cmd.Set("subject", mail.Subject);
+						cmd.Set("message", mail.Message);
+						cmd.Set("status", (byte)mail.State);
+						cmd.Set("startDate", mail.StartDate);
+						cmd.Set("expirationDate", mail.ExpirationDate);
+						cmd.Set("createdDate", mail.CreatedDate);
+
+						cmd.Execute();
+					}
+
+					foreach (var item in mail.GetItems())
+					{
+						using (var cmd = new UpdateCommand("UPDATE `mail_items` SET {0} WHERE `mailItemId` = @mailItemId", conn, trans))
+						{
+							cmd.AddParameter("@mailItemId", item.DbId);
+							cmd.Set("mailId", mail.Id);
+							cmd.Set("itemId", item.ItemDbId);
+							cmd.Set("id", item.Id);
+							cmd.Set("amount", item.Amount);
+							cmd.Set("status", item.WasReceived);
+							cmd.Execute();
+						}
+					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+
+		/// <summary>
+		/// Adds an item to the character's inventory.
+		/// </summary>
+		/// <param name="characterId"></param>
+		/// <param name="itemId"></param>
+		public void SaveItem(long characterId, long itemId)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
+				{
+					cmd.Set("characterId", characterId);
+					cmd.Set("itemId", itemId);
+					cmd.Set("sort", 0);
+					cmd.Set("equipSlot", 0x7F);
+
+					cmd.Execute();
+				}
+
+				trans.Commit();
 			}
 		}
 	}

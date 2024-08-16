@@ -240,23 +240,27 @@ namespace Melia.Barracks
 		{
 			Log.Info("Checking for updates...");
 
-			var files = Directory.GetFiles("sql").OrderBy(a => a);
-			foreach (var filePath in files.Where(file => Path.GetExtension(file).Equals(".sql", StringComparison.InvariantCultureIgnoreCase)))
-				this.RunUpdate(Path.GetFileName(filePath));
-		}
+			// We had an issue with our update names, and to ensure that we
+			// don't break everyone's update history, we'll temporarily fix
+			// the update names on the fly. This should be removed at some
+			// point in the future.
+			this.Database.NormalizeUpdateNames();
 
-		/// <summary>
-		/// Attempts to execute the given update file.
-		/// </summary>
-		/// <param name="updateFile"></param>
-		private void RunUpdate(string updateFile)
-		{
-			if (this.Database.CheckUpdate(updateFile))
-				return;
+			var enumOptions = new EnumerationOptions { RecurseSubdirectories = true, MatchCasing = MatchCasing.CaseInsensitive };
+			var filePaths = Directory.GetFiles("sql/updates/", "*.sql", enumOptions).OrderBy(a => a);
 
-			Log.Info("Update '{0}' found, executing...", updateFile);
+			var updateFiles = new Dictionary<string, string>();
+			foreach (var filePath in filePaths)
+			{
+				var updateName = Path.GetFileName(filePath);
+				var normalizedName = updateName.ToLower().Replace("update-", "update_");
 
-			this.Database.RunUpdate(updateFile);
+				if (this.Database.CheckUpdate(normalizedName))
+					continue;
+
+				Log.Info("Update '{0}' found, executing...", updateName);
+				this.Database.RunUpdate(normalizedName, File.ReadAllText(filePath));
+			}
 		}
 
 		/// <summary>
@@ -271,6 +275,16 @@ namespace Melia.Barracks
 			// even though people might still be logged in on a zone.
 			// This should be pretty rare though, and we can improve
 			// it once the servers talk to each other. TODO.
+			// 
+			// Update: Actually, even now that the servers are talking
+			// to each other, we can't just clear a login state, because
+			// even if the coordinator broadcasts a disconnect message,
+			// a zone server that is not connected to the coordinator
+			// for whatever reason will miss that, and then we might
+			// still get a double login. Hm, new idea: session ids.
+			// You can only save if the session id matches the latest
+			// one in the db. We'll have to check if that's feasible.
+			// TODO.
 			this.Database.ClearLoginStates();
 		}
 

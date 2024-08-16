@@ -24,10 +24,10 @@ public class Ep132DPrison1MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep13_2_d_prison_1.Id1", MonsterId.Episode13_2_Goblin_Brandingiron, min: 72, max: 96, respawn: TimeSpan.FromMilliseconds(25000));
-		AddSpawner("ep13_2_d_prison_1.Id2", MonsterId.Episode13_2_Banshee, min: 51, max: 68, respawn: TimeSpan.FromMilliseconds(25000));
-		AddSpawner("ep13_2_d_prison_1.Id3", MonsterId.Episode13_2_Goblin_Sweeper, min: 93, max: 123, respawn: TimeSpan.FromMilliseconds(25000));
-		AddSpawner("ep13_2_d_prison_1.Id4", MonsterId.Rootcrystal_01, min: 17, max: 22, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep13_2_d_prison_1.Id1", MonsterId.Episode13_2_Goblin_Brandingiron, min: 72, max: 96, respawn: Seconds(25));
+		AddSpawner("ep13_2_d_prison_1.Id2", MonsterId.Episode13_2_Banshee, min: 51, max: 68, respawn: Seconds(25));
+		AddSpawner("ep13_2_d_prison_1.Id3", MonsterId.Episode13_2_Goblin_Sweeper, min: 93, max: 123, respawn: Seconds(25));
+		AddSpawner("ep13_2_d_prison_1.Id4", MonsterId.Rootcrystal_01, min: 17, max: 22, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

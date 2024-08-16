@@ -9249,6 +9249,10 @@
 	{ namespace: "Account", name: "CONTENTS_TOTAL_SHOP_POSE_23", type: "Number", id: 115409 },
 	{ namespace: "Account", name: "CONTENTS_TOTAL_SHOP_POSE_21", type: "Number", id: 115410 },
 	{ namespace: "Account", name: "EVENT_2407_RAINBOW_WEEK_COUNT", type: "Number", id: 115411 },
+	{ namespace: "Account", name: "PAPAYA_RETURN_REWARD_ONCE_139129", type: "Number", id: 115412 },
+	{ namespace: "Account", name: "laima1", type: "Number", id: 115413 },
+	{ namespace: "Account", name: "laima2", type: "Number", id: 115414 },
+	{ namespace: "Account", name: "Cupole_033", type: "Number", id: 115415 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },
