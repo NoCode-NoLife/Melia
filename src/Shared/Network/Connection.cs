@@ -50,8 +50,8 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public abstract class Connection : TcpConnection, IConnection
 	{
-		protected readonly TosFramer _framer = new TosFramer(1024 * 50);
-		protected readonly Codec _crypto = new Codec();
+		protected readonly TosFramer _framer = new(1024 * 50);
+		protected readonly Codec _crypto = new();
 
 		/// <summary>
 		/// Gets or sets whether the player authenticated themselves.
