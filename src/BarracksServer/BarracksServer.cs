@@ -79,7 +79,6 @@ namespace Melia.Barracks
 			this.LoadServerList(this.Data.ServerDb, ServerType.Barracks, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
-			this.ClearLoginStates();
 			this.LoadIesMods();
 			this.LoadScripts("barracks");
 
@@ -261,31 +260,6 @@ namespace Melia.Barracks
 				Log.Info("Update '{0}' found, executing...", updateName);
 				this.Database.RunUpdate(normalizedName, File.ReadAllText(filePath));
 			}
-		}
-
-		/// <summary>
-		/// Clears the login states of all accounts in the database.
-		/// </summary>
-		private void ClearLoginStates()
-		{
-			// Clearing the login states on barracks start means we'll
-			// have a clean slate whenever we restart the server, though
-			// it also leaves somewhat of a potential bypass, where the
-			// login states may get reset because you restarted barracks,
-			// even though people might still be logged in on a zone.
-			// This should be pretty rare though, and we can improve
-			// it once the servers talk to each other. TODO.
-			// 
-			// Update: Actually, even now that the servers are talking
-			// to each other, we can't just clear a login state, because
-			// even if the coordinator broadcasts a disconnect message,
-			// a zone server that is not connected to the coordinator
-			// for whatever reason will miss that, and then we might
-			// still get a double login. Hm, new idea: session ids.
-			// You can only save if the session id matches the latest
-			// one in the db. We'll have to check if that's feasible.
-			// TODO.
-			this.Database.ClearLoginStates();
 		}
 
 		/// <summary>
