@@ -286,6 +286,48 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
+		/// Updates the session key of the given account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="sessionKey"></param>
+		public void UpdateSessionKey(long accountId, string sessionKey)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+				cmd.Set("sessionKey", sessionKey);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the given session key matches the one found in the
+		/// database for the account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="sessionKey"></param>
+		/// <returns></returns>
+		public bool CheckSessionKey(long accountId, string sessionKey)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT `sessionKey` FROM `accounts` WHERE `accountId` = @accountId", conn))
+			{
+				cmd.Parameters.AddWithValue("@accountId", accountId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (!reader.Read())
+						return false;
+
+					var dbSessionKey = reader.GetString("sessionKey");
+					return dbSessionKey == sessionKey;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Returns true if the given account is logged in.
 		/// </summary>
 		/// <param name="accountId"></param>

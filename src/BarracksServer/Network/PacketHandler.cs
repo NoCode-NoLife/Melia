@@ -103,8 +103,10 @@ namespace Melia.Barracks.Network
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+			conn.SessionKey = SHA1.Encode(Guid.NewGuid().ToString());
 
 			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
+			BarracksServer.Instance.Database.UpdateSessionKey(conn.Account.Id, conn.SessionKey);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 

@@ -20,7 +20,7 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Gets or sets the session key associated with the connection.
 		/// </summary>
-		string SessionKey { get; }
+		string SessionKey { get; set; }
 
 		/// <summary>
 		/// Sends packet to client.
@@ -61,7 +61,7 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Gets or sets the session key associated with the connection.
 		/// </summary>
-		public string SessionKey { get; }
+		public string SessionKey { get; set; }
 
 		/// <summary>
 		/// Creates new connection.
