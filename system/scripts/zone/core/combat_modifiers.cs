@@ -2,7 +2,7 @@
 // Combat Modifier Script
 //--- Description -----------------------------------------------------------
 // Collection of functions that modify combat calculations based on
-// combatants's buffs and other properties.
+// combatants's buffs, skills, abilities, and other properties.
 //---------------------------------------------------------------------------
 
 using System.Linq;
@@ -16,7 +16,8 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 public class CombatModifierCalculationsScript : GeneralScript
 {
 	/// <summary>
-	/// Calls scriptable functions for all active buffs before combat calculations.
+	/// Calls scriptable functions for active buffs, skills, abilities, etc,
+	/// before combat calculations.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
@@ -27,20 +28,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Combat_BeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		CallForBuffs(nameof(SCR_Combat_BeforeCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForBuffs(nameof(SCR_Combat_BeforeCalc), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForPassiveSkills(nameof(SCR_Combat_BeforeCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForPassiveSkills(nameof(SCR_Combat_BeforeCalc), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForAbilities(nameof(SCR_Combat_BeforeCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForAbilities(nameof(SCR_Combat_BeforeCalc), target, attacker, target, skill, modifier, skillHitResult);
-
+		CallAll(nameof(SCR_Combat_BeforeCalc), attacker, target, skill, modifier, skillHitResult);
 		return 0;
 	}
 
 	/// <summary>
-	/// Calls scriptable functions for all active buffs after combat calculations.
+	/// Calls scriptable functions for active buffs, skills, abilities, etc,
+	/// after combat calculations.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
@@ -51,21 +45,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Combat_AfterCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		CallForBuffs(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForBuffs(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForPassiveSkills(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForPassiveSkills(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForAbilities(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForAbilities(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
-
+		CallAll(nameof(SCR_Combat_AfterCalc), attacker, target, skill, modifier, skillHitResult);
 		return 0;
 	}
 
 	/// <summary>
-	/// Calls scriptable functions for all active buffs before bonuses such
-	/// as sizes and elements are applied during combat calculations.
+	/// Calls scriptable functions for active buffs, skills, abilities, etc,
+	/// during combat calculations.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
@@ -76,21 +62,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Combat_BeforeBonuses(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		CallForBuffs(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForBuffs(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForPassiveSkills(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForPassiveSkills(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForAbilities(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForAbilities(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
+		CallAll(nameof(SCR_Combat_BeforeBonuses), attacker, target, skill, modifier, skillHitResult);
 		return 0;
 	}
 
 	/// <summary>
-	/// Calls scriptable functions for all active buffs after bonuses such
-	/// as sizes and elements were applied during combat calculations.
+	/// Calls scriptable functions for active buffs, skills, abilities, etc,
+	/// during combat calculations.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
@@ -101,16 +79,30 @@ public class CombatModifierCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Combat_AfterBonuses(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		CallForBuffs(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForBuffs(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForPassiveSkills(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForPassiveSkills(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
-		CallForAbilities(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
-		CallForAbilities(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
-
+		CallAll(nameof(SCR_Combat_AfterBonuses), attacker, target, skill, modifier, skillHitResult);
 		return 0;
+	}
+
+	/// <summary>
+	/// Calls scriptable functions for buffs, skills, abilities, etc. for both
+	/// the attacker and target.
+	/// </summary>
+	/// <param name="baseFuncName"></param>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="modifier"></param>
+	/// <param name="skillHitResult"></param>
+	private void CallAll(string baseFuncName, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	{
+		CallForBuffs(baseFuncName, attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForBuffs(baseFuncName, target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForPassiveSkills(baseFuncName, attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForPassiveSkills(baseFuncName, target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForAbilities(baseFuncName, attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForAbilities(baseFuncName, target, attacker, target, skill, modifier, skillHitResult);
 	}
 
 	/// <summary>
