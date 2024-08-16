@@ -176,7 +176,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate(PropertyName.MHP, [PropertyName.Lv, PropertyName.CON, PropertyName.MHP_BM, PropertyName.MHP_Bonus]);
 			this.AutoUpdate(PropertyName.MSP, [PropertyName.Lv, PropertyName.MNA, PropertyName.MSP_BM, PropertyName.MSP_Bonus]);
 			this.AutoUpdate(PropertyName.StatPoint, [PropertyName.StatByLevel, PropertyName.StatByBonus, PropertyName.UsedStat]);
-			this.AutoUpdate(PropertyName.MSPD, [PropertyName.MSPD_BM, PropertyName.MSPD_Bonus]);
+			this.AutoUpdate(PropertyName.MSPD, [PropertyName.FIXMSPD_BM, PropertyName.MSPD_BM, PropertyName.MSPD_Bonus]);
 			this.AutoUpdate(PropertyName.CastingSpeed, [PropertyName.CastingSpeed_BM]);
 			this.AutoUpdate(PropertyName.DEF, [PropertyName.Lv, PropertyName.DEF_BM, PropertyName.DEF_RATE_BM]);
 			this.AutoUpdate(PropertyName.MDEF, [PropertyName.Lv, PropertyName.MDEF_BM, PropertyName.MDEF_RATE_BM]);
