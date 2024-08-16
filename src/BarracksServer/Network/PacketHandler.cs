@@ -93,7 +93,7 @@ namespace Melia.Barracks.Network
 			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
 			{
 				BarracksServer.Instance.Communicator.Broadcast("AllServers", new ForceLogOutMessage(account.Id));
-				BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.LoggedOut);
+				BarracksServer.Instance.Database.UpdateLoginState(account.Id, 0, LoginState.LoggedOut);
 
 				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account appears to already be logged in. A logout request was created, please try again."));
 				conn.Close(100);
