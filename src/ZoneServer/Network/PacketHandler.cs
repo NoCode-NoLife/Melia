@@ -52,11 +52,7 @@ namespace Melia.Zone.Network
 		{
 			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
-
-			// When using passport login, this is the account id as string,
-			// and it's 18 (?) bytes long.	
-			var accountName = packet.GetString(56);
-
+			var accountName = packet.GetString(56); // String account id in 18 bytes if passport login?
 			var mac = packet.GetString(48);
 			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();

@@ -83,10 +83,10 @@ namespace Melia.Shared.Database
 		public bool CreateAccount(string name, string password)
 		{
 			if (string.IsNullOrWhiteSpace(name))
-				throw new ArgumentNullException("name");
+				throw new ArgumentNullException(nameof(name));
 
 			if (string.IsNullOrWhiteSpace(password))
-				throw new ArgumentNullException("password");
+				throw new ArgumentNullException(nameof(password));
 
 			// Wrap password in BCrypt
 			password = BCrypt.HashPassword(password, BCrypt.GenerateSalt());
@@ -213,7 +213,7 @@ namespace Melia.Shared.Database
 							if (!properties.TryGet<FloatProperty>(propertyName, out var property))
 								property = properties.Create(new FloatProperty(propertyName));
 
-							if (!(property is IUnsettableProperty))
+							if (property is not IUnsettableProperty)
 								property.Deserialize(valueStr);
 						}
 						else
