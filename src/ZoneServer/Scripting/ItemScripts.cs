@@ -25,6 +25,11 @@ namespace Melia.Zone.Scripting
 		Okay,
 
 		/// <summary>
+		/// The item was used successfully but should not be decremented.
+		/// </summary>
+		OkayNotConsumed,
+
+		/// <summary>
 		/// The usage failed and the item should not be decremented.
 		/// </summary>
 		Fail,

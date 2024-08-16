@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Game.Const;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
@@ -13,28 +15,30 @@ namespace Melia.Zone.Database
 	/// </summary>
 	public class Account : IAccount
 	{
+		private readonly object _moneyLock = new();
+
 		/// <summary>
 		/// List of chat macros associated with the account.
 		/// </summary>
-		private readonly IList<ChatMacro> _chatMacros;
+		private readonly IList<ChatMacro> _chatMacros = new List<ChatMacro>();
 
 		/// <summary>
 		/// List of the revealed maps the user has explored.
 		/// </summary>
-		private readonly Dictionary<int, RevealedMap> _revealedMaps;
+		private readonly Dictionary<int, RevealedMap> _revealedMaps = new();
 
 		/// <summary>
-		/// Account id
+		/// Gets or sets account's id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Account name
+		/// Gets or sets account's name.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account's team name
+		/// Gets or sets account's team name.
 		/// </summary>
 		public string TeamName { get; set; }
 
@@ -43,6 +47,32 @@ namespace Melia.Zone.Database
 		/// can use a specific GM command.
 		/// </summary>
 		public int Authority { get; set; }
+
+		/// <summary>
+		/// Returns the game permission level, based on the account's
+		/// authority.
+		/// </summary>
+		public PermissionLevel PermissionLevel
+		{
+			get
+			{
+				//var auth = this.Authority;
+
+				//if (auth >= 99)
+				//	return PermissionLevel.Operator;
+				//else if (auth >= 50)
+				//	return PermissionLevel.GM;
+				//else
+				//	return PermissionLevel.User;
+
+				// We'll return User for now, as running around with GM
+				// permissions changes the game's behavior and UI to a
+				// degree. We'll need to implement a way to choose the
+				// permission we want to use at run-time.
+
+				return PermissionLevel.User;
+			}
+		}
 
 		/// <summary>
 		/// Amount of Free TP.
@@ -72,7 +102,7 @@ namespace Melia.Zone.Database
 		/// <summary>
 		/// The account's settings.
 		/// </summary>
-		public AccountSettings Settings { get; private set; }
+		public AccountSettings Settings { get; } = new AccountSettings();
 
 		/// <summary>
 		/// Account's scripting variables.
@@ -85,15 +115,21 @@ namespace Melia.Zone.Database
 		public Properties Properties { get; } = new Properties("Account");
 
 		/// <summary>
+		/// Returns the account's premium status manager.
+		/// </summary>
+		public PremiumStatus Premium { get; } = new();
+
+		/// <summary>
 		/// Creates new account.
 		/// </summary>
 		public Account()
 		{
 			// TODO: Remove the selected barrack once those are saved to the database.
 			this.SelectedBarrack = 11;
-			this.Settings = new AccountSettings();
-			_chatMacros = new List<ChatMacro>();
-			_revealedMaps = new Dictionary<int, RevealedMap>();
+
+			this.Properties.Create(new RFloatProperty(PropertyName.Medal, () => this.Medals));
+			this.Properties.Create(new RFloatProperty(PropertyName.GiftMedal, () => this.GiftMedals));
+			this.Properties.Create(new RFloatProperty(PropertyName.PremiumMedal, () => this.PremiumMedals));
 
 			this.LoadDefaultChatMacros();
 		}
@@ -166,6 +202,65 @@ namespace Melia.Zone.Database
 		{
 			lock (_revealedMaps)
 				return _revealedMaps.Values.ToArray();
+		}
+
+		/// <summary>
+		/// Returns whether the account has enough combined medals to
+		/// afford a purchase with the given cost.
+		/// </summary>
+		/// <param name="cost"></param>
+		/// <returns></returns>
+		public bool CanAffordPurchase(int cost)
+		{
+			lock (_moneyLock)
+				return cost <= this.Medals + this.GiftMedals + this.PremiumMedals;
+		}
+
+		/// <summary>
+		/// Processes a charge attempt on the account.
+		/// </summary>
+		/// <param name="cost">Amount of medals to remove.</param>
+		/// <returns>Returns 'true' on a successful charge.</returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if cost is negative.
+		/// </exception>
+		public bool Charge(int cost)
+		{
+			if (cost < 0)
+				throw new ArgumentException("Cost must be a positive value.");
+
+			lock (_moneyLock)
+			{
+				var medals = this.Medals;
+				var giftMedals = this.GiftMedals;
+				var premiumMedals = this.PremiumMedals;
+
+				// Take only medals if possible
+				if (cost <= medals)
+				{
+					this.Medals -= cost;
+					return true;
+				}
+
+				// Take only medals and gift medals if possible
+				if (cost <= medals + giftMedals)
+				{
+					this.Medals = 0;
+					this.GiftMedals -= (cost - medals);
+					return true;
+				}
+
+				// Take it all
+				if (cost <= medals + giftMedals + premiumMedals)
+				{
+					this.Medals = 0;
+					this.GiftMedals = 0;
+					this.PremiumMedals -= (cost - medals - giftMedals);
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>

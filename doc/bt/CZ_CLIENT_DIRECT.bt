@@ -1,10 +1,10 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: CZ_CLIENT_DIRECT
+//      File: CZ_CLIENT_DIRECT.bt
 //   Authors: exec
-//   Version: i174379
-//   Purpose: 
+//   Version: i386994
+//   Purpose: Starts certain animations.
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -15,7 +15,5 @@
 
 ClientHeaderFixed header;
 
-int i1;
-char str1[16]; // guessed, rest looks like uncleared garbage
-int i2;
-short s1;
+int type; // See clientdirection.ies
+char str1[16];

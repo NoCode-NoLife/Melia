@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network.Inter.Messages;
 
 namespace Melia.Shared.Network
 {
@@ -12,12 +14,23 @@ namespace Melia.Shared.Network
 		private readonly List<ServerInfo> _servers = new List<ServerInfo>();
 
 		/// <summary>
-		/// Loads servers from database.
+		/// Returns the data of the this server group.
+		/// </summary>
+		public ServerGroupData GroupData { get; private set; }
+
+		/// <summary>
+		/// Loads servers for given group from database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		public void Load(ServerDb serverDb)
+		/// <param name="groupId"></param>
+		public void Load(ServerDb serverDb, int groupId)
 		{
-			foreach (var serverData in serverDb.Entries)
+			if (!serverDb.TryFind(groupId, out var groupData))
+				throw new ArgumentException($"No server group with id {groupId} found.");
+
+			this.GroupData = groupData;
+
+			foreach (var serverData in groupData.Servers)
 			{
 				var serverInfo = new ServerInfo(serverData);
 				_servers.Add(serverInfo);
@@ -29,12 +42,12 @@ namespace Melia.Shared.Network
 		/// Returns false if no matching server was found.
 		/// </summary>
 		/// <param name="type"></param>
-		/// <param name="id"></param>
+		/// <param name="serverId"></param>
 		/// <param name="server"></param>
 		/// <returns></returns>
-		public bool TryGet(ServerType type, int id, out ServerInfo server)
+		public bool TryGet(ServerType type, int serverId, out ServerInfo server)
 		{
-			server = _servers.FirstOrDefault(a => a.Type == type && a.Id == id);
+			server = _servers.FirstOrDefault(a => a.Type == type && a.Id == serverId);
 			return server != null;
 		}
 
@@ -46,10 +59,19 @@ namespace Melia.Shared.Network
 		public ServerInfo[] GetZoneServers(int mapId)
 		{
 			var zoneServers = _servers.Where(a => a.Type == ServerType.Zone);
-			var mapServers = zoneServers.Where(a => a.MapIds.Contains(mapId));
+			var mapServers = zoneServers.Where(a => a.Status == ServerStatus.Online && a.MapIds.Contains(mapId));
 
 			return mapServers.ToArray();
 		}
+
+		/// <summary>
+		/// Returns a list with the information of all servers of the
+		/// given type.
+		/// </summary>
+		/// <param name="serverType"></param>
+		/// <returns></returns>
+		public ServerInfo[] GetAll(ServerType serverType)
+			=> _servers.Where(a => a.Type == serverType).ToArray();
 
 		/// <summary>
 		/// Returns the zone server with the given index that serves the
@@ -69,6 +91,19 @@ namespace Melia.Shared.Network
 
 			serverInfo = mapServers.ElementAt(index);
 			return true;
+		}
+
+		/// <summary>
+		/// Updates the server list with the given update information.
+		/// </summary>
+		/// <param name="serverUpdateMessage"></param>
+		public void Update(ServerUpdateMessage serverUpdateMessage)
+		{
+			if (!this.TryGet(ServerType.Zone, serverUpdateMessage.ServerId, out var serverInfo))
+				return;
+
+			serverInfo.CurrentPlayers = serverUpdateMessage.PlayerCount;
+			serverInfo.Status = serverUpdateMessage.Status;
 		}
 	}
 
@@ -93,25 +128,35 @@ namespace Melia.Shared.Network
 		public string Ip { get; }
 
 		/// <summary>
-		/// Returns the server's port.
+		/// Returns the port the server is listening on publically.
 		/// </summary>
 		public int Port { get; }
 
 		/// <summary>
+		/// Returns the port the server is listening on internally.
+		/// </summary>
+		public int InterPort { get; }
+
+		/// <summary>
 		/// Returns the number of players currently connected to the server.
 		/// </summary>
-		public int CurrentPlayers { get; }
+		public int CurrentPlayers { get; set; }
 
 		/// <summary>
 		/// Returns the mayimum number of players that can be connected to
 		/// the server.
 		/// </summary>
-		public int MaxPlayers { get; } = 100;
+		public int MaxPlayers { get; set; } = 100;
 
 		/// <summary>
 		/// Returns the ids of the maps this server serves.
 		/// </summary>
 		public int[] MapIds { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the server's status.
+		/// </summary>
+		public ServerStatus Status { get; set; }
 
 		/// <summary>
 		/// Creates new server info.
@@ -123,7 +168,14 @@ namespace Melia.Shared.Network
 			this.Id = data.Id;
 			this.Ip = data.Ip;
 			this.Port = data.Port;
+			this.InterPort = data.InterPort;
 			this.MapIds = data.MapIds;
 		}
+	}
+
+	public enum ServerStatus
+	{
+		Offline,
+		Online,
 	}
 }

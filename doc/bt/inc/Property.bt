@@ -466,12 +466,21 @@ int getPropertyType(int id)
         case 113214:
         case 113215:
         case 113216:
+        case 113794:
+        case 113795:
+        case 113796:
+        case 113798:
+        case 113950:
+        case 113949:
+        case 113951:
+        case 113952:
+        case 113954:
             return OBJP_STRING;
-            break;
+			
         case 107249:
             //return OBJP_FILETIME;
+			
         default:
             return OBJP_FLOAT;
-            break;
     }
 }

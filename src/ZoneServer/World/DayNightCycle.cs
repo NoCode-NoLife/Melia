@@ -25,6 +25,11 @@ namespace Melia.Zone.World
 		private TimeOfDay _prevTimeOfDay;
 
 		/// <summary>
+		/// Returns true if the time of day is currently fixed.
+		/// </summary>
+		public bool IsFixed { get; private set; }
+
+		/// <summary>
 		/// Returns the current daylight parameters.
 		/// </summary>
 		public DaylightParameters CurrentParameters { get; private set; }
@@ -55,6 +60,9 @@ namespace Melia.Zone.World
 		/// <param name="e"></param>
 		private void OnPlayerReady(object sender, PlayerEventArgs e)
 		{
+			if (!ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				return;
+
 			Send.ZC_DAYLIGHT_FIXED(e.Character, true, this.CurrentParameters);
 		}
 
@@ -65,6 +73,12 @@ namespace Melia.Zone.World
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (!ZoneServer.Instance.Conf.World.EnableDayNightCycle)
+				return;
+
+			if (this.IsFixed)
+				return;
+
 			var now = GameTime.Now;
 			var timeOfDay = now.TimeOfDay;
 
@@ -80,6 +94,49 @@ namespace Melia.Zone.World
 			}
 
 			_prevTimeOfDay = timeOfDay;
+		}
+
+		/// <summary>
+		/// Returns the daylight parameters for the given time of day.
+		/// </summary>
+		/// <param name="timeOfDay"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		private DaylightParameters GetParameters(TimeOfDay timeOfDay)
+		{
+			switch (timeOfDay)
+			{
+				case TimeOfDay.Dawn: return DawnParameters;
+				case TimeOfDay.Day: return DayParameters;
+				case TimeOfDay.Dusk: return DuskParameters;
+				case TimeOfDay.Night: return NightParameters;
+
+				default:
+					throw new ArgumentException($"Unknown time of day '{timeOfDay}'.");
+			}
+		}
+
+		/// <summary>
+		/// Fixes the time of day to the given value.
+		/// </summary>
+		/// <param name="timeOfDay"></param>
+		public void FixTimeOfDay(TimeOfDay timeOfDay)
+		{
+			this.IsFixed = true;
+			this.CurrentParameters = this.GetParameters(timeOfDay);
+
+			Send.ZC_DAYLIGHT_FIXED(true, this.CurrentParameters);
+		}
+
+		/// <summary>
+		/// Unfixes the time of day and updates the day night cycle.
+		/// </summary>
+		public void UnfixTimeOfDay()
+		{
+			this.IsFixed = false;
+			this.CurrentParameters = this.GetParameters(GameTime.Now.TimeOfDay);
+
+			Send.ZC_DAYLIGHT_FIXED(true, this.CurrentParameters);
 		}
 
 		/// <summary>
@@ -141,9 +198,11 @@ namespace Melia.Zone.World
 			var steps = timeMs / (1000 / fps);
 			var delayPerStep = timeMs / steps;
 
+			var fixedOnStart = this.IsFixed;
+
 			for (var i = 0; i <= steps; ++i)
 			{
-				if (transitionId != _transitionId)
+				if (transitionId != _transitionId || fixedOnStart != this.IsFixed)
 					return;
 
 				var progress = (float)i / steps;

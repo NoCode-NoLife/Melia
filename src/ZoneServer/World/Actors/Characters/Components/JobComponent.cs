@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Yggdrasil.Util;
 
@@ -14,9 +14,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class JobComponent : CharacterComponent
 	{
-		private static readonly Regex JobClassName = new Regex(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
+		private static readonly Regex JobClassName = new(@"^Char(?<class>[1-4])_(?<index>[0-9]{1,2})$", RegexOptions.Compiled);
 
-		private readonly Dictionary<JobId, Job> _jobs = new Dictionary<JobId, Job>();
+		private readonly Dictionary<JobId, Job> _jobs = new();
 
 		/// <summary>
 		/// Creates new instance for character.
@@ -62,7 +62,20 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public bool RemoveSilent(JobId jobId)
 		{
 			lock (_jobs)
-				return _jobs.Remove(jobId);
+			{
+				var removed = _jobs.Remove(jobId);
+				if (!removed)
+					return false;
+
+				// Switch character's job to another one if the active
+				// one was removed. We'll use the last one in the list
+				// for now, assuming that it's going to be the other
+				// most recent job selected.
+				if (this.Character.JobId == jobId)
+					this.Character.JobId = _jobs.Last().Value.Id;
+
+				return true;
+			}
 		}
 
 		/// <summary>
@@ -130,7 +143,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public Job[] GetList()
 		{
 			lock (_jobs)
-				return _jobs.Values.ToArray();
+				return _jobs.Values.OrderBy(a => a.SelectionDate).ToArray();
 		}
 
 		/// <summary>
@@ -301,8 +314,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <remarks>
 		/// Every job has its own total EXP count, which the client uses
 		/// in combination with the character's current job and rank to
-		/// determine the class level. There doesn't seem to be a way
-		/// to change the max class EXP from the server, as it is with
+		/// determine the level. There doesn't seem to be a way
+		/// to change the max job EXP from the server, as it is with
 		/// the base EXP.
 		/// </remarks>
 		public long TotalExp { get; set; }
@@ -310,10 +323,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Returns the total maximum EXP that can be collected on this job.
 		/// </summary>
-		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
+		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
 
 		/// <summary>
-		/// Returns the class level reached on this job based on the
+		/// Returns the level reached on this job based on the
 		/// current rank and total EXP.
 		/// </summary>
 		public int Level
@@ -333,7 +346,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// fulfill, as that will be the level we're on.
 				for (var i = 1; i < max; ++i)
 				{
-					var needed = ZoneServer.Instance.Data.ExpDb.GetNextTotalClassExp(rank, i);
+					var needed = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(rank, i);
 					if (totalExp < needed)
 						return i;
 				}
@@ -344,7 +357,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns the max class level for this job.
+		/// Returns the max level for this job.
 		/// </summary>
 		public int MaxLevel
 		{
@@ -357,9 +370,14 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// max level based on the rank it was added on.
 
 				var rank = this.Character.Jobs.GetCurrentRank();
-				return ZoneServer.Instance.Data.ExpDb.GetMaxClassLevel(rank);
+				return ZoneServer.Instance.Data.ExpDb.GetMaxJobLevel(rank);
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets the date the character chose this job.
+		/// </summary>
+		public DateTime SelectionDate { get; set; } = DateTime.Now;
 
 		/// <summary>
 		/// Creates new instance for character.

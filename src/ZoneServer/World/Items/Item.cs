@@ -2,7 +2,7 @@
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
@@ -110,6 +110,27 @@ namespace Melia.Zone.World.Items
 			// Set amount after loading the data so we can clamp it
 			// to the max stack size
 			this.Amount = amount;
+		}
+
+		/// <summary>
+		/// Creates a copy of the given item.
+		/// </summary>
+		/// <param name="other"></param>
+		public Item(Item other)
+		{
+			this.Id = other.Id;
+			this.LoadData();
+
+			this.Price = other.Price;
+			this.IsLocked = other.IsLocked;
+			this.OriginalOwnerHandle = other.OriginalOwnerHandle;
+			this.RePickUpTime = other.RePickUpTime;
+			this.OwnerHandle = other.OwnerHandle;
+			this.LootProtectionEnd = other.LootProtectionEnd;
+
+			other.Properties.CopyFrom(this.Properties);
+
+			this.Amount = other.Amount;
 		}
 
 		/// <summary>

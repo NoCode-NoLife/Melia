@@ -1,9 +1,17 @@
 //------------------------------------------------
+<<<<<<< HEAD
 //--- 010 Editor v13.0.2 Binary Template
 //
 //      File: ZC_SEND_APPLY_HUD_SKIN_MYSELF.bt
 //   Authors: Salman T. Khan
 //   Version: i374025 (Papaya)
+=======
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: ZC_SEND_APPLY_HUD_SKIN_MYSELF.bt
+//   Authors: exec
+//   Version: i379687
+>>>>>>> master
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -16,6 +24,4 @@
 ServerHeaderFixed header;
 
 int handle;
-char hudSkin[128];
-char hudInfo[386];
-char hudOther[126];
+int skinId;

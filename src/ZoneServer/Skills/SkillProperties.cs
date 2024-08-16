@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
 using Melia.Zone.Scripting;
 
 namespace Melia.Zone.Skills

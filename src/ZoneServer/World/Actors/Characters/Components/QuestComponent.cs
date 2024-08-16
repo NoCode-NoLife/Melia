@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Melia.Shared.Scripting;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Quests;
-using Melia.Zone.World.Quests.Rewards;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -28,8 +25,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	{
 		private readonly static TimeSpan AutoReceiveDelay = TimeSpan.FromMinutes(1);
 
-		private readonly object _syncLock = new object();
-		private readonly List<Quest> _quests = new List<Quest>();
+		private readonly object _syncLock = new();
+		private readonly List<Quest> _quests = new();
+		private readonly List<long> _disabledQuests = new();
+
 		private TimeSpan _autoReceiveDelay = AutoReceiveDelay;
 
 		/// <summary>
@@ -39,6 +38,43 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public QuestComponent(Character character)
 			: base(character)
 		{
+		}
+
+		/// <summary>
+		/// Notes the given quest db id as disabled.
+		/// </summary>
+		/// <remarks>
+		/// Used to remember quests to keep around that are not currently
+		/// loaded by the server, but should still be available to the
+		/// character once they are. See quest loading and saving.
+		/// </remarks>
+		/// <param name="questDbId"></param>
+		internal void AddDisabledQuest(long questDbId)
+		{
+			lock (_syncLock)
+				_disabledQuests.Add(questDbId);
+		}
+
+		/// <summary>
+		/// Returns a list of all disabled quests.
+		/// </summary>
+		/// <returns></returns>
+		internal IList<long> GetDisabledQuests()
+		{
+			lock (_syncLock)
+				return _disabledQuests.ToArray();
+		}
+
+		/// <summary>
+		/// Returns true if the quest with the given database id is
+		/// disabled.
+		/// </summary>
+		/// <param name="questDbId"></param>
+		/// <returns></returns>
+		internal bool IsDisabled(long questDbId)
+		{
+			lock (_syncLock)
+				return _disabledQuests.Contains(questDbId);
 		}
 
 		/// <summary>
@@ -313,7 +349,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					if (!quest.TryGetProgress(objectiveIdent, out var progress))
 						continue;
 
-					if (progress.Unlocked && !progress.Done)
+					if (!progress.Done)
 					{
 						progress.SetDone();
 						this.UpdateClient_UpdateQuest(quest);
@@ -335,7 +371,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				for (var i = 0; i < _quests.Count; i++)
 				{
 					var quest = _quests[i];
-					if (!quest.InProgress || quest.Data.Id != questId || !quest.ObjectivesCompleted)
+					quest.CompleteObjectives();
+
+					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
 					this.Complete(quest);
@@ -512,6 +550,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			var questTable = new LuaTable();
+
 			questTable.Insert("ObjectId", "0x" + quest.ObjectId.ToString("X16"));
 			questTable.Insert("ClassId", quest.Data.Id);
 			questTable.Insert("Name", quest.Data.Name);

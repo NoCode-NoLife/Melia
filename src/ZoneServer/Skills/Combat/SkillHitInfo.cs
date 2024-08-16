@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Skills.Combat

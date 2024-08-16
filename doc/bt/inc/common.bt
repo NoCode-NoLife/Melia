@@ -11,6 +11,8 @@
 //   History: 
 //------------------------------------------------
 
+#include "inc/arguments.bt"
+
 #ifdef PROPERTY_NAMES
 #include "inc/ObjectPropertyNames.bt"
 #endif
@@ -19,11 +21,11 @@
 #include "inc/equipSlots.bt"
 
 #include "inc/LpString.bt"
+#include "inc/Bool.bt"
 #include "inc/Property.bt"
 #include "inc/MsgParameter.bt"
 #include "inc/Position.bt"
 #include "inc/Direction.bt"
-#include "inc/MapRevealData.bt"
 #include "inc/ItemProperties.bt"
 #include "inc/AppearancePc.bt"
 #include "inc/Commander.bt"

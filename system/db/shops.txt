@@ -490,8 +490,6 @@
 
 { shopName: "RETIARII_MASTER", productId: 6300, itemId: 646072, amount: 1, priceMultiplier: 1 },
 
-{ shopName: "Teliavelis", productId: 6400, itemId: 643020, amount: 1, priceMultiplier: 1 },
-{ shopName: "Teliavelis", productId: 6401, itemId: 643038, amount: 1, priceMultiplier: 1 },
 { shopName: "Teliavelis", productId: 6402, itemId: 11030038, amount: 1, priceMultiplier: 1 },
 { shopName: "Teliavelis", productId: 6403, itemId: 11030040, amount: 1, priceMultiplier: 1 },
 
@@ -977,15 +975,17 @@
 { shopName: "Personal_Housing", productId: 20242, itemId: 1248063, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20243, itemId: 1248064, amount: 1, priceMultiplier: 1 },
 { shopName: "Personal_Housing", productId: 20244, itemId: 1248065, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20245, itemId: 1248066, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20246, itemId: 1248067, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20247, itemId: 1248068, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20248, itemId: 1248069, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20249, itemId: 1248070, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20250, itemId: 1248071, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20251, itemId: 1248072, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20252, itemId: 1248073, amount: 1, priceMultiplier: 1 },
+{ shopName: "Personal_Housing", productId: 20253, itemId: 1248074, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Event2002_Fish_Shop", productId: 21001, itemId: 10000002, amount: 1, priceMultiplier: 1 },
-
-{ shopName: "SeasonCoin", productId: 22001, itemId: 11200155, amount: 1, priceMultiplier: 1 },
-{ shopName: "SeasonCoin", productId: 22002, itemId: 11200156, amount: 1, priceMultiplier: 1 },
-{ shopName: "SeasonCoin", productId: 22003, itemId: 11200157, amount: 1, priceMultiplier: 1 },
-{ shopName: "SeasonCoin", productId: 22004, itemId: 11200158, amount: 1, priceMultiplier: 1 },
-{ shopName: "SeasonCoin", productId: 22005, itemId: 11200159, amount: 1, priceMultiplier: 1 },
-{ shopName: "SeasonCoin", productId: 22006, itemId: 11200160, amount: 1, priceMultiplier: 1 },
 
 { shopName: "Test_Kupole_Equip", productId: 22101, itemId: 10003485, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Equip", productId: 22102, itemId: 10003486, amount: 1, priceMultiplier: 1 },
@@ -1297,10 +1297,24 @@
 { shopName: "Test_Kupole_Pharmacy", productId: 23513, itemId: 11200050, amount: 1, priceMultiplier: 1 },
 { shopName: "Test_Kupole_Pharmacy", productId: 23514, itemId: 11200051, amount: 1, priceMultiplier: 1 },
 
-{ shopName: "PrevSeasonCoin", productId: 90001, itemId: 11030210, amount: 1, priceMultiplier: 1 },
-{ shopName: "PrevSeasonCoin", productId: 90002, itemId: 11030211, amount: 1, priceMultiplier: 1 },
-{ shopName: "PrevSeasonCoin", productId: 90003, itemId: 11030212, amount: 1, priceMultiplier: 1 },
-{ shopName: "PrevSeasonCoin", productId: 90004, itemId: 11030213, amount: 1, priceMultiplier: 1 },
-{ shopName: "PrevSeasonCoin", productId: 90005, itemId: 11030214, amount: 1, priceMultiplier: 1 },
-{ shopName: "PrevSeasonCoin", productId: 90006, itemId: 11030215, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24000, itemId: 11030210, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24001, itemId: 11030211, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24002, itemId: 11030212, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24003, itemId: 11030213, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24004, itemId: 11030214, amount: 1, priceMultiplier: 1 },
+{ shopName: "GabijaCertificateCoin_Shop", productId: 24005, itemId: 11030215, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24100, itemId: 11200155, amount: 1, priceMultiplier: 1 },
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24101, itemId: 11200156, amount: 1, priceMultiplier: 1 },
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24102, itemId: 11200157, amount: 1, priceMultiplier: 1 },
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24103, itemId: 11200158, amount: 1, priceMultiplier: 1 },
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24104, itemId: 11200159, amount: 1, priceMultiplier: 1 },
+{ shopName: "VakarineCertificateCoin_Shop", productId: 24105, itemId: 11200160, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "RadaCertificateCoin_Shop", productId: 24200, itemId: 11200297, amount: 1, priceMultiplier: 1 },
+{ shopName: "RadaCertificateCoin_Shop", productId: 24201, itemId: 11200298, amount: 1, priceMultiplier: 1 },
+{ shopName: "RadaCertificateCoin_Shop", productId: 24202, itemId: 11200299, amount: 1, priceMultiplier: 1 },
+{ shopName: "RadaCertificateCoin_Shop", productId: 24203, itemId: 11200300, amount: 1, priceMultiplier: 1 },
+{ shopName: "RadaCertificateCoin_Shop", productId: 24204, itemId: 11200301, amount: 1, priceMultiplier: 1 },
+{ shopName: "RadaCertificateCoin_Shop", productId: 24205, itemId: 11200302, amount: 1, priceMultiplier: 1 },
 ]

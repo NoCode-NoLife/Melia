@@ -21,20 +21,21 @@ enum <byte> InventoryAddType
     NEW = 0,
     BUY = 1,
     SELL = 2,
-    PICKUP = 3, // ?
+    PICKUP = 3,
     NOTNEW = 4,
 };
 
-int64 worldId;
+int64 objectId;
 int amount;
 int index;
-int category; // Category Index 
+int category;
 int itemId;
 short propertiesSize;
 InventoryAddType addType;
-float notificationDelay; // 99999
+float notificationDelaySeconds;
 InventoryType invType;
-byte bin1[2];
+bool b1;
+bool b2;
 
 if(propertiesSize > 0)
     getProperties(propertiesSize);
@@ -42,11 +43,9 @@ if(propertiesSize > 0)
 if (worldId > 0)
 {
     short s1;
-    int64 worldId;
-    short s2; // Socket Count
+    int64 objectId2;
+    short count;
 
-    if (s2 > 0 )
-    {
-        byte bin[s2 * 30];
-    }
+    if (count > 0)
+        byte bin[count * 30];
 }

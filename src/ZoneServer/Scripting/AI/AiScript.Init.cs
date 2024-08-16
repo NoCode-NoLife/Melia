@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 
@@ -9,7 +9,7 @@ namespace Melia.Zone.Scripting.AI
 {
 	public abstract partial class AiScript
 	{
-		private readonly static Dictionary<string, Type> AiScriptTypes = new Dictionary<string, Type>();
+		private readonly static Dictionary<string, Type> AiScriptTypes = new();
 
 		/// <summary>
 		/// Initializes the AI script upon loading.

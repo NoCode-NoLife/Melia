@@ -9,23 +9,26 @@ rem -------------------------------------------------------------------------
 if "%1" == "" goto NO_ARGS
 
 set FILENAME=%1
-set SERVER_ID=%2
+set GROUP_ID=%2
+set SERVER_ID=%3
+set SUBFOLDER=net8.0
 
 rem Check for a build in bin\ first
-if not exist bin\%FILENAME%.exe goto SUB_RELEASE
-set PATH=bin\
+if not exist bin\%SUBFOLDER%\%FILENAME%.exe goto SUB_RELEASE
+set PATH=bin\%SUBFOLDER%\
 goto RUN
 
 rem Huh, maybe there's a build in bin\Release?
 :SUB_RELEASE
-IF NOT EXIST bin\Release\%FILENAME%.exe GOTO SUB_DEBUG
-set PATH=bin\Release\
+IF NOT EXIST bin\Release\%SUBFOLDER%\%FILENAME%.exe GOTO SUB_DEBUG
+set PATH=bin\Release\%SUBFOLDER%\
 goto RUN
 
 rem Mah... come here debug!
 :SUB_DEBUG
-IF NOT EXIST bin\Debug\%FILENAME%.exe GOTO ERROR
-set PATH=bin\Debug\
+IF NOT EXIST bin\Debug\%SUBFOLDER%\%FILENAME%.exe GOTO ERROR
+set PATH=bin\Debug\%SUBFOLDER%\
+goto RUN
 
 rem Go, go, go!
 :RUN
@@ -33,7 +36,7 @@ echo Running %FILENAME% from %PATH%
 %windir%\system32\ping -n 2 127.0.0.1 > nul
 cls
 cd %PATH%
-%FILENAME%.exe %SERVER_ID%
+%FILENAME%.exe %GROUP_ID% %SERVER_ID%
 exit
 
 rem Now I'm a saaad panda qq

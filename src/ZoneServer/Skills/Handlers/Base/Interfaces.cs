@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Melia.Shared.World;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Base
 {
@@ -43,4 +46,16 @@ namespace Melia.Zone.Skills.Handlers.Base
 		void StartDynamicCast(Skill skill, ICombatEntity caster);
 		void EndDynamicCast(Skill skill, ICombatEntity caster);
 	}
+
+	public interface ISkillCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	public interface ISkillCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+
+	public interface ISkillCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	public interface ISkillCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+
+	public interface ISkillCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	public interface ISkillCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+
+	public interface ISkillCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	public interface ISkillCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
 }

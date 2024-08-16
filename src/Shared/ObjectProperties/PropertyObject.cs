@@ -41,9 +41,9 @@
 		// while the session and ability objects were above 0xE1A900000000.
 		// In some games, ids have to to be in specific ranges, or nothing
 		// will work. You might not be able to login, or interact with the
-		// world, etc. I haven't seen any indication that this is the case in
-		// ToS yet, but I'd rather be on the safe side for now, until we can
-		// confirm that it's unnecessary.
+		// world, etc. I haven't seen any indication that this is the case
+		// in R1 yet, but I'd rather be on the safe side for now, until we
+		// can confirm that it's unnecessary.
 		//private long _sessionObjectIds = 0x0000E1A900000000;
 		//private long _skillObjectIds = 0x000054B600000000;
 

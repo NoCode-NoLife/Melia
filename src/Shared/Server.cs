@@ -3,16 +3,18 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using Melia.Shared.Configuration;
 using Melia.Shared.Data;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
-using Melia.Shared.Scripting;
-using Melia.Shared.Tos.Properties;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -26,6 +28,11 @@ namespace Melia.Shared
 	/// </summary>
 	public abstract class Server
 	{
+		/// <summary>
+		/// Returns this server's server info.
+		/// </summary>
+		public ServerInfo ServerInfo { get; private set; }
+
 		/// <summary>
 		/// Returns a reference to all conf files.
 		/// </summary>
@@ -64,13 +71,12 @@ namespace Melia.Shared
 		{
 			// First go to the assemblies directory and then back from
 			// there until we find the root folder.
-			var appDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+			var appDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			Directory.SetCurrentDirectory(appDirectory);
 
-			var folderNames = new[] { "lib", "user", "system" };
-			var tries = 3;
+			var folderNames = new[] { "bin", "user", "system" };
+			var tries = 5;
 
-			var cwd = Directory.GetCurrentDirectory();
 			for (var i = 0; i < tries; ++i)
 			{
 				if (folderNames.All(a => Directory.Exists(a)))
@@ -92,6 +98,9 @@ namespace Melia.Shared
 
 			this.Conf.Load();
 			Log.SetFilter(this.Conf.Log.Filter);
+
+			if (this.Conf.Inter.Authentication == "change_me")
+				Log.Warning("You're using the default password for inter-server communication. It is highly recommended that you change it in inter.conf.");
 
 			return this.Conf;
 		}
@@ -204,6 +213,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
@@ -212,7 +222,7 @@ namespace Melia.Shared
 				{
 					this.LoadDb(this.Data.AbilityDb, "db/abilities.txt");
 					this.LoadDb(this.Data.AbilityTreeDb, "db/abilitytree.txt");
-					this.LoadDb(this.Data.AccountOptionDb, "db/accountoptions.txt");
+					this.LoadDb(this.Data.AccountOptionDb, "db/account_options.txt");
 					this.LoadDb(this.Data.AchievementDb, "db/achievements.txt");
 					this.LoadDb(this.Data.AchievementPointDb, "db/achievement_points.txt");
 					this.LoadDb(this.Data.BarrackDb, "db/barracks.txt");
@@ -226,6 +236,7 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.FactionDb, "db/factions.txt");
 					this.LoadDb(this.Data.FeatureDb, "db/features.txt");
 					this.LoadDb(this.Data.GroundDb, "db/ground.dat");
+					this.LoadDb(this.Data.HairTypeDb, "db/hair_types.txt");
 					this.LoadDb(this.Data.HelpDb, "db/help.txt");
 					this.LoadDb(this.Data.InvBaseIdDb, "db/invbaseids.txt");
 					this.LoadDb(this.Data.ItemDb, "db/items.txt");
@@ -243,8 +254,13 @@ namespace Melia.Shared
 					this.LoadDb(this.Data.ShopDb, "db/shops.txt");
 					this.LoadDb(this.Data.SkillDb, "db/skills.txt");
 					this.LoadDb(this.Data.SkillTreeDb, "db/skilltree.txt");
+					this.LoadDb(this.Data.SkinToneDb, "db/skin_tones.txt");
 					this.LoadDb(this.Data.StanceConditionDb, "db/stanceconditions.txt");
 					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
+
+					// Load collections after properties and items, to enable
+					// data checks
+					this.LoadDb(this.Data.CollectionDb, "db/collections.txt");
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}
@@ -325,10 +341,11 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads all scripts from given list.
+		/// Loads all scripts from the scripts lists in the given scripts
+		/// sub-folder.
 		/// </summary>
-		/// <param name="listFilePath"></param>
-		public void LoadScripts(string listFilePath)
+		/// <param name="scriptFolderName"></param>
+		public void LoadScripts(string scriptFolderName)
 		{
 			if (this.ScriptLoader != null)
 			{
@@ -337,6 +354,12 @@ namespace Melia.Shared
 			}
 
 			Log.Info("Loading scripts...");
+
+			// Originally we passed the full path into this method, but
+			// after moving the servers' scripts to their own sub-folders,
+			// it was easier to build the path inside here. Perhaps there's
+			// a better solution, to keep it more flexible?
+			var listFilePath = Path.Combine("system", "scripts", scriptFolderName, "scripts.txt");
 
 			if (!File.Exists(listFilePath))
 			{
@@ -348,23 +371,29 @@ namespace Melia.Shared
 
 			try
 			{
-				var provider = new Microsoft.CodeDom.Providers.DotNetCompilerPlatform.CSharpCodeProvider();
-				provider.SetCompilerServerTimeToLive(TimeSpan.FromMinutes(20));
-				provider.SetCompilerFullPath(Path.GetFullPath("lib/roslyn/csc.exe"));
-
 				var cachePath = (string)null;
-				//if (conf.Scripting.EnableCaching)
-				//{
-				//	var fileName = Path.GetFileNameWithoutExtension(listFilePath);
-				//	cachePath = string.Format("cache/scripts/{0}.compiled", fileName);
-				//}
+				if (this.Conf.Scripts.CacheScripts)
+					cachePath = Path.Combine("user", "cache", "scripts", scriptFolderName + ".dll");
 
-				this.ScriptLoader = new ScriptLoader(provider, cachePath);
-				//this.ScriptLoader.AddPrecompiler(new AiScriptPrecompiler());
-				this.ScriptLoader.LoadFromListFile(listFilePath, "user/scripts/");
+				var userPath = Path.Combine("user", "scripts", scriptFolderName);
+				var systemPath = Path.Combine("system", "scripts", scriptFolderName);
+
+				this.ScriptLoader = new ScriptLoader(cachePath);
+
+				// Required for HTTP stuff that might be used in scripts.
+				// To make this more flexible, we could potentially add
+				// a way for scripts to specify their own references.
+				this.ScriptLoader.References.Add(typeof(JsonSerializer).Assembly.Location);
+				this.ScriptLoader.References.Add(typeof(HttpClient).Assembly.Location);
+				this.ScriptLoader.References.Add(typeof(Uri).Assembly.Location);
+
+				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
+
+				foreach (var ex in this.ScriptLoader.ReferenceExceptions)
+					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
-					Log.Error(ex.ToString());
+					Log.Error(ex);
 			}
 			catch (CompilerErrorException ex)
 			{
@@ -372,7 +401,7 @@ namespace Melia.Shared
 			}
 			catch (Exception ex)
 			{
-				Log.Error(ex.ToString());
+				Log.Error(ex);
 			}
 
 			Log.Info("  loaded {0} scripts from {3} files in {2:n2}s ({1} init fails).", this.ScriptLoader.LoadedCount, this.ScriptLoader.FailCount, timer.Elapsed.TotalSeconds, this.ScriptLoader.FileCount);
@@ -409,7 +438,7 @@ namespace Melia.Shared
 		/// <param name="ex"></param>
 		private void DisplayScriptErrors(CompilerErrorException ex)
 		{
-			foreach (System.CodeDom.Compiler.CompilerError err in ex.Errors)
+			foreach (var err in ex.Errors)
 			{
 				if (string.IsNullOrWhiteSpace(err.FileName))
 				{
@@ -419,7 +448,7 @@ namespace Melia.Shared
 				{
 					var relativefileName = err.FileName;
 					var cwd = Directory.GetCurrentDirectory();
-					if (relativefileName.ToLower().StartsWith(cwd.ToLower()))
+					if (relativefileName.StartsWith(cwd, StringComparison.InvariantCultureIgnoreCase))
 						relativefileName = relativefileName.Substring(cwd.Length + 1);
 
 					var lines = File.ReadAllLines(err.FileName);
@@ -450,29 +479,37 @@ namespace Melia.Shared
 		}
 
 		/// <summary>
-		/// Loads the server list from given database.
+		/// Loads the server list from the database.
 		/// </summary>
 		/// <param name="serverDb"></param>
-		protected void LoadServerList(ServerDb serverDb)
+		/// <param name="serverType"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
+		protected void LoadServerList(ServerDb serverDb, ServerType serverType, int groupId, int serverId)
 		{
 			Log.Info("Loading server list...");
 
-			this.ServerList.Load(serverDb);
+			this.ServerList.Load(serverDb, groupId);
+			this.ServerInfo = this.GetServerInfo(serverType, serverId);
 		}
 
 		/// <summary>
 		/// Reads the server id from the arguments and returns it.
 		/// </summary>
 		/// <param name="args"></param>
+		/// <param name="groupId"></param>
+		/// <param name="serverId"></param>
 		/// <returns></returns>
-		protected int GetServerId(string[] args)
+		protected void GetServerId(string[] args, out int groupId, out int serverId)
 		{
-			var serverId = 1;
+			groupId = 1001;
+			serverId = 1;
 
-			if (args.Length > 0 && int.TryParse(args[0], out var id))
-				serverId = id;
+			if (args.Length > 0 && int.TryParse(args[0], out var gid))
+				groupId = gid;
 
-			return serverId;
+			if (args.Length > 1 && int.TryParse(args[1], out var sid))
+				serverId = sid;
 		}
 
 		/// <summary>

@@ -1,0 +1,41 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: arguments.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+// The first argument from Pale is send|recv,
+// but when the run template call does not come
+// from Pale, the type is unknown.
+
+#define TYPE_RECV (GetArg(0) == "recv")
+#define TYPE_SEND (GetArg(0) == "send")
+#define TYPE_UNK  (GetArg(0) == "")
+
+local int logDate = (GetArg(1) != "" ? Atoi(GetArg(1)) : 99999999);
+#define LOG_DATE  logDate
+
+local int argc = GetNumArgs();
+if (argc)
+{
+    Printf("Arguments (%d): ", argc);
+    local int i;
+    for (i = 0; i < GetNumArgs(); ++i)
+    {
+        Printf("'%s'", GetArg(i));
+        if (i < argc - 1)
+            Printf(", ");
+    }
+    Printf("\n");
+}
+else
+{
+    Printf("No arguments passed to template.\n");
+}

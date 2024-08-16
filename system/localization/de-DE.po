@@ -1,0 +1,266 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2023-07-22 01:49+0200\n"
+"PO-Revision-Date: 2023-07-22 02:05+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: ;Localization.Get:1;Localization.GetPlural:1,2;"
+"Localization.GetParticular:1c,2;Localization.GetParticularPlural:1c,2,3;L:1;"
+"LN:1,2;LX:1c,2;LXN:1c,2,3\n"
+"X-Poedit-SearchPath-0: system\n"
+"X-Poedit-SearchPath-1: src\n"
+
+#: src/BarracksServer/Network/PacketHandler.cs:82
+msgid "This account is already logged in."
+msgstr "Jemand ist bereits mit diesem Nutzer angemeldet."
+
+#: src/BarracksServer/Network/PacketHandler.cs:305
+msgid "This job has been disabled on this server."
+msgstr "Dieser Job wurde auf diesem Server deaktiviert."
+
+#: src/BarracksServer/Network/PacketHandler.cs:449
+msgid ""
+"This channel appears to be offline. Please choose another or try again later."
+msgstr ""
+"Der Channel ist augenscheinlich nicht erreichbar. Bitte wähle einen anderen "
+"oder versuche es später noch einmal."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:148
+#, csharp-format
+msgid "Server Time: {0:yyyy-MM-dd HH:mm}"
+msgstr "Server Zeit: {0:yyyy-MM-dd HH:mm}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:149
+#, csharp-format
+msgid "Game Time: {0:y-M-dd HH:mm}"
+msgstr "Spielwelt Zeit: {0:y-M-dd HH:mm}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:176
+msgid "Command not found or not available."
+msgstr "Der Befehl existiert nicht oder kann nicht verwendet werden."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:182
+#, csharp-format
+msgid "Name: {0}"
+msgstr "Name: {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:184
+#, csharp-format
+msgid "Aliases: {0}"
+msgstr "Alias: {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:185
+#, csharp-format
+msgid "Description: {0}"
+msgstr "Beschreibung: {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:186
+#, csharp-format
+msgid "Arguments: {0}"
+msgstr "Argumente: {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:204
+msgid "No commands found."
+msgstr "Keine Befehle gefunden."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:210
+msgid "Available commands:"
+msgstr "Verfügbare Befehle:"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:388
+#, csharp-format
+msgid "Item '{0}' not found."
+msgstr "Item '{0}' nicht gefunden.."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1863
+#, csharp-format
+msgid "Feature '{0}' not found."
+msgstr "Feature '{0}' nicht gefunden."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1870
+#, csharp-format
+msgid "Enabled feature '{0}'."
+msgstr "Feature '{0}' wurde aktiviert."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1872
+#, csharp-format
+msgid "Disabled feature '{0}'."
+msgstr "Feature '{0}' wurde deaktiviert."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1920
+#, csharp-format
+msgid "Request for kicking '{0}' sent."
+msgstr "Kick Anfrage für '{0}' gesendet."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:70
+msgid "Unknown command."
+msgstr "Unbekannter Befehl."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:81
+msgid ""
+"No authority levels were set for this command and no default levels could be "
+"found."
+msgstr ""
+"Für diesen Befehl wurden keine Berechtigungslevel festgelegt und es konnten "
+"keine Standardwerte gefunden werden."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:92
+msgid "You're not authorized to use this command."
+msgstr "Du bist nicht berechtigt diesen Befehl zu nutzen."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:104
+msgid "No target specified."
+msgstr "Kein Ziel festgelegt."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:111
+msgid "Target character not found."
+msgstr "Ziel Charakter nicht gefunden."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:142
+msgid "Failed to execute command."
+msgstr "Das Ausführen des Befehls ist fehlgeschlagen."
+
+#: src/ZoneServer/Commands/ChatCommands.Manager.cs:146
+#, csharp-format
+msgid "Invalid argument, usage: {0}{1} {2}"
+msgstr "Argumente ungültig. Verwendung: {0}{1} {2}"
+
+#: src/ZoneServer/Network/PacketHandler.cs:749
+msgid "This item has not been implemented yet."
+msgstr "Diese Item wurde noch nicht implementiert."
+
+#: src/ZoneServer/Network/PacketHandler.cs:759
+msgid "Item usage failed."
+msgstr "Verwendung des Items fehlgeschlagen."
+
+#: src/ZoneServer/Network/PacketHandler.cs:771
+msgid "This item has not been fully implemented yet."
+msgstr "Dieses Item wurde noch nicht vollständig implementiert."
+
+#: src/ZoneServer/Network/PacketHandler.cs:776
+#: src/ZoneServer/Network/PacketHandler.cs:2006
+#: src/ZoneServer/Network/PacketHandler.cs:2049
+#: src/ZoneServer/Network/PacketHandler.cs:2056
+msgid "Apologies, something went wrong there. Please report this issue."
+msgstr ""
+"Entschuldigung, da ist etwas schiefgelaufen. Bitte melde dieses Problem."
+
+#: src/ZoneServer/Network/PacketHandler.cs:983
+#: src/ZoneServer/Network/PacketHandler.cs:1075
+#: src/ZoneServer/Network/PacketHandler.cs:1188
+#: src/ZoneServer/Network/PacketHandler.cs:1255
+msgid "You may not use this yet."
+msgstr "Du kannst dies noch nicht benutzen."
+
+#: src/ZoneServer/Network/PacketHandler.cs:1015
+#: src/ZoneServer/Network/PacketHandler.cs:1027
+#: src/ZoneServer/Network/PacketHandler.cs:1095
+#: src/ZoneServer/Network/PacketHandler.cs:1143
+#: src/ZoneServer/Network/PacketHandler.cs:1215
+#: src/ZoneServer/Network/PacketHandler.cs:1264
+msgid "This skill has not been implemented yet."
+msgstr "Dieser Skill wurde noch nicht implementiert."
+
+#: src/ZoneServer/Network/PacketHandler.cs:2014
+msgid "This action has not been implemented yet."
+msgstr "Diese Aktion wurde noch nicht implementiert."
+
+#: src/ZoneServer/Network/PacketHandler.cs:2352
+msgid "You don't have enough points."
+msgstr "Du hast nicht genug Punkte."
+
+#: src/ZoneServer/Skills/Handlers/Archer/Concentration.cs:30
+#: src/ZoneServer/Skills/Handlers/Archer/Leap.cs:30
+#: src/ZoneServer/Skills/Handlers/Archer/Multishot.cs:61
+#: src/ZoneServer/Skills/Handlers/Archer/ObliqueShot.cs:30
+#: src/ZoneServer/Skills/Handlers/Archer/SwiftStep.cs:30
+#: src/ZoneServer/Skills/Handlers/Archer/TwinArrows.cs:26
+#: src/ZoneServer/Skills/Handlers/Cleric/Cure.cs:41
+#: src/ZoneServer/Skills/Handlers/Cleric/Fade.cs:30
+#: src/ZoneServer/Skills/Handlers/Cleric/GuardianSaint.cs:29
+#: src/ZoneServer/Skills/Handlers/Cleric/Heal.cs:37
+#: src/ZoneServer/Skills/Handlers/Cleric/Smite.cs:35
+#: src/ZoneServer/Skills/Handlers/Common/MeleeGround.cs:34
+#: src/ZoneServer/Skills/Handlers/Common/TargetSkill.cs:29
+#: src/ZoneServer/Skills/Handlers/Scout/Cloaking.cs:35
+#: src/ZoneServer/Skills/Handlers/Scout/DaggerSlash.cs:36
+#: src/ZoneServer/Skills/Handlers/Scout/DoubleAttack.cs:29
+#: src/ZoneServer/Skills/Handlers/Scout/FreeStep.cs:29
+#: src/ZoneServer/Skills/Handlers/Scout/ObliqueFire.cs:33
+#: src/ZoneServer/Skills/Handlers/Swordsman/Bash.cs:35
+#: src/ZoneServer/Skills/Handlers/Swordsman/Bear.cs:29
+#: src/ZoneServer/Skills/Handlers/Swordsman/GungHo.cs:33
+#: src/ZoneServer/Skills/Handlers/Swordsman/Liberate.cs:33
+#: src/ZoneServer/Skills/Handlers/Swordsman/PainBarrier.cs:33
+#: src/ZoneServer/Skills/Handlers/Swordsman/Thrust.cs:35
+#: src/ZoneServer/Skills/Handlers/Wizard/Earthquake.cs:36
+#: src/ZoneServer/Skills/Handlers/Wizard/EnergyBolt.cs:32
+#: src/ZoneServer/Skills/Handlers/Wizard/Lethargy.cs:43
+#: src/ZoneServer/Skills/Handlers/Wizard/MagicMissile.cs:40
+#: src/ZoneServer/Skills/Handlers/Wizard/MagicShield.cs:29
+#: src/ZoneServer/Skills/Handlers/Wizard/Teleportation.cs:33
+msgid "Not enough SP."
+msgstr "Nicht genug SP."
+
+#: src/ZoneServer/Skills/Handlers/Archer/Multishot.cs:67
+#: src/ZoneServer/Skills/Handlers/Archer/ObliqueShot.cs:46
+#: src/ZoneServer/Skills/Handlers/Archer/TwinArrows.cs:42
+#: src/ZoneServer/Skills/Handlers/Scout/ObliqueFire.cs:49
+#: src/ZoneServer/Skills/Handlers/Wizard/EnergyBolt.cs:48
+#: src/ZoneServer/Skills/Handlers/Wizard/Lethargy.cs:37
+msgid "Too far away."
+msgstr "Zu weit weg."
+
+#: src/ZoneServer/Skills/Handlers/Wizard/Lethargy.cs:31
+msgid "No target location specified."
+msgstr "Kein Zielbereich festgelegt."
+
+#: src/ZoneServer/World/Quests/Rewards/ExpReward.cs:52
+#, csharp-format
+msgid "{0} EXP, {1} Class EXP"
+msgstr "{0} EXP, {1} Class EXP"
+
+#: src/ZoneServer/World/Quests/Rewards/ItemReward.cs:65
+#, csharp-format
+msgid "{0}"
+msgid_plural "{1}x {0}"
+msgstr[0] "{0}"
+msgstr[1] "{1}x {0}"
+
+#: src/ZoneServer/World/Quests/Rewards/SilverReward.cs:26
+#, csharp-format
+msgid "{0} Silver"
+msgstr "{0} Silber"
+
+#: src/ZoneServer/ZoneServer.cs:213
+#, csharp-format
+msgid "You were kicked by {0}."
+msgstr "Du wurdest von {0} gekickt."
+
+#: system/scripts/items/campfire.cs:37
+msgid "You can't build a bonfire in this location."
+msgstr "Du kannst hier kein Lagerfeuer aufstellen."
+
+#: system/scripts/items/campfire.cs:47
+msgid "This location is too far away."
+msgstr "Der Zielbereich ist zu weit entfernt."
+
+#: system/scripts/items/campfire.cs:53
+msgid "There is already a bonfire nearby."
+msgstr "Es gibt in der Nähe bereits ein Lagerfeuer."
+
+#: system/scripts/items/campfire.cs:59
+msgid "You need Firewood to build a bonfire."
+msgstr "Du brauchst Feuerholz um ein Lagerfeuer aufstellen zu können."
+
+#: system/scripts/items/summoning.cs:24 system/scripts/items/summoning.cs:45
+msgid "Summoning the monster failed."
+msgstr "Das Rufen des Monsters ist fehlgeschlagen."

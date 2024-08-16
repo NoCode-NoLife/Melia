@@ -1,0 +1,20 @@
+//------------------------------------------------
+//--- 010 Editor v12.0.1 Binary Template
+//
+//      File: CZ_SWAP_ITEM_IN_WAREHOUSE.bt
+//   Authors: Salman T. Khan
+//   Version: i375407
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixed header;
+int fromSlot;
+int toSlot;
+int64 item1WorldId;
+int64 item2WorldId;

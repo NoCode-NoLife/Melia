@@ -8,6 +8,7 @@ namespace Melia.Shared.Scripting
 	/// Attribute for methods in scripts, to mark them as subscribers
 	/// for events in the EventManager.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Method)]
 	public class OnAttribute : Attribute
 	{
 		/// <summary>
