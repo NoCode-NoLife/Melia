@@ -321,7 +321,7 @@ namespace Melia.Shared.Database
 					if (!reader.Read())
 						return false;
 
-					var dbSessionKey = reader.GetString("sessionKey");
+					var dbSessionKey = reader.GetStringSafe("sessionKey");
 					return dbSessionKey == sessionKey;
 				}
 			}
