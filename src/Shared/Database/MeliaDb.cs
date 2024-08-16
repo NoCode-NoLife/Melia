@@ -10,6 +10,9 @@ namespace Melia.Shared.Database
 {
 	public class MeliaDb
 	{
+		private readonly static Regex IpAddressRegex = new(@"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$");
+		private readonly static Regex IpMaskRegex = new(@"^(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)$");
+
 		private string _connectionString;
 
 		/// <summary>
@@ -347,6 +350,81 @@ namespace Melia.Shared.Database
 					var loginState = (LoginState)reader.GetInt32("loginState");
 					return loginState != LoginState.LoggedOut;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the given IP address is banned.
+		/// </summary>
+		/// <param name="ip"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException"></exception>
+		public bool CheckIpBan(string ip)
+		{
+			// Remove potential ports
+			if (ip.Contains(':'))
+				ip = ip.Split(':')[0];
+
+			if (!IpAddressRegex.IsMatch(ip))
+				throw new ArgumentException("Invalid IP address.", nameof(ip));
+
+			var ipParts = ip.Split('.');
+			var mask1 = $"{ipParts[0]}.*.*.*";
+			var mask2 = $"{ipParts[0]}.{ipParts[1]}.*.*";
+			var mask3 = $"{ipParts[0]}.{ipParts[1]}.{ipParts[2]}.*";
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `ip_bans` WHERE `ip` = @ip OR `ip` = @mask1 OR `ip` = @mask2 OR `ip` = @mask3", conn))
+			{
+				cmd.AddParameter("@ip", ip);
+				cmd.AddParameter("@mask1", mask1);
+				cmd.AddParameter("@mask2", mask2);
+				cmd.AddParameter("@mask3", mask3);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var from = reader.GetDateTime("fromDate");
+						var to = reader.GetDateTime("toDate");
+						var isBanned = from <= DateTime.Now && to >= DateTime.Now;
+
+						if (isBanned)
+							return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Bans the given IP address or mask.
+		/// </summary>
+		/// <remarks>
+		/// The IP mask can contain wildcards in form of asterisks (*).
+		/// For example, "192.168.*.*" would ban all IP addresses in the
+		/// 192.168.x.x range.
+		/// </remarks>
+		/// <param name="ipMask"></param>
+		/// <param name="from"></param>
+		/// <param name="to"></param>
+		/// <param name="reason"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void BanIp(string ipMask, DateTime from, DateTime to, string reason)
+		{
+			if (!IpMaskRegex.IsMatch(ipMask))
+				throw new ArgumentException("Invalid IP address mask.", nameof(ipMask));
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new InsertCommand("INSERT INTO `ip_bans` {0}", conn))
+			{
+				cmd.Set("ip", ipMask);
+				cmd.Set("fromDate", from);
+				cmd.Set("toDate", to);
+				cmd.Set("reason", reason);
+
+				cmd.Execute();
 			}
 		}
 	}

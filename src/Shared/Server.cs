@@ -18,6 +18,7 @@ using Melia.Shared.Network;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.TCP;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;
 
@@ -527,6 +528,20 @@ namespace Melia.Shared
 			}
 
 			return serverData;
+		}
+
+		/// <summary>
+		/// Checks whether the given connection is valid and should be accepted.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="database"></param>
+		/// <returns></returns>
+		protected ConnectionCheck CheckConnection(TcpConnection conn, MeliaDb database)
+		{
+			if (database.CheckIpBan(conn.Address))
+				return new ConnectionCheck(ConnectionCheckResult.Reject, "IP banned");
+
+			return new ConnectionCheck(ConnectionCheckResult.Accept, "Accepted");
 		}
 	}
 }

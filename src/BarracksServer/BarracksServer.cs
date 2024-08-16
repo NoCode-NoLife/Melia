@@ -117,7 +117,9 @@ namespace Melia.Barracks
 		private void StartAcceptor()
 		{
 			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(this.ServerInfo.Port);
+			_acceptor.ConnectionChecker = (conn) => this.CheckConnection(conn, this.Database);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+			_acceptor.ConnectionRejected += this.OnConnectionRejected;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
@@ -231,6 +233,16 @@ namespace Melia.Barracks
 		private void OnConnectionAccepted(BarracksConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
+		}
+
+		/// <summary>
+		/// Called when a new connection was rejected.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="reason"></param>
+		private void OnConnectionRejected(BarracksConnection conn, string reason)
+		{
+			Log.Info("Connection rejected from '{0}'. Reason: {1}", conn.Address, reason);
 		}
 
 		/// <summary>
