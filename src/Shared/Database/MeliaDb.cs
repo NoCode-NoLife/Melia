@@ -349,19 +349,5 @@ namespace Melia.Shared.Database
 				}
 			}
 		}
-
-		/// <summary>
-		/// Resets the login states of all accounts.
-		/// </summary>
-		public void ClearLoginStates()
-		{
-			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0}", conn))
-			{
-				cmd.Set("loginState", (int)LoginState.LoggedOut);
-				cmd.Set("loginCharacter", 0);
-				cmd.Execute();
-			}
-		}
 	}
 }
