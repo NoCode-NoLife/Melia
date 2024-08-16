@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 
 namespace Melia.Shared.Network.Helpers

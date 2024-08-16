@@ -4,15 +4,20 @@ using System.Linq;
 using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
+using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Actors.Components;
+using Melia.Zone.World.Maps.Pathfinding;
 
 namespace Melia.Zone.World.Maps
 {
@@ -29,51 +34,53 @@ namespace Melia.Zone.World.Maps
 		/// <para>Key: <see cref="ICombatEntity.Handle"/></para>
 		/// <para>Value: <see cref="ICombatEntity"/></para>
 		/// </summary>
-		private readonly Dictionary<int, ICombatEntity> _combatEntities = new Dictionary<int, ICombatEntity>();
+		private readonly Dictionary<int, ICombatEntity> _combatEntities = new();
 
 		/// <summary>
 		/// Collection of characters.
 		/// <para>Key: <see cref="Character.Handle"/></para>
 		/// <para>Value: <see cref="Character"/></para>
 		/// </summary>
-		private readonly Dictionary<int, Character> _characters = new Dictionary<int, Character>();
+		private readonly Dictionary<int, Character> _characters = new();
 
 		/// <summary>
 		/// Collection of monsters.
 		/// <para>Key: <see cref="IMonster.Handle"/></para>
 		/// <para>Value: <see cref="IMonster"/></para>
 		/// </summary>
-		private readonly Dictionary<int, IMonster> _monsters = new Dictionary<int, IMonster>();
+		private readonly Dictionary<int, IMonster> _monsters = new();
 
 		/// <summary>
 		/// Collection of trigger areas on the map.
 		/// </summary>
-		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new Dictionary<int, ITriggerableArea>();
+		private readonly Dictionary<int, ITriggerableArea> _triggerableAreas = new();
 
 		/// <summary>
-		/// Collection of monster spawners.
+		/// Collection of pads on the map.
+		/// <para>Key: <see cref="Pad.Handle"/></para>
+		/// <para>Value: <see cref="Pad"/></para>
 		/// </summary>
-		private readonly List<MonsterSpawner> _spawners = new List<MonsterSpawner>();
+		private readonly Dictionary<int, Pad> _pads = new();
 
 		/// <summary>
 		/// Monsters to add to the map on the next update.
 		/// </summary>
-		private readonly Queue<IMonster> _addMonsters = new Queue<IMonster>();
+		private readonly Queue<IMonster> _addMonsters = new();
 
 		/// <summary>
 		/// List for entities during entity update.
 		/// </summary>
-		private readonly List<IUpdateable> _updateEntities = new List<IUpdateable>();
+		private readonly List<IUpdateable> _updateEntities = new();
 
 		/// <summary>
 		/// List for characters during visibility update.
 		/// </summary>
-		private readonly List<Character> _updateVisibleCharacters = new List<Character>();
+		private readonly List<Character> _updateVisibleCharacters = new();
 
 		/// <summary>
 		/// List of property overrides for monsters spawned on this map.
 		/// </summary>
-		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new Dictionary<int, PropertyOverrides>();
+		private readonly Dictionary<int, PropertyOverrides> _monsterPropertyOverrides = new();
 
 		/// <summary>
 		/// Returns the map's unique class name.
@@ -94,6 +101,11 @@ namespace Melia.Zone.World.Maps
 		/// Returns the map's ground.
 		/// </summary>
 		public Ground Ground { get; } = new Ground();
+
+		/// <summary>
+		/// Returns the map's pathfinder.
+		/// </summary>
+		public IPathfinder Pathfinder { get; private set; }
 
 		/// <summary>
 		/// Returns the number of characters on the map.
@@ -132,6 +144,13 @@ namespace Melia.Zone.World.Maps
 			// A few maps don't seem to have any ground data.
 			if (ZoneServer.Instance.Data.GroundDb.TryFind(this.ClassName, out var groundData))
 				this.Ground.Load(groundData);
+
+			// Load pathfinder regardless of whether there's ground data,
+			// so it's not null
+			if (ZoneServer.Instance.Conf.World.MonstersUsePathfinding)
+				this.Pathfinder = new DynamicGridPathfinder(this);
+			else
+				this.Pathfinder = new NonePathfinder();
 		}
 
 		/// <summary>
@@ -143,7 +162,6 @@ namespace Melia.Zone.World.Maps
 			this.Disappearances();
 			this.UpdateVisibility();
 			this.UpdateEntities(elapsed);
-			this.UpdateSpawners(elapsed);
 		}
 
 		/// <summary>
@@ -178,6 +196,9 @@ namespace Melia.Zone.World.Maps
 				lock (_characters)
 					_updateEntities.AddRange(_characters.Values);
 
+				lock (_pads)
+					_updateEntities.AddRange(_pads.Values);
+
 				foreach (var entity in _updateEntities)
 					entity.Update(elapsed);
 
@@ -197,7 +218,10 @@ namespace Melia.Zone.World.Maps
 				toDisappear = _monsters.Values.Where(a => a.DisappearTime < now).ToList();
 
 			foreach (var monster in toDisappear)
+			{
+				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
 				this.RemoveMonster(monster);
+			}
 		}
 
 		/// <summary>
@@ -316,48 +340,6 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public Character[] GetVisibleCharacters(Character character)
 			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
-
-		/// <summary>
-		/// Adds the spawner to the map.
-		/// </summary>
-		/// <param name="spawner"></param>
-		public void AddSpawner(MonsterSpawner spawner)
-		{
-			lock (_spawners)
-				_spawners.Add(spawner);
-		}
-
-		/// <summary>
-		/// Removes all spawners from the map.
-		/// </summary>
-		public void RemoveSpawners()
-		{
-			lock (_spawners)
-				_spawners.Clear();
-		}
-
-		/// <summary>
-		/// Returns a list with all spawners.
-		/// </summary>
-		/// <returns></returns>
-		public MonsterSpawner[] GetSpawners()
-		{
-			lock (_spawners)
-				return _spawners.ToArray();
-		}
-
-		/// <summary>
-		/// Updates all spawners, spawning monsters as necessary.
-		/// </summary>
-		/// <param name="elapsed"></param>
-		public void UpdateSpawners(TimeSpan elapsed)
-		{
-			lock (_spawners)
-			{
-				foreach (var spawner in _spawners)
-					spawner.Update(elapsed);
-			}
-		}
 
 		/// <summary>
 		/// Adds monster to map.
@@ -521,6 +503,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first monster that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public IMonster GetMonster(Func<IMonster, bool> predicate)
+		{
+			lock (_monsters)
+				return _monsters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns monster by handle via out. Returns false if the
 		/// monster wasn't found.
 		/// </summary>
@@ -651,7 +644,7 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public IMonster[] GetVisibleMonsters(Character character)
 			// TODO: Move responsibility about visibility to Character.
-			=> this.GetMonsters(a => (!(a is Npc npc) || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
+			=> this.GetMonsters(a => (a is not Npc npc || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
 
 		/// <summary>
 		/// Removes all scripted entities, like NPCs, monsters, and warps.
@@ -664,8 +657,6 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toRemove)
 				this.RemoveMonster(monster);
-
-			this.RemoveSpawners();
 		}
 
 		/// <summary>
@@ -679,6 +670,41 @@ namespace Melia.Zone.World.Maps
 
 			lock (_monsters)
 				return _monsters.Values.OfType<WarpMonster>().FirstOrDefault(a => a.Position.InRange2D(pos, 35));
+		}
+
+		/// <summary>
+		/// Adds pad to map and executes its first update.
+		/// </summary>
+		/// <param name="pad"></param>
+		public void AddPad(Pad pad)
+		{
+			pad.Map = this;
+
+			lock (_pads)
+				_pads[pad.Handle] = pad;
+
+			// Notify the pad about its new map after adding it, so potential
+			// events can reference the map.
+			// It would be kinda nice if the pad could manage this by itself,
+			// or all actors really, but we do have to tell the actor about
+			// it somehow. Maybe a generic OnAddedToMap method in Actor? TBD.
+			pad.Components.Get<TriggerComponent>()?.OnAddedToMap();
+		}
+
+		/// <summary>
+		/// Removes pad from map.
+		/// </summary>
+		/// <param name="pad"></param>
+		public void RemovePad(Pad pad)
+		{
+			// Notify the pad about its removal before actually removing it,
+			// so any potential event handlers can still reference its map.
+			pad.Components.Get<TriggerComponent>()?.OnRemovingFromMap();
+
+			lock (_pads)
+				_pads.Remove(pad.Handle);
+
+			pad.Map = null;
 		}
 
 		/// <summary>
@@ -725,6 +751,31 @@ namespace Melia.Zone.World.Maps
 
 			var closestPos = positions.OrderBy(a => a.Get2DDistance(pos)).First();
 			return closestPos;
+		}
+
+		/// <summary>
+		/// Alerts all AIs in range of the source about the given event.
+		/// </summary>
+		/// <param name="source"></param>
+		/// <param name="alert"></param>
+		public void AlertAis(IActor source, IAiEventAlert alert)
+		{
+			lock (_monsters)
+			{
+				foreach (var monster in _monsters.Values)
+				{
+					if (!monster.Position.InRange2D(source.Position, VisibleRange))
+						continue;
+
+					if (monster is not ICombatEntity combatEntity)
+						continue;
+
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
+						continue;
+
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
 		}
 
 		/// <summary>

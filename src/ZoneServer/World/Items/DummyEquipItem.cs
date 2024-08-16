@@ -1,4 +1,4 @@
-﻿using Melia.Shared.Tos.Const;
+﻿using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.World.Items
 {
@@ -26,7 +26,7 @@ namespace Melia.Zone.World.Items
 		/// Creates new dummy item.
 		/// </summary>
 		/// <param name="slot"></param>
-		public DummyEquipItem(EquipSlot slot) : base(Melia.Shared.Tos.Const.InventoryDefaults.EquipItems[(int)slot], 1)
+		public DummyEquipItem(EquipSlot slot) : base(Melia.Shared.Game.Const.InventoryDefaults.EquipItems[(int)slot], 1)
 		{
 		}
 	}

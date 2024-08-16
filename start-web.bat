@@ -1,3 +1,3 @@
 @echo off
 
-start-all WebServer
+start-all WebServer 1001 1

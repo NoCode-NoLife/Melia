@@ -29,7 +29,7 @@ HitInfo hit;
 byte b7;
 int type;
 int i1;
-int i2; // same weird integer as in ZC_SKILL_FORCE_TARGET and ZC_SKILL_HIT_INFO?
+int forceId;
 byte b8;
 byte b9;
 float f1;

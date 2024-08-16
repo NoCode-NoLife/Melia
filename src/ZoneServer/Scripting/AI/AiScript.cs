@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Melia.Shared.Tos.Const;
-using Melia.Zone.Network;
+using System.Linq;
+using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -22,18 +21,21 @@ namespace Melia.Zone.Scripting.AI
 
 		private int _masterHandle;
 
+		private DateTime _lastPlayerSeenTime;
+		private readonly TimeSpan _inactivityDelay = TimeSpan.FromSeconds(2);
+
 		private TendencyType _tendency;
-		private float _visibleRange = 300;
+		private float _viewRange = 300;
 		private float _hateRange = 100;
 		private float _hatePerSecond = 20;
 		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
-		private readonly HashSet<int> _hateLevelsToRemove = new HashSet<int>();
-		private readonly Dictionary<int, float> _hateLevels = new Dictionary<int, float>();
 
-		private readonly HashSet<FactionType> _hatedFactions = new HashSet<FactionType>();
-		private readonly HashSet<int> _hatedMonsters = new HashSet<int>();
+		private readonly HashSet<int> _hateLevelsToRemove = new();
+		private readonly Dictionary<int, float> _hateLevels = new();
+		private readonly HashSet<FactionType> _hatedFactions = new();
+		private readonly HashSet<int> _hatedMonsters = new();
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
 
@@ -94,7 +96,10 @@ namespace Melia.Zone.Scripting.AI
 			if (!_initiated)
 				throw new InvalidOperationException("AI has not been initiated.");
 
-			if (this.Entity.IsDead || this.Entity.Map.CharacterCount == 0)
+			if (this.Entity.IsDead)
+				return;
+
+			if (!this.CheckAnyPlayersOnMap())
 				return;
 
 			this.UpdateHate(elapsed);
@@ -104,12 +109,40 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if there are any players on the entity's map.
+		/// </summary>
+		/// <remarks>
+		/// This method keeps returning true for a short time after the last
+		/// player left the map so the AI can react to players leaving.
+		/// </remarks>
+		/// <returns></returns>
+		private bool CheckAnyPlayersOnMap()
+		{
+			var playerCount = this.Entity.Map.CharacterCount;
+
+			if (playerCount > 0)
+			{
+				_lastPlayerSeenTime = DateTime.Now;
+				return true;
+			}
+
+			if (playerCount == 0)
+			{
+				var inactivityStart = _lastPlayerSeenTime + _inactivityDelay;
+				if (DateTime.Now < inactivityStart)
+					return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Updates hate levels for potentialy nearby enemies.
 		/// </summary>
 		/// <param name="elapsed"></param>
 		private void UpdateHate(TimeSpan elapsed)
 		{
-			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _visibleRange);
+			var potentialEnemies = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, this.Entity.Position, _viewRange);
 
 			this.RemoveNonNearbyHate(elapsed, potentialEnemies);
 			this.IncreaseNearbyHate(elapsed, potentialEnemies);
@@ -137,6 +170,14 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Clears all hate levels.
+		/// </summary>
+		protected void RemoveAllHate()
+		{
+			_hateLevels.Clear();
+		}
+
+		/// <summary>
 		/// Increase hate levels of enemies that are nearby.
 		/// </summary>
 		/// <param name="elapsed"></param>
@@ -156,7 +197,7 @@ namespace Melia.Zone.Scripting.AI
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
 
-				if (potentialEnemy.Components.Get<BuffComponent>().Has(BuffId.Cloaking_Buff))
+				if (!this.CanAccumulateHate(potentialEnemy))
 					continue;
 
 				var handle = potentialEnemy.Handle;
@@ -250,11 +291,59 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the given entity can accumulate hate, based on its
+		/// current state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanAccumulateHate(ICombatEntity entity)
+		{
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			// Provocation Immunity prevents hate from all except its caster
+			// as long as the caster remains in range
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				var caster = piDebuff.Caster;
+
+				if (entity != caster && !this.EntityGone(caster) && this.InRangeOf(caster, 300))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if the given entity is a valid target to be hated and
+		/// targetted, based on its current state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected bool CanBeHated(ICombatEntity entity)
+		{
+			if (entity.IsBuffActive(BuffId.Cloaking_Buff))
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns the enemy with the highest hate level in range.
 		/// </summary>
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
 		{
+			// This buff overrides the most hated target as long as the caster
+			// remains in range.
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				var caster = piDebuff.Caster;
+
+				if (!this.EntityGone(caster) && this.InRangeOf(caster, 300))
+					return caster;
+			}
+
 			var highestHate = 0f;
 			ICombatEntity mostHated = null;
 
@@ -263,11 +352,16 @@ namespace Melia.Zone.Scripting.AI
 				var handle = entry.Key;
 				var hate = entry.Value;
 
-				if (hate > highestHate)
-				{
-					highestHate = hate;
-					mostHated = this.Entity.Map.GetCombatEntity(handle);
-				}
+				if (hate <= highestHate)
+					continue;
+
+				var entity = this.Entity.Map.GetCombatEntity(handle);
+
+				if (entity != null && !this.CanBeHated(entity))
+					continue;
+
+				highestHate = hate;
+				mostHated = entity;
 			}
 
 			if (highestHate < _minAggroHateLevel)
@@ -284,7 +378,17 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected bool IsHating(ICombatEntity entity)
 		{
+			// Always hating the person that casted this buff
+			if (this.Entity.TryGetBuff(BuffId.ProvocationImmunity_Debuff, out var piDebuff))
+			{
+				if (entity == piDebuff.Caster)
+					return true;
+			}
+
 			if (!_hateLevels.TryGetValue(entity.Handle, out var hate))
+				return false;
+
+			if (!this.CanBeHated(entity))
 				return false;
 
 			return (hate >= _minAggroHateLevel);
@@ -322,23 +426,38 @@ namespace Melia.Zone.Scripting.AI
 				while (_eventAlerts.Count > 0)
 				{
 					var eventAlert = _eventAlerts.Dequeue();
+					this.ReactToAlert(eventAlert);
+				}
+			}
+		}
 
-					switch (eventAlert)
-					{
-						case HitEventAlert hitEventAlert:
-						{
-							if (hitEventAlert.Target.Handle == this.Entity.Handle)
-								this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
-							break;
-						}
+		/// <summary>
+		/// Makes AI react to the given alert.
+		/// </summary>
+		/// <param name="eventAlert"></param>
+		private void ReactToAlert(IAiEventAlert eventAlert)
+		{
+			switch (eventAlert)
+			{
+				case HitEventAlert hitEventAlert:
+				{
+					var entityWasAttacked = (hitEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (hitEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (hitEventAlert.Attacker.Handle == _masterHandle);
 
-						case HateResetAlert hateResetAlert:
-						{
-							var targetHandle = hateResetAlert.Target.Handle;
-							_hateLevels.Remove(targetHandle);
-							break;
-						}
-					}
+					if (entityWasAttacked || masterWasAttacked)
+						this.IncreaseHate(hitEventAlert.Attacker, _hatePerHit);
+					else if (masterDidAttack)
+						this.IncreaseHate(hitEventAlert.Target, _hatePerHit);
+
+					break;
+				}
+
+				case HateResetAlert hateResetAlert:
+				{
+					var targetHandle = hateResetAlert.Target.Handle;
+					_hateLevels.Remove(targetHandle);
+					break;
 				}
 			}
 		}
@@ -404,6 +523,15 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Sets the range in which the AI can see potential enemies.
+		/// </summary>
+		/// <param name="viewRange"></param>
+		protected void SetViewDistance(float viewRange)
+		{
+			_viewRange = viewRange;
+		}
+
+		/// <summary>
 		/// Sets the entity the AI follows around and supports.
 		/// </summary>
 		/// <param name="masterEntity"></param>
@@ -423,6 +551,18 @@ namespace Melia.Zone.Scripting.AI
 				return null;
 
 			return this.Entity.Map.GetCombatEntity(_masterHandle);
+		}
+
+		/// <summary>
+		/// Returns the entity's master via out. Returns false if the
+		/// entity doesn't have a master.
+		/// </summary>
+		/// <param name="master"></param>
+		/// <returns></returns>
+		public bool TryGetMaster(out ICombatEntity master)
+		{
+			master = this.GetMaster();
+			return (master != null);
 		}
 
 		/// <summary>
@@ -526,6 +666,15 @@ namespace Melia.Zone.Scripting.AI
 
 			movement.SetMoveSpeedType(MoveSpeedType.Walk);
 			movement.SetFixedMoveSpeed(0);
+		}
+
+		/// <summary>
+		/// Removes AI's entity from the world if it's a monster.
+		/// </summary>
+		protected void Despawn()
+		{
+			if (this.Entity is IMonster monster)
+				monster.Map.RemoveMonster(monster);
 		}
 	}
 }

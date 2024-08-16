@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data;
 using Yggdrasil.Data.JSON;

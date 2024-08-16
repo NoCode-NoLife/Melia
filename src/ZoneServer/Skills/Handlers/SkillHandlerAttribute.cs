@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.Skills.Handlers
 {
@@ -31,7 +31,7 @@ namespace Melia.Zone.Skills.Handlers
 		/// <param name="skillIds"></param>
 		public SkillHandlerAttribute(params SkillId[] skillIds)
 		{
-			this.SkillIds = skillIds ?? new SkillId[0];
+			this.SkillIds = skillIds ?? [];
 			this.Priority = 100;
 		}
 

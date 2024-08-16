@@ -86,4 +86,5 @@
 { id: 100, name: "BreakingWheel" },
 { id: 101, name: "Raid_Spreader_Crystal" },
 { id: 102, name: "Raid_Spreader_Soldier", hostile: ["Raid_Spreader_Crystal"] },
+{ id: 103, name: "NoOneCanHitMe", hostile: ["Chaos", "Monster", "OnlyHitMe", "Trap_Sin", "Pvp", "HitMe", "IceWall", "BreakingWheel", "Dice", "RootCrystal", "Monster_Chaos1", "Monster_Chaos2", "Monster_Chaos3", "Monster_Chaos4", "CrazyMonster", "Mon_Enemy", "Monster_Forces", "Monster_Telepath", "HitMe", "Team_1_mine", "Team_2_mine", "GimmckMonster", "Colony_Defense", "Colony_Offense", "GimmckMonster_Pad", "Qeust_Team1", "Qeust_Team2", "Qeust_Team3", "Qeust_Team4", "Qeust_Team5", "Chaos_Monster", "Raid_Spreader_Soldier"] },
 ]

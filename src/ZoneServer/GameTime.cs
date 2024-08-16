@@ -12,12 +12,22 @@ namespace Melia.Zone
 		/// <summary>
 		/// Returns the current time in the game world.
 		/// </summary>
-		public static GameTime Now => new GameTime(DateTime.Now);
+		public static GameTime Now => new(DateTime.Now);
 
 		/// <summary>
 		/// Returns how long one hour in the game world is in real time.
 		/// </summary>
 		public static TimeSpan OneHour => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour);
+
+		/// <summary>
+		/// Returns how long one day in the game world is in real time.
+		/// </summary>
+		public static TimeSpan OneDay => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour * ZoneServer.Instance.Conf.World.HoursPerDay);
+
+		/// <summary>
+		/// Returns how long one month in the game world is in real time.
+		/// </summary>
+		public static TimeSpan OneMonth => TimeSpan.FromTicks(ZoneServer.Instance.Conf.World.TicksPerMinute * ZoneServer.Instance.Conf.World.MinutesPerHour * ZoneServer.Instance.Conf.World.HoursPerDay * ZoneServer.Instance.Conf.World.DaysPerMonth);
 
 		/// <summary>
 		/// The current hour in the game world.
@@ -222,11 +232,33 @@ namespace Melia.Zone
 		}
 	}
 
+	/// <summary>
+	/// Defines the time of day.
+	/// </summary>
 	public enum TimeOfDay
 	{
+		/// <summary>
+		/// Time in the early morning between 4:00 and 6:00 when the sun
+		/// rises.
+		/// </summary>
 		Dawn,
+
+		/// <summary>
+		/// Day time between 6:00 and 18:00 after the sun has risen and
+		/// before it sets.
+		/// </summary>
 		Day,
+
+		/// <summary>
+		/// Time in the early evening between 18:00 and 20:00 when the sun
+		/// sets again.
+		/// </summary>
 		Dusk,
+
+		/// <summary>
+		/// Night time between 20:00 and 4:00 when the sun has set and
+		/// before it rises again.
+		/// </summary>
 		Night,
 	}
 }

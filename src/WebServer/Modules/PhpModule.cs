@@ -52,7 +52,7 @@ namespace Melia.Web.Modules
 			if (info.IsDirectory)
 			{
 				var defaultRequestPath = context.RequestedPath;
-				if (!defaultRequestPath.EndsWith("/"))
+				if (!defaultRequestPath.EndsWith('/'))
 					defaultRequestPath += "/";
 				defaultRequestPath += DefaultFileName;
 
@@ -86,7 +86,7 @@ namespace Melia.Web.Modules
 				return;
 
 			// Get query string from URL
-			var index = context.Request.RawUrl.IndexOf("?");
+			var index = context.Request.RawUrl.IndexOf('?');
 			var queryString = index == -1 ? "" : context.Request.RawUrl.Substring(index + 1);
 
 			// Read body for POST requests

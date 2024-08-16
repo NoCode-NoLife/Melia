@@ -15,14 +15,17 @@ namespace Melia.Shared.Data
 		public BarrackDb BarrackDb = new BarrackDb();
 		public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
-		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
+		public CollectionDb CollectionDb;
 		public CooldownDb CooldownDb = new CooldownDb();
+		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();
 		public DialogTxDb DialogTxDb = new DialogTxDb();
 		public ExpDb ExpDb = new ExpDb();
-		public FeatureDb FeatureDb = new FeatureDb();
 		public FactionDb FactionDb = new FactionDb();
+		public FeatureDb FeatureDb = new FeatureDb();
 		public GroundDb GroundDb = new GroundDb();
+		public HairTypeDb HairTypeDb = new HairTypeDb();
+		public HelpDb HelpDb = new HelpDb();
 		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
 		public ItemDb ItemDb = new ItemDb();
 		public ItemMonsterDb ItemMonsterDb = new ItemMonsterDb();
@@ -39,9 +42,9 @@ namespace Melia.Shared.Data
 		public ShopDb ShopDb = new ShopDb();
 		public SkillDb SkillDb = new SkillDb();
 		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
+		public SkinToneDb SkinToneDb = new SkinToneDb();
 		public StanceConditionDb StanceConditionDb = new StanceConditionDb();
 		public SystemMessageDb SystemMessageDb = new SystemMessageDb();
-		public HelpDb HelpDb = new HelpDb();
 
 		public MeliaData()
 		{
@@ -49,6 +52,9 @@ namespace Melia.Shared.Data
 			// the map list from the server db to determine which maps
 			// the zone servers serve.
 			this.ServerDb = new ServerDb(this.MapDb);
+
+			// Yup, still not entirely happy with this.
+			this.CollectionDb = new CollectionDb(this.PropertiesDb, this.ItemDb);
 		}
 	}
 }

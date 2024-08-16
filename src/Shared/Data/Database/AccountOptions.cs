@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -10,12 +11,14 @@ namespace Melia.Shared.Data.Database
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public int DefaultValue { get; set; }
+
+		public AccountOptionId OptionId { get; set; }
 	}
 
 	/// <summary>
 	/// Account option database, indexed by their ids.
 	/// </summary>
-	public class AccountOptionDb : DatabaseJsonIndexed<int, AccountOptionData>
+	public class AccountOptionDb : DatabaseJsonIndexed<AccountOptionId, AccountOptionData>
 	{
 		/// <summary>
 		/// Reads given entry and adds it to the database.
@@ -31,7 +34,9 @@ namespace Melia.Shared.Data.Database
 			data.Name = entry.ReadString("name");
 			data.DefaultValue = entry.ReadInt("defaultValue");
 
-			this.AddOrReplace(data.Id, data);
+			data.OptionId = entry.ReadEnum<AccountOptionId>("name");
+
+			this.AddOrReplace(data.OptionId, data);
 		}
 	}
 }

@@ -1,17 +1,22 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
 using EmbedIO.Net;
 using EmbedIO.WebApi;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
 
@@ -19,9 +24,14 @@ namespace Melia.Web
 {
 	public class WebServer : Server
 	{
-		public readonly static WebServer Instance = new WebServer();
+		public readonly static WebServer Instance = new();
 
 		private EmbedIO.WebServer _server;
+
+		/// <summary>
+		/// Returns the server's inter-server communicator.
+		/// </summary>
+		public Communicator Communicator { get; private set; }
 
 		/// <summary>
 		/// Runs the server.
@@ -29,14 +39,19 @@ namespace Melia.Web
 		/// <param name="args"></param>
 		public override void Run(string[] args)
 		{
-			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, "Web", ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
+			this.GetServerId(args, out var groupId, out var serverId);
+			var title = string.Format("Web ({0}, {1})", groupId, serverId);
+
+			ConsoleUtil.WriteHeader(ConsoleHeader.ProjectName, title, ConsoleColor.DarkRed, ConsoleHeader.Logo, ConsoleHeader.Credits);
 			ConsoleUtil.LoadingTitle();
 
 			this.NavigateToRoot();
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
+			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
 			this.CheckDependencies();
 
+			this.StartCommunicator();
 			this.StartWebServer();
 
 			ConsoleUtil.RunningTitle();
@@ -78,42 +93,146 @@ namespace Melia.Web
 
 			Log.Info("PHP not found. Downloading now...");
 
-			using (var wc = new WebClient())
+			using var wc = new HttpClient();
+
+			var downloadRootUrl = "https://windows.php.net";
+			var downloadPageUrl = downloadRootUrl + "/download";
+			var downloadPageContents = wc.GetStringAsync(downloadPageUrl).Result;
+
+			// Get link to the first PHP zip file, which should be the
+			// latest.
+			var match = Regex.Match(downloadPageContents, @"/downloads/releases/php-\d+\.\d+\.\d+-nts-Win32-vs16-x64\.zip");
+			if (!match.Success)
 			{
-				var tempFileName = Path.GetTempFileName();
-				var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+				Log.Warning("Failed to find PHP download on '{0}'. Please install PHP and set its path manually in the web web configuration or you won't be able to use all of the web server's features.", downloadPageUrl);
+				return;
+			}
 
-				try
+			var tempFileName = Path.GetTempFileName();
+			//var downloadUrl = this.Conf.Web.PhpDownloadUrl;
+			var downloadUrl = downloadRootUrl + match.Value;
+			var fileName = Path.GetFileName(downloadUrl);
+
+			Log.Info("Filename: {0}", fileName);
+
+			var downloading = true;
+
+			try
+			{
+				wc.DefaultRequestHeaders.UserAgent.ParseAdd("Melia");
+
+				Task.Run(() =>
 				{
-					wc.Headers.Set(HttpRequestHeader.UserAgent, "Melia");
-					wc.DownloadProgressChanged += (s, e) => Console.Write("         Download Progress: {0,3:0}%\r", e.ProgressPercentage);
+					while (downloading)
+					{
+						Console.Write(".");
+						Thread.Sleep(1000);
+					}
+				});
 
-					var task = wc.DownloadFileTaskAsync(downloadUrl, tempFileName);
-					task.Wait();
+				var result = wc.GetAsync(downloadUrl).Result;
+				using (var fs = new FileStream(tempFileName, FileMode.Create, FileAccess.Write, FileShare.None))
+					result.Content.CopyToAsync(fs).Wait();
 
-					Log.Info("PHP download complete, extracting...");
+				downloading = false;
 
-					if (!Directory.Exists(phpFolderPath))
-						Directory.CreateDirectory(phpFolderPath);
+				Log.Info("PHP download complete, extracting...");
 
-					ZipFile.ExtractToDirectory(tempFileName, phpFolderPath);
+				if (!Directory.Exists(phpFolderPath))
+					Directory.CreateDirectory(phpFolderPath);
 
-					Log.Info("PHP extraction complete, setting up...");
+				ZipFile.ExtractToDirectory(tempFileName, phpFolderPath);
 
-					var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
-					var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
-					File.Copy(productionIniFilePath, iniFilePath);
+				Log.Info("PHP extraction complete, setting up...");
 
-					Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
-				}
-				catch (Exception)
+				var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
+				var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
+				File.Copy(productionIniFilePath, iniFilePath);
+
+				Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
+			}
+			catch (Exception)
+			{
+				Log.Warning("Failed to download PHP from '{0}'. Please configure your PHP path manually or you won't be able to use all of the web server's features.", downloadUrl);
+			}
+			finally
+			{
+				try { File.Delete(tempFileName); }
+				catch { }
+
+				downloading = false;
+			}
+		}
+
+		/// <summary>
+		/// Starts the communicator and attempts to connect to the
+		/// coordinator.
+		/// </summary>
+		private void StartCommunicator()
+		{
+			Log.Info("Attempting to connect to coordinator...");
+
+			var commName = ServerType.Barracks.ToString();
+
+			this.Communicator = new Communicator(commName);
+			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
+			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Attempts to establish a connection to the coordinator.
+		/// </summary>
+		private void ConnectToCoordinator()
+		{
+			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
+
+			try
+			{
+				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
+
+				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+				this.Communicator.Subscribe("Coordinator", "AllServers");
+
+				Log.Info("Successfully connected to coordinator.");
+			}
+			catch
+			{
+				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
+				Thread.Sleep(5000);
+
+				this.ConnectToCoordinator();
+			}
+		}
+
+		/// <summary>
+		/// Called when the connection to the coordinator was lost.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnDisconnected(string commName)
+		{
+			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
+			Thread.Sleep(5000);
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Called when a message was received from the coordinator.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
+		{
+			//Log.Debug("Message received from '{0}': {1}", sender, message);
+
+			switch (message)
+			{
+				case ServerUpdateMessage serverUpdateMessage:
 				{
-					Log.Warning("Failed to download PHP from '{0}'. Please configure your PHP path manually or you won't be able to use all of the web server's features.", downloadUrl);
-				}
-				finally
-				{
-					try { File.Delete(tempFileName); }
-					catch { }
+					this.ServerList.Update(serverUpdateMessage);
+					break;
 				}
 			}
 		}
@@ -125,7 +244,8 @@ namespace Melia.Web
 		{
 			try
 			{
-				var url = string.Format("http://*:{0}/", this.Conf.Web.Port);
+				var serverInfo = this.ServerInfo;
+				var url = string.Format("http://*:{0}/", serverInfo.Port);
 
 				Swan.Logging.Logger.NoLogging();
 				Swan.Logging.Logger.RegisterLogger(new YggdrasilLogger(this.Conf.Log.Filter));
@@ -142,6 +262,7 @@ namespace Melia.Web
 				//   adding a pre-processor.
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
+				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
 
 				_server.WithModule(new PhpModule("/"));
 

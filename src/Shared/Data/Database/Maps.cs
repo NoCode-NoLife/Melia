@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
@@ -14,6 +14,7 @@ namespace Melia.Shared.Data.Database
 		public string ClassName { get; set; }
 		public string Name { get; set; }
 		public MapType Type { get; set; }
+		public int Level { get; set; }
 		public Position DefaultPosition { get; set; }
 	}
 
@@ -22,7 +23,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class MapDb : DatabaseJsonIndexed<int, MapData>
 	{
-		private readonly Dictionary<string, MapData> _nameIndex = new Dictionary<string, MapData>();
+		private readonly Dictionary<string, MapData> _nameIndex = new();
 
 		/// <summary>
 		/// Returns the map entry with given class name, or null if there was
@@ -32,7 +33,7 @@ namespace Melia.Shared.Data.Database
 		/// <returns></returns>
 		public MapData Find(string className)
 		{
-			_nameIndex.TryGetValue(className, out var result);
+			_nameIndex.TryGetValue(className.ToLowerInvariant(), out var result);
 			return result;
 		}
 
@@ -44,7 +45,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="result"></param>
 		/// <returns></returns>
 		public bool TryFind(string className, out MapData result)
-			=> _nameIndex.TryGetValue(className, out result);
+			=> _nameIndex.TryGetValue(className.ToLowerInvariant(), out result);
 
 		/// <summary>
 		/// Reads given entry and adds it to the database.
@@ -52,7 +53,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("mapId", "className", "name", "defaultPosition");
+			entry.AssertNotMissing("mapId", "className", "name", "type", "level", "defaultPosition");
 
 			var data = new MapData();
 
@@ -60,11 +61,12 @@ namespace Melia.Shared.Data.Database
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
 			data.Type = entry.ReadEnum<MapType>("type");
+			data.Level = entry.ReadInt("level");
 
 			var defaultPosEntry = (JObject)entry["defaultPosition"];
 			data.DefaultPosition = new Position(defaultPosEntry.ReadFloat("x"), defaultPosEntry.ReadFloat("y"), defaultPosEntry.ReadFloat("z"));
 
-			_nameIndex[data.ClassName] = data;
+			_nameIndex[data.ClassName.ToLowerInvariant()] = data;
 
 			this.AddOrReplace(data.Id, data);
 		}

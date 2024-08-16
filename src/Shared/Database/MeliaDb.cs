@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using Melia.Shared.Tos.Properties;
+using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
-using Melia.Shared.Network.Helpers;
 
 namespace Melia.Shared.Database
 {
@@ -85,10 +83,10 @@ namespace Melia.Shared.Database
 		public bool CreateAccount(string name, string password)
 		{
 			if (string.IsNullOrWhiteSpace(name))
-				throw new ArgumentNullException("name");
+				throw new ArgumentNullException(nameof(name));
 
 			if (string.IsNullOrWhiteSpace(password))
-				throw new ArgumentNullException("password");
+				throw new ArgumentNullException(nameof(password));
 
 			// Wrap password in BCrypt
 			password = BCrypt.HashPassword(password, BCrypt.GenerateSalt());
@@ -215,7 +213,7 @@ namespace Melia.Shared.Database
 							if (!properties.TryGet<FloatProperty>(propertyName, out var property))
 								property = properties.Create(new FloatProperty(propertyName));
 
-							if (!(property is IUnsettableProperty))
+							if (property is not IUnsettableProperty)
 								property.Deserialize(valueStr);
 						}
 						else
@@ -284,6 +282,48 @@ namespace Melia.Shared.Database
 				cmd.Set("loginCharacter", characterDbId);
 
 				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Updates the session key of the given account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="sessionKey"></param>
+		public void UpdateSessionKey(long accountId, string sessionKey)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			{
+				cmd.AddParameter("@accountId", accountId);
+				cmd.Set("sessionKey", sessionKey);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the given session key matches the one found in the
+		/// database for the account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="sessionKey"></param>
+		/// <returns></returns>
+		public bool CheckSessionKey(long accountId, string sessionKey)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT `sessionKey` FROM `accounts` WHERE `accountId` = @accountId", conn))
+			{
+				cmd.Parameters.AddWithValue("@accountId", accountId);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					if (!reader.Read())
+						return false;
+
+					var dbSessionKey = reader.GetString("sessionKey");
+					return dbSessionKey == sessionKey;
+				}
 			}
 		}
 

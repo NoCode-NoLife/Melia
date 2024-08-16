@@ -1,13 +1,12 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{85BDC651-D262-4A0F-A415-609369F78837}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Shared\Shared.csproj", "{85BDC651-D262-4A0F-A415-609369F78837}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServer", "src\WebServer\WebServer.csproj", "{81FD01FA-E633-4426-AD18-46FC607721A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebServer", "src\WebServer\WebServer.csproj", "{81FD01FA-E633-4426-AD18-46FC607721A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Shared", "src\Test.Shared\Test.Shared.csproj", "{0820E965-9D9A-462D-9D57-1B1207831BD9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.Shared", "src\Test.Shared\Test.Shared.csproj", "{0820E965-9D9A-462D-9D57-1B1207831BD9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Servers", "1 Servers", "{4827E608-0822-47B0-9A94-A91702B1D220}"
 EndProject
@@ -17,11 +16,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Libs", "2 Libs", "{DC9994
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 Scripting", "3 Scripting", "{35E8C024-37C9-4EFB-AC93-D72B00F41D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptsZone", "system\scripts\ScriptsZone.csproj", "{495610AF-FC52-455A-B053-D83B4E056684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsZone", "system\scripts\zone\ScriptsZone.csproj", "{495610AF-FC52-455A-B053-D83B4E056684}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarracksServer", "src\BarracksServer\BarracksServer.csproj", "{3D99B1C2-6F51-4968-9B78-79A5502556D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarracksServer", "src\BarracksServer\BarracksServer.csproj", "{3D99B1C2-6F51-4968-9B78-79A5502556D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZoneServer", "src\ZoneServer\ZoneServer.csproj", "{D508C2A7-44AD-4E39-ADE1-C255F968C278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZoneServer", "src\ZoneServer\ZoneServer.csproj", "{D508C2A7-44AD-4E39-ADE1-C255F968C278}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsBarracks", "system\scripts\barracks\ScriptsBarracks.csproj", "{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptsZoneUser", "user\scripts\zone\ScriptsZoneUser.csproj", "{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +56,14 @@ Global
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CC9F31C-0144-44CC-AA30-EC11171C0BE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +75,8 @@ Global
 		{495610AF-FC52-455A-B053-D83B4E056684} = {35E8C024-37C9-4EFB-AC93-D72B00F41D48}
 		{3D99B1C2-6F51-4968-9B78-79A5502556D4} = {4827E608-0822-47B0-9A94-A91702B1D220}
 		{D508C2A7-44AD-4E39-ADE1-C255F968C278} = {4827E608-0822-47B0-9A94-A91702B1D220}
+		{7E0A52FC-C111-40F3-BB97-4B286BC1F8DA} = {35E8C024-37C9-4EFB-AC93-D72B00F41D48}
+		{3CC9F31C-0144-44CC-AA30-EC11171C0BE9} = {35E8C024-37C9-4EFB-AC93-D72B00F41D48}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D172B2A8-8AB6-4A70-B599-83BF3F349384}

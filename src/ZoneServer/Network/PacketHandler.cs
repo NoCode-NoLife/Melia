@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
@@ -22,6 +21,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -52,27 +52,37 @@ namespace Melia.Zone.Network
 		{
 			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
-
-			// When using passprt login, this is the account id as string,
-			// and it's 18 (?) bytes long.	
-			var accountName = packet.GetString(56);
-
+			var accountName = packet.GetString(56); // String account id in 18 bytes if passport login?
 			var mac = packet.GetString(48);
-			var socialId = packet.GetLong();
+			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var bin2 = packet.GetBin(12);
-			var bin3 = packet.GetBin(10);
+			var i1 = packet.GetInt();
+			var i2 = packet.GetInt();
+			var i3 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
+			var s3 = packet.GetShort();
+			var fromBarracks1 = packet.GetBool();
+			var fromBarracks2 = packet.GetBool();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
-
-			// TODO: Check session key or something.
 
 			// Get account
 			conn.Account = ZoneServer.Instance.Database.GetAccount(accountName);
 			if (conn.Account == null)
 			{
 				Log.Warning("Stopped attempt to login with invalid account '{0}'. Closing connection.", accountName);
+				conn.Close();
+				return;
+			}
+
+			// Check session key
+			if (!ZoneServer.Instance.Database.CheckSessionKey(conn.Account.Id, sessionKey))
+			{
+				Log.Warning("Stopped attempt to login on account '{0}' with invalid session key '{1}'. Closing connection.", accountName, sessionKey);
 				conn.Close();
 				return;
 			}
@@ -102,15 +112,27 @@ namespace Melia.Zone.Network
 			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
 
 			map.AddCharacter(character);
+
 			conn.LoggedIn = true;
+			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
-			Send.ZC_STANCE_CHANGE(character);
-			Send.ZC_CONNECT_OK(conn, character);
-			Send.ZC_NORMAL.AdventureBook(conn);
-			Send.ZC_SET_CHATBALLOON_SKIN(conn);
-			Send.ZC_NORMAL.Unknown_1B4(character);
+			// Officials always send the following packets, even if we're coming
+			// from the barracks and don't need most of them. Since the client
+			// complains about this though, let's actually do the check.
+			if (fromBarracks1)
+			{
+				Send.ZC_CONNECT_OK(conn, character);
+			}
+			else
+			{
+				Send.ZC_STANCE_CHANGE(character);
+				Send.ZC_CONNECT_OK(conn, character);
+				Send.ZC_NORMAL.AdventureBook(conn);
+				Send.ZC_SET_CHATBALLOON_SKIN(conn);
+				Send.ZC_NORMAL.Unknown_1B4(character);
+			}
 		}
 
 		/// <summary>
@@ -148,14 +170,17 @@ namespace Melia.Zone.Network
 			Send.ZC_SKILL_LIST(character);
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_NORMAL.Unknown_DA(character);
+			Send.ZC_NORMAL.ItemCollectionList(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
-			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			Send.ZC_OBJECT_PROPERTY(conn, character.Etc);
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 0);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
+			Send.ZC_RES_DAMAGEFONT_SKIN(conn, character);
+			Send.ZC_RES_DAMAGEEFFECT_SKIN(conn, character);
 			Send.ZC_LOGIN_TIME(conn, DateTime.Now);
 			Send.ZC_MYPC_ENTER(character);
 			Send.ZC_NORMAL.Unknown_1B4(character);
@@ -168,7 +193,19 @@ namespace Melia.Zone.Network
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
 			//Send.ZC_DAYLIGHT_FIXED(character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
 			Send.ZC_NORMAL.AccountProperties(character);
+
+			// ---- <PremiumStuff> --------------------------------------------------
+
+			Send.ZC_SEND_CASH_VALUE(conn);
+			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
+
+			if (conn.Account.Premium.CanUseBuff)
+				character.StartBuff(BuffId.Premium_Token);
+
+			// ---- </PremiumStuff> -------------------------------------------------
 
 			// The ability points are longer read from the properties for
 			// whatever reason. We have to use the "custom commander info"
@@ -197,7 +234,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent as response to ZC_MOVE_ZONE with a 0 byte.
+		/// Response to ZC_MOVE_ZONE that notifies us that the client is
+		/// ready to move to the next zone.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -238,13 +276,13 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			// Try to execute message as a command. If it failed,
-			// broadcast it.
-			if (!ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
-			{
-				Send.ZC_CHAT(character, msg);
-				ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
-			}
+			// Try to execute message as a chat command, don't send if it
+			// was handled as one
+			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
+				return;
+
+			Send.ZC_CHAT(character, msg);
+			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
 		}
 
 		/// <summary>
@@ -762,7 +800,10 @@ namespace Melia.Zone.Network
 
 				// Remove consumeable items on success
 				if (item.Data.Type == ItemType.Consume)
-					character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				{
+					if (result != ItemUseResult.OkayNotConsumed)
+						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
@@ -810,7 +851,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is Npc npc))
+			if (monster is not Npc npc)
 			{
 				Log.Warning("CZ_CLICK_TRIGGER: User '{0}' tried to talk to a monster that's not an NPC.", conn.Account.Name);
 				return;
@@ -857,14 +898,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent to continue dialog?
+		/// Sent to continue dialog or close storage.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_DIALOG_ACK)]
 		public void CZ_DIALOG_ACK(IZoneConnection conn, Packet packet)
 		{
-			var type = packet.GetInt();
+			var ack = (DialogAcknowledgement)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+			var storage = character.CurrentStorage;
+
+			// If storage was open, close it
+			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
+			{
+				storage.Close();
+				conn.CurrentDialog = null;
+				return;
+			}
 
 			// Check state
 			if (conn.CurrentDialog == null)
@@ -875,10 +927,8 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// The type seems to indicate what the client wants to do,
-			// 1 being sent when continuing normally and 0 or -1 when
-			// escape is pressed, to cancel the dialog.
-			if (type == 1)
+			// Resume or not the dialog
+			if (ack == DialogAcknowledgement.Okay)
 			{
 				conn.CurrentDialog.Resume(null);
 			}
@@ -918,10 +968,10 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_CHANGE_CONFIG)]
 		public void CZ_CHANGE_CONFIG(IZoneConnection conn, Packet packet)
 		{
-			var optionId = packet.GetInt();
+			var optionId = (AccountOptionId)packet.GetInt();
 			var value = packet.GetInt();
 
-			if (!conn.Account.Settings.IsValid(optionId))
+			if (!Enum.IsDefined(typeof(AccountOptionId), optionId))
 			{
 				Log.Debug("CZ_CHANGE_CONFIG: Unknown account option '{0}'.", optionId);
 				return;
@@ -1217,6 +1267,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				character.TurnTowards(direction);
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
@@ -1275,7 +1326,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character starts casting a hold to cast skill
+		/// Sent when character starts casting a hold to cast skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1296,11 +1347,13 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(true);
 			handler.StartDynamicCast(skill, character);
 		}
 
 		/// <summary>
-		/// Sent when character casting ends after holding to cast skill
+		/// Sent when character casting ends after holding to cast skill.
+		/// This is sent even if the skill is held to the maximum duration.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1321,11 +1374,13 @@ namespace Melia.Zone.Network
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IDynamicCasted>(skillId, out var handler))
 				return;
 
+			character.SetCastingState(false);
 			handler.EndDynamicCast(skill, character);
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool starts
+		/// Sent when character is using the ground position selection tool
+		/// starts.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1371,6 +1426,152 @@ namespace Melia.Zone.Network
 			}
 
 			skill.Vars.Set("Melia.ToolGroundPos", pos);
+		}
+
+		/// <summary>
+		/// Sent when opening storage and requesting item list in the storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ITEM_LIST)]
+		public void CZ_REQ_ITEM_LIST(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			if (type == StorageType.PersonalStorage)
+			{
+				var storage = character.CurrentStorage;
+
+				if (storage.IsBrowsing)
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storage.GetItems());
+			}
+			else if (type == StorageType.TeamStorage)
+			{
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+			}
+		}
+
+		/// <summary>
+		/// Sent when retrieving or storing items to storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WAREHOUSE_CMD)]
+		public void CZ_WAREHOUSE_CMD(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+			var worldId = packet.GetLong();
+			var i1 = packet.GetInt();
+			var amount = packet.GetInt();
+			var i2 = packet.GetInt();
+			var interaction = (StorageInteraction)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			if (!Enum.IsDefined(typeof(StorageInteraction), interaction))
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: No valid interaction type for value: '{0}'", interaction);
+				return;
+			}
+
+			if (type == StorageType.PersonalStorage)
+			{
+				var inventory = character.Inventory;
+				var storage = character.CurrentStorage;
+
+				var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
+				var silver = inventory.CountItem(ItemId.Silver);
+
+				if (silver < interactionCost)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
+					return;
+				}
+
+				if (!storage.IsBrowsing)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+					return;
+				}
+
+				if (interaction == StorageInteraction.Store)
+				{
+					if (storage.StoreItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+				}
+				else if (interaction == StorageInteraction.Retrieve)
+				{
+					if (storage.RetrieveItem(worldId, amount) == StorageResult.Success)
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+				}
+			}
+			else if (type == StorageType.TeamStorage)
+			{
+				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+			}
+			else
+			{
+				Log.Warning("CZ_WAREHOUSE_CMD: Unknown storage type '{0}'.", type);
+			}
+		}
+
+		/// <summary>
+		/// Swap items in storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SWAP_ITEM_IN_WAREHOUSE)]
+		public void CZ_SWAP_ITEM_IN_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var fromSlot = packet.GetInt();
+			var toSlot = packet.GetInt();
+			var item1ObjectId = packet.GetLong();
+			var item2ObjectId = packet.GetLong();
+
+			var character = conn.SelectedCharacter;
+			var storage = character.CurrentStorage;
+
+			if (!storage.IsBrowsing)
+			{
+				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
+				return;
+			}
+
+			storage.Swap(fromSlot, toSlot);
+		}
+
+		/// <summary>
+		/// Request to increase the size of a specific storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXTEND_WAREHOUSE)]
+		public void CZ_EXTEND_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				case StorageType.PersonalStorage:
+				{
+					var storage = character.CurrentStorage;
+
+					var result = storage.TryExtendStorage(PersonalStorage.ExtensionSize);
+					if (result != StorageResult.Success)
+						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
+					break;
+				}
+				default:
+				{
+					character.ServerMessage(Localization.Get("Something went wrong while extending the storage, please report this issue."));
+					Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend an unsupported warehouse type ({1}).", conn.Account.Name, type);
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -1507,7 +1708,8 @@ namespace Melia.Zone.Network
 
 			// Remove items and count revenue
 			var totalMoney = 0;
-			var itemsSold = new List<Item>();
+			var itemsSold = new Dictionary<int, Item>();
+
 			foreach (var itemToSell in itemsToSell)
 			{
 				var worldId = itemToSell.Key;
@@ -1529,22 +1731,22 @@ namespace Melia.Zone.Network
 				}
 
 				// Try to remove item
-				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) == InventoryResult.Success)
+				if (character.Inventory.Remove(item, amount, InventoryItemRemoveMsg.Sold) != InventoryResult.Success)
 				{
-					totalMoney += item.Data.SellPrice * amount;
-					itemsSold.Add(item);
-				}
-				else
 					Log.Warning("CZ_ITEM_SELL: Failed to sell an item from user '{0}' .", conn.Account.Name);
+					continue;
+				}
+
+				totalMoney += item.Data.SellPrice * amount;
+				itemsSold.Add(itemsSold.Count, item);
 			}
 
 			// Give money
 			if (totalMoney > 0)
 				character.Inventory.Add(ItemId.Silver, totalMoney, InventoryAddType.Sell);
 
-
 			// Need to keep track of items sold, server sends this list to the client
-			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, 3, itemsSold);
+			Send.ZC_SOLD_ITEM_DIVISION_LIST(character, StorageType.Sold, itemsSold);
 		}
 
 		/// <summary>
@@ -1601,6 +1803,7 @@ namespace Melia.Zone.Network
 		{
 			var mapId = packet.GetInt();
 			var visible = packet.GetBin(128);
+			var percentage = packet.GetFloat();
 
 			// Check if the map exists
 			var mapData = ZoneServer.Instance.Data.MapDb.Find(mapId);
@@ -1621,13 +1824,24 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			var revealedMap = new RevealedMap(mapId, visible, 0);
+			// Check the percentage for validity
+			if (percentage < 0 || percentage > 100)
+			{
+				Log.Warning("CZ_MAP_REVEAL_INFO: User '{0}' tried to update the visibility for map '{1}' beyond an acceptable percentage.", conn.Account.Name, mapId);
+				return;
+			}
+
+			var revealedMap = new RevealedMap(mapId, visible, percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
 		/// <summary>
 		/// Reports to the server a percentage of the map that has been explored.
 		/// </summary>
+		/// <remarks>
+		/// This packet was last seen in logs from 2017 and is apparently no longer
+		/// used. The map percentage is now communicated via CZ_MAP_REVEAL_INFO.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_MAP_SEARCH_INFO)]
@@ -1653,7 +1867,7 @@ namespace Melia.Zone.Network
 			// would try to save the null to the database if the map data
 			// didn't exist yet.
 
-			var revealedMap = new RevealedMap(mapData.Id, new byte[0], percentage);
+			var revealedMap = new RevealedMap(mapData.Id, [], percentage);
 			conn.Account.AddRevealedMap(revealedMap);
 		}
 
@@ -2141,7 +2355,7 @@ namespace Melia.Zone.Network
 			// should handle it. Alternatively, we could also add a check
 			// here, to see if DashRun is already active. What's better
 			// is TBD.
-			character.Buffs.Start(BuffId.DashRun);
+			character.StartBuff(BuffId.DashRun);
 		}
 
 		/// <summary>
@@ -2387,7 +2601,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// ToS Hero Emblems?
+		/// Purpose unknown, potentially related to Heroic Tale feature.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -2480,7 +2694,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			if (!(monster is ItemMonster itemMonster))
+			if (monster is not ItemMonster itemMonster)
 			{
 				Log.Warning("CZ_REQ_ITEM_GET: User '{0}' tried to pick up a monster that is not an item.", conn.Account.Name);
 				return;
@@ -2692,6 +2906,67 @@ namespace Melia.Zone.Network
 			}
 
 			character.Resurrect(option);
+		}
+
+		/// <summary>
+		/// Request to apply a certain HUD skin.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_APPLY_HUD_SKIN)]
+		public void CZ_REQ_APPLY_HUD_SKIN(IZoneConnection conn, Packet packet)
+		{
+			var skinId = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			//character.SystemMessage(Localization.Get("This feature is not supported yet."));
+			//return;
+
+			character.Variables.Perm.SetInt("Melia.HudSkin", skinId);
+
+			Send.ZC_SEND_APPLY_HUD_SKIN_MYSELF(conn, character);
+			Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(conn, character);
+		}
+
+		/// <summary>
+		/// Request to change a character's guarding state.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_GUARD)]
+		public void CZ_GUARD(IZoneConnection conn, Packet packet)
+		{
+			var active = packet.GetBool();
+			var dir = packet.GetDirection();
+
+			var character = conn.SelectedCharacter;
+
+			var canGuard = character.Properties.GetFloat(PropertyName.Guardable) != 0;
+			if (!canGuard)
+				active = false;
+
+			if (character.Components.TryGet<CombatComponent>(out var combat))
+				combat.IsGuarding = active;
+
+			Send.ZC_GUARD(character, active, dir);
+		}
+
+		/// <summary>
+		/// Sent as a notification for taking certain actions, such as preparing
+		/// to teleport.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_CLIENT_DIRECT)]
+		public void CZ_CLIENT_DIRECT(IZoneConnection conn, Packet packet)
+		{
+			var type = packet.GetInt();
+			var argStr = packet.GetString(16);
+
+			var character = conn.SelectedCharacter;
+
+			Send.ZC_CLIENT_DIRECT(character, type, argStr);
 		}
 	}
 }

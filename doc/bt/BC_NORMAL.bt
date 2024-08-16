@@ -177,10 +177,11 @@ switch(type)
     case 0x11:
         if (!checkCompression())
         {
-            byte b1;
-            int newMessageCount;
-            int readMessageCount;
+            byte page;
+            byte isLoadingFinished;
+            byte gap1[3];
             int messageCount;
+            int totalMessageCount;
             if (messageCount != 0)
                 PostMessage messages[messageCount] <optimize=false>;
         }

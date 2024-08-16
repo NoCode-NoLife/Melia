@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Shared.Network.Helpers
 {
@@ -27,10 +27,7 @@ namespace Melia.Shared.Network.Helpers
 			packet.PutByte(0);
 			packet.PutInt(appearancePc.Level);
 			packet.PutInt(1022); // i1. 5001 on Scout, maybe display job?
-			packet.PutByte(0x80); //128
-			packet.PutByte(0x80); //128
-			packet.PutByte(0x80); //128
-			packet.PutByte(0xFF); //255
+			packet.PutUInt(appearancePc.SkinColor);
 			packet.PutInt(0); // i2 1 or 0
 
 			// Items
@@ -84,6 +81,12 @@ namespace Melia.Shared.Network.Helpers
 				packet.PutByte((appearancePc.VisibleEquip & VisibleEquip.SubWeapon) != 0);
 				packet.PutEmptyBin(7);
 			}
+
+			// [i387215 (2024-07-09)]
+			// Might be a 24 byte block at the end, or part of the above bytes.
+			{
+				packet.PutEmptyBin(24);
+			}
 		}
 	}
 
@@ -131,6 +134,11 @@ namespace Melia.Shared.Network.Helpers
 		/// Returns the character's hair id.
 		/// </summary>
 		int Hair { get; }
+
+		/// <summary>
+		/// Returns the character's skin color.
+		/// </summary>
+		uint SkinColor { get; }
 
 		/// <summary>
 		/// Returns a bitmask specifying the visibility of certain

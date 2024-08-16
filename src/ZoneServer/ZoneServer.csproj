@@ -1,271 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D508C2A7-44AD-4E39-ADE1-C255F968C278}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <RootNamespace>Melia.Zone</RootNamespace>
-    <AssemblyName>ZoneServer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>ZoneServer</AssemblyTitle>
+    <Product>ZoneServer</Product>
+    <Copyright>Copyright ©  2023</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>..\..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
     <OutputPath>..\..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="geometry3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\geometry3.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data, Version=8.0.32.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Yggdrasil, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Ai">
-      <HintPath>..\..\lib\Yggdrasil.Ai.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Data.JSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Data.JSON.dll</HintPath>
-    </Reference>
-    <Reference Include="Yggdrasil.Scripting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\Yggdrasil.Scripting.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buffs\Base\BuffHandler.cs" />
-    <Compile Include="Buffs\Base\IBuffHandler.cs" />
-    <Compile Include="Buffs\BuffHandlerAttribute.cs" />
-    <Compile Include="Buffs\BuffHandlers.cs" />
-    <Compile Include="Buffs\Handlers\Campfire_Buff.cs" />
-    <Compile Include="Buffs\Handlers\Cloaking_Buff.cs" />
-    <Compile Include="Buffs\Handlers\Fade_Buff.cs" />
-    <Compile Include="Buffs\Handlers\Common_Slow.cs" />
-    <Compile Include="Buffs\Handlers\DaggerSlash_Buff.cs" />
-    <Compile Include="Buffs\Handlers\DashRun.cs" />
-    <Compile Include="Buffs\Handlers\Bear.cs" />
-    <Compile Include="Buffs\Handlers\ObliqueFire_Debuff.cs" />
-    <Compile Include="Buffs\Handlers\SwiftStep_Buff.cs" />
-    <Compile Include="Buffs\Handlers\Lethargy_Debuff.cs" />
-    <Compile Include="Buffs\Handlers\Concentration_Buff.cs" />
-    <Compile Include="Buffs\Handlers\DoubleAttack_Buff.cs" />
-    <Compile Include="Buffs\Handlers\FreeStep_Buff.cs" />
-    <Compile Include="Buffs\Handlers\GungHo.cs" />
-    <Compile Include="Buffs\Handlers\Smite_Buff.cs" />
-    <Compile Include="Buffs\Handlers\Drug_HealSP.cs" />
-    <Compile Include="Buffs\Handlers\Drug_HealHP.cs" />
-    <Compile Include="Buffs\Handlers\Drug_HealSP_MSP.cs" />
-    <Compile Include="Buffs\Handlers\Drug_HealHP_MHP.cs" />
-    <Compile Include="Buffs\Handlers\Heal_Buff.cs" />
-    <Compile Include="Buffs\Handlers\ObliqueFire_Buff.cs" />
-    <Compile Include="Commands\ChatCommand.cs" />
-    <Compile Include="Commands\ChatCommands.Manager.cs" />
-    <Compile Include="Database\Account.cs" />
-    <Compile Include="Database\AccountSettings.cs" />
-    <Compile Include="Database\ZoneDb.cs" />
-    <Compile Include="Debug.cs" />
-    <Compile Include="Events\CombatEventArgs.cs" />
-    <Compile Include="Events\PlayerEventArgs.cs" />
-    <Compile Include="Events\ServerEvents.cs" />
-    <Compile Include="Events\TimeEventArgs.cs" />
-    <Compile Include="Events\TimeEventRaiser.cs" />
-    <Compile Include="Feature.cs" />
-    <Compile Include="GameTime.cs" />
-    <Compile Include="Network\Helpers\BuffHelper.cs" />
-    <Compile Include="Network\Helpers\MonsterHelper.cs" />
-    <Compile Include="Network\Helpers\SkillHelper.cs" />
-    <Compile Include="Network\Helpers\DialogTx.cs" />
-    <Compile Include="Network\Helpers\SkillHitInfo.cs" />
-    <Compile Include="Network\MsgParameter.cs" />
-    <Compile Include="Network\PacketHandler.cs" />
-    <Compile Include="Network\Send.cs" />
-    <Compile Include="Network\Send.Normal.cs" />
-    <Compile Include="Network\ZoneConnection.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripting\AI\AiEvent.cs" />
-    <Compile Include="Scripting\AI\AiScript.cs" />
-    <Compile Include="Scripting\AI\AiScript.Init.cs" />
-    <Compile Include="Scripting\AI\AiScriptAttribute.cs" />
-    <Compile Include="Scripting\ClientScript.cs" />
-    <Compile Include="Scripting\DelegateCollection.cs" />
-    <Compile Include="Scripting\Hooking\DialogHook.cs" />
-    <Compile Include="Scripting\Hooking\HookResult.cs" />
-    <Compile Include="Scripting\Hooking\ScriptHook.cs" />
-    <Compile Include="Scripting\LuaTable.cs" />
-    <Compile Include="Scripting\QuestScript.cs" />
-    <Compile Include="Scripting\ScriptableFunctions.cs" />
-    <Compile Include="Scripting\CustomCommandScripts.cs" />
-    <Compile Include="Scripting\NormalTxScripts.cs" />
-    <Compile Include="Scripting\Dialogues\Dialog.cs" />
-    <Compile Include="Scripting\Dialogues\DialogActionType.cs" />
-    <Compile Include="Scripting\Dialogues\DialogOption.cs" />
-    <Compile Include="Scripting\Dialogues\DialogState.cs" />
-    <Compile Include="Scripting\GeneralScript.cs" />
-    <Compile Include="Scripting\DialogTxScripts.cs" />
-    <Compile Include="Scripting\ItemScripts.cs" />
-    <Compile Include="Scripting\Hooking\ScriptHooks.cs" />
-    <Compile Include="Scripting\ShopBuilder.cs" />
-    <Compile Include="Scripting\Shortcuts.cs" />
-    <Compile Include="Skills\Ability.cs" />
-    <Compile Include="Skills\Combat\Extensions.cs" />
-    <Compile Include="Skills\Combat\ForceId.cs" />
-    <Compile Include="Skills\Combat\HitInfo.cs" />
-    <Compile Include="Skills\Combat\KnockBackInfo.cs" />
-    <Compile Include="Skills\Combat\SkillHitInfo.cs" />
-    <Compile Include="Skills\Combat\SkillHitResult.cs" />
-    <Compile Include="Skills\Handlers\Archer\ObliqueShot.cs" />
-    <Compile Include="Skills\Handlers\Archer\TwinArrows.cs" />
-    <Compile Include="Skills\Handlers\Archer\Leap.cs" />
-    <Compile Include="Skills\Handlers\Archer\SwiftStep.cs" />
-    <Compile Include="Skills\Handlers\Archer\Concentration.cs" />
-    <Compile Include="Skills\Handlers\Archer\Multishot.cs" />
-    <Compile Include="Skills\Handlers\Base\Interfaces.cs" />
-    <Compile Include="Skills\DamageVisibilityModifier.cs" />
-    <Compile Include="Skills\Handlers\Base\ParametersOnlySkill.cs" />
-    <Compile Include="Skills\Handlers\Cleric\GuardianSaint.cs" />
-    <Compile Include="Skills\Handlers\Cleric\Fade.cs" />
-    <Compile Include="Skills\Handlers\Cleric\Cure.cs" />
-    <Compile Include="Skills\Handlers\Cleric\Heal.cs" />
-    <Compile Include="Skills\Handlers\Cleric\Smite.cs" />
-    <Compile Include="Skills\Handlers\Common\MeleeGround.cs" />
-    <Compile Include="Skills\Handlers\Common\TargetSkill.cs" />
-    <Compile Include="Skills\Handlers\Base\SimpleMonsterAttackSkill.cs" />
-    <Compile Include="Skills\Handlers\Monsters\BasicAttacks.cs" />
-    <Compile Include="Skills\Handlers\Scout\DaggerSlash.cs" />
-    <Compile Include="Skills\Handlers\Scout\Cloaking.cs" />
-    <Compile Include="Skills\Handlers\Scout\FreeStep.cs" />
-    <Compile Include="Skills\Handlers\Scout\DoubleAttack.cs" />
-    <Compile Include="Skills\Handlers\Scout\ObliqueFire.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\Bear.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\Liberate.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\PainBarrier.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\GungHo.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\Bash.cs" />
-    <Compile Include="Skills\Handlers\Wizard\Earthquake.cs" />
-    <Compile Include="Skills\Handlers\Wizard\EnergyBolt.cs" />
-    <Compile Include="Skills\Handlers\Wizard\Lethargy.cs" />
-    <Compile Include="Skills\Handlers\Wizard\MagicMissile.cs" />
-    <Compile Include="Skills\Handlers\Wizard\MagicShield.cs" />
-    <Compile Include="Skills\Handlers\Wizard\Teleportation.cs" />
-    <Compile Include="Skills\Skill.cs" />
-    <Compile Include="Skills\Handlers\SkillHandlerAttribute.cs" />
-    <Compile Include="Skills\Handlers\SkillHandlers.cs" />
-    <Compile Include="Skills\SkillProperties.cs" />
-    <Compile Include="Skills\SkillUseFunctions.cs" />
-    <Compile Include="Skills\SplashAreas\BladedFan.cs" />
-    <Compile Include="Skills\SplashAreas\Circle.cs" />
-    <Compile Include="Skills\SplashAreas\Fan.cs" />
-    <Compile Include="Skills\SplashAreas\SplashArea.cs" />
-    <Compile Include="Skills\SplashAreas\Square.cs" />
-    <Compile Include="Skills\Handlers\Swordsman\Thrust.cs" />
-    <Compile Include="Commands\ChatCommands.Handlers.cs" />
-    <Compile Include="World\Actors\Characters\Components\CharacterComponent.cs" />
-    <Compile Include="World\Actors\Characters\Components\QuestComponent.cs" />
-    <Compile Include="World\Actors\Characters\Components\TimeActionComponent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\AiComponent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\CombatComponent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\CombatEntityComponent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\CooldownComponent.cs" />
-    <Compile Include="World\Actors\Monsters\MonsterInName.cs" />
-    <Compile Include="World\Actors\Monsters\Npc.cs" />
-    <Compile Include="World\Actors\Monsters\WarpMonster.cs" />
-    <Compile Include="World\ChatMacro.cs" />
-    <Compile Include="World\Actors\Actor.cs" />
-    <Compile Include="World\Actors\Characters\Character.cs" />
-    <Compile Include="World\Actors\Characters\CharacterProperties.cs" />
-    <Compile Include="World\Actors\Characters\Components\AbilityComponent.cs" />
-    <Compile Include="Buffs\Buff.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\BuffComponent.cs" />
-    <Compile Include="World\Actors\Characters\Components\InventoryComponent.cs" />
-    <Compile Include="World\Actors\Characters\Components\JobComponent.cs" />
-    <Compile Include="World\Actors\Monsters\MonsterProperties.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\MovementComponent.cs" />
-    <Compile Include="World\Actors\CombatEntities\Components\RecoveryComponent.cs" />
-    <Compile Include="World\Actors\Characters\SessionObjects.cs" />
-    <Compile Include="World\Actors\Characters\Components\SkillComponent.cs" />
-    <Compile Include="World\Actors\Entity.cs" />
-    <Compile Include="World\DayNightCycle.cs" />
-    <Compile Include="World\Items\DummyEquipItem.cs" />
-    <Compile Include="World\Items\Item.cs" />
-    <Compile Include="World\Actors\Monsters\ItemMonster.cs" />
-    <Compile Include="World\Actors\Monsters\Monster.cs" />
-    <Compile Include="World\Actors\Monsters\Mob.cs" />
-    <Compile Include="World\Maps\Ground.cs" />
-    <Compile Include="World\Maps\Map.cs" />
-    <Compile Include="World\MonsterSpawner.cs" />
-    <Compile Include="World\Maps\RevealedMap.cs" />
-    <Compile Include="World\Quests\Objectives\CollectItemObjective.cs" />
-    <Compile Include="World\Quests\Objectives\KillObjective.cs" />
-    <Compile Include="World\Quests\Objectives\SkillLevelObjective.cs" />
-    <Compile Include="World\Quests\Objectives\ManualObjective.cs" />
-    <Compile Include="World\Quests\Prerequisites\CompletedPrerequisite.cs" />
-    <Compile Include="World\Quests\Prerequisites\LevelPrerequisite.cs" />
-    <Compile Include="World\Quests\Prerequisites\NotSkillPrerequisite.cs" />
-    <Compile Include="World\Quests\Prerequisites\OrPrerequisite.cs" />
-    <Compile Include="World\Quests\Prerequisites\SkillPrerequisite.cs" />
-    <Compile Include="World\Quests\Quest.cs" />
-    <Compile Include="World\Quests\QuestData.cs" />
-    <Compile Include="World\Quests\QuestObjective.cs" />
-    <Compile Include="World\Quests\QuestPrerequisite.cs" />
-    <Compile Include="World\Quests\QuestProgress.cs" />
-    <Compile Include="World\Quests\QuestReward.cs" />
-    <Compile Include="World\Quests\Rewards\ExpReward.cs" />
-    <Compile Include="World\Quests\Rewards\SilverReward.cs" />
-    <Compile Include="World\Quests\Rewards\ItemReward.cs" />
-    <Compile Include="World\WorldManager.cs" />
-    <Compile Include="ZoneServer.cs" />
+    <PackageReference Include="ExecTails.Yggdrasil" Version="1.1.5" />
+    <PackageReference Include="ExecTails.Yggdrasil.Ai" Version="1.0.1" />
+    <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
+    <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
+    <PackageReference Include="geometry3Sharp" Version="1.0.324" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.2" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <Compile Include="Scripting\AI\AiScript.Routines.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{85bdc651-d262-4a0f-a415-609369f78837}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

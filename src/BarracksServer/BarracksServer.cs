@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Melia.Barracks.Database;
+using Melia.Barracks.Events;
 using Melia.Barracks.Network;
 using Melia.Barracks.Util;
 using Melia.Shared;
@@ -12,6 +13,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
+using Yggdrasil.Network.Communication.Messages;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 
@@ -25,10 +27,10 @@ namespace Melia.Barracks
 		/// <summary>
 		/// Returns global instance of the barracks server.
 		/// </summary>
-		public readonly static BarracksServer Instance = new BarracksServer();
+		public readonly static BarracksServer Instance = new();
 
 		private TcpConnectionAcceptor<BarracksConnection> _acceptor;
-		private readonly Dictionary<string, int> _zoneServerNames = new Dictionary<string, int>();
+		private readonly Dictionary<string, int> _zoneServerNames = new();
 
 		/// <summary>
 		/// Returns the server's inter-server communicator.
@@ -44,6 +46,11 @@ namespace Melia.Barracks
 		/// Returns reference to the server's database interface.
 		/// </summary>
 		public BarracksDb Database { get; } = new BarracksDb();
+
+		/// <summary>
+		/// Returns a reference to the server's event manager.
+		/// </summary>
+		public ServerEvents ServerEvents { get; } = new ServerEvents();
 
 		/// <summary>
 		/// Returns reference to the server's IES mods.
@@ -72,13 +79,36 @@ namespace Melia.Barracks
 			this.LoadServerList(this.Data.ServerDb, ServerType.Barracks, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
-			this.ClearLoginStates();
+			this.LoadIesMods();
+			this.LoadScripts("barracks");
 
 			this.StartCommunicator();
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
 			new BarracksConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Sets up IES mods.
+		/// </summary>
+		private void LoadIesMods()
+		{
+			// This method is temporary until we have a more proper way
+			// way of handling IES mods.
+
+			// Add IES mods to apply the server-side skin tone data changes
+			// on the client. This, in combination with our custom data,
+			// enables three additional skin tones during character creation
+			// that match the skin tone images displayed.
+			var skinTonesData = this.Data.SkinToneDb.Entries;
+			foreach (var data in skinTonesData)
+			{
+				this.IesMods.Add("SkinTone", data.ClassId, "UseableBarrack", data.Creation ? "YES" : "NO");
+				this.IesMods.Add("SkinTone", data.ClassId, "Red", ((data.Color & 0x00FF0000) >> 16).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Green", ((data.Color & 0x0000FF00) >> 08).ToString());
+				this.IesMods.Add("SkinTone", data.ClassId, "Blue", ((data.Color & 0x000000FF) >> 00).ToString());
+			}
 		}
 
 		/// <summary>
@@ -144,15 +174,52 @@ namespace Melia.Barracks
 		{
 			//Log.Debug("Message received from '{0}': {1}", sender, message);
 
-			if (message is ServerUpdateMessage serverUpdateMessage)
+			switch (message)
 			{
-				if (serverUpdateMessage.ServerType == ServerType.Zone)
-					_zoneServerNames[sender] = serverUpdateMessage.ServerId;
+				case ServerUpdateMessage serverUpdateMessage:
+				{
+					if (serverUpdateMessage.ServerType == ServerType.Zone)
+						_zoneServerNames[sender] = serverUpdateMessage.ServerId;
 
-				this.ServerList.Update(serverUpdateMessage);
-				this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
+					this.ServerList.Update(serverUpdateMessage);
+					this.Communicator.Broadcast("ServerUpdates", serverUpdateMessage);
 
-				Send.BC_NORMAL.ZoneTraffic();
+					Send.BC_NORMAL.ZoneTraffic();
+					break;
+				}
+				case RequestMessage requestMessage:
+				{
+					this.Communicator_OnRequestReceived(sender, requestMessage);
+					break;
+				}
+				case ForceLogOutMessage logoutMessage:
+				{
+					var connection = this.GetAllConnections().FirstOrDefault(a => a?.Account?.Id == logoutMessage.AccountId);
+					connection?.Close();
+					break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Called when a request message was received.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="requestMessage"></param>
+		private void Communicator_OnRequestReceived(string sender, RequestMessage requestMessage)
+		{
+			switch (requestMessage.Message)
+			{
+				case ReqPlayerCountMessage reqPlayerCountMessage:
+				{
+					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
+
+					var message = new ResPlayerCountMessage(playerCount);
+					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+
+					this.Communicator.Send(sender, responseMessage);
+					break;
+				}
 			}
 		}
 
@@ -172,38 +239,27 @@ namespace Melia.Barracks
 		{
 			Log.Info("Checking for updates...");
 
-			var files = Directory.GetFiles("sql").OrderBy(a => a);
-			foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
-				this.RunUpdate(Path.GetFileName(filePath));
-		}
+			// We had an issue with our update names, and to ensure that we
+			// don't break everyone's update history, we'll temporarily fix
+			// the update names on the fly. This should be removed at some
+			// point in the future.
+			this.Database.NormalizeUpdateNames();
 
-		/// <summary>
-		/// Attempts to execute the given update file.
-		/// </summary>
-		/// <param name="updateFile"></param>
-		private void RunUpdate(string updateFile)
-		{
-			if (BarracksServer.Instance.Database.CheckUpdate(updateFile))
-				return;
+			var enumOptions = new EnumerationOptions { RecurseSubdirectories = true, MatchCasing = MatchCasing.CaseInsensitive };
+			var filePaths = Directory.GetFiles("sql/updates/", "*.sql", enumOptions).OrderBy(a => a);
 
-			Log.Info("Update '{0}' found, executing...", updateFile);
+			var updateFiles = new Dictionary<string, string>();
+			foreach (var filePath in filePaths)
+			{
+				var updateName = Path.GetFileName(filePath);
+				var normalizedName = updateName.ToLower().Replace("update-", "update_");
 
-			BarracksServer.Instance.Database.RunUpdate(updateFile);
-		}
+				if (this.Database.CheckUpdate(normalizedName))
+					continue;
 
-		/// <summary>
-		/// Clears the login states of all accounts in the database.
-		/// </summary>
-		private void ClearLoginStates()
-		{
-			// Clearing the login states on barracks start means we'll
-			// have a clean slate whenever we restart the server, though
-			// it also leaves somewhat of a potential bypass, where the
-			// login states may get reset because you restarted barracks,
-			// even though people might still be logged in on a zone.
-			// This should be pretty rare though, and we can improve
-			// it once the servers talk to each other. TODO.
-			this.Database.ClearLoginStates();
+				Log.Info("Update '{0}' found, executing...", updateName);
+				this.Database.RunUpdate(normalizedName, File.ReadAllText(filePath));
+			}
 		}
 
 		/// <summary>

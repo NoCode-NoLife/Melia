@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Tos.Const;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 
@@ -11,7 +12,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 	/// </summary>
 	public class AbilityComponent : CharacterComponent
 	{
-		private readonly Dictionary<AbilityId, Ability> _abilities = new Dictionary<AbilityId, Ability>();
+		private readonly Dictionary<AbilityId, Ability> _abilities = new();
 
 		/// <summary>
 		/// Returns amount of abilities.
@@ -70,6 +71,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns a list of abilities that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Ability[] GetList(Func<Ability, bool> predicate)
+		{
+			lock (_abilities)
+				return _abilities.Values.Where(predicate).ToArray();
+		}
+
+		/// <summary>
 		/// Returns the level of the given ability. Returns 0 if the
 		/// character doesn't have the ability.
 		/// </summary>
@@ -118,6 +130,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			ability = this.Get(abilityId);
 			return (ability != null && ability.Active);
+		}
+
+		/// <summary>
+		/// Returns the given ability via out if it exists, regardless of
+		/// whether it's active or not.
+		/// </summary>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public bool TryGet(AbilityId abilityId, out Ability ability)
+		{
+			ability = this.Get(abilityId);
+			return (ability != null);
 		}
 
 		/// <summary>

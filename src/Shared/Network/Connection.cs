@@ -20,7 +20,7 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Gets or sets the session key associated with the connection.
 		/// </summary>
-		string SessionKey { get; }
+		string SessionKey { get; set; }
 
 		/// <summary>
 		/// Sends packet to client.
@@ -50,8 +50,8 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public abstract class Connection : TcpConnection, IConnection
 	{
-		protected readonly TosFramer _framer = new TosFramer(1024 * 50);
-		protected readonly TOSCrypto _crypto = new TOSCrypto();
+		protected readonly TosFramer _framer = new(1024 * 50);
+		protected readonly Codec _crypto = new();
 
 		/// <summary>
 		/// Gets or sets whether the player authenticated themselves.
@@ -61,7 +61,7 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Gets or sets the session key associated with the connection.
 		/// </summary>
-		public string SessionKey { get; }
+		public string SessionKey { get; set; }
 
 		/// <summary>
 		/// Creates new connection.

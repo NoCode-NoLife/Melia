@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Threading;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
@@ -33,9 +35,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		public RaceType Race => this.Data.Race;
 
 		/// <summary>
-		/// Returns the monster's element.
+		/// Returns the monster's element/attribute.
 		/// </summary>
-		public ElementType Element => this.Data.Element;
+		public AttributeType Attribute => (AttributeType)(int)this.Properties.GetFloat(PropertyName.Attribute, (int)AttributeType.None);
 
 		/// <summary>
 		/// Returns the monster's mode of movement.
@@ -136,16 +138,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Physical defense.
-		/// </summary>
-		public int Defense
-		{
-			get { return _defense; }
-			private set { _defense = Math.Max(0, value); }
-		}
-		private int _defense;
-
-		/// <summary>
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<Mob, ICombatEntity> Died;
@@ -211,6 +203,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public Variables Vars { get; } = new Variables();
 
 		/// <summary>
+		/// Returns a list of fixed items the monster drops as is when it dies.
+		/// </summary>
+		public ConcurrentBag<Item> StaticDrops { get; } = new ConcurrentBag<Item>();
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Mob(int id, MonsterType type) : base()
@@ -236,7 +233,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Data == null)
 				throw new NullReferenceException("No data found for '" + this.Id + "'.");
 
-			this.Defense = this.Data.PhysicalDefense;
 			this.Faction = this.Data.Faction;
 
 			this.InitProperties();
@@ -269,20 +265,23 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return true;
 
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
 			this.Properties.Modify(PropertyName.HP, -damage);
 			this.HpChangeCounter++;
 
-			// Kill monster if it reached 0 HP.
+			// Register hits before potentially killing the monster,
+			// so the damage can be factored into finding the top
+			// attacker.
+			this.Components.Get<CombatComponent>()?.RegisterHit(attacker, damage);
+
 			if (this.Hp == 0)
-			{
 				this.Kill(attacker);
-				return true;
-			}
 
-			if (this.Components.TryGet<AiComponent>(out var ai))
-				ai.Script.QueueEventAlert(new HitEventAlert(this, attacker, damage));
+			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
-			return false;
+			return this.IsDead;
 		}
 
 		/// <summary>
@@ -293,30 +292,75 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
-
-			var expRate = ZoneServer.Instance.Conf.World.ExpRate / 100.0;
-			var classExpRate = ZoneServer.Instance.Conf.World.ClassExpRate / 100.0;
-
-			var exp = 0L;
-			var classExp = 0L;
-
-			if (this.Data.Exp > 0)
-				exp = (long)Math.Max(1, this.Data.Exp * expRate);
-			if (this.Data.ClassExp > 0)
-				classExp = (long)Math.Max(1, this.Data.ClassExp * classExpRate);
-
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
-			if (killer is Character characterKiller)
+			var beneficiary = this.GetKillBeneficiary(killer);
+
+			if (this.MonsterType == MonsterType.Mob && beneficiary != null)
 			{
-				this.DropItems(characterKiller);
-				characterKiller?.GiveExp(exp, classExp, this);
+				this.GetExpToGive(out var exp, out var jobExp);
+
+				this.DropItems(beneficiary);
+				beneficiary?.GiveExp(exp, jobExp, this);
 			}
 
 			this.Died?.Invoke(this, killer);
 			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
 
 			Send.ZC_DEAD(this);
+		}
+
+		/// <summary>
+		/// Returns the character that benefits from the kill of the mob
+		/// in form of EXP and drops.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <returns></returns>
+		private Character GetKillBeneficiary(ICombatEntity killer)
+		{
+			var beneficiary = killer;
+
+			var topAttacker = this.Components.Get<CombatComponent>()?.GetTopAttackerByDamage();
+			if (topAttacker != null)
+				beneficiary = topAttacker;
+
+			if (beneficiary.Components.Get<AiComponent>()?.Script.GetMaster() is Character master)
+				beneficiary = master;
+
+			return beneficiary as Character;
+		}
+
+		/// <summary>
+		/// Returns the EXP to give to the beneficiary of killing the mob
+		/// via out.
+		/// </summary>
+		/// <param name="exp"></param>
+		/// <param name="jobExp"></param>
+		private void GetExpToGive(out long exp, out long jobExp)
+		{
+			var worldConf = ZoneServer.Instance.Conf.World;
+
+			var expRate = worldConf.ExpRate / 100.0;
+			var jobExpRate = worldConf.JobExpRate / 100.0;
+
+			if (this.IsBuffActive(BuffId.SuperExp))
+			{
+				expRate *= worldConf.BlueJackpotExpRate / 100.0;
+				jobExpRate *= worldConf.BlueJackpotExpRate / 100.0;
+			}
+			if (this.IsBuffActive(BuffId.EliteMonsterBuff))
+			{
+				expRate *= worldConf.EliteExpRate / 100.0;
+				jobExpRate *= worldConf.EliteExpRate / 100.0;
+			}
+
+			exp = 0L;
+			jobExp = 0L;
+
+			if (this.Data.Exp > 0)
+				exp = (long)Math.Max(1, this.Data.Exp * expRate);
+			if (this.Data.JobExp > 0)
+				jobExp = (long)Math.Max(1, this.Data.JobExp * jobExpRate);
 		}
 
 		/// <summary>
@@ -371,51 +415,290 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="killer"></param>
 		private void DropItems(Character killer)
 		{
-			if (this.Data.Drops == null)
-				return;
+			if (this.Data.Drops != null)
+			{
+				var dropStacks = this.GenerateDropStacks(killer);
+				this.DropStacks(killer, dropStacks);
+			}
+
+			this.DropStatic(killer);
+		}
+
+		/// <summary>
+		/// Generates a list of random items to drop from the monster's
+		/// drop table.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <returns></returns>
+		private List<DropStack> GenerateDropStacks(Character killer)
+		{
+			var result = new List<DropStack>();
 
 			var rnd = RandomProvider.Get();
-			var autoloot = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
+			var autolootChance = killer?.Variables.Temp.Get("Autoloot", 0) ?? 0;
+			var worldConf = ZoneServer.Instance.Conf.World;
 
 			foreach (var dropItemData in this.Data.Drops)
 			{
-				var dropChance = GetAdjustedDropRate(dropItemData);
-
-				var dropSuccess = rnd.NextDouble() < dropChance / 100f;
-				if (!dropSuccess)
-					continue;
-
 				if (!ZoneServer.Instance.Data.ItemDb.TryFind(dropItemData.ItemId, out var itemData))
 				{
-					Log.Warning("Monster.Kill: Drop item '{0}' not found.", dropItemData.ItemId);
+					Log.Warning("Monster.DropItems: Drop item '{0}' not found.", dropItemData.ItemId);
 					continue;
 				}
 
-				var dropItem = new Item(itemData.Id);
+				var originalDropChance = dropItemData.DropChance;
+				var adjustedDropChance = GetAdjustedDropRate(dropItemData);
+
+				// Each point of looting chance increases drop rate by 0.1%,
+				// so 500 looting chance = 1.5x drop rate.
+				var lootingChance = killer.Properties.GetFloat(PropertyName.LootingChance);
+				var lootingRate = 1f + lootingChance * 0.001f;
+				adjustedDropChance *= lootingRate;
+
+				// Calculate Enhanced drops for super mobs
+				var isSuperMob = this.TryGetSuperMob(out var superMobType);
+				var superMobRerolls = 0;
+				var superMobGuaranteedItemDrop = false;
+				var superMobIncreaseMoney = 0;
+				var superMobMoneyStacks = 0;
+				if (isSuperMob)
+				{
+					switch (superMobType)
+					{
+						case SuperMobType.Silver:
+							superMobRerolls = worldConf.SilverJackpotRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.SilverJackpotGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.SilverJackpotRolls;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
+
+						case SuperMobType.Gold:
+							superMobRerolls = worldConf.GoldJackpotRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.GoldJackpotGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.SilverJackpotRolls * 4;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
+
+						case SuperMobType.Elite:
+							superMobRerolls = worldConf.EliteRolls;
+							superMobGuaranteedItemDrop = originalDropChance > worldConf.EliteGuaranteedItemThreshold;
+							superMobIncreaseMoney = worldConf.EliteRolls;
+							superMobMoneyStacks = rnd.Next(40, 50);
+							break;
+					}
+				}
+
+				var isMoney = itemData.Id == ItemId.Silver || itemData.Id == ItemId.Gold;
 				var minAmount = dropItemData.MinAmount;
 				var maxAmount = dropItemData.MaxAmount;
+				var stackCount = 1;
 
-				if (dropItemData.ItemId == ItemId.Silver || dropItemData.ItemId == ItemId.Gold)
+				if (isMoney)
 				{
 					minAmount = Math.Max(1, (int)(minAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
 					maxAmount = Math.Max(minAmount, (int)(maxAmount * (ZoneServer.Instance.Conf.World.SilverDropAmount / 100f)));
+
+					// Increased number of stacks and items per stack for
+					// super mobs
+					if (isSuperMob)
+					{
+						minAmount *= superMobIncreaseMoney;
+						maxAmount *= superMobIncreaseMoney;
+						stackCount += superMobMoneyStacks;
+					}
 				}
 
-				dropItem.Amount = rnd.Next(minAmount, maxAmount + 1);
-
-				if (killer == null || dropChance > autoloot)
+				var itemId = dropItemData.ItemId;
+				var amount = rnd.Next(minAmount, maxAmount + 1);
+				var rerolls = superMobRerolls;
+				var guaranteed = superMobGuaranteedItemDrop;
+				do
 				{
-					var direction = new Direction(rnd.Next(0, 360));
-					var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
-					var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+					rerolls--;
 
-					dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
-					dropItem.Drop(this.Map, this.Position, direction, distance);
+					// Items above the given threshold will
+					// always drop at least once for super mobs.
+					var dropSuccess = rnd.NextDouble() < adjustedDropChance / 100f;
+					if (!dropSuccess && !guaranteed)
+						continue;
+
+					for (var i = 0; i < stackCount; ++i)
+					{
+						var dropStack = new DropStack(itemId, amount, originalDropChance, adjustedDropChance);
+						result.Add(dropStack);
+					}
+
+					guaranteed = false;
 				}
-				else
+				while (rerolls > 0 && !isMoney);
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Checks if the given entity is a super mob
+		/// </summary>
+		/// <remarks>
+		/// The super drop level affects the drop chance and drop rate
+		/// of items. Level 1 increases the chance and even elevates
+		/// some items to 100%, while level 2 increases the chance
+		/// even more.
+		/// </remarks>
+		/// <returns></returns>
+		private bool TryGetSuperMob(out SuperMobType superMobType)
+		{
+			superMobType = (SuperMobType)(-1);
+
+			// Note: The client cannot handle SuperDrop and EliteMonsterBuff
+			// together.
+			if (this.Buffs.Has(BuffId.EliteMonsterBuff))
+			{
+				superMobType = SuperMobType.Elite;
+				return true;
+			}
+			else if (this.Buffs.TryGet(BuffId.SuperDrop, out var buff))
+			{
+				if (buff.NumArg2 == 0)
+				{
+					superMobType = SuperMobType.Silver;
+					return true;
+				}
+				else if (buff.NumArg2 == 1)
+				{
+					superMobType = SuperMobType.Gold;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Creates items from the given stacks and drops them.
+		/// </summary>
+		/// <param name="killer"></param>
+		/// <param name="dropStacks"></param>
+		private void DropStacks(Character killer, List<DropStack> dropStacks)
+		{
+			var rnd = RandomProvider.Get();
+
+			foreach (var stack in dropStacks)
+			{
+				var dropItem = new Item(stack.ItemId, stack.Amount);
+
+				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
+				var autoloot = stack.DropChance <= autolootThreshold;
+
+				if (autoloot)
 				{
 					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					continue;
 				}
+
+				var direction = new Direction(rnd.Next(0, 360));
+				var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+				dropItem.Drop(this.Map, this.Position, direction, distance);
+			}
+		}
+
+		/// <summary>
+		/// Drops the monster's static drops if any were added.
+		/// </summary>
+		/// <param name="killer"></param>
+		private void DropStatic(Character killer)
+		{
+			var rnd = RandomProvider.Get();
+
+			while (this.StaticDrops.TryTake(out var dropItem))
+			{
+				var autolootThreshold = killer?.Variables.Temp.Get("Autoloot", 0);
+				var autoloot = autolootThreshold > 0;
+
+				if (autoloot)
+				{
+					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+					continue;
+				}
+
+				var direction = new Direction(rnd.Next(0, 360));
+				var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
+				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
+
+				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+				dropItem.Drop(this.Map, this.Position, direction, distance);
+			}
+		}
+
+		/// <summary>
+		/// Randomly assigns rare monster buffs based on given rates.
+		/// </summary>
+		/// <param name="jackpotRate">
+		/// Rate modifier for chance to receive a jackpot buff. The default,
+		/// 100%, represents the default chance as per the configuration.
+		/// </param>
+		/// <param name="eliteRate">
+		/// Rate modifier for chance to receive an elite buff. The default,
+		/// 100%, represents the default chance as per the configuration.
+		/// </param>
+		/// <returns></returns>
+		public void PossiblyBecomeRare(float jackpotRate = 100, float eliteRate = 100)
+		{
+			var rnd = RandomProvider.Get();
+
+			var worldConf = ZoneServer.Instance.Conf.World;
+
+			var silverChance = worldConf.SilverJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < silverChance)
+			{
+				this.StartBuff(BuffId.SuperDrop, 100, 0, TimeSpan.Zero, this);
+				return;
+			}
+
+			var goldChance = worldConf.GoldJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < goldChance)
+			{
+				this.StartBuff(BuffId.SuperDrop, 1000, 1, TimeSpan.Zero, this);
+				return;
+			}
+
+			// The default chance for SuperExp is 1:12000, based on the
+			// monster property "SuperExpRegenRatio".
+			var blueChance = worldConf.BlueJackpotSpawnChance * jackpotRate / 100f;
+			if (rnd.NextDouble() * 100 < blueChance)
+			{
+				this.StartBuff(BuffId.SuperExp, 1, 0, TimeSpan.Zero, this);
+				return;
+			}
+
+			var canBecomeElite = (this.Map.Data.Level < worldConf.EliteMinLevel);
+			if (canBecomeElite)
+				return;
+
+			var eliteChance = worldConf.EliteSpawnChance * eliteRate / 100f;
+			if (rnd.NextDouble() * 100 < eliteChance)
+			{
+				this.StartBuff(BuffId.EliteMonsterBuff, 1, 0, TimeSpan.Zero, this);
+
+				var propertyOverrides = new PropertyOverrides();
+				propertyOverrides.Add(PropertyName.MHP, this.Properties.GetFloat(PropertyName.MHP) * worldConf.EliteHPSPRate / 100f);
+				propertyOverrides.Add(PropertyName.MSP, this.Properties.GetFloat(PropertyName.MSP) * worldConf.EliteHPSPRate / 100f);
+				propertyOverrides.Add(PropertyName.MINPATK, this.Properties.GetFloat(PropertyName.MINPATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MAXPATK, this.Properties.GetFloat(PropertyName.MAXPATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MINMATK, this.Properties.GetFloat(PropertyName.MINMATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MAXMATK, this.Properties.GetFloat(PropertyName.MAXMATK) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.DEF, this.Properties.GetFloat(PropertyName.DEF) * worldConf.EliteStatRate / 100f);
+				propertyOverrides.Add(PropertyName.MDEF, this.Properties.GetFloat(PropertyName.MDEF) * worldConf.EliteStatRate / 100f);
+
+				this.ApplyOverrides(propertyOverrides);
+
+				if (worldConf.EliteAlwaysAggressive)
+					this.Tendency = TendencyType.Aggressive;
+
+				// TODO: Add summoning and special attacks.
 			}
 		}
 
@@ -470,13 +753,21 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Heals the monster's HP and SP by the given amounts.
+		/// Heals the monster's HP and SP by the given amounts. Applies potential
+		/// (de)buffs that affect healing.
 		/// </summary>
 		/// <param name="hpAmount"></param>
 		/// <param name="spAmount"></param>
 		public void Heal(float hpAmount, float spAmount)
 		{
-			this.Properties.Modify(PropertyName.HP, hpAmount);
+			float healingReduction = 0;
+
+			// TODO: Move this somewhere else, perhaps with a hook/event?
+			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+
+			var healingModifier = Math.Max(0, 1 - healingReduction);
+
+			this.Properties.Modify(PropertyName.HP, hpAmount * healingModifier);
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			this.HpChangeCounter++;
@@ -498,7 +789,9 @@ namespace Melia.Zone.World.Actors.Monsters
 				// we swap to the override properties that the calculation
 				// functions use for each property as necessary.
 				var properties = this.Properties as Properties;
-				if (properties.TryGet<CFloatProperty>(propertyName, out var calculatedProperty))
+
+				var canSet = !properties.TryGet(propertyName, out var property) || (property is not CFloatProperty && property is not RFloatProperty);
+				if (!canSet)
 					properties = this.Properties.Overrides;
 
 				switch (propertyOverride.Value)

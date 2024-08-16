@@ -9,6 +9,7 @@
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i379XXX: Added firstPacket, minIndex, and maxIndex.
 //------------------------------------------------
 
 //#define PROPERTY_NAMES
@@ -68,6 +69,10 @@ string readEquipItem2(EquipItem2 &v)
     SPrintf(result, "id: %d, propertySize: %d", v.itemId, v.propertiesSize);
     return result;
 }
+
+byte firstPacket;
+int minIndex;
+int maxIndex;
 
 while(!FEof())
     EquipItem2 item;

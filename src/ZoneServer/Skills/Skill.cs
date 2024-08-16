@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Threading;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
-using Melia.Shared.Tos.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
-using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -113,6 +111,33 @@ namespace Melia.Zone.Skills
 		public bool IsOnCooldown => this.Owner.Components.Get<CooldownComponent>().IsOnCooldown(this.Data.CooldownGroup);
 
 		/// <summary>
+		/// Returns true if the skill is a normal attack.
+		/// </summary>
+		/// <remarks>
+		/// This property is a temporary measure to not do this check randomly
+		/// somewhere in the code. We'll need some more research to determine
+		/// what exactly makes a normal attack and when they apply. Especially
+		/// because it seems like this might differ based on your stance.
+		/// </remarks>
+		public bool IsNormalAttack => (int)this.Id <= 1000;
+
+		/// <summary>
+		/// Returns true if the skill is a monster skill
+		/// </summary>
+		/// <remarks>
+		/// This property is a temporary measure to not do this check randomly
+		/// somewhere in the code. We'll need some more research to determine
+		/// what exactly makes a normal attack and when they apply. Especially
+		/// because it seems like this might differ based on your stance.
+		/// </remarks>
+		public bool IsMonsterSkill => (int)this.Id >= 60000;
+
+		/// <summary>
+		/// Returns true if this skill is a passive skill.
+		/// </summary>
+		public bool IsPassive => this.Data.ActivationType == SkillActivationType.PassiveSkill;
+
+		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
 		/// <param name="owner"></param>
@@ -152,7 +177,7 @@ namespace Melia.Zone.Skills
 		public bool IncreaseOverheat(int overheatMaxCount)
 		{
 			// No cooldowns for monsters
-			if (!(this.Owner is Character character))
+			if (this.Owner is not Character character)
 				return false;
 
 			// Increase counter regardless of whether the skill can
@@ -177,6 +202,27 @@ namespace Melia.Zone.Skills
 			Send.ZC_OVERHEAT_CHANGED(character, this);
 
 			return overheated;
+		}
+
+		/// <summary>
+		/// Resets the skill's overheat and puts it on a cooldown that lasts
+		/// for the given amount of time.
+		/// </summary>
+		/// <param name="cooldownTime"></param>
+		public void StartCooldown(TimeSpan cooldownTime)
+		{
+			if (this.Owner is not Character character)
+				return;
+
+			if (!this.Owner.Components.TryGet<CooldownComponent>(out var cooldownComponent))
+				return;
+
+			cooldownComponent.Start(this.Data.CooldownGroup, cooldownTime);
+
+			this.OverheatCounter = 0;
+			this.OverheatTimeRemaining = TimeSpan.Zero;
+
+			Send.ZC_OVERHEAT_CHANGED(character, this);
 		}
 
 		/// <summary>
