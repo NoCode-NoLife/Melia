@@ -20,7 +20,7 @@ namespace Melia.Shared.Configuration
 		/// <summary>
 		/// inter.conf
 		/// </summary>
-		public InterConfFile Inter { get; } = new InterConfFile();
+		public InterConfFile Inter { get; } = new();
 
 		/// <summary>
 		/// log.conf

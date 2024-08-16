@@ -130,8 +130,9 @@ namespace Melia.Barracks
 		private void StartCommunicator()
 		{
 			var commName = "" + this.ServerInfo.Type + this.ServerInfo.Id;
+			var authentication = this.Conf.Inter.Authentication;
 
-			this.Communicator = new Communicator(commName);
+			this.Communicator = new Communicator(commName, authentication);
 			this.Communicator.ClientConnected += this.Communicator_OnClientConnected;
 			this.Communicator.ClientDisconnected += this.Communicator_OnClientDisconnected;
 			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;

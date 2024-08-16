@@ -7,7 +7,7 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class InterConfFile : ConfFile
 	{
-		public string Password { get; protected set; }
+		public string Authentication { get; protected set; }
 
 		/// <summary>
 		/// Loads conf file and its options from the given path.
@@ -17,7 +17,7 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
-			this.Password = this.GetString("password", "change_me");
+			this.Authentication = this.GetString("authentication", "change_me");
 		}
 	}
 }

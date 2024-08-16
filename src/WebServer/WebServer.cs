@@ -187,10 +187,11 @@ namespace Melia.Web
 		private void ConnectToCoordinator()
 		{
 			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
+			var authentication = this.Conf.Inter.Authentication;
 
 			try
 			{
-				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
+				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
 				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
 				this.Communicator.Subscribe("Coordinator", "AllServers");
