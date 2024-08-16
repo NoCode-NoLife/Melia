@@ -640,13 +640,7 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
-			// Clean up temporary properties before saving
-			this.Components.Get<BuffComponent>().StopTempBuffs();
-
-			// Save everything before leaving the server
-			ZoneServer.Instance.Database.SaveCharacter(this);
-			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
-			ZoneServer.Instance.Database.UpdateLoginState(this.Connection.Account.Id, 0, LoginState.LoggedOut);
+			this.Connection.SaveAccountAndCharacter();
 			this.SavedForWarp = true;
 
 			// Instruct client to initiate warp
