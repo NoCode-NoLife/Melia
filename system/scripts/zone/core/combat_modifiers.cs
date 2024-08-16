@@ -54,6 +54,12 @@ public class CombatModifierCalculationsScript : GeneralScript
 		CallForBuffs(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
 		CallForBuffs(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
 
+		CallForPassiveSkills(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForPassiveSkills(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForAbilities(nameof(SCR_Combat_AfterCalc), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForAbilities(nameof(SCR_Combat_AfterCalc), target, attacker, target, skill, modifier, skillHitResult);
+
 		return 0;
 	}
 
@@ -73,6 +79,12 @@ public class CombatModifierCalculationsScript : GeneralScript
 		CallForBuffs(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
 		CallForBuffs(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
 
+		CallForPassiveSkills(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForPassiveSkills(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForAbilities(nameof(SCR_Combat_BeforeBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForAbilities(nameof(SCR_Combat_BeforeBonuses), target, attacker, target, skill, modifier, skillHitResult);
+
 		return 0;
 	}
 
@@ -91,6 +103,12 @@ public class CombatModifierCalculationsScript : GeneralScript
 	{
 		CallForBuffs(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
 		CallForBuffs(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForPassiveSkills(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForPassiveSkills(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
+
+		CallForAbilities(nameof(SCR_Combat_AfterBonuses), attacker, attacker, target, skill, modifier, skillHitResult);
+		CallForAbilities(nameof(SCR_Combat_AfterBonuses), target, attacker, target, skill, modifier, skillHitResult);
 
 		return 0;
 	}
