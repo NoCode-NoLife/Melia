@@ -131,8 +131,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 					{
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tentativeGScore;
-						var randomFactor = RandomProvider.Get().Next(gridScale * 2);
-						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + randomFactor;
+						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal);
 
 						if (!openSet.UnorderedItems.Any(item => item.Element.Equals(neighbor)))
 						{
