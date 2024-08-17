@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -298,6 +296,17 @@ namespace Melia.Zone.World.Maps
 			lock (_characters)
 				_characters.TryGetValue(handle, out result);
 			return result;
+		}
+
+		/// <summary>
+		/// Returns a character on this map that match the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Character GetCharacter(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.FirstOrDefault(predicate);
 		}
 
 		/// <summary>

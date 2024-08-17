@@ -21,6 +21,7 @@ using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
+using Melia.Shared.Util;
 
 namespace Melia.Zone.Commands
 {
@@ -96,6 +97,13 @@ namespace Melia.Zone.Commands
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
+
+			//Party
+			this.Add("partyname", "0 0 <account id> <party name>", "", this.HandlePartyName);
+			this.Add("partymake", "<partyName>", "", this.HandlePartyMake);
+			this.Add("partyDirectInvite", "<team name>", "", this.HandlePartyInvite);
+			this.Add("partyban", "0 <team name>", "", this.HandlePartyBan);
+			this.Add("memberinfoForAct", "<team name>", "", this.HandleMemberInfoForAct);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -2186,6 +2194,203 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
 			else
 				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to get a Member Info For Act?
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMemberInfoForAct(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				Log.Debug("HandleMemberInfoForAct: No team name given by user '{0}'.", sender.Username);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Count != 1)
+			{
+				Log.Debug("HandleMemberInfoForAct: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			// To Do - Handle Party Name Check
+			//ZoneServer.Instance.World.GetParty() ?
+			var character = ZoneServer.Instance.World.GetCharacterByTeamName(args.Get(0));
+			if (character != null)
+			{
+				if (character.Connection.Party != null || character.Connection.Guild != null)
+				{
+					Send.ZC_NORMAL.ShowParty(sender.Connection, character);
+					Send.ZC_TO_SOMEWHERE_CLIENT(sender);
+				}
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to invite to a party
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyMake(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 0)
+			{
+				Log.Debug("HandlePartyMake: No team name given by user '{0}'.", sender.Username);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Count != 1)
+			{
+				Log.Debug("HandlePartyMake: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			// To Do - Handle Party Name Check
+			//ZoneServer.Instance.World.GetParty() ?
+			if (sender.Connection.Party == null)
+			{
+				var party = ZoneServer.Instance.World.Parties.Create(sender);
+				party.SetProperty(PropertyName.CreateTime, DateTimeUtils.ToSDateTime(party.DateCreated));
+				party.SetProperty(PropertyName.ExpGainType, party.ExpDistribution.ToString());
+				party.SetProperty(PropertyName.LastMemberAddedTime, party.DateCreated.Ticks.ToString());
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to change a party name
+		/// </summary>
+		/// <example>
+		/// /partyname 0 0 1 Fun Party
+		/// </example>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyName(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+			if (args.Count < 4)
+			{
+				Log.Debug("HandlePartyName: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var party = sender.Connection.Party;
+
+			if (party != null && party.Owner.CharacterObjectId == sender.ObjectId)
+			{
+				var partyName = message.Substring(message.IndexOf(args.Get(2)) + args.Get(2).Length + 1);
+				// Client has an internal limit, additional safety check
+				if (partyName.Length > 2 && partyName.Length < 16)
+					sender.Connection.Party.ChangeName(partyName);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Party invite command.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyInvite(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				Log.Debug("HandlePartyInvite: No team name given by user '{0}'.", sender.Username);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Count != 1)
+			{
+				Log.Debug("HandlePartyInvite: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var character = ZoneServer.Instance.World.GetCharacterByTeamName(args.Get(0));
+
+
+			// Can't invite a player that already have a party
+			if (character.Connection.Party != null)
+			{
+				sender.MsgBox(Localization.Get("The character is already on a party."));
+				return CommandResult.Okay;
+			}
+
+			if (character != null)
+			{
+				Send.ZC_NORMAL.PartyInvite(character, sender, PartyType.Party);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to expel a member from a party
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyBan(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				Log.Debug("HandlePartyBan: No team name given by user '{0}'.", sender.Username);
+				return CommandResult.Okay;
+			}
+
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+
+			if (args.Count != 2)
+			{
+				Log.Debug("HandlePartyBan: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var teamName = args.Get(1);
+			var party = sender.Connection.Party;
+
+			party?.Expel(teamName);
 
 			return CommandResult.Okay;
 		}

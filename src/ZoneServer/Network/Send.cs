@@ -22,6 +22,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
@@ -4376,6 +4377,202 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Party Info usually sent when party is created
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_INFO(Character character, Party party, bool broadCast = false)
+		{
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutByte(0);
+			packet.PutDate(party.DateCreated);
+			packet.PutLong(party.ObjectId);
+			packet.PutLpString(party.Name);
+			packet.PutLong(party.Owner.AccountId);
+			packet.PutLpString(party.Owner.TeamName);
+			packet.PutInt(0);
+			packet.PutInt(1);
+			packet.PutShort(1);
+
+			if (party.Type == PartyType.Party)
+			{
+				packet.PutShort(256);
+				packet.PutInt(0);
+			}
+			else
+			{
+				packet.PutByte(0);
+				packet.PutLpString(party.Note);
+				packet.PutLong(0);
+				packet.PutByte(0);
+				packet.PutLong(0);
+				packet.PutEmptyBin(20004);
+				packet.PutInt(0);
+				packet.PutShort(2000);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutShort(1);
+				packet.PutEmptyBin(68);
+				packet.PutFloat(0);
+				packet.PutShort(0);
+			}
+
+			if (broadCast)
+				party.Broadcast(packet);
+			else
+				character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// List of party members also sent when party is created and members join
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_LIST(Party party)
+		{
+			var members = party.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_LIST);
+
+			packet.PutLong(0);
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.PutByte((byte)members.Length);
+
+			foreach (var member in members)
+				packet.AddPartyMember(member);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Send when a new character joins the party
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_ENTER(Character character, Party party)
+		{
+			var packet = new Packet(Op.ZC_PARTY_ENTER);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.AddPartyMember(PartyMember.ToMember(character));
+			packet.PutShort(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts to other members once a member left/expelled from party
+		/// with broadcast.
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_OUT(Party party, PartyMember member)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutLong(party.ObjectId);
+			packet.PutLong(member.AccountId);
+			packet.PutByte(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Party info updates
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_PARTY_INST_INFO(Party party)
+		{
+			if (party == null) return;
+
+			var members = party.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_INST_INFO);
+
+			packet.PutByte((byte)party.Type);
+			packet.PutInt(members.Length);
+			foreach (var member in members)
+				packet.AddPartyInstantMemberInfo(member);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Change the relation from a player (when we kick/leave a party)
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_CHANGE_RELATION(Character character, Party party, int relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
+
+			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Unknow purposes - sent after party is created
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_TO_SOMEWHERE_CLIENT(Character character)
+		{
+			var party = character.Connection.Party;
+
+			if (party == null)
+				return;
+
+			var packet = new Packet(Op.ZC_TO_SOMEWHERE_CLIENT);
+			packet.PutLong(0);
+			packet.PutInt(1);
+			packet.PutInt(1);
+			packet.PutLpString(character.TeamName);
+
+			packet.Zlib(true, zpacket =>
+			{
+				zpacket.PutLong(0);
+				zpacket.PutInt(1);
+				zpacket.PutInt(1);
+				zpacket.PutLong(1000555709005824);
+				zpacket.PutString(character.TeamName, 65);
+				zpacket.PutLong(party?.ObjectId ?? 0);
+				zpacket.PutLong(character.Connection.Account.Id);
+				zpacket.PutString(character.TeamName, 64);
+				zpacket.PutString(character.Name, 64);
+				zpacket.PutShort(0);
+				zpacket.PutShort((short)character.JobId);
+				zpacket.PutInt((int)character.JobId);
+				zpacket.PutInt(3);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0x80);
+				zpacket.PutByte(0xFF);
+				zpacket.PutEmptyBin(12);
+				zpacket.PutShort(0); // Properties Size
+				zpacket.PutShort(0); // ETC Properties Size
+				zpacket.PutShort(character.Jobs.Count);
+				zpacket.PutInt((int)character.JobId);
+				zpacket.PutInt(0);
+				zpacket.PutLong(404);
+				zpacket.PutLong(11632643);
+				zpacket.PutLong(0x0D);
+				zpacket.PutLong(0x27);
+			});
+
+			character.Connection.Send(packet);
 		}
 	}
 }

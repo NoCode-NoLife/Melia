@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -17,7 +16,6 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
 
 namespace Melia.Zone.World.Actors.Characters
@@ -378,6 +376,16 @@ namespace Melia.Zone.World.Actors.Characters
 		public event Action<Character> SitStatusChanged;
 
 		/// <summary>
+		/// Returns the current Party Id
+		/// </summary>
+		public long PartyId { get; set; }
+
+		/// <summary>
+		/// Returns the current Guild Id
+		/// </summary>
+		public long GuildId { get; set; }
+
+		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character() : base()
@@ -603,6 +611,8 @@ namespace Melia.Zone.World.Actors.Characters
 				this.MapId = mapId;
 				_warping = true;
 
+				this.UpdatePartyInformation();
+
 				Send.ZC_MOVE_ZONE(this.Connection);
 			}
 		}
@@ -760,6 +770,8 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.Modify(PropertyName.SP, spAmount);
 
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);
+
+			this.UpdatePartyInformation();
 		}
 
 		/// <summary>
@@ -795,6 +807,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);
+			this.UpdatePartyInformation();
 		}
 
 		/// <summary>
@@ -806,6 +819,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var sp = this.Properties.Modify(PropertyName.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp, true);
+			this.UpdatePartyInformation();
 		}
 
 		/// <summary>
@@ -1254,6 +1268,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
 
+			this.UpdatePartyInformation();
+
 			return this.IsDead;
 		}
 
@@ -1346,6 +1362,13 @@ namespace Melia.Zone.World.Actors.Characters
 			// the case of items. Or at least not reliably? It's weird.
 			Send.ZC_ITEM_GET(this, itemMonster);
 
+			var party = this.Connection.Party;
+
+			if (party != null)
+				party.GiveItem(this, itemMonster.Item, InventoryAddType.PickUp);
+			else
+				this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
+
 			// Add the item to the inventory
 			this.Inventory.Add(itemMonster.Item, InventoryAddType.PickUp);
 
@@ -1381,6 +1404,54 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Hair = hairTypeIndex;
 			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
+
+		/// <summary>
+		/// Updates the member property and sends the packet to update values
+		/// </summary>
+		public void UpdatePartyInformation()
+		{
+			if (this.Connection.Party != null)
+			{
+				var member = this.Connection.Party.GetMember(this.ObjectId);
+				if (member != null)
+				{
+					member.UpdateValues(this);
+					Send.ZC_PARTY_INFO(this, this.Connection.Party);
+				}
+
+				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+			}
+		}
+
+		/// <summary>
+		/// Updates the member property IsOnline
+		/// </summary>
+		public void PartyMemberIsOnline(bool value)
+		{
+			if (this.Connection.Party != null)
+			{
+				var member = this.Connection.Party.GetMember(this.ObjectId);
+				if (member != null)
+				{
+					member.UpdateIsOnline(value);
+					Send.ZC_PARTY_INFO(this, this.Connection.Party, true);
+				}
+
+				Send.ZC_PARTY_LIST(this.Connection.Party);
+				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+			}
+		}
+
+		/// <summary>
+		/// Sends an addon message
+		/// </summary>
+		/// <param name="function"></param>
+		/// <param name="stringParameter"></param>
+		/// <param name="intParameter"></param>
+		public void AddonMessage(string function, string stringParameter = null, int intParameter = 0)
+		{
+			Send.ZC_ADDON_MSG(this, function, intParameter, stringParameter);
 		}
 	}
 }

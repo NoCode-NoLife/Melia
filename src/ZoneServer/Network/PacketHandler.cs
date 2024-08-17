@@ -117,6 +117,7 @@ namespace Melia.Zone.Network
 			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
+			character.UpdatePartyInformation();
 
 			// Officials always send the following packets, even if we're coming
 			// from the barracks and don't need most of them. Since the client
@@ -133,6 +134,8 @@ namespace Melia.Zone.Network
 				Send.ZC_SET_CHATBALLOON_SKIN(conn);
 				Send.ZC_NORMAL.Unknown_1B4(character);
 			}
+
+			character.PartyMemberIsOnline(false);
 		}
 
 		/// <summary>
@@ -171,7 +174,7 @@ namespace Melia.Zone.Network
 			Send.ZC_ABILITY_LIST(character);
 			Send.ZC_NORMAL.Unknown_DA(character);
 			Send.ZC_NORMAL.ItemCollectionList(character);
-			Send.ZC_NORMAL.Unknown_E4(character);
+			Send.ZC_NORMAL.Unknown_E7(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
 			Send.ZC_OBJECT_PROPERTY(conn, character.Etc);
 			Send.ZC_START_GAME(conn);
@@ -187,7 +190,7 @@ namespace Melia.Zone.Network
 			Send.ZC_CASTING_SPEED(character);
 			Send.ZC_ANCIENT_CARD_RESET(conn);
 			Send.ZC_QUICK_SLOT_LIST(character);
-			Send.ZC_NORMAL.Unknown_EF(character);
+			Send.ZC_NORMAL.Unknown_F2(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
@@ -1981,6 +1984,7 @@ namespace Melia.Zone.Network
 			character.Jobs.Remove(oldJobId);
 			character.Jobs.Add(newJob);
 			character.JobId = newJob.Id;
+			character.PartyMemberIsOnline(false);
 
 			// I'd prefer to let the player keep playing after the switch,
 			// but the intended behavior is apparently that you get DCed
@@ -2010,6 +2014,19 @@ namespace Melia.Zone.Network
 		[PacketHandler(Op.CZ_LOAD_COMPLETE)]
 		public void CZ_LOAD_COMPLETE(IZoneConnection conn, Packet packet)
 		{
+			var character = conn.SelectedCharacter;
+			var party = ZoneServer.Instance.World.GetParty(character.PartyId);
+
+			if (party != null && conn.Party == null)
+			{
+				conn.Party = party;
+
+				if (party.Owner == null)
+					ZoneServer.Instance.World.Parties.UpdatePartyLeader(party, character);
+
+				party.NoticiateExistance(character);
+			}
+
 			Send.ZC_LOAD_COMPLETE(conn);
 		}
 
@@ -2967,6 +2984,119 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
+		}
+
+		/// <summary>
+		/// Accept a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_ACCEPT)]
+		public void CZ_PARTY_INVITE_ACCEPT(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+			var character = conn.SelectedCharacter;
+			var sender = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (character.Connection.Party == null && sender != null)
+			{
+				var party = sender.Connection.Party;
+				if (party == null)
+				{
+					party = ZoneServer.Instance.World.Parties.Create(sender);
+				}
+				party.AddMember(character);
+			}
+		}
+
+		/// <summary>
+		/// Reject a party invite
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_CANCEL)]
+		public void CZ_PARTY_INVITE_CANCEL(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var partyInviter = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (partyInviter != null)
+			{
+				Send.ZC_ADDON_MSG(partyInviter, AddonMessage.PARTY_INVITE_CANCEL, 0, character.TeamName);
+			}
+		}
+
+		/// <summary>
+		/// Leaves a party
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_OUT)]
+		public void CZ_PARTY_OUT(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
+
+			if (party != null)
+			{
+				party.RemoveMember(character);
+			}
+		}
+
+		/// <summary>
+		/// Changes Party Settings
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_PROP_CHANGE)]
+		public void CZ_PARTY_PROP_CHANGE(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var type = packet.GetInt();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
+			var s1 = packet.GetShort();
+			var value = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
+
+			if (party != null && party.LeaderDbId == character.DbId)
+			{
+				party.UpdateSetting(type, value);
+			}
+		}
+
+		/// <summary>
+		/// Answer to a party join request by link
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_JOIN_BY_LINK)]
+		public void CZ_PARTY_JOIN_BY_LINK(IZoneConnection conn, Packet packet)
+		{
+			var unkByte = packet.GetByte();
+			var partyId = packet.GetShort();
+
+			var party = ZoneServer.Instance.World.Parties.GetParty(partyId);
+			var character = conn.SelectedCharacter;
+
+			if (character.PartyId != 0)
+				return;
+
+			if (party != null)
+			{
+				party.AddMember(character);
+				character.PartyId = partyId;
+			}
+			else
+			{
+				character.ServerMessage(Localization.Get("Coud't not join the party."));
+			}
 		}
 	}
 }

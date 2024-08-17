@@ -80,10 +80,19 @@
 		public const string MINIMIZED_TUTORIALNOTE_EFFECT_CHECK = "MINIMIZED_TUTORIALNOTE_EFFECT_CHECK"; // Parameter: guide_1
 
 		public const string ENABLE_PCBANG_SHOP = "ENABLE_PCBANG_SHOP";
-
-		public const string PARTY_UPDATE = "PARTY_UPDATE";
-		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 		public const string UPDATE_ATTENDANCE_REWARD = "UPDATE_ATTENDANCE_REWARD";
+
+		/// <summary>
+		/// Party Join
+		/// </summary>
+		public const string PARTY_JOIN = "PARTY_JOIN";
+		/// <summary>
+		/// Party Invite Rejected
+		/// </summary>
+		public const string PARTY_INVITE_CANCEL = "PARTY_INVITE_CANCEL";
+		public const string PARTY_UPDATE = "PARTY_UPDATE";
+		public const string SUCCESS_UPDATE_PARTY_INFO = "SUCCESS_UPDATE_PARTY_INFO";
+		public const string UPDATE_GUILD_MILEAGE = "UPDATE_GUILD_MILEAGE";
 
 		/// <summary>
 		/// The UI for new entries in adventure book

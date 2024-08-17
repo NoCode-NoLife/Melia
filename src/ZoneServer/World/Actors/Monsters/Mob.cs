@@ -311,6 +311,19 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
+		/// Distributes experience
+		/// </summary>
+		private void DistributeExp(Character character, long exp, long classExp)
+		{
+			var party = character.Connection.Party;
+
+			if (party != null)
+				party.GiveExp(character, exp, classExp, this);
+			else
+				character.GiveExp(exp, classExp, this);
+		}
+
+		/// <summary>
 		/// Returns the character that benefits from the kill of the mob
 		/// in form of EXP and drops.
 		/// </summary>
@@ -592,6 +605,13 @@ namespace Melia.Zone.World.Actors.Monsters
 
 				if (autoloot)
 				{
+					var party = killer.Connection.Party;
+
+					if (party != null)
+						party.GiveItem(killer, dropItem, InventoryAddType.PickUp);
+					else
+						killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
+
 					killer.Inventory.Add(dropItem, InventoryAddType.PickUp);
 					continue;
 				}

@@ -31,6 +31,8 @@
 		public const long Abilities = 0x0700000000000000;
 		public const long SessionObjects = 0x0A00000000000000;
 		public const long Quests = 0x0B00000000000000;
+		public const long Party = 0x0D00000000000000;
+		public const long Guild = 0x0E00000000000000;
 
 		// Old stuff for referecence:
 
