@@ -4228,7 +4228,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Handle);
 			packet.PutInt(skinId);
 
-			conn.Send(packet);
+			character.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -4486,10 +4486,11 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Party info updates
+		/// Party Info Update
 		/// </summary>
 		/// <param name="party"></param>
-		public static void ZC_PARTY_INST_INFO(Party party)
+		/// <param name="character"></param>
+		public static void ZC_PARTY_INST_INFO(Character character, Party party)
 		{
 			if (party == null) return;
 
@@ -4507,7 +4508,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(0);
 			packet.PutByte(0);
 
-			party.Broadcast(packet);
+			character.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -4522,6 +4523,20 @@ namespace Melia.Zone.Network
 			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
 
 			party.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Change the relation from a player
+		/// </summary>
+		/// <param name="party"></param>
+		public static void ZC_CHANGE_RELATION(Character character, int relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(character.Handle);
+			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
+
+			character.Map.Broadcast(packet);
 		}
 
 		/// <summary>

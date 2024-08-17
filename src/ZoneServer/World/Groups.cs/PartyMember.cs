@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors.Characters;
@@ -12,7 +13,7 @@ namespace Melia.Zone.World.Groups
 		public long AccountId { get; set; }
 		public string TeamName { get; set; }
 		public string Name { get; set; }
-		public bool IsOnline { get; set; } = false;
+		public bool IsOnline { get; private set; } = false;
 		public int Handle { get; set; }
 		public int MapId { get; set; }
 		public int Stance { get; set; }
@@ -32,6 +33,11 @@ namespace Melia.Zone.World.Groups
 		public int JobLevel { get; set; }
 		public int ServerGroup { get; set; } = 1001;
 
+		/// <summary>
+		/// Transform a Character to a PartyMember
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
 		public static PartyMember ToMember(Character character)
 		{
 			var member = new PartyMember()
@@ -54,15 +60,17 @@ namespace Melia.Zone.World.Groups
 				Stance = character.Stance,
 				IsOnline = character.Connection.LoggedIn,
 			};
+
 			var i = 0;
-			foreach (var job in character.Jobs.GetList())
-			{
-				member.VisualJobId = job.Id;
+			var jobs = character.Jobs.GetList();
+			var lastJob = jobs[jobs.Length - 1].Id;
+			member.VisualJobId = lastJob;
+			member.FirstJobId = lastJob;
+
+			foreach (var job in jobs)
+			{				
 				switch (i)
 				{
-					case 0:
-						member.FirstJobId = job.Id;
-						break;
 					case 1:
 						member.SecondJobId = job.Id;
 						break;
@@ -74,6 +82,7 @@ namespace Melia.Zone.World.Groups
 						break;
 				}
 
+				i++;
 			}
 			return member;
 		}
@@ -100,14 +109,14 @@ namespace Melia.Zone.World.Groups
 			this.Name = character.Name;
 			this.Position = character.Position;
 			this.Stance = character.Stance;
-			this.IsOnline = character.Connection.LoggedIn;
+			this.UpdateOnlineStatus(character.Connection != null);
 		}
 
 		/// <summary>
 		/// Updates the IsOnline
 		/// </summary>
-		/// <param name="character"></param>
-		public void UpdateIsOnline(bool value)
+		/// <param name="value"></param>
+		public void UpdateOnlineStatus(bool value)
 		{
 			this.IsOnline = value;
 		}

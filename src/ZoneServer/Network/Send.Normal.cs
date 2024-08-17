@@ -1420,7 +1420,7 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="character"></param>
-			public static void ShowParty(IZoneConnection conn, Character character, byte left = 1)
+			public static void ShowParty(Character character, byte isMember = 1)
 			{
 				var party = character.Connection.Party;
 				var guild = character.Connection.Guild;
@@ -1439,7 +1439,7 @@ namespace Melia.Zone.Network
 				}
 				else if (party != null)
 				{
-					packet.PutByte(left);
+					packet.PutByte(isMember);
 					packet.PutLpString(party.Name);
 					packet.PutByte(3);
 				}
@@ -1449,7 +1449,7 @@ namespace Melia.Zone.Network
 					packet.PutLpString(guild.Name);
 				}
 
-				conn.Send(packet);
+				character.Map.Broadcast(packet);
 			}
 
 			/// <summary>

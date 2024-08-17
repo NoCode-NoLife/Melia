@@ -214,14 +214,18 @@ namespace Melia.Zone.World.Groups
 			return true;
 		}
 
-		public void NoticiateExistance(Character character)
+		/// <summary>
+		/// Notify the client about its own party status
+		/// </summary>
+		/// <param name="character"></param>
+		public void NotifyJoinedParty(Character character)
 		{
 			this.UpdateMember(character);
 			Send.ZC_PARTY_INFO(character, this);
 			Send.ZC_PARTY_LIST(this);
 			Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");
-			Send.ZC_PARTY_INST_INFO(character.Connection.Party);
-			Send.ZC_CHANGE_RELATION(character, this, 0);
+			Send.ZC_PARTY_INST_INFO(character, character.Connection.Party);
+			Send.ZC_CHANGE_RELATION(character, character.Connection.Party, 0);
 			Send.ZC_NORMAL.ShowParty(character);
 		}
 
@@ -288,19 +292,7 @@ namespace Melia.Zone.World.Groups
 
 				var leftCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.CharacterObjectId);
 
-				Send.ZC_PARTY_INST_INFO(leftCharacter.Connection.Party);
-				Send.ZC_CHANGE_RELATION(leftCharacter, this, 2);
-
-				foreach (var partyMember in _members.Values)
-				{
-					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == partyMember.CharacterObjectId);
-					if (character != null)
-						Send.ZC_CHANGE_RELATION(character, this, 2);
-				}
-
 				ZoneServer.Instance.World.Parties.LeaveParty(leftCharacter);
-				leftCharacter.PartyId = 0;
-				leftCharacter.Connection.Party = null;
 			}
 		}
 

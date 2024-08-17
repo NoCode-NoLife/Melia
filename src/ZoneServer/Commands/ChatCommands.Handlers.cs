@@ -2232,7 +2232,7 @@ namespace Melia.Zone.Commands
 			{
 				if (character.Connection.Party != null || character.Connection.Guild != null)
 				{
-					Send.ZC_NORMAL.ShowParty(sender.Connection, character);
+					Send.ZC_NORMAL.ShowParty(character);
 					Send.ZC_TO_SOMEWHERE_CLIENT(sender);
 				}
 			}
@@ -2260,7 +2260,6 @@ namespace Melia.Zone.Commands
 			// Since this command is sent via UI interactions, we'll not
 			// use any automated command result messages, but we'll leave
 			// debug messages for now, in case of unexpected values.
-
 			if (args.Count != 1)
 			{
 				Log.Debug("HandlePartyMake: Invalid call by user '{0}': {1}", sender.Username, commandName);

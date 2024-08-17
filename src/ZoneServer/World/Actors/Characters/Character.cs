@@ -1420,26 +1420,9 @@ namespace Melia.Zone.World.Actors.Characters
 					Send.ZC_PARTY_INFO(this, this.Connection.Party);
 				}
 
-				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
-			}
-		}
-
-		/// <summary>
-		/// Updates the member property IsOnline
-		/// </summary>
-		public void PartyMemberIsOnline(bool value)
-		{
-			if (this.Connection.Party != null)
-			{
-				var member = this.Connection.Party.GetMember(this.ObjectId);
-				if (member != null)
-				{
-					member.UpdateIsOnline(value);
-					Send.ZC_PARTY_INFO(this, this.Connection.Party, true);
-				}
-
 				Send.ZC_PARTY_LIST(this.Connection.Party);
-				Send.ZC_PARTY_INST_INFO(this.Connection.Party);
+				Send.ZC_PARTY_INST_INFO(this.Connection.SelectedCharacter, this.Connection.Party);
+				Send.ZC_CHANGE_RELATION(this.Connection.SelectedCharacter, this.Connection.Party, 0);
 			}
 		}
 

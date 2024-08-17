@@ -1447,37 +1447,39 @@ namespace Melia.Zone.Database
 		public void CreateParty(Party party)
 		{
 			using (var conn = this.GetConnection())
-			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
+				using (var trans = conn.BeginTransaction())
 				{
-					party.DateCreated = DateTime.Now;
-
-					cmd.Set("name", party.Name);
-					cmd.Set("leaderId", party.LeaderDbId);
-					cmd.Set("note", party.Note);
-					cmd.Set("questSharing", (int)party.QuestSharing);
-					cmd.Set("expDistribution", (int)party.ExpDistribution);
-					cmd.Set("itemDistribution", (int)party.ItemDistribution);
-					cmd.Set("dateCreated", party.DateCreated);
-
-					cmd.Execute();
-					party.DbId = cmd.LastId;
-				}
-
-				foreach (var member in party.GetMembers())
-				{
-					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `party` {0}", conn, trans))
 					{
-						cmd.AddParameter("@characterId", member.CharacterDbId);
-						cmd.Set("partyId", party.DbId);
+						party.DateCreated = DateTime.Now;
+
+						cmd.Set("name", party.Name);
+						cmd.Set("leaderId", party.LeaderDbId);
+						cmd.Set("note", party.Note);
+						cmd.Set("questSharing", (int)party.QuestSharing);
+						cmd.Set("expDistribution", (int)party.ExpDistribution);
+						cmd.Set("itemDistribution", (int)party.ItemDistribution);
+						cmd.Set("dateCreated", party.DateCreated);
 
 						cmd.Execute();
+						party.DbId = cmd.LastId;
 					}
-				}
 
-				trans.Commit();
-			}
+					foreach (var member in party.GetMembers())
+					{
+						using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn, trans))
+						{
+							cmd.AddParameter("@characterId", member.CharacterDbId);
+							cmd.Set("partyId", party.DbId);
+
+							cmd.Execute();
+						}
+					}
+
+					trans.Commit();
+				}
+			}			
 		}
 
 		/// <summary>
@@ -1591,7 +1593,7 @@ namespace Melia.Zone.Database
 					if (member != null)
 					{
 						character.PartyId = party.DbId;
-						member.IsOnline = true;
+						member.UpdateOnlineStatus(true);
 					}
 				}
 			}
@@ -1630,7 +1632,7 @@ namespace Melia.Zone.Database
 								var y = reader.GetFloat("y");
 								var z = reader.GetFloat("z");
 								member.Position = new Position(x, y, z);
-								member.IsOnline = false;
+								member.UpdateOnlineStatus(false);
 								party.AddMember(member);
 							}
 							else
@@ -1650,26 +1652,28 @@ namespace Melia.Zone.Database
 		public void DeleteParty(Party party)
 		{
 			using (var conn = this.GetConnection())
-			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new MySqlCommand("DELETE FROM `party` WHERE `partyId` = @partyId", conn, trans))
+				using (var trans = conn.BeginTransaction())
 				{
-					cmd.Parameters.AddWithValue("@partyId", party.DbId);
-					cmd.ExecuteNonQuery();
-				}
-
-
-				foreach (var member in party.GetMembers())
-				{
-					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn, trans))
+					using (var cmd = new MySqlCommand("DELETE FROM `party` WHERE `partyId` = @partyId", conn, trans))
 					{
-						cmd.AddParameter("@characterId", member.CharacterDbId);
-						cmd.Set("partyId", 0);
-						cmd.Execute();
+						cmd.Parameters.AddWithValue("@partyId", party.DbId);
+						cmd.ExecuteNonQuery();
 					}
-				}
 
-				trans.Commit();
+
+					foreach (var member in party.GetMembers())
+					{
+						using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn, trans))
+						{
+							cmd.AddParameter("@characterId", member.CharacterDbId);
+							cmd.Set("partyId", 0);
+							cmd.Execute();
+						}
+					}
+
+					trans.Commit();
+				}
 			}
 		}
 
@@ -1680,33 +1684,35 @@ namespace Melia.Zone.Database
 		public void CreateGuild(Guild guild)
 		{
 			using (var conn = this.GetConnection())
-			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `guild` {0}", conn, trans))
+				using (var trans = conn.BeginTransaction())
 				{
-					guild.DateCreated = DateTime.Now;
-
-					cmd.Set("name", guild.Name);
-					cmd.Set("leaderId", guild.LeaderDbId);
-					cmd.Set("dateCreated", guild.DateCreated);
-					//cmd.Set("level", guild.Level);
-
-					cmd.Execute();
-					guild.DbId = cmd.LastId;
-				}
-
-				foreach (var member in guild.GetMembers())
-				{
-					using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+					using (var cmd = new InsertCommand("INSERT INTO `guild` {0}", conn, trans))
 					{
-						cmd.AddParameter("@characterId", member.CharacterDbId);
-						cmd.Set("guildId", guild.DbId);
+						guild.DateCreated = DateTime.Now;
+
+						cmd.Set("name", guild.Name);
+						cmd.Set("leaderId", guild.LeaderDbId);
+						cmd.Set("dateCreated", guild.DateCreated);
+						//cmd.Set("level", guild.Level);
 
 						cmd.Execute();
+						guild.DbId = cmd.LastId;
 					}
-				}
 
-				trans.Commit();
+					foreach (var member in guild.GetMembers())
+					{
+						using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+						{
+							cmd.AddParameter("@characterId", member.CharacterDbId);
+							cmd.Set("guildId", guild.DbId);
+
+							cmd.Execute();
+						}
+					}
+
+					trans.Commit();
+				}
 			}
 		}
 
@@ -1750,7 +1756,7 @@ namespace Melia.Zone.Database
 				var member = guild.GetMember(character.ObjectId);
 				if (member != null)
 				{
-					member.IsOnline = character.Connection.LoggedIn;
+					member.UpdateOnlineStatus(character.Connection != null);
 				}
 			}
 		}

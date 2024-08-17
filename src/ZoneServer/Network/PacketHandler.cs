@@ -117,7 +117,6 @@ namespace Melia.Zone.Network
 			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
-			character.UpdatePartyInformation();
 
 			// Officials always send the following packets, even if we're coming
 			// from the barracks and don't need most of them. Since the client
@@ -134,8 +133,6 @@ namespace Melia.Zone.Network
 				Send.ZC_SET_CHATBALLOON_SKIN(conn);
 				Send.ZC_NORMAL.Unknown_1B4(character);
 			}
-
-			character.PartyMemberIsOnline(false);
 		}
 
 		/// <summary>
@@ -230,8 +227,10 @@ namespace Melia.Zone.Network
 			// Send updates for the cooldowns loaded from db, so the client
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
+			Send.ZC_CHANGE_RELATION(character, 2);
 
 			character.OpenEyes();
+			character.UpdatePartyInformation();
 
 			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
 		}
@@ -1984,7 +1983,7 @@ namespace Melia.Zone.Network
 			character.Jobs.Remove(oldJobId);
 			character.Jobs.Add(newJob);
 			character.JobId = newJob.Id;
-			character.PartyMemberIsOnline(false);
+			character.UpdatePartyInformation();
 
 			// I'd prefer to let the player keep playing after the switch,
 			// but the intended behavior is apparently that you get DCed
@@ -2024,7 +2023,7 @@ namespace Melia.Zone.Network
 				if (party.Owner == null)
 					ZoneServer.Instance.World.Parties.UpdatePartyLeader(party, character);
 
-				party.NoticiateExistance(character);
+				party.NotifyJoinedParty(character);
 			}
 
 			Send.ZC_LOAD_COMPLETE(conn);
