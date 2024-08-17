@@ -8,6 +8,7 @@ namespace Melia.Zone.World.Groups
 {
 	public class PartyMember
 	{
+		public Character Character { get; set; }
 		public long CharacterDbId { get; set; }
 		public long CharacterObjectId => ObjectIdRanges.Characters + this.CharacterDbId;
 		public long AccountId { get; set; }
@@ -42,6 +43,7 @@ namespace Melia.Zone.World.Groups
 		{
 			var member = new PartyMember()
 			{
+				Character = character,
 				CharacterDbId = character.DbId,
 				AccountId = character.AccountId,
 				Gender = character.Gender,
@@ -58,7 +60,7 @@ namespace Melia.Zone.World.Groups
 				Name = character.Name,
 				Position = character.Position,
 				Stance = character.Stance,
-				IsOnline = character.Connection.LoggedIn,
+				IsOnline = character.Connection != null,
 			};
 
 			var i = 0;

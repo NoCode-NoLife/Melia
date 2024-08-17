@@ -58,8 +58,7 @@ namespace Melia.Zone.World
 		public void LeaveParty(Character character)
 		{
 			ZoneServer.Instance.Database.LeaveParty(character);
-			Send.ZC_PARTY_INST_INFO(character, character.Connection.Party);
-			Send.ZC_CHANGE_RELATION(character, character.Connection.Party, 2);
+
 			character.PartyId = 0;
 			character.Connection.Party = null;
 		}
@@ -72,12 +71,12 @@ namespace Melia.Zone.World
 		{
 			var leftMemberChar = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == leftMember.CharacterObjectId);
 
-			ZoneServer.Instance.Database.UpdatePartyLeader(party, character);
+			ZoneServer.Instance.Database.UpdatePartyLeader(party, leftMember);
+			Send.ZC_NORMAL.PartyLeaderChange(character);
 			party.LeaderDbId = character.DbId;
 			Send.ZC_PARTY_INST_INFO(character, party);
 			Send.ZC_PARTY_INFO(character, party);
 			Send.ZC_PARTY_LIST(party);
-			Send.ZC_NORMAL.PartyLeaderChange(character);
 			Send.ZC_NORMAL.ShowParty(character);
 			Send.ZC_NORMAL.ShowParty(leftMemberChar, 0);
 			Send.ZC_ADDON_MSG(character, AddonMessage.SUCCESS_UPDATE_PARTY_INFO, 0, "None");
@@ -86,10 +85,15 @@ namespace Melia.Zone.World
 		/// <summary>
 		/// Updates the party leader.
 		/// </summary>
-		/// <param name="party"></param>
+		/// <param name="party"></param
+		/// <param name="character"></param>
 		public void UpdatePartyLeader(Party party, Character character)
 		{
-			ZoneServer.Instance.Database.UpdatePartyLeader(party, character);
+			var member = party.GetMember(character.ObjectId);
+			if (member == null)
+				return;
+
+			ZoneServer.Instance.Database.UpdatePartyLeader(party, member);
 			party.LeaderDbId = character.DbId;
 			Send.ZC_PARTY_INST_INFO(character, party);
 			Send.ZC_PARTY_INFO(character, party);
@@ -125,6 +129,7 @@ namespace Melia.Zone.World
 		/// <exception cref="ArgumentException">
 		/// Thrown if no party with the given id exists.
 		/// </exception>
+		/// <returns></returns>
 		public bool Remove(long partyId)
 		{
 			if (partyId < ObjectIdRanges.Party)

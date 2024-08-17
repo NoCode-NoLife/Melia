@@ -130,13 +130,15 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
+			var isPartyMember = conn.Party?.IsPartyMember(character) ?? false;
+
 			packet.PutInt(character.Handle);
 			packet.PutFloat(character.Position.X);
 			packet.PutFloat(character.Position.Y);
 			packet.PutFloat(character.Position.Z);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
-			packet.PutShort(0);
+			packet.PutShort(isPartyMember ? 0 : 2);	//0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
 			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
 			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
@@ -4384,6 +4386,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="party"></param>
+		/// <param name="broadCast"></param>
 		public static void ZC_PARTY_INFO(Character character, Party party, bool broadCast = false)
 		{
 			var packet = new Packet(Op.ZC_PARTY_INFO);
@@ -4473,6 +4476,7 @@ namespace Melia.Zone.Network
 		/// with broadcast.
 		/// </summary>
 		/// <param name="party"></param>
+		/// <param name="member"></param>
 		public static void ZC_PARTY_OUT(Party party, PartyMember member)
 		{
 			var packet = new Packet(Op.ZC_PARTY_OUT);
@@ -4488,8 +4492,8 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Party Info Update
 		/// </summary>
-		/// <param name="party"></param>
 		/// <param name="character"></param>
+		/// <param name="party"></param>
 		public static void ZC_PARTY_INST_INFO(Character character, Party party)
 		{
 			if (party == null) return;
@@ -4508,13 +4512,15 @@ namespace Melia.Zone.Network
 			packet.PutInt(0);
 			packet.PutByte(0);
 
-			character.Map.Broadcast(packet);
+			party.Broadcast(packet);
 		}
 
 		/// <summary>
-		/// Change the relation from a player (when we kick/leave a party)
+		/// Change the relation from a player (Friendly/Enemy/Neutral)
 		/// </summary>
+		/// <param name="character"></param>
 		/// <param name="party"></param>
+		/// <param name="relation"></param>
 		public static void ZC_CHANGE_RELATION(Character character, Party party, int relation)
 		{
 			var packet = new Packet(Op.ZC_CHANGE_RELATION);
@@ -4523,20 +4529,6 @@ namespace Melia.Zone.Network
 			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
 
 			party.Broadcast(packet);
-		}
-
-		/// <summary>
-		/// Change the relation from a player
-		/// </summary>
-		/// <param name="party"></param>
-		public static void ZC_CHANGE_RELATION(Character character, int relation)
-		{
-			var packet = new Packet(Op.ZC_CHANGE_RELATION);
-
-			packet.PutInt(character.Handle);
-			packet.PutByte((byte)relation); //0 = Green (Friendly), 1 = Red (Enemy) , 2 = White (Neutral), 3 = Black (?)
-
-			character.Map.Broadcast(packet);
 		}
 
 		/// <summary>

@@ -227,7 +227,6 @@ namespace Melia.Zone.Network
 			// Send updates for the cooldowns loaded from db, so the client
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
-			Send.ZC_CHANGE_RELATION(character, 2);
 
 			character.OpenEyes();
 			character.UpdatePartyInformation();
@@ -3001,10 +3000,10 @@ namespace Melia.Zone.Network
 			if (character.Connection.Party == null && sender != null)
 			{
 				var party = sender.Connection.Party;
-				if (party == null)
-				{
+
+				if (party == null)				
 					party = ZoneServer.Instance.World.Parties.Create(sender);
-				}
+
 				party.AddMember(character);
 			}
 		}

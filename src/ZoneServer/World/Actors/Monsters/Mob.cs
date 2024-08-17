@@ -299,9 +299,8 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.MonsterType == MonsterType.Mob && beneficiary != null)
 			{
 				this.GetExpToGive(out var exp, out var jobExp);
-
 				this.DropItems(beneficiary);
-				beneficiary?.GiveExp(exp, jobExp, this);
+				this.DistributeExp(beneficiary, exp, jobExp);
 			}
 
 			this.Died?.Invoke(this, killer);
@@ -320,7 +319,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (party != null)
 				party.GiveExp(character, exp, classExp, this);
 			else
-				character.GiveExp(exp, classExp, this);
+				character?.GiveExp(exp, classExp, this);
 		}
 
 		/// <summary>

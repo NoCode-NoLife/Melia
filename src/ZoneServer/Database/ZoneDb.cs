@@ -1523,15 +1523,15 @@ namespace Melia.Zone.Database
 		/// Updates the party leader.
 		/// </summary>
 		/// <param name="party"></param>
-		/// <param name="character"></param>
-		public void UpdatePartyLeader(Party party, Character character)
+		/// <param name="partyMember"></param>
+		public void UpdatePartyLeader(Party party, PartyMember partyMember)
 		{
 			using (var conn = this.GetConnection())
 			{
 				using (var cmd = new UpdateCommand("UPDATE `party` SET {0} WHERE `partyId` = @partyId", conn))
 				{
-					cmd.AddParameter("@partyId", character.DbId);
-					cmd.Set("leaderId", character.DbId);
+					cmd.AddParameter("@partyId", partyMember.CharacterDbId);
+					cmd.Set("leaderId", partyMember.CharacterDbId);
 
 					cmd.Execute();
 				}
@@ -1624,9 +1624,15 @@ namespace Melia.Zone.Database
 									Name = reader.GetStringSafe("name"),
 									TeamName = reader.GetStringSafe("teamName"),
 									VisualJobId = (JobId)reader.GetInt16("job"),
+									FirstJobId = (JobId)reader.GetInt16("job"),
 									Gender = (Gender)reader.GetByte("gender"),
 									Hair = reader.GetInt32("hair"),
 									MapId = reader.GetInt32("zone"),
+									Hp = reader.GetInt32("hp"),									
+									Sp = reader.GetInt32("sp"),
+									Level = reader.GetInt32("level"),
+									MaxHp = reader.GetInt32("maxHp"),
+									MaxSp = reader.GetInt32("maxSp"),
 								};
 								var x = reader.GetFloat("x");
 								var y = reader.GetFloat("y");
