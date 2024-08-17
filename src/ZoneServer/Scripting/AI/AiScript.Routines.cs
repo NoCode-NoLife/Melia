@@ -291,7 +291,7 @@ namespace Melia.Zone.Scripting.AI
 
 				if (catchUp)
 				{
-					var closePos = this.Entity.Position.GetRelative(followTarget.Position, 50);
+					var closePos = followTarget.Position;
 					yield return this.MoveTo(closePos, false);
 				}
 				else if (movement.IsMoving)
