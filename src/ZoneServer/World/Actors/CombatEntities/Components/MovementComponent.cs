@@ -213,11 +213,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void ExecuteNextMove()
 		{
-			if (_path.Count == 0)
-				return;
-
 			lock (_positionSyncLock)
 			{
+				if (_path.Count == 0)
+					return;
+
 				var nextDestination = _path.Dequeue();
 
 				var position = this.Entity.Position;
