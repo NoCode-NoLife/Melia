@@ -213,6 +213,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void ExecuteNextMove()
 		{
+			if (_path.Count == 0)
+				return;
+
 			lock (_positionSyncLock)
 			{
 				var nextDestination = _path.Dequeue();
