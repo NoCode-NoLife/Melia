@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
+using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -13,7 +14,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 	/// <summary>
 	/// Handles ranged skills that target a single entity.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
+	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack, SkillId.DoubleGun_Attack)]
 	public class TargetSkill : ITargetSkillHandler
 	{
 		private const int DoubleAttackRate = 40;
@@ -32,12 +33,11 @@ namespace Melia.Zone.Skills.Handlers.Common
 				return;
 			}
 
+			Send.ZC_NORMAL.Skill_45(caster);
+
 			skill.IncreaseOverheat();
 			caster.TurnTowards(target);
 			caster.SetAttackState(true);
-
-			//Send.ZC_SKILL_READY(caster, skill, target.Position, Position.Zero);
-			//Send.ZC_NORMAL.Unkown_1c(caster, target.Handle, target.Position, caster.Position.GetDirection(target.Position), Position.Zero);
 
 			if (target == null)
 			{
@@ -50,11 +50,28 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			var modifier = SkillModifier.Default;
 
-			// Random chance to trigger double hit with pistol while buff is active
-			if (skill.Id == SkillId.Pistol_Attack && caster.IsBuffActive(BuffId.DoubleAttack_Buff))
+			Send.ZC_SKILL_READY(caster, skill, caster.Position, target.Position);
+			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, caster.Position, caster.Direction, Position.Zero);
+
+			if (skill.Id == SkillId.Pistol_Attack)
 			{
-				if (RandomProvider.Get().Next(100) < DoubleAttackRate)
+				// Random chance to trigger double hit with pistol while buff is active
+				if (caster.IsBuffActive(BuffId.DoubleAttack_Buff) && RandomProvider.Get().Next(100) < DoubleAttackRate)
+				{
 					modifier.HitCount = 2;
+				}					
+			}
+
+			if (skill.Id == SkillId.DoubleGun_Attack)
+			{
+				if (caster.IsBuffActive(BuffId.DoubleGunStance_Buff))
+				{
+					// Increase by one the stack count for Overheating buff
+					if (!caster.IsBuffActive(BuffId.Outrage_Buff))
+						caster.StartBuff(BuffId.Overheating_Buff, TimeSpan.FromSeconds(35));
+
+					modifier.HitCount = 2;
+				}
 			}
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);

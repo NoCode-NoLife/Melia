@@ -1320,6 +1320,37 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+			/// <summary>
+			/// Updates the character normal attack stance attack
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="skillId"></param>
+			public static void UpdateNormalAttackSkill(ICombatEntity entity, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateNormalAttackSkill);
+
+				packet.PutInt(entity.Handle);
+				packet.PutInt((int)skillId);
+
+				entity.Map.Broadcast(packet, entity);
+			}
+
+			/// <summary>
+			/// Purpose unknown. Seems to enable smooth movement while normal attacking.
+			/// </summary>
+			/// <param name="entity"></param>
+			public static void Skill_45(ICombatEntity entity)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_45);
+
+				packet.PutInt(entity.Handle);
+				packet.PutByte(0);
+
+				entity.Map.Broadcast(packet, entity);
+			}
 		}
 	}
 }
