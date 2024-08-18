@@ -172,7 +172,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					this.FinalDestination = _path.Last();
 					this.MoveTarget = MoveTargetType.Position;
 
-					this.QueueNextMove();
+					this.ExecuteNextMove();
 				}
 
 				return totalMoveTime;
@@ -215,7 +215,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			lock (_positionSyncLock)
 			{
-				var nextDestination = _path.Peek();
+				var nextDestination = _path.Dequeue();
 
 				var position = this.Entity.Position;
 				var diffX = nextDestination.X - position.X;
@@ -483,15 +483,10 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void QueueNextMove()
 		{
-			if (_path.Count == 0)
-				return;
-
-			_path.Dequeue();
+			this.Entity.Position = this.Destination;
 
 			if (_path.Count == 0)
 			{
-				this.Entity.Position = this.Destination;
-
 				_moveTime = TimeSpan.Zero;
 				this.IsMoving = false;
 				return;

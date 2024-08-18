@@ -159,7 +159,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 			// may cause this visual issue but it may also be desirable due
 			// to computational reasons.
 
-			return (int)Math.Min(distance / 2, actorRadius * 2);
+			return (int)Math.Min(distance / 2, actorRadius * 2 + 5);
 		}
 
 		/// <summary>
