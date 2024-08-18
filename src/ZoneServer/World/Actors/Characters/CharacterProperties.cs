@@ -197,7 +197,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate(PropertyName.MINMATK, [PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MINMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MINMATK_RATE_BM]);
 			this.AutoUpdate(PropertyName.MAXMATK, [PropertyName.Lv, PropertyName.INT, PropertyName.MATK_BM, PropertyName.MAXMATK_BM, PropertyName.MATK_RATE_BM, PropertyName.MAXMATK_RATE_BM]);
 			this.AutoUpdate(PropertyName.MaxWeight, [PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus]);
-			this.AutoUpdate(PropertyName.MovingShot, [PropertyName.MovingShot_BM]);
+			this.AutoUpdate(PropertyName.MovingShot, [PropertyName.MovingShot_BM, PropertyName.MovingShotable]);
 			this.AutoUpdate(PropertyName.LootingChance, [PropertyName.LootingChance_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
