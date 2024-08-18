@@ -159,7 +159,11 @@ namespace Melia.Zone.World.Maps.Pathfinding
 			// may cause this visual issue but it may also be desirable due
 			// to computational reasons.
 
-			return (int)Math.Min(distance / 2, actorRadius * 2 + 5);
+			// We use a constant here to prevent monsters with small radius
+			// from stuttering
+			var constant = 5;
+
+			return (int)Math.Min(distance / 2, actorRadius * 2 + constant);
 		}
 
 		/// <summary>
