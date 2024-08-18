@@ -23,10 +23,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	[SkillHandler(SkillId.Bulletmarker_BloodyOverdrive)]
 	public class BloodyOverdrive : IGroundSkillHandler
 	{
-		// Since it's not know the internals for this skill
-		// We are randomizing it a bit to feel more smooth
-		private const int HitAttackChance = 50;
-
 		/// <summary>
 		/// Handles the skill, shots the pistol around damaging nearby enemies
 		/// </summary>
@@ -83,8 +79,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 		{
 			var splashArea = new Circle(caster.Position, 80);
 
-			Debug.ShowShape(caster.Map, splashArea, TimeSpan.FromSeconds(2));
-
 			var tagets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var indexHelper = 0;
 			var rnd = RandomProvider.Get();
@@ -93,19 +87,16 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 
 			for (int i = 0; i < 4; i++)
 			{
-				if (rnd.Next(100) < HitAttackChance)
-					continue;
-				
 				var skillHits = new List<SkillHitInfo>();
 
-				foreach (var hitTarget in tagets.LimitRandom(23))
+				foreach (var hitTarget in tagets.LimitBySDR(caster, skill))
 				{
-					this.AddSkillHitInfo(caster, hitTarget, skill, TimeSpan.Zero, skillHits, indexHelper);
+					this.AddSkillHitInfo(caster, hitTarget, skill, skillHits, indexHelper);
 				}
 
-				await Task.Delay(TimeSpan.FromMilliseconds(400));
-
 				Send.ZC_SKILL_HIT_INFO(caster, skillHits);
+
+				await Task.Delay(TimeSpan.FromMilliseconds(400));
 			}
 
 			// Bloody Overdrive: Ricochet
@@ -135,18 +126,19 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="skillHitDelay"></param>
 		/// <param name="skillHits"></param>
 		/// <param name="indexHelper"></param>
-		private void AddSkillHitInfo(ICombatEntity caster, ICombatEntity target, Skill skill, TimeSpan skillHitDelay, List<SkillHitInfo> skillHits, int indexHelper)
+		private void AddSkillHitInfo(ICombatEntity caster, ICombatEntity target, Skill skill, List<SkillHitInfo> skillHits, int indexHelper)
 		{
 			indexHelper++;
+			var modifier = SkillModifier.Default;
+			modifier.HitCount = 2;
 
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
 			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(400 * indexHelper), skillHitDelay);
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(100 * indexHelper), TimeSpan.Zero);
 
 			skillHits.Add(skillHit);
 		}

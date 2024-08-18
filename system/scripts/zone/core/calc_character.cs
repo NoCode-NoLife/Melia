@@ -14,7 +14,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -1393,8 +1392,6 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Character_MovingShotable(Character character)
 	{
-		Log.Info("SCR_Get_Character_MovingShotable");
-
 		if (character.JobClass == JobClass.Archer)
 			return 1;
 

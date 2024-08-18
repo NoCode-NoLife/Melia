@@ -15,6 +15,8 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.BulletMaker
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM, this.GetMovingShotBonus(buff));
 
+			buff.Target.Properties.Invalidate(PropertyName.MovingShotable);
+
 			if (buff.Target is Character character)
 				Send.ZC_MOVE_SPEED(character);			
 		}
@@ -22,6 +24,8 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.BulletMaker
 		public override void OnEnd(Buff buff)
 		{
 			RemovePropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM);
+
+			buff.Target.Properties.Invalidate(PropertyName.MovingShotable);
 
 			if (buff.Target is Character character)
 				Send.ZC_MOVE_SPEED(character);			
