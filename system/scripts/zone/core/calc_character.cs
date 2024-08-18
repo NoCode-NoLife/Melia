@@ -1395,7 +1395,10 @@ public class CharacterCalculationsScript : GeneralScript
 		if (character.JobClass == JobClass.Archer)
 			return 1;
 
-		if (character.IsBuffActive(BuffId.Cyclone_EnableMovingShot_Buff))
+		var buffs = new[] { BuffId.Cyclone_EnableMovingShot_Buff, BuffId.DoubleGunStance_Buff, BuffId.Warrior_EnableMovingShot_Buff, BuffId.Warrior_RushMove_Buff, BuffId.Limacon_Buff };
+
+		var anyBuffsActive = buffs.Any(character.IsBuffActive);
+		if (anyBuffsActive)
 			return 1;
 
 		if (character.IsBuffActive(BuffId.DoubleGunStance_Buff))
