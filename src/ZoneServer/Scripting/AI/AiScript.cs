@@ -235,6 +235,14 @@ namespace Melia.Zone.Scripting.AI
 			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
 				amount *= 5;
 
+			if (amount > _minAggroHateLevel)
+			{
+				var pastOverHate = amount - _minAggroHateLevel;
+				amount -= pastOverHate;
+				pastOverHate *= _overHateRate;
+				amount += pastOverHate;
+			}
+
 			_hateLevels[handle] += amount;
 
 			//Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
