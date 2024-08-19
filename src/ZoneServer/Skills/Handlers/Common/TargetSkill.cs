@@ -5,7 +5,10 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -61,8 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 					modifier.HitCount = 2;
 				}					
 			}
-
-			if (skill.Id == SkillId.DoubleGun_Attack)
+			else if (skill.Id == SkillId.DoubleGun_Attack)
 			{
 				if (caster.IsBuffActive(BuffId.DoubleGunStance_Buff))
 				{
@@ -74,6 +76,36 @@ namespace Melia.Zone.Skills.Handlers.Common
 				}
 			}
 
+			if (skill.Id == SkillId.DoubleGun_Attack || skill.Id == SkillId.Pistol_Attack)
+			{
+				if (caster.IsBuffActive(BuffId.FreezeBullet_Buff) && RandomProvider.Get().Next(100) < 30)
+				{
+					target.StartBuff(BuffId.Freeze, TimeSpan.FromSeconds(3));
+
+					//[Arts] Freeze Bullet: Fog
+					if (caster.IsAbilityActive(AbilityId.Bulletmarker16))
+					{
+						// Only one Pad will be created
+						if (caster.TryGetSkill(SkillId.Bulletmarker_FreezeBullet, out var freezeSkill) && !freezeSkill.Vars.GetBool("Pad_" + PadName.Bulletmarker_FreezeBullet, false))
+						{
+							freezeSkill.Vars.SetBool("Pad_" + PadName.Bulletmarker_FreezeBullet, true);
+
+							var pad = new Pad(PadName.Bulletmarker_FreezeBullet, caster, freezeSkill, new Circle(target.Position, 45));
+
+							pad.Position = target.Position;
+							pad.Trigger.LifeTime = TimeSpan.FromSeconds(8);
+							pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
+							pad.Trigger.MaxActorCount = 10;
+
+							pad.Trigger.Subscribe(TriggerType.Update, this.OnFreezePadTriggerUpdate);
+
+							caster.Map.AddPad(pad);
+						}
+					}
+				}	
+					
+			}
+
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
 
@@ -81,6 +113,25 @@ namespace Melia.Zone.Skills.Handlers.Common
 			skillHit.ForceId = ForceId.GetNew();
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
+		}
+
+		/// <summary>
+		/// Called when an actor enters the area of the freeze pad.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private void OnFreezePadTriggerUpdate(object sender, PadTriggerArgs args)
+		{
+			var pad = args.Trigger;
+			var caster = args.Creator;
+			var skill = args.Skill;
+
+			var targets = pad.Trigger.GetAttackableEntities(caster);
+
+			foreach (var target in targets.LimitBySDR(caster, skill))
+			{
+				target.StartBuff(BuffId.FreezeBullet_Cold_Debuff, TimeSpan.FromSeconds(2));
+			}
 		}
 	}
 }

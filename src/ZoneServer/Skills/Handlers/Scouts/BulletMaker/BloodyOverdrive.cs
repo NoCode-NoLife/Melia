@@ -32,14 +32,32 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
+			if (!caster.IsBuffActive(BuffId.DoubleGunStance_Buff))
+				return;
+
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
 			}
 
-			if (!caster.IsBuffActive(BuffId.DoubleGunStance_Buff))
-				return;
+			// Bloody Overdrive: Ricochet
+			if (caster.IsAbilityActive(AbilityId.Bulletmarker8))
+			{
+				// Increase SP Consumption by 30%
+				var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP) * 0.3f;
+				if (!caster.TrySpendSp(spendSp))
+					return;
+			}
+
+			// Bloody Overdrive: Invincible
+			if (caster.IsAbilityActive(AbilityId.Bulletmarker12))
+			{
+				// Increase SP Consumption by 30%
+				var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP) * 0.3f;
+				if (!caster.TrySpendSp(spendSp))
+					return;
+			}
 
 			skill.IncreaseOverheat();
 			caster.TurnTowards(target);
@@ -58,6 +76,11 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 			// Bloody Overdrive: Invincible
 			if (caster.IsAbilityActive(AbilityId.Bulletmarker12))
 			{
+				// Increase SP Consumption by 30%
+				var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP) * 0.3f;
+				if (caster.TrySpendSp(spendSp))
+					return;
+
 				caster.StartBuff(BuffId.Skill_NoDamage_Buff, TimeSpan.FromSeconds(1));
 			}
 
@@ -117,7 +140,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 					}
 				}
 			}
-
 		}
 
 		/// <summary>

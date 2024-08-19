@@ -33,7 +33,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.BulletMaker
 
 		private float GetMovingShotBonus(Buff buff)
 		{
-			return 1f;
+			return 0.8f;
 		}
 	}
 }
