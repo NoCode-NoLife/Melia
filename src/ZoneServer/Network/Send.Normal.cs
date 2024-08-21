@@ -1304,7 +1304,6 @@ namespace Melia.Zone.Network
 				character.Connection.Send(packet);
 			}
 
-
 			/// <summary>
 			/// Updates the collection for the player.
 			/// </summary>
@@ -1319,6 +1318,61 @@ namespace Melia.Zone.Network
 				packet.PutLong(itemId);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the entity model color
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="targetHandle"></param>
+			/// <param name="red"></param>
+			/// <param name="green"></param>
+			/// <param name="blue"></param>
+			/// <param name="alpha"></param>
+			/// <param name="f1"></param>
+			public static void UpdateModelColor(ICombatEntity entity, int red, int green, int blue, int alpha, float f1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateModelColor);
+
+				packet.PutInt(entity.Handle);
+				packet.PutByte((byte)red);
+				packet.PutByte((byte)green);
+				packet.PutByte((byte)blue);
+				packet.PutByte((byte)alpha);
+				packet.PutByte(1);
+				packet.PutFloat(f1);
+				packet.PutByte(1);
+
+				entity.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Seems to force the client to cast a skill (Matador Counter-Attack)
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void ForceClientCastSkill(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ForceClientCastSkill);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+				packet.PutFloat(0.4609375f);
+				packet.PutShort(-9983);
+				packet.PutShort(31);
+				packet.PutShort(0);
+				packet.PutShort(-27136);
+				packet.PutShort(194);
+				packet.PutShort(22096);
+				packet.PutShort(62);
+				packet.PutShort(26816);
+				packet.PutInt(16580);
+				packet.PutByte(0);
+				packet.PutFloat(1000);
+
+				character.Map.Broadcast(packet);
 			}
 		}
 	}

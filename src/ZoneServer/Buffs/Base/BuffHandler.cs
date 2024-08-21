@@ -1,6 +1,8 @@
-﻿using Melia.Zone.Scripting;
+﻿using Melia.Shared.Game.Const;
+using Melia.Zone.Scripting;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Buffs.Base
 {

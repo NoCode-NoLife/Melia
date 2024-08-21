@@ -1716,6 +1716,25 @@ switch (type)
         int i[count];
         break;
 
+    // ? (Sent while counter attacking with Matar skill)
+    // Force Cast Skill?
+    case 0x1A3:
+        int CasterHandle;
+        int skillId;
+        float f1;
+        short s1;
+        short s2;
+        short s3;
+        short s4;
+        short s5;
+        short s6;
+        short s7;
+        short s8;
+        int i4;
+        byte b1;
+        float f2;
+        break;
+        
     // Related to teleport skill?
     // Also sent on ? (Sent on assister dungeon)
     case 0x1A6:

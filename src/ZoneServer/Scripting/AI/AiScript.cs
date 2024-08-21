@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
 
@@ -237,7 +238,7 @@ namespace Melia.Zone.Scripting.AI
 
 			_hateLevels[handle] += amount;
 
-			//Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
+			Log.Debug("Monster {0} hate level for {1} is now {2} (min: {3}).", this.Entity.Name, handle, _hateLevels[handle], _minAggroHateLevel);
 		}
 
 		/// <summary>
@@ -457,6 +458,46 @@ namespace Melia.Zone.Scripting.AI
 				{
 					var targetHandle = hateResetAlert.Target.Handle;
 					_hateLevels.Remove(targetHandle);
+					break;
+				}
+
+				case TauntEventAlert tauntEventAlert:
+				{
+					var entityWasAttacked = (tauntEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (tauntEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (tauntEventAlert.Attacker.Handle == _masterHandle);
+
+					var highestHate = 0f;
+
+					foreach (var entry in _hateLevels)
+					{
+						var hate = entry.Value;
+
+						if (hate > highestHate)
+							highestHate = hate;
+					}
+
+					if (entityWasAttacked || masterWasAttacked)
+						this.IncreaseHate(tauntEventAlert.Attacker, highestHate + _hatePerHit);
+					else if (masterDidAttack)
+						this.IncreaseHate(tauntEventAlert.Target, highestHate + _hatePerHit);
+
+					break;
+				}
+				case DecreaseHateEventAlert decreaseHateEventAlert:
+				{
+					var entityWasAttacked = (decreaseHateEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (decreaseHateEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (decreaseHateEventAlert.Attacker.Handle == _masterHandle);
+
+					if (_hateLevels.Count <= 1)					
+						return;
+					
+					if (entityWasAttacked || masterWasAttacked)
+						this.IncreaseHate(decreaseHateEventAlert.Attacker, -_hatePerHit);
+					else if (masterDidAttack)
+						this.IncreaseHate(decreaseHateEventAlert.Target, -_hatePerHit);
+
 					break;
 				}
 			}

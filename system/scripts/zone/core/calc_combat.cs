@@ -8,6 +8,7 @@ using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -389,6 +390,16 @@ public class CombatCalculationsScript : GeneralScript
 			var rhItem = inventory.GetEquip(EquipSlot.RightHand);
 			if (rhItem is not DummyEquipItem)
 				attackType = rhItem.Data.AttackType;
+		}
+
+		// Melee phisical attacks ignored when counter-attacking (Matador).
+		if (target.IsBuffActive(BuffId.Muleta_Cast_Buff) && (attackType == SkillAttackType.Slash || attackType == SkillAttackType.Strike || attackType == SkillAttackType.Melee))
+		{
+			// Muleta: Counterattack Master
+			if ((attacker.Race == RaceType.Widling || target.IsAbilityActive(AbilityId.Matador8)) && target is Character character)
+				Send.ZC_NORMAL.ForceClientCastSkill(character, SkillId.Matador_Muleta);
+
+			return 0;
 		}
 
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
