@@ -1241,7 +1241,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.IsDead)
 				return true;
 
-			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff) || this.IsBuffActive(BuffId.BackSlide_MomentaryEvasion_Buff))
 				return false;
 
 			this.Components.Get<CombatComponent>().SetAttackState(true);

@@ -1374,6 +1374,22 @@ namespace Melia.Zone.Network
 
 				character.Map.Broadcast(packet);
 			}
+
+			/// <summary>
+			/// Unkow purposes, used by Matador skill Back Slide
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void Unknow_7D(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Unknow_7D);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Map.Broadcast(packet);
+			}
 		}
 	}
 }

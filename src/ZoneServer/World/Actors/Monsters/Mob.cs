@@ -265,7 +265,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return true;
 
-			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+			if (this.IsBuffActive(BuffId.Skill_NoDamage_Buff) || this.IsBuffActive(BuffId.BackSlide_MomentaryEvasion_Buff))
 				return false;
 
 			this.Properties.Modify(PropertyName.HP, -damage);
