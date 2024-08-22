@@ -6,10 +6,10 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
 	/// <summary>
-	/// Handler for the Sadhu skill Posession.
+	/// Handler for the Sadhu skill Patati.
 	/// </summary>
-	[SkillHandler(SkillId.Sadhu_Possession)]
-	public class Possession : SadhuBaseSkill, IGroundSkillHandler
+	[SkillHandler(SkillId.Sadhu_Patati)]
+	public class Sadhu_Patati : SadhuBaseSkill, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.
@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Possession_Buff);
+			Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Patati_Buff);
 		}
 	}
 }

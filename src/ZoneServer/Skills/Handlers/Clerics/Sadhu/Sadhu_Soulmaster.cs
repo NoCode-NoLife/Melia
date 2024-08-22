@@ -10,10 +10,10 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
 	/// <summary>
-	/// Handler for the Cleric skill Spirit Expert.
+	/// Handler for the Cleric skill Spirit Expert (Soul Master).
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Soulmaster)]
-	public class SpiritExpert : IGroundSkillHandler
+	public class Sadhu_Soulmaster : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying buff to the caster.
