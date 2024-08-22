@@ -18,7 +18,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handles the Bullet Maker's skill Mozambique Drill.
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_MozambiqueDrill)]
-	public class MozambiqueDrill : ITargetSkillHandler
+	public class Bulletmarker_MozambiqueDrill : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoots with the pistol at the target enemy.

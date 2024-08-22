@@ -5,18 +5,17 @@ using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 {
 	/// <summary>
-	/// Handles the Bullet Maker's skill Double Gun Stance.
+	/// Handles the Bullet Maker's skill Freeze Bullet.
 	/// </summary>
-	[SkillHandler(SkillId.Bulletmarker_DoubleGunStance)]
-	public class DoubleGunStance : ISelfSkillHandler
+	[SkillHandler(SkillId.Bulletmarker_FreezeBullet)]
+	public class Bulletmarker_FreezeBullet : ISelfSkillHandler
 	{
 		/// <summary>
-		/// Handles the skill start the Double Gun Stance buff
+		/// Handles the skill, applies a buff to self
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -33,27 +32,20 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			if (caster is Character casterCharacter)
-			{
-				var rightHand = casterCharacter.Inventory.GetItem(EquipSlot.RightHand);
-				if (rightHand == null || rightHand.Data.EquipType1 != EquipType.Pistol)
-					return;
-			}
-
-			if (caster.IsBuffActive(BuffId.DoubleGunStance_Buff))
-			{
-				Send.ZC_NORMAL.UpdateNormalAttackSkill(caster, SkillId.Pistol_Attack);
-				caster.StopBuff(BuffId.DoubleGunStance_Buff);
-			}
-			else
-			{
-				Send.ZC_NORMAL.UpdateNormalAttackSkill(caster, SkillId.DoubleGun_Attack);
-				caster.StartBuff(BuffId.DoubleGunStance_Buff, 1, 0, TimeSpan.Zero, caster);
-			}
+			caster.StartBuff(BuffId.FreezeBullet_Buff, 1, 0, this.GetBuffDuration(skill), caster);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, originPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, originPos, caster.Direction, Position.Zero);
-			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);			
+			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
+		}
+
+		/// <summary>
+		/// Returns the FreezeBullet Buff duration
+		/// </summary>
+		/// <param name="skill"></param>
+		private TimeSpan GetBuffDuration(Skill skill)
+		{
+			return TimeSpan.FromSeconds(15 + skill.Level);
 		}
 	}
 }

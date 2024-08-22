@@ -12,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handler for the Bullet Maker's skill Outrage.
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_Outrage)]
-	public class Outrage : IGroundSkillHandler
+	public class Bulletmarker_Outrage : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applies buff.

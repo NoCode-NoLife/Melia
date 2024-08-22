@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handles the Bullet Maker's skill Rest In Peace (R.I.P.).
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_RestInPeace)]
-	public class RestInPeace : IGroundSkillHandler
+	public class Bulletmarker_RestInPeace : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot with the pistol and hits enemies in front

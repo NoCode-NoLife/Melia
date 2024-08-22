@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handles the Bullet Maker's skill Napalm Bullet.
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_NapalmBullet)]
-	public class NapalmBullet : ITargetSkillHandler
+	public class Bulletmarker_NapalmBullet : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shoot with the pistol at the enemy and hit others on the way.

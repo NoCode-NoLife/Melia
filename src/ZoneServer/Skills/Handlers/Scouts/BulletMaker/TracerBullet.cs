@@ -9,7 +9,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handler for the passive Bullet Maker skill Tracer Bullet.
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_TracerBullet)]
-	public class TracerBullet : ISkillHandler, ISkillCombatAttackBeforeCalcHandler
+	public class Bulletmarker_TracerBullet : ISkillHandler, ISkillCombatAttackBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the skill's effect before the combat calculations.
@@ -30,11 +30,21 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 			modifier.MinCritChance *= 1 + this.GetMinimumCriticalRateBonus(skill);
 		}
 
+		/// <summary>
+		/// Returns the accuracy rate bonus applied on the skill
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
 		private float GetAccuracyRateBonus(Skill skill)
 		{
 			return (10 + (skill.Level * 2)) / 100;
 		}
 
+		/// <summary>
+		/// Returns the minmum Critical Rate Bonus applied on the skill
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
 		private float GetMinimumCriticalRateBonus(Skill skill)
 		{
 			return (10 + (skill.Level * 2)) / 100;

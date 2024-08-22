@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.BulletMaker
 	/// Handles the Bullet Maker's skill Bloody Overdrive.
 	/// </summary>
 	[SkillHandler(SkillId.Bulletmarker_BloodyOverdrive)]
-	public class BloodyOverdrive : IGroundSkillHandler
+	public class Bulletmarker_BloodyOverdrive : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, shots the pistol around damaging nearby enemies
