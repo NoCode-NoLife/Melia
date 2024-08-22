@@ -1348,31 +1348,32 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Seems to force the client to cast a skill (Matador Counter-Attack)
+			/// Seems to force the client to cast a skill (used on Matador's Muleta skill)
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
-			public static void ForceClientCastSkill(Character character, SkillId skillId)
+			/// <param name="castSkillId"></param>
+			public static void ForceClientCastSkill(Character character, SkillId beforeSkillId, SkillId castSkillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ForceClientCastSkill);
 
 				packet.PutInt(character.Handle);
-				packet.PutInt((int)skillId);
-				packet.PutFloat(0.4609375f);
-				packet.PutShort(-9983);
-				packet.PutShort(31);
+				packet.PutInt((int)beforeSkillId);
+				packet.PutFloat(0.515625f);
+				packet.PutShort(-32255);
+				packet.PutShort(164);
 				packet.PutShort(0);
-				packet.PutShort(-27136);
-				packet.PutShort(194);
+				packet.PutShort(2368);
+				packet.PutShort(68);
 				packet.PutShort(22096);
 				packet.PutShort(62);
-				packet.PutShort(26816);
-				packet.PutInt(16580);
-				packet.PutByte(0);
-				packet.PutFloat(1000);
+				packet.PutByte(0xA0);
+				packet.PutShort(-15173);
+				packet.PutInt((int)castSkillId);
+				packet.PutFloat(1000f);
 
-				character.Map.Broadcast(packet);
+				character.Connection.Send(packet);
 			}
 
 			/// <summary>

@@ -15,10 +15,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 {
 	/// <summary>
-	/// Handler for the Matador skill Faena
+	/// Handler for the Matador skill Muleta Faena (counter-attack while casting Muleta).
 	/// </summary>
-	[SkillHandler(SkillId.Matador_Faena)]
-	public class Matador_Faena : IGroundSkillHandler
+	[SkillHandler(SkillId.Matador_Muleta_Faena)]
+	public class Matador_Muleta_Faena : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, hit enemies in front
@@ -30,6 +30,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
+			if (!caster.IsBuffActive(BuffId.Muleta_Cast_Buff))
+				return;
+
+			// [Arts] Muleta: Faena
+			if (!caster.IsAbilityActive(AbilityId.Matador26))
+				return;
+
 			if (!caster.TrySpendSp(skill))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));

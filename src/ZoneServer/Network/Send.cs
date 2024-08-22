@@ -602,6 +602,25 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Reduces a cooldown on the character's client.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="cooldown"></param>
+		/// <param name="reductionInMilliseconds"></param>
+		public static void ZC_COOLDOWN_CHANGED(Character character, Cooldown cooldown, double reductionInMilliseconds)
+		{
+			var packet = new Packet(Op.ZC_COOLDOWN_CHANGED);
+
+			packet.PutLong(character.ObjectId);
+			packet.PutInt((int)cooldown.Id);
+			packet.PutInt((int)cooldown.Remaining.TotalMilliseconds);
+			packet.PutInt(0);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_SKILLMAP_LIST to character.
 		/// </summary>
 		/// <param name="character"></param>

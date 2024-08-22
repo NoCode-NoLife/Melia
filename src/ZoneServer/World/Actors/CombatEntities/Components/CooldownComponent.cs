@@ -54,6 +54,29 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Reduce a cooldown by a given duration
+		/// </summary>
+		/// <param name="cooldownId"></param>
+		/// <param name="duration"></param>
+		public void Reduce(CooldownId cooldownId, TimeSpan duration)
+		{
+			lock (_syncLock)
+			{
+				if (_cooldowns.TryGetValue(cooldownId, out var existingCooldown))
+				{
+					var cooldown = existingCooldown;
+					cooldown.Update(duration);
+
+					if (cooldown.Remaining == TimeSpan.Zero)
+						_cooldowns.Remove(cooldown.Id);
+
+					if (this.Entity is Character character)
+						Send.ZC_COOLDOWN_CHANGED(character, cooldown, duration.TotalMilliseconds);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Adds the cooldown without updating the client. Overwrites
 		/// existing cooldowns.
 		/// </summary>
@@ -62,6 +85,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			lock (_syncLock)
 				_cooldowns[cooldown.Id] = cooldown;
+		}
+
+		/// <summary>
+		/// Return the Cooldown Object for the given CooldownId
+		/// existing cooldowns.
+		/// </summary>
+		/// <param name="cooldown"></param>
+		internal Cooldown GetCooldown(CooldownId cooldownId)
+		{
+			lock (_syncLock)
+				return _cooldowns[cooldownId];
 		}
 
 		/// <summary>

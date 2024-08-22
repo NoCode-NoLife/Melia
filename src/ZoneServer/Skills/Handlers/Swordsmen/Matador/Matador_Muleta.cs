@@ -28,6 +28,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 				return;
 			}
 
+			// TODO: Increase cooldown by 20 seconds.
+			if (caster.IsAbilityActive(AbilityId.Matador26))
+			{
+				// ...
+			}
+
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 

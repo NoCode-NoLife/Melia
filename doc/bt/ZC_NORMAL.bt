@@ -1727,11 +1727,11 @@ switch (type)
         short s3;
         short s4;
         short s5;
-        short s6;
+        short s6;        
         short s7;
-        short s8;
-        int i4;
         byte b1;
+        short s8;        
+        int i4;
         float f2;
         break;
         

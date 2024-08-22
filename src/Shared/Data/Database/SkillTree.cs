@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
@@ -21,7 +22,7 @@ namespace Melia.Shared.Data.Database
 	public class SkillTreeDb : DatabaseJson<SkillTreeData>
 	{
 		/// <summary>
-		/// Returns all skills the given job can learn at a certain job
+		/// Returns all skills the given job can learn at a certain job level
 		/// level.
 		/// </summary>
 		/// <param name="jobId"></param>
@@ -30,6 +31,16 @@ namespace Melia.Shared.Data.Database
 		public SkillTreeData[] FindSkills(JobId jobId, int jobLevel)
 		{
 			return this.Entries.Where(a => a.JobId == jobId && a.UnlockLevel <= jobLevel).ToArray();
+		}
+
+		/// <summary>
+		/// Returns a list of SkillIds that the given job can learn
+		/// </summary>
+		/// <param name="jobId"></param>
+		/// <returns></returns>
+		public List<SkillId> FindSkills(JobId jobId)
+		{
+			return this.Entries.Where(a => a.JobId == jobId).Select(a => a.SkillId).ToList();
 		}
 
 		/// <summary>
