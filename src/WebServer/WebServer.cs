@@ -76,18 +76,18 @@ namespace Melia.Web
 			// out what to do, since they changed the path.
 			if (!phpFilePath.Replace("\\", "/").StartsWith("user/tools/"))
 			{
-				Log.Error("Configured PHP CGI binary not found at '{0}', please check your web configuration.", phpFilePath);
-				ConsoleUtil.Exit(1);
+				Log.Warning("Configured PHP CGI binary not found at '{0}', please check your web configuration.", phpFilePath);
+				//ConsoleUtil.Exit(1);
 				return;
 			}
 
-			// If the binary wasn't found, and we're not Windows, this is
+			// If the binary wasn't found, and we're not on Windows, this is
 			// the end of the road for now.
 			// TODO: Add auto-download for Linux and MacOS?
 			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
 			{
-				Log.Error("The configured PHP binary couldn't be found and we can't set it up automatically. Please install PHP on your system and set the binary path in the web configuration.");
-				ConsoleUtil.Exit(1);
+				Log.Warning("The configured PHP binary couldn't be found and we can't set it up automatically. Please install PHP on your system and set the binary path in the web configuration.");
+				//ConsoleUtil.Exit(1);
 				return;
 			}
 
@@ -137,6 +137,9 @@ namespace Melia.Web
 				downloading = false;
 
 				Log.Info("PHP download complete, extracting...");
+
+				if (Directory.Exists(phpFolderPath))
+					Directory.Delete(phpFolderPath, true);
 
 				if (!Directory.Exists(phpFolderPath))
 					Directory.CreateDirectory(phpFolderPath);
