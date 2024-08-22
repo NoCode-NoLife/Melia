@@ -14,7 +14,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 	/// Handler for the Wugushi skill Wugong Gu.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_WugongGu)]
-	public class WugongGu : ITargetSkillHandler
+	public class Wugushi_WugongGu : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damages targets and apply a debuff.

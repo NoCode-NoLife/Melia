@@ -15,7 +15,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 	/// Handler for the Wugushi skill Zhendu.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_Zhendu)]
-	public class Zhendu : ISelfSkillHandler
+	public class Wugushi_Zhendu : ISelfSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.

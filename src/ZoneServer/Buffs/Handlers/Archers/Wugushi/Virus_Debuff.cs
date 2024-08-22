@@ -29,24 +29,25 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 
 			if (target.Hp > 0)
 			{
-				if (buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
-				{
-					var damageMultiplier = 1f;
+				if (!buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+					return;
 
-					if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
-						damageMultiplier = ZhenduBuff.NumArg1;
+				var damageMultiplier = 1f;
 
-					var skillHitResult = SCR_SkillHit(buff.Caster, target, skill);
-					skillHitResult.Damage *= damageMultiplier;
+				if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
+					damageMultiplier = ZhenduBuff.NumArg1;
 
-					// The damage amount is unknow, for now we are dealing
-					// the same amount as the original skill does
-					target.TakeDamage(skillHitResult.Damage, buff.Caster);
+				var skillHitResult = SCR_SkillHit(buff.Caster, target, skill);
+				skillHitResult.Damage *= damageMultiplier;
 
-					var hit = new HitInfo(buff.Caster, target, SkillId.Wugushi_WugongGu, skillHitResult.Damage, HitResultType.Buff26);
+				// The damage amount is unknow, for now we are dealing
+				// the same amount as the original skill does
+				target.TakeDamage(skillHitResult.Damage, buff.Caster);
 
-					Send.ZC_HIT_INFO(buff.Caster, target, hit);
-				}
+				var hit = new HitInfo(buff.Caster, target, SkillId.Wugushi_WugongGu, skillHitResult.Damage, HitResultType.Buff26);
+
+				Send.ZC_HIT_INFO(buff.Caster, target, hit);
+				
 			} else
 			{
 				var maxSpreadAmount = 5;

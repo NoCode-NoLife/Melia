@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Melia.Shared.L10N;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
 	/// <summary>
-	/// Handler for the Wugushi skill Poison Pot.
+	/// Handler for the skill Golden Frog (JincanGu)
 	/// </summary>
-	[SkillHandler(SkillId.Wugushi_ThrowGuPot)]
-	public class PoisonPot : IGroundSkillHandler
+	[SkillHandler(SkillId.Wugushi_JincanGu)]
+	public class Wugushi_JincanGu : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, creates an area of effect that damages the enemies inside
@@ -47,10 +46,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, caster.Position);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, caster.Handle, farPos, caster.Position.GetDirection(farPos), Position.Zero);
-
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_poison_pot_force#Bip01 R Hand",
-				0.5f, "", 1, farPos, 10, 0.6f, 0, 500);
-
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
 			this.CreateAttackArea(skill, caster, farPos);
@@ -65,12 +60,17 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="direction"></param>
 		private async void CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
 		{
+			await Task.Delay(200);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_cleric_jincangu_force_mash#Dummy_effect_shoot",
+				0.4f, "", 1, farPos, 10, 0.6f, 0, 200);
+
 			await Task.Delay(600);
 
-			var pad = new Pad(PadName.Archer_VerminPot, caster, skill, new Circle(farPos, 55));
+			var pad = new Pad(PadName.Archer_JincanGu_Abil, caster, skill, new Circle(farPos, 100));
 			pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(15);
-			pad.Trigger.MaxActorCount = 6;
+			pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
+			pad.Trigger.MaxActorCount = 10;
 			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(250);
 			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
 
@@ -89,7 +89,8 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 			var skill = args.Skill;
 
 			var targets = pad.Trigger.GetAttackableEntities(caster);
-			var maxAmount = 6;
+			// TODO: Limit the amount of targets to 4 while in PVP scenarios
+			var maxAmount = 10;
 			var i = 0;
 
 			foreach (var target in targets)
@@ -97,16 +98,8 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				if (++i >= maxAmount)
 					break;
 
-				var damageMultiplier = 1f;
-
-				if (caster.TryGetBuff(BuffId.Zhendu_Buff, out var buff))
-					damageMultiplier = buff.NumArg1;
-
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				skillHitResult.Damage *= damageMultiplier;
-
-				if (!target.IsBuffActive(BuffId.Archer_VerminPot_Debuff))
-					target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(15), caster);
+				if (!target.IsBuffActive(BuffId.JincanGu_Abil_Debuff))
+					target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(60), caster);
 			}
 		}
 	}

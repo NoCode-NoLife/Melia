@@ -11,10 +11,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
 	/// <summary>
-	/// Handler for the Wugushi skill WugongGu.
+	/// Handler for the Wugushi skill Latent Venom.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_LatentVenom)]
-	public class LatentVenom : ITargetSkillHandler
+	public class Wugushi_LatentVenom : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, hits the target applying a debuff to it. 

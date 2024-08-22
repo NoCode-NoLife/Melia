@@ -12,10 +12,10 @@ using Melia.Zone.Skills.Combat;
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
 	/// <summary>
-	/// Handler for the Wugushi skill Golden Frog.
+	/// Handler for the Wugushi skill Wide Miasma.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_WideMiasma)]
-	public class WideMiasma : IGroundSkillHandler
+	public class Wugushi_WideMiasma : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles the skill, insert debuffs to enemies inside of the effect area

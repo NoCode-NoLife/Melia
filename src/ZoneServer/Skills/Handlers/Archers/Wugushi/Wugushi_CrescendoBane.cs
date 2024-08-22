@@ -12,7 +12,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 	/// Handler for the skill CrescendoBane.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_CrescendoBane)]
-	public class CescendoBane : IGroundSkillHandler
+	public class Wugushi_CrescendoBane : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, applying a buff to the caster.
