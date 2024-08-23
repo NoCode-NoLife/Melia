@@ -55,6 +55,7 @@
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
 			public const int Unknow_7D = 0x7D;
+			public const int FloorEffect = 0x81;
 			public const int SpinObject = 0x8A;
 			public const int Unknown_A1 = 0xA1;
 			public const int LeapJump = 0xC2;

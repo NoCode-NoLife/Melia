@@ -95,14 +95,22 @@ namespace Melia.Zone.Skills.Combat
 			//this.Time = this.GetTime();
 
 			// Hacks until we have a working formula
-			if (this.Velocity == 400 && this.VAngle == 86)
+			if (this.Velocity == 55 && this.VAngle == -210)
+			{
+				var distance = 2.594f;
+
+				this.VAngle = 10;
+				this.Time = TimeSpan.FromMilliseconds(82);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
+			else if (this.Velocity == 400 && this.VAngle == 86)
 			{
 				var distance = 93.570992087511f;
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
-			if (this.Velocity == 300 && this.VAngle == 89)
+			else if (this.Velocity == 300 && this.VAngle == 89)
 			{
 				var distance = 15.57f;
 

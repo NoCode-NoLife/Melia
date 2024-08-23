@@ -83,7 +83,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result, 4, TimeSpan.FromMilliseconds(150));
+				var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, skillHitResult.Result, modifier.HitCount, TimeSpan.FromMilliseconds(150));
 
 				Send.ZC_HIT_INFO(caster, target, hit);
 			}

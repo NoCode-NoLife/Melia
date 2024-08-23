@@ -1391,6 +1391,22 @@ namespace Melia.Zone.Network
 
 				character.Map.Broadcast(packet);
 			}
+
+			/// <summary>
+			/// Unkow purposes, used by Matador skill Back Slide
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void FloorEffect(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.FloorEffect);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Map.Broadcast(packet);
+			}
 		}
 	}
 }
