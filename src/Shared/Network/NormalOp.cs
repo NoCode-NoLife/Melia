@@ -11,7 +11,11 @@ namespace Melia.Shared.Network
 		{
 			public const int SetBarrackCharacter = 0x00;
 			public const int SetPosition = 0x02;
+			public const int SetCompanionPosition = 0x03;
 			public const int SetBarrack = 0x05;
+			public const int CompanionInfo = 0x09;
+			public const int SetCompanion = 0x0A;
+			public const int DeleteCompanion = 0x0B;
 			public const int TeamUI = 0x0C;
 			public const int ZoneTraffic = 0x0D;
 			public const int StartGameFailed = 0x0F;
@@ -59,8 +63,14 @@ namespace Melia.Shared.Network
 			public const int SetHitDelay = 0x78;
 			public const int SkillCancelCancel = 0x7D;
 			public const int SpinObject = 0x8A;
+			public const int PetPlayAnimation = 0x90;
 			public const int OpenBook = 0x9E;
 			public const int Unknown_A1 = 0xA1;
+			public const int PetInfo = 0xA4;
+			public const int Pet_AssociateHandleWorldId = 0xA9;
+			public const int PetExpUpdate = 0xAA;
+			public const int RidePet = 0xB5;
+			public const int PetOwner = 0xB6;
 			public const int LeapJump = 0xC2;
 			public const int Unknown_DA = 0xDA;
 			public const int ItemCollectionList = 0xDD;
@@ -81,6 +91,7 @@ namespace Melia.Shared.Network
 			public const int Unknown_19B = 0x19E;
 			public const int PadSetModel = 0x1AB;
 			public const int WigVisibilityUpdate = 0x1AC;
+			public const int PetIsInactive = 0x1A6;
 			public const int Unknown_1B4 = 0x1B7;
 			public const int ActorRotate = 0x1BF;
 			public const int SubWeaponVisibilityUpdate = 0x1C5;

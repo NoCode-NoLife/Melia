@@ -85,6 +85,13 @@ namespace Melia.Zone.Network
 			if (!justSaved)
 				this.SaveAccountAndCharacter();
 
+			if (character != null)
+			{
+				foreach (var companion in character?.Companions.GetList())
+					if (companion.IsActivated)
+						character?.Map.RemoveMonster(companion);
+			}
+
 			character?.Map.RemoveCharacter(character);
 		}
 

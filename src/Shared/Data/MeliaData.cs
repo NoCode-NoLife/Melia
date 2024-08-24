@@ -16,6 +16,7 @@ namespace Melia.Shared.Data
 		public BuffDb BuffDb = new BuffDb();
 		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
 		public CollectionDb CollectionDb;
+		public CompanionDb CompanionDb { get; } = new CompanionDb();
 		public CooldownDb CooldownDb = new CooldownDb();
 		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
 		public DialogDb DialogDb = new DialogDb();

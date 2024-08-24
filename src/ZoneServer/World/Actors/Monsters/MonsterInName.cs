@@ -105,6 +105,17 @@ namespace Melia.Zone.World.Actors.Monsters
 		public string LeaveName { get; set; }
 
 		/// <summary>
+		/// Gets or sets the handled who is the owner.
+		/// </summary>
+		public int OwnerHandle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the handle associated
+		/// with the spawn.
+		/// </summary>
+		public int AssociatedHandle { get; set; }
+
+		/// <summary>
 		/// Initializes the monster's properties.
 		/// </summary>
 		/// <param name="monsterClassId"></param>

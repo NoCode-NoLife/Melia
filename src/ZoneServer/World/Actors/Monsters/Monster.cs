@@ -54,6 +54,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a reference to the monster's properties.
 		/// </summary>
 		Properties Properties { get; }
+
+		/// <summary>
+		/// Returns the owner's handle.
+		/// </summary>
+		int OwnerHandle { get; }
+
+		/// <summary>
+		/// Returns an associated handle.
+		/// </summary>
+		int AssociatedHandle { get; }
 	}
 
 	/// <summary>
