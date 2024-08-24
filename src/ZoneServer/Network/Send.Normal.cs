@@ -1357,6 +1357,125 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+			/// <summary>
+			/// Pet play animation/state?
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companion"></param>
+			public static void PetPlayAnimation(IZoneConnection conn, Companion companion, int animationId, int i1 = 1, byte b1 = 0)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PetPlayAnimation);
+
+				packet.PutInt(companion.Handle);
+				packet.PutInt(animationId);
+				packet.PutInt(i1);
+				packet.PutByte(b1);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Sends associated pets for a character.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void PetInfo(Character character)
+			{
+				var companions = character.Companions.GetList();
+
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PetInfo);
+				packet.PutInt(4); // 3 or 4
+				packet.PutInt(companions.Count);
+				foreach (var companion in companions)
+					packet.AddCompanion(companion);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Pet Associate World Id and Handle
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="companion"></param>
+			public static void Pet_AssociateHandleWorldId(Character character, Companion companion)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Pet_AssociateHandleWorldId);
+				packet.PutInt(companion.Handle);
+				packet.PutLong(companion.ObjectId);
+				packet.PutByte(1);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Pet Unknown?
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="companion"></param>
+			public static void PetExpUpdate(Character character, Companion companion)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PetExpUpdate);
+				packet.PutLong(companion.ObjectId);
+				packet.PutLong(companion.Exp);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Ride Pet
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="companion"></param>
+			public static void RidePet(Character character, Companion companion)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.RidePet);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt(companion.Handle);
+				packet.PutByte(companion.IsRiding);
+				packet.PutByte(companion.IsRiding);
+				packet.PutLpString(companion.Data.ClassName);
+
+				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Pet handle association for other players?
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companion"></param>
+			public static void PetOwner(IZoneConnection conn, Companion companion)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PetOwner);
+
+				packet.PutInt(companion.Handle);
+				packet.PutInt(companion.OwnerHandle);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Sent when Pet is activated or disabled
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companion"></param>
+			public static void PetIsInactive(IZoneConnection conn, Companion companion)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PetIsInactive);
+
+				packet.PutInt(companion.Handle);
+				packet.PutInt(companion.IsActivated ? 0 : 1); // Inverse of active
+
+				conn.Send(packet);
+			}
 		}
 	}
 }

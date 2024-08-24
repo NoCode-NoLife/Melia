@@ -161,6 +161,7 @@ namespace Melia.Barracks.Network
 			//Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);
+			Send.BC_NORMAL.CompanionInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
 			Send.BC_NORMAL.ZoneTraffic(conn);
 
@@ -663,6 +664,7 @@ namespace Melia.Barracks.Network
 			Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);
+			Send.BC_NORMAL.CompanionInfo(conn);
 			Send.BC_NORMAL.TeamUI(conn);
 		}
 
@@ -677,7 +679,18 @@ namespace Melia.Barracks.Network
 			var companionId = packet.GetLong();
 			var characterId = packet.GetLong();
 
-			// ...
+			var companion = conn.Account.GetCompanionById(companionId);
+			var character = conn.Account.GetCharacterById(characterId);
+
+			if (companion == null)
+			{
+				Log.Warning("CB_PET_PC: Companion not found by id '{0}' received from '{1}'.", companionId, conn.Account.Name);
+				return;
+			}
+
+			companion.CharacterDbId = character?.DbId ?? 0;
+			BarracksServer.Instance.Database.SetCompanionCharacter(companion.DbId, companion.CharacterDbId);
+			Send.BC_NORMAL.SetCompanion(conn, companion.ObjectId, character?.ObjectId ?? 0);
 		}
 
 		/// <summary>
@@ -692,7 +705,25 @@ namespace Melia.Barracks.Network
 			var characterId = packet.GetLong();
 			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
 
-			// ...
+			var companion = conn.Account.GetCompanionById(companionId);
+			if (companion == null)
+			{
+				Log.Warning("CB_PET_COMMAND: Companion not found by id '{0}' received from '{1}'.", companionId, conn.Account.Name);
+				return;
+			}
+
+			companion.CharacterDbId = characterId;
+			switch (command)
+			{
+				// Delete
+				case 1:
+					if (BarracksServer.Instance.Database.DeleteCompanion(companion.DbId))
+					{
+						Send.BC_NORMAL.DeleteCompanion(conn, companionId);
+						Send.BC_NORMAL.TeamUI(conn);
+					}
+					break;
+			}
 		}
 
 		/// <summary>
@@ -975,6 +1006,27 @@ namespace Melia.Barracks.Network
 
 			Send.BC_CHARACTER_SLOT_SWAP_SUCCESS(conn);
 			Send.BC_COMMANDER_LIST(conn);
+		}
+
+		/// <summary>
+		/// Sent when a companion requests to move in barracks
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_COMPANION_MOVE)]
+		public void CB_COMPANION_MOVE(IBarracksConnection conn, Packet packet)
+		{
+			var companionId = packet.GetLong();
+			var position = packet.GetPosition();
+			var direction = packet.GetDirection();
+
+			var companion = conn.Account.GetCompanionById(companionId);
+			if (companion != null)
+			{
+				companion.BarracksPosition = position;
+				companion.BarracksDirection = direction;
+				Send.BC_NORMAL.SetCompanionPosition(conn, companionId, position);
+			}
 		}
 	}
 }

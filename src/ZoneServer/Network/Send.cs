@@ -1747,7 +1747,7 @@ namespace Melia.Zone.Network
 		/// Removes actor from all clients on the map it's on.
 		/// </summary>
 		/// <param name="actor"></param>
-		public static void ZC_LEAVE(IActor actor)
+		public static void ZC_LEAVE(IActor actor, short leaveType = 1)
 		{
 			var packet = new Packet(Op.ZC_LEAVE);
 

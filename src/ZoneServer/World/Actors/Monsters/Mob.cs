@@ -210,6 +210,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Raised when the monster died.
 		/// </summary>
 		public event Action<ICombatEntity, ICombatEntity> Died;
+		
+		/// Gets or sets the handled who is the owner.
+		/// </summary>
+		public int OwnerHandle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the handle associated
+		/// with the spawn.
+		/// </summary>
+		public int AssociatedHandle { get; set; }
 
 		/// <summary>
 		/// Creates new NPC.

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Melia.Barracks.Network;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Network;
 using Melia.Shared.World;
 using MySqlConnector;
 using Yggdrasil.Logging;
@@ -569,6 +571,86 @@ namespace Melia.Barracks.Database
 				}
 
 				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Returns all companions on given account.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		public List<Companion> GetCompanions(long accountId)
+		{
+			var result = new List<Companion>();
+
+			using (var conn = this.GetConnection())
+			{
+				using (var mc = new MySqlCommand("SELECT * FROM `companions` WHERE `accountId` = @accountId ORDER BY `slot`", conn))
+				{
+					mc.Parameters.AddWithValue("@accountId", accountId);
+
+					using (var reader = mc.ExecuteReader())
+					{
+						while (reader.Read())
+						{
+							var characterId = reader.IsDBNull(2) ? 0 : reader.GetInt64("characterId");
+							var companion = new Companion(reader.GetInt64("companionId"), reader.GetInt64("accountId"), characterId);
+							companion.MonsterId = reader.GetInt32("monsterId");
+							companion.Name = reader.GetStringSafe("name");
+							companion.Index = (byte)reader.GetInt32("slot");
+							companion.BarracksLayer = reader.GetInt32("barrackLayer");
+
+							var bx = reader.GetFloat("bx");
+							var by = reader.GetFloat("by");
+							var bz = reader.GetFloat("bz");
+							companion.BarracksPosition = new Position(bx, by, bz);
+
+							result.Add(companion);
+						}
+					}
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Set the current character associated with a companion
+		/// </summary>
+		/// <param name="companionId"></param>
+		/// <param name="characterId"></param>
+		public void SetCompanionCharacter(long companionId, long characterId)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var cmd = new UpdateCommand("UPDATE `companions` SET {0} WHERE `companionId` = @companionId", conn, trans))
+				{
+					cmd.AddParameter("@companionId", companionId);
+					if (characterId > 0)
+						cmd.Set("characterId", characterId);
+					else
+						cmd.Set("characterId", null);
+
+					cmd.Execute();
+				}
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Deletes a companion.
+		/// </summary>
+		/// <param name="companionId"></param>
+		/// <returns></returns>
+		public bool DeleteCompanion(long companionId)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("DELETE FROM `companions` WHERE `companionId` = @companionId", conn))
+			{
+				mc.Parameters.AddWithValue("@companionId", companionId);
+
+				return mc.ExecuteNonQuery() > 0;
 			}
 		}
 	}
