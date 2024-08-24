@@ -3141,10 +3141,7 @@ namespace Melia.Zone.Network
 				{
 					character.StartBuff(BuffId.RidingCompanion, 0, 0, TimeSpan.Zero, companion);
 					companion.StartBuff(BuffId.TakingOwner, 0, 0, TimeSpan.Zero, character);
-					// This is buff logic
-					character.Properties.Modify(PropertyName.MSPD_BM, 4f);
-					character.Properties.Modify(PropertyName.DR_BM, 3f);
-					character.Properties.Modify(PropertyName.DEF_BM, 12f);
+
 					Send.ZC_OBJECT_PROPERTY(character, PropertyName.MSPD, PropertyName.MSPD_BM,
 						PropertyName.DR, PropertyName.DR_BM, PropertyName.MHP, PropertyName.MHP_RATE_BM,
 						PropertyName.DEF, PropertyName.DEF_BM);
@@ -3154,9 +3151,7 @@ namespace Melia.Zone.Network
 				{
 					character.StopBuff(BuffId.RidingCompanion);
 					companion.StopBuff(BuffId.TakingOwner);
-					character.Properties.Modify(PropertyName.MSPD_BM, -4f);
-					character.Properties.Modify(PropertyName.DR_BM, -3f);
-					character.Properties.Modify(PropertyName.DEF_BM, -12f);
+
 					Send.ZC_OBJECT_PROPERTY(character, PropertyName.MSPD, PropertyName.MSPD_BM,
 						PropertyName.DR, PropertyName.DR_BM, PropertyName.MHP, PropertyName.MHP_RATE_BM,
 						PropertyName.DEF, PropertyName.DEF_BM);
