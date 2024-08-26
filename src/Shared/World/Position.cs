@@ -112,6 +112,20 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
+		/// Returns true if the given position is inside a circle defined by
+		/// a center position and radius in 2D space.
+		/// </summary>
+		/// <param name="center"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public readonly bool InCircle2D(Position center, float radius)
+		{
+			var dx = X - center.X;
+			var dz = Z - center.Z;
+			return (dx * dx + dz * dz) <= (radius * radius);
+		}
+
+		/// <summary>
 		/// Returns random position around this position,
 		/// not nearer than min, and not further than max.
 		/// </summary>

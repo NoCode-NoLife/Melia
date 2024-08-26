@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -10,6 +11,7 @@ public class BasicMonsterAiScript : AiScript
 	private const int MaxMasterDistance = 200;
 
 	ICombatEntity target;
+	private Position lastPathfindingGoal;
 
 	protected override void Setup()
 	{
@@ -50,7 +52,6 @@ public class BasicMonsterAiScript : AiScript
 	protected IEnumerable Attack()
 	{
 		SetRunning(true);
-
 		while (!target.IsDead)
 		{
 			if (!TryGetRandomSkill(out var skill))
@@ -58,16 +59,22 @@ public class BasicMonsterAiScript : AiScript
 				yield return Wait(2000);
 				continue;
 			}
-
-			while (!InRangeOf(target, skill.GetAttackRange()))
-				yield return MoveTo(target.Position, wait: false);
-
+			var attackRange = skill.GetAttackRange();
+			while (!InRangeOf(target, attackRange))
+			{
+				if (lastPathfindingGoal == Position.Zero || !target.Position.InCircle2D(lastPathfindingGoal, 10))
+				{
+					var lastPathfindingGoal = GetAdjacentValidPosition(target, attackRange);
+					yield return MoveTo(lastPathfindingGoal, wait: false);
+				}
+				else
+				{
+					yield return Wait(100);
+				}
+			}
 			yield return StopMove();
-
 			yield return UseSkill(skill, target);
-			yield return Wait(skill.Properties.Delay);
 		}
-
 		yield break;
 	}
 

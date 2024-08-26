@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Shared.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting.AI
 {
@@ -624,6 +626,27 @@ namespace Melia.Zone.Scripting.AI
 				return true;
 
 			return false;
+		}
+
+		/// <summary>
+		/// Gets a valid position adjacent to target within given range.
+		/// Returns entity's own position if not found.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		protected Position GetAdjacentValidPosition(ICombatEntity entity, float range)
+		{
+			var ground = entity.Map.Ground;
+
+			for (var i = 0; i < 10; i++)
+			{
+				var rng = RandomProvider.Get();
+				var position = entity.Position.GetRandomInRange2D((int)range, rng);
+				if (ground.IsValidPosition(position))
+					return position;
+			}
+
+			return entity.Position;
 		}
 
 		/// <summary>
