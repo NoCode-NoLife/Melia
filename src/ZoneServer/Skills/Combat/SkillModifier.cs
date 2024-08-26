@@ -1,4 +1,7 @@
-﻿namespace Melia.Zone.Skills.Combat
+﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+
+namespace Melia.Zone.Skills.Combat
 {
 	/// <summary>
 	/// A class for properties that can modify the damage calculation for a skill.
@@ -22,6 +25,11 @@
 		/// This damage is added before any defense, crit, block, etc. calculations.
 		/// </remarks>
 		public float BonusDamage { get; set; }
+
+		/// <summary>
+		/// Gets or sets flat crit rate bonus
+		/// </summary>
+		public float BonusCritChance { get; set; }
 
 		/// <summary>
 		/// Gets or sets percentage-based defense penetration for DEF and MDEF.
@@ -78,6 +86,14 @@
 		public bool Unblockable { get; set; }
 
 		/// <summary>
+		/// Gets or sets forced hit status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack always hits.
+		/// </remarks>
+		public bool ForcedHit { get; set; }
+
+		/// <summary>
 		/// Gets or sets forced block status.
 		/// </summary>
 		/// <remarks>
@@ -92,6 +108,20 @@
 		/// If this is true, the attack always deals a critical hit.
 		/// </remarks>
 		public bool ForcedCritical { get; set; }
+
+
+		/// <summary>
+		/// Gets or sets whether or not the natural attack attribute is overwritten
+		/// </summary>
+		public bool OverrideAttackAttribute { get; set; }
+
+		/// <summary>
+		/// Gets or sets the attribute for the attack
+		/// </summary>
+		/// <remarks>
+		/// This is only read if OverrideAttackAttribute is true
+		/// </remarks>
+		public SkillAttribute AttackAttribute { get; set; }
 
 		/// <summary>
 		/// Returns a new skill modifier with default values.

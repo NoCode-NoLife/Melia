@@ -217,7 +217,7 @@ namespace Melia.Zone.World.Actors.Components
 			if (sinceLastUpdate >= this.UpdateInterval)
 			{
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
-				_lastUpdate = now;
+				_lastUpdate += this.UpdateInterval;
 			}
 
 			if (this.LifeTime != TimeSpan.MaxValue)

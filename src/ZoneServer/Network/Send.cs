@@ -25,6 +25,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 namespace Melia.Zone.Network
@@ -2277,6 +2278,34 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Tells the client that a monster is a Summoned monster
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="isSummon"></param>
+		public static void ZC_IS_SUMMONING_MONSTER(IActor actor, bool isSummon)
+		{
+			var packet = new Packet(Op.ZC_IS_SUMMONING_MONSTER);
+			packet.PutInt(actor.Handle);
+			packet.PutByte(isSummon);
+
+			actor.Map.Broadcast(packet, actor);
+		}		
+
+		/// <summary>
+		/// Tells the client that a monster is a Sorcerer Summon
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="isSummon"></param>
+		public static void ZC_IS_SUMMON_SORCERER_MONSTER(IActor actor, bool isSummon)
+		{
+			var packet = new Packet(Op.ZC_IS_SUMMON_SORCERER_MONSTER);
+			packet.PutInt(actor.Handle);
+			packet.PutByte(isSummon);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
 		/// Draws circle area on ground at position for characters in range
 		/// of the caster.
 		/// </summary>
@@ -3202,7 +3231,7 @@ namespace Melia.Zone.Network
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);
-			packet.PutFloat(1);
+			packet.PutFloat(1); // animation speed
 
 			// [i373230] Maybe added earlier
 			{
@@ -3211,6 +3240,65 @@ namespace Melia.Zone.Network
 			}
 
 			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
+		/// Attaches an entity to an object
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="attachToEntity"></param>
+		/// <param name="nodeName"></param>
+		/// <param name="packetString1"></param>
+		/// <param name="attachDelay"></param>
+		/// <param name="l1"></param>
+		/// <param name="l2"></param>
+		/// <param name="packetString2"></param>
+		/// <param name="b1"></param>
+		/// <param name="b2"></param>
+		/// <param name="b3"></param>
+		public static void ZC_ATTACH_TO_OBJ(IActor actor, IActor attachToEntity, string nodeName,
+			string packetString1, float attachDelay, long l1, long l2, string packetString2, byte b1, byte b2, byte b3)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(nodeName, out var nodeNameData))
+				throw new ArgumentException($"Unknown packet string '{nodeName}'.");
+
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
+				throw new ArgumentException($"Unknown packet string '{packetString1}'.");
+
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
+				throw new ArgumentException($"Unknown packet string '{packetString2}'.");
+
+			var packet = new Packet(Op.ZC_ATTACH_TO_OBJ);			
+
+			packet.PutInt(actor?.Handle ?? 0);
+			packet.PutInt(attachToEntity?.Handle ?? 0);
+			packet.PutInt(nodeNameData?.Id ?? 0);
+			packet.PutInt(packetStringData1?.Id ?? 0);
+			packet.PutFloat(attachDelay);
+			packet.PutLong(l1);
+			packet.PutLong(l2);
+			packet.PutInt(packetStringData2?.Id ?? 0);
+			packet.PutByte(b1);
+			packet.PutByte(b2);
+			packet.PutByte(b3);
+
+			actor.Map.Broadcast(packet);
+		}
+
+
+		/// <summary>
+		/// Detach from another object (usually another actor).
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="detachFromActor"></param>
+		public static void ZC_DETACH_FROM_OBJ(IActor actor, IActor detachFromActor)
+		{
+			var packet = new Packet(Op.ZC_DETACH_FROM_OBJ);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(detachFromActor?.Handle ?? 0);
+
+			actor.Map.Broadcast(packet);
 		}
 
 		/// <summary>

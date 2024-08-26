@@ -277,6 +277,9 @@ public class CombatCalculationsScript : GeneralScript
 		var attackerAttr = skill.Data.Attribute;
 		var targetAttr = target.Attribute;
 
+		if (modifier.OverrideAttackAttribute)
+			attackerAttr = modifier.AttackAttribute;
+
 		if (!Feature.IsEnabled("AttributeBonusRevamp"))
 		{
 			if (attackerAttr == SkillAttribute.Fire)
@@ -548,6 +551,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.ForcedHit)
+			return 0;
+
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
 
@@ -634,7 +640,7 @@ public class CombatCalculationsScript : GeneralScript
 			return 100;
 
 		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
-		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
+		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR) + modifier.BonusCritChance;
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
 		var critChance = Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f);
