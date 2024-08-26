@@ -14,6 +14,7 @@ public class BasicMonsterAiScript : AiScript
 	protected override void Setup()
 	{
 		During("Idle", CheckEnemies);
+		During("Attack", CheckEnemies);
 		During("Attack", CheckTarget);
 		During("Attack", CheckMaster);
 	}
@@ -89,7 +90,7 @@ public class BasicMonsterAiScript : AiScript
 	private void CheckEnemies()
 	{
 		var mostHated = GetMostHated();
-		if (mostHated != null)
+		if (mostHated != null && (target == null || mostHated != target))
 		{
 			target = mostHated;
 			StartRoutine("StopAndAttack", StopAndAttack());
@@ -102,7 +103,11 @@ public class BasicMonsterAiScript : AiScript
 		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance) || !IsHating(target))
 		{
 			target = null;
-			StartRoutine("StopAndIdle", StopAndIdle());
+			CheckEnemies();
+			if (target == null)
+			{
+				StartRoutine("StopAndIdle", StopAndIdle());
+			}
 		}
 	}
 
