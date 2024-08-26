@@ -329,7 +329,8 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Returns the enemy with the highest hate level in range.
+		/// Returns the enemy with the highest hate level in range. Returns null
+		/// if no nearby enemies have reached the minimum aggro level.
 		/// </summary>
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
