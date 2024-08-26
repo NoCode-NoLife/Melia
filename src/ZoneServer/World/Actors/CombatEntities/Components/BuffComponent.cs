@@ -84,6 +84,32 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Changes the buff's overbuff and updates the client.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="value"></param>
+		public void Overbuff(Buff buff, int value)
+		{
+			var overbuff = buff.OverbuffCounter;
+			buff.UpdateOverbuff(value);
+
+			if (overbuff != buff.OverbuffCounter)
+			{
+				buff.Start();
+				Send.ZC_BUFF_UPDATE(this.Entity, buff);
+			}				
+			else if ((overbuff + value) <= 0)
+			{
+				buff.Stop();				
+			}				
+			else
+			{
+				buff.ExtendDuration();
+				Send.ZC_BUFF_UPDATE(this.Entity, buff);
+			}
+		}
+
+		/// <summary>
 		/// Adds and activates given buffs. If a buff already exists,
 		/// it gets overbuffed.
 		/// </summary>
@@ -319,8 +345,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="duration">Custom duration of the buff.</param>
 		/// <param name="caster">The entity that casted the buff.</param>
 		/// <param name="skillId">The id of the skill associated with the buff.</param>
+		/// <param name="overBuffCount">OverBuff count, the quantity of stacking buffs</param>
 		/// <returns></returns>
-		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId)
+		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId, int overBuffCount = 1)
 		{
 			// Attempt status resistance against debuffs
 			// TODO: Ideally, this should happen from the buff handler,
@@ -337,7 +364,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 			if (!this.TryGet(buffId, out var buff))
 			{
-				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity, skillId);
+				buff = new Buff(buffId, numArg1, numArg2, duration, TimeSpan.Zero, this.Entity, caster ?? this.Entity, skillId, overBuffCount);
 				this.Add(buff);
 			}
 			else

@@ -5,7 +5,6 @@
 //---------------------------------------------------------------------------
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
@@ -15,7 +14,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CharacterCalculationsScript : GeneralScript
@@ -1403,6 +1401,9 @@ public class CharacterCalculationsScript : GeneralScript
 		if (anyBuffsActive)
 			return 1;
 
+		if (character.IsBuffActive(BuffId.DoubleGunStance_Buff))
+			return 1;
+
 		return 0;
 	}
 
@@ -1415,6 +1416,7 @@ public class CharacterCalculationsScript : GeneralScript
 	public float SCR_Get_Character_MovingShot(Character character)
 	{
 		var canMoveWhileShooting = character.Properties.GetFloat(PropertyName.MovingShotable) == 1;
+
 		if (!canMoveWhileShooting)
 			return 0;
 

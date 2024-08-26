@@ -1,5 +1,4 @@
 ﻿using Melia.Zone.Network;
-using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Ardito

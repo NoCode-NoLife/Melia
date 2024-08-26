@@ -3,6 +3,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -168,7 +169,8 @@ namespace Melia.Zone.Buffs
 		/// <param name="target"></param>
 		/// <param name="caster"></param>
 		/// <param name="skillId">Id of the skill associated with this buff.</param>
-		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId)
+		/// <param name="overBuffCount">OverBuff count, the quantity of stacking buffs</param>
+		public Buff(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, TimeSpan runTime, ICombatEntity target, ICombatEntity caster, SkillId skillId, int overBuffCount = 1)
 		{
 			this.Id = buffId;
 			this.NumArg1 = numArg1;
@@ -209,6 +211,8 @@ namespace Melia.Zone.Buffs
 
 			if (this.HasUpdateTime)
 				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
+
+			this.OverbuffCounter = overBuffCount;
 		}
 
 		/// <summary>
@@ -218,6 +222,15 @@ namespace Melia.Zone.Buffs
 		public void IncreaseOverbuff()
 		{
 			this.OverbuffCounter++;
+		}
+
+		/// <summary>
+		/// Update overbuff counter for a given value, capped to the buff's max overbuff
+		/// value.
+		/// </summary>
+		public void UpdateOverbuff(int value)
+		{
+			this.OverbuffCounter += value;
 		}
 
 		/// <summary>
@@ -249,6 +262,14 @@ namespace Melia.Zone.Buffs
 		internal void End()
 		{
 			this.Handler?.OnEnd(this);
+		}
+
+		/// <summary>
+		/// Removes/Ends the Buff
+		/// </summary>
+		internal void Stop()
+		{
+			this.Target.Components.Get<BuffComponent>()?.Stop(this.Id);
 		}
 
 		/// <summary>
