@@ -233,11 +233,33 @@ namespace Melia.Zone.Scripting.AI
 				_hateLevels[handle] = curHate = 0;
 
 			var newHate = curHate + amount;
-			if (newHate > _minAggroHateLevel)
+
+			// If we're below the min aggro level, increase hate normally
+			if (newHate <= _minAggroHateLevel)
+			{
+				newHate = curHate + amount;
+			}
+			// If we're going past the min aggro level, but we passed the
+			// threshold just now, go to the min level and add the adjusted
+			// amount on top of it
+			else if (curHate <= _minAggroHateLevel)
 			{
 				var hateAboveMinAggro = newHate - _minAggroHateLevel;
 				newHate = _minAggroHateLevel + hateAboveMinAggro * _overHateRate;
 			}
+			// If we've been past the min aggro level already, add the adjusted
+			// amount
+			else
+			{
+				newHate = curHate + amount * _overHateRate;
+			}
+
+			// If we wanted to be clever we could do the following, but the above
+			// is easier to grasp.
+			//var addAdjusted = Math.Max(0, curHate + amount - _minAggroHateLevel);
+			//var addNormal = amount - addAdjusted;
+			//var newHate = curHate + addNormal;
+			//newHate += addAdjusted * _overHateRate;
 
 			_hateLevels[handle] = newHate;
 
