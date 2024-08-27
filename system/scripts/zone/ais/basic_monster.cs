@@ -11,7 +11,6 @@ public class BasicMonsterAiScript : AiScript
 	private const int MaxMasterDistance = 200;
 
 	ICombatEntity target;
-	private Position lastPathfindingGoal;
 
 	protected override void Setup()
 	{
