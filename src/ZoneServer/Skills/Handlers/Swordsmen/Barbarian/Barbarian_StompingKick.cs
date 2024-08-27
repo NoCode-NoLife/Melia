@@ -13,8 +13,9 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using static Melia.Shared.Util.TaskHelper;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the Barbarian skill Stomping Kick.
@@ -57,14 +58,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 
 			// wait for the user to hit the ground
 
-			if (caster.Components.TryGet<MovementComponent>(out var movementComponent)) 
+			if (caster.Components.TryGet<MovementComponent>(out var movementComponent))
 			{
 				while (!movementComponent.IsGrounded)
 				{
 					await Task.Delay(TimeSpan.FromMilliseconds(30));
 				}
 			}
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -73,7 +74,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(100);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
@@ -99,7 +100,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
-				
+
 				hits.Add(skillHit);
 			}
 

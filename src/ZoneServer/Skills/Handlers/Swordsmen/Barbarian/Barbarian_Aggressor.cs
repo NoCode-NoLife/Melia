@@ -6,15 +6,16 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for the Barbarian skill Savagery.
+	/// Handler for the Barbarian skill Aggressor.
 	/// </summary>
-	[SkillHandler(SkillId.Barbarian_Savagery)]
-	public class Barbarian_Savagery : ISelfSkillHandler
+	[SkillHandler(SkillId.Barbarian_Aggressor)]
+	public class Barbarian_Aggressor : ISelfSkillHandler
 	{
-		private const float BuffDuration = 50f;
+		private const float BuffDurationBase = 20f;
+		private const float BuffDurationPerLevel = 2f;
 
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
@@ -35,12 +36,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			caster.SetAttackState(true);
 
 			var target = caster;
+			var buffDuration = BuffDurationBase + BuffDurationPerLevel * skill.Level;
 
-			var criticalBonus = 0;
-			if (caster.TryGetActiveAbilityLevel(AbilityId.Barbarian5, out var barbarian5Level))
-				criticalBonus = 5 * barbarian5Level;
-
-			target.StartBuff(BuffId.Savagery_Buff, skill.Level, criticalBonus, TimeSpan.FromSeconds(BuffDuration), caster);
+			target.StartBuff(BuffId.Aggressor_Buff, skill.Level, 0, TimeSpan.FromSeconds(buffDuration), caster);
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
 		}

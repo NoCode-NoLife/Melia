@@ -12,8 +12,9 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using static Melia.Shared.Util.TaskHelper;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the Barbarian skill Seism.
@@ -46,7 +47,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -55,7 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(400);
 			var damageDelay = TimeSpan.FromMilliseconds(50);

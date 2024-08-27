@@ -12,8 +12,9 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using static Melia.Shared.Util.TaskHelper;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the Barbarian skill Pouncing
@@ -58,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			var rhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.EquipType1;
 			var lhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.LeftHand)?.Data.EquipType1;
 			if (rhWeaponType == EquipType.Sword && lhWeaponType == EquipType.Dagger)
-			{ 
+			{
 				pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(240);
 			}
 			else
@@ -135,8 +136,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
 				target.Position = skillHit.KnockBackInfo.ToPosition;
 			}
-			else 
-			{ 
+			else
+			{
 				skillHit.HitEffect = HitEffect.Impact;
 			}
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);

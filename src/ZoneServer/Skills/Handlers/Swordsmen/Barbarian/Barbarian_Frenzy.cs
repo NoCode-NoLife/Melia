@@ -5,7 +5,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the passive Barbarian skill Frenzy

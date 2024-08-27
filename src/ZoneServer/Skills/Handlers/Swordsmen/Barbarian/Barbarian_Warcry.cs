@@ -11,10 +11,10 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for the Peltasta skill Guardian
+	/// Handler for the Barbarian skill Warcry
 	/// </summary>
 	[SkillHandler(SkillId.Barbarian_Warcry)]
 	public class Barbarian_Warcry : ISelfSkillHandler

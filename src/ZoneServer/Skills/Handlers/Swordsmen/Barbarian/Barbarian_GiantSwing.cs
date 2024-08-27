@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -16,14 +15,13 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
+using static Melia.Shared.Util.TaskHelper;
 
-namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for the Barbarian skill Embowel.
+	/// Handler for the Barbarian skill Giant Swing.
 	/// </summary>
 	[SkillHandler(SkillId.Barbarian_GiantSwing)]
 	public class Barbarian_GiantSwing : IGroundSkillHandler
@@ -60,7 +58,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
-			}	
+			}
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
@@ -68,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, chainDirection);
+			CallSafe(this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, chainDirection));
 		}
 
 		/// <summary>
@@ -77,7 +75,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position chainPos, Direction chainDirection)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position chainPos, Direction chainDirection)
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 			var damageDelay = TimeSpan.FromMilliseconds(2950);
@@ -104,11 +102,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 			Send.ZC_NORMAL.SpinObject(caster, 0, 9, 0.2f, 1);
 
 			var cancelToken = new CancellationTokenSource();
-			SpinTarget(caster, target, cancelToken.Token);
+			CallSafe(SpinTarget(caster, target, cancelToken.Token));
 
 			// This is an optional custom effect that causes the spin to also
 			// deal damage in the chain's radius
-			// SpinAttack(skill, caster, target, new Circle(caster.Position, ChainLength));
+			// CallSafe(SpinAttack(skill, caster, target, new Circle(caster.Position, ChainLength)));
 
 			var modifier = SkillModifier.Default;
 
@@ -165,7 +163,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="duration"></param>
-		private async void SpinTarget(ICombatEntity caster, ICombatEntity target, CancellationToken cancelToken)
+		private async Task SpinTarget(ICombatEntity caster, ICombatEntity target, CancellationToken cancelToken)
 		{
 			var tickTime = TimeSpan.FromMilliseconds(70);
 
@@ -191,7 +189,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsman.Barbarian
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void SpinAttack(Skill skill, ICombatEntity caster, ICombatEntity spinTarget, ISplashArea splashArea)
+		private async Task SpinAttack(Skill skill, ICombatEntity caster, ICombatEntity spinTarget, ISplashArea splashArea)
 		{
 			var hits = new List<SkillHitInfo>();
 			var damageDelay = TimeSpan.FromMilliseconds(50);
