@@ -83,8 +83,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			{
 				this.RecoverStamina();
 				_staminaTime = TimeSpan.FromMilliseconds(this.Entity.Properties.GetFloat(PropertyName.Sta_R_Delay));
-
-
 			}
 		}
 
