@@ -4,7 +4,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handle for the Giant Swing debuff, which reduces hit rate

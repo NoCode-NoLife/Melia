@@ -6,18 +6,18 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handle for the Cleave_Debuff debuff, which increases damage taken
-	/// from Slash attacks.
+	/// Handle for the Embowel_Buff buff, which decreases all
+	/// damage taken while the skill is active.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
 	/// NumArg2: None
 	/// </remarks>
-	[BuffHandler(BuffId.Cleave_Debuff)]
-	public class Cleave_Debuff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	[BuffHandler(BuffId.Embowel_Buff)]
+	public class Embowel_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the debuff's effect during the combat calculations.
@@ -30,8 +30,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (skill.Data.AttackType == SkillAttackType.Slash)
-				modifier.DamageMultiplier += 0.2f;
+			modifier.DamageMultiplier -= 0.5f;
 		}
 	}
 }

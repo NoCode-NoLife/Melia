@@ -24,7 +24,8 @@
 		public float BonusDamage { get; set; }
 
 		/// <summary>
-		/// Gets or sets flat crit rate bonus
+		/// Gets or sets flat crit rate bonus.
+		/// This is in percent, so 20f = 20% extra crit
 		/// </summary>
 		public float BonusCritChance { get; set; }
 
@@ -53,7 +54,7 @@
 		/// </summary>
 		/// <remarks>
 		/// If set, this value acts as the minimum possible chance for a crit
-		/// to occur.
+		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
 		/// </remarks>
 		public float MinCritChance { get; set; } = 0;
 

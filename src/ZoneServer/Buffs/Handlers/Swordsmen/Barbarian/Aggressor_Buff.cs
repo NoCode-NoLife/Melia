@@ -4,7 +4,7 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handle for the Aggressor Buff, which adds crit hit and dodge rate,
@@ -33,7 +33,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Barbarian
 				AddPropertyModifier(buff, target, PropertyName.CRTHR_RATE_BM, CritHrRateBase);
 			}
 			else
-			{ 
+			{
 				AddPropertyModifier(buff, target, PropertyName.CRTHR_RATE_BM, CritHrRateBase * CritHrRatePerLevel * buff.NumArg1);
 				AddPropertyModifier(buff, target, PropertyName.CRTDR_RATE_BM, CritDrRateBase * CritDrRatePerLevel * buff.NumArg1);
 			}

@@ -7,7 +7,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Logging;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsman.Barbarian
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the Frenzy Buff, which increases attack speed
@@ -63,7 +63,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsman.Barbarian
 		{
 			// decay 1 overbuff counter
 			if (buff.OverbuffCounter > 1)
-			{ 
+			{
 				buff.OverbuffCounter--;
 				Send.ZC_BUFF_UPDATE(buff.Caster, buff);
 			}

@@ -1,7 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsman.Highlander
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for Warcry_Buff, which increases PAtk
