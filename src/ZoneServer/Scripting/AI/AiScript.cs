@@ -33,6 +33,7 @@ namespace Melia.Zone.Scripting.AI
 		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
+		private Position _lastPathfindingGoal;
 
 		private readonly HashSet<int> _hateLevelsToRemove = new();
 		private readonly Dictionary<int, float> _hateLevels = new();

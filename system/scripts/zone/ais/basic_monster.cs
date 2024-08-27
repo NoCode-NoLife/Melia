@@ -62,19 +62,8 @@ public class BasicMonsterAiScript : AiScript
 			}
 
 			var attackRange = skill.GetAttackRange();
+			yield return MoveToAttackPosition(target, attackRange);
 
-			while (!InRangeOf(target, attackRange))
-			{
-				if (lastPathfindingGoal == Position.Zero || !target.Position.InRange2D(lastPathfindingGoal, 10))
-				{
-					var lastPathfindingGoal = GetAdjacentValidPosition(target, attackRange);
-					yield return MoveTo(lastPathfindingGoal, wait: false);
-				}
-				else
-				{
-					yield return Wait(100);
-				}
-			}
 			yield return StopMove();
 
 			yield return UseSkill(skill, target);

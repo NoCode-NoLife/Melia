@@ -71,6 +71,28 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Moves the entity to an attack position around the given target.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="attackRange"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveToAttackPosition(ICombatEntity target, float attackRange)
+		{
+			while (!this.InRangeOf(target, attackRange))
+			{
+				if (_lastPathfindingGoal == Position.Zero || !target.Position.InRange2D(_lastPathfindingGoal, 10))
+				{
+					_lastPathfindingGoal = this.GetAdjacentValidPosition(target, attackRange);
+					yield return this.MoveTo(_lastPathfindingGoal, wait: false);
+				}
+				else
+				{
+					yield return this.Wait(100);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Moves entity to the given destination in a straight line.
 		/// </summary>
 		/// <param name="destination"></param>
