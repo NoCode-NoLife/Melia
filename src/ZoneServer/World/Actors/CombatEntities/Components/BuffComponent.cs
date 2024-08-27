@@ -104,7 +104,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// Use for restoring saved buffs on load.
 		/// </summary>
 		/// <param name="buff"></param>
-		public void Restore(Buff buff)
+		internal void Restore(Buff buff)
 		{
 			lock (_buffs)
 				_buffs[buff.Id] = buff;

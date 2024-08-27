@@ -37,9 +37,9 @@ namespace Melia.Zone.Scripting.AI
 		private readonly HashSet<FactionType> _hatedFactions = new();
 		private readonly HashSet<int> _hatedMonsters = new();
 
-		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
+		private readonly Dictionary<string, List<Action>> _duringActions = new();
 
-		private readonly Queue<IAiEventAlert> _eventAlerts = new Queue<IAiEventAlert>();
+		private readonly Queue<IAiEventAlert> _eventAlerts = new();
 
 		/// <summary>
 		/// Returns the entity that this script is controlling.
@@ -235,11 +235,14 @@ namespace Melia.Zone.Scripting.AI
 			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
 				amount *= 5;
 
+			// Make sure to lower the hate increase if we go past the min aggro
+			// level, which can happen if the hate level is already high or we
+			// push a lot of hate and it gets multiplied by Liberate.
 			var newHate = curHate + amount;
 			if (newHate > _minAggroHateLevel)
 			{
-				var delta = newHate - _minAggroHateLevel;
-				newHate = _minAggroHateLevel + delta * _overHateRate;
+				var hateAboveMinAggro = newHate - _minAggroHateLevel;
+				newHate = _minAggroHateLevel + hateAboveMinAggro * _overHateRate;
 			}
 
 			_hateLevels[handle] = newHate;

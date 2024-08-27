@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Game.Const;
 using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
