@@ -52,6 +52,7 @@ public class BasicMonsterAiScript : AiScript
 	protected IEnumerable Attack()
 	{
 		SetRunning(true);
+
 		while (!target.IsDead)
 		{
 			if (!TryGetRandomSkill(out var skill))
@@ -59,7 +60,9 @@ public class BasicMonsterAiScript : AiScript
 				yield return Wait(2000);
 				continue;
 			}
+
 			var attackRange = skill.GetAttackRange();
+
 			while (!InRangeOf(target, attackRange))
 			{
 				if (lastPathfindingGoal == Position.Zero || !target.Position.InCircle2D(lastPathfindingGoal, 10))
@@ -73,8 +76,11 @@ public class BasicMonsterAiScript : AiScript
 				}
 			}
 			yield return StopMove();
+
 			yield return UseSkill(skill, target);
+			yield return Wait(skill.Properties.Delay);
 		}
+
 		yield break;
 	}
 
