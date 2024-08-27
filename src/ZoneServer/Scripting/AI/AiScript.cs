@@ -223,10 +223,10 @@ namespace Melia.Zone.Scripting.AI
 			// couldn't potentially keep up. In theory this should
 			// make it possible to steal aggro, but not too easily.
 
-			if (!_hateLevels.ContainsKey(handle))
-				_hateLevels[handle] = 0;
+			if (!_hateLevels.TryGetValue(handle, out var curHate))
+				_hateLevels[handle] = curHate = 0;
 
-			if (_hateLevels[handle] >= _minAggroHateLevel)
+			if (curHate >= _minAggroHateLevel)
 				amount *= _overHateRate;
 
 			// Hate increases 500% faster if entity has the Liberate buff.
@@ -235,7 +235,14 @@ namespace Melia.Zone.Scripting.AI
 			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
 				amount *= 5;
 
-			_hateLevels[handle] += amount;
+			var newHate = curHate + amount;
+			if (newHate > _minAggroHateLevel)
+			{
+				var delta = newHate - _minAggroHateLevel;
+				newHate = _minAggroHateLevel + delta * _overHateRate;
+			}
+
+			_hateLevels[handle] = newHate;
 
 			//Log.Debug("Monster {0} hate level for {1} is now {2}.", this.Entity, handle, _hateLevels[handle]);
 		}
