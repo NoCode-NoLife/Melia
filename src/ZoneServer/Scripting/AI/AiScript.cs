@@ -216,6 +216,12 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var handle = entity.Handle;
 
+			// Hate increases 500% faster if entity has the Liberate buff.
+			// This means instant aggro from aggressive monsters and a
+			// higher chance to keep it.
+			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
+				amount *= 5;
+
 			// Increase the hate level at the normal rate up to the
 			// min aggro level. Once we reach that point we lower
 			// the hate increase so it will still accumulate for
@@ -226,18 +232,6 @@ namespace Melia.Zone.Scripting.AI
 			if (!_hateLevels.TryGetValue(handle, out var curHate))
 				_hateLevels[handle] = curHate = 0;
 
-			if (curHate >= _minAggroHateLevel)
-				amount *= _overHateRate;
-
-			// Hate increases 500% faster if entity has the Liberate buff.
-			// This means instant aggro from aggressive monsters and a
-			// higher chance to keep it.
-			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
-				amount *= 5;
-
-			// Make sure to lower the hate increase if we go past the min aggro
-			// level, which can happen if the hate level is already high or we
-			// push a lot of hate and it gets multiplied by Liberate.
 			var newHate = curHate + amount;
 			if (newHate > _minAggroHateLevel)
 			{
