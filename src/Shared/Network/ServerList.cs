@@ -11,7 +11,7 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public class ServerList
 	{
-		private readonly List<ServerInfo> _servers = new List<ServerInfo>();
+		private readonly List<ServerInfo> _servers = new();
 
 		/// <summary>
 		/// Returns the data of the this server group.
@@ -74,6 +74,13 @@ namespace Melia.Shared.Network
 			=> _servers.Where(a => a.Type == serverType).ToArray();
 
 		/// <summary>
+		/// Returns a list with the information of all servers.
+		/// </summary>
+		/// <returns></returns>
+		public ServerInfo[] GetAll()
+			=> _servers.ToArray();
+
+		/// <summary>
 		/// Returns the zone server with the given index that serves the
 		/// given map via out. Returns false if no matching server was found.
 		/// </summary>
@@ -115,27 +122,27 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Returns the server's type.
 		/// </summary>
-		public ServerType Type { get; }
+		public ServerType Type { get; set; }
 
 		/// <summary>
 		/// Returns the server's id.
 		/// </summary>
-		public int Id { get; }
+		public int Id { get; set; }
 
 		/// <summary>
 		/// Returns the server's IP address.
 		/// </summary>
-		public string Ip { get; }
+		public string Ip { get; set; }
 
 		/// <summary>
 		/// Returns the port the server is listening on publically.
 		/// </summary>
-		public int Port { get; }
+		public int Port { get; set; }
 
 		/// <summary>
 		/// Returns the port the server is listening on internally.
 		/// </summary>
-		public int InterPort { get; }
+		public int InterPort { get; set; }
 
 		/// <summary>
 		/// Returns the number of players currently connected to the server.
@@ -151,12 +158,19 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Returns the ids of the maps this server serves.
 		/// </summary>
-		public int[] MapIds { get; private set; }
+		public int[] MapIds { get; set; }
 
 		/// <summary>
 		/// Gets or sets the server's status.
 		/// </summary>
 		public ServerStatus Status { get; set; }
+
+		/// <summary>
+		/// Creates empty server info.
+		/// </summary>
+		public ServerInfo()
+		{
+		}
 
 		/// <summary>
 		/// Creates new server info.
