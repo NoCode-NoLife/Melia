@@ -71,24 +71,29 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Moves the entity to an attack position around the given target.
+		/// Moves the entity to a close-range attack position around the given target.
 		/// </summary>
+		/// <remarks>
+		/// Doesn't return until the entity is within attacking distance.
+		/// </remarks>
 		/// <param name="target"></param>
 		/// <param name="attackRange"></param>
 		/// <returns></returns>
-		protected IEnumerable MoveToAttackPosition(ICombatEntity target, float attackRange)
+		protected IEnumerable MoveToAttack(ICombatEntity target, float attackRange)
 		{
 			while (!this.InRangeOf(target, attackRange))
 			{
-				if (_lastPathfindingGoal == Position.Zero || !target.Position.InRange2D(_lastPathfindingGoal, 10))
-				{
-					_lastPathfindingGoal = this.GetAdjacentValidPosition(target, attackRange);
-					yield return this.MoveTo(_lastPathfindingGoal, wait: false);
-				}
-				else
+				var targetMoved = (_lastAttackMovePos == Position.Zero || !target.Position.InRange2D(_lastAttackMovePos, 10));
+
+				if (!targetMoved)
 				{
 					yield return this.Wait(100);
+					continue;
 				}
+
+				// Adjust the destination if the target moved
+				_lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
+				yield return this.MoveTo(_lastAttackMovePos, wait: false);
 			}
 		}
 

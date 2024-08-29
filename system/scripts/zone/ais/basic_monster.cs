@@ -60,9 +60,7 @@ public class BasicMonsterAiScript : AiScript
 				continue;
 			}
 
-			var attackRange = skill.GetAttackRange();
-			yield return MoveToAttackPosition(target, attackRange);
-
+			yield return MoveToAttack(target, skill.GetAttackRange());
 			yield return StopMove();
 
 			yield return UseSkill(skill, target);

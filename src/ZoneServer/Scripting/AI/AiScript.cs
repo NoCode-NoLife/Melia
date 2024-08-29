@@ -33,7 +33,7 @@ namespace Melia.Zone.Scripting.AI
 		private readonly float _hatePerHit = 100;
 		private float _overHateRate = 1 / 20f;
 		private float _minAggroHateLevel = 100;
-		private Position _lastPathfindingGoal;
+		private Position _lastAttackMovePos;
 
 		private readonly HashSet<int> _hateLevelsToRemove = new();
 		private readonly Dictionary<int, float> _hateLevels = new();
@@ -657,24 +657,30 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Gets a valid position adjacent to target within given range.
-		/// Returns entity's own position if not found.
+		/// Gets a valid position adjacent to the given target within range.
 		/// </summary>
-		/// <param name="entity"></param>
+		/// <remarks>
+		/// Returns target's position if no valid adjacent position could be
+		/// found within a reasonable amount of time.
+		/// </remarks>
+		/// <param name="target"></param>
+		/// <param name="range"></param>
 		/// <returns></returns>
-		protected Position GetAdjacentValidPosition(ICombatEntity entity, float range)
+		protected Position GetAdjacentPosition(ICombatEntity target, float range)
 		{
-			var ground = entity.Map.Ground;
+			var rnd = RandomProvider.Get();
+
+			var ground = target.Map.Ground;
+			var targetPos = target.Position;
 
 			for (var i = 0; i < 10; i++)
 			{
-				var rng = RandomProvider.Get();
-				var position = entity.Position.GetRandomInRange2D((int)range, rng);
-				if (ground.IsValidPosition(position))
-					return position;
+				var pos = targetPos.GetRandomInRange2D((int)range, rnd);
+				if (ground.IsValidPosition(pos))
+					return pos;
 			}
 
-			return entity.Position;
+			return targetPos;
 		}
 
 		/// <summary>
