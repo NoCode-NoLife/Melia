@@ -74,7 +74,8 @@ namespace Melia.Zone.Scripting.AI
 		/// Moves the entity to a close-range attack position around the given target.
 		/// </summary>
 		/// <remarks>
-		/// Doesn't return until the entity is within attacking distance.
+		/// Doesn't return until the entity is within attacking distance. Stops
+		/// the entity once they are in range.
 		/// </remarks>
 		/// <param name="target"></param>
 		/// <param name="attackRange"></param>
@@ -95,6 +96,8 @@ namespace Melia.Zone.Scripting.AI
 				_lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
 				yield return this.MoveTo(_lastAttackMovePos, wait: false);
 			}
+
+			yield return this.StopMove();
 		}
 
 		/// <summary>
