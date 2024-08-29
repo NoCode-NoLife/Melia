@@ -394,7 +394,12 @@ namespace Melia.Shared
 					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+				{
+					if (ex.InnerException is MissingMethodException)
+						Log.Error("It appears like a script tried to use a method that does (no longer) exist, which may be a caching issue. Try deleting the user/cache/ folder and run the server again.");
+
 					Log.Error(ex);
+				}
 			}
 			catch (CompilerErrorException ex)
 			{
