@@ -1320,6 +1320,22 @@ namespace Melia.Zone.Network
 
 				character.Connection.Send(packet);
 			}
+
+			/// <summary>
+			/// Opens book for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="bookName"></param>
+			public static void OpenBook(Character character, string bookName)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.OpenBook);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(bookName);
+
+				character.Connection.Send(packet);
+			}
 		}
 	}
 }
