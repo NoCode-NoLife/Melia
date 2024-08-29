@@ -49,6 +49,7 @@ namespace Melia.Zone.Commands
 
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
+			this.Add("distance", "", "Calculates distance between two positions.", this.HandleDistance);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
@@ -101,6 +102,39 @@ namespace Melia.Zone.Commands
 			this.AddAlias("iteminfo", "ii");
 			this.AddAlias("monsterinfo", "mi");
 			this.AddAlias("reloadscripts", "rs");
+		}
+
+		/// <summary>
+		/// Calculates distance between two positions.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleDistance(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var vars = target.Variables.Temp;
+
+			if (!vars.TryGet<Position>("Melia.Commands.DistancePos1", out var pos1))
+			{
+				vars.Set("Melia.Commands.DistancePos1", target.Position);
+
+				sender.ServerMessage(Localization.Get("Saved first position. Go to second position and use the command again."));
+			}
+			else
+			{
+				vars.Remove("Melia.Commands.DistancePos1");
+
+				var pos2 = target.Position;
+				var distance2D = pos1.Get2DDistance(pos2);
+				var distance3D = pos1.Get3DDistance(pos2);
+
+				sender.ServerMessage(Localization.Get("Distance: {0:0.##} (2D), {1:0.##} (3D)"), distance2D, distance3D);
+			}
+
+			return CommandResult.Okay;
 		}
 
 		/// <summary>
