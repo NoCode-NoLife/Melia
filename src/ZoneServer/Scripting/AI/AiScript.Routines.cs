@@ -84,7 +84,7 @@ namespace Melia.Zone.Scripting.AI
 		{
 			while (!this.InRangeOf(target, attackRange))
 			{
-				var targetMoved = (_lastAttackMovePos == Position.Zero || !target.Position.InRange2D(_lastAttackMovePos, 10));
+				var targetMoved = (_lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(_lastAttackMovePos, 10));
 
 				if (!targetMoved)
 				{

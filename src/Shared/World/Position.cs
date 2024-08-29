@@ -24,7 +24,12 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns new position with X, Y, and Z being 0.
 		/// </summary>
-		public static Position Zero => new Position(0, 0, 0);
+		public static Position Zero => new(0, 0, 0);
+
+		/// <summary>
+		/// Returns a invalid position with X, Y, and Z being NaN.
+		/// </summary>
+		public static Position Invalid => new(float.NaN, float.NaN, float.NaN);
 
 		/// <summary>
 		/// Creates new position from coordinates.
