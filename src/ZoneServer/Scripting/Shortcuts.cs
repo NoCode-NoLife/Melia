@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Melia.Shared.Configuration.Files;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Scripting;
 using Melia.Zone.Commands;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
@@ -13,6 +14,11 @@ namespace Melia.Zone.Scripting
 {
 	public static partial class Shortcuts
 	{
+		/// <summary>
+		/// Returns a reference to the global variables container.
+		/// </summary>
+		public static VariablesContainer GlobalVariables => ZoneServer.Instance.World.GlobalVariables.Variables;
+
 		/// <summary>
 		/// Returns a random number between 0 and max - 1.
 		/// </summary>
