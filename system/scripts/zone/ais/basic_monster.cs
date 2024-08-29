@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -59,8 +60,8 @@ public class BasicMonsterAiScript : AiScript
 				continue;
 			}
 
-			while (!InRangeOf(target, skill.GetAttackRange()))
-				yield return MoveTo(target.Position, wait: false);
+			var attackRange = skill.GetAttackRange();
+			yield return MoveToAttackPosition(target, attackRange);
 
 			yield return StopMove();
 
