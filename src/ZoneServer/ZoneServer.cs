@@ -121,8 +121,6 @@ namespace Melia.Zone
 			this.LoadIesMods();
 			this.StartWorld();
 
-			var skill = this.Data.SkillDb.Find("Bow_Hanging_Attack");
-
 			this.StartCommunicator();
 			this.StartAcceptor();
 
