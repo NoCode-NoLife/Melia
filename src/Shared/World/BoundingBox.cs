@@ -3,27 +3,27 @@
 	/// <summary>
 	/// Represents a bounding box, defining a cube in 3D space.
 	/// </summary>
-	public struct BoundingBox
+	public readonly struct BoundingBox
 	{
 		/// <summary>
 		/// The position of the bounding box.
 		/// </summary>
-		public Position Position;
+		public readonly Position Position;
 
 		/// <summary>
 		/// The box's size on the X-axis.
 		/// </summary>
-		public float Width;
+		public readonly float Width;
 
 		/// <summary>
 		/// The box's size on the Y-axis.
 		/// </summary>
-		public float Height;
+		public readonly float Height;
 
 		/// <summary>
 		/// The box's size on the Z-axis.
 		/// </summary>
-		public float Depth;
+		public readonly float Depth;
 
 		/// <summary>
 		/// Returns true if the bounding box's dimensions are all zero.

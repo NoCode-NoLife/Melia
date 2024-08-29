@@ -60,7 +60,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public double Get2DDistance(Position otherPos)
+		public readonly double Get2DDistance(Position otherPos)
 		{
 			return Math.Sqrt(Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2));
 		}
@@ -70,7 +70,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public double Get3DDistance(Position otherPos)
+		public readonly double Get3DDistance(Position otherPos)
 		{
 			return Math.Sqrt(Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2));
 		}
@@ -80,7 +80,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange2D(Position otherPos, float range)
+		public readonly bool InRange2D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
@@ -90,7 +90,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public bool InRange3D(Position otherPos, float range)
+		public readonly bool InRange3D(Position otherPos, float range)
 		{
 			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
 		}
@@ -101,7 +101,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="points"></param>
 		/// <returns></returns>
-		public bool InPolygon2D(Position[] points)
+		public readonly bool InPolygon2D(Position[] points)
 		{
 			var result = false;
 			var x = this.X;
@@ -124,7 +124,7 @@ namespace Melia.Shared.World
 		/// <param name="rnd"></param>
 		/// <param name="distanceMin"></param>
 		/// <returns></returns>
-		public Position GetRandomInRange2D(int distanceMin, int distanceMax, Random rnd)
+		public readonly Position GetRandomInRange2D(int distanceMin, int distanceMax, Random rnd)
 		{
 			return this.GetRandom(rnd.Next(distanceMin, distanceMax + 1), rnd);
 		}
@@ -135,7 +135,7 @@ namespace Melia.Shared.World
 		/// <param name="radius"></param>
 		/// <param name="rnd"></param>
 		/// <returns></returns>
-		public Position GetRandomInRange2D(int radius, Random rnd)
+		public readonly Position GetRandomInRange2D(int radius, Random rnd)
 		{
 			return this.GetRandom(rnd.Next(radius + 1), rnd);
 		}
@@ -146,7 +146,7 @@ namespace Melia.Shared.World
 		/// <param name="distance"></param>
 		/// <param name="rnd"></param>
 		/// <returns></returns>
-		private Position GetRandom(int distance, Random rnd)
+		private readonly Position GetRandom(int distance, Random rnd)
 		{
 			var angle = rnd.NextDouble() * Math.PI * 2;
 			var x = this.X + distance * Math.Cos(angle);
@@ -165,7 +165,7 @@ namespace Melia.Shared.World
 		/// the distance the amount how far to push them away. A negative
 		/// distance will return a position between you two.
 		/// </remarks>
-		public Position GetRelative(Position other, float distance)
+		public readonly Position GetRelative(Position other, float distance)
 		{
 			if (this == other)
 				return this;
@@ -189,7 +189,7 @@ namespace Melia.Shared.World
 		/// <param name="radian"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public Position GetRelative(Direction direction, float distance)
+		public readonly Position GetRelative(Direction direction, float distance)
 		{
 			var deltaX = direction.Cos;
 			var deltaZ = direction.Sin;
@@ -207,7 +207,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="otherPos"></param>
 		/// <returns></returns>
-		public Direction GetDirection(Position otherPos)
+		public readonly Direction GetDirection(Position otherPos)
 		{
 			var radianAngle = Math.Atan2(otherPos.Z - Z, otherPos.X - X);
 
@@ -261,9 +261,9 @@ namespace Melia.Shared.World
 		/// Returns hash code for this position, calculated out of the coorindates.
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
+		public override readonly int GetHashCode()
 		{
-			return this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
+			return HashCode.Combine(X, Y, Z);
 		}
 
 		/// <summary>
@@ -271,7 +271,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public override bool Equals(object obj)
+		public override readonly bool Equals(object obj)
 		{
 			return obj is Position position && this == position;
 		}
@@ -280,7 +280,7 @@ namespace Melia.Shared.World
 		/// Returns string representation of position.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
+		public override readonly string ToString()
 		{
 			return string.Format(CultureInfo.InvariantCulture, "X: {0}, Y: {1}, Z: {2}", X, Y, Z);
 		}
