@@ -142,6 +142,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 						if (character.IsAbilityActive(AbilityId.Barbarian28))
 							buffDuration += 5;
 
+						// Apply Wild Instinct
 						character.StartBuff(BuffId.ScudInstinct_Buff, 1, 0, TimeSpan.FromSeconds(buffDuration), character);
 					}
 				}

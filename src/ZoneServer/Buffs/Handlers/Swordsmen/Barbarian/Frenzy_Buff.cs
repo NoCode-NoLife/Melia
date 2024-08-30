@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
 	/// Handler for the Frenzy Buff, which increases attack speed
-	/// damage dealt, and damage taken as long as you keep
+	/// damage dealt, and damage received as long as you keep
 	/// attacking the same target.
 	/// </summary>
 	/// <remarks>
@@ -75,7 +75,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			// 0.5% more damage taken per stack
+			// The user takes 0.5% more damage per stack of Frenzy
+			// The increase to your outgoing damage is the in Frenzy Skill
 			modifier.DamageMultiplier += 0.005f * buff.OverbuffCounter;
 		}
 

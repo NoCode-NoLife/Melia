@@ -542,8 +542,8 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Reset skill ?
-			/// SKL_CANCEL_CANCEL
+			/// Cancels certain repeating skill animations, like Barbarian_GiantSwing
+			/// and Cataphract_Rush
 			/// </summary>
 			/// <param name="actor"></param>
 			/// <param name="skillId"></param>
