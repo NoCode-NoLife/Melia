@@ -22,7 +22,7 @@ public class FCastle201MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_20_1.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_castle_20_1.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("f_castle_20_1.Id2", MonsterId.Aklaspetal, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("f_castle_20_1.Id3", MonsterId.Aklaschurl, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("f_castle_20_1.Id4", MonsterId.Aklasia, min: 19, max: 25, tendency: TendencyType.Aggressive);

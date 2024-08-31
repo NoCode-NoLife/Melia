@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using System.Threading;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
@@ -18,7 +17,7 @@ namespace Melia.Zone.Scripting.AI
 {
 	public abstract partial class AiScript
 	{
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
 
 		/// <summary>
 		/// Moves entity to a random location within the given distance.
@@ -36,10 +35,10 @@ namespace Melia.Zone.Scripting.AI
 			var destination = this.Entity.Position;
 			var foundValidDest = false;
 
-			for (var i = 0; i < 10; ++i)
+			for (var i = 0; i < 5; ++i)
 			{
 				destination = this.Entity.Position.GetRandomInRange2D(radius, _rnd);
-				if (this.Entity.Map.Ground.IsValidPosition(destination))
+				if (!this.Entity.Map.Ground.AnyObstacles(this.Entity.Position, destination))
 				{
 					foundValidDest = true;
 					break;
@@ -47,7 +46,7 @@ namespace Melia.Zone.Scripting.AI
 			}
 
 			if (foundValidDest)
-				yield return this.MoveTo(destination, wait);
+				yield return this.MoveStraight(destination, wait);
 			else if (wait)
 				yield return this.Wait(2000);
 
@@ -55,7 +54,7 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Moves entity to the given destination.
+		/// Moves entity to the given destination on a path.
 		/// </summary>
 		/// <param name="destination"></param>
 		/// <param name="wait">If true, the routine doesn't return until the destination was reached.</param>
@@ -64,6 +63,53 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var movement = this.Entity.Components.Get<MovementComponent>();
 			var moveTime = movement.MoveTo(destination);
+
+			if (wait)
+				yield return this.Wait(moveTime);
+			else
+				yield break;
+		}
+
+		/// <summary>
+		/// Moves the entity to a close-range attack position around the given target.
+		/// </summary>
+		/// <remarks>
+		/// Doesn't return until the entity is within attacking distance. Stops
+		/// the entity once they are in range.
+		/// </remarks>
+		/// <param name="target"></param>
+		/// <param name="attackRange"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveToAttack(ICombatEntity target, float attackRange)
+		{
+			while (!this.InRangeOf(target, attackRange))
+			{
+				var targetMoved = (_lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(_lastAttackMovePos, 10));
+
+				if (!targetMoved)
+				{
+					yield return this.Wait(100);
+					continue;
+				}
+
+				// Adjust the destination if the target moved
+				_lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
+				yield return this.MoveTo(_lastAttackMovePos, wait: false);
+			}
+
+			yield return this.StopMove();
+		}
+
+		/// <summary>
+		/// Moves entity to the given destination in a straight line.
+		/// </summary>
+		/// <param name="destination"></param>
+		/// <param name="wait"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveStraight(Position destination, bool wait = true)
+		{
+			var movement = this.Entity.Components.Get<MovementComponent>();
+			var moveTime = movement.MoveStraight(destination);
 
 			if (wait)
 				yield return this.Wait(moveTime);
@@ -131,11 +177,11 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <returns></returns>
-		protected bool TryGetRandomSkill(out Skill skill)
+		protected virtual bool TryGetRandomSkill(out Skill skill)
 		{
 			skill = null;
 
-			if (!(this.Entity is Mob mob))
+			if (this.Entity is not Mob mob)
 				return false;
 
 			if (!mob.Data.Skills.Any())
@@ -165,7 +211,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="skill"></param>
 		/// <param name="target"></param>
 		/// <returns></returns>
-		protected IEnumerable UseSkill(Skill skill, ICombatEntity target)
+		protected virtual IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
 			this.Entity.TurnTowards(target);
 
@@ -275,7 +321,7 @@ namespace Melia.Zone.Scripting.AI
 
 				if (catchUp)
 				{
-					var closePos = this.Entity.Position.GetRelative(followTarget.Position, 50);
+					var closePos = followTarget.Position;
 					yield return this.MoveTo(closePos, false);
 				}
 				else if (movement.IsMoving)

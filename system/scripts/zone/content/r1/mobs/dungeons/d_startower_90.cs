@@ -29,7 +29,7 @@ public class DStartower90MobScript : GeneralScript
 		AddSpawner("d_startower_90.Id2", MonsterId.Madlens, min: 24, max: 31);
 		AddSpawner("d_startower_90.Id3", MonsterId.Grob, min: 26, max: 34);
 		AddSpawner("d_startower_90.Id4", MonsterId.Hafter, min: 40, max: 53);
-		AddSpawner("d_startower_90.Id5", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(10000));
+		AddSpawner("d_startower_90.Id5", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: Seconds(10));
 
 		// Monster Spawn Points -----------------------------
 

@@ -8,14 +8,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Maps;
+using static Melia.Shared.Util.TaskHelper;
 
 public class CampfireActionScript : GeneralScript
 {
@@ -27,7 +29,7 @@ public class CampfireActionScript : GeneralScript
 	private readonly static TimeSpan CampfireDuration = TimeSpan.FromMinutes(5);
 	private readonly static TimeSpan BuffApplyCheckDelay = TimeSpan.FromSeconds(1);
 
-	[ScriptableFunction("SCR_PUT_CAMPFIRE")]
+	[ScriptableFunction]
 	public CustomCommandResult SCR_PUT_CAMPFIRE(Character character, int numArg1, int numArg2, int numArg3)
 	{
 		var campfirePos = new Position(numArg1, 0, numArg2);
@@ -86,10 +88,10 @@ public class CampfireActionScript : GeneralScript
 
 		creator.Map.AddMonster(campfire);
 
-		ApplyBuff(creator, campfire);
+		CallSafe(ApplyBuff(creator, campfire));
 	}
 
-	private static async void ApplyBuff(Character creator, Mob campfire)
+	private static async Task ApplyBuff(Character creator, Mob campfire)
 	{
 		var area = new Circle(creator.Position, AreaOfEffectSize);
 		var endTime = DateTime.Now + CampfireDuration;
@@ -103,7 +105,7 @@ public class CampfireActionScript : GeneralScript
 			foreach (var character in characters)
 			{
 				if (character.IsSitting && !character.Buffs.Has(BuffId.campfire_Buff))
-					character.Buffs.Start(BuffId.campfire_Buff, TimeSpan.Zero);
+					character.StartBuff(BuffId.campfire_Buff);
 			}
 
 			await Task.Delay(BuffApplyCheckDelay);

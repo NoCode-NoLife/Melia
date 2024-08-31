@@ -32,7 +32,7 @@ public class FSiauliai461MobScript : GeneralScript
 		AddSpawner("f_siauliai_46_1.Id2", MonsterId.Shardstatue, min: 9, max: 12);
 		AddSpawner("f_siauliai_46_1.Id3", MonsterId.Shardstatue, min: 23, max: 30);
 		AddSpawner("f_siauliai_46_1.Id4", MonsterId.Siaulav, min: 23, max: 30);
-		AddSpawner("f_siauliai_46_1.Id5", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_1.Id5", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

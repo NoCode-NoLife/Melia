@@ -36,3 +36,9 @@ function M_QUESTS_SET_BUTTONS(questCtrl, quest)
 	dialogReplay:ShowWindow(0)
 	abandon:ShowWindow(0)
 end
+
+function M_QUESTS_SET_CHASE(questCtrl, quest)
+	local chase = GET_CHILD(questCtrl, "chase", "ui::CCheckBox")
+
+	chase:ShowWindow(0)
+end

@@ -12,21 +12,21 @@ namespace Melia.Barracks.Database
 	/// </summary>
 	public class Account : IAccount
 	{
-		private readonly object _moneyLock = new object();
-		private readonly List<Character> _characters = new List<Character>();
+		private readonly object _moneyLock = new();
+		private readonly List<Character> _characters = new();
 
 		/// <summary>
-		/// Account id.
+		/// Gets or sets account's id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Account name.
+		/// Gets or sets account's name.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account password.
+		/// Gets or sets account's password.
 		/// </summary>
 		public string Password { get; set; }
 
@@ -45,6 +45,12 @@ namespace Melia.Barracks.Database
 			}
 		}
 		private string _teamName;
+
+		/// <summary>
+		/// The account's authority level, used to determine if a character
+		/// can use a specific GM command.
+		/// </summary>
+		public int Authority { get; set; }
 
 		/// <summary>
 		/// Amount of Free TP.
@@ -116,6 +122,8 @@ namespace Melia.Barracks.Database
 		{
 			this.Properties.Create(new RFloatProperty(PropertyName.SelectedBarrack, () => this.SelectedBarrack));
 			this.Properties.Create(new RFloatProperty(PropertyName.Medal, () => this.Medals));
+			this.Properties.Create(new RFloatProperty(PropertyName.GiftMedal, () => this.GiftMedals));
+			this.Properties.Create(new RFloatProperty(PropertyName.PremiumMedal, () => this.PremiumMedals));
 			this.Properties.Create(new StringProperty(PropertyName.Medal_Get_Date, "202107321185720"));
 			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_1, "x64_OS"));
 			this.Properties.Create(new StringProperty(PropertyName.CTT_TempProperty_AC_Str_2, "x86_Client"));

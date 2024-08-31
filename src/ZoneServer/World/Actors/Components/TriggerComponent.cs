@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Components
 {
@@ -30,7 +31,9 @@ namespace Melia.Zone.World.Actors.Components
 		private int _useCount;
 
 		private DateTime _creationTime;
-		private DateTime _lastUpdate;
+		private TimeSpan _updateTimer;
+		private TimeSpan _lifetimeTimer;
+		private bool _elapsedInitalized;
 		private bool _destroyed;
 
 		/// <summary>
@@ -180,6 +183,17 @@ namespace Melia.Zone.World.Actors.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			// Make sure the elapsed time is not the full update time if we run
+			// for the first time, since the component might not have been around
+			// for the full update interval, which would mess with the update time
+			// calculations. We probably want to standardize this in some say,
+			// since this is generally what we would want to know. TODO.
+			if (!_elapsedInitalized)
+			{
+				elapsed = Math2.Max(TimeSpan.Zero, DateTime.Now - _creationTime);
+				_elapsedInitalized = true;
+			}
+
 			// There are two approaches to checking actors inside a trigger.
 			// We can do it from the trigger, which means every trigger needs
 			// to check all actors, or we can do it from the actors (and their
@@ -211,21 +225,23 @@ namespace Melia.Zone.World.Actors.Components
 				this.ActorCount = nowInside.Count;
 			}
 
-			var now = DateTime.Now;
-			var sinceLastUpdate = now - _lastUpdate;
+			_updateTimer += elapsed;
 
-			if (sinceLastUpdate >= this.UpdateInterval)
+			if (_updateTimer >= this.UpdateInterval)
 			{
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
-				_lastUpdate = now;
+				_updateTimer = TimeSpan.Zero;
 			}
 
 			if (this.LifeTime != TimeSpan.MaxValue)
 			{
-				var destroyTime = _creationTime + this.LifeTime;
+				_lifetimeTimer += elapsed;
 
-				if (now >= destroyTime)
+				if (_lifetimeTimer >= this.LifeTime)
+				{
 					this.DestroyOwner();
+					_lifetimeTimer = TimeSpan.Zero;
+				}
 			}
 		}
 
@@ -269,7 +285,6 @@ namespace Melia.Zone.World.Actors.Components
 		{
 			_destroyed = false;
 			_creationTime = DateTime.Now;
-			_lastUpdate = DateTime.Now;
 
 			this.Created?.Invoke(this, new TriggerArgs(TriggerType.Create, this.Owner));
 		}

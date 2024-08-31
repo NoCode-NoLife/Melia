@@ -21,6 +21,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Storage;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -51,27 +52,37 @@ namespace Melia.Zone.Network
 		{
 			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
-
-			// When using passprt login, this is the account id as string,
-			// and it's 18 (?) bytes long.	
-			var accountName = packet.GetString(56);
-
+			var accountName = packet.GetString(56); // String account id in 18 bytes if passport login?
 			var mac = packet.GetString(48);
-			var socialId = packet.GetLong();
+			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var bin2 = packet.GetBin(12);
-			var bin3 = packet.GetBin(10);
+			var i1 = packet.GetInt();
+			var i2 = packet.GetInt();
+			var i3 = packet.GetInt();
+			var s1 = packet.GetShort();
+			var s2 = packet.GetShort();
+			var s3 = packet.GetShort();
+			var fromBarracks1 = packet.GetBool();
+			var fromBarracks2 = packet.GetBool();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
-
-			// TODO: Check session key or something.
 
 			// Get account
 			conn.Account = ZoneServer.Instance.Database.GetAccount(accountName);
 			if (conn.Account == null)
 			{
 				Log.Warning("Stopped attempt to login with invalid account '{0}'. Closing connection.", accountName);
+				conn.Close();
+				return;
+			}
+
+			// Check session key
+			if (!ZoneServer.Instance.Database.CheckSessionKey(conn.Account.Id, sessionKey))
+			{
+				Log.Warning("Stopped attempt to login on account '{0}' with invalid session key '{1}'. Closing connection.", accountName, sessionKey);
 				conn.Close();
 				return;
 			}
@@ -101,15 +112,27 @@ namespace Melia.Zone.Network
 			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
 
 			map.AddCharacter(character);
+
 			conn.LoggedIn = true;
+			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
-			Send.ZC_STANCE_CHANGE(character);
-			Send.ZC_CONNECT_OK(conn, character);
-			Send.ZC_NORMAL.AdventureBook(conn);
-			Send.ZC_SET_CHATBALLOON_SKIN(conn);
-			Send.ZC_NORMAL.Unknown_1B4(character);
+			// Officials always send the following packets, even if we're coming
+			// from the barracks and don't need most of them. Since the client
+			// complains about this though, let's actually do the check.
+			if (fromBarracks1)
+			{
+				Send.ZC_CONNECT_OK(conn, character);
+			}
+			else
+			{
+				Send.ZC_STANCE_CHANGE(character);
+				Send.ZC_CONNECT_OK(conn, character);
+				Send.ZC_NORMAL.AdventureBook(conn);
+				Send.ZC_SET_CHATBALLOON_SKIN(conn);
+				Send.ZC_NORMAL.Unknown_1B4(character);
+			}
 		}
 
 		/// <summary>
@@ -150,7 +173,7 @@ namespace Melia.Zone.Network
 			Send.ZC_NORMAL.ItemCollectionList(character);
 			Send.ZC_NORMAL.Unknown_E4(character);
 			Send.ZC_OBJECT_PROPERTY(conn, character);
-			character.SendPCEtcProperties(); // Quick Hack to send required packets
+			Send.ZC_OBJECT_PROPERTY(conn, character.Etc);
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 0);
 			Send.ZC_MOVE_SPEED(character);
@@ -180,7 +203,7 @@ namespace Melia.Zone.Network
 			Send.ZC_SEND_PREMIUM_STATE(conn, conn.Account.Premium.Token);
 
 			if (conn.Account.Premium.CanUseBuff)
-				character.Buffs.Start(BuffId.Premium_Token, TimeSpan.Zero);
+				character.StartBuff(BuffId.Premium_Token);
 
 			// ---- </PremiumStuff> -------------------------------------------------
 
@@ -885,7 +908,7 @@ namespace Melia.Zone.Network
 			var ack = (DialogAcknowledgement)packet.GetInt();
 
 			var character = conn.SelectedCharacter;
-			var storage = conn.SelectedCharacter.PersonalStorage;
+			var storage = character.CurrentStorage;
 
 			// If storage was open, close it
 			if (storage.IsBrowsing && ack == DialogAcknowledgement.Okay)
@@ -1416,16 +1439,13 @@ namespace Melia.Zone.Network
 			var type = (StorageType)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var storage = character.PersonalStorage;
 
 			if (type == StorageType.PersonalStorage)
 			{
-				if (storage.IsBrowsing)
-				{
-					var storageItems = storage.GetItems();
+				var storage = character.CurrentStorage;
 
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storageItems);
-				}
+				if (storage.IsBrowsing)
+					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storage.GetItems());
 			}
 			else if (type == StorageType.TeamStorage)
 			{
@@ -1449,8 +1469,6 @@ namespace Melia.Zone.Network
 			var interaction = (StorageInteraction)packet.GetByte();
 
 			var character = conn.SelectedCharacter;
-			var inventory = character.Inventory;
-			var storage = character.PersonalStorage;
 
 			if (!Enum.IsDefined(typeof(StorageInteraction), interaction))
 			{
@@ -1458,17 +1476,20 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
-			var silver = inventory.CountItem(ItemId.Silver);
-
-			if (silver < interactionCost)
-			{
-				Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
-				return;
-			}
-
 			if (type == StorageType.PersonalStorage)
 			{
+				var inventory = character.Inventory;
+				var storage = character.CurrentStorage;
+
+				var interactionCost = ZoneServer.Instance.Conf.World.StorageFee;
+				var silver = inventory.CountItem(ItemId.Silver);
+
+				if (silver < interactionCost)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve storage items without silver", conn.Account.Name);
+					return;
+				}
+
 				if (!storage.IsBrowsing)
 				{
 					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
@@ -1510,14 +1531,47 @@ namespace Melia.Zone.Network
 			var item2ObjectId = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
+			var storage = character.CurrentStorage;
 
-			if (!character.PersonalStorage.IsBrowsing)
+			if (!storage.IsBrowsing)
 			{
 				Log.Warning("CZ_SWAP_ITEM_IN_WAREHOUSE: User '{0}' tried to manage their personal storage without it being open.", conn.Account.Name);
 				return;
 			}
 
-			character.PersonalStorage.Swap(fromSlot, toSlot);
+			storage.Swap(fromSlot, toSlot);
+		}
+
+		/// <summary>
+		/// Request to increase the size of a specific storage.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXTEND_WAREHOUSE)]
+		public void CZ_EXTEND_WAREHOUSE(IZoneConnection conn, Packet packet)
+		{
+			var type = (StorageType)packet.GetByte();
+
+			var character = conn.SelectedCharacter;
+
+			switch (type)
+			{
+				case StorageType.PersonalStorage:
+				{
+					var storage = character.CurrentStorage;
+
+					var result = storage.TryExtendStorage(PersonalStorage.ExtensionSize);
+					if (result != StorageResult.Success)
+						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
+					break;
+				}
+				default:
+				{
+					character.ServerMessage(Localization.Get("Something went wrong while extending the storage, please report this issue."));
+					Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend an unsupported warehouse type ({1}).", conn.Account.Name, type);
+					break;
+				}
+			}
 		}
 
 		/// <summary>
@@ -2301,7 +2355,7 @@ namespace Melia.Zone.Network
 			// should handle it. Alternatively, we could also add a check
 			// here, to see if DashRun is already active. What's better
 			// is TBD.
-			character.Buffs.Start(BuffId.DashRun);
+			character.StartBuff(BuffId.DashRun);
 		}
 
 		/// <summary>
@@ -2899,7 +2953,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Send as a notification for taking certain actions, such as preparing
+		/// Sent as a notification for taking certain actions, such as preparing
 		/// to teleport.
 		/// </summary>
 		/// <param name="conn"></param>

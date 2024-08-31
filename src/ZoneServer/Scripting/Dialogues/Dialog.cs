@@ -540,12 +540,22 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
-		/// Opens warehouse
+		/// Opens the player's personal storage.
 		/// </summary>
 		/// <returns></returns>
 		public async Task OpenPersonalStorage()
 		{
 			this.Player.PersonalStorage.Open();
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
+		/// Opens the player's team/account storage.
+		/// </summary>
+		/// <returns></returns>
+		public async Task OpenTeamStorage()
+		{
+			this.Player.TeamStorage.Open();
 			await this.GetClientResponse();
 		}
 

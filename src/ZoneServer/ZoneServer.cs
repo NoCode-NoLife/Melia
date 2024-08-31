@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Game.Const;
 using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -125,8 +125,6 @@ namespace Melia.Zone
 			this.LoadIesMods();
 			this.StartWorld();
 
-			var skill = this.Data.SkillDb.Find("Bow_Hanging_Attack");
-
 			this.StartCommunicator();
 			this.StartAcceptor();
 
@@ -153,7 +151,9 @@ namespace Melia.Zone
 		private void StartAcceptor()
 		{
 			_acceptor = new TcpConnectionAcceptor<ZoneConnection>(this.ServerInfo.Port);
+			_acceptor.ConnectionChecker = (conn) => this.CheckConnection(conn, this.Database);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+			_acceptor.ConnectionRejected += this.OnConnectionRejected;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
@@ -182,10 +182,11 @@ namespace Melia.Zone
 		private void ConnectToCoordinator()
 		{
 			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
+			var authentication = this.Conf.Inter.Authentication;
 
 			try
 			{
-				this.Communicator.Connect("Coordinator", barracksServerInfo.Ip, barracksServerInfo.InterPort);
+				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
 				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
 				this.Communicator.Subscribe("Coordinator", "AllServers");
@@ -270,6 +271,12 @@ namespace Melia.Zone
 					}
 					break;
 				}
+				case ForceLogOutMessage logoutMessage:
+				{
+					var connection = this.World.GetCharacters().Select(a => a.Connection).FirstOrDefault(a => a?.Account?.Id == logoutMessage.AccountId);
+					connection?.Close();
+					break;
+				}
 			}
 		}
 
@@ -342,6 +349,8 @@ namespace Melia.Zone
 			}
 
 			this.IesMods.Add("SharedConst", 177, "Value", this.Conf.World.StorageFee); // WAREHOUSE_PRICE
+			this.IesMods.Add("SharedConst", 10004, "Value", this.Conf.World.StorageExtCost); // WAREHOUSE_EXTEND_PRICE
+			this.IesMods.Add("SharedConst", 10010, "Value", this.Conf.World.StorageMaxExtensions); // WAREHOUSE_MAX_COUNT
 			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
 		}
 
@@ -352,6 +361,16 @@ namespace Melia.Zone
 		private void OnConnectionAccepted(ZoneConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
+		}
+
+		/// <summary>
+		/// Called when a new connection was rejected.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="reason"></param>
+		private void OnConnectionRejected(ZoneConnection conn, string reason)
+		{
+			Log.Info("Connection rejected from '{0}'.", conn.Address);
 		}
 	}
 }

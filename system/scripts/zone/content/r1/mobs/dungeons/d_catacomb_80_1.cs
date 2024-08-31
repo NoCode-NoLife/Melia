@@ -25,7 +25,7 @@ public class DCatacomb801MobScript : GeneralScript
 		AddSpawner("d_catacomb_80_1.Id8", MonsterId.ERD_Melatanun, min: 30, max: 40, tendency: TendencyType.Peaceful);
 		AddSpawner("d_catacomb_80_1.Id9", MonsterId.ERD_Rudas_Loxodon, min: 4, max: 5, tendency: TendencyType.Aggressive);
 		AddSpawner("d_catacomb_80_1.Id10", MonsterId.ERD_GoblinWarrior_Blue, min: 4, max: 5, tendency: TendencyType.Aggressive);
-		AddSpawner("d_catacomb_80_1.Id11", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_catacomb_80_1.Id11", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: Seconds(20), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -17,13 +17,13 @@ public class FBracken433MobScript : GeneralScript
 
 		AddSpawner("f_bracken_43_3.Id1", MonsterId.Vilkas_Soldier, min: 22, max: 29);
 		AddSpawner("f_bracken_43_3.Id2", MonsterId.Vilkas_Archer, min: 17, max: 22);
-		AddSpawner("f_bracken_43_3.Id3", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_3.Id3", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_bracken_43_3.Id4", MonsterId.Rompelnuka, min: 12, max: 15);
 		AddSpawner("f_bracken_43_3.Id5", MonsterId.Vilkas_Archer, min: 8, max: 10);
 		AddSpawner("f_bracken_43_3.Id6", MonsterId.Vilkas_Soldier, min: 15, max: 20);
-		AddSpawner("f_bracken_43_3.Id7", MonsterId.Vilkas_Soldier, amount: 3, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_bracken_43_3.Id8", MonsterId.Vilkas_Archer, amount: 2, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_bracken_43_3.Id9", MonsterId.Rompelnuka, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_3.Id7", MonsterId.Vilkas_Soldier, amount: 3, respawn: Minutes(1));
+		AddSpawner("f_bracken_43_3.Id8", MonsterId.Vilkas_Archer, amount: 2, respawn: Minutes(1));
+		AddSpawner("f_bracken_43_3.Id9", MonsterId.Rompelnuka, min: 8, max: 10, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

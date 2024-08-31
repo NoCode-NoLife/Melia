@@ -26,3 +26,17 @@ end
 function DicID(str)
 	return Melia.Util.DicID(str)
 end
+
+Melia.Util.Split = function(str, sep)
+	if sep == '' then return {str} end
+  
+	local res, from = {}, 1
+
+	repeat
+		local pos = str:find(sep, from)
+		res[#res + 1] = str:sub(from, pos and pos - 1)
+		from = pos and pos + #sep
+	until not from
+
+	return res
+end

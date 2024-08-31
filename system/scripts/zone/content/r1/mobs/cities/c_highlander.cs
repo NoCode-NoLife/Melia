@@ -15,10 +15,10 @@ public class CHighlanderMobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("c_highlander.Id1", MonsterId.Wood_Carving_Fire, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("c_highlander.Id2", MonsterId.Wood_Carving_Poison, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("c_highlander.Id3", MonsterId.Wood_Carving_Lightning, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("c_highlander.Id4", MonsterId.Wood_Carving_Earth, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("c_highlander.Id1", MonsterId.Wood_Carving_Fire, amount: 1, respawn: Minutes(1));
+		AddSpawner("c_highlander.Id2", MonsterId.Wood_Carving_Poison, amount: 1, respawn: Minutes(1));
+		AddSpawner("c_highlander.Id3", MonsterId.Wood_Carving_Lightning, amount: 1, respawn: Minutes(1));
+		AddSpawner("c_highlander.Id4", MonsterId.Wood_Carving_Earth, amount: 1, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

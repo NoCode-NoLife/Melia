@@ -19,7 +19,7 @@ public class DIrredians1131MobScript : GeneralScript
 		AddSpawner("d_irredians_113_1.Id2", MonsterId.Greedyprisoner, min: 30, max: 40);
 		AddSpawner("d_irredians_113_1.Id3", MonsterId.PuppetM, min: 55, max: 73);
 		AddSpawner("d_irredians_113_1.Id4", MonsterId.Maskexecutor, min: 64, max: 85);
-		AddSpawner("d_irredians_113_1.Id5", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("d_irredians_113_1.Id5", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

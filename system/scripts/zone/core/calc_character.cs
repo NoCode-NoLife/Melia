@@ -1394,7 +1394,16 @@ public class CharacterCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Character_MovingShotable(Character character)
 	{
-		return character.JobClass == JobClass.Archer ? 1 : 0;
+		if (character.JobClass == JobClass.Archer)
+			return 1;
+
+		var buffs = new[] { BuffId.Cyclone_EnableMovingShot_Buff, BuffId.DoubleGunStance_Buff, BuffId.Warrior_EnableMovingShot_Buff, BuffId.Warrior_RushMove_Buff, BuffId.Limacon_Buff };
+
+		var anyBuffsActive = buffs.Any(character.IsBuffActive);
+		if (anyBuffsActive)
+			return 1;
+
+		return 0;
 	}
 
 	/// <summary>

@@ -17,7 +17,7 @@ namespace Melia.Shared.Configuration.Files
 		/// <summary>
 		/// Checksum to prevent clients using modified or out-dated IPF files.
 		/// </summary>
-		public string IpfChecksum { get; private set; }
+		public string IpfChecksum { get; set; }
 
 		/// <summary>
 		/// Map new players start on.

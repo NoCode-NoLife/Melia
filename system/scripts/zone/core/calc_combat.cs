@@ -197,6 +197,14 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
+		// Let monster-specific functions override the damage calculation,
+		// but do it after the basic calculations have been done, so we
+		// can utilize them. For example, we can double or half damage
+		// that way, or let crit animations happen, even if we might
+		// reduce the damage to 1.
+		if (target is Mob mob && ScriptableFunctions.Combat.TryGet("SCR_CalculateDamage_Monster_" + mob.Data.ClassName, out var mobCalcFunc))
+			mobCalcFunc(attacker, target, skill, modifier, skillHitResult);
+
 		return (int)skillHitResult.Damage;
 	}
 
@@ -572,6 +580,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.AttackType == SkillAttackType.Magic)
 			return 0;
 
+		if (modifier.Unblockable)
+			return 0;
+
 		if (modifier.ForcedBlock)
 			return 100;
 
@@ -626,8 +637,10 @@ public class CombatCalculationsScript : GeneralScript
 		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
-		var blockChance = Math2.Clamp(0, 100, Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f));
+		var critChance = Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f);
 
-		return (float)blockChance;
+		critChance = Math2.Clamp(modifier.MinCritChance, 100, critChance);
+
+		return (float)critChance;
 	}
 }

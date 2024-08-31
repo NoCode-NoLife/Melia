@@ -4,10 +4,10 @@ Combat Events
 ## Introduction
 
 Most of Melia's internal combat calculations are handled by a series
-of [scriptable functions][scriptable_functions.md] found in our core
-scripts. In many cases, all we have to do to calculate a skill's damage
-is call into this system and use the returned values to determine the
-outcome of the attack.
+of [scriptable functions](../scripting/scriptable_functions.md), found
+in our core scripts. In many cases, all we have to do to calculate a
+skill's damage is call into this system and use the returned values
+to determine the outcome of the attack.
 
 However, some skills and buffs need to make slight adjustments to the
 combat calculations. For this purpose we provide event handler interfaces

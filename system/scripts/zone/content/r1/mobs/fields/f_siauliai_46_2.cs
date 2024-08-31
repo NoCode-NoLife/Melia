@@ -27,7 +27,7 @@ public class FSiauliai462MobScript : GeneralScript
 		AddSpawner("f_siauliai_46_2.Id2", MonsterId.Zigri_Red, min: 30, max: 40);
 		AddSpawner("f_siauliai_46_2.Id3", MonsterId.Siaumire, min: 30, max: 40);
 		AddSpawner("f_siauliai_46_2.Id4", MonsterId.Big_Siaulamb, amount: 3);
-		AddSpawner("f_siauliai_46_2.Id5", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_46_2.Id5", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

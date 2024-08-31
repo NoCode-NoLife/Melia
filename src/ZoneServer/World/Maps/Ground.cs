@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System;
+using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.World;
@@ -18,6 +20,7 @@ namespace Melia.Zone.World.Maps
 		private DMesh3 _mesh;
 		private DMeshAABBTree3 _spatial;
 		private Polygon2d[] _cells;
+		private LineF[] _outlines;
 
 		/// <summary>
 		/// Loads the ground data.
@@ -29,6 +32,29 @@ namespace Melia.Zone.World.Maps
 
 			this.LoadGroundMesh();
 			this.LoadCells();
+			this.LoadOutlines();
+		}
+
+		/// <summary>
+		/// Generates the outline of the ground, for simpler collision checks.
+		/// </summary>
+		private void LoadOutlines()
+		{
+			var outlines = new List<LineF>();
+
+			var edges = _mesh.Edges();
+			var outerEdges = edges.Where(a => a.d == -1);
+
+			foreach (var edge in outerEdges)
+			{
+				var vert1 = _mesh.GetVertex(edge.a);
+				var vert2 = _mesh.GetVertex(edge.b);
+
+				var line = new LineF(new((float)vert1.x, (float)vert1.z), new((float)vert2.x, (float)vert2.z));
+				outlines.Add(line);
+			}
+
+			_outlines = outlines.ToArray();
 		}
 
 		/// <summary>
@@ -249,6 +275,125 @@ namespace Melia.Zone.World.Maps
 			}
 
 			return destination;
+		}
+
+		/// <summary>
+		/// Returns the last valid center position of a circle on the path
+		/// between the center and destination. If there are no obstacles
+		/// between the two positions, the position returned is the center of
+		/// circle at destination.
+		/// </summary>
+		/// <param name="originCenter"></param>
+		/// <param name="radius"></param>
+		/// <param name="destinationCenter"></param>
+		/// <returns></returns>
+		public Position GetLastValidCirclePosition(Position originCenter, float radius, Position destinationCenter)
+		{
+			var dir = originCenter.GetDirection(destinationCenter);
+			var stepSize = 10;
+			var currentPos = originCenter;
+			var lastValidPos = currentPos;
+
+			while (currentPos.Get2DDistance(destinationCenter) > stepSize)
+			{
+				currentPos = currentPos.GetRelative(dir, stepSize);
+
+				if (!this.TryGetHeightAt(currentPos, out var height))
+					return lastValidPos;
+
+				if (!this.IsValidCirclePosition(currentPos, radius))
+					return lastValidPos;
+
+				lastValidPos = currentPos;
+				lastValidPos.Y = height;
+			}
+
+			return destinationCenter;
+		}
+
+		/// <summary>
+		/// Checks if the circle at the given center position with the
+		/// specified radius is valid by verifying the heights at 8 points
+		/// on its perimeter.
+		/// </summary>
+		/// <param name="center"></param>
+		/// <param name="radius"></param>
+		/// <returns></returns>
+		public bool IsValidCirclePosition(Position center, float radius)
+		{
+			var perimeterOffsets = new List<Vector2f>
+			{
+				new (radius, 0),
+				new (-radius, 0),
+				new (0, radius),
+				new (0, -radius),
+				new (radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new (-radius / Math.Sqrt(2), radius / Math.Sqrt(2)),
+				new (radius / Math.Sqrt(2), -radius / Math.Sqrt(2)),
+				new (-radius / Math.Sqrt(2), -radius / Math.Sqrt(2))
+			};
+
+			foreach (var offset in perimeterOffsets)
+			{
+				var perimeterPos = new Position(center.X + offset.x, center.Y, center.Z + offset.y);
+
+				if (!this.TryGetHeightAt(perimeterPos, out var height))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if there are any invalid positions on the line
+		/// between the two positions.
+		/// </summary>
+		/// <remarks>
+		/// Uses plotting with a step size of 5 to determine if there are
+		/// invalid positions. 
+		/// </remarks>
+		/// <param name="pos1"></param>
+		/// <param name="pos2"></param>
+		/// <returns></returns>
+		public bool AnyObstacles(Position pos1, Position pos2)
+		{
+			// TODO: This is fine for now, but we should really create an
+			//   outline of the ground and check if the line between the
+			//   positions intersects with it, as this will not only be
+			//   more performant, but also accurate.
+
+			if (!this.IsValidPosition(pos1) || !this.IsValidPosition(pos2))
+				return true;
+
+			var stepSize = 5;
+			var curPos = pos1;
+			var dir = pos1.GetDirection(pos2);
+
+			while (curPos.Get2DDistance(pos2) > stepSize)
+			{
+				curPos = curPos.GetRelative(dir, stepSize);
+
+				if (!this.IsValidPosition(curPos))
+					return true;
+			}
+
+			return false;
+
+			// Outlines example
+			// This works as a replacement for plotting the line, but on
+			// large maps we'd potentially be checking hundreds of lines
+			// for intersections, which obviously isn't ideal. Let's do
+			// it properly and add a QuadTree before switching. TODO.
+
+			//var line = new LineF(pos1, pos2);
+
+			//foreach (var outline in _outlines)
+			//{
+			//	if (line.Intersects(outline, out _))
+			//		return true;
+			//}
+
+			//return false;
 		}
 	}
 }

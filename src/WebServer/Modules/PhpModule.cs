@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
@@ -84,6 +85,18 @@ namespace Melia.Web.Modules
 			var ext = Path.GetExtension(scriptFilePath);
 			if (ext != ".php")
 				return;
+
+			if (!File.Exists(WebServer.Instance.Conf.Web.PhpCgiFilePath))
+			{
+				context.Response.StatusCode = 500;
+				context.Response.ContentType = "text/plain";
+
+				using (var output = context.OpenResponseText())
+					output.Write("PHP processor not found. If you're the admin, check your web configuration.");
+
+				context.SetHandled();
+				return;
+			}
 
 			// Get query string from URL
 			var index = context.Request.RawUrl.IndexOf('?');

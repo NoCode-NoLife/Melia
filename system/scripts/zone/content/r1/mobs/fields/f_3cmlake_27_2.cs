@@ -24,7 +24,7 @@ public class F3Cmlake272MobScript : GeneralScript
 
 		AddSpawner("f_3cmlake_27_2.Id1", MonsterId.Velpod, min: 49, max: 65);
 		AddSpawner("f_3cmlake_27_2.Id2", MonsterId.Tooter, min: 11, max: 14);
-		AddSpawner("f_3cmlake_27_2.Id3", MonsterId.Rootcrystal_02, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_27_2.Id3", MonsterId.Rootcrystal_02, min: 16, max: 21, respawn: Seconds(20));
 		AddSpawner("f_3cmlake_27_2.Id4", MonsterId.Monitor_Lizard, min: 60, max: 80);
 
 		// Monster Spawn Points -----------------------------

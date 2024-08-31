@@ -25,7 +25,7 @@ public class DThorn21MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_21.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("d_thorn_21.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(30));
 		AddSpawner("d_thorn_21.Id2", MonsterId.Matsum, min: 15, max: 20);
 		AddSpawner("d_thorn_21.Id3", MonsterId.Matsum, min: 15, max: 20);
 		AddSpawner("d_thorn_21.Id4", MonsterId.Chafperor, min: 19, max: 25);

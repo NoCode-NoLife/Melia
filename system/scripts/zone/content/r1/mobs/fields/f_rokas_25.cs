@@ -18,7 +18,7 @@ public class FRokas25MobScript : GeneralScript
 		AddSpawner("f_rokas_25.Id1", MonsterId.Zinute, min: 15, max: 20);
 		AddSpawner("f_rokas_25.Id2", MonsterId.Zinute, min: 30, max: 40);
 		AddSpawner("f_rokas_25.Id3", MonsterId.Chupacabra_Desert, min: 12, max: 15);
-		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_rokas_25.Id4", MonsterId.Rootcrystal_05, min: 10, max: 13, respawn: Seconds(5));
 		AddSpawner("f_rokas_25.Id5", MonsterId.Chupacabra_Desert, min: 19, max: 25);
 		AddSpawner("f_rokas_25.Id6", MonsterId.Chupacabra_Desert, min: 30, max: 40);
 		AddSpawner("f_rokas_25.Id7", MonsterId.Lichenclops, min: 30, max: 40);

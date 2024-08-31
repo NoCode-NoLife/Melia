@@ -82,7 +82,6 @@ namespace Melia.Barracks
 			this.LoadServerList(this.Data.ServerDb, ServerType.Barracks, groupId, serverId);
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDatabaseUpdates();
-			this.ClearLoginStates();
 			this.LoadIesMods();
 			this.LoadScripts("barracks");
 
@@ -133,7 +132,9 @@ namespace Melia.Barracks
 		private void StartAcceptor()
 		{
 			_acceptor = new TcpConnectionAcceptor<BarracksConnection>(this.ServerInfo.Port);
+			_acceptor.ConnectionChecker = (conn) => this.CheckConnection(conn, this.Database);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+			_acceptor.ConnectionRejected += this.OnConnectionRejected;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
@@ -146,8 +147,9 @@ namespace Melia.Barracks
 		private void StartCommunicator()
 		{
 			var commName = "" + this.ServerInfo.Type + this.ServerInfo.Id;
+			var authentication = this.Conf.Inter.Authentication;
 
-			this.Communicator = new Communicator(commName);
+			this.Communicator = new Communicator(commName, authentication);
 			this.Communicator.ClientConnected += this.Communicator_OnClientConnected;
 			this.Communicator.ClientDisconnected += this.Communicator_OnClientDisconnected;
 			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
@@ -204,10 +206,16 @@ namespace Melia.Barracks
 						break;
 					}
 				case RequestMessage requestMessage:
-					{
-						this.Communicator_OnRequestReceived(sender, requestMessage);
-						break;
-					}
+				{
+					this.Communicator_OnRequestReceived(sender, requestMessage);
+					break;
+				}
+				case ForceLogOutMessage logoutMessage:
+				{
+					var connection = this.GetAllConnections().FirstOrDefault(a => a?.Account?.Id == logoutMessage.AccountId);
+					connection?.Close();
+					break;
+				}
 			}
 		}
 
@@ -227,9 +235,20 @@ namespace Melia.Barracks
 						var message = new ResPlayerCountMessage(playerCount);
 						var responseMessage = new ResponseMessage(requestMessage.Id, message);
 
-						this.Communicator.Send(sender, responseMessage);
-						break;
-					}
+					this.Communicator.Send(sender, responseMessage);
+					break;
+				}
+
+				case ReqServerListMessage reqMessage:
+				{
+					var servers = this.ServerList.GetAll();
+
+					var message = new ResServerListMessage(servers);
+					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+
+					this.Communicator.Send(sender, responseMessage);
+					break;
+				}
 			}
 		}
 
@@ -243,44 +262,43 @@ namespace Melia.Barracks
 		}
 
 		/// <summary>
+		/// Called when a new connection was rejected.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="reason"></param>
+		private void OnConnectionRejected(BarracksConnection conn, string reason)
+		{
+			Log.Info("Connection rejected from '{0}'. Reason: {1}", conn.Address, reason);
+		}
+
+		/// <summary>
 		/// Checks for potential updates for the database.
 		/// </summary>
 		private void CheckDatabaseUpdates()
 		{
 			Log.Info("Checking for updates...");
 
-			var files = Directory.GetFiles("sql").OrderBy(a => a);
-			foreach (var filePath in files.Where(file => Path.GetExtension(file).Equals(".sql", StringComparison.InvariantCultureIgnoreCase)))
-				this.RunUpdate(Path.GetFileName(filePath));
-		}
+			// We had an issue with our update names, and to ensure that we
+			// don't break everyone's update history, we'll temporarily fix
+			// the update names on the fly. This should be removed at some
+			// point in the future.
+			this.Database.NormalizeUpdateNames();
 
-		/// <summary>
-		/// Attempts to execute the given update file.
-		/// </summary>
-		/// <param name="updateFile"></param>
-		private void RunUpdate(string updateFile)
-		{
-			if (this.Database.CheckUpdate(updateFile))
-				return;
+			var enumOptions = new EnumerationOptions { RecurseSubdirectories = true, MatchCasing = MatchCasing.CaseInsensitive };
+			var filePaths = Directory.GetFiles("sql/updates/", "*.sql", enumOptions).OrderBy(a => a);
 
-			Log.Info("Update '{0}' found, executing...", updateFile);
+			var updateFiles = new Dictionary<string, string>();
+			foreach (var filePath in filePaths)
+			{
+				var updateName = Path.GetFileName(filePath);
+				var normalizedName = updateName.ToLower().Replace("update-", "update_");
 
-			this.Database.RunUpdate(updateFile);
-		}
+				if (this.Database.CheckUpdate(normalizedName))
+					continue;
 
-		/// <summary>
-		/// Clears the login states of all accounts in the database.
-		/// </summary>
-		private void ClearLoginStates()
-		{
-			// Clearing the login states on barracks start means we'll
-			// have a clean slate whenever we restart the server, though
-			// it also leaves somewhat of a potential bypass, where the
-			// login states may get reset because you restarted barracks,
-			// even though people might still be logged in on a zone.
-			// This should be pretty rare though, and we can improve
-			// it once the servers talk to each other. TODO.
-			this.Database.ClearLoginStates();
+				Log.Info("Update '{0}' found, executing...", updateName);
+				this.Database.RunUpdate(normalizedName, File.ReadAllText(filePath));
+			}
 		}
 
 		/// <summary>

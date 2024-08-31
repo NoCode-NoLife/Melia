@@ -21,7 +21,7 @@ public class FWhitetrees221MobScript : GeneralScript
 		AddSpawner("f_whitetrees_22_1.Id4", MonsterId.Umblet, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("f_whitetrees_22_1.Id5", MonsterId.Umbra_Mage, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("f_whitetrees_22_1.Id6", MonsterId.Umbra_Warrior, min: 12, max: 16, tendency: TendencyType.Aggressive);
-		AddSpawner("f_whitetrees_22_1.Id7", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_1.Id7", MonsterId.Rootcrystal_01, min: 14, max: 18, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

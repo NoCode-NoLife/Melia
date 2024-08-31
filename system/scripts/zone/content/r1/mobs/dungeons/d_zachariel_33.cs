@@ -25,7 +25,7 @@ public class DZachariel33MobScript : GeneralScript
 
 		AddSpawner("d_zachariel_33.Id1", MonsterId.Beetle, min: 4, max: 5, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id2", MonsterId.Vesper, min: 6, max: 7, tendency: TendencyType.Aggressive);
-		AddSpawner("d_zachariel_33.Id3", MonsterId.Rootcrystal_05, min: 18, max: 24, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_33.Id3", MonsterId.Rootcrystal_05, min: 18, max: 24, respawn: Seconds(15), tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_33.Id4", MonsterId.Wolf_Statue, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id5", MonsterId.Beetle, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_33.Id6", MonsterId.Vesper, min: 15, max: 20, tendency: TendencyType.Aggressive);

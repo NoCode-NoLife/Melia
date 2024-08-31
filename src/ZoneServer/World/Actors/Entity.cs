@@ -39,7 +39,7 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Returns the entity's armor material.
 		/// </summary>
-		ArmorMaterialType ArmorMaterial { get; }
+		ArmorMaterialType ArmorMaterial => (ArmorMaterialType)(int)this.Properties.GetFloat(PropertyName.ArmorMaterial, (int)ArmorMaterialType.None);
 
 		/// <summary>
 		/// Returns the entity's mode of movement.
@@ -63,6 +63,22 @@ namespace Melia.Zone.World.Actors
 		/// not a mob.
 		/// </summary>
 		MonsterRank Rank => (this is Mob mob ? mob.Data.Rank : MonsterRank.Normal);
+
+		/// <summary>
+		/// Returns the entity's radius for pathfinding purposes.
+		/// </summary>
+		/// <remarks>
+		/// Based on shape.ies.
+		/// </remarks>
+		float AgentRadius => this.EffectiveSize switch
+		{
+			SizeType.S => 12,
+			SizeType.M => 15,
+			SizeType.L => 20,
+			SizeType.XL => 40,
+			SizeType.XXL => 40,
+			_ => 0,
+		};
 
 		/// <summary>
 		/// Returns the entity's level.
@@ -265,10 +281,19 @@ namespace Melia.Zone.World.Actors
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
 		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, Buff.DefaultDuration, entity, SkillId.None);
+
+		/// <summary>
+		/// Starts the buff with the given id. If the buff is already active,
+		/// it gets overbuffed. Returns the created or modified buff.
+		/// </summary>
+		/// <param name="buffId"></param>
 		/// <param name="duration"></param>
 		/// <returns></returns>
 		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, TimeSpan duration)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity);
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, 0, 0, duration, entity, SkillId.None);
 
 		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
@@ -279,9 +304,10 @@ namespace Melia.Zone.World.Actors
 		/// <param name="numArg2"></param>
 		/// <param name="duration"></param>
 		/// <param name="caster"></param>
+		/// <param name="skillId"></param>
 		/// <returns></returns>
-		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster)
-			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster);
+		public static Buff StartBuff(this ICombatEntity entity, BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId = SkillId.None)
+			=> entity.Components.Get<BuffComponent>()?.Start(buffId, numArg1, numArg2, duration, caster, skillId);
 
 		/// <summary>
 		/// Stops the buff with the given id.
@@ -520,6 +546,25 @@ namespace Melia.Zone.World.Actors
 
 			if (rnd.Next(100) < chance && entity.Components.TryGet<BuffComponent>(out var buffs))
 				buffs.RemoveRandomDebuff();
+		}
+
+		/// <summary>
+		/// Returns true if the entity is behind the target.
+		/// </summary>
+		/// <remarks>
+		/// Uses the target's current direction and the given max angle to
+		/// determine if the entity is behind it.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="maxAngle"></param>
+		/// <returns></returns>
+		public static bool IsBehind(this ICombatEntity entity, ICombatEntity target, float maxAngle = 90)
+		{
+			var casterAngle = entity.Direction.DegreeAngle;
+			var targetAngle = target.Direction.DegreeAngle;
+
+			return Math.Abs(casterAngle - targetAngle) < maxAngle || Math.Abs(casterAngle + 360f - targetAngle) < maxAngle || Math.Abs(casterAngle - targetAngle + 360f) < maxAngle;
 		}
 	}
 }

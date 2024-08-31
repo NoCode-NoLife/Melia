@@ -22,7 +22,7 @@ public class DFiretower45MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_firetower_45.Id1", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_45.Id1", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_45.Id2", MonsterId.Dimmer, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_45.Id3", MonsterId.Tower_Of_Firepuppet_Black, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_45.Id4", MonsterId.Fire_Dragon_Purple, min: 8, max: 10, tendency: TendencyType.Aggressive);
