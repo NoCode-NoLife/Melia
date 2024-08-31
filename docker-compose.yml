@@ -10,7 +10,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./sql_start:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d
       - ./.mysql/:/var/lib/mysql
     restart: ${SERVER_RESTART}
     env_file:
@@ -20,9 +20,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 40
+
   melia-server:
     container_name: melia-server
     command: "./start ${ENVIRONMENT}"
+    # command: "tail -f /dev/null"
     build: "./Servers"
     networks:
       - melia-network

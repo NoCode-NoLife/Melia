@@ -1,5 +1,4 @@
 #!/bin/sh
-clear
 echo "Stoping Melia Project..."
 
 killall -9 BarracksServer
