@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Melia.Shared.World;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -62,7 +62,14 @@ public class BasicMonsterAiScript : AiScript
 
 			yield return MoveToAttack(target, skill.GetAttackRange());
 			yield return UseSkill(skill, target);
-			yield return Wait(skill.Properties.Delay);
+
+			var delayRate = ZoneServer.Instance.Conf.World.EnemySkillDelay;
+
+			if (delayRate > 0)
+			{
+				var delayTime = skill.Properties.Delay * delayRate;
+				yield return Wait(delayTime);
+			}
 		}
 
 		yield break;

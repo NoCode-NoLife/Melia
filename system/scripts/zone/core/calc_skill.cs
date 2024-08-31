@@ -7,6 +7,7 @@
 using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
@@ -323,6 +324,11 @@ public class SkillCalculationsScript : GeneralScript
 			byBuff = spdBm / 1000f;
 		}
 
+		if (skill.IsMonsterSkill)
+		{
+			baseValue *= ZoneServer.Instance.Conf.World.EnemySkillSpeed;
+		}
+
 		return (float)(baseValue + byDex + byBuff);
 	}
 
@@ -336,6 +342,8 @@ public class SkillCalculationsScript : GeneralScript
 	{
 		var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
 		var defShootTime = skill.Data.ShootTime.TotalMilliseconds;
+
+		if (skill.IsMonsterSkill) sklSpdRate *= ZoneServer.Instance.Conf.World.EnemySkillSpeed;
 
 		return (float)(defShootTime / sklSpdRate);
 	}
