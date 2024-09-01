@@ -28,17 +28,17 @@ namespace Melia.Zone.Database
 		private readonly Dictionary<int, RevealedMap> _revealedMaps = new();
 
 		/// <summary>
-		/// Account id
+		/// Gets or sets account's id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Account name
+		/// Gets or sets account's name.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account's team name
+		/// Gets or sets account's team name.
 		/// </summary>
 		public string TeamName { get; set; }
 

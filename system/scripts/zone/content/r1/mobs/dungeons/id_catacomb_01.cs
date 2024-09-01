@@ -15,13 +15,13 @@ public class IdCatacomb01MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_catacomb_01.Id1", MonsterId.FD_Leaf_Diving_Purple, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id2", MonsterId.FD_Maggot, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id3", MonsterId.FD_Mushcarfung, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id4", MonsterId.FD_Candlespider, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id5", MonsterId.Rootcrystal_01, min: 21, max: 28, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
-		AddSpawner("id_catacomb_01.Id6", MonsterId.Cronewt_Bow_Brown, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_01.Id7", MonsterId.Colifly_Bow_Purple, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id1", MonsterId.FD_Leaf_Diving_Purple, min: 15, max: 20, respawn: Seconds(10), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id2", MonsterId.FD_Maggot, min: 12, max: 15, respawn: Seconds(10), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id3", MonsterId.FD_Mushcarfung, min: 15, max: 20, respawn: Seconds(25), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id4", MonsterId.FD_Candlespider, min: 15, max: 20, respawn: Seconds(30), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id5", MonsterId.Rootcrystal_01, min: 21, max: 28, respawn: Seconds(5), tendency: TendencyType.Peaceful);
+		AddSpawner("id_catacomb_01.Id6", MonsterId.Cronewt_Bow_Brown, min: 9, max: 12, respawn: Seconds(25), tendency: TendencyType.Aggressive);
+		AddSpawner("id_catacomb_01.Id7", MonsterId.Colifly_Bow_Purple, min: 12, max: 15, respawn: Seconds(20), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

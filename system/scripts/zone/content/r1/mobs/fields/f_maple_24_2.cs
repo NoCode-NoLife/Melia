@@ -24,7 +24,7 @@ public class FMaple242MobScript : GeneralScript
 		AddSpawner("f_maple_24_2.Id1", MonsterId.Banterer_Red, min: 19, max: 25);
 		AddSpawner("f_maple_24_2.Id2", MonsterId.Fragolin, min: 48, max: 63);
 		AddSpawner("f_maple_24_2.Id3", MonsterId.Rafflet, min: 46, max: 61);
-		AddSpawner("f_maple_24_2.Id4", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_maple_24_2.Id4", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

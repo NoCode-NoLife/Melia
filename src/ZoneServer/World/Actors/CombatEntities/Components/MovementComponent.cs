@@ -233,7 +233,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				this.Destination = nextDestination;
 				this.Entity.Direction = position.GetDirection(nextDestination);
 
-				var fromCellPos = this.Entity.Map.Ground.GetCellPosition(this.Entity.Position);
+				var fromCellPos = this.Entity.Map.Ground.GetCellPosition(position);
 				var toCellPos = this.Entity.Map.Ground.GetCellPosition(nextDestination);
 
 				Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, speed);
@@ -486,10 +486,10 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// </summary>
 		private void QueueNextMove()
 		{
+			this.Entity.Position = this.Destination;
+
 			if (_path.Count == 0)
 			{
-				this.Entity.Position = this.Destination;
-
 				_moveTime = TimeSpan.Zero;
 				this.IsMoving = false;
 				return;

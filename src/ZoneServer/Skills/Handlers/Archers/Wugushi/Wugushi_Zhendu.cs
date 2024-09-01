@@ -83,7 +83,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="skill"></param>
 		private float GetIncreaseDamageValue(Skill skill)
 		{
-			return 1 + (5 + skill.Level * 2) / 100;
+			return 1 + (5 + skill.Level * 2) / 100f;
 		}
 	}
 }

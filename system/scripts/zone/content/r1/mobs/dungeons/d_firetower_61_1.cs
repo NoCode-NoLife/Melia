@@ -19,7 +19,7 @@ public class DFiretower611MobScript : GeneralScript
 		AddSpawner("d_firetower_61_1.Id2", MonsterId.Socket_Bow_Brown, min: 38, max: 50, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id3", MonsterId.Anchor, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_61_1.Id4", MonsterId.Socket_Bow_Brown, min: 19, max: 25, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_61_1.Id5", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_61_1.Id5", MonsterId.Rootcrystal_04, min: 15, max: 20, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -24,7 +24,7 @@ public class DChapel577MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_chapel_57_7.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_chapel_57_7.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_chapel_57_7.Id2", MonsterId.Spector_Gh, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_7.Id3", MonsterId.Egnome, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_chapel_57_7.Id4", MonsterId.Spector_Gh, min: 15, max: 20, tendency: TendencyType.Aggressive);

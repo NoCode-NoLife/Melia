@@ -25,7 +25,7 @@ public class FPilgrimroad47MobScript : GeneralScript
 		AddSpawner("f_pilgrimroad_47.Id2", MonsterId.Rondo_Red, min: 23, max: 30);
 		AddSpawner("f_pilgrimroad_47.Id3", MonsterId.Rubabos_Red, min: 3, max: 4);
 		AddSpawner("f_pilgrimroad_47.Id4", MonsterId.Rondo_Red, min: 8, max: 10);
-		AddSpawner("f_pilgrimroad_47.Id5", MonsterId.Rootcrystal_01, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_47.Id5", MonsterId.Rootcrystal_01, min: 4, max: 5, respawn: Seconds(5));
 		AddSpawner("f_pilgrimroad_47.Id6", MonsterId.Spell_Crystal_Red, min: 9, max: 11);
 		AddSpawner("f_pilgrimroad_47.Id7", MonsterId.Triffid, min: 60, max: 80);
 

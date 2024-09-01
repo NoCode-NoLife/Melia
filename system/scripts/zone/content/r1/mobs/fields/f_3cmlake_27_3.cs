@@ -24,7 +24,7 @@ public class F3Cmlake273MobScript : GeneralScript
 		AddSpawner("f_3cmlake_27_3.Id1", MonsterId.Frocoli, min: 49, max: 65);
 		AddSpawner("f_3cmlake_27_3.Id2", MonsterId.Infro_Crabil, min: 62, max: 82);
 		AddSpawner("f_3cmlake_27_3.Id3", MonsterId.Frocoli, min: 21, max: 27);
-		AddSpawner("f_3cmlake_27_3.Id4", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_27_3.Id4", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

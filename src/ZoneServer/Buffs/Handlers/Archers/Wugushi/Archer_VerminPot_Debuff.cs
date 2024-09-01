@@ -16,11 +16,11 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 	{
 		public override void OnStart(Buff buff)
 		{
-			var damageThickDelay = buff.Data.UpdateTime;
+			var damageTickDelay = buff.Data.UpdateTime;
 
-			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
 
-			buff.UpdateTime = damageThickDelay;
+			buff.UpdateTime = damageTickDelay;
 		}
 
 		public override void WhileActive(Buff buff)
@@ -28,13 +28,13 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 			if (buff.Target.IsDead)
 				return;
 
-			if (!buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+			if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
 				return;
 
 			var damageMultiplier = 1f;
 
-			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
-				damageMultiplier = ZhenduBuff.NumArg1;
+			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var zhenduBuff))
+				damageMultiplier = zhenduBuff.NumArg1;
 
 			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
 			skillHitResult.Damage *= damageMultiplier;

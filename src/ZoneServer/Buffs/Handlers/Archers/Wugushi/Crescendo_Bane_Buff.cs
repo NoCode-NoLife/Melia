@@ -15,9 +15,9 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 		/// Applies decrease damage thick delay of the others Wugushi buffs
 		/// </summary>
 		/// <param name="caster"></param>
-		/// <param name="damageThickDelay"></param>
+		/// <param name="damageTickDelay"></param>
 		/// <returns></returns>
-		public static bool TryApply(ICombatEntity caster, ref TimeSpan damageThickDelay)
+		public static bool TryApply(ICombatEntity caster, ref TimeSpan damageTickDelay)
 		{
 			if (!caster.TryGetBuff(BuffId.Crescendo_Bane_Buff, out var buff))
 				return false;
@@ -25,7 +25,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 			var reduction = GetBonusRatio((int)buff.NumArg1);
 			var multiplier = Math.Max(0, 1f - reduction);
 
-			damageThickDelay *= multiplier;
+			damageTickDelay *= multiplier;
 
 			return true;
 		}
@@ -37,7 +37,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 		/// <returns></returns>
 		private static float GetBonusRatio(int skillLevel)
 		{
-			return Math.Min(1, (12 + skillLevel * 2) / 100);
+			return Math.Min(1, (12 + skillLevel * 2) / 100f);
 		}
 	}
 }

@@ -15,15 +15,15 @@ public class DThorn22MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_thorn_22.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("d_thorn_22.Id2", MonsterId.Meleech, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("d_thorn_22.Id3", MonsterId.RavineLerva, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("d_thorn_22.Id4", MonsterId.Wood_Goblin, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("d_thorn_22.Id5", MonsterId.Meleech, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("d_thorn_22.Id6", MonsterId.RavineLerva, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("d_thorn_22.Id7", MonsterId.TreeGool, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("d_thorn_22.Id8", MonsterId.Wood_Goblin, min: 38, max: 50, respawn: TimeSpan.FromMilliseconds(5000));
-		AddSpawner("d_thorn_22.Id9", MonsterId.RavineLerva, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(15000));
+		AddSpawner("d_thorn_22.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: Seconds(15));
+		AddSpawner("d_thorn_22.Id2", MonsterId.Meleech, min: 15, max: 20, respawn: Seconds(15));
+		AddSpawner("d_thorn_22.Id3", MonsterId.RavineLerva, min: 12, max: 15, respawn: Seconds(15));
+		AddSpawner("d_thorn_22.Id4", MonsterId.Wood_Goblin, min: 23, max: 30, respawn: Seconds(15));
+		AddSpawner("d_thorn_22.Id5", MonsterId.Meleech, min: 12, max: 15, respawn: Seconds(20));
+		AddSpawner("d_thorn_22.Id6", MonsterId.RavineLerva, min: 11, max: 14, respawn: Seconds(20));
+		AddSpawner("d_thorn_22.Id7", MonsterId.TreeGool, min: 10, max: 13, respawn: Seconds(20));
+		AddSpawner("d_thorn_22.Id8", MonsterId.Wood_Goblin, min: 38, max: 50, respawn: Seconds(5));
+		AddSpawner("d_thorn_22.Id9", MonsterId.RavineLerva, min: 4, max: 5, respawn: Seconds(15));
 
 		// Monster Spawn Points -----------------------------
 

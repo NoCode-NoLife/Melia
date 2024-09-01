@@ -40,8 +40,8 @@ namespace Melia.Shared.Scripting
 	/// </summary>
 	public class LuaTable
 	{
-		private readonly List<LuaTableEntry> _indexedEntries = new List<LuaTableEntry>();
-		private readonly List<LuaTableEntry> _namedEntries = new List<LuaTableEntry>();
+		private readonly List<LuaTableEntry> _indexedEntries = new();
+		private readonly List<LuaTableEntry> _namedEntries = new();
 
 		private string _serialized;
 		private bool _dirty = true;
@@ -123,7 +123,7 @@ namespace Melia.Shared.Scripting
 					case int index:
 					{
 						if (index < 0 || index >= _indexedEntries.Count)
-							throw new ArgumentOutOfRangeException();
+							throw new ArgumentOutOfRangeException(nameof(key));
 
 						return _indexedEntries[index].Value;
 					}

@@ -15,15 +15,15 @@ public class DAbbey224MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_abbey_22_4.Id1", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_4.Id1", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: Minutes(1));
 		AddSpawner("d_abbey_22_4.Id2", MonsterId.Hohen_Mage_Black, min: 72, max: 95);
 		AddSpawner("d_abbey_22_4.Id3", MonsterId.Nook, min: 18, max: 24);
 		AddSpawner("d_abbey_22_4.Id4", MonsterId.Boor, min: 20, max: 26);
 		AddSpawner("d_abbey_22_4.Id5", MonsterId.Mangosting, min: 26, max: 34);
 		AddSpawner("d_abbey_22_4.Id6", MonsterId.Half_Mangosting, min: 35, max: 46);
-		AddSpawner("d_abbey_22_4.Id7", MonsterId.Hohen_Mage_Black, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("d_abbey_22_4.Id8", MonsterId.Hohen_Mage_Black, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("d_abbey_22_4.Id9", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_abbey_22_4.Id7", MonsterId.Hohen_Mage_Black, min: 4, max: 5, respawn: Seconds(40));
+		AddSpawner("d_abbey_22_4.Id8", MonsterId.Hohen_Mage_Black, min: 4, max: 5, respawn: Minutes(1));
+		AddSpawner("d_abbey_22_4.Id9", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

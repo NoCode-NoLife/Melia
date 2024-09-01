@@ -52,11 +52,7 @@ namespace Melia.Zone.Network
 		{
 			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
-
-			// When using passprt login, this is the account id as string,
-			// and it's 18 (?) bytes long.	
-			var accountName = packet.GetString(56);
-
+			var accountName = packet.GetString(56); // String account id in 18 bytes if passport login?
 			var mac = packet.GetString(48);
 			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
@@ -74,13 +70,19 @@ namespace Melia.Zone.Network
 			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
 
-			// TODO: Check session key or something.
-
 			// Get account
 			conn.Account = ZoneServer.Instance.Database.GetAccount(accountName);
 			if (conn.Account == null)
 			{
 				Log.Warning("Stopped attempt to login with invalid account '{0}'. Closing connection.", accountName);
+				conn.Close();
+				return;
+			}
+
+			// Check session key
+			if (!ZoneServer.Instance.Database.CheckSessionKey(conn.Account.Id, sessionKey))
+			{
+				Log.Warning("Stopped attempt to login on account '{0}' with invalid session key '{1}'. Closing connection.", accountName, sessionKey);
 				conn.Close();
 				return;
 			}
@@ -110,7 +112,9 @@ namespace Melia.Zone.Network
 			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
 
 			map.AddCharacter(character);
+
 			conn.LoggedIn = true;
+			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
@@ -2980,6 +2984,9 @@ namespace Melia.Zone.Network
 			if (character.TryGetBuff(buffId, out var buff) && buff.Data.Removable)
 			{
 				character.StopBuff(buffId);
+			} else
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove the BuffId: '{1}' but this buff can't be removed.", conn.Account.Name, buffId);
 			}
 		}
 	}

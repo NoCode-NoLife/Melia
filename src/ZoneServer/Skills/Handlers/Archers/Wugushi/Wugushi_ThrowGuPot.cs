@@ -8,9 +8,10 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using static Melia.Zone.Skills.SkillUseFunctions;
+using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
@@ -53,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			this.CreateAttackArea(skill, caster, farPos);
+			CallSafe(this.CreateAttackArea(skill, caster, farPos));
 		}
 
 		/// <summary>
@@ -63,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
 		/// <param name="direction"></param>
-		private async void CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
+		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await Task.Delay(600);
 

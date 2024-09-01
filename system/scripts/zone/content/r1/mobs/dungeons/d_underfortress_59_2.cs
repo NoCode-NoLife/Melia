@@ -17,8 +17,8 @@ public class DUnderfortress592MobScript : GeneralScript
 
 		AddSpawner("d_underfortress_59_2.Id1", MonsterId.FD_Spectra, min: 34, max: 45, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id2", MonsterId.FD_Spector_Gh_Purple, min: 23, max: 30, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id3", MonsterId.FD_Whip_Vine_Purple, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(120000), tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_59_2.Id4", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_59_2.Id3", MonsterId.FD_Whip_Vine_Purple, min: 19, max: 25, respawn: Minutes(2), tendency: TendencyType.Aggressive);
+		AddSpawner("d_underfortress_59_2.Id4", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_59_2.Id5", MonsterId.FD_Spectra, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id6", MonsterId.FD_Spectra, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_underfortress_59_2.Id7", MonsterId.FD_Colimen_Mage, min: 19, max: 25, tendency: TendencyType.Peaceful);

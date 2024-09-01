@@ -15,7 +15,7 @@ public class FKatyn72MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_7_2.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_7_2.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(5));
 		AddSpawner("f_katyn_7_2.Id2", MonsterId.Ellomago, min: 23, max: 30);
 		AddSpawner("f_katyn_7_2.Id3", MonsterId.Ridimed, min: 12, max: 15);
 		AddSpawner("f_katyn_7_2.Id4", MonsterId.Jellyfish_Red, min: 15, max: 20);

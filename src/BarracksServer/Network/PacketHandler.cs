@@ -11,6 +11,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -91,10 +92,10 @@ namespace Melia.Barracks.Network
 			// Check login state
 			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
 			{
-				// The official message, DuplicationLoginByOtherWorld,
-				// aka DoubleLogin, is so badly translated that we'll
-				// send a custom message for now.
-				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account is already logged in."));
+				BarracksServer.Instance.Communicator.Broadcast("AllServers", new ForceLogOutMessage(account.Id));
+				BarracksServer.Instance.Database.UpdateLoginState(account.Id, 0, LoginState.LoggedOut);
+
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account appears to already be logged in. A logout request was created, please try again."));
 				conn.Close(100);
 				return;
 			}
@@ -102,8 +103,10 @@ namespace Melia.Barracks.Network
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+			conn.SessionKey = SHA1.Encode(Guid.NewGuid().ToString());
 
 			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
+			BarracksServer.Instance.Database.UpdateSessionKey(conn.Account.Id, conn.SessionKey);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 

@@ -32,7 +32,7 @@ public class F3Cmlake85MobScript : GeneralScript
 		AddSpawner("f_3cmlake_85.Id6", MonsterId.Coterie, min: 6, max: 8);
 		AddSpawner("f_3cmlake_85.Id7", MonsterId.Tripy, min: 15, max: 20);
 		AddSpawner("f_3cmlake_85.Id8", MonsterId.Tripy, min: 8, max: 10);
-		AddSpawner("f_3cmlake_85.Id9", MonsterId.Rootcrystal_02, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_3cmlake_85.Id9", MonsterId.Rootcrystal_02, min: 23, max: 30, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

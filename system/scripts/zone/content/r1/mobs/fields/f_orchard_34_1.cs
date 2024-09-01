@@ -19,7 +19,7 @@ public class FOrchard341MobScript : GeneralScript
 		AddSpawner("f_orchard_34_1.Id2", MonsterId.Eldigo_Green, min: 15, max: 20);
 		AddSpawner("f_orchard_34_1.Id3", MonsterId.Truffle_Red, min: 23, max: 30);
 		AddSpawner("f_orchard_34_1.Id4", MonsterId.Corpse_Flower_Green, min: 23, max: 30);
-		AddSpawner("f_orchard_34_1.Id5", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_orchard_34_1.Id5", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

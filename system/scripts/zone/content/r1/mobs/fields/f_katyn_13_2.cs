@@ -15,13 +15,13 @@ public class FKatyn132MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_13_2.Id1", MonsterId.Mushroom_Boy_Red, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_13_2.Id2", MonsterId.Mushroom_Ent, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_13_2.Id3", MonsterId.Mushroom_Boy_Red, amount: 3, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_katyn_13_2.Id4", MonsterId.Swordmaster, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_katyn_13_2.Id5", MonsterId.Archermaster, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_katyn_13_2.Id6", MonsterId.Wizardmaster, amount: 1, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_katyn_13_2.Id7", MonsterId.Mushroom_Boy_Red, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_13_2.Id1", MonsterId.Mushroom_Boy_Red, min: 30, max: 40, respawn: Seconds(15));
+		AddSpawner("f_katyn_13_2.Id2", MonsterId.Mushroom_Ent, min: 15, max: 20, respawn: Seconds(15));
+		AddSpawner("f_katyn_13_2.Id3", MonsterId.Mushroom_Boy_Red, amount: 3, respawn: Seconds(20));
+		AddSpawner("f_katyn_13_2.Id4", MonsterId.Swordmaster, amount: 1, respawn: Minutes(1));
+		AddSpawner("f_katyn_13_2.Id5", MonsterId.Archermaster, amount: 1, respawn: Minutes(1));
+		AddSpawner("f_katyn_13_2.Id6", MonsterId.Wizardmaster, amount: 1, respawn: Minutes(1));
+		AddSpawner("f_katyn_13_2.Id7", MonsterId.Mushroom_Boy_Red, min: 19, max: 25, respawn: Seconds(5));
 
 		// Monster Spawn Points -----------------------------
 

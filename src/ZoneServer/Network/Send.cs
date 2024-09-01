@@ -1299,6 +1299,7 @@ namespace Melia.Zone.Network
 				propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
 
 			var propertiesSize = propertyList.GetByteCount();
+			var notificationDelay = TimeSpan.Zero;
 
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
@@ -1309,10 +1310,10 @@ namespace Melia.Zone.Network
 			packet.PutInt(item.Id);
 			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
-			packet.PutFloat(0f); // Notification delay
+			packet.PutFloat((float)notificationDelay.TotalSeconds);
 			packet.PutByte((byte)invType);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(false);
+			packet.PutByte(false);
 			packet.AddProperties(propertyList);
 
 			if (item.ObjectId != 0)

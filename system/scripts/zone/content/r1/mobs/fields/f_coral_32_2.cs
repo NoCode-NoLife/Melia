@@ -20,7 +20,7 @@ public class FCoral322MobScript : GeneralScript
 		AddSpawner("f_coral_32_2.Id3", MonsterId.Repusbunny_Bow_Red, min: 4, max: 5);
 		AddSpawner("f_coral_32_2.Id4", MonsterId.Colimen_Blue, min: 30, max: 40);
 		AddSpawner("f_coral_32_2.Id5", MonsterId.Repusbunny_Red, min: 23, max: 30);
-		AddSpawner("f_coral_32_2.Id6", MonsterId.Rootcrystal_01, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_coral_32_2.Id6", MonsterId.Rootcrystal_01, min: 15, max: 20, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

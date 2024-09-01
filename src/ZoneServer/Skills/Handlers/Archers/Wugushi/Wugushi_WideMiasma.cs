@@ -8,6 +8,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
+using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
@@ -45,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 			var radius = 120;
 			var splashArea = new Circle(caster.Position, radius);
 
-			this.Attack(skill, caster, splashArea);
+			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -54,7 +55,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="splashArea"></param>
-		private async void Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
+		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
 			await Task.Delay(TimeSpan.FromSeconds(1));
 

@@ -20,11 +20,11 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 		{
 			buff.Vars.SetInt(AdditionalHits, AdditionalHitsCount);
 
-			var damageThickDelay = buff.Data.UpdateTime;
+			var damageTickDelay = buff.Data.UpdateTime;
 
-			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
 
-			buff.UpdateTime = damageThickDelay;
+			buff.UpdateTime = damageTickDelay;
 		}
 
 		public override void WhileActive(Buff buff)
@@ -33,9 +33,10 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 				return;
 
 			this.DamagesTarget(buff);
+			var additionalHitsCount = buff.Vars.GetInt(AdditionalHits);
 
 			// We are Damaging 5x additional hits
-			if (buff.Vars.GetInt(AdditionalHits) <= AdditionalHitsCount && buff.Vars.GetInt(AdditionalHits) >= 1)
+			if (additionalHitsCount <= AdditionalHitsCount && additionalHitsCount >= 1)
 			{
 				var remaningAdditionalHits = buff.Vars.GetInt(AdditionalHits);
 				buff.Vars.SetInt(AdditionalHits, remaningAdditionalHits - 2);
@@ -46,7 +47,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 
 		private void DamagesTarget(Buff buff)
 		{
-			if (!buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+			if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
 				return;
 
 			var damageMultiplier = 1f;

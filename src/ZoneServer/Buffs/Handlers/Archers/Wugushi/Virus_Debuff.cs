@@ -16,11 +16,11 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 	{
 		public override void OnStart(Buff buff)
 		{
-			var damageThickDelay = buff.Data.UpdateTime;
+			var damageTickDelay = buff.Data.UpdateTime;
 
-			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageThickDelay);
+			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
 
-			buff.UpdateTime = damageThickDelay;
+			buff.UpdateTime = damageTickDelay;
 		}
 
 		public override void WhileActive(Buff buff)
@@ -29,7 +29,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 
 			if (target.Hp > 0)
 			{
-				if (!buff.Caster.TryGetSkill((SkillId)buff.NumArg2, out var skill))
+				if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
 					return;
 
 				var damageMultiplier = 1f;
@@ -48,9 +48,10 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 
 				Send.ZC_HIT_INFO(buff.Caster, target, hit);
 				
-			} else
+			}
+			else
 			{
-				var maxSpreadAmount = 5;
+				const int maxSpreadAmount = 5;
 
 				// Spreads to nearby targets
 				foreach (var spreadTarget in target.Map.GetAttackableEntitiesInRange(buff.Caster, target.Position, 25).LimitRandom(maxSpreadAmount))
