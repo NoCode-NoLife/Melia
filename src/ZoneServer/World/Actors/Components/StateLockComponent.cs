@@ -121,6 +121,14 @@ namespace Melia.Zone.World.Actors.Components
 				if (_lockCounts[lockType] <= 0)
 					_lockCounts.Remove(lockType);
 			}
+
+			if (lockType == LockType.Movement && this.Owner is ICombatEntity entity)
+			{
+				if (entity.Components.TryGet<MovementComponent>(out var movement))
+					movement.Stop();
+
+				entity.Properties.Invalidate(PropertyName.MSPD);
+			}
 		}
 
 		/// <summary>
