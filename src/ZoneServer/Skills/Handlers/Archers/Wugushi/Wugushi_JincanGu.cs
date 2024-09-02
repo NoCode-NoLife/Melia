@@ -10,6 +10,8 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.Buffs;
+using static Melia.Zone.Skills.SkillUseFunctions;
 using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
@@ -102,6 +104,29 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				if (!target.IsBuffActive(BuffId.JincanGu_Abil_Debuff))
 					target.StartBuff(BuffId.JincanGu_Abil_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(60), caster);
 			}
+		}
+
+		/// <summary>
+		/// Used by the buff once the target takes damage.
+		/// </summary>
+		/// <param name="buff"></param>
+		public static void BuffDealsDamage(Buff buff, Skill skill)
+		{
+			var damageMultiplier = 1f;
+
+			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
+				damageMultiplier = ZhenduBuff.NumArg1;
+
+			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
+			skillHitResult.Damage *= damageMultiplier;
+
+			// The damage amount is unknow, for now we are dealing
+			// the same amount as the original skill does
+			buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
+
+			var hit = new HitInfo(buff.Caster, buff.Target, skill.Id, skillHitResult.Damage, HitResultType.Buff12);
+
+			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
 		}
 	}
 }

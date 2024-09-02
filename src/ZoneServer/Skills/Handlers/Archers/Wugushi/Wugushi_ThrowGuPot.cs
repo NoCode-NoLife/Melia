@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.Buffs;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using static Melia.Shared.Util.TaskHelper;
 
@@ -58,12 +59,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		}
 
 		/// <summary>
-		/// Execute the skill, create the area of the skill's effect
+		/// Creates the area of the skill's attack effect.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
-		/// <param name="direction"></param>
 		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await Task.Delay(600);
@@ -79,7 +79,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		}
 
 		/// <summary>
-		/// Called when an actor enters the area of the skill's effect.
+		/// Called when an actor enters the area of the skill's attack effect.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
@@ -109,6 +109,29 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				if (!target.IsBuffActive(BuffId.Archer_VerminPot_Debuff))
 					target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(15), caster);
 			}
+		}
+
+		/// <summary>
+		/// Called by the buff once we need to do damage to the target
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="skill"></param>
+		public static void BuffDealDamage(Buff buff, Skill skill)
+		{
+			var damageMultiplier = 1f;
+
+			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var zhenduBuff))
+				damageMultiplier = zhenduBuff.NumArg1;
+
+			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
+			skillHitResult.Damage *= damageMultiplier;
+
+			// The damage amount is unknow, for now we are dealing
+			// the same amount as the original skill does
+			buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
+			var hit = new HitInfo(buff.Caster, buff.Target, skill.Id, skillHitResult.Damage, HitResultType.Buff26);
+
+			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
 		}
 	}
 }

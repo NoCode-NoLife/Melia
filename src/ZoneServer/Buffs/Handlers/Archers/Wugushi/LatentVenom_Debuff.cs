@@ -1,10 +1,7 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using static Melia.Zone.Skills.SkillUseFunctions;
+using Melia.Zone.Skills.Handlers.Archers.Wugushi;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 {
@@ -14,15 +11,6 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 	[BuffHandler(BuffId.LatentVenom_Debuff)]
 	public class LatentVenom_Debuff : BuffHandler
 	{
-		public override void OnStart(Buff buff)
-		{
-			var damageTickDelay = buff.Data.UpdateTime;
-
-			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
-
-			buff.UpdateTime = damageTickDelay;
-		}
-
 		public override void WhileActive(Buff buff)
 		{
 			if (buff.Target.IsDead)
@@ -31,21 +19,24 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 			if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
 				return;
 
-			var damageMultiplier = 1f;
+			if (!buff.Vars.GetBool("LatentVenom_Debuff.CrescendoBaneBuff"))
+			{
+				buff.Vars.SetBool("LatentVenom_Debuff.CrescendoBaneBuff", this.TryApplyCrescendoBaneBuff(buff));
+			}
 
-			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
-				damageMultiplier = ZhenduBuff.NumArg1;
+			Wugushi_LatentVenom.BuffDealsDamage(buff, skill);
+		}
 
-			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
-			skillHitResult.Damage *= damageMultiplier;
-
-			// The damage amount is unknow, for now we are dealing
-			// the same amount as the original skill does
-			buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
-
-			var hit = new HitInfo(buff.Caster, buff.Target, SkillId.Wugushi_LatentVenom, skillHitResult.Damage, HitResultType.Buff26);
-
-			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);			
+		/// <summary>
+		/// Returns true if CrescendoBane is active and UpdateTime was modified
+		/// </summary>
+		/// <param name="buff"></param>
+		private bool TryApplyCrescendoBaneBuff(Buff buff)
+		{
+			var damageTickDelay = buff.Data.UpdateTime;
+			var applied = Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
+			buff.UpdateTime = damageTickDelay;
+			return applied;
 		}
 	}
 }
