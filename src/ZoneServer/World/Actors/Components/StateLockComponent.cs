@@ -41,6 +41,7 @@ namespace Melia.Zone.World.Actors.Components
 
 			this.RegisterState(new(StateType.Default));
 			this.RegisterState(new(StateType.Stunned, [LockType.Movement, LockType.Attack]));
+			this.RegisterState(new(StateType.KnockedBack, [LockType.Movement, LockType.Attack]));
 
 			_currentState = _states[StateType.Default];
 		}
@@ -241,6 +242,7 @@ namespace Melia.Zone.World.Actors.Components
 	{
 		public const string Default = "Default";
 		public const string Stunned = "Stunned";
+		public const string KnockedBack = "KnockedBack";
 	}
 
 	/// <summary>
