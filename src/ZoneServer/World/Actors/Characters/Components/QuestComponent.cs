@@ -587,8 +587,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("Done", quest.ObjectivesCompleted);
 			questTable.Insert("Cancelable", quest.Data.Cancelable);
 			questTable.Insert("Tracked", quest.Tracked);
-			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);
+
+			if (ZoneServer.Instance.Conf.World.DisplayQuestObjectives)
+				questTable.Insert("Objectives", objectivesTable);
 
 			return questTable;
 		}
