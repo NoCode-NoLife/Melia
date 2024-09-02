@@ -586,6 +586,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("Status", quest.Status.ToString());
 			questTable.Insert("Done", quest.ObjectivesCompleted);
 			questTable.Insert("Cancelable", quest.Data.Cancelable);
+			questTable.Insert("Tracked", quest.Tracked);
 			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);
 
