@@ -582,5 +582,32 @@ namespace Melia.Zone.World.Actors
 
 			return stateLocks.IsLocked(lockType);
 		}
+
+		/// <summary>
+		/// Sets the entity's state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		public static void SetState(this ICombatEntity entity, string stateType)
+		{
+			if (!entity.Components.TryGet<StateLockComponent>(out var stateLocks))
+				return;
+
+			stateLocks.SetState(stateType);
+		}
+
+		/// <summary>
+		/// Sets the entity's state for the given duration.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		/// <param name="duration"></param>
+		public static void SetState(this ICombatEntity entity, string stateType, TimeSpan duration)
+		{
+			if (!entity.Components.TryGet<StateLockComponent>(out var stateLocks))
+				return;
+
+			stateLocks.SetState(stateType, duration);
+		}
 	}
 }
