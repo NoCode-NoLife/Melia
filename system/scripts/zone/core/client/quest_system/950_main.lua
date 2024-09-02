@@ -4,8 +4,9 @@ local function RemoveObsoleteUiElements()
 	questFrame:GetChild("bg"):GetChild("tipMessage"):SetVisible(false)
 
 	local questBox = GET_CHILD_RECURSIVELY(questFrame, "questBox", "ui::CTabControl")
-	if questBox:GetItemCount() > 2 then
+	if questBox:GetItemCount() > 1 then
 		questBox:DeleteTab(3) -- Res Sacrae w/e
+		questBox:DeleteTab(2) -- Complete
 		questBox:DeleteTab(0) -- Episodes
 	end
 	questBox:SelectTab(0) -- Quest List
