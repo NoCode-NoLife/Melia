@@ -2,7 +2,6 @@
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Zone.Scripting;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills
@@ -75,18 +74,10 @@ namespace Melia.Zone.Skills
 			// do that...
 			//this.Create(new RFloatProperty(PropertyName.SR, () => this.Skill.Data.SplashRate));
 			this.Create(new RFloatProperty(PropertyName.SklSR, () => this.Skill.Data.SplashRate));
-			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));
+			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));			
 
-			var damageMultiplier = 1.0f;
-			if (Skill.IsNormalAttack)
-				damageMultiplier = ZoneServer.Instance.Conf.World.NormalAttackMultiplier;
-			else if (Skill.IsMonsterSkill)
-				damageMultiplier = ZoneServer.Instance.Conf.World.EnemySkillMultiplier;
-			else 
-				damageMultiplier = ZoneServer.Instance.Conf.World.PlayerSkillMultiplier;
-
-			this.Create(new RFloatProperty(PropertyName.SklFactor, () => this.Skill.Data.Factor * damageMultiplier));
-			this.Create(new RFloatProperty(PropertyName.SklFactorByLevel, () => this.Skill.Data.FactorByLevel * damageMultiplier));
+			this.Create(new RFloatProperty(PropertyName.SklFactor, () => this.CalculateProperty("SCR_Get_SklFactor")));
+			this.Create(new RFloatProperty(PropertyName.SklFactorByLevel, () => this.CalculateProperty("SCR_Get_SklFactorByLevel")));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.CalculateProperty("SCR_Get_SkillFactor")));
 			this.Create(new RFloatProperty(PropertyName.SklAtkAdd, () => this.Skill.Data.AtkAdd));
 			this.Create(new RFloatProperty(PropertyName.SklAtkAddByLevel, () => this.Skill.Data.AtkAddByLevel));

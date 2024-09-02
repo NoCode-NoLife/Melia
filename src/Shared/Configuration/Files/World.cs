@@ -44,9 +44,9 @@ namespace Melia.Shared.Configuration.Files
 		// skills.conf
 		public float NormalAttackMultiplier { get; protected set; }
 		public float PlayerSkillMultiplier { get; protected set; }
-		public float EnemySkillMultiplier { get; protected set; }
-		public float EnemySkillSpeed { get; protected set; }
-		public float EnemySkillDelay { get; protected set; }
+		public float MonsterSkillMultiplier { get; protected set; }
+		public float MonsterSkillSpeed { get; protected set; }
+		public float MonsterSkillDelay { get; protected set; }
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
 
@@ -126,9 +126,9 @@ namespace Melia.Shared.Configuration.Files
 
 			this.NormalAttackMultiplier = this.GetFloat("normal_attack_multiplier", 1.0f);
 			this.PlayerSkillMultiplier = this.GetFloat("player_skill_multiplier", 1.0f);
-			this.EnemySkillMultiplier = this.GetFloat("enemy_skill_multiplier", 1.0f);
-			this.EnemySkillSpeed = this.GetFloat("enemy_skill_speed", 1.0f);
-			this.EnemySkillDelay = this.GetFloat("enemy_skill_delay", 1.0f);
+			this.MonsterSkillMultiplier = this.GetFloat("monster_skill_multiplier", 1.0f);
+			this.MonsterSkillSpeed = this.GetFloat("monster_skill_speed", 1.0f);
+			this.MonsterSkillDelay = this.GetFloat("monster_skill_delay", 1.0f);
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
 
@@ -168,8 +168,8 @@ namespace Melia.Shared.Configuration.Files
 			// default (60), as that's the value the client works with.
 			this.StorageMaxExtensions = Math.Max(0, this.StorageMaxSize - 60) / 10;
 
-			// Enemy Skill Speed can't be 0 since it's a divisor
-			this.EnemySkillSpeed = Math.Max(0.01f, this.EnemySkillSpeed);
+			// Monster Skill Speed can't be 0 since it's used to calculate hitbox timing
+			this.MonsterSkillSpeed = Math.Max(0.01f, this.MonsterSkillSpeed);
 		}
 	}
 }

@@ -38,7 +38,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		private async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
 		{
 			var splashArea = this.GetSplashArea(skill, caster, designatedTarget);
-			var speedRate = ZoneServer.Instance.Conf.World.EnemySkillSpeed;
+			var speedRate = ZoneServer.Instance.Conf.World.MonsterSkillSpeed;
 			var damageDelay = this.GetDamageDelay(skill) / speedRate;
 			var hitDelay = this.GetHitDelay(skill) / speedRate;
 			var skillHitDelay = skill.Properties.HitDelay / speedRate;
@@ -49,12 +49,12 @@ namespace Melia.Zone.Skills.Handlers.Base
 			// These skills get initiated, but the hit info is only sent
 			// after a certain amount of time passed. This allows the
 			// target to move out of harms way before the skill hits,
-			// such as with the poison cloud in the Kepa attack skill.			
-
-			if (hitDelay > TimeSpan.Zero)
-				await Task.Delay(hitDelay);
+			// such as with the poison cloud in the Kepa attack skill.
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false, duration: damageDelay + TimeSpan.FromSeconds(3));
+
+			if (hitDelay > TimeSpan.Zero)
+				await Task.Delay(hitDelay);			
 
 			// Check if attacker is still able to fight after the delay
 			if (!caster.CanFight())
