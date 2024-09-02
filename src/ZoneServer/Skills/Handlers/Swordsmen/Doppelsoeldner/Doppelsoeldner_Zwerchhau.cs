@@ -83,8 +83,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 				{
 					// TODO: This knockdown effect pulls the enemies towards you
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 				else
 				{

@@ -7,6 +7,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -125,6 +126,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			{
 				var kb = new KnockBackInfo(caster.Position, target.Position, skill);
 				target.Position = kb.ToPosition;
+				target.SetState(StateType.KnockedBack, kb.Time);
 
 				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 			}
