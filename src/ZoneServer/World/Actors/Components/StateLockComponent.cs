@@ -10,6 +10,22 @@ namespace Melia.Zone.World.Actors.Components
 	/// <summary>
 	/// A state and lock management component for actors.
 	/// </summary>
+	/// <remarks>
+	/// The state lock component combines the concepts of setting locks,
+	/// to prevent actors from taking certain actions, with the ability
+	/// to register states that apply their associated locks automatically.
+	/// 
+	/// Locks can be set freely, allowing sources such as buffs to quickly
+	/// disable an actor's ability to move for example, but an actor can
+	/// only ever be in one state at a time, independent of the manual locks
+	/// that were applied.
+	/// 
+	/// As such, it's important to consider which combinations of locks
+	/// actually qualify as a "state". For example, the Hold buff doesn't
+	/// utilize a "Held" state, but instead simply locks movement. That's
+	/// because making it a state would mean that attacks can knock the
+	/// target out of the held state, which may not be desirable.
+	/// </remarks>
 	public class StateLockComponent : IComponent, IUpdateable
 	{
 		private readonly object _syncLock = new();
