@@ -7,7 +7,11 @@ function M_CHASE_REDRAW(frame)
 	chkCustomName:ShowWindow(0)
 
 	ctrl:DeleteAllControl();
-	
+
+	if not Melia.Conf.GetBool("display_quest_objectives") then
+		return
+	end
+
 	local quests = Melia.Quests.GetAll()
 	local x = 0
 	local y = 0
@@ -15,8 +19,7 @@ function M_CHASE_REDRAW(frame)
 	for i = 1, #quests do
 		local quest = quests[i]
 
-		-- Only lists quests with non-nil lists of objectives
-		if quest.Objectives ~= nil then
+		if quest.Objectives ~= nil and #quest.Objectives > 0 then
 			local height = M_CHASE_CREATE_QUEST(frame, ctrl, quest, x, y)
 			y = y + height
 		end

@@ -1,9 +1,4 @@
 function M_QUESTS_DETAILS_ADD_OBJECTIVES(frame, x, y, quest)
-	-- Don't display objectives if they're nil
-	if quest.Objectives == nil then
-		return 0
-	end
-
 	local height = 0
 	local offsetX = 10
 	local checkSize = 10
@@ -17,7 +12,7 @@ function M_QUESTS_DETAILS_ADD_OBJECTIVES(frame, x, y, quest)
 
 	height = height + lblTitle:GetHeight() + 10
 
-	 if #quest.Objectives == 0 then
+	if quest.Objectives == nil or #quest.Objectives == 0 then
 		local lblNone = frame:CreateOrGetControl("richtext", "QuestObjectivesNone", x + offsetX, y + height, width, 10)
 		lblNone:EnableHitTest(0)
 		lblNone:SetTextFixWidth(1)

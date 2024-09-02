@@ -1,5 +1,10 @@
 function M_QUESTS_SET_CHASE(questCtrl, quest)
 	local chkChase = GET_CHILD(questCtrl, "chase", "ui::CCheckBox")
+	
+	if not Melia.Conf.GetBool("display_quest_objectives") then
+		chkChase:ShowWindow(0)
+		return
+	end
 
 	if quest.Tracked then
 		chkChase:ToggleCheck()
