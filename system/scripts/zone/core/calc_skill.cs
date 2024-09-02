@@ -233,7 +233,7 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GET_DELAY_TIME(Skill skill)
 	{
-		if (!(skill.Owner is IMonster monster))
+		if (skill.Owner is not IMonster monster)
 			return skill.Properties.GetFloat(PropertyName.DelayTime);
 
 		if (skill.Data.ClassType == SkillClassType.Missile || skill.Data.UseType == SkillUseType.Force || skill.Data.UseType == SkillUseType.ForceGround)
