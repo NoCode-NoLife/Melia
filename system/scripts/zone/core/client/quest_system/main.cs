@@ -83,6 +83,33 @@ public class CustomQuestSystemClientScript : ClientScript
 
 			return CommandResult.Okay;
 		}
+		else if (action == "track")
+		{
+			if (args.Count < 3)
+			{
+				Log.Debug("CustomQuestSystemClientScript: Not enough arguments for 'track' action in message '{0}'.", message);
+				return CommandResult.Okay;
+			}
+
+			var hexObjectId = args.Get(1).Replace("0x", "");
+			var enabled = args.Get(2) == "true";
+
+			if (!long.TryParse(hexObjectId, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var questObjectId))
+			{
+				Log.Debug("CustomQuestSystemClientScript: Failed to parse quest object id '{0}' in message '{1}'.", args.Get(1), message);
+				return CommandResult.Okay;
+			}
+
+			if (!sender.Quests.TryGet(questObjectId, out var quest))
+			{
+				Log.Debug("CustomQuestSystemClientScript: User '{0}' tried to interact with a quest they don't have.", sender.Username);
+				return CommandResult.Okay;
+			}
+
+			quest.Tracked = enabled;
+
+			return CommandResult.Okay;
+		}
 
 		Log.Debug("CustomQuestSystemClientScript: Unknown action '{0}' in message '{1}'.", action, message);
 		return CommandResult.Okay;

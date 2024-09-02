@@ -1,31 +1,38 @@
 function M_QUESTS_SET_CHASE(questCtrl, quest)
 	local chkChase = GET_CHILD(questCtrl, "chase", "ui::CCheckBox")
 
-	chkChase:SetEventScript(ui.LBUTTONDOWN, "M_ADD_QUEST_INFOSET_CTRL")
+	if quest.Tracked then
+		chkChase:ToggleCheck()
+	end
+
+	chkChase:SetEventScript(ui.LBUTTONDOWN, "M_CHASE_UPDATE")
 	chkChase:SetEventScriptArgString(ui.LBUTTONDOWN, quest.ObjectId)
 end
 
-local selectedQuests = 0
-
-function M_ADD_QUEST_INFOSET_CTRL(frame, ctrl, argStr, argNum, notUpdateRightUI)
+function M_CHASE_UPDATE(frame, ctrl, argStr, argNum, notUpdateRightUI)
 	local questObjectId = argStr
 	local quest = Melia.Quests.Get(questObjectId)
 
-	local frmQuestInfo = ui.GetFrame("questinfoset_2");
-	local grpMember = GET_CHILD(frmQuestInfo, "member", "ui::CGroupBox");
-	
-	tolua.cast(ctrl, "ui::CCheckBox"); 
+	tolua.cast(ctrl, "ui::CCheckBox")
 	if ctrl:IsChecked() == 1 then
-		selectedQuests = selectedQuests + 1
+		quest.Tracked = true
 	else
-		selectedQuests = math.max(0, selectedQuests - 1)
+		quest.Tracked = false
 	end
 
-	if selectedQuests > 0 then
+	Melia.Quests.RequestTrack(questObjectId, quest.Tracked)
+
+	M_CHASE_UPDATE_VISIBILITY()
+end
+
+function M_CHASE_UPDATE_VISIBILITY()
+	local frmQuestInfo = ui.GetFrame("questinfoset_2")
+
+	if Melia.Quests.CountTracked() > 0 then
 		frmQuestInfo:ShowWindow(1)
 		--CHASEINFO_SHOW_QUEST_TOGGLE(1)
-
-		M_CHASE_REDRAW(frmQuestInfo, grpMember)
+		
+		M_CHASE_REDRAW(frmQuestInfo)
 	else
 		frmQuestInfo:ShowWindow(0)
 		--CHASEINFO_SHOW_QUEST_TOGGLE(0)

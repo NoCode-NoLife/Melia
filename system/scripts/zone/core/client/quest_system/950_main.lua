@@ -17,6 +17,7 @@ function M_QUESTS_UPDATE_LIST()
 	local quests = Melia.Quests.GetAll()
 
 	M_QUESTS_DRAW_LIST(gb_progressQuest, quests)
+	M_CHASE_UPDATE_VISIBILITY()
 end
 
 RemoveObsoleteUiElements()

@@ -1,4 +1,6 @@
-function M_CHASE_REDRAW(frame, ctrl)
+function M_CHASE_REDRAW(frame)
+	local ctrl = GET_CHILD(frame, "member", "ui::CGroupBox")
+
 	local txtCustomName = GET_CHILD(frame, "quest_custom_name")
 	local chkCustomName = GET_CHILD(frame, "quest_custom")
 	txtCustomName:ShowWindow(0)
