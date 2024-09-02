@@ -1591,7 +1591,10 @@ namespace Melia.Zone.Network
 				var productId = packet.GetInt();
 				var amount = packet.GetInt();
 
-				purchases[productId] = amount;
+				if (!purchases.ContainsKey(productId))
+					purchases[productId] = amount;
+				else
+					purchases[productId] += amount;
 			}
 
 			var character = conn.SelectedCharacter;
