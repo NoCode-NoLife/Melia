@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Common
@@ -12,14 +13,12 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		public override void OnStart(Buff buff)
 		{
-			if (buff.Target.Components.TryGet<StateLockComponent>(out var stateLocks))
-				stateLocks.Lock(LockType.Movement);
+			buff.Target.Lock(LockType.Movement);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			if (buff.Target.Components.TryGet<StateLockComponent>(out var stateLocks))
-				stateLocks.Unlock(LockType.Movement);
+			buff.Target.Unlock(LockType.Movement);
 		}
 	}
 }

@@ -41,6 +41,9 @@ namespace Melia.Shared.Configuration.Files
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
 
+		// quests.conf
+		public bool DisplayQuestObjectives { get; protected set; }
+
 		// skills.conf
 		public float NormalAttackMultiplier { get; protected set; }
 		public float PlayerSkillMultiplier { get; protected set; }
@@ -129,6 +132,7 @@ namespace Melia.Shared.Configuration.Files
 			this.MonsterSkillMultiplier = this.GetFloat("monster_skill_multiplier", 1.0f);
 			this.MonsterSkillSpeed = this.GetFloat("monster_skill_speed", 1.0f);
 			this.MonsterSkillDelay = this.GetFloat("monster_skill_delay", 1.0f);
+			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
 

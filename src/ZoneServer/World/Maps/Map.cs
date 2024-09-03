@@ -458,6 +458,17 @@ namespace Melia.Zone.World.Maps
 		/// <param name="area"></param>
 		/// <returns></returns>
 		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
+			=> this.GetActorsIn<TActor>(area, null);
+
+		/// <summary>
+		/// Returns all actors with the given type in the area that match the
+		/// predicate.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public List<TActor> GetActorsIn<TActor>(IShapeF area, Func<TActor, bool> predicate) where TActor : IActor
 		{
 			// Searching through both characters and monsters isn't the
 			// most efficient way to get actors of a specific type in an
@@ -471,7 +482,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var monster in _monsters.Values)
 				{
-					if (monster is TActor actor && area.IsInside(actor.Position))
+					if (monster is TActor actor && area.IsInside(actor.Position) && (predicate?.Invoke(actor) ?? true))
 						result.Add(actor);
 				}
 			}
@@ -480,7 +491,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var character in _characters.Values)
 				{
-					if (character is TActor actor && area.IsInside(actor.Position))
+					if (character is TActor actor && area.IsInside(actor.Position) && (predicate?.Invoke(actor) ?? true))
 						result.Add(actor);
 				}
 			}
