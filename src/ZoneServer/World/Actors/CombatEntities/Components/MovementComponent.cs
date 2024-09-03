@@ -22,9 +22,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
 
-		private readonly object _holdSyncLock = new();
-		private int _holdCount;
-
 		private ITriggerableArea[] _triggerAreas = [];
 
 		/// <summary>
@@ -54,11 +51,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// in the air.
 		/// </summary>
 		public bool IsGrounded { get; private set; }
-
-		/// <summary>
-		/// Returns true if the entity is currently held in place.
-		/// </summary>
-		public bool IsHeld => _holdCount > 0;
 
 		/// <summary>
 		/// Returns the entity's current movement speed type.
@@ -544,37 +536,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				triggerArea.LeaveFunc?.Invoke(new TriggerActorArgs(TriggerType.Leave, triggerArea, this.Entity));
 
 			_triggerAreas = triggerAreas;
-		}
-
-		/// <summary>
-		/// Stops the entity's movement and locks it in place.
-		/// </summary>
-		public void ApplyHold()
-		{
-			// Temporary implementation, replace with a proper state lock
-			// system. Read: Copy it over from Lela.
-			// --exec
-			lock (_holdSyncLock)
-				_holdCount++;
-
-			this.Stop();
-			this.Entity.Properties.Invalidate(PropertyName.MSPD);
-		}
-
-		/// <summary>
-		/// Releases the entity from a hold.
-		/// </summary>
-		/// <remarks>
-		/// Holds are counted, so the entity will not be able to move again
-		/// until all holds have been released.
-		/// </remarks>
-		public void ReleaseHold()
-		{
-			lock (_holdSyncLock)
-				_holdCount = Math.Max(0, _holdCount - 1);
-
-			this.Stop();
-			this.Entity.Properties.Invalidate(PropertyName.MSPD);
 		}
 	}
 

@@ -1,6 +1,8 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -86,6 +88,21 @@ namespace Melia.Zone.Skills.Combat
 			this.SkillHitDelay = skillHitDelay;
 			this.HitEffect = result.Effect;
 			this.HitCount = result.HitCount;
+		}
+
+		/// <summary>
+		/// Applies the knock back to the target and updates the hit type.
+		/// </summary>
+		/// <param name="target"></param>
+		public void ApplyKnockBack(ICombatEntity target)
+		{
+			if (this.KnockBackInfo == null)
+				throw new InvalidOperationException("Knock back info is not set.");
+
+			this.HitInfo.Type = this.Skill.Data.KnockDownHitType;
+			target.Position = this.KnockBackInfo.ToPosition;
+
+			target.SetState(StateType.KnockedBack, this.KnockBackInfo.Time);
 		}
 	}
 }

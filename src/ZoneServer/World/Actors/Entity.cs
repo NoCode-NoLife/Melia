@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
 using Yggdrasil.Util;
@@ -565,6 +566,48 @@ namespace Melia.Zone.World.Actors
 			var targetAngle = target.Direction.DegreeAngle;
 
 			return Math.Abs(casterAngle - targetAngle) < maxAngle || Math.Abs(casterAngle + 360f - targetAngle) < maxAngle || Math.Abs(casterAngle - targetAngle + 360f) < maxAngle;
+		}
+
+		/// <summary>
+		/// Returns true if a lock of the given type is active, indicating
+		/// that they should not be able to take the action.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="lockType"></param>
+		/// <returns></returns>
+		public static bool IsLocked(this ICombatEntity entity, string lockType)
+		{
+			if (!entity.Components.TryGet<StateLockComponent>(out var stateLocks))
+				return false;
+
+			return stateLocks.IsLocked(lockType);
+		}
+
+		/// <summary>
+		/// Sets the entity's state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		public static void SetState(this ICombatEntity entity, string stateType)
+		{
+			if (!entity.Components.TryGet<StateLockComponent>(out var stateLocks))
+				return;
+
+			stateLocks.SetState(stateType);
+		}
+
+		/// <summary>
+		/// Sets the entity's state for the given duration.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		/// <param name="duration"></param>
+		public static void SetState(this ICombatEntity entity, string stateType, TimeSpan duration)
+		{
+			if (!entity.Components.TryGet<StateLockComponent>(out var stateLocks))
+				return;
+
+			stateLocks.SetState(stateType, duration);
 		}
 	}
 }

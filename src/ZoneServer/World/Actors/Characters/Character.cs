@@ -19,6 +19,7 @@ using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -391,6 +392,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));

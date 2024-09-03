@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -156,8 +157,10 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected IEnumerable Say(string message)
 		{
+			if (this.Entity.IsLocked(LockType.Speak))
+				yield break;
+
 			Send.ZC_CHAT(this.Entity, message);
-			yield break;
 		}
 
 		/// <summary>
@@ -213,6 +216,12 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected virtual IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
+			if (this.Entity.IsLocked(LockType.Attack))
+				yield break;
+
+			if (target.IsLocked(LockType.GetHit))
+				yield break;
+
 			this.Entity.TurnTowards(target);
 
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))

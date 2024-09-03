@@ -117,8 +117,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.ApplyKnockBack(target);
 
 				// At one point, this skill was not a knockdown, but instead
 				// did more damage to knocked down targets, similar to

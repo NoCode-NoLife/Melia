@@ -11,6 +11,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Items;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -217,6 +218,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new CombatComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 
 			this.LoadData();
 		}
