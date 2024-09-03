@@ -107,6 +107,13 @@ namespace Melia.Zone.World.Actors.Components
 		public int MaxUseCount { get; set; } = short.MaxValue;
 
 		/// <summary>
+		/// Gets or sets which types of actors the component considers actors
+		/// that can trigger it. Only actors that are included in the filter
+		/// are valid candidates.
+		/// </summary>
+		public TriggerActorFilter Filter { get; set; } = TriggerActorFilter.CombatEntities;
+
+		/// <summary>
 		/// Event that is triggered when the actor added to a map.
 		/// </summary>
 		public event EventHandler<TriggerArgs> Created;
@@ -206,7 +213,7 @@ namespace Melia.Zone.World.Actors.Components
 
 			this.Area.UpdatePosition(this.Owner.Position);
 
-			var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area);
+			var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area, this.IsValidTriggerer);
 
 			lock (_syncLock)
 			{
@@ -243,6 +250,21 @@ namespace Melia.Zone.World.Actors.Components
 					_lifetimeTimer = TimeSpan.Zero;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the given actor is allowed to trigger the trigger.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		private bool IsValidTriggerer(IActor actor)
+		{
+			if (!this.Filter.Has(TriggerActorFilter.Characters) && actor is Character) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Mobs) && actor is Mob) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Npcs) && actor is Npc) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Items) && actor is ItemMonster) return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -488,5 +510,62 @@ namespace Melia.Zone.World.Actors.Components
 				handler(sender, new PadTriggerActorArgs(args.Type, pad, initiator, creator, skill));
 			};
 		}
+	}
+
+	/// <summary>
+	/// Used to specify which actors are allowed to trigger a trigger.
+	/// </summary>
+	public enum TriggerActorFilter : uint
+	{
+		/// <summary>
+		/// Matches player characters.
+		/// </summary>
+		Characters = 0x01,
+
+		/// <summary>
+		/// Matches combat-capable monsters.
+		/// </summary>
+		Mobs = 0x02,
+
+		/// <summary>
+		/// Matches friendly NPCs.
+		/// </summary>
+		Npcs = 0x04,
+
+		/// <summary>
+		/// Matches items lying on the ground.
+		/// </summary>
+		Items = 0x08,
+
+		/// <summary>
+		/// Matches combat entities, such as characters and mobs.
+		/// </summary>
+		CombatEntities = Characters | Mobs,
+
+		/// <summary>
+		/// Matches "monster-type" actors, which means everything that's
+		/// not a player.
+		/// </summary>
+		Monsters = Mobs | Npcs | Items,
+
+		/// <summary>
+		/// Matches all actors.
+		/// </summary>
+		All = 0xFFFFFFFF,
+	}
+
+	/// <summary>
+	/// Extensions for the trigger actor filter enum.
+	/// </summary>
+	public static class TriggerActorFilterExtension
+	{
+		/// <summary>
+		/// Returns true if the filter contains the given value.
+		/// </summary>
+		/// <param name="filter"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static bool Has(this TriggerActorFilter filter, TriggerActorFilter value)
+			=> (filter & value) != 0;
 	}
 }

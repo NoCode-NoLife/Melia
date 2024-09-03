@@ -1591,7 +1591,10 @@ namespace Melia.Zone.Network
 				var productId = packet.GetInt();
 				var amount = packet.GetInt();
 
-				purchases[productId] = amount;
+				if (!purchases.ContainsKey(productId))
+					purchases[productId] = amount;
+				else
+					purchases[productId] += amount;
 			}
 
 			var character = conn.SelectedCharacter;
@@ -2874,7 +2877,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(0x520A)]
+		[PacketHandler(Op.CZ_InteractionCancel)]
 		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
 		{
 			// The packet is spammed with a frequency of about 1-2 packets

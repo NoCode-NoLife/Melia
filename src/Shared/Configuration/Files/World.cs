@@ -41,6 +41,9 @@ namespace Melia.Shared.Configuration.Files
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
 
+		// quests.conf
+		public bool DisplayQuestObjectives { get; protected set; }
+
 		// skills.conf
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
@@ -118,6 +121,8 @@ namespace Melia.Shared.Configuration.Files
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
+
+			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
