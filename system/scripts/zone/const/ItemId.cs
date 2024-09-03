@@ -18990,6 +18990,7 @@ public static class ItemId
 	public const int Selectbox_Ep16redhood03 = 11205200;
 	public const int Leticia_Vanquisher_Unlockbox = 11205201;
 	public const int Special_Gift_Box_Leticia_2406 = 11205203;
+	public const int Special_Gift_Box_Leticia_2406_PAPAYA = 11205204;
 	public const int Selectbox_Ep16statue01 = 11205207;
 	public const int Selectbox_Ep16statue02 = 11205208;
 	public const int Selectbox_Ep16statue03 = 11205209;
