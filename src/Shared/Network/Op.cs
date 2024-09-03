@@ -1246,6 +1246,9 @@ namespace Melia.Shared.Network
 		public const int SC_LOGIN_OK = 0x3E3B; // Size: 10
 		public const int CS_DICE = 0x3E3C; // Size: 15
 		public const int SC_SYSTEM_MSG = 0x3E3D; // Size: 0
+		public const int ZC_InteractionInfo = 0x5209; // Size: 0
+		public const int CZ_InteractionCancel = 0x520A; // Size: 64
+		public const int ZC_InteractionRideUseSkill = 0x520B; // Size: 0
 
 		private static readonly Dictionary<int, int> Sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> Names = new Dictionary<int, string>();
@@ -2490,6 +2493,9 @@ namespace Melia.Shared.Network
 			Sizes[SC_LOGIN_OK] = 10;
 			Sizes[CS_DICE] = 15;
 			Sizes[SC_SYSTEM_MSG] = 0;
+			Sizes[ZC_InteractionInfo] = 0;
+			Sizes[CZ_InteractionCancel] = 64;
+			Sizes[ZC_InteractionRideUseSkill] = 0;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				Names[(int)field.GetValue(null)] = field.Name;

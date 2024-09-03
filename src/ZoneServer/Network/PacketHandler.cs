@@ -2877,7 +2877,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(0x520A)]
+		[PacketHandler(Op.CZ_InteractionCancel)]
 		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
 		{
 			// The packet is spammed with a frequency of about 1-2 packets
