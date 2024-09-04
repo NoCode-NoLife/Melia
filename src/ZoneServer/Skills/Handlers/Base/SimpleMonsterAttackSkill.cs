@@ -68,6 +68,8 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
+
+				this.OnHit(caster, target, skill, skillHitResult);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -141,6 +143,17 @@ namespace Melia.Zone.Skills.Handlers.Base
 			}
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Called for each hit the skill does on a target.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hitResult"></param>
+		protected virtual void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
 		}
 	}
 }

@@ -1,9 +1,11 @@
 using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Monsters
 {
@@ -280,6 +282,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 300f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 35f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Monster_Slow, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_BW_boss_Velcoffer_Skill_5)]
@@ -390,6 +397,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.VASILISSA_AQUAPRISON_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_BW_boss_upinis_Skill_2, SkillId.Mon_weekly_boss_roze_Skill_2, SkillId.Mon_weekly_boss_upinis_Skill_2, SkillId.Mon_boss_Roze_Skill_2, SkillId.Mon_boss_Roze_Auto_Skill_2, SkillId.Mon_boss_Roze_Solo_Skill_2, SkillId.Mon_boss_upinis_Skill_2, SkillId.Mon_boss_upinis_Auto_Skill_2, SkillId.Mon_boss_upinis_Solo_Skill_2, SkillId.Mon_earring_upinis_Skill_2, SkillId.Mon_earring_slogutis_Skill_1)]
@@ -665,6 +677,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.StopAni, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_event_boss_snigo_Skill_1)]
@@ -863,6 +880,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ep16_1_leader_velniamonkey_Skill_1, SkillId.Mon_boss_Velniamonkey_Skill_1)]
@@ -1116,6 +1139,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.FREEZE_EFFECT, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Onion_Big_Attack1, SkillId.Mon_ep13_2_banshee_Skill_1)]
@@ -1182,6 +1210,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_zigri_Attack1, SkillId.Mon_zigri_purple_Skill_1, SkillId.Mon_rockon_Skill_1)]
@@ -2150,6 +2184,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Saurman_Axeman_Attack1)]
@@ -2183,6 +2223,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Candle_Spider_Skill_1)]
@@ -2282,6 +2328,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_sleep, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Moss3_Skill_1)]
@@ -2304,6 +2356,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Hepatica_King_Skill_2)]
@@ -2315,6 +2373,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.Moldy_skill, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Salamion_Skill_1, SkillId.Mon_Salindy_Skill_1, SkillId.Mon_Salindy_Skill_2, SkillId.Mon_Salamion_Skill_4)]
@@ -2370,6 +2434,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+			target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Saloon_Skill_2, SkillId.Mon_Saloon_Skill_3)]
@@ -2381,6 +2451,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+			target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Tombstone_golem_Skill_1)]
@@ -2502,6 +2578,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 130f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_bubbe_mage_fire_Skill_2, SkillId.Mon_boss_ellaganos_Skill_3, SkillId.Mon_boss_RytaSwort_Skill_4, SkillId.Mon_helgasercle_phantom_Skill_1, SkillId.Mon_ellogua_Skill_2, SkillId.Mon_boss_hydra_Skill_1, SkillId.Mon_arrow_trap_Skill_1, SkillId.Mon_GM_arrow_trap_Skill_2, SkillId.Mon_Legend_RytaSwort_Skill_1, SkillId.Mon_Legend_Hard_RytaSwort_Skill_1)]
@@ -2524,6 +2606,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 130f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.Freeze, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_bubbe_mage_priest_Skill_2)]
@@ -2601,6 +2689,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 110f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Blind, 1, 0, TimeSpan.FromMilliseconds(7000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_bramble_mini_Skill_1)]
@@ -2832,6 +2925,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0.1f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Rondo_Skill_1, SkillId.Mon_Dubby_Skill_1, SkillId.Mon_Leafnut_Skill_1, SkillId.Mon_rubabos_Skill_1)]
@@ -3019,6 +3118,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_rafflesia_Skill_1, SkillId.Mon_rafflesia_purple_Skill_2)]
@@ -3052,6 +3157,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.Poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_BiteRegina_Skill_3)]
@@ -3063,6 +3174,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 45f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 40)
+				target.StartBuff(BuffId.Poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Genmagnus_Skill_1)]
@@ -3085,6 +3202,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 100f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Iltiswort_Skill_2)]
@@ -3096,6 +3219,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_lepus_Skill_1)]
@@ -3118,6 +3247,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_shock, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_bebraspion_Skill_3)]
@@ -3129,6 +3264,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 65f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_bebraspion_Skill_4)]
@@ -3140,6 +3281,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_shock, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_chafer_Skill_1)]
@@ -3162,6 +3309,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Rocktortuga_Skill_3, SkillId.Mon_GDB_boss_Rocktortuga_Skill_4)]
@@ -3261,6 +3414,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 35f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_spekull_Skill_1)]
@@ -3602,6 +3761,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ringring_Skill_1)]
@@ -3734,6 +3899,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Aos_Soldier_Skill_1, SkillId.Mon_Aos_Soldier_Skill_2)]
@@ -3767,6 +3938,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 100f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Achat_Skill_1, SkillId.Mon_M_boss_Achat_Skill_1, SkillId.Mon_M_boss_Shnayim_Skill_1, SkillId.Mon_AR_boss_Achat_Skill_1)]
@@ -3855,6 +4032,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Ravinepede_Skill_2, SkillId.Mon_boss_Ravinepede_Skill_4)]
@@ -3866,6 +4049,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 10f;
 		protected override float Width { get; } = 35f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Kimeleech_Skill_1)]
@@ -3888,6 +4077,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 90f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Stun, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_bubbe_chaser_Skill_1)]
@@ -3954,6 +4148,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 25f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_shock, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Sparnicht_Skill_1)]
@@ -3976,6 +4176,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_moa_Skill_2)]
@@ -4031,6 +4237,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Stun, 1, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Deathweaver_Skill_1)]
@@ -4053,6 +4264,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 150f;
 		protected override float Width { get; } = 35f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Templeshooter_Skill_2, SkillId.Mon_ET_boss_Templeshooter_Skill_2)]
@@ -4086,6 +4303,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Gorgon_Skill_1)]
@@ -4108,6 +4331,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Mummyghast_Skill_3)]
@@ -4119,6 +4348,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 150f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_thornr_raider_Skill_1)]
@@ -4207,6 +4442,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_merog_wizzard_Skill_2)]
@@ -4295,6 +4536,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 35f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ellogua_Skill_1)]
@@ -4581,6 +4828,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_stub_tree_Skill_1)]
@@ -4603,6 +4856,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_hook_Skill_1)]
@@ -4614,6 +4873,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 10f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mon_Atk_down, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_hook_Skill_2)]
@@ -4658,6 +4922,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 120f;
 		protected override float Angle { get; } = 35f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_curse, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Mothstem_Skill_1)]
@@ -4669,6 +4939,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.ElectricShock, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_GazingGolem_Skill_1)]
@@ -4713,6 +4989,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_GiantWoodGoblin_Skill_2)]
@@ -4735,6 +5017,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_varv_Skill_1)]
@@ -4812,6 +5100,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 35f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 25f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Fire, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_arma_Skill_2)]
@@ -5010,6 +5303,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_shock, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Merge_Skill_2)]
@@ -5021,6 +5320,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0.1f;
 		protected override float Width { get; } = 0.1f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_bound, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Velhider_Skill_1)]
@@ -5076,6 +5381,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Grummer_Skill_1, SkillId.Mon_event_Grummer_Skill_1)]
@@ -5087,6 +5398,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 35f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Humming_bud_Skill_1, SkillId.Mon_defender_spider_Skill_1, SkillId.Mon_pumpflap_Skill_1, SkillId.Mon_rabbee_Skill_1, SkillId.Mon_mon_paladin_follower2_1_Skill_1, SkillId.Mon_Boss_ebonypawn_Skill_1, SkillId.Mon_Little_rubeta_Skill_1, SkillId.Mon_nolimaid_Skill_1, SkillId.Mon_ep12_Zima_Skill_1, SkillId.Mon_boss_Bounty_Skill_1)]
@@ -5109,6 +5426,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Leafly_Skill_1)]
@@ -5175,6 +5498,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Wolf_statue_mage_Skill)]
@@ -5219,6 +5548,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 35f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mon_Def_down, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_wendigo_Skill_3)]
@@ -5274,6 +5608,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 25)
+				target.StartBuff(BuffId.Freeze, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Upent_Skill_2)]
@@ -5285,6 +5625,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 25)
+				target.StartBuff(BuffId.Freeze, 1, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Rodelin_Skill_1, SkillId.Mon_chesha_riel_Skill_1)]
@@ -5318,6 +5664,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 15f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Corylus_Skill_2)]
@@ -5692,6 +6044,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_zinutekas_Skill_2)]
@@ -5879,6 +6237,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Spector_Gh_Attack)]
@@ -5923,6 +6287,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_curse, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ID_boss_Kerberos_Skill_1)]
@@ -5934,6 +6304,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 90f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_flame, 1, 20, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ID_boss_Kerberos_Skill_2)]
@@ -5945,6 +6321,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_flame, 1, 20, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ID_boss_Kerberos_Skill_6, SkillId.Mon_F_boss_Kerberos_Skill_6)]
@@ -5967,6 +6349,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.Stun, 200, 0, TimeSpan.FromMilliseconds(3500), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_F_boss_BiteRegina_Skill_3)]
@@ -5978,6 +6366,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 45f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 60)
+				target.StartBuff(BuffId.Poison_Mon, 500, 0, TimeSpan.FromMilliseconds(15000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mon_paladin_follower1_1_Skill_1, SkillId.Mon_mon_intermediate_officer_men2_Skill_1)]
@@ -6000,6 +6394,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_panto_javelin_elite_Skill_1)]
@@ -6055,6 +6455,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Rajatoad_Skill_4)]
@@ -6110,6 +6516,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_werewolf_Skill_5, SkillId.Mon_ID_boss_werewolf_Skill_5)]
@@ -6143,6 +6555,14 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_poata_Q1_Skill_4)]
@@ -6308,6 +6728,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 33)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(11000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_loftlem_blue_Skill_1)]
@@ -6319,6 +6745,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 15f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Colifly_Skill_1)]
@@ -6352,6 +6784,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_succubus_Skill_1, SkillId.Mon_ep12_Orc_leader_Skill_2)]
@@ -6407,6 +6845,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 150f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_stun, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Crocoman_Skill_1, SkillId.Mon_ferret_patter_Skill_1, SkillId.Mon_lampal_Skill_1, SkillId.Mon_vilkas_soldier_Skill_1, SkillId.Mon_vilkas_soldier_Skill_2)]
@@ -6506,6 +6950,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 100f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.Freeze, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pc_summon_Mummyghast_Skill_1)]
@@ -6528,6 +6978,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 150f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_slowdown, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pc_summon_Strongholder_Skill_1)]
@@ -6858,6 +7313,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Repusbunny_bow_Skill_1)]
@@ -6880,6 +7340,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 5f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_plokste_Skill_1)]
@@ -6902,6 +7368,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 25f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Basilisk_Skill_2)]
@@ -6913,6 +7385,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 45f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_velpede_Skill_2, SkillId.Mon_GRB_boss_velpede_Skill_2)]
@@ -6979,6 +7457,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 100f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Turtai_Skill_2)]
@@ -6990,6 +7474,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Turtai_Skill_3)]
@@ -7012,6 +7502,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 25)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Crabil_Skill_2)]
@@ -7023,6 +7519,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(7000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Neop_Skill_1)]
@@ -7122,6 +7624,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 85f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Cire_mage_Skill_1, SkillId.Mon_Karas_mage_Skill_1, SkillId.Mon_blok_wizard_Skill_1, SkillId.Mon_ep12_Orc_cannon_Skill_1)]
@@ -7155,6 +7663,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(1000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_goblin2_hammer_Skill_2, SkillId.Mon_Elma_Skill_1)]
@@ -7210,6 +7724,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_anchor_mage_Skill_1, SkillId.Mon_Romor_Skill_1, SkillId.Mon_velpod_Skill_1)]
@@ -7408,6 +7928,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 1f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_sleep, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Deadbornscab_bow_green_Skill_1)]
@@ -7430,6 +7956,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 85f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Colifly_bow_purple_Skill_1)]
@@ -7452,6 +7984,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_sleep, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Hohen_ritter_Skill_1, SkillId.Mon_ep12_Wolf_Skill_1)]
@@ -7595,6 +8133,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pc_summon_Unknocker_Skill_4)]
@@ -7705,6 +8249,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 600f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Stun, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_bramble_TEST_Skill_5)]
@@ -7782,6 +8331,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 25f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.Stun, 1, 0, TimeSpan.FromMilliseconds(2500), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Lapezard_Skill_1, SkillId.Mon_ferret_archer_Skill_1, SkillId.Mon_blok_archer_Skill_1, SkillId.Mon_budny_Skill_1, SkillId.Mon_Horong_walker_Skill_1, SkillId.Mon_mythic_Elet_Skill_1, SkillId.Mon_mythic_Lapezard_Skill_1)]
@@ -7892,6 +8447,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 150f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Hexing_Debuff, 1, 0, TimeSpan.FromMilliseconds(7000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Foculus_Skill_1)]
@@ -8024,6 +8584,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 110f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_FerretMarauder_Skill_5)]
@@ -8167,6 +8733,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_PagDoper_Skill_1)]
@@ -8178,6 +8750,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Pagclamper_Skill_1)]
@@ -8211,6 +8789,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Flak_Skill_1)]
@@ -8222,6 +8806,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Flak_Skill_2)]
@@ -8266,6 +8856,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Marnoks_Skill_1)]
@@ -8288,6 +8884,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Zawra_Skill_1)]
@@ -8354,6 +8956,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_F_boss_Marnoks_Skill_1, SkillId.Mon_weekly_boss_Marnoks_Skill_1, SkillId.Mon_field_boss_Marnoks_Skill_1)]
@@ -8442,6 +9049,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 45f;
 		protected override float Width { get; } = 35f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 2)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Pagshearer_Skill_2)]
@@ -8453,6 +9066,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mon_npc_sapper_Skill_1)]
@@ -8574,6 +9193,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 25f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Slime_Skill_1)]
@@ -8585,6 +9210,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Torment_Skill_1)]
@@ -8607,6 +9238,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_MorningStarGolem_Skill_1)]
@@ -8651,6 +9288,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 45f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_shock, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_Velniamonkey_minimal_Skill_1)]
@@ -8673,6 +9316,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_stun, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_Foculus_minimal_Skill_1)]
@@ -8684,6 +9333,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_petrify, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_Rocksodon_minimal_Skill_1)]
@@ -8706,6 +9360,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Mothstem_Skill_1, SkillId.Mon_GFB_boss_Mothstem_Skill_1)]
@@ -8739,6 +9399,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 15)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Pinscher_Skill_1)]
@@ -8904,6 +9570,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_rockon_Skill_2)]
@@ -8959,6 +9631,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_debrave, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_dorong_Skill_3, SkillId.Mon_pingping_Skill_1)]
@@ -8992,6 +9669,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.Stun, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_AWK_boss_PantoRex_Skill_1)]
@@ -9036,6 +9719,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 55f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 50f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_silence_normalAttack, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Neop_Skill_1)]
@@ -9135,6 +9824,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Velorchard_minimal_Skill_1)]
@@ -9190,6 +9885,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 150f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(8000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Manticen_minimal_Skill_1)]
@@ -9223,6 +9924,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ET_boss_Grimreaper_Skill_5)]
@@ -9355,6 +10062,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 100f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pc_summon_boss_Fallen_Statue_Skill_1)]
@@ -9388,6 +10101,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 80f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.UC_stun, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_nukarong_Skill_2, SkillId.Mon_ep12_Orc_flag_Skill_1)]
@@ -9630,6 +10349,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 50f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 8)
+				target.StartBuff(BuffId.UC_silence, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_kucarry_Zeffi_Skill_2)]
@@ -9674,6 +10399,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 8f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_straw_walker_Skill_2)]
@@ -9773,6 +10504,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_rodenag_Skill_2)]
@@ -9883,6 +10620,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 4)
+				target.StartBuff(BuffId.UC_confuse, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_darong_Skill_2, SkillId.Mon_kisylion_Skill_1)]
@@ -9927,6 +10670,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.Mon_Magic_Shield_Debuff, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_F_boss_Zawra_Skill_5, SkillId.Mon_weekly_boss_Zawra_Skill_5, SkillId.Mon_field_boss_Zawra_Skill_5)]
@@ -9960,6 +10709,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_slowdown, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_umbra_warrior_Skill_1, SkillId.Mon_ID_umbra_warrior_Skill_1, SkillId.Mon_Lotuscat_Skill_1, SkillId.Mon_ep12_Gari_Skill_1)]
@@ -9993,6 +10747,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 8)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_aklasia_Skill_1, SkillId.Mon_KindronBoor_Skill_1)]
@@ -10070,6 +10830,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 180f;
 		protected override float Width { get; } = 75f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_confuse, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Castle_princess_Skill_2)]
@@ -10081,6 +10846,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_diena_Skill_1)]
@@ -10202,6 +10973,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 8)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_GFB_boss_bebraspion_Skill_2)]
@@ -10257,6 +11034,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 12)
+				target.StartBuff(BuffId.UC_flame, 1, 0, TimeSpan.FromMilliseconds(15000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Kandlogre_Skill_1)]
@@ -10279,6 +11062,14 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 110f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 4)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(15000), caster, skill.Id);
+			if (RandomProvider.Get().Next(100) < 3)
+				target.StartBuff(BuffId.UC_poison, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Porahound_Skill_1)]
@@ -10301,6 +11092,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 80f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_jezebel_Skill_1)]
@@ -10312,6 +11109,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 100f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 4)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(15000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_jezebel_Skill_4)]
@@ -10334,6 +11137,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 130f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 80)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Pbeta_Skill_1)]
@@ -10389,6 +11198,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 300f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 35f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Monster_Slow, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Raid_boss_blackGargoyle_Skill_5)]
@@ -10400,6 +11214,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 1000f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mon_raid_stun, 3, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_flowertree_Skill_1)]
@@ -10488,6 +11307,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_mspblood, 1, 1000, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_minivern_raid_Skill_2)]
@@ -10521,6 +11345,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 20f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mon_Def_down, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_varleking_Skill_1)]
@@ -10532,6 +11361,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 115f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 8)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_varleking_Skill_2)]
@@ -10543,6 +11378,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_solcomm_Skill_1, SkillId.Mon_boss_solcomm_Q2_Skill_1)]
@@ -10598,6 +11438,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_armorbreak, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_F_boss_molich_Skill_1)]
@@ -10664,6 +11510,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 150f;
 		protected override float Width { get; } = 70f;
 		protected override float Angle { get; } = 45f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_slowdown, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ID_kucarry_symbani_Skill_1)]
@@ -10675,6 +11526,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 2)
+				target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(4000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ID_umbra_warrior_Skill_2)]
@@ -10686,6 +11543,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 2)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_KindronWielder_Skill_1)]
@@ -11533,6 +12396,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 25f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.HamelnNagetier_Debuff, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pate_Skill_1)]
@@ -11929,6 +12797,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 40f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.UC_stun, 1, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_KindronBoor_Skill_2)]
@@ -11951,6 +12825,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 35f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 50)
+				target.StartBuff(BuffId.Poison_Mon, 10, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_NightPanto_mage_Skill_1)]
@@ -12050,6 +12930,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_frostbite, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Vine_Walker_Skill_1)]
@@ -12281,6 +13166,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.GuildColony_Ballista_Stun_DeBuff, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Colony_Ballista_Skill_2)]
@@ -12325,6 +13215,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 40f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_deprotect, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_LungerBoar_Skill_2)]
@@ -12336,6 +13232,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_stun, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Meskalord_Skill_1)]
@@ -12347,6 +13249,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 100f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 55f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(1000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Meskalord_Skill_4)]
@@ -12358,6 +13266,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_madon_maiden_Skill_1)]
@@ -12380,6 +13293,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 250f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 30)
+				target.StartBuff(BuffId.UniqRaid_Ignas_Phase2_Buff, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_uniq_id_boss_ignas_Skill_3)]
@@ -12391,6 +13310,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 0f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 20)
+				target.StartBuff(BuffId.UniqRaid_Ignas_Phase2_Buff, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_uniq_id_boss_ProddedHorse_Skill_4)]
@@ -12402,6 +13327,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_fear, 1, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_pcskill_skullwizard_Skill_1)]
@@ -13150,6 +14080,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.MORINGPONIA_POISON, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_uniq_mushroom_ent_black_Skill_3)]
@@ -13161,6 +14096,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 70f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.MORINGPONIA_POISON, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Legend_mushroom_ent_black_Skill_1)]
@@ -13447,6 +14387,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_FireWall_Buff, 1, 0, TimeSpan.FromMilliseconds(70000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_pattern_Skill_6)]
@@ -13458,6 +14403,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_Explosion_Debuff, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_pattern_Skill_8)]
@@ -13480,6 +14430,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_RuneOfDeath_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_pattern_Skill_12, SkillId.Mon_mythic_pattern_Skill_4)]
@@ -13491,6 +14446,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_RuneOfSummon_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_pattern_Skill_13, SkillId.Mon_mythic_pattern_Skill_5)]
@@ -13502,6 +14462,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_Overload_Debuff, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_boss_hauberk_Skill_1, SkillId.Mon_field_boss_hauberk_Skill_1)]
@@ -13524,6 +14489,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 60f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_bleed, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+			target.StartBuff(BuffId.Weekly_Helgasercle_Debuff, 1, 0, TimeSpan.FromMilliseconds(12000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_boss_lecifer_Skill_1, SkillId.Mon_field_boss_lecifer_Skill_1)]
@@ -13689,6 +14660,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Blind, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Irredians_TelHarsha_Skill_11, SkillId.Mon_boss_freedungeon_telharsha_Skill_11)]
@@ -13733,6 +14709,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_Solcomm_Electric_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_boss_solcomm_Skill_6, SkillId.Mon_field_boss_solcomm_Skill_6)]
@@ -13744,6 +14725,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 45f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_Solcomm_Electric_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_boss_Naktis_Skill_2, SkillId.Mon_field_boss_Naktis_Skill_2)]
@@ -13755,6 +14741,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Hold, 1, 0, TimeSpan.FromMilliseconds(1000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_boss_Tiny_mage_Skill_1)]
@@ -13788,6 +14779,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 500f;
 		protected override float Width { get; } = 20f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Lv99_bound, 1, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Legend_Boss_Moringponia_Hard_Solo_Skill_8)]
@@ -13832,6 +14828,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Field_FireWall_Buff, 1, 0, TimeSpan.FromMilliseconds(70000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_field_pattern_Skill_3)]
@@ -13843,6 +14844,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Field_Explosion_Debuff, 1, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_field_pattern_Skill_5, SkillId.Mon_mythic_pattern_Skill_3)]
@@ -13865,6 +14871,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Field_RuneOfDeath_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_field_pattern_Skill_8)]
@@ -13876,6 +14887,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Field_RuneOfSummon_Debuff, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_field_pattern_Skill_9)]
@@ -13887,6 +14903,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Field_Overload_Debuff, 1, 0, TimeSpan.FromMilliseconds(60000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Legend_Boss_Giltine_Skill_1, SkillId.Mon_Legend_Boss_Giltine_Guild_Skill_1, SkillId.Mon_Legend_Boss_Giltine_Auto_Skill_1)]
@@ -14074,6 +15095,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.CriticalWound, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Legend_Boss_Giltine_Skill_12, SkillId.Mon_Legend_Boss_Giltine_Guild_Skill_12, SkillId.Mon_Legend_Boss_Giltine_Auto_Skill_12)]
@@ -14096,6 +15122,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.GILTINE_ELECTRIC_SHOCK_STIFFNESS_DEBUFF, 1, 0, TimeSpan.FromMilliseconds(30000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Giltine_Glackuman_minimal_Skill_1)]
@@ -14327,6 +15358,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 55f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Weekly_boss_lucy_summon_Debuff, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_weekly_lapindal_ribbon_lucy_summon_Skill_2)]
@@ -14349,6 +15385,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mythic_FireWall_Debuff, 1, 0, TimeSpan.FromMilliseconds(45000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mythic_pattern_Skill_6)]
@@ -14382,6 +15423,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 120f;
 		protected override float Width { get; } = 0f;
 		protected override float Angle { get; } = 100f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mythic_freeze, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mythic_Fire_Dragon_purple_Skill_1)]
@@ -14492,6 +15538,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 60f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 20f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 10)
+				target.StartBuff(BuffId.UC_freeze, 1, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mythic_Banshee_pink_Skill_2)]
@@ -14547,6 +15599,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 50f;
 		protected override float Angle { get; } = 0f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Mythic_Burn_Debuff, 1, 0, TimeSpan.FromMilliseconds(20000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mythic_pawnd_Skill_1, SkillId.Mon_mythic_LapeArcher_Skill_1)]
@@ -14591,6 +15648,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 170f;
 		protected override float Width { get; } = 10f;
 		protected override float Angle { get; } = 30f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			if (RandomProvider.Get().Next(100) < 5)
+				target.StartBuff(BuffId.UC_blind, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_mythic_Hallowventor_Skill_1)]
@@ -14987,6 +16050,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Marnoks_poison_Debuff, 1, 0, TimeSpan.FromMilliseconds(15000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_insane_marnoks_Skill_4)]
@@ -14998,6 +16066,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.Lv99_slowdown, 1, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_insane_marnoks_Skill_5)]
@@ -15097,6 +16170,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.VASILISSA_THUNDERSTROKE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(1000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_blackman_Skill_3)]
@@ -15108,6 +16186,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.UC_confuse, 1, 0, TimeSpan.FromMilliseconds(6000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Vibora_Spiritsoldier_Skill_1)]
@@ -15207,6 +16290,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_SKILL4_SLOWDOWN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_RevivalPaulius_Skill_5)]
@@ -15229,6 +16317,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_LASER_HOLD_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_ep14_1_npc_pajauta_Skill_1)]
@@ -15471,6 +16564,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_NORMAL_SKILL_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_RevivalPaulius_Extreme_Skill_4)]
@@ -15482,6 +16580,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_SKILL4_SLOWDOWN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+			target.StartBuff(BuffId.PAULIUS_NORMAL_SKILL_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_RevivalPaulius_Extreme_Skill_5)]
@@ -15493,6 +16597,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_NORMAL_SKILL_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_RevivalPaulius_Extreme_Skill_6)]
@@ -15504,6 +16613,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_LASER_HOLD_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+			target.StartBuff(BuffId.PAULIUS_NORMAL_SKILL_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_RevivalPaulius_Extreme_Skill_9, SkillId.Mon_boss_RevivalPaulius_Extreme_Skill_10)]
@@ -15515,6 +16630,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_NORMAL_SKILL_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_1, SkillId.Mon_boss_Jellyzele_Skill_3, SkillId.Mon_boss_Jellyzele_Skill_14)]
@@ -15526,6 +16646,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_2)]
@@ -15537,6 +16662,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 300f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_5)]
@@ -15548,6 +16678,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+			target.StartBuff(BuffId.JELLYZELE_ELECTRIC_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_7)]
@@ -15559,6 +16695,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_ATK_REDUCE_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(10000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_15, SkillId.Mon_boss_Jellyzele_Skill_17, SkillId.Mon_boss_Jellyzele_Skill_28)]
@@ -15570,6 +16711,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_RESIDUAL_HEAT_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_16)]
@@ -15581,6 +16727,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 300f;
 		protected override float Width { get; } = 40f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_RESIDUAL_HEAT_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_19)]
@@ -15592,6 +16743,12 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_ELECTRIC_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+			target.StartBuff(BuffId.JELLYZELE_RESIDUAL_HEAT_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Jellyzele_Skill_21)]
@@ -15603,6 +16760,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_RESIDUAL_HEAT_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(3000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_Jellyzele_seaweed_Skill_1)]
@@ -15713,6 +16875,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_BOUNCE_PAD_STUN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(1000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Falouros_Skill_4, SkillId.Mon_boss_Falouros_Auto_Skill_4, SkillId.Mon_boss_Falouros_Solo_Skill_4)]
@@ -15735,6 +16902,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.JELLYZELE_STICKY_SLOWDOWN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Falouros_Skill_7, SkillId.Mon_boss_Falouros_Skill_12, SkillId.Mon_boss_Falouros_Auto_Skill_7, SkillId.Mon_boss_Falouros_Auto_Skill_12, SkillId.Mon_boss_Falouros_Solo_Skill_7, SkillId.Mon_boss_Falouros_Solo_Skill_12)]
@@ -15768,6 +16940,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_BOUNCE_PAD_STUN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_npc_baubas2_Skill_1, SkillId.Mon_npc_baubas2_Skill_10, SkillId.Mon_dragoon_master_ex_Skill_1, SkillId.Mon_dragoon_master_ex_Skill_2, SkillId.Mon_dragoon_master_ex_Skill_3, SkillId.Mon_dragoon_master_ex_Skill_4, SkillId.Mon_boss_dragoon_ex_Skill_1, SkillId.Mon_boss_dragoon_ex_Skill_2, SkillId.Mon_boss_dragoon_ex_Skill_3, SkillId.Mon_boss_dragoon_ex_Skill_4, SkillId.Mon_boss_dragoon_ex_Skill_5, SkillId.Mon_boss_dragoon_ex_Skill_6, SkillId.Mon_boss_dragoon_ex_Skill_7, SkillId.Mon_boss_dragoon_ex_Skill_8, SkillId.Mon_boss_dragoon_ex_Skill_9, SkillId.Mon_boss_dragoon_ex_Skill_10)]
@@ -16098,6 +17275,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_SKILL4_SLOWDOWN_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_earring_revivalpaulius_Skill_4)]
@@ -16109,6 +17291,11 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+
+		protected override void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
+			target.StartBuff(BuffId.PAULIUS_LASER_HOLD_DEBUFF, 99, 0, TimeSpan.FromMilliseconds(5000), caster, skill.Id);
+		}
 	}
 
 	[SkillHandler(SkillId.Mon_earring_jellyzele_Skill_1, SkillId.Mon_earring_jellyzele_Skill_6)]
