@@ -774,7 +774,7 @@ namespace Melia.Zone.Network
 			}
 
 			// Cooldown sanity check, the client shouldn't allow this
-			if (item.Data.HasCooldown && cooldowns.IsOnCooldown(item.Data.CooldownId))
+			if (cooldowns.IsOnCooldown(item.Data.CooldownId))
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
