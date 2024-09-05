@@ -756,6 +756,7 @@ namespace Melia.Zone.Network
 			var handle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
+			var cooldowns = character.Components.Get<CooldownComponent>();
 
 			// Get item
 			var item = character.Inventory.GetItem(worldId);
@@ -769,6 +770,13 @@ namespace Melia.Zone.Network
 			if (item.IsLocked)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
+				return;
+			}
+
+			// Cooldown sanity check, the client shouldn't allow this
+			if (item.Data.HasCooldown && cooldowns.IsOnCooldown(item.Data.CooldownId))
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
 			}
 
@@ -804,6 +812,10 @@ namespace Melia.Zone.Network
 					if (result != ItemUseResult.OkayNotConsumed)
 						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
 				}
+
+				// Set cooldown if applicable
+				if (item.Data.HasCooldown)
+					cooldowns.Start(item.Data.CooldownId, item.Data.CooldownTime);
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
