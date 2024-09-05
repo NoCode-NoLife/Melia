@@ -189,11 +189,8 @@ namespace Melia.Zone.World.Actors.Components
 				if (!_states.TryGetValue(stateType, out var state))
 					throw new ArgumentException($"Unknown state '{stateType}'.");
 
-				if (_currentState.Type != stateType)
-				{
-					foreach (var lockType in _currentState.Locks)
-						this.Unlock(lockType);
-				}
+				foreach (var lockType in _currentState.Locks)
+					this.Unlock(lockType);
 
 				foreach (var lockType in state.Locks)
 					this.Lock(lockType);
