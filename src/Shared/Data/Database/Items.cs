@@ -65,9 +65,13 @@ namespace Melia.Shared.Data.Database
 		public float DarkResistence { get; set; }
 		public float SoulResistence { get; set; }
 
+		public CooldownId CooldownId { get; set; }
+		public TimeSpan CooldownTime { get; set; }
+
 		public ItemScriptData Script { get; set; }
 
 		public bool HasScript => this.Script != null;
+		public bool HasCooldown => this.CooldownTime > TimeSpan.Zero;
 	}
 
 	[Serializable]
@@ -197,6 +201,9 @@ namespace Melia.Shared.Data.Database
 			data.SoulResistence = entry.ReadFloat("soulRes", 0);
 			data.HolyResistence = entry.ReadFloat("holyRes", 0);
 			data.DarkResistence = entry.ReadFloat("darkRes", 0);
+
+			data.CooldownId = entry.ReadEnum<CooldownId>("cooldownGroup", 0);
+			data.CooldownTime = entry.ReadTimeSpan("cooldown", TimeSpan.Zero);
 
 			if (entry.TryGetObject("script", out var scriptEntry))
 			{
