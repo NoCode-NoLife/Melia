@@ -815,7 +815,13 @@ namespace Melia.Zone.Network
 
 				// Set cooldown if applicable
 				if (item.Data.HasCooldown)
-					cooldowns.Start(item.Data.CooldownId, item.Data.CooldownTime);
+				{
+					var cooldownTime = item.Data.CooldownTime;
+					cooldownTime *= ZoneServer.Instance.Conf.World.ItemCooldownRate;
+
+					if (cooldownTime > TimeSpan.Zero)
+						cooldowns.Start(item.Data.CooldownId, cooldownTime);
+				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}

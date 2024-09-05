@@ -38,6 +38,9 @@ namespace Melia.Shared.Configuration.Files
 		public int MonthsPerYear { get; protected set; }
 		public bool EnableDayNightCycle { get; protected set; }
 
+		// items.conf
+		public float ItemCooldownRate { get; protected set; }
+
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
 
@@ -119,6 +122,8 @@ namespace Melia.Shared.Configuration.Files
 			this.DaysPerMonth = this.GetInt("gt_days_per_month", 40);
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
+
+			this.ItemCooldownRate = this.GetFloat("item_cooldown_rate", 1);
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
 
