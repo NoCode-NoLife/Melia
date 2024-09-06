@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
@@ -10,9 +10,24 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 	/// <summary>
 	/// Handle for the Zhendy Buff.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: None
+	/// </remarks>
 	[BuffHandler(BuffId.Zhendu_Buff)]
 	public class Zhendu_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
+		private readonly static SkillId[] WugushiSkills =
+		[
+			SkillId.Wugushi_JincanGu,
+			SkillId.Wugushi_JincanGuBug,
+			SkillId.Wugushi_LatentVenom,
+			SkillId.Wugushi_NeedleBlow,
+			SkillId.Wugushi_WideMiasma,
+			SkillId.Wugushi_WugongGu,
+			SkillId.Wugushi_CrescendoBane
+		];
+
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
@@ -24,15 +39,14 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			var wugushiSKills = new List<SkillId>() { SkillId.Wugushi_JincanGu, SkillId.Wugushi_JincanGuBug, SkillId.Wugushi_LatentVenom, SkillId.Wugushi_NeedleBlow, SkillId.Wugushi_WideMiasma, SkillId.Wugushi_WugongGu, SkillId.Wugushi_CrescendoBane };
+			var isWugushiSkill = WugushiSkills.Contains(skill.Id);
+			if (!isWugushiSkill)
+				return;
 
-			if (wugushiSKills.Contains(skill.Id))
-			{
-				var skillLevel = buff.NumArg1;
-				var multiplierIncrease = this.GetIncreaseDamageValue((int)skillLevel);
+			var skillLevel = buff.NumArg1;
+			var multiplierIncrease = this.GetIncreaseDamageValue((int)skillLevel);
 
-				modifier.DamageMultiplier += multiplierIncrease;
-			}
+			modifier.DamageMultiplier += multiplierIncrease;
 		}
 
 		/// <summary>

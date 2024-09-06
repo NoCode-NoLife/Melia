@@ -2997,9 +2997,8 @@ namespace Melia.Zone.Network
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
 		}
 
-
 		/// <summary>
-		/// Removes a buff from the player character.
+		/// Request to cancel/remove a buff.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -3007,15 +3006,22 @@ namespace Melia.Zone.Network
 		public void CZ_BUFF_REMOVE(IZoneConnection conn, Packet packet)
 		{
 			var buffId = (BuffId)packet.GetInt();
+
 			var character = conn.SelectedCharacter;
 
-			if (character.TryGetBuff(buffId, out var buff) && buff.Data.Removable)
+			if (!character.TryGetBuff(buffId, out var buff))
 			{
-				character.StopBuff(buffId);
-			} else
-			{
-				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove the BuffId: '{1}' but this buff can't be removed.", conn.Account.Name, buffId);
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff they don't have ({1}).", conn.Account.Name, buffId);
+				return;
 			}
+
+			if (!buff.Data.Removable)
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff that can't be removed ({1}).", conn.Account.Name, buffId);
+				return;
+			}
+
+			character.StopBuff(buffId);
 		}
 	}
 }

@@ -1322,7 +1322,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Used once there is not target for a targetable skill
+			/// Exact purpose unknown, used in some skills when there's no target.
 			/// </summary>
 			/// <param name="actor"></param>
 			/// <param name="skillId"></param>
@@ -1352,7 +1352,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Used once there is not target for a targetable skill
+			/// Exact purpose unknown, used in some skills when there's no target.
 			/// </summary>
 			/// <param name="actor"></param>
 			public static void Skill_43(IActor actor)

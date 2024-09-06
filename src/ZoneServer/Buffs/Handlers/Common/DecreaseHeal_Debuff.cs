@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: None
+	/// NumArg2: Heal Reduction (percentage in thousands)
 	/// </remarks>
 	[BuffHandler(BuffId.DecreaseHeal_Debuff)]
 	public class DecreaseHeal_Debuff : BuffHandler

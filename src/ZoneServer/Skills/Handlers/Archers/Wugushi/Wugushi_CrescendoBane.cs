@@ -9,7 +9,7 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 {
 	/// <summary>
-	/// Handler for the skill CrescendoBane.
+	/// Handler for the skill Crescendo Bane.
 	/// </summary>
 	[SkillHandler(SkillId.Wugushi_CrescendoBane)]
 	public class Wugushi_CrescendoBane : IGroundSkillHandler

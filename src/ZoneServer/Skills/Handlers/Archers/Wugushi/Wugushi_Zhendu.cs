@@ -26,25 +26,15 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="dir"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Direction dir)
 		{
-			if (!caster.TrySpendSp(skill))
+			if (!caster.TrySpendSp(GetSpendSp(caster, skill)))
 			{
 				caster.ServerMessage(Localization.Get("Not enough SP."));
 				return;
 			}
 
-			if (caster.IsAbilityActive(AbilityId.Wugushi7))
-			{
-				var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP) / 2;
-				if (!caster.TrySpendSp(spendSp))
-				{
-					caster.ServerMessage(Localization.Get("Not enough SP."));
-					return;
-				}
-			}
-
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
-			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster);
+			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster, skill.Id);
 
 			var effectId = ForceId.GetNew();
 
@@ -74,6 +64,22 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 					target.Properties.SetFloat(PropertyName.Poison_Def_BM, -(poisonDef * 0.1f));
 				}
 			}
+		}
+
+		/// <summary>
+		/// Returns the SP cost of the skill.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private static float GetSpendSp(ICombatEntity caster, Skill skill)
+		{
+			var spendSp = skill.Properties.GetFloat(PropertyName.SpendSP);
+
+			if (caster.IsAbilityActive(AbilityId.Wugushi7))
+				spendSp *= 1.5f;
+
+			return spendSp;
 		}
 	}
 }

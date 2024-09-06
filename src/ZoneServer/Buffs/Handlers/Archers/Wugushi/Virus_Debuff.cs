@@ -1,65 +1,49 @@
-﻿using System;
+﻿using System.Linq;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills.Combat;
-using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
-using Melia.Zone.Skills.Handlers.Archers.Wugushi;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 {
 	/// <summary>
 	/// Handle for the Virus Debuff, which ticks damage while active.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: None
+	/// NumArg2: None
+	/// </remarks>
 	[BuffHandler(BuffId.Virus_Debuff)]
 	public class Virus_Debuff : BuffHandler
 	{
-		public override void OnStart(Buff buff)
-		{
-			var damageTickDelay = buff.Data.UpdateTime;
-
-			Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
-
-			buff.UpdateTime = damageTickDelay;
-		}
+		private const int MaxSpreadAmount = 5;
+		private const int SpreadRange = 25;
 
 		public override void WhileActive(Buff buff)
 		{
-			var target = buff.Target;
-
-			if (target.Hp > 0)
+			// Once the target is dead we spread the virus to nearby entities once
+			if (buff.Target.IsDead)
 			{
-				if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
-					return;
+				if (!buff.Vars.ActivateOnce("Spread"))
+					this.SpreadVirus(buff);
 
-				if (!buff.Vars.GetBool("Virus_Debuff.CrescendoBaneBuff"))
-				{
-					buff.Vars.SetBool("Virus_Debuff.CrescendoBaneBuff", this.TryApplyCrescendoBaneBuff(buff));
-				}
-
-				Wugushi_WugongGu.BuffDealsDamage(buff, skill);
+				return;
 			}
-			else
-			{
-				const int maxSpreadAmount = 5;
 
-				// Spreads to nearby targets
-				foreach (var spreadTarget in target.Map.GetAttackableEntitiesInRange(buff.Caster, target.Position, 25).LimitRandom(maxSpreadAmount))
-				{
-					spreadTarget.StartBuff(BuffId.Virus_Debuff, buff.NumArg1, buff.NumArg2, TimeSpan.FromSeconds(10), buff.Caster);
-				}
-			}
+			if (!buff.Caster.TryGetSkill(buff.SkillId, out var skill))
+				return;
+
+			buff.Target.TakeSkillHit(buff.Caster, skill);
+			Crescendo_Bane_Buff.TryApply(buff);
 		}
 
-		/// <summary>
-		/// Returns true if CrescendoBane is active and UpdateTime was modified
-		/// </summary>
-		/// <param name="buff"></param>
-		private bool TryApplyCrescendoBaneBuff(Buff buff)
+		private void SpreadVirus(Buff buff)
 		{
-			var damageTickDelay = buff.Data.UpdateTime;
-			var applied = Crescendo_Bane_Buff.TryApply(buff.Caster, ref damageTickDelay);
-			buff.UpdateTime = damageTickDelay;
-			return applied;
+			var targetsInRange = buff.Target.Map.GetAttackableEntitiesInRange(buff.Caster, buff.Target.Position, SpreadRange);
+			var spreadTargets = targetsInRange.Where(a => !a.IsBuffActive(BuffId.Virus_Debuff));
+
+			foreach (var spreadTarget in spreadTargets.LimitRandom(MaxSpreadAmount))
+				spreadTarget.StartBuff(BuffId.Virus_Debuff, buff.NumArg1, buff.NumArg2, buff.Duration, buff.Caster, buff.SkillId);
 		}
 	}
 }

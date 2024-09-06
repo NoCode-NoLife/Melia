@@ -2,7 +2,6 @@
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -57,25 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target.Handle, caster.Position, caster.Direction, target.Position);
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
-			target.StartBuff(BuffId.Virus_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(10), caster);
-		}
-
-		/// <summary>
-		/// Used by the buff once the target takes damage.
-		/// </summary>
-		/// <param name="buff"></param>
-		/// <param name="skill></param>
-		public static void BuffDealsDamage(Buff buff, Skill skill)
-		{
-			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
-
-			// The damage amount is unknow, for now we are dealing
-			// the same amount as the original skill does
-			buff.Target.TakeDamage(skillHitResult.Damage, buff.Caster);
-
-			var hit = new HitInfo(buff.Caster, buff.Target, skill.Id, skillHitResult.Damage, HitResultType.Buff26);
-
-			Send.ZC_HIT_INFO(buff.Caster, buff.Target, hit);
+			target.StartBuff(BuffId.Virus_Debuff, 0, 0, TimeSpan.FromSeconds(10), caster, skill.Id);
 		}
 	}
 }
