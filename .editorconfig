@@ -169,3 +169,6 @@ dotnet_diagnostic.CS8603.severity = none
 
 # CS8604: Potential null ref parameter.
 dotnet_diagnostic.CS8604.severity = none
+
+# IDE0059: Unnecessary variable assignment.
+dotnet_diagnostic.IDE0059.severity = none
