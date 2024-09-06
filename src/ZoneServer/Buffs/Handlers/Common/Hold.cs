@@ -13,12 +13,12 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		public override void OnStart(Buff buff)
 		{
-			buff.Target.Lock(LockType.Movement);
+			buff.Target.AddState(StateType.Held);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			buff.Target.Unlock(LockType.Movement);
+			buff.Target.RemoveState(StateType.Held);
 		}
 	}
 }
