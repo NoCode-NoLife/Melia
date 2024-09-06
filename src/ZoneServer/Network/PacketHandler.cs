@@ -18,6 +18,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
@@ -280,6 +281,12 @@ namespace Melia.Zone.Network
 			// was handled as one
 			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				return;
+
+			if (character.IsLocked(LockType.Speak))
+			{
+				character.ServerMessage(Localization.Get("You are not allowed to speak right now."));
+				return;
+			}
 
 			Send.ZC_CHAT(character, msg);
 			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
