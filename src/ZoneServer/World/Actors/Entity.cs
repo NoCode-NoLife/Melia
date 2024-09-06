@@ -628,5 +628,14 @@ namespace Melia.Zone.World.Actors
 		/// <param name="stateType"></param>
 		public static void RemoveState(this ICombatEntity entity, string stateType)
 			=> entity.Components.Get<StateLockComponent>()?.RemoveState(stateType);
+
+		/// <summary>
+		/// Returns true if the given state is active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		/// <returns></returns>
+		public static bool IsStateActive(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.IsStateActive(stateType) ?? false;
 	}
 }
