@@ -65,7 +65,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(3), caster);
 				CallSafe(this.ExecuteHit(skill, caster, target));
 			}
 		}

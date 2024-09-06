@@ -25,8 +25,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 		private const float MaxTargetDistance = 30f;
 		private const float MaxMoveDistance = 140f;
 		private const float KnockdownMultiplier = 1.5f;
-		private const float HealDebuffPerLevel = 3.3f;
-		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -113,7 +111,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), HealDebuffDuration, caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(5), caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -126,7 +124,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 		/// <returns></returns>
 		private float GetHealingReduction(Skill skill)
 		{
-			return (HealDebuffPerLevel * skill.Level) * 1000;
+			return (3.3f * skill.Level) * 1000;
 		}
 	}
 }
