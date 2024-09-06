@@ -18,7 +18,8 @@ namespace Melia.Zone.Buffs.Base
 		}
 
 		/// <summary>
-		/// Starts the buff, adding the initial effects.
+		/// Called when the buff is started or overbuffed and typically applies
+		/// most of a buff's effects.
 		/// </summary>
 		/// <param name="buff"></param>
 		public virtual void OnStart(Buff buff)
