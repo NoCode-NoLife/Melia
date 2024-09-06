@@ -16,16 +16,32 @@ namespace Melia.Barracks.Database
 	public class BarracksDb : MeliaDb
 	{
 		/// <summary>
-		/// Checks whether the SQL update file has already been applied.
+		/// Normalizes/Updates the file names in the update db.
 		/// </summary>
-		/// <param name="updateFile"></param>
+		/// <remarks>
+		/// Temporary fix, since we had some issues with the update names.
+		/// </remarks>
 		/// <returns></returns>
-		public bool CheckUpdate(string updateFile)
+		public void NormalizeUpdateNames()
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("UPDATE `updates` SET `path` = REPLACE(LOWER(`path`), \"update-\", \"update_\")", conn))
+			{
+				mc.ExecuteNonQuery();
+			}
+		}
+
+		/// <summary>
+		/// Returns true if the update with the given name was already applied.
+		/// </summary>
+		/// <param name="updateName"></param>
+		/// <returns></returns>
+		public bool CheckUpdate(string updateName)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("SELECT * FROM `updates` WHERE `path` = @path", conn))
 			{
-				mc.Parameters.AddWithValue("@path", updateFile);
+				mc.Parameters.AddWithValue("@path", updateName);
 
 				using (var reader = mc.ExecuteReader())
 					return reader.Read();
@@ -33,32 +49,33 @@ namespace Melia.Barracks.Database
 		}
 
 		/// <summary>
-		/// Executes SQL update file.
+		/// Executes SQL update.
 		/// </summary>
-		/// <param name="updateFile"></param>
-		public void RunUpdate(string updateFile)
+		/// <param name="updateName"></param>
+		/// <param name="query"></param>
+		public void RunUpdate(string updateName, string query)
 		{
 			try
 			{
 				using (var conn = this.GetConnection())
 				{
 					// Run update
-					using (var cmd = new MySqlCommand(File.ReadAllText(Path.Combine("sql", updateFile)), conn))
+					using (var cmd = new MySqlCommand(query, conn))
 						cmd.ExecuteNonQuery();
 
 					// Log update
 					using (var cmd = new InsertCommand("INSERT INTO `updates` {0}", conn))
 					{
-						cmd.Set("path", updateFile);
+						cmd.Set("path", updateName);
 						cmd.Execute();
 					}
 
-					Log.Info("Successfully applied '{0}'.", updateFile);
+					Log.Info("Successfully applied '{0}'.", updateName);
 				}
 			}
 			catch (Exception ex)
 			{
-				Log.Error("RunUpdate: Failed to run '{0}': {1}", updateFile, ex.Message);
+				Log.Error("RunUpdate: Failed to run '{0}': {1}", updateName, ex.Message);
 				ConsoleUtil.Exit(1);
 			}
 		}

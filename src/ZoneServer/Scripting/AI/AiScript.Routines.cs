@@ -9,6 +9,7 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
@@ -71,6 +72,36 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Moves the entity to a close-range attack position around the given target.
+		/// </summary>
+		/// <remarks>
+		/// Doesn't return until the entity is within attacking distance. Stops
+		/// the entity once they are in range.
+		/// </remarks>
+		/// <param name="target"></param>
+		/// <param name="attackRange"></param>
+		/// <returns></returns>
+		protected IEnumerable MoveToAttack(ICombatEntity target, float attackRange)
+		{
+			while (!this.InRangeOf(target, attackRange))
+			{
+				var targetMoved = (_lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(_lastAttackMovePos, 10));
+
+				if (!targetMoved)
+				{
+					yield return this.Wait(100);
+					continue;
+				}
+
+				// Adjust the destination if the target moved
+				_lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
+				yield return this.MoveTo(_lastAttackMovePos, wait: false);
+			}
+
+			yield return this.StopMove();
+		}
+
+		/// <summary>
 		/// Moves entity to the given destination in a straight line.
 		/// </summary>
 		/// <param name="destination"></param>
@@ -126,8 +157,10 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected IEnumerable Say(string message)
 		{
+			if (this.Entity.IsLocked(LockType.Speak))
+				yield break;
+
 			Send.ZC_CHAT(this.Entity, message);
-			yield break;
 		}
 
 		/// <summary>
@@ -183,6 +216,12 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected virtual IEnumerable UseSkill(Skill skill, ICombatEntity target)
 		{
+			if (this.Entity.IsLocked(LockType.Attack))
+				yield break;
+
+			if (target.IsLocked(LockType.GetHit))
+				yield break;
+
 			this.Entity.TurnTowards(target);
 
 			if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<ITargetSkillHandler>(skill.Id, out var handler))
@@ -291,7 +330,7 @@ namespace Melia.Zone.Scripting.AI
 
 				if (catchUp)
 				{
-					var closePos = this.Entity.Position.GetRelative(followTarget.Position, 50);
+					var closePos = followTarget.Position;
 					yield return this.MoveTo(closePos, false);
 				}
 				else if (movement.IsMoving)

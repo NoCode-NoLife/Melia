@@ -5,10 +5,10 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
+using Melia.Zone.Abilities.Handlers.Swordsmen.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.Handlers.Swordsmen.Peltasta.Abilities;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Util;
@@ -99,8 +99,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 				{
 					// Knockback power is 40 * level
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 				else
 				{

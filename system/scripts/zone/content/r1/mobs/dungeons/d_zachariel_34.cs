@@ -27,7 +27,7 @@ public class DZachariel34MobScript : GeneralScript
 
 		AddSpawner("d_zachariel_34.Id1", MonsterId.Echad, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_34.Id2", MonsterId.Wolf_Statue_Mage_Pollution, min: 6, max: 8, tendency: TendencyType.Aggressive);
-		AddSpawner("d_zachariel_34.Id3", MonsterId.Rootcrystal_05, min: 6, max: 8, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_34.Id3", MonsterId.Rootcrystal_05, min: 6, max: 8, respawn: Seconds(25), tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_34.Id4", MonsterId.Shtayim, min: 15, max: 20, tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_34.Id5", MonsterId.Echad_Bow, min: 5, max: 6, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_34.Id6", MonsterId.Wolf_Statue_Mage, min: 8, max: 10, tendency: TendencyType.Aggressive);

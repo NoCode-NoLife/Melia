@@ -88,8 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 				skillHit.HitEffect = HitEffect.Impact;
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = HitType.KnockBack;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.ApplyKnockBack(target);
 
 				hits.Add(skillHit);
 			}

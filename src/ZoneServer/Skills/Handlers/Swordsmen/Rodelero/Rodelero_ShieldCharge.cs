@@ -97,8 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
 			skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-			skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-			target.Position = skillHit.KnockBackInfo.ToPosition;
+			skillHit.ApplyKnockBack(target);
 
 			if (caster.IsBuffActive(BuffId.DashRun))
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration, caster);

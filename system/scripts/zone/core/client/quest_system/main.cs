@@ -31,36 +31,31 @@ public class CustomQuestSystemClientScript : ClientScript
 
 	private CommandResult HandleQuest(Character sender, Character target, string message, string commandName, Arguments args)
 	{
-		if (args.Count < 1)
+		if (args.Count < 2)
 		{
 			Log.Debug("CustomQuestSystemClientScript: Not enough arguments for quest command in message '{0}'.", message);
 			return CommandResult.Okay;
 		}
 
-		var action = args.Get(0);
-		if (action == "complete" || action == "cancel")
+		var hexObjectId = args.Get(1).Replace("0x", "");
+
+		if (!long.TryParse(hexObjectId, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var questObjectId))
 		{
-			if (args.Count < 2)
-			{
-				Log.Debug("CustomQuestSystemClientScript: Not enough arguments for 'complete' action in message '{0}'.", message);
-				return CommandResult.Okay;
-			}
+			Log.Debug("CustomQuestSystemClientScript: Failed to parse quest object id '{0}' in message '{1}'.", args.Get(1), message);
+			return CommandResult.Okay;
+		}
 
-			var hexObjectId = args.Get(1).Replace("0x", "");
+		if (!sender.Quests.TryGet(questObjectId, out var quest))
+		{
+			Log.Debug("CustomQuestSystemClientScript: User '{0}' tried to interact with a quest they don't have.", sender.Username);
+			return CommandResult.Okay;
+		}
 
-			if (!long.TryParse(hexObjectId, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var questObjectId))
-			{
-				Log.Debug("CustomQuestSystemClientScript: Failed to parse quest object id '{0}' in message '{1}'.", args.Get(1), message);
-				return CommandResult.Okay;
-			}
+		var action = args.Get(0).ToLowerInvariant();
 
-			if (!sender.Quests.TryGet(questObjectId, out var quest))
-			{
-				Log.Debug("CustomQuestSystemClientScript: User '{0}' tried to interact with a quest they don't have.", sender.Username);
-				return CommandResult.Okay;
-			}
-
-			if (action == "complete")
+		switch (action)
+		{
+			case "complete":
 			{
 				if (!quest.ObjectivesCompleted)
 				{
@@ -69,8 +64,9 @@ public class CustomQuestSystemClientScript : ClientScript
 				}
 
 				sender.Quests.Complete(quest);
+				break;
 			}
-			else
+			case "cancel":
 			{
 				if (!quest.Data.Cancelable)
 				{
@@ -79,12 +75,28 @@ public class CustomQuestSystemClientScript : ClientScript
 				}
 
 				sender.Quests.Cancel(quest);
+				break;
 			}
+			case "track":
+			{
+				if (args.Count < 3)
+				{
+					Log.Debug("CustomQuestSystemClientScript: Not enough arguments for 'track' action in message '{0}'.", message);
+					return CommandResult.Okay;
+				}
 
-			return CommandResult.Okay;
+				var enabled = args.Get(2) == "true";
+
+				quest.Tracked = enabled;
+				break;
+			}
+			default:
+			{
+				Log.Debug("CustomQuestSystemClientScript: Unknown action '{0}' in message '{1}'.", action, message);
+				break;
+			}
 		}
 
-		Log.Debug("CustomQuestSystemClientScript: Unknown action '{0}' in message '{1}'.", action, message);
 		return CommandResult.Okay;
 	}
 }

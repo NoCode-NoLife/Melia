@@ -15,7 +15,7 @@ public class IdCatacomb02MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_catacomb_02.Id1", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("id_catacomb_02.Id1", MonsterId.Rootcrystal_01, min: 10, max: 13, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("id_catacomb_02.Id2", MonsterId.Deadbornscab_Bow_Green, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("id_catacomb_02.Id3", MonsterId.Deadbornscab_Green, min: 5, max: 6, tendency: TendencyType.Aggressive);
 		AddSpawner("id_catacomb_02.Id4", MonsterId.Pyran_Green, min: 15, max: 20, tendency: TendencyType.Aggressive);

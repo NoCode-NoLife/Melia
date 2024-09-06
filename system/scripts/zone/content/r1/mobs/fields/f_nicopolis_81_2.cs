@@ -19,7 +19,7 @@ public class FNicopolis812MobScript : GeneralScript
 		AddSpawner("f_nicopolis_81_2.Id2", MonsterId.Mimorat_Pink, min: 25, max: 33);
 		AddSpawner("f_nicopolis_81_2.Id3", MonsterId.Mimorat_White, min: 30, max: 39);
 		AddSpawner("f_nicopolis_81_2.Id4", MonsterId.Vine_Walker, min: 11, max: 14);
-		AddSpawner("f_nicopolis_81_2.Id5", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_nicopolis_81_2.Id5", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

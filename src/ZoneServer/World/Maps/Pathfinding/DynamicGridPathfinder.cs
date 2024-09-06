@@ -40,7 +40,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 		/// <returns></returns>
 		public bool TryFindPath(Position start, Position goal, float actorRadius, out List<Position> path)
 		{
-			path = null;
+			path = new List<Position>();
 
 			if (_ground == null)
 				return false;
@@ -54,17 +54,21 @@ namespace Melia.Zone.World.Maps.Pathfinding
 
 			// Removes repeated positions
 			var visited = new HashSet<Position>();
-			path = new List<Position>();
+			var intermediatePath = new List<Position>();
 
 			foreach (var pos in roughPath)
 			{
 				// Adds only nonrepeating positions
 				if (!visited.Contains(pos))
 				{
-					path.Add(pos);
+					intermediatePath.Add(pos);
 					visited.Add(pos);
 				}
 			}
+
+			// Merge nodes
+			if (intermediatePath.Count > 0)
+				path.AddRange(this.MergePathNodes(intermediatePath, actorRadius));
 
 			// Positive result if path is not empty
 			return path.Count != 0;
@@ -131,8 +135,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 					{
 						cameFrom[neighbor] = current;
 						gScore[neighbor] = tentativeGScore;
-						var randomFactor = RandomProvider.Get().Next(gridScale * 2);
-						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal) + randomFactor;
+						fScore[neighbor] = gScore[neighbor] + this.Heuristic(neighbor, goal);
 
 						if (!openSet.UnorderedItems.Any(item => item.Element.Equals(neighbor)))
 						{
@@ -160,7 +163,11 @@ namespace Melia.Zone.World.Maps.Pathfinding
 			// may cause this visual issue but it may also be desirable due
 			// to computational reasons.
 
-			return (int)Math.Min(distance / 2, actorRadius * 2);
+			// We use a constant here to prevent monsters with small radius
+			// from stuttering
+			var constant = 5;
+
+			return (int)Math.Min(distance / 2, actorRadius * 2 + constant);
 		}
 
 		/// <summary>
@@ -281,6 +288,41 @@ namespace Melia.Zone.World.Maps.Pathfinding
 			}
 
 			return directions;
+		}
+
+		/// <summary>
+		/// Merge together path nodes that are visible to eachother.
+		/// Returns the improved path.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		private List<Position> MergePathNodes(List<Position> path, float actorRadius)
+		{
+			var mergedPath = new List<Position>();
+			var currentIndex = 0;
+
+			while (currentIndex < path.Count)
+			{
+				mergedPath.Add(path[currentIndex]);
+
+				var farthestVisibleIndex = currentIndex;
+				for (var i = currentIndex + 1; i < path.Count; i++)
+				{
+					if (_ground.GetLastValidCirclePosition(path[currentIndex], actorRadius, path[i]) == path[i])
+					{
+						farthestVisibleIndex = i;
+					}
+					else
+					{
+						break;
+					}
+				}
+
+				currentIndex = farthestVisibleIndex + 1;
+			}
+			mergedPath.Add(path.Last());
+
+			return mergedPath;
 		}
 	}
 }

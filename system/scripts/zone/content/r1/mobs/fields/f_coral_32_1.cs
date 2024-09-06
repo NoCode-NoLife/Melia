@@ -30,7 +30,7 @@ public class FCoral321MobScript : GeneralScript
 		AddSpawner("f_coral_32_1.Id1", MonsterId.Ep16_1_Terranymph_Blue, min: 12, max: 15);
 		AddSpawner("f_coral_32_1.Id2", MonsterId.Ep16_1_Greentoshell, min: 53, max: 70);
 		AddSpawner("f_coral_32_1.Id3", MonsterId.Ep16_1_Lapasape_Mage_Blue, min: 12, max: 15);
-		AddSpawner("f_coral_32_1.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_coral_32_1.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Seconds(30));
 		AddSpawner("f_coral_32_1.Id5", MonsterId.Ep16_1_Greentoshell, min: 6, max: 7);
 
 		// Monster Spawn Points -----------------------------

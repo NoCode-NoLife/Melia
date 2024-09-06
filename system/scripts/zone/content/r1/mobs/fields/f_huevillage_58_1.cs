@@ -28,7 +28,7 @@ public class FHuevillage581MobScript : GeneralScript
 		AddSpawner("f_huevillage_58_1.Id1", MonsterId.Tanu, min: 8, max: 10);
 		AddSpawner("f_huevillage_58_1.Id2", MonsterId.Tipio, min: 15, max: 20);
 		AddSpawner("f_huevillage_58_1.Id3", MonsterId.Beetow, min: 9, max: 12);
-		AddSpawner("f_huevillage_58_1.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_huevillage_58_1.Id4", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Seconds(30));
 		AddSpawner("f_huevillage_58_1.Id5", MonsterId.Tipio, min: 64, max: 85);
 		AddSpawner("f_huevillage_58_1.Id6", MonsterId.Doyor, min: 9, max: 12);
 		AddSpawner("f_huevillage_58_1.Id7", MonsterId.Tipio, min: 4, max: 5);

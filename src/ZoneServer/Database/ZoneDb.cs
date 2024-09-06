@@ -1234,6 +1234,7 @@ namespace Melia.Zone.Database
 						cmd.Set("status", (int)quest.Status);
 						cmd.Set("startTime", quest.StartTime);
 						cmd.Set("completeTime", quest.CompleteTime);
+						cmd.Set("tracked", quest.Tracked);
 
 						cmd.Execute();
 
@@ -1283,6 +1284,7 @@ namespace Melia.Zone.Database
 							var status = (QuestStatus)reader.GetInt32("status");
 							var startTime = reader.GetDateTimeSafe("startTime");
 							var completeTime = reader.GetDateTimeSafe("completeTime");
+							var tracked = reader.GetBoolean("tracked");
 
 							// If the quest does not (currently) exist, make
 							// a note of it, so we can skip its deletion on
@@ -1297,6 +1299,7 @@ namespace Melia.Zone.Database
 							quest.Status = status;
 							quest.StartTime = startTime;
 							quest.CompleteTime = completeTime;
+							quest.Tracked = tracked;
 
 							character.Quests.AddSilent(quest);
 							loadedQuests.Add(questDbId, quest);

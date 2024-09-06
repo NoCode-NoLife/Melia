@@ -49,6 +49,7 @@ namespace Melia.Zone.Commands
 
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
+			this.Add("distance", "", "Calculates distance between two positions.", this.HandleDistance);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
@@ -104,7 +105,7 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Sets whether the target character will be saved on logout.
+		/// Calculates distance between two positions.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
@@ -112,28 +113,26 @@ namespace Melia.Zone.Commands
 		/// <param name="commandName"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		/// <exception cref="NotImplementedException"></exception>
-		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		private CommandResult HandleDistance(Character sender, Character target, string message, string commandName, Arguments args)
 		{
-			if (args.Count < 1)
+			var vars = target.Variables.Temp;
+
+			if (!vars.TryGet<Position>("Melia.Commands.DistancePos1", out var pos1))
 			{
-				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
-					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
-				else
-					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
+				vars.Set("Melia.Commands.DistancePos1", target.Position);
 
-				return CommandResult.Okay;
+				sender.ServerMessage(Localization.Get("Saved first position. Go to second position and use the command again."));
 			}
-
-			if (!bool.TryParse(args.Get(0), out var enabled))
-				return CommandResult.InvalidArgument;
-
-			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
-
-			if (enabled)
-				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
 			else
-				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+			{
+				vars.Remove("Melia.Commands.DistancePos1");
+
+				var pos2 = target.Position;
+				var distance2D = pos1.Get2DDistance(pos2);
+				var distance3D = pos1.Get3DDistance(pos2);
+
+				sender.ServerMessage(Localization.Get("Distance: {0:0.##} (2D), {1:0.##} (3D)"), distance2D, distance3D);
+			}
 
 			return CommandResult.Okay;
 		}
@@ -2186,6 +2185,41 @@ namespace Melia.Zone.Commands
 
 			ZoneServer.Instance.World.DayNightCycle.FixTimeOfDay(timeOfDay);
 			sender.ServerMessage(Localization.Get("Fixed time of day to '{0}'."), timeOfDay);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Sets whether the target character will be saved on logout.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		/// <exception cref="NotImplementedException"></exception>
+		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				if (target.Variables.Temp.GetBool("Melia.NoSave", false))
+					sender.ServerMessage(Localization.Get("The character is currently set to *not* be saved on logout."));
+				else
+					sender.ServerMessage(Localization.Get("The character is currently set to be saved on logout."));
+
+				return CommandResult.Okay;
+			}
+
+			if (!bool.TryParse(args.Get(0), out var enabled))
+				return CommandResult.InvalidArgument;
+
+			target.Variables.Temp.SetBool("Melia.NoSave", enabled);
+
+			if (enabled)
+				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
+			else
+				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
 
 			return CommandResult.Okay;
 		}

@@ -2,7 +2,7 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: CZ_SAVE_INFO.bt
-//   Authors: Salman T. Khan
+//   Authors: exec, Salman T. Khan
 //   Version: i339415
 //   Purpose: 
 //  Category: 
@@ -14,5 +14,8 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-int i1; // 36
-int64 l1; // 0
+
+int i1;
+int i2;
+int i3;
+short s1; // Maybe a short, followed by some garbage?

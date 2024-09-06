@@ -51,6 +51,11 @@ namespace Melia.Zone.World.Quests
 		public DateTime CompleteTime { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the quest is set to appear in the quest tracker.
+		/// </summary>
+		public bool Tracked { get; set; }
+
+		/// <summary>
 		/// Returns the quest's data.
 		/// </summary>
 		public QuestData Data { get; }

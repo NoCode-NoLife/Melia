@@ -25,7 +25,7 @@ public class FSiauliai474MobScript : GeneralScript
 		AddSpawner("f_siauliai_47_4.Id2", MonsterId.Popolion_Orange, min: 12, max: 15);
 		AddSpawner("f_siauliai_47_4.Id3", MonsterId.Popolion_Orange, min: 12, max: 15);
 		AddSpawner("f_siauliai_47_4.Id4", MonsterId.Popolion_Orange, min: 30, max: 40);
-		AddSpawner("f_siauliai_47_4.Id5", MonsterId.Rootcrystal_01, min: 20, max: 26, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_siauliai_47_4.Id5", MonsterId.Rootcrystal_01, min: 20, max: 26, respawn: Minutes(1));
 		AddSpawner("f_siauliai_47_4.Id6", MonsterId.Spion_Mage, min: 8, max: 10);
 
 		// Monster Spawn Points -----------------------------

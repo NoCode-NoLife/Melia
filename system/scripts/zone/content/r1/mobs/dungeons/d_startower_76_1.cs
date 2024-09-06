@@ -26,7 +26,7 @@ public class DStartower761MobScript : GeneralScript
 		AddSpawner("d_startower_76_1.Id9", MonsterId.ERD_Hogma_Warrior, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_startower_76_1.Id10", MonsterId.ERD_Hogma_Warrior, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_startower_76_1.Id11", MonsterId.ERD_Zinutekas, min: 12, max: 15, tendency: TendencyType.Aggressive);
-		AddSpawner("d_startower_76_1.Id12", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_startower_76_1.Id12", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: Seconds(25), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -75,12 +75,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Returns true if the given cooldown is active.
+		/// Returns true if the given cooldown is active. Always returns false if
+		/// a cooldown id of 0 is given.
 		/// </summary>
 		/// <param name="cooldownId"></param>
 		/// <returns></returns>
 		public bool IsOnCooldown(CooldownId cooldownId)
 		{
+			if (cooldownId == 0)
+				return false;
+
 			lock (_syncLock)
 			{
 				if (_cooldowns.TryGetValue(cooldownId, out var cooldown))

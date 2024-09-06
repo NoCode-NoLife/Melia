@@ -19,6 +19,7 @@ using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -391,6 +392,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
@@ -640,13 +642,7 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
-			// Clean up temporary properties before saving
-			this.Components.Get<BuffComponent>().StopTempBuffs();
-
-			// Save everything before leaving the server
-			ZoneServer.Instance.Database.SaveCharacter(this);
-			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
-			ZoneServer.Instance.Database.UpdateLoginState(this.Connection.Account.Id, 0, LoginState.LoggedOut);
+			this.Connection.SaveAccountAndCharacter();
 			this.SavedForWarp = true;
 
 			// Instruct client to initiate warp

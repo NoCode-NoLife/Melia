@@ -52,11 +52,7 @@ namespace Melia.Zone.Network
 		{
 			var bin1 = packet.GetBin(1024);
 			var sessionKey = packet.GetString(64);
-
-			// When using passprt login, this is the account id as string,
-			// and it's 18 (?) bytes long.	
-			var accountName = packet.GetString(56);
-
+			var accountName = packet.GetString(56); // String account id in 18 bytes if passport login?
 			var mac = packet.GetString(48);
 			var l2 = packet.GetLong();
 			var l1 = packet.GetLong();
@@ -74,13 +70,19 @@ namespace Melia.Zone.Network
 			var b3 = packet.GetByte();
 			var b1 = packet.GetByte(); // [i373230 (2023-05-10)] Might've been added before
 
-			// TODO: Check session key or something.
-
 			// Get account
 			conn.Account = ZoneServer.Instance.Database.GetAccount(accountName);
 			if (conn.Account == null)
 			{
 				Log.Warning("Stopped attempt to login with invalid account '{0}'. Closing connection.", accountName);
+				conn.Close();
+				return;
+			}
+
+			// Check session key
+			if (!ZoneServer.Instance.Database.CheckSessionKey(conn.Account.Id, sessionKey))
+			{
+				Log.Warning("Stopped attempt to login on account '{0}' with invalid session key '{1}'. Closing connection.", accountName, sessionKey);
 				conn.Close();
 				return;
 			}
@@ -110,7 +112,9 @@ namespace Melia.Zone.Network
 			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
 
 			map.AddCharacter(character);
+
 			conn.LoggedIn = true;
+			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
 
@@ -752,6 +756,7 @@ namespace Melia.Zone.Network
 			var handle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
+			var cooldowns = character.Components.Get<CooldownComponent>();
 
 			// Get item
 			var item = character.Inventory.GetItem(worldId);
@@ -765,6 +770,13 @@ namespace Melia.Zone.Network
 			if (item.IsLocked)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
+				return;
+			}
+
+			// Cooldown sanity check, the client shouldn't allow this
+			if (cooldowns.IsOnCooldown(item.Data.CooldownId))
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
 			}
 
@@ -799,6 +811,16 @@ namespace Melia.Zone.Network
 				{
 					if (result != ItemUseResult.OkayNotConsumed)
 						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
+
+				// Set cooldown if applicable
+				if (item.Data.HasCooldown)
+				{
+					var cooldownTime = item.Data.CooldownTime;
+					cooldownTime *= ZoneServer.Instance.Conf.World.ItemCooldownRate;
+
+					if (cooldownTime > TimeSpan.Zero)
+						cooldowns.Start(item.Data.CooldownId, cooldownTime);
 				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
@@ -1587,7 +1609,10 @@ namespace Melia.Zone.Network
 				var productId = packet.GetInt();
 				var amount = packet.GetInt();
 
-				purchases[productId] = amount;
+				if (!purchases.ContainsKey(productId))
+					purchases[productId] = amount;
+				else
+					purchases[productId] += amount;
 			}
 
 			var character = conn.SelectedCharacter;
@@ -2870,7 +2895,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(0x520A)]
+		[PacketHandler(Op.CZ_InteractionCancel)]
 		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
 		{
 			// The packet is spammed with a frequency of about 1-2 packets

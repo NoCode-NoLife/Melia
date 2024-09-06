@@ -22,9 +22,9 @@ public class Ep152DNicopolis2MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep15_2_d_nicopolis_2.Id1", MonsterId.Ep15_2_Papillon_Leader, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("ep15_2_d_nicopolis_2.Id2", MonsterId.Ep15_2_Dark_Statue, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("ep15_2_d_nicopolis_2.Id3", MonsterId.Ep15_2_Masma, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
+		AddSpawner("ep15_2_d_nicopolis_2.Id1", MonsterId.Ep15_2_Papillon_Leader, min: 8, max: 10, respawn: Seconds(15));
+		AddSpawner("ep15_2_d_nicopolis_2.Id2", MonsterId.Ep15_2_Dark_Statue, min: 23, max: 30, respawn: Seconds(15));
+		AddSpawner("ep15_2_d_nicopolis_2.Id3", MonsterId.Ep15_2_Masma, min: 8, max: 10, respawn: Seconds(15));
 
 		// Monster Spawn Points -----------------------------
 

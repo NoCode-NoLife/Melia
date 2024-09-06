@@ -23,7 +23,7 @@ public class DFiretower43MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("d_firetower_43.Id1", MonsterId.InfroRocktor_Red, min: 12, max: 15, tendency: TendencyType.Aggressive);
-		AddSpawner("d_firetower_43.Id2", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_firetower_43.Id2", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_firetower_43.Id3", MonsterId.Arma, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_43.Id4", MonsterId.InfroRocktor_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_firetower_43.Id5", MonsterId.Arma, min: 12, max: 15, tendency: TendencyType.Aggressive);

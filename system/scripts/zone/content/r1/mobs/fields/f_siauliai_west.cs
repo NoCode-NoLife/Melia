@@ -31,7 +31,7 @@ public class FSiauliaiWestMobScript : GeneralScript
 		AddSpawner("f_siauliai_west.Id3", MonsterId.Hanaming, min: 19, max: 25);
 		AddSpawner("f_siauliai_west.Id4", MonsterId.Bokchoy, min: 15, max: 20);
 		AddSpawner("f_siauliai_west.Id5", MonsterId.InfroRocktor, min: 15, max: 20);
-		AddSpawner("f_siauliai_west.Id6", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_siauliai_west.Id6", MonsterId.Rootcrystal_01, min: 9, max: 12, respawn: Seconds(30));
 		AddSpawner("f_siauliai_west.Id7", MonsterId.Leaf_Diving, min: 12, max: 15);
 		AddSpawner("f_siauliai_west.Id8", MonsterId.Onion, min: 12, max: 15);
 		AddSpawner("f_siauliai_west.Id9", MonsterId.Hanaming, min: 15, max: 20);

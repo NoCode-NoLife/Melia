@@ -26,10 +26,10 @@ public class FMaple241MobScript : GeneralScript
 		AddSpawner("f_maple_24_1.Id2", MonsterId.Rudas_Elavine, min: 60, max: 80);
 		AddSpawner("f_maple_24_1.Id3", MonsterId.Delione, min: 30, max: 40);
 		AddSpawner("f_maple_24_1.Id4", MonsterId.Cloverin, min: 30, max: 40);
-		AddSpawner("f_maple_24_1.Id5", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(20000));
-		AddSpawner("f_maple_24_1.Id6", MonsterId.Cloverin, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("f_maple_24_1.Id7", MonsterId.Delione, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(40000));
-		AddSpawner("f_maple_24_1.Id8", MonsterId.Rudas_Elavine, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_maple_24_1.Id5", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: Seconds(20));
+		AddSpawner("f_maple_24_1.Id6", MonsterId.Cloverin, min: 15, max: 20, respawn: Seconds(40));
+		AddSpawner("f_maple_24_1.Id7", MonsterId.Delione, min: 12, max: 15, respawn: Seconds(40));
+		AddSpawner("f_maple_24_1.Id8", MonsterId.Rudas_Elavine, min: 9, max: 12, respawn: Seconds(40));
 
 		// Monster Spawn Points -----------------------------
 

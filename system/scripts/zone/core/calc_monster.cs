@@ -7,7 +7,9 @@
 using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 
 public class MonsterCalculationsFunctionsScript : GeneralScript
@@ -228,8 +230,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_MON_MSPD(Mob monster)
 	{
-		var movementComponent = monster.Components.Get<MovementComponent>();
-		if (movementComponent != null && movementComponent.IsHeld)
+		if (monster.IsLocked(LockType.Movement))
 			return 0;
 
 		// Unlike most monster properties, MSPD actually has a fix buff
@@ -244,7 +245,7 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 		if (fixMspd != 0)
 			return fixMspd;
 
-		var moveSpeedType = movementComponent?.MoveSpeedType ?? MoveSpeedType.Walk;
+		var moveSpeedType = monster.Components.Get<MovementComponent>()?.MoveSpeedType ?? MoveSpeedType.Walk;
 		var propertyName = moveSpeedType == MoveSpeedType.Walk ? PropertyName.WlkMSPD : PropertyName.RunMSPD;
 		var baseValue = monster.Properties.GetFloat(propertyName);
 
