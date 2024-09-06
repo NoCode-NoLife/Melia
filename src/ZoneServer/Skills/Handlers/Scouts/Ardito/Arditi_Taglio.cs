@@ -126,7 +126,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			{
 				var kb = new KnockBackInfo(caster.Position, target.Position, skill);
 				target.Position = kb.ToPosition;
-				target.SetState(StateType.KnockedBack, kb.Time);
+				target.AddState(StateType.KnockedBack, kb.Time);
 
 				Send.ZC_KNOCKDOWN_INFO(caster, target, kb);
 			}

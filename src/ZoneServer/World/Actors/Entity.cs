@@ -604,20 +604,29 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<StateLockComponent>()?.Unlock(lockType);
 
 		/// <summary>
-		/// Sets the entity's state.
+		/// Locks the actions assoctiated with the given state.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="stateType"></param>
-		public static void SetState(this ICombatEntity entity, string stateType)
-			=> entity.Components.Get<StateLockComponent>()?.SetState(stateType);
+		public static void AddState(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.AddState(stateType);
 
 		/// <summary>
-		/// Sets the entity's state for the given duration.
+		/// Locks the actions assoctiated with the given state for the given
+		/// duration.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="stateType"></param>
 		/// <param name="duration"></param>
-		public static void SetState(this ICombatEntity entity, string stateType, TimeSpan duration)
-			=> entity.Components.Get<StateLockComponent>()?.SetState(stateType, duration);
+		public static void AddState(this ICombatEntity entity, string stateType, TimeSpan duration)
+			=> entity.Components.Get<StateLockComponent>()?.AddState(stateType, duration);
+
+		/// <summary>
+		/// Removes one set of the locks associated with the given state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		public static void RemoveState(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.RemoveState(stateType);
 	}
 }
