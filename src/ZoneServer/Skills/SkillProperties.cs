@@ -2,6 +2,7 @@
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Zone.Scripting;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills
 {
@@ -73,10 +74,10 @@ namespace Melia.Zone.Skills
 			// do that...
 			//this.Create(new RFloatProperty(PropertyName.SR, () => this.Skill.Data.SplashRate));
 			this.Create(new RFloatProperty(PropertyName.SklSR, () => this.Skill.Data.SplashRate));
-			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));
+			this.Create(new RFloatProperty(PropertyName.SkillSR, () => this.CalculateProperty("SCR_GET_SR_LV")));			
 
-			this.Create(new RFloatProperty(PropertyName.SklFactor, () => this.Skill.Data.Factor));
-			this.Create(new RFloatProperty(PropertyName.SklFactorByLevel, () => this.Skill.Data.FactorByLevel));
+			this.Create(new RFloatProperty(PropertyName.SklFactor, () => this.CalculateProperty("SCR_Get_SklFactor")));
+			this.Create(new RFloatProperty(PropertyName.SklFactorByLevel, () => this.CalculateProperty("SCR_Get_SklFactorByLevel")));
 			this.Create(new RFloatProperty(PropertyName.SkillFactor, () => this.CalculateProperty("SCR_Get_SkillFactor")));
 			this.Create(new RFloatProperty(PropertyName.SklAtkAdd, () => this.Skill.Data.AtkAdd));
 			this.Create(new RFloatProperty(PropertyName.SklAtkAddByLevel, () => this.Skill.Data.AtkAddByLevel));

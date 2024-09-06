@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Melia.Shared.World;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;

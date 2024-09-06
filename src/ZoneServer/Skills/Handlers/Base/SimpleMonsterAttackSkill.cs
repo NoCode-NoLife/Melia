@@ -8,6 +8,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Logging;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -37,9 +38,10 @@ namespace Melia.Zone.Skills.Handlers.Base
 		private async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity designatedTarget)
 		{
 			var splashArea = this.GetSplashArea(skill, caster, designatedTarget);
-			var damageDelay = this.GetDamageDelay(skill);
-			var hitDelay = this.GetHitDelay(skill);
-			var skillHitDelay = skill.Properties.HitDelay;
+			var speedRate = ZoneServer.Instance.Conf.World.MonsterSkillSpeed;
+			var damageDelay = this.GetDamageDelay(skill) / speedRate;
+			var hitDelay = this.GetHitDelay(skill) / speedRate;
+			var skillHitDelay = skill.Properties.HitDelay / speedRate;
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, designatedTarget.Position, null);
 
@@ -52,7 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false, duration: damageDelay + TimeSpan.FromSeconds(3));
 
 			if (hitDelay > TimeSpan.Zero)
-				await Task.Delay(hitDelay);
+				await Task.Delay(hitDelay);			
 
 			// Check if attacker is still able to fight after the delay
 			if (!caster.CanFight())

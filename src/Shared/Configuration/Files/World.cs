@@ -48,6 +48,11 @@ namespace Melia.Shared.Configuration.Files
 		public bool DisplayQuestObjectives { get; protected set; }
 
 		// skills.conf
+		public float NormalAttackMultiplier { get; protected set; }
+		public float PlayerSkillMultiplier { get; protected set; }
+		public float MonsterSkillMultiplier { get; protected set; }
+		public float MonsterSkillSpeed { get; protected set; }
+		public float MonsterSkillDelay { get; protected set; }
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
 
@@ -127,8 +132,12 @@ namespace Melia.Shared.Configuration.Files
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
 
+			this.NormalAttackMultiplier = this.GetFloat("normal_attack_multiplier", 1.0f);
+			this.PlayerSkillMultiplier = this.GetFloat("player_skill_multiplier", 1.0f);
+			this.MonsterSkillMultiplier = this.GetFloat("monster_skill_multiplier", 1.0f);
+			this.MonsterSkillSpeed = this.GetFloat("monster_skill_speed", 1.0f);
+			this.MonsterSkillDelay = this.GetFloat("monster_skill_delay", 1.0f);
 			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
-
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
 
@@ -167,6 +176,9 @@ namespace Melia.Shared.Configuration.Files
 			// Get the max number of storage extensions relative to the client's
 			// default (60), as that's the value the client works with.
 			this.StorageMaxExtensions = Math.Max(0, this.StorageMaxSize - 60) / 10;
+
+			// Monster Skill Speed can't be 0 since it's used to calculate hitbox timing
+			this.MonsterSkillSpeed = Math.Max(0.01f, this.MonsterSkillSpeed);
 		}
 	}
 }
