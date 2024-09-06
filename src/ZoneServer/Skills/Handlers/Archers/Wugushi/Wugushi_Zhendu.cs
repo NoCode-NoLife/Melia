@@ -44,8 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
-
-			caster.StartBuff(BuffId.Zhendu_Buff, this.GetIncreaseDamageValue(skill), 0, TimeSpan.FromMinutes(30), caster);
+			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster);
 
 			var effectId = ForceId.GetNew();
 
@@ -75,15 +74,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 					target.Properties.SetFloat(PropertyName.Poison_Def_BM, -(poisonDef * 0.1f));
 				}
 			}
-		}
-
-		/// <summary>
-		/// Return the multiplier value that will increase the Wugushi skill's damage by a percentage
-		/// </summary>
-		/// <param name="skill"></param>
-		private float GetIncreaseDamageValue(Skill skill)
-		{
-			return 1 + (5 + skill.Level * 2) / 100f;
 		}
 	}
 }

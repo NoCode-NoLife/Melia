@@ -98,13 +98,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				if (++i >= maxAmount)
 					break;
 
-				var damageMultiplier = 1f;
-
-				if (caster.TryGetBuff(BuffId.Zhendu_Buff, out var buff))
-					damageMultiplier = buff.NumArg1;
-
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				skillHitResult.Damage *= damageMultiplier;
+
+				target.TakeDamage(skillHitResult.Damage, caster);
+				var hit = new HitInfo(caster, target, skill.Id, skillHitResult.Damage, HitResultType.Hit);
+
+				Send.ZC_HIT_INFO(caster, target, hit);
 
 				if (!target.IsBuffActive(BuffId.Archer_VerminPot_Debuff))
 					target.StartBuff(BuffId.Archer_VerminPot_Debuff, skill.Level, (int)skill.Id, TimeSpan.FromSeconds(15), caster);
@@ -118,13 +117,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="skill"></param>
 		public static void BuffDealDamage(Buff buff, Skill skill)
 		{
-			var damageMultiplier = 1f;
-
-			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var zhenduBuff))
-				damageMultiplier = zhenduBuff.NumArg1;
-
 			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
-			skillHitResult.Damage *= damageMultiplier;
 
 			// The damage amount is unknow, for now we are dealing
 			// the same amount as the original skill does

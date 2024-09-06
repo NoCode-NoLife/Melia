@@ -77,13 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="skill></param>
 		public static void BuffDealsDamage(Buff buff, Skill skill)
 		{
-			var damageMultiplier = 1f;
-
-			if (buff.Caster.TryGetBuff(BuffId.Zhendu_Buff, out var ZhenduBuff))
-				damageMultiplier = ZhenduBuff.NumArg1;
-
 			var skillHitResult = SCR_SkillHit(buff.Caster, buff.Target, skill);
-			skillHitResult.Damage *= damageMultiplier;
 
 			// The damage amount is unknow, for now we are dealing
 			// the same amount as the original skill does
