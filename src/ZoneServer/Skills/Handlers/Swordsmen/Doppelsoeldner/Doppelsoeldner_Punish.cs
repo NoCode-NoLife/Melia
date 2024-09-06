@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -99,9 +100,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 			{
 				var modifier = new SkillModifier();
 
-				// TODO: Enable once we have a knock down state to check for.
-				//if (target.IsKnockedDown)
-				//	modifier.DamageMultiplier = KnockdownMultiplier;
+				if (target.IsStateActive(StateType.KnockedBack))
+					modifier.DamageMultiplier = KnockdownMultiplier;
 
 				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
 					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
