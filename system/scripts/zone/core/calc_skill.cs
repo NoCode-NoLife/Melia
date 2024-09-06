@@ -36,46 +36,47 @@ public class SkillCalculationsScript : GeneralScript
 
 
 	/// <summary>
-	/// Returns skill's SklFactor, which is its base factor before any other adjustments
+	/// Returns skill factor, which is a multiplier typically applied
+	/// to an actors base damage.
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
 	public float SCR_Get_SklFactor(Skill skill)
 	{
-		var sklFactor = skill.Data.Factor;
+		var baseValue = skill.Data.Factor;
+		var byConfRate = 1f;
 
-		var damageMultiplier = 1.0f;
 		if (skill.IsNormalAttack)
-			damageMultiplier = ZoneServer.Instance.Conf.World.NormalAttackMultiplier;
-		else if (skill.IsMonsterSkill)
-			damageMultiplier = ZoneServer.Instance.Conf.World.MonsterSkillMultiplier;
+			byConfRate = ZoneServer.Instance.Conf.World.NormalAttackSkillFactorRate;
+		else if (skill.Owner is IMonster)
+			byConfRate = ZoneServer.Instance.Conf.World.MonsterSkillFactorRate;
 		else
-			damageMultiplier = ZoneServer.Instance.Conf.World.PlayerSkillMultiplier;
+			byConfRate = ZoneServer.Instance.Conf.World.PlayerSkillFactorRate;
 
-		return sklFactor * damageMultiplier;
+		return baseValue * byConfRate;
 	}
 
 	/// <summary>
-	/// Returns skill's SklFactorByLevel, which is how much its factor increases with each
-	/// skill level
+	/// Returns skill factor by level, which is a multiplier typically applied
+	/// to an actors base damage for each level of the skill.
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
 	public float SCR_Get_SklFactorByLevel(Skill skill)
 	{
-		var sklFactorByLevel = skill.Data.FactorByLevel;
+		var baseValue = skill.Data.FactorByLevel;
+		var byConfRate = 1f;
 
-		var damageMultiplier = 1.0f;
 		if (skill.IsNormalAttack)
-			damageMultiplier = ZoneServer.Instance.Conf.World.NormalAttackMultiplier;
-		else if (skill.IsMonsterSkill)
-			damageMultiplier = ZoneServer.Instance.Conf.World.MonsterSkillMultiplier;
+			byConfRate = ZoneServer.Instance.Conf.World.NormalAttackSkillFactorRate;
+		else if (skill.Owner is IMonster)
+			byConfRate = ZoneServer.Instance.Conf.World.MonsterSkillFactorRate;
 		else
-			damageMultiplier = ZoneServer.Instance.Conf.World.PlayerSkillMultiplier;
+			byConfRate = ZoneServer.Instance.Conf.World.PlayerSkillFactorRate;
 
-		return sklFactorByLevel * damageMultiplier;
+		return baseValue * byConfRate;
 	}
 
 	/// <summary>
@@ -281,32 +282,36 @@ public class SkillCalculationsScript : GeneralScript
 		if (skill.Owner is not IMonster monster)
 			return skill.Properties.GetFloat(PropertyName.DelayTime);
 
-		var delayRate = ZoneServer.Instance.Conf.World.MonsterSkillDelay;
+		float baseValue;
 
 		if (skill.Data.ClassType == SkillClassType.Missile || skill.Data.UseType == SkillUseType.Force || skill.Data.UseType == SkillUseType.ForceGround)
 		{
 			if (monster.Level < 75)
-				return 3000 * delayRate;
+				baseValue = 3000;
 			else if (monster.Level < 170)
-				return 2500 * delayRate;
+				baseValue = 2500;
 			else if (monster.Level < 220)
-				return 2000 * delayRate;
+				baseValue = 2000;
 			else
-				return 1500 * delayRate;
+				baseValue = 1500;
 		}
 		else
 		{
 			if (monster.Level < 40)
-				return 3000 * delayRate;
+				baseValue = 3000;
 			else if (monster.Level < 75)
-				return 2500 * delayRate;
+				baseValue = 2500;
 			else if (monster.Level < 170)
-				return 2000 * delayRate;
+				baseValue = 2000;
 			else if (monster.Level < 220)
-				return 1500 * delayRate;
+				baseValue = 1500;
 			else
-				return 1000 * delayRate;
+				baseValue = 1000;
 		}
+
+		var byDelayRate = ZoneServer.Instance.Conf.World.MonsterSkillDelayRate;
+
+		return baseValue * byDelayRate;
 	}
 
 	/// <summary>
@@ -358,6 +363,11 @@ public class SkillCalculationsScript : GeneralScript
 		var byDex = 0f;
 		var byBuff = 0f;
 
+		if (skill.Owner is IMonster)
+		{
+			baseValue *= ZoneServer.Instance.Conf.World.MonsterSkillSpeedRate;
+		}
+
 		if (skill.Data.SpeedRateAffectedByDex)
 		{
 			var dex = skill.Owner.Properties.GetFloat(PropertyName.DEX);
@@ -370,16 +380,15 @@ public class SkillCalculationsScript : GeneralScript
 			byBuff = spdBm / 1000f;
 		}
 
-		if (skill.IsMonsterSkill)
-		{
-			baseValue *= ZoneServer.Instance.Conf.World.MonsterSkillSpeed;
-		}
-
-		return (float)(baseValue + byDex + byBuff);
+		// Don't let the result go to 0, as such a speed rate would result
+		// in an infinite damage delay. Limiting it to 0.01 effectively
+		// means that a skill can't be modified to be more than 100
+		// times slower than normal.
+		return (float)Math.Max(0.01f, baseValue + byDex + byBuff);
 	}
 
 	/// <summary>
-	/// Calculates and returns the skill's speed rate.
+	/// Calculates and returns the skill's shoot time.
 	/// </summary>
 	/// <param name="skill"></param>
 	/// <returns></returns>
@@ -387,10 +396,8 @@ public class SkillCalculationsScript : GeneralScript
 	public float SCR_GET_ShootTime(Skill skill)
 	{
 		var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
-		var defShootTime = skill.Data.ShootTime.TotalMilliseconds;
+		var baseValue = skill.Data.ShootTime.TotalMilliseconds;
 
-		if (skill.IsMonsterSkill) sklSpdRate *= ZoneServer.Instance.Conf.World.MonsterSkillSpeed;
-
-		return (float)(defShootTime / sklSpdRate);
+		return (float)(baseValue / sklSpdRate);
 	}
 }
