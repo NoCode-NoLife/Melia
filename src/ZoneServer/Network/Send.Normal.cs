@@ -1322,6 +1322,49 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Used once there is not target for a targetable skill
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="skillId"></param>
+			/// <param name="direction"></param>
+			/// <param name="skillHandle"></param>
+			public static void Skill_42(IActor actor, SkillId skillId, Direction direction, int skillHandle)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_42);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt((int)skillId);
+				packet.PutInt(actor.Handle);
+				packet.PutDirection(direction);
+				packet.PutInt(1);
+				packet.PutFloat(600f);
+				packet.PutFloat(1f);
+				packet.PutInt(1);
+				packet.PutInt(skillHandle);
+				packet.PutFloat(1f);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutFloat(512f);
+				packet.PutFloat(55f);
+
+				actor.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Used once there is not target for a targetable skill
+			/// </summary>
+			/// <param name="actor"></param>
+			public static void Skill_43(IActor actor)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_43);
+
+				packet.PutInt(actor.Handle);
+
+				actor.Map.Broadcast(packet);
+			}
+
 			/// Opens book for the player.
 			/// </summary>
 			/// <param name="character"></param>

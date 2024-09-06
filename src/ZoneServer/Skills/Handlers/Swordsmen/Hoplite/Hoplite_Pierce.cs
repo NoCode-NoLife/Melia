@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 	[SkillHandler(SkillId.Hoplite_Pierce)]
 	public class Hoplite_Pierce : IGroundSkillHandler
 	{
-		private const float HealDebuffPerLevel = 26f;
+		private const float HealDebuffPerLevel = 2.6f;
 		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(3);
 
 		/// <summary>
@@ -80,12 +80,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-
-				// The debuff value is handled in hundreds, meaning we need to
-				// multiply it by 100 for it to display correctly in the tooltip.
-				var debuffVal = HealDebuffPerLevel * 100f * skill.Level;
-
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, HealDebuffDuration, caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), HealDebuffDuration, caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -107,6 +102,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				return 4;
 
 			return 1;
+		}
+
+		/// <summary>
+		/// Return the skill's Healing Reduction value
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return (HealDebuffPerLevel * skill.Level) * 1000;
 		}
 	}
 }

@@ -2,13 +2,13 @@
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Monsters;
 
-namespace Melia.Zone.Pads.Handlers.Scout.Ardito
+namespace Melia.Zone.Pads.Handlers.Archer.Wugushi
 {
 	/// <summary>
-	/// Handler for the Arditi_TreGranata pad, creates and disables the effect
+	/// Handler for the Poison Pot pad, creates and disables the effect
 	/// </summary>
-	[PadHandler(PadName.Arditi_TreGranata)]
-	public class Arditi_TreGranata : ICreatePadHandler, IDestroyPadHandler
+	[PadHandler(PadName.Archer_VerminPot)]
+	public class Archer_VerminPot : ICreatePadHandler, IDestroyPadHandler
 	{
 		/// <summary>
 		/// Called when the pad is created.
@@ -20,7 +20,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Arditi_TreGranata, 0, 0, 150, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_VerminPot, -0.2758004f, 70.14826f, 50, true);
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Arditi_TreGranata, 0, 0, 150, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Archer_VerminPot, -0.2758004f, 70.14826f, 50, false);
 		}
 	}
 }

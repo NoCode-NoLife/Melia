@@ -94,5 +94,15 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
+
+		/// <summary>
+		/// Return the skill Healing Reduction value
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return (3 * skill.Level) * 1000;
+		}
 	}
 }
