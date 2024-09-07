@@ -218,7 +218,6 @@ namespace Melia.Zone.Buffs
 		public void IncreaseOverbuff()
 		{
 			this.OverbuffCounter++;
-			this.Handler?.OnOverbuff(this);
 
 			if (this.HasUpdateTime)
 				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);

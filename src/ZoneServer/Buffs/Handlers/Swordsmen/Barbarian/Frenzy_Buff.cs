@@ -4,6 +4,7 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Yggdrasil.Logging;
 
@@ -27,18 +28,6 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 		public override void OnStart(Buff buff)
 		{
-			var bonus = this.GetASpdBonus(buff);
-
-			AddPropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, bonus);
-		}
-
-		public override void OnEnd(Buff buff)
-		{
-			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
-		}
-
-		public override void OnOverbuff(Buff buff)
-		{
 			var maxStacks = 2;
 			if (buff.Target.TryGetSkill(SkillId.Barbarian_Frenzy, out var frenzySkill))
 				maxStacks = frenzySkill.Level * 2;
@@ -49,14 +38,17 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 			if (buff.OverbuffCounter > maxStacks)
 			{
-				// disallow the overbuff
+				// don't allow it to overbuff any further
 				buff.OverbuffCounter = maxStacks;
 			}
-			else
-			{
-				// reset the aspd buff, because the buff handler will call start
-				RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
-			}
+
+			// Add or update the bonus ASpd
+			ApplyASpdBonus(buff);
+		}
+
+		public override void OnEnd(Buff buff)
+		{
+			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
 		}
 
 		public override void WhileActive(Buff buff)
@@ -65,7 +57,9 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			if (buff.OverbuffCounter > 1)
 			{
 				buff.OverbuffCounter--;
-				Send.ZC_BUFF_UPDATE(buff.Caster, buff);
+				Send.ZC_BUFF_UPDATE(buff.Target, buff);
+
+				ApplyASpdBonus(buff);
 			}
 			else
 			{
@@ -81,12 +75,15 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		}
 
 		/// <summary>
-		/// Returns the attack speed bonus
+		/// Applies the bonus Aspd, while also removing any previous buff beforehand
 		/// </summary>
 		/// <param name="buff"></param>
-		private float GetASpdBonus(Buff buff)
+		private void ApplyASpdBonus(Buff buff)
 		{
-			return ASpdBonusBase + buff.OverbuffCounter * ASpdBonusPerStack;
+			// reset the aspd buff if it's already present so it doesn't stack
+			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
+
+			AddPropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, ASpdBonusBase + buff.OverbuffCounter * ASpdBonusPerStack);
 		}
 	}
 }

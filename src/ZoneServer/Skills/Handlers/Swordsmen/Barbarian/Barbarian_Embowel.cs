@@ -15,6 +15,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using static Melia.Shared.Util.TaskHelper;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
@@ -71,13 +72,18 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var jumpDelay = TimeSpan.FromMilliseconds(675);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await Task.Delay(hitDelay);			
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
+				// targets are locked from everything but damage during the initial
+				// part of this attack
+				target.Lock(LockType.Movement);
+				target.Lock(LockType.Attack);
+
 				var modifier = SkillModifier.Default;
 
 				// Wild Nature effects - 6% damage per stack
@@ -118,6 +124,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			await Task.Delay(jumpDelay);
+			
+			// You get unlocked here
+			foreach (var target in targets.LimitBySDR(caster, skill))
+			{
+				target.Unlock(LockType.Movement);
+				target.Unlock(LockType.Attack);
+			}
 
 			// Caster performs a small backwards leap at the end
 			// You seem to jump only half the indicated distance

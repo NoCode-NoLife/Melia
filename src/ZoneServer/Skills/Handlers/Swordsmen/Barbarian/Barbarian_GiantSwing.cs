@@ -17,6 +17,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using static Melia.Zone.Skills.SkillUseFunctions;
 using static Melia.Shared.Util.TaskHelper;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
@@ -166,15 +167,22 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 		private async Task SpinTarget(ICombatEntity caster, ICombatEntity target, CancellationToken cancelToken)
 		{
 			var tickTime = TimeSpan.FromMilliseconds(70);
-
+			// You're totally incapacitated during the spin and can't be interacted with in any way
+			target.Lock(LockType.Movement);
+			target.Lock(LockType.GetHit);
+			target.Lock(LockType.Attack);
 			while (!cancelToken.IsCancellationRequested)
 			{
 				target.Position = new Position(caster.Position.GetRelative(caster.Direction, ChainLength));
+				target.TurnTowards(caster);
 				Send.ZC_SET_POS(target);
 				Send.ZC_NORMAL.PlayEffect(target, "F_burstup022_smoke", 0.7f);
 
 				await Task.Delay(tickTime);
 			}
+			target.Unlock(LockType.Movement);
+			target.Unlock(LockType.GetHit);
+			target.Unlock(LockType.Attack);
 		}
 
 

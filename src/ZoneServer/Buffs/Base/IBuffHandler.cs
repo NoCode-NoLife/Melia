@@ -11,7 +11,6 @@ namespace Melia.Zone.Buffs.Base
 	public interface IBuffHandler
 	{
 		void OnStart(Buff buff);
-		void OnOverbuff(Buff buff);
 		void WhileActive(Buff buff);
 		void OnEnd(Buff buff);
 	}
