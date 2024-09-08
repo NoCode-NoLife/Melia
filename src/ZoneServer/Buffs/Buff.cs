@@ -265,6 +265,9 @@ namespace Melia.Zone.Buffs
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (!this.HasUpdateTime)
+				return;
+
 			if (DateTime.Now >= this.NextUpdateTime)
 			{
 				this.Handler?.WhileActive(this);
