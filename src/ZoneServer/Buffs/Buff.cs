@@ -213,11 +213,14 @@ namespace Melia.Zone.Buffs
 
 		/// <summary>
 		/// Increase overbuff counter, capped to the buff's max overbuff
-		/// value.
+		/// value.  Also reset the buff's update time, if it has one
 		/// </summary>
 		public void IncreaseOverbuff()
 		{
 			this.OverbuffCounter++;
+
+			if (this.HasUpdateTime)
+				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 		}
 
 		/// <summary>

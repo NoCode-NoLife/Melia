@@ -55,6 +55,7 @@
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
+			public const int SkillCancelCancel = 0x7D;
 			public const int SpinObject = 0x8A;
 			public const int OpenBook = 0x9E;
 			public const int Unknown_A1 = 0xA1;

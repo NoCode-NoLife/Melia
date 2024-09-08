@@ -330,6 +330,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			//   so we're still able to force-apply buffs if necessary.
 			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
 			{
+				if (this.Has(BuffId.Skill_MomentaryImmune_Buff))
+					return null;
+
 				if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
 				{
 					if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
