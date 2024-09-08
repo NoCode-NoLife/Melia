@@ -1,5 +1,4 @@
 ﻿using Melia.Zone.Scripting;
-using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Base

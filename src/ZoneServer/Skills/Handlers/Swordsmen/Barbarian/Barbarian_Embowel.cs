@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using g3;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -12,10 +12,9 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Monsters;
-using static Melia.Zone.Skills.SkillUseFunctions;
-using static Melia.Shared.Util.TaskHelper;
 using Melia.Zone.World.Actors.Components;
+using static Melia.Shared.Util.TaskHelper;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
@@ -26,8 +25,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 	public class Barbarian_Embowel : IGroundSkillHandler
 	{
 		public const float JumpDistance = 24.914738f;
-		private const float HealDebuffPerLevel = 33f;
-		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -72,18 +69,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var jumpDelay = TimeSpan.FromMilliseconds(675);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);			
+			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				// targets are locked from everything but damage during the initial
-				// part of this attack
-				target.Lock(LockType.Movement);
-				target.Lock(LockType.Attack);
-
 				var modifier = SkillModifier.Default;
 
 				// Wild Nature effects - 6% damage per stack
@@ -114,31 +106,35 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 				hits.Add(skillHit);
 
-				// The debuff value is handled in hundreds, meaning we need to
-				// multiply it by 100 for it to display correctly in the tooltip.
-				var debuffVal = HealDebuffPerLevel * 100f * skill.Level;
-
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, HealDebuffDuration, caster);
+				target.AddState(StateType.Stunned);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(5), caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 			await Task.Delay(jumpDelay);
-			
-			// You get unlocked here
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				target.Unlock(LockType.Movement);
-				target.Unlock(LockType.Attack);
-			}
 
-			// Caster performs a small backwards leap at the end
-			// You seem to jump only half the indicated distance
+			foreach (var target in hits.Select(a => a.Target))
+				target.RemoveState(StateType.Stunned);
+
+			// Caster performs a small backwards leap at the end.
+			// You seem to jump only half the indicated distance.
 			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, JumpDistance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 
 			caster.Position = targetPos;
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 5);
+		}
+
+		/// <summary>
+		/// Returns the skill's healing reduction value for use with the heal
+		/// decrease debuff.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return 3.3f * skill.Level * 1000;
 		}
 	}
 }

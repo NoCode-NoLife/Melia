@@ -14,7 +14,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 	[SkillHandler(SkillId.Barbarian_Savagery)]
 	public class Barbarian_Savagery : ISelfSkillHandler
 	{
-		private const float BuffDuration = 50f;
+		private readonly static TimeSpan BuffDuration = TimeSpan.FromSeconds(50);
 
 		/// <summary>
 		/// Handles skill, applying the buff to the caster.
@@ -34,15 +34,14 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var target = caster;
-
 			var criticalBonus = 0;
+
 			if (caster.TryGetActiveAbilityLevel(AbilityId.Barbarian5, out var barbarian5Level))
 				criticalBonus = 5 * barbarian5Level;
 
-			target.StartBuff(BuffId.Savagery_Buff, skill.Level, criticalBonus, TimeSpan.FromSeconds(BuffDuration), caster);
+			caster.StartBuff(BuffId.Savagery_Buff, skill.Level, criticalBonus, BuffDuration, caster);
 
-			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
+			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
 		}
 	}
 }

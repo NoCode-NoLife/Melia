@@ -4,7 +4,7 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for Warcry_Buff, which increases PAtk
+	/// Handler for Warcry_Buff, which increases physical attack.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
@@ -21,10 +21,9 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		/// <param name="buff"></param>
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-			var bonusPatk = target.Properties.GetFloat(PropertyName.PATK) * (buff.NumArg2 * PAtkBonusPerStack);
+			var bonusPatk = buff.Target.Properties.GetFloat(PropertyName.PATK) * (buff.NumArg2 * PAtkBonusPerStack);
 
-			AddPropertyModifier(buff, target, PropertyName.PATK_BM, bonusPatk);
+			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_BM, bonusPatk);
 		}
 
 		/// <summary>

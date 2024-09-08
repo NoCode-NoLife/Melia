@@ -1,5 +1,4 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Zone.Network;
@@ -12,7 +11,6 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
-using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
@@ -43,6 +41,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var padName = PadName.Barbarian_Pouncing;
 			var length = 35f;
 
+			var rhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.EquipType1;
+			var lhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.LeftHand)?.Data.EquipType1;
+			var swordAndDagger = rhWeaponType == EquipType.Sword && lhWeaponType == EquipType.Dagger;
+			var updateInverval = TimeSpan.FromMilliseconds(swordAndDagger ? 240 : 300);
+
 			// Barbarian41 uses a different pad, which has double range
 			// but you can't move
 			if (caster.IsAbilityActive(AbilityId.Barbarian41))
@@ -53,19 +56,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			var pad = new Pad(padName, caster, skill, new Square(caster.Position, caster.Direction, length, 35));
 			pad.Position = caster.Position;
-			pad.Trigger.LifeTime = TimeSpan.FromMilliseconds(3500);
 			pad.Trigger.MaxActorCount = 6;
-
-			var rhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.EquipType1;
-			var lhWeaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.LeftHand)?.Data.EquipType1;
-			if (rhWeaponType == EquipType.Sword && lhWeaponType == EquipType.Dagger)
-			{
-				pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(240);
-			}
-			else
-			{
-				pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(300);
-			}
+			pad.Trigger.LifeTime = TimeSpan.FromMilliseconds(3500);
+			pad.Trigger.UpdateInterval = updateInverval;
 			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
 
 			caster.Map.AddPad(pad);
@@ -116,10 +109,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			if (caster.TryGetBuff(BuffId.ScudInstinct_Buff, out var wildNature))
 			{
 				modifier.DamageMultiplier += 0.06f * wildNature.OverbuffCounter;
+
 				if (target.IsBuffActive(BuffId.Stun) && RandomProvider.Get().Next(100) < wildNature.OverbuffCounter * 6)
-				{
 					modifier.DamageMultiplier++;
-				}
 			}
 
 			var weaponType = caster.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.EquipType1;
@@ -130,16 +122,17 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+
 			if (caster.IsAbilityActive(AbilityId.Barbarian4))
 			{
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.ApplyKnockBack(target);
 			}
 			else
 			{
 				skillHit.HitEffect = HitEffect.Impact;
 			}
+
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
 	}

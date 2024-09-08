@@ -25,8 +25,11 @@
 
 		/// <summary>
 		/// Gets or sets flat crit rate bonus.
-		/// This is in percent, so 20f = 20% extra crit
 		/// </summary>
+		/// <remarks>
+		/// The value is in percent. For example, setting it to 20 increases the
+		/// crit chance by 20%.
+		/// </remarks>
 		public float BonusCritChance { get; set; }
 
 		/// <summary>
@@ -87,7 +90,7 @@
 		/// Gets or sets forced hit status.
 		/// </summary>
 		/// <remarks>
-		/// If this is true, the attack always hits.
+		/// If this is true, the attack can't be evaded.
 		/// </remarks>
 		public bool ForcedHit { get; set; }
 

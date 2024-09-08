@@ -73,12 +73,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// again, because their effects would get applied over
 			// and over.
 			if (overbuff != buff.OverbuffCounter)
+			{
 				buff.Start();
+			}
 			// If we don't start the buff again, we need to at least
 			// extend its duration. Otherwise it may end before the
 			// time displayed by the client.
 			else
+			{
 				buff.ExtendDuration();
+			}
 
 			Send.ZC_BUFF_UPDATE(this.Entity, buff);
 		}
@@ -324,21 +328,8 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <returns></returns>
 		public Buff Start(BuffId buffId, float numArg1, float numArg2, TimeSpan duration, ICombatEntity caster, SkillId skillId)
 		{
-			// Attempt status resistance against debuffs
-			// TODO: Ideally, this should happen from the buff handler,
-			//   and we might also want to move the check somewhere else,
-			//   so we're still able to force-apply buffs if necessary.
-			if (caster != this.Entity && ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff)
-			{
-				if (this.Has(BuffId.Skill_MomentaryImmune_Buff))
-					return null;
-
-				if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
-				{
-					if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
-						return null;
-				}
-			}
+			if (this.TryResistDebuff(buffId, caster))
+				return null;
 
 			if (!this.TryGet(buffId, out var buff))
 			{
@@ -351,6 +342,39 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			}
 
 			return buff;
+		}
+
+		/// <summary>
+		/// Returns true if the caster should resist the given buff,
+		/// based on its current state and other active buffs.
+		/// </summary>
+		/// <param name="buffId"></param>
+		/// <param name="caster"></param>
+		/// <returns></returns>
+		private bool TryResistDebuff(BuffId buffId, ICombatEntity caster)
+		{
+			// TODO: Ideally, this should happen from the buff handler,
+			//   and we might also want to move the check somewhere else,
+			//   so we're still able to force-apply buffs if necessary.
+
+			var selfBuff = caster == this.Entity;
+			if (selfBuff)
+				return false;
+
+			var isDebuff = ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData) && buffData.Type == BuffType.Debuff;
+			if (!isDebuff)
+				return false;
+
+			if (this.Has(BuffId.Skill_MomentaryImmune_Buff))
+				return true;
+
+			if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
+			{
+				if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
+					return true;
+			}
+
+			return false;
 		}
 
 		/// <summary>

@@ -1,20 +1,17 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Skills;
-using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handle for the Giant Swing debuff, which reduces hit rate
+	/// Handle for the Giant Swing debuff, which reduces hit rate.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: Unused
+	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.giantswing_Debuff)]
-	public class giantswing_Debuff : BuffHandler
+	public class Giantswing_Debuff : BuffHandler
 	{
 		// The true percentage of the reduction is unknown
 		public const float HrDebuffRateBase = 0.05f;
@@ -22,18 +19,14 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
+			var reduceHr = buff.Target.Properties.GetFloat(PropertyName.HR) * (HrDebuffRateBase + HrDebuffRatePerLevel * buff.NumArg1);
 
-			var reduceHr = target.Properties.GetFloat(PropertyName.HR) * (HrDebuffRateBase + HrDebuffRatePerLevel * buff.NumArg1);
-
-			AddPropertyModifier(buff, target, PropertyName.HR_BM, -reduceHr);
+			AddPropertyModifier(buff, buff.Target, PropertyName.HR_BM, -reduceHr);
 		}
 
 		public override void OnEnd(Buff buff)
 		{
-			var target = buff.Target;
-
-			RemovePropertyModifier(buff, target, PropertyName.HR_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.HR_BM);
 		}
 	}
 }

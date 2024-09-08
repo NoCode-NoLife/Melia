@@ -4,7 +4,6 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.AI;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -66,8 +65,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 				}
 			}
 
-			// This is not mentioned in the description, but the skill_bytool
-			// still includes it.
+			// This buff is not mentioned in the description, but the skill_bytool
+			// data includes it.
 			caster.StartBuff(BuffId.Warcry_Buff, skill.Level, targets.Count, TimeSpan.FromSeconds(10), caster);
 		}
 	}

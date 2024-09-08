@@ -10,8 +10,8 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using static Melia.Zone.Skills.SkillUseFunctions;
 using static Melia.Shared.Util.TaskHelper;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
@@ -95,13 +95,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 				else
 				{
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 
 				hits.Add(skillHit);
 
-				// This skill used to apply this debuff, but it was swapped out for Aggressor_Buff
+				// This skill used to apply this debuff, but it was swapped out
+				// for Aggressor_Buff
 				if (!Feature.IsEnabled("CleaveApplyAggressor"))
 					target.StartBuff(BuffId.Cleave_Debuff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
 			}

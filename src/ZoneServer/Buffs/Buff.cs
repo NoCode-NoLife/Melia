@@ -139,7 +139,7 @@ namespace Melia.Zone.Buffs
 		/// <summary>
 		/// Gets or sets the next time the buff is updated.
 		/// </summary>
-		private DateTime NextUpdateTime { get; set; }
+		public DateTime NextUpdateTime { get; set; }
 
 		/// <summary>
 		/// Returns the buff's handler, that handles its behavior.
@@ -213,14 +213,11 @@ namespace Melia.Zone.Buffs
 
 		/// <summary>
 		/// Increase overbuff counter, capped to the buff's max overbuff
-		/// value.  Also reset the buff's update time, if it has one
+		/// value.
 		/// </summary>
 		public void IncreaseOverbuff()
 		{
 			this.OverbuffCounter++;
-
-			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 		}
 
 		/// <summary>
@@ -234,8 +231,12 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// Extends the buff's removal time by its duration if applicable.
+		/// Extends the buff's removal and update times if applicable.
 		/// </summary>
+		/// <remarks>
+		/// Effectively extends the buff's duration and resets the update time,
+		/// so it ticks again after the update time has passed.
+		/// </remarks>
 		internal void ExtendDuration()
 		{
 			if (this.HasDuration)
@@ -243,6 +244,9 @@ namespace Melia.Zone.Buffs
 				this.RunTime = TimeSpan.Zero;
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
 			}
+
+			if (this.HasUpdateTime)
+				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 		}
 
 		/// <summary>

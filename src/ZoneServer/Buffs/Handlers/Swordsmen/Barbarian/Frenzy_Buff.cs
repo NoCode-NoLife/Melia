@@ -1,12 +1,9 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
@@ -16,6 +13,9 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 	/// attacking the same target.
 	/// </summary>
 	/// <remarks>
+	/// NumArg1: None
+	/// NumArg2: None
+	/// 
 	/// Note that this buff stores the character you have frenzy
 	/// against as the caster, while the character having the
 	/// frenzy is the target.
@@ -28,22 +28,23 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 		public override void OnStart(Buff buff)
 		{
-			var maxStacks = 2;
-			if (buff.Target.TryGetSkill(SkillId.Barbarian_Frenzy, out var frenzySkill))
-				maxStacks = frenzySkill.Level * 2;
+			this.UpdateStacks(buff);
+			this.UpdateBonus(buff);
+		}
 
-			// Barbarian22 halves the maximum stacks
-			if (buff.Target.IsAbilityActive(AbilityId.Barbarian22))
-				maxStacks /= 2;
-
-			if (buff.OverbuffCounter > maxStacks)
+		public override void WhileActive(Buff buff)
+		{
+			if (buff.OverbuffCounter == 0)
 			{
-				// don't allow it to overbuff any further
-				buff.OverbuffCounter = maxStacks;
+				buff.Target.StopBuff(BuffId.Frenzy_Buff);
+				return;
 			}
 
-			// Add or update the bonus ASpd
-			ApplyASpdBonus(buff);
+			// Decay one stack every tick
+			buff.OverbuffCounter--;
+			Send.ZC_BUFF_UPDATE(buff.Target, buff);
+
+			this.UpdateBonus(buff);
 		}
 
 		public override void OnEnd(Buff buff)
@@ -51,39 +52,40 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
 		}
 
-		public override void WhileActive(Buff buff)
-		{
-			// decay 1 overbuff counter
-			if (buff.OverbuffCounter > 1)
-			{
-				buff.OverbuffCounter--;
-				Send.ZC_BUFF_UPDATE(buff.Target, buff);
-
-				ApplyASpdBonus(buff);
-			}
-			else
-			{
-				buff.Target.StopBuff(BuffId.Frenzy_Buff);
-			}
-		}
-
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			// The user takes 0.5% more damage per stack of Frenzy
-			// The increase to your outgoing damage is the in Frenzy Skill
+			// The user takes 0.5% more damage per stack of Frenzy. The damage
+			// increase part can be found in the Franzy skill handler.
 			modifier.DamageMultiplier += 0.005f * buff.OverbuffCounter;
 		}
 
 		/// <summary>
-		/// Applies the bonus Aspd, while also removing any previous buff beforehand
+		/// Updates stacks, capping the overbuff counter at the current maximum.
 		/// </summary>
 		/// <param name="buff"></param>
-		private void ApplyASpdBonus(Buff buff)
+		private void UpdateStacks(Buff buff)
 		{
-			// reset the aspd buff if it's already present so it doesn't stack
-			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
+			var maxStacks = 2;
 
-			AddPropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, ASpdBonusBase + buff.OverbuffCounter * ASpdBonusPerStack);
+			// Increase max stacks based on Frenzy skill level
+			if (buff.Target.TryGetSkill(SkillId.Barbarian_Frenzy, out var frenzySkill))
+				maxStacks = frenzySkill.Level * 2;
+
+			// Half max stacks if Barbarian22 is active
+			if (buff.Target.IsAbilityActive(AbilityId.Barbarian22))
+				maxStacks /= 2;
+
+			if (buff.OverbuffCounter > maxStacks)
+				buff.OverbuffCounter = maxStacks;
+		}
+
+		/// <summary>
+		/// Adds or updates the buff's attack speed bonus.
+		/// </summary>
+		/// <param name="buff"></param>
+		private void UpdateBonus(Buff buff)
+		{
+			UpdatePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, ASpdBonusBase + buff.OverbuffCounter * ASpdBonusPerStack);
 		}
 	}
 }

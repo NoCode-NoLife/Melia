@@ -3,14 +3,12 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for the passive Barbarian skill Frenzy
+	/// Handler for the passive Barbarian skill Frenzy.
 	/// </summary>
-
 	[SkillHandler(SkillId.Barbarian_Frenzy)]
 	public class Frenzy : ISkillHandler, ISkillCombatAttackBeforeCalcHandler
 	{
@@ -25,8 +23,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 		/// <param name="skillHitResult"></param>
 		public void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			// You lose Frenzy if you attack a different target
-			// unless you have Barbarian22
+			// You lose Frenzy if you attack a different target, unless Barbarian22
+			// is active.
 			if (attacker.TryGetBuff(BuffId.Frenzy_Buff, out var frenzyBuff))
 			{
 				if (frenzyBuff.Caster != target && !attacker.IsAbilityActive(AbilityId.Barbarian22))
@@ -35,17 +33,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			// You build Frenzy when normal attacking
 			if (attackerSkill.IsNormalAttack)
-			{
-				attacker.StartBuff(BuffId.Frenzy_Buff, 1, 0, TimeSpan.Zero, target);
-			}
+				attacker.StartBuff(BuffId.Frenzy_Buff, 0, 0, TimeSpan.Zero, target);
 
-			// You do 2% more damage for every stack of Frenzy
-			// We don't do this in the buff handler because
-			// then it would matter which one was applied first
+			// You do 2% more damage for every stack of Frenzy. This is done here
+			// to get the immediate effect on the first hit, in case the Frenzy_Buff
+			// combat event comes in after this one.
 			if (attacker.TryGetBuff(BuffId.Frenzy_Buff, out var buff))
-			{
 				modifier.DamageMultiplier += buff.OverbuffCounter * 0.02f;
-			}
 		}
 	}
 }

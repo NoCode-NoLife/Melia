@@ -56,15 +56,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			// wait for the user to hit the ground
-
-			if (caster.Components.TryGet<MovementComponent>(out var movementComponent))
-			{
-				while (!movementComponent.IsGrounded)
-				{
-					await Task.Delay(TimeSpan.FromMilliseconds(30));
-				}
-			}
 			CallSafe(this.Attack(skill, caster, splashArea));
 		}
 
@@ -76,11 +67,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(100);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
-			//await Task.Delay(hitDelay);
+			await this.WaitUntilGrounded(caster);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -109,13 +99,28 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			// Barbarian 31 triggers a rejump afterwards
 			if (caster.IsAbilityActive(AbilityId.Barbarian31))
 			{
-				await Task.Delay(TimeSpan.FromMilliseconds(100));
+				await Task.Delay(100);
+
 				if (caster.Components.TryGet<MovementComponent>(out var movementComponent))
 				{
 					// TODO: This doesn't work, may need another way to trigger a jump
 					movementComponent.NotifyJump(caster.Position, caster.Direction, 0, 0);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Returns as soon as the caster is grounded.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <returns></returns>
+		private async Task WaitUntilGrounded(ICombatEntity caster)
+		{
+			if (!caster.Components.TryGet<MovementComponent>(out var movementComponent))
+				return;
+
+			while (!movementComponent.IsGrounded)
+				await Task.Delay(30);
 		}
 	}
 }

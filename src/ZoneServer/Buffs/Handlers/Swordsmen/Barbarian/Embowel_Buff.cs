@@ -1,16 +1,14 @@
-﻿using Melia.Shared.Data.Database;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handle for the Embowel_Buff buff, which decreases all
-	/// damage taken while the skill is active.
+	/// Handle for the Embowel buff, which decreases all damage taken
+	/// while the skill is active.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level

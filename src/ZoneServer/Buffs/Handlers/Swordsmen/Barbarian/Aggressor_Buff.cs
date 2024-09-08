@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: Unused
+	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.Aggressor_Buff)]
 	public class Aggressor_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
@@ -44,9 +44,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			var target = buff.Target;
 
 			RemovePropertyModifier(buff, target, PropertyName.CRTHR_RATE_BM);
-
-			if (!Feature.IsEnabled("CleaveApplyAggressor"))
-				RemovePropertyModifier(buff, target, PropertyName.CRTDR_RATE_BM);
+			RemovePropertyModifier(buff, target, PropertyName.CRTDR_RATE_BM);
 		}
 
 		/// <summary>

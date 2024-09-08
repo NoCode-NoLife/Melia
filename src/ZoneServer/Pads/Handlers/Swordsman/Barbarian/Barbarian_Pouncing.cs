@@ -21,7 +21,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Barbarian
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Barbarian_Pouncing", 0, 0, 150, true);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Barbarian_Pouncing, 0, 0, 150, true);
 		}
 
 		/// <summary>
@@ -34,7 +34,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Barbarian
 			var pad = args.Trigger;
 			var creator = args.Creator;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Barbarian_Pouncing", 0, 0, 150, false);
+			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Barbarian_Pouncing, 0, 0, 150, false);
 		}
 
 		/// <summary>

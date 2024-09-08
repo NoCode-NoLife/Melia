@@ -4,11 +4,11 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for CrownArmor_Debuff, which reduces PAtk
+	/// Handler for CrownArmor_Debuff, which reduces physical attack.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: Unused
+	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.Warcry_Debuff)]
 	public class Warcry_Debuff : BuffHandler
@@ -22,10 +22,9 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		/// <param name="buff"></param>
 		public override void OnStart(Buff buff)
 		{
-			var target = buff.Target;
-			var reducePatk = target.Properties.GetFloat(PropertyName.PATK) * (PAtkPenaltyBase + buff.NumArg1 * PAtkPenaltyPerLevel);
+			var reducePatk = buff.Target.Properties.GetFloat(PropertyName.PATK) * (PAtkPenaltyBase + buff.NumArg1 * PAtkPenaltyPerLevel);
 
-			AddPropertyModifier(buff, target, PropertyName.PATK_BM, -reducePatk);
+			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_BM, -reducePatk);
 		}
 
 		/// <summary>
