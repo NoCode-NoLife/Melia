@@ -132,22 +132,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (character.Movement.IsMoving)
 			{
 				var runDrain = (int)character.Properties.GetFloat(PropertyName.Sta_Run, 0);
-
-				// This serves as the update for Dashrun, since it doesn't call its update normally
-				if (runDrain > 0 && character.Properties.GetFloat("DashRun", 0) > 0)
-				{
-					if (character.IsAbilityActive(AbilityId.Barbarian28))
-					{
-						var buffDuration = 5;
-						if (character.IsAbilityActive(AbilityId.Barbarian28))
-							buffDuration += 5;
-
-						// Apply Wild Instinct
-						character.StartBuff(BuffId.ScudInstinct_Buff, 1, 0, TimeSpan.FromSeconds(buffDuration), character);
-					}
-				}
-
-				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);				
+				stamina = Math2.Clamp(0, maxStamina, stamina - runDrain);
 			}
 			else
 			{
