@@ -28,7 +28,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 		public override void OnStart(Buff buff)
 		{
-			this.UpdateStacks(buff);
+			this.CapStacks(buff);
 			this.UpdateBonus(buff);
 		}
 
@@ -40,10 +40,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 				return;
 			}
 
-			// Decay one stack every tick
-			buff.OverbuffCounter--;
-			Send.ZC_BUFF_UPDATE(buff.Target, buff);
-
+			this.DecayStacks(buff);
 			this.UpdateBonus(buff);
 		}
 
@@ -60,10 +57,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		}
 
 		/// <summary>
-		/// Updates stacks, capping the overbuff counter at the current maximum.
+		/// Checks stacks, capping the overbuff counter at the allowed maximum.
 		/// </summary>
 		/// <param name="buff"></param>
-		private void UpdateStacks(Buff buff)
+		private void CapStacks(Buff buff)
 		{
 			var maxStacks = 2;
 
@@ -77,6 +74,16 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 
 			if (buff.OverbuffCounter > maxStacks)
 				buff.OverbuffCounter = maxStacks;
+		}
+
+		/// <summary>
+		/// Removes one stack and updates buff.
+		/// </summary>
+		/// <param name="buff"></param>
+		private void DecayStacks(Buff buff)
+		{
+			buff.OverbuffCounter--;
+			Send.ZC_BUFF_UPDATE(buff.Target, buff);
 		}
 
 		/// <summary>
