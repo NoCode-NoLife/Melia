@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v12.0.1 Binary Template
 //
-//      File: ZC_ATTACH_TO_OBJ.bt
-//   Authors: Salman T. Khan, exec
+//      File: ZC_DETACH_FROM_OBJ.bt
+//   Authors: exec
 //   Version: i346841
 //   Purpose: 
 //  Category: 
@@ -16,14 +16,4 @@
 ServerHeaderFixed header;
 
 int handle;
-int attachToHandle;
-int packetString1;
-float duration;
-float f2;
-float f3;
-float f4;
-float distance;
-int packetString2;
-byte b2;
-byte b3;
-byte b1;
+int detachFromHandle;

@@ -11,7 +11,6 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs;
-using Melia.Zone.Events;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
@@ -4376,6 +4375,60 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Attaches actor to a given node on the other actor's model on clients
+		/// in range of actor.
+		/// </summary>
+		/// <param name="actor">Actor to attach to another actor.</param>
+		/// <param name="attachTo">Other actor to attach to. Use null to unset attachment.</param>
+		/// <param name="nodeName"></param>
+		/// <param name="packetString1"></param>
+		/// <param name="duration"></param>
+		/// <param name="distance"></param>
+		/// <param name="packetString2"></param>
+		/// <param name="b1"></param>
+		/// <param name="b2"></param>
+		/// <param name="b3"></param>
+		public static void ZC_ATTACH_TO_OBJ(IActor actor, IActor attachTo, string nodeName, string packetString1, TimeSpan duration, float distance, string packetString2, byte b1, byte b2, byte b3)
+		{
+			var packet = new Packet(Op.ZC_ATTACH_TO_OBJ);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(attachTo?.Handle ?? 0);
+			packet.AddStringId(nodeName);
+			packet.AddStringId(packetString1);
+			packet.PutFloat((float)duration.TotalSeconds);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(distance);
+			packet.AddStringId(packetString2);
+			packet.PutByte(b1);
+			packet.PutByte(b2);
+			packet.PutByte(b3);
+
+			actor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Detaches actor from other actor.
+		/// </summary>
+		/// <remarks>
+		/// It appears as if ZC_ATTACH_TO_OBJ is also used for this purpose,
+		/// by simply sending a null attachment actor.
+		/// </remarks>
+		/// <param name="actor"></param>
+		/// <param name="detachFrom"></param>
+		public static void ZC_DETACH_FROM_OBJ(IActor actor, IActor detachFrom)
+		{
+			var packet = new Packet(Op.ZC_DETACH_FROM_OBJ);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(detachFrom.Handle);
+
+			actor.Map.Broadcast(packet);
 		}
 	}
 }
