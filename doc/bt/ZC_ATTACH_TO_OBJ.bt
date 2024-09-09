@@ -17,14 +17,14 @@ ServerHeaderFixed header;
 
 int handle;
 int attachToHandle;
-int nodeName;
-int unkStr1;
+StringId nodeName;
+StringId unkStr1;
 float duration;
 float f2;
 float f3;
 float f4;
 float distance;
-int packetString2;
+StringId unkStr2;
 byte b2;
 byte b3;
 byte b1;
