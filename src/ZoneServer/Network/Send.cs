@@ -2030,13 +2030,10 @@ namespace Melia.Zone.Network
 		/// <param name="duration">Time to show to the emoticon for.</param>
 		public static void ZC_SHOW_EMOTICON(IActor actor, string packetString, TimeSpan duration)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(packetString);
 			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
@@ -3016,13 +3013,10 @@ namespace Melia.Zone.Network
 		/// <param name="packetString"></param>
 		public static void ZC_PLAY_SOUND(Character character, string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(packetString);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -3037,13 +3031,10 @@ namespace Melia.Zone.Network
 		/// <param name="packetString"></param>
 		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(packetString);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -3058,13 +3049,10 @@ namespace Melia.Zone.Network
 		/// <param name="packetString"></param>
 		public static void ZC_STOP_SOUND(IActor actor, string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_STOP_SOUND);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(packetString);
 
 			actor.Map.Broadcast(packet, actor);
 		}
@@ -3180,24 +3168,10 @@ namespace Melia.Zone.Network
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-				throw new ArgumentException($"Unknown packet string '{animationName}'.");
-
-			ZC_PLAY_ANI(actor, packetStringData.Id, stopOnLastFrame);
-		}
-
-		/// <summary>
-		/// Plays animation for actor on nearby clients.
-		/// </summary>
-		/// <param name="actor">Entity to animate.</param>
-		/// <param name="packetStringId">Id of the string for the animation to play.</param>
-		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false)
-		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringId);
+			packet.AddStringId(animationName);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);

@@ -3,6 +3,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -35,14 +36,11 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(packetString);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -62,14 +60,11 @@ namespace Melia.Zone.Network
 			/// <param name="scale"></param>
 			public static void AttachEffect(IZoneConnection conn, IActor actor, string packetString, float scale = 1)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(packetString);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -101,9 +96,6 @@ namespace Melia.Zone.Network
 			/// <param name="scale"></param>
 			public static void PlayEffect(IActor actor, string packetString, float scale = 1)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
 
@@ -112,7 +104,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(2);
 				packet.PutByte(0);
 				packet.PutFloat(scale);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(packetString);
 				packet.PutInt(0);
 
 				actor.Map.Broadcast(packet, actor);
@@ -180,18 +172,12 @@ namespace Melia.Zone.Network
 					argStr = "CUSTOM:" + argStr;
 				}
 
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(idSpace, out var idSpaceData))
-					throw new ArgumentException($"Packet string '{idSpace}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
 
 				packet.PutInt(actor.Handle);
 				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(packetString);
 				packet.PutFloat(argNum);
 
 				if (argStr == null)
@@ -199,7 +185,7 @@ namespace Melia.Zone.Network
 				else
 					packet.PutLpString(argStr);
 
-				packet.PutInt(idSpaceData.Id);
+				packet.AddStringId(idSpace);
 				packet.PutInt(classId);
 
 				actor.Map.Broadcast(packet, actor);
@@ -222,19 +208,13 @@ namespace Melia.Zone.Network
 			/// <param name="f4"></param>
 			public static void SkillProjectile(ICombatEntity entity, string packetString1, float scale1, string packetString2, float scale2, Position position, float f1, float f2, float f3, float f4)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
-					throw new ArgumentException($"Packet string '{packetString1}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{packetString2}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
 
 				packet.PutInt(entity.Handle);
-				packet.PutInt(packetStringData1.Id);
+				packet.AddStringId(packetString1);
 				packet.PutFloat(scale1);
-				packet.PutInt(packetStringData2.Id);
+				packet.AddStringId(packetString2);
 				packet.PutFloat(scale2);
 				packet.PutPosition(position);
 				packet.PutFloat(f1);
@@ -267,9 +247,6 @@ namespace Melia.Zone.Network
 			/// <param name="itemStayTime"></param>
 			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-					throw new ArgumentException($"Packet string '{animationName}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillItemToss);
 
@@ -277,7 +254,7 @@ namespace Melia.Zone.Network
 				packet.PutLpString(str);
 				packet.PutLpString(str2);
 				packet.PutPosition(position);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(animationName);
 				packet.PutFloat(scale);
 				packet.PutFloat(tossScale);
 				packet.PutFloat(hangScale);
@@ -311,21 +288,6 @@ namespace Melia.Zone.Network
 			/// </exception>
 			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
-					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect2PacketString, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{effect2PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect3PacketString, out var packetStringData3))
-					throw new ArgumentException($"Packet string '{effect3PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect4PacketString, out var packetStringData4))
-					throw new ArgumentException($"Packet string '{effect4PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect5PacketString, out var packetStringData5))
-					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayForceEffect);
 
@@ -335,13 +297,13 @@ namespace Melia.Zone.Network
 				packet.PutInt(source.Handle);
 				packet.PutInt(target.Handle);
 
-				packet.PutInt(packetStringData1.Id);
+				packet.AddStringId(effect1PacketString);
 				packet.PutFloat(effect1Scale);
-				packet.PutInt(packetStringData2.Id);
-				packet.PutInt(packetStringData3.Id);
+				packet.AddStringId(effect2PacketString);
+				packet.AddStringId(effect3PacketString);
 				packet.PutFloat(effect3Scale);
-				packet.PutInt(packetStringData4.Id);
-				packet.PutInt(packetStringData5.Id);
+				packet.AddStringId(effect4PacketString);
+				packet.AddStringId(effect5PacketString);
 
 				packet.PutFloat(speed);
 				packet.PutFloat(0);
@@ -418,14 +380,11 @@ namespace Melia.Zone.Network
 			/// <param name="isVisible"></param>
 			public static void PadUpdate(ICombatEntity caster, Pad pad, string animationName, float f1, float f2, float f3, bool isVisible)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-					throw new ArgumentException($"Packet string '{animationName}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
 				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(animationName);
 				packet.PutInt((int)pad.Skill.Id);
 				packet.PutInt(pad.Skill.Level);
 				packet.PutPosition(pad.Position);
