@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Drug_HealHP)]
 	public class Drug_HealHP : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			// Yes... arg1 * 7 is actually correct. No, I have no idea
 			// why they don't simply use the amount of HP to heal. Yes,

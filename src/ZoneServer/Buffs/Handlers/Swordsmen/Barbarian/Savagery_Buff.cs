@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 	[BuffHandler(BuffId.Savagery_Buff)]
 	public class Savagery_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, buff.NumArg2);
 		}

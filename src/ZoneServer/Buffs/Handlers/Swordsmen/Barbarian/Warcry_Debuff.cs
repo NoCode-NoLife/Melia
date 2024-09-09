@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		/// Starts buff, reducing PAtk
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var reducePatk = buff.Target.Properties.GetFloat(PropertyName.PATK) * (PAtkPenaltyBase + buff.NumArg1 * PAtkPenaltyPerLevel);
 

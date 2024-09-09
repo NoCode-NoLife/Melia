@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Scout
 		/// Starts buff, modifying the target's movement speed.
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			// Limit it to 3 stacks since it only happens for the first
 			// three hits of Oblique Fire.

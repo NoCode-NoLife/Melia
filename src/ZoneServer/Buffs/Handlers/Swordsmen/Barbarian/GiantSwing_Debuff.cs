@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		public const float HrDebuffRateBase = 0.05f;
 		public const float HrDebuffRatePerLevel = 0.05f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var reduceHr = buff.Target.Properties.GetFloat(PropertyName.HR) * (HrDebuffRateBase + HrDebuffRatePerLevel * buff.NumArg1);
 

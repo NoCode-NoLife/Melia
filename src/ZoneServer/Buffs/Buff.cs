@@ -221,13 +221,19 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// Extends the buff's duration and executes the buff handler's start
-		/// behavior. Does not add the buff to the actor.
+		/// Extends the buff's duration and executes the buff handler's
+		/// activation behavior.
 		/// </summary>
-		internal void Start()
+		/// <param name="activationType"></param>
+		internal void Activate(ActivationType activationType)
 		{
 			this.ExtendDuration();
+
+#pragma warning disable CS0618
+			// Temporary call OnStart until we updated all buff handlers
 			this.Handler?.OnStart(this);
+			this.Handler?.OnActivate(this, activationType);
+#pragma warning restore CS0618
 		}
 
 		/// <summary>

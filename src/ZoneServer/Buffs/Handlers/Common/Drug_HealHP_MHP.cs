@@ -10,7 +10,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Drug_HealHP_MHP)]
 	public class Drug_HealHP_MHP : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var character = buff.Target;
 

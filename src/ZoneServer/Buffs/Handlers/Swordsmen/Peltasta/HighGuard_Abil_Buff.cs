@@ -19,7 +19,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 		private const float MSpdReduction = 8;
 		private const float DamageRateReduction = 0.20f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 

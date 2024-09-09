@@ -19,7 +19,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		/// Starts buff, increasing PAtk
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var bonusPatk = buff.Target.Properties.GetFloat(PropertyName.PATK) * (buff.NumArg2 * PAtkBonusPerStack);
 

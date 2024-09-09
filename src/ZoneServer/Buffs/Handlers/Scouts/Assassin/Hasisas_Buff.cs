@@ -16,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 		private const float CritBonusPerLevel = 1.5f;
 		private const float HpLossRate = 0.01f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var aspdBonus = this.GetAspdBonus(buff);
 			var critBonus = this.GetCritBonus(buff);

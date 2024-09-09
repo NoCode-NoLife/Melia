@@ -16,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// Starts buff, modifying the movement speed.
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 			var caster = buff.Caster;

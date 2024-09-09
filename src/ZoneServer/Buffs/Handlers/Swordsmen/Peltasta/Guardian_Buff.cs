@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 		public const float SDRBonusBase = 6f;
 		public const float SDRBonusPerLevel = 1f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.SDR_BM, this.GetSDRBonus(buff));
 		}

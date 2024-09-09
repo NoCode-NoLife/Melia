@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Doppelsoeldner
 		/// Starts buff, reducing Block and Dodge.
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 

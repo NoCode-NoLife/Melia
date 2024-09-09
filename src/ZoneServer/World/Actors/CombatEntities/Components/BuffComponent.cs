@@ -4,6 +4,7 @@ using System.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
+using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
@@ -52,7 +53,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				_buffs[buff.Id] = buff;
 
 			buff.IncreaseOverbuff();
-			buff.Start();
+			buff.Activate(ActivationType.Start);
 
 			Send.ZC_BUFF_ADD(this.Entity, buff);
 
@@ -74,7 +75,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// and over.
 			if (overbuff != buff.OverbuffCounter)
 			{
-				buff.Start();
+				buff.Activate(ActivationType.Overbuff);
 			}
 			// If we don't start the buff again, we need to at least
 			// extend its duration. Otherwise it may end before the

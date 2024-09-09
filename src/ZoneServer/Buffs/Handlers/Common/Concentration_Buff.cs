@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		private const float BonusPerLevel = 2;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var bonus = this.GetCritRateBonus(buff);
 

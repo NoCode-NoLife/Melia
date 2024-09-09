@@ -26,7 +26,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		private const float ASpdBonusBase = 150;
 		private const float ASpdBonusPerStack = 10;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			this.CapStacks(buff);
 			this.UpdateBonus(buff);
