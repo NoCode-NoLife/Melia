@@ -230,7 +230,8 @@ namespace Melia.Zone.Buffs
 			this.ExtendDuration();
 
 #pragma warning disable CS0618
-			// Temporary call OnStart until we updated all buff handlers
+			// Temporarily call OnStart for backwards compatibility until users
+			// had time to update their buff handlers.
 			this.Handler?.OnStart(this);
 			this.Handler?.OnActivate(this, activationType);
 			this.Handler?.OnExtend(this);
