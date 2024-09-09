@@ -84,6 +84,7 @@ namespace Melia.Zone.Scripting.AI
 		protected IEnumerable MoveToAttack(ICombatEntity target, float attackRange)
 		{
 			var movementWasLocked = false;
+			var lastAttackMovePos = Position.Invalid;
 
 			while (!this.InRangeOf(target, attackRange))
 			{
@@ -101,10 +102,10 @@ namespace Melia.Zone.Scripting.AI
 				else if (movementWasLocked)
 				{
 					movementWasLocked = false;
-					_lastAttackMovePos = Position.Invalid;
+					lastAttackMovePos = Position.Invalid;
 				}
 
-				var targetMoved = (_lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(_lastAttackMovePos, 10));
+				var targetMoved = (lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(lastAttackMovePos, 10));
 
 				if (!targetMoved)
 				{
@@ -113,8 +114,8 @@ namespace Melia.Zone.Scripting.AI
 				}
 
 				// Adjust the destination if the target moved
-				_lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
-				yield return this.MoveTo(_lastAttackMovePos, wait: false);
+				lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
+				yield return this.MoveTo(lastAttackMovePos, wait: false);
 			}
 
 			yield return this.StopMove();
