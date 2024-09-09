@@ -279,6 +279,13 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<CombatComponent>().CastingState;
 
 		/// <summary>
+		/// Stops entity's current movement.
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void StopMove(this ICombatEntity entity)
+			=> entity.Components.Get<MovementComponent>()?.Stop();
+
+		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
