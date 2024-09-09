@@ -83,8 +83,27 @@ namespace Melia.Zone.Scripting.AI
 		/// <returns></returns>
 		protected IEnumerable MoveToAttack(ICombatEntity target, float attackRange)
 		{
+			var movementWasLocked = false;
+
 			while (!this.InRangeOf(target, attackRange))
 			{
+				// Wait while movement is locked and resume chase once it's
+				// unlocked, calculating a new path to wherever the target's
+				// current position is. This is necessary so the AI doesn't
+				// stop moving because the target stopped moving during the
+				// lock.
+				if (this.Entity.IsLocked(LockType.Movement))
+				{
+					movementWasLocked = true;
+					yield return this.Wait(100);
+					continue;
+				}
+				else if (movementWasLocked)
+				{
+					movementWasLocked = false;
+					_lastAttackMovePos = Position.Invalid;
+				}
+
 				var targetMoved = (_lastAttackMovePos == Position.Invalid || !target.Position.InRange2D(_lastAttackMovePos, 10));
 
 				if (!targetMoved)
