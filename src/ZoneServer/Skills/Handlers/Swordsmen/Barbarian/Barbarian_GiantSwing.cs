@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -11,7 +9,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Yggdrasil.Extensions;
 using static Melia.Shared.Util.TaskHelper;
@@ -45,7 +42,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			}
 
 			var chainPos = caster.Position.GetRelative(caster.Direction, ChainLength);
-			var chainDirection = new Direction(caster.Direction);
 			if (!caster.Map.Ground.IsValidPosition(chainPos))
 			{
 				caster.ServerMessage(Localization.Get("Invalid Location."));
@@ -65,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, chainDirection));
+			CallSafe(this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, caster.Direction));
 		}
 
 		/// <summary>
@@ -76,10 +72,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position chainPos, Direction chainDirection)
 		{
+			var rotateDelay = TimeSpan.FromMilliseconds(370);
 			var hitDelay = TimeSpan.FromMilliseconds(200);
-			var damageDelay = TimeSpan.FromMilliseconds(2950);
-			var tossDelay = TimeSpan.FromMilliseconds(2700);
-			var skillHitDelay = TimeSpan.Zero;
 
 			await Task.Delay(hitDelay);
 
@@ -95,12 +89,52 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			}
 
 			var target = targets.Random();
-			var hits = new List<SkillHitInfo>();
 
-			Send.ZC_NORMAL.SpinObject(caster, 0, 9, 0.2f, 1);
+			target.StopMove();
+			target.AddState(StateType.Stunned);
 
-			var cancelToken = new CancellationTokenSource();
-			CallSafe(this.SpinTarget(caster, target, cancelToken.Token));
+			Send.ZC_ATTACH_TO_OBJ(target, caster, "Bone_chain13", "ChainTest", TimeSpan.Zero, 100, null, 0, 0, 0);
+			await Task.Delay(rotateDelay);
+
+			var rotationCount = 9;
+			var rotationDuration = 0.29f;
+			var rotationTime = TimeSpan.FromSeconds(rotationCount * rotationDuration);
+
+			Send.ZC_NORMAL.SpinObject(caster, 0, rotationCount, rotationDuration, 1);
+
+			await Task.Delay(rotationTime + rotateDelay);
+
+			Send.ZC_NORMAL.SpinObject(caster, 0, 0, 0, 0);
+			Send.ZC_PLAY_ANI(caster, "idle1");
+			caster.TurnTowards(chainDirection);
+			Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
+
+			Send.ZC_ATTACH_TO_OBJ(target, null, null, null, TimeSpan.Zero, 0, null, 0, 0, 0);
+
+			target.RemoveState(StateType.Stunned);
+			target.StartBuff(BuffId.giantswing_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
+
+			this.Hit(skill, caster, target);
+
+			var targetPos = caster.Position.GetRelative(chainDirection, TossDistance);
+			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
+			target.Position = targetPos;
+
+			// This is almost certainly not the right packet for this, but it
+			// will do for now, until we figure out the right one.
+			Send.ZC_NORMAL.LeapJump(target, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 30);
+		}
+
+		/// <summary>
+		/// Hits target.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		private void Hit(Skill skill, ICombatEntity caster, ICombatEntity target)
+		{
+			var damageDelay = TimeSpan.FromMilliseconds(2950);
+			var skillHitDelay = TimeSpan.Zero;
 
 			var modifier = SkillModifier.Default;
 
@@ -113,65 +147,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 			skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-			skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-			target.Position = skillHit.KnockBackInfo.ToPosition;
-			hits.Add(skillHit);
+			skillHit.ApplyKnockBack(target);
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
-
-			await Task.Delay(tossDelay);
-			cancelToken.Cancel();
-
-			Send.ZC_NORMAL.SpinObject(caster, 0, 0, 0, 0);
-			Send.ZC_PLAY_ANI(caster, "idle1");
-			caster.TurnTowards(chainDirection);
-			Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
-
-			target.StartBuff(BuffId.giantswing_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
-
-			var targetPos = chainPos.GetRelative(chainDirection, TossDistance);
-			targetPos = caster.Map.Ground.GetLastValidPosition(target.Position, targetPos);
-
-			if (target.Components.TryGet<MovementComponent>(out var movementComponent))
-				movementComponent.Stop();
-
-			target.Position = targetPos;
-			Send.ZC_NORMAL.LeapJump(target, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 30);
-		}
-
-		/// <summary>
-		/// Spins the target around.
-		/// </summary>
-		/// <remarks>
-		/// This is not the correct implementation, it should call something like
-		/// Send.ZC_ATTACH_TO_OBJ(target, null, "ChainTest", "Bone_chain13", 0.01f, 1, 1, "", 0, 0, 0);
-		/// However the correct values to make this function have not been found
-		/// </remarks>
-		/// <param name="caster"></param>
-		/// <param name="target"></param>
-		/// <param name="cancelToken"></param>
-		private async Task SpinTarget(ICombatEntity caster, ICombatEntity target, CancellationToken cancelToken)
-		{
-			var tickTime = TimeSpan.FromMilliseconds(70);
-
-			// You're totally incapacitated during the spin and can't be interacted with in any way
-			target.Lock(LockType.Movement);
-			target.Lock(LockType.GetHit);
-			target.Lock(LockType.Attack);
-
-			while (!cancelToken.IsCancellationRequested)
-			{
-				target.Position = new Position(caster.Position.GetRelative(caster.Direction, ChainLength));
-				target.TurnTowards(caster);
-				Send.ZC_SET_POS(target);
-				Send.ZC_NORMAL.PlayEffect(target, "F_burstup022_smoke", 0.7f);
-
-				await Task.Delay(tickTime, CancellationToken.None);
-			}
-
-			target.Unlock(LockType.Movement);
-			target.Unlock(LockType.GetHit);
-			target.Unlock(LockType.Attack);
+			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
 	}
 }
