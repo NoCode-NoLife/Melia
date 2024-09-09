@@ -210,13 +210,13 @@ namespace Melia.Zone.World.Actors.Components
 				foreach (var lockType in state.Locks)
 					this.Lock(lockType);
 
+				if (_stateCounts.TryGetValue(stateType, out var value))
+					_stateCounts[stateType] = ++value;
+				else
+					_stateCounts[stateType] = 1;
+
 				if (duration != TimeSpan.MaxValue)
 				{
-					if (_stateCounts.TryGetValue(stateType, out var value))
-						_stateCounts[stateType] = ++value;
-					else
-						_stateCounts[stateType] = 1;
-
 					var endTime = DateTime.Now.Add(duration);
 					_stateEnds.Add(new(stateType, endTime));
 				}
