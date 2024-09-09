@@ -17,7 +17,8 @@ ServerHeaderFixed header;
 
 int handle;
 int attachToHandle;
-int packetString1;
+int nodeName;
+int unkStr1;
 float duration;
 float f2;
 float f3;
