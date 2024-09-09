@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -93,7 +94,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			target.StopMove();
 			target.AddState(StateType.Stunned);
 
+			Send.ZC_NORMAL.PlayEffect(target, "F_hit_bad", 0.7f);
 			Send.ZC_ATTACH_TO_OBJ(target, caster, "Bone_chain13", "ChainTest", TimeSpan.Zero, 100, null, 0, 0, 0);
+
 			await Task.Delay(rotateDelay);
 
 			var rotationCount = 9;
@@ -101,6 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var rotationTime = TimeSpan.FromSeconds(rotationCount * rotationDuration);
 
 			Send.ZC_NORMAL.SpinObject(caster, 0, rotationCount, rotationDuration, 1);
+			Send.ZC_NORMAL.AttachEffect(target, "I_smoke004", 1.5f);
 
 			await Task.Delay(rotationTime + rotateDelay);
 
@@ -110,6 +114,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
 
 			Send.ZC_ATTACH_TO_OBJ(target, null, null, null, TimeSpan.Zero, 0, null, 0, 0, 0);
+			Send.ZC_NORMAL.ClearEffects(target);
 
 			target.RemoveState(StateType.Stunned);
 			target.StartBuff(BuffId.giantswing_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
@@ -123,6 +128,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			// This is almost certainly not the right packet for this, but it
 			// will do for now, until we figure out the right one.
 			Send.ZC_NORMAL.LeapJump(target, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 30);
+
+			var flyTime = TimeSpan.FromMilliseconds(300);
+			await Task.Delay(flyTime);
+
+			Send.ZC_NORMAL.PlayEffect(target, "F_burstup022_smoke", 0.7f);
 		}
 
 		/// <summary>
