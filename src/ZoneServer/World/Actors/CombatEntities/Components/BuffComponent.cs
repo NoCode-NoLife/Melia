@@ -82,7 +82,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// time displayed by the client.
 			else
 			{
-				buff.ExtendDuration();
+				buff.Extend();
 			}
 
 			Send.ZC_BUFF_UPDATE(this.Entity, buff);

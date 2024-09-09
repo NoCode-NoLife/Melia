@@ -32,6 +32,22 @@ namespace Melia.Zone.Buffs.Base
 		void OnActivate(Buff buff, ActivationType activationType);
 
 		/// <summary>
+		/// Callback for when the buff's duration is extended, regardless of
+		/// whether the overbuff max count was reached or not.
+		/// </summary>
+		/// <remarks>
+		/// This callback presents an alternative to OnActivate, in case it's
+		/// ever necessary for the handler to react to continued extensions
+		/// after the max overbuff count was reached.
+		/// 
+		/// OnExtend is called in addition to OnActivate up until the max
+		/// overbuff count is reached. Afterwards, OnExtend is the only
+		/// callback that is called.
+		/// </remarks>
+		/// <param name="buff"></param>
+		void OnExtend(Buff buff);
+
+		/// <summary>
 		/// Callback for regular updates while the buff is active. Only called
 		/// for buffs that have an update time.
 		/// </summary>

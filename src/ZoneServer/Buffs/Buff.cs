@@ -233,7 +233,18 @@ namespace Melia.Zone.Buffs
 			// Temporary call OnStart until we updated all buff handlers
 			this.Handler?.OnStart(this);
 			this.Handler?.OnActivate(this, activationType);
+			this.Handler?.OnExtend(this);
 #pragma warning restore CS0618
+		}
+
+		/// <summary>
+		/// Extends the buff's duration and executes the buff handler's
+		/// extension behavior.
+		/// </summary>
+		internal void Extend()
+		{
+			this.ExtendDuration();
+			this.Handler?.OnExtend(this);
 		}
 
 		/// <summary>
