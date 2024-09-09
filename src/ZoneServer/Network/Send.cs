@@ -2026,14 +2026,14 @@ namespace Melia.Zone.Network
 		/// entries with "_emo_" in their names, such as "I_emo_fear".
 		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetString"></param>
+		/// <param name="emotionName"></param>
 		/// <param name="duration">Time to show to the emoticon for.</param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, string packetString, TimeSpan duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, string emotionName, TimeSpan duration)
 		{
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
-			packet.AddStringId(packetString);
+			packet.AddStringId(emotionName);
 			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
@@ -3009,14 +3009,18 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Plays sound for character.
 		/// </summary>
+		/// <remarks>
+		/// For available sounds, check 'sound.ipf/SE.lst' in the client,
+		/// which lists the sounds found in the sound effect sound bank.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="packetString"></param>
-		public static void ZC_PLAY_SOUND(Character character, string packetString)
+		/// <param name="soundName"></param>
+		public static void ZC_PLAY_SOUND(Character character, string soundName)
 		{
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(character.Handle);
-			packet.AddStringId(packetString);
+			packet.AddStringId(soundName);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -3027,14 +3031,18 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Plays sound for clients in range of the actor.
 		/// </summary>
+		/// <remarks>
+		/// For available sounds, check 'sound.ipf/SE.lst' in the client,
+		/// which lists the sounds found in the sound effect sound bank.
+		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetString"></param>
-		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
+		/// <param name="soundName"></param>
+		public static void ZC_PLAY_SOUND(IActor actor, string soundName)
 		{
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(actor.Handle);
-			packet.AddStringId(packetString);
+			packet.AddStringId(soundName);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -4358,21 +4366,21 @@ namespace Melia.Zone.Network
 		/// <param name="actor">Actor to attach to another actor.</param>
 		/// <param name="attachTo">Other actor to attach to. Use null to unset attachment.</param>
 		/// <param name="nodeName"></param>
-		/// <param name="packetString1"></param>
+		/// <param name="unkStr1"></param>
 		/// <param name="duration"></param>
 		/// <param name="distance"></param>
 		/// <param name="packetString2"></param>
 		/// <param name="b1"></param>
 		/// <param name="b2"></param>
 		/// <param name="b3"></param>
-		public static void ZC_ATTACH_TO_OBJ(IActor actor, IActor attachTo, string nodeName, string packetString1, TimeSpan duration, float distance, string packetString2, byte b1, byte b2, byte b3)
+		public static void ZC_ATTACH_TO_OBJ(IActor actor, IActor attachTo, string nodeName, string unkStr1, TimeSpan duration, float distance, string packetString2, byte b1, byte b2, byte b3)
 		{
 			var packet = new Packet(Op.ZC_ATTACH_TO_OBJ);
 
 			packet.PutInt(actor.Handle);
 			packet.PutInt(attachTo?.Handle ?? 0);
 			packet.AddStringId(nodeName);
-			packet.AddStringId(packetString1);
+			packet.AddStringId(unkStr1);
 			packet.PutFloat((float)duration.TotalSeconds);
 			packet.PutFloat(0);
 			packet.PutFloat(0);

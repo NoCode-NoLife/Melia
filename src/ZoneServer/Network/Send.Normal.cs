@@ -34,13 +34,15 @@ namespace Melia.Zone.Network
 			/// Attaches effect to actor on clients in range.
 			/// </summary>
 			/// <param name="actor"></param>
-			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
+			/// <param name="effectName"></param>
+			/// <param name="scale"></param>
+			public static void AttachEffect(IActor actor, string effectName, float scale = 1)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.AddStringId(packetString);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -56,15 +58,15 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="actor"></param>
-			/// <param name="packetString"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
-			public static void AttachEffect(IZoneConnection conn, IActor actor, string packetString, float scale = 1)
+			public static void AttachEffect(IZoneConnection conn, IActor actor, string effectName, float scale = 1)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.AddStringId(packetString);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -92,9 +94,9 @@ namespace Melia.Zone.Network
 			/// Plays given effect on actor.
 			/// </summary>
 			/// <param name="actor"></param>
-			/// <param name="packetString"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
-			public static void PlayEffect(IActor actor, string packetString, float scale = 1)
+			public static void PlayEffect(IActor actor, string effectName, float scale = 1)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
@@ -104,7 +106,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(2);
 				packet.PutByte(0);
 				packet.PutFloat(scale);
-				packet.AddStringId(packetString);
+				packet.AddStringId(effectName);
 				packet.PutInt(0);
 
 				actor.Map.Broadcast(packet, actor);
@@ -116,7 +118,7 @@ namespace Melia.Zone.Network
 			/// <remarks>
 			/// The text effect is a small floating text that appears above the
 			/// given actor. The actual string displayed is dictated by the
-			/// Lua function given as the "packetString" argument, which is
+			/// Lua function given as the "funcName" argument, which is
 			/// looked up in the packet string database, to send a reference
 			/// to that name in form of an integer. This means that you can
 			/// only use functions found inside that database by default.
@@ -157,18 +159,18 @@ namespace Melia.Zone.Network
 			/// </example>
 			/// <param name="actor"></param>
 			/// <param name="caster"></param>
-			/// <param name="packetString"></param>
+			/// <param name="funcName"></param>
 			/// <param name="argNum"></param>
 			/// <param name="argStr"></param>
 			/// <param name="idSpace"></param>
 			/// <param name="classId"></param>
-			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
+			public static void PlayTextEffect(IActor actor, IActor caster, string funcName, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
 			{
 				// Replace SHOW_CUSTOM_TEXT with SHOW_BUFF_TEXT, to use that function,
 				// which we hijack
-				if (packetString == "SHOW_CUSTOM_TEXT")
+				if (funcName == "SHOW_CUSTOM_TEXT")
 				{
-					packetString = "SHOW_BUFF_TEXT";
+					funcName = "SHOW_BUFF_TEXT";
 					argStr = "CUSTOM:" + argStr;
 				}
 
@@ -177,7 +179,7 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(actor.Handle);
 				packet.PutInt(caster.Handle);
-				packet.AddStringId(packetString);
+				packet.AddStringId(funcName);
 				packet.PutFloat(argNum);
 
 				if (argStr == null)
@@ -235,7 +237,7 @@ namespace Melia.Zone.Network
 			/// <param name="str"></param>
 			/// <param name="str2"></param>
 			/// <param name="position"></param>
-			/// <param name="animationName"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
 			/// <param name="tossScale"></param>
 			/// <param name="hangScale"></param>
@@ -245,7 +247,7 @@ namespace Melia.Zone.Network
 			/// <param name="f7"></param>
 			/// <param name="itemScale"></param>
 			/// <param name="itemStayTime"></param>
-			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
+			public static void SkillItemToss(IActor character, string str, string str2, Position position, string effectName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillItemToss);
@@ -254,7 +256,7 @@ namespace Melia.Zone.Network
 				packet.PutLpString(str);
 				packet.PutLpString(str2);
 				packet.PutPosition(position);
-				packet.AddStringId(animationName);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutFloat(tossScale);
 				packet.PutFloat(hangScale);
@@ -275,18 +277,18 @@ namespace Melia.Zone.Network
 			/// <param name="caster"></param>
 			/// <param name="source"></param>
 			/// <param name="target"></param>
-			/// <param name="effect1PacketString"></param>
+			/// <param name="effect1"></param>
 			/// <param name="effect1Scale"></param>
-			/// <param name="effect2PacketString"></param>
-			/// <param name="effect3PacketString"></param>
+			/// <param name="effect2"></param>
+			/// <param name="effect3"></param>
 			/// <param name="effect3Scale"></param>
-			/// <param name="effect4PacketString"></param>
-			/// <param name="effect5PacketString"></param>
+			/// <param name="effect4"></param>
+			/// <param name="effect5"></param>
 			/// <param name="speed"></param>
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1, float effect1Scale, string effect2, string effect3, float effect3Scale, string effect4, string effect5, float speed)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayForceEffect);
@@ -297,13 +299,13 @@ namespace Melia.Zone.Network
 				packet.PutInt(source.Handle);
 				packet.PutInt(target.Handle);
 
-				packet.AddStringId(effect1PacketString);
+				packet.AddStringId(effect1);
 				packet.PutFloat(effect1Scale);
-				packet.AddStringId(effect2PacketString);
-				packet.AddStringId(effect3PacketString);
+				packet.AddStringId(effect2);
+				packet.AddStringId(effect3);
 				packet.PutFloat(effect3Scale);
-				packet.AddStringId(effect4PacketString);
-				packet.AddStringId(effect5PacketString);
+				packet.AddStringId(effect4);
+				packet.AddStringId(effect5);
 
 				packet.PutFloat(speed);
 				packet.PutFloat(0);
@@ -373,18 +375,18 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="caster"></param>
 			/// <param name="pad"></param>
-			/// <param name="animationName"></param>
+			/// <param name="padName"></param>
 			/// <param name="f1"></param>
 			/// <param name="f2"></param>
 			/// <param name="f3"></param>
 			/// <param name="isVisible"></param>
-			public static void PadUpdate(ICombatEntity caster, Pad pad, string animationName, float f1, float f2, float f3, bool isVisible)
+			public static void PadUpdate(ICombatEntity caster, Pad pad, string padName, float f1, float f2, float f3, bool isVisible)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
 				packet.PutInt(caster.Handle);
-				packet.AddStringId(animationName);
+				packet.AddStringId(padName);
 				packet.PutInt((int)pad.Skill.Id);
 				packet.PutInt(pad.Skill.Level);
 				packet.PutPosition(pad.Position);
