@@ -902,7 +902,7 @@ namespace Melia.Zone.Commands
 			var currentSpeed = target.Properties.GetFloat(PropertyName.MSPD);
 			var bonusSpeed = speed - currentSpeed;
 
-			target.Properties.Modify("MSPD_Bonus", bonusSpeed);
+			target.Properties.Modify(PropertyName.MSPD_Bonus, bonusSpeed);
 			Send.ZC_MOVE_SPEED(target);
 
 			if (sender == target)
