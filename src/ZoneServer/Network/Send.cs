@@ -675,33 +675,17 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
 
-			if (character.MapId == 1021)
+			packet.PutInt(0); // States Count
+
+			packet.Zlib(true, zpacket =>
 			{
-				var npcIds = new int[] { 4, 28, 2019, 2031, 2032 };
-
-				packet.PutInt(npcIds.Length);
-				// TODO: Isn't this packet missing a short here?
-
-				packet.Zlib(true, zpacket =>
-				{
-					for (var i = 0; i < npcIds.Length; i++)
-					{
-						zpacket.PutInt(character.MapId);
-						zpacket.PutInt(npcIds[i]);
-						zpacket.PutInt(1);
-					}
-				});
-			}
-			else
-			{
-				packet.PutInt(0); // count
-				packet.PutShort(0);
-			}
-
-			// loop
-			//   int mapId;
-			//   int i1;
-			//   int i2;
+				//for (var i = 0; i < states; i++)
+				//{
+				//	zpacket.PutInt(mapId);
+				//	zpacket.PutInt(genType);
+				//	zpacket.PutInt(state);
+				//}
+			});
 
 			character.Connection.Send(packet);
 		}
