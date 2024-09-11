@@ -16,5 +16,3 @@
 ClientHeaderFixed header;
 
 int i1;
-int i2;
-short s1;
