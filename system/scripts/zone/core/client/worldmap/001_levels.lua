@@ -51,3 +51,13 @@ Melia.Hook("WORLDMAP2_MINIMAP_INFO_SETTING", function(original, result, frame)
 	return result
 
 end)
+
+Melia.Hook("MAP_OPEN", function(original, result, frame)
+
+    local imgMap = GET_CHILD_RECURSIVELY(frame, "map")
+    imgMap:GetChild("mapRank"):ShowWindow(0)
+    imgMap:GetChild("monlv"):ShowWindow(0)
+
+	return result
+
+end)
