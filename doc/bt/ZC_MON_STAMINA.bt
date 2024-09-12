@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_MON_STAMINA
-//   Authors: Salman T. Khan
+//      File: ZC_MON_STAMINA.bt
+//   Authors: Salman T. Khan, exec
 //   Version: i336041
 //   Purpose: 
 //  Category: 
@@ -13,7 +13,8 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int handle;
-int i2;
-int i3;
-int i4;
+
+int fromHandle;
+int toHandle;
+int customScriptId; // Sent back via CZ_CUSTOM_SCP
+int stamina;
