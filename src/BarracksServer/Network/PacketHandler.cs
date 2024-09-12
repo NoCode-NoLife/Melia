@@ -28,14 +28,13 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(IBarracksConnection conn, Packet packet)
 		{
-			var accountName = packet.GetString(33);
-			var bin1 = packet.GetBin(23);
+			var accountName = packet.GetString(56);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
 			var b1 = packet.GetByte();
 			var b2 = packet.GetByte();
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var unk1 = packet.GetBin(285);
+			var unk1 = packet.GetBin(405); // [i389072 (2024-09-12)] Increased by 4
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);

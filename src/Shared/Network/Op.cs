@@ -8,8 +8,8 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 566
-		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1238
+		public const int CB_LOGIN = 0x03; // Size: 570
+		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1242
 		public const int CB_LOGOUT = 0x05; // Size: 22
 		public const int CB_START_BARRACK = 0x06; // Size: 87
 		public const int CB_COMMANDER_CREATE = 0x07; // Size: 117
@@ -1255,8 +1255,8 @@ namespace Melia.Shared.Network
 
 		static Op()
 		{
-			Sizes[CB_LOGIN] = 566;
-			Sizes[CB_LOGIN_BY_PASSPORT] = 1238;
+			Sizes[CB_LOGIN] = 570;
+			Sizes[CB_LOGIN_BY_PASSPORT] = 1242;
 			Sizes[CB_LOGOUT] = 22;
 			Sizes[CB_START_BARRACK] = 87;
 			Sizes[CB_COMMANDER_CREATE] = 117;

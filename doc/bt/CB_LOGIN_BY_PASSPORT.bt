@@ -2,13 +2,13 @@
 //--- 010 Editor v12.0.1 Binary Template
 //
 //      File: CB_LOGIN_BY_PASSPORT.bt
-//   Authors: Salman T. Khan
-//   Version: i355874
+//   Authors: Salman T. Khan, exec
+//   Version: i389072
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
-//   History: 
+//   History: - i389072: i1 added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -21,3 +21,4 @@ char data2[16];
 char data3[30];
 byte data[1096];
 char serverType[64];
+int i1;
