@@ -3081,8 +3081,11 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates character's stamina.
+		/// Updates character's stamina, setting it to the given value.
 		/// </summary>
+		/// <remarks>
+		/// Stamina is communicated in thousands, so 1000 is 1 stamina point.
+		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="stamina"></param>
 		public static void ZC_STAMINA(Character character, int stamina)
@@ -3091,6 +3094,24 @@ namespace Melia.Zone.Network
 			packet.PutInt(stamina);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Display a "ball of stamina" flying from the the monster to the character.
+		/// </summary>
+		/// <param name="toActor"></param>
+		/// <param name="fromActor"></param>
+		/// <param name="stamina"></param>
+		public static void ZC_MON_STAMINA(IActor toActor, IActor fromActor, int stamina)
+		{
+			var packet = new Packet(Op.ZC_MON_STAMINA);
+
+			packet.PutInt(fromActor.Handle);
+			packet.PutInt(toActor.Handle);
+			packet.PutInt(0); // Custom script id, sent back via CZ_CUSTOM_SCP if != 0
+			packet.PutInt(stamina);
+
+			toActor.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -3204,8 +3225,8 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_PCBANG_POINT);
 
 			packet.PutInt(-1);
-			packet.PutInt(980); //Increasing Value each time this packet is sent
-			packet.PutInt(1620); //Max?
+			packet.PutInt(980); // Increasing Value each time this packet is sent
+			packet.PutInt(1620); // Max?
 
 			conn.Send(packet);
 		}
@@ -4395,6 +4416,33 @@ namespace Melia.Zone.Network
 			packet.PutInt(detachFrom.Handle);
 
 			actor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Brocasts action PKS (?) in range of the receiving actor.
+		/// </summary>
+		/// <param name="toActor"></param>
+		/// <param name="fromActor"></param>
+		/// <param name="type"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
+		/// <param name="numArg3"></param>
+		/// <param name="numArg4"></param>
+		/// <param name="numArg5"></param>
+		public static void ZC_ACTION_PKS(IActor toActor, IActor fromActor, byte type, int numArg1 = 0, int numArg2 = 0, int numArg3 = 0, int numArg4 = 0, int numArg5 = 0)
+		{
+			var packet = new Packet(Op.ZC_ACTION_PKS);
+
+			packet.PutInt(fromActor.Handle);
+			packet.PutInt(toActor.Handle);
+			packet.PutByte(type);
+			packet.PutInt(numArg1);
+			packet.PutInt(numArg2);
+			packet.PutInt(numArg3);
+			packet.PutInt(numArg4);
+			packet.PutInt(numArg5);
+
+			toActor.Map.Broadcast(packet);
 		}
 	}
 }
