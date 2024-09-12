@@ -3201,7 +3201,7 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		public static void ZC_PCBANG_POINT(IZoneConnection conn)
 		{
-			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			var packet = new Packet(Op.ZC_PCBANG_POINT);
 
 			packet.PutInt(-1);
 			packet.PutInt(980); //Increasing Value each time this packet is sent
