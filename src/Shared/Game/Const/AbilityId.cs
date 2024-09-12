@@ -3757,6 +3757,44 @@ namespace Melia.Shared.Game.Const
 		BowMaster105 = 321258,
 		/// <summary>[Arts] Angelic Arrow: Enhanced Upgrade</summary>
 		BowMaster106 = 321259,
+		/// <summary>Battle Protocols in Action: Reinforcement</summary>
+		Vulture1 = 321260,
+		/// <summary>Decompose: Reinforcement</summary>
+		Vulture2 = 321261,
+		/// <summary>Gravity Field: Reinforcement</summary>
+		Vulture3 = 321262,
+		/// <summary>Diffusion: Reinforcement</summary>
+		Vulture4 = 321263,
+		/// <summary>Purification Protocol: Reinforcement</summary>
+		Vulture5 = 321264,
+		/// <summary>Purification: Reinforcement</summary>
+		Vulture6 = 321265,
+		/// <summary>Devastation: Reinforcement</summary>
+		Vulture7 = 321266,
+		/// <summary>[Arts] Battle Protocol Activation: Advanced Reinforcement</summary>
+		Vulture101 = 321267,
+		/// <summary>[Arts] Decompose: Advanced Reinforcement</summary>
+		Vulture102 = 321268,
+		/// <summary>[Arts] Gravity Field: Advanced Reinforcement</summary>
+		Vulture103 = 321269,
+		/// <summary>[Arts] Diffusion: Advanced Reinforcement</summary>
+		Vulture104 = 321270,
+		/// <summary>[Arts] Purification Protocol: Advanced Reinforcement</summary>
+		Vulture105 = 321271,
+		/// <summary>[Arts] Purification: Advanced Reinforcement</summary>
+		Vulture106 = 321272,
+		/// <summary>[Arts] Desolation: Advanced Reinforcement</summary>
+		Vulture107 = 321273,
+		/// <summary>Decompose: Condensation</summary>
+		Vulture11 = 321274,
+		/// <summary>Gravity Field: EMP</summary>
+		Vulture12 = 321275,
+		/// <summary>Diffusion: Rearrangement</summary>
+		Vulture13 = 321276,
+		/// <summary>[Arts] Purification: Overpayment</summary>
+		Vulture21 = 321277,
+		/// <summary>[Arts] Devastation: Area Scorch</summary>
+		Vulture22 = 321278,
 		/// <summary>Cure: Enhance</summary>
 		Cleric11 = 401001,
 		/// <summary>Cure: Enhance 2</summary>
