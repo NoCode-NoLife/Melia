@@ -96,14 +96,14 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
-			public static void PlayEffect(IActor actor, string effectName, float scale = 1)
+			public static void PlayEffect(IActor actor, string effectName, float scale = 1, EffectLocation location = EffectLocation.Bottom)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
 
 				packet.PutInt(actor.Handle);
 				packet.PutByte(1);
-				packet.PutInt(2);
+				packet.PutInt((int)location);
 				packet.PutByte(0);
 				packet.PutFloat(scale);
 				packet.AddStringId(effectName);
