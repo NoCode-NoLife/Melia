@@ -1078,6 +1078,7 @@ namespace Melia.Zone.Database
 						cmd.Set("duration", buff.Duration);
 						cmd.Set("runTime", buff.RunTime);
 						cmd.Set("skillId", (int)buff.SkillId);
+						cmd.Set("overbuffCount", buff.OverbuffCounter);
 
 						cmd.Execute();
 						lastId = cmd.LastId;
@@ -1115,8 +1116,11 @@ namespace Melia.Zone.Database
 							var duration = reader.GetTimeSpan("duration");
 							var runTime = reader.GetTimeSpan("runTime");
 							var skillId = (SkillId)reader.GetInt32("skillId");
+							var overbuffCount = reader.GetInt32("overbuffCount");
 
 							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character, skillId);
+							buff.OverbuffCounter = overbuffCount;
+
 							buffs.Add(dbId, buff);
 						}
 					}
@@ -1234,6 +1238,7 @@ namespace Melia.Zone.Database
 						cmd.Set("status", (int)quest.Status);
 						cmd.Set("startTime", quest.StartTime);
 						cmd.Set("completeTime", quest.CompleteTime);
+						cmd.Set("tracked", quest.Tracked);
 
 						cmd.Execute();
 
@@ -1283,6 +1288,7 @@ namespace Melia.Zone.Database
 							var status = (QuestStatus)reader.GetInt32("status");
 							var startTime = reader.GetDateTimeSafe("startTime");
 							var completeTime = reader.GetDateTimeSafe("completeTime");
+							var tracked = reader.GetBoolean("tracked");
 
 							// If the quest does not (currently) exist, make
 							// a note of it, so we can skip its deletion on
@@ -1297,6 +1303,7 @@ namespace Melia.Zone.Database
 							quest.Status = status;
 							quest.StartTime = startTime;
 							quest.CompleteTime = completeTime;
+							quest.Tracked = tracked;
 
 							character.Quests.AddSilent(quest);
 							loadedQuests.Add(questDbId, quest);

@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 	{
 		private const float DefMultiplierPerLevel = 0.2f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.DEF_BM, this.GetDefBonus(buff));
 		}

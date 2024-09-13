@@ -28,7 +28,7 @@ public class FOrchard343MobScript : GeneralScript
 		AddSpawner("f_orchard_34_3.Id4", MonsterId.Flying_Flog_White, min: 60, max: 80);
 		AddSpawner("f_orchard_34_3.Id5", MonsterId.Rafflesia_Green, min: 19, max: 25);
 		AddSpawner("f_orchard_34_3.Id6", MonsterId.Flying_Flog_White, min: 8, max: 10);
-		AddSpawner("f_orchard_34_3.Id7", MonsterId.Rootcrystal_01, min: 15, max: 19, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_orchard_34_3.Id7", MonsterId.Rootcrystal_01, min: 15, max: 19, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

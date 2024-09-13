@@ -21,5 +21,9 @@ byte b1;
 byte b2;
 float i2;
 float f1;
-byte b3;
-byte b4;
+
+if (LOG_DATE >= 20230509)
+{
+    byte b3;
+    byte b4;
+}

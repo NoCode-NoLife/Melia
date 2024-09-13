@@ -15,7 +15,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// Starts the buff, healing the target.
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			// According to the skill description of Heal, the healing
 			// amount "depends on the caster's healing values", which

@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: None
+	/// NumArg2: Heal Reduction (percentage in thousands)
 	/// </remarks>
 	[BuffHandler(BuffId.DecreaseHeal_Debuff)]
 	public class DecreaseHeal_Debuff : BuffHandler
@@ -29,23 +29,12 @@ namespace Melia.Zone.Buffs.Handlers.Common
 			if (!entity.TryGetBuff(BuffId.DecreaseHeal_Debuff, out var buff))
 				return false;
 
-			var reduction = GetHealingReduction(buff);
-			var multiplier = Math.Max(0, 1f - reduction);
+			var reduction = buff.NumArg2;
+			var multiplier = Math.Max(0, 1f - (reduction / 100000f));
 
 			hpAmount *= multiplier;
 
 			return true;
-		}
-
-		/// <summary>
-		/// Return the Buff Healing Reduction value
-		/// </summary>
-		/// <param name="buff"></param>
-		/// <returns></returns>
-		private static float GetHealingReduction(Buff buff)
-		{
-			var skillLevel = buff.NumArg1;
-			return 3 * skillLevel / 100f;
 		}
 	}
 }

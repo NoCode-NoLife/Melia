@@ -16,11 +16,11 @@ public class FBracken431MobScript : GeneralScript
 		// Monster Spawners ---------------------------------
 
 		AddSpawner("f_bracken_43_1.Id1", MonsterId.Rakon, min: 23, max: 30);
-		AddSpawner("f_bracken_43_1.Id2", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_bracken_43_1.Id2", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("f_bracken_43_1.Id3", MonsterId.Toothrikon, min: 23, max: 30);
 		AddSpawner("f_bracken_43_1.Id4", MonsterId.Horn_Golem, min: 8, max: 10);
 		AddSpawner("f_bracken_43_1.Id5", MonsterId.Rakon, min: 23, max: 30);
-		AddSpawner("f_bracken_43_1.Id6", MonsterId.Rakon, min: 9, max: 12, respawn: TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_bracken_43_1.Id6", MonsterId.Rakon, min: 9, max: 12, respawn: Seconds(40));
 
 		// Monster Spawn Points -----------------------------
 

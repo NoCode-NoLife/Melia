@@ -53,7 +53,11 @@ function M_QUESTS_DETAILS_INFO_REBUILD(quest)
 
 	M_QUESTS_DETAILS_SET_TITLE(frame, quest)
 	y = y + M_QUESTS_DETAILS_ADD_SUMMARY(gbBody, x, y, quest) + spaceY
-	y = y + M_QUESTS_DETAILS_ADD_OBJECTIVES(gbBody, x, y, quest) + spaceY
+
+	if Melia.Conf.GetBool("display_quest_objectives") then
+		y = y + M_QUESTS_DETAILS_ADD_OBJECTIVES(gbBody, x, y, quest) + spaceY
+	end
+
 	y = y + M_QUESTS_DETAILS_ADD_REWARDS(gbBody, x, y, quest) + spaceY
 	y = y + M_QUESTS_DETAILS_ADD_BUTTONS(gbBody, x, y, quest) + spaceY
 	

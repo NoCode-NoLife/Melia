@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Melia.Zone.Scripting
+namespace Melia.Zone.Scripting.Hooking
 {
 	/// <summary>
 	/// Global script hook registry.
 	/// </summary>
 	public static class ScriptHooks
 	{
-		private readonly static Dictionary<string, List<IScriptHook>> Hooks = new Dictionary<string, List<IScriptHook>>();
+		private readonly static Dictionary<string, List<IScriptHook>> Hooks = new();
 
 		/// <summary>
 		/// Registers a new hook.
@@ -42,7 +42,7 @@ namespace Melia.Zone.Scripting
 			lock (Hooks)
 			{
 				if (!Hooks.TryGetValue(ident, out var hookList))
-					return new THook[0];
+					return [];
 
 				return hookList.OfType<THook>().ToArray();
 			}

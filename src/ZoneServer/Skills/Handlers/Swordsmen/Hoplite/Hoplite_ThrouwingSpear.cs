@@ -105,8 +105,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				else
 				{
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 
 				target.StartBuff(BuffId.Common_Shock, skill.Level, 0, DebuffDuration, caster);

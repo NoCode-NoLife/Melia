@@ -24,8 +24,8 @@ public class FTableland73MobScript : GeneralScript
 		AddSpawner("f_tableland_73.Id1", MonsterId.Wendigo_Archer_Gray, min: 15, max: 20);
 		AddSpawner("f_tableland_73.Id2", MonsterId.Tiny_Bow_Blue, min: 45, max: 60);
 		AddSpawner("f_tableland_73.Id3", MonsterId.Hohen_Gulak_Blue, min: 8, max: 10);
-		AddSpawner("f_tableland_73.Id4", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_tableland_73.Id5", MonsterId.Tiny_Bow_Blue, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(40000));
+		AddSpawner("f_tableland_73.Id4", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: Minutes(1));
+		AddSpawner("f_tableland_73.Id5", MonsterId.Tiny_Bow_Blue, min: 4, max: 5, respawn: Seconds(40));
 
 		// Monster Spawn Points -----------------------------
 

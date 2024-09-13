@@ -21,7 +21,7 @@ public class FWhitetrees231MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_23_1.Id1", MonsterId.Rootcrystal_03, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_whitetrees_23_1.Id1", MonsterId.Rootcrystal_03, min: 11, max: 14, respawn: Seconds(5));
 		AddSpawner("f_whitetrees_23_1.Id2", MonsterId.Kucarry_Somy, min: 12, max: 15);
 		AddSpawner("f_whitetrees_23_1.Id3", MonsterId.Kucarry_Somy, min: 12, max: 15);
 		AddSpawner("f_whitetrees_23_1.Id4", MonsterId.Kucarry_Tot, min: 12, max: 15);

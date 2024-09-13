@@ -15,6 +15,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -1335,8 +1336,7 @@ public class CharacterCalculationsScript : GeneralScript
 	{
 		var properties = character.Properties;
 
-		var movementComponent = character.Components.Get<MovementComponent>();
-		if (movementComponent.IsHeld)
+		if (character.IsLocked(LockType.Movement))
 			return 0;
 
 		var fixMspd = properties.GetFloat(PropertyName.FIXMSPD_BM);
@@ -1397,7 +1397,10 @@ public class CharacterCalculationsScript : GeneralScript
 		if (character.JobClass == JobClass.Archer)
 			return 1;
 
-		if (character.IsBuffActive(BuffId.Cyclone_EnableMovingShot_Buff))
+		var buffs = new[] { BuffId.Cyclone_EnableMovingShot_Buff, BuffId.DoubleGunStance_Buff, BuffId.Warrior_EnableMovingShot_Buff, BuffId.Warrior_RushMove_Buff, BuffId.Limacon_Buff };
+
+		var anyBuffsActive = buffs.Any(character.IsBuffActive);
+		if (anyBuffsActive)
 			return 1;
 
 		return 0;

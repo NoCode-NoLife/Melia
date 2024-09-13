@@ -11,6 +11,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -27,14 +28,13 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(IBarracksConnection conn, Packet packet)
 		{
-			var accountName = packet.GetString(33);
-			var bin1 = packet.GetBin(23);
+			var accountName = packet.GetString(56);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
 			var b1 = packet.GetByte();
 			var b2 = packet.GetByte();
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var unk1 = packet.GetBin(285);
+			var unk1 = packet.GetBin(405); // [i389072 (2024-09-12)] Increased by 4
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
@@ -91,10 +91,10 @@ namespace Melia.Barracks.Network
 			// Check login state
 			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
 			{
-				// The official message, DuplicationLoginByOtherWorld,
-				// aka DoubleLogin, is so badly translated that we'll
-				// send a custom message for now.
-				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account is already logged in."));
+				BarracksServer.Instance.Communicator.Broadcast("AllServers", new ForceLogOutMessage(account.Id));
+				BarracksServer.Instance.Database.UpdateLoginState(account.Id, 0, LoginState.LoggedOut);
+
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account appears to already be logged in. A logout request was created, please try again."));
 				conn.Close(100);
 				return;
 			}
@@ -102,8 +102,10 @@ namespace Melia.Barracks.Network
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+			conn.SessionKey = SHA1.Encode(Guid.NewGuid().ToString());
 
 			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
+			BarracksServer.Instance.Database.UpdateSessionKey(conn.Account.Id, conn.SessionKey);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 

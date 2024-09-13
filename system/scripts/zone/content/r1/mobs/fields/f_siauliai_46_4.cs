@@ -33,8 +33,8 @@ public class FSiauliai464MobScript : GeneralScript
 		AddSpawner("f_siauliai_46_4.Id5", MonsterId.Rabbee, min: 15, max: 20);
 		AddSpawner("f_siauliai_46_4.Id6", MonsterId.Honeybean, min: 15, max: 20);
 		AddSpawner("f_siauliai_46_4.Id7", MonsterId.Rabbee, min: 12, max: 15);
-		AddSpawner("f_siauliai_46_4.Id8", MonsterId.Rootcrystal_01, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(30000));
-		AddSpawner("f_siauliai_46_4.Id9", MonsterId.Pendinmire, amount: 1, respawn: TimeSpan.FromMilliseconds(3600000));
+		AddSpawner("f_siauliai_46_4.Id8", MonsterId.Rootcrystal_01, min: 12, max: 16, respawn: Seconds(30));
+		AddSpawner("f_siauliai_46_4.Id9", MonsterId.Pendinmire, amount: 1, respawn: Hours(1));
 		AddSpawner("f_siauliai_46_4.Id10", MonsterId.Siaulamb, min: 12, max: 15);
 		AddSpawner("f_siauliai_46_4.Id11", MonsterId.Rabbee, min: 15, max: 20);
 		AddSpawner("f_siauliai_46_4.Id12", MonsterId.Honeybean, min: 15, max: 20);

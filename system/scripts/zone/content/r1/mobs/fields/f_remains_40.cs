@@ -28,7 +28,7 @@ public class FRemains40MobScript : GeneralScript
 		AddSpawner("f_remains_40.Id5", MonsterId.Hallowventor, min: 19, max: 25);
 		AddSpawner("f_remains_40.Id6", MonsterId.Cockatries, min: 19, max: 25);
 		AddSpawner("f_remains_40.Id7", MonsterId.Hallowventor, min: 12, max: 16);
-		AddSpawner("f_remains_40.Id8", MonsterId.Rootcrystal_01, min: 18, max: 23, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_remains_40.Id8", MonsterId.Rootcrystal_01, min: 18, max: 23, respawn: Minutes(1));
 		AddSpawner("f_remains_40.Id9", MonsterId.Big_Cockatries, amount: 1);
 
 		// Monster Spawn Points -----------------------------

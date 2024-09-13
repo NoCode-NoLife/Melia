@@ -40,8 +40,8 @@ namespace Melia.Shared.Scripting
 	/// </summary>
 	public class LuaTable
 	{
-		private readonly List<LuaTableEntry> _indexedEntries = new List<LuaTableEntry>();
-		private readonly List<LuaTableEntry> _namedEntries = new List<LuaTableEntry>();
+		private readonly List<LuaTableEntry> _indexedEntries = new();
+		private readonly List<LuaTableEntry> _namedEntries = new();
 
 		private string _serialized;
 		private bool _dirty = true;
@@ -50,6 +50,11 @@ namespace Melia.Shared.Scripting
 		/// Returns the string size of the serialized table.
 		/// </summary>
 		public int SerializedSize => this.Serialize().Length;
+
+		/// <summary>
+		/// Returns the total number of entries in the table.
+		/// </summary>
+		public int Count => _indexedEntries.Count + _namedEntries.Count;
 
 		/// <summary>
 		/// Adds value to the end of the table with a numeric index.
@@ -123,7 +128,7 @@ namespace Melia.Shared.Scripting
 					case int index:
 					{
 						if (index < 0 || index >= _indexedEntries.Count)
-							throw new ArgumentOutOfRangeException();
+							throw new ArgumentOutOfRangeException(nameof(key));
 
 						return _indexedEntries[index].Value;
 					}

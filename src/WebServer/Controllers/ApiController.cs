@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
@@ -31,6 +32,26 @@ namespace Melia.Web.Controllers
 
 			var playerCount = resPlayerCountMessage.PlayerCount;
 			this.SendText("text/json", $"{{ \"playerCount\": {playerCount} }}");
+		}
+
+		/// <summary>
+		/// Request for the server list.
+		/// </summary>
+		/// <returns></returns>
+		[Route(HttpVerbs.Get, "/info/servers")]
+		public async Task GetServers()
+		{
+			var commMessage = new ReqServerListMessage();
+			var resMessage = await WebServer.Instance.Communicator.RequestResponse<ResServerListMessage>("Coordinator", commMessage);
+
+			if (resMessage == null)
+			{
+				this.SendText("text/json", "{ \"error\": \"Communicator timeout.\" }");
+				return;
+			}
+
+			var servers = JsonSerializer.Serialize(resMessage.Servers);
+			this.SendText("text/json", $"{{ \"servers\": {servers} }}");
 		}
 	}
 }

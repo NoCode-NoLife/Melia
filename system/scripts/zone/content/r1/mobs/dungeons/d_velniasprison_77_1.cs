@@ -27,7 +27,7 @@ public class DVelniasprison771MobScript : GeneralScript
 		AddSpawner("d_velniasprison_77_1.Id10", MonsterId.ERD_Geppetto, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_77_1.Id11", MonsterId.ERD_Shardstatue, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_77_1.Id12", MonsterId.ERD_GoblinWarrior_Red, min: 8, max: 10, tendency: TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_77_1.Id13", MonsterId.Rootcrystal_05, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_77_1.Id13", MonsterId.Rootcrystal_05, min: 19, max: 25, respawn: Seconds(25), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

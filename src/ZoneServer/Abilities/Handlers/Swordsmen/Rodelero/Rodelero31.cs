@@ -2,7 +2,7 @@
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 
-namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero.Abilities
+namespace Melia.Zone.Abilities.Handlers.Swordsmen.Rodelero
 {
 	/// <summary>
 	/// Contains code related to the "Rodelero: Shield Attack" ability,
@@ -13,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero.Abilities
 		private const float BonusPerLevel = 0.06f;
 
 		/// <summary>
-		/// Returns a physical attack bonus based on the High Guard ability.
+		/// Returns a physical attack bonus based on the ability.
 		/// Returns 0 if no bonus applies.
 		/// </summary>
 		/// <param name="caster"></param>

@@ -15,7 +15,7 @@ public class DCmine9MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cmine_9.Id1", MonsterId.Rootcrystal_01, amount: 2, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_9.Id1", MonsterId.Rootcrystal_01, amount: 2, respawn: Seconds(5), tendency: TendencyType.Peaceful);
 		AddSpawner("d_cmine_9.Id2", MonsterId.FD_Bubbe_Fighter, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cmine_9.Id3", MonsterId.FD_Bubbe_Mage_Ice, min: 4, max: 5, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cmine_9.Id4", MonsterId.FD_Bubbe_Fighter, min: 8, max: 10, tendency: TendencyType.Aggressive);

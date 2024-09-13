@@ -689,33 +689,17 @@ namespace Melia.Zone.Network
 		{
 			var packet = new Packet(Op.ZC_NPC_STATE_LIST);
 
-			if (character.MapId == 1021)
+			packet.PutInt(0); // States Count
+
+			packet.Zlib(true, zpacket =>
 			{
-				var npcIds = new int[] { 4, 28, 2019, 2031, 2032 };
-
-				packet.PutInt(npcIds.Length);
-				// TODO: Isn't this packet missing a short here?
-
-				packet.Zlib(true, zpacket =>
-				{
-					for (var i = 0; i < npcIds.Length; i++)
-					{
-						zpacket.PutInt(character.MapId);
-						zpacket.PutInt(npcIds[i]);
-						zpacket.PutInt(1);
-					}
-				});
-			}
-			else
-			{
-				packet.PutInt(0); // count
-				packet.PutShort(0);
-			}
-
-			// loop
-			//   int mapId;
-			//   int i1;
-			//   int i2;
+				//for (var i = 0; i < states; i++)
+				//{
+				//	zpacket.PutInt(mapId);
+				//	zpacket.PutInt(genType);
+				//	zpacket.PutInt(state);
+				//}
+			});
 
 			character.Connection.Send(packet);
 		}
@@ -1313,6 +1297,7 @@ namespace Melia.Zone.Network
 				propertyList.Add(new FloatProperty(PropertyName.CoolDown, 0));
 
 			var propertiesSize = propertyList.GetByteCount();
+			var notificationDelay = TimeSpan.Zero;
 
 			var packet = new Packet(Op.ZC_ITEM_ADD);
 
@@ -1323,10 +1308,10 @@ namespace Melia.Zone.Network
 			packet.PutInt(item.Id);
 			packet.PutShort(propertiesSize);
 			packet.PutByte((byte)addType);
-			packet.PutFloat(0f); // Notification delay
+			packet.PutFloat((float)notificationDelay.TotalSeconds);
 			packet.PutByte((byte)invType);
-			packet.PutByte(0);
-			packet.PutByte(0);
+			packet.PutByte(false);
+			packet.PutByte(false);
 			packet.AddProperties(propertyList);
 
 			if (item.ObjectId != 0)
@@ -2051,17 +2036,14 @@ namespace Melia.Zone.Network
 		/// entries with "_emo_" in their names, such as "I_emo_fear".
 		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetString"></param>
+		/// <param name="emotionName"></param>
 		/// <param name="duration">Time to show to the emoticon for.</param>
-		public static void ZC_SHOW_EMOTICON(IActor actor, string packetString, TimeSpan duration)
+		public static void ZC_SHOW_EMOTICON(IActor actor, string emotionName, TimeSpan duration)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_SHOW_EMOTICON);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(emotionName);
 			packet.PutInt((int)duration.TotalMilliseconds);
 
 			actor.Map.Broadcast(packet, actor);
@@ -3051,17 +3033,18 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Plays sound for character.
 		/// </summary>
+		/// <remarks>
+		/// For available sounds, check 'sound.ipf/SE.lst' in the client,
+		/// which lists the sounds found in the sound effect sound bank.
+		/// </remarks>
 		/// <param name="character"></param>
-		/// <param name="packetString"></param>
-		public static void ZC_PLAY_SOUND(Character character, string packetString)
+		/// <param name="soundName"></param>
+		public static void ZC_PLAY_SOUND(Character character, string soundName)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(character.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(soundName);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -3072,17 +3055,18 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Plays sound for clients in range of the actor.
 		/// </summary>
+		/// <remarks>
+		/// For available sounds, check 'sound.ipf/SE.lst' in the client,
+		/// which lists the sounds found in the sound effect sound bank.
+		/// </remarks>
 		/// <param name="actor"></param>
-		/// <param name="packetString"></param>
-		public static void ZC_PLAY_SOUND(IActor actor, string packetString)
+		/// <param name="soundName"></param>
+		public static void ZC_PLAY_SOUND(IActor actor, string soundName)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_PLAY_SOUND);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(soundName);
 			packet.PutByte(0);
 			packet.PutFloat(-1);
 			packet.PutByte(0);
@@ -3097,13 +3081,10 @@ namespace Melia.Zone.Network
 		/// <param name="packetString"></param>
 		public static void ZC_STOP_SOUND(IActor actor, string packetString)
 		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-				throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 			var packet = new Packet(Op.ZC_STOP_SOUND);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringData.Id);
+			packet.AddStringId(packetString);
 
 			actor.Map.Broadcast(packet, actor);
 		}
@@ -3140,8 +3121,11 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates character's stamina.
+		/// Updates character's stamina, setting it to the given value.
 		/// </summary>
+		/// <remarks>
+		/// Stamina is communicated in thousands, so 1000 is 1 stamina point.
+		/// </remarks>
 		/// <param name="character"></param>
 		/// <param name="stamina"></param>
 		public static void ZC_STAMINA(Character character, int stamina)
@@ -3150,6 +3134,24 @@ namespace Melia.Zone.Network
 			packet.PutInt(stamina);
 
 			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Display a "ball of stamina" flying from the the monster to the character.
+		/// </summary>
+		/// <param name="toActor"></param>
+		/// <param name="fromActor"></param>
+		/// <param name="stamina"></param>
+		public static void ZC_MON_STAMINA(IActor toActor, IActor fromActor, int stamina)
+		{
+			var packet = new Packet(Op.ZC_MON_STAMINA);
+
+			packet.PutInt(fromActor.Handle);
+			packet.PutInt(toActor.Handle);
+			packet.PutInt(0); // Custom script id, sent back via CZ_CUSTOM_SCP if != 0
+			packet.PutInt(stamina);
+
+			toActor.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -3231,6 +3233,7 @@ namespace Melia.Zone.Network
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="packetStringId">Id of the string for the animation to play.</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		/// <param name="unknowBoolean">Unknow purpose at this moment.</param>
 		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false, bool unknowBoolean = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
@@ -3273,11 +3276,11 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		public static void ZC_PCBANG_POINT(IZoneConnection conn)
 		{
-			var packet = new Packet(Op.ZC_COMMON_SKILL_LIST);
+			var packet = new Packet(Op.ZC_PCBANG_POINT);
 
 			packet.PutInt(-1);
-			packet.PutInt(980); //Increasing Value each time this packet is sent
-			packet.PutInt(1620); //Max?
+			packet.PutInt(980); // Increasing Value each time this packet is sent
+			packet.PutInt(1620); // Max?
 
 			conn.Send(packet);
 		}
@@ -4440,7 +4443,7 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_GROUND_EFFECT);
 
-			packet.PutInt(entity.Handle);			
+			packet.PutInt(entity.Handle);
 			packet.PutInt(packetStringData.Id);
 			packet.PutPosition(position);
 			packet.PutFloat(f1);
@@ -4453,6 +4456,87 @@ namespace Melia.Zone.Network
 			packet.PutShort(0);
 
 			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Attaches actor to a given node on the other actor's model on clients
+		/// in range of actor.
+		/// </summary>
+		/// <param name="actor">Actor to attach to another actor.</param>
+		/// <param name="attachTo">Other actor to attach to. Use null to unset attachment.</param>
+		/// <param name="nodeName"></param>
+		/// <param name="unkStr1"></param>
+		/// <param name="duration"></param>
+		/// <param name="distance"></param>
+		/// <param name="packetString2"></param>
+		/// <param name="b1"></param>
+		/// <param name="b2"></param>
+		/// <param name="b3"></param>
+		public static void ZC_ATTACH_TO_OBJ(IActor actor, IActor attachTo, string nodeName, string unkStr1, TimeSpan duration, float distance, string packetString2, byte b1, byte b2, byte b3)
+		{
+			var packet = new Packet(Op.ZC_ATTACH_TO_OBJ);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(attachTo?.Handle ?? 0);
+			packet.AddStringId(nodeName);
+			packet.AddStringId(unkStr1);
+			packet.PutFloat((float)duration.TotalSeconds);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(0);
+			packet.PutFloat(distance);
+			packet.AddStringId(packetString2);
+			packet.PutByte(b1);
+			packet.PutByte(b2);
+			packet.PutByte(b3);
+
+			actor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Detaches actor from other actor.
+		/// </summary>
+		/// <remarks>
+		/// It appears as if ZC_ATTACH_TO_OBJ is also used for this purpose,
+		/// by simply sending a null attachment actor.
+		/// </remarks>
+		/// <param name="actor"></param>
+		/// <param name="detachFrom"></param>
+		public static void ZC_DETACH_FROM_OBJ(IActor actor, IActor detachFrom)
+		{
+			var packet = new Packet(Op.ZC_DETACH_FROM_OBJ);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(detachFrom.Handle);
+
+			actor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Brocasts action PKS (?) in range of the receiving actor.
+		/// </summary>
+		/// <param name="toActor"></param>
+		/// <param name="fromActor"></param>
+		/// <param name="type"></param>
+		/// <param name="numArg1"></param>
+		/// <param name="numArg2"></param>
+		/// <param name="numArg3"></param>
+		/// <param name="numArg4"></param>
+		/// <param name="numArg5"></param>
+		public static void ZC_ACTION_PKS(IActor toActor, IActor fromActor, byte type, int numArg1 = 0, int numArg2 = 0, int numArg3 = 0, int numArg4 = 0, int numArg5 = 0)
+		{
+			var packet = new Packet(Op.ZC_ACTION_PKS);
+
+			packet.PutInt(fromActor.Handle);
+			packet.PutInt(toActor.Handle);
+			packet.PutByte(type);
+			packet.PutInt(numArg1);
+			packet.PutInt(numArg2);
+			packet.PutInt(numArg3);
+			packet.PutInt(numArg4);
+			packet.PutInt(numArg5);
+
+			toActor.Map.Broadcast(packet);
 		}
 	}
 }

@@ -104,8 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 					target.StartBuff(BuffId.Slithering_Debuff, level, 0, DebuffDuration, caster);
 
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 				else
 				{

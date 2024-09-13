@@ -27,7 +27,7 @@ public class FKatyn18MobScript : GeneralScript
 		AddSpawner("f_katyn_18.Id3", MonsterId.Siaulav_Bow_Black, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("f_katyn_18.Id4", MonsterId.Siaulav_Mage_Black, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("f_katyn_18.Id5", MonsterId.Siaulav_Bow_Black, min: 19, max: 25, tendency: TendencyType.Aggressive);
-		AddSpawner("f_katyn_18.Id6", MonsterId.Rootcrystal_01, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_katyn_18.Id6", MonsterId.Rootcrystal_01, min: 16, max: 21, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

@@ -18,7 +18,7 @@ public class FCastle98MobScript : GeneralScript
 		AddSpawner("f_castle_98.Id1", MonsterId.Kisylion, min: 60, max: 80);
 		AddSpawner("f_castle_98.Id2", MonsterId.Ghosbebe, min: 38, max: 50);
 		AddSpawner("f_castle_98.Id3", MonsterId.Scare_Crow_White, min: 30, max: 40);
-		AddSpawner("f_castle_98.Id4", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_castle_98.Id4", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

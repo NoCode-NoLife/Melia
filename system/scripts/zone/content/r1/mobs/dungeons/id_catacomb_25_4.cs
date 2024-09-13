@@ -19,7 +19,7 @@ public class IdCatacomb254MobScript : GeneralScript
 		AddSpawner("id_catacomb_25_4.Id2", MonsterId.PagDoper_Blue, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("id_catacomb_25_4.Id3", MonsterId.PagNurse_Green, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("id_catacomb_25_4.Id4", MonsterId.Pagshearer_Yellow, min: 23, max: 30, tendency: TendencyType.Aggressive);
-		AddSpawner("id_catacomb_25_4.Id5", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("id_catacomb_25_4.Id5", MonsterId.Rootcrystal_02, min: 19, max: 25, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

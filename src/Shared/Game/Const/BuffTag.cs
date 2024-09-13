@@ -70,7 +70,6 @@ namespace Melia.Shared.Game.Const
 		public const string Magic = "Magic";
 		public const string MedicineRemove = "MedicineRemove";
 		public const string Melee = "Melee";
-		public const string Metamor = "Metamor";
 		public const string NO = "NO";
 		public const string NoDashRun = "NoDashRun";
 		public const string NoneRecoverableSP = "NoneRecoverableSP";

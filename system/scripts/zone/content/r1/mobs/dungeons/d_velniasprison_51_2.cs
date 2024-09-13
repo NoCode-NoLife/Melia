@@ -27,7 +27,7 @@ public class DVelniasprison512MobScript : GeneralScript
 		AddSpawner("d_velniasprison_51_2.Id2", MonsterId.Nuka, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_2.Id3", MonsterId.Defender_Spider, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_2.Id4", MonsterId.Harugal, min: 15, max: 20, tendency: TendencyType.Aggressive);
-		AddSpawner("d_velniasprison_51_2.Id5", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_velniasprison_51_2.Id5", MonsterId.Rootcrystal_05, min: 14, max: 18, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_velniasprison_51_2.Id6", MonsterId.Nuka, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_velniasprison_51_2.Id7", MonsterId.Elet, min: 23, max: 30, tendency: TendencyType.Aggressive);
 

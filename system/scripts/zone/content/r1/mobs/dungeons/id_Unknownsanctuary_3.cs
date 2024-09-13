@@ -15,26 +15,26 @@ public class IdUnknownsanctuary3MobScript : GeneralScript
 	{
 		// Property Overrides -------------------------------
 
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Helga, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Lecifer, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Solcomm, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Zawra, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Gresmetruth, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Helga, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Lecifer, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Solcomm, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Zawra, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Gresmetruth, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("id_Unknownsanctuary_3.Id1", MonsterId.RE_Boss_Helga, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id2", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id3", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id4", MonsterId.RE_Boss_Zawra, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id5", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id6", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id7", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id8", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id9", MonsterId.RE_Boss_Zawra, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id10", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id11", MonsterId.RE_Boss_Helga, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
-		AddSpawner("id_Unknownsanctuary_3.Id12", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id1", MonsterId.RE_Boss_Helga, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id2", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id3", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id4", MonsterId.RE_Boss_Zawra, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id5", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id6", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id7", MonsterId.RE_Boss_Lecifer, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id8", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id9", MonsterId.RE_Boss_Zawra, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id10", MonsterId.RE_Boss_Gresmetruth, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id11", MonsterId.RE_Boss_Helga, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
+		AddSpawner("id_Unknownsanctuary_3.Id12", MonsterId.RE_Boss_Solcomm, amount: 1, respawn: Seconds(5), tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------
 

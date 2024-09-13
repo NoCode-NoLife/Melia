@@ -26,7 +26,7 @@ public class FTableland74MobScript : GeneralScript
 		AddSpawner("f_tableland_74.Id2", MonsterId.Spion_Mage_White, min: 12, max: 15);
 		AddSpawner("f_tableland_74.Id3", MonsterId.Harugal_Blue, min: 4, max: 5);
 		AddSpawner("f_tableland_74.Id4", MonsterId.Kepari_Purple, min: 42, max: 55);
-		AddSpawner("f_tableland_74.Id5", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_tableland_74.Id5", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Minutes(1));
 
 		// Monster Spawn Points -----------------------------
 

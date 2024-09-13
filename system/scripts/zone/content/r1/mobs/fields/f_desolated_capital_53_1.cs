@@ -23,12 +23,12 @@ public class FDesolatedCapital531MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_desolated_capital_53_1.Id1", MonsterId.Orc_Double_Axe, min: 34, max: 45, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_desolated_capital_53_1.Id2", MonsterId.Orc_Shield, min: 34, max: 45, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_desolated_capital_53_1.Id3", MonsterId.Orc_Wand, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_desolated_capital_53_1.Id4", MonsterId.Orc_Leader, min: 6, max: 8, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_desolated_capital_53_1.Id5", MonsterId.Orc_Double_Axe, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_desolated_capital_53_1.Id6", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_desolated_capital_53_1.Id1", MonsterId.Orc_Double_Axe, min: 34, max: 45, respawn: Minutes(1));
+		AddSpawner("f_desolated_capital_53_1.Id2", MonsterId.Orc_Shield, min: 34, max: 45, respawn: Minutes(1));
+		AddSpawner("f_desolated_capital_53_1.Id3", MonsterId.Orc_Wand, min: 27, max: 35, respawn: Minutes(1));
+		AddSpawner("f_desolated_capital_53_1.Id4", MonsterId.Orc_Leader, min: 6, max: 8, respawn: Minutes(1));
+		AddSpawner("f_desolated_capital_53_1.Id5", MonsterId.Orc_Double_Axe, min: 8, max: 10, respawn: Minutes(1));
+		AddSpawner("f_desolated_capital_53_1.Id6", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

@@ -22,7 +22,7 @@ public class FMaple232MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_maple_23_2.Id1", MonsterId.Rootcrystal_05, min: 10, max: 13, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_maple_23_2.Id1", MonsterId.Rootcrystal_05, min: 10, max: 13, respawn: Seconds(5));
 		AddSpawner("f_maple_23_2.Id2", MonsterId.Leafnut_Yellow, min: 19, max: 25);
 		AddSpawner("f_maple_23_2.Id3", MonsterId.Grummer_Orange, min: 15, max: 20);
 		AddSpawner("f_maple_23_2.Id4", MonsterId.Colimen_Red, min: 12, max: 15);

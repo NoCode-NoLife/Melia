@@ -27,7 +27,7 @@ public class DLimestonecave521MobScript : GeneralScript
 		AddSpawner("d_limestonecave_52_1.Id3", MonsterId.Rockon, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_limestonecave_52_1.Id4", MonsterId.Tala_Sorcerer, min: 19, max: 25, tendency: TendencyType.Aggressive);
 		AddSpawner("d_limestonecave_52_1.Id5", MonsterId.Flak_Green, min: 27, max: 35, tendency: TendencyType.Aggressive);
-		AddSpawner("d_limestonecave_52_1.Id6", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_limestonecave_52_1.Id6", MonsterId.Rootcrystal_04, min: 19, max: 25, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 		AddSpawner("d_limestonecave_52_1.Id7", MonsterId.Rockoff, min: 30, max: 40, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------

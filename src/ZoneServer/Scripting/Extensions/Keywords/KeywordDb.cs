@@ -8,7 +8,7 @@ namespace Melia.Zone.Scripting.Extensions.Keywords
 	/// </summary>
 	public static class KeywordDb
 	{
-		private readonly static Dictionary<string, Keyword> Keywords = new Dictionary<string, Keyword>();
+		private readonly static Dictionary<string, Keyword> Keywords = new();
 
 		/// <summary>
 		/// Adds a new keyword to the database.

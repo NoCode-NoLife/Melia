@@ -160,7 +160,7 @@ namespace Melia.Zone.World.Storage
 			// My hope was that we would be able to adjust the size of the
 			// storage dynamically, so we could have arbitrary storages of
 			// various sizes that we can access through the personal storage
-			// system. You might have a guid storage, or chests, etc. However,
+			// system. You might have a guild storage, or chests, etc. However,
 			// it seems like the client is not a big fan of trying to resize
 			// the storage up and down on the fly. It's inherently designed
 			// for extension only, and in my attempts to force it to shrink

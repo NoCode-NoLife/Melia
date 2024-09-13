@@ -15,7 +15,7 @@ public class FWhitetrees222MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_whitetrees_22_2.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_whitetrees_22_2.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("f_whitetrees_22_2.Id2", MonsterId.Yakyak, min: 18, max: 24, tendency: TendencyType.Peaceful);
 		AddSpawner("f_whitetrees_22_2.Id3", MonsterId.Yak_Magician, min: 18, max: 24, tendency: TendencyType.Peaceful);
 		AddSpawner("f_whitetrees_22_2.Id4", MonsterId.Yak_Warrior, min: 27, max: 35, tendency: TendencyType.Aggressive);

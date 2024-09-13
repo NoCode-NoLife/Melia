@@ -8,8 +8,8 @@ namespace Melia.Shared.Network
 	/// </summary>
 	public static class Op
 	{
-		public const int CB_LOGIN = 0x03; // Size: 566
-		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1238
+		public const int CB_LOGIN = 0x03; // Size: 570
+		public const int CB_LOGIN_BY_PASSPORT = 0x04; // Size: 1242
 		public const int CB_LOGOUT = 0x05; // Size: 22
 		public const int CB_START_BARRACK = 0x06; // Size: 87
 		public const int CB_COMMANDER_CREATE = 0x07; // Size: 117
@@ -1246,14 +1246,17 @@ namespace Melia.Shared.Network
 		public const int SC_LOGIN_OK = 0x3E3B; // Size: 10
 		public const int CS_DICE = 0x3E3C; // Size: 15
 		public const int SC_SYSTEM_MSG = 0x3E3D; // Size: 0
+		public const int ZC_InteractionInfo = 0x5209; // Size: 0
+		public const int CZ_InteractionCancel = 0x520A; // Size: 64
+		public const int ZC_InteractionRideUseSkill = 0x520B; // Size: 0
 
 		private static readonly Dictionary<int, int> Sizes = new Dictionary<int, int>();
 		private static readonly Dictionary<int, string> Names = new Dictionary<int, string>();
 
 		static Op()
 		{
-			Sizes[CB_LOGIN] = 566;
-			Sizes[CB_LOGIN_BY_PASSPORT] = 1238;
+			Sizes[CB_LOGIN] = 570;
+			Sizes[CB_LOGIN_BY_PASSPORT] = 1242;
 			Sizes[CB_LOGOUT] = 22;
 			Sizes[CB_START_BARRACK] = 87;
 			Sizes[CB_COMMANDER_CREATE] = 117;
@@ -2490,6 +2493,9 @@ namespace Melia.Shared.Network
 			Sizes[SC_LOGIN_OK] = 10;
 			Sizes[CS_DICE] = 15;
 			Sizes[SC_SYSTEM_MSG] = 0;
+			Sizes[ZC_InteractionInfo] = 0;
+			Sizes[CZ_InteractionCancel] = 64;
+			Sizes[ZC_InteractionRideUseSkill] = 0;
 
 			foreach (var field in typeof(Op).GetFields(BindingFlags.Public | BindingFlags.Static))
 				Names[(int)field.GetValue(null)] = field.Name;

@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Scout
 	{
 		private const float DodgeRateBonusPerLevel = 0.04f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var bonus = this.GetEvasionBonus(buff);
 
