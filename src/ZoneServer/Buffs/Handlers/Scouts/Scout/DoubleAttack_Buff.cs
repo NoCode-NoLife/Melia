@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Scout
 		private const float CritRateBonus = 0.20f;
 		private const float AttackRateBonus = 0.05f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, CritRateBonus);
 			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_RATE_BM, AttackRateBonus);

@@ -1317,4 +1317,11 @@
 { shopName: "RadaCertificateCoin_Shop", productId: 24203, itemId: 11200300, amount: 1, priceMultiplier: 1 },
 { shopName: "RadaCertificateCoin_Shop", productId: 24204, itemId: 11200301, amount: 1, priceMultiplier: 1 },
 { shopName: "RadaCertificateCoin_Shop", productId: 24205, itemId: 11200302, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "JurateCertificateCoin_Shop", productId: 24300, itemId: 11201232, amount: 1, priceMultiplier: 1 },
+{ shopName: "JurateCertificateCoin_Shop", productId: 24301, itemId: 11201233, amount: 1, priceMultiplier: 1 },
+{ shopName: "JurateCertificateCoin_Shop", productId: 24302, itemId: 11201234, amount: 1, priceMultiplier: 1 },
+{ shopName: "JurateCertificateCoin_Shop", productId: 24303, itemId: 11201235, amount: 1, priceMultiplier: 1 },
+{ shopName: "JurateCertificateCoin_Shop", productId: 24304, itemId: 11201236, amount: 1, priceMultiplier: 1 },
+{ shopName: "JurateCertificateCoin_Shop", productId: 24305, itemId: 11201237, amount: 1, priceMultiplier: 1 },
 ]

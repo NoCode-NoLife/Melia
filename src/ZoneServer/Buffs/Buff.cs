@@ -139,7 +139,7 @@ namespace Melia.Zone.Buffs
 		/// <summary>
 		/// Gets or sets the next time the buff is updated.
 		/// </summary>
-		private DateTime NextUpdateTime { get; set; }
+		public DateTime NextUpdateTime { get; set; }
 
 		/// <summary>
 		/// Returns the buff's handler, that handles its behavior.
@@ -221,18 +221,40 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
-		/// Extends the buff's duration and executes the buff handler's start
-		/// behavior. Does not add the buff to the actor.
+		/// Extends the buff's duration and executes the buff handler's
+		/// activation behavior.
 		/// </summary>
-		internal void Start()
+		/// <param name="activationType"></param>
+		internal void Activate(ActivationType activationType)
 		{
 			this.ExtendDuration();
+
+#pragma warning disable CS0618
+			// Temporarily call OnStart for backwards compatibility until users
+			// had time to update their buff handlers.
 			this.Handler?.OnStart(this);
+			this.Handler?.OnActivate(this, activationType);
+			this.Handler?.OnExtend(this);
+#pragma warning restore CS0618
 		}
 
 		/// <summary>
-		/// Extends the buff's removal time by its duration if applicable.
+		/// Extends the buff's duration and executes the buff handler's
+		/// extension behavior.
 		/// </summary>
+		internal void Extend()
+		{
+			this.ExtendDuration();
+			this.Handler?.OnExtend(this);
+		}
+
+		/// <summary>
+		/// Extends the buff's removal and update times if applicable.
+		/// </summary>
+		/// <remarks>
+		/// Effectively extends the buff's duration and resets the update time,
+		/// so it ticks again after the update time has passed.
+		/// </remarks>
 		internal void ExtendDuration()
 		{
 			if (this.HasDuration)
@@ -240,6 +262,9 @@ namespace Melia.Zone.Buffs
 				this.RunTime = TimeSpan.Zero;
 				this.RemovalTime = DateTime.Now.Add(this.Duration);
 			}
+
+			if (this.HasUpdateTime)
+				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
 		}
 
 		/// <summary>
@@ -258,6 +283,9 @@ namespace Melia.Zone.Buffs
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			if (!this.HasUpdateTime)
+				return;
+
 			if (DateTime.Now >= this.NextUpdateTime)
 			{
 				this.Handler?.WhileActive(this);

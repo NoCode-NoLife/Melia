@@ -2,7 +2,7 @@
 
 namespace Melia.Shared.World
 {
-	public struct Location
+	public readonly struct Location
 	{
 		/// <summary>
 		/// Map id.
@@ -27,7 +27,7 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns this location's position.
 		/// </summary>
-		public Position Position => new Position(this.X, this.Y, this.Z);
+		public readonly Position Position => new(this.X, this.Y, this.Z);
 
 		/// <summary>
 		/// Creates new location from given data.
@@ -95,7 +95,7 @@ namespace Melia.Shared.World
 		/// Returns hash code for this location, calculated out of the coorindates.
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
+		public override readonly int GetHashCode()
 		{
 			return this.MapId.GetHashCode() ^ this.X.GetHashCode() ^ this.Y.GetHashCode() ^ this.Z.GetHashCode();
 		}
@@ -105,7 +105,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public override bool Equals(object obj)
+		public override readonly bool Equals(object obj)
 		{
 			return obj is Location location && this == location;
 		}
@@ -114,7 +114,7 @@ namespace Melia.Shared.World
 		/// Returns string representation of location.
 		/// </summary>
 		/// <returns></returns>
-		public override string ToString()
+		public override readonly string ToString()
 		{
 			return string.Format(CultureInfo.InvariantCulture, "{0}, {1}, {2}, {3}", MapId, X, Y, Z);
 		}

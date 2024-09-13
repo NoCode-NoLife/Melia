@@ -16,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// Starts buff, reducing Int and Spr
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 

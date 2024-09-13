@@ -223,6 +223,17 @@ namespace Melia.Barracks
 					this.Communicator.Send(sender, responseMessage);
 					break;
 				}
+
+				case ReqServerListMessage reqMessage:
+				{
+					var servers = this.ServerList.GetAll();
+
+					var message = new ResServerListMessage(servers);
+					var responseMessage = new ResponseMessage(requestMessage.Id, message);
+
+					this.Communicator.Send(sender, responseMessage);
+					break;
+				}
 			}
 		}
 

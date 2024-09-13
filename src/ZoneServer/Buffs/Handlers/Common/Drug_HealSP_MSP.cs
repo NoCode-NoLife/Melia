@@ -10,14 +10,9 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Drug_HealSP_MSP)]
 	public class Drug_HealSP_MSP : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
-			var character = buff.Target;
-
-			var maxSp = character.Properties.GetFloat(PropertyName.MSP);
-			var spHealAmount = maxSp * 0.20f;
-
-			character.Heal(0, spHealAmount);
+			this.WhileActive(buff);
 		}
 
 		public override void WhileActive(Buff buff)

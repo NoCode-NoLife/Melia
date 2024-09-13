@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Common
 {
@@ -10,16 +11,9 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Hold)]
 	public class Hold : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnExtend(Buff buff)
 		{
-			if (buff.Target.Components.TryGet<MovementComponent>(out var movementComponent))
-				movementComponent.ApplyHold();
-		}
-
-		public override void OnEnd(Buff buff)
-		{
-			if (buff.Target.Components.TryGet<MovementComponent>(out var movementComponent))
-				movementComponent.ReleaseHold();
+			buff.Target.AddState(StateType.Held, buff.Duration);
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 		private const float MaxHpDropPerLevel = 28f;
 		private static readonly TimeSpan StunDuration = TimeSpan.FromSeconds(3);
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var penalty = this.GetMaxHpPenalty(buff);
 

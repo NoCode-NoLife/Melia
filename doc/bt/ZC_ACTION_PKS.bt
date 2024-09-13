@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v11.0.1 Binary Template
 //
-//      File: ZC_ACTION_PKS
-//   Authors: Salman T. Khan
+//      File: ZC_ACTION_PKS.bt
+//   Authors: Salman T. Khan, exec
 //   Version: i336041
 //   Purpose: 
 //  Category: 
@@ -13,9 +13,12 @@
 #include "inc/common.bt"
 
 ServerHeaderFixed header;
-int handle;
-int i1;
-byte b1;
-int i2;
-int64 l1;
-int64 l2;
+
+int fromHandle;
+int toHandle;
+byte type;
+int numArg1; // 2 = stamina heal?
+int numArg2; // stamina amount?
+int numArg3;
+int numArg4;
+int numArg5;

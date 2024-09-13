@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		private const float AtkReductionRatePerLevel = 2;
 		private const float EvasionReductionRatePerLevel = 1;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			// We have to reduce PATK_BM and MATK_BM by a percentage of
 			// their min/max values, but I'm not sure how the reference

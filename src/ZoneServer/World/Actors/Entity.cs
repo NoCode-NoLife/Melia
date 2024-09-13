@@ -10,9 +10,11 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
 using Yggdrasil.Util;
+using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.World.Actors
 {
@@ -277,6 +279,13 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<CombatComponent>().CastingState;
 
 		/// <summary>
+		/// Stops entity's current movement.
+		/// </summary>
+		/// <param name="entity"></param>
+		public static void StopMove(this ICombatEntity entity)
+			=> entity.Components.Get<MovementComponent>()?.Stop();
+
+		/// <summary>
 		/// Starts the buff with the given id. If the buff is already active,
 		/// it gets overbuffed. Returns the created or modified buff.
 		/// </summary>
@@ -515,11 +524,35 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Applies a skill hit to the target, making it take damage as if hit
+		/// by the skill.
+		/// </summary>
+		/// <remarks>
+		/// Simulates a basic skill hit, without any additional effects.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <param name="attacker"></param>
+		/// <param name="skill"></param>
+		public static void TakeSkillHit(this ICombatEntity entity, ICombatEntity attacker, Skill skill)
+		{
+			var caster = attacker;
+			var target = entity;
+
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
+
+			target.TakeDamage(skillHitResult.Damage, caster);
+			var hit = new HitInfo(caster, target, skill.Id, skillHitResult.Damage, HitResultType.Hit);
+
+			Send.ZC_HIT_INFO(caster, target, hit);
+		}
+
+		/// <summary>
 		/// Removes a random buff from the entity with the given chance in percent.
 		/// </summary>
 		/// <remarks>
 		/// If chance is 100 or above, a random buff will always be removed,
-		/// assuming there is one to remove.
+		/// assuming there is one to remove. Only buffs that are removable
+		/// by skills are considered removable.
 		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="chance"></param>
@@ -536,7 +569,8 @@ namespace Melia.Zone.World.Actors
 		/// </summary>
 		/// <remarks>
 		/// If chance is 100 or above, a random debuff will always be removed,
-		/// assuming there is one to remove.
+		/// assuming there is one to remove. Only debuffs that are removable
+		/// by skills are considered removable.
 		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="chance"></param>
@@ -566,5 +600,75 @@ namespace Melia.Zone.World.Actors
 
 			return Math.Abs(casterAngle - targetAngle) < maxAngle || Math.Abs(casterAngle + 360f - targetAngle) < maxAngle || Math.Abs(casterAngle - targetAngle + 360f) < maxAngle;
 		}
+
+		/// <summary>
+		/// Returns true if a lock of the given type is active, indicating
+		/// that they should not be able to take the action.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="lockType"></param>
+		/// <returns></returns>
+		public static bool IsLocked(this ICombatEntity entity, string lockType)
+			=> entity.Components.Get<StateLockComponent>()?.IsLocked(lockType) ?? false;
+
+		/// <summary>
+		/// Adds a lock for the given type.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="lockType"></param>
+		public static void Lock(this ICombatEntity entity, string lockType)
+			=> entity.Components.Get<StateLockComponent>()?.Lock(lockType);
+
+		/// <summary>
+		/// Adds a lock for the given type.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="lockType"></param>
+		/// <param name="duration"></param>
+		public static void Lock(this ICombatEntity entity, string lockType, TimeSpan duration)
+			=> entity.Components.Get<StateLockComponent>()?.Lock(lockType, duration);
+
+		/// <summary>
+		/// Remove a lock for the given type.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="lockType"></param>
+		public static void Unlock(this ICombatEntity entity, string lockType)
+			=> entity.Components.Get<StateLockComponent>()?.Unlock(lockType);
+
+		/// <summary>
+		/// Locks the actions assoctiated with the given state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		public static void AddState(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.AddState(stateType);
+
+		/// <summary>
+		/// Locks the actions assoctiated with the given state for the given
+		/// duration.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		/// <param name="duration"></param>
+		public static void AddState(this ICombatEntity entity, string stateType, TimeSpan duration)
+			=> entity.Components.Get<StateLockComponent>()?.AddState(stateType, duration);
+
+		/// <summary>
+		/// Removes one set of the locks associated with the given state.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		public static void RemoveState(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.RemoveState(stateType);
+
+		/// <summary>
+		/// Returns true if the given state is active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="stateType"></param>
+		/// <returns></returns>
+		public static bool IsStateActive(this ICombatEntity entity, string stateType)
+			=> entity.Components.Get<StateLockComponent>()?.IsStateActive(stateType) ?? false;
 	}
 }

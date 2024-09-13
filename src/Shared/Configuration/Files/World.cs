@@ -38,12 +38,23 @@ namespace Melia.Shared.Configuration.Files
 		public int MonthsPerYear { get; protected set; }
 		public bool EnableDayNightCycle { get; protected set; }
 
+		// items.conf
+		public float ItemCooldownRate { get; protected set; }
+
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
+
+		// quests.conf
+		public bool DisplayQuestObjectives { get; protected set; }
 
 		// skills.conf
 		public bool DisableSDR { get; protected set; }
 		public int AbilityPointCost { get; protected set; }
+		public float NormalAttackSkillFactorRate { get; protected set; }
+		public float PlayerSkillFactorRate { get; protected set; }
+		public float MonsterSkillFactorRate { get; protected set; }
+		public float MonsterSkillSpeedRate { get; protected set; }
+		public float MonsterSkillDelayRate { get; protected set; }
 
 		// storage.conf
 		public int StorageFee { get; protected set; }
@@ -117,10 +128,19 @@ namespace Melia.Shared.Configuration.Files
 			this.MonthsPerYear = this.GetInt("gt_months_per_year", 7);
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
+			this.ItemCooldownRate = this.GetFloat("item_cooldown_rate", 1);
+
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
+
+			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 
 			this.DisableSDR = this.GetBool("disable_sdr", false);
 			this.AbilityPointCost = this.GetInt("ability_point_cost", 1000);
+			this.NormalAttackSkillFactorRate = this.GetFloat("normal_attack_skill_factor_rate", 1);
+			this.PlayerSkillFactorRate = this.GetFloat("player_skill_factor_rate", 1);
+			this.MonsterSkillFactorRate = this.GetFloat("monster_skill_factor_rate", 1);
+			this.MonsterSkillSpeedRate = this.GetFloat("monster_skill_speed_rate", 1);
+			this.MonsterSkillDelayRate = this.GetFloat("monster_skill_delay_rate", 1);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
 			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);

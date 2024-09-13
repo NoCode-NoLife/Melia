@@ -38,6 +38,7 @@ namespace Melia.Shared.Game.Const
 		public const string TwinShield = "TwinShield";
 		public const string TwinWeapon = "TwinWeapon";
 		public const string UseAdditionalDecreaseHealEnemy = "UseAdditionalDecreaseHealEnemy";
+		public const string UseannonSkill = "UseannonSkill";
 		public const string UseBowSkill = "UseBowSkill";
 		public const string UseCannonSkill = "UseCannonSkill";
 		public const string UseCrossBowSkill = "UseCrossBowSkill";

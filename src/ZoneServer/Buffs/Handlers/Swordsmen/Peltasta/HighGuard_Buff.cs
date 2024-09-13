@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 		private const float BlkRateBonus = 0.15f;
 		private const float CrtDrRateBonus = 0.3f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 

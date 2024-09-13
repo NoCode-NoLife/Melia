@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Network;
+using Melia.Shared.Scripting;
 using Melia.Zone.Events;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -32,7 +33,7 @@ namespace Melia.Zone.World
 		private readonly Dictionary<string, Map> _mapsName = new();
 		private readonly Dictionary<int, MonsterSpawner> _spawners = new();
 		private readonly Dictionary<string, SpawnAreaCollection> _spawnAreaCollections = new();
-		private readonly object _mapsLock = new object();
+		private readonly object _mapsLock = new();
 
 		/// <summary>
 		/// Returns the amount of maps in the world.
@@ -49,6 +50,11 @@ namespace Melia.Zone.World
 		/// Returns the world's day/night cycle manager.
 		/// </summary>
 		public DayNightCycle DayNightCycle { get; private set; }
+
+		/// <summary>
+		/// Returns the world's global variables manager.
+		/// </summary>
+		public GlobalVariables GlobalVariables { get; } = new();
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -96,6 +102,7 @@ namespace Melia.Zone.World
 		{
 			this.CreateMaps();
 			this.InitUpdatables();
+			this.GlobalVariables.Init();
 		}
 
 		/// <summary>

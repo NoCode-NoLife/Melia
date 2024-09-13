@@ -217,12 +217,11 @@ switch (type)
         lpString str2; // None
         break;
 
-    // Class lv up effect
-    // Play effect?
+    // Play effect
     case 0x16:
         int handle;
         byte b1;
-        int i1;
+        int location; // 0 = top, 1 = middle, 2 = bottom
         byte b2;
         float effectSize;
         int packetStringId;

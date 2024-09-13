@@ -27,8 +27,12 @@ namespace Melia.Zone.Skills.Combat
 		public float BonusDamage { get; set; }
 
 		/// <summary>
-		/// Gets or sets flat crit rate bonus
+		/// Gets or sets flat crit rate bonus.
 		/// </summary>
+		/// <remarks>
+		/// The value is in percent. For example, setting it to 20 increases the
+		/// crit chance by 20%.
+		/// </remarks>
 		public float BonusCritChance { get; set; }
 
 		/// <summary>
@@ -56,7 +60,7 @@ namespace Melia.Zone.Skills.Combat
 		/// </summary>
 		/// <remarks>
 		/// If set, this value acts as the minimum possible chance for a crit
-		/// to occur.
+		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
 		/// </remarks>
 		public float MinCritChance { get; set; } = 0;
 
@@ -89,7 +93,7 @@ namespace Melia.Zone.Skills.Combat
 		/// Gets or sets forced hit status.
 		/// </summary>
 		/// <remarks>
-		/// If this is true, the attack always hits.
+		/// If this is true, the attack can't be evaded.
 		/// </remarks>
 		public bool ForcedHit { get; set; }
 

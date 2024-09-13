@@ -71,8 +71,8 @@ namespace Melia.Zone.Skills.Handlers.Common
 			// handle very high attack speeds. Granted, they need to be
 			// higher than the devs might have ever intended for this to
 			// happen, but I still kinda want them to work.
-			damageDelay = TimeSpan.FromMilliseconds(damageDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
-			skillHitDelay = TimeSpan.FromMilliseconds(skillHitDelay.TotalMilliseconds / skill.Properties.GetFloat(PropertyName.SklSpdRate));
+			damageDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
+			skillHitDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
 
 			if (skillHitDelay > TimeSpan.Zero)
 				await Task.Delay(skillHitDelay);

@@ -42,6 +42,7 @@
 #include "inc/PostBox.bt"
 #include "inc/SessionProperties.bt"
 #include "inc/SessionObject.bt"
+#include "inc/StringId.bt"
 #include "inc/Attack.bt"
 #include "inc/Buff.bt"
 #include "inc/Party.bt"

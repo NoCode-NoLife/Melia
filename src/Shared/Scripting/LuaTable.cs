@@ -52,6 +52,11 @@ namespace Melia.Shared.Scripting
 		public int SerializedSize => this.Serialize().Length;
 
 		/// <summary>
+		/// Returns the total number of entries in the table.
+		/// </summary>
+		public int Count => _indexedEntries.Count + _namedEntries.Count;
+
+		/// <summary>
 		/// Adds value to the end of the table with a numeric index.
 		/// </summary>
 		/// <param name="value"></param>

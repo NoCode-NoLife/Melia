@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 		private const float BlockReductionPerLevel = 0.04f;
 		private const float DodgeReductionPerLevel = 0.04f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			// The skill's description states that the block and dodge only applies
 			// to attacks from the caster, but our current implementation applies
