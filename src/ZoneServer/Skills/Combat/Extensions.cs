@@ -61,6 +61,17 @@ namespace Melia.Zone.Skills.Combat
 			var rnd = RandomProvider.Get();
 			targets = targets.OrderBy(a => rnd.Next());
 
+			return targets.Limit(maxAmount);
+		}
+
+		/// <summary>
+		/// Iterates over targets and returns them up to the the max amount.
+		/// </summary>
+		/// <param name="targets"></param>
+		/// <param name="maxAmount"></param>
+		/// <returns></returns>
+		public static IEnumerable<ICombatEntity> Limit(this IEnumerable<ICombatEntity> targets, int maxAmount)
+		{
 			var i = 0;
 			foreach (var target in targets)
 			{

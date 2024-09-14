@@ -110,6 +110,7 @@ namespace Melia.Zone.Commands
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
+			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
 			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
 
 			// Aliases
@@ -1189,7 +1190,7 @@ namespace Melia.Zone.Commands
 			var currentSpeed = target.Properties.GetFloat(PropertyName.MSPD);
 			var bonusSpeed = speed - currentSpeed;
 
-			target.Properties.Modify("MSPD_Bonus", bonusSpeed);
+			target.Properties.Modify(PropertyName.MSPD_Bonus, bonusSpeed);
 			Send.ZC_MOVE_SPEED(target);
 
 			if (sender == target)
@@ -2195,6 +2196,28 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
 			else
 				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Resets the cooldowns of all skills.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleResetSkillCooldown(Character sender, Character target, string message, string command, Arguments args)
+		{
+			foreach (var skill in target.Skills.GetList())
+			{
+				if (skill.IsOnCooldown)
+					skill.StartCooldown(TimeSpan.Zero);
+			}
+
+			sender.ServerMessage(Localization.Get("Skill cooldowns reset."));
 
 			return CommandResult.Okay;
 		}

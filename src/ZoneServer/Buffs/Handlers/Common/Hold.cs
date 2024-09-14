@@ -11,14 +11,9 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Hold)]
 	public class Hold : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnExtend(Buff buff)
 		{
-			buff.Target.Lock(LockType.Movement);
-		}
-
-		public override void OnEnd(Buff buff)
-		{
-			buff.Target.Unlock(LockType.Movement);
+			buff.Target.AddState(StateType.Held, buff.Duration);
 		}
 	}
 }

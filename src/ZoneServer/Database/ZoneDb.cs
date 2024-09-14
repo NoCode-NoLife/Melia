@@ -1078,6 +1078,7 @@ namespace Melia.Zone.Database
 						cmd.Set("duration", buff.Duration);
 						cmd.Set("runTime", buff.RunTime);
 						cmd.Set("skillId", (int)buff.SkillId);
+						cmd.Set("overbuffCount", buff.OverbuffCounter);
 
 						cmd.Execute();
 						lastId = cmd.LastId;
@@ -1115,8 +1116,11 @@ namespace Melia.Zone.Database
 							var duration = reader.GetTimeSpan("duration");
 							var runTime = reader.GetTimeSpan("runTime");
 							var skillId = (SkillId)reader.GetInt32("skillId");
+							var overbuffCount = reader.GetInt32("overbuffCount");
 
 							var buff = new Buff(classId, numArg1, numArg2, duration, runTime, character, character, skillId);
+							buff.OverbuffCounter = overbuffCount;
+
 							buffs.Add(dbId, buff);
 						}
 					}

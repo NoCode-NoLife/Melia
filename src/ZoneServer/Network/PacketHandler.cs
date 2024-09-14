@@ -18,6 +18,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
@@ -280,6 +281,12 @@ namespace Melia.Zone.Network
 			// was handled as one
 			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				return;
+
+			if (character.IsLocked(LockType.Speak))
+			{
+				character.ServerMessage(Localization.Get("You are not allowed to speak right now."));
+				return;
+			}
 
 			Send.ZC_CHAT(character, msg);
 			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
@@ -756,6 +763,7 @@ namespace Melia.Zone.Network
 			var handle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
+			var cooldowns = character.Components.Get<CooldownComponent>();
 
 			// Get item
 			var item = character.Inventory.GetItem(worldId);
@@ -769,6 +777,13 @@ namespace Melia.Zone.Network
 			if (item.IsLocked)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
+				return;
+			}
+
+			// Cooldown sanity check, the client shouldn't allow this
+			if (cooldowns.IsOnCooldown(item.Data.CooldownId))
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
 			}
 
@@ -803,6 +818,16 @@ namespace Melia.Zone.Network
 				{
 					if (result != ItemUseResult.OkayNotConsumed)
 						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
+				}
+
+				// Set cooldown if applicable
+				if (item.Data.HasCooldown)
+				{
+					var cooldownTime = item.Data.CooldownTime;
+					cooldownTime *= ZoneServer.Instance.Conf.World.ItemCooldownRate;
+
+					if (cooldownTime > TimeSpan.Zero)
+						cooldowns.Start(item.Data.CooldownId, cooldownTime);
 				}
 
 				Send.ZC_ITEM_USE(character, item.Id);
@@ -2970,6 +2995,33 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
+		}
+
+		/// <summary>
+		/// Request to cancel/remove a buff.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_BUFF_REMOVE)]
+		public void CZ_BUFF_REMOVE(IZoneConnection conn, Packet packet)
+		{
+			var buffId = (BuffId)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.TryGetBuff(buffId, out var buff))
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff they don't have ({1}).", conn.Account.Name, buffId);
+				return;
+			}
+
+			if (!buff.Data.Removable)
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff that can't be removed ({1}).", conn.Account.Name, buffId);
+				return;
+			}
+
+			character.StopBuff(buffId);
 		}
 	}
 }

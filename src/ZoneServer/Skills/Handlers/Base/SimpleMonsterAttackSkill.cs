@@ -41,6 +41,13 @@ namespace Melia.Zone.Skills.Handlers.Base
 			var hitDelay = this.GetHitDelay(skill);
 			var skillHitDelay = skill.Properties.HitDelay;
 
+			// Adjust delays based on skill speed rate. The way the speed rate
+			// actually works is currently somewhat guessed and is mostly based
+			// on research done on dagger attacks by players. For more info,
+			// see MeleeGroundSkillHandler.
+			damageDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
+			hitDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, designatedTarget.Position, null);
 
 			// Some skills are running on a timer, such as Onion_Attack1.
@@ -68,6 +75,8 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
+
+				this.OnHit(caster, target, skill, skillHitResult);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -141,6 +150,17 @@ namespace Melia.Zone.Skills.Handlers.Base
 			}
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Called for each hit the skill does on a target.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hitResult"></param>
+		protected virtual void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
 		}
 	}
 }

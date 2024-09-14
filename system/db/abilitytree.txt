@@ -832,6 +832,24 @@
 { category: "Illusionist", classId: 301, abilityId: 220036, jobId: 2025, className: "Illusionist31", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
 { category: "Illusionist", classId: 302, abilityId: 220037, jobId: 2025, className: "Illusionist32", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
 
+// Vulture
+//---------------------------------------------------------------------------
+{ category: "Vulture", classId: 1, abilityId: 321261, jobId: 2026, className: "Vulture2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Decomposition_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 2, abilityId: 321262, jobId: 2026, className: "Vulture3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_GravityField_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 3, abilityId: 321263, jobId: 2026, className: "Vulture4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Diffusion_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 4, abilityId: 321265, jobId: 2026, className: "Vulture6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Purification_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 5, abilityId: 321266, jobId: 2026, className: "Vulture7", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Devastation_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 11, abilityId: 321268, jobId: 2026, className: "Vulture102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture2", argNum: 65 } },
+{ category: "Vulture", classId: 12, abilityId: 321269, jobId: 2026, className: "Vulture103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture3", argNum: 65 } },
+{ category: "Vulture", classId: 13, abilityId: 321270, jobId: 2026, className: "Vulture104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture4", argNum: 65 } },
+{ category: "Vulture", classId: 14, abilityId: 321272, jobId: 2026, className: "Vulture106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture6", argNum: 65 } },
+{ category: "Vulture", classId: 15, abilityId: 321273, jobId: 2026, className: "Vulture107", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture7", argNum: 65 } },
+{ category: "Vulture", classId: 51, abilityId: 321274, jobId: 2026, className: "Vulture11", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture11", argNum: 350 } },
+{ category: "Vulture", classId: 52, abilityId: 321275, jobId: 2026, className: "Vulture12", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture12", argNum: 350 } },
+{ category: "Vulture", classId: 53, abilityId: 321276, jobId: 2026, className: "Vulture13", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture13", argNum: 350 } },
+{ category: "Vulture", classId: 101, abilityId: 321277, jobId: 2026, className: "Vulture21", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
+{ category: "Vulture", classId: 102, abilityId: 321278, jobId: 2026, className: "Vulture22", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
+
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", classId: 101, abilityId: 301001, jobId: 3001, className: "Archer11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Archer_Multishot", argNum: 1 } },

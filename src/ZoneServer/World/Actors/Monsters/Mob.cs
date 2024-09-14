@@ -649,6 +649,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public void PossiblyBecomeRare(float jackpotRate = 100, float eliteRate = 100)
 		{
+			if (this.Data.Rank > MonsterRank.Elite)
+				return;
+
 			var rnd = RandomProvider.Get();
 
 			var worldConf = ZoneServer.Instance.Conf.World;

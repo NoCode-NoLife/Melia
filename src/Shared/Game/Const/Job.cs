@@ -51,6 +51,7 @@ namespace Melia.Shared.Game.Const
 		Terramancer = 2023,
 		Keraunos = 2024,
 		Illusionist = 2025,
+		VultureW = 2026,
 
 		// Archer
 		Archer = 3001,
@@ -73,6 +74,7 @@ namespace Melia.Shared.Game.Const
 		Hwarang = 3105,
 		Engineer = 3106,
 		Godeye = 3107,
+		VultureA = 3108,
 
 		// Cleric
 		Cleric = 4001,

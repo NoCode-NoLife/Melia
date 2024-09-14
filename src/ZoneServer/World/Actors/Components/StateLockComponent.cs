@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Composition;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.Components
@@ -13,40 +15,31 @@ namespace Melia.Zone.World.Actors.Components
 	/// <remarks>
 	/// The state lock component combines the concepts of setting locks,
 	/// to prevent actors from taking certain actions, with the ability
-	/// to register states that apply their associated locks automatically.
+	/// to register states that apply their associated locks automatically,
+	/// simplifying the process of applying series' of lock combinations.
 	/// 
-	/// Locks can be set freely, allowing sources such as buffs to quickly
-	/// disable an actor's ability to move for example, but an actor can
-	/// only ever be in one state at a time, independent of the manual locks
-	/// that were applied.
-	/// 
-	/// As such, it's important to consider which combinations of locks
-	/// actually qualify as a "state". For example, the Hold buff doesn't
-	/// utilize a "Held" state, but instead simply locks movement. That's
-	/// because making it a state would mean that attacks can knock the
-	/// target out of the held state, which may not be desirable.
+	/// Both locks and states can be set freely, allowing sources such as
+	/// buffs to quickly disable an actor's ability to move for example.
+	/// Both also stack, making it easy to extend a timed lock or state
+	/// by simply applying it again. For non-timed ones, this means you
+	/// have to unlock or remove the lock or state as many times as you
+	/// added it.
 	/// </remarks>
 	public class StateLockComponent : IComponent, IUpdateable
 	{
 		private readonly object _syncLock = new();
 
-		private readonly List<LockEnd> _lockEnds = new();
-		private readonly Dictionary<string, int> _lockCounts = new();
 		private readonly Dictionary<string, State> _states = new();
 
-		private State _currentState;
-		private string _nextState = null;
-		private DateTime _nextStateTime = DateTime.MaxValue;
+		private readonly List<LockEnd> _lockEnds = new();
+		private readonly Dictionary<string, int> _lockCounts = new();
+		private readonly List<LockEnd> _stateEnds = new();
+		private readonly Dictionary<string, int> _stateCounts = new();
 
 		/// <summary>
 		/// Returns the owner of the component.
 		/// </summary>
 		public IActor Owner { get; }
-
-		/// <summary>
-		/// Returns the type of the state the actor is currently in.
-		/// </summary>
-		public string CurrentState => _currentState.Type;
 
 		/// <summary>
 		/// Creates a new instance for the actor.
@@ -55,11 +48,24 @@ namespace Melia.Zone.World.Actors.Components
 		{
 			this.Owner = owner;
 
-			this.RegisterState(new(StateType.Default));
 			this.RegisterState(new(StateType.Stunned, [LockType.Movement, LockType.Attack]));
 			this.RegisterState(new(StateType.KnockedBack, [LockType.Movement, LockType.Attack]));
+			this.RegisterState(new(StateType.Held, [LockType.Movement]));
+		}
 
-			_currentState = _states[StateType.Default];
+		/// <summary>
+		/// Clears all locks and states.
+		/// </summary>
+		public void Clear()
+		{
+			lock (_syncLock)
+			{
+				_lockCounts.Clear();
+				_lockEnds.Clear();
+
+				_stateCounts.Clear();
+				_stateEnds.Clear();
+			}
 		}
 
 		/// <summary>
@@ -160,56 +166,85 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
-		/// Sets the actor's state to the given type.
+		/// Returns true if the given state is active.
 		/// </summary>
-		/// <remarks>
-		/// Sets the locks associated with the state and releases the locks
-		/// the previous state might have set.
-		/// </remarks>
 		/// <param name="stateType"></param>
-		public void SetState(string stateType)
-			=> this.SetState(stateType, TimeSpan.MaxValue);
+		/// <returns></returns>
+		public bool IsStateActive(string stateType)
+		{
+			lock (_syncLock)
+				return _stateCounts.ContainsKey(stateType);
+		}
 
 		/// <summary>
-		/// Sets the actor's state to the given type for the given duration.
+		/// Adds a state of the given type, locking the associated actions.
 		/// </summary>
 		/// <remarks>
-		/// After the duration has passed, the state will automatically switch
-		/// to the next one configured in the selected state. For example,
-		/// the next state for 'Stunned' might be 'Default', which doesn't
-		/// have locks and will hence enable all actions again.
+		/// States simplify the application of set collections of locks, and they
+		/// stack in the same way. This means if you apply a certain state twice,
+		/// you also need to remove it twice to unlock the associated actions fully.
 		/// </remarks>
+		/// <param name="stateType"></param>
+		public void AddState(string stateType)
+			=> this.AddState(stateType, TimeSpan.MaxValue);
+
+		/// <summary>
+		/// Adds a state of the given type, locking the associated actions
+		/// for the given duration.
+		/// </summary>
 		/// <param name="stateType"></param>
 		/// <param name="duration"></param>
 		/// <exception cref="ArgumentException"></exception>
-		public void SetState(string stateType, TimeSpan duration)
+		public void AddState(string stateType, TimeSpan duration)
+		{
+			// Technically we could do away with tracking states, now that they're
+			// mostly glorified lock lists. We could just get the locks to apply
+			// on add and remove. But we'll leave it like this for now, in case
+			// we need to be able to tell whether a specific state is active.
+
+			lock (_syncLock)
+			{
+				if (!_states.TryGetValue(stateType, out var state))
+					throw new ArgumentException($"Unknown state '{stateType}'.");
+
+				foreach (var lockType in state.Locks)
+					this.Lock(lockType);
+
+				if (_stateCounts.TryGetValue(stateType, out var value))
+					_stateCounts[stateType] = ++value;
+				else
+					_stateCounts[stateType] = 1;
+
+				if (duration != TimeSpan.MaxValue)
+				{
+					var endTime = DateTime.Now.Add(duration);
+					_stateEnds.Add(new(stateType, endTime));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Unlocks one set of the locks associated with the given state.
+		/// </summary>
+		/// <param name="stateType"></param>
+		/// <exception cref="ArgumentException"></exception>
+		public void RemoveState(string stateType)
 		{
 			lock (_syncLock)
 			{
 				if (!_states.TryGetValue(stateType, out var state))
 					throw new ArgumentException($"Unknown state '{stateType}'.");
 
-				if (_currentState.Type != stateType)
-				{
-					foreach (var lockType in _currentState.Locks)
-						this.Unlock(lockType);
-				}
+				if (!_stateCounts.TryGetValue(stateType, out var value))
+					return;
+
+				_stateCounts[stateType] = --value;
+
+				if (_stateCounts[stateType] <= 0)
+					_stateCounts.Remove(stateType);
 
 				foreach (var lockType in state.Locks)
-					this.Lock(lockType);
-
-				_currentState = state;
-
-				if (duration != TimeSpan.MaxValue)
-				{
-					_nextState = state.NextState;
-					_nextStateTime = DateTime.Now.Add(duration);
-				}
-				else
-				{
-					_nextState = null;
-					_nextStateTime = DateTime.MaxValue;
-				}
+					this.Unlock(lockType);
 			}
 		}
 
@@ -221,10 +256,23 @@ namespace Melia.Zone.World.Actors.Components
 		{
 			var now = DateTime.Now;
 
+			if (this.Owner.Map.ClassName.StartsWith("c_high") && this.Owner is Mob mob && mob.Id == 400001)
+			{
+				Log.Debug("locks: {0}", string.Join(", ", _lockCounts.Keys));
+			}
+
 			lock (_syncLock)
 			{
-				if (_nextState != null && now >= _nextStateTime)
-					this.SetState(_nextState);
+				for (var i = _stateEnds.Count - 1; i >= 0; --i)
+				{
+					var stateEnd = _stateEnds[i];
+
+					if (now >= stateEnd.EndTime)
+					{
+						this.RemoveState(stateEnd.Type);
+						_stateEnds.RemoveAt(i);
+					}
+				}
 
 				for (var i = _lockEnds.Count - 1; i >= 0; --i)
 				{
@@ -256,9 +304,9 @@ namespace Melia.Zone.World.Actors.Components
 	/// </summary>
 	public static class StateType
 	{
-		public const string Default = "Default";
 		public const string Stunned = "Stunned";
 		public const string KnockedBack = "KnockedBack";
+		public const string Held = "Held";
 	}
 
 	/// <summary>
@@ -289,20 +337,8 @@ namespace Melia.Zone.World.Actors.Components
 		/// <param name="nextState"></param>
 		/// <param name="locks"></param>
 		public State(string type, string[] locks = null)
-			: this(type, StateType.Default, locks)
-		{
-		}
-
-		/// <summary>
-		/// Creates a new instance.
-		/// </summary>
-		/// <param name="type"></param>
-		/// <param name="nextState"></param>
-		/// <param name="locks"></param>
-		public State(string type, string nextState, string[] locks = null)
 		{
 			this.Type = type;
-			this.NextState = nextState;
 
 			if (locks?.Length > 0)
 				this.Locks.UnionWith(locks);

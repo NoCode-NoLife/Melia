@@ -9,10 +9,9 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Drug_HealSP)]
 	public class Drug_HealSP : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
-			var spHealAmount = buff.NumArg1 * 7;
-			buff.Target.Heal(0, spHealAmount);
+			this.WhileActive(buff);
 		}
 
 		public override void WhileActive(Buff buff)

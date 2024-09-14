@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 		private const float DRPenaltyRate = 0.2f;
 		private const float CRTDRPenaltyRate = 0.2f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.BLK_BM, -this.GetBlockPenalty(buff));
 			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, -this.GetDodgePenalty(buff));

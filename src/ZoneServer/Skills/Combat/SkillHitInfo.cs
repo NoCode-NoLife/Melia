@@ -102,7 +102,7 @@ namespace Melia.Zone.Skills.Combat
 			this.HitInfo.Type = this.Skill.Data.KnockDownHitType;
 			target.Position = this.KnockBackInfo.ToPosition;
 
-			target.SetState(StateType.KnockedBack, this.KnockBackInfo.Time);
+			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
 		}
 	}
 }

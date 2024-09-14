@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Doppelsoeldner
 	{
 		private const float MovingShotBonusPerLevel = 0.2f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.MovingShot_BM, this.GetMovingShotBonus(buff));
 		}

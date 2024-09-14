@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		private const int StaminaRecoveryBonus = 600;
 		private const float HpSpRecoveryRate = 0.10f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.RSta_BM, StaminaRecoveryBonus);
 		}

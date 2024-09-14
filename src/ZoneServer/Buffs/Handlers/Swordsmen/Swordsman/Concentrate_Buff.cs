@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	{
 		private const string HitsVarName = "Melia.HitsLeft";
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var skillLevel = buff.NumArg1;
 			var maxHitCount = skillLevel * 2;
