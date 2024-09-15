@@ -61,7 +61,7 @@ namespace Melia.Barracks.Network.Helpers
 	public interface IAppearanceBarrackPc : IAppearancePc
 	{
 		/// <summary>
-		/// Returns the character's unique id.
+		/// Returns the character's globally unique id.
 		/// </summary>
 		long ObjectId { get; }
 
@@ -76,7 +76,7 @@ namespace Melia.Barracks.Network.Helpers
 		int MapId { get; }
 
 		/// <summary>
-		/// ?
+		/// Gets or sets the channel the character connected to last.
 		/// </summary>
 		int Channel { get; }
 
