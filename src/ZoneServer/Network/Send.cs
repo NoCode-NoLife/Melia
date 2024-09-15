@@ -1108,14 +1108,15 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character">Character to send packet to.</param>
 		/// <param name="clientMessage">Id of the message to use.</param>
+		/// <param name="displayType">How to display the message.</param>
 		/// <param name="parameters">Optional list of message parameters.</param>
-		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, params MsgParameter[] parameters)
+		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, SystemMessageDisplayType displayType, params MsgParameter[] parameters)
 		{
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
 
 			packet.PutInt(clientMessage);
 			packet.PutByte((byte)parameters.Length);
-			packet.PutByte(1); // type? 0 = also show in red letters on the screen
+			packet.PutByte((byte)displayType);
 			packet.PutLong(0); // added i219527
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
