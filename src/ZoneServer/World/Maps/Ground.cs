@@ -14,7 +14,7 @@ namespace Melia.Zone.World.Maps
 	/// </summary>
 	public class Ground
 	{
-		private const float RayOriginHeight = 20000;
+		private const float RayOriginHeight = 30000;
 
 		private GroundData _data;
 		private DMesh3 _mesh;
