@@ -113,13 +113,16 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns true if the skill is a normal attack.
 		/// </summary>
-		/// <remarks>
 		/// This property is a temporary measure to not do this check randomly
 		/// somewhere in the code. We'll need some more research to determine
 		/// what exactly makes a normal attack and when they apply. Especially
 		/// because it seems like this might differ based on your stance.
-		/// </remarks>
-		public bool IsNormalAttack => (int)this.Id <= 1000;
+		/// 
+		/// Update: We used to check id ranges here, but we found the "keywords"
+		/// or tags on the skill data by now, which include the "NormalAttack"
+		/// tag. We'll assume that to be the way to determine normal attacks for
+		/// now.
+		public bool IsNormalAttack => this.Data.Tags.Has("NormalAttack");
 
 		/// <summary>
 		/// Returns true if the skill is a monster skill
