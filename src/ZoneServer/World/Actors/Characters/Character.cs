@@ -57,11 +57,19 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Gets or sets the character's unique database id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the database.
+		/// This is different from the ObjectId, which is used in the game.
+		/// </remarks>
 		public long DbId { get; set; }
 
 		/// <summary>
 		/// Returns the character's globally unique id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the game, applying
+		/// an offset to the database id.
+		/// </remarks>
 		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
 
 		/// <summary>

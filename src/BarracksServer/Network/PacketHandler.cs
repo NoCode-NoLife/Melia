@@ -758,7 +758,7 @@ namespace Melia.Barracks.Network
 				if (!message.TryGetItem(mailItemId, out var item) || item.WasReceived)
 					continue;
 
-				BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+				BarracksServer.Instance.Database.SaveItem(character, item.ItemDbId);
 				item.WasReceived = true;
 			}
 
@@ -810,7 +810,7 @@ namespace Melia.Barracks.Network
 					if (item.WasReceived)
 						continue;
 
-					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+					BarracksServer.Instance.Database.SaveItem(character, item.ItemDbId);
 					item.WasReceived = true;
 				}
 
@@ -926,7 +926,7 @@ namespace Melia.Barracks.Network
 			var character = conn.Account.GetCharacterById(characterId);
 
 			if (character != null)
-				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.Id);
+				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.ObjectId);
 		}
 
 		/// <summary>

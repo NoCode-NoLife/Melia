@@ -347,7 +347,7 @@ namespace Melia.Barracks.Network
 				packet.PutInt(characters.Length);
 				foreach (var character in characters)
 				{
-					packet.PutLong(character.Id);
+					packet.PutLong(character.ObjectId);
 					packet.PutString(character.Name, 64);
 					packet.PutEmptyBin(24);
 				}

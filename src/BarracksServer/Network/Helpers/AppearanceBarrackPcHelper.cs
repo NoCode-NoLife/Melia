@@ -19,7 +19,7 @@ namespace Melia.Barracks.Network.Helpers
 		{
 			packet.AddAppearancePc(pc);
 
-			packet.PutLong(pc.Id);
+			packet.PutLong(pc.ObjectId);
 
 			// [i11025 (2016-02-26)]
 			// Index was previously stored as a short, now there seem
@@ -63,7 +63,7 @@ namespace Melia.Barracks.Network.Helpers
 		/// <summary>
 		/// Returns the character's unique id.
 		/// </summary>
-		long Id { get; }
+		long ObjectId { get; }
 
 		/// <summary>
 		/// Returns the character's index in the character list.
