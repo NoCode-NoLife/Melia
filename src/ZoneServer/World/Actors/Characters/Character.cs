@@ -120,7 +120,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets the character's current job id.
 		/// </summary>
 		/// <remarks>
-		/// This should essentially and presumably alwas be the id of the
+		/// This should essentially and presumably always be the id of the
 		/// last job the character changed to.
 		/// </remarks>
 		public JobId JobId { get; set; }
