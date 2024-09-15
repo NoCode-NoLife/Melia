@@ -716,6 +716,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return false;
 
+			if (this.IsLocked(LockType.Attack))
+				return false;
+
 			return true;
 		}
 

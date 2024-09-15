@@ -99,10 +99,12 @@ namespace Melia.Zone.Skills.Combat
 			if (this.KnockBackInfo == null)
 				throw new InvalidOperationException("Knock back info is not set.");
 
-			this.HitInfo.Type = this.Skill.Data.KnockDownHitType;
+			this.HitInfo.Type = this.KnockBackInfo.HitType;
 			target.Position = this.KnockBackInfo.ToPosition;
 
 			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+			if (this.HitInfo.Type == HitType.KnockDown)
+				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
 	}
 }

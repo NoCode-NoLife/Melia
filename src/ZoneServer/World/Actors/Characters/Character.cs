@@ -1308,6 +1308,9 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.IsDead)
 				return false;
 
+			if (this.IsLocked(LockType.Attack))
+				return false;
+
 			return true;
 		}
 
