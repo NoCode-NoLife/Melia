@@ -1120,14 +1120,12 @@ namespace Melia.Zone.World.Actors.Characters
 		/// SystemMessage("{Day}days", new MsgParameter("Day", "5 "))
 		/// -> "5 days"
 		/// </example>
-		/// <param name="className"></param>
+		/// <param name="clientMessage"></param>
+		/// <param name="displayType"></param>
 		/// <param name="args"></param>
-		public void SystemMessage(string className, SystemMessageDisplayType displayType, params MsgParameter[] args)
+		public void SystemMessage(string clientMessage, SystemMessageDisplayType displayType, params MsgParameter[] args)
 		{
-			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(className, out var sysMsgData))
-				throw new ArgumentException($"System message '{className}' not found.");
-
-			Send.ZC_SYSTEM_MSG(this, sysMsgData.ClassId, displayType, args);
+			Send.ZC_SYSTEM_MSG(this, clientMessage, displayType, args);
 		}
 
 		/// <summary>
