@@ -1264,7 +1264,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
-			// Don't hit an already dead monster
+			// Don't hit an already dead character
 			if (this.IsDead)
 				return true;
 
