@@ -97,14 +97,7 @@ namespace Melia.Zone.Skills.Combat
 		public void ApplyKnockBack(ICombatEntity target)
 		{
 			if (this.KnockBackInfo == null)
-				throw new InvalidOperationException("Knock back info is not set.");
-
-			// Cannot suffer additional knockback while knocked down
-			if (target.IsStateActive(StateType.KnockedDown))
-			{
-				this.KnockBackInfo = null;
-				return;
-			}
+				throw new InvalidOperationException("Knock back info is not set.");			
 
 			this.HitInfo.Type = this.KnockBackInfo.HitType;
 			target.Position = this.KnockBackInfo.ToPosition;
