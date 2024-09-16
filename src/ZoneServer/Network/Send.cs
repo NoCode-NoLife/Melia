@@ -4352,7 +4352,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Notifies nearby clients that an entity was knocked down/back.
+		/// Notifies nearby clients that an entity was knocked back.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="knockBackInfo"></param>
+		public static void ZC_KNOCKBACK_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knockBackInfo)
+		{
+			var packet = new Packet(Op.ZC_KNOCKBACK_INFO);
+
+			packet.PutInt(target.Handle);
+			packet.AddKnockbackInfo(knockBackInfo);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Notifies nearby clients that an entity was knocked down.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="target"></param>
