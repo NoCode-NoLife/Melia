@@ -103,6 +103,10 @@ namespace Melia.Zone.Skills.Combat
 			target.Position = this.KnockBackInfo.ToPosition;
 
 			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+
+			// Currently we consider knockdowns to also be knockbacks
+			// so any knockback-specific functionality also applies to them.
+			// Note that some skills check for knockdowns specifically.
 			if (this.HitInfo.Type == HitType.KnockDown)
 				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
