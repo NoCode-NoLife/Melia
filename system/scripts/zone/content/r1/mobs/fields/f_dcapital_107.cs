@@ -22,7 +22,7 @@ public class FDcapital107MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_dcapital_107.Id1", MonsterId.Rootcrystal_01, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("f_dcapital_107.Id1", MonsterId.Rootcrystal_01, min: 27, max: 35, respawn: Seconds(25));
 		AddSpawner("f_dcapital_107.Id2", MonsterId.Kigle, min: 44, max: 58);
 		AddSpawner("f_dcapital_107.Id3", MonsterId.Kiglelops, min: 8, max: 10);
 		AddSpawner("f_dcapital_107.Id4", MonsterId.Bishop_Blanco, min: 18, max: 24);

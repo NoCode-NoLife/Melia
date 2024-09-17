@@ -22,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Highlander
 		private const float BlkRateBonusPerLevel = 0.01f;
 		private const float DebuffDuration = 5f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.BLK_RATE_BM, this.GetBlkBonus(buff));
 			AddPropertyModifier(buff, buff.Target, PropertyName.DR_RATE_BM, -1f);

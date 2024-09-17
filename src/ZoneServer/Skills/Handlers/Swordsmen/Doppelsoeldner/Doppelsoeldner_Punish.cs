@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -24,8 +25,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 		private const float MaxTargetDistance = 30f;
 		private const float MaxMoveDistance = 140f;
 		private const float KnockdownMultiplier = 1.5f;
-		private const float HealDebuffPerLevel = 33f;
-		private readonly static TimeSpan HealDebuffDuration = TimeSpan.FromSeconds(5);
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -99,9 +98,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 			{
 				var modifier = new SkillModifier();
 
-				// TODO: Enable once we have a knock down state to check for.
-				//if (target.IsKnockedDown)
-				//	modifier.DamageMultiplier = KnockdownMultiplier;
+				if (target.IsStateActive(StateType.KnockedDown))
+					modifier.DamageMultiplier = KnockdownMultiplier;
 
 				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
 					modifier.FinalDamageMultiplier = dovBuff.NumArg2;
@@ -113,14 +111,20 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
-				// The debuff value is handled in hundreds, meaning we need to
-				// multiply it by 100 for it to display correctly in the tooltip.
-				var debuffVal = HealDebuffPerLevel * 100f * skill.Level;
-
-				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, HealDebuffDuration, caster);
+				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(5), caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
+		}
+
+		/// <summary>
+		/// Return the Healing Reduction value
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		private float GetHealingReduction(Skill skill)
+		{
+			return (3.3f * skill.Level) * 1000;
 		}
 	}
 }

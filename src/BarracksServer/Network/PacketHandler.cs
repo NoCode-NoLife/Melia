@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -26,14 +28,13 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_LOGIN)]
 		public void CB_LOGIN(IBarracksConnection conn, Packet packet)
 		{
-			var accountName = packet.GetString(33);
-			var bin1 = packet.GetBin(23);
+			var accountName = packet.GetString(56);
 			var password = packet.GetBinAsHex(16); // MD5? I'm disappointed, IMC =|
 			var b1 = packet.GetByte();
 			var b2 = packet.GetByte();
 			var b3 = packet.GetByte();
 			var ip = packet.GetInt();
-			var unk1 = packet.GetBin(285);
+			var unk1 = packet.GetBin(405); // [i389072 (2024-09-12)] Increased by 4
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_LOGIN_PACKET_RECEIVED(conn);
@@ -90,10 +91,10 @@ namespace Melia.Barracks.Network
 			// Check login state
 			if (BarracksServer.Instance.Database.IsLoggedIn(account.Id))
 			{
-				// The official message, DuplicationLoginByOtherWorld,
-				// aka DoubleLogin, is so badly translated that we'll
-				// send a custom message for now.
-				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account is already logged in."));
+				BarracksServer.Instance.Communicator.Broadcast("AllServers", new ForceLogOutMessage(account.Id));
+				BarracksServer.Instance.Database.UpdateLoginState(account.Id, 0, LoginState.LoggedOut);
+
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This account appears to already be logged in. A logout request was created, please try again."));
 				conn.Close(100);
 				return;
 			}
@@ -101,9 +102,10 @@ namespace Melia.Barracks.Network
 			// Logged in
 			conn.Account = account;
 			conn.LoggedIn = true;
+			conn.SessionKey = SHA1.Encode(Guid.NewGuid().ToString());
 
 			BarracksServer.Instance.Database.UpdateLoginState(conn.Account.Id, 0, LoginState.Barracks);
-			BarracksServer.Instance.Database.UpdateLastLogin(conn.Account.Id);
+			BarracksServer.Instance.Database.UpdateSessionKey(conn.Account.Id, conn.SessionKey);
 
 			Log.Info("User '{0}' logged in.", conn.Account.Name);
 
@@ -153,13 +155,8 @@ namespace Melia.Barracks.Network
 			var unkByte = packet.GetByte();
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
-			var socialServers = BarracksServer.Instance.ServerList.GetAll(ServerType.Social);
-
 			Send.BC_IES_MODIFY_LIST(conn);
-			if (socialServers.Length >= 2)
-				Send.BC_SERVER_ENTRY(conn, socialServers[0].Ip, socialServers[0].Port, socialServers[1].Ip, socialServers[1].Port);
-			else if (socialServers.Length == 1)
-				Send.BC_SERVER_ENTRY(conn, socialServers[0].Ip, socialServers[0].Port, socialServers[0].Ip, socialServers[0].Port);
+			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
 			//Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);
@@ -449,8 +446,8 @@ namespace Melia.Barracks.Network
 			var x = packet.GetFloat();
 			var y = packet.GetFloat();
 			var z = packet.GetFloat();
-			var d1 = packet.GetFloat();
-			var d2 = packet.GetFloat();
+			var cos = packet.GetFloat();
+			var sin = packet.GetFloat();
 
 			// On a new character creation, this packet is sent with the index as this byte.
 			if (index == 0xFF)
@@ -469,7 +466,7 @@ namespace Melia.Barracks.Network
 
 			// Move
 			character.BarracksPosition = new Position(x, y, z);
-			character.BarracksDirection = new Direction(d1, d2);
+			character.BarracksDirection = new Direction(cos, sin);
 
 			Send.BC_NORMAL.SetPosition(conn, index, character.BarracksPosition);
 		}
@@ -483,7 +480,7 @@ namespace Melia.Barracks.Network
 		{
 			var channelId = packet.GetShort();
 			var characterIndex = packet.GetByte();
-			var b1 = packet.GetByte();
+			var companionIndex = packet.GetByte();
 
 			// Get character
 			var character = conn.Account.GetCharacterByIndex(characterIndex);
@@ -563,7 +560,7 @@ namespace Melia.Barracks.Network
 			//   as well.
 
 			Send.BC_ACCOUNT_PROP(conn, conn.Account);
-			Send.BC_NORMAL.UnkThema1(conn);
+			Send.BC_NORMAL.ThemaSuccess(conn);
 			Send.BC_NORMAL.SetBarrack(conn, newMapId);
 
 			Send.BC_COMMANDER_LIST(conn);
@@ -669,15 +666,17 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Pets!
+		/// Request to assign or remove a companion from a character.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_PET_PC)]
 		public void CB_PET_PC(IBarracksConnection conn, Packet packet)
 		{
-			var petGuid = packet.GetLong();
+			var companionId = packet.GetLong();
 			var characterId = packet.GetLong();
+
+			// ...
 		}
 
 		/// <summary>
@@ -688,9 +687,11 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_PET_COMMAND)]
 		public void CB_PET_COMMAND(IBarracksConnection conn, Packet packet)
 		{
-			var petGuid = packet.GetLong();
+			var companionId = packet.GetLong();
 			var characterId = packet.GetLong();
 			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
+
+			// ...
 		}
 
 		/// <summary>
@@ -761,7 +762,7 @@ namespace Melia.Barracks.Network
 				if (!message.TryGetItem(mailItemId, out var item) || item.WasReceived)
 					continue;
 
-				BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+				BarracksServer.Instance.Database.SaveItem(character, item.ItemDbId);
 				item.WasReceived = true;
 			}
 
@@ -813,7 +814,7 @@ namespace Melia.Barracks.Network
 					if (item.WasReceived)
 						continue;
 
-					BarracksServer.Instance.Database.SaveItem(character.Id, item.ItemDbId);
+					BarracksServer.Instance.Database.SaveItem(character, item.ItemDbId);
 					item.WasReceived = true;
 				}
 
@@ -929,7 +930,7 @@ namespace Melia.Barracks.Network
 			var character = conn.Account.GetCharacterById(characterId);
 
 			if (character != null)
-				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.Id);
+				Send.BC_RETURN_PC_MARKET_REGISTERED(conn, character.ObjectId);
 		}
 
 		/// <summary>

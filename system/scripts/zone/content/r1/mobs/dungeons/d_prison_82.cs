@@ -25,7 +25,7 @@ public class DPrison82MobScript : GeneralScript
 		AddSpawner("d_prison_82.Id1", MonsterId.Templeslave_Sword_Blue, min: 12, max: 15, tendency: TendencyType.Aggressive);
 		AddSpawner("d_prison_82.Id2", MonsterId.Wendigo_Bow_White, min: 30, max: 40, tendency: TendencyType.Aggressive);
 		AddSpawner("d_prison_82.Id3", MonsterId.Templeslave_Mage_Blue, min: 10, max: 13, tendency: TendencyType.Aggressive);
-		AddSpawner("d_prison_82.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_prison_82.Id4", MonsterId.Rootcrystal_05, min: 12, max: 15, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("d_prison_82.Id5", MonsterId.Wendigo_Bow_White, min: 23, max: 30, tendency: TendencyType.Aggressive);
 
 		// Monster Spawn Points -----------------------------

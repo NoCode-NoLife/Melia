@@ -1,0 +1,26 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Bool.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    byte value;
+}
+bool <read=boolRead, optimize=false>;
+
+string boolRead(bool &v)
+{
+    if(v.value == 0)
+        return "FALSE";
+    else
+        return "TRUE";
+}

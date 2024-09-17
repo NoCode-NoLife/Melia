@@ -1,4 +1,4 @@
-﻿namespace Melia.Zone.Scripting
+﻿namespace Melia.Zone.Scripting.Hooking
 {
 	/// <summary>
 	/// Describes a scripting hook that belongs to something and can be

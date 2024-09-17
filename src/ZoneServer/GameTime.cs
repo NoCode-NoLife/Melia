@@ -12,7 +12,7 @@ namespace Melia.Zone
 		/// <summary>
 		/// Returns the current time in the game world.
 		/// </summary>
-		public static GameTime Now => new GameTime(DateTime.Now);
+		public static GameTime Now => new(DateTime.Now);
 
 		/// <summary>
 		/// Returns how long one hour in the game world is in real time.
@@ -116,7 +116,7 @@ namespace Melia.Zone
 		/// DateTime of 00:18:00.
 		/// </example>
 		/// <param name="hour"></param>
-		/// <param name="minutes"></param>
+		/// <param name="minute"></param>
 		/// <returns></returns>
 		public static GameTime GetNextTime(int hour, int minute)
 			=> GetNextTime(DateTime.Now, hour, minute);

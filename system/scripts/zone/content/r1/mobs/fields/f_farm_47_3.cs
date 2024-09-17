@@ -25,7 +25,7 @@ public class FFarm473MobScript : GeneralScript
 		AddSpawner("f_farm_47_3.Id1", MonsterId.Kepo_Seed_Violet, min: 15, max: 20);
 		AddSpawner("f_farm_47_3.Id2", MonsterId.Ellom_Violet, min: 60, max: 80);
 		AddSpawner("f_farm_47_3.Id3", MonsterId.Kepo_Seed_Violet, min: 15, max: 20);
-		AddSpawner("f_farm_47_3.Id4", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_farm_47_3.Id4", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Minutes(1));
 		AddSpawner("f_farm_47_3.Id5", MonsterId.Cronewt_Bow, min: 15, max: 20);
 		AddSpawner("f_farm_47_3.Id6", MonsterId.Operor_White, min: 19, max: 25);
 

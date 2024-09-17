@@ -77,8 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 				hits.Add(skillHit);
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = HitType.KnockBack;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.ApplyKnockBack(target);
 
 				// In earlier versions, this skill instead inflicted Armor Break,
 				// which zeroes physical defense.

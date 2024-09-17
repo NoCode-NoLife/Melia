@@ -12,21 +12,21 @@ namespace Melia.Barracks.Database
 	/// </summary>
 	public class Account : IAccount
 	{
-		private readonly object _moneyLock = new object();
-		private readonly List<Character> _characters = new List<Character>();
+		private readonly object _moneyLock = new();
+		private readonly List<Character> _characters = new();
 
 		/// <summary>
-		/// Account id.
+		/// Gets or sets account's id.
 		/// </summary>
 		public long Id { get; set; }
 
 		/// <summary>
-		/// Account name.
+		/// Gets or sets account's name.
 		/// </summary>
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Account password.
+		/// Gets or sets account's password.
 		/// </summary>
 		public string Password { get; set; }
 
@@ -159,7 +159,7 @@ namespace Melia.Barracks.Database
 		public Character GetCharacterById(long id)
 		{
 			lock (_characters)
-				return _characters.FirstOrDefault(a => a.Id == id);
+				return _characters.FirstOrDefault(a => a.ObjectId == id);
 		}
 
 		/// <summary>
@@ -235,7 +235,7 @@ namespace Melia.Barracks.Database
 			// do this regardless of the query result.
 			this.RemoveCharacter(character);
 
-			return BarracksServer.Instance.Database.DeleteCharacter(character.Id);
+			return BarracksServer.Instance.Database.DeleteCharacter(character);
 		}
 
 		/// <summary>

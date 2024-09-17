@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		private const float AtkRateBonus = 0.10f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.PATK_MAIN_RATE_BM, AtkRateBonus);
 		}

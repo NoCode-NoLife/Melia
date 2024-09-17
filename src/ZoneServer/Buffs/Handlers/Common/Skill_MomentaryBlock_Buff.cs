@@ -21,7 +21,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		private const string VarName = "Melia.BlockedAttack";
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			buff.Vars.SetBool(VarName, false);
 		}

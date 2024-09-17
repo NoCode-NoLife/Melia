@@ -19,6 +19,7 @@ using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -56,11 +57,19 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Gets or sets the character's unique database id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the database.
+		/// This is different from the ObjectId, which is used in the game.
+		/// </remarks>
 		public long DbId { get; set; }
 
 		/// <summary>
 		/// Returns the character's globally unique id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the game, applying
+		/// an offset to the database id.
+		/// </remarks>
 		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
 
 		/// <summary>
@@ -111,7 +120,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets the character's current job id.
 		/// </summary>
 		/// <remarks>
-		/// This should essentially and presumably alwas be the id of the
+		/// This should essentially and presumably always be the id of the
 		/// last job the character changed to.
 		/// </remarks>
 		public JobId JobId { get; set; }
@@ -391,6 +400,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
@@ -640,13 +650,7 @@ namespace Melia.Zone.World.Actors.Characters
 			var channelId = Math2.Clamp(0, availableZones.Length, _destinationChannelId);
 			var serverInfo = availableZones[channelId];
 
-			// Clean up temporary properties before saving
-			this.Components.Get<BuffComponent>().StopTempBuffs();
-
-			// Save everything before leaving the server
-			ZoneServer.Instance.Database.SaveCharacter(this);
-			ZoneServer.Instance.Database.SaveAccount(this.Connection.Account);
-			ZoneServer.Instance.Database.UpdateLoginState(this.Connection.Account.Id, 0, LoginState.LoggedOut);
+			this.Connection.SaveAccountAndCharacter();
 			this.SavedForWarp = true;
 
 			// Instruct client to initiate warp
@@ -1100,11 +1104,28 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="className"></param>
 		/// <param name="args"></param>
 		public void SystemMessage(string className, params MsgParameter[] args)
-		{
-			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(className, out var sysMsgData))
-				throw new ArgumentException($"System message '{className}' not found.");
+			=> this.SystemMessage(className, SystemMessageDisplayType.ChatOnly, args);
 
-			Send.ZC_SYSTEM_MSG(this, sysMsgData.ClassId, args);
+		/// <summary>
+		/// Displays system message in character's chat.
+		/// </summary>
+		/// <remarks>
+		/// Uses pre-defined, argument-supporting system messages found
+		/// in the clientmessage.xml file. The class name corresponds to
+		/// the class name in said XML, with arguments found inside those
+		/// messages, wrapped in curly braces.
+		/// </remarks>
+		/// <example>
+		/// ClassName="{Day}days"
+		/// SystemMessage("{Day}days", new MsgParameter("Day", "5 "))
+		/// -> "5 days"
+		/// </example>
+		/// <param name="clientMessage"></param>
+		/// <param name="displayType"></param>
+		/// <param name="args"></param>
+		public void SystemMessage(string clientMessage, SystemMessageDisplayType displayType, params MsgParameter[] args)
+		{
+			Send.ZC_SYSTEM_MSG(this, clientMessage, displayType, args);
 		}
 
 		/// <summary>
@@ -1243,7 +1264,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
-			// Don't hit an already dead monster
+			// Don't hit an already dead character
 			if (this.IsDead)
 				return true;
 
@@ -1310,6 +1331,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool CanFight()
 		{
 			if (this.IsDead)
+				return false;
+
+			if (this.IsLocked(LockType.Attack))
 				return false;
 
 			return true;

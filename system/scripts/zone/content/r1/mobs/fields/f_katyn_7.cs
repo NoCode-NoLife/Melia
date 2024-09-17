@@ -15,7 +15,7 @@ public class FKatyn7MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_7.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_7.Id1", MonsterId.Rootcrystal_02, min: 15, max: 20, respawn: Seconds(5));
 		AddSpawner("f_katyn_7.Id2", MonsterId.Ellom, min: 23, max: 30);
 		AddSpawner("f_katyn_7.Id3", MonsterId.Pappus_Kepa, min: 15, max: 20);
 		AddSpawner("f_katyn_7.Id4", MonsterId.Bushspider, min: 12, max: 15);

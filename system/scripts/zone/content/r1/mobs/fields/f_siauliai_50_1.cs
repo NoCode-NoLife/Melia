@@ -28,7 +28,7 @@ public class FSiauliai501MobScript : GeneralScript
 		AddSpawner("f_siauliai_50_1.Id4", MonsterId.Ridimed_Purple, min: 6, max: 8, tendency: TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id5", MonsterId.Sakmoli_Orange, min: 12, max: 15, tendency: TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id6", MonsterId.Ridimed_Purple, min: 49, max: 65, tendency: TendencyType.Peaceful);
-		AddSpawner("f_siauliai_50_1.Id7", MonsterId.RootCrystal_A, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_siauliai_50_1.Id7", MonsterId.RootCrystal_A, min: 11, max: 14, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id8", MonsterId.Repusbunny_Bow, min: 8, max: 10, tendency: TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id9", MonsterId.Ridimed_Purple, min: 8, max: 10, tendency: TendencyType.Peaceful);
 		AddSpawner("f_siauliai_50_1.Id10", MonsterId.Sakmoli_Orange, min: 8, max: 10, tendency: TendencyType.Peaceful);

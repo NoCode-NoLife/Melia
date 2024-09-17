@@ -23,14 +23,14 @@ public class FCastle97MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_castle_97.Id1", MonsterId.Pawnta, min: 42, max: 55, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id2", MonsterId.Poevita, min: 42, max: 55, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id3", MonsterId.Poevita, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id4", MonsterId.Pawnta, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id5", MonsterId.Poana, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id6", MonsterId.Poana, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id7", MonsterId.Castle_Beetle, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
-		AddSpawner("f_castle_97.Id8", MonsterId.Rootcrystal_02, min: 27, max: 35, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("f_castle_97.Id1", MonsterId.Pawnta, min: 42, max: 55, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id2", MonsterId.Poevita, min: 42, max: 55, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id3", MonsterId.Poevita, min: 27, max: 35, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id4", MonsterId.Pawnta, min: 23, max: 30, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id5", MonsterId.Poana, min: 23, max: 30, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id6", MonsterId.Poana, min: 19, max: 25, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id7", MonsterId.Castle_Beetle, min: 12, max: 15, respawn: Minutes(1));
+		AddSpawner("f_castle_97.Id8", MonsterId.Rootcrystal_02, min: 27, max: 35, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

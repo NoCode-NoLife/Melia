@@ -22,10 +22,10 @@ public class Ep142DCastle3MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("ep14_2_d_castle_3.Id1", MonsterId.Episode14_2_Bleakferret_Strange, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("ep14_2_d_castle_3.Id2", MonsterId.Episode14_2_Bleakferret_Lancer, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(10000));
-		AddSpawner("ep14_2_d_castle_3.Id3", MonsterId.Episode14_2_Bleakferret_Scout, min: 30, max: 40, respawn: TimeSpan.FromMilliseconds(10000));
-		AddSpawner("ep14_2_d_castle_3.Id4", MonsterId.Rootcrystal_05, min: 3, max: 4, respawn: TimeSpan.FromMilliseconds(20000));
+		AddSpawner("ep14_2_d_castle_3.Id1", MonsterId.Episode14_2_Bleakferret_Strange, min: 19, max: 25, respawn: Seconds(15));
+		AddSpawner("ep14_2_d_castle_3.Id2", MonsterId.Episode14_2_Bleakferret_Lancer, min: 23, max: 30, respawn: Seconds(10));
+		AddSpawner("ep14_2_d_castle_3.Id3", MonsterId.Episode14_2_Bleakferret_Scout, min: 30, max: 40, respawn: Seconds(10));
+		AddSpawner("ep14_2_d_castle_3.Id4", MonsterId.Rootcrystal_05, min: 3, max: 4, respawn: Seconds(20));
 
 		// Monster Spawn Points -----------------------------
 

@@ -1,8 +1,11 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System;
+using Melia.Shared.Game.Const;
+using Melia.Zone.Abilities.Handlers.Swordsmen.Barbarian;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Common
 {
@@ -16,7 +19,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// Starts the buff, increasing the movement speed.
 		/// </summary>
 		/// <param name="buff"></param>
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = (Character)buff.Target;
 			var speedBonus = this.GetSpeedBonus(target);
@@ -38,6 +41,11 @@ namespace Melia.Zone.Buffs.Handlers.Common
 			target.Properties.Modify(PropertyName.MSPD_BM, speedBonus);
 
 			Send.ZC_MOVE_SPEED(target);
+
+			// DashRun doesn't have an update time by default, but we want to
+			// make some checks on its update, so we're going to change this.
+			buff.UpdateTime = TimeSpan.FromMilliseconds(100);
+			buff.NextUpdateTime = DateTime.Now.Add(buff.UpdateTime);
 		}
 
 		/// <summary>
@@ -68,6 +76,8 @@ namespace Melia.Zone.Buffs.Handlers.Common
 
 			if (target.Properties.Stamina < minStamina)
 				target.StopBuff(BuffId.DashRun);
+
+			Barbarian28.TryApplyBuff(target);
 		}
 
 		/// <summary>

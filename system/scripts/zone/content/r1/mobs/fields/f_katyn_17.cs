@@ -15,11 +15,11 @@ public class FKatyn17MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_17.Id1", MonsterId.Jellyfish, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_17.Id2", MonsterId.TerraNymph, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_17.Id3", MonsterId.Woodgoblin_Black, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_17.Id4", MonsterId.TerraNymph, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_katyn_17.Id5", MonsterId.Woodgoblin_Black, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_17.Id1", MonsterId.Jellyfish, min: 15, max: 20, respawn: Seconds(15));
+		AddSpawner("f_katyn_17.Id2", MonsterId.TerraNymph, min: 12, max: 15, respawn: Seconds(15));
+		AddSpawner("f_katyn_17.Id3", MonsterId.Woodgoblin_Black, min: 23, max: 30, respawn: Seconds(15));
+		AddSpawner("f_katyn_17.Id4", MonsterId.TerraNymph, min: 15, max: 20, respawn: Seconds(5));
+		AddSpawner("f_katyn_17.Id5", MonsterId.Woodgoblin_Black, min: 23, max: 30, respawn: Seconds(5));
 
 		// Monster Spawn Points -----------------------------
 

@@ -25,7 +25,7 @@ public class DCmine02MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cmine_02.Id1", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_02.Id1", MonsterId.Rootcrystal_01, min: 23, max: 30, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("d_cmine_02.Id2", MonsterId.Yekubite, min: 4, max: 5, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cmine_02.Id3", MonsterId.Yekubite, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cmine_02.Id4", MonsterId.Shredded, min: 15, max: 20, tendency: TendencyType.Aggressive);

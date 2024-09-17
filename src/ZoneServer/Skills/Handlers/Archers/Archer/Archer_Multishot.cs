@@ -122,7 +122,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 					await Task.Delay(DelayBetweenHits);
 			}
 
-			Send.ZC_SKILL_DISABLE(caster as Character);
+			Send.ZC_SKILL_DISABLE(caster);
 		}
 	}
 }

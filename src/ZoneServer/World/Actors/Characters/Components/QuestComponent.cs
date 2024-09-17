@@ -537,6 +537,33 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <exception cref="InvalidOperationException"></exception>
 		private LuaTable QuestToTable(Quest quest)
 		{
+			/// Quest
+			/// {
+			///		string ObjectId
+			///		int ClassId
+			///		string Name
+			///		string Description
+			///		int Level
+			///		string Status
+			///		bool Done
+			///		bool Cancelable
+			///		
+			///		Objectives[]
+			///		{
+			///			string Text
+			///			bool Unlocked
+			///			bool Done
+			///			int Count
+			///			int TargetCount
+			///		}
+			///		
+			///		Rewards[]
+			///		{
+			///			string Text
+			///			string Icon
+			///		}
+			/// }
+
 			var objectivesTable = this.ObjectivesToTable(quest);
 
 			var rewardsTable = new LuaTable();
@@ -559,6 +586,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("Status", quest.Status.ToString());
 			questTable.Insert("Done", quest.ObjectivesCompleted);
 			questTable.Insert("Cancelable", quest.Data.Cancelable);
+			questTable.Insert("Tracked", quest.Tracked);
 			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);
 

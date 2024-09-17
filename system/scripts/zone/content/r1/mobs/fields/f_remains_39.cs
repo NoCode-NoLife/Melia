@@ -30,7 +30,7 @@ public class FRemains39MobScript : GeneralScript
 		AddSpawner("f_remains_39.Id6", MonsterId.Flying_Flog, min: 10, max: 13);
 		AddSpawner("f_remains_39.Id7", MonsterId.Zolem, min: 19, max: 25);
 		AddSpawner("f_remains_39.Id8", MonsterId.Gravegolem, min: 19, max: 25);
-		AddSpawner("f_remains_39.Id9", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: TimeSpan.FromMilliseconds(30000));
+		AddSpawner("f_remains_39.Id9", MonsterId.Rootcrystal_01, min: 13, max: 17, respawn: Seconds(30));
 
 		// Monster Spawn Points -----------------------------
 

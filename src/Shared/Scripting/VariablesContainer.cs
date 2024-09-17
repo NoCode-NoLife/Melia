@@ -10,11 +10,11 @@ namespace Melia.Shared.Scripting
 		/// <summary>
 		/// Returns the permanent variables.
 		/// </summary>
-		public Variables Perm { get; } = new Variables();
+		public Variables Perm { get; } = new();
 
 		/// <summary>
 		/// Returns the temporary variables.
 		/// </summary>
-		public Variables Temp { get; } = new Variables();
+		public Variables Temp { get; } = new();
 	}
 }

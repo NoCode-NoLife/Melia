@@ -22,7 +22,7 @@ public class DZachariel36MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_36.Id1", MonsterId.Rootcrystal_05, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_36.Id1", MonsterId.Rootcrystal_05, min: 8, max: 10, respawn: Seconds(15), tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_36.Id2", MonsterId.Schlesien_Darkmage, min: 5, max: 6, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_36.Id3", MonsterId.Schlesien_Heavycavarly, amount: 3, tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_36.Id4", MonsterId.Schlesien_Claw, min: 15, max: 20, tendency: TendencyType.Aggressive);

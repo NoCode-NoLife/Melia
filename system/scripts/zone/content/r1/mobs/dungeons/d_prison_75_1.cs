@@ -27,7 +27,7 @@ public class DPrison751MobScript : GeneralScript
 		AddSpawner("d_prison_75_1.Id10", MonsterId.ERD_New_Desmodus_Black, min: 9, max: 12);
 		AddSpawner("d_prison_75_1.Id11", MonsterId.ERD_Zigri, min: 9, max: 12);
 		AddSpawner("d_prison_75_1.Id12", MonsterId.ERD_Hook, min: 9, max: 12);
-		AddSpawner("d_prison_75_1.Id13", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(25000));
+		AddSpawner("d_prison_75_1.Id13", MonsterId.Rootcrystal_01, min: 19, max: 25, respawn: Seconds(25));
 
 		// Monster Spawn Points -----------------------------
 

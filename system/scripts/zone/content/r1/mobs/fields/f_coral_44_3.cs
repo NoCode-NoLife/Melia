@@ -20,7 +20,7 @@ public class FCoral443MobScript : GeneralScript
 		AddSpawner("f_coral_44_3.Id3", MonsterId.VarleHenchman, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("f_coral_44_3.Id4", MonsterId.VarleHelmsman, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("f_coral_44_3.Id5", MonsterId.NimrahPricker, min: 4, max: 5, tendency: TendencyType.Aggressive);
-		AddSpawner("f_coral_44_3.Id6", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: TimeSpan.FromMilliseconds(30000), tendency: TendencyType.Peaceful);
+		AddSpawner("f_coral_44_3.Id6", MonsterId.Rootcrystal_03, min: 23, max: 30, respawn: Seconds(30), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

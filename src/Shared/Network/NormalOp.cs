@@ -21,7 +21,7 @@
 			public const int ClientIntegrityFailure = 0x18;
 			public const int BarrackSlotCount = 0x19;
 			public const int NGSCallback = 0x1A;
-			public const int UnkThema1 = 0x1B;
+			public const int ThemaSuccess = 0x1B;
 			public const int CharacterInfo = 0x1C;
 		}
 
@@ -42,6 +42,8 @@
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AttackCancel = 0x41;
+			public const int Skill_42 = 0x42;
+			public const int Skill_43 = 0x43;
 			public const int Skill_45 = 0x45;
 			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
@@ -53,7 +55,9 @@
 			public const int Cutscene = 0x6B;
 			public const int SetSkillSpeed = 0x77;
 			public const int SetHitDelay = 0x78;
+			public const int SkillCancelCancel = 0x7D;
 			public const int SpinObject = 0x8A;
+			public const int OpenBook = 0x9E;
 			public const int Unknown_A1 = 0xA1;
 			public const int LeapJump = 0xC2;
 			public const int Unknown_DA = 0xDA;

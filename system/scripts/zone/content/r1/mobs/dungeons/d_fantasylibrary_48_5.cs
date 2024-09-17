@@ -25,7 +25,7 @@ public class DFantasylibrary485MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_fantasylibrary_48_5.Id1", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("d_fantasylibrary_48_5.Id1", MonsterId.Rootcrystal_03, min: 12, max: 15, respawn: Minutes(1));
 		AddSpawner("d_fantasylibrary_48_5.Id2", MonsterId.Cretobiang, min: 4, max: 5);
 		AddSpawner("d_fantasylibrary_48_5.Id3", MonsterId.Creto, min: 23, max: 30);
 		AddSpawner("d_fantasylibrary_48_5.Id4", MonsterId.Lapindion, min: 23, max: 30);

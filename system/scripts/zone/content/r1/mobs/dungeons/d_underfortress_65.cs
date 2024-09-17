@@ -32,7 +32,7 @@ public class DUnderfortress65MobScript : GeneralScript
 		AddSpawner("d_underfortress_65.Id7", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_65.Id8", MonsterId.Silvertransporter_Qm, amount: 1, tendency: TendencyType.Peaceful);
 		AddSpawner("d_underfortress_65.Id9", MonsterId.Socket_Bow_Purple, min: 8, max: 10, tendency: TendencyType.Aggressive);
-		AddSpawner("d_underfortress_65.Id10", MonsterId.Rootcrystal_05, min: 11, max: 14, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_underfortress_65.Id10", MonsterId.Rootcrystal_05, min: 11, max: 14, respawn: Seconds(20), tendency: TendencyType.Peaceful);
 
 		// Monster Spawn Points -----------------------------
 

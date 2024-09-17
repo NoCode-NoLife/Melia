@@ -23,7 +23,7 @@ public class FPilgrimroad52MobScript : GeneralScript
 
 		AddSpawner("f_pilgrimroad_52.Id1", MonsterId.Hook_Old, min: 15, max: 20);
 		AddSpawner("f_pilgrimroad_52.Id2", MonsterId.TreeAmbulo_Red, min: 19, max: 25);
-		AddSpawner("f_pilgrimroad_52.Id3", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_pilgrimroad_52.Id3", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: Seconds(5));
 		AddSpawner("f_pilgrimroad_52.Id4", MonsterId.TreeAmbulo_Red, min: 60, max: 80);
 		AddSpawner("f_pilgrimroad_52.Id5", MonsterId.Hook_Old, min: 8, max: 10);
 		AddSpawner("f_pilgrimroad_52.Id6", MonsterId.Lichenclops_Mage, min: 6, max: 8);

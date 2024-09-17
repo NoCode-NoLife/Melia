@@ -15,7 +15,7 @@ public class FFlash58MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_flash_58.Id1", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: TimeSpan.FromMilliseconds(60000));
+		AddSpawner("f_flash_58.Id1", MonsterId.Rootcrystal_03, min: 19, max: 25, respawn: Minutes(1));
 		AddSpawner("f_flash_58.Id2", MonsterId.Infroholder_Red, min: 45, max: 60);
 		AddSpawner("f_flash_58.Id3", MonsterId.Socket_Purple, min: 23, max: 30);
 		AddSpawner("f_flash_58.Id4", MonsterId.Infroholder_Mage_Green, min: 12, max: 15);

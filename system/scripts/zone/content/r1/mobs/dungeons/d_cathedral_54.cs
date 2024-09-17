@@ -24,7 +24,7 @@ public class DCathedral54MobScript : GeneralScript
 
 		AddSpawner("d_cathedral_54.Id1", MonsterId.Stoulet_Blue, min: 15, max: 20, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_54.Id2", MonsterId.NightMaiden_Mage, min: 6, max: 8, tendency: TendencyType.Aggressive);
-		AddSpawner("d_cathedral_54.Id3", MonsterId.Rootcrystal_03, min: 16, max: 21, respawn: TimeSpan.FromMilliseconds(60000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cathedral_54.Id3", MonsterId.Rootcrystal_03, min: 16, max: 21, respawn: Minutes(1), tendency: TendencyType.Peaceful);
 		AddSpawner("d_cathedral_54.Id4", MonsterId.Stoulet_Blue, min: 23, max: 30, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cathedral_54.Id5", MonsterId.Velwriggler_Blue, min: 23, max: 30, tendency: TendencyType.Aggressive);
 

@@ -53,8 +53,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 			skillHit.ForceId = ForceId.GetNew();
 
 			skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-			skillHit.HitInfo.Type = HitType.KnockBack;
-			target.Position = skillHit.KnockBackInfo.ToPosition;
+			skillHit.ApplyKnockBack(target);
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 		}

@@ -1,6 +1,8 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -86,6 +88,28 @@ namespace Melia.Zone.Skills.Combat
 			this.SkillHitDelay = skillHitDelay;
 			this.HitEffect = result.Effect;
 			this.HitCount = result.HitCount;
+		}
+
+		/// <summary>
+		/// Applies the knock back to the target and updates the hit type.
+		/// </summary>
+		/// <param name="target"></param>
+		public void ApplyKnockBack(ICombatEntity target)
+		{
+			if (this.KnockBackInfo == null)
+				throw new InvalidOperationException("Knock back info is not set.");
+
+			this.HitInfo.Type = this.KnockBackInfo.HitType;
+			target.Position = this.KnockBackInfo.ToPosition;
+
+			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+
+			// Set knock down state as well if applicable, so we can check for
+			// both KB and KD as necessary. We can't consider them to be the
+			// same because some skills and buffs have special behavior for
+			// knock downs.
+			if (this.HitInfo.Type == HitType.KnockDown)
+				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
 	}
 }

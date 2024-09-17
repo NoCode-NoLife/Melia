@@ -11,6 +11,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Items;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -217,6 +218,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new CombatComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 
 			this.LoadData();
 		}
@@ -647,6 +649,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public void PossiblyBecomeRare(float jackpotRate = 100, float eliteRate = 100)
 		{
+			if (this.Data.Rank > MonsterRank.Elite)
+				return;
+
 			var rnd = RandomProvider.Get();
 
 			var worldConf = ZoneServer.Instance.Conf.World;
@@ -709,6 +714,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		public bool CanFight()
 		{
 			if (this.IsDead)
+				return false;
+
+			if (this.IsLocked(LockType.Attack))
 				return false;
 
 			return true;

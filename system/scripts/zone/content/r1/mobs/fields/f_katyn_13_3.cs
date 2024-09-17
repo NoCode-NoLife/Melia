@@ -15,11 +15,11 @@ public class FKatyn133MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("f_katyn_13_3.Id1", MonsterId.New_Desmodus, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_13_3.Id2", MonsterId.Ellom_Green, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_13_3.Id3", MonsterId.InfroRocktor_Red, min: 12, max: 15, respawn: TimeSpan.FromMilliseconds(15000));
-		AddSpawner("f_katyn_13_3.Id4", MonsterId.InfroRocktor_Red, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
-		AddSpawner("f_katyn_13_3.Id5", MonsterId.New_Desmodus, min: 15, max: 20, respawn: TimeSpan.FromMilliseconds(5000));
+		AddSpawner("f_katyn_13_3.Id1", MonsterId.New_Desmodus, min: 15, max: 20, respawn: Seconds(15));
+		AddSpawner("f_katyn_13_3.Id2", MonsterId.Ellom_Green, min: 8, max: 10, respawn: Seconds(15));
+		AddSpawner("f_katyn_13_3.Id3", MonsterId.InfroRocktor_Red, min: 12, max: 15, respawn: Seconds(15));
+		AddSpawner("f_katyn_13_3.Id4", MonsterId.InfroRocktor_Red, min: 15, max: 20, respawn: Seconds(5));
+		AddSpawner("f_katyn_13_3.Id5", MonsterId.New_Desmodus, min: 15, max: 20, respawn: Seconds(5));
 
 		// Monster Spawn Points -----------------------------
 

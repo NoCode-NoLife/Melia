@@ -10,7 +10,12 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Drug_HealHP_MHP)]
 	public class Drug_HealHP_MHP : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
+		{
+			this.WhileActive(buff);
+		}
+
+		public override void WhileActive(Buff buff)
 		{
 			var character = buff.Target;
 
@@ -23,16 +28,6 @@ namespace Melia.Zone.Buffs.Handlers.Common
 			// 7, but that doesn't match the in-game behavior of the small
 			// potion. Until someone tells us the correct behavior, we'll
 			// just do what the description says.
-
-			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
-			var hpHealAmount = maxHp * 0.20f;
-
-			character.Heal(hpHealAmount, 0);
-		}
-
-		public override void WhileActive(Buff buff)
-		{
-			var character = buff.Target;
 
 			var maxHp = character.Properties.GetFloat(PropertyName.MHP);
 			var hpHealAmount = maxHp * 0.20f;

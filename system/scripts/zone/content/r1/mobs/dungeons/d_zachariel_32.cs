@@ -23,7 +23,7 @@ public class DZachariel32MobScript : GeneralScript
 
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: TimeSpan.FromMilliseconds(5000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_zachariel_32.Id1", MonsterId.Rootcrystal_05, min: 12, max: 16, respawn: Seconds(5), tendency: TendencyType.Peaceful);
 		AddSpawner("d_zachariel_32.Id2", MonsterId.Zinutekas, min: 6, max: 8, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_32.Id3", MonsterId.Zinutekas, min: 8, max: 10, tendency: TendencyType.Aggressive);
 		AddSpawner("d_zachariel_32.Id4", MonsterId.Varv, min: 8, max: 10, tendency: TendencyType.Aggressive);

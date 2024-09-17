@@ -116,8 +116,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
 				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-				target.Position = skillHit.KnockBackInfo.ToPosition;
+				skillHit.ApplyKnockBack(target);
 
 				hits.Add(skillHit);
 

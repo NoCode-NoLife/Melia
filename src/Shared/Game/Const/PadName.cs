@@ -291,6 +291,8 @@ namespace Melia.Shared.Game.Const
 		public const string Engineer_KingMechaV_Frozen = "Engineer_KingMechaV_Frozen";
 		public const string Engineer_LightningTurret_Default = "Engineer_LightningTurret_Default";
 		public const string Engineer_LightningTurret_Punishment = "Engineer_LightningTurret_Punishment";
+		public const string ep16_2_boss_firewall = "ep16_2_boss_firewall";
+		public const string ep16_2_grinender_firepillar = "ep16_2_grinender_firepillar";
 		public const string ep16_hogma_sorcerer_lethargy = "ep16_hogma_sorcerer_lethargy";
 		public const string EVENT_2001_NEWYEAR_INIT_PAD = "EVENT_2001_NEWYEAR_INIT_PAD";
 		public const string event_skiaclipse_pad_1 = "event_skiaclipse_pad_1";
@@ -621,6 +623,7 @@ namespace Melia.Shared.Game.Const
 		public const string Necromancer_FleshHoop_abil = "Necromancer_FleshHoop_abil";
 		public const string Necromancer_FleshStrike = "Necromancer_FleshStrike";
 		public const string Nepenthes = "Nepenthes";
+		public const string neringa_ray_exploitation = "neringa_ray_exploitation";
 		public const string Nuodai_Poison_Remove = "Nuodai_Poison_Remove";
 		public const string Onmyoji_CrystalballShikigami_Pad = "Onmyoji_CrystalballShikigami_Pad";
 		public const string Onmyoji_CrystalballShikigami_Pad2 = "Onmyoji_CrystalballShikigami_Pad2";
@@ -915,6 +918,7 @@ namespace Melia.Shared.Game.Const
 		public const string velcofer_curse_pad = "velcofer_curse_pad";
 		public const string Velo_Holdbuff = "Velo_Holdbuff";
 		public const string VIBORA_ArousalCharm_Fire_Pad = "VIBORA_ArousalCharm_Fire_Pad";
+		public const string Vulture_Devastation_Archer = "Vulture_Devastation_Archer";
 		public const string Warlock_Mastema = "Warlock_Mastema";
 		public const string Warlock_PoleofAgony = "Warlock_PoleofAgony";
 		public const string Warlock_Sabbath_Fluting = "Warlock_Sabbath_Fluting";

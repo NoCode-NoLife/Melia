@@ -13,7 +13,7 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns the direction as an angle in degree, where 0° is south.
 		/// </summary>
-		public float DegreeAngle
+		public readonly float DegreeAngle
 		{
 			get
 			{
@@ -33,7 +33,7 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns the direction as an angle in degree, where 0° is east.
 		/// </summary>
-		public float NormalDegreeAngle
+		public readonly float NormalDegreeAngle
 		{
 			get
 			{
@@ -53,70 +53,70 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns the direction as an angle in radians.
 		/// </summary>
-		public float RadianAngle => (float)Math.Atan2(this.Sin, this.Cos);
+		public readonly float RadianAngle => (float)Math.Atan2(this.Sin, this.Cos);
 
 		/// <summary>
 		/// Returns a new direction with zero values.
 		/// </summary>
-		public static Direction Zero => new Direction(0, 0);
+		public static Direction Zero => new(0, 0);
 
 		/// <summary>
 		/// Returns a direction that points north.
 		/// </summary>
-		public static Direction North => new Direction(0, 1);
+		public static Direction North => new(0, 1);
 
 		/// <summary>
 		/// Returns a direction that points west.
 		/// </summary>
-		public static Direction NorthWest => new Direction(-0.7071068f, 0.7071068f);
+		public static Direction NorthWest => new(-0.7071068f, 0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points east.
 		/// </summary>
-		public static Direction NorthEast => new Direction(0.7071068f, 0.7071068f);
+		public static Direction NorthEast => new(0.7071068f, 0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points south.
 		/// </summary>
-		public static Direction South => new Direction(0, -1);
+		public static Direction South => new(0, -1);
 
 		/// <summary>
 		/// Returns a direction that points south west.
 		/// </summary>
-		public static Direction SouthWest => new Direction(-0.7071068f, -0.7071068f);
+		public static Direction SouthWest => new(-0.7071068f, -0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points south east.
 		/// </summary>
-		public static Direction SouthEast => new Direction(0.7071068f, -0.7071068f);
+		public static Direction SouthEast => new(0.7071068f, -0.7071068f);
 
 		/// <summary>
 		/// Returns a direction that points east.
 		/// </summary>
-		public static Direction East => new Direction(1, 0);
+		public static Direction East => new(1, 0);
 
 		/// <summary>
 		/// Returns a direction that points west.
 		/// </summary>
-		public static Direction West => new Direction(-1, 0);
+		public static Direction West => new(-1, 0);
 
 		/// <summary>
 		/// Returns a direction that, relative to this direction,
 		/// points right.
 		/// </summary>
-		public Direction Right => new Direction(this.DegreeAngle - 90);
+		public readonly Direction Right => new(this.DegreeAngle - 90);
 
 		/// <summary>
 		/// Returns a direction that, relative to this direction,
 		/// points left.
 		/// </summary>
-		public Direction Left => new Direction(this.DegreeAngle + 90);
+		public readonly Direction Left => new(this.DegreeAngle + 90);
 
 		/// <summary>
 		/// Returns a direction that points in the opposite direction from
 		/// this direction.
 		/// </summary>
-		public Direction Backwards => new Direction(this.DegreeAngle + 180);
+		public readonly Direction Backwards => new(this.DegreeAngle + 180);
 
 		/// <summary>
 		/// Creates new direction from values.
@@ -160,7 +160,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="degreeAngle"></param>
 		/// <returns></returns>
-		public Direction AddDegreeAngle(float degreeAngle)
+		public readonly Direction AddDegreeAngle(float degreeAngle)
 		{
 			var degree = this.DegreeAngle;
 			degree += degreeAngle;
@@ -172,8 +172,8 @@ namespace Melia.Shared.World
 		/// Returns a new direction, with an adjusted angle, where 0° is east.
 		/// </summary>
 		/// <returns></returns>
-		public Direction GetNormal()
-			=> new Direction(this.NormalDegreeAngle);
+		public readonly Direction GetNormal()
+			=> new(this.NormalDegreeAngle);
 
 		/// <summary>
 		/// Returns true if the directions have the same cos and sin
@@ -205,7 +205,7 @@ namespace Melia.Shared.World
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <returns></returns>
-		public override bool Equals(object obj)
+		public override readonly bool Equals(object obj)
 		{
 			return (obj is Direction direction && this == direction);
 		}
@@ -214,12 +214,9 @@ namespace Melia.Shared.World
 		/// Returns a hash code for this direction's values.
 		/// </summary>
 		/// <returns></returns>
-		public override int GetHashCode()
+		public override readonly int GetHashCode()
 		{
-			var hashCode = -1221995383;
-			hashCode = hashCode * -1521134295 + this.Cos.GetHashCode();
-			hashCode = hashCode * -1521134295 + this.Sin.GetHashCode();
-			return hashCode;
+			return HashCode.Combine(this.Cos, this.Sin);
 		}
 	}
 }

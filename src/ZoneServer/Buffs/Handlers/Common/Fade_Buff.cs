@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	[BuffHandler(BuffId.Fade_Buff)]
 	public class Fade_Buff : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 			var monstersOnMap = target.Map.GetMonsters();

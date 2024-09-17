@@ -89,11 +89,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
 				if (RandomProvider.Get().Next(10000) < buffRemoveChance)
 				{
-					if (target.Components.TryGet<BuffComponent>(out var buffComponent))
-					{
-						buffComponent.RemoveRandomBuff();
-						buffComponent.RemoveRandomBuff();
-					}
+					target.RemoveRandomBuff();
+					target.RemoveRandomBuff();
 				}
 			}
 
@@ -125,11 +122,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 					var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
 					if (RandomProvider.Get().Next(10000) < buffRemoveChance)
 					{
-						if (target.Components.TryGet<BuffComponent>(out var buffComponent))
-						{
-							buffComponent.RemoveRandomBuff();
-							buffComponent.RemoveRandomBuff();
-						}
+						target.RemoveRandomBuff();
+						target.RemoveRandomBuff();
 					}
 				}
 

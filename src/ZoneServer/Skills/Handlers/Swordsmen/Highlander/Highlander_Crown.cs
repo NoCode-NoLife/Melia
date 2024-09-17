@@ -87,12 +87,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 				// In earlier versions, this skill instead inflicted Common_Shock
 				target.StartBuff(BuffId.Crown_Armor_Debuff, skill.Level, 0, TimeSpan.FromSeconds(debuffTime), caster);
 
-				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-				if (RandomProvider.Get().Next(1000) < buffRemoveChance)
-				{
-					if (target.Components.TryGet<BuffComponent>(out var buffComponent))
-						buffComponent.RemoveRandomBuff();
-				}
+				var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level / 10f;
+				target.RemoveRandomBuff(buffRemoveChance);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

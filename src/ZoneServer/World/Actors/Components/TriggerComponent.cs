@@ -7,6 +7,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Components
 {
@@ -30,7 +31,9 @@ namespace Melia.Zone.World.Actors.Components
 		private int _useCount;
 
 		private DateTime _creationTime;
-		private DateTime _lastUpdate;
+		private TimeSpan _updateTimer;
+		private TimeSpan _lifetimeTimer;
+		private bool _elapsedInitalized;
 		private bool _destroyed;
 
 		/// <summary>
@@ -102,6 +105,13 @@ namespace Melia.Zone.World.Actors.Components
 		/// it automatically after X hits.
 		/// </remarks>
 		public int MaxUseCount { get; set; } = short.MaxValue;
+
+		/// <summary>
+		/// Gets or sets which types of actors the component considers actors
+		/// that can trigger it. Only actors that are included in the filter
+		/// are valid candidates.
+		/// </summary>
+		public TriggerActorFilter Filter { get; set; } = TriggerActorFilter.CombatEntities;
 
 		/// <summary>
 		/// Event that is triggered when the actor added to a map.
@@ -180,6 +190,17 @@ namespace Melia.Zone.World.Actors.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
+			// Make sure the elapsed time is not the full update time if we run
+			// for the first time, since the component might not have been around
+			// for the full update interval, which would mess with the update time
+			// calculations. We probably want to standardize this in some say,
+			// since this is generally what we would want to know. TODO.
+			if (!_elapsedInitalized)
+			{
+				elapsed = Math2.Max(TimeSpan.Zero, DateTime.Now - _creationTime);
+				_elapsedInitalized = true;
+			}
+
 			// There are two approaches to checking actors inside a trigger.
 			// We can do it from the trigger, which means every trigger needs
 			// to check all actors, or we can do it from the actors (and their
@@ -192,7 +213,7 @@ namespace Melia.Zone.World.Actors.Components
 
 			this.Area.UpdatePosition(this.Owner.Position);
 
-			var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area);
+			var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area, this.IsValidTriggerer);
 
 			lock (_syncLock)
 			{
@@ -211,22 +232,39 @@ namespace Melia.Zone.World.Actors.Components
 				this.ActorCount = nowInside.Count;
 			}
 
-			var now = DateTime.Now;
-			var sinceLastUpdate = now - _lastUpdate;
+			_updateTimer += elapsed;
 
-			if (sinceLastUpdate >= this.UpdateInterval)
+			if (_updateTimer >= this.UpdateInterval)
 			{
 				this.Updated?.Invoke(this, new TriggerArgs(TriggerType.Update, this.Owner));
-				_lastUpdate = now;
+				_updateTimer = TimeSpan.Zero;
 			}
 
 			if (this.LifeTime != TimeSpan.MaxValue)
 			{
-				var destroyTime = _creationTime + this.LifeTime;
+				_lifetimeTimer += elapsed;
 
-				if (now >= destroyTime)
+				if (_lifetimeTimer >= this.LifeTime)
+				{
 					this.DestroyOwner();
+					_lifetimeTimer = TimeSpan.Zero;
+				}
 			}
+		}
+
+		/// <summary>
+		/// Returns true if the given actor is allowed to trigger the trigger.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <returns></returns>
+		private bool IsValidTriggerer(IActor actor)
+		{
+			if (!this.Filter.Has(TriggerActorFilter.Characters) && actor is Character) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Mobs) && actor is Mob) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Npcs) && actor is Npc) return false;
+			if (!this.Filter.Has(TriggerActorFilter.Items) && actor is ItemMonster) return false;
+
+			return true;
 		}
 
 		/// <summary>
@@ -269,7 +307,6 @@ namespace Melia.Zone.World.Actors.Components
 		{
 			_destroyed = false;
 			_creationTime = DateTime.Now;
-			_lastUpdate = DateTime.Now;
 
 			this.Created?.Invoke(this, new TriggerArgs(TriggerType.Create, this.Owner));
 		}
@@ -473,5 +510,62 @@ namespace Melia.Zone.World.Actors.Components
 				handler(sender, new PadTriggerActorArgs(args.Type, pad, initiator, creator, skill));
 			};
 		}
+	}
+
+	/// <summary>
+	/// Used to specify which actors are allowed to trigger a trigger.
+	/// </summary>
+	public enum TriggerActorFilter : uint
+	{
+		/// <summary>
+		/// Matches player characters.
+		/// </summary>
+		Characters = 0x01,
+
+		/// <summary>
+		/// Matches combat-capable monsters.
+		/// </summary>
+		Mobs = 0x02,
+
+		/// <summary>
+		/// Matches friendly NPCs.
+		/// </summary>
+		Npcs = 0x04,
+
+		/// <summary>
+		/// Matches items lying on the ground.
+		/// </summary>
+		Items = 0x08,
+
+		/// <summary>
+		/// Matches combat entities, such as characters and mobs.
+		/// </summary>
+		CombatEntities = Characters | Mobs,
+
+		/// <summary>
+		/// Matches "monster-type" actors, which means everything that's
+		/// not a player.
+		/// </summary>
+		Monsters = Mobs | Npcs | Items,
+
+		/// <summary>
+		/// Matches all actors.
+		/// </summary>
+		All = 0xFFFFFFFF,
+	}
+
+	/// <summary>
+	/// Extensions for the trigger actor filter enum.
+	/// </summary>
+	public static class TriggerActorFilterExtension
+	{
+		/// <summary>
+		/// Returns true if the filter contains the given value.
+		/// </summary>
+		/// <param name="filter"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public static bool Has(this TriggerActorFilter filter, TriggerActorFilter value)
+			=> (filter & value) != 0;
 	}
 }

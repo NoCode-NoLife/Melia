@@ -15,15 +15,15 @@ public class DCmine8MobScript : GeneralScript
 	{
 		// Monster Spawners ---------------------------------
 
-		AddSpawner("d_cmine_8.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: TimeSpan.FromMilliseconds(20000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id1", MonsterId.Rootcrystal_01, min: 8, max: 10, respawn: Seconds(20), tendency: TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id2", MonsterId.FD_Bubbe_Chaser, min: 27, max: 35, tendency: TendencyType.Aggressive);
 		AddSpawner("d_cmine_8.Id3", MonsterId.FD_Bubbe_Mage_Fire, min: 8, max: 10, tendency: TendencyType.Aggressive);
-		AddSpawner("d_cmine_8.Id4", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id5", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id6", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id7", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id8", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
-		AddSpawner("d_cmine_8.Id9", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: TimeSpan.FromMilliseconds(10000), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id4", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id5", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id6", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id7", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id8", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
+		AddSpawner("d_cmine_8.Id9", MonsterId.Crystal_Lump, min: 4, max: 5, respawn: Seconds(10), tendency: TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id10", MonsterId.FD_Minos_Mage, min: 8, max: 10, tendency: TendencyType.Peaceful);
 		AddSpawner("d_cmine_8.Id11", MonsterId.FD_Goblin_Archer_Red, min: 19, max: 25, tendency: TendencyType.Peaceful);
 

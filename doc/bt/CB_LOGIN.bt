@@ -3,7 +3,7 @@
 //
 //      File: CB_LOGIN.bt
 //   Authors: exec, celophi
-//   Version: i373230
+//   Version: i389072
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,6 +15,7 @@
 //   - i233292: lodge and slot added
 //   - i373230: unk1 (bin1/2) shrunk to 285
 //   - i373230: str was added (same as in CB_START_BARRACK)
+//   - i389072: unk1 size increased by 4
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -27,10 +28,5 @@ byte b1;
 byte b2;
 byte b3;
 IP ip;
-int i1;
-int i2;
-int LCID;        // system locale.
-int lodge;       // active lodge to display.
-int slot;        // active character to display.
-byte unk1[285];
+byte unk1[405];
 char str1[64]; // "GLOBAL", localization selection?

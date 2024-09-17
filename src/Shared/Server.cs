@@ -18,6 +18,7 @@ using Melia.Shared.Network;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.TCP;
 using Yggdrasil.Scripting;
 using Yggdrasil.Util;
 
@@ -98,6 +99,9 @@ namespace Melia.Shared
 
 			this.Conf.Load();
 			Log.SetFilter(this.Conf.Log.Filter);
+
+			if (this.Conf.Inter.Authentication == "change_me")
+				Log.Warning("You're using the default password for inter-server communication. It is highly recommended that you change it in inter.conf.");
 
 			return this.Conf;
 		}
@@ -396,7 +400,12 @@ namespace Melia.Shared
 					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+				{
+					if (ex.InnerException is MissingMethodException)
+						Log.Error("It appears like a script tried to use a method that does (no longer) exist, which may be a caching issue. Try deleting the user/cache/ folder and run the server again.");
+
 					Log.Error(ex);
+				}
 			}
 			catch (CompilerErrorException ex)
 			{
@@ -530,6 +539,20 @@ namespace Melia.Shared
 			}
 
 			return serverData;
+		}
+
+		/// <summary>
+		/// Checks whether the given connection is valid and should be accepted.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="database"></param>
+		/// <returns></returns>
+		protected ConnectionCheck CheckConnection(TcpConnection conn, MeliaDb database)
+		{
+			if (database.CheckIpBan(conn.Address))
+				return new ConnectionCheck(ConnectionCheckResult.Reject, "IP banned");
+
+			return new ConnectionCheck(ConnectionCheckResult.Accept, "Accepted");
 		}
 	}
 }
