@@ -47,6 +47,8 @@ public class CharacterInitializationScript : GeneralScript
 		props.SetFloat("UnlockQuest_Char3_24", 1); // Godeye
 		props.SetFloat("UnlockQuest_Char4_23", 1); // Pontifex
 		props.SetFloat("UnlockQuest_Char5_19", 1); // Desperado
+		props.SetFloat("UnlockQuest_Char2_26", 1); // Vulture [W]
+		props.SetFloat("UnlockQuest_Char3_25", 1); // Vulture [A]
 	}
 
 	private static void InitCharacter(Character character)
