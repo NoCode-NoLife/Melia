@@ -118,7 +118,6 @@ namespace Melia.Zone.Network
 			conn.SessionKey = sessionKey;
 
 			ZoneServer.Instance.Database.UpdateLoginState(conn.Account.Id, character.DbId, LoginState.Zone);
-			ZoneServer.Instance.Database.UpdateLastLogin(conn.Account.Id);
 
 			// Officials always send the following packets, even if we're coming
 			// from the barracks and don't need most of them. Since the client
