@@ -23,7 +23,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	[BuffHandler(BuffId.OOBE_Moksha_Buff)]
 	public class OOBE_Moksha_Buff : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var caster = buff.Caster;
 

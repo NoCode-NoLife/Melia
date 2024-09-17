@@ -11,7 +11,6 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 
 [Ai("SadhuDummy")]
 public class SadhuDummyAiScript : AiScript
@@ -23,6 +22,15 @@ public class SadhuDummyAiScript : AiScript
 
 	protected override void Setup()
 	{
+		SetViewDistance(200);
+
+		SetTendency(TendencyType.Aggressive);
+		HatesFaction(FactionType.Peaceful);
+		HatesFaction(FactionType.Pet);
+		HatesFaction(FactionType.Monster);
+		HatesFaction(FactionType.Neutral);
+		HatesFaction(FactionType.Summon);
+
 		During("Idle", CheckEnemies);
 		During("Attack", CheckTarget);
 		During("Attack", CheckMaster);
@@ -126,7 +134,6 @@ public class SadhuDummyAiScript : AiScript
 
 		if (!ZoneServer.Instance.SkillHandlers.TryGetHandler<IMeleeGroundSkillHandler>(skill.Id, out var handler))
 		{
-			Log.Warning($"AiScript: No handler found for skill '{skill.Id}'.");
 			yield return this.Wait(3000);
 			yield break;
 		}

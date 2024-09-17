@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Database;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
@@ -38,6 +37,15 @@ namespace Melia.Zone.World.Actors.Characters
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
+
+		/// <summary>
+		/// Returns the list of sadhu buffs
+		/// </summary>
+		private static readonly List<BuffId> sadhuBuffList = new List<BuffId>()
+		{
+			BuffId.OOBE_Prakriti_Buff, BuffId.OOBE_Anila_Buff, BuffId.OOBE_Possession_Buff, BuffId.OOBE_Patati_Buff,
+			BuffId.OOBE_Moksha_Buff, BuffId.OOBE_Tanoti_Buff, BuffId.OOBE_Strong_Buff, BuffId.OOBE_Stack_Buff
+		};
 
 		/// <summary>
 		/// Returns true if the character was just saved before a warp.
@@ -1439,12 +1447,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool IsOutOfBody()
 		{
-			var buffList = new List<BuffId>() {
-				BuffId.OOBE_Prakriti_Buff, BuffId.OOBE_Anila_Buff, BuffId.OOBE_Possession_Buff, BuffId.OOBE_Patati_Buff,
-				BuffId.OOBE_Moksha_Buff, BuffId.OOBE_Tanoti_Buff, BuffId.OOBE_Strong_Buff, BuffId.OOBE_Stack_Buff
-			};
-
-			foreach (var buffId in buffList) {
+			foreach (var buffId in sadhuBuffList) {
 				if (this.IsBuffActive(buffId))
 					return true;
 			}

@@ -25,7 +25,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		// but it doesn't happen. For that reason I left this here in that case it changes
 		private const bool ApplySelfHold = false;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var caster = buff.Caster;
 

@@ -23,7 +23,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	{
 		private const int MaxTargets = 10;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var caster = buff.Caster;
 

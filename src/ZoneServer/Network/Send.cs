@@ -127,7 +127,7 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		/// <param name="equipIds"></param>
 		/// <param name="isDummy"></param>
-		public static void ZC_ENTER_PC(IZoneConnection conn, Character character, bool isDummy = false)
+		public static void ZC_ENTER_PC(IZoneConnection conn, Character character)
 		{
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
@@ -151,13 +151,13 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
-			packet.PutShort(isDummy ? 5 : 0);
+			packet.PutShort(character.IsDummy ? 5 : 0);
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
 			packet.AddAppearancePc(character);
 			packet.PutInt(0);
-			packet.PutFloat(isDummy ? 330012.6f : 405494.3f);
+			packet.PutFloat(405494.3f);
 			packet.PutByte(0);
 
 			// [i381490 (2023-12-XX)]
@@ -3223,27 +3223,12 @@ namespace Melia.Zone.Network
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
-		{
-			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-				throw new ArgumentException($"Unknown packet string '{animationName}'.");
-
-			ZC_PLAY_ANI(actor, packetStringData.Id, stopOnLastFrame);
-		}
-
-		/// <summary>
-		/// Plays animation for actor on nearby clients.
-		/// </summary>
-		/// <param name="actor">Entity to animate.</param>
-		/// <param name="packetStringId">Id of the string for the animation to play.</param>
-		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		/// <param name="unknowBoolean">Unknow purpose at this moment.</param>
-		public static void ZC_PLAY_ANI(IActor actor, int packetStringId, bool stopOnLastFrame = false, bool unknowBoolean = false)
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false, bool unknowBoolean = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
 			packet.PutInt(actor.Handle);
-			packet.PutInt(packetStringId);
+			packet.AddStringId(animationName);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);
@@ -3290,16 +3275,17 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates character's movement speed.
+		/// Updates entity's movement speed.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		public static void ZC_MSPD(ICombatEntity entity)
 			=> ZC_MSPD(entity, entity);
 
 		/// <summary>
-		/// Updates character's movement speed.
+		/// Updates entity movement speed for another entity that has connection.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
 		public static void ZC_MSPD(ICombatEntity entity, ICombatEntity target)
 		{
 			var packet = new Packet(Op.ZC_MSPD);

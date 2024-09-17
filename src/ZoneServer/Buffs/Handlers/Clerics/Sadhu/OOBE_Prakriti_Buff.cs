@@ -22,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	[BuffHandler(BuffId.OOBE_Prakriti_Buff)]
 	public class OOBE_Prakriti_Buff : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var caster = buff.Caster;
 
