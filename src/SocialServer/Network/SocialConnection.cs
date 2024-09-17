@@ -1,10 +1,9 @@
-﻿using System.Net.Sockets;
-using System;
+﻿using System;
+using System.Net.Sockets;
 using Melia.Shared.Network;
-using Melia.Social.Database;
+using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.TCP;
-using Melia.Social.World;
 
 namespace Melia.Social.Network
 {
@@ -24,7 +23,7 @@ namespace Melia.Social.Network
 	/// </summary>
 	public class SocialConnection : Connection, ISocialConnection
 	{
-		protected new readonly TosSocialFramer _framer = new TosSocialFramer(1024 * 50);
+		protected new readonly TosSocialFramer _framer = new(1024 * 50);
 
 		/// <summary>
 		/// Gets or sets the user associated with the connection.

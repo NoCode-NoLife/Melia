@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
-using Melia.Social.Network;
-using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Social.World
@@ -13,7 +10,7 @@ namespace Melia.Social.World
 	/// </summary>
 	public class FriendsList
 	{
-		private readonly List<Friend> _friends = new List<Friend>();
+		private readonly List<Friend> _friends = new();
 
 		/// <summary>
 		/// Returns the user this friends list belongs to.

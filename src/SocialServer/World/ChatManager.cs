@@ -8,7 +8,7 @@ namespace Melia.Social.World
 {
 	public class ChatManager
 	{
-		private readonly Dictionary<long, ChatRoom> _rooms = new Dictionary<long, ChatRoom>();
+		private readonly Dictionary<long, ChatRoom> _rooms = new();
 
 		private static long ChatId = 0x1FB0F00000000;
 

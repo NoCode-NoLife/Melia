@@ -9,7 +9,7 @@ namespace Melia.Social.World
 	/// </summary>
 	public class UserManager
 	{
-		private readonly Dictionary<long, SocialUser> _users = new Dictionary<long, SocialUser>();
+		private readonly Dictionary<long, SocialUser> _users = new();
 
 		/// <summary>
 		/// Loads existing users from the database.

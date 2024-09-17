@@ -5,10 +5,10 @@ namespace Melia.Social.Database
 {
 	public class Account
 	{
-		private readonly Dictionary<long, ChatRoom> _chatRooms = new Dictionary<long, ChatRoom>();
+		private readonly Dictionary<long, ChatRoom> _chatRooms = new();
 
 		// Temporary solution for testing liking
-		private readonly Dictionary<long, int> _likes = new Dictionary<long, int>();
+		private readonly Dictionary<long, int> _likes = new();
 
 		/// <summary>
 		/// Account id.
@@ -42,10 +42,7 @@ namespace Melia.Social.Database
 		public void AddChatRoom(ChatRoom chatRoom)
 		{
 			lock (_chatRooms)
-			{
-				if (!_chatRooms.ContainsKey(chatRoom.Id))
-					_chatRooms.Add(chatRoom.Id, chatRoom);
-			}
+				_chatRooms.TryAdd(chatRoom.Id, chatRoom);
 		}
 
 		/// <summary>
@@ -55,10 +52,7 @@ namespace Melia.Social.Database
 		public void RemoveChatRoom(long id)
 		{
 			lock (_chatRooms)
-			{
-				if (_chatRooms.ContainsKey(id))
-					_chatRooms.Remove(id);
-			}
+				_chatRooms.Remove(id);
 		}
 
 		/// <summary>

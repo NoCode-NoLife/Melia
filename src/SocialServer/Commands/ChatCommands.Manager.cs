@@ -1,6 +1,5 @@
 ﻿using System;
 using Melia.Shared.L10N;
-using Melia.Social.Database;
 using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Util.Commands;

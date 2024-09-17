@@ -1,6 +1,4 @@
 ﻿using Melia.Shared.Network;
-using Melia.Social.Database;
-using Melia.Social.World;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 

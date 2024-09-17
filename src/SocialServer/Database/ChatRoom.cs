@@ -9,8 +9,8 @@ namespace Melia.Social.Database
 	/// </summary>
 	public class ChatRoom
 	{
-		public readonly List<ChatMember> _members = new List<ChatMember>();
-		public readonly List<ChatMessage> _messages = new List<ChatMessage>();
+		public readonly List<ChatMember> _members = new();
+		public readonly List<ChatMessage> _messages = new();
 
 		/// <summary>
 		/// Returns the chat room's globally unique id.
