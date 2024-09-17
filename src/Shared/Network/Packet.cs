@@ -474,7 +474,7 @@ namespace Melia.Shared.Network
 			=> this.PutLong(val.ToFileTime());
 
 		/// <summary>
-		/// Convert DateTime to a series of shorts
+		/// Writes date into packet as a series of shorts.
 		/// </summary>
 		/// <param name="dateTime"></param>
 		public void PutShortDate(DateTime dateTime)
