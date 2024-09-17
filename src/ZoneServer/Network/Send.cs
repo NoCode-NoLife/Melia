@@ -212,16 +212,16 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Cancels ongoing skill animations.  Used by Archer_Multishot and monster skills.
+		/// Cancels ongoing skill animations.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		public static void ZC_SKILL_DISABLE(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_SKILL_DISABLE);
 
 			packet.PutInt(entity.Handle);
 			packet.PutByte(0);
-			packet.PutInt(0); // very random number?
+			packet.PutInt(0); // Random number, presumably unused
 
 			entity.Map.Broadcast(packet);
 		}
