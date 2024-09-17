@@ -247,7 +247,7 @@ namespace Melia.Barracks.Network
 			packet.PutInt(port);
 			packet.PutInt(character.MapId);
 			packet.PutByte((byte)channelId);
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutByte(0); // Only connects if 0
 			packet.PutByte(1); // Passed to a function if ^ is 0
 

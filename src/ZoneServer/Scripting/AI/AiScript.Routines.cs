@@ -113,8 +113,9 @@ namespace Melia.Zone.Scripting.AI
 					continue;
 				}
 
-				// Adjust the destination if the target moved
-				lastAttackMovePos = this.GetAdjacentPosition(target, attackRange);
+				// Adjust the destination if the target moved. Reduce the attack
+				// range a little, so we're guaranteed to get into attack range.
+				lastAttackMovePos = this.GetAdjacentPosition(target, attackRange - 5);
 				yield return this.MoveTo(lastAttackMovePos, wait: false);
 			}
 

@@ -38,8 +38,11 @@ namespace Melia.Barracks.Network.Helpers
 				packet.PutShort(propertiesSize);
 				if (propertiesSize > 0)
 				{
+					// Fabricate an object id, we don't currently need an actual one
+					var equipObjectId = pc.ObjectId + (i + 1);
+
 					packet.AddProperties(propertyList);
-					packet.PutLong(pc.Id + (i + 1));
+					packet.PutLong(equipObjectId);
 					packet.PutShort(0);
 				}
 			}
@@ -62,7 +65,7 @@ namespace Melia.Barracks.Network.Helpers
 			packet.PutInt(0);
 			packet.PutInt((int)pc.JobId);
 
-			packet.PutLong(pc.Id);
+			packet.PutLong(pc.ObjectId);
 			packet.PutShort(0); // Additional properties count?
 
 			//packet.PutShort(2); // Instance dungeon count

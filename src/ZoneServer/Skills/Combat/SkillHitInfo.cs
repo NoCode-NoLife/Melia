@@ -99,10 +99,17 @@ namespace Melia.Zone.Skills.Combat
 			if (this.KnockBackInfo == null)
 				throw new InvalidOperationException("Knock back info is not set.");
 
-			this.HitInfo.Type = this.Skill.Data.KnockDownHitType;
+			this.HitInfo.Type = this.KnockBackInfo.HitType;
 			target.Position = this.KnockBackInfo.ToPosition;
 
 			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+
+			// Set knock down state as well if applicable, so we can check for
+			// both KB and KD as necessary. We can't consider them to be the
+			// same because some skills and buffs have special behavior for
+			// knock downs.
+			if (this.HitInfo.Type == HitType.KnockDown)
+				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
 	}
 }

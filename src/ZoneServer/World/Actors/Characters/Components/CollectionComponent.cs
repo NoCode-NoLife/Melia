@@ -60,7 +60,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Adds a new collection. Returns false if the collection already existed.
 		/// </summary>
 		/// <param name="collectionId"></param>
-		/// <param name="redeemCount"></param>
 		/// <returns></returns>
 		public bool Add(int collectionId)
 		{
@@ -160,7 +159,6 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Grants all rewards of all collections they are eligible for to the
 		/// current character.
 		/// </summary>
-		/// <param name="character"></param>
 		public void GrantEligibleRewards()
 		{
 			foreach (var collection in this.GetList().Where(a => a.IsComplete))

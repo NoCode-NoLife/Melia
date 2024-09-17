@@ -61,9 +61,19 @@ namespace Melia.Zone.Skills.Handlers.Base
 			if (hitDelay > TimeSpan.Zero)
 				await Task.Delay(hitDelay);
 
-			// Check if attacker is still able to fight after the delay
+			// Check if attacker is still able to fight after the delay.
+			// Update: This check was primarily added to see if the caster
+			// is still alive after the delay, though we're now also checking
+			// for locks, which this doesn't cover, as the caster might've
+			// gotten locked and unlocked during the delay. We presumably
+			// wouldn't want to continue in that case, but we currently
+			// don't have a way for checking that. The proper way to handle
+			// this would probably be to cancel the skill execution.
 			if (!caster.CanFight())
+			{
+				Send.ZC_SKILL_DISABLE(caster);
 				return;
+			}
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();

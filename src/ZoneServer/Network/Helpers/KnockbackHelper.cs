@@ -24,7 +24,8 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutByte(0);
+			packet.PutGap(3);
 		}
 	}
 }

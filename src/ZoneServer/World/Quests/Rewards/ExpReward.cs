@@ -11,12 +11,12 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// <summary>
 		/// Returns the amount of EXP the player gets.
 		/// </summary>
-		public int ExpAmount { get; }
+		public long ExpAmount { get; }
 
 		/// <summary>
 		/// Returns the amount of job EXP the player gets.
 		/// </summary>
-		public int JobExpAmount { get; }
+		public long JobExpAmount { get; }
 
 		/// <summary>
 		/// Returns the icon to display for this reward.
@@ -28,7 +28,7 @@ namespace Melia.Zone.World.Quests.Rewards
 		/// </summary>
 		/// <param name="expAmount"></param>
 		/// <param name="jobExpAmount"></param>
-		public ExpReward(int expAmount, int jobExpAmount)
+		public ExpReward(long expAmount, long jobExpAmount)
 		{
 			this.ExpAmount = expAmount;
 			this.JobExpAmount = jobExpAmount;

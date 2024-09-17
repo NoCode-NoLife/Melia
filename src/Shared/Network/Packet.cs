@@ -432,6 +432,17 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
+		/// Adds the given number of empty bytes to the packet.
+		/// </summary>
+		/// <remarks>
+		/// Effectively the same as PutEmptyBin, but specifically for known
+		/// gaps in packets.
+		/// </remarks>
+		/// <param name="amount"></param>
+		public void PutGap(int amount)
+			=> this.PutEmptyBin(amount);
+
+		/// <summary>
 		/// Writes struct to buffer.
 		/// </summary>
 		/// <param name="val"></param>
