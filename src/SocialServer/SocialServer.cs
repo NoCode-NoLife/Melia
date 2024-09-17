@@ -17,7 +17,7 @@ namespace Melia.Social
 	/// </summary>
 	public class SocialServer : Server
 	{
-		public readonly static SocialServer Instance = new SocialServer();
+		public readonly static SocialServer Instance = new();
 
 		private TcpConnectionAcceptor<SocialConnection> _acceptor;
 
@@ -104,6 +104,7 @@ namespace Melia.Social
 		{
 			_acceptor = new TcpConnectionAcceptor<SocialConnection>(this.ServerInfo.Port);
 			_acceptor.ConnectionAccepted += this.OnConnectionAccepted;
+			_acceptor.ConnectionRejected += this.OnConnectionRejected;
 			_acceptor.Listen();
 
 			Log.Status("Server ready, listening on {0}.", _acceptor.Address);
@@ -116,6 +117,16 @@ namespace Melia.Social
 		private void OnConnectionAccepted(SocialConnection conn)
 		{
 			Log.Info("New connection accepted from '{0}'.", conn.Address);
+		}
+
+		/// <summary>
+		/// Called when a new connection was rejected.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="reason"></param>
+		private void OnConnectionRejected(SocialConnection conn, string reason)
+		{
+			Log.Info("Connection rejected from '{0}'. Reason: {1}", conn.Address, reason);
 		}
 	}
 }
