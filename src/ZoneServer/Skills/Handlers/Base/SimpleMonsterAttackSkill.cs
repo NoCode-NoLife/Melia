@@ -62,8 +62,13 @@ namespace Melia.Zone.Skills.Handlers.Base
 				await Task.Delay(hitDelay);
 
 			// Check if attacker is still able to fight after the delay
+			// This is not foolproof.  If a lock is applied and removed during the delay
+			// this should still cancel the skill but it won't with this implementation 
 			if (!caster.CanFight())
+			{
+				Send.ZC_SKILL_DISABLE(caster);
 				return;
+			}
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
