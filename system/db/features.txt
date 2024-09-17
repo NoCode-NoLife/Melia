@@ -110,7 +110,7 @@
 		{ name: "PierceNoSizeEffect", enabled: true },
 
 		// Barbarian_Cleave applies Aggressor instead of Cleave_Debuff
-                //   and Aggressor has a much weaker effect
+		// and Aggressor has a much weaker effect
 		{ name: "CleaveApplyAggressor", enabled: true },
 	]},
 	
