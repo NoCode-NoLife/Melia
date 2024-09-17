@@ -502,6 +502,15 @@ public class CharacterAdvancementScript : GeneralScript
 				GiveItem(character, ItemId.Costume_Char2_25_1, 1);
 				break;
 			}
+			case JobId.VultureW:
+			{
+				LearnSkill(character, SkillId.Magic_Attack);
+				LearnSkill(character, SkillId.Magic_Attack_TH);
+				LearnSkill(character, SkillId.Vulture_Attack_Wizard);
+
+				GiveItem(character, ItemId.Costume_Char2_26, 1);
+				break;
+			}
 			// Archer
 			//---------------------------------------------------------------
 			case JobId.Archer:
@@ -727,6 +736,17 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnAbility(character, AbilityId.BowMaster0);
 
 				GiveItem(character, ItemId.Costume_Char3_24, 1);
+				break;
+			}
+			case JobId.VultureA:
+			{
+				LearnSkill(character, SkillId.Bow_Attack);
+				LearnSkill(character, SkillId.CrossBow_Attack);
+				LearnSkill(character, SkillId.Musket_Attack);
+				LearnSkill(character, SkillId.Sword_Attack);
+				LearnSkill(character, SkillId.Vulture_Attack_Archer);
+
+				GiveItem(character, ItemId.Costume_Char3_25, 1);
 				break;
 			}
 			// Cleric
