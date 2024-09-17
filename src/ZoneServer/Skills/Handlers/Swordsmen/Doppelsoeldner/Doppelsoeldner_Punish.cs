@@ -98,7 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 			{
 				var modifier = new SkillModifier();
 
-				if (target.IsStateActive(StateType.KnockedBack))
+				if (target.IsStateActive(StateType.KnockedDown))
 					modifier.DamageMultiplier = KnockdownMultiplier;
 
 				if (caster.TryGetBuff(BuffId.DeedsOfValor, out var dovBuff))
