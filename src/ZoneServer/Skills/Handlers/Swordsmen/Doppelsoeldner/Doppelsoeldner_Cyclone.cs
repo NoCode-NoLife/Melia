@@ -133,7 +133,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 					break;
 			}
 
-			Send.ZC_SKILL_DISABLE(caster as Character);
+			Send.ZC_SKILL_DISABLE(caster);
 		}
 	}
 }
