@@ -23,6 +23,9 @@ namespace Melia.Social.World
 				foreach (var user in users)
 					_users[user.Id] = user;
 			}
+
+			foreach (var user in users)
+				user.Friends.LoadFromDb();
 		}
 
 		/// <summary>

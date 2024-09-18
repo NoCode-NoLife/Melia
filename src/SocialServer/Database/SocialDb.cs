@@ -149,9 +149,6 @@ namespace Melia.Social.Database
 				}
 			}
 
-			foreach (var user in users)
-				user.Friends.LoadFromDb();
-
 			return users;
 		}
 

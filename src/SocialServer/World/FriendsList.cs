@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
@@ -27,11 +28,25 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Adds friend to user's friends list.
+		/// Adds friend to internal friends list. Primarily used for loading
+		/// friends from the database.
+		/// </summary>
+		/// <param name="friend"></param>
+		private void Restore(Friend friend)
+		{
+			lock (_friends)
+				_friends.Add(friend);
+		}
+
+		/// <summary>
+		/// Adds friend to user's friends list and saves it to the database.
 		/// </summary>
 		/// <param name="friend"></param>
 		public void Add(Friend friend)
 		{
+			if (this.Has(friend.UserId))
+				throw new ArgumentException("User already has friend with id " + friend.UserId);
+
 			lock (_friends)
 				_friends.Add(friend);
 
@@ -148,7 +163,7 @@ namespace Melia.Social.World
 
 				friend.User = friendUser;
 
-				this.Add(friend);
+				this.Restore(friend);
 			}
 		}
 
