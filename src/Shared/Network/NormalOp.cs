@@ -89,12 +89,14 @@
 		/// </summary>
 		public static class Social
 		{
+			// Chat Server
 			public const int Unknown_00 = 0x00;
 			public const int Unknown_01 = 0x01;
 			public const int Unknown_02 = 0x02;
 			public const int AddMessage = 0x03;
 			public const int MessageList = 0x04;
 			public const int CreateRoom = 0x05;
+			public const int Shout = 0x06;
 			public const int SystemMessage = 0x07;
 			public const int FriendInfo = 0x08;
 			public const int FriendResponse = 0x09;
@@ -104,9 +106,17 @@
 			public const int FriendBlocked = 0x11;
 			public const int Unknown_19 = 0x19;
 
-			// Different range for relation server?
+			// Relation Server
+			public const int RelationCount = 0x7D00;
+			public const int RelatedSessions = 0x7D01;
+			public const int RelationCountUpdate = 0x7D02;
+			public const int RelationHistory = 0x7D03;
+			public const int LikeNotify = 0x7D04;
 			public const int LikeSuccess = 0x7D05;
 			public const int UnlikeSuccess = 0x7D07;
+			public const int LikeConfirm = 0x7D08;
+			public const int LikedList = 0x7D09;
+			public const int LikeList = 0x7D0A;
 			public const int LikeCount = 0x7D0B;
 			public const int LikeFailed = 0x7D0D;
 		}
