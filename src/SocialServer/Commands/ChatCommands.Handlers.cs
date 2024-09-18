@@ -17,7 +17,6 @@ namespace Melia.Social.Commands
 		/// </summary>
 		public ChatCommands()
 		{
-			// Official
 			this.Add("w", "<teamName> <message>", "", this.HandleWhisper);
 			this.Add("f", "<chatId> <message>", "", this.HandleChatRoomChat);
 		}
@@ -42,7 +41,7 @@ namespace Melia.Social.Commands
 
 			if (!SocialServer.Instance.Database.TeamNameExists(teamName))
 			{
-				Send.SC_NORMAL.SystemMessage(user.Connection, "TargetUserNotExist");
+				Send.SC_NORMAL.SystemMessage(user.Connection, SystemMessageId.TargetUserNotExist);
 				return CommandResult.Okay;
 			}
 
@@ -83,13 +82,13 @@ namespace Melia.Social.Commands
 
 			if (!long.TryParse(args.Get(0), out var chatId))
 			{
-				Send.SC_NORMAL.SystemMessage(user.Connection, "TargetUserNotExist");
+				Send.SC_NORMAL.SystemMessage(user.Connection, SystemMessageId.TargetUserNotExist);
 				return CommandResult.Okay;
 			}
 
 			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
 			{
-				Log.Warning("HandleChatRoomChat: Unable to find chat room by id {0}.", chatId);
+				Log.Warning("HandleChatRoomChat: Chat room requested by {0} via id '{1}' not found.", user.TeamName, chatId);
 				return CommandResult.Okay;
 			}
 
