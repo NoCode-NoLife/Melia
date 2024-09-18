@@ -126,15 +126,9 @@ namespace Melia.Social.World
 		public void BlockUser(SocialUser userToBlock, out Friend friend)
 		{
 			if (!this.TryGet(userToBlock.Id, out friend))
-			{
 				this.Add(friend = new Friend(userToBlock, FriendState.Blocked));
-				SocialServer.Instance.Database.CreateFriend(this.User.Id, friend);
-			}
 			else
-			{
 				this.UpdateFriend(friend, FriendState.Blocked);
-				SocialServer.Instance.Database.SaveFriend(friend);
-			}
 		}
 
 		/// <summary>
@@ -175,9 +169,6 @@ namespace Melia.Social.World
 
 			newOtherFriend = new Friend(user, FriendState.ReceivedRequest);
 			otherUser.Friends.Add(newOtherFriend);
-
-			SocialServer.Instance.Database.CreateFriend(user.Id, newFriend);
-			SocialServer.Instance.Database.CreateFriend(otherUser.Id, newOtherFriend);
 		}
 	}
 }
