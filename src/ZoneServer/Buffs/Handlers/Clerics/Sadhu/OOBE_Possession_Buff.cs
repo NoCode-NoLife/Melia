@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	/// and leave an effect that damages enemies inside
 	/// </summary>
 	[BuffHandler(BuffId.OOBE_Possession_Buff)]
-	public class OOBE_Possession_Buff : BuffHandler
+	public class OOBE_Possession_Buff : Sadhu_BuffHandler_Base
 	{
 		private const int MaxTargets = 7;
 		// The skill tooltip says that a movement hold just be applied
@@ -48,8 +48,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			var skillCharacter = casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
-				? casterCharacter.Owner
+			var skillCharacter = casterCharacter is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? dummyCharacter.Owner
 				: caster;
 
 			if (skillCharacter.TryGetSkill(SkillId.Sadhu_Possession, out var skill))
@@ -58,15 +58,15 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 
 				this.AreaOfEffect(skillCharacter, skill, caster.Position);
 
-				if (ApplySelfHold && !casterCharacter.IsDummy)
+				if (ApplySelfHold && casterCharacter is not DummyCharacter)
 					skillCharacter.StartBuff(BuffId.Common_Hold, TimeSpan.FromMilliseconds(this.GetHoldTime(skill)));
 
 				// [Arts] Spirit Expert: Wandering Soul
-				if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				if (casterCharacter is DummyCharacter dummyCharacter2 && dummyCharacter2.Owner.IsAbilityActive(AbilityId.Sadhu35))
 				{
-					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
-					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
-					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
+					Send.ZC_SKILL_READY(dummyCharacter2.Owner, caster, skill, caster.Position, caster.Position);
+					Send.ZC_NORMAL.UpdateSkillEffect(dummyCharacter2.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
+					Send.ZC_SKILL_MELEE_GROUND(dummyCharacter2.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
 				}
 				else
 				{
@@ -75,9 +75,9 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			}
 
 			// [Arts] Spirit Expert: Wandering Soul
-			if (casterCharacter.Owner != null && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			if (casterCharacter is DummyCharacter dummyCharacter3 && dummyCharacter3.Owner.IsAbilityActive(AbilityId.Sadhu35))
 			{
-				this.RemoveDummyCharacter(casterCharacter);
+				this.RemoveDummyCharacter(dummyCharacter3);
 				return;
 			}
 
@@ -92,48 +92,12 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Remove the dummy character from the map
-		/// </summary>
-		/// <param name="character"></param>
-		private void RemoveDummyCharacter(Character character)
-		{
-			if (character.Owner is Character ownerCharacter)
-				Send.ZC_OWNER(ownerCharacter, character, 0);
-
-			Send.ZC_LEAVE(character);
-
-			character.Map.RemoveDummyCharacter(character);
-		}
-
-		/// <summary>
 		/// Returns the amount of hold time in milliseconds
 		/// </summary>
 		/// <param name="skill"></param>
 		private int GetHoldTime(Skill skill)
 		{
 			return 1000 + (300 * skill.Level);
-		}
-
-		/// <summary>
-		/// Makes the chararacter returns to original position
-		/// and also get ride of the dummy character
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="dummyHandle"></param>
-		private void ReturnToBody(Character character, int dummyHandle)
-		{
-			var dummyCharacter = character.Map.GetDummyCharacter(dummyHandle);
-
-			if (dummyCharacter == null)
-				return;
-
-			character.Position = dummyCharacter.Position;
-			character.Direction = dummyCharacter.Direction;
-			Send.ZC_ROTATE(character);
-			Send.ZC_SET_POS(character, dummyCharacter.Position);
-			Send.ZC_OWNER(character, dummyCharacter, 0);
-			Send.ZC_LEAVE(dummyCharacter);
-			character.Map.RemoveDummyCharacter(dummyCharacter);			
 		}
 
 		/// <summary>
@@ -172,17 +136,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
-		}
-
-		/// <summary>
-		/// Called when the dummy character died
-		/// disappeared.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="killer"></param>
-		private void OnDummyDied(Character character, ICombatEntity killer)
-		{
-			character.Owner.StopBuff(BuffId.OOBE_Possession_Buff);
 		}
 	}
 }

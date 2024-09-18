@@ -414,12 +414,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 
 				Send.ZC_MSPD(this.Entity);
 			}
-			else if (this.Entity is Character character && character.IsDummy)
+			else if (this.Entity is Character character && character is DummyCharacter dummyCharacter)
 			{
 				this.MoveSpeedType = type;
 				character.Properties.Invalidate(PropertyName.MSPD);
 
-				Send.ZC_MSPD(character.Owner, character);
+				Send.ZC_MSPD(dummyCharacter.Owner, character);
 			}
 		}
 

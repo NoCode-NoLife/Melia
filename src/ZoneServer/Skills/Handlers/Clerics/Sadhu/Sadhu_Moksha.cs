@@ -9,7 +9,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	/// Handler for the Sadhu skill Moksha.
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Moksha)]
-	public class Sadhu_Moksha : SadhuBaseSkill, IGroundSkillHandler
+	public class Sadhu_Moksha : Sadhu_Skill_Base, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.

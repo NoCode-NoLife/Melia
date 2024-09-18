@@ -17,7 +17,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	/// <summary>
 	/// Base skill class Sadhu skills.
 	/// </summary>
-	public class SadhuBaseSkill
+	public class Sadhu_Skill_Base
 	{
 		/// <summary>
 		/// Handles a sadhu skill for the given BuffId
@@ -157,7 +157,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		/// <param name="casterCharacter"></param>
 		private Character SpawnDummyClone(Character casterCharacter, Position position)
 		{
-			var dummyCharacter = new Character();
+			var dummyCharacter = new DummyCharacter();
 
 			dummyCharacter.DbId = casterCharacter.DbId;
 			dummyCharacter.AccountId = casterCharacter.AccountId;

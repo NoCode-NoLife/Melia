@@ -9,7 +9,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	/// Handler for the Sadhu skill Enira (Anila).
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Anila)]
-	public class Sadhu_Anila : SadhuBaseSkill, IGroundSkillHandler
+	public class Sadhu_Anila : Sadhu_Skill_Base, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.

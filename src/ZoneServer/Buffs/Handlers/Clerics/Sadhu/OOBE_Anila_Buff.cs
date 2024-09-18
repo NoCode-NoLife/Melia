@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	/// and leave an effect that damages enemies on hit by a wave effect
 	/// </summary>
 	[BuffHandler(BuffId.OOBE_Anila_Buff)]
-	public class OOBE_Anila_Buff : BuffHandler
+	public class OOBE_Anila_Buff : Sadhu_BuffHandler_Base
 	{
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
@@ -45,8 +45,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			var skillCharacter = casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
-				? casterCharacter.Owner
+			var skillCharacter = casterCharacter is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? dummyCharacter.Owner
 				: caster;
 
 			if (skillCharacter.TryGetSkill(SkillId.Sadhu_Anila, out var skill))
@@ -63,11 +63,11 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				caster.Map.AddPad(pad);
 
 				// [Arts] Spirit Expert: Wandering Soul
-				if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+				if (casterCharacter is DummyCharacter dummyCharacter2 && dummyCharacter2.Owner.IsAbilityActive(AbilityId.Sadhu35))
 				{
-					Send.ZC_SKILL_READY(casterCharacter.Owner, caster, skill, caster.Position, caster.Position);
-					Send.ZC_NORMAL.UpdateSkillEffect(casterCharacter.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
-					Send.ZC_SKILL_MELEE_GROUND(casterCharacter.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
+					Send.ZC_SKILL_READY(dummyCharacter2.Owner, caster, skill, caster.Position, caster.Position);
+					Send.ZC_NORMAL.UpdateSkillEffect(dummyCharacter2.Owner, caster.Handle, caster.Position, caster.Direction, Position.Zero);
+					Send.ZC_SKILL_MELEE_GROUND(dummyCharacter2.Owner, caster, skill, caster.Position, ForceId.GetNew(), null);
 				} else
 				{
 					skill.IncreaseOverheat();
@@ -75,9 +75,9 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			}
 
 			// [Arts] Spirit Expert: Wandering Soul
-			if (casterCharacter.IsDummy && casterCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35))
+			if (casterCharacter is DummyCharacter dummyCharacter3 && dummyCharacter3.Owner.IsAbilityActive(AbilityId.Sadhu35))
 			{
-				this.RemoveDummyCharacter(casterCharacter);
+				this.RemoveDummyCharacter(dummyCharacter3);
 				return;
 			}
 
@@ -89,46 +89,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			Send.ZC_PLAY_SOUND(casterCharacter, "skl_eff_yuchae_end_2");
 
 			this.ReturnToBody(casterCharacter, (int)buff.NumArg2);
-		}
-
-		/// <summary>
-		/// Remove the dummy character from the map
-		/// </summary>
-		/// <param name="character"></param>
-		private void RemoveDummyCharacter(Character character)
-		{
-			if (character.Owner is Character ownerCharacter)
-				Send.ZC_OWNER(ownerCharacter, character, 0);
-
-			Send.ZC_LEAVE(character);
-
-			character.Map.RemoveDummyCharacter(character);
-		}
-
-		/// <summary>
-		/// Makes the chararacter returns to original position
-		/// and also get ride of the dummy character
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="dummyHandle"></param>
-		private void ReturnToBody(Character character, int dummyHandle)
-		{
-			var dummyCharacter = character.Map.GetDummyCharacter(dummyHandle);
-
-			if (dummyCharacter == null)
-				return;
-			
-			character.Position = dummyCharacter.Position;
-			character.Direction = dummyCharacter.Direction;
-
-			dummyCharacter.Died -= this.OnDummyDied;
-
-			Send.ZC_ROTATE(character);
-			Send.ZC_SET_POS(character, dummyCharacter.Position);
-			Send.ZC_OWNER(character, dummyCharacter, 0);
-			Send.ZC_LEAVE(dummyCharacter);
-				
-			character.Map.RemoveDummyCharacter(dummyCharacter);			
 		}
 
 		/// <summary>
@@ -166,17 +126,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
 			Send.ZC_HIT_INFO(caster, target, hit);
-		}
-
-		/// <summary>
-		/// Called when the dummy character died
-		/// disappeared.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="killer"></param>
-		private void OnDummyDied(Character character, ICombatEntity killer)
-		{
-			character.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 	}
 }

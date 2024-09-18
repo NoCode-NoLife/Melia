@@ -47,11 +47,11 @@ public class SadhuDummyAiScript : AiScript
 
 		movement.SetMoveSpeedType(MoveSpeedType.Run);
 		
-		if (this.Entity is Character entityCharacter && entityCharacter.IsDummy)
+		if (this.Entity is Character entityCharacter && entityCharacter is DummyCharacter dummyCharacter)
 		{
-			SetRunning(true);
+			SetFixedMoveSpeed(55);
 			entityCharacter.Properties.Modify(PropertyName.MSPD_BM, 55);
-			Send.ZC_MSPD(entityCharacter.Owner, entityCharacter);
+			Send.ZC_MSPD(dummyCharacter.Owner, entityCharacter);
 		}
 		
 		var master = GetMaster();
@@ -74,11 +74,9 @@ public class SadhuDummyAiScript : AiScript
 	protected IEnumerable Attack()
 	{		
 		// Remove the dummy character if the master is gone
-		if (TryGetMaster(out var master) && EntityGone(master) && this.Entity is Character dummyCharacter)
+		if (TryGetMaster(out var master) && EntityGone(master) && this.Entity is DummyCharacter dummyCharacter)
 		{
-			if (dummyCharacter.Owner is Character ownerCharacter)
-				Send.ZC_OWNER(ownerCharacter, dummyCharacter, 0);
-
+			Send.ZC_OWNER(dummyCharacter.Owner, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
 
 			dummyCharacter.Map.RemoveDummyCharacter(dummyCharacter);

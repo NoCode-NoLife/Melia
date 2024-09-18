@@ -9,7 +9,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	/// Handler for the Sadhu skill Posession.
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Possession)]
-	public class Sadhu_Possession : SadhuBaseSkill, IGroundSkillHandler
+	public class Sadhu_Possession : Sadhu_Skill_Base, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.

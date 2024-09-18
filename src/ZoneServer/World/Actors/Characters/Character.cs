@@ -390,16 +390,6 @@ namespace Melia.Zone.World.Actors.Characters
 		private Localizer _localizer;
 
 		/// <summary>
-		/// Returns reference to the character's owner (In case of being a dummy).
-		/// </summary>
-		public ICombatEntity Owner { get; set; }
-
-		/// <summary>
-		/// Gets the condition that makes this character a dummy
-		/// </summary>
-		public bool IsDummy => Owner != null;
-
-		/// <summary>
 		/// Raised when the characters sits down or stands up.
 		/// </summary>
 		public event Action<Character> SitStatusChanged;
@@ -625,6 +615,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
 				throw new ArgumentException("Map '" + mapId + "' not found in data.");
 
+			// Prevents the player to Warp while he is out of body (sadhu's skills)
 			if (this.IsOutOfBody())			
 				return;
 			

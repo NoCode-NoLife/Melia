@@ -151,7 +151,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
-			packet.PutShort(character.IsDummy ? 5 : 0);
+			packet.PutShort(character is DummyCharacter ? 5 : 0);
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);

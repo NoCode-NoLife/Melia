@@ -9,7 +9,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	/// Handler for the Sadhu skill Tanoti.
 	/// </summary>
 	[SkillHandler(SkillId.Sadhu_Tanoti)]
-	public class Sadhu_Tanoti : SadhuBaseSkill, IGroundSkillHandler
+	public class Sadhu_Tanoti : Sadhu_Skill_Base, IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, makes the character out of body.
