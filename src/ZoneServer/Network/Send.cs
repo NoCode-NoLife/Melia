@@ -212,18 +212,18 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Exact purpose unknown, but it stops the animation of Multishot.
+		/// Cancels ongoing skill animations.
 		/// </summary>
-		/// <param name="character"></param>
-		public static void ZC_SKILL_DISABLE(Character character)
+		/// <param name="entity"></param>
+		public static void ZC_SKILL_DISABLE(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_SKILL_DISABLE);
 
-			packet.PutInt(character.Handle);
+			packet.PutInt(entity.Handle);
 			packet.PutByte(0);
-			packet.PutInt(0); // very random number?
+			packet.PutInt(0); // Random number, presumably unused
 
-			character.Connection.Send(packet);
+			entity.Map.Broadcast(packet);
 		}
 
 		/// <summary>
@@ -1108,14 +1108,18 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character">Character to send packet to.</param>
 		/// <param name="clientMessage">Id of the message to use.</param>
+		/// <param name="displayType">How to display the message.</param>
 		/// <param name="parameters">Optional list of message parameters.</param>
-		public static void ZC_SYSTEM_MSG(Character character, int clientMessage, params MsgParameter[] parameters)
+		public static void ZC_SYSTEM_MSG(Character character, string clientMessage, SystemMessageDisplayType displayType, params MsgParameter[] parameters)
 		{
+			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(clientMessage, out var data))
+				throw new ArgumentException($"System message '{clientMessage}' not found.");
+
 			var packet = new Packet(Op.ZC_SYSTEM_MSG);
 
-			packet.PutInt(clientMessage);
+			packet.PutInt(data.ClassId);
 			packet.PutByte((byte)parameters.Length);
-			packet.PutByte(1); // type? 0 = also show in red letters on the screen
+			packet.PutByte((byte)displayType);
 			packet.PutLong(0); // added i219527
 			packet.PutByte(0); // added i336041
 			packet.PutByte(0); // added i339415
@@ -4348,7 +4352,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Notifies nearby clients that an entity was knocked down/back.
+		/// Notifies nearby clients that an entity was knocked back.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="knockBackInfo"></param>
+		public static void ZC_KNOCKBACK_INFO(ICombatEntity entity, ICombatEntity target, KnockBackInfo knockBackInfo)
+		{
+			var packet = new Packet(Op.ZC_KNOCKBACK_INFO);
+
+			packet.PutInt(target.Handle);
+			packet.AddKnockbackInfo(knockBackInfo);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Notifies nearby clients that an entity was knocked down.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="target"></param>

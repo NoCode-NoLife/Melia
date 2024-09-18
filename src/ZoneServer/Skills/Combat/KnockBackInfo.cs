@@ -106,7 +106,7 @@ namespace Melia.Zone.Skills.Combat
 			{
 				var distance = 30.570992087511f;
 
-				this.Time = TimeSpan.FromMilliseconds(6747);
+				this.Time = TimeSpan.FromMilliseconds(4200);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
 			else if (this.Velocity == 250 && this.VAngle == 10) // Rim Blow

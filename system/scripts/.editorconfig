@@ -15,3 +15,6 @@ dotnet_diagnostic.IDE1006.severity = none
 
 # CA1050: Declare types in namespaces
 dotnet_diagnostic.CA1050.severity = none
+
+# IDE0130: Namespace doesn't match folder structure
+dotnet_diagnostic.IDE0130.severity = none

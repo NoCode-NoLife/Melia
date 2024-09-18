@@ -94,23 +94,6 @@ string readAdditionalPacket(AdditionalPacket &val)
     return result;
 }
 
-typedef struct
-{
-    position fromPos;
-    position toPos;
-    int velocity;
-    int hAngle;
-    int vAngle;
-    int i7;
-    short time;
-    short s2;
-    float f1;
-    float f2;
-    int i9;
-    int i10;
-}
-KnockBackInfo;
-
 // Every SkillHitInfo appears to contain information about one hit
 // that happened on a target. Unfortunately its structure is flexible,
 // which makes analysis pretty difficult. Most of this data is guessed.

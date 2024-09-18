@@ -50,6 +50,7 @@ namespace Melia.Zone.World.Actors.Components
 
 			this.RegisterState(new(StateType.Stunned, [LockType.Movement, LockType.Attack]));
 			this.RegisterState(new(StateType.KnockedBack, [LockType.Movement, LockType.Attack]));
+			this.RegisterState(new(StateType.KnockedDown, [LockType.Movement, LockType.Attack]));
 			this.RegisterState(new(StateType.Held, [LockType.Movement]));
 		}
 
@@ -306,6 +307,7 @@ namespace Melia.Zone.World.Actors.Components
 	{
 		public const string Stunned = "Stunned";
 		public const string KnockedBack = "KnockedBack";
+		public const string KnockedDown = "KnockedDown";
 		public const string Held = "Held";
 	}
 
