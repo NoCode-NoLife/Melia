@@ -265,6 +265,46 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
+		/// Request to create an invite for a group chat.
+		/// </summary>
+		/// <remarks>
+		/// This packet presumably only serves as a notification for the
+		/// server to accept join requests, as client doesn't seem to wait
+		/// for a response. The invite tag is added to the chat input either
+		/// way. The tag takes the following form in a whisper message:
+		/// 
+		/// /w Name {a SLC 1@@@557516819791874}{#0000FF}{img link_whisper 24 24}New Chat1{/}{/}{/}
+		/// </remarks>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_ALLOW_GROUP_CHAT_TAG_INVITE)]
+		public void CS_ALLOW_GROUP_CHAT_TAG_INVITE(ISocialConnection conn, Packet packet)
+		{
+			var chatRoomId = packet.GetLong();
+			var chatName = packet.GetString(32);
+
+			// ...
+
+			Log.Debug("CS_ALLOW_GROUP_CHAT_TAG_INVITE: Unhandled - User created an invite for chat '{0}'.", chatName);
+		}
+
+		/// <summary>
+		/// Request to create an invite for a group chat.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_GROUP_CHAT_INVITE_BY_TAG)]
+		public void CS_GROUP_CHAT_INVITE_BY_TAG(ISocialConnection conn, Packet packet)
+		{
+			var chatRoomId = packet.GetLong();
+			var inviterId = packet.GetLong();
+
+			// ...
+
+			Log.Debug("CS_GROUP_CHAT_INVITE_BY_TAG: Unhandled - User tried joining chat room '{0}'.", chatRoomId);
+		}
+
+		/// <summary>
 		/// Request to receive a chat room's message history.
 		/// </summary>
 		/// <param name="conn"></param>
