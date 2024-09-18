@@ -48,7 +48,6 @@ namespace Melia.Social.Commands
 
 			var targetUser = SocialServer.Instance.UserManager.GetOrCreateUser(teamName);
 
-			// TODO: Find previous chat room
 			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Id, targetUser.Id);
 			if (chatRoom == null)
 			{
