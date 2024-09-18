@@ -14,7 +14,7 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixedOld header;
+ClientHeaderFixedSocial header;
 
 char accountName[56];
 byte md5password[16];

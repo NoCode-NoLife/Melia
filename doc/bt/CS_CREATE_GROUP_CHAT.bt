@@ -13,4 +13,4 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixedOld header;
+ClientHeaderFixedSocial header;

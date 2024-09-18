@@ -13,7 +13,7 @@
 
 #include "inc/common.bt"
 
-ClientHeaderFixedOld header;
+ClientHeaderFixedSocial header;
 
 byte bin[14]; // 0s
 char teamName[64];
