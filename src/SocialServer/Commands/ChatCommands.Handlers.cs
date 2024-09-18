@@ -46,17 +46,10 @@ namespace Melia.Social.Commands
 				return CommandResult.Okay;
 			}
 
-			var targetAccount = SocialServer.Instance.Database.GetAccountByTeamName(teamName);
-			if (targetAccount == null)
-			{
-				Log.Warning("HandleWhisper: Unable to find account by team name {0}.", teamName);
-				return CommandResult.Okay;
-			}
-
-			var targetUser = SocialServer.Instance.UserManager.GetOrCreateUser(targetAccount);
+			var targetUser = SocialServer.Instance.UserManager.GetOrCreateUser(teamName);
 
 			// TODO: Find previous chat room
-			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Id, targetAccount.Id);
+			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Id, targetUser.Id);
 			if (chatRoom == null)
 			{
 				chatRoom = new ChatRoom("", ChatRoomType.OneToOne);

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
+using Yggdrasil.Logging;
+using Yggdrasil.Util.Commands;
 
 namespace Melia.Social.World
 {
@@ -49,10 +52,39 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Returns the user with the given team name, or null if no
-		/// online user was found.
+		/// Returns the user for the account with the given team name,
+		/// creating it if it doesn't exist yet.
 		/// </summary>
-		/// <param name="teamName"></param>
+		/// <param name="account"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no account with the given team name exists.
+		/// </exception>
+		public SocialUser GetOrCreateUser(string teamName)
+		{
+			var account = SocialServer.Instance.Database.GetAccountByTeamName(teamName);
+			if (account == null)
+				throw new ArgumentException($"Account with team name '{teamName}' not found.");
+
+			lock (_users)
+			{
+				if (!_users.TryGetValue(account.Id, out var user))
+				{
+					user = SocialServer.Instance.Database.GetOrCreateUser(account);
+					user.Friends.LoadFromDb();
+
+					_users[user.Id] = user;
+				}
+
+				return user;
+			}
+		}
+
+		/// <summary>
+		/// Returns the user for the given account, creating it if it doesn't
+		/// exist yet.
+		/// </summary>
+		/// <param name="account"></param>
 		/// <returns></returns>
 		public SocialUser GetOrCreateUser(Account account)
 		{
