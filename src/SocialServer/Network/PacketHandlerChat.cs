@@ -228,7 +228,9 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_GROUP_CHAT_INVITE)]
 		public void CS_GROUP_CHAT_INVITE(ISocialConnection conn, Packet packet)
 		{
+			var chatId = packet.GetLong();
 			var teamName = packet.GetString(64);
+			var roomName = packet.GetString(32);
 
 			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
 			{

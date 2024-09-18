@@ -416,7 +416,7 @@ namespace Melia.Shared.Network
 		public void PutBinFromHex(string hex)
 		{
 			if (hex == null)
-				throw new ArgumentNullException("hex");
+				throw new ArgumentNullException(nameof(hex));
 
 			var bytes = Hex.ToByteArray(hex);
 			this.PutBin(bytes);
