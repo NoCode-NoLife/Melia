@@ -39,30 +39,37 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Returns a 1:1 chat room between two accounts if one exists.
+		/// Returns a 1:1 chat room between two accounts via out.
+		/// Returns false if no personal chat room between the
+		/// two users was found.
 		/// </summary>
 		/// <param name="accountId1"></param>
 		/// <param name="accountId2"></param>
+		/// <param name="chatRoom"></param>
 		/// <returns></returns>
-		public ChatRoom GetChatRoom(long accountId1, long accountId2)
+		public bool TryGetChatRoom(long accountId1, long accountId2, out ChatRoom chatRoom)
 		{
 			lock (_rooms)
 			{
-				foreach (var chatRoom in _rooms.Values)
+				foreach (var room in _rooms.Values)
 				{
-					if (chatRoom.Type != ChatRoomType.OneToOne)
+					if (room.Type != ChatRoomType.OneToOne)
 						continue;
 
-					var members = chatRoom.GetMembers();
+					var members = room.GetMembers();
 					if (members.Length != 2)
 						continue;
 
 					if (members.Any(a => a.AccountId == accountId1) && members.Any(a => a.AccountId == accountId2))
-						return chatRoom;
+					{
+						chatRoom = room;
+						return true;
+					}
 				}
 			}
 
-			return null;
+			chatRoom = null;
+			return false;
 		}
 
 		/// <summary>

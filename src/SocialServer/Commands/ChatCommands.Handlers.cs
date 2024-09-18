@@ -48,8 +48,7 @@ namespace Melia.Social.Commands
 
 			var targetUser = SocialServer.Instance.UserManager.GetOrCreateUser(teamName);
 
-			var chatRoom = SocialServer.Instance.ChatManager.GetChatRoom(user.Id, targetUser.Id);
-			if (chatRoom == null)
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(user.Id, targetUser.Id, out var chatRoom))
 			{
 				chatRoom = new ChatRoom("", ChatRoomType.OneToOne);
 				SocialServer.Instance.ChatManager.AddChatRoom(chatRoom);
