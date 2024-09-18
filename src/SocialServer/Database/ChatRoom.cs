@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Melia.Shared.Network;
+using Melia.Social.Network;
 using Melia.Social.World;
 
 namespace Melia.Social.Database
@@ -123,6 +124,18 @@ namespace Melia.Social.Database
 		{
 			lock (_messages)
 				_messages.Add(message);
+
+			lock (_members)
+			{
+				foreach (var member in _members)
+				{
+					if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var user) && user.TryGetConnection(out var conn))
+					{
+						Send.SC_NORMAL.CreateRoom(conn, this);
+						Send.SC_NORMAL.AddMessage(conn, this, message);
+					}
+				}
+			}
 		}
 
 		/// <summary>
