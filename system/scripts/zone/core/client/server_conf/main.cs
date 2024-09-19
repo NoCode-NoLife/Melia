@@ -29,7 +29,7 @@ public class ServerConfClientScript : ClientScript
 		{
 			table.Insert(option.Key, option.Value);
 
-			if (table.SerializedSize > 2000)
+			if (table.SerializedSize > 1900)
 			{
 				this.SendRawLuaScript(e.Character, "Melia.Conf.Init(" + table.Serialize() + ")");
 				table.Clear();
