@@ -165,7 +165,7 @@ namespace Melia.Social.Network
 
 				if (friend.User.Friends.TryGet(user.Id, out var otherFriend))
 				{
-					friend.User.Friends.UpdateFriend(friend, FriendState.Accepted);
+					friend.User.Friends.UpdateFriend(otherFriend, FriendState.Accepted);
 
 					if (friend.User.TryGetConnection(out var friendConn))
 						Send.SC_NORMAL.FriendInfo(friendConn, otherFriend);
