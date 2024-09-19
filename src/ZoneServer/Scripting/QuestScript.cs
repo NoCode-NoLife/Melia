@@ -195,6 +195,14 @@ namespace Melia.Zone.Scripting
 			=> this.Data.Cancelable = cancelable;
 
 		/// <summary>
+		/// Sets whether whether the quest is automatically added to the list
+		/// of tracked quests.
+		/// </summary>
+		/// <param name="enabled"></param>
+		protected void SetAutoTracked(bool enabled)
+			=> this.Data.AutoTrack = enabled;
+
+		/// <summary>
 		/// Sets how the quest is given to players.
 		/// </summary>
 		/// <param name="receiveType"></param>

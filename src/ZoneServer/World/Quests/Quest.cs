@@ -89,6 +89,9 @@ namespace Melia.Zone.World.Quests
 		{
 			this.Data = questData;
 
+			if (this.Data.AutoTrack)
+				this.Tracked = true;
+
 			this.InitProgresses();
 			this.InitialUnlock();
 		}

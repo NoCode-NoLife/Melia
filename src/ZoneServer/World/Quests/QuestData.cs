@@ -34,6 +34,12 @@ namespace Melia.Zone.World.Quests
 		public bool Cancelable { get; set; } = false;
 
 		/// <summary>
+		/// Gets or sets whether the quest is automatically added to the list
+		/// of tracked quests.
+		/// </summary>
+		public bool AutoTrack { get; set; } = false;
+
+		/// <summary>
 		/// Gets or sets the start delay between meeting the quests
 		/// prerequisites and receiving it automatically. Applies only
 		/// to quests that start automatically.
