@@ -64,17 +64,17 @@ switch (type)
     case 0x05:
         typedef struct
         {
-            int64 accountId2;
-            lpString name2;
-            int i6;
+            int64 accountId;
+            lpString teamName;
+            int i1;
         }
         ChatMember <optimize=false>;
 
         int64 chatId;
-        int i1; // 121
-        int64 l2;
-        byte unk1[4];
-        short s1;
+        int roomType;
+        lpString str1;
+        int64 l1;
+        lpString roomName;
         int memberCount;
         int i4;
         byte b1;

@@ -121,8 +121,7 @@ namespace Melia.Social.Network
 
 				packet.PutLong(chatRoom.Id);
 				packet.PutInt((int)chatRoom.Type);
-				packet.PutShort(1);
-				packet.PutByte(0);
+				packet.PutLpString("");
 				packet.PutLong(0);
 				packet.PutLpString(chatRoom.Name);
 				packet.PutInt(chatRoom.MemberCount);
