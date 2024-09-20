@@ -181,7 +181,7 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, u.`userId`, u.`lastLogin`, u.`teamName`
+					SELECT f.`friendId`, f.`group`, f.`note`, f.`state`, u.`userId`
 					FROM `friends` AS `f`
 					LEFT JOIN `social_users` AS u ON f.`friendUserId` = u.`userId`
 					WHERE f.`userId` = @userId
