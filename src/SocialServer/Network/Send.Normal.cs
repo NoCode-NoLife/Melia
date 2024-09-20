@@ -85,7 +85,7 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
-			/// Updates a chat room's messages.
+			/// Updates a chat room's messages on the client.
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="chatRoom"></param>
@@ -106,7 +106,7 @@ namespace Melia.Social.Network
 					packet.PutLpString(chatMessage.Message);
 				}
 
-				chatRoom.Broadcast(packet);
+				conn.Send(packet);
 			}
 
 			/// <summary>
