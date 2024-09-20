@@ -9562,6 +9562,7 @@ public static class ItemId
 	public const int Item_Achieve_Plate_BowMaster = 11030496;
 	public const int Item_Achieve_Plate_Desperado = 11030497;
 	public const int Item_Achieve_Plate_Vanquisher = 11030498;
+	public const int Item_Achieve_Plate_Vulture = 11030499;
 	public const int UnknownSantuaryDEFpotion = 11035357;
 	public const int BerniceDEFpotion = 11035358;
 	public const int VasilissaAutoSoloHEALpotion = 11035359;

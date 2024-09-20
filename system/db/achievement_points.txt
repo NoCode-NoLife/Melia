@@ -843,6 +843,7 @@
 { id: 60099, className: "WeeklyRankClass_100", name: "Bow Master", useDaily: false, useWeekly: false },
 { id: 60100, className: "WeeklyRankClass_101", name: "Desperado", useDaily: false, useWeekly: false },
 { id: 60101, className: "WeeklyRankClass_102", name: "Vanquisher", useDaily: false, useWeekly: false },
+{ id: 60102, className: "WeeklyRankClass_103", name: "Vulture", useDaily: false, useWeekly: false },
 { id: 70000, className: "Achieve_Solo_dungeon_1", name: "Clear Bernice Dungeon specific stage 1 time", useDaily: false, useWeekly: false },
 { id: 70001, className: "Achieve_Solo_dungeon_st80", name: "Bernice Dungeon stage 80 Total Clear", useDaily: false, useWeekly: false },
 { id: 70002, className: "Achieve_Ancient_Solo_dungeon_1", name: "Clear a Particular Stage of Assister Dungeon", useDaily: false, useWeekly: false },
