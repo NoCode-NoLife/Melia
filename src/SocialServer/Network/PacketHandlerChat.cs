@@ -349,11 +349,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			//conn.User.Account.RemoveChatRoom(chatId);
-			//chatRoom.RemoveMember(conn.User.Id);
-
-			//if (chatRoom.MemberCount == 0)
-			//	SocialServer.Instance.ChatManager.RemoveChatRoom(chatId);
+			chatRoom.RemoveMember(conn.User.AccountId);
 		}
 
 		/// <summary>
