@@ -183,7 +183,7 @@ namespace Melia.Social.Network
 			/// <remarks>
 			/// The client is capable of taking an entire list of friends
 			/// of a given type at once, but the packet handling seems
-			/// sketchy. You need to send multiple lists, one or each
+			/// sketchy. You need to send multiple lists, one for each
 			/// state, and they need to be sent on a delay because the
 			/// client will ignore them if they come in all bunched up
 			/// together.

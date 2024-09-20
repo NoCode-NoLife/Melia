@@ -50,7 +50,14 @@ namespace Melia.Social.Network
 			Send.SC_NORMAL.Unknown_02(conn);
 
 			foreach (var friend in user.Friends.GetAll())
+			{
+				// Send info about the user's friend
 				Send.SC_NORMAL.FriendInfo(conn, friend);
+
+				// Update the friend if they're online
+				if (friend.User.TryGetConnection(out var friendConn) && friend.User.Friends.TryGet(user.Id, out var userFriend))
+					Send.SC_NORMAL.FriendInfo(friendConn, userFriend);
+			}
 		}
 
 		/// <summary>
