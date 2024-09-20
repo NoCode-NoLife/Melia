@@ -99,18 +99,19 @@ switch (type)
             int64 l2;
             int level;
             char name[128];
-            short gender;
+            short s3;
             int jobId;
             short s1;
             int i2;
-            short s2;
+            short gender;
             int hair;
             byte bin[26];
-            ubyte bin2[4];
+            uint i3 <format=hex>;
             byte bin3[18];
             ShortDate lastLogin;
-            byte bin4[36];
-            byte b1;
+            byte bin4[33];
+            short mapId;
+            short channelId;
             lpString group;
             lpString note;
         }

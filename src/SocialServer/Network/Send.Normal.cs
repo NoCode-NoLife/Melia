@@ -122,12 +122,12 @@ namespace Melia.Social.Network
 				packet.PutLong(chatRoom.Id);
 				packet.PutInt((int)chatRoom.Type);
 				packet.PutShort(1);
-				packet.PutByte(0); // b1
+				packet.PutByte(0);
 				packet.PutLong(0);
 				packet.PutLpString(chatRoom.Name);
 				packet.PutInt(chatRoom.MemberCount);
 				packet.PutInt(2);
-				packet.PutByte(1); // b3
+				packet.PutByte(1);
 
 				foreach (var member in chatRoom.GetMembers())
 				{

@@ -23,9 +23,19 @@ namespace Melia.Social.Database
 		public string TeamName { get; set; }
 
 		/// <summary>
+		/// Gets or sets the character's level.
+		/// </summary>
+		public int Level { get; set; } = 1;
+
+		/// <summary>
 		/// Gets or sets character's job.
 		/// </summary>
 		public JobId JobId { get; set; }
+
+		/// <summary>
+		/// Gets or sets character's job level.
+		/// </summary>
+		public int JobLevel { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets character's gender.
@@ -38,14 +48,26 @@ namespace Melia.Social.Database
 		public int Hair { get; set; }
 
 		/// <summary>
+		/// Gets or sets id of the character's skin color.
+		/// </summary>
+		public uint SkinColor { get; set; }
+
+		/// <summary>
 		/// Returns a bitmask that specifies which hats are visible on
 		/// the character.
 		/// </summary>
-		public VisibleEquip VisibleHats => VisibleEquip.Headgear1 | VisibleEquip.Headgear2 | VisibleEquip.Headgear3;
+		public VisibleEquip VisibleHats { get; set; } = VisibleEquip.All;
 
 		/// <summary>
-		/// Gets or sets the character's level.
+		/// Gets or sets the id of the map the character is currently on.
+		/// Returns 0 if they aren't online.
 		/// </summary>
-		public int Level { get; set; } = 1;
+		public int MapId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the id of the channel the character is currently on.
+		/// Returns 0 if they aren't online.
+		/// </summary>
+		public int ChannelId { get; set; }
 	}
 }
