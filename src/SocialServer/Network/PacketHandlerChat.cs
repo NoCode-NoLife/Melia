@@ -40,6 +40,7 @@ namespace Melia.Social.Network
 			conn.LoggedIn = true;
 
 			SocialServer.Instance.Database.UpdateLastSocialLogin(user.Id);
+			SocialServer.Instance.Database.LoadCharacterInfo(user);
 
 			Log.Info("User '{0}' logged in.", user.Name);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Melia.Shared.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Social.World;
 using MySqlConnector;
@@ -314,6 +315,53 @@ namespace Melia.Social.Database
 				cmd.Set("note", friend.Note ?? "");
 
 				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Loads the character information for the given user if a character
+		/// is online.
+		/// </summary>
+		/// <param name="user"></param>
+		public void LoadCharacterInfo(SocialUser user)
+		{
+			using (var conn = this.GetConnection())
+			{
+				var query = @"
+					SELECT `c`.`characterId`, `c`.`name`, `c`.`teamName`, `c`.`level`, `c`.`job`, `c`.`gender`, `c`.`hair`, `c`.`skinColor`, `c`.`equipVisibility`, `c`.`zone`
+					FROM `accounts` AS `a`
+					INNER JOIN `characters` AS `c` ON `a`.`loginCharacter` = `c`.`characterId`
+					WHERE `a`.`accountId` = @accountId
+				";
+
+				using (var cmd = new MySqlCommand(query, conn))
+				{
+					cmd.Parameters.AddWithValue("@accountId", user.AccountId);
+
+					using (var reader = cmd.ExecuteReader())
+					{
+						var character = user.Character;
+
+						if (!reader.Read())
+						{
+							// The character will appear as offline if map id is 0
+							character.MapId = 0;
+							character.ChannelId = 0;
+							return;
+						}
+
+						character.Id = reader.GetInt64("characterId") | ObjectIdRanges.Characters;
+						character.Name = reader.GetStringSafe("name");
+						character.TeamName = reader.GetStringSafe("teamName");
+						character.Level = reader.GetInt32("level");
+						character.JobId = (JobId)reader.GetInt32("job");
+						character.Gender = (Gender)reader.GetInt32("gender");
+						character.Hair = reader.GetInt32("hair");
+						character.SkinColor = reader.GetUInt32("skinColor");
+						character.VisibleHats = (VisibleEquip)reader.GetInt32("equipVisibility");
+						character.MapId = reader.GetInt32("zone");
+					}
+				}
 			}
 		}
 	}
