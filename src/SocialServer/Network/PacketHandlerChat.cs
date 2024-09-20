@@ -62,6 +62,14 @@ namespace Melia.Social.Network
 		public void CS_NORMAL_GAME_START(ISocialConnection conn, Packet packet)
 		{
 			Send.SC_FROM_INTEGRATE(conn, 1);
+
+			// Reopen chat rooms
+			var chatRooms = SocialServer.Instance.ChatManager.FindChatRooms(conn.User);
+			foreach (var chatRoom in chatRooms)
+			{
+				Send.SC_NORMAL.CreateRoom(conn, chatRoom);
+				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+			}
 		}
 
 		/// <summary>

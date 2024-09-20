@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Melia.Social.Database;
@@ -106,6 +107,17 @@ namespace Melia.Social.World
 			Send.SC_NORMAL.AddMessage(creator.Connection, chatRoom, chatMessage);
 
 			return chatRoom;
+		}
+
+		/// <summary>
+		/// Returns a list of chat rooms that the given user is a member of.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <returns></returns>
+		public ChatRoom[] FindChatRooms(SocialUser user)
+		{
+			lock (_rooms)
+				return _rooms.Values.Where(a => a.IsMember(user.TeamName)).ToArray();
 		}
 	}
 }
