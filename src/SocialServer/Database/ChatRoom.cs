@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Melia.Shared.Network;
 using Melia.Social.Network;
 using Melia.Social.World;
@@ -114,6 +116,17 @@ namespace Melia.Social.Database
 		{
 			lock (_members)
 				_members.RemoveAll(m => m.AccountId == accountId);
+		}
+
+		/// <summary>
+		/// Returns true if the chat has a member with the given team name.
+		/// </summary>
+		/// <param name="teamName"></param>
+		/// <returns></returns>
+		public bool IsMember(string teamName)
+		{
+			lock (_members)
+				return _members.Any(a => a.TeamName == teamName);
 		}
 
 		/// <summary>

@@ -6,5 +6,6 @@
 		public const string AlreadyRequestFriend = "AlreadyRequestFriend";
 		public const string AlreadyInFriendList = "AlreadyInFriendList";
 		public const string AckReqAddFriend = "AckReqAddFriend";
+		public const string AlreadyEnteredRoom = "AlreadyEnteredRoom";
 	}
 }

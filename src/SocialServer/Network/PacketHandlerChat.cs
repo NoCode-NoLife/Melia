@@ -240,13 +240,44 @@ namespace Melia.Social.Network
 			var teamName = packet.GetString(64);
 			var roomName = packet.GetString(32);
 
-			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
+			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var invitedUser))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.TargetUserNotExist);
 				return;
 			}
 
-			// ...
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
+			{
+				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.TeamName);
+				return;
+			}
+
+			if (chatRoom.Type != ChatRoomType.Group)
+			{
+				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to '{1}', a non-group chat.", conn.User.TeamName, roomName);
+				return;
+			}
+
+			if (chatRoom.IsMember(teamName))
+			{
+				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.AlreadyEnteredRoom);
+				return;
+			}
+
+			// I don't remember any restrictions on inviting people to group
+			// chats, but perhaps that should be an option? For example, we
+			// could send a tag invite via whisper.
+
+			chatRoom.AddMember(invitedUser);
+
+			foreach (var member in chatRoom.GetMembers())
+			{
+				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
+				{
+					Send.SC_NORMAL.CreateRoom(memberConn, chatRoom);
+					Send.SC_NORMAL.MessageList(memberConn, chatRoom, chatRoom.GetMessages());
+				}
+			}
 		}
 
 		/// <summary>
