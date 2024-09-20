@@ -21,6 +21,11 @@
 		public string TeamName { get; }
 
 		/// <summary>
+		/// Returns true if the member is currently online.
+		/// </summary>
+		public bool IsOnline => SocialServer.Instance.UserManager.IsOnline(this.AccountId);
+
+		/// <summary>
 		/// Creates new chat room member.
 		/// </summary>
 		/// <param name="chatRoomId"></param>

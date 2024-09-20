@@ -163,5 +163,18 @@ namespace Melia.Social.World
 			friend = SocialServer.Instance.Database.GetFriend(accountId, friendAccountId);
 			return friend != null;
 		}
+
+		/// <summary>
+		/// Returns true if the user with the given account id is currently online.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <returns></returns>
+		public bool IsOnline(long accountId)
+		{
+			if (!this.TryGet(accountId, out var user))
+				return false;
+
+			return user.TryGetConnection(out _);
+		}
 	}
 }

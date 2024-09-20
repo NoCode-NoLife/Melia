@@ -132,7 +132,8 @@ namespace Melia.Social.Network
 				{
 					packet.PutLong(member.AccountId);
 					packet.PutLpString(member.TeamName);
-					packet.PutInt(1);
+					packet.PutByte(member.IsOnline);
+					packet.PutGap(3);
 				}
 
 				conn.Send(packet);

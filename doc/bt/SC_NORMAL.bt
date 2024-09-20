@@ -66,7 +66,8 @@ switch (type)
         {
             int64 accountId;
             lpString teamName;
-            int i1;
+            byte isOnline;
+            byte gap1[3];
         }
         ChatMember <optimize=false>;
 
