@@ -92,24 +92,27 @@ switch (type)
     case 0x08:
         typedef struct
         {
-            int64 l1; // 0
-            int64 accountId2;
+            int64 l1;
+            int64 accountId;
             char teamName[64];
             char str1[56];
             int64 l2;
             int level;
-            char name[128];
+            char teamName[64];
+            char name[64];
             short s3;
-            int jobId;
-            short s1;
+            short jobId;
+            int i4;
             int i2;
             short gender;
             int hair;
             byte bin[26];
             uint i3 <format=hex>;
-            byte bin3[18];
+            byte bin3[16];
+            short s4;
             ShortDate lastLogin;
-            byte bin4[33];
+            char str1[32];
+            byte b1;
             short mapId;
             short channelId;
             lpString group;
