@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using Melia.Shared.Game.Const;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -182,7 +183,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Assigns a friend to a group.
+		/// Changes a friend's note or group.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -192,7 +193,8 @@ namespace Melia.Social.Network
 			var i1 = packet.GetInt();
 			var s1 = packet.GetShort();
 			var accountId = packet.GetLong();
-			var groupName = packet.GetString(20);
+			var text = packet.GetString(140);
+			var type = (FriendInfoType)packet.GetInt();
 
 			if (!conn.User.Friends.TryGet(accountId, out var friend))
 			{
@@ -200,7 +202,12 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			friend.Group = groupName;
+			switch (type)
+			{
+				case FriendInfoType.Group: friend.Group = text; break;
+				case FriendInfoType.Note: friend.Note = text; break;
+			}
+
 			SocialServer.Instance.Database.SaveFriend(friend);
 
 			Send.SC_NORMAL.FriendInfo(conn, friend);
