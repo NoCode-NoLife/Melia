@@ -1,0 +1,19 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CS_ALLOW_GROUP_CHAT_TAG_INVITE.bt
+//   Authors: exec
+//   Version: i389072
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixedSocial header;
+
+int64 chatId;
+char chatName[32];

@@ -67,7 +67,7 @@ namespace Melia.Zone.Commands
 			var command = this.GetCommand(commandName);
 			if (command == null)
 			{
-				character.ServerMessage(Localization.Get("Unknown command."));
+				character.ServerMessage(Localization.Get("Unknown command '{0}'."), commandName);
 				return true;
 			}
 

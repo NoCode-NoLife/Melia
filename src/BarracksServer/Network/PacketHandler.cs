@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -156,7 +157,7 @@ namespace Melia.Barracks.Network
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_IES_MODIFY_LIST(conn);
-			Send.BC_SERVER_ENTRY(conn, "127.0.0.1", 9001, "127.0.0.1", 9002);
+			Send.BC_SERVER_ENTRY(conn);
 			//Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
 			Send.BC_COMMANDER_LIST(conn);
 			Send.BC_NORMAL.CharacterInfo(conn);

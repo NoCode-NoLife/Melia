@@ -265,6 +265,12 @@ namespace Melia.Shared
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}
+				else if (serverType == ServerType.Social)
+				{
+					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
+				}
 				else if (serverType == ServerType.Web)
 				{
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
