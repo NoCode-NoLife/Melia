@@ -238,7 +238,7 @@ namespace Melia.Social.Network
 			var msg = packet.GetString();
 
 			if (!SocialServer.Instance.ChatCommands.TryExecute(conn.User, msg))
-				Log.Warning("CS_CHAT: Failed to execute chat command {0} for {1}", msg, conn.User.Name);
+				Log.Warning("CS_CHAT: Failed to execute chat command '{0}' for '{1}'.", msg, conn.User.Name);
 		}
 
 		/// <summary>
