@@ -92,20 +92,13 @@ namespace Melia.Social.World
 		/// <returns></returns>
 		public ChatRoom CreateChatRoom(SocialUser creator)
 		{
-			var chatRoom = new ChatRoom("", ChatRoomType.Group);
-			chatRoom.AddMember(creator);
-			this.AddChatRoom(chatRoom);
+			var room = new ChatRoom("", ChatRoomType.Group);
+			this.AddChatRoom(room);
 
-			// Not sending this will not display the message. Sending it
-			// will display the message twice. No idea why, but the same
-			// behavior can be observed in the game.
-			var chatMessage = new ChatMessage(creator, "!@#$NewRoomHasBeenCreated#@!");
-			chatRoom.AddMessage(chatMessage);
+			room.AddMember(creator);
+			room.AddMessage(new ChatMessage(creator, "!@#$NewRoomHasBeenCreated#@!"));
 
-			Send.SC_NORMAL.CreateRoom(creator.Connection, chatRoom);
-			Send.SC_NORMAL.AddMessage(creator.Connection, chatRoom, chatMessage);
-
-			return chatRoom;
+			return room;
 		}
 
 		/// <summary>

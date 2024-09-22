@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.L10N;
 using Melia.Social.Network;
 using Melia.Social.World;
 
