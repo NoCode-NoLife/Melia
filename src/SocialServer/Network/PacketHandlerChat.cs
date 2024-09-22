@@ -408,7 +408,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Request to receive a chat room's message history.
+		/// Request to receive a chat room's message history?
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -417,9 +417,17 @@ namespace Melia.Social.Network
 		{
 			var roomId = packet.GetLong();
 
+			var user = conn.User;
+
 			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
 			{
-				Log.Warning("CS_CREATE_GROUP_CHAT: Failed to find chat room by id {0}", roomId);
+				Log.Warning("CS_REQ_CHAT_HISTORY: User '{0}' tried to get chat history for a non-existant room '{1}'.", user.Name, roomId);
+				return;
+			}
+
+			if (!room.IsMember(user.TeamName))
+			{
+				Log.Warning("CS_REQ_CHAT_HISTORY: User '{0}' tried to get chat history for a room '{1}', that they're not a member of.", user.Name, roomId);
 				return;
 			}
 
