@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Game.Const;
+﻿using System;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Social.Database
 {
@@ -69,5 +70,22 @@ namespace Melia.Social.Database
 		/// Returns 0 if they aren't online.
 		/// </summary>
 		public int ChannelId { get; set; }
+
+		/// <summary>
+		/// Resets select properties that will make the character appear offline
+		/// when included in a friend list refresh.
+		/// </summary>
+		internal void Clear()
+		{
+			// If the map id is 0, the client will display the user as offline.
+			// We could clear the whole character object, but there isn't really
+			// any reason for it and this way we have access to the last character
+			// that was online. Whatever use we might have for that.
+			this.MapId = 0;
+
+			// Let's also clear the channel id for good measure, even though it's
+			// not technically necessary.
+			this.ChannelId = 0;
+		}
 	}
 }

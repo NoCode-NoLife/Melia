@@ -52,6 +52,10 @@ namespace Melia.Social.World
 		/// Returns the information about the character the user is logged
 		/// in as, if any.
 		/// </summary>
+		/// <remarks>
+		/// Returns the information of the last character the user was logged
+		/// in with if they were already logged in once during this session.
+		/// </remarks>
 		public Character Character { get; } = new Character();
 
 		/// <summary>
