@@ -95,11 +95,11 @@ switch (type)
         {
             int64 l1;
             int64 accountId;
-            char teamName[64];
+            char teamName1[64];
             char str1[56];
             int64 l2;
             int level;
-            char teamName[64];
+            char teamName2[64];
             char name[64];
             short s3;
             short jobId;
@@ -112,7 +112,7 @@ switch (type)
             byte bin3[16];
             short s4;
             ShortDate lastLogin;
-            char str1[32];
+            char str2[32];
             byte b1;
             short mapId;
             short channelId;
