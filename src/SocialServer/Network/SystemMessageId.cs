@@ -26,5 +26,10 @@
 		/// "You are already in the chat room."
 		/// </summary>
 		public const string AlreadyEnteredRoom = "AlreadyEnteredRoom";
+
+		/// <summary>
+		/// "The room is full."
+		/// </summary>
+		public const string LimitGroupChatMaxUserCnt = "LimitGroupChatMaxUserCnt";
 	}
 }

@@ -276,6 +276,13 @@ namespace Melia.Social.Network
 				return;
 			}
 
+			var reachedMax = chatRoom.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
+			if (reachedMax)
+			{
+				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.LimitGroupChatMaxUserCnt);
+				return;
+			}
+
 			// I don't remember any restrictions on inviting people to group
 			// chats, but perhaps that should be an option? For example, we
 			// could send a tag invite via whisper.
