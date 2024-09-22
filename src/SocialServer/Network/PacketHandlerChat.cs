@@ -344,12 +344,22 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_ALLOW_GROUP_CHAT_TAG_INVITE)]
 		public void CS_ALLOW_GROUP_CHAT_TAG_INVITE(ISocialConnection conn, Packet packet)
 		{
-			var chatRoomId = packet.GetLong();
-			var chatName = packet.GetString(32);
+			var roomId = packet.GetLong();
+			var roomName = packet.GetString(32);
 
-			// ...
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
+			{
+				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.TeamName);
+				return;
+			}
 
-			Log.Debug("CS_ALLOW_GROUP_CHAT_TAG_INVITE: Unhandled - User created an invite for chat '{0}'.", chatName);
+			if (room.Type != ChatRoomType.Group)
+			{
+				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to create an invite for '{1}', a non-group chat.", conn.User.TeamName, roomName);
+				return;
+			}
+
+			room.CreateInvite(conn.User.Id);
 		}
 
 		/// <summary>
@@ -360,12 +370,52 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_GROUP_CHAT_INVITE_BY_TAG)]
 		public void CS_GROUP_CHAT_INVITE_BY_TAG(ISocialConnection conn, Packet packet)
 		{
-			var chatRoomId = packet.GetLong();
+			var roomId = packet.GetLong();
 			var inviterId = packet.GetLong();
 
-			// ...
+			var user = conn.User;
 
-			Log.Debug("CS_GROUP_CHAT_INVITE_BY_TAG: Unhandled - User tried joining chat room '{0}'.", chatRoomId);
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
+			{
+				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.InviteRejected);
+				return;
+			}
+
+			if (room.Type != ChatRoomType.Group)
+			{
+				Log.Warning("CS_GROUP_CHAT_INVITE_BY_TAG: User '{0}' tried join '{1}', a non-group chat.", user.Name, roomId);
+				return;
+			}
+
+			if (room.IsMember(user.TeamName))
+			{
+				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.AlreadyEnteredRoom);
+				return;
+			}
+
+			if (!room.HasInvites(inviterId))
+			{
+				Log.Warning("CS_GROUP_CHAT_INVITE_BY_TAG: User '{0}' tried to join a group chat without an invite.", user.Name);
+				return;
+			}
+
+			var reachedMax = room.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
+			if (reachedMax)
+			{
+				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.LimitGroupChatMaxUserCnt);
+				return;
+			}
+
+			room.AddMember(user);
+
+			foreach (var member in room.GetMembers())
+			{
+				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
+				{
+					Send.SC_NORMAL.CreateRoom(memberConn, room);
+					Send.SC_NORMAL.MessageList(memberConn, room, room.GetMessages());
+				}
+			}
 		}
 
 		/// <summary>

@@ -31,5 +31,10 @@
 		/// "The room is full."
 		/// </summary>
 		public const string LimitGroupChatMaxUserCnt = "LimitGroupChatMaxUserCnt";
+
+		/// <summary>
+		/// "Your invitation has been declined."
+		/// </summary>
+		public const string InviteRejected = "InviteRejected";
 	}
 }

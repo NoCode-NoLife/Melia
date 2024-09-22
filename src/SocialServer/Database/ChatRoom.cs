@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Network;
 using Melia.Social.World;
@@ -12,6 +13,7 @@ namespace Melia.Social.Database
 	{
 		private readonly List<ChatMember> _members = new();
 		private readonly List<ChatMessage> _messages = new();
+		private readonly HashSet<long> _invites = new();
 
 		/// <summary>
 		/// Returns the chat room's globally unique id.
@@ -147,6 +149,37 @@ namespace Melia.Social.Database
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Marks the room a having open invites, created by the given inviter.
+		/// </summary>
+		/// <param name="inviterId"></param>
+		public void CreateInvite(long inviterId)
+		{
+			lock (_invites)
+				_invites.Add(inviterId);
+		}
+
+		/// <summary>
+		/// Removes the open invite created by the given inviter.
+		/// </summary>
+		/// <param name="inviterId"></param>
+		public void RevokeInvite(long inviterId)
+		{
+			lock (_invites)
+				_invites.Remove(inviterId);
+		}
+
+		/// <summary>
+		/// Returns true if there are open invites created by the given inviter.
+		/// </summary>
+		/// <param name="inviterId"></param>
+		/// <returns></returns>
+		public bool HasInvites(long inviterId)
+		{
+			lock (_invites)
+				return _invites.Contains(inviterId);
 		}
 	}
 
