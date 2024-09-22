@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using Melia.Shared.L10N;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -288,15 +289,7 @@ namespace Melia.Social.Network
 			// could send a tag invite via whisper.
 
 			chatRoom.AddMember(invitedUser);
-
-			foreach (var member in chatRoom.GetMembers())
-			{
-				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
-				{
-					Send.SC_NORMAL.CreateRoom(memberConn, chatRoom);
-					Send.SC_NORMAL.MessageList(memberConn, chatRoom, chatRoom.GetMessages());
-				}
-			}
+			chatRoom.AddMessage(new ChatMessage(invitedUser, string.Format(Localization.Get("{0} has joined."), invitedUser.TeamName)));
 		}
 
 		/// <summary>
@@ -407,15 +400,7 @@ namespace Melia.Social.Network
 			}
 
 			room.AddMember(user);
-
-			foreach (var member in room.GetMembers())
-			{
-				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
-				{
-					Send.SC_NORMAL.CreateRoom(memberConn, room);
-					Send.SC_NORMAL.MessageList(memberConn, room, room.GetMessages());
-				}
-			}
+			room.AddMessage(new ChatMessage(user, string.Format(Localization.Get("{0} has joined."), user.TeamName)));
 		}
 
 		/// <summary>
@@ -438,7 +423,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Leaves a chat room.
+		/// Notification that a user has left a chat room.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -447,13 +432,16 @@ namespace Melia.Social.Network
 		{
 			var chatId = packet.GetLong();
 
+			var user = conn.User;
+
 			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
 			{
-				Log.Warning("CS_REQ_OUT_ROOM: Failed to find chat room by id {0}", chatId);
+				Log.Warning("CS_REQ_OUT_ROOM: User '{0}' tried to leave non-existant room '{1}'.", user.Name, chatId);
 				return;
 			}
 
-			chatRoom.RemoveMember(conn.User.AccountId);
+			chatRoom.RemoveMember(user.AccountId);
+			chatRoom.AddMessage(new ChatMessage(user, string.Format(Localization.Get("{0} has left."), user.TeamName)));
 		}
 
 		/// <summary>

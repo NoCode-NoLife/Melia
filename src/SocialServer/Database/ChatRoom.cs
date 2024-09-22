@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.L10N;
 using Melia.Social.Network;
 using Melia.Social.World;
 
@@ -89,23 +90,29 @@ namespace Melia.Social.Database
 		/// </remarks>
 		/// <param name="user"></param>
 		public void AddMember(SocialUser user)
-			=> this.AddMember(new ChatMember(this.Id, user.Id, user.TeamName));
-
-		/// <summary>
-		/// Add a member to the chat room.
-		/// </summary>
-		/// <remarks>
-		/// The first member to be added to a chat room becomes its
-		/// creator if no creator was set yet.
-		/// </remarks>
-		/// <param name="member"></param>
-		public void AddMember(ChatMember member)
 		{
-			lock (_members)
-				_members.Add(member);
+			var newMember = new ChatMember(this.Id, user.Id, user.TeamName);
 
 			if (this.OwnerId == 0)
-				this.OwnerId = member.AccountId;
+				this.OwnerId = newMember.AccountId;
+
+			lock (_members)
+				_members.Add(newMember);
+
+			if (user.TryGetConnection(out var userConn))
+			{
+				Send.SC_NORMAL.CreateRoom(userConn, this);
+				Send.SC_NORMAL.MessageList(userConn, this, this.GetMessages());
+			}
+
+			foreach (var member in this.GetMembers())
+			{
+				if (member == newMember)
+					continue;
+
+				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
+					Send.SC_NORMAL.CreateRoom(memberConn, this);
+			}
 		}
 
 		/// <summary>
@@ -116,6 +123,12 @@ namespace Melia.Social.Database
 		{
 			lock (_members)
 				_members.RemoveAll(m => m.AccountId == accountId);
+
+			foreach (var member in this.GetMembers())
+			{
+				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
+					Send.SC_NORMAL.CreateRoom(memberConn, this);
+			}
 		}
 
 		/// <summary>
