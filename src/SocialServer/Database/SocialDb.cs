@@ -157,14 +157,14 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Updates the last login time for the user.
 		/// </summary>
-		/// <param name="userId"></param>
-		public void UpdateLastSocialLogin(long userId)
+		/// <param name="user"></param>
+		public void UpdateLastSocialLogin(SocialUser user)
 		{
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `social_users` SET {0} WHERE `userId` = @userId", conn))
 			{
-				cmd.AddParameter("@userId", userId);
-				cmd.Set("lastLogin", DateTime.Now);
+				cmd.AddParameter("@userId", user.Id);
+				cmd.Set("lastLogin", user.LastLogin);
 
 				cmd.Execute();
 			}

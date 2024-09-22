@@ -1,4 +1,5 @@
-﻿using Melia.Shared.L10N;
+﻿using System;
+using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
@@ -38,9 +39,10 @@ namespace Melia.Social.Network
 			user.Connection = conn;
 
 			conn.User = user;
+			conn.User.LastLogin = DateTime.Now;
 			conn.LoggedIn = true;
 
-			SocialServer.Instance.Database.UpdateLastSocialLogin(user.Id);
+			SocialServer.Instance.Database.UpdateLastSocialLogin(user);
 			SocialServer.Instance.Database.LoadCharacterInfo(user);
 
 			Log.Info("User '{0}' logged in.", user.Name);
