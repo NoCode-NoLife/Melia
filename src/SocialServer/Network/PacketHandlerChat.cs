@@ -248,6 +248,17 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
+		/// Request to create a chat room.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_CREATE_GROUP_CHAT)]
+		public void CS_CREATE_GROUP_CHAT(ISocialConnection conn, Packet packet)
+		{
+			SocialServer.Instance.ChatManager.CreateChatRoom(conn.User);
+		}
+
+		/// <summary>
 		/// Invites someone to join a group chat.
 		/// </summary>
 		/// <param name="conn"></param>
@@ -295,35 +306,6 @@ namespace Melia.Social.Network
 
 			room.AddMember(invitedUser);
 			room.AddMessage(new ChatMessage(invitedUser, string.Format(Localization.Get("{0} has joined."), invitedUser.TeamName)));
-		}
-
-		/// <summary>
-		/// Request to refresh all chat rooms?
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CS_REFRESH_GROUP_CHAT)]
-		public void CS_REFRESH_GROUP_CHAT(ISocialConnection conn, Packet packet)
-		{
-			var user = conn.User;
-
-			var rooms = SocialServer.Instance.ChatManager.FindChatRooms(conn.User);
-			foreach (var room in rooms)
-			{
-				Send.SC_NORMAL.CreateRoom(conn, room);
-				Send.SC_NORMAL.MessageList(conn, room, room.GetMessages());
-			}
-		}
-
-		/// <summary>
-		/// Request to create a chat room.
-		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="packet"></param>
-		[PacketHandler(Op.CS_CREATE_GROUP_CHAT)]
-		public void CS_CREATE_GROUP_CHAT(ISocialConnection conn, Packet packet)
-		{
-			SocialServer.Instance.ChatManager.CreateChatRoom(conn.User);
 		}
 
 		/// <summary>
@@ -405,6 +387,24 @@ namespace Melia.Social.Network
 
 			room.AddMember(user);
 			room.AddMessage(new ChatMessage(user, string.Format(Localization.Get("{0} has joined."), user.TeamName)));
+		}
+
+		/// <summary>
+		/// Request to refresh all chat rooms?
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CS_REFRESH_GROUP_CHAT)]
+		public void CS_REFRESH_GROUP_CHAT(ISocialConnection conn, Packet packet)
+		{
+			var user = conn.User;
+
+			var rooms = SocialServer.Instance.ChatManager.FindChatRooms(conn.User);
+			foreach (var room in rooms)
+			{
+				Send.SC_NORMAL.CreateRoom(conn, room);
+				Send.SC_NORMAL.MessageList(conn, room, room.GetMessages());
+			}
 		}
 
 		/// <summary>
