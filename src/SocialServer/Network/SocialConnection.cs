@@ -124,9 +124,6 @@ namespace Melia.Social.Network
 		protected override void OnClosed(ConnectionCloseType type)
 		{
 			base.OnClosed(type);
-
-			if (this.User != null)
-				SocialServer.Instance.UserManager.Remove(this.User.Id);
 		}
 	}
 }

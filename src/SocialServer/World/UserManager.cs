@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
-using Yggdrasil.Logging;
-using Yggdrasil.Util.Commands;
 
 namespace Melia.Social.World
 {
 	/// <summary>
 	/// Collection of users connected to the social server.
 	/// </summary>
+	/// <remarks>
+	/// The user manager is the authority on managing, loading, and creating
+	/// users, and unless there's a really good reason for it, no other class
+	/// should directly call into the database to get or create users.
+	/// </remarks>
 	public class UserManager
 	{
 		private readonly Dictionary<long, SocialUser> _users = new();
@@ -35,21 +38,21 @@ namespace Melia.Social.World
 		/// Adds a user.
 		/// </summary>
 		/// <param name="conn"></param>
-		public void Add(SocialUser user)
-		{
-			lock (_users)
-				_users[user.Id] = user;
-		}
+		//public void Add(SocialUser user)
+		//{
+		//	lock (_users)
+		//		_users[user.Id] = user;
+		//}
 
 		/// <summary>
 		/// Remove a social connection
 		/// </summary>
 		/// <param name="conn"></param>
-		public void Remove(long accountId)
-		{
-			lock (_users)
-				_users.Remove(accountId);
-		}
+		//public void Remove(long accountId)
+		//{
+		//	lock (_users)
+		//		_users.Remove(accountId);
+		//}
 
 		/// <summary>
 		/// Returns the user for the account with the given team name,
@@ -66,18 +69,7 @@ namespace Melia.Social.World
 			if (account == null)
 				throw new ArgumentException($"Account with team name '{teamName}' not found.");
 
-			lock (_users)
-			{
-				if (!_users.TryGetValue(account.Id, out var user))
-				{
-					user = SocialServer.Instance.Database.GetOrCreateUser(account);
-					user.Friends.LoadFromDb();
-
-					_users[user.Id] = user;
-				}
-
-				return user;
-			}
+			return this.GetOrCreateUser(account);
 		}
 
 		/// <summary>
