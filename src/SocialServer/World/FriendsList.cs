@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Database;
+using Melia.Social.Network;
+using Yggdrasil.Geometry.Shapes;
 using Yggdrasil.Logging;
 
 namespace Melia.Social.World
@@ -184,6 +186,39 @@ namespace Melia.Social.World
 
 			newOtherFriend = new Friend(user, FriendState.ReceivedRequest);
 			otherUser.Friends.Add(newOtherFriend);
+		}
+
+		/// <summary>
+		/// Updates the user's friend list on their client.
+		/// </summary>
+		public void RefreshList()
+		{
+			if (!this.User.TryGetConnection(out var conn))
+				return;
+
+			foreach (var friend in this.GetAll())
+				Send.SC_NORMAL.FriendInfo(conn, friend);
+		}
+
+		/// <summary>
+		/// Updates the user's friends about the user's current status.
+		/// </summary>
+		/// <remarks>
+		/// Useful on login and logout to refresh the user's status on the
+		/// friends' clients.
+		/// </remarks>
+		public void RefreshStatus()
+		{
+			foreach (var friend in this.GetAll())
+			{
+				if (!friend.User.TryGetConnection(out var friendConn))
+					continue;
+
+				if (!friend.User.Friends.TryGet(this.User.Id, out var userFriend))
+					continue;
+
+				Send.SC_NORMAL.FriendInfo(friendConn, userFriend);
+			}
 		}
 	}
 }

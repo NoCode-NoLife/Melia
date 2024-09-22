@@ -127,12 +127,7 @@ namespace Melia.Social.Network
 
 			// Updated friends to make this user appear offline
 			this.User.Character.MapId = 0;
-
-			foreach (var friend in this.User.Friends.GetAll())
-			{
-				if (friend.User.TryGetConnection(out var friendConn) && friend.User.Friends.TryGet(this.User.Id, out var userFriend))
-					Social.Network.Send.SC_NORMAL.FriendInfo(friendConn, userFriend);
-			}
+			this.User.Friends.RefreshStatus();
 		}
 	}
 }
