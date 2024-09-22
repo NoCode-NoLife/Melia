@@ -67,14 +67,14 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Social Game Start?
+		/// Sent after the client loaded the game world.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CS_NORMAL_GAME_START)]
 		public void CS_NORMAL_GAME_START(ISocialConnection conn, Packet packet)
 		{
-			Send.SC_FROM_INTEGRATE(conn, 1);
+			Send.SC_FROM_INTEGRATE.Unknown_01(conn.User);
 		}
 
 		/// <summary>

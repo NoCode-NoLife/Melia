@@ -1,4 +1,6 @@
-﻿namespace Melia.Shared.Network
+﻿using System.Text.RegularExpressions;
+
+namespace Melia.Shared.Network
 {
 	public static class NormalOp
 	{
@@ -119,6 +121,26 @@
 			public const int LikeList = 0x7D0A;
 			public const int LikeCount = 0x7D0B;
 			public const int LikeFailed = 0x7D0D;
+		}
+
+		/// <summary>
+		/// Sub-opcodes used with SC_FROM_INTEGRATE.
+		/// </summary>
+		/// <remarks>
+		/// The exact purpose of the integrate packets is currently only partially
+		/// known, but they appear to be mostly related to inter-server processes,
+		/// such as instanced dungeons, match-making, and PVP.
+		/// </remarks>
+		public static class Integrate
+		{
+			// These ops weren't actively maintained and might be outdated.
+
+			public const int Unknown_01 = 0x01;
+			public const int SpectateMatchInfo = 0x0E;
+			public const int Unknown_14 = 0x14;
+			public const int Unknown_19 = 0x19;
+			public const int PvpRanking = 0x1C;
+			public const int Unknown_1D = 0x1D;
 		}
 	}
 }
