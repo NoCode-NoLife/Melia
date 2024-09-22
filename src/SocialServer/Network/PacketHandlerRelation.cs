@@ -33,9 +33,14 @@ namespace Melia.Social.Network
 			}
 
 			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
-			user.Connection = conn;
+			if (user.TryGetConnection(out var existingConn))
+			{
+				existingConn.Close();
+				existingConn = null;
+			}
 
 			conn.User = user;
+			conn.User.Connection = conn;
 			conn.LoggedIn = true;
 
 			Log.Info("User '{0}' logged in.", user.Name);

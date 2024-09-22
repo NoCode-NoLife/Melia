@@ -17,6 +17,12 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_LOGIN)]
 		public void CS_LOGIN(ISocialConnection conn, Packet packet)
 		{
+			// We're getting both a password and a session key in this packet,
+			// and we could use either for the authentication, but using the
+			// password will allow us to log in without a session key, enabling
+			// a potential use case where we log into the social server with a
+			// messenger app, to allow players to chat while offline.
+
 			var accountName = packet.GetString(56);
 			var password = packet.GetBinAsHex(16);
 			var b1 = packet.GetByte();
@@ -36,9 +42,14 @@ namespace Melia.Social.Network
 			}
 
 			var user = SocialServer.Instance.UserManager.GetOrCreateUser(account);
-			user.Connection = conn;
+			if (user.TryGetConnection(out var existingConn))
+			{
+				existingConn.Close();
+				existingConn = null;
+			}
 
 			conn.User = user;
+			conn.User.Connection = conn;
 			conn.User.LastLogin = DateTime.Now;
 			conn.LoggedIn = true;
 
