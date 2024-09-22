@@ -4,7 +4,7 @@ using Melia.Social.World;
 namespace Melia.Social.Database
 {
 	/// <summary>
-	/// Represents a message in a chat room
+	/// Represents a message in a chat room.
 	/// </summary>
 	public class ChatMessage
 	{

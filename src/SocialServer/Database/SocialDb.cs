@@ -14,6 +14,7 @@ namespace Melia.Social.Database
 		/// Returns account with given name, or null if it doesn't exist.
 		/// </summary>
 		/// <param name="accountName"></param>
+		/// <param name="account"></param>
 		/// <returns></returns>
 		public bool TryGetAccount(string accountName, out Account account)
 		{

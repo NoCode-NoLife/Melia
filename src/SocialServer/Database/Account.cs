@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Melia.Social.Database
 {
@@ -34,36 +33,6 @@ namespace Melia.Social.Database
 		/// Gets or sets the id of the character that is currently logged in.
 		/// </summary>
 		public long CharacterId { get; set; }
-
-		/// <summary>
-		/// Add a reference to the object in Account's chatrooms.
-		/// </summary>
-		/// <param name="chatRoom"></param>
-		public void AddChatRoom(ChatRoom chatRoom)
-		{
-			lock (_chatRooms)
-				_chatRooms.TryAdd(chatRoom.Id, chatRoom);
-		}
-
-		/// <summary>
-		/// Removes a object from Account's chatrooms.
-		/// </summary>
-		/// <param name="id"></param>
-		public void RemoveChatRoom(long id)
-		{
-			lock (_chatRooms)
-				_chatRooms.Remove(id);
-		}
-
-		/// <summary>
-		/// Returns list of all friends on account.
-		/// </summary>
-		/// <returns></returns>
-		public ChatRoom[] GetChatRooms()
-		{
-			lock (_chatRooms)
-				return _chatRooms.Values.ToArray();
-		}
 
 		/// <summary>
 		/// Adds a like to the given character.

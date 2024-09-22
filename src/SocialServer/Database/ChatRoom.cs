@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Melia.Shared.Network;
 using Melia.Social.Network;
 using Melia.Social.World;
 
@@ -87,7 +85,7 @@ namespace Melia.Social.Database
 		/// The first member to be added to a chat room becomes its
 		/// creator if no creator was set yet.
 		/// </remarks>
-		/// <param name="member"></param>
+		/// <param name="user"></param>
 		public void AddMember(SocialUser user)
 			=> this.AddMember(new ChatMember(this.Id, user.Id, user.TeamName));
 

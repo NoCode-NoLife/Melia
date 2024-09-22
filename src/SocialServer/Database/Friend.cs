@@ -47,7 +47,7 @@ namespace Melia.Social.Database
 		/// <summary>
 		/// Creates a new friend from the given information.
 		/// </summary>
-		/// <param name="friendAccount"></param>
+		/// <param name="user"></param>
 		/// <param name="state"></param>
 		public Friend(SocialUser user, FriendState state)
 		{
@@ -107,5 +107,21 @@ namespace Melia.Social.Database
 		/// Delete or unblock a friend.
 		/// </summary>
 		Delete,
+	}
+
+	/// <summary>
+	/// Specifies the type of information about a friend sent by the client.
+	/// </summary>
+	public enum FriendInfoType : int
+	{
+		/// <summary>
+		/// Changes the friend's group.
+		/// </summary>
+		Group,
+
+		/// <summary>
+		/// Changes the friend's memo/note.
+		/// </summary>
+		Note,
 	}
 }
