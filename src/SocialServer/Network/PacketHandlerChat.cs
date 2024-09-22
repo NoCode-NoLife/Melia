@@ -82,6 +82,12 @@ namespace Melia.Social.Network
 
 			var user = conn.User;
 
+			if (teamName == user.TeamName)
+			{
+				Log.Warning("CS_REQ_ADD_FRIEND: User '{0}' tried to add themselves as a friend.", user.Name);
+				return;
+			}
+
 			if (!SocialServer.Instance.UserManager.TryGet(teamName, out var otherUser))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.TargetUserNotExist);
