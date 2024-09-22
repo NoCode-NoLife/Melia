@@ -249,7 +249,7 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_GROUP_CHAT_INVITE)]
 		public void CS_GROUP_CHAT_INVITE(ISocialConnection conn, Packet packet)
 		{
-			var chatId = packet.GetLong();
+			var roomId = packet.GetLong();
 			var teamName = packet.GetString(64);
 			var roomName = packet.GetString(32);
 
@@ -259,25 +259,25 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
 			{
-				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.TeamName);
+				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.Name);
 				return;
 			}
 
-			if (chatRoom.Type != ChatRoomType.Group)
+			if (room.Type != ChatRoomType.Group)
 			{
-				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to '{1}', a non-group chat.", conn.User.TeamName, roomName);
+				Log.Warning("CS_GROUP_CHAT_INVITE: User '{0}' tried to invite someone to '{1}', a non-group chat.", conn.User.Name, roomName);
 				return;
 			}
 
-			if (chatRoom.IsMember(teamName))
+			if (room.IsMember(teamName))
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.AlreadyEnteredRoom);
 				return;
 			}
 
-			var reachedMax = chatRoom.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
+			var reachedMax = room.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
 			if (reachedMax)
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.LimitGroupChatMaxUserCnt);
@@ -288,8 +288,8 @@ namespace Melia.Social.Network
 			// chats, but perhaps that should be an option? For example, we
 			// could send a tag invite via whisper.
 
-			chatRoom.AddMember(invitedUser);
-			chatRoom.AddMessage(new ChatMessage(invitedUser, string.Format(Localization.Get("{0} has joined."), invitedUser.TeamName)));
+			room.AddMember(invitedUser);
+			room.AddMessage(new ChatMessage(invitedUser, string.Format(Localization.Get("{0} has joined."), invitedUser.TeamName)));
 		}
 
 		/// <summary>
@@ -302,11 +302,11 @@ namespace Melia.Social.Network
 		{
 			var user = conn.User;
 
-			var chatRooms = SocialServer.Instance.ChatManager.FindChatRooms(conn.User);
-			foreach (var chatRoom in chatRooms)
+			var rooms = SocialServer.Instance.ChatManager.FindChatRooms(conn.User);
+			foreach (var room in rooms)
 			{
-				Send.SC_NORMAL.CreateRoom(conn, chatRoom);
-				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+				Send.SC_NORMAL.CreateRoom(conn, room);
+				Send.SC_NORMAL.MessageList(conn, room, room.GetMessages());
 			}
 		}
 
@@ -342,13 +342,13 @@ namespace Melia.Social.Network
 
 			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
 			{
-				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.TeamName);
+				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to invite someone to a non-existant group chat.", conn.User.Name);
 				return;
 			}
 
 			if (room.Type != ChatRoomType.Group)
 			{
-				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to create an invite for '{1}', a non-group chat.", conn.User.TeamName, roomName);
+				Log.Warning("CS_ALLOW_GROUP_CHAT_TAG_INVITE: User '{0}' tried to create an invite for '{1}', a non-group chat.", conn.User.Name, roomName);
 				return;
 			}
 
@@ -411,15 +411,15 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_REQ_CHAT_HISTORY)]
 		public void CS_REQ_CHAT_HISTORY(ISocialConnection conn, Packet packet)
 		{
-			var chatId = packet.GetLong();
+			var roomId = packet.GetLong();
 
-			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
 			{
-				Log.Warning("CS_CREATE_GROUP_CHAT: Failed to find chat room by id {0}", chatId);
+				Log.Warning("CS_CREATE_GROUP_CHAT: Failed to find chat room by id {0}", roomId);
 				return;
 			}
 
-			Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+			Send.SC_NORMAL.MessageList(conn, room, room.GetMessages());
 		}
 
 		/// <summary>
@@ -430,18 +430,18 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_REQ_OUT_ROOM)]
 		public void CS_REQ_OUT_ROOM(ISocialConnection conn, Packet packet)
 		{
-			var chatId = packet.GetLong();
+			var roomId = packet.GetLong();
 
 			var user = conn.User;
 
-			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(chatId, out var chatRoom))
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(roomId, out var room))
 			{
-				Log.Warning("CS_REQ_OUT_ROOM: User '{0}' tried to leave non-existant room '{1}'.", user.Name, chatId);
+				Log.Warning("CS_REQ_OUT_ROOM: User '{0}' tried to leave non-existant room '{1}'.", user.Name, roomId);
 				return;
 			}
 
-			chatRoom.RemoveMember(user.AccountId);
-			chatRoom.AddMessage(new ChatMessage(user, string.Format(Localization.Get("{0} has left."), user.TeamName)));
+			room.RemoveMember(user.AccountId);
+			room.AddMessage(new ChatMessage(user, string.Format(Localization.Get("{0} has left."), user.TeamName)));
 		}
 
 		/// <summary>
