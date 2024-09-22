@@ -277,8 +277,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var reachedMax = room.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
-			if (reachedMax)
+			if (room.MaxMembersReached)
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.LimitGroupChatMaxUserCnt);
 				return;
@@ -392,8 +391,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			var reachedMax = room.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
-			if (reachedMax)
+			if (room.MaxMembersReached)
 			{
 				Send.SC_NORMAL.SystemMessage(conn, SystemMessageId.LimitGroupChatMaxUserCnt);
 				return;
