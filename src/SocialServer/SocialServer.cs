@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;
 using Melia.Social.World;
 using Yggdrasil.Logging;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Network.TCP;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
@@ -20,6 +23,11 @@ namespace Melia.Social
 		public readonly static SocialServer Instance = new();
 
 		private TcpConnectionAcceptor<SocialConnection> _acceptor;
+
+		/// <summary>
+		/// Returns the server's inter-server communicator.
+		/// </summary>
+		public Communicator Communicator { get; private set; }
 
 		/// <summary>
 		/// Returns a reference to the server's packet handlers.
@@ -70,10 +78,75 @@ namespace Melia.Social
 			this.LoadPacketHandler();
 			this.LoadManagers();
 
+			this.StartCommunicator();
 			this.StartAcceptors();
 
 			ConsoleUtil.RunningTitle();
 			new ConsoleCommands().Wait();
+		}
+
+		/// <summary>
+		/// Starts the communicator and attempts to connect to the
+		/// coordinator.
+		/// </summary>
+		private void StartCommunicator()
+		{
+			Log.Info("Attempting to connect to coordinator...");
+
+			var commName = "" + (this.ServerInfo.Id == 1 ? "Chat" : "Relation");
+
+			this.Communicator = new Communicator(commName);
+			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
+			this.Communicator.MessageReceived += this.Communicator_OnMessageReceived;
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Attempts to establish a connection to the coordinator.
+		/// </summary>
+		private void ConnectToCoordinator()
+		{
+			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
+			var authentication = this.Conf.Inter.Authentication;
+
+			try
+			{
+				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
+
+				this.Communicator.Subscribe("Coordinator", "AllServers");
+				this.Communicator.Subscribe("Coordinator", "AllSocials");
+
+				Log.Info("Successfully connected to coordinator.");
+			}
+			catch
+			{
+				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
+				Thread.Sleep(5000);
+
+				this.ConnectToCoordinator();
+			}
+		}
+
+		/// <summary>
+		/// Called when the connection to the coordinator was lost.
+		/// </summary>
+		/// <param name="commName"></param>
+		private void Communicator_OnDisconnected(string commName)
+		{
+			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
+			Thread.Sleep(5000);
+
+			this.ConnectToCoordinator();
+		}
+
+		/// <summary>
+		/// Called when a message was received from the coordinator.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="message"></param>
+		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
+		{
 		}
 
 		/// <summary>
