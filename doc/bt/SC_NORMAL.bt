@@ -18,8 +18,11 @@ ServerHeaderDynamic header;
 int type;
 switch (type)
 {
-    // Login Related?
+    // LoginSuccess
     case 0x00:
+        break;
+
+    // Login Related?
     case 0x02:
         break;
 

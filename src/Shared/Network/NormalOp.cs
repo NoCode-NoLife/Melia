@@ -92,7 +92,7 @@ namespace Melia.Shared.Network
 		public static class Social
 		{
 			// Chat Server
-			public const int Unknown_00 = 0x00;
+			public const int LoginSuccess = 0x00;
 			public const int Unknown_01 = 0x01;
 			public const int Unknown_02 = 0x02;
 			public const int AddMessage = 0x03;

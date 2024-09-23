@@ -13,14 +13,18 @@ namespace Melia.Social.Network
 		public static class SC_NORMAL
 		{
 			/// <summary>
-			/// Enables chat functions, without this the client doesn't
-			/// send chat packets to the server.
+			/// Notifies client that the login was successful.
 			/// </summary>
+			/// <remarks>
+			/// It's unknown why this is necessary, since SC_LOGIN_OK exists
+			/// as well, but without it you can't chat and the client won't
+			/// request like numbers.
+			/// </remarks>
 			/// <param name="conn"></param>
-			public static void EnableChat(ISocialConnection conn)
+			public static void LoginSuccess(ISocialConnection conn)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.Unknown_00);
+				packet.PutInt(NormalOp.Social.LoginSuccess);
 
 				conn.Send(packet);
 			}

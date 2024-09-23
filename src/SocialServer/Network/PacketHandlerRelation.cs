@@ -45,6 +45,7 @@ namespace Melia.Social.Network
 
 			Log.Info("User '{0}' logged in.", user.Name);
 
+			Send.SC_NORMAL.LoginSuccess(conn);
 			Send.SC_LOGIN_OK(conn);
 		}
 
