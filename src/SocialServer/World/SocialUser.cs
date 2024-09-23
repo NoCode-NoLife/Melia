@@ -88,5 +88,13 @@ namespace Melia.Social.World
 			conn = this.Connection;
 			return conn != null;
 		}
+
+		/// <summary>
+		/// Loads the user's likes from the database.
+		/// </summary>
+		public void LoadLikesFromDb()
+		{
+			SocialServer.Instance.Database.LoadLikes(this);
+		}
 	}
 }

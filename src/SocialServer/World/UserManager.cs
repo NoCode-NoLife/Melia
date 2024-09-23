@@ -32,7 +32,10 @@ namespace Melia.Social.World
 			}
 
 			foreach (var user in users)
+			{
 				user.Friends.LoadFromDb();
+				user.LoadLikesFromDb();
+			}
 		}
 
 		/// <summary>

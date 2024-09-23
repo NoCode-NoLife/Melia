@@ -121,8 +121,20 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			user.SentLikes.Add(new Like(otherUser, user));
-			otherUser.ReceivedLikes.Add(new Like(otherUser, user));
+			if (otherUser.ReceivedLikes.Exists(otherUser.Id, user.Id))
+			{
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who they've already liked.", user.Name);
+				return;
+			}
+
+			var like = new Like(otherUser, user);
+
+			// Saving the like on both users is a bit redundant, but it
+			// makes it easier to get the list of likes for each user.
+			// What's better? Not sure.
+			user.SentLikes.Add(like);
+			otherUser.ReceivedLikes.Add(like);
+			SocialServer.Instance.Database.AddLike(like);
 
 			Send.SC_NORMAL.LikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}
@@ -148,8 +160,15 @@ namespace Melia.Social.Network
 				return;
 			}
 
+			if (!otherUser.ReceivedLikes.Exists(otherUser.Id, user.Id))
+			{
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who they haven't liked.", user.Name);
+				return;
+			}
+
 			user.SentLikes.Remove(otherUser.Id, user.Id);
 			otherUser.ReceivedLikes.Remove(otherUser.Id, user.Id);
+			SocialServer.Instance.Database.RemoveLike(otherUser.Id, user.Id);
 
 			Send.SC_NORMAL.UnlikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}

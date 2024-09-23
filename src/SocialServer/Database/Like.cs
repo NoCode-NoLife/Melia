@@ -94,6 +94,15 @@ namespace Melia.Social.Database
 		}
 
 		/// <summary>
+		/// Removes all likes from the collection.
+		/// </summary>
+		public void Clear()
+		{
+			lock (_likes)
+				_likes.Clear();
+		}
+
+		/// <summary>
 		/// Adds a like to the collection if it doesn't exist already.
 		/// </summary>
 		/// <param name="like"></param>
