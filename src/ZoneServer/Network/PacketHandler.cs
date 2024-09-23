@@ -2658,6 +2658,11 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			// The response does not appear to include the number of likes.
+			// Instead, it seems like the client is supposed to get that
+			// information from the relation server, as there's a request
+			// op for it. This is not sent currently though.
+
 			Send.ZC_PROPERTY_COMPARE(conn, character, openWindow, like);
 		}
 
