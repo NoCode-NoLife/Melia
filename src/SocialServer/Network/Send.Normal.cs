@@ -371,8 +371,7 @@ namespace Melia.Social.Network
 				packet.PutLpString(messageText);
 				packet.PutLpString("GLOBAL");
 
-				foreach (var user in SocialServer.Instance.UserManager.GetActive())
-					user.Connection.Send(packet);
+				SocialServer.Instance.UserManager.Broadcast(packet);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 
 namespace Melia.Social.World
@@ -95,16 +96,6 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
-		/// Returns a list of all users who are currently online.
-		/// </summary>
-		/// <returns></returns>
-		public SocialUser[] GetActive()
-		{
-			lock (_users)
-				return _users.Values.Where(a => a.Connection != null).ToArray();
-		}
-
-		/// <summary>
 		/// Returns the user with the given id via out. Returns false if
 		/// the user doesn't exist yet.
 		/// </summary>
@@ -177,6 +168,19 @@ namespace Melia.Social.World
 				return false;
 
 			return user.TryGetConnection(out _);
+		}
+
+		/// <summary>
+		/// Broadcasts packet to all active users.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			lock (_users)
+			{
+				foreach (var user in _users.Values)
+					user.Connection?.Send(packet);
+			}
 		}
 	}
 }
