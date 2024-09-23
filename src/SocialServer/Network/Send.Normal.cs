@@ -361,6 +361,48 @@ namespace Melia.Social.Network
 			}
 
 			/// <summary>
+			/// Updates client's list of likes the player sent.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void LikedList(ISocialConnection conn)
+			{
+				var likes = conn.User.SentLikes;
+
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikedList);
+
+				packet.PutInt(likes.Count);
+
+				foreach (var like in likes.GetAll())
+					packet.PutLpString(like.ReceiverName);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates client's list of likes the player received.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void LikedMeList(ISocialConnection conn)
+			{
+				var likes = conn.User.ReceivedLikes;
+
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikedMeList);
+
+				packet.PutInt(likes.Count);
+
+				foreach (var like in likes.GetAll())
+				{
+					packet.PutLpString(like.SenderName);
+					packet.PutDate(like.Time);
+					packet.PutByte(1);
+				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
 			/// Broadcasts shout to all active users.
 			/// </summary>
 			/// <param name="sender"></param>

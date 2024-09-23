@@ -19,4 +19,4 @@ int i1;
 short s1;
 int64 accountId;
 int64 characterId;
-byte unk1[64]; // garbage data? perhaps obsolete string? doesn't seem to get used.
+byte teamName[64]; // Potentially team name, but not set
