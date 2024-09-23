@@ -88,6 +88,12 @@ string readEquipItem2(EquipItem2 &v)
     return result;
 }
 
+typedef struct (int count)
+{
+    EquipItem2 items[count];
+}
+EquipItemGroup <optimize=false>;
+
 typedef struct
 {
     short jobId;
@@ -138,10 +144,12 @@ short etcPropertySize;
 
 APPEARANCE_PC appearance;
 
-getProperties(propertySize);
-getProperties(etcPropertySize);
+if (propertySize > 0)
+    PropertyGroup properties(propertySize);
+if (etcPropertySize > 0)
+    PropertyGroup etcProperties(propertySize);
 
-EquipItem2 item[EquipSlotCount];
+EquipItemGroup items(EquipSlotCount);
 
 short jobCount;
 if (jobCount > 0)
