@@ -127,6 +127,8 @@ namespace Melia.Social.Network
 
 			this.User.Character.Clear();
 			this.User.Friends.RefreshStatus();
+
+			this.User.Connection = null;
 		}
 	}
 }
