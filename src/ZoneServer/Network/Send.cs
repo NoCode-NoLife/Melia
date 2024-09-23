@@ -3708,25 +3708,28 @@ namespace Melia.Zone.Network
 			packet.PutInt(0); // achievementCount
 			packet.PutInt(0);
 
-			packet.PutString(character.TeamName, 64);
-			packet.PutString(character.Name, 65);
-			packet.PutByte(0);
-			packet.PutShort((short)character.JobId);
-			packet.PutInt(1001); // serverGroupId?
-			packet.PutInt(character.JobLevel);
-			packet.PutShort((short)character.Gender);
-			packet.PutInt(character.Hair);
-			packet.PutEmptyBin(6);
-			packet.PutEmptyBin(20); // 5 ints?
-			packet.PutUInt(character.SkinColor);
-
-			for (var i = 0; i < 4; ++i)
+			// General character info? Same as in Friends list.
 			{
-				var jobId = jobs.ElementAtOrDefault(i)?.Id ?? 0;
-				packet.PutShort((int)jobId);
-			}
+				packet.PutString(character.TeamName, 64);
+				packet.PutString(character.Name, 65);
+				packet.PutByte(0);
+				packet.PutShort((short)character.JobId);
+				packet.PutInt(1001); // serverGroupId?
+				packet.PutInt(character.JobLevel);
+				packet.PutShort((short)character.Gender);
+				packet.PutInt(character.Hair);
+				packet.PutEmptyBin(6);
+				packet.PutEmptyBin(20); // 5 ints?
+				packet.PutUInt(character.SkinColor);
 
-			packet.PutLong(0);
+				for (var i = 0; i < 4; ++i)
+				{
+					var jobId = jobs.ElementAtOrDefault(i)?.Id ?? 0;
+					packet.PutShort((int)jobId);
+				}
+
+				packet.PutLong(0);
+			}
 
 			packet.PutShort(propertiesSize);
 			packet.PutShort(0); // etcPropertySize

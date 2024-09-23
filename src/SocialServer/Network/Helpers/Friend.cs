@@ -27,19 +27,25 @@ namespace Melia.Social.Network.Helpers
 				packet.PutLong(0);
 				packet.PutInt(character.Level);
 
-				// Appearance
+				// General character info? Same as in property compare.
 				{
 					packet.PutString(character.TeamName, 64);
-					packet.PutString(character.Name, 64);
-					packet.PutShort(0);
-					packet.PutShort((int)character.JobId);
-					packet.PutInt(0);
-					packet.PutInt(0);
+					packet.PutString(character.Name, 65);
+					packet.PutByte(0);
+					packet.PutShort((short)character.JobId);
+					packet.PutInt(1001); // serverGroupId?
+					packet.PutInt(character.JobLevel);
 					packet.PutShort((short)character.Gender);
 					packet.PutInt(character.Hair);
-					packet.PutEmptyBin(26);
-					packet.PutUInt(0xFF808080); // either not skin color or wrong place?
-					packet.PutEmptyBin(16);
+					packet.PutEmptyBin(6);
+					packet.PutEmptyBin(20); // 5 ints?
+					packet.PutUInt(character.SkinColor); // Doesn't work. Wrong place?
+
+					// Job ids
+					for (var i = 0; i < 4; ++i)
+						packet.PutShort(0);
+
+					packet.PutLong(0);
 				}
 
 				packet.PutShort(0);
