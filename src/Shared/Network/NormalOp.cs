@@ -118,7 +118,7 @@ namespace Melia.Shared.Network
 			public const int UnlikeSuccess = 0x7D07;
 			public const int LikeConfirm = 0x7D08;
 			public const int LikedList = 0x7D09;
-			public const int LikeList = 0x7D0A;
+			public const int LikedMeList = 0x7D0A;
 			public const int LikeCount = 0x7D0B;
 			public const int LikeFailed = 0x7D0D;
 		}

@@ -185,20 +185,26 @@ switch (type)
 		lpString teamName;
         break;
 
-    // 32009?
+    // LikedList
+    // List of other players that were liked by the player
     case 0x7D09:
-        int i1; // 1
-        lpString teamName;
+        int count;
+        lpString teamNames[count];
         break;
 		
+    // LikedMeList
+    // List of other players that liked the player
     case 0x7D0A:
-        int i1; // 2
-        lpString teamName;
-        FILETIME time; // 01/14/2022 00:23:05
-        byte b1; // 1
-        lpString teamName2;
-        FILETIME time2; // 01/14/2022 13:35:39
-        byte b2; // 1
+        typedef struct
+        {
+            lpString teamName;
+            FILETIME time;
+            byte b1;
+        }
+        LikeMeInfo <optimize=false>;
+
+        int count;
+        LikeMeInfo infos[count];
         break;
 		
 	// LikeCount
