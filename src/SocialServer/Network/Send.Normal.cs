@@ -4,6 +4,7 @@ using System.Linq;
 using Melia.Shared.Network;
 using Melia.Social.Database;
 using Melia.Social.Network.Helpers;
+using Melia.Social.World;
 
 namespace Melia.Social.Network
 {
@@ -353,6 +354,25 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.LikeFailed);
 
 				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Broadcasts shout to all active users.
+			/// </summary>
+			/// <param name="sender"></param>
+			/// <param name="messageText"></param>
+			public static void Shout(SocialUser sender, string messageText)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.Shout);
+
+				packet.PutLpString(sender.TeamName);
+				packet.PutLong(sender.AccountId);
+				packet.PutLpString(messageText);
+				packet.PutLpString("GLOBAL");
+
+				foreach (var user in SocialServer.Instance.UserManager.GetActive())
+					user.Connection.Send(packet);
 			}
 		}
 	}

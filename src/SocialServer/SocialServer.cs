@@ -93,7 +93,7 @@ namespace Melia.Social
 		{
 			Log.Info("Attempting to connect to coordinator...");
 
-			var commName = "" + (this.ServerInfo.Id == 1 ? "Chat" : "Relation");
+			var commName = (this.ServerInfo.Id == 1 ? "Chat" : "Relation");
 
 			this.Communicator = new Communicator(commName);
 			this.Communicator.Disconnected += this.Communicator_OnDisconnected;
@@ -147,6 +147,25 @@ namespace Melia.Social
 		/// <param name="message"></param>
 		private void Communicator_OnMessageReceived(string sender, ICommMessage message)
 		{
+			switch (message)
+			{
+				case ShoutMessage shoutMessage:
+				{
+					// This feels like a hack. Perhaps we should split up chat
+					// and relation servers? Or merge them even more?
+					if (this.Communicator.Name != "Chat")
+						return;
+
+					if (!this.UserManager.TryGet(shoutMessage.TeamName, out var shoutingUser))
+					{
+						Log.Warning("ShoutMessage: Shouting user '{0}' not found.", shoutMessage.TeamName);
+						break;
+					}
+
+					Send.SC_NORMAL.Shout(shoutingUser, shoutMessage.Text);
+					break;
+				}
+			}
 		}
 
 		/// <summary>

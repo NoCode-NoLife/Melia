@@ -42,6 +42,7 @@ namespace Melia.Zone.Commands
 			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
 			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
+			this.Add("mic", "<message>", "", this.HandleMic);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -2243,6 +2244,33 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
 			else
 				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Broadcasts message on the entire server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMic(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var megaphoneRemoved = target.Inventory.Remove(ItemId.Mic, 1, InventoryItemRemoveMsg.Used) > 0;
+			if (!megaphoneRemoved)
+			{
+				sender.ServerMessage(Localization.Get("This action requires a Megaphone."));
+				return CommandResult.Okay;
+			}
+
+			var shoutText = string.Join(" ", args.GetAll());
+
+			// Broadcast the message to all servers, so they can do whatever
+			// with it. React to shouts on zones, put them on a web page, etc.
+			ZoneServer.Instance.Communicator.Send("Coordinator", new ShoutMessage(target.TeamName, shoutText).BroadcastTo("AllServers"));
 
 			return CommandResult.Okay;
 		}

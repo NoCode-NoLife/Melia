@@ -95,6 +95,16 @@ namespace Melia.Social.World
 		}
 
 		/// <summary>
+		/// Returns a list of all users who are currently online.
+		/// </summary>
+		/// <returns></returns>
+		public SocialUser[] GetActive()
+		{
+			lock (_users)
+				return _users.Values.Where(a => a.Connection != null).ToArray();
+		}
+
+		/// <summary>
 		/// Returns the user with the given id via out. Returns false if
 		/// the user doesn't exist yet.
 		/// </summary>
