@@ -2648,8 +2648,8 @@ namespace Melia.Zone.Network
 		public void CZ_PROPERTY_COMPARE(IZoneConnection conn, Packet packet)
 		{
 			var handle = packet.GetInt();
-			var b1 = packet.GetByte();
-			var addLike = packet.GetByte();
+			var openWindow = packet.GetBool();
+			var like = packet.GetBool();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2658,7 +2658,7 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			Send.ZC_PROPERTY_COMPARE(conn, character);
+			Send.ZC_PROPERTY_COMPARE(conn, character, openWindow, like);
 		}
 
 		/// <summary>
