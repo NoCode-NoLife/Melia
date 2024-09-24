@@ -771,14 +771,11 @@ namespace Melia.Zone.World.Maps
 		/// <param name="alert"></param>
 		public void AlertAis(IActor source, IAiEventAlert alert)
 		{
-			lock (_monsters)
+			lock (_combatEntities)
 			{
-				foreach (var monster in _monsters.Values)
+				foreach (var combatEntity in _combatEntities.Values)
 				{
-					if (!monster.Position.InRange2D(source.Position, VisibleRange))
-						continue;
-
-					if (monster is not ICombatEntity combatEntity)
+					if (!combatEntity.Position.InRange2D(source.Position, VisibleRange))
 						continue;
 
 					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))

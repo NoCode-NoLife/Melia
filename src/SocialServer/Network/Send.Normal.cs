@@ -4,6 +4,7 @@ using System.Linq;
 using Melia.Shared.Network;
 using Melia.Social.Database;
 using Melia.Social.Network.Helpers;
+using Melia.Social.World;
 
 namespace Melia.Social.Network
 {
@@ -12,14 +13,18 @@ namespace Melia.Social.Network
 		public static class SC_NORMAL
 		{
 			/// <summary>
-			/// Enables chat functions, without this the client doesn't
-			/// send chat packets to the server.
+			/// Notifies client that the login was successful.
 			/// </summary>
+			/// <remarks>
+			/// It's unknown why this is necessary, since SC_LOGIN_OK exists
+			/// as well, but without it you can't chat and the client won't
+			/// request like numbers.
+			/// </remarks>
 			/// <param name="conn"></param>
-			public static void EnableChat(ISocialConnection conn)
+			public static void LoginSuccess(ISocialConnection conn)
 			{
 				var packet = new Packet(Op.SC_NORMAL);
-				packet.PutInt(NormalOp.Social.Unknown_00);
+				packet.PutInt(NormalOp.Social.LoginSuccess);
 
 				conn.Send(packet);
 			}
@@ -353,6 +358,66 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.LikeFailed);
 
 				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates client's list of likes the player sent.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void LikedList(ISocialConnection conn)
+			{
+				var likes = conn.User.SentLikes;
+
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikedList);
+
+				packet.PutInt(likes.Count);
+
+				foreach (var like in likes.GetAll())
+					packet.PutLpString(like.ReceiverName);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates client's list of likes the player received.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void LikedMeList(ISocialConnection conn)
+			{
+				var likes = conn.User.ReceivedLikes;
+
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.LikedMeList);
+
+				packet.PutInt(likes.Count);
+
+				foreach (var like in likes.GetAll())
+				{
+					packet.PutLpString(like.SenderName);
+					packet.PutDate(like.Time);
+					packet.PutByte(1);
+				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Broadcasts shout to all active users.
+			/// </summary>
+			/// <param name="sender"></param>
+			/// <param name="messageText"></param>
+			public static void Shout(SocialUser sender, string messageText)
+			{
+				var packet = new Packet(Op.SC_NORMAL);
+				packet.PutInt(NormalOp.Social.Shout);
+
+				packet.PutLpString(sender.TeamName);
+				packet.PutLong(sender.AccountId);
+				packet.PutLpString(messageText);
+				packet.PutLpString("GLOBAL");
+
+				SocialServer.Instance.UserManager.Broadcast(packet);
 			}
 		}
 	}

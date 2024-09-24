@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.Network;
+using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 
@@ -45,6 +46,9 @@ namespace Melia.Social.Network
 
 			Log.Info("User '{0}' logged in.", user.Name);
 
+			Send.SC_NORMAL.LoginSuccess(conn);
+			Send.SC_NORMAL.LikedList(conn);
+			Send.SC_NORMAL.LikedMeList(conn);
 			Send.SC_LOGIN_OK(conn);
 		}
 
@@ -75,7 +79,7 @@ namespace Melia.Social.Network
 		}
 
 		/// <summary>
-		/// Request to receive a character's number of likes.
+		/// Request to receive a player's number of likes.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -92,15 +96,7 @@ namespace Melia.Social.Network
 				return;
 			}
 
-			if (otherUser.Character.Id == 0)
-			{
-				Log.Warning("CS_GET_LIKE_COUNT: User '{0}' requested a like count for a user who isn't online.", conn.User.Name);
-				return;
-			}
-
-			var likeCount = 0; // otherUser.GetLikes(otherUser.Character.Id);
-
-			Send.SC_NORMAL.LikeCount(conn, accountId, likeCount);
+			Send.SC_NORMAL.LikeCount(conn, otherUser.Id, otherUser.ReceivedLikes.Count);
 		}
 
 		/// <summary>
@@ -117,13 +113,28 @@ namespace Melia.Social.Network
 			var characterId = packet.GetLong();
 			var str1 = packet.GetString(64);
 
+			var user = conn.User;
+
 			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who who couldn't be found.", conn.User.Name);
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who doesn't appear to exist.", user.Name);
 				return;
 			}
 
-			//otherUser.AddLike(characterId);
+			if (otherUser.ReceivedLikes.Exists(otherUser.Id, user.Id))
+			{
+				Log.Warning("CS_LIKE_IT: User '{0}' requested to like a user who they've already liked.", user.Name);
+				return;
+			}
+
+			var like = new Like(otherUser, user);
+
+			// Saving the like on both users is a bit redundant, but it
+			// makes it easier to get the list of likes for each user.
+			// What's better? Not sure.
+			user.SentLikes.Add(like);
+			otherUser.ReceivedLikes.Add(like);
+			SocialServer.Instance.Database.AddLike(like);
 
 			Send.SC_NORMAL.LikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}
@@ -141,13 +152,23 @@ namespace Melia.Social.Network
 			var accountId = packet.GetLong();
 			var characterId = packet.GetLong();
 
+			var user = conn.User;
+
 			if (!SocialServer.Instance.UserManager.TryGet(accountId, out var otherUser))
 			{
-				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who couldn't be found.", conn.User.Name);
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who doesn't appear to exist.", user.Name);
 				return;
 			}
 
-			//account.RemoveLike(characterId);
+			if (!otherUser.ReceivedLikes.Exists(otherUser.Id, user.Id))
+			{
+				Log.Warning("CS_UNLIKE_IT: User '{0}' requested to unlike a user who they haven't liked.", user.Name);
+				return;
+			}
+
+			user.SentLikes.Remove(otherUser.Id, user.Id);
+			otherUser.ReceivedLikes.Remove(otherUser.Id, user.Id);
+			SocialServer.Instance.Database.RemoveLike(otherUser.Id, user.Id);
 
 			Send.SC_NORMAL.UnlikeSuccess(conn, otherUser.Id, otherUser.TeamName);
 		}

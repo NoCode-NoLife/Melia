@@ -365,5 +365,76 @@ namespace Melia.Social.Database
 				}
 			}
 		}
+
+		/// <summary>
+		/// Loads the user's likes from the database and fills its like collections.
+		/// </summary>
+		/// <param name="user"></param>
+		public void LoadLikes(SocialUser user)
+		{
+			user.ReceivedLikes.Clear();
+			user.SentLikes.Clear();
+
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("SELECT * FROM `likes` WHERE `receiverId` = @id OR `senderId` = @id", conn))
+			{
+				cmd.AddParameter("@id", user.Id);
+
+				using (var reader = cmd.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var receiverId = reader.GetInt64("receiverId");
+						var receiverName = reader.GetString("receiverName");
+						var senderId = reader.GetInt64("senderId");
+						var senderName = reader.GetString("senderName");
+						var time = reader.GetDateTime("time");
+
+						var like = new Like(receiverId, receiverName, senderId, senderName, time);
+
+						if (receiverId == user.Id)
+							user.ReceivedLikes.Add(like);
+						else
+							user.SentLikes.Add(like);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Saves the given like to the database.
+		/// </summary>
+		/// <param name="like"></param>
+		public void AddLike(Like like)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new InsertCommand("INSERT INTO `likes` {0}", conn))
+			{
+				cmd.Set("receiverId", like.ReceiverId);
+				cmd.Set("receiverName", like.ReceiverName);
+				cmd.Set("senderId", like.SenderId);
+				cmd.Set("senderName", like.SenderName);
+				cmd.Set("time", like.Time);
+
+				cmd.Execute();
+			}
+		}
+
+		/// <summary>
+		/// Removes a like from the database.
+		/// </summary>
+		/// <param name="receiverId"></param>
+		/// <param name="senderId"></param>
+		public void RemoveLike(long receiverId, long senderId)
+		{
+			using (var conn = this.GetConnection())
+			using (var cmd = new MySqlCommand("DELETE FROM `likes` WHERE `receiverId` = @receiverId AND `senderId` = @senderId", conn))
+			{
+				cmd.AddParameter("@receiverId", receiverId);
+				cmd.AddParameter("@senderId", senderId);
+
+				cmd.ExecuteNonQuery();
+			}
+		}
 	}
 }

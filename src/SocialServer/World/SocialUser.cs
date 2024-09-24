@@ -59,6 +59,16 @@ namespace Melia.Social.World
 		public Character Character { get; } = new Character();
 
 		/// <summary>
+		/// Returns list of likes the user has received.
+		/// </summary>
+		public LikeCollection ReceivedLikes { get; } = new();
+
+		/// <summary>
+		/// Returns list of likes the user has sent.
+		/// </summary>
+		public LikeCollection SentLikes { get; } = new();
+
+		/// <summary>
 		/// Creates new social user instance for the given connection
 		/// and account.
 		/// </summary>
@@ -77,6 +87,14 @@ namespace Melia.Social.World
 		{
 			conn = this.Connection;
 			return conn != null;
+		}
+
+		/// <summary>
+		/// Loads the user's likes from the database.
+		/// </summary>
+		public void LoadLikesFromDb()
+		{
+			SocialServer.Instance.Database.LoadLikes(this);
 		}
 	}
 }

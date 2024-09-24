@@ -6,21 +6,24 @@ namespace Melia.Zone.Scripting
 	/// Used to decorate AI scripts, to register them as scripts for the
 	/// given AI names.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 	public class AiAttribute : Attribute
 	{
 		/// <summary>
 		/// The name of the AI script.
 		/// </summary>
-		public string Name { get; }
+		public string[] Names { get; }
 
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
-		/// <param name="name"></param>
-		public AiAttribute(string name)
+		/// <param name="names"></param>
+		public AiAttribute(params string[] names)
 		{
-			this.Name = name;
+			if (names == null || names.Length == 0)
+				throw new ArgumentException("At least one name must be provided.");
+
+			this.Names = names;
 		}
 	}
 }

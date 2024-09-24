@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Network;
 using Melia.Social.Database;
 
 namespace Melia.Social.World
@@ -31,7 +32,10 @@ namespace Melia.Social.World
 			}
 
 			foreach (var user in users)
+			{
 				user.Friends.LoadFromDb();
+				user.LoadLikesFromDb();
+			}
 		}
 
 		/// <summary>
@@ -167,6 +171,19 @@ namespace Melia.Social.World
 				return false;
 
 			return user.TryGetConnection(out _);
+		}
+
+		/// <summary>
+		/// Broadcasts packet to all active users.
+		/// </summary>
+		/// <param name="packet"></param>
+		public void Broadcast(Packet packet)
+		{
+			lock (_users)
+			{
+				foreach (var user in _users.Values)
+					user.Connection?.Send(packet);
+			}
 		}
 	}
 }
