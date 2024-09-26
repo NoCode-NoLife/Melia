@@ -161,9 +161,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Status != QuestStatus.InProgress)
 						continue;
 
@@ -244,9 +243,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
@@ -272,9 +270,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.InProgress && quest.Data.Id == questId)
 						return true;
 				}
@@ -293,9 +290,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Data.Id != questId)
 						continue;
 
@@ -317,9 +313,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Data.Id != questId)
 						continue;
 
@@ -340,9 +335,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
@@ -433,9 +427,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Status != QuestStatus.NotStarted)
 						continue;
 

@@ -184,9 +184,8 @@ namespace Melia.Zone.World.Quests
 			var quest = this;
 			var anythingChanged = false;
 
-			for (var j = 0; j < quest.Progresses.Count; j++)
+			foreach (var progress in quest.Progresses)
 			{
-				var progress = quest.Progresses[j];
 				if (!progress.Unlocked)
 					continue;
 
