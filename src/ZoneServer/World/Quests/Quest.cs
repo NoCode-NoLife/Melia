@@ -190,7 +190,7 @@ namespace Melia.Zone.World.Quests
 				if (!progress.Unlocked)
 					continue;
 
-				if (!(progress.Objective is TObjective tObjective))
+				if (progress.Objective is not TObjective tObjective)
 					continue;
 
 				var count = progress.Count;
