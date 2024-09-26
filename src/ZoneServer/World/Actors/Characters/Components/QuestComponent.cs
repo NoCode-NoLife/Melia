@@ -368,11 +368,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
-					quest.CompleteObjectives();
-
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
