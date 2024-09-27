@@ -176,6 +176,7 @@ namespace Melia.Social
 			Log.Info("Loading information from the database...");
 
 			this.UserManager.LoadUsers();
+			this.ChatManager.LoadChats();
 		}
 
 		/// <summary>
