@@ -118,6 +118,7 @@ namespace Melia.Social.World
 		public void LoadChats()
 		{
 			var room = new ChatRoom("Main", ChatRoomType.Group);
+			room.MaxMemberCount = 9999;
 			room.CreateInvite(0);
 
 			this.AddChatRoom(room);
