@@ -122,7 +122,7 @@ namespace Melia.Zone.Skills
 		/// or tags on the skill data by now, which include the "NormalSkill"
 		/// tag. We'll assume that to be the way to determine normal attacks for
 		/// now.
-		public bool IsNormalAttack => this.Data.Tags.Has("NormalSkill");
+		public bool IsNormalAttack => this.Data.Tags.Has(SkillTag.NormalSkill);
 
 		/// <summary>
 		/// Returns true if the skill is a monster skill
