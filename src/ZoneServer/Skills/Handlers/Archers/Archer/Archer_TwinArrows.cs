@@ -46,9 +46,13 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 			var damageDelay = TimeSpan.FromMilliseconds(45);
 			var skillHitDelay = skill.Properties.HitDelay;
 
-			// TODO: Add more 50% damage to enemies using cloth armor type
+			var modifier = SkillModifier.MultiHit(2);
 
-			var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHit(2));
+			// Deals 50% more damage to enemies with Cloth armor
+			if (target.ArmorMaterial == ArmorMaterialType.Cloth)
+				modifier.DamageMultiplier += 0.5f;
+
+			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
