@@ -18,6 +18,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
 public class CombatCalculationsScript : GeneralScript
@@ -275,6 +276,9 @@ public class CombatCalculationsScript : GeneralScript
 			return 1;
 
 		var attackerAttr = skill.Data.Attribute;
+		if (modifier.OverrideAttribute != SkillAttribute.None)
+			attackerAttr = modifier.OverrideAttribute;
+
 		var targetAttr = target.Attribute;
 
 		if (!Feature.IsEnabled("AttributeBonusRevamp"))
@@ -553,6 +557,8 @@ public class CombatCalculationsScript : GeneralScript
 
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
+
+		hr *= modifier.HitRateMultiplier;
 
 		// Preliminary formula based on player tests, such as the following.
 		// 
