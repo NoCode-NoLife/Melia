@@ -440,6 +440,50 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Shows skill use for character, but allows substituting a different Skill Id
+		/// for the visual, mainly intended for custom skills and the like
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="visualSkillId"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET_DUMMY(ICombatEntity entity, ICombatEntity target, Skill skill, SkillId visualSkillId, int forceId, IEnumerable<SkillHitInfo> hits)
+		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
+			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
+
+			packet.PutInt((int)visualSkillId);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(shootTime);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(forceId);
+			packet.PutFloat(sklSpdRate);
+
+			packet.PutInt(0);
+			packet.PutInt(target?.Handle ?? 0);
+			packet.PutInt(0);
+			packet.PutFloat(512f);
+			packet.PutInt(0);
+
+			packet.PutByte((byte)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
 		/// Shows entity using the skill.
 		/// </summary>
 		/// <param name="entity"></param>

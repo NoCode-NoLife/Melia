@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			}
 			else
 			{
-				CallSafe(this.SingleAttack(skill, caster, target));
+				SingleAttack(skill, caster, target);
 			}
 		}
 
@@ -83,7 +83,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		public async Task SingleAttack(Skill skill, ICombatEntity caster, ICombatEntity target)
+		public void SingleAttack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{ 
 
 			if (target == null)
@@ -139,6 +139,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			}
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
+
+			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
+			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);
+
+			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
 		}
 
 		/// <summary>
@@ -157,11 +162,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var skillHits = new List<SkillHitInfo>();
-
-			var hitTargets = targets.LimitBySDR(caster, skill);
+			var results = new List<SkillHitResult>();
+			var hitTargets = new List<ICombatEntity>();
+			
 			var hitSomething = false;
 
-			foreach (var target in hitTargets)
+			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var hitCount = 5;
 
@@ -181,10 +187,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				//if (target.IsBuffActive(BuffId.Common_Slow))
 				//{
 				//	modifier.FinalDamageMultiplier += 0.5f;
-				//}
+				//}				
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
+				results.Add(skillHitResult);				
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult);
 				hit.ForceId = ForceId.GetNew();
@@ -193,6 +200,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				if (skillHitResult.Damage > 0)
 				{
 					hitSomething = true;
+					hitTargets.Add(target);
 					target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(10), caster);
 				}
 
@@ -207,6 +215,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHits);
+
+			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, hitTargets);
+			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
+
+			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
 		}
 
 

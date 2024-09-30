@@ -4,6 +4,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers.Archers.Ranger;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
@@ -12,6 +13,10 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 	/// Buff handler for TimeBombArrow_Debuff, which deals damage
 	/// and knockdown when it expires
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: damage of original shot
+	/// NumArg2: damage multiplier
+	/// </remarks>
 	[BuffHandler(BuffId.TimeBombArrow_Debuff)]
 	public class TimeBombArrow_Debuff : BuffHandler
 	{
@@ -21,7 +26,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 			{
 				var attacker = buff.Caster;
 				var target = buff.Target;
-				var damage = buff.NumArg2;
+				var damage = buff.NumArg1 * buff.NumArg2;
 				if (attacker.TryGetSkill(SkillId.Ranger_TimeBombArrow, out var skill))
 				{
 					Send.ZC_NORMAL.PlayEffect(target, "F_archer_explosiontrap_hit_explosion", 1);
@@ -37,10 +42,12 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 
 					var skillHit = new SkillHitInfo(attacker, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200), TimeSpan.Zero);
 
-					// Target gets blown backwards relative to its own facing direction
-					skillHit.KnockBackInfo = new KnockBackInfo(target.Position.GetRelative(target.Direction, 2f), target.Position, HitType.KnockDown, 80, 10);
-					skillHit.ApplyKnockBack(target);
+					// The explosion hits nearby targets too.  The skillhandler handles that
+					Ranger_TimeBombArrow.BombBlast(skill, attacker, target, buff.NumArg2);
 
+					// Target gets blown straight up
+					skillHit.KnockBackInfo = new KnockBackInfo(target.Position.GetRelative(target.Direction, 2f), target.Position, HitType.KnockDown, 150, 60);
+					skillHit.ApplyKnockBack(target);
 
 					Send.ZC_SKILL_HIT_INFO(attacker, skillHit);
 				}

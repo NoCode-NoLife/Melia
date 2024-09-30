@@ -6,6 +6,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Logging;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -20,20 +21,21 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 	/// called Critical Shot, though the effect is completely different.
 	/// </remarks>
 	[SkillHandler(SkillId.Ranger_CriticalShot)]
-	public class Ranger_CriticalShot : ITargetSkillHandler, ISkillCombatAttackAfterCalcHandler
+	public class Ranger_CriticalShot : ITargetSkillHandler
 	{
 		/// <summary>
 		/// Default skill handler
 		/// </summary>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			// This skill shouldn't be called this way, since it's actually a passive.
+			// This skill shouldn't be called this way, since it has to be triggered,
+			// rather than being activated.
 		}
 
 		/// <summary>
 		/// Handles the skill, deal damage and knockback.
 		/// </summary>
-		public async Task Activate(Skill skill, ICombatEntity caster, ICombatEntity target)
+		public async static Task Activate(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
 			{
@@ -51,17 +53,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 			}
 
+			// note that cooldown is set in TryActivateDoubleTake
 			caster.SetAttackState(true);
 
-			var hitDelay = TimeSpan.FromMilliseconds(500);
+			var hitDelay = TimeSpan.FromMilliseconds(600);
 			var skillHitDelay = TimeSpan.Zero;
-			var cooldownDelay = TimeSpan.FromMilliseconds(100);
-
-			// The reason we delay the cooldown is so it will attack every target
-			// if this skill is triggered by an AOE.
-			await Task.Delay(cooldownDelay);
-			if (!skill.IsOnCooldown)
-				skill.IncreaseOverheat();
 
 			await Task.Delay(hitDelay);
 
@@ -75,6 +71,9 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, "I_arrow009_red", 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
 			Send.ZC_HIT_INFO(caster, target, hit);
 
+			// Can this skill reduce its own cooldown if it crits?
+			TryReduceCooldown(skill, caster, skillHitResult);
+
 
 			// Skill_Bytool suggests it applies this buff,
 			// but it's probably from the previous incarnation
@@ -84,23 +83,104 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 
 		/// <summary>
-		/// Applies the skill's effect during combat calculations.
+		/// Attempt to activate the skill.  Should be called from
+		/// Ranger skills that can fire it.
 		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="attacker"></param>
+		/// <param name="usedSkill"></param>
+		/// <param name="caster"></param>
 		/// <param name="target"></param>
-		/// <param name="attackerSkill"></param>
-		/// <param name="modifier"></param>
-		/// <param name="skillHitResult"></param>
-		public void OnAttackAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public static void TryActivateDoubleTake(Skill usedSkill, ICombatEntity caster, ICombatEntity target)
 		{
-			// TODO: Change this to be a static method that takes a list of hit targets
-			var isRangerAttackSkill = attackerSkill.Id >= SkillId.Ranger_Barrage && attackerSkill.Id <= SkillId.Ranger_BlazingArrow && attackerSkill.Id != SkillId.Ranger_CriticalShot;
-
-			if (isRangerAttackSkill && !skill.IsOnCooldown)
+			if (caster.TryGetSkill(SkillId.Ranger_CriticalShot, out var skill))
 			{
-				CallSafe(this.Activate(skill, attacker, target));
+				if (!skill.IsOnCooldown && !target.IsDead)
+				{
+					skill.IncreaseOverheat();
+					CallSafe(Activate(skill, caster, target));					
+				}
 			}
 		}
+
+
+		/// <summary>
+		/// Attempt to activate the skill.  Should be called from
+		/// Ranger skills that can fire it.
+		/// </summary>
+		/// <param name="usedSkill"></param>
+		/// <param name="caster"></param>
+		/// <param name="targets"></param>
+		public static void TryActivateDoubleTake(Skill usedSkill, ICombatEntity caster, System.Collections.Generic.List<ICombatEntity> targets)
+		{
+			if (caster.TryGetSkill(SkillId.Ranger_CriticalShot, out var skill))
+			{
+				var atLeastOneTargetAlive = false;
+
+				foreach (var target in targets)
+				{
+					if (!target.IsDead)
+					{
+						atLeastOneTargetAlive = true;
+						break;
+					}
+				}
+
+				if (!skill.IsOnCooldown && atLeastOneTargetAlive)
+				{
+					skill.IncreaseOverheat();
+					foreach (var target in targets)
+					{
+						if (!target.IsDead)
+							CallSafe(Activate(skill, caster, target));
+					}					
+				}				
+			}
+		}
+
+
+		/// <summary>
+		/// Attempts to reduce the skill's cooldown.  It reduces by 5 seconds
+		/// if the user scored a critical hit.
+		/// </summary>
+		/// <param name="usedSkill"></param>
+		/// <param name="caster"></param>
+		/// <param name="result"></param>
+		public static void TryReduceCooldown(Skill usedSkill, ICombatEntity caster, SkillHitResult result)
+		{
+			if (caster.TryGetSkill(SkillId.Ranger_CriticalShot, out var skill))
+			{
+				if (skill.IsOnCooldown)
+				{
+					if (result.Result == HitResultType.Crit)
+					{
+						caster.Components.Get<CooldownComponent>().ReduceCooldown(skill.Data.CooldownGroup, TimeSpan.FromSeconds(5));
+					}
+				}
+			}
+		}
+
+
+		/// <summary>
+		/// Attempts to reduce the skill's cooldown.  It reduces by 5 seconds
+		/// if the user scored a critical hit.
+		/// </summary>
+		/// <param name="usedSkill"></param>
+		/// <param name="caster"></param>
+		/// <param name="results"></param>
+		public static void TryReduceCooldown(Skill usedSkill, ICombatEntity caster, System.Collections.Generic.List<SkillHitResult> results)
+		{
+			if (caster.TryGetSkill(SkillId.Ranger_CriticalShot, out var skill))
+			{
+				if (skill.IsOnCooldown)
+				{
+					foreach (var result in results)
+					{
+						if (result.Result == HitResultType.Crit)
+						{
+							caster.Components.Get<CooldownComponent>().ReduceCooldown(skill.Data.CooldownGroup, TimeSpan.FromSeconds(5));
+						}
+					}
+				}
+			}
+		}		
 	}
 }

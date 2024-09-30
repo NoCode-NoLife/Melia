@@ -65,6 +65,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var results = new List<SkillHitResult>();
 			var hits = new List<SkillHitInfo>();
 
 			var hitTargets = targets.LimitBySDR(caster, skill);
@@ -77,6 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 
+				results.Add(skillHitResult);
 				hits.Add(skillHit);
 
 				// Note: This debuff was originally applied by Ranger31,
@@ -84,14 +86,34 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.HighAnchoring_Debuff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
 			}
 
+			// Ranger34 reduces the cooldown of Time Bomb Arrow,
+			// Bounce Shot, and Spiral Arrow by one second per target hit
 			var totalTargetsHit = hitTargets.Count();
 			if (totalTargetsHit != 0 && caster.IsAbilityActive(AbilityId.Ranger34))
 			{
-				// TODO: Reduce the cooldown of Spiral Arrow, Bounce Shot, and Time Bomb Arrow
-				// by the number of hit targets
+				if (caster.TryGetSkill(SkillId.Ranger_TimeBombArrow, out var timeBombArrow))
+				{
+					timeBombArrow.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
+				}
+
+				if (caster.TryGetSkill(SkillId.Ranger_BounceShot, out var bounceShot))
+				{
+					bounceShot.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
+				}
+
+				if (caster.TryGetSkill(SkillId.Ranger_SpiralArrow, out var spiralArrow))
+				{
+					spiralArrow.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
+				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
+
+
+			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, targets);
+			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
+
+			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
 		}
 	}
 }

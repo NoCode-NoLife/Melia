@@ -25,7 +25,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		private const int MaxBounceTargets = 6;
 
 		/// <summary>
-		/// Handles the skill, shoot missile at enemy that spreads to other targets
+		/// Handles the skill
 		/// </summary>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
@@ -52,33 +52,82 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 			}
 
+			CallSafe(this.Attack(skill, caster, target));
+		}
+
+
+		/// <summary>
+		/// Handles the actual attack, shoot missile at enemy that spreads to other targets
+		/// </summary>
+		public async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
+		{
 			var modifier = SkillModifier.Default;
 
+			var isIceVariant = false;
+			var animationName = "I_archer_dividedarrow_force_fire";
+			var blastName = "F_archer_dividedarrow_hit_explosion";
+			var targets = new System.Collections.Generic.List<ICombatEntity>();
+			var results = new System.Collections.Generic.List<SkillHitResult>();			
+			targets.Add(target);
+
+
+			// Because of the repurposed Ranger38, a visual error occurs when using
+			// this skill if Ranger38 is known.  Set this flag to true to fix this issue.
+			var alternateAnimation = false;
+
 			// Ranger38 used to apply a freeze effect to Bounce Shot
-			// This was repurposed for Blazing Arrow, but the code
-			// in Skill_Bytool still checks for it.
-			if (caster.IsAbilityActive(AbilityId.Ranger38))
+			// This was repurposed for Blazing Arrow, so it's currently
+			// disabled.  If you wish, you can re-enable this or remap
+			// it to another ability, such as the unused Ranger3.
+			//if (caster.IsAbilityActive(AbilityId.Ranger38))
+			//{
+			//    isIceVariant = true;
+			//}
+
+			if (isIceVariant)
 			{
 				modifier.OverrideAttribute = SkillAttribute.Ice;
+				animationName = "I_arrow003_blue";
+				blastName = "F_explosion104_ice";
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(45);
+			var damageDelay = TimeSpan.FromMilliseconds(100);
+			var bounceHitDelay = TimeSpan.FromMilliseconds(500);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
+
+			results.Add(skillHitResult);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 			skillHit.ForceId = ForceId.GetNew();
 
-			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
+			if (!alternateAnimation)
+			{
+				Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
+			}
+			else
+			{
+				Send.ZC_SKILL_FORCE_TARGET_DUMMY(caster, target, skill, SkillId.Archer_HighAnchoring2, skillHit.ForceId, null);
 
+				await Task.Delay(damageDelay);
+				bounceHitDelay = TimeSpan.FromMilliseconds(400);
 
-			if (caster.IsAbilityActive(AbilityId.Ranger38))
+				var hit = new HitInfo(caster, target, skill, skillHitResult);
+				hit.ForceId = ForceId.GetNew();
+				hit.ResultType = HitResultType.Unk8;
+
+				Send.ZC_NORMAL.PlayEffect(target, blastName, 0.5f);
+				Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, animationName, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
+				Send.ZC_HIT_INFO(caster, target, hit);
+			}
+
+			if (isIceVariant)
 			{
 				// Guaranteed freeze on the primary target
 				var duration = TimeSpan.FromMilliseconds(2500);
-				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);				
+				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);						
 			}
 			else
 			{
@@ -89,26 +138,40 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 					target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 				}
 			}
-			CallSafe(this.Bounce(skill, caster, target));
-		}
+			
+			await Task.Delay(bounceHitDelay);
 
-		private async Task Bounce(Skill skill, ICombatEntity caster, ICombatEntity target)
-		{
-			// Bounce shot
+			// bounce shot
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTargets))
 			{
-				var skillHitResults = new Dictionary<ICombatEntity, SkillHitResult>();
+				var animationName2 = "I_archer_dividedarrow_force_fire#Dummy_Force";
+
+				// Ranger38 also changes the animation.
+				if (isIceVariant)
+				{
+					animationName2 = "I_arrow003_blue#Dummy_q_Force";
+				}
 
 				foreach (var bounceTarget in bounceTargets)
 				{
-					var modifier = SkillModifier.Default;
-					if (caster.IsAbilityActive(AbilityId.Ranger38))
+					var modifier2 = SkillModifier.Default;
+					if (isIceVariant)
 					{
-						modifier.OverrideAttribute = SkillAttribute.Ice;
+						modifier2.OverrideAttribute = SkillAttribute.Ice;
 					}
 
-					var skillHitResult = SCR_SkillHit(caster, bounceTarget, skill, modifier);					
-					skillHitResults.Add(bounceTarget, skillHitResult);
+					var skillHitResult2 = SCR_SkillHit(caster, bounceTarget, skill, modifier2);
+					bounceTarget.TakeDamage(skillHitResult2.Damage, caster);
+					targets.Add(bounceTarget);
+
+					results.Add(skillHitResult2);
+
+					var hit2 = new HitInfo(caster, bounceTarget, skill, skillHitResult2);
+					hit2.ForceId = ForceId.GetNew();
+					hit2.ResultType = HitResultType.Unk8;
+
+					Send.ZC_NORMAL.PlayForceEffect(hit2.ForceId, caster, target, bounceTarget, animationName2, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
+					Send.ZC_HIT_INFO(caster, bounceTarget, hit2);
 
 					// Random chance to apply Slow debuff
 					if (RandomProvider.Next(100) < 50)
@@ -117,36 +180,13 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 						bounceTarget.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 					}
 				}
-
-				// We delay here to sync the animation.
-				// Double take activates when the damage is calculated,
-				// not when it applies, so this way it hits all targets
-				var bounceHitDelay = TimeSpan.FromMilliseconds(420);
-				await Task.Delay(bounceHitDelay);
-
-				var animationName = "I_archer_dividedarrow_force_fire#Dummy_Force";
-
-				// Ranger38 also changes the animation.
-				if (caster.IsAbilityActive(AbilityId.Ranger38))
-				{
-					animationName = "I_arrow003_blue#Dummy_Force_effect";
-				}
-
-				foreach (var bounceTarget in skillHitResults.Keys)
-				{
-					var skillHitResult = skillHitResults[bounceTarget];
-					bounceTarget.TakeDamage(skillHitResult.Damage, caster);
-
-					var hit = new HitInfo(caster, bounceTarget, skill, skillHitResult);
-					hit.ForceId = ForceId.GetNew();
-					hit.ResultType = HitResultType.Unk8;
-
-					Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, bounceTarget, animationName, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
-					Send.ZC_HIT_INFO(caster, bounceTarget, hit);
-				}
 			}
-		}
 
+			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, targets);
+			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
+
+			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+		}
 
 
 		/// <summary>
