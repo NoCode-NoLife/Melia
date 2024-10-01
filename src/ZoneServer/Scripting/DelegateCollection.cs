@@ -27,7 +27,7 @@ namespace Melia.Zone.Scripting
 	/// <typeparam name="TDelegate"></typeparam>
 	public class DelegateCollection<TDelegate> : IDelegateCollection where TDelegate : Delegate
 	{
-		private readonly Dictionary<string, TDelegate> _funcs = new Dictionary<string, TDelegate>();
+		private readonly Dictionary<string, TDelegate> _funcs = new();
 
 		/// <summary>
 		/// Registers the function with the given name.

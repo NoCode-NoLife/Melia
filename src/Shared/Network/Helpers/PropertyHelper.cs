@@ -6,6 +6,9 @@ using Melia.Shared.ObjectProperties;
 
 namespace Melia.Shared.Network.Helpers
 {
+	/// <summary>
+	/// Extension methods for writing property-related information to packets.
+	/// </summary>
 	public static class PropertyHelper
 	{
 		/// <summary>

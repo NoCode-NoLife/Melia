@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Yggdrasil.Network.Communication;
 
 namespace Melia.Shared.Network.Inter.Messages

@@ -15,7 +15,7 @@ namespace Melia.Zone.Scripting
 	{
 		public const int ScriptMaxLength = 2048;
 
-		private readonly Dictionary<string, string> _files = new Dictionary<string, string>();
+		private readonly Dictionary<string, string> _files = new();
 
 		/// <summary>
 		/// Adds script under the given name.

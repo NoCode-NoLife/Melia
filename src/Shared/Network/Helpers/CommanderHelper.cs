@@ -2,10 +2,15 @@
 
 namespace Melia.Shared.Network.Helpers
 {
+	/// <summary>
+	/// Extension methods for writing "commander"-related information to packets,
+	/// which is the internal name for characters.
+	/// </summary>
 	public static class CommanderHelper
 	{
 		/// <summary>
-		/// Serializes an object that implements ICommander and places it into the packet.
+		/// Serializes an object that implements ICommander and places it into
+		/// the packet.
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="commander"></param>
