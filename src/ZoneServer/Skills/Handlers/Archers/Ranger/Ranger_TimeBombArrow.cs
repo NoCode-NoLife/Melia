@@ -121,7 +121,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			foreach (var blastTarget in blastTargets)
 			{
-				Log.Warning("attempting to blast target {0}" + blastTarget.Handle);
 				var modifier = SkillModifier.Default;
 				modifier.DamageMultiplier = bombDamageMultiplier;
 

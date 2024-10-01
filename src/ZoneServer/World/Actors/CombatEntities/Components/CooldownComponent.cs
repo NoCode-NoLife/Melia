@@ -4,7 +4,6 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
