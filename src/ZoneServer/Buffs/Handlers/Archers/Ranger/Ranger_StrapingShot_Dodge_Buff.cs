@@ -13,8 +13,8 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 	/// NumArg1: Skill Level
 	/// NumArg2: None
 	/// </remarks>
-	[BuffHandler(BuffId.Zornhau_Debuff)]
-	public class Zornhau_Debuff : BuffHandler
+	[BuffHandler(BuffId.Ranger_StrapingShot_Dodge_Buff)]
+	public class Ranger_StrapingShot_Dodge_Buff : BuffHandler
 	{
 		private const float DrBuffRateBase = 1f;
 		private const float DrBuffRatePerLevel = 0.2f;

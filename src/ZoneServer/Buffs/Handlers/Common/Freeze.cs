@@ -29,7 +29,10 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			modifier.DefenseAttribute = AttributeType.Ice;
+			if (Feature.IsEnabled("FreezeAffectsElement"))
+			{
+				modifier.DefenseAttribute = AttributeType.Ice;
+			}
 		}
 	}
 }
