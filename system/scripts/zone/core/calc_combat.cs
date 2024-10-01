@@ -277,6 +277,9 @@ public class CombatCalculationsScript : GeneralScript
 		var attackerAttr = skill.Data.Attribute;
 		var targetAttr = target.Attribute;
 
+		if (modifier.OverrideAttackAttribute)
+			attackerAttr = modifier.AttackAttribute;
+
 		if (!Feature.IsEnabled("AttributeBonusRevamp"))
 		{
 			if (attackerAttr == SkillAttribute.Fire)
