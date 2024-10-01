@@ -90,7 +90,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 				// 50% chance to Stun
 				if (RandomProvider.Get().Next(2) == 0)
-					target.StartBuff(BuffId.Cleave_Debuff, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+					target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
 			}
 
 			caster.StartBuff(BuffId.Embowel_PowerUp_Buff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
