@@ -107,13 +107,32 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				}
 			}
 
+			// Ranger37 is almost the exact same, but it only activates
+			// if you hit only one target with the skill.
+			if (totalTargetsHit == 1 && caster.IsAbilityActive(AbilityId.Ranger37))
+			{
+				if (caster.TryGetSkill(SkillId.Ranger_Barrage, out var timeBombArrow))
+				{
+					timeBombArrow.ReduceCooldown(TimeSpan.FromSeconds(15));
+				}
+
+				if (caster.TryGetSkill(SkillId.Ranger_BounceShot, out var bounceShot))
+				{
+					bounceShot.ReduceCooldown(TimeSpan.FromSeconds(15));
+				}
+
+				if (caster.TryGetSkill(SkillId.Ranger_SpiralArrow, out var spiralArrow))
+				{
+					spiralArrow.ReduceCooldown(TimeSpan.FromSeconds(15));
+				}
+			}
+
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, targets);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
-
-			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
 	}
 }

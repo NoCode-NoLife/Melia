@@ -91,8 +91,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);
-
-			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
 
 
@@ -130,8 +129,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				blastTarget.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, blastTarget, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.KnockBackInfo = new KnockBackInfo(target.Position, blastTarget.Position, HitType.KnockDown, 150, 60);
-				skillHit.ApplyKnockBack(blastTarget);
+				if (!caster.IsAbilityActive(AbilityId.Ranger35))
+				{
+					skillHit.KnockBackInfo = new KnockBackInfo(target.Position, blastTarget.Position, HitType.KnockDown, 150, 60);
+					skillHit.ApplyKnockBack(blastTarget);
+				}
 
 				hitTargets.Add(blastTarget);
 				results.Add(skillHitResult);

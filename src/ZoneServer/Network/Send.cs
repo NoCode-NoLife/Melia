@@ -2711,6 +2711,28 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Set extra properties for buffs and skills
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="msgParams"></param>
+		public static void ZC_SEND_PC_EXPROP(Character character, params MsgParameter[] msgParams)
+		{
+			var packet = new Packet(Op.ZC_SEND_PC_EXPROP);
+
+			packet.PutInt(msgParams?.Length ?? 0);
+			if (msgParams != null)
+			{
+				foreach (var param in msgParams)
+				{
+					packet.PutLpString(param.Key);
+					packet.PutFloat(float.Parse(param.Value));
+				}
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_RESPONSE_GUILD_INDEX to client (dummy).
 		/// </summary>
 		/// <param name="conn"></param>

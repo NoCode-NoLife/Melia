@@ -86,7 +86,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			if (isIceVariant)
 			{
-				modifier.OverrideAttribute = SkillAttribute.Ice;
+				modifier.AttackAttribute = SkillAttribute.Ice;
 				animationName = "I_arrow003_blue";
 				blastName = "F_explosion104_ice";
 			}
@@ -157,7 +157,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 					var modifier2 = SkillModifier.Default;
 					if (isIceVariant)
 					{
-						modifier2.OverrideAttribute = SkillAttribute.Ice;
+						modifier2.AttackAttribute = SkillAttribute.Ice;
 					}
 
 					var skillHitResult2 = SCR_SkillHit(caster, bounceTarget, skill, modifier2);
@@ -184,8 +184,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, targets);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
-
-			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
 
 

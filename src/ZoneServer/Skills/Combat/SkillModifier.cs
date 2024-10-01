@@ -1,4 +1,5 @@
 ﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -33,6 +34,15 @@ namespace Melia.Zone.Skills.Combat
 		/// would increase the attacker's hit by 30%.
 		/// </remarks>
 		public float HitRateMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the skill's block pen multiplier.  Base is 1.0.
+		/// </summary>
+		/// <remarks>
+		/// This multiplies the user's block pen by the listed amount. 
+		/// A value of 1.3 would increase the attacker's block pen by 30%.
+		/// </remarks>
+		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets flat crit rate bonus.
@@ -122,13 +132,23 @@ namespace Melia.Zone.Skills.Combat
 		public bool ForcedCritical { get; set; }
 
 		/// <summary>
-		/// Gets or sets overidden attribute status
+		/// Gets or sets overidden attack attribute status
 		/// </summary>
 		/// <remarks>
 		/// If not set to Attribute.None, the skill will use the indicated
 		/// attribute instead of its own attribute.
 		/// </remarks>
-		public SkillAttribute OverrideAttribute { get; set; } = SkillAttribute.None;
+		public SkillAttribute AttackAttribute { get; set; } = SkillAttribute.None;
+
+
+		/// <summary>
+		/// Gets or sets overidden defense attribute status
+		/// </summary>
+		/// <remarks>
+		/// If not set to Attribute.None, the defender will use the indicated
+		/// attribute instead of its natural attribute
+		/// </remarks>
+		public AttributeType DefenseAttribute { get; set; } = AttributeType.None;
 
 		/// <summary>
 		/// Returns a new skill modifier with default values.

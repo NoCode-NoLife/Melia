@@ -45,9 +45,11 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 					// The explosion hits nearby targets too.  The skillhandler handles that
 					Ranger_TimeBombArrow.BombBlast(skill, attacker, target, buff.NumArg2);
 
-					// Target gets blown straight up
-					skillHit.KnockBackInfo = new KnockBackInfo(target.Position.GetRelative(target.Direction, 2f), target.Position, HitType.KnockDown, 150, 60);
-					skillHit.ApplyKnockBack(target);
+					if (!attacker.IsAbilityActive(AbilityId.Ranger35)) {
+						// Target gets blown backwards relative to their facing direction
+						skillHit.KnockBackInfo = new KnockBackInfo(target.Position.GetRelative(target.Direction, 2f), target.Position, HitType.KnockDown, 150, 60);
+						skillHit.ApplyKnockBack(target);
+					}
 
 					Send.ZC_SKILL_HIT_INFO(attacker, skillHit);
 				}

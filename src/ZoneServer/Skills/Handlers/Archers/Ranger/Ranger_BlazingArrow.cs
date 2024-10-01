@@ -19,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 	[SkillHandler(SkillId.Ranger_BlazingArrow)]
 	public class Ranger_BlazingArrow : ITargetSkillHandler
 	{
-		public const float JumpDistance = 24.914738f;
+		public const float JumpDistance = 20f;
 
 		/// <summary>
 		/// Handles the skill
@@ -57,25 +57,32 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// </summary>
 		public async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var animationDelay = TimeSpan.FromMilliseconds(250);
+			var jumpDelay = TimeSpan.FromMilliseconds(600);
+			var animationDelay = TimeSpan.FromMilliseconds(400);
 			var skillHitDelay = TimeSpan.Zero;
 
 			var modifier = SkillModifier.MultiHit(4);
 
 			var isIceVariant = false;
-			var animationName = "I_archer_dividedarrow_force_fire";
+			var animationName = "I_force009_fire2";
 
 			if (caster.IsAbilityActive(AbilityId.Ranger38))
 			{
 				isIceVariant = true;
-				modifier.OverrideAttribute = SkillAttribute.Ice;
+				modifier.AttackAttribute = SkillAttribute.Ice;
 				modifier.DamageMultiplier -= 0.3f;
 				animationName = "I_arrow003_blue";
 			}
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);
 
-			await Task.Delay(animationDelay);
+			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, JumpDistance);
+			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
+
+			caster.Position = targetPos;
+			Send.ZC_NORMAL.LeapJump(caster, targetPos, 2f, 0.1f, 1f, 0.2f, 1f, 3);
+
+			await Task.Delay(jumpDelay);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -84,7 +91,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			hit.ForceId = ForceId.GetNew();
 			hit.ResultType = HitResultType.Unk8;
 
-			Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, animationName, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
+			Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, animationName, 1.3f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 400);
 			Send.ZC_HIT_INFO(caster, target, hit);
 
 			// If the target has Scan, it is removed, but the cooldown is cut
@@ -101,19 +108,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);
 			}
 
-			var jumpDelay = TimeSpan.FromMilliseconds(100);
-			await Task.Delay(jumpDelay);
-
-			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, JumpDistance);
-			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
-
-			caster.Position = targetPos;
-			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 5);
+			await Task.Delay(animationDelay);			
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);
-
-			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
 	}
 }

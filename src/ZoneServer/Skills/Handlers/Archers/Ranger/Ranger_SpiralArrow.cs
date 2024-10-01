@@ -161,7 +161,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var skillHits = new List<SkillHitInfo>();
 			var results = new List<SkillHitResult>();
 			var hitTargets = new List<ICombatEntity>();
 			
@@ -212,14 +211,10 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			{				
 				caster.StartBuff(BuffId.SpiralArrow_Debuff, skill.Level, 0, TimeSpan.FromSeconds(30), caster);
 			}
-			
-
-			Send.ZC_SKILL_HIT_INFO(caster, skillHits);
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, hitTargets);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
-
-			caster.StartBuff(BuffId.Ranger_StrapingShot, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
 
 
