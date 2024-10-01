@@ -29,7 +29,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 		/// <param name="caster"></param>
 		public void StartDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			Send.ZC_PLAY_SOUND(caster, "voice_war_atk_long_cast");
+			Send.ZC_PLAY_SOUND_Gendered(caster, "voice_war_atk_long_cast", "voice_atk_long_cast_f");
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 		/// <param name="caster"></param>
 		public void EndDynamicCast(Skill skill, ICombatEntity caster)
 		{
-			Send.ZC_STOP_SOUND(caster, "voice_war_atk_long_cast");
+			Send.ZC_STOP_SOUND_Gendered(caster, "voice_war_atk_long_cast", "voice_atk_long_cast_f");
 		}
 
 		/// <summary>
