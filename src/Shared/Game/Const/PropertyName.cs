@@ -9355,15 +9355,7 @@
 		public const string POPOBOOST_PROGRESS_CHECK_4 = "POPOBOOST_PROGRESS_CHECK_4";
 		public const string POPOBOOST_PROGRESS_CHECK_6 = "POPOBOOST_PROGRESS_CHECK_6";
 		public const string POPOBOOST_2409_PROGRESS1 = "POPOBOOST_2409_PROGRESS1";
-		public const string InDunCountType_840 = "InDunCountType_840";
-		public const string InDunCountType_842 = "InDunCountType_842";
-		public const string HadVisited_11276 = "HadVisited_11276";
-		public const string IndunWeeklyEnteredCount_842 = "IndunWeeklyEnteredCount_842";
-		public const string InDunCountType_843 = "InDunCountType_843";
-		public const string InDunCountType_841 = "InDunCountType_841";
-		public const string IndunWeeklyEnteredCount_841 = "IndunWeeklyEnteredCount_841";
 		public const string AchieveReward_Raid_CollapsingMine_gold = "AchieveReward_Raid_CollapsingMine_gold";
-		public const string HadVisited_11277 = "HadVisited_11277";
 		public const string AchieveReward_Raid_BlackRevelation_silver = "AchieveReward_Raid_BlackRevelation_silver";
 		public const string AchieveReward_Goddess_Raid_CollapsingMine_Party_1 = "AchieveReward_Goddess_Raid_CollapsingMine_Party_1";
 		public const string AchieveReward_Goddess_Raid_BlackRevelation_Party_1 = "AchieveReward_Goddess_Raid_BlackRevelation_Party_1";
@@ -9382,11 +9374,9 @@
 		public const string AchieveReward_Raid_CollapsingMine_bronze = "AchieveReward_Raid_CollapsingMine_bronze";
 		public const string AchieveReward_Goddess_Raid_CollapsingMine_Party_4 = "AchieveReward_Goddess_Raid_CollapsingMine_Party_4";
 		public const string AchieveReward_Goddess_Raid_BlackRevelation_Party_4 = "AchieveReward_Goddess_Raid_BlackRevelation_Party_4";
-		public const string IndunWeeklyEnteredCount_840 = "IndunWeeklyEnteredCount_840";
 		public const string AchieveReward_Goddess_Raid_BlackRevelation_Auto_1 = "AchieveReward_Goddess_Raid_BlackRevelation_Auto_1";
 		public const string AchieveReward_Goddess_Raid_CollapsingMine_Auto_1 = "AchieveReward_Goddess_Raid_CollapsingMine_Auto_1";
 		public const string AchieveReward_Raid_BlackRevelation_gold = "AchieveReward_Raid_BlackRevelation_gold";
-		public const string IndunWeeklyEnteredCount_843 = "IndunWeeklyEnteredCount_843";
 		public const string EVENT_2410_W_MOONRISE_WEEKLY_COIN_CNT = "EVENT_2410_W_MOONRISE_WEEKLY_COIN_CNT";
 		public const string EVENT_2410_MOONRISE_16 = "EVENT_2410_MOONRISE_16";
 		public const string EVENT_2410_MOONRISE_15 = "EVENT_2410_MOONRISE_15";
@@ -9409,6 +9399,9 @@
 		public const string EVENT_2410_MOONRISE_4 = "EVENT_2410_MOONRISE_4";
 		public const string EVENT_2410_MOONRISE_17 = "EVENT_2410_MOONRISE_17";
 		public const string EVENT_2410_MOONRISE_6 = "EVENT_2410_MOONRISE_6";
+		public const string Cupole_034 = "Cupole_034";
+		public const string lecifer1 = "lecifer1";
+		public const string lecifer2 = "lecifer2";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -20466,11 +20459,21 @@
 		public const string AetherGemReinforceCount_600 = "AetherGemReinforceCount_600";
 		public const string popoboost_2409_participate = "popoboost_2409_participate";
 		public const string EVENT_2409_POPOBOOST_MAX_GEARSCORE = "EVENT_2409_POPOBOOST_MAX_GEARSCORE";
+		public const string HadVisited_11276 = "HadVisited_11276";
+		public const string InDunCountType_840 = "InDunCountType_840";
 		public const string Kill_boss_neringa_of_evil = "Kill_boss_neringa_of_evil";
+		public const string InDunCountType_842 = "InDunCountType_842";
+		public const string IndunWeeklyEnteredCount_843 = "IndunWeeklyEnteredCount_843";
 		public const string Kill_boss_crystal_golem_Solo = "Kill_boss_crystal_golem_Solo";
+		public const string IndunWeeklyEnteredCount_842 = "IndunWeeklyEnteredCount_842";
 		public const string Kill_boss_crystal_golem = "Kill_boss_crystal_golem";
 		public const string Kill_boss_crystal_golem_Auto = "Kill_boss_crystal_golem_Auto";
+		public const string InDunCountType_843 = "InDunCountType_843";
 		public const string Kill_boss_neringa_of_evil_Solo = "Kill_boss_neringa_of_evil_Solo";
+		public const string InDunCountType_841 = "InDunCountType_841";
+		public const string HadVisited_11277 = "HadVisited_11277";
+		public const string IndunWeeklyEnteredCount_841 = "IndunWeeklyEnteredCount_841";
+		public const string IndunWeeklyEnteredCount_840 = "IndunWeeklyEnteredCount_840";
 		public const string Kill_boss_neringa_of_evil_Auto = "Kill_boss_neringa_of_evil_Auto";
 		public const string EP16_2_FANLIB_48_3_MQ3_TRACK = "EP16_2_FANLIB_48_3_MQ3_TRACK";
 

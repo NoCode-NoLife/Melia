@@ -1606,4 +1606,5 @@
 { id: 6005, className: "KupoleNormalBuff", isOverheat: false, overheatResetTime: 40000 },
 { id: 6006, className: "AquaWind", isOverheat: false, overheatResetTime: 40000 },
 { id: 6007, className: "WheelOfFate", isOverheat: false, overheatResetTime: 40000 },
+{ id: 6008, className: "DarkLightningCurse", isOverheat: false, overheatResetTime: 40000 },
 ]

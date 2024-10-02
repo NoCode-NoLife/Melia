@@ -4128,6 +4128,7 @@ public static class MonsterId
 	public const int Kupole_Laima_UR = 600043;
 	public const int Kupole_Maid_Ruta_UR = 600044;
 	public const int Kupole_Summer_Zesty_UR = 600045;
+	public const int Kupole_Lecifer_UR = 600046;
 	public const int Cupole_Amongd_R_Render = 610013;
 	public const int Cupole_Aristowl_Sr_Render = 610014;
 	public const int Cupole_Amongdmage_R_Render = 610015;
@@ -4160,6 +4161,7 @@ public static class MonsterId
 	public const int Kupole_Laima_UR_Render = 610043;
 	public const int Kupole_Maid_Ruta_UR_Render = 610044;
 	public const int Kupole_Summer_Zesty_UR_Render = 610045;
+	public const int Kupole_Lecifer_UR_Render = 610046;
 	public const int GRB_SAMPLE_1 = 700000;
 	public const int GFB_Boss_Hauberk = 700001;
 	public const int GFB_Boss_Woodspirit = 700002;
@@ -6379,6 +6381,9 @@ public static class MonsterId
 	public const int Collapsing_Mine_Crystal_Obj_6 = 160233;
 	public const int Neringa_Raid_Strat_Npc = 160234;
 	public const int Crystalgolem_Raid_Strat_Npc = 160235;
+	public const int Papaya02_Colony_Flag_Klapeda = 160236;
+	public const int Papaya02_Colony_Flag_Orsha = 160237;
+	public const int Papaya02_Colony_Flag_Pedimian = 160238;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;
