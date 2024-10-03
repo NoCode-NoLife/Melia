@@ -294,12 +294,12 @@ namespace Melia.Zone.World.Actors.Components
 	/// </summary>
 	public static class LockType
 	{
-		public const string Movement = "Move";
-		public const string Attack = "Attack";
-		public const string GetHit = "GetHit";
-		public const string GetKnockedBack = "GetKnockedBack";
-		public const string GetKnockedDown = "GetKnockedDown";
-		public const string Speak = "Speak";
+		public const string Movement = nameof(Movement);
+		public const string Attack = nameof(Attack);
+		public const string GetHit = nameof(GetHit);
+		public const string GetKnockedBack = nameof(GetKnockedBack);
+		public const string GetKnockedDown = nameof(GetKnockedDown);
+		public const string Speak = nameof(Speak);
 	}
 
 	/// <summary>
@@ -307,10 +307,10 @@ namespace Melia.Zone.World.Actors.Components
 	/// </summary>
 	public static class StateType
 	{
-		public const string Stunned = "Stunned";
-		public const string KnockedBack = "KnockedBack";
-		public const string KnockedDown = "KnockedDown";
-		public const string Held = "Held";
+		public const string Stunned = nameof(Stunned);
+		public const string KnockedBack = nameof(KnockedBack);
+		public const string KnockedDown = nameof(KnockedDown);
+		public const string Held = nameof(Held);
 	}
 
 	/// <summary>
