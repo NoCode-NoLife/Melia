@@ -503,7 +503,12 @@ namespace Melia.Zone.World.Actors.Characters
 					//   options and save them, to sanity check the coming
 					//   resurrection request.
 
-					Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
+					var options = ResurrectOptions.NearestRevivalPoint;
+
+					if (ZoneServer.Instance.Conf.World.ResurrectCityOption)
+						options |= ResurrectOptions.NearestCity;
+
+					Send.ZC_RESURRECT_DIALOG(this, options);
 					_resurrectDialogTimer = ResurrectDialogDelay;
 				}
 			}

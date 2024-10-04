@@ -44,6 +44,9 @@ namespace Melia.Shared.Configuration.Files
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
 
+		// misc.conf
+		public bool ResurrectCityOption { get; protected set; }
+
 		// quests.conf
 		public bool DisplayQuestObjectives { get; protected set; }
 
@@ -131,6 +134,8 @@ namespace Melia.Shared.Configuration.Files
 			this.ItemCooldownRate = this.GetFloat("item_cooldown_rate", 1);
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
+
+			this.ResurrectCityOption = this.GetBool("resurrect_city_option", true);
 
 			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 
