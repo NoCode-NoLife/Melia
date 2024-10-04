@@ -20,6 +20,7 @@ using Yggdrasil.Util;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.World.Actors.Components;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -1323,10 +1324,76 @@ namespace Melia.Zone.World.Actors.Characters
 					this.Warp(this.MapId, safePos);
 					break;
 				}
+				case ResurrectOptions.NearestCity:
+				{
+					var location = this.GetCityReturnLocation();
+					this.Warp(location);
+					break;
+				}
 			}
 
 			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
 			Send.ZC_RESURRECT(this);
+		}
+
+		/// <summary>
+		/// Returns the city return location for the actor.
+		/// </summary>
+		/// <remarks>
+		/// The return city map is retrieved from the map data by default.
+		/// Alternatively, a return location can be set via SetCityReturnLocation
+		/// or manually via the variables "Melia.CityReturnLocation.Map", ".X",
+		/// ".Y", and ".Z".
+		/// </remarks>
+		/// <returns></returns>
+		public Location GetCityReturnLocation()
+		{
+			MapData mapData;
+
+			if (this.Variables.Perm.Has("Melia.CityReturnLocation.Map"))
+			{
+				var mapName = this.Variables.Perm.GetString("Melia.CityReturnLocation.Map");
+
+				if (!ZoneServer.Instance.Data.MapDb.TryFind(mapName, out mapData))
+					throw new ArgumentException($"Map '{mapName}' not found in data.");
+
+				var x = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.X", 0);
+				var y = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Y", 0);
+				var z = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Z", 0);
+
+				if (x == 0 && y == 0 && z == 0)
+				{
+					x = mapData.DefaultPosition.X;
+					y = mapData.DefaultPosition.Y;
+					z = mapData.DefaultPosition.Z;
+				}
+
+				return new Location(mapData.Id, x, y, z);
+			}
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(this.Map.Data.NearbyCity, out mapData))
+			{
+				if (!ZoneServer.Instance.Data.MapDb.TryFind("c_Klaipe", out mapData))
+					throw new InvalidOperationException($"No nearby city found for map '{this.Map.ClassName}' and no fallback city found either.");
+			}
+
+			return new Location(mapData.Id, mapData.DefaultPosition);
+		}
+
+		/// <summary>
+		/// Sets the character's city return location, affecting where they will
+		/// respawn if they choose to ressurrect in the nearest city.
+		/// </summary>
+		/// <param name="location"></param>
+		public void SetCityReturnLocation(Location location)
+		{
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(location.MapId, out var mapData))
+				throw new ArgumentException($"Map '{location.MapId}' not found in data.");
+
+			this.Variables.Perm.SetString("Melia.CityReturnLocation.Map", mapData.ClassName);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.X", location.X);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Y", location.Y);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Z", location.Z);
 		}
 
 		/// <summary>

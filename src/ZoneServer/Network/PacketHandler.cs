@@ -2930,7 +2930,7 @@ namespace Melia.Zone.Network
 			var l1 = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var option = (ResurrectOptions)(1 << (int)optionIdx);
+			var option = (ResurrectOptions)(1 << optionIdx);
 
 			if (!character.IsDead)
 			{
