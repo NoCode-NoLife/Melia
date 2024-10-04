@@ -1,7 +1,7 @@
 Melia
 =============================================================================
 
-Melia is an open-source MMORPG server, developed as a collaborative affort
+Melia is an open-source MMORPG server, developed as a collaborative effort
 of programmers from all around the world. We're aiming to create a server
 software that provides a stable and extensible platform for users to build
 their own projects on top of, while giving developers the oppurtunity to
