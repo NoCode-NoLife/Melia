@@ -6,7 +6,9 @@
 // default icons, such as for warps.
 //---------------------------------------------------------------------------
 
+using Melia.Shared.L10N;
 using Melia.Shared.Scripting;
+using Melia.Shared.World;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
@@ -65,22 +67,30 @@ public class WorldMapClientScript : ClientScript
 
 		foreach (WarpMonster warp in warps)
 		{
-			var pos = new LuaTable();
-			pos.Insert("X", warp.Position.X);
-			pos.Insert("Y", warp.Position.Y);
-			pos.Insert("Z", warp.Position.Z);
-
-			var icon = new LuaTable();
-			icon.Insert("Image", "minimap_portal");
-			icon.Insert("Map", character.Map.ClassName);
-			icon.Insert("WorldPos", pos);
-
+			var tooltip = "";
 			if (ZoneServer.Instance.Data.MapDb.TryFind(warp.WarpLocation.MapId, out var targetMapData))
-				icon.Insert("Tooltip", targetMapData.Name);
+				tooltip = string.Format(Localization.Get("To {0}"), Localization.Get(targetMapData.Name));
 
-			table.Insert(icon);
+			var iconTable = CreateIconTable("minimap_portal", character.Map.ClassName, warp.Position, tooltip);
+			table.Insert(iconTable);
 		}
 
 		this.SendRawLuaScript(character, "Melia.World.Icons.Load(" + table.Serialize() + ")");
+	}
+
+	private LuaTable CreateIconTable(string imageName, string mapClassName, Position pos, string tooltip)
+	{
+		var posTable = new LuaTable();
+		posTable.Insert("X", pos.X);
+		posTable.Insert("Y", pos.Y);
+		posTable.Insert("Z", pos.Z);
+
+		var iconTable = new LuaTable();
+		iconTable.Insert("Image", imageName);
+		iconTable.Insert("Tooltip", tooltip);
+		iconTable.Insert("Map", mapClassName);
+		iconTable.Insert("WorldPos", posTable);
+
+		return iconTable;
 	}
 }
