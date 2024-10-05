@@ -2,13 +2,16 @@
 // World Map
 //--- Description -----------------------------------------------------------
 // Makes changes to the world and mini maps, such as removing the level
-// ranges, to accomodate customization better.
+// ranges, to accomodate customization better. Also handles sending of
+// default icons, such as for warps.
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Scripting;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 
 public class WorldMapClientScript : ClientScript
 {
@@ -22,6 +25,7 @@ public class WorldMapClientScript : ClientScript
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
 		this.SendAllScripts(e.Character);
+		this.SendIcons(e.Character);
 	}
 
 	private void LoadIesMods()
@@ -52,5 +56,31 @@ public class WorldMapClientScript : ClientScript
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 205, "Name", "White Tree Forest"); // sub_episode5
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 206, "Name", "Nicopolis"); // sub_episode6
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 207, "Name", "Memorial"); // sub_episode7
+	}
+
+	private void SendIcons(Character character)
+	{
+		var warps = character.Map.GetMonsters(a => a is WarpMonster);
+		var table = new LuaTable();
+
+		foreach (WarpMonster warp in warps)
+		{
+			var pos = new LuaTable();
+			pos.Insert("X", warp.Position.X);
+			pos.Insert("Y", warp.Position.Y);
+			pos.Insert("Z", warp.Position.Z);
+
+			var icon = new LuaTable();
+			icon.Insert("Image", "minimap_portal");
+			icon.Insert("Map", character.Map.ClassName);
+			icon.Insert("WorldPos", pos);
+
+			if (ZoneServer.Instance.Data.MapDb.TryFind(warp.WarpLocation.MapId, out var targetMapData))
+				icon.Insert("Tooltip", targetMapData.Name);
+
+			table.Insert(icon);
+		}
+
+		this.SendRawLuaScript(character, "Melia.World.Icons.Load(" + table.Serialize() + ")");
 	}
 }
