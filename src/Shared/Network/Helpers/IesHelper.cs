@@ -3,6 +3,9 @@ using Melia.Shared.IES;
 
 namespace Melia.Shared.Network.Helpers
 {
+	/// <summary>
+	/// Extension methods for writing IES-related information to packets.
+	/// </summary>
 	public static class IesHelper
 	{
 		/// <summary>

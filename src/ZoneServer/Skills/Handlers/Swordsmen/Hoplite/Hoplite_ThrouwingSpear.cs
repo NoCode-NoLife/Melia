@@ -132,6 +132,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 
 			var pad = new Pad(PadName.ThrouwingSpear_Hoplite33_Pad, caster, skill, new Circle(farPos, 50));
 			pad.Position = farPos;
+			pad.Trigger.MaxActorCount = 8;
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(2);
 			pad.Trigger.Subscribe(TriggerType.Destroy, this.SpearExplosion);
 
@@ -139,39 +140,23 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		}
 
 		/// <summary>
-		/// Called by the spear explosion effect
+		/// Called by the spear explosion effect.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
 		private void SpearExplosion(object sender, PadTriggerArgs args)
 		{
 			var pad = args.Trigger;
-			var creator = args.Creator;
+			var caster = args.Creator;
+			var skill = args.Skill;
 
-			this.ExplosionAttack(pad.Skill, creator, (ISplashArea)pad.Area);
-		}
-
-		/// <summary>
-		/// Executes the secondary attack from the spear explosion
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="splashArea"></param>
-		private void ExplosionAttack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
-		{
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
+			var targets = pad.Trigger.GetAttackableEntities(caster);
 			var hits = new List<SkillHitInfo>();
 
-			// The explosion has its own maximum target count which is separate from the skill
-			var maxTargets = 8;
-
-			if (ZoneServer.Instance.Conf.World.DisableSDR)
-				maxTargets = int.MaxValue;
-
-			foreach (var target in targets.LimitRandom(maxTargets))
+			foreach (var target in targets)
 			{
 				var modifier = SkillModifier.MultiHit(3);
 

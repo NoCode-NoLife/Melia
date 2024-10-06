@@ -85,11 +85,10 @@ switch (type)
         ChatMember members[memberCount];
         break;
 
-    // Group Chat Creation?
+    // SystemMessage
     case 0x07:
-        int i1; // 22507
-        short s1; // 1
-        byte b0; // 0
+        int clientMessageId;
+        lpString parameter;
         break;
 
     // FriendInfo

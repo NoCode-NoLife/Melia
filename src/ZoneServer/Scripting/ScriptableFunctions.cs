@@ -25,7 +25,7 @@ namespace Melia.Zone.Scripting
 		// and adding a public collection for it below. The public
 		// collections are added to the collections list automatically.
 
-		private static readonly List<IDelegateCollection> Collections = new List<IDelegateCollection>();
+		private static readonly List<IDelegateCollection> Collections = new();
 
 		public static readonly DelegateCollection<CharacterCalcFunc> Character = new();
 		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new();

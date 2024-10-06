@@ -4074,6 +4074,7 @@ namespace Melia.Shared.Game.Const
 		WheelOfFate_Buff = 270008,
 		Nectar_Buff = 270009,
 		AquaWind_Debuff = 270010,
+		DarkLightningCurse_Debuff = 270011,
 		EP16_1_CORAL_32_1_MQ6_BOSS_BUFF = 280000,
 		F_Boss_Solcomm_Skl2_Buff = 600001,
 		F_Boss_Solcomm_Skl3_Buff = 600002,

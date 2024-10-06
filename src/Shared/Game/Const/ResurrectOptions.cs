@@ -15,5 +15,9 @@ namespace Melia.Shared.Game.Const
 		ReturnToField = 0x08,
 		AbandonQuestTryAgain = 0x10,
 		TryAgain = 0x20,
+		NearestCity = 0x1000,
+		GuildTower = 0x2000,
+		HereMystic = 0x4000,
+		VedasPlateau = 0x10000,
 	}
 }

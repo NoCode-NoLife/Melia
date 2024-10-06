@@ -2,13 +2,18 @@
 // World Map
 //--- Description -----------------------------------------------------------
 // Makes changes to the world and mini maps, such as removing the level
-// ranges, to accomodate customization better.
+// ranges, to accomodate customization better. Also handles sending of
+// default icons, such as for warps.
 //---------------------------------------------------------------------------
 
+using Melia.Shared.L10N;
 using Melia.Shared.Scripting;
+using Melia.Shared.World;
 using Melia.Zone;
 using Melia.Zone.Events;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Monsters;
 
 public class WorldMapClientScript : ClientScript
 {
@@ -22,6 +27,7 @@ public class WorldMapClientScript : ClientScript
 	protected void OnPlayerReady(object sender, PlayerEventArgs e)
 	{
 		this.SendAllScripts(e.Character);
+		this.SendIcons(e.Character);
 	}
 
 	private void LoadIesMods()
@@ -52,5 +58,39 @@ public class WorldMapClientScript : ClientScript
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 205, "Name", "White Tree Forest"); // sub_episode5
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 206, "Name", "Nicopolis"); // sub_episode6
 		ZoneServer.Instance.IesMods.Add("worldmap2_data", 207, "Name", "Memorial"); // sub_episode7
+	}
+
+	private void SendIcons(Character character)
+	{
+		var warps = character.Map.GetMonsters(a => a is WarpMonster);
+		var table = new LuaTable();
+
+		foreach (WarpMonster warp in warps)
+		{
+			var tooltip = "";
+			if (ZoneServer.Instance.Data.MapDb.TryFind(warp.WarpLocation.MapId, out var targetMapData))
+				tooltip = string.Format(Localization.Get("To {0}"), Localization.Get(targetMapData.Name));
+
+			var iconTable = CreateIconTable("minimap_portal", character.Map.ClassName, warp.Position, tooltip);
+			table.Insert(iconTable);
+		}
+
+		this.SendRawLuaScript(character, "Melia.World.Icons.Load(" + table.Serialize() + ")");
+	}
+
+	private LuaTable CreateIconTable(string imageName, string mapClassName, Position pos, string tooltip)
+	{
+		var posTable = new LuaTable();
+		posTable.Insert("X", pos.X);
+		posTable.Insert("Y", pos.Y);
+		posTable.Insert("Z", pos.Z);
+
+		var iconTable = new LuaTable();
+		iconTable.Insert("Image", imageName);
+		iconTable.Insert("Tooltip", tooltip);
+		iconTable.Insert("Map", mapClassName);
+		iconTable.Insert("WorldPos", posTable);
+
+		return iconTable;
 	}
 }

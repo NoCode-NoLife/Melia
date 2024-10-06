@@ -1606,5 +1606,6 @@ namespace Melia.Shared.Game.Const
 		KupoleNormalBuff = 6005,
 		AquaWind = 6006,
 		WheelOfFate = 6007,
+		DarkLightningCurse = 6008,
 	}
 }

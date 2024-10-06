@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i389250
+//   Version: i389607
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29857,15 +29857,7 @@ string getPropertyName(int id)
         case 115646: return "IndunWeeklyEnteredCount_841";
         case 115647: return "IndunWeeklyEnteredCount_840";
         case 115648: return "Kill_boss_neringa_of_evil_Auto";
-        case 115649: return "InDunCountType_840";
-        case 115650: return "InDunCountType_842";
-        case 115651: return "HadVisited_11276";
-        case 115652: return "IndunWeeklyEnteredCount_842";
-        case 115653: return "InDunCountType_843";
-        case 115654: return "InDunCountType_841";
-        case 115655: return "IndunWeeklyEnteredCount_841";
         case 115656: return "AchieveReward_Raid_CollapsingMine_gold";
-        case 115657: return "HadVisited_11277";
         case 115658: return "AchieveReward_Raid_BlackRevelation_silver";
         case 115659: return "AchieveReward_Goddess_Raid_CollapsingMine_Party_1";
         case 115660: return "AchieveReward_Goddess_Raid_BlackRevelation_Party_1";
@@ -29884,11 +29876,9 @@ string getPropertyName(int id)
         case 115673: return "AchieveReward_Raid_CollapsingMine_bronze";
         case 115674: return "AchieveReward_Goddess_Raid_CollapsingMine_Party_4";
         case 115675: return "AchieveReward_Goddess_Raid_BlackRevelation_Party_4";
-        case 115676: return "IndunWeeklyEnteredCount_840";
         case 115677: return "AchieveReward_Goddess_Raid_BlackRevelation_Auto_1";
         case 115678: return "AchieveReward_Goddess_Raid_CollapsingMine_Auto_1";
         case 115679: return "AchieveReward_Raid_BlackRevelation_gold";
-        case 115680: return "IndunWeeklyEnteredCount_843";
         case 115681: return "MG_Last_Goddess_Raid_CollapsingMine_Party";
         case 115682: return "MG_Last_Goddess_Raid_CollapsingMine_Auto";
         case 115683: return "MG_Last_Goddess_Raid_BlackRevelation_Party";
@@ -29918,6 +29908,9 @@ string getPropertyName(int id)
         case 115707: return "EVENT_2410_MOONRISE_17";
         case 115708: return "EVENT_2410_MOONRISE_6";
         case 115709: return "EP16_2_FANLIB_48_3_MQ3_TRACK";
+        case 115710: return "Cupole_034";
+        case 115711: return "lecifer1";
+        case 115712: return "lecifer2";
         default: return "Unknown";
     }
 }

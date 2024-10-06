@@ -47,10 +47,15 @@ namespace Melia.Social.Database
 		}
 
 		/// <summary>
+		/// Gets or sets the maximum number of members allowed in the chat room.
+		/// </summary>
+		public int MaxMemberCount { get; set; } = SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
+
+		/// <summary>
 		/// Returns true if the chat room has reached the maximum number of
 		/// members.
 		/// </summary>
-		public bool MaxMembersReached => this.MemberCount >= SocialServer.Instance.Conf.Social.RoomMemberMaxCount;
+		public bool MaxMembersReached => this.MemberCount >= this.MaxMemberCount;
 
 		/// <summary>
 		/// Creates new chat room.

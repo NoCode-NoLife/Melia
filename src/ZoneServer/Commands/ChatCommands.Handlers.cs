@@ -53,6 +53,7 @@ namespace Melia.Zone.Commands
 			this.Add("distance", "", "Calculates distance between two positions.", this.HandleDistance);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
+			this.Add("main", "", "Displays invite for global main chat.", this.HandleMainChat);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
 
 			// VIP
@@ -2559,6 +2560,22 @@ namespace Melia.Zone.Commands
 			// Broadcast the message to all servers, so they can do whatever
 			// with it. React to shouts on zones, put them on a web page, etc.
 			ZoneServer.Instance.Communicator.Send("Coordinator", new ShoutMessage(target.TeamName, shoutText).BroadcastTo("AllServers"));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Displays tag invite for main chat.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMainChat(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			target.ServerMessage("Click here to join the main chat: {a SLC 0@@@557516819791873}{#0000FF}{img link_whisper 24 24}Main{/}{/}{/}");
 
 			return CommandResult.Okay;
 		}

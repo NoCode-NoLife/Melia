@@ -15,6 +15,7 @@ namespace Melia.Shared.Data.Database
 		public string Name { get; set; }
 		public MapType Type { get; set; }
 		public int Level { get; set; }
+		public string NearbyCity { get; set; }
 		public Position DefaultPosition { get; set; }
 	}
 
@@ -53,7 +54,7 @@ namespace Melia.Shared.Data.Database
 		/// <param name="entry"></param>
 		protected override void ReadEntry(JObject entry)
 		{
-			entry.AssertNotMissing("mapId", "className", "name", "type", "level", "defaultPosition");
+			entry.AssertNotMissing("mapId", "className", "name", "type", "level", "nearbyCity", "defaultPosition");
 
 			var data = new MapData();
 
@@ -62,6 +63,7 @@ namespace Melia.Shared.Data.Database
 			data.Name = entry.ReadString("name");
 			data.Type = entry.ReadEnum<MapType>("type");
 			data.Level = entry.ReadInt("level");
+			data.NearbyCity = entry.ReadString("nearbyCity");
 
 			var defaultPosEntry = (JObject)entry["defaultPosition"];
 			data.DefaultPosition = new Position(defaultPosEntry.ReadFloat("x"), defaultPosEntry.ReadFloat("y"), defaultPosEntry.ReadFloat("z"));

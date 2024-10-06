@@ -111,5 +111,19 @@ namespace Melia.Social.World
 			lock (_rooms)
 				return _rooms.Values.Where(a => a.IsMember(user.TeamName)).ToArray();
 		}
+
+		/// <summary>
+		/// Loads or creates existing and default chat rooms.
+		/// </summary>
+		public void LoadChats()
+		{
+			var room = new ChatRoom("Main", ChatRoomType.Group);
+			room.MaxMemberCount = 9999;
+			room.CreateInvite(0);
+
+			this.AddChatRoom(room);
+
+			// TODO: Restore chat rooms from database?
+		}
 	}
 }

@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 				skillHitResult = SCR_SkillHit(caster, bounceTarget, skill);
 				bounceTarget.TakeDamage(skillHitResult.Damage, caster);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult);
+				var hit = new HitInfo(caster, bounceTarget, skill, skillHitResult);
 				hit.ForceId = ForceId.GetNew();
 				hit.ResultType = HitResultType.Unk8;
 

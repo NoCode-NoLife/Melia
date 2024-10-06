@@ -17927,6 +17927,7 @@
 { classId: 5290005, className: "SELECT_UPHILL_DIFFICULTY_2" },
 { classId: 5290006, className: "SELECT_UPHILL_DIFFICULTY_3" },
 { classId: 5290007, className: "FIX_CHAT_EMOTICON_INFO_FOR_DEL_1" },
+{ classId: 5290008, className: "EQUIPMENT_PROCESSING_MSG" },
 { classId: 5400000, className: "ARTS_LEARN_ABILITY_DLG" },
 { classId: 5500001, className: "EVENT_1909_ANCIENT_DLG1" },
 { classId: 5500002, className: "EVENT_1909_ANCIENT_DLG2" },

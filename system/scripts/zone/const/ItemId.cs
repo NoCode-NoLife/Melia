@@ -2884,6 +2884,8 @@ public static class ItemId
 	public const int Hat_628401 = 628401;
 	public const int Hat_628017_1 = 628402;
 	public const int Hat_628403 = 628403;
+	public const int Hat_628404 = 628404;
+	public const int Hat_628405 = 628405;
 	public const int Hat_629001 = 629001;
 	public const int Hat_629002 = 629002;
 	public const int Hat_629003 = 629003;
@@ -5796,6 +5798,7 @@ public static class ItemId
 	public const int Event_PAPAYA_Attendance_Welcome_Box_139130_12 = 10003706;
 	public const int Event_PAPAYA_Attendance_Welcome_Box_139130_13 = 10003707;
 	public const int Event_PAPAYA_Attendance_Welcome_Box_139130_14 = 10003708;
+	public const int Event_2409_STAMP_ALLCLEAR_PAPAYA = 10003711;
 	public const int TWN_Event_2303_Attendance_Box_0 = 10006501;
 	public const int TWN_Event_2303_Attendance_Box_1 = 10006502;
 	public const int TWN_Event_2303_Attendance_Box_2 = 10006503;
@@ -8351,6 +8354,9 @@ public static class ItemId
 	public const int Papaya_Colony_Flag_Klapeda = 721065;
 	public const int Papaya_Colony_Flag_Orsha = 721066;
 	public const int Papaya_Colony_Flag_Pedimian = 721067;
+	public const int Papaya02_Colony_Flag_Klapeda = 721165;
+	public const int Papaya02_Colony_Flag_Orsha = 721166;
+	public const int Papaya02_Colony_Flag_Pedimian = 721167;
 	public const int Spread_Bait_Basic = 730400;
 	public const int Event_1902_Spread_Bait = 730499;
 	public const int Spread_Bait_Premium_1 = 730500;
@@ -12222,6 +12228,11 @@ public static class ItemId
 	public const int I2019_Reprint_Ticket_Special = 11205243;
 	public const int I2019_Reprint_Ticket_Costume = 11205244;
 	public const int I2019_Reprint_Ticket_Weapon = 11205245;
+	public const int I2018_Reprint_Ticket_Special = 11205257;
+	public const int I2018_Reprint_Ticket_Costume = 11205258;
+	public const int I2018_Reprint_Ticket_Weapon = 11205259;
+	public const int I2017_Reprint_Ticket_Special = 11205260;
+	public const int I2017_Reprint_Ticket_Costume = 11205261;
 
 	// LegendMaterial
 	//-----------------------------------------------------------------------
@@ -14211,6 +14222,8 @@ public static class ItemId
 	public const int Piece4_EP16_GoddessIcor_Armor_High = 11201273;
 	public const int Piece4_EP16_GoddessIcor_Weapon_High = 11201274;
 	public const int Misc_Guilty_LegCard_NoTrade = 11201276;
+	public const int High_Enchantchip_Low_Ep16_Recipe = 11201279;
+	public const int Jurate_Portal_Stone_Misc_Recipe_3 = 11201280;
 	public const int Premium_Cupole_Recruit_Ticket_Recipe = 11210020;
 	public const int Premium_Cupole_Recruit_Ticket_Recipe2 = 11210021;
 
@@ -15198,6 +15211,8 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char1_26_NoTrade = 494440;
 	public const int HiddenJobUnlock_Char2_26 = 494441;
 	public const int EmoticonItem_2409_Popo = 494442;
+	public const int HiddenJobUnlock_Char3_25_NoTrade = 494443;
+	public const int HiddenJobUnlock_Char2_26_NoTrade = 494444;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -19310,6 +19325,8 @@ public static class ItemId
 	public const int I202409_Package02 = 11205250;
 	public const int I202409_Package03 = 11205251;
 	public const int I202409_Package04 = 11205252;
+	public const int Special_Gift_Box_BlessedCube_2409_PAPAYA_2 = 11205254;
+	public const int Special_Gift_Box_Leticia_2409_PAPAYA = 11205255;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

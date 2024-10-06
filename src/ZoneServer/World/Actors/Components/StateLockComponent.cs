@@ -50,7 +50,7 @@ namespace Melia.Zone.World.Actors.Components
 
 			this.RegisterState(new(StateType.Stunned, [LockType.Movement, LockType.Attack]));
 			this.RegisterState(new(StateType.KnockedBack, [LockType.Movement, LockType.Attack]));
-			this.RegisterState(new(StateType.KnockedDown, [LockType.Movement, LockType.Attack]));
+			this.RegisterState(new(StateType.KnockedDown, [LockType.Movement, LockType.Attack, LockType.GetKnockedBack]));
 			this.RegisterState(new(StateType.Held, [LockType.Movement]));
 		}
 
@@ -290,14 +290,45 @@ namespace Melia.Zone.World.Actors.Components
 	}
 
 	/// <summary>
-	/// An action that be locked.
+	/// An action that can be locked.
 	/// </summary>
 	public static class LockType
 	{
-		public const string Movement = "Move";
-		public const string Attack = "Attack";
-		public const string GetHit = "GetHit";
-		public const string Speak = "Speak";
+		/// <summary>
+		/// Prevents any kind of movement initiated by the actor.
+		/// </summary>
+		public const string Movement = nameof(Movement);
+
+		/// <summary>
+		/// Prevents actively attacking other actors.
+		/// </summary>
+		public const string Attack = nameof(Attack);
+
+		/// <summary>
+		/// Prevents other actors from attacking this one.
+		/// </summary>
+		public const string GetHit = nameof(GetHit);
+
+		/// <summary>
+		/// Prevents the actor from being knocked back.
+		/// </summary>
+		/// <remarks>
+		/// Getting knocked back and knock down are separate actions and states.
+		/// </remarks>
+		public const string GetKnockedBack = nameof(GetKnockedBack);
+
+		/// <summary>
+		/// Prevents the actor from being knocked down.
+		/// </summary>
+		/// <remarks>
+		/// Getting knocked back and knock down are separate actions and states.
+		/// </remarks>
+		public const string GetKnockedDown = nameof(GetKnockedDown);
+
+		/// <summary>
+		/// Prevents actor from speaking in public chat.
+		/// </summary>
+		public const string Speak = nameof(Speak);
 	}
 
 	/// <summary>
@@ -305,10 +336,10 @@ namespace Melia.Zone.World.Actors.Components
 	/// </summary>
 	public static class StateType
 	{
-		public const string Stunned = "Stunned";
-		public const string KnockedBack = "KnockedBack";
-		public const string KnockedDown = "KnockedDown";
-		public const string Held = "Held";
+		public const string Stunned = nameof(Stunned);
+		public const string KnockedBack = nameof(KnockedBack);
+		public const string KnockedDown = nameof(KnockedDown);
+		public const string Held = nameof(Held);
 	}
 
 	/// <summary>

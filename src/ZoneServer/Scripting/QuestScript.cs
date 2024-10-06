@@ -13,10 +13,10 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	public abstract class QuestScript : IScript, IDisposable
 	{
-		private readonly static object ScriptsSyncLock = new object();
-		private readonly static Dictionary<int, QuestScript> Scripts = new Dictionary<int, QuestScript>();
-		private readonly static Dictionary<Type, QuestObjective> Objectives = new Dictionary<Type, QuestObjective>();
-		private readonly static List<QuestScript> AutoReceiveQuests = new List<QuestScript>();
+		private readonly static object ScriptsSyncLock = new();
+		private readonly static Dictionary<int, QuestScript> Scripts = new();
+		private readonly static Dictionary<Type, QuestObjective> Objectives = new();
+		private readonly static List<QuestScript> AutoReceiveQuests = new();
 
 		/// <summary>
 		/// Returns this script's quest data.
@@ -271,7 +271,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="prerequisites"></param>
 		/// <returns></returns>
 		protected OrPrerequisite Or(params QuestPrerequisite[] prerequisites)
-			=> new OrPrerequisite(prerequisites);
+			=> new(prerequisites);
 
 		/// <summary>
 		/// Registers a hook for a dialog.
@@ -323,6 +323,7 @@ namespace Melia.Zone.Scripting
 	/// Used to define which quest scripts handle which quests, based on
 	/// a quest id.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class QuestScriptAttribute : Attribute
 	{
 		/// <summary>
