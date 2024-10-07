@@ -1,23 +1,22 @@
 User Folder
 =============================================================================
 
-Melia uses 2 folders to organize databases, configurations, scripts, etc:
-"system" and "user". The developers only make changes in system, leaving
-the user folder to the user.
+The server uses two folders to organize its data: `system` and `user`.
+While the project's developers focus on the system folder, users can
+extend and override the server's data from the user folder, without
+worry of updates affecting their changes or causing conflics.
 
-When loading data, the user folder is treated with a higher priority,
-making it possible for you to extend and modify things without touching
-the system files. This ensures that there will never be any conflicts
-when updating, you could copy a new version of Melia over the old one,
-overwriting everything, without losing your modifications.
+This data includes databases, configurations, and scripts, which are
+treated with a higher priority than the ones in the system folder in
+one way or another. While it's technically possible for you to just
+make your changes in the system folder, it's strongly recommended
+you only use the user folder. Not only is it safer during updates,
+it also makes backups and similar operations much simpler.
 
-While it's technically possible for you to just make your changes in the
-system folder, it's strongly recommended you only use user. Not only is
-it safer during updates, it also makes backups and similar operations
-much simpler. For example, if you wanted to start clean, all you have
-to do is download a new copy of Melia, copy your user folder to the new
-Melia folder, and you're done. All your settings and customizations are
-there.
+This guide aims to explain the intricacies of this system, and how you
+may customize your server using it.
+
+## Table of Contents
 
 - [Configuration](#configuration)
 - [Databases](#databases)
@@ -25,42 +24,81 @@ there.
 
 ## Configuration
 
-Conf files are loaded from the system folder first, from `system/conf/`.
-In each file you can see something like
+Conf files are first loaded from the system folder, but if you take a
+closer look at them, you will notice an inclusion statement at the end
+of each file that looks something like the following.
 
 ```
-include "/user/conf/channel.conf"
+include "/user/conf/world.conf"
 ```
-  
-at the bottom. This instructs the server to include that file, if it exists.
-Values found in there will overwrite the things in the system's file.
 
-For example, to change the password for your database, you would take a look
-at `system/conf/database.conf`, copy the line `pass : `, paste it into a new
-file at `user/conf/database.conf`, and change it to `pass : yourpassword`.
-The server would read the system's file, jump over to your file at the end,
-and overwrite the "pass" option with your setting.
+This instructs the server to read the same file from the user folder
+once it's done with the one in the system folder, and in the process
+it will overwrite any existing values with the ones you specified.
+
+For example, to change the password for your database, you would create
+the file `user/conf/database.conf` and copy the `pass: ` line from the
+system's configuration file, at `system/conf/database.conf`, changing
+the value to whatever your password is, like this: `pass : yourpassword`.
 
 ## Databases
 
-Databases in "db" are a little more special than configuration files,
-but the normal use cases, like adding or modifying items and monsters
-are straight forward enough.
+The text-file databases found in the `db` sub-folder can be a little
+more complex than the configuration files, in the sense that the exact
+behavior of the overwrite depends a little on the database itself.
+Some data types can't be overwritten or extended easily for example.
+However, in most normal use cases, like adding or modifying items and
+monsters, the process is fairly straight forward.
 
-Like with conf files, the server reads the files in system first and
-jumps over to user afterwards. This is done internally, without an
-explicit include. Again, the values are replaced, or added, from user.
+Every file found inside the system's data folder is automatically also
+loaded from the user folder if it exists, and the data gets either
+overwritten or extended.
+
+For example, if you wanted to modify the weight of an item, you would
+create a new file at `user/db/items.txt` and start a new list inside.
+
+```json
+[
+{ itemId: 101101, className: "SWD01_101", name: "Old Gladius", type: "Equip", group: "Weapon", weight: 20, maxStack: 1, price: 400, sellPrice: 80, equipType1: "Sword", equipType2: "Sword", minLevel: 1, minAtk: 36, maxAtk: 38, attackType: "Slash", leftHandSkill: "Sword_Attack" },
+]
+```
+
+While the Old Gladius is defined as heaving 90 weight in the system data,
+the server would proceed to reading your user data, find the item with
+the same id, read it, and overwrite the previously loaded entry,
+effectively changing its weight to 20.
 
 ## Scripts
 
-The script lists work similar to conf files, in that the lists in system
-include lists from user. The server then loads all script files specified
-in the lists, with the user folder being treated with a higher priority.
-This means if you put a script in the same exact location in the user
-folder as an official script in the system folder, the server will load
-the user file instead of the one in system. This way you can easily
-override entire scripts.
+In a way, scripts work similar to conf files, though there's another
+layer to it.
 
-```text
-user\scripts\npc\city\c_Klaipe.cs > system\scripts\npc\city\c_Klaipe.cs
-```
+First we have the script lists, which specify which scripts to load,
+like `system/scripts/zone/scripts_custom.txt` for the zone server.
+If you look at these files, you might notice familar `include`
+statements, as they're also found in the conf files. These essentially
+work the same way, with the server starting in the system folder and
+continuing to read the included files form user. Instead of overwriting
+previously loaded values, however, any additional scripts found are
+simply added to the list of scripts to load.
+
+Additionally, there is a `divert` statement though, which stops
+the server from reading the current file and redirects to the
+given one if it exists. This is used in most script lists, like
+`scripts_content.txt`, to allow overriding the system lists
+entirely. Not loading any scripts is as simple as creating an
+empty file at `user/scripts/zone/scripts.txt` this way. Which
+scripts you load is then entirely up to you. But if you only
+want to load some additional custom scripts, the `scripts_custom`
+list uses a normal include, loading any scripts found in
+`user/scripts/zone/scripts_custom.txt` in addition to the
+other scripts.
+
+One more feature with the scripts is that you can override specific
+script files just by placing them in the same location inside the
+user folder. If there's a script found at
+`system/scripts/zone/custom/test.cs`, and you create a file at
+`user/scripts/zone/custom/test.cs`, the user version will take
+precedence over the one in system and the server will only load
+the former. This allows you to customize specific scripts without
+modifying the script lists.
