@@ -2,4 +2,4 @@
 // Script List File
 //---------------------------------------------------------------------------
 
-include "/user/scripts/barracks/scripts.txt"
+divert "/user/scripts/barracks/scripts.txt"
