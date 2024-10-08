@@ -1224,6 +1224,21 @@ public class CharacterAdvancementScript : GeneralScript
 				GiveItem(character, ItemId.Costume_Char5_19, 1);
 				break;
 			}
+			case JobId.VultureT:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+				LearnSkill(character, SkillId.War_JustFrameAttack);
+				LearnSkill(character, SkillId.War_JustFrameDagger);
+				LearnSkill(character, SkillId.War_JustFramePistol);
+				LearnSkill(character, SkillId.Pistol_Attack);
+				LearnSkill(character, SkillId.Common_DaggerAries);
+				LearnSkill(character, SkillId.Vulture_Attack_Scout);
+
+				GiveItem(character, ItemId.Costume_Char5_20, 1);
+				break;
+			}
 		}
 	}
 
