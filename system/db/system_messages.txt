@@ -16383,6 +16383,8 @@
 { classId: 302882, className: "EVENT_2409_POPOBOOST_ALRET1", text: "{#FF0000}※ Click the shortcut button to check the next growth achievement.{/}" },
 { classId: 302883, className: "EVENT_2409_POPOBOOST_ALRET2", text: "{#FF0000}※ Click the shortcut button will take you to the equipment storage UI.{/}" },
 { classId: 302884, className: "EVENT_2407_RAINBOW_MESSAGE_PAPAYA{TOTAL}{WEEK}", text: "{#3366FF}[Event] Popo Roulette Coin Status{/}{nl}Total Coin Acquisition ({TOTAL}/60){nl}Weekly Coin Acquisition ({WEEK}/12){nl}{#FF0000}※[Event] Popo Roulette Coins can be acquired by clearing the [Event] Goddess Roulette Over the Rainbow.{/}{nl}{#FF0000}※ Weekly acquisition is reset every Monday at 6 AM.{/}" },
+{ classId: 302885, className: "EVENT_2410_MOONRISE_PAPAYA", text: "[Children's Day] Exchange Shop" },
+{ classId: 302886, className: "EVENT_2410_MOONRISE_CHECK_MSG_PAPAYA{WEEK}{TOTAL}", text: "[[Event] 2024 Coin Status]{nl}Weekly({WEEK}/1500){nl}Total({TOTAL}/6000){nl}{#FF0000}※ Weekly acquisition status resets on every Monday at 6:00 AM.{nl}" },
 { classId: 303001, className: "MaxAccountWarehouseCount", text: "Team Storage" },
 { classId: 303002, className: "AccountUse2MoreRank", text: "You must be Lv. 15 or higher to deposit or withdraw silver." },
 { classId: 303003, className: "YouHaveWrongJob", text: "Unregistered job. Please contact the management team." },

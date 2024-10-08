@@ -732,6 +732,14 @@
 { jobId: 5019, skillId: 51711, skillName: "Deadly Fire", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5019, skillId: 51712, skillName: "Russian Roulette", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5019, skillId: 51713, skillName: "Last Man Standing", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 5020, skillId: 51714, skillName: "Swarm Missile", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 5020, skillId: 51715, skillName: "Battle Protocol", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 5020, skillId: 51716, skillName: "Input: Decompose", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5020, skillId: 51717, skillName: "Input: Gravity field", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5020, skillId: 51718, skillName: "Input: Diffusion", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5020, skillId: 51719, skillName: "Purification Protocol", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5020, skillId: 51720, skillName: "Input: Purification", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 5020, skillId: 51721, skillName: "Input: Devastation ", unlockLevel: 31, maxLevel: 5 },
 
 // GM
 //---------------------------------------------------------------------------

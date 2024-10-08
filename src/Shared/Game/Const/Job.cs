@@ -119,6 +119,7 @@ namespace Melia.Shared.Game.Const
 		Hakkapeliter = 5017,
 		Jaguar = 5018,
 		Desperado = 5019,
+		VultureT = 5020,
 
 		// GM
 		GM = 9001,

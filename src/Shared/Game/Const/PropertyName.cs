@@ -9402,6 +9402,58 @@
 		public const string Cupole_034 = "Cupole_034";
 		public const string lecifer1 = "lecifer1";
 		public const string lecifer2 = "lecifer2";
+		public const string GEM_Vulture_Devastation_Scout_cabinet = "GEM_Vulture_Devastation_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_4 = "EVENT_2410_MOONRISE_PAPAYA_4";
+		public const string GEM_Vulture_Decomposition_Scout_cabinet = "GEM_Vulture_Decomposition_Scout_cabinet";
+		public const string UnlockQuest_Char5_20 = "UnlockQuest_Char5_20";
+		public const string EVENT_2410_MOONRISE_PAPAYA_30 = "EVENT_2410_MOONRISE_PAPAYA_30";
+		public const string EVENT_2410_MOONRISE_PAPAYA_3 = "EVENT_2410_MOONRISE_PAPAYA_3";
+		public const string EVENT_2410_MOONRISE_PAPAYA_11 = "EVENT_2410_MOONRISE_PAPAYA_11";
+		public const string EVENT_2410_MOONRISE_PAPAYA_5 = "EVENT_2410_MOONRISE_PAPAYA_5";
+		public const string EVENT_2410_MOONRISE_PAPAYA_14 = "EVENT_2410_MOONRISE_PAPAYA_14";
+		public const string EVENT_2410_MOONRISE_PAPAYA_28 = "EVENT_2410_MOONRISE_PAPAYA_28";
+		public const string EVENT_2410_MOONRISE_PAPAYA_19 = "EVENT_2410_MOONRISE_PAPAYA_19";
+		public const string EVENT_2410_MOONRISE_PAPAYA_16 = "EVENT_2410_MOONRISE_PAPAYA_16";
+		public const string EVENT_2410_MOONRISE_PAPAYA_20 = "EVENT_2410_MOONRISE_PAPAYA_20";
+		public const string GEM_Vulture_GravityField_Scout_cabinet = "GEM_Vulture_GravityField_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_8 = "EVENT_2410_MOONRISE_PAPAYA_8";
+		public const string EVENT_2410_MOONRISE_PAPAYA_25 = "EVENT_2410_MOONRISE_PAPAYA_25";
+		public const string EVENT_2410_MOONRISE_PAPAYA_15 = "EVENT_2410_MOONRISE_PAPAYA_15";
+		public const string DAG04_127_1_cabinet = "DAG04_127_1_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_29 = "EVENT_2410_MOONRISE_PAPAYA_29";
+		public const string EVENT_2410_MOONRISE_PAPAYA_18 = "EVENT_2410_MOONRISE_PAPAYA_18";
+		public const string EVENT_2410_MOONRISE_PAPAYA_9 = "EVENT_2410_MOONRISE_PAPAYA_9";
+		public const string EVENT_2410_MOONRISE_PAPAYA_7 = "EVENT_2410_MOONRISE_PAPAYA_7";
+		public const string EVENT_2410_MOONRISE_PAPAYA_24 = "EVENT_2410_MOONRISE_PAPAYA_24";
+		public const string EVENT_2410_MOONRISE_PAPAYA_27 = "EVENT_2410_MOONRISE_PAPAYA_27";
+		public const string EVENT_2410_MOONRISE_PAPAYA_17 = "EVENT_2410_MOONRISE_PAPAYA_17";
+		public const string GEM_Vulture_Diffusion_Scout_cabinet = "GEM_Vulture_Diffusion_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_6 = "EVENT_2410_MOONRISE_PAPAYA_6";
+		public const string EVENT_2410_MOONRISE_PAPAYA_1 = "EVENT_2410_MOONRISE_PAPAYA_1";
+		public const string EVENT_2410_MOONRISE_PAPAYA_12 = "EVENT_2410_MOONRISE_PAPAYA_12";
+		public const string EVENT_2410_MOONRISE_PAPAYA_23 = "EVENT_2410_MOONRISE_PAPAYA_23";
+		public const string DAG04_127_1_cabinet_upgrade = "DAG04_127_1_cabinet_upgrade";
+		public const string EVENT_2410_MOONRISE_PAPAYA_13 = "EVENT_2410_MOONRISE_PAPAYA_13";
+		public const string EVENT_2410_MOONRISE_PAPAYA_21 = "EVENT_2410_MOONRISE_PAPAYA_21";
+		public const string EVENT_2410_MOONRISE_PAPAYA_26 = "EVENT_2410_MOONRISE_PAPAYA_26";
+		public const string EVENT_2410_MOONRISE_PAPAYA_2 = "EVENT_2410_MOONRISE_PAPAYA_2";
+		public const string GEM_Vulture_PurificationProtocol_Scout_cabinet = "GEM_Vulture_PurificationProtocol_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_22 = "EVENT_2410_MOONRISE_PAPAYA_22";
+		public const string GEM_Vulture_Purification_Scout_cabinet = "GEM_Vulture_Purification_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_10 = "EVENT_2410_MOONRISE_PAPAYA_10";
+		public const string GEM_Vulture_CombatProtocol_Scout_cabinet = "GEM_Vulture_CombatProtocol_Scout_cabinet";
+		public const string EVENT_2410_MOONRISE_PAPAYA_31 = "EVENT_2410_MOONRISE_PAPAYA_31";
+		public const string dress_costume_ep16poporiruta_f = "dress_costume_ep16poporiruta_f";
+		public const string CollectionDressRoomRead_155 = "CollectionDressRoomRead_155";
+		public const string ep16poporiruta_thsword_cabinet = "ep16poporiruta_thsword_cabinet";
+		public const string ep16poporiruta_theme = "ep16poporiruta_theme";
+		public const string CollectionDressRoomRead_156 = "CollectionDressRoomRead_156";
+		public const string ep16poporiruta_mace_cabinet = "ep16poporiruta_mace_cabinet";
+		public const string dress_costume_ep16poporiruta_m = "dress_costume_ep16poporiruta_m";
+		public const string ep16poporiruta_bow_cabinet = "ep16poporiruta_bow_cabinet";
+		public const string ep16poporiruta_sword_cabinet = "ep16poporiruta_sword_cabinet";
+		public const string ep16poporiruta_musket_cabinet = "ep16poporiruta_musket_cabinet";
+		public const string ContentsTotalShop_2410_1 = "ContentsTotalShop_2410_1";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -10676,6 +10728,7 @@
 		public const string Before_Quest = "Before_Quest";
 		public const string Before_Quest_State = "Before_Quest_State";
 		public const string Shared_Progress = "Shared_Progress";
+		public const string HiddenJob_Char5_20 = "HiddenJob_Char5_20";
 
 		// PC
 		public const string DummyPCZoneID = "DummyPCZoneID";

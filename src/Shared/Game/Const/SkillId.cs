@@ -159,6 +159,14 @@ namespace Melia.Shared.Game.Const
 		Vulture_Purification_Archer = 32230,
 		Vulture_Devastation_Archer = 32231,
 		Schwarzereiter2_Attack = 51007,
+		Vulture_Attack_Scout = 51714,
+		Vulture_CombatProtocol_Scout = 51715,
+		Vulture_Decomposition_Scout = 51716,
+		Vulture_GravityField_Scout = 51717,
+		Vulture_Diffusion_Scout = 51718,
+		Vulture_PurificationProtocol_Scout = 51719,
+		Vulture_Purification_Scout = 51720,
+		Vulture_Devastation_Scout = 51721,
 
 		// Warrior
 		NakMuay_Attack = 66,

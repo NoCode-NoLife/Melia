@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i389607
+//   Version: i389826
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29911,6 +29911,59 @@ string getPropertyName(int id)
         case 115710: return "Cupole_034";
         case 115711: return "lecifer1";
         case 115712: return "lecifer2";
+        case 115713: return "HiddenJob_Char5_20";
+        case 115714: return "GEM_Vulture_Devastation_Scout_cabinet";
+        case 115715: return "EVENT_2410_MOONRISE_PAPAYA_4";
+        case 115716: return "GEM_Vulture_Decomposition_Scout_cabinet";
+        case 115717: return "UnlockQuest_Char5_20";
+        case 115718: return "EVENT_2410_MOONRISE_PAPAYA_30";
+        case 115719: return "EVENT_2410_MOONRISE_PAPAYA_3";
+        case 115720: return "EVENT_2410_MOONRISE_PAPAYA_11";
+        case 115721: return "EVENT_2410_MOONRISE_PAPAYA_5";
+        case 115722: return "EVENT_2410_MOONRISE_PAPAYA_14";
+        case 115723: return "EVENT_2410_MOONRISE_PAPAYA_28";
+        case 115724: return "EVENT_2410_MOONRISE_PAPAYA_19";
+        case 115725: return "EVENT_2410_MOONRISE_PAPAYA_16";
+        case 115726: return "EVENT_2410_MOONRISE_PAPAYA_20";
+        case 115727: return "GEM_Vulture_GravityField_Scout_cabinet";
+        case 115728: return "EVENT_2410_MOONRISE_PAPAYA_8";
+        case 115729: return "EVENT_2410_MOONRISE_PAPAYA_25";
+        case 115730: return "EVENT_2410_MOONRISE_PAPAYA_15";
+        case 115731: return "DAG04_127_1_cabinet";
+        case 115732: return "EVENT_2410_MOONRISE_PAPAYA_29";
+        case 115733: return "EVENT_2410_MOONRISE_PAPAYA_18";
+        case 115734: return "EVENT_2410_MOONRISE_PAPAYA_9";
+        case 115735: return "EVENT_2410_MOONRISE_PAPAYA_7";
+        case 115736: return "EVENT_2410_MOONRISE_PAPAYA_24";
+        case 115737: return "EVENT_2410_MOONRISE_PAPAYA_27";
+        case 115738: return "EVENT_2410_MOONRISE_PAPAYA_17";
+        case 115739: return "GEM_Vulture_Diffusion_Scout_cabinet";
+        case 115740: return "EVENT_2410_MOONRISE_PAPAYA_6";
+        case 115741: return "EVENT_2410_MOONRISE_PAPAYA_1";
+        case 115742: return "EVENT_2410_MOONRISE_PAPAYA_12";
+        case 115743: return "EVENT_2410_MOONRISE_PAPAYA_23";
+        case 115744: return "DAG04_127_1_cabinet_upgrade";
+        case 115745: return "EVENT_2410_MOONRISE_PAPAYA_13";
+        case 115746: return "EVENT_2410_MOONRISE_PAPAYA_21";
+        case 115747: return "EVENT_2410_MOONRISE_PAPAYA_26";
+        case 115748: return "EVENT_2410_MOONRISE_PAPAYA_2";
+        case 115749: return "GEM_Vulture_PurificationProtocol_Scout_cabinet";
+        case 115750: return "EVENT_2410_MOONRISE_PAPAYA_22";
+        case 115751: return "GEM_Vulture_Purification_Scout_cabinet";
+        case 115752: return "EVENT_2410_MOONRISE_PAPAYA_10";
+        case 115753: return "GEM_Vulture_CombatProtocol_Scout_cabinet";
+        case 115754: return "EVENT_2410_MOONRISE_PAPAYA_31";
+        case 115755: return "dress_costume_ep16poporiruta_f";
+        case 115756: return "CollectionDressRoomRead_155";
+        case 115757: return "ep16poporiruta_thsword_cabinet";
+        case 115758: return "ep16poporiruta_theme";
+        case 115759: return "CollectionDressRoomRead_156";
+        case 115760: return "ep16poporiruta_mace_cabinet";
+        case 115761: return "dress_costume_ep16poporiruta_m";
+        case 115762: return "ep16poporiruta_bow_cabinet";
+        case 115763: return "ep16poporiruta_sword_cabinet";
+        case 115764: return "ep16poporiruta_musket_cabinet";
+        case 115765: return "ContentsTotalShop_2410_1";
         default: return "Unknown";
     }
 }
