@@ -281,7 +281,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Hp == 0)
 				this.Kill(attacker);
 
-			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
+			this.Map.AlertNearbyAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}

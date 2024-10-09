@@ -769,7 +769,7 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="alert"></param>
-		public void AlertAis(IActor source, IAiEventAlert alert)
+		public void AlertNearbyAis(IActor source, IAiEventAlert alert)
 		{
 			lock (_combatEntities)
 			{
@@ -778,6 +778,24 @@ namespace Melia.Zone.World.Maps
 					if (!combatEntity.Position.InRange2D(source.Position, VisibleRange))
 						continue;
 
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
+						continue;
+
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Alerts all AIs on the map about the given event.
+		/// </summary>
+		/// <param name="alert"></param>
+		public void AlertAis(IAiEventAlert alert)
+		{
+			lock (_combatEntities)
+			{
+				foreach (var combatEntity in _combatEntities.Values)
+				{
 					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
 						continue;
 
