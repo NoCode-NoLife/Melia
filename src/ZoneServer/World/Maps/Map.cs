@@ -813,20 +813,4 @@ namespace Melia.Zone.World.Maps
 			}
 		}
 	}
-
-	/// <summary>
-	/// Dummy map every creature gets by default.
-	/// </summary>
-	public class Limbo : Map
-	{
-		public Limbo()
-			: base(0, "__limbo__")
-		{
-		}
-
-		public override void Broadcast(Packet packet)
-		{
-			//Log.Warning("Broadcast in Limbo.");
-		}
-	}
 }
