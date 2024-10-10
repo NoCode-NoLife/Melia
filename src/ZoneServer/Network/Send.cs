@@ -1971,7 +1971,7 @@ namespace Melia.Zone.Network
 		/// <param name="msg"></param>
 		/// <param name="argNum"></param>
 		/// <param name="argStr"></param>
-		public static void ZC_ADDON_MSG(Character character, string msg, int argNum, string argStr)
+		public static void ZC_ADDON_MSG(Character character, string msg, int argNum = 0, string argStr = "")
 		{
 			var packet = new Packet(Op.ZC_ADDON_MSG);
 
@@ -3604,13 +3604,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Unknown Purpose.
+		/// Update the client with current cards equipped.
 		/// </summary>
 		/// <param name="character"></param>
 		public static void ZC_EQUIP_CARD_INFO(Character character)
 		{
+			var cards = character.Inventory.GetCards();
+
 			var packet = new Packet(Op.ZC_EQUIP_CARD_INFO);
-			packet.PutShort(0); // Count?
+			packet.PutShort(cards.Count);
+
+			foreach (var card in cards)
+			{
+				packet.PutLpString(card.Value.Data.ClassName);
+				packet.PutLong((long)card.Value.Properties.GetFloat(PropertyName.ItemExp));
+				packet.PutInt(card.Key);
+				packet.PutShort((short)card.Value.Properties.GetFloat(PropertyName.CardLevel));
+			}
 
 			character.Connection.Send(packet);
 		}
@@ -4473,6 +4483,18 @@ namespace Melia.Zone.Network
 			packet.PutInt(numArg5);
 
 			toActor.Map.Broadcast(packet);
+		}
+
+		/// Cancel "timed action" due to mouse movement (walking)
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_CANCEL_MOUSE_MOVE(Character character)
+		{
+			var packet = new Packet(Op.ZC_CANCEL_MOUSE_MOVE);
+
+			packet.PutInt(character.Handle);
+
+			character.Connection.Send(packet);
 		}
 	}
 }

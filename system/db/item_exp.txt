@@ -1,0 +1,234 @@
+// Melia
+// Database file
+// 
+// The Equip EXP need to be changed on both client and server, because the
+// client uses its local EXP data for some calculations, like the required
+// required level items.
+//---------------------------------------------------------------------------
+
+[
+// Card
+//---------------------------------------------------------------------------
+{ group: "Card", level: 1, exp: 200, gainExp: 100 },
+{ group: "Card", level: 2, exp: 300, gainExp: 150 },
+{ group: "Card", level: 3, exp: 400, gainExp: 200 },
+{ group: "Card", level: 4, exp: 500, gainExp: 250 },
+{ group: "Card", level: 5, exp: 600, gainExp: 300 },
+{ group: "Card", level: 6, exp: 700, gainExp: 350 },
+{ group: "Card", level: 7, exp: 800, gainExp: 400 },
+{ group: "Card", level: 8, exp: 900, gainExp: 450 },
+{ group: "Card", level: 9, exp: 1000, gainExp: 500 },
+{ group: "Card", level: 10, exp: 1100, gainExp: 550 },
+
+// Card_dummy01
+//---------------------------------------------------------------------------
+{ group: "Card_dummy01", level: 1, exp: 0, gainExp: 2000 },
+
+// Card_dummy01_Event
+//---------------------------------------------------------------------------
+{ group: "Card_dummy01_Event", level: 1, exp: 0, gainExp: 1000 },
+
+// Card_Fish_300
+//---------------------------------------------------------------------------
+{ group: "Card_Fish_300", level: 1, exp: 0, gainExp: 300 },
+
+// Card_Gacha_dummy01
+//---------------------------------------------------------------------------
+{ group: "Card_Gacha_dummy01", level: 1, exp: 0, gainExp: 500 },
+
+// Card_xp_100
+//---------------------------------------------------------------------------
+{ group: "Card_xp_100", level: 1, exp: 0, gainExp: 100 },
+
+// Equip
+//---------------------------------------------------------------------------
+{ group: "Equip", level: 1, exp: 0, gainExp: 20 },
+
+// Gem
+//---------------------------------------------------------------------------
+{ group: "Gem", level: 1, exp: 300, gainExp: 100 },
+{ group: "Gem", level: 2, exp: 900, gainExp: 300 },
+{ group: "Gem", level: 3, exp: 2700, gainExp: 900 },
+{ group: "Gem", level: 4, exp: 10800, gainExp: 2700 },
+{ group: "Gem", level: 5, exp: 43200, gainExp: 10800 },
+{ group: "Gem", level: 6, exp: 172800, gainExp: 43200 },
+{ group: "Gem", level: 7, exp: 864000, gainExp: 172800 },
+{ group: "Gem", level: 8, exp: 4320000, gainExp: 864000 },
+{ group: "Gem", level: 9, exp: 21600000, gainExp: 4320000 },
+{ group: "Gem", level: 10, exp: 0, gainExp: 4320000 },
+
+// Gem_Skill
+//---------------------------------------------------------------------------
+{ group: "Gem_Skill", level: 1, exp: 0, gainExp: 7350 },
+
+// GemExp_5000
+//---------------------------------------------------------------------------
+{ group: "GemExp_5000", level: 1, exp: 0, gainExp: 5000 },
+
+// GemExp_randomQuest1
+//---------------------------------------------------------------------------
+{ group: "GemExp_randomQuest1", level: 1, exp: 0, gainExp: 300 },
+
+// GemExp_randomQuest2
+//---------------------------------------------------------------------------
+{ group: "GemExp_randomQuest2", level: 1, exp: 0, gainExp: 1200 },
+
+// GemExp_randomQuest3
+//---------------------------------------------------------------------------
+{ group: "GemExp_randomQuest3", level: 1, exp: 0, gainExp: 3900 },
+
+// GemExp_randomQuest4
+//---------------------------------------------------------------------------
+{ group: "GemExp_randomQuest4", level: 1, exp: 0, gainExp: 14700 },
+
+// GemExp_randomQuest5
+//---------------------------------------------------------------------------
+{ group: "GemExp_randomQuest5", level: 1, exp: 0, gainExp: 57900 },
+
+// GemExp_Talt01
+//---------------------------------------------------------------------------
+{ group: "GemExp_Talt01", level: 1, exp: 0, gainExp: 100 },
+
+// GemExpStone01
+//---------------------------------------------------------------------------
+{ group: "GemExpStone01", level: 1, exp: 0, gainExp: 3000 },
+
+// GemExpStone02
+//---------------------------------------------------------------------------
+{ group: "GemExpStone02", level: 1, exp: 0, gainExp: 15500 },
+
+// GemExpStone03
+//---------------------------------------------------------------------------
+{ group: "GemExpStone03", level: 1, exp: 0, gainExp: 31000 },
+
+// GemExpStone04
+//---------------------------------------------------------------------------
+{ group: "GemExpStone04", level: 1, exp: 0, gainExp: 62000 },
+
+// GemExpStone05
+//---------------------------------------------------------------------------
+{ group: "GemExpStone05", level: 1, exp: 0, gainExp: 124000 },
+
+// GemExpStone07
+//---------------------------------------------------------------------------
+{ group: "GemExpStone07", level: 1, exp: 0, gainExp: 145340 },
+
+// GemExpStone09
+//---------------------------------------------------------------------------
+{ group: "GemExpStone09", level: 1, exp: 0, gainExp: 230700 },
+
+// GemExpStone10
+//---------------------------------------------------------------------------
+{ group: "GemExpStone10", level: 1, exp: 0, gainExp: 1094700 },
+
+// GemExpStone11
+//---------------------------------------------------------------------------
+{ group: "GemExpStone11", level: 1, exp: 0, gainExp: 5414700 },
+
+// GemExpStone12
+//---------------------------------------------------------------------------
+{ group: "GemExpStone12", level: 1, exp: 0, gainExp: 27014700 },
+
+// Goddess_Card
+//---------------------------------------------------------------------------
+{ group: "Goddess_Card", level: 1, exp: 20, gainExp: 0 },
+{ group: "Goddess_Card", level: 2, exp: 40, gainExp: 0 },
+{ group: "Goddess_Card", level: 3, exp: 70, gainExp: 0 },
+{ group: "Goddess_Card", level: 4, exp: 100, gainExp: 0 },
+{ group: "Goddess_Card", level: 5, exp: 140, gainExp: 0 },
+{ group: "Goddess_Card", level: 6, exp: 180, gainExp: 0 },
+{ group: "Goddess_Card", level: 7, exp: 230, gainExp: 0 },
+{ group: "Goddess_Card", level: 8, exp: 280, gainExp: 0 },
+{ group: "Goddess_Card", level: 9, exp: 340, gainExp: 0 },
+{ group: "Goddess_Card", level: 10, exp: 0, gainExp: 0 },
+
+// Goddess_ReinForce_Card
+//---------------------------------------------------------------------------
+{ group: "Goddess_ReinForce_Card", level: 1, exp: 10, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 2, exp: 20, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 3, exp: 40, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 4, exp: 50, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 5, exp: 70, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 6, exp: 90, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 7, exp: 120, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 8, exp: 140, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 9, exp: 170, gainExp: 0 },
+{ group: "Goddess_ReinForce_Card", level: 10, exp: 0, gainExp: 0 },
+
+// KQ_token_hethran_1
+//---------------------------------------------------------------------------
+{ group: "KQ_token_hethran_1", level: 1, exp: 1000, gainExp: 300 },
+
+// KQ_token_hethran_2
+//---------------------------------------------------------------------------
+{ group: "KQ_token_hethran_2", level: 1, exp: 2500, gainExp: 500 },
+
+// KQ_token_hethran_3
+//---------------------------------------------------------------------------
+{ group: "KQ_token_hethran_3", level: 1, exp: 7500, gainExp: 2500 },
+
+// Legend_Card
+//---------------------------------------------------------------------------
+{ group: "Legend_Card", level: 1, exp: 20, gainExp: 0 },
+{ group: "Legend_Card", level: 2, exp: 40, gainExp: 0 },
+{ group: "Legend_Card", level: 3, exp: 70, gainExp: 0 },
+{ group: "Legend_Card", level: 4, exp: 100, gainExp: 0 },
+{ group: "Legend_Card", level: 5, exp: 140, gainExp: 0 },
+{ group: "Legend_Card", level: 6, exp: 180, gainExp: 0 },
+{ group: "Legend_Card", level: 7, exp: 230, gainExp: 0 },
+{ group: "Legend_Card", level: 8, exp: 280, gainExp: 0 },
+{ group: "Legend_Card", level: 9, exp: 340, gainExp: 0 },
+{ group: "Legend_Card", level: 10, exp: 0, gainExp: 0 },
+
+// Legend_Reinforce_Card_MaxLv10
+//---------------------------------------------------------------------------
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 1, exp: 6000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 2, exp: 7200, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 3, exp: 15900, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 4, exp: 35000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 5, exp: 77000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 6, exp: 169400, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 7, exp: 372600, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 8, exp: 819800, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 9, exp: 1803500, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv10", level: 10, exp: 0, gainExp: 0 },
+
+// Legend_Reinforce_Card_MaxLv4
+//---------------------------------------------------------------------------
+{ group: "Legend_Reinforce_Card_MaxLv4", level: 1, exp: 6000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv4", level: 2, exp: 7200, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv4", level: 3, exp: 15900, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv4", level: 4, exp: 0, gainExp: 0 },
+
+// Legend_Reinforce_Card_MaxLv6
+//---------------------------------------------------------------------------
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 1, exp: 6000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 2, exp: 7200, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 3, exp: 15900, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 4, exp: 35000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 5, exp: 77000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv6", level: 6, exp: 0, gainExp: 0 },
+
+// Legend_Reinforce_Card_MaxLv8
+//---------------------------------------------------------------------------
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 1, exp: 6000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 2, exp: 7200, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 3, exp: 15900, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 4, exp: 35000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 5, exp: 77000, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 6, exp: 169400, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 7, exp: 372600, gainExp: 0 },
+{ group: "Legend_Reinforce_Card_MaxLv8", level: 8, exp: 0, gainExp: 0 },
+
+// Lv10_Card_TP
+//---------------------------------------------------------------------------
+{ group: "Lv10_Card_TP", level: 1, exp: 0, gainExp: 5400 },
+
+// Misc
+//---------------------------------------------------------------------------
+{ group: "Misc", level: 1, exp: 0, gainExp: 5 },
+
+// Old_Card_TP
+//---------------------------------------------------------------------------
+{ group: "Old_Card_TP", level: 1, exp: 0, gainExp: 1000 },
+]

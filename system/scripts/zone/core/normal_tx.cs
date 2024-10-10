@@ -6,11 +6,13 @@
 
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Yggdrasil.Logging;
 
 public class NormalTxFunctionsScript : GeneralScript
@@ -182,6 +184,89 @@ public class NormalTxFunctionsScript : GeneralScript
 		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP, 0, null);
 		Send.ZC_JOB_PTS(character, job);
 		//Send.ZC_ADDITIONAL_SKILL_POINT(character, job);
+
+		return NormalTxResult.Okay;
+	}
+
+	[ScriptableFunction]
+	public NormalTxResult SCR_TX_EQUIP_CARD_SLOT(Character character, string strArg)
+	{
+		var argList = strArg.Split('#');
+		if (argList.Length < 2)
+		{
+			Log.Warning("SCR_TX_EQUIP_CARD_SLOT: User '{0}' failed to parse at least 2 items {1}.", character.Username, argList);
+			return NormalTxResult.Fail;
+		}
+		if (!int.TryParse(argList[0], out var slot))
+		{
+			Log.Warning("SCR_TX_EQUIP_CARD_SLOT: User '{0}' failed to parse slot {1}.", character.Username, argList[0]);
+			return NormalTxResult.Fail;
+		}
+		// Lua to C# 0 -> 1 based array offset
+		slot += 1;
+		if (!long.TryParse(argList[1], out var itemWorldId))
+		{
+			Log.Warning("SCR_TX_EQUIP_CARD_SLOT: User '{0}' failed to parse slot {1}.", character.Username, argList[1]);
+			return NormalTxResult.Fail;
+		}
+
+		if (!character.Inventory.TryGetItem(itemWorldId, out var card))
+		{
+			Log.Warning("SCR_TX_EQUIP_CARD_SLOT: User '{0}' no card found {1}.", character.Username, argList[0]);
+			return NormalTxResult.Fail;
+		}
+
+		if (character.Inventory.EquipCard(slot, itemWorldId) != InventoryResult.Success)
+		{
+			Log.Warning("SCR_TX_EQUIP_CARD_SLOT: User '{0}' failed equip card {1} into slot {2}.", character.Username, itemWorldId, slot);
+			return NormalTxResult.Fail;
+		}
+
+		// TODO: Possibly Process Equip Card Use Type "Always" here.
+
+		// Not too sure if officially they cheat by just re-creating this item on login similar to what the gems do.
+		// Currently we save the items to their own table.
+		character.Etc.Properties.SetFloat($"EquipCardID_Slot{slot}", card.Id);
+		character.Etc.Properties.SetFloat($"EquipCardLv_Slot{slot}", card.Properties.GetFloat(PropertyName.CardLevel));
+		character.Etc.Properties.SetFloat($"EquipCardExp_Slot{slot}", card.Properties.GetFloat(PropertyName.ItemExp));
+		character.Etc.Properties.SetFloat($"EquipCardBelongingCount_Slot{slot}", card.Properties.GetFloat(PropertyName.BelongingCount));
+
+		var clientScript = string.Format($"_CARD_SLOT_EQUIP('{slot}', '{card.Id}', '{card.Properties.GetFloat(PropertyName.CardLevel, 0)}', '{card.Properties.GetFloat(PropertyName.ItemExp)}')");
+		Send.ZC_EXEC_CLIENT_SCP(character.Connection, clientScript);
+
+		return NormalTxResult.Okay;
+	}
+
+	[ScriptableFunction]
+	public NormalTxResult SCR_TX_UNEQUIP_CARD_SLOT(Character character, int[] numArgs)
+	{
+		if (numArgs.Length < 2)
+			return NormalTxResult.Fail;
+		// C# to Lua (0 based to 1 based array)
+		var slot = numArgs[0] + 1;
+
+		if (!character.Inventory.TryGetCard(slot, out var card))
+		{
+			Log.Warning("SCR_TX_UNEQUIP_CARD_SLOT: User '{0}' failed to find item from slot {1}.", character.Username, slot);
+			return NormalTxResult.Fail;
+		}
+
+		if (character.Inventory.UnequipCard(slot) != InventoryResult.Success)
+		{
+			Log.Warning("SCR_TX_UNEQUIP_CARD_SLOT: User '{0}' failed to unequip item from slot {1}.", character.Username, slot);
+			return NormalTxResult.Fail;
+		}
+
+		// TODO: Possibly Process Unequip Card Use Type "Always" here.
+
+		// Same as SCR_TX_EQUIP_CARD_SLOT why this is here, I'm not too sure if this is needed.
+		character.Etc.Properties.SetFloat($"EquipCardID_Slot{slot}", 0);
+		character.Etc.Properties.SetFloat($"EquipCardLv_Slot{slot}", 0);
+		character.Etc.Properties.SetFloat($"EquipCardExp_Slot{slot}", 0);
+		character.Etc.Properties.SetFloat($"EquipCardBelongingCount_Slot{slot}", 0);
+
+		var clientScript = string.Format($"_CARD_SLOT_REMOVE('{slot}', '{card.Data.CardGroup}')");
+		Send.ZC_EXEC_CLIENT_SCP(character.Connection, clientScript);
 
 		return NormalTxResult.Okay;
 	}

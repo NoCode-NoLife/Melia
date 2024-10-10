@@ -1,6 +1,6 @@
 ﻿--Melia.Ui.RestMenu.RemoveButton("REQUEST_OPEN_JORUNAL_CRAFT")
 --Melia.Ui.RestMenu.RemoveButton("TOGGLE_GEM_REINFORCE")
-Melia.Ui.RestMenu.RemoveButton("TOGGLE_CARD_REINFORCE")
+--Melia.Ui.RestMenu.RemoveButton("TOGGLE_CARD_REINFORCE")
 Melia.Ui.RestMenu.RemoveButton("TOGGLE_LEGEND_CARD_REINFORCE")
 Melia.Ui.RestMenu.RemoveButton("OPEN_ENCHENCT_CRAFT")
 Melia.Ui.RestMenu.RemoveButton("OPEN_MAGIC_SKL_UI")

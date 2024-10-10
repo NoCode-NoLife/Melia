@@ -162,6 +162,8 @@ namespace Melia.Zone.Database
 			}
 
 			this.LoadCharacterItems(character);
+			foreach (var card in this.LoadCharacterItems(character, "cards"))
+				character.Inventory.AddSilentCard(card.Key, card.Value);
 			this.LoadVars(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
 			this.LoadSessionObjects(character);
 			this.LoadJobs(character);
@@ -423,6 +425,7 @@ namespace Melia.Zone.Database
 			}
 
 			this.SaveCharacterItems(character);
+			this.SaveCharacterItems(character, "cards", character.Inventory.GetCards());
 			this.SaveStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
 			this.SaveStorage(character.TeamStorage, "storage_team", "accountId", character.Connection.Account.Id);
 			this.SaveVariables(character.Variables.Perm, "vars_characters", "characterId", character.DbId);
@@ -581,6 +584,45 @@ namespace Melia.Zone.Database
 		}
 
 		/// <summary>
+		/// Load character's items from a specific table.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		private Dictionary<int, Item> LoadCharacterItems(Character character, string tableName)
+		{
+			var items = new Dictionary<int, Item>();
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand($"SELECT `i`.*, `tbl1`.`sort` FROM `{tableName}` AS `tbl1` INNER JOIN `items` AS `i` ON `tbl1`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId ORDER BY `sort` ASC", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						var itemUniqueId = reader.GetInt64("itemUniqueId");
+						var itemId = reader.GetInt32("itemId");
+						var amount = reader.GetInt32("amount");
+						var index = reader.GetInt32("sort");
+
+						// Check item, in case its data was removed
+						if (!ZoneServer.Instance.Data.ItemDb.Contains(itemId))
+						{
+							Log.Warning("ZoneDb.LoadCharacterItems: Item '{0}' not found, removing it from inventory.", itemId);
+							continue;
+						}
+
+						var item = new Item(itemId, amount);
+						this.LoadProperties("item_properties", "itemId", itemUniqueId, item.Properties);
+
+						items.Add(index, item);
+					}
+				}
+			}
+			return items;
+		}
+
+		/// <summary>
 		/// Returns items for given character.
 		/// </summary>
 		/// <param name="characterId"></param>
@@ -654,6 +696,60 @@ namespace Melia.Zone.Database
 
 						cmd.Execute();
 					}
+				}
+
+				trans.Commit();
+			}
+		}
+
+		/// <summary>
+		/// Returns items for given character into a specific table.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public void SaveCharacterItems(Character character, string tableName, Dictionary<int, Item> items)
+		{
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				using (var mc = new MySqlCommand($"DELETE FROM `{tableName}` WHERE `characterId` = @characterId", conn, trans))
+				{
+					mc.Parameters.AddWithValue("@characterId", character.DbId);
+					mc.ExecuteNonQuery();
+				}
+
+				foreach (var kvp in items)
+				{
+					var index = kvp.Key;
+					var item = kvp.Value;
+					var newId = 0L;
+
+					// Save the actual items into the items table and the
+					// inventory-exclusive values into the inventory table,
+					// while linking to the items.
+					// TODO: Add generic item load and save methods, for
+					//   other item collections to use, such as warehouse.
+
+					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					{
+						cmd.Set("itemId", item.Id);
+						cmd.Set("amount", item.Amount);
+
+						cmd.Execute();
+
+						newId = cmd.LastId;
+					}
+
+					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {0}", conn, trans))
+					{
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("itemId", newId);
+						cmd.Set("sort", index);
+
+						cmd.Execute();
+					}
+
+					this.SaveProperties("item_properties", "itemId", newId, item.Properties, conn, trans);
 				}
 
 				trans.Commit();
