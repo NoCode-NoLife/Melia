@@ -1968,6 +1968,12 @@ namespace Melia.Zone.Network
 			var oldJobId = (JobId)packet.GetShort();
 			var newJobId = (JobId)packet.GetShort();
 
+			if (ZoneServer.Instance.Conf.World.NoAdvancement)
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' tried to switch jobs, despite job advancement being disabled.", conn.Account.Name);
+				return;
+			}
+
 			var character = conn.SelectedCharacter;
 
 			if (!character.Jobs.TryGet(oldJobId, out var oldJob))

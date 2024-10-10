@@ -87,6 +87,12 @@ public class CustomCommandFunctionsScript : GeneralScript
 		var jobId = (JobId)numArg1;
 		var username = character.Connection.Account.Name;
 
+		if (ZoneServer.Instance.Conf.World.NoAdvancement)
+		{
+			Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' tried to switch jobs, despite job advancement being disabled.", username);
+			return CustomCommandResult.Fail;
+		}
+
 		if (!ZoneServer.Instance.Data.JobDb.TryFind(jobId, out var jobData))
 		{
 			Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to missing job '{1}'.", username, jobId);
