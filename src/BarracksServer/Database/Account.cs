@@ -14,6 +14,7 @@ namespace Melia.Barracks.Database
 	{
 		private readonly object _moneyLock = new();
 		private readonly List<Character> _characters = new();
+		private readonly List<Companion> _companions = new List<Companion>();
 
 		/// <summary>
 		/// Gets or sets account's id.
@@ -211,6 +212,10 @@ namespace Melia.Barracks.Database
 			foreach (var character in characters)
 				account.AddCharacter(character);
 
+			var companions = BarracksServer.Instance.Database.GetCompanions(account.Id);
+			foreach (var companion in companions)
+				account.AddCompanion(companion);
+
 			BarracksServer.Instance.Database.LoadMailbox(account);
 
 			return account;
@@ -328,6 +333,48 @@ namespace Melia.Barracks.Database
 			{
 				foreach (var character in _characters)
 					BarracksServer.Instance.Database.SaveCharacter(character);
+			}
+		}
+
+		/// <summary>
+		/// Returns companion by companion id, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public Companion GetCompanionById(long id)
+		{
+			lock (_companions)
+				return _companions.FirstOrDefault(a => a.ObjectId == id);
+		}
+
+		/// <summary>
+		/// Returns list of all companions on account.
+		/// </summary>
+		/// <returns></returns>
+		public Companion[] GetCompanions()
+		{
+			lock (_companions)
+				return _companions.ToArray();
+		}
+
+		/// <summary>
+		/// Adds companion to account object and assigns index.
+		/// </summary>
+		/// <param name="companion"></param>
+		private void AddCompanion(Companion companion)
+		{
+			lock (_companions)
+			{
+				for (byte i = 1; i <= byte.MaxValue; ++i)
+				{
+					if (!_companions.Any(a => a.Index == i))
+					{
+						companion.Index = i;
+						break;
+					}
+				}
+
+				_companions.Add(companion);
 			}
 		}
 	}
