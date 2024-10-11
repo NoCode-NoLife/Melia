@@ -13,9 +13,10 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	/// <summary>
 	/// Handle for the Riding Companion Buff, which gives certain bonuses.
 	/// </summary>
+	[BuffHandler(BuffId.RidingCompanion)]
 	public class RidingCompanion : BuffHandler
 	{
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = (Character)buff.Target;
 
