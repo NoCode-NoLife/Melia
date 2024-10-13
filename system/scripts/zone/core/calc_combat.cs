@@ -275,10 +275,11 @@ public class CombatCalculationsScript : GeneralScript
 			return 1;
 
 		var attackerAttr = skill.Data.Attribute;
+		var targetAttr = target.Attribute;
+
 		if (modifier.AttackAttribute != SkillAttribute.None)
 			attackerAttr = modifier.AttackAttribute;
 
-		var targetAttr = target.Attribute;
 		if (modifier.DefenseAttribute != AttributeType.None)
 			targetAttr = modifier.DefenseAttribute;
 

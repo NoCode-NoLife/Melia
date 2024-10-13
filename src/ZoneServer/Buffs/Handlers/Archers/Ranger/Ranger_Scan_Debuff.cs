@@ -3,13 +3,11 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 {
 	/// <summary>
-	/// Handle for the Scan debuff, which makes it more
-	/// likely to be critically hit.
+	/// Handle for the Scan debuff, which makes it more likely to be critical hit.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
@@ -18,8 +16,8 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 	[BuffHandler(BuffId.Ranger_Scan_Debuff)]
 	public class Ranger_Scan_Debuff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
-		private const float baseCritBonus = 17.5f;
-		private const float critBonusPerLevel = 3f;
+		private const float BaseCritBonus = 17.5f;
+		private const float CritBonusPerLevel = 3f;
 
 		/// <summary>
 		/// Applies the debuff's effect during the combat calculations.
@@ -32,7 +30,10 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 		/// <param name="skillHitResult"></param>
 		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			modifier.BonusCritChance += baseCritBonus + critBonusPerLevel * buff.NumArg1;
+			var skillLevel = buff.NumArg1;
+			var bonus = BaseCritBonus + CritBonusPerLevel * skillLevel;
+
+			modifier.BonusCritChance += bonus;
 		}
 	}
 }

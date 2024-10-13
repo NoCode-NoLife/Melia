@@ -2,7 +2,6 @@
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 {
@@ -17,19 +16,22 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 	[BuffHandler(BuffId.Ranger_Scan_DashTrigger)]
 	public class Ranger_Scan_DashTrigger : BuffHandler
 	{
-		private const float baseCooldownReduction = 500f;
-		private const float cooldownReductionPerLevel = 300f;
+		private const float BaseCooldownReduction = 500f;
+		private const float CooldownReductionPerLevel = 300f;
 
 		public override void WhileActive(Buff buff)
 		{
 			var caster = buff.Caster;
 
-			if (caster.TryGetSkill(SkillId.Ranger_Scan, out var scan))
-			{				
-				if (scan.IsOnCooldown && caster.IsBuffActive(BuffId.DashRun))
-				{
-					scan.ReduceCooldown(TimeSpan.FromMilliseconds(baseCooldownReduction + cooldownReductionPerLevel * buff.NumArg1));
-				}
+			if (!caster.TryGetSkill(SkillId.Ranger_Scan, out var scanSkill))
+				return;
+
+			if (scanSkill.IsOnCooldown && caster.IsBuffActive(BuffId.DashRun))
+			{
+				var skillLevel = buff.NumArg1;
+				var reduction = TimeSpan.FromMilliseconds(BaseCooldownReduction + CooldownReductionPerLevel * skillLevel);
+
+				scanSkill.ReduceCooldown(reduction);
 			}
 		}
 	}

@@ -11,7 +11,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Util;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -30,6 +29,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -86,49 +86,36 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.HighAnchoring_Debuff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
 			}
 
-			// Ranger34 reduces the cooldown of Time Bomb Arrow,
-			// Bounce Shot, and Spiral Arrow by one second per target hit
+			// Ranger34 reduces the cooldowns of Time Bomb Arrow, Bounce Shot,
+			// and Spiral Arrow by one second per target hit.
 			var totalTargetsHit = hitTargets.Count();
 			if (totalTargetsHit != 0 && caster.IsAbilityActive(AbilityId.Ranger34))
 			{
 				if (caster.TryGetSkill(SkillId.Ranger_TimeBombArrow, out var timeBombArrow))
-				{
 					timeBombArrow.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
-				}
 
 				if (caster.TryGetSkill(SkillId.Ranger_BounceShot, out var bounceShot))
-				{
 					bounceShot.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
-				}
 
 				if (caster.TryGetSkill(SkillId.Ranger_SpiralArrow, out var spiralArrow))
-				{
 					spiralArrow.ReduceCooldown(TimeSpan.FromSeconds(totalTargetsHit));
-				}
 			}
 
-			// Ranger37 is almost the exact same, but it only activates
+			// Ranger37 is almost the exact same as Ranger34, but it only activates
 			// if you hit only one target with the skill.
 			if (totalTargetsHit == 1 && caster.IsAbilityActive(AbilityId.Ranger37))
 			{
 				if (caster.TryGetSkill(SkillId.Ranger_Barrage, out var timeBombArrow))
-				{
 					timeBombArrow.ReduceCooldown(TimeSpan.FromSeconds(15));
-				}
 
 				if (caster.TryGetSkill(SkillId.Ranger_BounceShot, out var bounceShot))
-				{
 					bounceShot.ReduceCooldown(TimeSpan.FromSeconds(15));
-				}
 
 				if (caster.TryGetSkill(SkillId.Ranger_SpiralArrow, out var spiralArrow))
-				{
 					spiralArrow.ReduceCooldown(TimeSpan.FromSeconds(15));
-				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
-
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, targets);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);

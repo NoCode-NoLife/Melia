@@ -10,7 +10,7 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 {
 	/// <summary>
-	/// Handles the Archer skill Twin Arrow.
+	/// Handles the Ranger skill Barrage.
 	/// </summary>
 	[SkillHandler(SkillId.Ranger_Barrage)]
 	public class Ranger_Barrage : ITargetSkillHandler

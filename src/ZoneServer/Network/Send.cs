@@ -440,8 +440,9 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Shows skill use for character, but allows substituting a different Skill Id
-		/// for the visual, mainly intended for custom skills and the like
+		/// Shows skill use for character, but allows substituting a different
+		/// skill id for the visual effects. Mainly intended for custom skills
+		/// and the like.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <param name="target"></param>

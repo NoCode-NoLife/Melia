@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -55,7 +54,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			CallSafe(this.Attack(skill, caster, target));
 		}
 
-
 		/// <summary>
 		/// Handles the actual attack, shoot missile at enemy that spreads to other targets
 		/// </summary>
@@ -67,12 +65,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var animationName = "I_archer_dividedarrow_force_fire";
 			var blastName = "F_archer_dividedarrow_hit_explosion";
 			var targets = new System.Collections.Generic.List<ICombatEntity>();
-			var results = new System.Collections.Generic.List<SkillHitResult>();			
+			var results = new System.Collections.Generic.List<SkillHitResult>();
 			targets.Add(target);
 
-
 			// Because of the repurposed Ranger38, a visual error occurs when using
-			// this skill if Ranger38 is known.  Set this flag to true to fix this issue.
+			// this skill if Ranger38 is known. Set this flag to true to fix this
+			// issue.
 			var alternateAnimation = false;
 
 			// Ranger38 used to apply a freeze effect to Bounce Shot
@@ -123,42 +121,34 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				Send.ZC_HIT_INFO(caster, target, hit);
 			}
 
+			// Guaranteed freeze on the primary target for ice variant,
+			// otherwise a chance to apply Slow debuff
 			if (isIceVariant)
 			{
-				// Guaranteed freeze on the primary target
 				var duration = TimeSpan.FromMilliseconds(2500);
-				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);						
+				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);
 			}
-			else
+			else if (RandomProvider.Next(100) < 50)
 			{
-				// Random chance to apply Slow debuff	
-				if (RandomProvider.Next(100) < 50)
-				{
-					var duration = TimeSpan.FromSeconds(7);
-					target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
-				}
+				var duration = TimeSpan.FromSeconds(7);
+				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
-			
+
 			await Task.Delay(bounceHitDelay);
 
-			// bounce shot
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTargets))
 			{
 				var animationName2 = "I_archer_dividedarrow_force_fire#Dummy_Force";
 
 				// Ranger38 also changes the animation.
 				if (isIceVariant)
-				{
 					animationName2 = "I_arrow003_blue#Dummy_q_Force";
-				}
 
 				foreach (var bounceTarget in bounceTargets)
 				{
 					var modifier2 = SkillModifier.Default;
 					if (isIceVariant)
-					{
 						modifier2.AttackAttribute = SkillAttribute.Ice;
-					}
 
 					var skillHitResult2 = SCR_SkillHit(caster, bounceTarget, skill, modifier2);
 					bounceTarget.TakeDamage(skillHitResult2.Damage, caster);
@@ -186,7 +176,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, results);
 			Ranger_Strafe.TryApplyStrafeBuff(caster);
 		}
-
 
 		/// <summary>
 		/// Returns the closest target to the main target to bounce the

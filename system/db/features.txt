@@ -141,16 +141,6 @@
 	]},		
 ]},
 
-
-// Unofficial changes that were never in the base game.
-{ name: "Enhancements", enabled: false, children: [
-
-	// Freeze status makes your defending element Ice,
-	// like it does in Ragnarok Online.
-	{ name: "FreezeAffectsElement", enabled: false },
-
-]},
-
 // Let's disable certain features for now to hide things that aren't
 // fully implemented
 { name: "GrowthEquipOnStart", enabled: false },

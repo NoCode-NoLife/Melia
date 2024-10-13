@@ -1,8 +1,5 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
-using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 {
@@ -25,11 +22,12 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Ranger
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
-			var target = buff.Target;
+			var dr = buff.Target.Properties.GetFloat(PropertyName.DR);
+			var skillLevel = buff.NumArg1;
+			var rate = DrBuffRateBase + DrBuffRatePerLevel * skillLevel;
+			var bonus = dr * rate;
 
-			var drBonus = target.Properties.GetFloat(PropertyName.DR) * (DrBuffRateBase + DrBuffRatePerLevel * buff.NumArg1);
-
-			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, drBonus);
+			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, bonus);
 		}
 
 		/// <summary>

@@ -7,14 +7,13 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Components;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 {
 	/// <summary>
-	/// Handles the Ranger skill Blazing Shot
+	/// Handles the Ranger skill Blazing Shot.
 	/// </summary>
 	[SkillHandler(SkillId.Ranger_BlazingArrow)]
 	public class Ranger_BlazingArrow : ITargetSkillHandler
@@ -48,12 +47,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				Send.ZC_SKILL_FORCE_TARGET(caster, null, skill, null);
 				return;
 			}
-			
+
 			CallSafe(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
-		/// Performs the actual attack
+		/// Performs the actual attack.
 		/// </summary>
 		public async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
@@ -69,9 +68,10 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			if (caster.IsAbilityActive(AbilityId.Ranger38))
 			{
 				isIceVariant = true;
+				animationName = "I_arrow003_blue";
+
 				modifier.AttackAttribute = SkillAttribute.Ice;
 				modifier.DamageMultiplier -= 0.3f;
-				animationName = "I_arrow003_blue";
 			}
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);
@@ -108,7 +108,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);
 			}
 
-			await Task.Delay(animationDelay);			
+			await Task.Delay(animationDelay);
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);

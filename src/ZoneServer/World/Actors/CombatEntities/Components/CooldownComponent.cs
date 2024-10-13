@@ -54,38 +54,22 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Reduces an existing cooldown.
+		/// Reduces an existing cooldown by the given amount.
 		/// </summary>
+		/// <remarks>
+		/// If no cooldown is active for the given id, this method does nothing.
+		/// </remarks>
 		/// <param name="cooldownId"></param>
-		/// <param name="duration"></param>
-		public void ReduceCooldown(CooldownId cooldownId, TimeSpan reduceBy)
+		/// <param name="reduction"></param>
+		public void ReduceCooldown(CooldownId cooldownId, TimeSpan reduction)
 		{
-			var cooldown = new Cooldown(cooldownId, TimeSpan.Zero);
+			var remaining = this.GetRemain(cooldownId);
+			if (remaining == TimeSpan.Zero)
+				return;
 
-			lock (_syncLock)
-			{
-				if (_cooldowns.TryGetValue(cooldownId, out var existingCooldown))
-				{
-					cooldown = existingCooldown;
-					var timeLeft = cooldown.Remaining;
-					if (timeLeft <= reduceBy)
-					{
-						cooldown.Change(TimeSpan.Zero);
-					}
-					else
-					{
-						cooldown.Change(timeLeft.Subtract(reduceBy));
-					}
-					
-				}
-				else
-				{
-					_cooldowns[cooldownId] = cooldown;
-				}
-			}
+			var duration = Math2.Max(TimeSpan.Zero, remaining - reduction);
 
-			if (this.Entity is Character character)
-				Send.ZC_COOLDOWN_CHANGED(character, cooldown);
+			this.Start(cooldownId, duration);
 		}
 
 		/// <summary>

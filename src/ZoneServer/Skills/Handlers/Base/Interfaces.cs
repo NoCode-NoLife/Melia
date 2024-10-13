@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using Melia.Shared.World;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Skills.Handlers.Base
 {

@@ -27,20 +27,21 @@ namespace Melia.Zone.Skills.Combat
 		public float BonusDamage { get; set; }
 
 		/// <summary>
-		/// Gets or sets the skill's hit multiplier.  Base is 1.0.
+		/// Gets or sets the skill's hit multiplier.
 		/// </summary>
 		/// <remarks>
-		/// This multiplies the user's hit by the listed amount.  A value of 1.3
-		/// would increase the attacker's hit by 30%.
+		/// The user's hit property is multiplied by this value. For example,
+		/// a value of 1.3 would increase the attacker's hit by 30%.
 		/// </remarks>
 		public float HitRateMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets the skill's block pen multiplier.  Base is 1.0.
+		/// Gets or sets the skill's block pen multiplier.
 		/// </summary>
 		/// <remarks>
-		/// This multiplies the user's block pen by the listed amount. 
-		/// A value of 1.3 would increase the attacker's block pen by 30%.
+		/// The user's block penetration property is multiplied by this value.
+		/// For example, a value of 1.3 would increase the attacker's block
+		/// penetration by 30%.
 		/// </remarks>
 		public float BlockPenetrationMultiplier { get; set; } = 1;
 
@@ -132,21 +133,18 @@ namespace Melia.Zone.Skills.Combat
 		public bool ForcedCritical { get; set; }
 
 		/// <summary>
-		/// Gets or sets overidden attack attribute status
+		/// Gets or sets the attack's attribute.
 		/// </summary>
 		/// <remarks>
-		/// If not set to Attribute.None, the skill will use the indicated
-		/// attribute instead of its own attribute.
+		/// If this is set to None, the skill's attribute is used.
 		/// </remarks>
 		public SkillAttribute AttackAttribute { get; set; } = SkillAttribute.None;
 
-
 		/// <summary>
-		/// Gets or sets overidden defense attribute status
+		/// Gets or sets the target's attribute.
 		/// </summary>
 		/// <remarks>
-		/// If not set to Attribute.None, the defender will use the indicated
-		/// attribute instead of its natural attribute
+		/// If this is set to None, the target's attribute is used.
 		/// </remarks>
 		public AttributeType DefenseAttribute { get; set; } = AttributeType.None;
 

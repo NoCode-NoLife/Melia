@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -8,15 +7,13 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 {
 	/// <summary>
-	/// Handles the Ranger skill Strafe
+	/// Handles the Ranger skill Strafe.
 	/// </summary>
 	[SkillHandler(SkillId.Ranger_Strafe)]
 	public class Ranger_Strafe : IGroundSkillHandler
@@ -54,7 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		}
 
 		/// <summary>
-		/// Performs the actual attack
+		/// Performs the actual attack.
 		/// </summary>
 		public async Task Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
@@ -62,36 +59,27 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var animationDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
-			var previousStrafes = 0f;
-
-			// first grab and remove the strafe enable buff.
-			if (caster.TryGetBuff(BuffId.Ranger_StrapingShot, out var enableBuff))
-			{
-				previousStrafes = enableBuff.NumArg1;
-				caster.StopBuff(BuffId.Ranger_StrapingShot);
-			} else
-			{
-				// can't use skill without the buff
+			// Skill can only be used if the strafe buff is active
+			if (!caster.TryGetBuff(BuffId.Ranger_StrapingShot, out var enableBuff))
 				return;
-			}
-			
+
+			var previousStrafes = enableBuff.NumArg1;
+			caster.StopBuff(BuffId.Ranger_StrapingShot);
+
 			// First perform the jump
 			var targetPos = caster.Position.GetRelative(caster.Direction, JumpDistance);
-			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);									
-			
+			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
+
 			caster.Position = targetPos;
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 1.5f, 0.1f, 1f, 0.2f, 1f, 3);
 
 			await Task.Delay(jumpDelay);
 
-
 			// Now fire the arrow
 			var modifier = SkillModifier.Default;
 
 			if (caster.IsAbilityActive(AbilityId.Ranger54))
-			{
 				modifier.DamageMultiplier += 1f;
-			}
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -105,7 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			await Task.Delay(animationDelay);
 
 			caster.TurnTowards(target);
-			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);			
+			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);
@@ -127,21 +115,18 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			}
 		}
 
-
 		/// <summary>
-		/// Attempts to give the buff that allows the use of Strafe
+		/// Attempts to give the buff that allows the use of Strafe.
 		/// </summary>
 		public static void TryApplyStrafeBuff(ICombatEntity caster)
 		{
-			var buffDuration = TimeSpan.FromSeconds(3);
+			if (!caster.TryGetSkill(SkillId.Ranger_Strafe, out var strafe))
+				return;
 
-			if (caster.TryGetSkill(SkillId.Ranger_Strafe, out var strafe))
-			{
-				if (!strafe.IsOnCooldown)
-				{
-					caster.StartBuff(BuffId.Ranger_StrapingShot, 0, 0, TimeSpan.FromSeconds(3), caster);
-				}
-			}
+			if (strafe.IsOnCooldown)
+				return;
+
+			caster.StartBuff(BuffId.Ranger_StrapingShot, 0, 0, TimeSpan.FromSeconds(3), caster);
 		}
 	}
 }

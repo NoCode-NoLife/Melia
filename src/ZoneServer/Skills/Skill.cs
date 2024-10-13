@@ -228,11 +228,15 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
-		/// Reduces a skill's cooldown by the indicated Timespan
+		/// Reduces the skill's cooldown by the given amount of time.
 		/// </summary>
-		public void ReduceCooldown(TimeSpan reduceBy)
+		/// <remarks>
+		/// If no cooldown is active for the given id, this method does nothing.
+		/// </remarks>
+		/// <param name="reduction"></param>
+		public void ReduceCooldown(TimeSpan reduction)
 		{
-			this.Owner.Components.Get<CooldownComponent>().ReduceCooldown(this.Data.CooldownGroup, reduceBy);
+			this.Owner.Components.Get<CooldownComponent>().ReduceCooldown(this.Data.CooldownGroup, reduction);
 		}
 
 		/// <summary>

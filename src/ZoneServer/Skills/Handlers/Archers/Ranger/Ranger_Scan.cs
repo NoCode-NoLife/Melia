@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 {
@@ -21,7 +20,8 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
-		/// <param name="dir"></param>
+		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (target == null)
