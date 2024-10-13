@@ -1292,7 +1292,9 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				character.TurnTowards(direction);
+				if (skill.Id != SkillId.Ranger_Strafe)
+					character.TurnTowards(direction);
+
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)

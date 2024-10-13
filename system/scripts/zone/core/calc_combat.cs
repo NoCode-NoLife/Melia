@@ -275,7 +275,12 @@ public class CombatCalculationsScript : GeneralScript
 			return 1;
 
 		var attackerAttr = skill.Data.Attribute;
+		if (modifier.AttackAttribute != SkillAttribute.None)
+			attackerAttr = modifier.AttackAttribute;
+
 		var targetAttr = target.Attribute;
+		if (modifier.DefenseAttribute != AttributeType.None)
+			targetAttr = modifier.DefenseAttribute;
 
 		if (!Feature.IsEnabled("AttributeBonusRevamp"))
 		{
@@ -554,6 +559,8 @@ public class CombatCalculationsScript : GeneralScript
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
 
+		hr *= modifier.HitRateMultiplier;
+
 		// Preliminary formula based on player tests, such as the following.
 		// 
 		// https://forum.treeofsavior.com/t/evasion-chance-in-tos/404534/11
@@ -591,6 +598,8 @@ public class CombatCalculationsScript : GeneralScript
 
 		var block = target.Properties.GetFloat(PropertyName.BLK);
 		var blockBreak = attacker.Properties.GetFloat(PropertyName.BLK_BREAK);
+
+		blockBreak *= modifier.BlockPenetrationMultiplier;
 
 		if (target.Components.Get<CombatComponent>()?.IsGuarding == true)
 		{

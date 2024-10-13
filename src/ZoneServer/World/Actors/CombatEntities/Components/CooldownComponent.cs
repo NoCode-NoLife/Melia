@@ -54,6 +54,41 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Reduces an existing cooldown.
+		/// </summary>
+		/// <param name="cooldownId"></param>
+		/// <param name="duration"></param>
+		public void ReduceCooldown(CooldownId cooldownId, TimeSpan reduceBy)
+		{
+			var cooldown = new Cooldown(cooldownId, TimeSpan.Zero);
+
+			lock (_syncLock)
+			{
+				if (_cooldowns.TryGetValue(cooldownId, out var existingCooldown))
+				{
+					cooldown = existingCooldown;
+					var timeLeft = cooldown.Remaining;
+					if (timeLeft <= reduceBy)
+					{
+						cooldown.Change(TimeSpan.Zero);
+					}
+					else
+					{
+						cooldown.Change(timeLeft.Subtract(reduceBy));
+					}
+					
+				}
+				else
+				{
+					_cooldowns[cooldownId] = cooldown;
+				}
+			}
+
+			if (this.Entity is Character character)
+				Send.ZC_COOLDOWN_CHANGED(character, cooldown);
+		}
+
+		/// <summary>
 		/// Adds the cooldown without updating the client. Overwrites
 		/// existing cooldowns.
 		/// </summary>
