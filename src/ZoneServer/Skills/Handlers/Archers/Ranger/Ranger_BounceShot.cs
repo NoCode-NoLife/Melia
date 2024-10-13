@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
@@ -64,8 +65,9 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var isIceVariant = false;
 			var animationName = "I_archer_dividedarrow_force_fire";
 			var blastName = "F_archer_dividedarrow_hit_explosion";
-			var targets = new System.Collections.Generic.List<ICombatEntity>();
-			var results = new System.Collections.Generic.List<SkillHitResult>();
+
+			var targets = new List<ICombatEntity>();
+			var results = new List<SkillHitResult>();
 			targets.Add(target);
 
 			// Because of the repurposed Ranger38, a visual error occurs when using
@@ -186,7 +188,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="skill"></param>
 		/// <param name="bounceTarget"></param>
 		/// <returns></returns>
-		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out System.Collections.Generic.IEnumerable<ICombatEntity> bounceTargets)
+		private bool TryGetBounceTarget(ICombatEntity caster, ICombatEntity mainTarget, Skill skill, out IEnumerable<ICombatEntity> bounceTargets)
 		{
 			var splashPos = caster.Position;
 			var splashRadius = 100;
