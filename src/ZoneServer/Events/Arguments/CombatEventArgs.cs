@@ -6,27 +6,18 @@ namespace Melia.Zone.Events.Arguments
 	/// <summary>
 	/// Arguments for a combat event involging two entites.
 	/// </summary>
-	public class CombatEventArgs : EventArgs
+	/// <param name="target"></param>
+	/// <param name="attacker"></param>
+	public class CombatEventArgs(ICombatEntity target, ICombatEntity attacker) : EventArgs
 	{
 		/// <summary>
 		/// Returns the entity that was killed.
 		/// </summary>
-		public ICombatEntity Target { get; }
+		public ICombatEntity Target { get; } = target;
 
 		/// <summary>
 		/// Returns the entity that killed the target.
 		/// </summary>
-		public ICombatEntity Attacker { get; }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="target"></param>
-		/// <param name="attacker"></param>
-		public CombatEventArgs(ICombatEntity target, ICombatEntity attacker)
-		{
-			this.Target = target;
-			this.Attacker = attacker;
-		}
+		public ICombatEntity Attacker { get; } = attacker;
 	}
 }
