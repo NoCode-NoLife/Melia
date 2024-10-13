@@ -84,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			if (isIceVariant)
 			{
-				modifier.AttackAttribute = SkillAttribute.Ice;
+				modifier.AttackAttribute = AttributeType.Ice;
 				animationName = "I_arrow003_blue";
 				blastName = "F_explosion104_ice";
 			}
@@ -148,7 +148,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				{
 					var modifier2 = SkillModifier.Default;
 					if (isIceVariant)
-						modifier2.AttackAttribute = SkillAttribute.Ice;
+						modifier2.AttackAttribute = AttributeType.Ice;
 
 					var skillHitResult2 = SCR_SkillHit(caster, bounceTarget, skill, modifier2);
 					bounceTarget.TakeDamage(skillHitResult2.Damage, caster);

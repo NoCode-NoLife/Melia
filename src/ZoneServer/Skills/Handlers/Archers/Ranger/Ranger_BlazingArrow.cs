@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				isIceVariant = true;
 				animationName = "I_arrow003_blue";
 
-				modifier.AttackAttribute = SkillAttribute.Ice;
+				modifier.AttackAttribute = AttributeType.Ice;
 				modifier.DamageMultiplier -= 0.3f;
 			}
 

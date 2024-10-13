@@ -277,7 +277,7 @@ public class CombatCalculationsScript : GeneralScript
 		var attackerAttr = skill.Data.Attribute;
 		var targetAttr = target.Attribute;
 
-		if (modifier.AttackAttribute != SkillAttribute.None)
+		if (modifier.AttackAttribute != AttributeType.None)
 			attackerAttr = modifier.AttackAttribute;
 
 		if (modifier.DefenseAttribute != AttributeType.None)
@@ -285,27 +285,27 @@ public class CombatCalculationsScript : GeneralScript
 
 		if (!Feature.IsEnabled("AttributeBonusRevamp"))
 		{
-			if (attackerAttr == SkillAttribute.Fire)
+			if (attackerAttr == AttributeType.Fire)
 			{
 				if (targetAttr == AttributeType.Fire) return 0.75f;
 				if (targetAttr == AttributeType.Earth) return 1.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Ice)
+			else if (attackerAttr == AttributeType.Ice)
 			{
 				if (targetAttr == AttributeType.Fire) return 1.5f;
 				if (targetAttr == AttributeType.Ice) return 0.75f;
 			}
-			else if (attackerAttr == SkillAttribute.Lightning)
+			else if (attackerAttr == AttributeType.Lightning)
 			{
 				if (targetAttr == AttributeType.Ice) return 1.5f;
 				if (targetAttr == AttributeType.Lightning) return 0.75f;
 			}
-			else if (attackerAttr == SkillAttribute.Earth)
+			else if (attackerAttr == AttributeType.Earth)
 			{
 				if (targetAttr == AttributeType.Lightning) return 1.5f;
 				if (targetAttr == AttributeType.Earth) return 0.75f;
 			}
-			else if (attackerAttr == SkillAttribute.Poison)
+			else if (attackerAttr == AttributeType.Poison)
 			{
 				if (targetAttr == AttributeType.Fire) return 1.125f;
 				if (targetAttr == AttributeType.Ice) return 1.125f;
@@ -313,17 +313,17 @@ public class CombatCalculationsScript : GeneralScript
 				if (targetAttr == AttributeType.Earth) return 1.125f;
 				if (targetAttr == AttributeType.Poison) return 0.75f;
 			}
-			else if (attackerAttr == SkillAttribute.Holy)
+			else if (attackerAttr == AttributeType.Holy)
 			{
 				if (targetAttr == AttributeType.Holy) return 0.75f;
 				if (targetAttr == AttributeType.Dark) return 1.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Dark)
+			else if (attackerAttr == AttributeType.Dark)
 			{
 				if (targetAttr == AttributeType.Holy) return 1.5f;
 				if (targetAttr == AttributeType.Dark) return 0.75f;
 			}
-			else if (attackerAttr == SkillAttribute.Soul)
+			else if (attackerAttr == AttributeType.Soul)
 			{
 				if (targetAttr == AttributeType.Holy) return 1.25f;
 				if (targetAttr == AttributeType.Dark) return 1.25f;
@@ -332,37 +332,37 @@ public class CombatCalculationsScript : GeneralScript
 		}
 		else
 		{
-			if (attackerAttr == SkillAttribute.Fire)
+			if (attackerAttr == AttributeType.Fire)
 			{
 				if (targetAttr == AttributeType.Fire) return 0.5f;
 				if (targetAttr == AttributeType.Earth) return 1.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Ice)
+			else if (attackerAttr == AttributeType.Ice)
 			{
 				if (targetAttr == AttributeType.Fire) return 1.5f;
 				if (targetAttr == AttributeType.Ice) return 0.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Lightning)
+			else if (attackerAttr == AttributeType.Lightning)
 			{
 				if (targetAttr == AttributeType.Ice) return 2f;
 				if (targetAttr == AttributeType.Lightning) return 0.5f;
 				if (targetAttr == AttributeType.Earth) return 0.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Earth)
+			else if (attackerAttr == AttributeType.Earth)
 			{
 				if (targetAttr == AttributeType.Lightning) return 1.5f;
 				if (targetAttr == AttributeType.Earth) return 0.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Poison)
+			else if (attackerAttr == AttributeType.Poison)
 			{
 				if (targetAttr == AttributeType.Earth) return 1.5f;
 				if (targetAttr == AttributeType.Poison) return 0.5f;
 			}
-			else if (attackerAttr == SkillAttribute.Holy)
+			else if (attackerAttr == AttributeType.Holy)
 			{
 				if (targetAttr == AttributeType.Dark) return 2f;
 			}
-			else if (attackerAttr == SkillAttribute.Dark)
+			else if (attackerAttr == AttributeType.Dark)
 			{
 				if (targetAttr == AttributeType.Holy) return 2f;
 			}

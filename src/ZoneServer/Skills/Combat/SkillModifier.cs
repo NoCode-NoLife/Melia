@@ -138,7 +138,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <remarks>
 		/// If this is set to None, the skill's attribute is used.
 		/// </remarks>
-		public SkillAttribute AttackAttribute { get; set; } = SkillAttribute.None;
+		public AttributeType AttackAttribute { get; set; } = AttributeType.None;
 
 		/// <summary>
 		/// Gets or sets the target's attribute.
