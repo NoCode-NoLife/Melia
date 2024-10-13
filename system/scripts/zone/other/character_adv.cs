@@ -8,11 +8,11 @@
 using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
+using Melia.Zone.Events.Arguments;
 
 public class CharacterAdvancementScript : GeneralScript
 {

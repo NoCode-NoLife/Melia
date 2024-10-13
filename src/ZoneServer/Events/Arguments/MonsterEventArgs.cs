@@ -1,7 +1,7 @@
 ﻿using System;
 using Melia.Zone.World.Actors.Monsters;
 
-namespace Melia.Zone.Events
+namespace Melia.Zone.Events.Arguments
 {
 	/// <summary>
 	/// Arguments for events related to a monster.

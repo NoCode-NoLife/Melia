@@ -1,5 +1,5 @@
 ﻿using Melia.Shared.Game.Const;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 
 namespace Melia.Zone.World.Quests.Objectives
 {

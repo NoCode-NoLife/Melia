@@ -7,7 +7,7 @@
 
 using Melia.Shared.Scripting;
 using Melia.Shared.World;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
 
 public class CustomCharacterStartScript : GeneralScript

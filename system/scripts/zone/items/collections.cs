@@ -1,7 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;

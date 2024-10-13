@@ -1,6 +1,6 @@
 ﻿using System;
 using Melia.Shared.Scripting;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.World

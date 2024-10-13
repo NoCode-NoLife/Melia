@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melia.Zone.Events
+namespace Melia.Zone.Events.Arguments
 {
 	/// <summary>
 	/// Arguments for events that are raised when the time changes.

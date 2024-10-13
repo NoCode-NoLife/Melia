@@ -4,13 +4,13 @@ using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Util;
+using Melia.Zone.Events.Arguments;
 
 public class SummoningItemScripts : GeneralScript
 {

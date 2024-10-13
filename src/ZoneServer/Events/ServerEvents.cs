@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;

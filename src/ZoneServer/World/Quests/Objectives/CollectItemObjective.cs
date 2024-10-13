@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.World.Quests.Objectives
