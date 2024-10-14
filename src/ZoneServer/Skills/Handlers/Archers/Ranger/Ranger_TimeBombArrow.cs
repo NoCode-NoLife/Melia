@@ -144,13 +144,15 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			}
 
 			Send.ZC_SKILL_HIT_INFO(attacker, skillHit);
-
-			ExplosionSplash(skill, attacker, target, damageMultiplier);
 		}
 
 		/// <summary>
 		/// Handles the bomb explosion, hitting nearby targets.
 		/// </summary>
+		/// <param name="skill"></param>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="bombDamageMultiplier"></param>
 		private static void ExplosionSplash(Skill skill, ICombatEntity caster, ICombatEntity target, float bombDamageMultiplier)
 		{
 			var splashArea = new Circle(target.Position, 45);

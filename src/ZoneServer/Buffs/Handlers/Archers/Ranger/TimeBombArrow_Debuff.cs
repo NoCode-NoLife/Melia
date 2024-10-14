@@ -1,8 +1,5 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Archers.Ranger;
 using Melia.Zone.World.Actors;
 
