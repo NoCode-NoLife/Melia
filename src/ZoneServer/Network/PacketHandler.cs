@@ -2232,6 +2232,62 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Request to execute a transaction script function with numeric
+		/// arguments for an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TX_ITEM)]
+		public void CZ_REQ_TX_ITEM(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var classId = packet.GetInt();
+			var itemObjectId = packet.GetLong();
+			var l2 = packet.GetLong();
+			var l3 = packet.GetLong();
+			var argCount = packet.GetByte();
+			var numArgs = packet.GetList(argCount, packet.GetInt);
+
+			var character = conn.SelectedCharacter;
+
+			// Get data
+			if (!ZoneServer.Instance.Data.DialogTxDb.TryFind(classId, out var data))
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!ScriptableFunctions.ItemTx.TryGet(data.Script, out var scriptFunc))
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: No handler registered for transaction script '{0}({1})'", data.Script, string.Join(", ", numArgs));
+				return;
+			}
+
+			// Get item
+			var item = character.Inventory.GetItem(itemObjectId);
+			if (item == null)
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+				return;
+			}
+
+			// Try to execute transaction
+			try
+			{
+				var result = scriptFunc(character, item, numArgs);
+				if (result == ItemTxResult.Fail)
+				{
+					Log.Debug("CZ_REQ_TX_ITEM: Execution of script '{0}({1})' failed.", data.Script, string.Join(", ", numArgs));
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
+			}
+		}
+
+		/// <summary>
 		/// Transaction requests from the player as per the TX item data.
 		/// </summary>
 		/// <param name="conn"></param>
