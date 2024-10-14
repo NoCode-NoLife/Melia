@@ -88,6 +88,7 @@ namespace Melia.Zone.Commands
 			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
 			this.Add("daytime", "[timeOfDay=day|night|dawn|dusk]", "Sets the current day time.", this.HandleDayTime);
 			this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
+			this.Add("medals", "<modifier>", "Modifies the amount of medals/TP.", this.HandleMedals);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -2288,6 +2289,40 @@ namespace Melia.Zone.Commands
 		private CommandResult HandleMainChat(Character sender, Character target, string message, string commandName, Arguments args)
 		{
 			target.ServerMessage("Click here to join the main chat: {a SLC 0@@@557516819791873}{#0000FF}{img link_whisper 24 24}Main{/}{/}{/}");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Modifies the target's medals/TP.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMedals(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				sender.ServerMessage(Localization.Get("Current TP: {0}"), target.Connection.Account.Medals);
+				return CommandResult.Okay;
+			}
+
+			if (!int.TryParse(args.Get(0), out var modifier))
+				return CommandResult.InvalidArgument;
+
+			var oldValue = target.Connection.Account.Medals;
+			var newValue = Math.Max(0, oldValue + modifier);
+			target.Connection.Account.Medals = newValue;
+
+			sender.ServerMessage(Localization.Get("Modified TP ({1} -> {2})."), modifier, oldValue, newValue);
+
+			if (sender != target)
+				target.ServerMessage(Localization.Get("Your TP were modified by {0} ({1} -> {2})."), sender.TeamName, oldValue, newValue);
+
+			Send.ZC_NORMAL.AccountProperties(target);
 
 			return CommandResult.Okay;
 		}
