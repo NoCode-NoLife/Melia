@@ -54,6 +54,25 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Reduces an existing cooldown by the given amount.
+		/// </summary>
+		/// <remarks>
+		/// If no cooldown is active for the given id, this method does nothing.
+		/// </remarks>
+		/// <param name="cooldownId"></param>
+		/// <param name="reduction"></param>
+		public void ReduceCooldown(CooldownId cooldownId, TimeSpan reduction)
+		{
+			var remaining = this.GetRemain(cooldownId);
+			if (remaining == TimeSpan.Zero)
+				return;
+
+			var duration = Math2.Max(TimeSpan.Zero, remaining - reduction);
+
+			this.Start(cooldownId, duration);
+		}
+
+		/// <summary>
 		/// Adds the cooldown without updating the client. Overwrites
 		/// existing cooldowns.
 		/// </summary>

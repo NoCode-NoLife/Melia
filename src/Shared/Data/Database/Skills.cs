@@ -17,7 +17,7 @@ namespace Melia.Shared.Data.Database
 		public SkillActivationType ActivationType { get; set; }
 		public SkillUseType UseType { get; set; }
 		public SkillAttackType AttackType { get; set; }
-		public SkillAttribute Attribute { get; set; }
+		public AttributeType Attribute { get; set; }
 		public SkillClassType ClassType { get; set; }
 		public Tags Tags { get; set; }
 
@@ -114,24 +114,31 @@ namespace Melia.Shared.Data.Database
 		Pad,
 	}
 
-	public enum SkillAttribute
-	{
-		None,
-		Fire,
-		Ice,
-		Lightning,
-		Earth,
-		Poison,
-		Holy,
-		Dark,
-		Soul,
+	// We used to have this dedicated skill attribute enum for the skill data
+	// in addition to the AttributeType enum in Shared, which effectively does
+	// the same thing. We switched over to using AttributeType to unify the
+	// attributes, though we'll leave this here as a reminder for the moment,
+	// and in case we might actually want or need separate enums.
+	// The only difference of note is that the skill data uses a "Magic"
+	// attribute, which doesn't appear to exist as a monster attribute.
+	//public enum SkillAttribute
+	//{
+	//	None,
+	//	Fire,
+	//	Ice,
+	//	Lightning,
+	//	Earth,
+	//	Poison,
+	//	Holy,
+	//	Dark,
+	//	Soul,
 
-		// Any attributes using Melee or Magic could be bugs, since those
-		// should be attack types, not attributes. But they are found on
-		// skills in the the client's data.
-		Melee,
-		Magic,
-	}
+	//	// Any attributes using Melee or Magic could be bugs, since those
+	//	// should be attack types, not attributes. But they are found on
+	//	// skills in the the client's data.
+	//	Melee,
+	//	Magic,
+	//}
 
 	public enum SkillClassType
 	{
@@ -189,7 +196,7 @@ namespace Melia.Shared.Data.Database
 			data.ActivationType = entry.ReadEnum<SkillActivationType>("activationType");
 			data.UseType = entry.ReadEnum<SkillUseType>("useType");
 			data.AttackType = entry.ReadEnum<SkillAttackType>("attackType");
-			data.Attribute = entry.ReadEnum<SkillAttribute>("attribute");
+			data.Attribute = entry.ReadEnum<AttributeType>("attribute");
 			data.ClassType = entry.ReadEnum<SkillClassType>("classType");
 
 			data.BasicSp = entry.ReadFloat("basicSp", 0);

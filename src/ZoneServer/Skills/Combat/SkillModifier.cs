@@ -1,4 +1,7 @@
-﻿namespace Melia.Zone.Skills.Combat
+﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+
+namespace Melia.Zone.Skills.Combat
 {
 	/// <summary>
 	/// A class for properties that can modify the damage calculation for a skill.
@@ -22,6 +25,25 @@
 		/// This damage is added before any defense, crit, block, etc. calculations.
 		/// </remarks>
 		public float BonusDamage { get; set; }
+
+		/// <summary>
+		/// Gets or sets the skill's hit multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The user's hit property is multiplied by this value. For example,
+		/// a value of 1.3 would increase the attacker's hit by 30%.
+		/// </remarks>
+		public float HitRateMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the skill's block pen multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The user's block penetration property is multiplied by this value.
+		/// For example, a value of 1.3 would increase the attacker's block
+		/// penetration by 30%.
+		/// </remarks>
+		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets flat crit rate bonus.
@@ -109,6 +131,22 @@
 		/// If this is true, the attack always deals a critical hit.
 		/// </remarks>
 		public bool ForcedCritical { get; set; }
+
+		/// <summary>
+		/// Gets or sets the attack's attribute.
+		/// </summary>
+		/// <remarks>
+		/// If this is set to None, the skill's attribute is used.
+		/// </remarks>
+		public AttributeType AttackAttribute { get; set; } = AttributeType.None;
+
+		/// <summary>
+		/// Gets or sets the target's attribute.
+		/// </summary>
+		/// <remarks>
+		/// If this is set to None, the target's attribute is used.
+		/// </remarks>
+		public AttributeType DefenseAttribute { get; set; } = AttributeType.None;
 
 		/// <summary>
 		/// Returns a new skill modifier with default values.
