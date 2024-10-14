@@ -45,5 +45,21 @@ namespace Melia.Shared.Game
 			this.Expiration = expiration;
 			this.NumArg = numArg;
 		}
+
+		/// <summary>
+		/// Extends the premium state by a specified amount of time.
+		/// </summary>
+		/// <remarks>
+		/// If the state was not active yet, it will be activated for the given
+		/// amount of time.
+		/// </remarks>
+		/// <param name="addTime"></param>
+		public void Extend(TimeSpan addTime)
+		{
+			if (this.Active)
+				this.Expiration += addTime;
+			else
+				this.Expiration = DateTime.Now + addTime;
+		}
 	}
 }
