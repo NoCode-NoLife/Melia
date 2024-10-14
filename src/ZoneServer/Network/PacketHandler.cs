@@ -16,6 +16,7 @@ using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
@@ -190,6 +191,7 @@ namespace Melia.Zone.Network
 			Send.ZC_QUICK_SLOT_LIST(character);
 			Send.ZC_NORMAL.Unknown_EF(character);
 			Send.ZC_UPDATED_PCAPPEARANCE(character);
+			Send.ZC_EQUIP_CARD_INFO(character);
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(character);
 			Send.ZC_ADDITIONAL_SKILL_POINT(character);
 			Send.ZC_SET_DAYLIGHT_INFO(character);
@@ -786,6 +788,10 @@ namespace Melia.Zone.Network
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
 			}
+
+			// Don't need to log cards, because they don't have a script function.
+			if (item.Data.CardGroup != CardGroup.None)
+				return;
 
 			// Nothing to do if the item doesn't have a script
 			if (!item.Data.HasScript)

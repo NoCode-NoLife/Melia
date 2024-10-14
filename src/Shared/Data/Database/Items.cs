@@ -72,6 +72,11 @@ namespace Melia.Shared.Data.Database
 
 		public bool HasScript => this.Script != null;
 		public bool HasCooldown => this.CooldownTime > TimeSpan.Zero;
+
+
+		public EquipExpGroup EquipExpGroup { get; set; }
+		public CardGroup CardGroup { get; set; }
+		public int CardLevel { get; set; }
 	}
 
 	[Serializable]
@@ -158,7 +163,6 @@ namespace Melia.Shared.Data.Database
 			data.Name = entry.ReadString("name");
 			data.Type = entry.ReadEnum<ItemType>("type");
 			data.Group = entry.ReadEnum<ItemGroup>("group");
-			data.Category = GetCategory(data);
 
 			data.Weight = entry.ReadFloat("weight", 0);
 			data.MaxStack = entry.ReadInt("maxStack", 1);
@@ -167,6 +171,11 @@ namespace Melia.Shared.Data.Database
 			data.EquipType1 = entry.ReadEnum<EquipType>("equipType1", EquipType.None);
 			data.EquipType2 = entry.ReadEnum<EquipType>("equipType2", EquipType.None);
 			data.MinLevel = entry.ReadInt("minLevel", 1);
+
+			data.Category = GetCategory(data);
+			data.CardGroup = entry.ReadEnum("cardGroup", CardGroup.None);
+			data.CardLevel = entry.ReadInt("cardLevel", 0);
+			data.EquipExpGroup = entry.ReadEnum("equipExpGroup", EquipExpGroup.None);
 
 			data.MinAtk = entry.ReadFloat("minAtk", 0);
 			data.MaxAtk = entry.ReadFloat("maxAtk", 0);

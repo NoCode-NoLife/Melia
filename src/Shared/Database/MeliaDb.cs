@@ -270,6 +270,38 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
+		/// Saves properties to the given database, with the id.
+		/// </summary>
+		/// <param name="databaseName"></param>
+		/// <param name="idName"></param>
+		/// <param name="id"></param>
+		/// <param name="properties"></param>
+		protected void SaveProperties(string databaseName, string idName, long id, Properties properties, MySqlConnection conn, MySqlTransaction trans)
+		{
+			using (var cmd = new MySqlCommand($"DELETE FROM `{databaseName}` WHERE `{idName}` = @id", conn, trans))
+			{
+				cmd.Parameters.AddWithValue("@id", id);
+				cmd.ExecuteNonQuery();
+			}
+
+			foreach (var property in properties.GetAll())
+			{
+				var typeStr = property is FloatProperty ? "f" : "s";
+				var valueStr = property.Serialize();
+
+				using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn, trans))
+				{
+					cmd.Set(idName, id);
+					cmd.Set("name", property.Ident);
+					cmd.Set("type", typeStr);
+					cmd.Set("value", valueStr);
+
+					cmd.Execute();
+				}
+			}
+		}
+
+		/// <summary>
 		/// Updates the login state of the given account.
 		/// </summary>
 		/// <param name="accountId"></param>

@@ -18,6 +18,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		private Dictionary<InventoryCategory, List<Item>> _items = new();
 		private readonly Dictionary<long, Item> _itemsWorldIndex = new();
 		private readonly Dictionary<EquipSlot, Item> _equip = new(InventoryDefaults.EquipSlotCount);
+		private readonly Dictionary<int, Item> _cards = new();
 
 		/// <summary>
 		/// Raised when the character equipped an item.
@@ -220,6 +221,17 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				_itemsWorldIndex.TryGetValue(worldId, out item);
 
 			return item;
+		}
+
+		/// <summary>
+		/// Returns item by world id, or null if it doesn't exist.
+		/// </summary>
+		/// <param name="worldId"></param>
+		/// <returns></returns>
+		public bool TryGetItem(long worldId, out Item item)
+		{
+			lock (_syncLock)
+				return _itemsWorldIndex.TryGetValue(worldId, out item);
 		}
 
 		// I don't remember what this method was used for, but it
@@ -830,6 +842,92 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			// Update weight
 			this.UpdateWeight();
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Adds a card to the specified slot without triggering any notifications or events.
+		/// </summary>
+		/// <param name="slot">The slot to add the card to.</param>
+		/// <param name="card">The card item to add.</param>
+		/// <returns>An InventoryResult indicating the success or failure of the operation.</returns>
+		public InventoryResult AddSilentCard(int slot, Item card)
+		{
+			if (_cards.ContainsKey(slot))
+				return InventoryResult.InvalidOperation;
+
+			lock (_syncLock)
+				_cards[slot] = card;
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Returns a copy of the dictionary containing all equipped cards.
+		/// </summary>
+		/// <returns>A dictionary containing all equipped cards.</returns>
+		public Dictionary<int, Item> GetCards()
+		{
+			lock (_syncLock)
+				return _cards.ToDictionary(a => a.Key, a => a.Value);
+		}
+
+		/// <summary>
+		/// Attempts to retrieve the card item at the specified slot.
+		/// </summary>
+		/// <param name="slot">The slot to retrieve the card from.</param>
+		/// <param name="card">The card item if found, otherwise null.</param>
+		/// <returns>True if the card was found, false otherwise.</returns>
+		public bool TryGetCard(int slot, out Item card)
+		{
+			lock (_syncLock)
+				return _cards.TryGetValue(slot, out card);
+		}
+
+		/// <summary>
+		/// Equips the item with the specified world ID to the given slot.
+		/// </summary>
+		/// <param name="slot">The slot to equip the card to.</param>
+		/// <param name="worldId">The world ID of the item to equip.</param>
+		/// <returns>An InventoryResult indicating the success or failure of the operation.</returns>
+		public InventoryResult EquipCard(int slot, long worldId)
+		{
+			var item = this.GetItem(worldId);
+			if (item == null)
+				return InventoryResult.ItemNotFound;
+
+			if (_cards.ContainsKey(slot))
+				return InventoryResult.InvalidOperation;
+
+			this.Remove(item, 1, InventoryItemRemoveMsg.Equipped);
+			lock (_syncLock)
+				_cards[slot] = item;
+
+			Send.ZC_EQUIP_CARD_INFO(this.Character);
+
+			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Unequips the card from the specified slot.
+		/// </summary>
+		/// <param name="slot">The slot to unequip the card from.</param>
+		/// <returns>An InventoryResult indicating the success or failure of the operation.</returns>
+		public InventoryResult UnequipCard(int slot)
+		{
+			if (slot < 1 && slot > 15)
+				return InventoryResult.InvalidSlot;
+			var item = _cards[slot];
+			if (item == null)
+				return InventoryResult.ItemNotFound;
+
+			lock (_syncLock)
+				_cards.Remove(slot);
+
+			this.Add(item, InventoryAddType.New);
+
+			Send.ZC_EQUIP_CARD_INFO(this.Character);
 
 			return InventoryResult.Success;
 		}

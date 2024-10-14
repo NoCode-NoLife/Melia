@@ -101,6 +101,21 @@
 		/// Sent when reading a new collection
 		/// </summary>
 		public const string UPDATE_READ_COLLECTION_COUNT = "UPDATE_READ_COLLECTION_COUNT";
+
+		/// <summary>
+		/// Item gaining exp
+		/// </summary>
+		public const string ITEM_EXP_START = "ITEM_EXP_START";
+
+		/// <summary>
+		/// Stop Item gaining exp
+		/// </summary>
+		public const string ITEM_EXP_STOP = "ITEM_EXP_STOP";
+
+		/// <summary>
+		/// Item gaining exp has ended.
+		/// </summary>
+		public const string ITEM_EXPUP_END = "ITEM_EXPUP_END";
 	}
 
 	public static class SystemMessage

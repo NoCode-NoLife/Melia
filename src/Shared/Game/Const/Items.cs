@@ -174,6 +174,74 @@ namespace Melia.Shared.Game.Const
 	}
 
 	/// <summary>
+	/// Card's group.
+	/// </summary>
+	public enum CardGroup
+	{
+		None,
+		ATK,
+		DEF,
+		GODDESS,
+		LEG,
+		REINFORCE_CARD,
+		REINFORCE_GODDESS_CARD,
+		STAT,
+		UTIL,
+	}
+
+	/// <summary>
+	/// An item's equip exp group.
+	/// </summary>
+	/// <remarks>
+	/// Field "equipExpGroup" in our data, "EquipXpGroup" in the client.
+	/// </remarks>
+	public enum EquipExpGroup
+	{
+		None,
+		Blessed,
+		Card,
+		Card_dummy01,
+		Card_dummy01_Event,
+		Card_Fish_300,
+		Card_Gacha_dummy01,
+		Card_xp_100,
+		Equip,
+		Gem,
+		GemExp_5000,
+		GemExp_randomQuest1,
+		GemExp_randomQuest2,
+		GemExp_randomQuest3,
+		GemExp_randomQuest4,
+		GemExp_randomQuest5,
+		GemExp_Talt01,
+		GemExpStone01,
+		GemExpStone02,
+		GemExpStone03,
+		GemExpStone04,
+		GemExpStone05,
+		GemExpStone07,
+		GemExpStone09,
+		GemExpStone10,
+		GemExpStone11,
+		GemExpStone12,
+		Gem_Skill,
+		Goddess_Card,
+		Goddess_ReinForce_Card,
+		hethran_material,
+		KQ_token_hethran_1,
+		KQ_token_hethran_2,
+		KQ_token_hethran_3,
+		Legend_Card,
+		Legend_Reinforce_Card_MaxLv4,
+		Legend_Reinforce_Card_MaxLv6,
+		Legend_Reinforce_Card_MaxLv8,
+		Legend_Reinforce_Card_MaxLv10,
+		Lv10_Card_TP,
+		Misc,
+		Old_Card_TP,
+	}
+
+	/// <summary>
 	/// An item's type.
 	/// </summary>
 	/// <remarks>
