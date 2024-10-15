@@ -5,8 +5,6 @@
 //---------------------------------------------------------------------------
 
 using System.Globalization;
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
@@ -17,16 +15,15 @@ public class CustomQuestSystemClientScript : ClientScript
 {
 	public override void Load()
 	{
-		LoadAllScripts();
+		this.LoadAllScripts();
 
 		AddChatCommand("quest", "<complete|cancel>", "", 0, 99, HandleQuest);
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		SendAllScripts(e.Character);
-		e.Character.Quests.UpdateClient();
+		this.SendAllScripts(character);
+		character.Quests.UpdateClient();
 	}
 
 	private CommandResult HandleQuest(Character sender, Character target, string message, string commandName, Arguments args)

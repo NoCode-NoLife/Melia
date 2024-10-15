@@ -4,9 +4,8 @@
 // Removes some of the clutter from the UI, such as cash shop buttons.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class UnclutterClientScript : ClientScript
 {
@@ -18,13 +17,14 @@ public class UnclutterClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendLuaScript(e.Character, "001.lua");
-		this.SendLuaScript(e.Character, "003.lua");
+		var vars = character.Connection.Account.Variables;
 
-		if (e.Character.Connection.Account.Variables.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
-			this.SendLuaScript(e.Character, "002.lua");
+		this.SendLuaScript(character, "001.lua");
+		this.SendLuaScript(character, "003.lua");
+
+		if (vars.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
+			this.SendLuaScript(character, "002.lua");
 	}
 }

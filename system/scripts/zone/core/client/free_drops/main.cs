@@ -7,9 +7,8 @@
 // able to get rid of otherwise undestroyable and unstorable items.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class FreeDropsClientScript : ClientScript
 {
@@ -18,9 +17,8 @@ public class FreeDropsClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
 	}
 }

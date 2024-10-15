@@ -6,9 +6,8 @@
 // to make the UI usable again.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class PersonalShopsClientScript : ClientScript
 {
@@ -17,9 +16,8 @@ public class PersonalShopsClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
 	}
 }

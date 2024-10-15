@@ -6,7 +6,6 @@
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Scripting;
-using Melia.Shared.World;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
 

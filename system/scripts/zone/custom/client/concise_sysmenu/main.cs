@@ -4,9 +4,8 @@
 // Removes clutter from the system menu at the bottom right of the screen.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class ConciseSysmenuClientScript : ClientScript
 {
@@ -15,9 +14,8 @@ public class ConciseSysmenuClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
 	}
 }

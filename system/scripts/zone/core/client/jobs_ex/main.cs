@@ -4,10 +4,8 @@
 // Makes adjustments to job functions to make them more flexible.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class JobExClientScript : ClientScript
 {
@@ -16,9 +14,8 @@ public class JobExClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
 	}
 }

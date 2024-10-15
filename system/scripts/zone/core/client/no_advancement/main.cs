@@ -5,10 +5,9 @@
 // change jobs via the UI.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class NoAdvancementClientScript : ClientScript
 {
@@ -17,10 +16,9 @@ public class NoAdvancementClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
 		if (ZoneServer.Instance.Conf.World.NoAdvancement)
-			this.SendAllScripts(e.Character);
+			this.SendAllScripts(character);
 	}
 }

@@ -5,10 +5,9 @@
 // a target selection wheel.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class ClassicHealClientScript : ClientScript
 {
@@ -17,14 +16,13 @@ public class ClassicHealClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
 		// We only send this script if the PartySelect feature is
 		// disabled. If it is, we override a client function that
 		// determines whether to show the target selection wheel
 		// to cast the skill instantly.
 		if (!Feature.IsEnabled("ClericHealPartySelect"))
-			this.SendAllScripts(e.Character);
+			this.SendAllScripts(character);
 	}
 }

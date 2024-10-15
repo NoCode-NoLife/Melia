@@ -10,9 +10,8 @@
 // simply be empty.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class CustomNpcShopsClientScript : ClientScript
 {
@@ -26,11 +25,10 @@ public class CustomNpcShopsClientScript : ClientScript
 		this.LoadLuaScript("003.lua");
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendLuaScript(e.Character, "001.lua");
-		this.SendLuaScript(e.Character, "002.lua");
-		this.SendLuaScript(e.Character, "003.lua");
+		this.SendLuaScript(character, "001.lua");
+		this.SendLuaScript(character, "002.lua");
+		this.SendLuaScript(character, "003.lua");
 	}
 }

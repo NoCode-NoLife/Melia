@@ -6,8 +6,8 @@
 
 using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Scripting;
 
 [Priority(100)]
@@ -18,11 +18,14 @@ public class ServerConfClientScript : ClientScript
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
+		this.SendOptionsTable(character);
+	}
 
+	private void SendOptionsTable(Character character)
+	{
 		var table = new LuaTable();
 
 		foreach (var option in ZoneServer.Instance.Conf.World.GetOptions())
@@ -31,12 +34,12 @@ public class ServerConfClientScript : ClientScript
 
 			if (table.SerializedSize > 1900)
 			{
-				this.SendRawLuaScript(e.Character, "Melia.Conf.Init(" + table.Serialize() + ")");
+				this.SendRawLuaScript(character, "Melia.Conf.Init(" + table.Serialize() + ")");
 				table.Clear();
 			}
 		}
 
 		if (table.Count != 0)
-			this.SendRawLuaScript(e.Character, "Melia.Conf.Init(" + table.Serialize() + ")");
+			this.SendRawLuaScript(character, "Melia.Conf.Init(" + table.Serialize() + ")");
 	}
 }
