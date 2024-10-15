@@ -37,7 +37,7 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Load()
 		{
-			ZoneServer.Instance.ServerEvents.EntityKilled += this.OnEntityKilled;
+			ZoneServer.Instance.ServerEvents.EntityKilled.Subscribe(this.OnEntityKilled);
 		}
 
 		/// <summary>
@@ -45,7 +45,7 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Unload()
 		{
-			ZoneServer.Instance.ServerEvents.EntityKilled -= this.OnEntityKilled;
+			ZoneServer.Instance.ServerEvents.EntityKilled.Unsubscribe(this.OnEntityKilled);
 		}
 
 		/// <summary>

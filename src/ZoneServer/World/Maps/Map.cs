@@ -5,6 +5,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.World;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -200,7 +201,7 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toDisappear)
 			{
-				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
+				ZoneServer.Instance.ServerEvents.MonsterDisappears.Raise(new MonsterEventArgs(monster));
 				this.RemoveMonster(monster);
 			}
 		}

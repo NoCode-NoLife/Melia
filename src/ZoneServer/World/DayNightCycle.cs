@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -50,7 +49,7 @@ namespace Melia.Zone.World
 				case TimeOfDay.Night: this.CurrentParameters = NightParameters; break;
 			}
 
-			ZoneServer.Instance.ServerEvents.PlayerReady += this.OnPlayerReady;
+			ZoneServer.Instance.ServerEvents.PlayerReady.Subscribe(this.OnPlayerReady);
 		}
 
 		/// <summary>

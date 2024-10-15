@@ -36,7 +36,7 @@ namespace Melia.Zone.World
 				throw new InvalidOperationException("The global variables were initialized already.");
 
 			ZoneServer.Instance.Database.LoadVars(_variables.Perm, "vars_global", null, 0);
-			ZoneServer.Instance.ServerEvents.MinuteTick += this.OnMinuteTick;
+			ZoneServer.Instance.ServerEvents.MinuteTick.Subscribe(this.OnMinuteTick);
 
 			_initialized = true;
 		}

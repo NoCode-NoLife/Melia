@@ -6,6 +6,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
@@ -307,7 +308,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
 		}

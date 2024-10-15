@@ -31,8 +31,8 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Load()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerAddedItem += OnPlayerAddedOrRemovedItem;
-			ZoneServer.Instance.ServerEvents.PlayerRemovedItem += OnPlayerAddedOrRemovedItem;
+			ZoneServer.Instance.ServerEvents.PlayerAddedItem.Subscribe(OnPlayerAddedOrRemovedItem);
+			ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Subscribe(OnPlayerAddedOrRemovedItem);
 		}
 
 		/// <summary>
@@ -40,8 +40,8 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Unload()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerAddedItem -= OnPlayerAddedOrRemovedItem;
-			ZoneServer.Instance.ServerEvents.PlayerRemovedItem -= OnPlayerAddedOrRemovedItem;
+			ZoneServer.Instance.ServerEvents.PlayerAddedItem.Unsubscribe(OnPlayerAddedOrRemovedItem);
+			ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Unsubscribe(OnPlayerAddedOrRemovedItem);
 		}
 
 		/// <summary>

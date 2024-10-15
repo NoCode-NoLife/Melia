@@ -6,6 +6,7 @@
 
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
@@ -134,7 +135,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		// Should the event happen regardless of how the job
 		// change happened? Should this code be cleaned up to
 		// use one simple function to accomplish all this? TBD.
-		ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+		ZoneServer.Instance.ServerEvents.PlayerAdvancedJob.Raise(new PlayerEventArgs(character));
 
 		return CustomCommandResult.Okay;
 	}

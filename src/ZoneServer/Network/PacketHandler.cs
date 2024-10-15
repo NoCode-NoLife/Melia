@@ -110,7 +110,7 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
-			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			map.AddCharacter(character);
 
@@ -149,7 +149,7 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 			var gameReadyArgs = new PlayerGameReadyEventArgs(character);
 
-			ZoneServer.Instance.ServerEvents.OnPlayerGameReady(gameReadyArgs);
+			ZoneServer.Instance.ServerEvents.PlayerGameReady.Raise(gameReadyArgs);
 			if (gameReadyArgs.CancelHandling)
 				return;
 
@@ -231,7 +231,7 @@ namespace Melia.Zone.Network
 
 			character.OpenEyes();
 
-			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
+			ZoneServer.Instance.ServerEvents.PlayerReady.Raise(new PlayerEventArgs(character));
 		}
 
 		/// <summary>
@@ -289,7 +289,7 @@ namespace Melia.Zone.Network
 			}
 
 			Send.ZC_CHAT(character, msg);
-			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
+			ZoneServer.Instance.ServerEvents.PlayerChat.Raise(new PlayerChatEventArgs(character, msg));
 		}
 
 		/// <summary>
@@ -2029,7 +2029,7 @@ namespace Melia.Zone.Network
 			//Send.ZC_JOB_PTS(character, newJob);
 			//Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
 
-			ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+			ZoneServer.Instance.ServerEvents.PlayerAdvancedJob.Raise(new PlayerEventArgs(character));
 
 			// The intended behavior is to trigger a clean DC from the
 			// client with a move to barracks, but if we *need* the

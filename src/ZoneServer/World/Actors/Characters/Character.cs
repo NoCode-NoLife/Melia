@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Database;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs;
-using Melia.Zone.Buffs.Handlers.Common;
-using Melia.Zone.World.Actors.Components;
-using Melia.Shared.Data.Database;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -1299,7 +1298,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.SetFloat(PropertyName.HP, 0);
 
 			//this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
 

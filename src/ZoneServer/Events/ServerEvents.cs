@@ -1,9 +1,5 @@
-﻿using System;
-using Melia.Zone.Events.Arguments;
-using Melia.Zone.Skills;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Monsters;
+﻿using Melia.Zone.Events.Arguments;
+using Yggdrasil.Events;
 
 namespace Melia.Zone.Events
 {
@@ -19,50 +15,42 @@ namespace Melia.Zone.Events
 		/// <summary>
 		/// Raised on every heartbeat tick.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> WorldTick;
-		public void OnWorldTick(DateTime now) => WorldTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> WorldTick = new();
 
 		/// <summary>
 		/// Raised every full real-life second.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> SecondTick;
-		public void OnSecondTick(DateTime now) => SecondTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> SecondTick = new();
 
 		/// <summary>
 		/// Raised every full real-life minute.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> MinuteTick;
-		public void OnMinuteTick(DateTime now) => MinuteTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> MinuteTick = new();
 
 		/// <summary>
 		/// Raised every full five real-life minutes.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> FiveMinutesTick;
-		public void OnFiveMinutesTick(DateTime now) => FiveMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> FiveMinutesTick = new();
 
 		/// <summary>
 		/// Raised every full fifteen real-life minutes.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> FifteenMinutesTick;
-		public void OnFifteenMinutesTick(DateTime now) => FifteenMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> FifteenMinutesTick = new();
 
 		/// <summary>
 		/// Raised every full twenty real-life minutes.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> TwentyMinutesTick;
-		public void OnTwentyMinutesTick(DateTime now) => TwentyMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> TwentyMinutesTick = new();
 
 		/// <summary>
 		/// Raised every full thirty real-life minutes.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> ThirtyMinutesTick;
-		public void OnThirtyMinutesTick(DateTime now) => ThirtyMinutesTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> ThirtyMinutesTick = new();
 
 		/// <summary>
 		/// Raised every full real-life hour.
 		/// </summary>
-		public event EventHandler<TimeEventArgs> HourTick;
-		public void OnHourTick(DateTime now) => HourTick?.Invoke(ZoneServer.Instance, new TimeEventArgs(now));
+		public readonly Event<TimeEventArgs> HourTick = new();
 
 		// Player Events
 		//-------------------------------------------------------------------
@@ -77,8 +65,7 @@ namespace Melia.Zone.Events
 		/// modifications to the character, but packets sent to the
 		/// client might not get handled as intended yet.
 		/// </remarks>
-		public event EventHandler<PlayerEventArgs> PlayerLoggedIn;
-		public void OnPlayerLoggedIn(Character character) => PlayerLoggedIn?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+		public readonly Event<PlayerEventArgs> PlayerLoggedIn = new();
 
 		/// <summary>
 		/// Raised after the player's client loaded the map and is ready
@@ -94,8 +81,7 @@ namespace Melia.Zone.Events
 		/// If the packet handling should be stopped after executing this
 		/// event, set CancelHandling on the arguments to true.
 		/// </remarks>
-		public event EventHandler<PlayerGameReadyEventArgs> PlayerGameReady;
-		public void OnPlayerGameReady(PlayerGameReadyEventArgs args) => PlayerGameReady?.Invoke(ZoneServer.Instance, args);
+		public readonly Event<PlayerGameReadyEventArgs> PlayerGameReady = new();
 
 		/// <summary>
 		/// Raised when a player logged in completely.
@@ -106,46 +92,39 @@ namespace Melia.Zone.Events
 		/// around. At this point, the client is expected to be fully
 		/// loaded and ready to receive whatever you throw at it.
 		/// </remarks>
-		public event EventHandler<PlayerEventArgs> PlayerReady;
-		public void OnPlayerReady(Character character) => PlayerReady?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+		public readonly Event<PlayerEventArgs> PlayerReady = new();
 
 		/// <summary>
 		/// Raised when a player gains a new job or circle.
 		/// </summary>
-		public event EventHandler<PlayerEventArgs> PlayerAdvancedJob;
-		public void OnPlayerAdvancedJob(Character character) => PlayerAdvancedJob?.Invoke(ZoneServer.Instance, new PlayerEventArgs(character));
+		public readonly Event<PlayerEventArgs> PlayerAdvancedJob = new();
 
 		/// <summary>
 		/// Raised when a player says something in public chat.
 		/// </summary>
-		public event EventHandler<PlayerChatEventArgs> PlayerChat;
-		public void OnPlayerChat(Character character, string message) => PlayerChat?.Invoke(ZoneServer.Instance, new PlayerChatEventArgs(character, message));
+		public readonly Event<PlayerChatEventArgs> PlayerChat = new();
 
 		/// <summary>
 		/// Raised the level of a player's skill changed.
 		/// </summary>
-		public event EventHandler<PlayerSkillLevelChangedEventArgs> PlayerSkillLevelChanged;
-		public void OnPlayerSkillLevelChanged(Character character, Skill skill) => PlayerSkillLevelChanged?.Invoke(ZoneServer.Instance, new PlayerSkillLevelChangedEventArgs(character, skill));
+		public readonly Event<PlayerSkillLevelChangedEventArgs> PlayerSkillLevelChanged = new();
 
 		/// <summary>
 		/// Raised a player gains new items, such as by picking them up
 		/// or buying them.
 		/// </summary>
-		public event EventHandler<PlayerItemEventArgs> PlayerAddedItem;
-		public void OnPlayerAddedItem(Character character, int itemId, int amount) => PlayerAddedItem?.Invoke(ZoneServer.Instance, new PlayerItemEventArgs(character, itemId, amount));
+		public readonly Event<PlayerItemEventArgs> PlayerAddedItem = new();
 
 		/// <summary>
 		/// Raised a player gains loses items, such as by destroying or
 		/// selling them.
 		/// </summary>
-		public event EventHandler<PlayerItemEventArgs> PlayerRemovedItem;
-		public void OnPlayerRemovedItem(Character character, int itemId, int amount) => PlayerRemovedItem?.Invoke(ZoneServer.Instance, new PlayerItemEventArgs(character, itemId, amount));
+		public readonly Event<PlayerItemEventArgs> PlayerRemovedItem = new();
 
 		/// <summary>
 		/// Raised when a dialog message is sent to a player.
 		/// </summary>
-		public event EventHandler<PlayerDialogEventArgs> PlayerDialog;
-		public void OnPlayerDialog(PlayerDialogEventArgs args) => PlayerDialog?.Invoke(ZoneServer.Instance, args);
+		public readonly Event<PlayerDialogEventArgs> PlayerDialog = new();
 
 		// Combat Events
 		//-------------------------------------------------------------------
@@ -153,8 +132,7 @@ namespace Melia.Zone.Events
 		/// <summary>
 		/// Raised when one entity kills another.
 		/// </summary>
-		public event EventHandler<CombatEventArgs> EntityKilled;
-		public void OnEntityKilled(ICombatEntity target, ICombatEntity attacker) => EntityKilled?.Invoke(ZoneServer.Instance, new CombatEventArgs(target, attacker));
+		public readonly Event<CombatEventArgs> EntityKilled = new();
 
 		// Monster Events
 		//-------------------------------------------------------------------
@@ -167,7 +145,6 @@ namespace Melia.Zone.Events
 		/// because it died, its summoning time ran out, or it got
 		/// bored of our antics.
 		/// </remarks>
-		public event EventHandler<MonsterEventArgs> MonsterDisappears;
-		public void OnMonsterDisappears(IMonster monster) => MonsterDisappears?.Invoke(ZoneServer.Instance, new MonsterEventArgs(monster));
+		public readonly Event<MonsterEventArgs> MonsterDisappears = new();
 	}
 }

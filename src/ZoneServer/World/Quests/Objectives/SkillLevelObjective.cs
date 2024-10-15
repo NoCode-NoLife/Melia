@@ -35,7 +35,7 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Load()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerSkillLevelChanged += this.OnPlayerSkillLevelChanged;
+			ZoneServer.Instance.ServerEvents.PlayerSkillLevelChanged.Subscribe(this.OnPlayerSkillLevelChanged);
 		}
 
 		/// <summary>
@@ -43,7 +43,7 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Unload()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerSkillLevelChanged -= this.OnPlayerSkillLevelChanged;
+			ZoneServer.Instance.ServerEvents.PlayerSkillLevelChanged.Unsubscribe(this.OnPlayerSkillLevelChanged);
 		}
 
 		/// <summary>
