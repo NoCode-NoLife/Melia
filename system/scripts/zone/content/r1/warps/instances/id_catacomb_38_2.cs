@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class id_catacomb_38_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Mokusul Chamber to Laukyme Swamp
 		AddWarp("CATACOMB_38_2_THORN_39_3", 0, From("id_catacomb_38_2", 1229.425, -1377.15), To("d_thorn_39_3", 311, -1027));

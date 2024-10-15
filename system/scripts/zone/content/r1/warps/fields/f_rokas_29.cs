@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_rokas_29WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Rukas Plateau to Tiltas Valley
 		AddWarp("ROKAS29_ROKAS28", 120, From("f_rokas_29", 2612, 819), To("f_rokas_28", -1785, -587));

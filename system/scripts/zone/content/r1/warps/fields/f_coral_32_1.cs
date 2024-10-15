@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_coral_32_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Cranto Coast to Igti Coast
 		AddWarp("CORAL32_1_CORAL32_2", 218, From("f_coral_32_1", -346.6219, 910.3648), To("f_coral_32_2", 0, 0));

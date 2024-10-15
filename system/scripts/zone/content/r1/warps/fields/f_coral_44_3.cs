@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_coral_44_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Epherotao Coast to Iotheo Coast
 		AddWarp("CORAL_44_3_TO_CORAL_44_2", 187, From("f_coral_44_3", -1046.267, 953.9401), To("f_coral_44_2", -818, -840));

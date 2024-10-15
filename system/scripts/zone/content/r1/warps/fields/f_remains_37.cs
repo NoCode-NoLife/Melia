@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_remains_37WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Stele Road to Zachariel Crossroads
 		AddWarp("REMAINS37_ROKAS31", 45, From("f_remains_37", -1292, -2944), To("f_rokas_31", 553, -1337));

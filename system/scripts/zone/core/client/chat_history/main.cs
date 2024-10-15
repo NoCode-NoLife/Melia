@@ -16,7 +16,7 @@ using Melia.Zone.World.Actors.Characters;
 
 public class ChatHistoryClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 	}

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_35_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Nahash Forest to Fasika Plateau
 		AddWarp("SIAULIAI_35_1_TO_PILGRIM_36_2", -74, From("f_siauliai_35_1", -1946.602, -299.9609), To("f_pilgrimroad_36_2", 598, 1431));

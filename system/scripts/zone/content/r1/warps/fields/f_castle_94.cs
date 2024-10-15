@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_castle_94WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Inner Wall District 10 to Inner Wall District 9
 		AddWarp("F_CASTLE_94_TO_F_CASTLE_20_2", 0, From("f_castle_94", -688.4324, -862.6098), To("f_castle_20_2", 1694, -260));

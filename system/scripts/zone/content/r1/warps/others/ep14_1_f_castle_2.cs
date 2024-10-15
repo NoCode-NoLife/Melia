@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep14_1_f_castle_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Delmore Manor to Delmore Hamlet
 		AddWarp("WARP_EP14_1_F_CASTLE_2_TO_EP14_1_F_CASTLE_1", 90, From("ep14_1_f_castle_2", 2373.521, -149.7171), To("ep14_1_f_castle_1", -640, -455));

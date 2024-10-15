@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_prison_81WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Workshop to Solitary Cells
 		AddWarp("PRISON81_PRISON80", 269, From("d_prison_81", -1688.655, -961.2255), To("d_prison_80", -1292, -1033));

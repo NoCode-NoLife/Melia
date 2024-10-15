@@ -11,7 +11,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class MissionGele01MobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		AddSpawner("mission_gele_01.Id1", MonsterId.Rootcrystal_01, min: 12, max: 15, respawn: Seconds(15));
 

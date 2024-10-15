@@ -18,7 +18,7 @@ public class CustomNpcShopsClientScript : ClientScript
 	/// <summary>
 	/// Loads script files.
 	/// </summary>
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadLuaScript("001.lua");
 		this.LoadLuaScript("002.lua");

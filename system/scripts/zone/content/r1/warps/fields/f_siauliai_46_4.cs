@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_46_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Dina Bee Farm to Uskis Arable Land
 		AddWarp("SIAULIAI46_4_SIAULIAI46_2", 91, From("f_siauliai_46_4", 1478, 343), To("f_siauliai_46_2", -1205, 3290));

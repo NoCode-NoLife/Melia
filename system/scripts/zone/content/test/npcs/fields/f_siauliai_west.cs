@@ -10,7 +10,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliaiWestNpcTestScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Lv1 Treasure Chest
 		//-------------------------------------------------------------------------

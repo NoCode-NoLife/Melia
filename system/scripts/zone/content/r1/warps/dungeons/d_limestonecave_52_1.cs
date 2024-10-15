@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_limestonecave_52_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Tevhrin Stalactite Cave Section 1 to Khonot Forest
 		AddWarp("LIMESTONECAVE52_1_BRACKEN42_1", 90, From("d_limestonecave_52_1", 343.801, -1128.652), To("f_bracken_42_1", -1494, 237));

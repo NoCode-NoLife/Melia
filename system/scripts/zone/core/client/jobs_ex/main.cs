@@ -9,7 +9,7 @@ using Melia.Zone.World.Actors.Characters;
 
 public class JobExClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 	}

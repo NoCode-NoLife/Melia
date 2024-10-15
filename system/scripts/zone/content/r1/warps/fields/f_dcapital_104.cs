@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_dcapital_104WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Path of Desition to Rinksmas Ruins
 		AddWarp("WARP_DCAPITAL104_TO_DCAPITAL53_1", 80, From("f_dcapital_104", 1795.006, -2063.198), To("f_desolated_capital_53_1", 3115, 3393));

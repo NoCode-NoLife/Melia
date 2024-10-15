@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_zachariel_32WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Royal Mausoleum 1F to Zachariel Crossroads
 		AddWarp("ZACHARIEL32_ROKAS31", 0, From("d_zachariel_32", 30, -2423), To("f_rokas_31", -1186, 638));

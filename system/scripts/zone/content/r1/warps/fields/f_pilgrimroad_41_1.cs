@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_41_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Thaumas Trail to Grynas Trails
 		AddWarp("PILGRIM41_1_KATYN45_1", 14, From("f_pilgrimroad_41_1", 1347.195, -117.8764), To("f_katyn_45_1", -930, 910));

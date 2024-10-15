@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_farm_49_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Greene Manor to Aqueduct Bridge Area
 		AddWarp("FARM491_TO_FARM472", 106, From("f_farm_49_1", 2378, 909), To("f_farm_47_2", -1578, 998));

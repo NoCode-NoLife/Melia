@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep13_f_siauliai_5WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Kirtimas Forest to Issaugoti Forest
 		AddWarp("WARP_EP13_F_SIAULIAI_5_TO_EP13_F_SIAULIAI_4", -33, From("ep13_f_siauliai_5", -60.30424, -1271.741), To("ep13_f_siauliai_4", 69, 1063));

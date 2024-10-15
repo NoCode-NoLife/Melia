@@ -13,7 +13,7 @@ using Yggdrasil.Scripting;
 [Priority(100)]
 public class ServerConfClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 	}

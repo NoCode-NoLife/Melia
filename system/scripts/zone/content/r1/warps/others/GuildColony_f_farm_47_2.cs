@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class GuildColony_f_farm_47_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Aqueduct Bridge Area to Myrkiti Farm
 		AddWarp("FARM_47_2_TO_FARM_47_3", 112, From("GuildColony_f_farm_47_2", 2559.683, -1202.66), To("f_farm_47_3", -2021, 427));

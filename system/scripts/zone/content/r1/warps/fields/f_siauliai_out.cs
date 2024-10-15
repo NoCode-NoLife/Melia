@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_outWarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Miners' Village to East Siauliai Woods
 		AddWarp("WS_SIAULST3_SIAULST2", -19, From("f_siauliai_out", 500, -2241), To("f_siauliai_2", 2560, 1058));

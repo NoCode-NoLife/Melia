@@ -16,7 +16,7 @@ using Melia.Zone.World.Actors.Monsters;
 
 public class WorldMapClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 		this.LoadIesMods();

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_flash_59WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Verkti Square to Apsimesti Crossroads
 		AddWarp("FLASH59_PILGRIM52", 220, From("f_flash_59", -452, 881), To("f_pilgrimroad_52", -472, 1920));

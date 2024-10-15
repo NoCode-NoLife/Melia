@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep13_2_d_prison_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Ashaq Underground Prison 2F to Paupys Crossing
 		AddWarp("WARP_EP13_2_D_PRISON_2_TO_EP13_F_SIAULIAI_3", 90, From("ep13_2_d_prison_2", 1980.626, 79.96671), To("ep13_f_siauliai_3", 1165, 1562));

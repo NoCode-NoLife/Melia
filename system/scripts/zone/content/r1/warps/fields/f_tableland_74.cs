@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_74WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Steel Heights to Kadumel Cliff
 		AddWarp("TABLELAND74_TABLELAND73", 0, From("f_tableland_74", -2359.357, -1628.717), To("f_tableland_73", 1435, 1491));

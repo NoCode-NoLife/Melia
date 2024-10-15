@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep14_1_f_castle_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Delmore Outskirts to Lemprasa Pond
 		AddWarp("WARP_EP14_1_F_CASTLE_3_TO_EP13_F_SIAULIAI_1", 256, From("ep14_1_f_castle_3", -2068.512, 1043.251), To("ep13_f_siauliai_1", 862, 1921));

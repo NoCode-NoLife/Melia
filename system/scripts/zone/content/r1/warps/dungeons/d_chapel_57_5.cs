@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_chapel_57_5WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Tenet Church B1 to Tenet Garden
 		AddWarp("CHAPEL575_GELE574", 180, From("d_chapel_57_5", -1258, 1163), To("f_gele_57_4", 1105, 1982));

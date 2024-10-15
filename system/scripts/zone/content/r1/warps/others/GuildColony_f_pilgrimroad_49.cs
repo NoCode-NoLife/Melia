@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class GuildColony_f_pilgrimroad_49WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Genar Field to Manahas
 		AddWarp("PILGRIM_49_TO_PILGRIM_48", 124, From("GuildColony_f_pilgrimroad_49", 2378.388, 184.8524), To("f_pilgrimroad_48", -1455, -2052));

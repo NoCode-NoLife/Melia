@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_startower_89WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Astral Tower 4F to Astral Tower 1F
 		AddWarp("D_STARTOWER_89_TO_D_STARTOWER_88", -70, From("d_startower_89", 1230, -1978), To("d_startower_88", 1193, 3276));

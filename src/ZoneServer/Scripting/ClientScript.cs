@@ -22,7 +22,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Called to load the script files.
 		/// </summary>
-		public override void Load()
+		protected override void Load()
 		{
 		}
 

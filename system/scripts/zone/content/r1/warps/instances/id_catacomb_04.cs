@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class id_catacomb_04WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Underground Grave of Ritinis to Mokusul Chamber
 		AddWarp("CATACOMB_04_CATACOMB_38_2", 90, From("id_catacomb_04", -332.5004, -1978.717), To("id_catacomb_38_2", -1620, -1495));

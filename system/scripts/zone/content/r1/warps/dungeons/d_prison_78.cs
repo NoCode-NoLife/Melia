@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_prison_78WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Kalejimas Visiting Room to Steel Heights
 		AddWarp("PRISON78_TABLELAND74", 179, From("d_prison_78", 1046.767, -565.5245), To("f_tableland_74", 2001, 2357));

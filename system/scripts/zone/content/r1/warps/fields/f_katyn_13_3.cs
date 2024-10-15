@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_13_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Arrow Path to (Closed) Letas Stream
 		AddWarp("KATYN13_3_KATYN12", 90, From("f_katyn_13_3", 2393, 294), To("f_katyn_12", -1527, 2245));

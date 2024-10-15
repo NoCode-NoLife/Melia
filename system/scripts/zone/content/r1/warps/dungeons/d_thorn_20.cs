@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_thorn_20WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Sirdgela Forest to Gate Route
 		AddWarp("THORN20_THORN19", 260, From("d_thorn_20", -1549, -1884), To("d_thorn_19", 2038, -948));

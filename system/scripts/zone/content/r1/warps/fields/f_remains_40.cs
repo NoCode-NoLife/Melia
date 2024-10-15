@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_remains_40WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Fedimian Suburbs to Escanciu Village
 		AddWarp("WS_REMAINS40_TO_REMAINS39", 45, From("f_remains_40", 111, -2598), To("f_remains_39", 944, 1554));

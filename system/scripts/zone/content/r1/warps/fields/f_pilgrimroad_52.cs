@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_52WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Apsimesti Crossroads to Forest of Prayer
 		AddWarp("PILGRIM52_PILGRIM51", 350, From("f_pilgrimroad_52", -1184.457, -3331.97), To("f_pilgrimroad_51", -1453, 1281));

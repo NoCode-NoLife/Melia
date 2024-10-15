@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_36_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Fasika Plateau to Galeed Plateau
 		AddWarp("PILGRIM_36_2_TO_ROKAS_36_1", 76, From("f_pilgrimroad_36_2", 1701.768, -604.2138), To("f_rokas_36_1", 49, 1076));

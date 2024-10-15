@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_45_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Grynas Training Camp to Grynas Hills
 		AddWarp("KATYN45_2_KATYN45_3", 360, From("f_katyn_45_2", 1676, -2250), To("f_katyn_45_3", -73, -1650));

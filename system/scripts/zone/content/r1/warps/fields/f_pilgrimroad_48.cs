@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_48WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Manahas to Fasika Plateau
 		AddWarp("PILGRIM_48_TO_PILGRIM_36_2", 206, From("f_pilgrimroad_48", -560.6875, 1498.365), To("f_pilgrimroad_36_2", -21, -875));

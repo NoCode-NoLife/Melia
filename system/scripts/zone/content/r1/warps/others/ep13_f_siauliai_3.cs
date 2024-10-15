@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep13_f_siauliai_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Paupys Crossing to Woods of the Linked Bridges
 		AddWarp("WARP_EP13_F_SIAULIAI_3_TO_EP13_F_SIAULIAI_2", 61, From("ep13_f_siauliai_3", 2687.554, -591.4047), To("ep13_f_siauliai_2", 876, 1721));

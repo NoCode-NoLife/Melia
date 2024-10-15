@@ -13,7 +13,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class CustomQuestSystemClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 

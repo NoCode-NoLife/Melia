@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_whitetrees_21_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Nobreer Forest to Emmet Forest
 		AddWarp("WHITETREES_21_2_WHITETREES_23_1", -45, From("f_whitetrees_21_2", -1252.25, -1541.92), To("f_whitetrees_23_1", 414, 1544));

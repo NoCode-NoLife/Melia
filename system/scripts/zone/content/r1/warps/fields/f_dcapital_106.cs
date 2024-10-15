@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_dcapital_106WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Gliehel Memorial to City Wall District 4
 		AddWarp("WARP_DCAPITAL106_TO_DCAPITAL192", 90, From("f_dcapital_106", -1650.401, -218.0122), To("d_castle_19_2", 0, 0));
