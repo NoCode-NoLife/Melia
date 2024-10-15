@@ -9,6 +9,11 @@ namespace Melia.Zone.Events
 	/// </summary>
 	public class ServerEvents
 	{
+		/// <summary>
+		/// Manager for dynamic events that can be added and removed at runtime.
+		/// </summary>
+		public readonly DynamicEventManager Dynamic = new();
+
 		// Time Events
 		//-------------------------------------------------------------------
 
