@@ -105,19 +105,18 @@ namespace Melia.Zone.Events
 		public readonly Event<PlayerChatEventArgs> PlayerChat = new();
 
 		/// <summary>
-		/// Raised the level of a player's skill changed.
+		/// Raised when the level of a player's skill changed.
 		/// </summary>
 		public readonly Event<PlayerSkillLevelChangedEventArgs> PlayerSkillLevelChanged = new();
 
 		/// <summary>
-		/// Raised a player gains new items, such as by picking them up
+		/// Raised when a player gains new items, such as by picking them up
 		/// or buying them.
 		/// </summary>
 		public readonly Event<PlayerItemEventArgs> PlayerAddedItem = new();
 
 		/// <summary>
-		/// Raised a player gains loses items, such as by destroying or
-		/// selling them.
+		/// Raised when a player loses items, such as by destroying or selling them.
 		/// </summary>
 		public readonly Event<PlayerItemEventArgs> PlayerRemovedItem = new();
 
