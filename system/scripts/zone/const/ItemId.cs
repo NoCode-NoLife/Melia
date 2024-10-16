@@ -19351,6 +19351,12 @@ public static class ItemId
 	public const int Leticia_VultureT_Unlockbox = 11205262;
 	public const int Selectbox_Ep16poporiruta = 11205263;
 	public const int Special_Gift_Box_Leticia_2410 = 11205264;
+	public const int Special_Gift_Box_BlessedCube_2410_PAPAYA = 11205265;
+	public const int Special_Gift_Box_Leticia_2410_PAPAYA = 11205266;
+	public const int I202410_Package01_Papaya = 11205267;
+	public const int I202410_Package02_Papaya = 11205268;
+	public const int I202410_Package03_Papaya = 11205269;
+	public const int I202410_Package04_Papaya = 11205270;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
