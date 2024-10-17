@@ -1668,7 +1668,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAutoloot(Character sender, Character target, string message, string command, Arguments args)
 		{
-			var autoloot = sender.Variables.Temp.Get("Autoloot", 0);
+			var autoloot = sender.Variables.Perm.GetInt("Melia.Autoloot", 0);
 
 			// If we got an argument, use it as the max drop chance of
 			// items that are to be autolooted. Without an argument,
@@ -1689,7 +1689,7 @@ namespace Melia.Zone.Commands
 				autoloot = 0;
 			}
 
-			sender.Variables.Temp.Set("Autoloot", autoloot);
+			sender.Variables.Perm.SetInt("Melia.Autoloot", autoloot);
 
 			if (autoloot == 100)
 				target.ServerMessage(Localization.Get("Autoloot is now active."));
