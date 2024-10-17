@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Network;
 
 namespace Melia.Zone.Buffs.Handlers.Common
 {
@@ -22,6 +23,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 			var speedBonus = buff.NumArg1;
 
 			AddPropertyModifier(buff, buff.Target, PropertyName.MSPD_BM, speedBonus);
+			Send.ZC_MSPD(buff.Target);
 		}
 
 		/// <summary>
@@ -31,6 +33,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		public override void OnEnd(Buff buff)
 		{
 			RemovePropertyModifier(buff, buff.Target, PropertyName.MSPD_BM);
+			Send.ZC_MSPD(buff.Target);
 		}
 	}
 }
