@@ -104,7 +104,7 @@ namespace Melia.Zone.World.Quests
 		/// <exception cref="ArgumentException">
 		/// Thrown if no quest with the given id could be found.
 		/// </exception>
-		public static Quest Create(int questId)
+		public static Quest Create(QuestId questId)
 		{
 			if (!QuestScript.TryGet(questId, out var questScript))
 				throw new ArgumentException($"Quest '{questId}' not found.");

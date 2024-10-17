@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Melia.Zone.Scripting;
 
 namespace Melia.Zone.World.Quests
 {
@@ -11,7 +12,7 @@ namespace Melia.Zone.World.Quests
 		/// <summary>
 		/// Get or sets the quest's id.
 		/// </summary>
-		public int Id { get; set; }
+		public QuestId Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quest's name.

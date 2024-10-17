@@ -14,7 +14,7 @@ namespace Melia.Zone.Scripting
 	public abstract class QuestScript : IScript, IDisposable
 	{
 		private readonly static object ScriptsSyncLock = new();
-		private readonly static Dictionary<int, QuestScript> Scripts = new();
+		private readonly static Dictionary<QuestId, QuestScript> Scripts = new();
 		private readonly static Dictionary<Type, QuestObjective> Objectives = new();
 		private readonly static List<QuestScript> AutoReceiveQuests = new();
 
@@ -26,7 +26,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Returns the id of the quest this script created.
 		/// </summary>
-		public int QuestId => this.Data.Id;
+		public QuestId QuestId => this.Data.Id;
 
 		/// <summary>
 		/// Initializes script, creating the quest and saving it for
@@ -37,7 +37,7 @@ namespace Melia.Zone.Scripting
 		{
 			this.Load();
 
-			if (this.Data.Id == 0)
+			if (this.Data.Id == QuestId.Zero)
 				throw new MissingFieldException($"Quest '{this.GetType().Name}' has no id defined.");
 			if (this.Data.Name == null)
 				throw new MissingFieldException($"Quest '{this.GetType().Name}' has no name defined.");
@@ -72,7 +72,7 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public static bool Exists(int questId)
+		public static bool Exists(QuestId questId)
 		{
 			lock (ScriptsSyncLock)
 				return Scripts.ContainsKey(questId);
@@ -85,7 +85,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="questId"></param>
 		/// <param name="questScript"></param>
 		/// <returns></returns>
-		public static bool TryGet(int questId, out QuestScript questScript)
+		public static bool TryGet(QuestId questId, out QuestScript questScript)
 		{
 			lock (ScriptsSyncLock)
 				return Scripts.TryGetValue(questId, out questScript);
@@ -163,8 +163,22 @@ namespace Melia.Zone.Scripting
 		/// Sets the quest's id.
 		/// </summary>
 		/// <param name="id"></param>
-		protected void SetId(int id)
-			=> this.Data.Id = id;
+		[Obsolete("Use SetId(string, int) instead.")]
+		protected void SetId(long id)
+			=> this.SetId(null, id);
+
+		/// <summary>
+		/// Sets the quest's namespace and id.
+		/// </summary>
+		/// <remarks>
+		/// Quests should be grouped within certain namespaces to reduce the risk
+		/// of collisions. These may be based on the creator of the quest, the
+		/// name of a questline, or any number of other factors.
+		/// </remarks>
+		/// <param name="questNamespace">Namespace to place the quest in.</param>
+		/// <param name="id">The id of the quest within the given namespace. Valid range: 1-65535</param>
+		protected void SetId(string questNamespace, long id)
+			=> this.Data.Id = new QuestId(questNamespace, id);
 
 		/// <summary>
 		/// Sets the quest's name.
