@@ -304,6 +304,53 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questNamespace"></param>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no quest with the given id was found.
+		/// </exception>
+		public bool MeetsPrerequisites(string questNamespace, long id)
+			=> this.MeetsPrerequisites(new QuestId(questNamespace, id));
+
+		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questId"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no quest with the given id was found.
+		/// </exception>
+		public bool MeetsPrerequisites(QuestId questId)
+		{
+			if (!QuestScript.TryGet(questId, out var questScript))
+				throw new ArgumentException($"Quest '{questId}' not found.");
+
+			return this.MeetsPrerequisites(questScript);
+		}
+
+		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questScript"></param>
+		/// <returns></returns>
+		internal bool MeetsPrerequisites(QuestScript questScript)
+		{
+			foreach (var prerequisite in questScript.Data.Prerequisites)
+			{
+				if (!prerequisite.Met(this.Character))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns true if the character has ever completed the quest
 		/// before.
 		/// </summary>

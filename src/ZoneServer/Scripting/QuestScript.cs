@@ -104,27 +104,14 @@ namespace Melia.Zone.Scripting
 				if (AutoReceiveQuests.Count == 0)
 					return;
 
-				for (var i = 0; i < AutoReceiveQuests.Count; ++i)
+				foreach (var questScript in AutoReceiveQuests)
 				{
-					var questScript = AutoReceiveQuests[i];
-
-					// Skip if character already has the quest
 					if (character.Quests.Has(questScript.Data.Id))
 						continue;
 
-					// Check if all prerequisites are met
-					var allMet = true;
-					for (var j = 0; j < questScript.Data.Prerequisites.Count; ++j)
-					{
-						var prerequisite = questScript.Data.Prerequisites[j];
-						if (!prerequisite.Met(character))
-							allMet = false;
-					}
-
-					if (!allMet)
+					if (!character.Quests.MeetsPrerequisites(questScript))
 						continue;
 
-					// Start the quest
 					character.Quests.Start(questScript.Data.Id, questScript.Data.StartDelay);
 				}
 			}
