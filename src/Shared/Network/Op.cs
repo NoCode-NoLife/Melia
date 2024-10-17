@@ -1250,8 +1250,8 @@ namespace Melia.Shared.Network
 		public const int CZ_InteractionCancel = 0x520A; // Size: 64
 		public const int ZC_InteractionRideUseSkill = 0x520B; // Size: 0
 
-		private static readonly Dictionary<int, int> Sizes = new Dictionary<int, int>();
-		private static readonly Dictionary<int, string> Names = new Dictionary<int, string>();
+		private static readonly Dictionary<int, int> Sizes = new();
+		private static readonly Dictionary<int, string> Names = new();
 
 		static Op()
 		{
