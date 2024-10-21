@@ -19,7 +19,7 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class HelpDb : DatabaseJsonIndexed<int, HelpData>
 	{
-		private readonly Dictionary<string, HelpData> _nameIndex = new Dictionary<string, HelpData>();
+		private readonly Dictionary<string, HelpData> _nameIndex = new();
 
 		/// <summary>
 		/// Returns the help entry with given name, or null if there was
