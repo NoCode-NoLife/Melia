@@ -2838,6 +2838,7 @@ namespace Melia.Shared.Game.Const
 		Event_2410_BUFF_3 = 7807,
 		Event_2410_BUFF_4 = 7808,
 		Event_2410_BUFF_5 = 7809,
+		Event_2410_BUFF_LEAVE = 7813,
 		Ability_buff_Avoidance = 8001,
 		Ability_buff_Explosion = 8002,
 		Ability_buff_Debuff_Immune = 8003,

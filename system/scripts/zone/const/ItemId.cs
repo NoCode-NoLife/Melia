@@ -10000,6 +10000,7 @@ public static class ItemId
 	public const int GLOBAL_EVENT_MISSION_TRY_WARP_SCROLL = 902178;
 	public const int EVENT_1805_WEDDING2_COSTUME_BOX = 904043;
 	public const int EVENT_1807_STORY_2_COSTUME_BOX = 904050;
+	public const int EVENT_1810_FALL_GINKGO_LEAF = 904098;
 	public const int Ability_Point_Stone_1000_14d_Team = 904100;
 	public const int Ability_Point_Stone_100_14d_Team = 904104;
 	public const int Ability_Point_Stone_500_14d_Team = 904105;
@@ -13473,7 +13474,6 @@ public static class ItemId
 	public const int EVENT_1809_CHUSEOK_MOON_PIECE = 904093;
 	public const int Extract_Kit_Sliver_Team_14d = 904096;
 	public const int EVENT_1810_FALL_MAPLE_LEAF = 904097;
-	public const int EVENT_1810_FALL_GINKGO_LEAF = 904098;
 	public const int EVENT_1811_KUPOLE_COIN = 904109;
 	public const int Costume_Exchange_Coupon = 904110;
 	public const int EVENT_1903_TERIAVELIS_STONE = 904146;
@@ -13565,6 +13565,7 @@ public static class ItemId
 	public const int Event_Roulette_Coin_PoPo_2409 = 10003709;
 	public const int EVENT_MOONRISE_2410 = 10003710;
 	public const int EVENT_MOONRISE_2410_PAPAYA = 10003712;
+	public const int EVENT_LEAVE_2410 = 10003713;
 	public const int Event_2011_Fish = 10007001;
 	public const int Event_2011_Fish2 = 10007002;
 	public const int Event_2107_Fish = 10007005;

@@ -18640,6 +18640,8 @@
 { classId: 5651602, className: "EVENT_2407_KUPOLE_GUIDE_PAPAYA" },
 { classId: 5651610, className: "W_MOON2410_DLG_INTRO" },
 { classId: 5651611, className: "W_MOON410_DLG_GUIDE" },
+{ classId: 5651612, className: "W_LEAVES2410_DLG_INTRO" },
+{ classId: 5651613, className: "W_LEAVES2410_DLG_GUIDE" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

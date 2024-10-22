@@ -6384,6 +6384,7 @@ public static class MonsterId
 	public const int Papaya02_Colony_Flag_Klapeda = 160236;
 	public const int Papaya02_Colony_Flag_Orsha = 160237;
 	public const int Papaya02_Colony_Flag_Pedimian = 160238;
+	public const int Npc_Oti_R = 160240;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

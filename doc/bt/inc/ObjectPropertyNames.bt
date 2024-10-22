@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i390071
+//   Version: i390340
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -29857,7 +29857,15 @@ string getPropertyName(int id)
         case 115646: return "IndunWeeklyEnteredCount_841";
         case 115647: return "IndunWeeklyEnteredCount_840";
         case 115648: return "Kill_boss_neringa_of_evil_Auto";
+        case 115649: return "InDunCountType_840";
+        case 115650: return "InDunCountType_842";
+        case 115651: return "HadVisited_11276";
+        case 115652: return "IndunWeeklyEnteredCount_842";
+        case 115653: return "InDunCountType_843";
+        case 115654: return "InDunCountType_841";
+        case 115655: return "IndunWeeklyEnteredCount_841";
         case 115656: return "AchieveReward_Raid_CollapsingMine_gold";
+        case 115657: return "HadVisited_11277";
         case 115658: return "AchieveReward_Raid_BlackRevelation_silver";
         case 115659: return "AchieveReward_Goddess_Raid_CollapsingMine_Party_1";
         case 115660: return "AchieveReward_Goddess_Raid_BlackRevelation_Party_1";
@@ -29876,9 +29884,11 @@ string getPropertyName(int id)
         case 115673: return "AchieveReward_Raid_CollapsingMine_bronze";
         case 115674: return "AchieveReward_Goddess_Raid_CollapsingMine_Party_4";
         case 115675: return "AchieveReward_Goddess_Raid_BlackRevelation_Party_4";
+        case 115676: return "IndunWeeklyEnteredCount_840";
         case 115677: return "AchieveReward_Goddess_Raid_BlackRevelation_Auto_1";
         case 115678: return "AchieveReward_Goddess_Raid_CollapsingMine_Auto_1";
         case 115679: return "AchieveReward_Raid_BlackRevelation_gold";
+        case 115680: return "IndunWeeklyEnteredCount_843";
         case 115681: return "MG_Last_Goddess_Raid_CollapsingMine_Party";
         case 115682: return "MG_Last_Goddess_Raid_CollapsingMine_Auto";
         case 115683: return "MG_Last_Goddess_Raid_BlackRevelation_Party";
@@ -29911,6 +29921,7 @@ string getPropertyName(int id)
         case 115710: return "Cupole_034";
         case 115711: return "lecifer1";
         case 115712: return "lecifer2";
+        case 115713: return "HiddenJob_Char5_20";
         case 115713: return "HiddenJob_Char5_20";
         case 115714: return "GEM_Vulture_Devastation_Scout_cabinet";
         case 115715: return "EVENT_2410_MOONRISE_PAPAYA_4";
@@ -29964,6 +29975,49 @@ string getPropertyName(int id)
         case 115763: return "ep16poporiruta_sword_cabinet";
         case 115764: return "ep16poporiruta_musket_cabinet";
         case 115765: return "ContentsTotalShop_2410_1";
+        case 115766: return "UnlockQuest_Char4_24";
+        case 115767: return "InDunCountType_845";
+        case 115768: return "InDunCountType_844";
+        case 115769: return "IndunWeeklyEnteredCount_846";
+        case 115770: return "IndunWeeklyEnteredCount_845";
+        case 115771: return "InDunCountType_846";
+        case 115772: return "Season_CollapsingMine_Ex_Raid_Hard_EntryCount";
+        case 115773: return "Season_CollapsingMine_Ex_Raid_Normal_EntryCount";
+        case 115774: return "Season_CollapsingMine_Ex_Raid_Easy_EntryCount";
+        case 115775: return "IndunWeeklyEnteredCount_844";
+        case 115776: return "MG_Last_Goddess_Raid_CollapsingMine_Ex_Easy";
+        case 115777: return "MG_Last_Goddess_Raid_CollapsingMine_Ex_Hard";
+        case 115778: return "MG_Last_Goddess_Raid_CollapsingMine_Ex_Normal";
+        case 115779: return "IndunWeeklyEnteredCount_845";
+        case 115780: return "Kill_boss_crystal_golem_season";
+        case 115781: return "IndunWeeklyEnteredCount_844";
+        case 115782: return "InDunCountType_846";
+        case 115783: return "Kill_boss_neringa_of_evil_season";
+        case 115784: return "IndunWeeklyEnteredCount_846";
+        case 115785: return "InDunCountType_845";
+        case 115786: return "InDunCountType_844";
+        case 115787: return "EVENT_2410_W_LEAVES_WEEKLY_COIN_CNT";
+        case 115788: return "EVENT_2410_W_LEAVES_TOTAL_COIN_CNT";
+        case 115789: return "EVENT_2410_LEAVES_2";
+        case 115790: return "EVENT_2410_LEAVES_9";
+        case 115791: return "EVENT_2410_LEAVES_10";
+        case 115792: return "EVENT_2410_LEAVES_3";
+        case 115793: return "EVENT_2410_LEAVES_20";
+        case 115794: return "EVENT_2410_LEAVES_14";
+        case 115795: return "EVENT_2410_LEAVES_19";
+        case 115796: return "EVENT_2410_LEAVES_1";
+        case 115797: return "EVENT_2410_LEAVES_7";
+        case 115798: return "EVENT_2410_LEAVES_17";
+        case 115799: return "EVENT_2410_LEAVES_5";
+        case 115800: return "EVENT_2410_LEAVES_11";
+        case 115801: return "EVENT_2410_LEAVES_6";
+        case 115802: return "EVENT_2410_LEAVES_4";
+        case 115803: return "EVENT_2410_LEAVES_12";
+        case 115804: return "EVENT_2410_LEAVES_8";
+        case 115805: return "EVENT_2410_LEAVES_13";
+        case 115806: return "EVENT_2410_LEAVES_16";
+        case 115807: return "EVENT_2410_LEAVES_15";
+        case 115808: return "EVENT_2410_LEAVES_18";
         default: return "Unknown";
     }
 }
