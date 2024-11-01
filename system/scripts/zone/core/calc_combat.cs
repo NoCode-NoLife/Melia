@@ -557,6 +557,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (modifier.ForcedHit)
 			return 0;
 
+		if (modifier.ForcedEvade)
+			return 100;
+
 		var dr = target.Properties.GetFloat(PropertyName.DR);
 		var hr = attacker.Properties.GetFloat(PropertyName.HR);
 
