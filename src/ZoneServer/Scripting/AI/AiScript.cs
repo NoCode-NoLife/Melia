@@ -488,6 +488,12 @@ namespace Melia.Zone.Scripting.AI
 					_hateLevels.Remove(targetHandle);
 					break;
 				}
+
+				case HateIncreaseAlert hateIncreaseAlert:
+				{
+					this.IncreaseHate(hateIncreaseAlert.Target, hateIncreaseAlert.Amount);
+					break;
+				}
 			}
 		}
 

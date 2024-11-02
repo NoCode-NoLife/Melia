@@ -1,16 +1,21 @@
-﻿using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
+namespace Melia.Zone.Buffs.Handlers.Common
 {
 	/// <summary>
-	/// Handler for the Mangle Buff, which grants forced evade
+	/// Contains code related to the Momentary Block Buff
 	/// </summary>
-	[BuffHandler(BuffId.Mangle_Buff)]
-	public class Mangle_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	/// <remarks>
+	/// This buff is granted by certain skills and causes you to always
+	/// evade for a duration.
+	/// </remarks>
+	[BuffHandler(BuffId.Skill_MomentaryEvasion_Buff)]
+	public class Skill_MomentaryEvasion_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.

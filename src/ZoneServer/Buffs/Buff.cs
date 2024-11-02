@@ -268,6 +268,17 @@ namespace Melia.Zone.Buffs
 		}
 
 		/// <summary>
+		/// Increases the buff's duration by a given amount.
+		/// </summary>
+		internal void IncreaseDuration(TimeSpan amount)
+		{
+			if (this.HasDuration)
+			{
+				this.RemovalTime = DateTime.Now.Add(amount);
+			}
+		}
+
+		/// <summary>
 		/// Executes the buff handler's end behavior. Does not actually
 		/// end or remove the buff.
 		/// </summary>

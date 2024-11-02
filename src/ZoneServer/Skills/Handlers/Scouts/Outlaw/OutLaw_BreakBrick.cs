@@ -14,7 +14,7 @@ using Yggdrasil.Util;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Scouts.Outlaw
+namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 {
 	/// <summary>
 	/// Handler for the Assassin skill Brick Smash

@@ -16,10 +16,10 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for the Outlaw skill Mangle
+	/// Handler for the Outlaw skill Blindfire
 	/// </summary>
-	[SkillHandler(SkillId.OutLaw_Mangle)]
-	public class OutLaw_Mangle : IGroundSkillHandler
+	[SkillHandler(SkillId.OutLaw_FireBlindly)]
+	public class OutLaw_FireBlindly : IGroundSkillHandler
 	{
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -39,8 +39,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 40, width: 20, angle: 0);
-			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 120, width: 40, angle: 80);
+			var splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
@@ -56,15 +56,13 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay1 = TimeSpan.FromMilliseconds(350);
-			var hitDelay2 = TimeSpan.FromMilliseconds(600);
-			var hitDelay3 = TimeSpan.FromMilliseconds(50);
+			var hitDelay = TimeSpan.FromMilliseconds(360);
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 
-			// Outlaw6 gives guaranteed evade throughout the whole animation
-			if (caster.IsAbilityActive(AbilityId.Outlaw6))
-				caster.StartBuff(BuffId.Mangle_Buff, skill.Level, 0, TimeSpan.FromMilliseconds(1300), caster);
+			// Outlaw9 gives guaranteed evade throughout the whole animation
+			if (caster.IsAbilityActive(AbilityId.Outlaw9))
+				caster.StartBuff(BuffId.FireBlindly_Buff, skill.Level, 0, TimeSpan.FromMilliseconds(600), caster);
 
 			// First attack hits with no delay
 
@@ -73,10 +71,15 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.MultiHit(3);
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				var modifier = SkillModifier.MultiHit(4);
+				modifier.BonusCritChance += GetCritBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+
+				// Outlaw10 adds 30% damage on a critical
+				if (caster.IsAbilityActive(AbilityId.Outlaw10) && skillHitResult.Result == HitResultType.Crit)
+					skillHitResult.Damage *= 1.3f;
+
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
@@ -86,92 +89,47 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
-			await Task.Delay(hitDelay1);
+			await Task.Delay(hitDelay);
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.MultiHit(2);
-
-				// Outlaw7 adds 3 more hits
-				if (caster.IsAbilityActive(AbilityId.Outlaw7))
-					modifier.HitCount += 3;
-
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				var modifier = SkillModifier.MultiHit(4);
+				modifier.BonusCritChance += GetCritBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit);
-			}
+				// Outlaw10 adds 30% damage on a critical
+				if (caster.IsAbilityActive(AbilityId.Outlaw10) && skillHitResult.Result == HitResultType.Crit)
+					skillHitResult.Damage *= 1.3f;
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
-			hits.Clear();
-			await Task.Delay(hitDelay2);
-
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				var modifier = SkillModifier.Default;
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
-
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult.Damage, caster);
-
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				skillHit.HitEffect = HitEffect.Impact;
-				hits.Add(skillHit);
-			}
-
-			Send.ZC_SKILL_HIT_INFO(caster, hits);
-			hits.Clear();
-			await Task.Delay(hitDelay3);
-
-			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-
-			foreach (var target in targets.LimitBySDR(caster, skill))
-			{
-				var modifier = SkillModifier.MultiHit(3);
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
-
-				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 				hits.Add(skillHit);
 
+				// Description doesn't mention this, but it's in skill_bytool
 				target.StartBuff(BuffId.MangleAndFireBlindly_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
-			}			
+			}
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);			
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 
 
 		/// <summary>
 		/// Return the bonus damage
-		/// Adds 0.5 to final damage for each of Blind, Bleed, or Stun
+		/// Adds 20 to crit chance if target has any of Blind, Bleed, or Stun
 		/// </summary>
 		/// <param name="target"></param>
 		/// <returns></returns>
-		private float GetDamageBonus(ICombatEntity target)
+		private float GetCritBonus(ICombatEntity target)
 		{
-			float damageBonus = 0f;
+			if (target.IsBuffActive(BuffId.SprinkleSands_Debuff) || target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff) || target.IsBuffActive(BuffId.Stun))
+				return 20f;
 
-			if (target.IsBuffActive(BuffId.SprinkleSands_Debuff))
-				damageBonus += 0.5f;
-
-			if (target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff))
-				damageBonus += 0.5f;
-
-			if (target.IsBuffActive(BuffId.Stun))
-				damageBonus += 0.5f;
-
-			return damageBonus;
+			return 0f;
 		}
 	}
 }
