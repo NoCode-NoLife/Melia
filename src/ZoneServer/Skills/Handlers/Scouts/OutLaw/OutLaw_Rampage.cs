@@ -127,16 +127,12 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 					if (iceVariant)
 						modifier.AttackAttribute = AttributeType.Ice;
 
-					Log.Warning("Attempting to hit target");
-
 					var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 					target.TakeDamage(skillHitResult.Damage, caster);
 
 					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 					skillHit.HitEffect = HitEffect.Impact;
 					hits.Add(skillHit);
-
-					Log.Warning("Hit target");
 
 					var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
 					if (RandomProvider.Get().Next(1000) < buffRemoveChance)

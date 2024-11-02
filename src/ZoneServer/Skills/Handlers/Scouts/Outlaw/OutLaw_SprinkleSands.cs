@@ -67,7 +67,15 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			var hits = new List<SkillHitInfo>();
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			foreach (var target in targets.LimitBySDR(caster, skill))
+			var hitTargets = targets.LimitBySDR(caster, skill);
+
+			// Outlaw2 makes the max target count 17
+			if (caster.IsAbilityActive(AbilityId.Outlaw2))
+			{
+				hitTargets = targets.LimitRandom(17);
+			}
+
+			foreach (var target in hitTargets)
 			{
 				var modifier = SkillModifier.MultiHit(4);
 
