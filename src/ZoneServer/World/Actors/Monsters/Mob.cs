@@ -5,7 +5,9 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Buffs.Handlers.Scout.Assassin;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
@@ -295,6 +297,13 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
+
+			// End all of its buffs
+			if (this.Components.TryGet<BuffComponent>(out var buffComponent))
+			{
+				buffComponent.RemoveAll();
+			}
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
 			var beneficiary = this.GetKillBeneficiary(killer);
@@ -736,6 +745,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (entity.IsDead)
 				return false;
 
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
 			// For now, let's specify that mobs can attack any combat
 			// entities, since we want them them to be able to attack
 			// both characters and other mobs.
@@ -773,6 +785,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			// TODO: Move this somewhere else, perhaps with a hook/event?
 			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			var healingModifier = Math.Max(0, 1 - healingReduction);
 

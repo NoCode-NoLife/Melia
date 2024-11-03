@@ -8,6 +8,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
 using Melia.Shared.World;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Buffs.Handlers.Scout.Assassin;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
@@ -770,6 +771,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// TODO: Move this somewhere else, perhaps with a hook/event?
 			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
@@ -1421,6 +1423,9 @@ namespace Melia.Zone.World.Actors.Characters
 				return false;
 
 			if (entity.IsDead)
+				return false;
+
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
 				return false;
 
 			// For now, let's specify that characters can attack actual
