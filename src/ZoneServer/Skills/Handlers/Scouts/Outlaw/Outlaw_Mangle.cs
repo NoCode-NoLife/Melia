@@ -16,7 +16,7 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for the Outlaw skill Mangle
+	/// Handler for the Outlaw skill Mangle.
 	/// </summary>
 	[SkillHandler(SkillId.OutLaw_Mangle)]
 	public class OutLaw_Mangle : IGroundSkillHandler
