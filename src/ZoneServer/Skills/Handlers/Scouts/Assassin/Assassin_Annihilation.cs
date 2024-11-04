@@ -113,15 +113,21 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 
 				hits.Clear();
 
-				if (i < 6)
+				// we actually have to wait for the last hit here as well
+				// due to the animation cancel and cloaking effect
+				if (i < 7)
 					await Task.Delay(delayBetweenHits);
 			}
+
+			// Have to send this to make you reappear afterwards			
+			Send.ZC_NORMAL.SkillCancelCancel(caster, skill.Id);
+			Send.ZC_PLAY_ANI(caster, "idle1");
 
 			// Assassin16 gives cloak after the slow version
 			if (!isFastVariant && caster.TryGetActiveAbilityLevel(AbilityId.Assassin16, out var level))
 			{
 				caster.StartBuff(BuffId.Cloaking_Buff, skill.Level, 0, TimeSpan.FromSeconds(level), caster);
-			}			
+			}
 		}
 	}
 }
