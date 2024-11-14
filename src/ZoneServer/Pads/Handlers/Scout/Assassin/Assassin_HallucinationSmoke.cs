@@ -13,8 +13,8 @@ using Yggdrasil.Logging;
 namespace Melia.Zone.Pads.Handlers.Scout.Assassin
 {
 	/// <summary>
-	/// Handler for the ThrouwingSpear_Hoplite33_Pad,
-	/// which displays an explosion effect in a given position
+	/// Handler for the Assassin HallucinationSmoke pad,
+	/// which displays a smoke cloud
 	/// </summary>
 	[PadHandler(PadName.Assassin_HallucinationSmoke)]
 	public class Assassin_HallucinationSmoke : ICreatePadHandler, IDestroyPadHandler

@@ -87,8 +87,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 					if (isFastVariant)
 						modifier.HitCount = 10;
 
-					// Assassin15 adds double crit rate to bleeding targets
-					if (caster.IsAbilityActive(AbilityId.Assassin15) && (target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff)))
+					// Assassin17 adds double crit rate to bleeding targets
+					if (caster.IsAbilityActive(AbilityId.Assassin17) && (target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff)))
 					{
 						modifier.CritRateMultiplier++;
 					}
