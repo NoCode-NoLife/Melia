@@ -106,7 +106,7 @@ namespace Melia.Zone.Buffs.Base
 				value += oldValue;
 
 			buff.Vars.SetFloat(varName, value);
-			target.Properties.Modify(propertyName, value);
+			target.Properties.Modify(propertyName, value - oldValue);
 		}
 
 		/// <summary>
