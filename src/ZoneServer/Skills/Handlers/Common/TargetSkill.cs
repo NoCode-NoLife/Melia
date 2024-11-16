@@ -13,7 +13,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 	/// <summary>
 	/// Handles ranged skills that target a single entity.
 	/// </summary>
-	[SkillHandler(SkillId.Bow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
+	[SkillHandler(SkillId.Bow_Attack, SkillId.CrossBow_Attack, SkillId.Magic_Attack, SkillId.Pistol_Attack)]
 	public class TargetSkill : ITargetSkillHandler
 	{
 		private const int DoubleAttackRate = 40;
