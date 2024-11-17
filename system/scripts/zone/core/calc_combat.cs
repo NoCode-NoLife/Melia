@@ -119,7 +119,7 @@ public class CombatCalculationsScript : GeneralScript
 
 		// Apply the skill factor, raising the damage based on the skill's
 		// damage multiplier
-		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor);
+		var skillFactor = skill.Properties.GetFloat(PropertyName.SkillFactor) + modifier.BonusFactor;
 		skillHitResult.Damage *= skillFactor / 100f;
 
 		// Block needs to be calculated before criticals happen,
