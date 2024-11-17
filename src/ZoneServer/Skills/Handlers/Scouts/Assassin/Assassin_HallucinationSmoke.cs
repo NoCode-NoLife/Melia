@@ -25,8 +25,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 	[SkillHandler(SkillId.Assassin_HallucinationSmoke)]
 	public class Assassin_HallucinationSmoke : IGroundSkillHandler
 	{
-		private readonly static TimeSpan DebuffDuration = TimeSpan.FromSeconds(5);
-
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
