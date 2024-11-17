@@ -27,8 +27,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 	[SkillHandler(SkillId.QuarrelShooter_Teardown)]
 	public class QuarrelShooter_Teardown : IGroundSkillHandler
 	{
-		int[] enemyTargetIds = [47452, 58283, 58284, 58285, 58287, 57709, 57417, 46013, 58288, 800032, 800033, 800034, 800035, 800036, 800037, 800038, 800039, 800040, 800041];
-		int[] friendlyTargetIds = [47452, 57417, 46013];
+		// This specifies the valid targets for this skill
+		// They differ between friendly and enemy targets
+		// and QuarrelShooter7 allows extra targets to be hit
+		int[] EnemyTargetIds = [47452, 58283, 58284, 58285, 58287, 57709, 57417, 46013, 58288, 800032, 800033, 800034, 800035, 800036, 800037, 800038, 800039, 800040, 800041];
+		int[] QuarrelShooter7EnemyIds = [58282];
+		int[] FriendlyTargetIds = [47452, 57417, 46013];
 		private const float maxRange = 50f;
 
 		/// <summary>
@@ -56,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 				return;
 			}			
 
-			if (target is Mob mob) //&& (caster.CanAttack(mob) && enemyTargetIds.Contains(mob.Data.Id) || friendlyTargetIds.Contains(mob.Data.Id)))
+			if (target is Mob mob && (caster.CanAttack(mob) && EnemyTargetIds.Contains(mob.Data.Id) || caster.CanAttack(mob) && caster.IsAbilityActive(AbilityId.QuarrelShooter7) && QuarrelShooter7EnemyIds.Contains(mob.Data.Id) || FriendlyTargetIds.Contains(mob.Data.Id)))
 			{
 				if (caster.Position.Get2DDistance(target.Position) > maxRange)
 				{
@@ -90,6 +94,11 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 
 			// TODO: Probably missing a packet here to display the death animation
 			target.Kill(caster);
+
+			// TODO: QuarrelShooter31 affects the cooldown time of skills
+			// if you teardown an ally installation the cooldown decreases
+			// while it increases for the enemy if the installation was hostile
+			// We currently don't have a good way to track this
 		}
 	}
 }

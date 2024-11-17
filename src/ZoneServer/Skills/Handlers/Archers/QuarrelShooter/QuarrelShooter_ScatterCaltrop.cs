@@ -94,6 +94,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			pad.Trigger.MaxActorCount = 6;
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
 			pad.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
+			pad.Trigger.Subscribe(TriggerType.Create, this.Attack);
 			pad.Trigger.Subscribe(TriggerType.Update, this.Attack);
 			pad.Trigger.Subscribe(TriggerType.Destroy, this.Expire);
 

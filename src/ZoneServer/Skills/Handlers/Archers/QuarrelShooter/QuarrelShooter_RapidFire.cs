@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -23,7 +24,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 	[SkillHandler(SkillId.QuarrelShooter_RapidFire)]
 	public class QuarrelShooter_RapidFire : ITargetSkillHandler
 	{
-		private const float knockbackRange = 100f;
+		private const float knockbackRange = 75f;
 
 		/// <summary>
 		/// Handles the skill, dealing knockback and damage
@@ -85,15 +86,20 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 
 			// Check to see if we do the knockback
 			// This is only applied if you have a shield,
-			// and the target is within 50 units
+			// and the target is within 75 units
 
 			if (caster.Components.TryGet<InventoryComponent>(out var inventory))
 			{
 				var lhItem = inventory.GetItem(EquipSlot.LeftHand);
 				if (lhItem.Data.EquipType1 == EquipType.Shield && caster.Position.Get2DDistance(target.Position) <= knockbackRange)
 				{
+					// TODO: This is actually a Knockback: Motion
+					// which isn't implemented yet
 					skillHitDummy.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, HitType.KnockBack, skill.Data.KnockDownVelocity, skill.Data.KnockDownVAngle);
 					skillHitDummy.ApplyKnockBack(target);
+
+					// gain block buff on successful knockback
+					caster.StartBuff(BuffId.RapidFire_Block_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 				}
 			}
 						
@@ -122,6 +128,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.QuarrelShooter
 				if (i == 4)
 				{
 					Send.ZC_NORMAL.PlayEffect(target, "F_explosion097", 1f);
+
+					// QuarrelShooter23 gives a 50% chance to reduce crit dr
+					if (caster.TryGetActiveAbilityLevel(AbilityId.QuarrelShooter23, out var level) && RandomProvider.Get().Next(2) == 1)
+					{
+						target.StartBuff(BuffId.RapidFire_Debuff, skill.Level, 0, TimeSpan.FromSeconds(3 * level), caster);
+					}
 				}
 
 				foreach (var hitTarget in targets.LimitBySDR(caster, skill))
