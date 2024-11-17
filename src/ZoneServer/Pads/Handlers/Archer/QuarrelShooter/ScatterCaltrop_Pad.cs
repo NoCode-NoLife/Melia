@@ -26,7 +26,7 @@ namespace Melia.Zone.Pads.Handlers.Archer.QuarrelShooter
 		/// <param name="args"></param>
 		public void Created(object sender, PadTriggerArgs args)
 		{
-			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, PadName.ScatterCaltrop, -0.7853982f, 0, 30, true);
+			Send.ZC_NORMAL.PadUpdate(args.Creator, args.Trigger, PadName.ScatterCaltrop_Pad, -0.7853982f, 0, 30, true);
 		}
 
 		/// <summary>

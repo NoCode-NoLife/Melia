@@ -25,7 +25,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 	[SkillHandler(SkillId.QuarrelShooter_ScatterCaltrop)]
 	public class QuarrelShooter_ScatterCaltrop : IGroundSkillHandler
 	{
-		public const int MaxDistance = 100;
+		public const int MaxDistance = 180;
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -82,12 +82,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		/// <param name="splashArea"></param>
 		private async Task SetPad(Skill skill, ICombatEntity caster, Circle padArea)
 		{
-			var initialDelay = TimeSpan.FromMilliseconds(350);
+			var initialDelay = TimeSpan.FromMilliseconds(100);			
+			var padDelay = TimeSpan.FromMilliseconds(70);
 			var skillHitDelay = TimeSpan.Zero;
+
+			Send.ZC_PLAY_ANI(caster, "CALTROP");
 
 			await Task.Delay(initialDelay);
 
-			// TODO Missing animation.  Needs MSL Throw and MSL Pad Throw
+			await CaltropsAnimation(caster, padArea.Center);			
+
+			await Task.Delay(padDelay);
+
+			// TODO Missing MSL Pad Throw
 
 			var pad = new Pad(PadName.ScatterCaltrop_Pad, caster, skill, padArea);
 			pad.Position = padArea.Center;
@@ -99,6 +106,56 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			pad.Trigger.Subscribe(TriggerType.Destroy, this.Expire);
 
 			caster.Map.AddPad(pad);
+		}
+
+
+		/// <summary>
+		/// Displays the animation of throwing the caltrops,
+		/// which takes 10 separate packets
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="args"></param>
+		private async Task CaltropsAnimation(ICombatEntity caster, Position center)
+		{
+			var projectileDelay = TimeSpan.FromMilliseconds(20);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-65.3201909439d), 14.57909f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(157.219126241d), 9.0695782f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(44.72427704d), 8.0112038f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-132.92109d), 5.9680967f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-6.799365d), 20.712799f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-146.21099d), 17.101896f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(133.31455d), 16.745005f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-168.79307d), 3.601325f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-6.691923d), 7.9787741f), 10f, 0.5f, 0, 600);
+
+			await Task.Delay(projectileDelay);
+
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_shot_caltrops_mash#Bip01 R Hand", 0.2f, "F_smoke008##1", 1f, center.GetRelative(new Direction(-127.51038d), 12.984505f), 10f, 0.5f, 0, 600);
 		}
 
 		/// <summary>
