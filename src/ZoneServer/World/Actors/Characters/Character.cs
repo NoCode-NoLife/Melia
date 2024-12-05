@@ -352,6 +352,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public MovementComponent Movement { get; }
 
 		/// <summary>
+		/// Returns the character's companion component.
+		/// </summary>
+		public CompanionComponent Companions { get; }
+
+		/// <summary>
 		/// Character's properties.
 		/// </summary>
 		/// <remarks>
@@ -404,6 +409,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
+			this.Components.Add(this.Companions = new CompanionComponent(this));
 
 			this.Properties = new CharacterProperties(this);
 			this.Etc = new PCEtc(this);
