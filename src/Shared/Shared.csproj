@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>Melia.Shared</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -17,7 +17,7 @@
     <PackageReference Include="ExecTails.Yggdrasil" Version="1.4.0" />
     <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
-    <PackageReference Include="MySqlConnector" Version="2.3.7" />
+    <PackageReference Include="MySqlConnector" Version="2.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>
