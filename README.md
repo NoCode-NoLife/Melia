@@ -44,10 +44,10 @@ Specifically, some of the major features that are working are as follows:
 Requirements
 -----------------------------------------------------------------------------
 
-Melia is being developed in C# (.NET 8+) and uses a MySQL database for
+Melia is being developed in C# (.NET 9+) and uses a MySQL database for
 its storage. As such, to use Melia you will need the following:
 
-- The .NET SDK (8+)
+- The .NET SDK (9+)
 - A MySQL-compatible database server (MariaDB 10+ recommended)
 
 On an up-to-date Windows system, the SDK will already be included,
