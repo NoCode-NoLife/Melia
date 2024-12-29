@@ -4989,6 +4989,38 @@ namespace Melia.Shared.Game.Const
 		Pontifex102 = 421031,
 		/// <summary>[Arts] Didache: Absolution: Enhanced Upgrade</summary>
 		Pontifex103 = 421032,
+		/// <summary>Heavy Smashing: Enhance</summary>
+		Sledger1 = 421033,
+		/// <summary>Rolling Hammer: Enhance</summary>
+		Sledger2 = 421034,
+		/// <summary>Charge Hammer: Enhance</summary>
+		Sledger3 = 421035,
+		/// <summary>Swing Hammer: Enhance</summary>
+		Sledger4 = 421036,
+		/// <summary>Big Bang: Enhance</summary>
+		Sledger5 = 421037,
+		/// <summary>[Arts] Heavy Smashing: Enhanced Upgrade</summary>
+		Sledger6 = 421038,
+		/// <summary>[Arts] Rolling Hammer: Enhanced Upgrade</summary>
+		Sledger7 = 421039,
+		/// <summary>[Arts] Charge Hammer: Enhance Upgrade</summary>
+		Sledger8 = 421040,
+		/// <summary>[Arts] Swing Hammer: Enhance Upgrade</summary>
+		Sledger9 = 421041,
+		/// <summary>[Arts] Big Bang: Enhance Enhancement</summary>
+		Sledger10 = 421042,
+		/// <summary>Sledger's Fighting Spirit</summary>
+		Sledger11 = 421043,
+		/// <summary>Charge Hammer: Strike </summary>
+		Sledger13 = 421044,
+		/// <summary>Swing Hammer: Warm-up</summary>
+		Sledger14 = 421045,
+		/// <summary>[Arts] Big Bang: Ground Explosion</summary>
+		Sledger15 = 421046,
+		/// <summary>Sledgehammer: Enhance</summary>
+		Sledger16 = 421047,
+		/// <summary>Rolling Hammer: Positioning</summary>
+		Sledger17 = 421048,
 		/// <summary>Cloaking: Enhance</summary>
 		Scout18 = 501001,
 		/// <summary>Dagger Slash: Enhance</summary>

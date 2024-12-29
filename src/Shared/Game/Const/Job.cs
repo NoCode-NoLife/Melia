@@ -28,6 +28,7 @@ namespace Melia.Shared.Game.Const
 		Shenji = 1024,
 		WingedHussar = 1025,
 		Vanquisher = 1026,
+		Sledger[S] = 1027,
 
 		// Wizard
 		Wizard = 2001,
@@ -98,6 +99,7 @@ namespace Melia.Shared.Game.Const
 		Crusader = 4021,
 		Lama = 4022,
 		Pontifex = 4023,
+		Sledger[C] = 4024,
 
 		// Scout
 		Scout = 5001,

@@ -431,6 +431,24 @@
 { category: "Vanquisher", classId: 108, abilityId: 125016, jobId: 1026, className: "Vanquisher3_1", maxLevel: 3, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VoidSlash", argNum: 1 } },
 { category: "Vanquisher", classId: 203, abilityId: 125017, jobId: 1026, className: "Vanquisher6_1", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_FatalSwordDance", argNum: 1 } },
 
+// Sledger
+//---------------------------------------------------------------------------
+{ category: "Sledger", classId: 101, abilityId: 421033, jobId: 1027, className: "Sledger1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_HeavySmashing_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 102, abilityId: 421034, jobId: 1027, className: "Sledger2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_RollingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 103, abilityId: 421035, jobId: 1027, className: "Sledger3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_ChargeHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 104, abilityId: 421036, jobId: 1027, className: "Sledger4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_SwingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 105, abilityId: 421037, jobId: 1027, className: "Sledger5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_BigBang_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 1001, abilityId: 421038, jobId: 1027, className: "Sledger6", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger1", argNum: 65 } },
+{ category: "Sledger", classId: 1002, abilityId: 421039, jobId: 1027, className: "Sledger7", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger2", argNum: 65 } },
+{ category: "Sledger", classId: 1003, abilityId: 421040, jobId: 1027, className: "Sledger8", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger3", argNum: 65 } },
+{ category: "Sledger", classId: 1004, abilityId: 421041, jobId: 1027, className: "Sledger9", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger4", argNum: 65 } },
+{ category: "Sledger", classId: 1005, abilityId: 421042, jobId: 1027, className: "Sledger10", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger5", argNum: 65 } },
+{ category: "Sledger", classId: 107, abilityId: 421044, jobId: 1027, className: "Sledger13", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_ChargeHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 108, abilityId: 421045, jobId: 1027, className: "Sledger14", maxLevel: 5, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_SwingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 201, abilityId: 421046, jobId: 1027, className: "Sledger15", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_BigBang_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 109, abilityId: 421047, jobId: 1027, className: "Sledger16", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_Sledgehammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 110, abilityId: 421048, jobId: 1027, className: "Sledger17", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_RollingHammer_Cleric", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },

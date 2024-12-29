@@ -324,4 +324,13 @@
 { classId: 419, className: "COLLECT_419", name: "Collection: Swift Movement(5)", requiredItems: {"BRC01_119_16": 1, "BRC01_120_16": 1, "BRC01_121_16": 1}, rewardProperties: {"DR_BM": 422} },
 { classId: 420, className: "COLLECT_420", name: "Collection: Detect Crisis(5)", requiredItems: {"NECK02_116_16": 1, "NECK02_117_16": 1, "NECK02_118_16": 1}, rewardProperties: {"CRTDR_BM": 422} },
 { classId: 421, className: "COLLECT_421", name: "Collection: Secure(5)", requiredItems: {"BRC01_122_16": 1, "BRC01_123_16": 1, "BRC01_124_16": 1}, rewardProperties: {"BLK_BM": 422} },
+{ classId: 422, className: "COLLECT_422", name: "Collection: 9th Anniversary - All Stats (1)", requiredItems: {"BRC01_9th_01": 1, "BRC01_9th_02": 1, "BRC01_9th_03": 1}, rewardProperties: {"ALLSTAT_BM": 5} },
+{ classId: 423, className: "COLLECT_423", name: "Collection: 9th Anniversary - All Stats (2)", requiredItems: {"BRC01_9th_01": 1, "BRC01_9th_02": 1, "BRC01_9th_03": 1}, rewardProperties: {"ALLSTAT_BM": 15} },
+{ classId: 424, className: "COLLECT_424", name: "Collection: 9th Anniversary - All Stats (3)", requiredItems: {"BRC01_9th_01": 1, "BRC01_9th_02": 1, "BRC01_9th_03": 1}, rewardProperties: {"ALLSTAT_BM": 20} },
+{ classId: 425, className: "COLLECT_425", name: "Collection: 9th Anniversary - Attack (1)", requiredItems: {"TSW02_9th_01": 1, "TSW02_9th_02": 1, "TSW02_9th_03": 1}, rewardProperties: {"PATK_BM": 200, "MATK_BM": 200} },
+{ classId: 426, className: "COLLECT_426", name: "Collection: 9th Anniversary - Attack (2)", requiredItems: {"TSW02_9th_01": 1, "TSW02_9th_02": 1, "TSW02_9th_03": 1}, rewardProperties: {"PATK_BM": 500, "MATK_BM": 500} },
+{ classId: 427, className: "COLLECT_427", name: "Collection: 9th Anniversary - Attack (3)", requiredItems: {"TSW02_9th_01": 1, "TSW02_9th_02": 1, "TSW02_9th_03": 1}, rewardProperties: {"PATK_BM": 1300, "MATK_BM": 1300} },
+{ classId: 428, className: "COLLECT_428", name: "Collection: 9th Anniversary - Defense (1)", requiredItems: {"TOP02_9th_01": 1, "TOP02_9th_02": 1, "TOP02_9th_03": 1}, rewardProperties: {"DEF_BM": 2000, "MDEF_BM": 2000} },
+{ classId: 429, className: "COLLECT_429", name: "Collection: 9th Anniversary - Defense (2)", requiredItems: {"TOP02_9th_01": 1, "TOP02_9th_02": 1, "TOP02_9th_03": 1}, rewardProperties: {"DEF_BM": 5000, "MDEF_BM": 5000} },
+{ classId: 430, className: "COLLECT_430", name: "Collection: 9th Anniversary - Defense (3)", requiredItems: {"TOP02_9th_01": 1, "TOP02_9th_02": 1, "TOP02_9th_03": 1}, rewardProperties: {"DEF_BM": 13000, "MDEF_BM": 13000} },
 ]

@@ -3271,6 +3271,8 @@ public static class MonsterId
 	public const int Boss_Crystal_Golem = 59859;
 	public const int Boss_Crystal_Golem_Auto = 59860;
 	public const int Boss_Crystal_Golem_Solo = 59861;
+	public const int Boss_Neringa_Of_Evil_Season = 59862;
+	public const int Boss_Crystal_Golem_Season = 59863;
 	public const int Velhider = 60001;
 	public const int Pet_Dog = 60002;
 	public const int Hoglan_Pet = 60004;
@@ -3362,6 +3364,8 @@ public static class MonsterId
 	public const int RidePet_Bluedragon = 65026;
 	public const int RidePet_Ep16yongyong = 65027;
 	public const int RidePet_Capybara = 65028;
+	public const int RidePet_Elephant = 65029;
+	public const int RidePet_Scooter_Red = 65030;
 	public const int ET_NetherBovine_Minimal = 100001;
 	public const int ET_Necrovanter_Minimal = 100002;
 	public const int ET_Spector_M_Minimal = 100003;
@@ -4129,6 +4133,7 @@ public static class MonsterId
 	public const int Kupole_Maid_Ruta_UR = 600044;
 	public const int Kupole_Summer_Zesty_UR = 600045;
 	public const int Kupole_Lecifer_UR = 600046;
+	public const int Kupole_SantaZemyna_UR = 600047;
 	public const int Cupole_Amongd_R_Render = 610013;
 	public const int Cupole_Aristowl_Sr_Render = 610014;
 	public const int Cupole_Amongdmage_R_Render = 610015;
@@ -4162,6 +4167,7 @@ public static class MonsterId
 	public const int Kupole_Maid_Ruta_UR_Render = 610044;
 	public const int Kupole_Summer_Zesty_UR_Render = 610045;
 	public const int Kupole_Lecifer_UR_Render = 610046;
+	public const int Kupole_SantaZemyna_UR_Render = 610047;
 	public const int GRB_SAMPLE_1 = 700000;
 	public const int GFB_Boss_Hauberk = 700001;
 	public const int GFB_Boss_Woodspirit = 700002;
@@ -6384,7 +6390,12 @@ public static class MonsterId
 	public const int Papaya02_Colony_Flag_Klapeda = 160236;
 	public const int Papaya02_Colony_Flag_Orsha = 160237;
 	public const int Papaya02_Colony_Flag_Pedimian = 160238;
+	public const int Season_Crystalgolem_Raid_Strat_Npc = 160239;
 	public const int Npc_Oti_R = 160240;
+	public const int Event_2410_Npc = 160241;
+	public const int Npc_Sledger = 160242;
+	public const int Npc_Teliavelis2 = 160243;
+	public const int Christmas_Sack = 160244;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

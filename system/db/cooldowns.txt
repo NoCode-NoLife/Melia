@@ -1607,4 +1607,10 @@
 { id: 6006, className: "AquaWind", isOverheat: false, overheatResetTime: 40000 },
 { id: 6007, className: "WheelOfFate", isOverheat: false, overheatResetTime: 40000 },
 { id: 6008, className: "DarkLightningCurse", isOverheat: false, overheatResetTime: 40000 },
+{ id: 6009, className: "MerryChristmas", isOverheat: false, overheatResetTime: 40000 },
+{ id: 7000, className: "Sledger_HeavySmashing", isOverheat: false, overheatResetTime: 10000 },
+{ id: 7001, className: "Sledger_RollingHammer", isOverheat: false, overheatResetTime: 10000 },
+{ id: 7002, className: "Sledger_ChargeHammer", isOverheat: false, overheatResetTime: 5000 },
+{ id: 7003, className: "Sledger_SwingHammer", isOverheat: false, overheatResetTime: 15000 },
+{ id: 7004, className: "Sledger_BigBang", isOverheat: false, overheatResetTime: 15000 },
 ]

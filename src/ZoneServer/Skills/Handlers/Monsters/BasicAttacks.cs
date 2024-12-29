@@ -17386,7 +17386,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Angle { get; } = 10f;
 	}
 
-	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_4, SkillId.Mon_boss_crystal_golem_Auto_Skill_4, SkillId.Mon_boss_crystal_golem_Solo_Skill_4)]
+	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_4, SkillId.Mon_boss_crystal_golem_Auto_Skill_4, SkillId.Mon_boss_crystal_golem_Solo_Skill_4, SkillId.Mon_boss_crystal_golem_season_Skill_4)]
 	public class Mon_boss_crystal_golem_Skill_4 : ParametersOnlySkill
 	{
 		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(1600);
@@ -17397,7 +17397,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Angle { get; } = 0f;
 	}
 
-	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_6, SkillId.Mon_boss_crystal_golem_Auto_Skill_6, SkillId.Mon_boss_crystal_golem_Solo_Skill_6)]
+	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_6, SkillId.Mon_boss_crystal_golem_Auto_Skill_6, SkillId.Mon_boss_crystal_golem_Solo_Skill_6, SkillId.Mon_boss_crystal_golem_season_Skill_6)]
 	public class Mon_boss_crystal_golem_Skill_6 : ParametersOnlySkill
 	{
 		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(1500);

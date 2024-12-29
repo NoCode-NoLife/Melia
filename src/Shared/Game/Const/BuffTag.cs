@@ -24,7 +24,6 @@ namespace Melia.Shared.Game.Const
 		public const string Dance = "Dance";
 		public const string Dark = "Dark";
 		public const string Debrave = "Debrave";
-		public const string DebuffUI = "DebuffUI";
 		public const string DecreaseByMul = "DecreaseByMul";
 		public const string Deprotect = "Deprotect";
 		public const string DispelMagic = "DispelMagic";

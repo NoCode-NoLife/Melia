@@ -9496,6 +9496,78 @@
 		public const string EVENT_2410_LEAVES_16 = "EVENT_2410_LEAVES_16";
 		public const string EVENT_2410_LEAVES_15 = "EVENT_2410_LEAVES_15";
 		public const string EVENT_2410_LEAVES_18 = "EVENT_2410_LEAVES_18";
+		public const string EVENT_W_MOON_SHOP_13 = "EVENT_W_MOON_SHOP_13";
+		public const string EVENT_W_MOON_SHOP_14 = "EVENT_W_MOON_SHOP_14";
+		public const string EVENT_W_MOON_SHOP_12 = "EVENT_W_MOON_SHOP_12";
+		public const string EVENT_W_MOON_SHOP_11 = "EVENT_W_MOON_SHOP_11";
+		public const string EVENT_W_MOON_SHOP_16 = "EVENT_W_MOON_SHOP_16";
+		public const string EVENT_W_MOON_SHOP_15 = "EVENT_W_MOON_SHOP_15";
+		public const string GEM_Sledger_BigBang_Swordman_cabinet = "GEM_Sledger_BigBang_Swordman_cabinet";
+		public const string TSP04_130_1_cabinet = "TSP04_130_1_cabinet";
+		public const string TMAC04_120_1_cabinet = "TMAC04_120_1_cabinet";
+		public const string GEM_Sledger_RollingHammer_Swordman_cabinet = "GEM_Sledger_RollingHammer_Swordman_cabinet";
+		public const string GEM_Sledger_HeavySmashing_Swordman_cabinet = "GEM_Sledger_HeavySmashing_Swordman_cabinet";
+		public const string GEM_Sledger_RollingHammer_Cleric_cabinet = "GEM_Sledger_RollingHammer_Cleric_cabinet";
+		public const string GEM_Sledger_SwingHammer_Swordman_cabinet = "GEM_Sledger_SwingHammer_Swordman_cabinet";
+		public const string GEM_Sledger_ChargeHammer_Cleric_cabinet = "GEM_Sledger_ChargeHammer_Cleric_cabinet";
+		public const string GEM_Sledger_Sledgehammer_Swordman_cabinet = "GEM_Sledger_Sledgehammer_Swordman_cabinet";
+		public const string GEM_Sledger_HeavySmashing_Cleric_cabinet = "GEM_Sledger_HeavySmashing_Cleric_cabinet";
+		public const string TMAC04_120_1_cabinet_upgrade = "TMAC04_120_1_cabinet_upgrade";
+		public const string TSP04_130_1_cabinet_upgrade = "TSP04_130_1_cabinet_upgrade";
+		public const string GEM_Sledger_BigBang_Cleric_cabinet = "GEM_Sledger_BigBang_Cleric_cabinet";
+		public const string GEM_Sledger_Sledgehammer_Cleric_cabinet = "GEM_Sledger_Sledgehammer_Cleric_cabinet";
+		public const string GEM_Sledger_SwingHammer_Cleric_cabinet = "GEM_Sledger_SwingHammer_Cleric_cabinet";
+		public const string GEM_Sledger_ChargeHammer_Swordman_cabinet = "GEM_Sledger_ChargeHammer_Swordman_cabinet";
+		public const string UnlockQuest_Char1_27 = "UnlockQuest_Char1_27";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_104 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_104";
+		public const string sledger_thhammer_cabinet = "sledger_thhammer_cabinet";
+		public const string sledger_thspear_cabinet = "sledger_thspear_cabinet";
+		public const string ChallengeMode_HardMode_EnableEntryCount_540 = "ChallengeMode_HardMode_EnableEntryCount_540";
+		public const string santazemyna2 = "santazemyna2";
+		public const string Cupole_035 = "Cupole_035";
+		public const string santazemyna1 = "santazemyna1";
+		public const string event_9th_col_5 = "event_9th_col_5";
+		public const string EVENT_SANTA_GACHA_STEP = "EVENT_SANTA_GACHA_STEP";
+		public const string event_9th_col_3 = "event_9th_col_3";
+		public const string event_9th_col_4 = "event_9th_col_4";
+		public const string event_9th_col_6 = "event_9th_col_6";
+		public const string event_9th_col_8 = "event_9th_col_8";
+		public const string event_9th_col_2 = "event_9th_col_2";
+		public const string EVENT_SANTA_GACHA_PAID_CNT = "EVENT_SANTA_GACHA_PAID_CNT";
+		public const string event_9th_col_1 = "event_9th_col_1";
+		public const string event_9th_col_9 = "event_9th_col_9";
+		public const string EVENT_SANTA_GACHA_FREE_CNT = "EVENT_SANTA_GACHA_FREE_CNT";
+		public const string event_9th_col_7 = "event_9th_col_7";
+		public const string POPOBOOST_2412_PROGRESS5 = "POPOBOOST_2412_PROGRESS5";
+		public const string POPOBOOST_2412_PROGRESS3 = "POPOBOOST_2412_PROGRESS3";
+		public const string EVENT_2412_POPOBOOST = "EVENT_2412_POPOBOOST";
+		public const string HaveEmoticon_172 = "HaveEmoticon_172";
+		public const string POPOBOOST_2412_PROGRESS4 = "POPOBOOST_2412_PROGRESS4";
+		public const string HaveEmoticon_173 = "HaveEmoticon_173";
+		public const string POPOBOOST_2412_PROGRESS2 = "POPOBOOST_2412_PROGRESS2";
+		public const string POPOBOOST_2412_PROGRESS6 = "POPOBOOST_2412_PROGRESS6";
+		public const string POPOBOOST_2412_PROGRESS1 = "POPOBOOST_2412_PROGRESS1";
+		public const string POPOBOOST_2412_PROGRESS0 = "POPOBOOST_2412_PROGRESS0";
+		public const string event_9th_col_10 = "event_9th_col_10";
+		public const string ep16angler_staff_cabinet = "ep16angler_staff_cabinet";
+		public const string ep16angler_sword_cabinet = "ep16angler_sword_cabinet";
+		public const string ep16angler_shield_cabinet = "ep16angler_shield_cabinet";
+		public const string ep16angler_rapier_cabinet = "ep16angler_rapier_cabinet";
+		public const string ep16angler_theme = "ep16angler_theme";
+		public const string dress_costume_ep16angler_f = "dress_costume_ep16angler_f";
+		public const string ContentsTotalShop_2412_1 = "ContentsTotalShop_2412_1";
+		public const string HaveEmoticon_175 = "HaveEmoticon_175";
+		public const string dress_costume_ep16angler_m = "dress_costume_ep16angler_m";
+		public const string HaveEmoticon_174 = "HaveEmoticon_174";
+		public const string CollectionDressRoomRead_158 = "CollectionDressRoomRead_158";
+		public const string CollectionDressRoomRead_157 = "CollectionDressRoomRead_157";
+		public const string RidePet_40 = "RidePet_40";
+		public const string RidePet_37 = "RidePet_37";
+		public const string RidePet_38 = "RidePet_38";
+		public const string RidePet_39 = "RidePet_39";
+		public const string event_9th_col_11 = "event_9th_col_11";
+		public const string HadVisited_11278 = "HadVisited_11278";
+		public const string limit_field_drop_1 = "limit_field_drop_1";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -10683,6 +10755,14 @@
 		public const string Arrow_Res = "Arrow_Res";
 		public const string Gun_Res = "Gun_Res";
 		public const string Cannon_Res = "Cannon_Res";
+		public const string Soul_Res = "Soul_Res";
+		public const string Poison_Res = "Poison_Res";
+		public const string Lightning_Res = "Lightning_Res";
+		public const string Ice_Res = "Ice_Res";
+		public const string Holy_Res = "Holy_Res";
+		public const string Fire_Res = "Fire_Res";
+		public const string Earth_Res = "Earth_Res";
+		public const string Dark_Res = "Dark_Res";
 		public const string ATKRate = "ATKRate";
 		public const string DEFRate = "DEFRate";
 		public const string MDEFRate = "MDEFRate";
@@ -10771,6 +10851,25 @@
 		public const string Before_Quest_State = "Before_Quest_State";
 		public const string Shared_Progress = "Shared_Progress";
 		public const string HiddenJob_Char5_20 = "HiddenJob_Char5_20";
+		public const string Kill_boss_crystal_golem_season = "Kill_boss_crystal_golem_season";
+		public const string Kill_boss_neringa_of_evil_season = "Kill_boss_neringa_of_evil_season";
+		public const string HiddenJob_Char4_24 = "HiddenJob_Char4_24";
+		public const string HiddenJob_Char1_27 = "HiddenJob_Char1_27";
+		public const string ChallengeModeCompleteCount_560 = "ChallengeModeCompleteCount_560";
+		public const string ChallengeModeCompleteCount_540 = "ChallengeModeCompleteCount_540";
+		public const string ChallengeModeCompleteCount_580 = "ChallengeModeCompleteCount_580";
+		public const string ChallengeModeCompleteCount_600 = "ChallengeModeCompleteCount_600";
+		public const string CollectionRead_422 = "CollectionRead_422";
+		public const string CollectionRead_429 = "CollectionRead_429";
+		public const string CollectionRead_423 = "CollectionRead_423";
+		public const string CollectionRead_424 = "CollectionRead_424";
+		public const string CollectionRead_428 = "CollectionRead_428";
+		public const string CollectionRead_426 = "CollectionRead_426";
+		public const string CollectionRead_430 = "CollectionRead_430";
+		public const string CollectionRead_427 = "CollectionRead_427";
+		public const string CollectionRead_425 = "CollectionRead_425";
+		public const string popoboost_2412_participate = "popoboost_2412_participate";
+		public const string EVENT_2412_POPOBOOST_MAX_GEARSCORE = "EVENT_2412_POPOBOOST_MAX_GEARSCORE";
 
 		// PC
 		public const string DummyPCZoneID = "DummyPCZoneID";
@@ -20561,8 +20660,6 @@
 		public const string Kill_boss_neringa_of_evil_Solo = "Kill_boss_neringa_of_evil_Solo";
 		public const string Kill_boss_neringa_of_evil_Auto = "Kill_boss_neringa_of_evil_Auto";
 		public const string EP16_2_FANLIB_48_3_MQ3_TRACK = "EP16_2_FANLIB_48_3_MQ3_TRACK";
-		public const string Kill_boss_crystal_golem_season = "Kill_boss_crystal_golem_season";
-		public const string Kill_boss_neringa_of_evil_season = "Kill_boss_neringa_of_evil_season";
 
 		// SessionObject
 		public const string PosX = "PosX";
@@ -26599,6 +26696,8 @@
 		public const string WTREES_21_1_SQ_8 = "WTREES_21_1_SQ_8";
 		public const string CATACOMB33_2_HQ1 = "CATACOMB33_2_HQ1";
 		public const string WTREES_21_1_SQ_4 = "WTREES_21_1_SQ_4";
+		public const string MG_Last_KEPA_EVENT = "MG_Last_KEPA_EVENT";
+		public const string EV_WARP_REWARD = "EV_WARP_REWARD";
 		public const string MG_Last_LOWLV_GREEN_SQ_50_MINI = "MG_Last_LOWLV_GREEN_SQ_50_MINI";
 		public const string MG_Last_LOWLV_GREEN_SQ_30_MINI = "MG_Last_LOWLV_GREEN_SQ_30_MINI";
 		public const string EV161110_REWARD_DATE = "EV161110_REWARD_DATE";
@@ -28481,6 +28580,8 @@
 		public const string MG_Last_Goddess_Raid_CollapsingMine_Ex_Easy = "MG_Last_Goddess_Raid_CollapsingMine_Ex_Easy";
 		public const string MG_Last_Goddess_Raid_CollapsingMine_Ex_Hard = "MG_Last_Goddess_Raid_CollapsingMine_Ex_Hard";
 		public const string MG_Last_Goddess_Raid_CollapsingMine_Ex_Normal = "MG_Last_Goddess_Raid_CollapsingMine_Ex_Normal";
+		public const string MG_Last_CHALLENGE_AUTO_HARD_540 = "MG_Last_CHALLENGE_AUTO_HARD_540";
+		public const string MG_Last_CHALLENGE_DIVISION_AUTO_541 = "MG_Last_CHALLENGE_DIVISION_AUTO_541";
 
 		// Skill
 		public const string Tooltip_Attr = "Tooltip_Attr";

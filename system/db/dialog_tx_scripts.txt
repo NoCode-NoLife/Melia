@@ -255,4 +255,5 @@
 { classId: 269, className: "CUPOLE_RANKUPITEM_RQEUST", type: "ItemArg", script: "SCR_CUPOLE_RANKUPITEM_RQEUST" },
 { classId: 270, className: "MULTIPLE_ITEMS_TRANSFORM_NEW_ITEM", type: "ItemList", script: "SCR_MULTIPLE_ITEMS_TRANSFORM_NEW_ITEM" },
 { classId: 271, className: "RERUN_TICKET_USE", type: "ItemArg", script: "SCR_RERUN_TICKET_USE" },
+{ classId: 274, className: "EVENT_GAHCA_START", type: "ItemArg", script: "SCR_EVENT_GAHCA_START" },
 ]

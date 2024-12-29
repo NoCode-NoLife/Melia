@@ -492,6 +492,7 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_Austeja_Pad_Heal = "Kupole_Austeja_Pad_Heal";
 		public const string Kupole_Gabija_cleansing_falme = "Kupole_Gabija_cleansing_falme";
 		public const string Kupole_laima_Wheel_Of_Fate = "Kupole_laima_Wheel_Of_Fate";
+		public const string Kupole_SantaZemyna_MerryChristmas = "Kupole_SantaZemyna_MerryChristmas";
 		public const string Kupole_saule_daylight = "Kupole_saule_daylight";
 		public const string Kupole_summerzesty_aquawind1 = "Kupole_summerzesty_aquawind1";
 		public const string Kupole_summerzesty_aquawind2 = "Kupole_summerzesty_aquawind2";
@@ -791,6 +792,8 @@ namespace Melia.Shared.Game.Const
 		public const string Skiaclipse_pad_6 = "Skiaclipse_pad_6";
 		public const string Skiaclipse_pad_7 = "Skiaclipse_pad_7";
 		public const string Skiaclipse_pad_8 = "Skiaclipse_pad_8";
+		public const string Sledger_BigBang_Sledger15 = "Sledger_BigBang_Sledger15";
+		public const string Sledger_ChargeHammer_Sledger13 = "Sledger_ChargeHammer_Sledger13";
 		public const string SLITHERING_Abil = "SLITHERING_Abil";
 		public const string Slogutis_Fire_Pad = "Slogutis_Fire_Pad";
 		public const string Slogutis_FireExplosion_Pad = "Slogutis_FireExplosion_Pad";
