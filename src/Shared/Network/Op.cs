@@ -91,7 +91,8 @@ namespace Melia.Shared.Network
 		public const int BC_FAILED_MOVE_ACCOUNT_DATA = 0x64; // Size: 20
 		public const int BC_SUCCESS_MOVE_ACCOUNT_DATA = 0x65; // Size: 10
 		public const int BC_CHECK_MOVE_ACCOUNT_DATA = 0x66; // Size: 14
-		public const int CB_SELECTED_LANGUAGE = 0x67; // Size: 24
+		public const int CB_RELOAD_BARRACK_CAHR_INFO = 0x67; // Size: 22
+		public const int CB_SELECTED_LANGUAGE = 0x68; // Size: 24
 		public const int CZ_CONNECT = 0xBB9; // Size: 1269
 		public const int ZC_CONNECT_OK = 0xBBA; // Size: 0
 		public const int ZC_MOVE_ZONE = 0xBBB; // Size: 11
@@ -105,7 +106,7 @@ namespace Melia.Shared.Network
 		public const int ZC_LOGOUT_OK = 0xBC3; // Size: 10
 		public const int ZC_MESSAGE = 0xBC4; // Size: 0
 		public const int ZC_RESET_VIEW = 0xBC5; // Size: 10
-		public const int ZC_START_GAME = 0xBC6; // Size: 31
+		public const int ZC_START_GAME = 0xBC6; // Size: 51
 		public const int ZC_QUIET = 0xBC7; // Size: 11
 		public const int ZC_ENTER_PC = 0xC1D; // Size: 615
 		public const int ZC_ENTER_MONSTER = 0xC1E; // Size: 0
@@ -1338,6 +1339,7 @@ namespace Melia.Shared.Network
 			Sizes[BC_FAILED_MOVE_ACCOUNT_DATA] = 20;
 			Sizes[BC_SUCCESS_MOVE_ACCOUNT_DATA] = 10;
 			Sizes[BC_CHECK_MOVE_ACCOUNT_DATA] = 14;
+			Sizes[CB_RELOAD_BARRACK_CAHR_INFO] = 22;
 			Sizes[CB_SELECTED_LANGUAGE] = 24;
 			Sizes[CZ_CONNECT] = 1269;
 			Sizes[ZC_CONNECT_OK] = 0;
@@ -1352,7 +1354,7 @@ namespace Melia.Shared.Network
 			Sizes[ZC_LOGOUT_OK] = 10;
 			Sizes[ZC_MESSAGE] = 0;
 			Sizes[ZC_RESET_VIEW] = 10;
-			Sizes[ZC_START_GAME] = 31;
+			Sizes[ZC_START_GAME] = 51;
 			Sizes[ZC_QUIET] = 11;
 			Sizes[ZC_ENTER_PC] = 615;
 			Sizes[ZC_ENTER_MONSTER] = 0;
