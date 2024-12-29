@@ -10,6 +10,7 @@
 //  ID Bytes: 
 //   History: 
 //   - i348202: Added b1.
+//   - i392129: Added currentTimeStr
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -21,3 +22,4 @@ float serverAppTimeOffset;
 float globalAppTimeOffset;
 FILETIME currentTime;
 byte b1;
+string currentTimeStr;

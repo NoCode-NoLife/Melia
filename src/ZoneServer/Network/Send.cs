@@ -71,6 +71,14 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		public static void ZC_START_GAME(IZoneConnection conn)
 		{
+			var now = DateTime.UtcNow;
+			var nowFileTime = now.ToFileTime();
+
+			// Dunno what this is about, but officials appear to send a string
+			// version of the current time, but one second in the past? Don't
+			// question it. Definitely makes sense. Trust the process.
+			var nowStr = now.AddSeconds(-1).ToString("yyyy-MM-dd HH:mm:ss");
+
 			var packet = new Packet(Op.ZC_START_GAME);
 
 			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
@@ -78,6 +86,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(1); // globalAppTimeOffset
 			packet.PutLong(DateTime.Now.ToFileTimeUtc());
 			packet.PutByte(0); // [i344887, 2021-11-09]
+			packet.PutString(nowStr); // [i392129, 2024-12-30] Might've been added before
 
 			conn.Send(packet);
 		}
