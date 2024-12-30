@@ -403,7 +403,6 @@ namespace Melia.Social.Network
 			foreach (var room in rooms)
 			{
 				Send.SC_NORMAL.CreateRoom(conn, room);
-				Send.SC_NORMAL.MessageList(conn, room, room.GetMessages());
 			}
 		}
 

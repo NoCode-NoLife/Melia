@@ -100,13 +100,19 @@ namespace Melia.Social.Database
 		/// <param name="user"></param>
 		public void AddMember(SocialUser user)
 		{
-			var newMember = new ChatMember(this.Id, user.Id, user.TeamName);
-
-			if (this.OwnerId == 0)
-				this.OwnerId = newMember.AccountId;
-
+			// Check if the user is already a member
 			lock (_members)
+			{
+				if (_members.Any(m => m.AccountId == user.Id))
+					return;
+
+				var newMember = new ChatMember(this.Id, user.Id, user.TeamName);
+
+				if (this.OwnerId == 0)
+					this.OwnerId = newMember.AccountId;
+
 				_members.Add(newMember);
+			}
 
 			if (user.TryGetConnection(out var userConn))
 			{
@@ -116,7 +122,7 @@ namespace Melia.Social.Database
 
 			foreach (var member in this.GetMembers())
 			{
-				if (member == newMember)
+				if (member.AccountId == user.Id)
 					continue;
 
 				if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var memberUser) && memberUser.TryGetConnection(out var memberConn))
