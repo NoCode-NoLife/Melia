@@ -5,10 +5,12 @@
 /log/
 /logs/
 /cache/
-
+/.mysql/
 /user/**
+/.env
 
 !/user/conf/database-example.conf
+!/user/conf/database-example-for-docker.conf
 !/user/db/items-example.txt
 !/user/scripts/scripts_custom-example.txt
 !/user/scripts/scripts_content-example.txt
