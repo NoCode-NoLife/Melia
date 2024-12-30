@@ -99,6 +99,13 @@ namespace Melia.Zone.Skills.Combat
 			if (this.KnockBackInfo == null)
 				throw new InvalidOperationException("Knock back info is not set.");
 
+			// Knockback immunity check - may need to move this
+			if (target.IsBuffActive(BuffId.BullyPainBarrier_Buff))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+
 			var isKnockBack = this.KnockBackInfo.HitType == HitType.KnockBack;
 			var isKnockDown = this.KnockBackInfo.HitType == HitType.KnockDown;
 
