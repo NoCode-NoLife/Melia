@@ -647,10 +647,10 @@ public class CombatCalculationsScript : GeneralScript
 			return 100;
 
 		var critDodgeRate = target.Properties.GetFloat(PropertyName.CRTDR);
-		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR) + modifier.BonusCritChance;
+		var critHitRate = attacker.Properties.GetFloat(PropertyName.CRTHR);
 
 		// Based on: https://treeofsavior.com/page/news/view.php?n=951​
-		var critChance = Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f);
+		var critChance = Math.Pow(Math.Max(0, Math.Max(0, critHitRate - critDodgeRate)), 0.6f) * modifier.CritRateMultiplier + modifier.BonusCritChance;
 
 		critChance = Math2.Clamp(modifier.MinCritChance, 100, critChance);
 

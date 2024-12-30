@@ -10,18 +10,18 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Yggdrasil.Util;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 {
 	/// <summary>
-	/// Handler for the Assassin skill Instant Acceleration
+	/// Handler for the Assassin skill Piercing Heart
 	/// </summary>
-	[SkillHandler(SkillId.Assassin_InstantaneousAcceleration)]
-	public class Assassin_InstantaneousAcceleration : IGroundSkillHandler
+	[SkillHandler(SkillId.Assassin_PiercingHeart)]
+	public class Assassin_PiercingHeart : IGroundSkillHandler
 	{
-		private const float DashDistance = 100f;
 		/// <summary>
 		/// Handles skill, damaging targets.
 		/// </summary>
@@ -40,18 +40,11 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var endingPosition = caster.Position.GetRelative(caster.Direction, DashDistance);
-			endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
-			var actualDistance = (float)endingPosition.Get2DDistance(caster.Position);
-
-			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: actualDistance, width: 30, angle: 0);
+			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 70, width: 25, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Square, splashParam);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
-
-			caster.Position = endingPosition;
-			Send.ZC_SET_POS(caster);
 
 			CallSafe(this.Attack(skill, caster, splashArea));
 		}
@@ -64,26 +57,24 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitTime = TimeSpan.FromMilliseconds(100);
+			var hitDelay = TimeSpan.FromMilliseconds(150);
+			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
-			var damageDelay = TimeSpan.FromMilliseconds(100);
 
-			await Task.Delay(hitTime);
+			await Task.Delay(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
 
+			// Assassin13 increases duration of the debuff
+			var debuffDuration = 10f;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Assassin13, out var level))
+				debuffDuration += level;
+
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var modifier = SkillModifier.Default;
-				modifier.HitCount = 4;
-
-				// Assassin8 doubles the hit count in exchange for -25% damage
-				if (caster.IsAbilityActive(AbilityId.Assassin8))
-				{
-					modifier.HitCount *= 2;
-					modifier.FinalDamageMultiplier -= 0.25f;
-				}
+				var modifier = SkillModifier.MultiHit(4);
+				modifier.DefensePenetrationRate += 0.15f;
 
 				// Increase damage by 10% if target is under the effect of
 				// Assassination Target from the caster
@@ -97,14 +88,18 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				hits.Add(skillHit);
+				skillHit.HitEffect = HitEffect.Impact;
+
+				hits.Add(skillHit);				
 
 				if (skillHitResult.Result != HitResultType.Dodge)
-				{
-					// Assassin9 adds 3 seconds of stun
-					if (caster.IsAbilityActive(AbilityId.Assassin9))
-						target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
-				}
+					target.StartBuff(BuffId.PiercingHeart_Debuff, skill.Level, 0, TimeSpan.FromSeconds(debuffDuration), caster);
+			}
+
+			// Assassin14 adds a critical buff
+			if (caster.IsAbilityActive(AbilityId.Assassin14))
+			{
+				caster.StartBuff(BuffId.PiercingHeart_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
