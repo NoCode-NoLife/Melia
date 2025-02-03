@@ -1673,7 +1673,7 @@ namespace Melia.Zone.Network
 				}
 				else
 				{
-					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+					totalCost += (int)productData.PriceMultiplier * amount;
 				}
 
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
