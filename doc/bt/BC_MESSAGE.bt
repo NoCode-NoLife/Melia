@@ -2,7 +2,7 @@
 //--- 010 Editor v8.0 Binary Template
 //
 //      File: BC_MESSAGE.bt
-//   Authors: exec
+//   Authors: exec, celophi
 //   Version: i11XXX
 //   Purpose: 
 //  Category: 
@@ -15,15 +15,31 @@
 
 ServerHeaderDynamic header;
 
-byte b1;
-int i1;
-int i2;
-int i3;
-int i4;
-int i5;
-int i6;
-int i7;
-int i8;
-int i9;
-int i10;
+enum <byte> MessageLevel 
+{
+    Notify = 0,
+    General = 1,
+    System = 2,
+    Log = 3,
+    Warning = 4,
+    Error = 5
+};
+
+typedef struct 
+{
+    int tm_sec;
+    int tm_min;
+    int tm_hour;
+    int tm_mday;
+    int tm_mon;
+    int tm_year;
+    int tm_wday;
+    int tm_yday;
+    int tm_isdst;
+} 
+Localtime <optimize=false>;
+
+MessageLevel level; // Indicates the severity and where to write the message.
+int type; // 0: custom message, otherwise each number represents some hardcoded message.
+Localtime time; // The local server time when the message was sent. Specifically this is _localtime64.
 string message;
