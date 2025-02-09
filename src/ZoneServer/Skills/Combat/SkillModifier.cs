@@ -75,6 +75,14 @@ namespace Melia.Zone.Skills.Combat
 		public float DamageMultiplier { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the Crit Rate multiplier
+		/// </summary>
+		/// <remarks>
+		/// This is applied before anything else that modifies crit rate
+		/// </remarks>
+		public float CritRateMultiplier { get; set; } = 1;
+
+		/// <summary>
 		/// Gets or sets the minimum critical chance.
 		/// </summary>
 		/// <remarks>
