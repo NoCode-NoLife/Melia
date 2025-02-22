@@ -53,3 +53,5 @@
 #include "inc/ShortDate.bt"
 #include "inc/AncientCard.bt"
 #include "inc/TxItemType.bt"
+#include "inc/WorldId.bt"
+#include "inc/AccountPrivilege.bt"
