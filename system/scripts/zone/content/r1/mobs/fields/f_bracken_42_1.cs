@@ -19,6 +19,7 @@ public class FBracken421MobScript : GeneralScript
 		AddPropertyOverrides("f_bracken_42_1", MonsterId.Doyor_Blue, Properties("MHP", 464199, "MINPATK", 6470, "MAXPATK", 7854, "MINMATK", 6470, "MAXMATK", 7854, "DEF", 65866, "MDEF", 65866));
 		AddPropertyOverrides("f_bracken_42_1", MonsterId.Gosaru_Blue, Properties("MHP", 465703, "MINPATK", 6489, "MAXPATK", 7878, "MINMATK", 6489, "MAXMATK", 7878, "DEF", 66470, "MDEF", 66470));
 		AddPropertyOverrides("f_bracken_42_1", MonsterId.Folibu_Yellow, Properties("MHP", 467293, "MINPATK", 6510, "MAXPATK", 7903, "MINMATK", 6510, "MAXMATK", 7903, "DEF", 67107, "MDEF", 67107));
+		AddPropertyOverrides("f_bracken_42_1", MonsterId.Ep17_1_Redania_Scout, Properties("MHP", 74493856, "MINPATK", 225200, "MAXPATK", 225200, "MINMATK", 225200, "MAXMATK", 225200, "DEF", 8190000, "MDEF", 8190000));
 
 		// Monster Spawners ---------------------------------
 

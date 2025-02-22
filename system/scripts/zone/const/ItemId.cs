@@ -4067,6 +4067,14 @@ public static class ItemId
 	public const int EP16_BRC_03 = 11100068;
 	public const int EP16_NECK_04 = 11100069;
 	public const int EP16_BRC_04 = 11100070;
+	public const int EP17_Kalentis_NECK_01 = 11100071;
+	public const int EP17_Kalentis_BRC_01 = 11100072;
+	public const int EP17_Kalentis_NECK_02 = 11100073;
+	public const int EP17_Kalentis_BRC_02 = 11100074;
+	public const int EP17_Kalentis_NECK_03 = 11100075;
+	public const int EP17_Kalentis_BRC_03 = 11100076;
+	public const int EP17_Kalentis_NECK_04 = 11100077;
+	public const int EP17_Kalentis_BRC_04 = 11100078;
 	public const int EP14_Goddess_Noble_1_TOP = 11100100;
 	public const int EP14_Goddess_Noble_1_LEG = 11100101;
 	public const int EP14_Goddess_Noble_1_FOOT = 11100102;
@@ -4604,6 +4612,7 @@ public static class ItemId
 	public const int Legend_Card_MerreginaDespair = 644941;
 	public const int Legend_Card_NeringaOfEvil = 644942;
 	public const int Legend_Card_CrystalGolem = 644943;
+	public const int Legend_Card_Redania = 644944;
 	public const int Legend_Reinforce_Card_Lv1 = 650001;
 	public const int Legend_Reinforce_Card_Lv2 = 650002;
 	public const int Legend_Reinforce_Card_Lv3 = 650003;
@@ -5422,6 +5431,9 @@ public static class ItemId
 	public const int Gacha_Goddess_Raid_CollapsingMine_Ex_Easy_Dummy = 1520017;
 	public const int Gacha_Goddess_Raid_CollapsingMine_Ex_Normal_Dummy = 1520018;
 	public const int Gacha_Goddess_Raid_CollapsingMine_Ex_Hard_Dummy = 1520019;
+	public const int Gacha_Goddess_Raid_Redania_Party_Dummy = 1520020;
+	public const int Gacha_Goddess_Raid_Redania_Auto_Dummy = 1520021;
+	public const int Gacha_Goddess_Raid_Redania_Solo_Dummy = 1520022;
 	public const int HiddenAbility_TotalCube = 2020001;
 	public const int HiddenAbility_SwordmanCube = 2020002;
 	public const int HiddenAbility_WizardCube = 2020003;
@@ -5511,6 +5523,7 @@ public static class ItemId
 	public const int EVENT_W_MOON_BOX_5 = 10000655;
 	public const int EVENT_W_MOON_BOX_6 = 10000656;
 	public const int EVENT_W_MOON_BOX_7 = 10000657;
+	public const int Event_2501_Newyear_Gacha_Box = 10000661;
 	public const int EVENT_2004_Arbor_Day_BOX = 10003011;
 	public const int EVENT_2004_Arbor_Day_Gift_Pouch1 = 10003012;
 	public const int EVENT_2004_Arbor_Day_Gift_Pouch2 = 10003013;
@@ -5958,6 +5971,7 @@ public static class ItemId
 	public const int Jurate_Random_Piece_Equip_Box = 11201275;
 	public const int Lv520_Random_Option_Scroll_Box2 = 11201277;
 	public const int Lv520_Random_Option_Scroll_Box_NoTrade = 11201307;
+	public const int Goddess_Seal_Misc_Cube = 11201334;
 	public const int Event_2023_Popo_Silver_Box = 11205067;
 
 	// Drug
@@ -6423,6 +6437,7 @@ public static class ItemId
 	public const int EVENT_2404_Dream_Of_A_Popolion = 640544;
 	public const int Perfect_Popolion = 640545;
 	public const int EVENT_2409_Tidal_Serenity = 640546;
+	public const int Drug_Valentine_Choco_2 = 640547;
 	public const int Jungtan_1 = 641001;
 	public const int Jungtan_2 = 641002;
 	public const int Jungtan_3 = 641003;
@@ -9655,6 +9670,7 @@ public static class ItemId
 	public const int Secret_Medicine_Str_520 = 11201259;
 	public const int Secret_Medicine_Int_520 = 11201260;
 	public const int Secret_Medicine_Con_520 = 11201261;
+	public const int QuestReward_RepairPotion_530 = 11201325;
 	public const int Plate_Achieve_Pontifex = 11205105;
 	public const int Plate_Achieve_Illusionist = 11205123;
 	public const int Plate_Achieve_Wingedhussar = 11205135;
@@ -13618,6 +13634,7 @@ public static class ItemId
 	public const int Event_2212_Snow_Key = 10000623;
 	public const int Tos_Event_Coin = 10000627;
 	public const int EVENT_W_MOON_COIN = 10000636;
+	public const int Tos_Event_Platinum_Coin = 10000660;
 	public const int Event_2003_WhiteDay_Candy_Set = 10003005;
 	public const int Moru_Evnet_Bamboo_Leaf = 10003044;
 	public const int Card_Xpupkit10_Event_1 = 10003174;
@@ -13981,6 +13998,8 @@ public static class ItemId
 	public const int Dummy_JurateCertificate = 11201239;
 	public const int Misc_Evolve_Misc_520 = 11201242;
 	public const int Misc_Evolve_Misc_520_NoTrade = 11201243;
+	public const int Misc_Reinforce_PercentUp_530 = 11201319;
+	public const int Misc_Reinforce_PercentUp_530_NoTrade = 11201320;
 	public const int Event_9th_Col_Coin = 11210040;
 
 	// Misc
@@ -14166,6 +14185,8 @@ public static class ItemId
 	public const int Misc_Boss_DarkNeringa_NoTrade = 11200390;
 	public const int Misc_Boss_CrystalGolem = 11200391;
 	public const int Misc_Boss_CrystalGolem_NoTrade = 11200392;
+	public const int Misc_Ep17_Acc = 11200405;
+	public const int Misc_Ep17_Acc_NoTrade = 11200406;
 	public const int Piece_EP14_GoddessIcor_Armor = 11201000;
 	public const int Piece_EP14_GoddessIcor_Armor_NoTrade = 11201001;
 	public const int Piece_EP14_GoddessIcor_Weapon = 11201005;
@@ -14329,6 +14350,16 @@ public static class ItemId
 	public const int Piece2_EP16_GoddessIcor_Weapon_High_NoTrade_Belonging = 11201316;
 	public const int Piece2_EP16_GoddessIcor_Armor_High_NoTrade = 11201317;
 	public const int Piece2_EP16_GoddessIcor_Armor_High_NoTrade_Belonging = 11201318;
+	public const int Piece_Goddess_Seal1_Misc01 = 11201326;
+	public const int Piece_Goddess_Seal1_Misc02 = 11201327;
+	public const int Piece_Goddess_Seal1_Misc03 = 11201328;
+	public const int Piece_Goddess_Seal1_Misc04 = 11201329;
+	public const int Piece_Goddess_Seal2_Misc01 = 11201330;
+	public const int Piece_Goddess_Seal2_Misc02 = 11201331;
+	public const int Piece_Goddess_Seal2_Misc03 = 11201332;
+	public const int Piece_Goddess_Seal2_Misc04 = 11201333;
+	public const int Goddess_Seal1_Misc = 11201337;
+	public const int Goddess_Seal2_Misc = 11201338;
 	public const int Premium_Cupole_Recruit_Ticket_Recipe = 11210020;
 	public const int Premium_Cupole_Recruit_Ticket_Recipe2 = 11210021;
 
@@ -18859,6 +18890,9 @@ public static class ItemId
 	public const int Not_Trade_Egg_Pet_Ep13strawberry = 11035770;
 	public const int Selectbox_Gacha_2024_TWN_ReRun = 11035771;
 	public const int Selectbox_Costume_43_Trade = 11035772;
+	public const int Certificate_RidePet_Tiger_White = 11035773;
+	public const int Certificate_RidePet_Chariot = 11035774;
+	public const int Certificate_RidePet_Chariot_White = 11035775;
 	public const int EP13_Reputation_Costume_1 = 11040101;
 	public const int EP13_Reputation_Costume_2 = 11040102;
 	public const int EP13_Reputation_Costume_3 = 11040103;
@@ -19196,6 +19230,16 @@ public static class ItemId
 	public const int Multiple_Token_CollapsingMine_Party = 11200395;
 	public const int Multiple_Token_CollapsingMine_Party_NoTrade = 11200396;
 	public const int Gacha_Secret_Medicine_500 = 11200397;
+	public const int Multiple_Token_Redania_Solo = 11200401;
+	public const int Multiple_Token_Redania_Solo_NoTrade = 11200402;
+	public const int Multiple_Token_Redania_Party = 11200403;
+	public const int Multiple_Token_Redania_Party_NoTrade = 11200404;
+	public const int ExchangeACC_Book_530 = 11200407;
+	public const int ExchangeACC_Book_530_1d = 11200408;
+	public const int Unlock_Acc_Belonging_Scroll_530_Recycle = 11200409;
+	public const int Unlock_Acc_Belonging_Scroll_530_Recycle_3ea = 11200410;
+	public const int Unlock_Acc_Belonging_Scroll_530 = 11200411;
+	public const int Unlock_Acc_Belonging_Scroll_530_1d = 11200412;
 	public const int Multiple_Token_TurbulentCore_Party = 11201009;
 	public const int Multiple_Token_TurbulentCore_Party_NoTrade = 11201010;
 	public const int Misc_Reinforce_PercentUp_500_NoTrade_11ea_Recycle = 11201070;
@@ -19254,6 +19298,13 @@ public static class ItemId
 	public const int ChallengeExpertModeCountUp_540_NoTrade = 11201302;
 	public const int ChallengeExpertModeCountUp_540_1d = 11201303;
 	public const int ChallengeExpertModeCountUp_540_7d = 11201304;
+	public const int Misc_Reinforce_PercentUp_530_NoTrade_11ea_Recycle = 11201321;
+	public const int Attendance_Gift_Box_25_4_14 = 11201335;
+	public const int Attendance_Gift_Box_25_4_21 = 11201336;
+	public const int Select_Piece_Goddess_Seal_Misc = 11201339;
+	public const int Misc_Reinforce_PercentUp_530_NoTrade_10ea_Achieve = 11201340;
+	public const int Misc_Reinforce_PercentUp_530_NoTrade_15ea_Achieve = 11201341;
+	public const int Misc_Reinforce_PercentUp_530_NoTrade_30ea_Achieve = 11201342;
 	public const int Certificate_RidePet_Scooter = 11205001;
 	public const int Give_SpearMaster_Vibora_NoTrade = 11205002;
 	public const int Spearmaster_Standard_Class_Pack = 11205003;
@@ -19512,6 +19563,27 @@ public static class ItemId
 	public const int I202412_Newbie04 = 11205310;
 	public const int Special_Gift_Box_Leticia_2412 = 11205311;
 	public const int Certificate_RidePet_Scooter_Red = 11205312;
+	public const int Special_Gift_Box_Leticia_2501 = 11205330;
+	public const int Certificate_RidePet_Woodsnake = 11205332;
+	public const int I202501_Package01 = 11205333;
+	public const int I202501_Package02 = 11205334;
+	public const int I202501_Package03 = 11205335;
+	public const int I202501_Package04 = 11205336;
+	public const int I202501_Package05 = 11205337;
+	public const int I202501_Package06 = 11205338;
+	public const int I202501_Package07 = 11205339;
+	public const int I202501_Package08 = 11205340;
+	public const int Special_Gift_Box_Leticia_2501_TWN = 11205341;
+	public const int Leticia_SledgerC_Unlockbox = 11205348;
+	public const int Leticia_VultureA_Unlockbox = 11205349;
+	public const int Leticia_VultureW_Unlockbox = 11205350;
+	public const int Special_Gift_Box_Leticia_2502 = 11205351;
+	public const int I202502_STM_Package01 = 11205352;
+	public const int I202502_Package01 = 11205353;
+	public const int I202502_Package02 = 11205354;
+	public const int I202502_Package03 = 11205355;
+	public const int I202502_Package04 = 11205356;
+	public const int Special_Gift_Box_BlessedCube_2502_PAPAYA2 = 11205357;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
@@ -19550,6 +19622,10 @@ public static class ItemId
 	public const int Ticket_Season_CollapsingMine_Raid_Ex_Normal_NoTrade = 11210037;
 	public const int Ticket_Season_CollapsingMine_Raid_Ex_Hard = 11210038;
 	public const int Ticket_Season_CollapsingMine_Raid_Ex_Hard_NoTrade = 11210039;
+	public const int Ticket_Redania_Auto_Enter = 11210042;
+	public const int Ticket_Redania_Auto_Enter_NoTrade = 11210043;
+	public const int Ticket_Redania_Auto_Enter_LimitTime = 11210044;
+	public const int Ticket_Redania_Party_Enter = 11210045;
 
 	// Quest
 	//-----------------------------------------------------------------------
@@ -23047,6 +23123,7 @@ public static class ItemId
 	public const int R_Dungeon_Key01_2_NoTrade = 960220;
 	public const int R_Ticket_Neringa_Auto_Enter_NoTrade = 960221;
 	public const int R_Ticket_Golem_Auto_Enter_NoTrade = 960222;
+	public const int R_Ticket_Redania_Auto_Enter_NoTrade = 960223;
 	public const int R_HIDDEN_BULLETMARKER_ITEM1 = 1010000;
 	public const int R_HIDDEN_BULLETMARKER_ITEM2 = 1010001;
 	public const int R_HIDDEN_BULLETMARKER_ITEM3 = 1010002;
@@ -23152,6 +23229,8 @@ public static class ItemId
 	public const int Seal_Jurate2_Def = 11100052;
 	public const int Seal_Jurate3 = 11100053;
 	public const int Seal_Jurate3_Def = 11100054;
+	public const int Seal_Jurate4_1 = 11100136;
+	public const int Seal_Jurate4_2 = 11100139;
 
 	// SHOULDER
 	//-----------------------------------------------------------------------

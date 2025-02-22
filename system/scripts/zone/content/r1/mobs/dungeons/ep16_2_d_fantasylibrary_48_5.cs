@@ -1,5 +1,5 @@
 //--- Melia Script -----------------------------------------------------------
-// Valandis Room 91 Spawns
+// EP16 Valandis Room 91 Spawns
 //--- Description -----------------------------------------------------------
 // Sets up monster spawners for 'ep16_2_d_fantasylibrary_48_5'.
 //---------------------------------------------------------------------------
@@ -19,7 +19,7 @@ public class Ep162DFantasylibrary485MobScript : GeneralScript
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_5", MonsterId.Ep16_2_Creto, Properties("MHP", 74493856, "MINPATK", 225200, "MAXPATK", 225200, "MINMATK", 225200, "MAXMATK", 225200, "DEF", 8190000, "MDEF", 8190000));
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_5", MonsterId.Ep16_2_Lapindion, Properties("MHP", 74493856, "MINPATK", 218400, "MAXPATK", 218400, "MINMATK", 218400, "MAXMATK", 218400, "DEF", 8190000, "MDEF", 8190000));
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_5", MonsterId.Ep16_2_Llapindal_Ribbon, Properties("MHP", 74493856, "MINPATK", 218400, "MAXPATK", 218400, "MINMATK", 218400, "MAXMATK", 218400, "DEF", 8190000, "MDEF", 8190000));
-		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_5", MonsterId.Ep16_2_Wis, Properties("MHP", 337326048, "MINPATK", 240800, "MAXPATK", 240800, "MINMATK", 240800, "MAXMATK", 240800, "DEF", 8190000, "MDEF", 8190000));
+		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_5", MonsterId.Ep16_2_Wis, Properties("MHP", 74493856, "MINPATK", 240800, "MAXPATK", 240800, "MINMATK", 240800, "MAXMATK", 240800, "DEF", 8190000, "MDEF", 8190000));
 
 		// Monster Spawners ---------------------------------
 
