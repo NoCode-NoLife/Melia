@@ -42,7 +42,18 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			caster.StartBuff(BuffId.Hasisas_Buff, skill.Level, 0, BuffDuration, caster);
+			var tickLimit = 0;
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Assassin2, out var level))
+			{
+				tickLimit = level;
+			}
+
+			var evasionVariant = 0f;
+			if (caster.IsAbilityActive(AbilityId.Assassin3))
+				evasionVariant++;
+
+			var buff = caster.StartBuff(BuffId.Hasisas_Buff, skill.Level, evasionVariant, BuffDuration, caster);
+			buff.Vars.SetInt("Hasisas.TickLimit", tickLimit);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, caster.Position, null);
 		}
