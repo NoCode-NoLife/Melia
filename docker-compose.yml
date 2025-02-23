@@ -1,0 +1,65 @@
+name: "melia"
+services:
+  melia-database:
+    container_name: melia-database
+    image: mysql:8.3
+    networks:
+      - melia-network
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./.mysql/:/var/lib/mysql
+    restart: ${SERVER_RESTART}
+    env_file:
+      - ./.env
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=${MYSQL_ROOT_PASSWORD} --execute \"SHOW DATABASES;\""
+      interval: 5s
+      timeout: 10s
+      retries: 40
+
+  melia-server:
+    container_name: melia-server
+    command: "./start ${ENVIRONMENT}"
+    # command: "tail -f /dev/null"
+    build: "./Servers"
+    networks:
+      - melia-network
+    volumes:
+      - ./:/melia
+    depends_on:
+      melia-database:
+        condition: service_healthy
+    ports:
+      - "2000:2000"
+      - "6001:6001"
+      - "7001:7001"
+      - "7002:7002"
+      - "80:80"
+    restart: ${SERVER_RESTART}
+    env_file:
+      - ./.env
+  phpmyadmin:
+    container_name: melia-dbadmin
+    networks:
+      - melia-network
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    restart: ${SERVER_RESTART}
+    environment:
+      - PMA_HOST=melia-database
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - UPLOAD_LIMIT=300M
+    profiles: []
+    env_file:
+      - ./.env
+    depends_on:
+      melia-database:
+        condition: service_healthy
+networks:
+  melia-network:
