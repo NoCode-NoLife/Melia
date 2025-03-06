@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_whitetrees_56_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Mishekan Forest to Izoliacjia Plateau
 		AddWarp("WHITETREES561_WHITETREES223", 171, From("f_whitetrees_56_1", 141.1313, 1754.506), To("f_whitetrees_22_3", 1623, -1956));

@@ -99,6 +99,20 @@ namespace Melia.Zone.Skills.Combat
 			if (this.KnockBackInfo == null)
 				throw new InvalidOperationException("Knock back info is not set.");
 
+			var isKnockBack = this.KnockBackInfo.HitType == HitType.KnockBack;
+			var isKnockDown = this.KnockBackInfo.HitType == HitType.KnockDown;
+
+			if (isKnockBack && target.IsLocked(LockType.GetKnockedBack))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+			else if (isKnockDown && target.IsLocked(LockType.GetKnockedDown))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+
 			this.HitInfo.Type = this.KnockBackInfo.HitType;
 			target.Position = this.KnockBackInfo.ToPosition;
 
@@ -108,7 +122,7 @@ namespace Melia.Zone.Skills.Combat
 			// both KB and KD as necessary. We can't consider them to be the
 			// same because some skills and buffs have special behavior for
 			// knock downs.
-			if (this.HitInfo.Type == HitType.KnockDown)
+			if (isKnockDown)
 				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
 	}

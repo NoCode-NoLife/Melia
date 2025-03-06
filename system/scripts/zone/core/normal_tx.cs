@@ -7,6 +7,7 @@
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
@@ -176,7 +177,7 @@ public class NormalTxFunctionsScript : GeneralScript
 
 			job.SkillPoints -= addLevels;
 
-			ZoneServer.Instance.ServerEvents.OnPlayerSkillLevelChanged(character, skill);
+			ZoneServer.Instance.ServerEvents.PlayerSkillLevelChanged.Raise(new PlayerSkillLevelChangedEventArgs(character, skill));
 		}
 
 		Send.ZC_ADDON_MSG(character, AddonMessage.RESET_SKL_UP, 0, null);

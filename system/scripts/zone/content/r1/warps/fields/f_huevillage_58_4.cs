@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_huevillage_58_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Septyni Glen to Cobalt Forest
 		AddWarp("HUEVILLAGE58_4_TO_HUEVILLAGE58_3", -7, From("f_huevillage_58_4", 1292.37, -1060.92), To("f_huevillage_58_3", -1080, -97));

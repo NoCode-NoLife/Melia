@@ -52,6 +52,12 @@ string propertyRead(property &p)
     return ret;
 }
 
+typedef struct (int size)
+{
+    getProperties(size);
+}
+PropertyGroup <optimize=false>;
+
 void getProperties(int size)
 {
     local int i;

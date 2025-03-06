@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_flash_60WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Roxona Market to Verkti Square
 		AddWarp("FLASH60_FLASH59", 97, From("f_flash_60", 1231.594, -103.5576), To("f_flash_59", 156, 671));

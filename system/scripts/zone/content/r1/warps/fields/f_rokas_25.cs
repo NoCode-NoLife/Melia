@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_rokas_25WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Ramstis Ridge to Gateway of the Great King
 		AddWarp("ROKAS25_ROKAS24", -49, From("f_rokas_25", -2368, -1192), To("f_rokas_24", 902, 1167));

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_dcapital_20_5WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Jeromel Park to City Wall District 8
 		AddWarp("DCAPITAL_20_5_TO_CASTLE_20_4", -87, From("f_dcapital_20_5", -1309.768, -805.1779), To("f_castle_20_4", -337, 1173));

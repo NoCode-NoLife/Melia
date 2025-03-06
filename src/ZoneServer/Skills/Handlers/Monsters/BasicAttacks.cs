@@ -1146,6 +1146,17 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		}
 	}
 
+	[SkillHandler(SkillId.Mon_pc_summon_Legend_card_Redania_Skill_1, SkillId.Mon_boss_Redania_Skill_2, SkillId.Mon_boss_Redania_Skill_4, SkillId.Mon_boss_Redania_Skill_6, SkillId.Mon_boss_Redania_Skill_7, SkillId.Mon_boss_Redania_Skill_8, SkillId.Mon_boss_Redania_Skill_9, SkillId.Mon_boss_Redania_Skill_10, SkillId.Mon_boss_Redania_Skill_11, SkillId.Mon_boss_Redania_Auto_Skill_2, SkillId.Mon_boss_Redania_Auto_Skill_4, SkillId.Mon_boss_Redania_Auto_Skill_6, SkillId.Mon_boss_Redania_Auto_Skill_7, SkillId.Mon_boss_Redania_Auto_Skill_8, SkillId.Mon_boss_Redania_Auto_Skill_9, SkillId.Mon_boss_Redania_Auto_Skill_10, SkillId.Mon_boss_Redania_Auto_Skill_11, SkillId.Mon_boss_Redania_Solo_Skill_2, SkillId.Mon_boss_Redania_Solo_Skill_4, SkillId.Mon_boss_Redania_Solo_Skill_6, SkillId.Mon_boss_Redania_Solo_Skill_7, SkillId.Mon_boss_Redania_Solo_Skill_8, SkillId.Mon_boss_Redania_Solo_Skill_9, SkillId.Mon_boss_Redania_Solo_Skill_10, SkillId.Mon_boss_Redania_Solo_Skill_11, SkillId.Mon_boss_Redania_Illusion_Skill_2, SkillId.Mon_boss_Redania_Illusion_Skill_4, SkillId.Mon_boss_Redania_Illusion_Skill_6, SkillId.Mon_boss_Redania_Illusion_Skill_7, SkillId.Mon_boss_Redania_Illusion_Skill_8, SkillId.Mon_boss_Redania_Illusion_Skill_9, SkillId.Mon_boss_Redania_Illusion_Skill_10, SkillId.Mon_boss_Redania_Illusion_Skill_11)]
+	public class Mon_pc_summon_Legend_card_Redania_Skill_1 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(10499);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(10299);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 30f;
+		protected override float Width { get; } = 30f;
+		protected override float Angle { get; } = 10f;
+	}
+
 	[SkillHandler(SkillId.Mon_Onion_Big_Attack1, SkillId.Mon_ep13_2_banshee_Skill_1)]
 	public class Mon_Onion_Big_Attack1 : ParametersOnlySkill
 	{
@@ -17386,7 +17397,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Angle { get; } = 10f;
 	}
 
-	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_4, SkillId.Mon_boss_crystal_golem_Auto_Skill_4, SkillId.Mon_boss_crystal_golem_Solo_Skill_4)]
+	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_4, SkillId.Mon_boss_crystal_golem_Auto_Skill_4, SkillId.Mon_boss_crystal_golem_Solo_Skill_4, SkillId.Mon_boss_crystal_golem_season_Skill_4)]
 	public class Mon_boss_crystal_golem_Skill_4 : ParametersOnlySkill
 	{
 		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(1600);
@@ -17397,7 +17408,7 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Angle { get; } = 0f;
 	}
 
-	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_6, SkillId.Mon_boss_crystal_golem_Auto_Skill_6, SkillId.Mon_boss_crystal_golem_Solo_Skill_6)]
+	[SkillHandler(SkillId.Mon_boss_crystal_golem_Skill_6, SkillId.Mon_boss_crystal_golem_Auto_Skill_6, SkillId.Mon_boss_crystal_golem_Solo_Skill_6, SkillId.Mon_boss_crystal_golem_season_Skill_6)]
 	public class Mon_boss_crystal_golem_Skill_6 : ParametersOnlySkill
 	{
 		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(1500);
@@ -17411,6 +17422,39 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		{
 			target.StartBuff(BuffId.UC_stun, 99, 0, TimeSpan.FromMilliseconds(2000), caster, skill.Id);
 		}
+	}
+
+	[SkillHandler(SkillId.Mon_boss_Redania_Skill_1, SkillId.Mon_boss_Redania_Auto_Skill_1, SkillId.Mon_boss_Redania_Solo_Skill_1, SkillId.Mon_boss_Redania_Illusion_Skill_1)]
+	public class Mon_boss_Redania_Skill_1 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(600);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(400);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 150f;
+		protected override float Width { get; } = 200f;
+		protected override float Angle { get; } = 15f;
+	}
+
+	[SkillHandler(SkillId.Mon_boss_Redania_Skill_3, SkillId.Mon_boss_Redania_Skill_5, SkillId.Mon_boss_Redania_Skill_12, SkillId.Mon_boss_Redania_Skill_13, SkillId.Mon_boss_Redania_Auto_Skill_3, SkillId.Mon_boss_Redania_Auto_Skill_5, SkillId.Mon_boss_Redania_Auto_Skill_12, SkillId.Mon_boss_Redania_Auto_Skill_13, SkillId.Mon_boss_Redania_Solo_Skill_3, SkillId.Mon_boss_Redania_Solo_Skill_5, SkillId.Mon_boss_Redania_Solo_Skill_12, SkillId.Mon_boss_Redania_Solo_Skill_13, SkillId.Mon_boss_Redania_Illusion_Skill_3, SkillId.Mon_boss_Redania_Illusion_Skill_5, SkillId.Mon_boss_Redania_Illusion_Skill_12, SkillId.Mon_boss_Redania_Illusion_Skill_13)]
+	public class Mon_boss_Redania_Skill_3 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(10499);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(10299);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 30f;
+		protected override float Width { get; } = 30f;
+		protected override float Angle { get; } = 10f;
+	}
+
+	[SkillHandler(SkillId.Mon_boss_Redania_Scout_Skill_1, SkillId.Mon_boss_Redania_Hiveguard_Skill_1)]
+	public class Mon_boss_Redania_Scout_Skill_1 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(1000);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(800);
+		protected override SplashType SplashType { get; } = SplashType.Square;
+		protected override float Length { get; } = 50f;
+		protected override float Width { get; } = 10f;
+		protected override float Angle { get; } = 10f;
 	}
 
 	[SkillHandler(SkillId.Mon_event_gazer_Skill_2)]

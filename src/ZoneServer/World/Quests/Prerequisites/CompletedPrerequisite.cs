@@ -1,4 +1,5 @@
-﻿using Melia.Zone.World.Actors.Characters;
+﻿using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.World.Quests.Prerequisites
 {
@@ -11,15 +12,15 @@ namespace Melia.Zone.World.Quests.Prerequisites
 		/// Returns the id of the quest that needs to be completed at
 		/// least once to meet this prerequisite.
 		/// </summary>
-		public int QuestId { get; }
+		public QuestId QuestId { get; }
 
 		/// <summary>
 		/// Creates new instance.
 		/// </summary>
 		/// <param name="questId"></param>
-		public CompletedPrerequisite(int questId)
+		public CompletedPrerequisite(string questNamespace, long id)
 		{
-			this.QuestId = questId;
+			this.QuestId = new QuestId(questNamespace, id);
 		}
 
 		/// <summary>

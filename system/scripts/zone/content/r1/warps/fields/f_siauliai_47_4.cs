@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_47_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Baron Allerno to Myrkiti Farm
 		AddWarp("SIAUL47_4_TO_FARM_47_3", -84, From("f_siauliai_47_4", -2167.146, -153.8053), To("f_farm_47_3", 945, 65));

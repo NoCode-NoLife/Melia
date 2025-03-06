@@ -7,54 +7,54 @@ namespace Melia.Shared.Data
 	/// </summary>
 	public class MeliaData
 	{
-		public AbilityDb AbilityDb = new AbilityDb();
-		public AbilityTreeDb AbilityTreeDb = new AbilityTreeDb();
-		public AccountOptionDb AccountOptionDb = new AccountOptionDb();
-		public AchievementDb AchievementDb = new AchievementDb();
-		public AchievementPointDb AchievementPointDb = new AchievementPointDb();
-		public BarrackDb BarrackDb = new BarrackDb();
-		public BuffDb BuffDb = new BuffDb();
-		public ChatMacroDb ChatMacroDb = new ChatMacroDb();
+		public AbilityDb AbilityDb = new();
+		public AbilityTreeDb AbilityTreeDb = new();
+		public AccountOptionDb AccountOptionDb = new();
+		public AchievementDb AchievementDb = new();
+		public AchievementPointDb AchievementPointDb = new();
+		public BarrackDb BarrackDb = new();
+		public BuffDb BuffDb = new();
+		public ChatMacroDb ChatMacroDb = new();
 		public CollectionDb CollectionDb;
-		public CooldownDb CooldownDb = new CooldownDb();
-		public CustomCommandDb CustomCommandDb = new CustomCommandDb();
-		public DialogDb DialogDb = new DialogDb();
-		public DialogTxDb DialogTxDb = new DialogTxDb();
-		public ExpDb ExpDb = new ExpDb();
-		public FactionDb FactionDb = new FactionDb();
-		public FeatureDb FeatureDb = new FeatureDb();
-		public GroundDb GroundDb = new GroundDb();
-		public HairTypeDb HairTypeDb = new HairTypeDb();
-		public HelpDb HelpDb = new HelpDb();
-		public InvBaseIdDb InvBaseIdDb = new InvBaseIdDb();
-		public ItemDb ItemDb = new ItemDb();
-		public ItemMonsterDb ItemMonsterDb = new ItemMonsterDb();
-		public JobDb JobDb = new JobDb();
-		public MapDb MapDb = new MapDb();
-		public MonsterDb MonsterDb = new MonsterDb();
-		public NormalTxDb NormalTxDb = new NormalTxDb();
-		public PacketStringDb PacketStringDb = new PacketStringDb();
-		public PropertiesDb PropertiesDb = new PropertiesDb();
-		public RecipeDb RecipeDb = new RecipeDb();
-		public ResurrectionPointDb ResurrectionPointDb = new ResurrectionPointDb();
+		public CooldownDb CooldownDb = new();
+		public CustomCommandDb CustomCommandDb = new();
+		public DialogDb DialogDb = new();
+		public DialogTxDb DialogTxDb = new();
+		public ExpDb ExpDb = new();
+		public FactionDb FactionDb = new();
+		public FeatureDb FeatureDb = new();
+		public GroundDb GroundDb = new();
+		public HairTypeDb HairTypeDb = new();
+		public HelpDb HelpDb = new();
+		public InvBaseIdDb InvBaseIdDb = new();
+		public ItemDb ItemDb = new();
+		public ItemMonsterDb ItemMonsterDb = new();
+		public JobDb JobDb = new();
+		public MapDb MapDb = new();
+		public MonsterDb MonsterDb = new();
+		public NormalTxDb NormalTxDb = new();
+		public PacketStringDb PacketStringDb = new();
+		public PropertiesDb PropertiesDb = new();
+		public RecipeDb RecipeDb = new();
+		public ResurrectionPointDb ResurrectionPointDb = new();
 		public ServerDb ServerDb;
-		public SessionObjectDb SessionObjectDb = new SessionObjectDb();
-		public ShopDb ShopDb = new ShopDb();
-		public SkillDb SkillDb = new SkillDb();
-		public SkillTreeDb SkillTreeDb = new SkillTreeDb();
-		public SkinToneDb SkinToneDb = new SkinToneDb();
-		public StanceConditionDb StanceConditionDb = new StanceConditionDb();
-		public SystemMessageDb SystemMessageDb = new SystemMessageDb();
+		public SessionObjectDb SessionObjectDb = new();
+		public ShopDb ShopDb = new();
+		public SkillDb SkillDb = new();
+		public SkillTreeDb SkillTreeDb = new();
+		public SkinToneDb SkinToneDb = new();
+		public StanceConditionDb StanceConditionDb = new();
+		public SystemMessageDb SystemMessageDb = new();
 
 		public MeliaData()
 		{
 			// Not entirely happy with this design, but I want access to
 			// the map list from the server db to determine which maps
 			// the zone servers serve.
-			this.ServerDb = new ServerDb(this.MapDb);
+			this.ServerDb = new(this.MapDb);
 
 			// Yup, still not entirely happy with this.
-			this.CollectionDb = new CollectionDb(this.PropertiesDb, this.ItemDb);
+			this.CollectionDb = new(this.PropertiesDb, this.ItemDb);
 		}
 	}
 }

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_7WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Entrance of Kateen Forest to Tenet Garden
 		AddWarp("KATYN7_GELE574", 0, From("f_katyn_7", 663, -4459), To("f_gele_57_4", -909, 2390));

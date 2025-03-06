@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: CS_LIKE_IT.bt
+//   Authors: exec
+//   Version: i375263
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixedSocial header;
+
+int i1;
+short s1;
+int64 accountId;
+int64 characterId;
+byte teamName[64]; // Potentially team name, but not set

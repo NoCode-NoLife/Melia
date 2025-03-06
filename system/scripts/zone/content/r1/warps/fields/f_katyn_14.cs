@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_14WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Saknis Plains to Poslinkis Forest
 		AddWarp("WS_KATYN14_TO_KATYN13", 93, From("f_katyn_14", 3516, -887), To("f_katyn_13", -2586, 1296));

@@ -11,7 +11,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class FSiauliai351MobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Property Overrides -------------------------------
 

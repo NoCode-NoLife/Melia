@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_thorn_23WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Sunset Flag Forest to Dvasia Peak
 		AddWarp("THORN23_THORN22", 252, From("d_thorn_23", -2159, -2969), To("d_thorn_22", 952, 1015));

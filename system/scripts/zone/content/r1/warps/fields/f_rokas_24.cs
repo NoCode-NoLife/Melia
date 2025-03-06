@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_rokas_24WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Gateway of the Great King to Sunset Flag Forest
 		AddWarp("ROKAS24_THORN23", 0, From("f_rokas_24", 930, -3045), To("d_thorn_23", 2398, 2096));

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_whitetrees_22_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Tekel Shelter to Teresh Forest
 		AddWarp("WHITETREES22_2_WHITETREES22_1", 105, From("f_whitetrees_22_2", 760.0185, 1583.006), To("f_whitetrees_22_1", -1768, 928));

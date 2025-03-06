@@ -72,6 +72,14 @@ namespace Melia.Zone.Network
 		/// <param name="conn"></param>
 		public static void ZC_START_GAME(IZoneConnection conn)
 		{
+			var now = DateTime.UtcNow;
+			var nowFileTime = now.ToFileTime();
+
+			// Dunno what this is about, but officials appear to send a string
+			// version of the current time, but one second in the past? Don't
+			// question it. Definitely makes sense. Trust the process.
+			var nowStr = now.AddSeconds(-1).ToString("yyyy-MM-dd HH:mm:ss");
+
 			var packet = new Packet(Op.ZC_START_GAME);
 
 			packet.PutFloat(1); // Affects the speed of everything happening in the client o.o
@@ -79,6 +87,7 @@ namespace Melia.Zone.Network
 			packet.PutFloat(1); // globalAppTimeOffset
 			packet.PutLong(DateTime.Now.ToFileTimeUtc());
 			packet.PutByte(0); // [i344887, 2021-11-09]
+			packet.PutString(nowStr); // [i392129, 2024-12-30] Might've been added before
 
 			conn.Send(packet);
 		}
@@ -416,6 +425,51 @@ namespace Melia.Zone.Network
 			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
 
 			packet.PutInt((int)skill.Id);
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Direction.Cos);
+			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt(1);
+			packet.PutFloat(shootTime);
+			packet.PutFloat(1);
+			packet.PutInt(0);
+			packet.PutInt(forceId);
+			packet.PutFloat(sklSpdRate);
+
+			packet.PutInt(0);
+			packet.PutInt(target?.Handle ?? 0);
+			packet.PutInt(0);
+			packet.PutFloat(512f);
+			packet.PutInt(0);
+
+			packet.PutByte((byte)(hits?.Count() ?? 0));
+			if (hits != null)
+			{
+				foreach (var hit in hits)
+					packet.AddSkillHitInfo(hit);
+			}
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Shows skill use for character, but allows substituting a different
+		/// skill id for the visual effects. Mainly intended for custom skills
+		/// and the like.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="visualSkillId"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_FORCE_TARGET_DUMMY(ICombatEntity entity, ICombatEntity target, Skill skill, SkillId visualSkillId, int forceId, IEnumerable<SkillHitInfo> hits)
+		{
+			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
+			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
+			var packet = new Packet(Op.ZC_SKILL_FORCE_TARGET);
+
+			packet.PutInt((int)visualSkillId);
 			packet.PutInt(entity.Handle);
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
@@ -2707,6 +2761,28 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Set extra properties for buffs and skills
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="msgParams"></param>
+		public static void ZC_SEND_PC_EXPROP(Character character, params MsgParameter[] msgParams)
+		{
+			var packet = new Packet(Op.ZC_SEND_PC_EXPROP);
+
+			packet.PutInt(msgParams?.Length ?? 0);
+			if (msgParams != null)
+			{
+				foreach (var param in msgParams)
+				{
+					packet.PutLpString(param.Key);
+					packet.PutFloat(float.Parse(param.Value));
+				}
+			}
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_RESPONSE_GUILD_INDEX to client (dummy).
 		/// </summary>
 		/// <param name="conn"></param>
@@ -3732,7 +3808,9 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="character"></param>
-		public static void ZC_PROPERTY_COMPARE(IZoneConnection conn, Character character)
+		/// <param name="openWindow"></param>
+		/// <param name="like"></param>
+		public static void ZC_PROPERTY_COMPARE(IZoneConnection conn, Character character, bool openWindow, bool like)
 		{
 			var jobs = character.Jobs.GetList();
 			var properties = character.Properties.GetAll();
@@ -3746,36 +3824,36 @@ namespace Melia.Zone.Network
 			packet.PutLong(character.ObjectId);
 			packet.PutLong(character.AccountId);
 			packet.PutInt(0);
-			packet.PutByte(1); // needs to be 1 for the character info to display?
-			packet.PutByte(0);
+			packet.PutByte(openWindow);
+			packet.PutByte(like);
 			packet.PutInt(-1); // adventurerIndex
 			packet.PutInt(0); // adventurerRank
 			packet.PutInt(0); // achievementCount
 			packet.PutInt(0);
 
-			packet.PutString(character.TeamName, 64);
-			packet.PutString(character.Name, 65);
-			packet.PutByte(0);
-			packet.PutShort((short)character.JobId);
-			packet.PutInt(0);
-			packet.PutByte((byte)character.Gender);
-			packet.PutShort(0);
-			packet.PutEmptyBin(25);
-			packet.PutShort(1001); // serverGroupId
-
-			packet.PutShort(0);
-			packet.PutInt(character.Level);
-			packet.PutInt(0);
-
-			for (var i = 0; i < 4; ++i)
+			// General character info? Same as in Friends list.
 			{
-				if (i < jobs.Length)
-					packet.PutShort((short)jobs[i].Id);
-				else
-					packet.PutShort(0);
+				packet.PutString(character.TeamName, 64);
+				packet.PutString(character.Name, 65);
+				packet.PutByte(0);
+				packet.PutShort((short)character.JobId);
+				packet.PutInt(1001); // serverGroupId?
+				packet.PutInt(character.JobLevel);
+				packet.PutShort((short)character.Gender);
+				packet.PutInt(character.Hair);
+				packet.PutEmptyBin(6);
+				packet.PutEmptyBin(20); // 5 ints?
+				packet.PutUInt(character.SkinColor);
+
+				for (var i = 0; i < 4; ++i)
+				{
+					var jobId = jobs.ElementAtOrDefault(i)?.Id ?? 0;
+					packet.PutShort((int)jobId);
+				}
+
+				packet.PutLong(0);
 			}
 
-			packet.PutLong(0);
 			packet.PutShort(propertiesSize);
 			packet.PutShort(0); // etcPropertySize
 
@@ -3783,6 +3861,14 @@ namespace Melia.Zone.Network
 
 			packet.AddProperties(properties);
 			//packet.AddProperties(etcProperties);
+
+			// [i3XXXXX]
+			// It's currently unknown what this is or when exactly it was added.
+			{
+				packet.PutByte(1);
+				packet.PutInt(0);
+				packet.PutInt(35);
+			}
 
 			foreach (var equipItemKv in equipItems)
 			{

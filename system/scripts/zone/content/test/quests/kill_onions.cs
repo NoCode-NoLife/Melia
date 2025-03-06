@@ -17,7 +17,7 @@ public class KillOnions1TestQuestScript : QuestScript
 {
 	protected override void Load()
 	{
-		SetId(1000001);
+		SetId("Melia.Test", 1);
 		SetName("Onions Must Die");
 		SetDescription("Slice, dice, and make these onion-shaped bastards cry for a change!");
 
@@ -41,7 +41,7 @@ public class KillOnions2TestQuestScript : QuestScript
 {
 	protected override void Load()
 	{
-		SetId(1000002);
+		SetId("Melia.Test", 2);
 		SetName("Size Doesn't Matter");
 		SetDescription("And now for the big one. Put that giant onion back into the ground from whence it came.");
 
@@ -49,7 +49,7 @@ public class KillOnions2TestQuestScript : QuestScript
 		AddObjective("talk", "Talk to Ronesa", new ManualObjective());
 
 		SetReceive(QuestReceiveType.Auto);
-		AddPrerequisite(new CompletedPrerequisite(1000001));
+		AddPrerequisite(new CompletedPrerequisite("Melia.Test", 1));
 
 		AddReward(new SilverReward(10000));
 		AddReward(new ExpReward(2000, 1000));

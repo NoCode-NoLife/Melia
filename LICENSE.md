@@ -594,7 +594,7 @@ of warranty; and each file should have at least the *copyright* line and a
 pointer to where the full notice is found.
 
 	Melia - Open-source MMORPG server
-	Copyright (C) 2015  Melia team
+	Copyright (C) 2015  NoCodeNoLife (https://github.com/NoCode-NoLife)
 	
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -614,7 +614,7 @@ Also add information on how to contact you by electronic and paper mail.
 If the program does terminal interaction, make it output a short notice like
 this when it starts in an interactive mode:
 
-	Melia  Copyright (C) 2015  Melia team
+	Melia  Copyright (C) 2015  NoCodeNoLife (https://github.com/NoCode-NoLife)
 	This program comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
 	This is free software, and you are welcome to redistribute it
 	under certain conditions; type `show c' for details.

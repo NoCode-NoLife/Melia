@@ -492,6 +492,8 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_Austeja_Pad_Heal = "Kupole_Austeja_Pad_Heal";
 		public const string Kupole_Gabija_cleansing_falme = "Kupole_Gabija_cleansing_falme";
 		public const string Kupole_laima_Wheel_Of_Fate = "Kupole_laima_Wheel_Of_Fate";
+		public const string Kupole_naktis_nightfog = "Kupole_naktis_nightfog";
+		public const string Kupole_SantaZemyna_MerryChristmas = "Kupole_SantaZemyna_MerryChristmas";
 		public const string Kupole_saule_daylight = "Kupole_saule_daylight";
 		public const string Kupole_summerzesty_aquawind1 = "Kupole_summerzesty_aquawind1";
 		public const string Kupole_summerzesty_aquawind2 = "Kupole_summerzesty_aquawind2";
@@ -694,6 +696,9 @@ namespace Melia.Shared.Game.Const
 		public const string RE_helgasercle_skl5 = "RE_helgasercle_skl5";
 		public const string RE_lecifer_bat_pad = "RE_lecifer_bat_pad";
 		public const string RE_solcomm_rizepillar_pad = "RE_solcomm_rizepillar_pad";
+		public const string Redania_Beeswax_Pad = "Redania_Beeswax_Pad";
+		public const string Redania_Hive_Honey_Pad = "Redania_Hive_Honey_Pad";
+		public const string Redania_Wall_Pad = "Redania_Wall_Pad";
 		public const string RingCrawler_ElectricFields = "RingCrawler_ElectricFields";
 		public const string Rodelero_ShieldCharge = "Rodelero_ShieldCharge";
 		public const string Rogue_Lachrymator_abil = "Rogue_Lachrymator_abil";
@@ -791,6 +796,8 @@ namespace Melia.Shared.Game.Const
 		public const string Skiaclipse_pad_6 = "Skiaclipse_pad_6";
 		public const string Skiaclipse_pad_7 = "Skiaclipse_pad_7";
 		public const string Skiaclipse_pad_8 = "Skiaclipse_pad_8";
+		public const string Sledger_BigBang_Sledger15 = "Sledger_BigBang_Sledger15";
+		public const string Sledger_ChargeHammer_Sledger13 = "Sledger_ChargeHammer_Sledger13";
 		public const string SLITHERING_Abil = "SLITHERING_Abil";
 		public const string Slogutis_Fire_Pad = "Slogutis_Fire_Pad";
 		public const string Slogutis_FireExplosion_Pad = "Slogutis_FireExplosion_Pad";
@@ -962,6 +969,7 @@ namespace Melia.Shared.Game.Const
 		public const string wingedhussars_battle_spirit_pad3 = "wingedhussars_battle_spirit_pad3";
 		public const string wingedhussars_ExplosionSpears_pad = "wingedhussars_ExplosionSpears_pad";
 		public const string wingedhussars_InfinitySpears_pad = "wingedhussars_InfinitySpears_pad";
+		public const string wingedhussars_InfinitySpears_pad_520 = "wingedhussars_InfinitySpears_pad_520";
 		public const string Wizard_Darkness = "Wizard_Darkness";
 		public const string Wizard_Fog = "Wizard_Fog";
 		public const string Wizard_Lethargy = "Wizard_Lethargy";

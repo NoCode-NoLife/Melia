@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_huevillage_58_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Vieta Gorge to Veja Ravine
 		AddWarp("HUEVILLAGE58_2_TO_HUEVILLAGE58_1", 95, From("f_huevillage_58_2", 439.58, -1641.15), To("f_huevillage_58_1", -658, -346));

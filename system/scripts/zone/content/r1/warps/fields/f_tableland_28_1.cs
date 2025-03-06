@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_28_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Mesafasla to Svalphinghas Forest
 		AddWarp("TABLELAND281_TO_MAPLE252", 177, From("f_tableland_28_1", -844.8796, 1762.178), To("f_maple_25_2", 1712, -306));

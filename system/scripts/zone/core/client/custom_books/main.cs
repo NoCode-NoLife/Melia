@@ -5,20 +5,18 @@
 // a book name, prefixed with "CUSTOM:".
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class CustomBooksClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
-		this.SendAllScripts(e.Character);
+		this.SendAllScripts(character);
 	}
 }

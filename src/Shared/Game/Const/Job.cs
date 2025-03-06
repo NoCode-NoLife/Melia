@@ -28,6 +28,7 @@ namespace Melia.Shared.Game.Const
 		Shenji = 1024,
 		WingedHussar = 1025,
 		Vanquisher = 1026,
+		SledgerS = 1027,
 
 		// Wizard
 		Wizard = 2001,
@@ -98,6 +99,7 @@ namespace Melia.Shared.Game.Const
 		Crusader = 4021,
 		Lama = 4022,
 		Pontifex = 4023,
+		SledgerC = 4024,
 
 		// Scout
 		Scout = 5001,
@@ -119,6 +121,7 @@ namespace Melia.Shared.Game.Const
 		Hakkapeliter = 5017,
 		Jaguar = 5018,
 		Desperado = 5019,
+		VultureT = 5020,
 
 		// GM
 		GM = 9001,

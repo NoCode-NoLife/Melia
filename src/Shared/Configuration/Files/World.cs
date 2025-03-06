@@ -43,6 +43,10 @@ namespace Melia.Shared.Configuration.Files
 
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
+		public bool NoAdvancement { get; protected set; }
+
+		// misc.conf
+		public bool ResurrectCityOption { get; protected set; }
 
 		// quests.conf
 		public bool DisplayQuestObjectives { get; protected set; }
@@ -55,6 +59,7 @@ namespace Melia.Shared.Configuration.Files
 		public float MonsterSkillFactorRate { get; protected set; }
 		public float MonsterSkillSpeedRate { get; protected set; }
 		public float MonsterSkillDelayRate { get; protected set; }
+		public bool FreezeAffectsElement { get; protected set; }
 
 		// storage.conf
 		public int StorageFee { get; protected set; }
@@ -131,6 +136,9 @@ namespace Melia.Shared.Configuration.Files
 			this.ItemCooldownRate = this.GetFloat("item_cooldown_rate", 1);
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
+			this.NoAdvancement = this.GetBool("no_advancement", false);
+
+			this.ResurrectCityOption = this.GetBool("resurrect_city_option", true);
 
 			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 
@@ -141,6 +149,7 @@ namespace Melia.Shared.Configuration.Files
 			this.MonsterSkillFactorRate = this.GetFloat("monster_skill_factor_rate", 1);
 			this.MonsterSkillSpeedRate = this.GetFloat("monster_skill_speed_rate", 1);
 			this.MonsterSkillDelayRate = this.GetFloat("monster_skill_delay_rate", 1);
+			this.FreezeAffectsElement = this.GetBool("freeze_affects_element", false);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
 			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);

@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Linq;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
@@ -17,8 +21,6 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using System.Collections.Generic;
-using Melia.Zone.Buffs.Handlers.Common;
-using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -516,7 +518,12 @@ namespace Melia.Zone.World.Actors.Characters
 					//   options and save them, to sanity check the coming
 					//   resurrection request.
 
-					Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
+					var options = ResurrectOptions.NearestRevivalPoint;
+
+					if (ZoneServer.Instance.Conf.World.ResurrectCityOption)
+						options |= ResurrectOptions.NearestCity;
+
+					Send.ZC_RESURRECT_DIALOG(this, options);
 					_resurrectDialogTimer = ResurrectDialogDelay;
 				}
 			}
@@ -1296,7 +1303,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.Hp == 0)
 				this.Kill(attacker);
 
-			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
+			this.Map.AlertNearbyAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}
@@ -1310,7 +1317,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Properties.SetFloat(PropertyName.HP, 0);
 
 			//this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
 
@@ -1337,10 +1344,76 @@ namespace Melia.Zone.World.Actors.Characters
 					this.Warp(this.MapId, safePos);
 					break;
 				}
+				case ResurrectOptions.NearestCity:
+				{
+					var location = this.GetCityReturnLocation();
+					this.Warp(location);
+					break;
+				}
 			}
 
 			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
 			Send.ZC_RESURRECT(this);
+		}
+
+		/// <summary>
+		/// Returns the city return location for the actor.
+		/// </summary>
+		/// <remarks>
+		/// The return city map is retrieved from the map data by default.
+		/// Alternatively, a return location can be set via SetCityReturnLocation
+		/// or manually via the variables "Melia.CityReturnLocation.Map", ".X",
+		/// ".Y", and ".Z".
+		/// </remarks>
+		/// <returns></returns>
+		public Location GetCityReturnLocation()
+		{
+			MapData mapData;
+
+			if (this.Variables.Perm.Has("Melia.CityReturnLocation.Map"))
+			{
+				var mapName = this.Variables.Perm.GetString("Melia.CityReturnLocation.Map");
+
+				if (!ZoneServer.Instance.Data.MapDb.TryFind(mapName, out mapData))
+					throw new ArgumentException($"Map '{mapName}' not found in data.");
+
+				var x = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.X", 0);
+				var y = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Y", 0);
+				var z = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Z", 0);
+
+				if (x == 0 && y == 0 && z == 0)
+				{
+					x = mapData.DefaultPosition.X;
+					y = mapData.DefaultPosition.Y;
+					z = mapData.DefaultPosition.Z;
+				}
+
+				return new Location(mapData.Id, x, y, z);
+			}
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(this.Map.Data.NearbyCity, out mapData))
+			{
+				if (!ZoneServer.Instance.Data.MapDb.TryFind("c_Klaipe", out mapData))
+					throw new InvalidOperationException($"No nearby city found for map '{this.Map.ClassName}' and no fallback city found either.");
+			}
+
+			return new Location(mapData.Id, mapData.DefaultPosition);
+		}
+
+		/// <summary>
+		/// Sets the character's city return location, affecting where they will
+		/// respawn if they choose to ressurrect in the nearest city.
+		/// </summary>
+		/// <param name="location"></param>
+		public void SetCityReturnLocation(Location location)
+		{
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(location.MapId, out var mapData))
+				throw new ArgumentException($"Map '{location.MapId}' not found in data.");
+
+			this.Variables.Perm.SetString("Melia.CityReturnLocation.Map", mapData.ClassName);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.X", location.X);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Y", location.Y);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Z", location.Z);
 		}
 
 		/// <summary>

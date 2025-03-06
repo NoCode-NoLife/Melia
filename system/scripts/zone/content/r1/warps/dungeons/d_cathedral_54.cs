@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_cathedral_54WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Grand Corridor to Main Building
 		AddWarp("CATHEDRAL54_CATHEDRAL53", 92, From("d_cathedral_54", 1218.897, -380.2193), To("d_cathedral_53", 1048, -279));

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_dcapital_105WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Baltinel Memorial to Taniel I Commemorative Orb
 		AddWarp("WARP_DCAPITAL105_TO_DCAPITAL103", -2, From("f_dcapital_105", -950.0858, -1317.412), To("f_dcapital_103", -1508, 214));

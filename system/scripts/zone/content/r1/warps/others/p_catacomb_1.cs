@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class p_catacomb_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Mullers Passage to Pilgrim Path
 		AddWarp("PCATACOMB1_PILGRIM47", 180, From("p_catacomb_1", 19, 1161), To("f_pilgrimroad_47", 2075, -629));

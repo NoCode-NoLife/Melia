@@ -404,9 +404,9 @@ namespace Melia.Barracks.Database
 		/// <param name="password"></param>
 		public void SetAccountPassword(string accountName, string password)
 		{
-			var passwordBytes = Encoding.UTF8.GetBytes(password);
-			var passwordHashed = MD5.Encode(passwordBytes);
-			var hashedPassword = Hex.ToString(passwordHashed, HexStringOptions.None);
+			var salt = BCrypt.GenerateSalt();
+			var hashedPassword = MD5.Encode(password);
+			hashedPassword = BCrypt.HashPassword(hashedPassword, salt);
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("UPDATE `accounts` SET `password` = @password WHERE `name` = @accountName", conn))

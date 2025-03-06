@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep13_f_siauliai_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Woods of the Linked Bridges to Lemprasa Pond
 		AddWarp("WARP_EP13_F_SIAULIAI_2_TO_EP13_F_SIAULIAI_1", 90, From("ep13_f_siauliai_2", 3378.182, -671.4368), To("ep13_f_siauliai_1", -452, -1728));

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep13_f_siauliai_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Lemprasa Pond to Orsha
 		AddWarp("WARP_EP13_F_SIAULIAI_1_TO_ORSHA", 122, From("ep13_f_siauliai_1", 2057.641, 336.1328), To("c_orsha", -1239, 336));

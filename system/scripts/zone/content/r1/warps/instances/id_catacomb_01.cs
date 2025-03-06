@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class id_catacomb_01WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Guards Graveyard to Guards Graveyard
 		AddWarp("WS_CATACOMB01_1_CATACOMB01_2", 179, From("id_catacomb_01", -250, -134), To("id_catacomb_01", -258, 570));

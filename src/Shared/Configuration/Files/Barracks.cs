@@ -40,7 +40,6 @@ namespace Melia.Shared.Configuration.Files
 			this.IpfChecksum = this.GetString("ipf_checksum", "");
 			this.VerifyIpf = this.GetBool("ipf_verifying", false);
 
-
 			this.StartMap = this.GetString("start_map", "f_siauliai_west");
 			this.StartPosition = this.GetPosition("start_position", new Position(-628, 260, -1025));
 		}

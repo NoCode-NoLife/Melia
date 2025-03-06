@@ -16,7 +16,7 @@ using static Melia.Zone.Skills.SkillUseFunctions;
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 {
 	/// <summary>
-	/// Handler for the Highlander skill Crown.
+	/// Handler for the Highlander skill Cartar Stroke.
 	/// </summary>
 	[SkillHandler(SkillId.Highlander_CartarStroke)]
 	public class Highlander_CartarStroke : IGroundSkillHandler, IDynamicCasted

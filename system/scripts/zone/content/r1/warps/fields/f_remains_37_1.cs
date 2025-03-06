@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_remains_37_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Nuoridin Falls to Valius' Eternal Resting Place
 		AddWarp("REMAINS37_1_CATACOMB_02", 151, From("f_remains_37_1", -65.84995, -1794.304), To("id_catacomb_02", 2800, 1688));

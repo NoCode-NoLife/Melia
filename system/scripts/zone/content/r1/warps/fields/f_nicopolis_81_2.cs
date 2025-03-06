@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_nicopolis_81_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Feline Post Town to Starry Town
 		AddWarp("NICO812_NICO811", -25, From("f_nicopolis_81_2", 1650.421, -1984.765), To("f_nicopolis_81_1", -1630, 714));

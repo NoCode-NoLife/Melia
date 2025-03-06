@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_desolated_capital_53_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Rinksmas Ruins to Skalda Outskirts
 		AddWarp("WARP_DCAPITAL53_1_TO_CASTLE102", 90, From("f_desolated_capital_53_1", 3608.171, 1241.829), To("f_castle_102", -3056, 266));

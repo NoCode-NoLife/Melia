@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_dcapital_103WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Taniel I Commemorative Orb to Inner Wall District 8
 		AddWarp("DCAPITAL103_TO_CASTLE20_3", 46, From("f_dcapital_103", 738.5951, -1526.434), To("f_castle_20_3", -668, 1244));

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_11_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Vedas Plateau to Ruklys Street
 		AddWarp("TABLELAND11_1_FLASH61", 23, From("f_tableland_11_1", 615.5692, -1536.742), To("f_flash_61", 358, 1547));

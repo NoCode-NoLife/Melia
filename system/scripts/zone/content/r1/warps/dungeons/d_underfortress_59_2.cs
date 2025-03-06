@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_underfortress_59_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Royal Mausoleum Constructors' Chapel to Royal Mausoleum Storage
 		AddWarp("UNDERF592_TO_UNDERF593", 270, From("d_underfortress_59_2", -40.84153, 281.1239), To("d_underfortress_59_3", -1289, -1209));

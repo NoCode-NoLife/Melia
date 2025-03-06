@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_41_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Sekta Forest to Grynas Trails
 		AddWarp("PILGRIM41_4_KATYN45_1", -8, From("f_pilgrimroad_41_4", 1821.881, -1410.627), To("f_katyn_45_1", 966, 906));

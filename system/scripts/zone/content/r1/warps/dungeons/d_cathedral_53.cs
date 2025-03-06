@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_cathedral_53WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Main Building to Apsimesti Crossroads
 		AddWarp("CATHEDRAL53_PILGRIM52", 360, From("d_cathedral_53", 17, -1133), To("f_pilgrimroad_52", 932, -779));

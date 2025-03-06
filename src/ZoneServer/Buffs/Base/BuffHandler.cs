@@ -102,10 +102,9 @@ namespace Melia.Zone.Buffs.Base
 		{
 			var varName = GetModifierVarName(propertyName);
 
-			if (buff.Vars.TryGetFloat(varName, out var oldValue))
-				value += oldValue;
+			var totalModifier = buff.Vars.GetFloat(varName, 0);
+			buff.Vars.SetFloat(varName, totalModifier + value);
 
-			buff.Vars.SetFloat(varName, value);
 			target.Properties.Modify(propertyName, value);
 		}
 
@@ -120,9 +119,9 @@ namespace Melia.Zone.Buffs.Base
 		{
 			var varName = GetModifierVarName(propertyName);
 
-			if (buff.Vars.TryGetFloat(varName, out var value))
+			if (buff.Vars.TryGetFloat(varName, out var totalModifier))
 			{
-				target.Properties.Modify(propertyName, -value);
+				target.Properties.Modify(propertyName, -totalModifier);
 				buff.Vars.Remove(varName);
 			}
 		}

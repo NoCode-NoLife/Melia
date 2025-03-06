@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_46_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Spring Light Woods to Gate Route
 		AddWarp("SIAULIAI46_1_THORN19", 70, From("f_siauliai_46_1", -624, -1920), To("d_thorn_19", 274, 3055));

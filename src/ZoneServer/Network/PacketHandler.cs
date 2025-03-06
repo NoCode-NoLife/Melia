@@ -9,7 +9,7 @@ using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
@@ -110,7 +110,7 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
-			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			map.AddCharacter(character);
 
@@ -149,7 +149,7 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 			var gameReadyArgs = new PlayerGameReadyEventArgs(character);
 
-			ZoneServer.Instance.ServerEvents.OnPlayerGameReady(gameReadyArgs);
+			ZoneServer.Instance.ServerEvents.PlayerGameReady.Raise(gameReadyArgs);
 			if (gameReadyArgs.CancelHandling)
 				return;
 
@@ -231,7 +231,7 @@ namespace Melia.Zone.Network
 
 			character.OpenEyes();
 
-			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
+			ZoneServer.Instance.ServerEvents.PlayerReady.Raise(new PlayerEventArgs(character));
 		}
 
 		/// <summary>
@@ -289,7 +289,7 @@ namespace Melia.Zone.Network
 			}
 
 			Send.ZC_CHAT(character, msg);
-			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
+			ZoneServer.Instance.ServerEvents.PlayerChat.Raise(new PlayerChatEventArgs(character, msg));
 		}
 
 		/// <summary>
@@ -1292,7 +1292,9 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				character.TurnTowards(direction);
+				if (skill.Id != SkillId.Ranger_Strafe)
+					character.TurnTowards(direction);
+
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
@@ -1671,7 +1673,7 @@ namespace Melia.Zone.Network
 				}
 				else
 				{
-					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+					totalCost += (int)productData.PriceMultiplier * amount;
 				}
 
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
@@ -1968,6 +1970,12 @@ namespace Melia.Zone.Network
 			var oldJobId = (JobId)packet.GetShort();
 			var newJobId = (JobId)packet.GetShort();
 
+			if (ZoneServer.Instance.Conf.World.NoAdvancement)
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' tried to switch jobs, despite job advancement being disabled.", conn.Account.Name);
+				return;
+			}
+
 			var character = conn.SelectedCharacter;
 
 			if (!character.Jobs.TryGet(oldJobId, out var oldJob))
@@ -2021,7 +2029,7 @@ namespace Melia.Zone.Network
 			//Send.ZC_JOB_PTS(character, newJob);
 			//Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
 
-			ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+			ZoneServer.Instance.ServerEvents.PlayerAdvancedJob.Raise(new PlayerEventArgs(character));
 
 			// The intended behavior is to trigger a clean DC from the
 			// client with a move to barracks, but if we *need* the
@@ -2220,6 +2228,62 @@ namespace Melia.Zone.Network
 			catch (Exception ex)
 			{
 				Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
+			}
+		}
+
+		/// <summary>
+		/// Request to execute a transaction script function with numeric
+		/// arguments for an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TX_ITEM)]
+		public void CZ_REQ_TX_ITEM(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var classId = packet.GetInt();
+			var itemObjectId = packet.GetLong();
+			var l2 = packet.GetLong();
+			var l3 = packet.GetLong();
+			var argCount = packet.GetByte();
+			var numArgs = packet.GetList(argCount, packet.GetInt);
+
+			var character = conn.SelectedCharacter;
+
+			// Get data
+			if (!ZoneServer.Instance.Data.DialogTxDb.TryFind(classId, out var data))
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!ScriptableFunctions.ItemTx.TryGet(data.Script, out var scriptFunc))
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: No handler registered for transaction script '{0}({1})'", data.Script, string.Join(", ", numArgs));
+				return;
+			}
+
+			// Get item
+			var item = character.Inventory.GetItem(itemObjectId);
+			if (item == null)
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+				return;
+			}
+
+			// Try to execute transaction
+			try
+			{
+				var result = scriptFunc(character, item, numArgs);
+				if (result == ItemTxResult.Fail)
+				{
+					Log.Debug("CZ_REQ_TX_ITEM: Execution of script '{0}({1})' failed.", data.Script, string.Join(", ", numArgs));
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
 			}
 		}
 
@@ -2648,8 +2712,8 @@ namespace Melia.Zone.Network
 		public void CZ_PROPERTY_COMPARE(IZoneConnection conn, Packet packet)
 		{
 			var handle = packet.GetInt();
-			var b1 = packet.GetByte();
-			var addLike = packet.GetByte();
+			var openWindow = packet.GetBool();
+			var like = packet.GetBool();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2658,7 +2722,12 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			Send.ZC_PROPERTY_COMPARE(conn, character);
+			// The response does not appear to include the number of likes.
+			// Instead, it seems like the client is supposed to get that
+			// information from the relation server, as there's a request
+			// op for it. This is not sent currently though.
+
+			Send.ZC_PROPERTY_COMPARE(conn, character, openWindow, like);
 		}
 
 		/// <summary>
@@ -2925,7 +2994,7 @@ namespace Melia.Zone.Network
 			var l1 = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var option = (ResurrectOptions)(1 << (int)optionIdx);
+			var option = (ResurrectOptions)(1 << optionIdx);
 
 			if (!character.IsDead)
 			{

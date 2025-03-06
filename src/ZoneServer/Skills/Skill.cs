@@ -113,25 +113,24 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Returns true if the skill is a normal attack.
 		/// </summary>
-		/// This property is a temporary measure to not do this check randomly
-		/// somewhere in the code. We'll need some more research to determine
-		/// what exactly makes a normal attack and when they apply. Especially
-		/// because it seems like this might differ based on your stance.
-		/// 
-		/// Update: We used to check id ranges here, but we found the "keywords"
-		/// or tags on the skill data by now, which include the "NormalAttack"
-		/// tag. We'll assume that to be the way to determine normal attacks for
-		/// now.
-		public bool IsNormalAttack => this.Data.Tags.Has("NormalAttack");
-
-		/// <summary>
-		/// Returns true if the skill is a monster skill
-		/// </summary>
 		/// <remarks>
 		/// This property is a temporary measure to not do this check randomly
 		/// somewhere in the code. We'll need some more research to determine
 		/// what exactly makes a normal attack and when they apply. Especially
 		/// because it seems like this might differ based on your stance.
+		/// Update: We used to check id ranges here, but we found the "keywords"
+		/// or tags on the skill data by now, which include the "NormalSkill"
+		/// tag. We'll assume that to be the way to determine normal attacks for
+		/// now.
+		public bool IsNormalAttack => this.Data.Tags.Has(SkillTag.NormalSkill);
+
+		/// <summary>
+		/// Returns true if the skill is a monster skill.
+		/// </summary>
+		/// <remarks>
+		/// We're currently using the id range to determine whether a skill is a
+		/// monster skill, though a check for the skill name prefix "Mon_" might
+		/// also be a valid check.
 		/// </remarks>
 		public bool IsMonsterSkill => (int)this.Id >= 60000;
 
@@ -226,6 +225,18 @@ namespace Melia.Zone.Skills
 			this.OverheatTimeRemaining = TimeSpan.Zero;
 
 			Send.ZC_OVERHEAT_CHANGED(character, this);
+		}
+
+		/// <summary>
+		/// Reduces the skill's cooldown by the given amount of time.
+		/// </summary>
+		/// <remarks>
+		/// If no cooldown is active for the given id, this method does nothing.
+		/// </remarks>
+		/// <param name="reduction"></param>
+		public void ReduceCooldown(TimeSpan reduction)
+		{
+			this.Owner.Components.Get<CooldownComponent>().ReduceCooldown(this.Data.CooldownGroup, reduction);
 		}
 
 		/// <summary>

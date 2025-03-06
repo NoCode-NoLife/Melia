@@ -1,5 +1,5 @@
 //--- Melia Script -----------------------------------------------------------
-// Valandis Room 2 Spawns
+// EP16 Valandis Room 2 Spawns
 //--- Description -----------------------------------------------------------
 // Sets up monster spawners for 'ep16_2_d_fantasylibrary_48_3'.
 //---------------------------------------------------------------------------
@@ -11,14 +11,14 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep162DFantasylibrary483MobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Property Overrides -------------------------------
 
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Crobasia, Properties("MHP", 74493856, "MINPATK", 200000, "MAXPATK", 200000, "MINMATK", 200000, "MAXMATK", 200000, "DEF", 7000000, "MDEF", 7000000));
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Rotacion, Properties("MHP", 74493856, "MINPATK", 200000, "MAXPATK", 200000, "MINMATK", 200000, "MAXMATK", 200000, "DEF", 7000000, "MDEF", 7000000));
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Boogie_Box, Properties("MHP", 74493856, "MINPATK", 168000, "MAXPATK", 168000, "MINMATK", 168000, "MAXMATK", 168000, "DEF", 7000000, "MDEF", 7000000));
-		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Gear, Properties("MHP", 259481584, "MINPATK", 216000, "MAXPATK", 216000, "MINMATK", 216000, "MAXMATK", 216000, "DEF", 7000000, "MDEF", 7000000));
+		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Gear, Properties("MHP", 74493856, "MINPATK", 216000, "MAXPATK", 216000, "MINMATK", 216000, "MAXMATK", 216000, "DEF", 7000000, "MDEF", 7000000));
 		AddPropertyOverrides("ep16_2_d_fantasylibrary_48_3", MonsterId.Ep16_2_Boss_Pyroego_Q, Properties("MHP", 379481568, "MINPATK", 216000, "MAXPATK", 216000, "MINMATK", 216000, "MAXMATK", 216000, "DEF", 7000000, "MDEF", 7000000));
 
 		// Monster Spawners ---------------------------------

@@ -138,8 +138,7 @@
 		// Switches Heal from getting casted instantly to using a party
 		// member target selection wheel
 		{ name: "ClericHealPartySelect", enabled: true },
-	]},
-	
+	]},		
 ]},
 
 // Let's disable certain features for now to hide things that aren't

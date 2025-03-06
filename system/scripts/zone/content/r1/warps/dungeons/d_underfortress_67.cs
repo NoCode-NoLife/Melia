@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_underfortress_67WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Resident Quarter to Drill Ground of Confliction
 		AddWarp("UNDERFORTRESS67_UNDERFORTRESS66", -33, From("d_underfortress_67", 31.74275, -1661.218), To("d_underfortress_66", -538, -79));

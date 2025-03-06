@@ -12,7 +12,7 @@ namespace Melia.Shared.IES
 		/// <summary>
 		/// Returns a list of all mods.
 		/// </summary>
-		public Dictionary<string, IesModGroup> Mods { get; } = new Dictionary<string, IesModGroup>();
+		public Dictionary<string, IesModGroup> Mods { get; } = new();
 
 		/// <summary>
 		/// Adds a property mod.

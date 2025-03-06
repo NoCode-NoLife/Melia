@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_thorn_39_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Glade Hillroad to Spring Light Woods
 		AddWarp("THORN392_TO_SIAULIAI461", 0, From("d_thorn_39_2", -2053.881, -1604.47), To("f_siauliai_46_1", 616.4485, 1258.294));

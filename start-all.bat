@@ -47,7 +47,8 @@ pause
 exit
 
 :NO_ARGS
-start start-barracks
-start start-zone-1
-start start-zone-2
-start start-web
+start "" cmd /c start-barracks
+start "" cmd /c start-zone-1
+start "" cmd /c start-zone-2
+start "" cmd /c start-social
+start "" cmd /c start-web

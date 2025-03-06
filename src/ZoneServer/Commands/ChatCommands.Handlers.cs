@@ -42,6 +42,7 @@ namespace Melia.Zone.Commands
 			this.Add("readcollection", "", "", this.HandleReadCollection);
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
 			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
+			this.Add("mic", "<message>", "", this.HandleMic);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -52,6 +53,7 @@ namespace Melia.Zone.Commands
 			this.Add("distance", "", "Calculates distance between two positions.", this.HandleDistance);
 			this.Add("name", "<new name>", "Changes character name.", this.HandleName);
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
+			this.Add("main", "", "Displays invite for global main chat.", this.HandleMainChat);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
 
 			// VIP
@@ -86,6 +88,7 @@ namespace Melia.Zone.Commands
 			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
 			this.Add("daytime", "[timeOfDay=day|night|dawn|dusk]", "Sets the current day time.", this.HandleDayTime);
 			this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
+			this.Add("medals", "<modifier>", "Modifies the amount of medals/TP.", this.HandleMedals);
 
 			// Dev
 			this.Add("test", "", "", this.HandleTest);
@@ -1665,7 +1668,7 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleAutoloot(Character sender, Character target, string message, string command, Arguments args)
 		{
-			var autoloot = sender.Variables.Temp.Get("Autoloot", 0);
+			var autoloot = sender.Variables.Perm.GetInt("Melia.Autoloot", 0);
 
 			// If we got an argument, use it as the max drop chance of
 			// items that are to be autolooted. Without an argument,
@@ -1686,7 +1689,7 @@ namespace Melia.Zone.Commands
 				autoloot = 0;
 			}
 
-			sender.Variables.Temp.Set("Autoloot", autoloot);
+			sender.Variables.Perm.SetInt("Melia.Autoloot", autoloot);
 
 			if (autoloot == 100)
 				target.ServerMessage(Localization.Get("Autoloot is now active."));
@@ -2243,6 +2246,83 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("The character was set to *not* be saved on logout."));
 			else
 				sender.ServerMessage(Localization.Get("The character was set to be saved on logout."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Broadcasts message on the entire server.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMic(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var megaphoneRemoved = target.Inventory.Remove(ItemId.Mic, 1, InventoryItemRemoveMsg.Used) > 0;
+			if (!megaphoneRemoved)
+			{
+				sender.ServerMessage(Localization.Get("This action requires a Megaphone."));
+				return CommandResult.Okay;
+			}
+
+			var shoutText = string.Join(" ", args.GetAll());
+
+			// Broadcast the message to all servers, so they can do whatever
+			// with it. React to shouts on zones, put them on a web page, etc.
+			ZoneServer.Instance.Communicator.Send("Coordinator", new ShoutMessage(target.TeamName, shoutText).BroadcastTo("AllServers"));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Displays tag invite for main chat.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMainChat(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			target.ServerMessage("Click here to join the main chat: {a SLC 0@@@557516819791873}{#0000FF}{img link_whisper 24 24}Main{/}{/}{/}");
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Modifies the target's medals/TP.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMedals(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				sender.ServerMessage(Localization.Get("Current TP: {0}"), target.Connection.Account.Medals);
+				return CommandResult.Okay;
+			}
+
+			if (!int.TryParse(args.Get(0), out var modifier))
+				return CommandResult.InvalidArgument;
+
+			var oldValue = target.Connection.Account.Medals;
+			var newValue = Math.Max(0, oldValue + modifier);
+			target.Connection.Account.Medals = newValue;
+
+			sender.ServerMessage(Localization.Get("Modified TP ({1} -> {2})."), modifier, oldValue, newValue);
+
+			if (sender != target)
+				target.ServerMessage(Localization.Get("Your TP were modified by {0} ({1} -> {2})."), sender.TeamName, oldValue, newValue);
+
+			Send.ZC_NORMAL.AccountProperties(target);
 
 			return CommandResult.Okay;
 		}

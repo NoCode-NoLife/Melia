@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_abbey_22_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Narvas Temple to Izoliacjia Plateau
 		AddWarp("ABBEY22_4_WHITETREES22_3", 90, From("d_abbey_22_4", 1850.238, 1304.251), To("f_whitetrees_22_3", -1619, 285));

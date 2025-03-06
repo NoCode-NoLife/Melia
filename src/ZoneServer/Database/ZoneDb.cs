@@ -1229,12 +1229,12 @@ namespace Melia.Zone.Database
 
 				foreach (var quest in character.Quests.GetList())
 				{
-					var questId = 0L;
+					var questDbId = 0L;
 
 					using (var cmd = new InsertCommand("INSERT INTO `quests` {0}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
-						cmd.Set("classId", quest.Data.Id);
+						cmd.Set("classId", quest.Data.Id.Value);
 						cmd.Set("status", (int)quest.Status);
 						cmd.Set("startTime", quest.StartTime);
 						cmd.Set("completeTime", quest.CompleteTime);
@@ -1242,14 +1242,14 @@ namespace Melia.Zone.Database
 
 						cmd.Execute();
 
-						questId = cmd.LastId;
+						questDbId = cmd.LastId;
 					}
 
 					foreach (var progress in quest.Progresses)
 					{
 						using (var cmd = new InsertCommand("INSERT INTO `quests_progress` {0}", conn, trans))
 						{
-							cmd.Set("questId", questId);
+							cmd.Set("questId", questDbId);
 							cmd.Set("characterId", character.DbId);
 							cmd.Set("ident", progress.Objective.Ident);
 							cmd.Set("count", progress.Count);
@@ -1284,22 +1284,32 @@ namespace Melia.Zone.Database
 						while (reader.Read())
 						{
 							var questDbId = reader.GetInt64("questId");
-							var questClassId = reader.GetInt32("classId");
+							var questClassId = reader.GetInt64("classId");
 							var status = (QuestStatus)reader.GetInt32("status");
 							var startTime = reader.GetDateTimeSafe("startTime");
 							var completeTime = reader.GetDateTimeSafe("completeTime");
 							var tracked = reader.GetBoolean("tracked");
 
+							// Temporary upgrade for our test quest ids. Remove at
+							// some point, when we're also removing support for raw
+							// quest ids.
+							var questId = questClassId switch
+							{
+								1000001 => new QuestId("Melia.Test", 1),
+								1000002 => new QuestId("Melia.Test", 2),
+								_ => new QuestId(questClassId)
+							};
+
 							// If the quest does not (currently) exist, make
 							// a note of it, so we can skip its deletion on
 							// saving later on.
-							if (!QuestScript.Exists(questClassId))
+							if (!QuestScript.Exists(questId))
 							{
 								character.Quests.AddDisabledQuest(questDbId);
 								continue;
 							}
 
-							var quest = Quest.Create(questClassId);
+							var quest = Quest.Create(questId);
 							quest.Status = status;
 							quest.StartTime = startTime;
 							quest.CompleteTime = completeTime;

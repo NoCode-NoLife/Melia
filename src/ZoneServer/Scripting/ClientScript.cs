@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Melia.Shared.Scripting;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Yggdrasil.Logging;
@@ -15,7 +17,33 @@ namespace Melia.Zone.Scripting
 	{
 		public const int ScriptMaxLength = 2048;
 
-		private readonly Dictionary<string, string> _files = new Dictionary<string, string>();
+		private readonly Dictionary<string, string> _files = new();
+
+		/// <summary>
+		/// Called to load the script files.
+		/// </summary>
+		protected override void Load()
+		{
+		}
+
+		/// <summary>
+		/// Called to send the scripts when the player is ready to receive them.
+		/// </summary>
+		/// <param name="character"></param>
+		protected virtual void Ready(Character character)
+		{
+		}
+
+		/// <summary>
+		/// Called when the player logs in and is ready to receive scripts.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		[On("PlayerReady")]
+		protected void OnPlayerReadyInternal(object sender, PlayerEventArgs e)
+		{
+			this.Ready(e.Character);
+		}
 
 		/// <summary>
 		/// Adds script under the given name.

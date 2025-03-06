@@ -1,5 +1,5 @@
 ﻿using System;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.World.Quests.Objectives
@@ -31,8 +31,8 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Load()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerAddedItem += OnPlayerAddedOrRemovedItem;
-			ZoneServer.Instance.ServerEvents.PlayerRemovedItem += OnPlayerAddedOrRemovedItem;
+			ZoneServer.Instance.ServerEvents.PlayerAddedItem.Subscribe(this.OnPlayerAddedOrRemovedItem);
+			ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Subscribe(this.OnPlayerAddedOrRemovedItem);
 		}
 
 		/// <summary>
@@ -40,8 +40,8 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		public override void Unload()
 		{
-			ZoneServer.Instance.ServerEvents.PlayerAddedItem -= OnPlayerAddedOrRemovedItem;
-			ZoneServer.Instance.ServerEvents.PlayerRemovedItem -= OnPlayerAddedOrRemovedItem;
+			ZoneServer.Instance.ServerEvents.PlayerAddedItem.Unsubscribe(this.OnPlayerAddedOrRemovedItem);
+			ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Unsubscribe(this.OnPlayerAddedOrRemovedItem);
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace Melia.Zone.World.Quests.Objectives
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private static void OnPlayerAddedOrRemovedItem(object sender, PlayerItemEventArgs args)
+		private void OnPlayerAddedOrRemovedItem(object sender, PlayerItemEventArgs args)
 		{
 			var character = args.Character;
 			var itemId = args.ItemId;

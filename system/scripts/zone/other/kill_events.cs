@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Scripting;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
@@ -27,7 +27,7 @@ public class KillEventsScript : GeneralScript
 
 	private void OnRootCrystalKilled(Mob mob, ICombatEntity attacker)
 	{
-		attacker.StartBuff(BuffId.RootCrystalMoveSpeed, 1, 0, TimeSpan.FromMinutes(10), attacker);
+		attacker.StartBuff(BuffId.RootCrystalMoveSpeed, 3, 0, TimeSpan.FromMinutes(10), attacker);
 		attacker.StartBuff(BuffId.RootCrystalCoolDown_BUFF, 0, 0, TimeSpan.FromMinutes(1), attacker);
 
 		if (attacker is Character character)

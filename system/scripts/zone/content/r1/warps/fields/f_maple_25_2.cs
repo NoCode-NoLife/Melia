@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_maple_25_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Svalphinghas Forest to Nheto Forest
 		AddWarp("MAPLE_25_2_TO_MAPLE_25_1", 111, From("f_maple_25_2", 1346.154, 1102.859), To("f_maple_25_1", -2137, 751));

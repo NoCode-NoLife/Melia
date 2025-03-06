@@ -35,8 +35,8 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			}
 
 			// Increase max overheat if "Teleportation: Return" is active,
-			// which allows gives the user a brief window in which they
-			// can teleport back to the position they teleported from.
+			// which gives the user a brief window during which they can
+			// teleport back to the position they teleported from.
 			var overheatMaxCount = 1;
 			if (caster.IsAbilityActive(AbilityId.Wizard30))
 				overheatMaxCount = 2;

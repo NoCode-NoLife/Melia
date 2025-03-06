@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_abbey_35_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Elgos Monastery Annex to Nahash Forest
 		AddWarp("ABBEY_35_3_SIAULIAI_35_1", 181, From("d_abbey_35_3", 20.79054, 1662.704), To("f_siauliai_35_1", -2, -1223));

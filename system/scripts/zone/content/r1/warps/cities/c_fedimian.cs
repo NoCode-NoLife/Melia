@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class c_fedimianWarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Fedimian to Fedimian Suburbs
 		AddWarp("FEDMIAN_TO_REMAINS40", 80, From("c_fedimian", 782, -160), To("f_remains_40", -2359, -1457));

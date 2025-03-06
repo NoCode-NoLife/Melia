@@ -23,7 +23,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class CustomNpcStylist : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		AddNpc(57223, L("[Stylist] Jeremy"), "c_Klaipe", -66, -547, 180, NpcDialog);
 	}

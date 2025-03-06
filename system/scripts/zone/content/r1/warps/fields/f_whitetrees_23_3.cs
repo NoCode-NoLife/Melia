@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_whitetrees_23_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Syla Forest to Pystis Forest
 		AddWarp("WHITETREES23_3_TO_MAPLE23_2", 60, From("f_whitetrees_23_3", 374.4368, -1220.554), To("f_maple_23_2", -1321, 291));

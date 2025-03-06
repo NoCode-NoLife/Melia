@@ -1606,5 +1606,14 @@ namespace Melia.Shared.Game.Const
 		KupoleNormalBuff = 6005,
 		AquaWind = 6006,
 		WheelOfFate = 6007,
+		DarkLightningCurse = 6008,
+		MerryChristmas = 6009,
+		RichEnergy = 6010,
+		NightFog = 6011,
+		Sledger_HeavySmashing = 7000,
+		Sledger_RollingHammer = 7001,
+		Sledger_ChargeHammer = 7002,
+		Sledger_SwingHammer = 7003,
+		Sledger_BigBang = 7004,
 	}
 }

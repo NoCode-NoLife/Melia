@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Melia.Zone.Scripting;
 
 namespace Melia.Zone.World.Quests
 {
@@ -11,7 +12,7 @@ namespace Melia.Zone.World.Quests
 		/// <summary>
 		/// Get or sets the quest's id.
 		/// </summary>
-		public int Id { get; set; }
+		public QuestId Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quest's name.
@@ -32,6 +33,12 @@ namespace Melia.Zone.World.Quests
 		/// Gets or sets whether the quest can be cancelled.
 		/// </summary>
 		public bool Cancelable { get; set; } = false;
+
+		/// <summary>
+		/// Gets or sets whether the quest is automatically added to the list
+		/// of tracked quests.
+		/// </summary>
+		public bool AutoTrack { get; set; } = false;
 
 		/// <summary>
 		/// Gets or sets the start delay between meeting the quests

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_gele_57_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Gele Plateau to Srautas Gorge
 		AddWarp("GELE572_GELE571", 0, From("f_gele_57_2", 35, -1102), To("f_gele_57_1", 642, 1364));

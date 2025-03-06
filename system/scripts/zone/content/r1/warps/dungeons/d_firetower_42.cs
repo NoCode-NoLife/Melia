@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_firetower_42WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Mage Tower 2F to Mage Tower 3F
 		AddWarp("FIRETOWER42_TO_FIRETOWER43", 95, From("d_firetower_42", -933, -2391), To("d_firetower_43", -2508, -258));

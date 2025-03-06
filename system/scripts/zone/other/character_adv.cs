@@ -8,11 +8,11 @@
 using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
+using Melia.Zone.Events.Arguments;
 
 public class CharacterAdvancementScript : GeneralScript
 {
@@ -1221,6 +1221,21 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnSkill(character, SkillId.Common_DaggerAries);
 
 				GiveItem(character, ItemId.Costume_Char5_19, 1);
+				break;
+			}
+			case JobId.VultureT:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+				LearnSkill(character, SkillId.War_JustFrameAttack);
+				LearnSkill(character, SkillId.War_JustFrameDagger);
+				LearnSkill(character, SkillId.War_JustFramePistol);
+				LearnSkill(character, SkillId.Pistol_Attack);
+				LearnSkill(character, SkillId.Common_DaggerAries);
+				LearnSkill(character, SkillId.Vulture_Attack_Scout);
+
+				GiveItem(character, ItemId.Costume_Char5_20, 1);
 				break;
 			}
 		}

@@ -6,20 +6,18 @@
 // adds it again.
 //---------------------------------------------------------------------------
 
-using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors.Characters;
 
 public class StatByLevelClientScript : ClientScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		this.LoadAllScripts();
 	}
 
-	[On("PlayerReady")]
-	protected void OnPlayerReady(object sender, PlayerEventArgs e)
+	protected override void Ready(Character character)
 	{
 		// We'll only send the scripts if the feature to disable stats
 		// by level wasn't enabled. We still keep track of the stat
@@ -28,6 +26,6 @@ public class StatByLevelClientScript : ClientScript
 		// if the feature is enabled.
 
 		if (!Feature.IsEnabled("NoStatByLevel"))
-			this.SendAllScripts(e.Character);
+			this.SendAllScripts(character);
 	}
 }

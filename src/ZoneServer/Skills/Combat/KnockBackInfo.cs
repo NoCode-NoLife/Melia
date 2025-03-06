@@ -132,6 +132,13 @@ namespace Melia.Zone.Skills.Combat
 				this.Time = TimeSpan.FromMilliseconds(180);
 				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
 			}
+			else if (this.Velocity == 150 && this.VAngle == 60) // Timebomb Arrow, other targets
+			{
+				var distance = 70;
+
+				this.Time = TimeSpan.FromMilliseconds(2000);
+				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+			}
 			else
 			{
 				var distance = 17.700299992446f;

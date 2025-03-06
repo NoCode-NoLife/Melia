@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_bracken_43_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Phamer Forest to Zeteor Coast
 		AddWarp("BRACKEN432_CORAL441", 155, From("f_bracken_43_2", 1453.111, 1283.441), To("f_coral_44_1", -1645, 874));
