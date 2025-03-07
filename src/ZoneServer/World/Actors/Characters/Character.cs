@@ -45,8 +45,14 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		private static readonly List<BuffId> sadhuBuffList = new List<BuffId>()
 		{
-			BuffId.OOBE_Prakriti_Buff, BuffId.OOBE_Anila_Buff, BuffId.OOBE_Possession_Buff, BuffId.OOBE_Patati_Buff,
-			BuffId.OOBE_Moksha_Buff, BuffId.OOBE_Tanoti_Buff, BuffId.OOBE_Strong_Buff, BuffId.OOBE_Stack_Buff
+			BuffId.OOBE_Prakriti_Buff,
+			BuffId.OOBE_Anila_Buff,
+			BuffId.OOBE_Possession_Buff,
+			BuffId.OOBE_Patati_Buff,
+			BuffId.OOBE_Moksha_Buff,
+			BuffId.OOBE_Tanoti_Buff,
+			BuffId.OOBE_Strong_Buff,
+			BuffId.OOBE_Stack_Buff
 		};
 
 		/// <summary>

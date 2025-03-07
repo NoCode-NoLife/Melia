@@ -20,7 +20,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			Send.ZC_OWNER(dummyCharacter.Owner, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
 
-			dummyCharacter.Map.RemoveDummyCharacter(dummyCharacter);
+			dummyCharacter.Map.RemoveCharacter(dummyCharacter);
 		}
 
 		/// <summary>
@@ -31,7 +31,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="dummyHandle"></param>
 		protected void ReturnToBody(Character character, int dummyHandle)
 		{
-			var dummyCharacter = character.Map.GetDummyCharacter(dummyHandle);
+			var dummyCharacter = character.Map.GetCharacter(dummyHandle);
 
 			if (dummyCharacter == null)
 				return;
@@ -46,7 +46,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			Send.ZC_OWNER(character, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
 
-			character.Map.RemoveDummyCharacter(dummyCharacter);
+			character.Map.RemoveCharacter(dummyCharacter);
 		}
 
 		/// <summary>

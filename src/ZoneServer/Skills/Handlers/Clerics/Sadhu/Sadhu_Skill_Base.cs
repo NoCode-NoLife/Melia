@@ -11,6 +11,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
@@ -63,7 +64,8 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 
 			var dummyCharacter = this.SpawnDummyClone(casterCharacter, caster.Position);
 
-			Send.ZC_PLAY_ANI(dummyCharacter, "F_archer_bodkinpoint_finish2", false, true);
+			Send.ZC_PLAY_ANI(dummyCharacter, 14036, false);
+
 			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
@@ -76,7 +78,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 200, 100, 150, 0.01f);
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, SkillId.None);
 
-			Send.ZC_PLAY_ANI(dummyCharacter, "E_cleric_ProtectionOfGoddess_ground_red##1.1", true, false);
+			Send.ZC_PLAY_ANI(dummyCharacter, 5530, true);
 
 			this.SendAvailableSkills(casterCharacter, buffId, skill);
 
@@ -129,7 +131,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
 			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 3, 0.5f, 0, 0, 0);
 			Send.ZC_SET_POS(casterCharacter, dummyCharacter.Handle, farPos);
-			Send.ZC_PLAY_ANI(dummyCharacter, "F_archer_bodkinpoint_finish2", false, true);
+			Send.ZC_PLAY_ANI(dummyCharacter, "F_archer_bodkinpoint_finish2", false);
 
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, dummyCharacter.Handle, 255, 200, 100, 150, 0.01f);
 			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
@@ -196,11 +198,11 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 
 			dummyCharacter.Owner = casterCharacter;
 
-			casterCharacter.Map.AddDummyCharacter(dummyCharacter);
+			casterCharacter.Map.AddCharacter(dummyCharacter);
 
 			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter);
 			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);
-			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
+			Send.ZC_UPDATED_PCAPPEARANCE(casterCharacter, dummyCharacter);
 
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
 

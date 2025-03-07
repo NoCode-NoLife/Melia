@@ -79,7 +79,7 @@ public class SadhuDummyAiScript : AiScript
 			Send.ZC_OWNER(dummyCharacter.Owner, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
 
-			dummyCharacter.Map.RemoveDummyCharacter(dummyCharacter);
+			dummyCharacter.Map.RemoveCharacter(dummyCharacter);
 			yield break;
 		}
 

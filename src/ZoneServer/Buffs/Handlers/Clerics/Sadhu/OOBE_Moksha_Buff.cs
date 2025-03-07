@@ -31,7 +31,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			if (caster.IsAbilityActive(AbilityId.Sadhu35) || caster is not Character casterCharacter)
 				return;
 
-			var dummyCharacter = casterCharacter.Map.GetDummyCharacter((int)buff.NumArg2);
+			var dummyCharacter = casterCharacter.Map.GetCharacter((int)buff.NumArg2);
 
 			if (dummyCharacter != null)
 			{

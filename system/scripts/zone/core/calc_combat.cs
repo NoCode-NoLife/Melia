@@ -202,9 +202,9 @@ public class CombatCalculationsScript : GeneralScript
 		// besides Holy Damage (which will double) or if the attacker is Elite/Boss
 		if (target is Character tagetCharacter && tagetCharacter.IsOutOfBody())
 		{
-			if (attacker.Rank != MonsterRank.Boss && (skill.Data.Attribute != SkillAttribute.Holy || !attacker.IsBuffActive(BuffId.EliteMonsterBuff)))
+			if (attacker.Rank != MonsterRank.Boss && (skill.Data.Attribute != AttributeType.Holy || !attacker.IsBuffActive(BuffId.EliteMonsterBuff)))
 				return 0;
-			else if (skill.Data.Attribute == SkillAttribute.Holy)
+			else if (skill.Data.Attribute == AttributeType.Holy)
 				return (int)(skillHitResult.Damage * 2);
 		}
 

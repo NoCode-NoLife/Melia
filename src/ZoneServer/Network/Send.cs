@@ -1322,13 +1322,28 @@ namespace Melia.Zone.Network
 		/// their appearance.
 		/// </summary>
 		/// <param name="character"></param>
-		/// <param name="targetCharacter"></param>
 		public static void ZC_UPDATED_PCAPPEARANCE(Character character)
 		{
 			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
 
 			packet.PutInt(character.Handle);
 			packet.AddAppearancePc(character);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
+		/// Broadcasts ZC_UPDATED_PCAPPEARANCE of a targetCharacter
+		/// in range of character, updating their appearance.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="targetCharacter"></param>
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character, Character targetCharacter)
+		{
+			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
+
+			packet.PutInt(targetCharacter.Handle);
+			packet.AddAppearancePc(targetCharacter);
 
 			character.Map.Broadcast(packet, character);
 		}
@@ -3294,12 +3309,26 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Plays animation for actor on nearby clients.
+		/// Plays animation for actor on nearby clients with a given animation Id.
+		/// </summary>
+		/// <param name="actor">Entity to animate.</param>
+		/// <param name="animationId">Id of the animation to play (uses packet string database to retrieve the id).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IActor actor, int animationId, bool stopOnLastFrame = false)
+		{
+			if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationId, out var data))
+				throw new ArgumentException($"Packet String Id '{animationId}' not found.");
+
+			ZC_PLAY_ANI(actor, data.Name, stopOnLastFrame);
+		}
+
+		/// <summary>
+		/// Plays animation for actor on nearby clients with a given animation name.
 		/// </summary>
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false, bool unknowBoolean = false)
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
@@ -3310,9 +3339,9 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			// [i373230] Maybe added earlier [Updated ib 28/07/24]
+			// [i373230] Maybe added earlier [Updated at 28/07/24]
 			{
-				packet.PutShort(unknowBoolean ? 248 : 0);
+				packet.PutShort(0);
 			}
 
 			actor.Map.Broadcast(packet, actor);
