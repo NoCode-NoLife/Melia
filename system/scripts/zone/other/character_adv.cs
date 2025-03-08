@@ -793,7 +793,6 @@ public class CharacterAdvancementScript : GeneralScript
 			{
 				LearnSkill(character, SkillId.Hammer_Attack);
 				LearnSkill(character, SkillId.Hammer_Attack_TH);
-				LearnSkill(character, SkillId.Sadhu_OutofBodyCancel);
 
 				GiveItem(character, ItemId.Costume_Char4_6, 1);
 				break;

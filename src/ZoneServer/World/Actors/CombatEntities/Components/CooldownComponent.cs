@@ -49,7 +49,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				}
 			}
 
-			if (this.Entity is Character character)
+			if (this.Entity is Character character && character is not DummyCharacter)
 				Send.ZC_COOLDOWN_CHANGED(character, cooldown);
 		}
 
