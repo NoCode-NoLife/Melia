@@ -50,7 +50,6 @@ public class SadhuDummyAiScript : AiScript
 		if (this.Entity is Character entityCharacter && entityCharacter is DummyCharacter dummyCharacter)
 		{
 			SetFixedMoveSpeed(55);
-			entityCharacter.Properties.Modify(PropertyName.MSPD_BM, 55);
 			Send.ZC_MSPD(dummyCharacter.Owner, entityCharacter);
 		}
 		
@@ -76,10 +75,7 @@ public class SadhuDummyAiScript : AiScript
 		// Remove the dummy character if the master is gone
 		if (TryGetMaster(out var master) && EntityGone(master) && this.Entity is DummyCharacter dummyCharacter)
 		{
-			Send.ZC_OWNER(dummyCharacter.Owner, dummyCharacter, 0);
-			Send.ZC_LEAVE(dummyCharacter);
-
-			dummyCharacter.Map.RemoveCharacter(dummyCharacter);
+			dummyCharacter.Despawn();
 			yield break;
 		}
 

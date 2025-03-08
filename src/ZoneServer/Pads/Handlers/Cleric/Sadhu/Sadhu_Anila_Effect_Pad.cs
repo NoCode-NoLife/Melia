@@ -4,6 +4,7 @@ using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using static Melia.Shared.Util.TaskHelper;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 {
@@ -29,7 +30,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Anila_Effect_Pad, 2.356195f, 0, 50, true);
 
-			this.MovePad(pad, args.Creator);
+			CallSafe(this.MovePad(pad, args.Creator));
 		}
 
 		/// <summary>
@@ -44,7 +45,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Anila_Effect_Pad, 2.356195f, 0, 50, false);
 
-			this.MovePad(pad, args.Creator);
+			CallSafe(this.MovePad(pad, args.Creator));
 		}
 
 		/// <summary>
@@ -52,7 +53,7 @@ namespace Melia.Zone.Pads.Handlers.Scout.Ardito
 		/// </summary>
 		/// <param name="pad"></param>
 		/// <param name="creator"></param>
-		private async void MovePad(Pad pad, ICombatEntity creator)
+		private async Task MovePad(Pad pad, ICombatEntity creator)
 		{
 			// Forward and back, hovering a moment in between.
 			var dest = creator.Position.GetRelative(creator.Direction, PadMoveDistance);

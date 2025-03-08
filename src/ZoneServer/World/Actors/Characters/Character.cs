@@ -21,6 +21,8 @@ using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 using System.Collections.Generic;
+using Melia.Zone.Skills;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -1509,6 +1511,63 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Hair = hairTypeIndex;
 			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
+
+		/// <summary>
+		/// Clones the character within it's same appearance and
+		/// spawns it on the current map at a given position.
+		/// </summary>
+		/// <param name="position"></param>
+		public Character Clone(Position position)
+		{
+			var dummyCharacter = new DummyCharacter();
+
+			dummyCharacter.DbId = this.DbId;
+			dummyCharacter.AccountId = this.AccountId;
+			dummyCharacter.Name = this.Name;
+			dummyCharacter.TeamName = this.TeamName;
+			dummyCharacter.JobId = this.JobId;
+			dummyCharacter.Gender = this.Gender;
+			dummyCharacter.Hair = this.Hair;
+			dummyCharacter.SkinColor = this.SkinColor;
+			dummyCharacter.MapId = this.MapId;
+
+			dummyCharacter.Position = position;
+			dummyCharacter.Direction = this.Direction;
+
+			foreach (var item in this.Inventory.GetEquip())
+			{
+				var newItem = new Item(item.Value.Id, item.Value.Amount);
+				dummyCharacter.Inventory.SetEquipSilent(item.Key, newItem);
+			}
+
+			foreach (var job in this.Jobs.GetList())
+			{
+				dummyCharacter.Jobs.AddSilent(new Job(dummyCharacter, job.Id));
+			}
+
+			foreach (var skill in this.Skills.GetList())
+			{
+				var newSkill = new Skill(dummyCharacter, skill.Id, skill.Level);
+				dummyCharacter.Skills.AddSilent(newSkill);
+			}
+
+			dummyCharacter.InitProperties();
+			dummyCharacter.Properties.Stamina = (int)this.Properties.GetFloat(PropertyName.MaxSta);
+			dummyCharacter.UpdateStance();
+			dummyCharacter.ModifyHpSafe(this.MaxHp, out var hp, out var priority);
+
+			dummyCharacter.Owner = this;
+
+			this.Map.AddCharacter(dummyCharacter);
+
+			Send.ZC_ENTER_PC(this.Connection, dummyCharacter);
+			Send.ZC_OWNER(this, dummyCharacter, this.Handle);
+			Send.ZC_UPDATED_PCAPPEARANCE(this, dummyCharacter);
+
+			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
+
+			return dummyCharacter;
 		}
 
 		/// <summary>

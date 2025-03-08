@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Patati_Buff);
+			this.Handle(skill, caster, originPos, farPos, target, BuffId.OOBE_Patati_Buff);
 		}
 	}
 }

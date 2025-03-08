@@ -9,6 +9,8 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Yggdrasil.Geometry.Shapes;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
 {
@@ -340,7 +342,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
 			public static void UnkDynamicCastStart(Character character, SkillId skillId)
-				=> UnkDynamicCastStart(character, character.Handle, skillId);
+				=> UnkDynamicCastStart(character, character, skillId);
 
 			/// <summary>
 			/// Packet with unknown purpose that's sent during dynamic
@@ -349,12 +351,12 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
 			/// <param name="targetHandle"></param>
-			public static void UnkDynamicCastStart(Character character, int targetHandle, SkillId skillId)
+			public static void UnkDynamicCastStart(Character character, IActor target, SkillId skillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
 
-				packet.PutInt(targetHandle);
+				packet.PutInt(target.Handle);
 				packet.PutInt((int)skillId);
 
 				character.Connection.Send(packet);
@@ -1340,7 +1342,7 @@ namespace Melia.Zone.Network
 			/// <param name="alpha"></param>
 			/// <param name="f1"></param>
 			public static void UpdateModelColor(Character character, int red, int green, int blue, int alpha, float f1)
-				=> UpdateModelColor(character, character.Handle, red, green, blue, alpha, f1);
+				=> UpdateModelColor(character, character, red, green, blue, alpha, f1);
 
 			/// <summary>
 			/// Updates the entity model color
@@ -1352,12 +1354,12 @@ namespace Melia.Zone.Network
 			/// <param name="blue"></param>
 			/// <param name="alpha"></param>
 			/// <param name="f1"></param>
-			public static void UpdateModelColor(Character character, int targetHandle, int red, int green, int blue, int alpha, float f1)
+			public static void UpdateModelColor(Character character, IActor target, int red, int green, int blue, int alpha, float f1)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateModelColor);
 
-				packet.PutInt(targetHandle);
+				packet.PutInt(target.Handle);
 				packet.PutByte((byte)red);
 				packet.PutByte((byte)green);
 				packet.PutByte((byte)blue);
@@ -1375,14 +1377,20 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			/// <param name="buffId"></param>
 			/// <param name="skillId"></param>
-			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, int skillId)
+			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, SkillId skillId)
 			{
+				if (!ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData))
+				{
+					Log.Error("EnableUseSkillWhileOutOfBody: BuffId '{0}' was not found.", buffId);
+					return;
+				}
+
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.EnableUseSkillWhileOutOfBody);
 
 				packet.PutInt(character.Handle);
-				packet.PutLpString(buffId.ToString());
-				packet.PutInt(skillId);
+				packet.PutLpString(buffData.ClassName);
+				packet.PutInt((int)skillId);
 				packet.PutByte(1);
 
 				character.Connection.Send(packet);
@@ -1395,11 +1403,17 @@ namespace Melia.Zone.Network
 			/// <param name="buffId"></param>
 			public static void EndOutOfBodyBuff(Character character, BuffId buffId)
 			{
+				if (!ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData))
+				{
+					Log.Error("EndOutOfBodyBuff: BuffId '{0}' was not found.", buffId);
+					return;
+				}
+
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.EndOutOfBodyBuff);
 
 				packet.PutInt(character.Handle);
-				packet.PutLpString(buffId.ToString());
+				packet.PutLpString(buffData.ClassName);
 
 				character.Connection.Send(packet);
 			}

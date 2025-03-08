@@ -275,6 +275,7 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="followTarget">The target to follow.</param>
 		/// <param name="minDistance">The minimum distance to the target the AI attempts to stay in.</param>
 		/// <param name="matchSpeed">If true, the entity's speed will be changed to match the target's.</param>
+		/// <param name="teleport">If true, the entity will teleport instantly to the target location if the distance is too high.</param>
 		/// <returns></returns>
 		protected IEnumerable Follow(ICombatEntity followTarget, float minDistance = 50, bool matchSpeed = false, bool teleport = true)
 		{

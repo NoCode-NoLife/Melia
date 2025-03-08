@@ -197,17 +197,6 @@ public class CombatCalculationsScript : GeneralScript
 
 		SCR_Combat_AfterCalc(attacker, target, skill, modifier, skillHitResult);
 
-		// TODO: There may be a better place to check this
-		// While in OOBE the character won't receive damage from any sources
-		// besides Holy Damage (which will double) or if the attacker is Elite/Boss
-		if (target is Character tagetCharacter && tagetCharacter.IsOutOfBody())
-		{
-			if (attacker.Rank != MonsterRank.Boss && (skill.Data.Attribute != AttributeType.Holy || !attacker.IsBuffActive(BuffId.EliteMonsterBuff)))
-				return 0;
-			else if (skill.Data.Attribute == AttributeType.Holy)
-				return (int)(skillHitResult.Damage * 2);
-		}
-
 		// Let monster-specific functions override the damage calculation,
 		// but do it after the basic calculations have been done, so we
 		// can utilize them. For example, we can double or half damage

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -7,11 +9,7 @@ using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Items;
-using Yggdrasil.Logging;
-using Yggdrasil.Util;
 
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
@@ -21,7 +19,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 	public class Sadhu_Skill_Base
 	{
 		/// <summary>
-		/// Handles a sadhu skill for the given BuffId
+		/// Handles a sadhu skill for the given BuffId.
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
@@ -31,22 +29,21 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		/// <param name="buffId"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target, BuffId buffId)
 		{
+			// The skill casting of this skill requires Soul Master Buff.
 			if (!caster.IsBuffActive(BuffId.OOBE_Soulmaster_Buff) || caster is not Character casterCharacter)
 				return;
 
-			if (caster.IsAbilityActive(AbilityId.Sadhu35))
-			{
-				this.CreateClone(skill, caster, originPos, farPos, target, buffId);
-				return;
-			}
-
-			// This skill doesn't enter on Cooldown on the first usage.
-			// On the second usage it will return to the original body.
+			// This will happens in the second usage: returns to body.
 			if (caster.IsBuffActive(buffId))
 			{
 				this.ReturnToBody(caster, skill, farPos, buffId);
 				return;
 			}
+
+			// Prevents from spamming the skills if
+			// somehow the user by pass clients checks
+			if (casterCharacter.IsOutOfBody())
+				return;
 
 			if (!caster.TrySpendSp(skill))
 			{
@@ -55,30 +52,36 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			}
 
 			farPos = caster.Position.GetRelative(caster.Direction, 30);
-
 			caster.SetAttackState(true);
 			this.SkillReady(caster, skill, farPos);
+
+			// Checks if the [Arts] Spirit Expert: Wandering Soul is active.
+			// This will switch the flow of the skill. Instead of letting
+			// the player be the sprit and control it, a clone AI based will be created.
+			if (caster.IsAbilityActive(AbilityId.Sadhu35))
+			{
+				this.CreateAISpiritClone(skill, casterCharacter, originPos, farPos, target, buffId);
+				return;
+			}
 
 			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
 			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, moveSpeedBonus);
 
-			var dummyCharacter = this.SpawnDummyClone(casterCharacter, caster.Position);
+			// A dummy character, it will stays on the old character position
+			// While the player apparence will assume the spirit form.
+			var dummyCharacter = casterCharacter.Clone(caster.Position);
 
-			Send.ZC_PLAY_ANI(dummyCharacter, 14036, false);
+			Send.ZC_PLAY_ANI(casterCharacter, dummyCharacter, "PRAY", false);
 
-			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 3, 0.5f, 0, 0, 0);
+			this.SkillEffects(casterCharacter, dummyCharacter, dummyCharacter.Position, farPos);
+
+			Send.ZC_PLAY_ANI(casterCharacter, dummyCharacter, "I_archer_Firebomb_force_mash", true);
 
 			casterCharacter.Position = farPos;
 			Send.ZC_SET_POS(casterCharacter, farPos);
 
-			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 200, 100, 150, 0.01f);
-			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, SkillId.None);
-
-			Send.ZC_PLAY_ANI(dummyCharacter, 5530, true);
+			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, casterCharacter, 255, 200, 100, 150, 0.01f);
+			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, casterCharacter, SkillId.None);
 
 			this.SendAvailableSkills(casterCharacter, buffId, skill);
 
@@ -86,66 +89,58 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Creates a clone of the character that attacks nearby
-		/// entities and disappears after a while leaving an effect
+		/// Creates a clone of the character (spirit) that attacks nearby
+		/// entities and disappears after a few seconds leaving an effect
+		/// that works similar as skill.
 		/// </summary>
 		/// <param name="skill"></param>
-		/// <param name="caster"></param>
+		/// <param name="casterCharacter"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
 		/// <param name="target"></param>
 		/// <param name="buffId"></param>
-		public void CreateClone(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target, BuffId buffId)
+		public void CreateAISpiritClone(Skill skill, Character casterCharacter, Position originPos, Position farPos, ICombatEntity target, BuffId buffId)
 		{
-			if (!caster.IsBuffActive(BuffId.OOBE_Soulmaster_Buff) || caster is not Character casterCharacter)
-				return;
-
-			// This skill doesn't enter on Cooldown on the first usage.
-			// On the second usage it will return to the original body.
-			if (caster.IsBuffActive(buffId))
-			{
-				this.ReturnToBody(caster, skill, farPos, buffId);
-				return;
-			}
-
-			if (!caster.TrySpendSp(skill))
-			{
-				caster.ServerMessage(Localization.Get("Not enough SP."));
-				return;
-			}
-
-			farPos = caster.Position.GetRelative(caster.Direction, 20);
-
-			caster.SetAttackState(true);
 			skill.IncreaseOverheat();
 
-			this.SkillReady(caster, skill, caster.Position);
+			// Clones the character that will be perform
+			// attacks to nearby enemies and leave an buff skill
+			// once it disappears or dies.
+			var spirit = casterCharacter.Clone(farPos);
 
-			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
+			this.SkillEffects(casterCharacter, spirit, spirit.Position, farPos);
 
-			var dummyCharacter = this.SpawnDummyClone(casterCharacter, farPos);
+			Send.ZC_SET_POS(casterCharacter, spirit.Handle, farPos);
 
-			Send.ZC_PLAY_SOUND(caster, "skl_eff_yuchae_start_2");
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke013_blue_smoke", dummyCharacter.Position, 1.5f, 0.3f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
-			Send.ZC_GROUND_EFFECT(casterCharacter, "I_only_quest_smoke058_blue", dummyCharacter.Position, 3, 0.5f, 0, 0, 0);
-			Send.ZC_SET_POS(casterCharacter, dummyCharacter.Handle, farPos);
-			Send.ZC_PLAY_ANI(dummyCharacter, "F_archer_bodkinpoint_finish2", false);
+			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, spirit, 255, 200, 100, 150, 0.01f);
+			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, spirit, SkillId.None);
 
-			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, dummyCharacter.Handle, 255, 200, 100, 150, 0.01f);
-			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, dummyCharacter.Handle, SkillId.None);
+			spirit.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), spirit);
 
-			dummyCharacter.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), dummyCharacter);
-
-			var aiComponent = new AiComponent(dummyCharacter, "SadhuDummy");
+			var aiComponent = new AiComponent(spirit, "SadhuDummy");
 			aiComponent.Script.SetMaster(casterCharacter);
 
-			dummyCharacter.Components.Add(aiComponent);
+			spirit.Components.Add(aiComponent);
 		}
 
 		/// <summary>
-		/// Returns the move speed bonus, sometimes the value can be negative
+		/// Creates the skill's related effects and play animations.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="target"></param>
+		/// <param name="position"></param>
+		/// <param name="farPos"></param>
+		private void SkillEffects(Character character, IActor target, Position position, Position farPos)
+		{
+			Send.ZC_PLAY_SOUND(character, "skl_eff_yuchae_start_2");
+			Send.ZC_GROUND_EFFECT(character, "I_only_quest_smoke013_blue_smoke", farPos, 1, 0.7f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(character, "I_only_quest_smoke013_blue_smoke", position, 1.5f, 0.3f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(character, "I_only_quest_smoke058_blue", farPos, 3f, 0.5f, 0, 0, 0);
+			Send.ZC_GROUND_EFFECT(character, "I_only_quest_smoke058_blue", position, 3, 0.5f, 0, 0, 0);			
+		}
+
+		/// <summary>
+		/// Returns the move speed bonus, sometimes the value can be negative.
 		/// </summary>
 		/// <param name="skill"></param>
 		private float GetMoveSpeedBonus(Skill skill)
@@ -154,96 +149,32 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Spawns a dummy character that will looks like the original character
+		/// Sends the list of available skills to cast to the client.
 		/// </summary>
 		/// <param name="casterCharacter"></param>
-		private Character SpawnDummyClone(Character casterCharacter, Position position)
-		{
-			var dummyCharacter = new DummyCharacter();
-
-			dummyCharacter.DbId = casterCharacter.DbId;
-			dummyCharacter.AccountId = casterCharacter.AccountId;
-			dummyCharacter.Name = casterCharacter.Name;
-			dummyCharacter.TeamName = casterCharacter.TeamName;
-			dummyCharacter.JobId = casterCharacter.JobId;
-			dummyCharacter.Gender = casterCharacter.Gender;
-			dummyCharacter.Hair = casterCharacter.Hair;
-			dummyCharacter.SkinColor = casterCharacter.SkinColor;
-			dummyCharacter.MapId = casterCharacter.MapId;
-
-			dummyCharacter.Position = position;
-			dummyCharacter.Direction = casterCharacter.Direction;
-
-			foreach (var item in casterCharacter.Inventory.GetEquip())
-			{
-				var newItem = new Item(item.Value.Id, item.Value.Amount);
-				dummyCharacter.Inventory.SetEquipSilent(item.Key, newItem);
-			}
-
-			foreach (var job in casterCharacter.Jobs.GetList())
-			{
-				dummyCharacter.Jobs.AddSilent(new Job(dummyCharacter, job.Id));
-			}
-
-			foreach (var skill in casterCharacter.Skills.GetList())
-			{
-				var newSkill = new Skill(dummyCharacter, skill.Id, skill.Level);
-				dummyCharacter.Skills.AddSilent(newSkill);
-			}
-
-			dummyCharacter.InitProperties();
-			dummyCharacter.Properties.Stamina = (int)casterCharacter.Properties.GetFloat(PropertyName.MaxSta);
-			dummyCharacter.UpdateStance();
-			dummyCharacter.ModifyHpSafe(casterCharacter.MaxHp, out var hp, out var priority);
-
-			dummyCharacter.Owner = casterCharacter;
-
-			casterCharacter.Map.AddCharacter(dummyCharacter);
-
-			Send.ZC_ENTER_PC(casterCharacter.Connection, dummyCharacter);
-			Send.ZC_OWNER(casterCharacter, dummyCharacter, casterCharacter.Handle);
-			Send.ZC_UPDATED_PCAPPEARANCE(casterCharacter, dummyCharacter);
-
-			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
-
-			return dummyCharacter;
-		}
-
-		/// <summary>
-		/// Sends the to the client the list of available skills to cast
-		/// </summary>
-		/// <param name="casterCharacter"></param>
+		/// <param name="buffId"></param>
+		/// <param name="skill"></param>
 		private void SendAvailableSkills(Character casterCharacter, BuffId buffId, Skill skill)
 		{
-			var skillTreeData = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(JobId.Sadhu, 45);
+			var sadhuSkillIds = new HashSet<SkillId>(ZoneServer.Instance.Data.SkillTreeDb.FindSkills(JobId.Sadhu, 45).Select(s => s.SkillId));
 
 			foreach (var availableSkill in casterCharacter.Skills.GetList())
 			{
-				var isSadhuSkill = false;
-
-				for (var i = 0; i < skillTreeData.Length; i++)
-				{
-					if (skillTreeData[i].SkillId == availableSkill.Id)
-					{
-						isSadhuSkill = true;
-						break;
-					}
-				}
-
-				// We are skipping all Sadhu skills besides this current own (that may be used a second time)
-				if (isSadhuSkill && availableSkill.Id != skill.Id)
+				// Skip if it's a Sadhu skill other than the current skill
+				if (sadhuSkillIds.Contains(availableSkill.Id) && availableSkill.Id != skill.Id)
 					continue;
 
-				Send.ZC_NORMAL.EnableUseSkillWhileOutOfBody(casterCharacter, buffId, (int)availableSkill.Id);
+				Send.ZC_NORMAL.EnableUseSkillWhileOutOfBody(casterCharacter, buffId, availableSkill.Id);
 			}
 		}
 
 		/// <summary>
-		/// Makes the character returns to original body position
+		/// Makes the character (spirit) returns to original body position.
 		/// </summary>
 		/// <param name="caster"></param>
 		/// <param name="skill"></param>
 		/// <param name="farPos"></param>
+		/// <param name="buffId"></param>
 		private async void ReturnToBody(ICombatEntity caster, Skill skill, Position farPos, BuffId buffId)
 		{
 			Send.ZC_SKILL_READY(caster, skill, caster.Position, farPos);
@@ -252,6 +183,9 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 
 			await Task.Delay(TimeSpan.FromMilliseconds(750));
 
+			// This skill doesn't enter on cooldown on the first usage.
+			// But at the second usage it will return to the original
+			// body then it trigger the cooldown.
 			skill.IncreaseOverheat();
 
 			caster.StopBuff(buffId);

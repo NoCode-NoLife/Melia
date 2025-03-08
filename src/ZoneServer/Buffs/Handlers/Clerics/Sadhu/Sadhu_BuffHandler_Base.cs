@@ -1,6 +1,8 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 
@@ -9,13 +11,13 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 	/// <summary>
 	/// Base Buff for sadhu's buffs
 	/// </summary>
-	public class Sadhu_BuffHandler_Base : BuffHandler
+	public class Sadhu_BuffHandler_Base : BuffHandler, IBuffCombatAttackAfterCalcHandler
 	{
 		/// <summary>
-		/// Remove the dummy character from the map
+		/// Remove the spirit clone character from the map.
 		/// </summary>
-		/// <param name="character"></param>
-		protected void RemoveDummyCharacter(DummyCharacter dummyCharacter)
+		/// <param name="dummyCharacter"></param>
+		protected void RemoveSpritCloneCharacter(DummyCharacter dummyCharacter)
 		{
 			Send.ZC_OWNER(dummyCharacter.Owner, dummyCharacter, 0);
 			Send.ZC_LEAVE(dummyCharacter);
@@ -24,8 +26,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Makes the chararacter returns to original position
-		/// and also get ride of the dummy character
+		/// Makes the character returns to original position
+		/// and also get ride of the dummy character.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="dummyHandle"></param>
@@ -50,8 +52,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		}
 
 		/// <summary>
-		/// Called when the dummy character died
-		/// disappeared.
+		/// Called when the clone dummy character dies.
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="killer"></param>
@@ -59,6 +60,30 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		{
 			if (character is DummyCharacter dummyCharacter)
 				dummyCharacter.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
+			else
+				character.StopBuff(BuffId.OOBE_Anila_Buff);
+		}
+
+		/// <summary>
+		/// Applies the buff's effect during the combat calculations.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="modifier"></param>
+		/// <param name="skillHitResult"></param>
+		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		{
+			// While in OOBE the character won't receive damage from any sources
+			// besides Holy Damage (which will double) or if the attacker is Elite/Boss
+			if (target is Character tagetCharacter && tagetCharacter.IsOutOfBody())
+			{
+				if (attacker.Rank != MonsterRank.Boss && (skill.Data.Attribute != AttributeType.Holy || !attacker.IsBuffActive(BuffId.EliteMonsterBuff)))
+					skillHitResult.Damage = 0;
+				else if (skill.Data.Attribute == AttributeType.Holy)
+					skillHitResult.Damage = (int)(skillHitResult.Damage * 2);
+			}
 		}
 	}
 }
