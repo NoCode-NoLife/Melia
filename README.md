@@ -69,10 +69,12 @@ Afterwards, you should be able to start Melia via the provided scripts or
 directly from the bin directories. If not, or if you need a more detailed
 guide, head over to our forum, the chat, or the wiki.
 
-Contribution
+Further Reading
 -----------------------------------------------------------------------------
 
-Check the file CONTRIBUTING.md for instructions on how you may contribute.
+* Check the FAQ.md for frequently asked questions about Melia.
+* Check the file CONTRIBUTING.md for detailed information on how you may
+  contribute.
 
 Links
 -----------------------------------------------------------------------------
@@ -81,4 +83,3 @@ Links
 * Wiki: https://github.com/NoCode-NoLife/melia/wiki
 * Forum: https://nocodenolife.org/forum/65-melia/
 * Chat: https://discord.gg/5sszEgw
-
