@@ -1,7 +1,7 @@
 Text Codes
 =============================================================================
 
-The client supports various codes in most textx, like in chat or
+The client supports various codes in most texts, like in chat or
 NPC dialogues. This is a list of some known codes.
 
 ## Reset Formatting
@@ -14,7 +14,8 @@ Resets some formatting, but not color or size.
 
 ## New Paragraph
 
-Continues NPC dialog on another page, the NPC's name stays the same.
+Continues NPC dialog on another "page," while the NPC's name stays
+the same.
 
 ```text
 {np}
@@ -43,6 +44,7 @@ Displays in-line image.
 ```text
 {img ...}
 ```
+
 Examples:
 ```text
 {img minimap_1_MAIN 16 16}
@@ -59,7 +61,8 @@ Presumably a reference to clientmessage.xml, with "..." being the key.
 
 ## Bold
 
-Everything that follows is bold. Seemingly stopped working in i171032.
+Everything that follows is bold.
+(As of i171032, this code appears to no longer be supported by the client.)
 
 ```text
 {b}

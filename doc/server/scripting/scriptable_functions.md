@@ -14,7 +14,7 @@ methods by name, as is done for item usage scripts.
 
 To illustrate this, take a look at the following scriptable
 function, which is referenced in the item data by its name,
-`SCR_USE_ITEM_EXPCARD`. When the item is called, we get the
+`SCR_USE_ITEM_EXPCARD`. When the item is used, we get the
 function by name and call it with the arguments defined in
 the item data.
 ```cs
