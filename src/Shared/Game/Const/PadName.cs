@@ -44,10 +44,16 @@ namespace Melia.Shared.Game.Const
 		public const string blackman_ArrowRain = "blackman_ArrowRain";
 		public const string blackman_ArrowRain2 = "blackman_ArrowRain2";
 		public const string blackman_pad1 = "blackman_pad1";
+		public const string BlitzHunter_ElectricSurge_Pad = "BlitzHunter_ElectricSurge_Pad";
+		public const string BlitzHunter_TempestShot_Pad = "BlitzHunter_TempestShot_Pad";
+		public const string BlitzHunter_VoltChain_Pad = "BlitzHunter_VoltChain_Pad";
+		public const string BlitzHunter_VoltStrike_Pad = "BlitzHunter_VoltStrike_Pad";
 		public const string BlossomBlader_ControlBlade = "BlossomBlader_ControlBlade";
 		public const string BlossomBlader_Flash = "BlossomBlader_Flash";
 		public const string Bokor_BwaKayiman = "Bokor_BwaKayiman";
 		public const string Bokor_BwaKayiman_Fluting = "Bokor_BwaKayiman_Fluting";
+		public const string Bonemancer_BoneReinforcement = "Bonemancer_BoneReinforcement";
+		public const string Bonemancer_BoneWhip = "Bonemancer_BoneWhip";
 		public const string boss_asiomage_doughnut = "boss_asiomage_doughnut";
 		public const string boss_asiomage_fire = "boss_asiomage_fire";
 		public const string boss_asiomage_square = "boss_asiomage_square";
@@ -498,6 +504,7 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_summerzesty_aquawind1 = "Kupole_summerzesty_aquawind1";
 		public const string Kupole_summerzesty_aquawind2 = "Kupole_summerzesty_aquawind2";
 		public const string Kupole_vakarine_shelter_for_traverlers = "Kupole_vakarine_shelter_for_traverlers";
+		public const string Kupole_Zesty_BladeWhirlwind = "Kupole_Zesty_BladeWhirlwind";
 		public const string lachrymator_pad = "lachrymator_pad";
 		public const string lachrymator_pad_Rogue26 = "lachrymator_pad_Rogue26";
 		public const string Lapene_Donuts = "Lapene_Donuts";
@@ -764,6 +771,7 @@ namespace Melia.Shared.Game.Const
 		public const string Shinobi_Mijin_no_jutsu = "Shinobi_Mijin_no_jutsu";
 		public const string shootpad_BleedingPierce = "shootpad_BleedingPierce";
 		public const string Shootpad_Bolas = "Shootpad_Bolas";
+		public const string shootpad_Bonemancer_BoneReaper = "shootpad_Bonemancer_BoneReaper";
 		public const string shootpad_Denoptic = "shootpad_Denoptic";
 		public const string shootpad_DodgeFire = "shootpad_DodgeFire";
 		public const string Shootpad_Fireball = "Shootpad_Fireball";

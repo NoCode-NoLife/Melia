@@ -175,6 +175,12 @@
 { jobId: 1027, skillId: 12335, skillName: "Charge Hammer", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1027, skillId: 12336, skillName: "Swing Hammer", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1027, skillId: 12337, skillName: "Big Bang", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 1028, skillId: 12339, skillName: "Bone Fist", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1028, skillId: 12340, skillName: "Bone Reaper", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1028, skillId: 12341, skillName: "Bone Whip", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1028, skillId: 12342, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
+{ jobId: 1028, skillId: 12343, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1028, skillId: 12344, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -478,6 +484,19 @@
 { jobId: 3108, skillId: 32229, skillName: "Purification Protocol", unlockLevel: 16, maxLevel: 10 },
 { jobId: 3108, skillId: 32230, skillName: "Input: Purification", unlockLevel: 31, maxLevel: 5 },
 { jobId: 3108, skillId: 32231, skillName: "Input: Devastation ", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3109, skillId: 32232, skillName: "Bone Fist", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3109, skillId: 32233, skillName: "Bone Reaper", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3109, skillId: 32234, skillName: "Bone Whip", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3109, skillId: 32235, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
+{ jobId: 3109, skillId: 32236, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3109, skillId: 32237, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3110, skillId: 32238, skillName: "Volt Strike", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3110, skillId: 32239, skillName: "Volt Chain", unlockLevel: 1, maxLevel: 10 },
+{ jobId: 3110, skillId: 32240, skillName: "Tempest Shot ", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3110, skillId: 32241, skillName: "Stormstride", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 3110, skillId: 32242, skillName: "Lightning Lord", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3110, skillId: 32243, skillName: "Electric Surge", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3110, skillId: 32244, skillName: "Blitzkrieg", unlockLevel: 31, maxLevel: 5 },
 
 // Cleric
 //---------------------------------------------------------------------------
@@ -621,6 +640,12 @@
 { jobId: 4024, skillId: 42103, skillName: "Charge Hammer", unlockLevel: 16, maxLevel: 10 },
 { jobId: 4024, skillId: 42104, skillName: "Swing Hammer", unlockLevel: 16, maxLevel: 10 },
 { jobId: 4024, skillId: 42105, skillName: "Big Bang", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 4025, skillId: 42108, skillName: "Bone Fist", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4025, skillId: 42109, skillName: "Bone Reaper", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4025, skillId: 42110, skillName: "Bone Whip", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4025, skillId: 42111, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
+{ jobId: 4025, skillId: 42112, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 4025, skillId: 42113, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
 
 // Scout
 //---------------------------------------------------------------------------
@@ -752,6 +777,13 @@
 { jobId: 5020, skillId: 51719, skillName: "Purification Protocol", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5020, skillId: 51720, skillName: "Input: Purification", unlockLevel: 31, maxLevel: 5 },
 { jobId: 5020, skillId: 51721, skillName: "Input: Devastation ", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 5021, skillId: 51722, skillName: "Volt Strike", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5021, skillId: 51723, skillName: "Volt Chain", unlockLevel: 1, maxLevel: 10 },
+{ jobId: 5021, skillId: 51724, skillName: "Tempest Shot ", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5021, skillId: 51725, skillName: "Stormstride", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 5021, skillId: 51726, skillName: "Lightning Lord", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5021, skillId: 51727, skillName: "Electric Surge", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5021, skillId: 51728, skillName: "Blitzkrieg", unlockLevel: 31, maxLevel: 5 },
 
 // GM
 //---------------------------------------------------------------------------

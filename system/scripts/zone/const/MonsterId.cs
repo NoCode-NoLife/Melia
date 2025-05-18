@@ -3345,6 +3345,7 @@ public static class MonsterId
 	public const int Pet_Armadillo_Wingedhussar = 60062;
 	public const int Pet_Ep13dessert_Pink = 60063;
 	public const int Pet_Mermaidpopo = 60064;
+	public const int Pet_Mermaidpopo2 = 60065;
 	public const int RidePet_Test = 65000;
 	public const int RidePet_HelioGriffin_1 = 65001;
 	public const int RidePet_KogiBird_1 = 65002;
@@ -3380,6 +3381,8 @@ public static class MonsterId
 	public const int RidePet_Tiger_White = 65032;
 	public const int RidePet_Chariot = 65033;
 	public const int RidePet_Chariot_White = 65034;
+	public const int RidePet_Ninetail = 65035;
+	public const int RidePet_Armadillo2 = 65036;
 	public const int Ep17_1_Rockoff = 71012;
 	public const int Ep17_1_Tala_Sorcerer = 71013;
 	public const int Ep17_1_Flak_Green = 71014;
@@ -4182,6 +4185,7 @@ public static class MonsterId
 	public const int Kupole_SantaZemyna_UR = 600047;
 	public const int Kupole_Lada_UR = 600048;
 	public const int Kupole_Naktis_UR = 600049;
+	public const int Kupole_Zesty_UR = 600050;
 	public const int Cupole_Amongd_R_Render = 610013;
 	public const int Cupole_Aristowl_Sr_Render = 610014;
 	public const int Cupole_Amongdmage_R_Render = 610015;
@@ -4218,6 +4222,7 @@ public static class MonsterId
 	public const int Kupole_SantaZemyna_UR_Render = 610047;
 	public const int Kupole_Lada_UR_Render = 610048;
 	public const int Kupole_Naktis_UR_Render = 610049;
+	public const int Kupole_Zesty_UR_Render = 610050;
 	public const int GRB_SAMPLE_1 = 700000;
 	public const int GFB_Boss_Hauberk = 700001;
 	public const int GFB_Boss_Woodspirit = 700002;
@@ -6452,6 +6457,8 @@ public static class MonsterId
 	public const int Redania_Venom = 160245;
 	public const int Ep17_1_Npc_Kupole_4 = 160255;
 	public const int Bonemancer_Bone_Whip = 160256;
+	public const int Npc_Bonemancer = 160257;
+	public const int Npc_Blitzhunter = 160258;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

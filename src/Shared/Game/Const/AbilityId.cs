@@ -2765,7 +2765,7 @@ namespace Melia.Shared.Game.Const
 		Hunter32 = 305031,
 		/// <summary>[Arts] Attack!: Stun</summary>
 		Hunter33 = 305032,
-		/// <summary>Attack!: Enhanced Upgrade</summary>
+		/// <summary>[Arts] Attack!: Enhanced Upgrade</summary>
 		Hunter34 = 305033,
 		/// <summary>[Arts] Growling: Enhanced Upgrade</summary>
 		Hunter35 = 305034,
@@ -3795,6 +3795,68 @@ namespace Melia.Shared.Game.Const
 		Vulture21 = 321277,
 		/// <summary>[Arts] Devastation: Area Scorch</summary>
 		Vulture22 = 321278,
+		/// <summary>Bone Fist: Enhance</summary>
+		Bonemancer1 = 321279,
+		/// <summary>Bone Reaper: Enhance</summary>
+		Bonemancer2 = 321280,
+		/// <summary>Bone Whip: Enhance</summary>
+		Bonemancer3 = 321281,
+		/// <summary>Bone Shield: Enhance</summary>
+		Bonemancer4 = 321282,
+		/// <summary>Bone Storm: Enhance</summary>
+		Bonemancer5 = 321283,
+		/// <summary>Bone Reinforcement: Enhance</summary>
+		Bonemancer6 = 321284,
+		/// <summary>[Arts] Bone Fist: Enhanced Upgrade</summary>
+		Bonemancer101 = 321286,
+		/// <summary>[Arts] Bone Reaper: Enhanced Upgrade</summary>
+		Bonemancer102 = 321287,
+		/// <summary>[Arts] Bone Whip: Enhanced Upgrade</summary>
+		Bonemancer103 = 321288,
+		/// <summary>[Arts] Bone Storm: Enhanced Upgrade</summary>
+		Bonemancer104 = 321289,
+		/// <summary>[Arts] Bone Reinforcement: Enhanced Upgrade</summary>
+		Bonemancer105 = 321290,
+		/// <summary>Bone Fist: Agglomeration</summary>
+		Bonemancer7 = 321291,
+		/// <summary>[Arts] Bone Shield: Unified Structure</summary>
+		Bonemancer8 = 321292,
+		/// <summary>[Arts] Bone Reinforcement: Bone Resonance </summary>
+		Bonemancer9 = 321293,
+		/// <summary>Bonemancer</summary>
+		Bonemancer100 = 321294,
+		/// <summary>Blitz Hunter: Voltic Catharsis </summary>
+		BlitzHunter100 = 321295,
+		/// <summary>Volt Strike: Enhance</summary>
+		BlitzHunter1 = 321296,
+		/// <summary>Volt Chain: Enhance</summary>
+		BlitzHunter2 = 321297,
+		/// <summary>Tempest Shot: Enhance</summary>
+		BlitzHunter3 = 321298,
+		/// <summary>Lightning Lord: Enhance</summary>
+		BlitzHunter4 = 321299,
+		/// <summary>Electric Surge: Enhance</summary>
+		BlitzHunter5 = 321300,
+		/// <summary>[Arts] Volt Strike: Enhanced Upgrade</summary>
+		BlitzHunter101 = 321301,
+		/// <summary>[Arts] Volt Chain: Enhanced Upgrade</summary>
+		BlitzHunter102 = 321302,
+		/// <summary>[Arts] Tempest Shot: Enhanced Upgrade</summary>
+		BlitzHunter103 = 321303,
+		/// <summary>[Arts] Lightning Lord: Enhanced Upgrade</summary>
+		BlitzHunter104 = 321304,
+		/// <summary>[Arts] Electric Surge: Enhanced Upgrade</summary>
+		BlitzHunter105 = 321305,
+		/// <summary>[Arts] Stormstride: Impulse</summary>
+		BlitzHunter6 = 321306,
+		/// <summary>Lightning Lord: Voltic Catharsis </summary>
+		BlitzHunter7 = 321307,
+		/// <summary>[Arts] Electric Surge: Ark Terminal </summary>
+		BlitzHunter8 = 321308,
+		/// <summary>[Arts] Blitzkrieg: Amplify </summary>
+		BlitzHunter9 = 321309,
+		/// <summary>Volt Chain: Boss Hunter</summary>
+		BlitzHunter10 = 321310,
 		/// <summary>Cure: Enhance</summary>
 		Cleric11 = 401001,
 		/// <summary>Cure: Enhance 2</summary>
