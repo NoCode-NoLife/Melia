@@ -1,0 +1,56 @@
+#!/bin/sh
+# killall -9 BarracksServer
+# killall -9 ZoneServer
+# killall -9 WebServer
+echo "Starting Melia Project..."
+SCRIPTPATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+ENVIRONMENT=$1
+FILENAME=$2
+GROUP_ID=$3
+SERVER_ID=$4
+SUBFOLDER="net8.0"
+
+do_error () {
+   echo ""
+   echo $1
+   echo ""
+   exit 1
+}
+
+run_all() {
+    cd "$SCRIPTPATH/bin/$ENVIRONMENT/$SUBFOLDER"
+    for FILEN in BarracksServer ZoneServer WebServer
+    do
+        sh -c "./$FILEN $GROUP_ID $SERVER_ID" &
+        sleep 10
+    done
+    tail -f /dev/null
+}
+
+run_process() {
+    cd "$SCRIPTPATH/bin/$ENVIRONMENT/$SUBFOLDER"
+    sh -c "./$FILENAME $GROUP_ID $SERVER_ID"
+}
+
+if [ -z "$ENVIRONMENT" ]
+then
+    ENVIRONMENT="Debug"
+fi
+
+if [ -z "$GROUP_ID" ]
+then
+    GROUP_ID="1001"
+fi
+
+if [ -z "$SERVER_ID" ]
+then
+    SERVER_ID="1"
+fi
+
+if [ -z "$FILENAME" ]
+then
+    run_all
+else
+    run_process
+fi
+

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Yggdrasil.Configuration;
 
 namespace Melia.Shared.Configuration.Files
@@ -17,8 +18,12 @@ namespace Melia.Shared.Configuration.Files
 		public void Load(string filePath)
 		{
 			this.Include(filePath);
-
-			this.PhpCgiFilePath = this.GetString("php_cgi_bin", Path.Combine("user", "tools", "php", "php-cgi.exe"));
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			      {
+                this.PhpCgiFilePath = this.GetString("php_cgi_bin", Path.Combine("user", "tools", "php", "php-cgi.exe"));
+            } else {
+                this.PhpCgiFilePath = this.GetString("php_cgi_bin", "/usr/bin/php-cgi");
+            }
 		}
 	}
 }

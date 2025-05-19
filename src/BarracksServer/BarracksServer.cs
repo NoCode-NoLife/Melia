@@ -231,9 +231,9 @@ namespace Melia.Barracks
 					var message = new ResServerListMessage(servers);
 					var responseMessage = new ResponseMessage(requestMessage.Id, message);
 
-					this.Communicator.Send(sender, responseMessage);
-					break;
-				}
+						this.Communicator.Send(sender, responseMessage);
+						break;
+					}
 			}
 		}
 
