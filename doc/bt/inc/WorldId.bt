@@ -14,12 +14,10 @@
 // GUID that is sometimes referred to as "instanceID".
 typedef struct 
 {
-    // Count that increments every time an instance is created since server restart.
-    int count;
-
-    // Count that increments on every server restart.
-    int base;
-} WorldId <optimize=false, read=readWorldId>;
+    int count; // Incremented for every instance created since server restart
+    int base; // Incremented on every server restart
+}
+WorldId <optimize=false, read=readWorldId>;
 
 string readWorldId(WorldId& val)
 {

@@ -11,7 +11,8 @@
 //   History: 
 //------------------------------------------------
 
-// Determines what permissions an account has. Also known as "account level".
+// Determines what permissions an account has.
+// Also known as "account level".
 enum <int> AccountPrivilege 
 {
     Dev = 0,
