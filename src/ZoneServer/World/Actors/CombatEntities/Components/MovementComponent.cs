@@ -404,12 +404,22 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="type"></param>
 		public void SetMoveSpeedType(MoveSpeedType type)
 		{
-			if (this.Entity is Mob mob && this.MoveSpeedType != type)
+			if (this.MoveSpeedType == type)
+				return;
+
+			if (this.Entity is Mob mob)
 			{
 				this.MoveSpeedType = type;
 				this.Entity.Properties.Invalidate(PropertyName.MSPD);
 
 				Send.ZC_MSPD(this.Entity);
+			}
+			else if (this.Entity is Character character && character is DummyCharacter dummyCharacter)
+			{
+				this.MoveSpeedType = type;
+				character.Properties.Invalidate(PropertyName.MSPD);
+
+				Send.ZC_MSPD(dummyCharacter.Owner, character);
 			}
 		}
 
