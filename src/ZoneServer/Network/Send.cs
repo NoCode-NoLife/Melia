@@ -263,13 +263,13 @@ namespace Melia.Zone.Network
 
 			var compressedData = packet.CompressData(p =>
 			{
-				var quickSlotsStr = serialized.Split(new[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
+				var quickSlotsStr = serialized.Split(['#'], StringSplitOptions.RemoveEmptyEntries);
 
 				p.PutByte(0);
 
 				for (var i = 0; i < 50; ++i)
 				{
-					var split = quickSlotsStr[i].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+					var split = quickSlotsStr[i].Split([','], StringSplitOptions.RemoveEmptyEntries);
 
 					var type = Enum.Parse(typeof(QuickSlotType), split[0]);
 					var id = int.Parse(split[1]);
@@ -282,7 +282,7 @@ namespace Melia.Zone.Network
 
 				for (var i = 0; i < 4; ++i)
 				{
-					var split = quickSlotsStr[i].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+					var split = quickSlotsStr[i].Split([','], StringSplitOptions.RemoveEmptyEntries);
 
 					var type = Enum.Parse(typeof(QuickSlotType), split[0]);
 					var id = int.Parse(split[1]);
