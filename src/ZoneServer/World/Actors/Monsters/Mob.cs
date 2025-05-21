@@ -298,12 +298,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
 
-			// End all of its buffs
-			if (this.Components.TryGet<BuffComponent>(out var buffComponent))
-			{
-				buffComponent.RemoveAll();
-			}
-
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
 			var beneficiary = this.GetKillBeneficiary(killer);

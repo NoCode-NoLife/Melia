@@ -35,6 +35,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="entity"></param>
 		public BuffComponent(ICombatEntity entity) : base(entity)
 		{
+			entity.Died += this.OnEntityDied;
+		}
+
+		/// <summary>
+		/// Called if this component's entity dies.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="killer"></param>
+		private void OnEntityDied(ICombatEntity entity, ICombatEntity killer)
+		{
+			this.RemoveAll(static a => a.Data.RemoveOnDeath);
 		}
 
 		/// <summary>
