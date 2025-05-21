@@ -12,9 +12,6 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	{
 		public override void WhileActive(Buff buff)
 		{
-			if (buff.Target.IsDead)
-				return;
-
 			var attacker = buff.Caster;
 			var target = buff.Target;
 			var damage = buff.NumArg2;

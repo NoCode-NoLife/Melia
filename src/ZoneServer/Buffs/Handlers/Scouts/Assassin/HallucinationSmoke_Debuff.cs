@@ -47,14 +47,12 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 			RemovePropertyModifier(buff, buff.Target, PropertyName.DR_BM);
 			RemovePropertyModifier(buff, buff.Target, PropertyName.HR_BM);
 
-			if (buff.NumArg2 > 0 && !buff.Target.IsDead)
-			{
-				var attacker = buff.Caster;
-				var target = buff.Target;
-				var damage = buff.NumArg2;
+			var attacker = buff.Caster;
+			var target = buff.Target;
+			var damage = buff.NumArg2;
 
+			if (damage > 0)
 				target.TakeSimpleHit(damage, attacker, SkillId.None);
-			}
 		}
 	}
 }

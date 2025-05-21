@@ -511,12 +511,22 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Applies a combat hit to the target, making it take damage.
 		/// </summary>
+		/// <remarks>
+		/// If the target is already dead, nothing happens.
+		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="attacker"></param>
 		/// <param name="skillId"></param>
 		/// <param name="damage"></param>
 		public static void TakeSimpleHit(this ICombatEntity entity, float damage, ICombatEntity attacker, SkillId skillId)
 		{
+			// TakeDamage has its own checks for dead entities, but don't want to
+			// send the hit info for dead targets, so we gotta check this here.
+			// TODO: A potential improvement could be a more detailed result from
+			//   TakeDamage that lets us know the target was already dead.
+			if (entity.IsDead)
+				return;
+
 			entity.TakeDamage(damage, attacker);
 
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
