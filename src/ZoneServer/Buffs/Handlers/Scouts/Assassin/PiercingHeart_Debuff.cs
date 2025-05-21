@@ -1,9 +1,8 @@
-﻿using System;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Buffs.Handlers.Scout.Assassin
+namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 {
 	/// <summary>
 	/// Handle for the Piercing Heart debuff, which prevents healing

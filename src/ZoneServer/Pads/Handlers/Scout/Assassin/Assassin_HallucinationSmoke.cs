@@ -1,14 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Melia.Shared.Game.Const;
-using Melia.Shared.World;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
-using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Actors.Pads;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Pads.Handlers.Scout.Assassin
 {

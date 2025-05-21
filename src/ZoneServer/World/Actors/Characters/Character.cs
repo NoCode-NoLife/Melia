@@ -8,7 +8,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
 using Melia.Shared.World;
 using Melia.Zone.Buffs.Handlers.Common;
-using Melia.Zone.Buffs.Handlers.Scout.Assassin;
+using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;

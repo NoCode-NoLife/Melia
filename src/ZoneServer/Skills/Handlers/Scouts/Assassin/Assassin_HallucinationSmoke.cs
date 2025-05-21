@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
@@ -11,7 +9,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Shared.Util.TaskHelper;
@@ -85,13 +82,13 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 
 			// At some point, this applied HallucinationSmoke_Buff to the creator
 			//if (target == creator)
-				//target.StartBuff(BuffId.HallucinationSmoke_Buff, skill.Level, 0, TimeSpan.FromSeconds(20), creator);
+			//	target.StartBuff(BuffId.HallucinationSmoke_Buff, skill.Level, 0, TimeSpan.FromSeconds(20), creator);
 
 			if (pad.Trigger.AtCapacity)
 				return;
 
 			if (!creator.CanAttack(target))
-				return;			
+				return;
 
 			// Assassin18 applies a special debuff.  Only one enemy can have this
 			// debuff at a time, so we use a character variable to track it.

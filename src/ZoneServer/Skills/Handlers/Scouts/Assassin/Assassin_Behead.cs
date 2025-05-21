@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
@@ -184,8 +183,9 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 				{
 					bleedingDamage = MathF.Min(caster.Properties.GetFloat(PropertyName.MHP) * 0.05f, target.Properties.GetFloat(PropertyName.MHP) * 0.05f);
 				}
-				
-				if (skillHitResult2.Result != HitResultType.Dodge) { 
+
+				if (skillHitResult2.Result != HitResultType.Dodge)
+				{
 					target.StartBuff(BuffId.Behead_Debuff, skill.Level, bleedingDamage, TimeSpan.FromSeconds(30), caster);
 
 					// Assassin5 adds 5 seconds of silence

@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Yggdrasil.Util;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
@@ -90,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 
-				hits.Add(skillHit);				
+				hits.Add(skillHit);
 
 				if (skillHitResult.Result != HitResultType.Dodge)
 					target.StartBuff(BuffId.PiercingHeart_Debuff, skill.Level, 0, TimeSpan.FromSeconds(debuffDuration), caster);

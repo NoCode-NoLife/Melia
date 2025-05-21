@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
-using Melia.Zone.Network;
-using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 {
@@ -29,9 +22,9 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
-			var CRTHRbuff = buff.Target.Properties.GetFloat(PropertyName.CRTHR) * CRTHRBonus;
+			var buffBonus = buff.Target.Properties.GetFloat(PropertyName.CRTHR) * CRTHRBonus;
 
-			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, CRTHRbuff);
+			AddPropertyModifier(buff, buff.Target, PropertyName.CRTHR_BM, buffBonus);
 		}
 
 		/// <summary>
