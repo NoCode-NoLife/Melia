@@ -20,6 +20,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private readonly Dictionary<BuffId, Buff> _buffs = new();
 
 		/// <summary>
+		/// Returns the amount of buffs in the collection.
+		/// </summary>
+		public int Count { get { lock (_buffs) return _buffs.Count; } }
+
+		/// <summary>
 		/// Raised when a buff starts.
 		/// </summary>
 		public event Action<ICombatEntity, Buff> BuffStarted;
@@ -35,6 +40,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="entity"></param>
 		public BuffComponent(ICombatEntity entity) : base(entity)
 		{
+			// XXX: Should there perhaps be an attach and detach callback for
+			//   components? This would allow us to clean up subscriptions if
+			//   a component is later removed for some reason.
 			entity.Died += this.OnEntityDied;
 		}
 
@@ -47,11 +55,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		{
 			this.RemoveAll(static a => a.Data.RemoveOnDeath);
 		}
-
-		/// <summary>
-		/// Returns the amount of buffs in the collection.
-		/// </summary>
-		public int Count { get { lock (_buffs) return _buffs.Count; } }
 
 		/// <summary>
 		/// Adds given buff and updates the client, replaces the
