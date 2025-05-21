@@ -46,15 +46,6 @@ namespace Melia.Zone.Skills.Combat
 		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets flat crit chance bonus.
-		/// </summary>
-		/// <remarks>
-		/// The value is in percent. For example, setting it to 20 increases the
-		/// crit chance by 20%.
-		/// </remarks>
-		public float BonusCritChance { get; set; }
-
-		/// <summary>
 		/// Gets or sets percentage-based defense penetration for DEF and MDEF.
 		/// </summary>
 		/// <remarks>
@@ -75,6 +66,15 @@ namespace Melia.Zone.Skills.Combat
 		public float DamageMultiplier { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets the minimum critical chance.
+		/// </summary>
+		/// <remarks>
+		/// If set, this value acts as the minimum possible chance for a crit
+		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
+		/// </remarks>
+		public float MinCritChance { get; set; } = 0;
+
+		/// <summary>
 		/// Gets or sets the crit chance multiplier.
 		/// </summary>
 		/// <remarks>
@@ -86,13 +86,13 @@ namespace Melia.Zone.Skills.Combat
 		public float CritChanceMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets the minimum critical chance.
+		/// Gets or sets flat crit chance bonus.
 		/// </summary>
 		/// <remarks>
-		/// If set, this value acts as the minimum possible chance for a crit
-		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
+		/// The value is in percent. For example, setting it to 20 increases the
+		/// crit chance by 20%.
 		/// </remarks>
-		public float MinCritChance { get; set; } = 0;
+		public float BonusCritChance { get; set; }
 
 		/// <summary>
 		/// Gets or sets damage multiplier applied to skill damage after
