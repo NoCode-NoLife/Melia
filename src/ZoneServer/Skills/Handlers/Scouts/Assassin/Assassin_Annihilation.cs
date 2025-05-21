@@ -90,7 +90,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 					// Assassin17 adds double crit rate to bleeding targets
 					if (caster.IsAbilityActive(AbilityId.Assassin17) && (target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff)))
 					{
-						modifier.CritRateMultiplier++;
+						modifier.CritChanceMultiplier++;
 					}
 
 					// Increase damage by 10% if target is under the effect of

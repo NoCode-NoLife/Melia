@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Combat
 		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets flat crit rate bonus.
+		/// Gets or sets flat crit chance bonus.
 		/// </summary>
 		/// <remarks>
 		/// The value is in percent. For example, setting it to 20 increases the
@@ -75,12 +75,15 @@ namespace Melia.Zone.Skills.Combat
 		public float DamageMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets the Crit Rate multiplier
+		/// Gets or sets the crit chance multiplier.
 		/// </summary>
 		/// <remarks>
-		/// This is applied before anything else that modifies crit rate
+		/// The multiplier gets applied to the crit chance before other bonuses,
+		/// such as BonusCritChance. For example, with a base crit chance of 10%,
+		/// a multiplier of 1.5 and a bonus of 20%, the final crit chance would be:
+		/// 10 * 1.5 + 20 = 35%.
 		/// </remarks>
-		public float CritRateMultiplier { get; set; } = 1;
+		public float CritChanceMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets the minimum critical chance.
