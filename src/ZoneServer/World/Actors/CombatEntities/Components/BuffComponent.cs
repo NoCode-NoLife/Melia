@@ -233,6 +233,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Removes buffs that aren't to be saved on disconnect or map change.
+		/// </summary>
+		public void RemoveTempBuffs()
+			=> this.RemoveAll(static a => !a.Data.Save);
+
+		/// <summary>
 		/// Returns buff with given id, or null if it didn't
 		/// exist.
 		/// </summary>
@@ -444,11 +450,5 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 					this.Remove(buff);
 			}
 		}
-
-		/// <summary>
-		/// Removes buffs that aren't saved on disconnect or map change.
-		/// </summary>
-		public void StopTempBuffs()
-			=> this.RemoveAll(static a => !a.Data.Save);
 	}
 }
