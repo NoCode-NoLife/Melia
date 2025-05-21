@@ -1304,7 +1304,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 
-			//this.Died?.Invoke(this, killer);
+			this.Died?.Invoke(this, killer);
 			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
