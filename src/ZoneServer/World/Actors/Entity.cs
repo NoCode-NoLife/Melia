@@ -109,6 +109,11 @@ namespace Melia.Zone.World.Actors
 		ComponentCollection Components { get; }
 
 		/// <summary>
+		/// Raised when the entity died.
+		/// </summary>
+		event Action<ICombatEntity, ICombatEntity> Died;
+
+		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
 		/// Returns whether the entity is dead.
 		/// </summary>

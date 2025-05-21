@@ -383,6 +383,11 @@ namespace Melia.Zone.World.Actors.Characters
 		private Localizer _localizer;
 
 		/// <summary>
+		/// Raised when the character died.
+		/// </summary>
+		public event Action<ICombatEntity, ICombatEntity> Died;
+
+		/// <summary>
 		/// Raised when the characters sits down or stands up.
 		/// </summary>
 		public event Action<Character> SitStatusChanged;

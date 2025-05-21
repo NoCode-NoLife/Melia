@@ -142,11 +142,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Raised when the monster died.
-		/// </summary>
-		public event Action<Mob, ICombatEntity> Died;
-
-		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
@@ -210,6 +205,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a list of fixed items the monster drops as is when it dies.
 		/// </summary>
 		public ConcurrentBag<Item> StaticDrops { get; } = new ConcurrentBag<Item>();
+
+		/// <summary>
+		/// Raised when the monster died.
+		/// </summary>
+		public event Action<ICombatEntity, ICombatEntity> Died;
 
 		/// <summary>
 		/// Creates new NPC.
