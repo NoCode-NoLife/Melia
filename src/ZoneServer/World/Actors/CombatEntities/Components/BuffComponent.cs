@@ -473,24 +473,4 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			}
 		}
 	}
-
-	/// <summary>
-	/// Exception for when a buff handler is not implemented.
-	/// </summary>
-	public class BuffNotImplementedException : Exception
-	{
-		/// <summary>
-		/// Returns the id of the buff that wasn't implemented.
-		/// </summary>
-		public BuffId BuffId { get; }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="buffId"></param>
-		public BuffNotImplementedException(BuffId buffId) : base($"Buff handler for '{buffId}' not implemented.")
-		{
-			this.BuffId = buffId;
-		}
-	}
 }
