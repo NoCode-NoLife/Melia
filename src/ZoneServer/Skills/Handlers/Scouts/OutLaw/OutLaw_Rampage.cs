@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
@@ -11,7 +12,6 @@ using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Yggdrasil.Logging;
 using Yggdrasil.Util;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -25,6 +25,18 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 	public class OutLaw_Rampage : IGroundSkillHandler
 	{
 		private const float BuffRemoveChancePerLevel = 3f;
+
+		private static readonly TimeSpan[] DelaysBetweenHits =
+		[
+			TimeSpan.FromMilliseconds(50),
+			TimeSpan.FromMilliseconds(100),
+			TimeSpan.FromMilliseconds(500),
+			TimeSpan.FromMilliseconds(50),
+			TimeSpan.FromMilliseconds(700),
+			TimeSpan.FromMilliseconds(100),
+			TimeSpan.FromMilliseconds(50),
+			TimeSpan.FromMilliseconds(50),
+		];
 
 		/// <summary>
 		/// Handles skill, damaging targets.
@@ -61,20 +73,10 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
+			var rnd = RandomProvider.Get();
+
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
-
-			var delayBetweenHits = new[]
-			{
-				TimeSpan.FromMilliseconds(50),
-				TimeSpan.FromMilliseconds(100),
-				TimeSpan.FromMilliseconds(500),
-				TimeSpan.FromMilliseconds(50),
-				TimeSpan.FromMilliseconds(700),
-				TimeSpan.FromMilliseconds(100),
-				TimeSpan.FromMilliseconds(50),
-				TimeSpan.FromMilliseconds(50)
-			};
 
 			// first hit hits instantly
 
@@ -98,13 +100,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			{
 				var debuffCount = 0;
 
-				foreach (var buff in caster.Components.Get<BuffComponent>().GetList())
-				{
-					if (buff.Data.Type == BuffType.Debuff)
-					{
-						debuffCount++;
-					}
-				}
+				if (caster.Components.TryGet<BuffComponent>(out var buffs))
+					debuffCount = buffs.GetList().Count(b => b.Data.Type == BuffType.Debuff);
 
 				if (debuffCount > 0)
 					caster.StartBuff(BuffId.Rampage_Outlaw18_Buff, debuffCount, 0, TimeSpan.FromMilliseconds(1700), caster);
@@ -118,8 +115,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 				{
 					var modifier = SkillModifier.Default;
 
-					// Targets with certain statuses take 2 hits at 30% less damage
-					if (this.GetDoubleHit(target))
+					// Targets with certain statuses take 2 hits with 30% less damage
+					if (this.ShouldDoubleHit(target))
 					{
 						modifier.HitCount = 2;
 						modifier.FinalDamageMultiplier -= 0.3f;
@@ -136,15 +133,11 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 					hits.Add(skillHit);
 
 					var buffRemoveChance = BuffRemoveChancePerLevel * skill.Level;
-					if (RandomProvider.Get().Next(1000) < buffRemoveChance)
-					{
+					if (rnd.Next(1000) < buffRemoveChance)
 						target.RemoveRandomBuff();
-					}
 
-					if (RandomProvider.Get().Next(100) < stunChance)
-					{
+					if (rnd.Next(100) < stunChance)
 						target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(2), caster);
-					}
 
 					// Ice effect is only applied on last hit
 					if (i == 8 && iceVariant)
@@ -159,7 +152,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 				hits.Clear();
 
 				if (i < 8)
-					await Task.Delay(delayBetweenHits[i]);
+					await Task.Delay(DelaysBetweenHits[i % DelaysBetweenHits.Length]);
 			}
 
 			caster.StartBuff(BuffId.Rampage_After_Buff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
@@ -174,7 +167,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// </remarks>
 		/// <param name="target"></param>
 		/// <returns></returns>
-		private bool GetDoubleHit(ICombatEntity target)
+		private bool ShouldDoubleHit(ICombatEntity target)
 		{
 			return target.IsAnyBuffActive(BuffId.SprinkleSands_Debuff, BuffId.HeavyBleeding, BuffId.Behead_Debuff, BuffId.Stun);
 		}
