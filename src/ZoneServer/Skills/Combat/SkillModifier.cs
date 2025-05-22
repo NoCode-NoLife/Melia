@@ -117,7 +117,16 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
 		/// </summary>
-		public bool Unblockable { get; set; }
+		public bool Unblockable { get; set; }		
+
+		/// <summary>
+		/// Gets or sets forced block status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack is always blocked
+		/// unless it is unblockable.
+		/// </remarks>
+		public bool ForcedBlock { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced hit status.
@@ -128,12 +137,13 @@ namespace Melia.Zone.Skills.Combat
 		public bool ForcedHit { get; set; }
 
 		/// <summary>
-		/// Gets or sets forced block status.
+		/// Gets or sets forced evade status.
 		/// </summary>
 		/// <remarks>
-		/// If this is true, the attack is always blocked.
+		/// If this is true, the attack is always evaded
+		/// unless it is unavoidable
 		/// </remarks>
-		public bool ForcedBlock { get; set; }
+		public bool ForcedEvade { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced critical status.

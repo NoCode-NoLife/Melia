@@ -389,6 +389,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (this.Has(BuffId.Skill_MomentaryImmune_Buff))
 				return true;
 
+			if (this.Has(BuffId.Rampage_Buff) && buffData.Removable)
+				return true;
+
 			if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
 			{
 				if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
