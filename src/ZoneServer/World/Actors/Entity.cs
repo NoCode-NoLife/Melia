@@ -7,6 +7,7 @@ using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers.Wizards.Wizard;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -339,6 +340,26 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool IsBuffActive(this ICombatEntity entity, BuffId buffId)
 			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
+
+		/// <summary>
+		/// Returns true if any of the given buffs are active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffIds"></param>
+		/// <returns></returns>
+		public static bool IsAnyBuffActive(this ICombatEntity entity, params BuffId[] buffIds)
+		{
+			if (entity.Components.TryGet<BuffComponent>(out var buffs))
+			{
+				foreach (var buffId in buffIds)
+				{
+					if (buffs.Has(buffId))
+						return true;
+				}
+			}
+
+			return false;
+		}
 
 		/// <summary>
 		/// Returns the buff with the given id via out if it's active. Returns

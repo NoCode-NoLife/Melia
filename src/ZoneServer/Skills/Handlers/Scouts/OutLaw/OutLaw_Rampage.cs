@@ -164,16 +164,18 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			caster.StartBuff(BuffId.Rampage_After_Buff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);
 		}
 
-
 		/// <summary>
-		/// Checks if a target takes 2 hits
-		/// This occurs if they have any of Blind, Bleed, or Stun
+		/// Returns true if the target should take 2 hits.
 		/// </summary>
+		/// <remarks>
+		/// This occurs if the target has one of the following buffs:
+		/// Blind, Bleed, or Stun.
+		/// </remarks>
 		/// <param name="target"></param>
 		/// <returns></returns>
 		private bool GetDoubleHit(ICombatEntity target)
 		{
-			return target.IsBuffActive(BuffId.SprinkleSands_Debuff) || target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff) || target.IsBuffActive(BuffId.Stun);
+			return target.IsAnyBuffActive(BuffId.SprinkleSands_Debuff, BuffId.HeavyBleeding, BuffId.Behead_Debuff, BuffId.Stun);
 		}
 	}
 }

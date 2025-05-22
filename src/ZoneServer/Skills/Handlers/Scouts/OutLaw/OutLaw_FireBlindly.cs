@@ -126,7 +126,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <returns></returns>
 		private float GetCritBonus(ICombatEntity target)
 		{
-			if (target.IsBuffActive(BuffId.SprinkleSands_Debuff) || target.IsBuffActive(BuffId.HeavyBleeding) || target.IsBuffActive(BuffId.Behead_Debuff) || target.IsBuffActive(BuffId.Stun))
+			if (target.IsAnyBuffActive(BuffId.SprinkleSands_Debuff, BuffId.HeavyBleeding, BuffId.Behead_Debuff, BuffId.Stun))
 				return 20f;
 
 			return 0f;
