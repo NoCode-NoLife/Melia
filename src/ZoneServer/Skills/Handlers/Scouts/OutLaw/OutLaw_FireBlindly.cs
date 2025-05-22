@@ -72,7 +72,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(4);
-				modifier.BonusCritChance += GetCritBonus(target);
+				modifier.BonusCritChance += this.GetCritBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
@@ -96,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(4);
-				modifier.BonusCritChance += GetCritBonus(target);
+				modifier.BonusCritChance += this.GetCritBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 

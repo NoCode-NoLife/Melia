@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			var hits = new List<SkillHitInfo>();
 
 			var stunChance = 0f;
-			if (caster.TryGetActiveAbilityLevel(AbilityId.Outlaw16, out int level))
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Outlaw16, out var level))
 				stunChance = level;
 
 			var iceVariant = caster.IsAbilityActive(AbilityId.Outlaw20);
@@ -96,7 +96,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			// Outlaw18 gives a buff that adds 10% bonus crit chance per debuff currently active
 			if (caster.IsAbilityActive(AbilityId.Outlaw18))
 			{
-				int debuffCount = 0;
+				var debuffCount = 0;
+
 				foreach (var buff in caster.Components.Get<BuffComponent>().GetList())
 				{
 					if (buff.Data.Type == BuffType.Debuff)
@@ -118,7 +119,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 					var modifier = SkillModifier.Default;
 
 					// Targets with certain statuses take 2 hits at 30% less damage
-					if (GetDoubleHit(target))
+					if (this.GetDoubleHit(target))
 					{
 						modifier.HitCount = 2;
 						modifier.FinalDamageMultiplier -= 0.3f;

@@ -74,7 +74,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(3);
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				modifier.FinalDamageMultiplier += this.GetDamageBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -98,7 +98,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 				if (caster.IsAbilityActive(AbilityId.Outlaw7))
 					modifier.HitCount += 3;
 
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				modifier.FinalDamageMultiplier += this.GetDamageBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -117,7 +117,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.Default;
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				modifier.FinalDamageMultiplier += this.GetDamageBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -136,7 +136,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var modifier = SkillModifier.MultiHit(3);
-				modifier.FinalDamageMultiplier += GetDamageBonus(target);
+				modifier.FinalDamageMultiplier += this.GetDamageBonus(target);
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
@@ -160,7 +160,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <returns></returns>
 		private float GetDamageBonus(ICombatEntity target)
 		{
-			float damageBonus = 0f;
+			var damageBonus = 0f;
 
 			if (target.IsBuffActive(BuffId.SprinkleSands_Debuff))
 				damageBonus += 0.5f;
