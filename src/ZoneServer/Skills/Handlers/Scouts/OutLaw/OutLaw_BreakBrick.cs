@@ -70,6 +70,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea, Position farPos)
 		{
+			var rnd = RandomProvider.Get();
+
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 			var hitDelay = TimeSpan.FromMilliseconds(400);
@@ -83,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			// Outlaw4 has a 20% chance to activate.  If it does, it guarantees
 			// the stun and makes the attack a forced critical
-			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && RandomProvider.Get().Next(5) == 1;
+			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && rnd.Next(5) == 1;
 
 			await Task.Delay(hitDelay);
 
@@ -114,7 +116,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 				hits.Add(skillHit);
 
-				if (RandomProvider.Get().Next(10) <= stunChance)
+				if (rnd.Next(10) <= stunChance)
 					target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
 
 				target.StartBuff(BuffId.BreakBrick_Debuff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
@@ -133,6 +135,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 		/// <param name="splashArea"></param>
 		private async Task ShatterAttack(Skill skill, ICombatEntity caster, Position farPos)
 		{
+			var rnd = RandomProvider.Get();
+
 			var damageDelay = TimeSpan.FromMilliseconds(50);
 			var skillHitDelay = TimeSpan.Zero;
 			var hitDelay = TimeSpan.FromMilliseconds(250);
@@ -141,7 +145,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			// Outlaw4 has a 20% chance to activate.  If it does, it inflicts
 			// stun and forces a critical
-			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && RandomProvider.Get().Next(5) == 1;
+			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && rnd.Next(5) == 1;
 
 			await Task.Delay(hitDelay);
 
