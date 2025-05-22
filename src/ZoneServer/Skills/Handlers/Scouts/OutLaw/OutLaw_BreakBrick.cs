@@ -88,7 +88,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			await Task.Delay(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
-			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);			
+			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -99,7 +99,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 				if (caster.IsBehind(target))
 					stunChance = 10;
-				
+
 				if (outlaw4Activates)
 				{
 					stunChance = 10;
@@ -205,7 +205,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			// The third hitbox is a fan
 
 			splashParam = skill.GetSplashParameters(caster, caster.Position, farPos, length: 150, width: 100, angle: 78);
-			splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);			
+			splashArea = skill.GetSplashArea(SplashType.Fan, splashParam);
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 

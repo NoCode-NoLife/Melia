@@ -7,7 +7,7 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for the Mangle Buff, which grants forced evade
+	/// Handler for the Mangle Buff, which grants forced evade.
 	/// </summary>
 	[BuffHandler(BuffId.Mangle_Buff)]
 	public class Mangle_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler

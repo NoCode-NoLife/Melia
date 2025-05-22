@@ -6,13 +6,12 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
 	/// Buff handler for Bully Buff, which increases evasion
-	/// and adds threat on successful evade
+	/// and adds threat on successful evade.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
@@ -37,7 +36,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 			var bonus = dr * rate;
 
 			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, bonus);
-		}		
+		}
 
 		/// <summary>
 		/// Ends the buff, resetting dodge rate.

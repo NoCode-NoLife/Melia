@@ -146,9 +146,9 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 				hits.Add(skillHit);
 
 				target.StartBuff(BuffId.MangleAndFireBlindly_Debuff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
-			}			
+			}
 
-			Send.ZC_SKILL_HIT_INFO(caster, hits);			
+			Send.ZC_SKILL_HIT_INFO(caster, hits);
 		}
 
 

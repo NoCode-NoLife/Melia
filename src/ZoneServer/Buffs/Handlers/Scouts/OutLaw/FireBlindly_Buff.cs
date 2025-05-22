@@ -7,7 +7,7 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for the Fire Blindly Buff, which grants forced evade
+	/// Handler for the Fire Blindly Buff, which grants forced evade.
 	/// </summary>
 	[BuffHandler(BuffId.FireBlindly_Buff)]
 	public class FireBlindly_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler

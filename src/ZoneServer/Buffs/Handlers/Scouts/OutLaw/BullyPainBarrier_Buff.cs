@@ -6,15 +6,14 @@ using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
 	/// Buff handler for Bully Pain Barrier Buff, which increases evasion
-	/// and adds threat on successful evade
+	/// and adds threat on successful evade.
 	/// It's completely identical to Bully Buff except that it also
-	/// grants immunity to knockback and Outlaw12's effect is nerfed
+	/// grants immunity to knockback and Outlaw12's effect is nerfed.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level

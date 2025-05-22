@@ -5,7 +5,7 @@ using Melia.Zone.Network;
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for Aggress Buff, which massively increases movement speed
+	/// Handler for Aggress Buff, which massively increases movement speed.
 	/// </summary>
 	[BuffHandler(BuffId.Aggress_Buff)]
 	public class Aggress_Buff : BuffHandler
@@ -13,7 +13,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		private const float MspdBonus = 30f;
 
 		/// <summary>
-		/// Starts buff, modifying the movement speed
+		/// Starts buff, modifying the movement speed.
 		/// </summary>
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
@@ -25,7 +25,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		}
 
 		/// <summary>
-		/// Ends the buff, resetting the movement speed
+		/// Ends the buff, resetting the movement speed.
 		/// </summary>
 		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)

@@ -8,7 +8,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
 	/// Handle for the Rampage After Buff, which increases damage
-	/// dealt and taken by 50% and prevents the caster from evading
+	/// dealt and taken by 50% and prevents the caster from evading.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Level
@@ -21,7 +21,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		private const float DamagePenalty = 0.5f;
 
 		/// <summary>
-		/// Adds the damage bonus
+		/// Adds the damage bonus.
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
@@ -34,7 +34,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		}
 
 		/// <summary>
-		/// Adds the damage penalty and prevents evasion
+		/// Adds the damage penalty and prevents evasion.
 		/// </summary>
 		/// <param name="buff"></param>
 		/// <param name="attacker"></param>

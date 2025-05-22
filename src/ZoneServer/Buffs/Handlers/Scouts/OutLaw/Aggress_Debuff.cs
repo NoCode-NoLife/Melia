@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Melia.Shared.Game.Const;
+﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for Break Brick Debuff, which reduces Evasion
+	/// Handler for Break Brick Debuff, which reduces Evasion.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
 	/// NumArg2: Unhinge Level
+	/// 
 	/// This is related to Outlaw13, which changes the buff effect to
-	/// also increase movement speed but decrease accuracy
+	/// also increase movement speed but decrease accuracy.
 	/// </remarks>
 	[BuffHandler(BuffId.Aggress_Debuff)]
 	internal class Aggress_Debuff : BuffHandler
@@ -26,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		private const float MspdBonus = 5f;
 
 		/// <summary>
-		/// Starts buff, reducing Dodge Rate
+		/// Starts buff, reducing dodge rate.
 		/// </summary>
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)

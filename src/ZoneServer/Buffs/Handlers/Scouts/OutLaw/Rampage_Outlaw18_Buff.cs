@@ -9,7 +9,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 	/// <summary>
 	/// Handle for the Rampage Outlaw18 Buff, which gives 10%
 	/// bonus crit chance per debuff that was active when it
-	/// was started (which was calculated when it was applied)
+	/// was started (which was calculated when it was applied).
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Debuff Count
@@ -21,7 +21,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		public const float CritBonusPerDebuff = 10f;
 
 		/// <summary>
-		/// Adds the bonus crit chance
+		/// Adds the bonus crit chance.
 		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>

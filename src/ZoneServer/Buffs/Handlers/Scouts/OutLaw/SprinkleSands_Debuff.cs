@@ -4,7 +4,7 @@ using Melia.Zone.Buffs.Base;
 namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 {
 	/// <summary>
-	/// Handler for Sprinkle Sands Debuff, which reduces Accuracy and Evasion
+	/// Handler for Sprinkle Sands Debuff, which reduces Accuracy and Evasion.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
@@ -17,7 +17,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		private const float DRPenaltyRate = 0.2f;
 
 		/// <summary>
-		/// Starts buff, reducing HR and DR
+		/// Starts buff, reducing HR and DR.
 		/// </summary>
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
