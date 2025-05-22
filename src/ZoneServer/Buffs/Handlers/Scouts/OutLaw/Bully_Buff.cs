@@ -67,7 +67,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 				// it's done after the AI script check
 				if (target.TryGetActiveAbilityLevel(AbilityId.Outlaw12, out var level))
 				{
-					buff.IncreaseDuration(TimeSpan.FromSeconds(level));
+					buff.ExtendDuration(TimeSpan.FromSeconds(level));
 				}
 			}
 		}
