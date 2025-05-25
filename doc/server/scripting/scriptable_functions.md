@@ -105,7 +105,56 @@ public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Ski
 }
 ```
 
+## Overrides
+
+In cases where scripts replace and override existing functions, the original
+can be retrieved via the global `ScriptableFunctions` class. The respective
+method, `TryGetOverridden`, is available on all function type lists
+and takes a reference to the *current* function, which it uses to
+look up the function that was overridden by it.
+
+The example below shows how the core function `SCR_Get_Character_MHP`
+gets overridden and its result halved, effectively modifying characters'
+max HP by -50%. Note how the function reference passed to `TryGetOverridden`
+is the function that is being executed. The overridden function returned
+will then be the one that was referenced by the name `SCR_Get_Character_MHP`
+before the script parser encountered the newer version.
+
+```cs
+[ScriptableFunction]
+public static float SCR_Get_Character_MHP(Character character)
+{
+	if (!ScriptableFunctions.Character.TryGetOverridden(SCR_Get_Character_MHP, out var overriddenFunc))
+		throw new MissingMemberException("Overridden function SCR_Get_Character_MHP not found.");
+
+	var originalResult = overriddenFunc(character);
+
+	// Reduce max HP by 50%
+	return (int)Math.Max(1, originalResult * 0.5f);
+}
+```
+
+The function returned is always the immediate one that was overridden by
+the newer version, and the system keeps track of all overrides. This means
+if a function is overridden multiply times, each one is able to reference
+its immediate parent. This way it's possible to walk up the tree of
+overrides by repeatedly passing the reference to the overridden function
+to `TryGetOverridden`, should there ever be a need to find even older
+versions.
+
+Accessing overridden functions is useful primarily when modifying results,
+such as the calculations of existing core functions. The original function
+will be executed in its entirety and any changes it might make globally
+or to its given arguments persist, regardless of what the overriding
+function does.
+
+An example of a function type that would rarely be overridden is an item
+script function, as its behavior is self-contained and it returns only
+the result of the item usage. Although there are cases where overriding
+such a function could be used to monitor or react to certain results.
+
 ## More
 
 To find more examples and figure out which functions may exist for
-potential overwrites, we recommend studying the scripts found in Melia. Particularly the files in `system/scripts/zone/core/`.
+potential overrides, we recommend studying the scripts found in Melia.
+Particularly, the files in `system/scripts/zone/core/`.
