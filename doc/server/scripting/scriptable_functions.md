@@ -135,8 +135,8 @@ public static float SCR_Get_Character_MHP(Character character)
 ```
 
 The function returned is always the immediate one that was overridden by
-the newer version, and the system keeps track of all overrides. This means
-if a function is overridden multiply times, each one is able to reference
+the newer version and the system keeps track of all overrides. This means
+if a function is overridden multiple times, each one is able to reference
 its immediate parent. This way it's possible to walk up the tree of
 overrides by repeatedly passing the reference to the overridden function
 to `TryGetOverridden`, should there ever be a need to find even older
