@@ -13,7 +13,6 @@ using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.Monsters;
 using static Melia.Shared.Util.TaskHelper;
 
 public class KillEventsScript : GeneralScript
@@ -21,20 +20,20 @@ public class KillEventsScript : GeneralScript
 	[On("EntityKilled")]
 	public void OnEntityKilled(object sender, CombatEventArgs args)
 	{
-		if (args.Target is Mob mob && mob.Data.Faction == FactionType.RootCrystal)
-			this.OnRootCrystalKilled(mob, args.Attacker);
+		if (args.Target.Faction == FactionType.RootCrystal)
+			this.OnRootCrystalKilled(args.Target, args.Attacker);
 	}
 
-	private void OnRootCrystalKilled(Mob mob, ICombatEntity attacker)
+	private void OnRootCrystalKilled(IActor target, ICombatEntity attacker)
 	{
 		attacker.StartBuff(BuffId.RootCrystalMoveSpeed, 3, 0, TimeSpan.FromMinutes(10), attacker);
 		attacker.StartBuff(BuffId.RootCrystalCoolDown_BUFF, 0, 0, TimeSpan.FromMinutes(1), attacker);
 
 		if (attacker is Character character)
-			CallSafe(this.MonsterHealStamina(mob, character, 100000));
+			CallSafe(this.MonsterHealStamina(target, character, 100000));
 	}
 
-	private async Task MonsterHealStamina(Mob mob, Character character, int staminaAmount)
+	private async Task MonsterHealStamina(IActor target, Character character, int staminaAmount)
 	{
 		await Task.Delay(200);
 
@@ -42,8 +41,8 @@ public class KillEventsScript : GeneralScript
 
 		// Officials don't seem to send ZC_STAMINA, but for some reason
 		// the stamina doesn't update if we don't do that.
-		Send.ZC_ACTION_PKS(character, mob, 0, 2, 75);
-		Send.ZC_MON_STAMINA(character, mob, staminaAmount);
+		Send.ZC_ACTION_PKS(character, target, 0, 2, 75);
+		Send.ZC_MON_STAMINA(character, target, staminaAmount);
 		Send.ZC_STAMINA(character, character.Properties.Stamina);
 
 		await Task.Delay(700);
