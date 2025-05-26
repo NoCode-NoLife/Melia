@@ -17,6 +17,10 @@ public class TradeSelectItemScript : GeneralScript
 	[ScriptableFunction]
 	public NormalTxResult SCR_TX_TRADE_SELECT_ITEM_RANOPT(Character character, string strArg)
 	{
+		// The selection information comes in the format "itemId#selectionIndex",
+		// where the item id is the object id of the box item and the selection
+		// index a value between 1 and the max amount of items.
+
 		var match = StrArgRegex.Match(strArg);
 		if (!match.Success)
 		{
@@ -39,7 +43,7 @@ public class TradeSelectItemScript : GeneralScript
 		var item = character.Inventory.GetItem(itemObjectId);
 		if (item == null)
 		{
-			Log.Warning("SCR_TX_TRADE_SELECT_ITEM_RANOPT: User '{0}' tried to use a non-exitant item.", character.Username);
+			Log.Warning("SCR_TX_TRADE_SELECT_ITEM_RANOPT: User '{0}' tried to use a non-existant item.", character.Username);
 			return NormalTxResult.Fail;
 		}
 

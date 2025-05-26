@@ -100,7 +100,7 @@ namespace Melia.Zone.Commands
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
-			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
+			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.NoSave);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
