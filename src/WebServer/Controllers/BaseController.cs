@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Text;
 using EmbedIO.WebApi;
 
@@ -12,15 +13,25 @@ namespace Melia.Web.Controllers
 		private readonly Encoding _encoding = new UTF8Encoding(false);
 
 		/// <summary>
-		/// Sends content as text with the given mime type.
+		/// Sends the content with the given mime type and a 200 status code,
+		/// indicating a successful response.
 		/// </summary>
 		/// <param name="mimeType"></param>
 		/// <param name="content"></param>
 		protected void SendText(string mimeType, string content)
+			=> this.SendText(mimeType, HttpStatusCode.OK, content);
+
+		/// <summary>
+		/// Sends the content with the given mime type and status code.
+		/// </summary>
+		/// <param name="mimeType"></param>
+		/// <param name="statusCode"></param>
+		/// <param name="content"></param>
+		protected void SendText(string mimeType, HttpStatusCode statusCode, string content)
 		{
 			var contentLength = _encoding.GetByteCount(content);
 
-			this.Response.StatusCode = 200;
+			this.Response.StatusCode = (int)statusCode;
 			this.Response.ContentType = mimeType;
 			this.Response.ContentLength64 = contentLength;
 
