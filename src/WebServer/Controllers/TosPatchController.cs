@@ -4,6 +4,7 @@ using System.Xml;
 using EmbedIO;
 using EmbedIO.Routing;
 using Melia.Shared.Data.Database;
+using Melia.Web.Const;
 
 namespace Melia.Web.Controllers
 {
@@ -54,7 +55,7 @@ namespace Melia.Web.Controllers
 				xml.WriteWhitespace("\n");
 				xml.WriteEndDocument();
 
-				this.SendText("text/xml", str.ToString());
+				this.SendText(MimeTypes.Application.Xml, str.ToString());
 			}
 		}
 
@@ -79,7 +80,7 @@ namespace Melia.Web.Controllers
 			};
 
 			var staticConfig = string.Join("\r\n", options.Select(a => $"{a.Key}={a.Value}"));
-			this.SendText("text/plain", staticConfig);
+			this.SendText(MimeTypes.Text.Plain, staticConfig);
 		}
 	}
 }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
 using Melia.Shared.Network.Inter.Messages;
-using Yggdrasil.Logging;
+using Melia.Web.Const;
 
 namespace Melia.Web.Controllers
 {
@@ -26,12 +25,12 @@ namespace Melia.Web.Controllers
 
 			if (resPlayerCountMessage == null)
 			{
-				this.SendText("text/json", "{ \"error\": \"Communicator timeout.\" }");
+				this.SendText(MimeTypes.Json, "{ \"error\": \"Communicator timeout.\" }");
 				return;
 			}
 
 			var playerCount = resPlayerCountMessage.PlayerCount;
-			this.SendText("text/json", $"{{ \"playerCount\": {playerCount} }}");
+			this.SendText(MimeTypes.Json, $"{{ \"playerCount\": {playerCount} }}");
 		}
 
 		/// <summary>
@@ -46,12 +45,12 @@ namespace Melia.Web.Controllers
 
 			if (resMessage == null)
 			{
-				this.SendText("text/json", "{ \"error\": \"Communicator timeout.\" }");
+				this.SendText(MimeTypes.Json, "{ \"error\": \"Communicator timeout.\" }");
 				return;
 			}
 
 			var servers = JsonSerializer.Serialize(resMessage.Servers);
-			this.SendText("text/json", $"{{ \"servers\": {servers} }}");
+			this.SendText(MimeTypes.Json, $"{{ \"servers\": {servers} }}");
 		}
 	}
 }
