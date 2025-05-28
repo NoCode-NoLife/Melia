@@ -265,7 +265,7 @@ namespace Melia.Web
 				// TODO: Look into handling PHP scripts from a FileModule,
 				//   adding a pre-processor.
 
-				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
+				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
 				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
 
 				_server.WithModule(new PhpModule("/"));

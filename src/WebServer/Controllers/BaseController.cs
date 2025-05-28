@@ -41,7 +41,7 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
-		/// A string writer that uses UTF-8 without BOM.
+		/// A string writer that uses UTF-8 without BOM (byte-order mark).
 		/// </summary>
 		protected class Utf8StringWriter : StringWriter
 		{
