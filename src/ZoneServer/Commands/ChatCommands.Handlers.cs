@@ -1186,8 +1186,8 @@ namespace Melia.Zone.Commands
 			//   we have to search for characters across all of them.
 
 			var teamName = args.Get(0);
-			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
-			if (character == null)
+
+			if (!ZoneServer.Instance.World.TryGetCharacterByTeamName(teamName, out var character))
 			{
 				sender.ServerMessage(Localization.Get("Character not found."));
 				return CommandResult.Okay;
@@ -1226,8 +1226,8 @@ namespace Melia.Zone.Commands
 			//   we have to search for characters across all of them.
 
 			var teamName = args.Get(0);
-			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
-			if (character == null)
+
+			if (!ZoneServer.Instance.World.TryGetCharacterByTeamName(teamName, out var character))
 			{
 				sender.ServerMessage(Localization.Get("Character not found."));
 				return CommandResult.Okay;

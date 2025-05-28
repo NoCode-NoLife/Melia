@@ -229,8 +229,7 @@ namespace Melia.Zone
 
 					if (kickMessage.TargetType == KickTargetType.Player)
 					{
-						var targetCharacter = this.World.GetCharacterByTeamName(kickMessage.TargetName);
-						if (targetCharacter == null)
+						if (!this.World.TryGetCharacterByTeamName(kickMessage.TargetName, out var targetCharacter))
 							break;
 
 						characters = [targetCharacter];
