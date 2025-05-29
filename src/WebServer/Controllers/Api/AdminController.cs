@@ -23,12 +23,10 @@ namespace Melia.Web.Controllers.Api
 		[Route(HttpVerbs.Post, "/kick/team/{teamName}")]
 		public async Task KickTeam(string teamName)
 		{
-			var comm = WebServer.Instance.Communicator;
-
 			try
 			{
 				var msg = new KickMessage(KickTargetType.Player, teamName, "WebAPI");
-				comm.Send("Coordinator", msg.BroadcastTo("AllZones"));
+				WebServer.Instance.Communicator.Send("Coordinator", msg.BroadcastTo("AllZones"));
 			}
 			catch (Exception ex)
 			{
@@ -51,12 +49,10 @@ namespace Melia.Web.Controllers.Api
 		[Route(HttpVerbs.Post, "/kick/map/{mapName}")]
 		public async Task KickMap(string mapName)
 		{
-			var comm = WebServer.Instance.Communicator;
-
 			try
 			{
 				var msg = new KickMessage(KickTargetType.Map, mapName, "WebAPI");
-				comm.Send("Coordinator", msg.BroadcastTo("AllZones"));
+				WebServer.Instance.Communicator.Send("Coordinator", msg.BroadcastTo("AllZones"));
 			}
 			catch (Exception ex)
 			{
@@ -78,12 +74,10 @@ namespace Melia.Web.Controllers.Api
 		[Route(HttpVerbs.Post, "/kick/all")]
 		public async Task KickAll()
 		{
-			var comm = WebServer.Instance.Communicator;
-
 			try
 			{
 				var msg = new KickMessage(KickTargetType.Zone, "all", "WebAPI");
-				comm.Send("Coordinator", msg.BroadcastTo("AllZones"));
+				WebServer.Instance.Communicator.Send("Coordinator", msg.BroadcastTo("AllZones"));
 			}
 			catch (Exception ex)
 			{
