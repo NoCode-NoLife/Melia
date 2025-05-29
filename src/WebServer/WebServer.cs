@@ -137,6 +137,7 @@ namespace Melia.Web
 
 				downloading = false;
 
+				Console.WriteLine();
 				Log.Info("PHP download complete, extracting...");
 
 				if (Directory.Exists(phpFolderPath))
@@ -149,9 +150,21 @@ namespace Melia.Web
 
 				Log.Info("PHP extraction complete, setting up...");
 
+				// Create ini file
 				var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
 				var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
 				File.Copy(productionIniFilePath, iniFilePath);
+
+				// Enable common extensions
+				var iniContents = File.ReadAllText(iniFilePath);
+				iniContents = iniContents.Replace(";zend_extension=opcache",
+					";zend_extension=opcache\r\n\r\n" +
+					"extension_dir=\"ext\"\r\n" +
+					"extension=mysqli\r\n" +
+					"extension=zip\r\n" +
+					""
+				);
+				File.WriteAllText(iniFilePath, iniContents);
 
 				Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 			}
