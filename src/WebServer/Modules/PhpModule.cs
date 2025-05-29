@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
@@ -129,6 +129,7 @@ namespace Melia.Web.Modules
 				process.StartInfo.RedirectStandardError = true;
 				process.StartInfo.CreateNoWindow = true;
 
+				// Clear default environment variables for security and consistency
 				process.StartInfo.EnvironmentVariables.Clear();
 
 				process.StartInfo.EnvironmentVariables.Add("GATEWAY_INTERFACE", "CGI/1.1");
@@ -154,6 +155,10 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_LANGUAGE", context.Request.Headers["Accept-Language"]);
 				process.StartInfo.EnvironmentVariables.Add("TMPDIR", Path.GetTempPath());
 				process.StartInfo.EnvironmentVariables.Add("TEMP", Path.GetTempPath());
+
+				// Fun fact: You get an "Unknown error" from MySQL if SystemRoot
+				// is missing. Why does it need this? Who knows!
+				process.StartInfo.EnvironmentVariables.Add("SystemRoot", Environment.GetFolderPath(Environment.SpecialFolder.System));
 
 				process.Start();
 
