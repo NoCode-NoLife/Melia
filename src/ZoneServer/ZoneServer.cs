@@ -227,6 +227,9 @@ namespace Melia.Zone
 				{
 					IEnumerable<Character> characters;
 
+					// XXX: Should kicking exclude the origin character? Whether you
+					//   might want to kick yourself is debatable.
+
 					if (kickMessage.TargetType == KickTargetType.Player)
 					{
 						if (!this.World.TryGetCharacterByTeamName(kickMessage.TargetName, out var targetCharacter))
@@ -240,6 +243,10 @@ namespace Melia.Zone
 							break;
 
 						characters = map.GetCharacters();
+					}
+					else if (kickMessage.TargetType == KickTargetType.Zone)
+					{
+						characters = this.World.GetCharacters();
 					}
 					else
 					{
