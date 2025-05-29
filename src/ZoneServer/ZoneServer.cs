@@ -230,6 +230,8 @@ namespace Melia.Zone
 					// XXX: Should kicking exclude the origin character? Whether you
 					//   might want to kick yourself is debatable.
 
+					Log.Info("Received kick request for '{0}' from '{1}'.", kickMessage.TargetName, kickMessage.OriginName);
+
 					if (kickMessage.TargetType == KickTargetType.Player)
 					{
 						if (!this.World.TryGetCharacterByTeamName(kickMessage.TargetName, out var targetCharacter))
