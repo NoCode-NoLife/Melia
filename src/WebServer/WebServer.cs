@@ -13,6 +13,7 @@ using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
+using Melia.Web.Controllers.Api;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Yggdrasil.Logging;
@@ -267,6 +268,9 @@ namespace Melia.Web
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
 				_server.WithWebApi("/api/info/", m => m.WithController<InfoController>());
+
+				_server.WithModule(new AuthModule("/api/admin/"));
+				_server.WithWebApi("/api/admin/", m => m.WithController<AdminController>());
 
 				_server.WithModule(new PhpModule("/"));
 
