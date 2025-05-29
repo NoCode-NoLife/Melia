@@ -29,7 +29,7 @@ namespace Melia.Web.Controllers
 		///   &lt;/serverlist&gt;
 		/// </example>
 		[Route(HttpVerbs.Get, "/serverlist.xml")]
-		public void GetServerList()
+		public async void GetServerList()
 		{
 			var serverGroupDataList = WebServer.Instance.Data.ServerDb.Entries.Values.OrderBy(a => a.Id);
 
@@ -70,7 +70,7 @@ namespace Melia.Web.Controllers
 				xml.WriteWhitespace("\n");
 				xml.WriteEndDocument();
 
-				this.SendText(MimeTypes.Application.Xml, str.ToString());
+				await this.SendText(MimeTypes.Application.Xml, str.ToString());
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace Melia.Web.Controllers
 		///   UseNISMS_ONLY_OFFER=YES
 		/// </example>
 		[Route(HttpVerbs.Get, "/static__Config.txt")]
-		public void GetStaticConfig()
+		public async void GetStaticConfig()
 		{
 			var options = new Dictionary<string, string>()
 			{
@@ -112,7 +112,7 @@ namespace Melia.Web.Controllers
 			};
 
 			var content = string.Join("\r\n", options.Select(a => $"{a.Key}={a.Value}"));
-			this.SendText(MimeTypes.Text.Plain, content);
+			await this.SendText(MimeTypes.Text.Plain, content);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using EmbedIO.WebApi;
 
 namespace Melia.Web.Controllers
@@ -18,8 +19,8 @@ namespace Melia.Web.Controllers
 		/// </summary>
 		/// <param name="mimeType"></param>
 		/// <param name="content"></param>
-		protected void SendText(string mimeType, string content)
-			=> this.SendText(mimeType, HttpStatusCode.OK, content);
+		protected async Task SendText(string mimeType, string content)
+			=> await this.SendText(mimeType, HttpStatusCode.OK, content);
 
 		/// <summary>
 		/// Sends the content with the given mime type and status code.
@@ -27,7 +28,7 @@ namespace Melia.Web.Controllers
 		/// <param name="mimeType"></param>
 		/// <param name="statusCode"></param>
 		/// <param name="content"></param>
-		protected void SendText(string mimeType, HttpStatusCode statusCode, string content)
+		protected async Task SendText(string mimeType, HttpStatusCode statusCode, string content)
 		{
 			var contentLength = _encoding.GetByteCount(content);
 
@@ -37,7 +38,7 @@ namespace Melia.Web.Controllers
 
 			using (var stream = this.Response.OutputStream)
 			using (var sw = new StreamWriter(stream, _encoding))
-				sw.Write(content);
+				await sw.WriteAsync(content);
 		}
 
 		/// <summary>

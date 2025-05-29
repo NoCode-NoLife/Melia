@@ -266,7 +266,7 @@ namespace Melia.Web
 				//   adding a pre-processor.
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
-				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
+				_server.WithWebApi("/api/info/", m => m.WithController<InfoController>());
 
 				_server.WithModule(new PhpModule("/"));
 
