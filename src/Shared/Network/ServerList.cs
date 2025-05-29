@@ -187,9 +187,19 @@ namespace Melia.Shared.Network
 		}
 	}
 
+	/// <summary>
+	/// Represents the operational status of a server.
+	/// </summary>
 	public enum ServerStatus
 	{
+		/// <summary>
+		/// The server is currently offline and can't be connected to.
+		/// </summary>
 		Offline,
+
+		/// <summary>
+		/// The server is currently online and can be connected to.
+		/// </summary>
 		Online,
 	}
 }

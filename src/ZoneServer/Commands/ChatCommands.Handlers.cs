@@ -2008,7 +2008,7 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Official slash command, purpose unknown.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>
