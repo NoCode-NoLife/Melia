@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
+using Yggdrasil.Logging;
 
 namespace Melia.Web.Modules
 {
@@ -125,6 +126,7 @@ namespace Melia.Web.Modules
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.RedirectStandardInput = true;
+				process.StartInfo.RedirectStandardError = true;
 				process.StartInfo.CreateNoWindow = true;
 
 				process.StartInfo.EnvironmentVariables.Clear();
@@ -187,6 +189,12 @@ namespace Melia.Web.Modules
 							output.WriteLine(line);
 						}
 					}
+				}
+
+				if (process.StandardError.Peek() > -1)
+				{
+					var errorOutput = await process.StandardError.ReadToEndAsync();
+					Log.Debug($"PHP Errors:" + Environment.NewLine + errorOutput);
 				}
 			}
 
