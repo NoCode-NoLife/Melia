@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using EmbedIO;
 using Melia.Web.Const;
 
 namespace Melia.Web.Controllers
@@ -50,6 +52,26 @@ namespace Melia.Web.Controllers
 			};
 
 			await this.SendText(MimeTypes.Json, HttpStatusCode.InternalServerError, JsonSerializer.Serialize(response));
+		}
+
+		/// <summary>
+		/// Reads the request body and parses it as JSON into the specified type.
+		/// </summary>
+		/// <typeparam name="TBody"></typeparam>
+		/// <returns></returns>
+		/// <exception cref="InvalidOperationException"></exception>
+		public async Task<TBody> ParseJsonBody<TBody>()
+		{
+			var context = this.HttpContext;
+
+			if (context.Request.ContentLength64 <= 0)
+				throw new InvalidOperationException("Request body is empty.");
+
+			using var reader = context.OpenRequestText();
+			var body = await reader.ReadToEndAsync();
+
+			var result = JsonSerializer.Deserialize<TBody>(body);
+			return result;
 		}
 	}
 }
