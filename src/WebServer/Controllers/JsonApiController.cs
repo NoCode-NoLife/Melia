@@ -21,6 +21,8 @@ namespace Melia.Web.Controllers
 		/// success or failure.
 		/// </remarks>
 		/// <example>
+		/// this.Ok(new { result = ApiResults.Success, some_response = "Lorem ipsum dolor sit amet." });
+		/// 
 		/// Response:
 		///   Status: 200 OK
 		///   { "result": 0, "some_response": "Lorem ipsum dolor sit amet." }
@@ -37,6 +39,8 @@ namespace Melia.Web.Controllers
 		/// Sends a JSON error response with a 500 status code (Internal Server Error).
 		/// </summary>
 		/// <example>
+		/// this.Error("An error occurred.");
+		/// 
 		/// Response:
 		///   Status: 500 Internal Server Error
 		///   { "result": 1, "error": "An error occurred." }
@@ -60,7 +64,7 @@ namespace Melia.Web.Controllers
 		/// <typeparam name="TBody"></typeparam>
 		/// <returns></returns>
 		/// <exception cref="InvalidOperationException"></exception>
-		public async Task<TBody> ParseJsonBody<TBody>()
+		protected async Task<TBody> ParseJsonBody<TBody>()
 		{
 			var context = this.HttpContext;
 
