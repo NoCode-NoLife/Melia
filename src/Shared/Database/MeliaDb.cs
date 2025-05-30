@@ -60,7 +60,7 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns true if accounts exists.
+		/// Returns true if an account with the given username exists.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <returns></returns>
@@ -115,8 +115,9 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns true if a character with the given name exists on account.
+		/// Returns true if a character with the given name exists on the account.
 		/// </summary>
+		/// <param name="accountId"></param>
 		/// <param name="name"></param>
 		/// <returns></returns>
 		public bool CharacterExists(long accountId, string name)
@@ -133,9 +134,9 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Returns true if team name exists.
+		/// Returns true if the given team name exists.
 		/// </summary>
-		/// <param name="name"></param>
+		/// <param name="teamName"></param>
 		/// <returns></returns>
 		public bool TeamNameExists(string teamName)
 		{
@@ -150,9 +151,10 @@ namespace Melia.Shared.Database
 		}
 
 		/// <summary>
-		/// Changes team name for account.
+		/// Changes the account's team name to the given one.
 		/// </summary>
-		/// <param name="account"></param>
+		/// <param name="accountId"></param>
+		/// <param name="teamName"></param>
 		/// <returns></returns>
 		public bool UpdateTeamName(long accountId, string teamName)
 		{
