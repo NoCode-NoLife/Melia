@@ -24,6 +24,12 @@ namespace Melia.Web.Controllers.Api
 		[Route(HttpVerbs.Post, "/create")]
 		public async Task Create()
 		{
+			if (!WebServer.Instance.Conf.Web.EnableApiAccountCreation)
+			{
+				await this.Error("Account creation via API is disabled.");
+				return;
+			}
+
 			try
 			{
 				var request = await this.ParseJsonBody<CreateAccountRequest>();

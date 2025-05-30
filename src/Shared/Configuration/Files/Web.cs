@@ -8,6 +8,14 @@ namespace Melia.Shared.Configuration.Files
 	/// </summary>
 	public class WebConfFile : ConfFile
 	{
+		/// <summary>
+		/// Returns true if accounts can be created via the API.
+		/// </summary>
+		public bool EnableApiAccountCreation { get; private set; }
+
+		/// <summary>
+		/// Returns the path to the PHP CGI executable file.
+		/// </summary>
 		public string PhpCgiFilePath { get; protected set; }
 
 		/// <summary>
@@ -18,6 +26,7 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
+			this.EnableApiAccountCreation = this.GetBool("enable_api_account_creation", false);
 			this.PhpCgiFilePath = this.GetString("php_cgi_bin", Path.Combine("user", "tools", "php", "php-cgi.exe"));
 		}
 	}
