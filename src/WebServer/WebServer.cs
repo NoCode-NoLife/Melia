@@ -14,6 +14,7 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
 using Melia.Web.Controllers.Api;
+using Melia.Web.Database;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Yggdrasil.Logging;
@@ -35,6 +36,11 @@ namespace Melia.Web
 		public Communicator Communicator { get; private set; }
 
 		/// <summary>
+		/// Returns reference to the server's database interface.
+		/// </summary>
+		public WebDb Database { get; } = new();
+
+		/// <summary>
 		/// Runs the server.
 		/// </summary>
 		/// <param name="args"></param>
@@ -50,6 +56,7 @@ namespace Melia.Web
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
 			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
+			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDependencies();
 
 			this.StartCommunicator();
@@ -281,6 +288,7 @@ namespace Melia.Web
 
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
 				_server.WithWebApi("/api/info/", m => m.WithController<InfoController>());
+				_server.WithWebApi("/api/account/", m => m.WithController<AccountController>());
 
 				_server.WithModule(new AuthModule("/api/admin/"));
 				_server.WithWebApi("/api/admin/", m => m.WithController<AdminController>());
