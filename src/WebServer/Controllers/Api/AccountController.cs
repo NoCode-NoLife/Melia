@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Routing;
 using Melia.Web.Const;
+using Melia.Web.Controllers.Api.Helpers;
 using Melia.Web.Controllers.Api.Objects;
 using Yggdrasil.Logging;
 
@@ -13,6 +14,8 @@ namespace Melia.Web.Controllers.Api
 	/// </summary>
 	internal class AccountController : JsonApiController
 	{
+		private static readonly IpRateLimiter AccountCreationLimiter = new(5, TimeSpan.FromMinutes(1));
+
 		/// <summary>
 		/// Handles requests to create a new account.
 		/// </summary>
@@ -61,6 +64,12 @@ namespace Melia.Web.Controllers.Api
 				if (WebServer.Instance.Database.AccountExists(request.Username))
 				{
 					await this.Error("The account name already exists.");
+					return;
+				}
+
+				if (AccountCreationLimiter.IsRateLimited(this.Request.RemoteEndPoint.Address.ToString()))
+				{
+					await this.Error("Too many account creation requests. Please try again later.");
 					return;
 				}
 
