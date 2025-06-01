@@ -167,7 +167,11 @@ namespace Melia.Web
 				iniContents = iniContents.Replace(";zend_extension=opcache",
 					";zend_extension=opcache\r\n\r\n" +
 					"extension_dir=\"ext\"\r\n" +
+					"extension=curl\r\n" +
 					"extension=mysqli\r\n" +
+					"extension=openssl\r\n" +
+					"extension=pdo_mysql\r\n" +
+					"extension=pdo_sqlite\r\n" +
 					"extension=zip\r\n" +
 					""
 				);
