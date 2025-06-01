@@ -2,6 +2,10 @@
 // Unclutterer
 //--- Description -----------------------------------------------------------
 // Removes some of the clutter from the UI, such as cash shop buttons.
+// 
+// 001.lua: Removes the array of buttons around the minimap.
+// 002.lua: Turns off miscellaneous elements, such as the FPS counter.
+// 003.lua: Disables functions, such as obsolete skill usage UI prompts.
 //---------------------------------------------------------------------------
 
 using Melia.Zone.Scripting;
