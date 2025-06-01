@@ -158,7 +158,9 @@ namespace Melia.Web.Modules
 
 				// Fun fact: You get an "Unknown error" from MySQL if SystemRoot
 				// is missing. Why does it need this? Who knows!
-				process.StartInfo.EnvironmentVariables.Add("SystemRoot", Environment.GetFolderPath(Environment.SpecialFolder.System));
+				// TIL: You also need it to establish HTTP connections from PHP,
+				// and for those it needs to not only be set, but also be correct.
+				process.StartInfo.EnvironmentVariables.Add("SystemRoot", Environment.GetEnvironmentVariable("SystemRoot"));
 
 				process.Start();
 
