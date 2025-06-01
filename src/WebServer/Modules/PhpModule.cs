@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
 using EmbedIO.Files;
@@ -14,6 +15,8 @@ namespace Melia.Web.Modules
 	public class PhpModule : WebModuleBase
 	{
 		private const string DefaultFileName = "index.php";
+
+		private readonly static Regex ServerNameRegex = new(@"//(?<name>[^\:\/]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
 		/// <summary>
 		/// Creates new instance.
@@ -143,7 +146,9 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_TYPE", context.Request.ContentType);
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_METHOD", context.Request.HttpMethod);
 				process.StartInfo.EnvironmentVariables.Add("USER_AGENT", context.Request.UserAgent);
+				process.StartInfo.EnvironmentVariables.Add("SERVER_NAME", GetServerName(context));
 				process.StartInfo.EnvironmentVariables.Add("SERVER_ADDR", context.LocalEndPoint.Address.ToString());
+				process.StartInfo.EnvironmentVariables.Add("SERVER_PORT", context.LocalEndPoint.Port.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REMOTE_ADDR", context.Request.RemoteEndPoint.Address.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REMOTE_PORT", context.Request.RemoteEndPoint.Port.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REFERER", context.Request.UrlReferrer?.ToString() ?? "");
@@ -153,6 +158,7 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_CHARSET", context.Request.Headers["Accept-Charset"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_ENCODING", context.Request.Headers["Accept-Encoding"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_LANGUAGE", context.Request.Headers["Accept-Language"]);
+				process.StartInfo.EnvironmentVariables.Add("HTTP_HOST", context.Request.Headers["Host"]);
 				process.StartInfo.EnvironmentVariables.Add("TMPDIR", Path.GetTempPath());
 				process.StartInfo.EnvironmentVariables.Add("TEMP", Path.GetTempPath());
 
@@ -209,6 +215,23 @@ namespace Melia.Web.Modules
 			context.SetHandled();
 
 			await Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Returns the server name requested by the client. In case of any issues,
+		/// it returns the local endpoint address instead.
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		private static string GetServerName(IHttpContext context)
+		{
+			var url = context.Request.Url.ToString();
+			var match = ServerNameRegex.Match(url);
+
+			if (match.Success)
+				return match.Groups["name"].Value;
+
+			return context.LocalEndPoint.Address.ToString();
 		}
 	}
 }
