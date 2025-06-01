@@ -5436,6 +5436,7 @@ public static class ItemId
 	public const int Txbox_LegendCardEP11_ALL = 904291;
 	public const int Txbox_Ruby_Moru_Cnt20 = 904292;
 	public const int PCbang_God_Potion_BOX = 904304;
+	public const int _Event_Lucky_Box = 904367;
 	public const int Gem_Select_Box_Color = 1000094;
 	public const int Gacha_Goddess_DespairIsland_Party_Dummy = 1520000;
 	public const int Gacha_Goddess_DespairIsland_Auto_Dummy = 1520001;
@@ -16387,6 +16388,7 @@ public static class ItemId
 	public const int Egg_016_Skyblue_NoTrade = 649726;
 	public const int Egg_Shape_Memory_Snigo_NoTrade = 649727;
 	public const int Egg_Mermaidpopo_NoTrade = 649728;
+	public const int Egg_Shape_Memory_Snigo_NoTrade_Papaya = 649729;
 	public const int Egg_Mermaidpopo2_NoTrade = 649730;
 	public const int Jumping_ExpCard_450Lv_Notrade = 664164;
 	public const int Dungeon_Key03 = 689002;
