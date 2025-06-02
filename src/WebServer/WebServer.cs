@@ -157,6 +157,12 @@ namespace Melia.Web
 
 				Log.Info("PHP extraction complete, setting up...");
 
+				// Download cert file
+				result = wc.GetAsync("https://curl.se/ca/cacert.pem").Result;
+				var caCertFilePath = Path.GetFullPath(Path.Combine(phpFolderPath, "cacert.pem"));
+				using (var fs = new FileStream(caCertFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+					result.Content.CopyToAsync(fs).Wait();
+
 				// Create ini file
 				var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
 				var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
@@ -173,6 +179,7 @@ namespace Melia.Web
 					"extension=pdo_mysql\r\n" +
 					"extension=pdo_sqlite\r\n" +
 					"extension=zip\r\n" +
+					"curl.cainfo=\"" + caCertFilePath + "\"\r\n" +
 					""
 				);
 				File.WriteAllText(iniFilePath, iniContents);
