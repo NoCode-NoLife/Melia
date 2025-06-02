@@ -81,6 +81,7 @@ http://127.0.0.1/mypage.htm
 
 You can also utilize the server's API to retrieve information about the
 server or execute certain functions, such as sending broadcast messages.
+See the web API documentation for more information.
 
 
 Dynamic Custom Content
