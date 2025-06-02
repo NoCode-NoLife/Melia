@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -15,8 +16,9 @@ namespace Melia.Web.Modules
 	public class PhpModule : WebModuleBase
 	{
 		private const string DefaultFileName = "index.php";
-
 		private readonly static Regex ServerNameRegex = new(@"//(?<name>[^\:\/]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+		private string _serverSoftware;
 
 		/// <summary>
 		/// Creates new instance.
@@ -138,9 +140,9 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("GATEWAY_INTERFACE", "CGI/1.1");
 				process.StartInfo.EnvironmentVariables.Add("SERVER_PROTOCOL", "HTTP/1.1");
 				process.StartInfo.EnvironmentVariables.Add("REDIRECT_STATUS", "200");
-				process.StartInfo.EnvironmentVariables.Add("DOCUMENT_ROOT", documentRootPath);
-				process.StartInfo.EnvironmentVariables.Add("SCRIPT_NAME", scriptFileName);
-				process.StartInfo.EnvironmentVariables.Add("SCRIPT_FILENAME", scriptFilePath);
+				process.StartInfo.EnvironmentVariables.Add("DOCUMENT_ROOT", SanitizePath(documentRootPath));
+				process.StartInfo.EnvironmentVariables.Add("SCRIPT_NAME", SanitizePath(context.RequestedPath));
+				process.StartInfo.EnvironmentVariables.Add("SCRIPT_FILENAME", SanitizePath(scriptFilePath));
 				process.StartInfo.EnvironmentVariables.Add("QUERY_STRING", queryString);
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_LENGTH", requestBody.Length.ToString());
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_TYPE", context.Request.ContentType);
@@ -159,8 +161,16 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_ENCODING", context.Request.Headers["Accept-Encoding"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_LANGUAGE", context.Request.Headers["Accept-Language"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_HOST", context.Request.Headers["Host"]);
-				process.StartInfo.EnvironmentVariables.Add("TMPDIR", Path.GetTempPath());
-				process.StartInfo.EnvironmentVariables.Add("TEMP", Path.GetTempPath());
+				process.StartInfo.EnvironmentVariables.Add("SERVER_SOFTWARE", this.GetServerSoftware());
+				process.StartInfo.EnvironmentVariables.Add("TMPDIR", SanitizePath(Path.GetTempPath()));
+				process.StartInfo.EnvironmentVariables.Add("TEMP", SanitizePath(Path.GetTempPath()));
+
+				// A note on SCRIPT_NAME: While this is usually the absolute path
+				// to the script, relative to the document root, which is also
+				// the same as the requested path, these could be different if
+				// any kind of URL rewriting occurs. That's not currently supported
+				// by our server, but should that change, we need to reevaluate the
+				// values of those variables.
 
 				// Fun fact: You get an "Unknown error" from MySQL if SystemRoot
 				// is missing. Why does it need this? Who knows!
@@ -232,6 +242,56 @@ namespace Melia.Web.Modules
 				return match.Groups["name"].Value;
 
 			return context.LocalEndPoint.Address.ToString();
+		}
+
+		/// <summary>
+		/// Unifies slashes in the path and trims trailing slashes.
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		private static string SanitizePath(string path)
+		{
+			return path.Replace("\\", "/").TrimEnd('/');
+		}
+
+		/// <summary>
+		/// Returns a string that details the server software and its versions.
+		/// </summary>
+		/// <returns></returns>
+		private string GetServerSoftware()
+		{
+			if (_serverSoftware != null)
+				return _serverSoftware;
+
+			var meliaCommitHash = "unknown";
+			var phpVersion = "unknown";
+			var embedioVersion = typeof(WebModuleBase).Assembly.GetName().Version.ToString(3);
+
+			if (File.Exists(".git/HEAD"))
+			{
+				var headContent = File.ReadAllText(".git/HEAD").Trim();
+
+				if (headContent.StartsWith("ref: "))
+				{
+					var refPath = headContent.Substring(5);
+					var refFilePath = Path.Combine(".git", refPath);
+
+					if (File.Exists(refFilePath))
+						meliaCommitHash = File.ReadAllText(refFilePath).Trim().Substring(0, 7);
+				}
+				else
+				{
+					meliaCommitHash = headContent.Substring(0, 7);
+				}
+			}
+
+			if (File.Exists(WebServer.Instance.Conf.Web.PhpCgiFilePath))
+			{
+				var fileVersionInfo = FileVersionInfo.GetVersionInfo(WebServer.Instance.Conf.Web.PhpCgiFilePath);
+				phpVersion = fileVersionInfo.FileVersion ?? "unknown";
+			}
+
+			return _serverSoftware = $"Melia/{meliaCommitHash} EmbedIO/{embedioVersion} PHP/{phpVersion}";
 		}
 	}
 }
