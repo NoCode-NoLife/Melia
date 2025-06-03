@@ -150,7 +150,6 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_TYPE", context.Request.ContentType);
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_METHOD", context.Request.HttpMethod);
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_SCHEME", context.Request.IsSecureConnection ? "https" : "http");
-				process.StartInfo.EnvironmentVariables.Add("USER_AGENT", context.Request.UserAgent);
 				process.StartInfo.EnvironmentVariables.Add("SERVER_NAME", GetServerName(context));
 				process.StartInfo.EnvironmentVariables.Add("SERVER_ADDR", context.LocalEndPoint.Address.ToString());
 				process.StartInfo.EnvironmentVariables.Add("SERVER_PORT", context.LocalEndPoint.Port.ToString());
@@ -158,12 +157,6 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("REMOTE_PORT", context.Request.RemoteEndPoint.Port.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REFERER", context.Request.UrlReferrer?.ToString() ?? "");
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_URI", context.Request.RawUrl);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_COOKIE", context.Request.Headers["Cookie"]);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT", context.Request.Headers["Accept"]);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_CHARSET", context.Request.Headers["Accept-Charset"]);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_ENCODING", context.Request.Headers["Accept-Encoding"]);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_LANGUAGE", context.Request.Headers["Accept-Language"]);
-				process.StartInfo.EnvironmentVariables.Add("HTTP_HOST", context.Request.Headers["Host"]);
 				process.StartInfo.EnvironmentVariables.Add("SERVER_SOFTWARE", this.GetServerSoftware());
 				process.StartInfo.EnvironmentVariables.Add("TMPDIR", tempPath);
 				process.StartInfo.EnvironmentVariables.Add("TEMP", tempPath);
@@ -180,6 +173,19 @@ namespace Melia.Web.Modules
 				// TIL: You also need it to establish HTTP connections from PHP,
 				// and for those it needs to not only be set, but also be correct.
 				process.StartInfo.EnvironmentVariables.Add("SystemRoot", systemRootPath);
+
+				// Learning so much about PHP CGI. So, we need the request headers
+				// inside PHP, which are communicated via env variables prefixed
+				// with "HTTP_". We could be selective here, but it's easier and
+				// more future proof to just throw all of them in.
+				for (var i = 0; i < context.Request.Headers.Count; ++i)
+				{
+					var headerName = context.Request.Headers.GetKey(i);
+					var value = context.Request.Headers.Get(i);
+
+					var envName = HeaderNameToEnvName(headerName);
+					process.StartInfo.EnvironmentVariables.Add(envName, value);
+				}
 
 				process.Start();
 
@@ -323,6 +329,20 @@ namespace Melia.Web.Modules
 			}
 
 			return _serverSoftware = $"Melia/{meliaCommitHash} EmbedIO/{embedioVersion} PHP/{phpVersion}";
+		}
+
+		/// <summary>
+		/// Returns the environment variable name for a given HTTP header name.
+		/// </summary>
+		/// <example>
+		/// HeaderNameToEnvName("Content-Type");
+		/// => "HTTP_CONTENT_TYPE"
+		/// </example>
+		/// <param name="headerName"></param>
+		/// <returns></returns>
+		private static string HeaderNameToEnvName(string headerName)
+		{
+			return "HTTP_" + headerName.ToUpperInvariant().Replace('-', '_').Replace('.', '_');
 		}
 	}
 }
