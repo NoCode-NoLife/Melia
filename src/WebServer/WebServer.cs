@@ -224,21 +224,34 @@ namespace Melia.Web
 			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
 			var authentication = this.Conf.Inter.Authentication;
 
-			try
+			var tries = 0;
+			var silenceThreshold = 4;
+
+			while (true)
 			{
-				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
+				try
+				{
+					this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
-				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
-				this.Communicator.Subscribe("Coordinator", "AllServers");
+					this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+					this.Communicator.Subscribe("Coordinator", "AllServers");
 
-				Log.Info("Successfully connected to coordinator.");
-			}
-			catch
-			{
-				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
-				Thread.Sleep(5000);
+					Log.Info("Successfully connected to coordinator.");
+					break;
+				}
+				catch
+				{
+					if (tries < silenceThreshold)
+					{
+						if (tries + 1 < silenceThreshold)
+							Log.Error("Failed to connect to coordinator, trying again...");
+						else
+							Log.Error("Failed to connect to coordinator. Will keep trying...");
+					}
 
-				this.ConnectToCoordinator();
+					tries++;
+					Thread.Sleep(5000);
+				}
 			}
 		}
 
@@ -248,7 +261,7 @@ namespace Melia.Web
 		/// <param name="commName"></param>
 		private void Communicator_OnDisconnected(string commName)
 		{
-			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
+			Log.Error("Lost connection to coordinator, attempting to reconnect...");
 			Thread.Sleep(5000);
 
 			this.ConnectToCoordinator();
