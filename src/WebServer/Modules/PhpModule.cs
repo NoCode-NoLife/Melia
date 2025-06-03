@@ -204,11 +204,32 @@ namespace Melia.Web.Modules
 								continue;
 							}
 
+							// Transfer headers to context's response
 							index = line.IndexOf(':');
 							var name = line.Substring(0, index);
 							var value = line.Substring(index + 2);
 
 							context.Response.Headers[name] = value;
+
+							// Set certain response properties based on header values
+							if (name == "Status")
+							{
+								index = value.IndexOf(' ');
+
+								if (index != -1 && int.TryParse(value.AsSpan(0, index), out var code))
+								{
+									context.Response.StatusCode = code;
+									context.Response.StatusDescription = value.Substring(index + 1).Trim();
+								}
+								else
+								{
+									Log.Warning($"Invalid Status header value '{value}' in {scriptFilePath}.");
+								}
+							}
+							else if (name.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
+							{
+								context.Response.ContentType = value;
+							}
 						}
 						else
 						{
