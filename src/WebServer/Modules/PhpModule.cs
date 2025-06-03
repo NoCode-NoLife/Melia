@@ -225,7 +225,7 @@ namespace Melia.Web.Modules
 								context.Response.Headers[name] = value;
 
 							// Set certain response properties based on header values
-							if (name == "Status")
+							if (name.Equals("Status", StringComparison.OrdinalIgnoreCase))
 							{
 								index = value.IndexOf(' ');
 
