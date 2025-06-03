@@ -59,8 +59,8 @@ namespace Melia.Web
 			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDependencies();
 
-			this.StartCommunicator();
 			this.StartWebServer();
+			this.StartCommunicator();
 
 			ConsoleUtil.RunningTitle();
 
