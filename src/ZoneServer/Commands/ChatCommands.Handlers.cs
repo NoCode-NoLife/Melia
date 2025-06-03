@@ -1092,7 +1092,7 @@ namespace Melia.Zone.Commands
 				}
 				else if (droppers.Length == 0)
 				{
-					whoDropsEntry.Append(Localization.Get("This item is not dropped by any monsters"));
+					whoDropsEntry.Append(Localization.Get("This item is not dropped by any monsters."));
 				}
 				else
 				{
