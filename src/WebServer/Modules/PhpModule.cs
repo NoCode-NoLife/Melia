@@ -117,13 +117,12 @@ namespace Melia.Web.Modules
 				requestBody = ms.ToArray();
 			}
 
-			//string requestBody;
-			//using (var sr = new StreamReader(context.Request.InputStream))
-			//	requestBody = sr.ReadToEnd();
-
 			// Get paths for PHP
-			var scriptFileName = Path.GetFileName(scriptFilePath);
-			var scriptFolderPath = Path.GetDirectoryName(scriptFilePath);
+			documentRootPath = SanitizePath(documentRootPath);
+			scriptFilePath = SanitizePath(scriptFilePath);
+			var scriptNamePath = scriptFilePath.Replace(documentRootPath, "");
+			var tempPath = SanitizePath(Path.GetTempPath());
+			var systemRootPath = SanitizePath(Environment.GetEnvironmentVariable("SystemRoot") ?? string.Empty);
 
 			// Execute PHP
 			using (var process = new Process())
@@ -143,13 +142,14 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("GATEWAY_INTERFACE", "CGI/1.1");
 				process.StartInfo.EnvironmentVariables.Add("SERVER_PROTOCOL", "HTTP/1.1");
 				process.StartInfo.EnvironmentVariables.Add("REDIRECT_STATUS", "200");
-				process.StartInfo.EnvironmentVariables.Add("DOCUMENT_ROOT", SanitizePath(documentRootPath));
-				process.StartInfo.EnvironmentVariables.Add("SCRIPT_NAME", SanitizePath(context.RequestedPath));
-				process.StartInfo.EnvironmentVariables.Add("SCRIPT_FILENAME", SanitizePath(scriptFilePath));
+				process.StartInfo.EnvironmentVariables.Add("DOCUMENT_ROOT", documentRootPath);
+				process.StartInfo.EnvironmentVariables.Add("SCRIPT_NAME", scriptNamePath);
+				process.StartInfo.EnvironmentVariables.Add("SCRIPT_FILENAME", scriptFilePath);
 				process.StartInfo.EnvironmentVariables.Add("QUERY_STRING", queryString);
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_LENGTH", requestBody.Length.ToString());
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_TYPE", context.Request.ContentType);
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_METHOD", context.Request.HttpMethod);
+				process.StartInfo.EnvironmentVariables.Add("REQUEST_SCHEME", context.Request.IsSecureConnection ? "https" : "http");
 				process.StartInfo.EnvironmentVariables.Add("USER_AGENT", context.Request.UserAgent);
 				process.StartInfo.EnvironmentVariables.Add("SERVER_NAME", GetServerName(context));
 				process.StartInfo.EnvironmentVariables.Add("SERVER_ADDR", context.LocalEndPoint.Address.ToString());
@@ -157,7 +157,7 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("REMOTE_ADDR", context.Request.RemoteEndPoint.Address.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REMOTE_PORT", context.Request.RemoteEndPoint.Port.ToString());
 				process.StartInfo.EnvironmentVariables.Add("REFERER", context.Request.UrlReferrer?.ToString() ?? "");
-				process.StartInfo.EnvironmentVariables.Add("REQUEST_URI", context.RequestedPath);
+				process.StartInfo.EnvironmentVariables.Add("REQUEST_URI", context.Request.RawUrl);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_COOKIE", context.Request.Headers["Cookie"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT", context.Request.Headers["Accept"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_CHARSET", context.Request.Headers["Accept-Charset"]);
@@ -165,8 +165,8 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("HTTP_ACCEPT_LANGUAGE", context.Request.Headers["Accept-Language"]);
 				process.StartInfo.EnvironmentVariables.Add("HTTP_HOST", context.Request.Headers["Host"]);
 				process.StartInfo.EnvironmentVariables.Add("SERVER_SOFTWARE", this.GetServerSoftware());
-				process.StartInfo.EnvironmentVariables.Add("TMPDIR", SanitizePath(Path.GetTempPath()));
-				process.StartInfo.EnvironmentVariables.Add("TEMP", SanitizePath(Path.GetTempPath()));
+				process.StartInfo.EnvironmentVariables.Add("TMPDIR", tempPath);
+				process.StartInfo.EnvironmentVariables.Add("TEMP", tempPath);
 
 				// A note on SCRIPT_NAME: While this is usually the absolute path
 				// to the script, relative to the document root, which is also
@@ -179,7 +179,7 @@ namespace Melia.Web.Modules
 				// is missing. Why does it need this? Who knows!
 				// TIL: You also need it to establish HTTP connections from PHP,
 				// and for those it needs to not only be set, but also be correct.
-				process.StartInfo.EnvironmentVariables.Add("SystemRoot", Environment.GetEnvironmentVariable("SystemRoot"));
+				process.StartInfo.EnvironmentVariables.Add("SystemRoot", systemRootPath);
 
 				process.Start();
 
