@@ -105,10 +105,6 @@ namespace Melia.Web.Modules
 				return;
 			}
 
-			// Get query string from URL
-			var index = context.Request.RawUrl.IndexOf('?');
-			var queryString = index == -1 ? "" : context.Request.RawUrl.Substring(index + 1);
-
 			// Read body for POST requests
 			byte[] requestBody;
 			using (var ms = new MemoryStream())
@@ -145,7 +141,7 @@ namespace Melia.Web.Modules
 				process.StartInfo.EnvironmentVariables.Add("DOCUMENT_ROOT", documentRootPath);
 				process.StartInfo.EnvironmentVariables.Add("SCRIPT_NAME", scriptNamePath);
 				process.StartInfo.EnvironmentVariables.Add("SCRIPT_FILENAME", scriptFilePath);
-				process.StartInfo.EnvironmentVariables.Add("QUERY_STRING", queryString);
+				process.StartInfo.EnvironmentVariables.Add("QUERY_STRING", context.Request.Url.Query.TrimStart('?'));
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_LENGTH", requestBody.Length.ToString());
 				process.StartInfo.EnvironmentVariables.Add("CONTENT_TYPE", context.Request.ContentType);
 				process.StartInfo.EnvironmentVariables.Add("REQUEST_METHOD", context.Request.HttpMethod);
@@ -211,7 +207,7 @@ namespace Melia.Web.Modules
 							}
 
 							// Transfer headers to context's response
-							index = line.IndexOf(':');
+							var index = line.IndexOf(':');
 							var name = line.Substring(0, index);
 							var value = line.Substring(index + 2);
 
