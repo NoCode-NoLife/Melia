@@ -209,7 +209,14 @@ namespace Melia.Web.Modules
 							var name = line.Substring(0, index);
 							var value = line.Substring(index + 2);
 
-							context.Response.Headers[name] = value;
+							// Since Set-Cookie commonly appears multiple times,
+							// we need to add it to the response headers. Others
+							// we replace, to ensure that PHP has control over
+							// them.
+							if (name.Equals("Set-Cookie", StringComparison.OrdinalIgnoreCase))
+								context.Response.Headers.Add(name, value);
+							else
+								context.Response.Headers[name] = value;
 
 							// Set certain response properties based on header values
 							if (name == "Status")
