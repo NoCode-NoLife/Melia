@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using EmbedIO;
@@ -132,6 +133,8 @@ namespace Melia.Web.Modules
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.RedirectStandardInput = true;
 				process.StartInfo.RedirectStandardError = true;
+				process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+				process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
 				process.StartInfo.CreateNoWindow = true;
 
 				// Clear default environment variables for security and consistency
