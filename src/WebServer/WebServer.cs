@@ -72,7 +72,14 @@ namespace Melia.Web
 		/// </summary>
 		private void CheckDependencies()
 		{
-			var phpFilePath = this.Conf.Web.PhpCgiFilePath;
+			var phpProcessor = this.Conf.Web.CgiProcessors.Find(p => p.Name == "PHP");
+			if (phpProcessor == null)
+			{
+				Log.Warning("No PHP CGI processor configured, the web server will not be able to handle PHP scripts.");
+				return;
+			}
+
+			var phpFilePath = phpProcessor.Path;
 			var phpFolderPath = Path.GetDirectoryName(phpFilePath);
 
 			// If the binary exists we got all we need
@@ -303,13 +310,6 @@ namespace Melia.Web
 
 				_server = new EmbedIO.WebServer(url);
 
-				// The PHP module handles all requests to PHP scripts,
-				// including defaulting to index.php and prioritizing
-				// the user folder. Should this fail, we'll try static
-				// requests to user and system.
-				// TODO: Look into handling PHP scripts from a FileModule,
-				//   adding a pre-processor.
-
 				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
 				_server.WithWebApi("/api/info/", m => m.WithController<InfoController>());
 				_server.WithWebApi("/api/account/", m => m.WithController<AccountController>());
@@ -317,7 +317,14 @@ namespace Melia.Web
 				_server.WithModule(new AuthModule("/api/admin/"));
 				_server.WithWebApi("/api/admin/", m => m.WithController<AdminController>());
 
-				_server.WithModule(new PhpModule("/"));
+				// The CGI module handles all requests to the scripts, including
+				// defaulting to index.* and prioritizing the user folder. Should
+				// this fail, we'll try static requests to user and system.
+				// TODO: Look into handling CGI scripts from a FileModule,
+				//   adding a pre-processor.
+
+				foreach (var processor in this.Conf.Web.CgiProcessors)
+					_server.WithModule(new CgiProcessorModule("/", processor.Name, processor.Path, processor.FileExtensions));
 
 				if (Directory.Exists("user/web/"))
 				{

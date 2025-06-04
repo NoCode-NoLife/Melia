@@ -105,7 +105,13 @@ namespace Melia.Web.Modules
 			// Execute processor
 			using (var process = new Process())
 			{
+				// The way processors handle script files can vary, like PHP-CGI
+				// getting the script file to execute from the environment variables,
+				// but passing the script file as the first argument should work
+				// pretty much universally. If not, we'll have to adapt.
+
 				process.StartInfo.FileName = this.ProcessorPath;
+				process.StartInfo.Arguments = scriptFilePath;
 				process.StartInfo.UseShellExecute = false;
 				process.StartInfo.RedirectStandardOutput = true;
 				process.StartInfo.RedirectStandardInput = true;
