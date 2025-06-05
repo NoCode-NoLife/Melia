@@ -87,14 +87,14 @@ See the web API documentation for more information.
 Dynamic Custom Content
 -----------------------------------------------------------------------------
 
-Aside from static content, the web server also supports PHP scripting
-for server-side content generation and code execution. While no longer
-the trendiest of languages, we decided to go this route for maximum
-portability and ease of use, as you will be able to move all scripts
-made for our web server to any other server that supports PHP, and
-vice-versa.
+Aside from static content, the web server also supports scripting via CGI
+for server-side content generation and code execution, with the primary
+language of choice for us being PHP. While no longer the trendiest of
+options, we decided to go this route for maximum portability and ease
+of use, as you will be able to move all scripts made for our web server
+to any other server that supports PHP, and vice-versa.
 
-### Setup
+### PHP Setup
 
 All that is needed for PHP to be used is for it to be installed and
 configured, which the web server does automatically if it's running
@@ -106,18 +106,19 @@ on launch.
 
 For other operating systems, such as Linux, you need to install PHP
 yourself, although it often comes pre-installed--especially on web-
-oriented hosting providers. You then just need to adjust the option
-`php_cgi_bin` in `web.conf` to point towards your installation.
+oriented hosting providers. You then only need to adjust the option
+`cgi_processor_php` in `web.conf` to point the CGI processor towards
+your installation.
 
 For example:
 ```text
-php_cgi_bin: /usr/bin/php
+cgi_processor_php: PHP; .php; /usr/bin/php
 ```
 
 You can also specify your own PHP installation on Windows if so
 desired.
 
-### Usage
+### PHP Usage
 
 As with static content, PHP files are simply placed into the web
 folder and can then be accessed via a browser. The server recognizes
@@ -129,3 +130,26 @@ It's our goal for the PHP support to be on-par with other web servers,
 so that any script will run anywhere, regardless of the environment.
 Should you encounter any problems, such as our web server not running
 a script correctly, please report the issue.
+
+### Other Languages
+
+In addition to PHP, you can use most other scripting languages with
+our web server as well. Simply add a CGI processor for your language
+of choice, specifying the file extensions it should handle and the
+path to the executable.
+
+For example, if you wanted to write web pages in Python, that line
+might look something like this:
+```text
+cgi_processor_python: Python; .py; C:/Python/python.exe
+```
+
+If you then open a URL such as `http://127.0.0.1/test.py`, the server
+will launch `python.exe` with the path to the `test.py` file as the
+first argument, and whatever that script outputs goes directly to
+the browser. 
+
+For more information about CGI and how it might liven up your existence,
+please refer to the riveting world of technical specifications.
+
+https://datatracker.ietf.org/doc/html/rfc3875
