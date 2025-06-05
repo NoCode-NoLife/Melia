@@ -54,6 +54,7 @@ namespace Melia.Shared.Game.Const
 		Keraunos = 2024,
 		Illusionist = 2025,
 		VultureW = 2026,
+		BonemancerW = 2027,
 
 		// Archer
 		Archer = 3001,

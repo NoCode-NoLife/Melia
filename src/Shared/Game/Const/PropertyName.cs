@@ -9777,6 +9777,50 @@
 		public const string event_2502_30 = "event_2502_30";
 		public const string event_2502_26 = "event_2502_26";
 		public const string event_2502_32 = "event_2502_32";
+		public const string UnlockQuest_Char2_27 = "UnlockQuest_Char2_27";
+		public const string GEM_Bonemancer_BoneFist_Wizard_cabinet = "GEM_Bonemancer_BoneFist_Wizard_cabinet";
+		public const string GEM_Bonemancer_BoneStorm_Wizard_cabinet = "GEM_Bonemancer_BoneStorm_Wizard_cabinet";
+		public const string GEM_Bonemancer_BoneReaper_Wizard_cabinet = "GEM_Bonemancer_BoneReaper_Wizard_cabinet";
+		public const string GEM_Bonemancer_BoneReinforcement_Wizard_cabinet = "GEM_Bonemancer_BoneReinforcement_Wizard_cabinet";
+		public const string GEM_Bonemancer_BoneShield_Wizard_cabinet = "GEM_Bonemancer_BoneShield_Wizard_cabinet";
+		public const string GEM_Bonemancer_BoneWhip_Wizard_cabinet = "GEM_Bonemancer_BoneWhip_Wizard_cabinet";
+		public const string event_shop_shared_22 = "event_shop_shared_22";
+		public const string EVENT_2506_SUMMER_TOTAL_COIN_CNT = "EVENT_2506_SUMMER_TOTAL_COIN_CNT";
+		public const string event_shop_shared_30 = "event_shop_shared_30";
+		public const string event_shop_shared_23 = "event_shop_shared_23";
+		public const string event_shop_shared_20 = "event_shop_shared_20";
+		public const string event_shop_shared_16 = "event_shop_shared_16";
+		public const string event_shop_shared_31 = "event_shop_shared_31";
+		public const string event_shop_shared_3 = "event_shop_shared_3";
+		public const string event_shop_shared_10 = "event_shop_shared_10";
+		public const string event_shop_shared_19 = "event_shop_shared_19";
+		public const string event_shop_shared_7 = "event_shop_shared_7";
+		public const string event_shop_shared_9 = "event_shop_shared_9";
+		public const string event_shop_shared_18 = "event_shop_shared_18";
+		public const string event_shop_shared_17 = "event_shop_shared_17";
+		public const string event_shop_shared_4 = "event_shop_shared_4";
+		public const string event_shop_shared_12 = "event_shop_shared_12";
+		public const string event_shop_shared_8 = "event_shop_shared_8";
+		public const string event_shop_shared_14 = "event_shop_shared_14";
+		public const string event_shop_shared_24 = "event_shop_shared_24";
+		public const string event_shop_shared_21 = "event_shop_shared_21";
+		public const string event_shop_shared_13 = "event_shop_shared_13";
+		public const string event_shop_shared_2 = "event_shop_shared_2";
+		public const string event_shop_shared_5 = "event_shop_shared_5";
+		public const string EVENT_2506_SUMMER_WEEK_COIN_CNT = "EVENT_2506_SUMMER_WEEK_COIN_CNT";
+		public const string event_shop_shared_1 = "event_shop_shared_1";
+		public const string event_shop_shared_15 = "event_shop_shared_15";
+		public const string event_shop_shared_25 = "event_shop_shared_25";
+		public const string event_shop_shared_35 = "event_shop_shared_35";
+		public const string event_shop_shared_29 = "event_shop_shared_29";
+		public const string event_shop_shared_6 = "event_shop_shared_6";
+		public const string event_shop_shared_26 = "event_shop_shared_26";
+		public const string event_shop_shared_11 = "event_shop_shared_11";
+		public const string event_shop_shared_32 = "event_shop_shared_32";
+		public const string event_shop_shared_27 = "event_shop_shared_27";
+		public const string event_shop_shared_34 = "event_shop_shared_34";
+		public const string event_shop_shared_28 = "event_shop_shared_28";
+		public const string event_shop_shared_33 = "event_shop_shared_33";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -20914,6 +20958,7 @@
 		public const string HiddenJob_Char3_27 = "HiddenJob_Char3_27";
 		public const string Pose_KawaikuteGomen = "Pose_KawaikuteGomen";
 		public const string HiddenJob_Char5_21 = "HiddenJob_Char5_21";
+		public const string HiddenJob_Char2_27 = "HiddenJob_Char2_27";
 
 		// SessionObject
 		public const string PosX = "PosX";

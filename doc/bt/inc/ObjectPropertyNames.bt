@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i396190
+//   Version: i396313
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30420,6 +30420,51 @@ string getPropertyName(int id)
         case 116193: return "event_2502_30";
         case 116194: return "event_2502_26";
         case 116195: return "event_2502_32";
+        case 116196: return "HiddenJob_Char2_27";
+        case 116197: return "UnlockQuest_Char2_27";
+        case 116198: return "GEM_Bonemancer_BoneFist_Wizard_cabinet";
+        case 116199: return "GEM_Bonemancer_BoneStorm_Wizard_cabinet";
+        case 116200: return "GEM_Bonemancer_BoneReaper_Wizard_cabinet";
+        case 116201: return "GEM_Bonemancer_BoneReinforcement_Wizard_cabinet";
+        case 116202: return "GEM_Bonemancer_BoneShield_Wizard_cabinet";
+        case 116203: return "GEM_Bonemancer_BoneWhip_Wizard_cabinet";
+        case 116204: return "event_shop_shared_22";
+        case 116205: return "EVENT_2506_SUMMER_TOTAL_COIN_CNT";
+        case 116206: return "event_shop_shared_30";
+        case 116207: return "event_shop_shared_23";
+        case 116208: return "event_shop_shared_20";
+        case 116209: return "event_shop_shared_16";
+        case 116210: return "event_shop_shared_31";
+        case 116211: return "event_shop_shared_3";
+        case 116212: return "event_shop_shared_10";
+        case 116213: return "event_shop_shared_19";
+        case 116214: return "event_shop_shared_7";
+        case 116215: return "event_shop_shared_9";
+        case 116216: return "event_shop_shared_18";
+        case 116217: return "event_shop_shared_17";
+        case 116218: return "event_shop_shared_4";
+        case 116219: return "event_shop_shared_12";
+        case 116220: return "event_shop_shared_8";
+        case 116221: return "event_shop_shared_14";
+        case 116222: return "event_shop_shared_24";
+        case 116223: return "event_shop_shared_21";
+        case 116224: return "event_shop_shared_13";
+        case 116225: return "event_shop_shared_2";
+        case 116226: return "event_shop_shared_5";
+        case 116227: return "EVENT_2506_SUMMER_WEEK_COIN_CNT";
+        case 116228: return "event_shop_shared_1";
+        case 116229: return "event_shop_shared_15";
+        case 116230: return "event_shop_shared_25";
+        case 116231: return "event_shop_shared_35";
+        case 116232: return "event_shop_shared_29";
+        case 116233: return "event_shop_shared_6";
+        case 116234: return "event_shop_shared_26";
+        case 116235: return "event_shop_shared_11";
+        case 116236: return "event_shop_shared_32";
+        case 116237: return "event_shop_shared_27";
+        case 116238: return "event_shop_shared_34";
+        case 116239: return "event_shop_shared_28";
+        case 116240: return "event_shop_shared_33";
         default: return "Unknown";
     }
 }

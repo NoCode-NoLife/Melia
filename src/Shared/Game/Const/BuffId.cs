@@ -2879,6 +2879,7 @@ namespace Melia.Shared.Game.Const
 		Premium_Valentine_5 = 7818,
 		Event_2502_BUFF_ITEM = 7819,
 		sticky_wild_honey = 7820,
+		Event_2506_BUFF_ITEM = 7821,
 		Ability_buff_Avoidance = 8001,
 		Ability_buff_Explosion = 8002,
 		Ability_buff_Debuff_Immune = 8003,

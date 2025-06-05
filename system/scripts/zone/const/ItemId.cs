@@ -4210,6 +4210,7 @@ public static class ItemId
 	public const int Costume_Char5_21 = 11108026;
 	public const int Hat_Blitzhunter_M = 11108027;
 	public const int Hat_Blitzhunter_F = 11108028;
+	public const int Costume_Char2_27 = 11108030;
 	public const int SHD02_101_16 = 11109009;
 	public const int SHD02_102_16 = 11109010;
 	public const int SHD02_103_16 = 11109011;
@@ -9899,6 +9900,7 @@ public static class ItemId
 	public const int God_Potion_BOX_NoTrade = 640532;
 	public const int ElixerHPSP_BOX_NoTrade = 640533;
 	public const int EVENT_2502_SPRING_ITEM = 640548;
+	public const int EVENT_2506_SUMMBER_ITEM = 640550;
 	public const int PREMIUM_CHALLENG_PORTAL_Daily = 641986;
 	public const int Transcend_Scroll_Event_90d = 643023;
 	public const int Transcend_Scroll_5_Event = 643027;
@@ -11626,6 +11628,12 @@ public static class ItemId
 	public const int GEM_BlitzHunter_Lightningrod_Scout = 744990;
 	public const int GEM_BlitzHunter_ElectricSurge_Scout = 744991;
 	public const int GEM_BlitzHunter_Blitzkrieg_Scout = 744992;
+	public const int GEM_Bonemancer_BoneFist_Wizard = 744993;
+	public const int GEM_Bonemancer_BoneReaper_Wizard = 744994;
+	public const int GEM_Bonemancer_BoneWhip_Wizard = 744995;
+	public const int GEM_Bonemancer_BoneShield_Wizard = 744996;
+	public const int GEM_Bonemancer_BoneStorm_Wizard = 744997;
+	public const int GEM_Bonemancer_BoneReinforcement_Wizard = 744998;
 
 	// Gem_High_Color
 	//-----------------------------------------------------------------------
@@ -15489,6 +15497,8 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char5_21 = 494462;
 	public const int HiddenJobUnlock_Char5_21_NoTrade = 494463;
 	public const int EmoticonItem_2503_Popo = 494464;
+	public const int HiddenJobUnlock_Char2_27 = 494465;
+	public const int HiddenJobUnlock_Char2_27_NoTrade = 494466;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -16983,6 +16993,8 @@ public static class ItemId
 	public const int Premium_AbillityArts_Char3_27_1d = 2021256;
 	public const int Premium_AbillityArts_Char5_21 = 2021257;
 	public const int Premium_AbillityArts_Char5_21_1d = 2021258;
+	public const int Premium_AbillityArts_Char2_27 = 2021259;
+	public const int Premium_AbillityArts_Char2_27_1d = 2021260;
 	public const int GLOBAL_Steam_Lucky_Shard_Package = 2500000;
 	public const int GLOBAL_Steam_Feeling_Lucky_Package = 2500001;
 	public const int GLOBAL_Steam_Lucky_Sub_Box = 2500002;
@@ -19467,6 +19479,12 @@ public static class ItemId
 	public const int Event_2504_ARBOR_DAY_BOX4 = 11200417;
 	public const int Event_2504_ARBOR_DAY_BOX5 = 11200418;
 	public const int Event_2504_ARBOR_DAY_BOX6 = 11200419;
+	public const int Event_2504_ARBOR_DAY_BOX1_Papaya = 11200426;
+	public const int Event_2504_ARBOR_DAY_BOX2_Papaya = 11200427;
+	public const int Event_2504_ARBOR_DAY_BOX3_Papaya = 11200428;
+	public const int Event_2504_ARBOR_DAY_BOX4_Papaya = 11200429;
+	public const int Event_2504_ARBOR_DAY_BOX5_Papaya = 11200430;
+	public const int Event_2504_ARBOR_DAY_BOX6_Papaya = 11200431;
 	public const int Multiple_Token_TurbulentCore_Party = 11201009;
 	public const int Multiple_Token_TurbulentCore_Party_NoTrade = 11201010;
 	public const int Misc_Reinforce_PercentUp_500_NoTrade_11ea_Recycle = 11201070;
@@ -19884,6 +19902,10 @@ public static class ItemId
 	public const int I202505_Spring_Package02 = 11205414;
 	public const int I202505_Spring_Package03 = 11205415;
 	public const int I202505_Spring_Allinone_Package = 11205416;
+	public const int Leticia_BonemancerW_Unlockbox = 11205421;
+	public const int Special_Gift_Box_Leticia_2505_Papaya1 = 11205422;
+	public const int Special_Gift_Box_Leticia_2506 = 11205423;
+	public const int Special_Gift_Box_BlessedCube_2506_Papaya = 11205427;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

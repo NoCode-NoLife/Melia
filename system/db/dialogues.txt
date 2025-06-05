@@ -18714,6 +18714,8 @@
 { classId: 5651636, className: "W_NEWYEAR_2502_DLG_GUIDE" },
 { classId: 5651637, className: "W_2YEAR_DLG_INTRO" },
 { classId: 5651638, className: "W_2YEAR_DLG_GUIDE" },
+{ classId: 5651639, className: "W_2506_SUMMER_DLG_INTRO" },
+{ classId: 5651640, className: "W_2506_SUMMER_DLG_GUID" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },
