@@ -6,6 +6,7 @@
 // 001.lua: Removes the array of buttons around the minimap.
 // 002.lua: Turns off miscellaneous elements, such as the FPS counter.
 // 003.lua: Disables functions, such as obsolete skill usage UI prompts.
+// 004.lua: Removes certain unrelated information from the stats window.
 //---------------------------------------------------------------------------
 
 using Melia.Zone.Scripting;
@@ -27,6 +28,7 @@ public class UnclutterClientScript : ClientScript
 
 		this.SendLuaScript(character, "001.lua");
 		this.SendLuaScript(character, "003.lua");
+		this.SendLuaScript(character, "004.lua");
 
 		if (vars.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
 			this.SendLuaScript(character, "002.lua");
