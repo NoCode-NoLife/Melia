@@ -41,6 +41,15 @@ public class CharacterInitializationScript : GeneralScript
 		props.SetFloat("UnlockQuest_Char5_19", 1); // Desperado
 		props.SetFloat("UnlockQuest_Char2_26", 1); // Vulture [W]
 		props.SetFloat("UnlockQuest_Char3_25", 1); // Vulture [A]
+		props.SetFloat("UnlockQuest_Char5_20", 1); // Vulture [T]
+		props.SetFloat("UnlockQuest_Char1_27", 1); // Sledger [S]
+		props.SetFloat("UnlockQuest_Char4_24", 1); // Sledger [C]
+		props.SetFloat("UnlockQuest_Char1_28", 1); // Bonemancer [S]
+		props.SetFloat("UnlockQuest_Char2_27", 1); // Bonemancer [W]
+		props.SetFloat("UnlockQuest_Char3_26", 1); // Bonemancer [A]
+		props.SetFloat("UnlockQuest_Char4_25", 1); // Bonemancer [C]
+		props.SetFloat("UnlockQuest_Char3_27", 1); // Blitz Hunter [A]
+		props.SetFloat("UnlockQuest_Char5_21", 1); // Blitz Hunter [T]
 	}
 
 	private static void InitCharacter(Character character)
