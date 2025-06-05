@@ -182,6 +182,13 @@ namespace Melia.Zone.Scripting
 			=> this.Data.Description = description;
 
 		/// <summary>
+		/// Sets the quest's type.
+		/// </summary>
+		/// <param name="type"></param>
+		protected void SetType(QuestType type)
+			=> this.Data.Type = type;
+
+		/// <summary>
 		/// Sets how the quest handles objective unlocking.
 		/// </summary>
 		/// <param name="unlockType"></param>

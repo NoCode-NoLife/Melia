@@ -20,8 +20,6 @@ Melia.Override("QUEST_TAB_CHANGE", function(original, frame, argStr, argNum)
 end)
 
 Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr, argNum)
-	-- TODO: Filter
-
 	AUTO_CAST(control)
 
 	if control:GetName() == "mode_all_check" then
@@ -37,4 +35,7 @@ Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr,
 	end
 
 	UPDATE_QUEST_FILTER_ALLCHECK()
+	SET_QUEST_MODE_OPTION(GET_QUEST_FILTER_OPTION_LIST())
+
+	M_QUESTS_UPDATE_LIST()
 end)
