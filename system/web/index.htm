@@ -1,1 +1,72 @@
-Melia Web Server
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Melia</title>
+
+	<style>
+		@import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
+		@import url('https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=Roboto:wght@400;700&display=swap');
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			height: 100%;
+		}
+
+		body {
+			font-size: 16px;
+			background: #0e1a1e;
+			color: #fff;
+		}
+
+		#main {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			padding: 20px;
+			width: 320px;
+			height: 100%;
+			margin: 0 auto;
+		}
+
+		h1, h2 {
+			margin: 0;
+			font-weight: normal;
+		}
+
+		h1 {
+			font-family: 'Fleur De Leah', cursive;
+			font-size: 7rem;
+			animation: pulse-shadow 4s ease-in-out infinite;
+		}
+
+		h2 {
+			margin-top: -30px;
+			font-family: 'Roboto', sans-serif;
+			font-size: 1.5rem;
+			text-align: right;
+			opacity: 0.6;
+		}
+
+		@keyframes pulse-shadow {
+			0%, 100% {
+				text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+			}
+			50% {
+				text-shadow: 0 0 30px rgba(255, 255, 255, 0.7);
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<h1>Melia</h1>
+		<h2>Web Server</h2>
+	</div>
+</body>
+</html>
