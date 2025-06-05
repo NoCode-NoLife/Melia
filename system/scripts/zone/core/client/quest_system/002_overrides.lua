@@ -35,4 +35,6 @@ Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr,
 			end
 		end
 	end
+
+	UPDATE_QUEST_FILTER_ALLCHECK()
 end)
