@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
@@ -9,6 +10,7 @@ using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -17,6 +19,24 @@ namespace Melia.Zone.Skills
 	public class Skill : IPropertyObject, IUpdateable
 	{
 		private static long ObjectIds = ObjectIdRanges.Skills;
+
+		private readonly object _ctsLock = new();
+		private CancellationTokenSource _cts;
+
+		/// <summary>
+		/// Returns a reference to the cancellation token associated with
+		/// the latest usage of the skill.
+		/// </summary>
+		/// <remarks>
+		/// Every time the skill is used, a new cancellation token is
+		/// created, which can used to check for cancellation requests
+		/// during that usage.
+		///
+		/// If the skill is cast again while a previously started task
+		/// still holds onto an old token, that token will be cancelled,
+		/// while the token returned by the skill will be a new one.
+		/// </remarks>
+		public CancellationToken CancellationToken => _cts?.Token ?? CancellationToken.None;
 
 		/// <summary>
 		/// The skill's unique id.
@@ -327,6 +347,108 @@ namespace Melia.Zone.Skills
 			//Debug.ShowShape(this.Owner.Map, splashArea);
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Prepares the skill for the possibility of cancelling it and
+		/// its effects.
+		/// </summary>
+		/// <remarks>
+		/// Creates a new cancellation token source that will be used for
+		/// running tasks related to the skill using Run/RunFree. This
+		/// source's token will be checked against when determining
+		/// whether the skill should be cancelled or not, which can be
+		/// done by calling Cancel.
+		/// </remarks>
+		public void PrepareCancellation()
+		{
+			lock (_ctsLock)
+			{
+				if (_cts != null)
+					this.Cancel();
+
+				_cts = new();
+			}
+		}
+
+		/// <summary>
+		/// Cancels the skill and its ongoing effects.
+		/// </summary>
+		/// <remarks>
+		/// Cancels the token source associated with the skill, cancelling
+		/// any non-free tasks that are currently running.
+		/// </remarks>
+		public void Cancel()
+		{
+			lock (_ctsLock)
+			{
+				if (_cts != null)
+				{
+					_cts.Cancel();
+					_cts.Dispose();
+					_cts = null;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Runs the given task in a thread-safe manner.
+		/// </summary>
+		/// <remarks>
+		/// Runs the task in association with the skill's current
+		/// cancellation token, cancelling the task if the token is
+		/// cancelled, effectively stopping the skill execution.
+		///
+		/// Note that only tasks started with this method, or which
+		/// are manually given the skill's cancellation token, will
+		/// be terminated on cancelling the skill. Tasks that aren't
+		/// associated with the skill's token, such as freeform
+		/// Task.Delay calls, will be unaffected.
+		/// </remarks>
+		/// <param name="task"></param>
+		public void Run(Task task)
+			=> this.RunFree(task.WaitAsync(_cts.Token));
+
+		/// <summary>
+		/// Runs the given task in a thread-safe manner.
+		/// </summary>
+		/// <remarks>
+		/// Runs the task without associating it with the skill's current
+		/// cancellation token, allowing it to keep running freely, even
+		/// if the skill is cancelled. For manual cancellation checks, the
+		/// skill's CancellationToken can be used, which should be saved
+		/// immediately after invoking the task if necessary.
+		///
+		/// Note that the task will only keep running if tasks don't check
+		/// against the skill's cancellation token. A free task that uses
+		/// the skill's Wait method will be cancelled just like a non-free
+		/// running task. For this reason, free tasks should use other
+		/// tasks to delay execution, such as Task.Delay.
+		/// </remarks>
+		/// <param name="task"></param>
+		public void RunFree(Task task)
+		{
+			task.ContinueWith(t =>
+			{
+				if (t.Exception != null)
+					Log.Error("An exception occured while running '{0}' for '{1}': {2}", this.Id, this.Owner.Name, t.Exception);
+			});
+		}
+
+		/// <summary>
+		/// Returns a task that waits for the given amount of time.
+		/// </summary>
+		/// <remarks>
+		/// Uses Task.Delay with the skill's current cancellation token to
+		/// cancel if the skill is cancelled. For ease of use, this method
+		/// should be used in non-free tasks associated with the skill.
+		/// </remarks>
+		/// <param name="time"></param>
+		/// <returns></returns>
+		public async Task Wait(TimeSpan time)
+		{
+			if (time > TimeSpan.Zero)
+				await Task.Delay(time, _cts.Token);
 		}
 	}
 }

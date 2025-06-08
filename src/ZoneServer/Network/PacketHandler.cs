@@ -1290,6 +1290,8 @@ namespace Melia.Zone.Network
 				if (skill.Id != SkillId.Ranger_Strafe)
 					character.TurnTowards(direction);
 
+				skill.PrepareCancellation();
+
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
