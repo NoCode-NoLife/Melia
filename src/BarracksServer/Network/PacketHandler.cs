@@ -153,7 +153,7 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_START_BARRACK)]
 		public void CB_START_BARRACK(IBarracksConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte();
+			var origin = packet.GetByte();
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_IES_MODIFY_LIST(conn);
