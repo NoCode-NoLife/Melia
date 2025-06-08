@@ -30,7 +30,6 @@ frame:SetSkinName("test_frame_low")
 frame:ShowTitleBar(0)
 frame:RemoveAllChild()
 frame:Resize(500, 400)
-frame:Move(1920 / 2 - frame:GetWidth() / 2, 1080 / 2 - frame:GetHeight() / 2)
 frame:SetMargin(0, 0, 0, 0)
 ```
 
