@@ -12,7 +12,7 @@ Melia.Util.Serialize = function(obj)
 	local s = "{ "
 
 	for k, v in pairs(obj) do
-		if type(k) ~= "number" then k = '"' .. k .. '"' end
+		if type(k) ~= "number" then k = '"' .. tostring(k) .. '"' end
 		s = s .. "["..k.."] = " .. Melia.Util.Serialize(v) .. ", "
 	end
 
