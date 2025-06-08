@@ -22,6 +22,7 @@ namespace Melia.Zone.Skills
 
 		private readonly object _ctsLock = new();
 		private CancellationTokenSource _cts;
+		private int _runnerCount;
 
 		/// <summary>
 		/// Returns a reference to the cancellation token associated with
@@ -37,6 +38,18 @@ namespace Melia.Zone.Skills
 		/// while the token returned by the skill will be a new one.
 		/// </remarks>
 		public CancellationToken CancellationToken => _cts?.Token ?? CancellationToken.None;
+
+		/// <summary>
+		/// Returns true if any running tasks are associated with the
+		/// skill, having been started using Run.
+		/// </summary>
+		/// <remarks>
+		/// As skills are mostly stateless, whether they're active or not
+		/// depends on whether parts of them are still being executed on
+		/// tasks. Tasks started using Run are kept track of and the skill
+		/// is considered running until they return.
+		/// </remarks>
+		public bool IsRunning => Interlocked.CompareExchange(ref _runnerCount, 0, 0) > 0;
 
 		/// <summary>
 		/// The skill's unique id.
@@ -369,6 +382,8 @@ namespace Melia.Zone.Skills
 
 				_cts = new();
 			}
+
+			Interlocked.Exchange(ref _runnerCount, 0);
 		}
 
 		/// <summary>
@@ -389,6 +404,8 @@ namespace Melia.Zone.Skills
 					_cts = null;
 				}
 			}
+
+			Interlocked.Exchange(ref _runnerCount, 0);
 		}
 
 		/// <summary>
@@ -399,15 +416,30 @@ namespace Melia.Zone.Skills
 		/// cancellation token, cancelling the task if the token is
 		/// cancelled, effectively stopping the skill execution.
 		///
-		/// Note that only tasks started with this method, or which
-		/// are manually given the skill's cancellation token, will
-		/// be terminated on cancelling the skill. Tasks that aren't
-		/// associated with the skill's token, such as freeform
-		/// Task.Delay calls, will be unaffected.
+		/// Note that only tasks started with this method, or which are
+		/// manually given the skill's cancellation token, will be
+		/// terminated on cancelling the skill. Tasks that aren't
+		/// associated with the skill's token, such as freeform Task.Delay
+		/// calls, will be unaffected.
+		///
+		/// In addition to being cancellable, tasks using this method are
+		/// also tracked to determine whether a skill is active, with the
+		/// idea being that a skill is active as long as its directly
+		/// associated tasks have not yet returned.
 		/// </remarks>
 		/// <param name="task"></param>
 		public void Run(Task task)
-			=> this.RunFree(task.WaitAsync(_cts.Token));
+		{
+			Interlocked.Increment(ref _runnerCount);
+
+			task.WaitAsync(_cts.Token).ContinueWith(t =>
+			{
+				Interlocked.Decrement(ref _runnerCount);
+
+				if (t.Exception != null)
+					Log.Error("An exception occured while running '{0}' for '{1}': {2}", this.Id, this.Owner.Name, t.Exception);
+			});
+		}
 
 		/// <summary>
 		/// Runs the given task in a thread-safe manner.
