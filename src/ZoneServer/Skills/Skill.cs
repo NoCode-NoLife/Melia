@@ -472,15 +472,22 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		/// <remarks>
 		/// Uses Task.Delay with the skill's current cancellation token to
-		/// cancel if the skill is cancelled. For ease of use, this method
-		/// should be used in non-free tasks associated with the skill.
+		/// stop execution if the skill gets cancelled. If the skill's
+		/// cancellation should not matter to the waiting task, either
+		/// pass cancellable as false or use Task.Delay directly.
 		/// </remarks>
-		/// <param name="time"></param>
+		/// <param name="time">Time to wait before returning.</param>
+		/// <param name="cancellable">
+		/// If true, the waiting task will be cancelled with the skill.
+		/// </param>
 		/// <returns></returns>
-		public async Task Wait(TimeSpan time)
+		public async Task Wait(TimeSpan time, bool cancellable = true)
 		{
-			if (time > TimeSpan.Zero)
-				await Task.Delay(time, _cts.Token);
+			if (time <= TimeSpan.Zero)
+				return;
+
+			var token = cancellable ? _cts.Token : CancellationToken.None;
+			await Task.Delay(time, token);
 		}
 	}
 }
