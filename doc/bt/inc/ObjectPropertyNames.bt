@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i396313
+//   Version: i396449
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30465,6 +30465,61 @@ string getPropertyName(int id)
         case 116238: return "event_shop_shared_34";
         case 116239: return "event_shop_shared_28";
         case 116240: return "event_shop_shared_33";
+        case 116241: return "EVENT_2506_VALENTAIN_5";
+        case 116242: return "EVENT_2506_VALENTAIN_25";
+        case 116243: return "TeamBattleLeagueShop_12";
+        case 116244: return "TeamBattleLeagueShop_6";
+        case 116245: return "EVENT_2506_VALENTAIN_23";
+        case 116246: return "TeamBattleLeagueShop_8";
+        case 116247: return "EVENT_2506_VALENTAIN_31";
+        case 116248: return "TeamBattleLeagueShop_4";
+        case 116249: return "TeamBattleLeagueShop_17";
+        case 116250: return "EVENT_2506_VALENTAIN_3";
+        case 116251: return "EVENT_2506_VALENTAIN_19";
+        case 116252: return "EVENT_2506_VALENTAIN_0";
+        case 116253: return "EVENT_2506_VALENTAIN_26";
+        case 116254: return "TeamBattleLeagueShop_22";
+        case 116255: return "TeamBattleLeagueShop_18";
+        case 116256: return "TeamBattleLeagueShop_16";
+        case 116257: return "TeamBattleLeagueShop_7";
+        case 116258: return "EVENT_2506_VALENTAIN_1";
+        case 116259: return "EVENT_2506_VALENTAIN_9";
+        case 116260: return "TeamBattleLeagueShop_13";
+        case 116261: return "EVENT_2506_VALENTAIN_2";
+        case 116262: return "EVENT_2506_VALENTAIN_20";
+        case 116263: return "EVENT_2506_VALENTAIN_28";
+        case 116264: return "EVENT_2506_VALENTAIN_4";
+        case 116265: return "EVENT_2506_VALENTAIN_16";
+        case 116266: return "EVENT_2506_VALENTAIN_30";
+        case 116267: return "TeamBattleLeagueShop_15";
+        case 116268: return "TeamBattleLeagueShop_19";
+        case 116269: return "EVENT_2506_VALENTAIN_17";
+        case 116270: return "EVENT_2506_VALENTAIN_7";
+        case 116271: return "EVENT_2506_VALENTAIN_29";
+        case 116272: return "EVENT_2506_VALENTAIN_27";
+        case 116273: return "EVENT_2506_VALENTAIN_6";
+        case 116274: return "EVENT_2506_VALENTAIN_13";
+        case 116275: return "EVENT_2506_VALENTAIN_11";
+        case 116276: return "EVENT_2506_VALENTAIN_32";
+        case 116277: return "EVENT_2506_VALENTAIN_24";
+        case 116278: return "TeamBattleLeagueShop_11";
+        case 116279: return "TeamBattleLeagueShop_14";
+        case 116280: return "TeamBattleLeagueShop_24";
+        case 116281: return "TeamBattleLeagueShop_21";
+        case 116282: return "TeamBattleLeagueShop_10";
+        case 116283: return "TeamBattleLeagueShop_20";
+        case 116284: return "TeamBattleLeagueShop_25";
+        case 116285: return "EVENT_2506_VALENTAIN_22";
+        case 116286: return "EVENT_2506_VALENTAIN_10";
+        case 116287: return "TeamBattleLeagueShop_9";
+        case 116288: return "TeamBattleLeagueShop_23";
+        case 116289: return "EVENT_2506_VALENTAIN_18";
+        case 116290: return "EVENT_2506_VALENTAIN_14";
+        case 116291: return "EVENT_2506_VALENTAIN_15";
+        case 116292: return "EVENT_2506_VALENTAIN_21";
+        case 116293: return "EVENT_2506_VALENTAIN_8";
+        case 116294: return "TeamBattleLeagueShop_5";
+        case 116295: return "EVENT_2506_VALENTAIN_12";
         default: return "Unknown";
     }
 }
