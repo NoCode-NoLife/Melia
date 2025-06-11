@@ -157,7 +157,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(character.Stamina);
 			packet.PutInt(character.MaxStamina);
 			packet.PutByte(0);
-			packet.PutShort(0);
+			packet.PutShort(character is DummyCharacter ? 5 : 0);
 			packet.PutInt(-1); // titleAchievmentId
 			packet.PutInt(0);
 			packet.PutByte(0);
@@ -512,6 +512,17 @@ namespace Melia.Zone.Network
 		/// <param name="forceId"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
+			=> ZC_SKILL_MELEE_GROUND(entity, entity, skill, targetPos, forceId, hits);
+
+		/// <summary>
+		/// Shows entity using the skill.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="skill"></param>
+		/// <param name="targetPos"></param>
+		/// <param name="forceId"></param>
+		/// <param name="hits"></param>
+		public static void ZC_SKILL_MELEE_GROUND(ICombatEntity entity, ICombatEntity target, Skill skill, Position targetPos, int forceId, IEnumerable<SkillHitInfo> hits)
 		{
 			var shootTime = skill.Properties.GetFloat(PropertyName.ShootTime);
 			var sklSpdRate = skill.Properties.GetFloat(PropertyName.SklSpdRate);
@@ -528,10 +539,10 @@ namespace Melia.Zone.Network
 
 			var packet = new Packet(Op.ZC_SKILL_MELEE_GROUND);
 
-			packet.PutInt((int)skillId);
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Direction.Cos);
-			packet.PutFloat(entity.Direction.Sin);
+			packet.PutInt((int)skill.Id);
+			packet.PutInt(target.Handle);
+			packet.PutFloat(target.Direction.Cos);
+			packet.PutFloat(target.Direction.Sin);
 			packet.PutInt(1);
 			packet.PutFloat(shootTime);
 			packet.PutFloat(1);
@@ -633,7 +644,7 @@ namespace Melia.Zone.Network
 			packet.PutInt(4352);
 			packet.PutLong(0);
 
-			character.Connection.Send(packet);
+			character.Connection?.Send(packet);
 		}
 
 		/// <summary>
@@ -1319,6 +1330,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Broadcasts ZC_UPDATED_PCAPPEARANCE of a targetCharacter
+		/// in range of character, updating their appearance.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="targetCharacter"></param>
+		public static void ZC_UPDATED_PCAPPEARANCE(Character character, Character targetCharacter)
+		{
+			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
+
+			packet.PutInt(targetCharacter.Handle);
+			packet.AddAppearancePc(targetCharacter);
+
+			character.Map.Broadcast(packet, character);
+		}
+
+		/// <summary>
 		/// Sends ZC_ITEM_ADD to character, adding the item to the inventory.
 		/// </summary>
 		/// <remarks>
@@ -1401,7 +1428,7 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
+		/// Broadcasts ZC_SET_POS in range of actor, updating its own position.
 		/// </summary>
 		/// <param name="actor"></param>
 		public static void ZC_SET_POS(IActor actor)
@@ -1411,11 +1438,21 @@ namespace Melia.Zone.Network
 		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
 		/// </summary>
 		/// <param name="actor"></param>
+		/// <param name="pos"></param>
 		public static void ZC_SET_POS(IActor actor, Position pos)
+			=> ZC_SET_POS(actor, actor.Handle, actor.Position);
+
+		/// <summary>
+		/// Broadcasts ZC_SET_POS in range of actor for a given target handle, updating its position.
+		/// </summary>
+		/// <param name="actor"></param>
+		/// <param name="targetHandle"></param>
+		/// <param name="pos"></param>
+		public static void ZC_SET_POS(IActor actor, int targetHandle, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(actor.Handle);
+			packet.PutInt(targetHandle);
 			packet.PutPosition(pos);
 			packet.PutByte(0);
 
@@ -1543,6 +1580,10 @@ namespace Melia.Zone.Network
 		/// <param name="propertyList"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
+			// TODO: Find a better way to check this - This was done to avoid sending packets for dummies (while receiving buffs)
+			if (conn == null)
+				return;
+
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
@@ -2255,21 +2296,35 @@ namespace Melia.Zone.Network
 		/// <param name="position1"></param>
 		/// <param name="position2"></param>
 		public static void ZC_SKILL_READY(ICombatEntity entity, Skill skill, Position position1, Position position2)
+			=> ZC_SKILL_READY(entity, entity, skill, position1, position2);
+
+		/// <summary>
+		/// Notifies the client that the skill is ready? Exact purpose
+		/// currently unknown.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="caster"></param>
+		/// <param name="skill"></param>
+		/// <param name="position1"></param>
+		/// <param name="position2"></param>
+		public static void ZC_SKILL_READY(ICombatEntity entity, ICombatEntity caster, Skill skill, Position position1, Position position2)
 		{
+			// Temporary solution until our skill handling system is
+			// more streamlined
+			if (entity is not Character character)
+				return;
+
 			var packet = new Packet(Op.ZC_SKILL_READY);
 
-			packet.PutInt(entity.Handle);
+			packet.PutInt(caster.Handle);
 			packet.PutInt((int)skill.Id);
 			packet.PutFloat(1);
 			packet.PutFloat(1);
 			packet.PutInt(0);
 			packet.PutPosition(position1);
 			packet.PutPosition(position2);
-
-			// Temporary solution until our skill handling system is
-			// more streamlined
-			if (entity is Character character)
-				character.Connection.Send(packet);
+						
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -2305,11 +2360,11 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="actor"></param>
-		public static void ZC_OWNER(Character character, IActor actor)
+		public static void ZC_OWNER(Character character, IActor actor, int ownerHandle)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
 			packet.PutInt(actor.Handle);
-			packet.PutInt(character.Handle);
+			packet.PutInt(ownerHandle);
 
 			character.Connection.Send(packet);
 		}
@@ -3254,26 +3309,35 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Plays animation for actor on nearby clients.
+		/// Plays animation for actor on nearby clients with a given animation name.
 		/// </summary>
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
+			=> ZC_PLAY_ANI(actor, actor, animationName, stopOnLastFrame);
+
+		/// <summary>
+		/// Plays animation for actor and a target on nearby clients with a given animation name.
+		/// </summary>
+		/// <param name="actor">Entity to animate.</param>
+		/// <param name="target">Entity to animate.</param>
+		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		public static void ZC_PLAY_ANI(IActor actor, IActor target, string animationName, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(actor.Handle);
+			packet.PutInt(target.Handle);
 			packet.AddStringId(animationName);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			// [i373230] Maybe added earlier
+			// [i373230] Maybe added earlier [Updated at 28/07/24]
 			{
-				packet.PutByte(0);
-				packet.PutByte(0);
+				packet.PutShort(0);
 			}
 
 			actor.Map.Broadcast(packet, actor);
@@ -3312,15 +3376,23 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Updates character's movement speed.
+		/// Updates entity's movement speed.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="entity"></param>
 		public static void ZC_MSPD(ICombatEntity entity)
+			=> ZC_MSPD(entity, entity);
+
+		/// <summary>
+		/// Updates entity movement speed for another entity that has connection.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		public static void ZC_MSPD(ICombatEntity entity, ICombatEntity target)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 
-			packet.PutInt(entity.Handle);
-			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutInt(target.Handle);
+			packet.PutFloat(target.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
 			entity.Map.Broadcast(packet, entity);
@@ -4466,6 +4538,36 @@ namespace Melia.Zone.Network
 			packet.PutInt(target.Handle);
 			packet.AddKnockbackInfo(knockBackInfo);
 			packet.PutByte(0);
+
+			entity.Map.Broadcast(packet, entity);
+		}
+
+		/// <summary>
+		/// Display an effect on the floor for nearby players
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="packetString"></param>
+		/// <param name="position"></param>
+		/// <param name="f1"></param>
+		/// <param name="f2"></param>
+		/// <param name="f3"></param>
+		/// <param name="f4"></param>
+		/// <param name="f5"></param>
+		public static void ZC_GROUND_EFFECT(ICombatEntity entity, string packetString, Position position, float f1, float f2, float f3, float f4, float f5)
+		{
+			var packet = new Packet(Op.ZC_GROUND_EFFECT);
+
+			packet.PutInt(entity.Handle);
+			packet.AddStringId(packetString);
+			packet.PutPosition(position);
+			packet.PutFloat(f1);
+			packet.PutFloat(f2);
+			packet.PutFloat(f3);
+			packet.PutFloat(f4);
+			packet.PutShort(0);
+			packet.PutShort(11336);
+			packet.PutFloat(f5);
+			packet.PutShort(0);
 
 			entity.Map.Broadcast(packet, entity);
 		}
