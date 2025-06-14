@@ -165,6 +165,9 @@ namespace Melia.Shared.World
 		/// the distance the amount how far to push them away. A negative
 		/// distance will return a position between you two.
 		/// </remarks>
+		/// <param name="other"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
 		public readonly Position GetRelative(Position other, float distance)
 		{
 			if (this == other)
@@ -186,7 +189,7 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Returns position in direction and distance.
 		/// </summary>
-		/// <param name="radian"></param>
+		/// <param name="direction"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
 		public readonly Position GetRelative(Direction direction, float distance)
