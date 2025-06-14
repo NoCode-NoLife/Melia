@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		private async Task Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos)
 		{
 			var direction = (originPos == farPos) ? caster.Direction : originPos.GetDirection(farPos);
-			var effectPosition = caster.Position.GetRelative(direction, 40);
+			var effectPosition = caster.Position.GetRelative2D(direction, 40);
 
 			await Task.Delay(TimeSpan.FromMilliseconds(150));
 
@@ -85,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			await Task.Delay(TimeSpan.FromMilliseconds(600));
 
 			var distance = this.GetJumpDistance();
-			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, distance);
+			var targetPos = caster.Position.GetRelative2D(caster.Direction.Backwards, distance);
 
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 			caster.Position = targetPos;

@@ -137,7 +137,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				// the bomb was placed. The latter would require storing the impact
 				// point and could be a little confusing during gameplay. Though it
 				// would also be interesting and realistic.
-				var explosionPos = target.Position.GetRelative(target.Direction, 2f);
+				var explosionPos = target.Position.GetRelative2D(target.Direction, 2f);
 
 				skillHit.KnockBackInfo = new KnockBackInfo(explosionPos, target.Position, HitType.KnockDown, 150, 60);
 				skillHit.ApplyKnockBack(target);

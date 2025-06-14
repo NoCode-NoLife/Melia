@@ -87,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			var casterPos = caster.Position;
 			var targetPos = target.Position;
 
-			var jumpDest = casterPos.GetRelative(targetPos, JumpBehindDistance);
+			var jumpDest = casterPos.GetRelative3D(targetPos, JumpBehindDistance);
 			var isValidDest = caster.Map.Ground.IsValidPosition(jumpDest);
 			if (!isValidDest)
 				return;

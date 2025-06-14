@@ -39,7 +39,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 			caster.StartBuff(BuffId.Skill_NoDamage_Buff, 0, 0, duration, caster);
 
 			var distance = this.GetJumpDistance(caster, skill);
-			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, distance);
+			var targetPos = caster.Position.GetRelative2D(caster.Direction.Backwards, distance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 
 			caster.Position = targetPos;

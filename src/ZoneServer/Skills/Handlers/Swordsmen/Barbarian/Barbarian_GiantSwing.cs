@@ -42,7 +42,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 				return;
 			}
 
-			var chainPos = caster.Position.GetRelative(caster.Direction, ChainLength);
+			var chainPos = caster.Position.GetRelative2D(caster.Direction, ChainLength);
 			if (!caster.Map.Ground.IsValidPosition(chainPos))
 			{
 				caster.ServerMessage(Localization.Get("Invalid Location."));
@@ -121,7 +121,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			this.Hit(skill, caster, target);
 
-			var targetPos = caster.Position.GetRelative(chainDirection, TossDistance);
+			var targetPos = caster.Position.GetRelative2D(chainDirection, TossDistance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 			target.Position = targetPos;
 

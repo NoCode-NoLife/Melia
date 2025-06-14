@@ -168,7 +168,50 @@ namespace Melia.Shared.World
 		/// <param name="other"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
+		[Obsolete("Use GetRelative3D instead.")]
 		public readonly Position GetRelative(Position other, float distance)
+			=> this.GetRelative3D(other, distance);
+
+		/// <summary>
+		/// Returns position in direction and distance.
+		/// </summary>
+		/// <param name="direction"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
+		[Obsolete("Use GetRelative2D instead.")]
+		public readonly Position GetRelative(Direction direction, float distance)
+			=> this.GetRelative2D(direction, distance);
+
+		/// <summary>
+		/// Returns position on the line between this position and the
+		/// given one in 3D space.
+		/// </summary>
+		/// <remarks>
+		/// All coordinates are used and the new position will be on the
+		/// exact line between the two positions. Any potential elevation
+		/// is not taken into account.
+		/// </remarks>
+		/// <example>
+		/// When you knock someone back, they get pushed in the opposite
+		/// direction. The other position would be the enemy, the distance
+		/// the amount how far to push them away. A negative distance will
+		/// return a position between you two.
+		/// 
+		/// Push the target away 100 units. For example, knock back.
+		/// -> attacker.Position.GetRelative2D(target.Position, 100);
+		/// 
+		/// Get a position 50 units from the target. For example, getting
+		/// into attack range.
+		/// -> attacker.Position.GetRelative2D(target.Position, -50);
+		/// 
+		/// Get a position 50 units towards the target. For example,
+		/// walking closer.
+		/// -> target.Position.GetRelative2D(attacker.Position, -50);
+		/// </example>
+		/// <param name="other"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
+		public readonly Position GetRelative3D(Position other, float distance)
 		{
 			if (this == other)
 				return this;
@@ -187,15 +230,59 @@ namespace Melia.Shared.World
 		}
 
 		/// <summary>
-		/// Returns position in direction and distance.
+		/// Returns position in direction and distance in 2D space.
 		/// </summary>
 		/// <param name="direction"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public readonly Position GetRelative(Direction direction, float distance)
+		public readonly Position GetRelative2D(Direction direction, float distance)
 		{
 			var deltaX = direction.Cos;
 			var deltaZ = direction.Sin;
+
+			var deltaXZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaZ, 2));
+
+			var newX = this.X + (distance / deltaXZ) * (deltaX);
+			var newZ = this.Z + (distance / deltaXZ) * (deltaZ);
+
+			return new Position((float)newX, this.Y, (float)newZ);
+		}
+
+		/// <summary>
+		/// Returns position on the line between this position and the
+		/// given one in 2D space.
+		/// </summary>
+		/// <remarks>
+		/// Only the X and Z coordinates are used, with the Y coordinate
+		/// retaining its original value.
+		/// </remarks>
+		/// <example>
+		/// When you knock someone back, they get pushed in the opposite
+		/// direction. The other position would be the enemy, the distance
+		/// the amount how far to push them away. A negative distance will
+		/// return a position between you two.
+		/// 
+		/// Push the target away 100 units. For example, knock back.
+		/// -> attacker.Position.GetRelative2D(target.Position, 100);
+		/// 
+		/// Get a position 50 units from the target. For example, getting
+		/// into attack range.
+		/// -> attacker.Position.GetRelative2D(target.Position, -50);
+		/// 
+		/// Get a position 50 units towards the target. For example,
+		/// walking closer.
+		/// -> target.Position.GetRelative2D(attacker.Position, -50);
+		/// </example>
+		/// <param name="other"></param>
+		/// <param name="distance"></param>
+		/// <returns></returns>
+		public readonly Position GetRelative2D(Position other, float distance)
+		{
+			if (this == other)
+				return this;
+
+			var deltaX = (double)other.X - this.X;
+			var deltaZ = (double)other.Z - this.Z;
 
 			var deltaXZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaZ, 2));
 
