@@ -20,6 +20,11 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private readonly Dictionary<BuffId, Buff> _buffs = new();
 
 		/// <summary>
+		/// Returns the amount of buffs in the collection.
+		/// </summary>
+		public int Count { get { lock (_buffs) return _buffs.Count; } }
+
+		/// <summary>
 		/// Raised when a buff starts.
 		/// </summary>
 		public event Action<ICombatEntity, Buff> BuffStarted;
@@ -35,12 +40,21 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// <param name="entity"></param>
 		public BuffComponent(ICombatEntity entity) : base(entity)
 		{
+			// XXX: Should there perhaps be an attach and detach callback for
+			//   components? This would allow us to clean up subscriptions if
+			//   a component is later removed for some reason.
+			entity.Died += this.OnEntityDied;
 		}
 
 		/// <summary>
-		/// Returns the amount of buffs in the collection.
+		/// Called if this component's entity dies.
 		/// </summary>
-		public int Count { get { lock (_buffs) return _buffs.Count; } }
+		/// <param name="entity"></param>
+		/// <param name="killer"></param>
+		private void OnEntityDied(ICombatEntity entity, ICombatEntity killer)
+		{
+			this.RemoveAll(static a => a.Data.RemoveOnDeath);
+		}
 
 		/// <summary>
 		/// Adds given buff and updates the client, replaces the
@@ -219,6 +233,12 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Removes buffs that aren't to be saved on disconnect or map change.
+		/// </summary>
+		public void RemoveTempBuffs()
+			=> this.RemoveAll(static a => !a.Data.Save);
+
+		/// <summary>
 		/// Returns buff with given id, or null if it didn't
 		/// exist.
 		/// </summary>
@@ -369,6 +389,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			if (this.Has(BuffId.Skill_MomentaryImmune_Buff))
 				return true;
 
+			if (this.Has(BuffId.Rampage_Buff) && buffData.Removable)
+				return true;
+
 			if (this.TryGet(BuffId.Cyclone_Buff_ImmuneAbil, out var cycloneImmuneBuff))
 			{
 				if (RandomProvider.Get().Next(100) < cycloneImmuneBuff.NumArg1 * 15)
@@ -429,54 +452,6 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				foreach (var buff in toRemove)
 					this.Remove(buff);
 			}
-		}
-
-		/// <summary>
-		/// Removes buffs that aren't saved on disconnect or map change.
-		/// </summary>
-		public void StopTempBuffs()
-		{
-			List<Buff> toRemove = null;
-
-			lock (_buffs)
-			{
-				foreach (var buff in _buffs.Values)
-				{
-					if (!buff.Data.Save)
-					{
-						if (toRemove == null)
-							toRemove = new List<Buff>();
-
-						toRemove.Add(buff);
-					}
-				}
-			}
-
-			if (toRemove != null)
-			{
-				foreach (var buff in toRemove)
-					this.Remove(buff);
-			}
-		}
-	}
-
-	/// <summary>
-	/// Exception for when a buff handler is not implemented.
-	/// </summary>
-	public class BuffNotImplementedException : Exception
-	{
-		/// <summary>
-		/// Returns the id of the buff that wasn't implemented.
-		/// </summary>
-		public BuffId BuffId { get; }
-
-		/// <summary>
-		/// Creates new instance.
-		/// </summary>
-		/// <param name="buffId"></param>
-		public BuffNotImplementedException(BuffId buffId) : base($"Buff handler for '{buffId}' not implemented.")
-		{
-			this.BuffId = buffId;
 		}
 	}
 }

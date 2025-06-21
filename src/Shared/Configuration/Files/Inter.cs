@@ -9,6 +9,9 @@ namespace Melia.Shared.Configuration.Files
 	{
 		public string Authentication { get; protected set; }
 
+		public const string AuthenticationDefault = "change_me";
+		public bool IsUsingDefaultAuthentication => this.Authentication == AuthenticationDefault;
+
 		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
@@ -17,7 +20,7 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
-			this.Authentication = this.GetString("authentication", "change_me");
+			this.Authentication = this.GetString("authentication", AuthenticationDefault);
 		}
 	}
 }

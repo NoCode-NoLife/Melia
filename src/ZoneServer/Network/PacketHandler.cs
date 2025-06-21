@@ -832,11 +832,6 @@ namespace Melia.Zone.Network
 
 				Send.ZC_ITEM_USE(character, item.Id);
 			}
-			catch (BuffNotImplementedException ex)
-			{
-				character.ServerMessage(Localization.Get("This item has not been fully implemented yet."));
-				Log.Debug("CZ_ITEM_USE: Buff handler '{4}' missing for script execution of '{0}(\"{1}\", {2}, {3})'", script.Function, script.StrArg, script.NumArg1, script.NumArg2, ex.BuffId);
-			}
 			catch (Exception ex)
 			{
 				character.ServerMessage(Localization.Get("Apologies, something went wrong there. Please report this issue."));

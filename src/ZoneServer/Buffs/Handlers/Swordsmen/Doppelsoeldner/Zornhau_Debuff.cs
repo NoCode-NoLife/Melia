@@ -48,11 +48,11 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Doppelsoeldner
 		/// <param name="buff"></param>
 		public override void WhileActive(Buff buff)
 		{
-			if (!buff.Target.IsDead)
-			{
-				var damage = buff.NumArg2;
-				buff.Target.TakeSimpleHit(damage, buff.Caster, SkillId.Doppelsoeldner_Zornhau_Abil);
-			}
+			var attacker = buff.Caster;
+			var target = buff.Target;
+			var damage = buff.NumArg2;
+
+			target.TakeSimpleHit(damage, attacker, SkillId.Doppelsoeldner_Zornhau_Abil);
 		}
 	}
 }

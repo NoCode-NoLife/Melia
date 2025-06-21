@@ -2,6 +2,12 @@
 // Unclutterer
 //--- Description -----------------------------------------------------------
 // Removes some of the clutter from the UI, such as cash shop buttons.
+// 
+// 001.lua: Removes unused and/or unnecessary buttons.
+// 002.lua: -- moved to better_options --
+// 003.lua: Disables functions, such as obsolete skill usage UI prompts.
+// 004.lua: Removes certain unrelated information from the stats window.
+// 005.lua: Removes empty enemy buff frame.
 //---------------------------------------------------------------------------
 
 using Melia.Zone.Scripting;
@@ -19,12 +25,6 @@ public class UnclutterClientScript : ClientScript
 
 	protected override void Ready(Character character)
 	{
-		var vars = character.Connection.Account.Variables;
-
-		this.SendLuaScript(character, "001.lua");
-		this.SendLuaScript(character, "003.lua");
-
-		if (vars.Perm.ActivateOnce("Melia.ClientScripts.Unclutter.DoneFirstTime"))
-			this.SendLuaScript(character, "002.lua");
+		this.SendAllScripts(character);
 	}
 }

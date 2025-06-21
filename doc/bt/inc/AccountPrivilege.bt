@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File: AccountPrivilege.bt
+//   Authors: celophi
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+// Determines what permissions an account has.
+// Also known as "account level".
+enum <int> AccountPrivilege 
+{
+    Dev = 0,
+    GM = 1,
+    Tester = 2,
+    Normal = 3
+};

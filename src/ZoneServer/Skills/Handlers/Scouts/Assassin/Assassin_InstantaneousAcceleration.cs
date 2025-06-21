@@ -78,11 +78,33 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 				var modifier = SkillModifier.Default;
 				modifier.HitCount = 4;
 
+				// Assassin8 doubles the hit count in exchange for -25% damage
+				if (caster.IsAbilityActive(AbilityId.Assassin8))
+				{
+					modifier.HitCount *= 2;
+					modifier.FinalDamageMultiplier -= 0.25f;
+				}
+
+				// Increase damage by 10% if target is under the effect of
+				// Assassination Target from the caster
+				if (target.TryGetBuff(BuffId.Assassin_Target_Debuff, out var assassinTargetDebuff))
+				{
+					if (assassinTargetDebuff.Caster == caster)
+						modifier.DamageMultiplier += 0.10f;
+				}
+
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
+
+				if (skillHitResult.Result != HitResultType.Dodge)
+				{
+					// Assassin9 adds 3 seconds of stun
+					if (caster.IsAbilityActive(AbilityId.Assassin9))
+						target.StartBuff(BuffId.Stun, skill.Level, 0, TimeSpan.FromSeconds(3), caster);
+				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);

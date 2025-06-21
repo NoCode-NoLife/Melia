@@ -82,7 +82,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 
 			foreach (var linkTarget in linkTargets)
 			{
-				if (linkTarget.IsDead || linkTarget.Handle == target.Handle)
+				if (linkTarget.Handle == target.Handle)
 					continue;
 
 				linkTarget.TakeSimpleHit(sharedDamage, attacker, skill.Id);

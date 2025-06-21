@@ -29,6 +29,7 @@ namespace Melia.Shared.Game.Const
 		WingedHussar = 1025,
 		Vanquisher = 1026,
 		SledgerS = 1027,
+		BonemancerS = 1028,
 
 		// Wizard
 		Wizard = 2001,
@@ -53,6 +54,7 @@ namespace Melia.Shared.Game.Const
 		Keraunos = 2024,
 		Illusionist = 2025,
 		VultureW = 2026,
+		BonemancerW = 2027,
 
 		// Archer
 		Archer = 3001,
@@ -76,6 +78,8 @@ namespace Melia.Shared.Game.Const
 		Engineer = 3106,
 		Godeye = 3107,
 		VultureA = 3108,
+		BonemancerA = 3109,
+		BlitzHunterA = 3110,
 
 		// Cleric
 		Cleric = 4001,
@@ -100,6 +104,7 @@ namespace Melia.Shared.Game.Const
 		Lama = 4022,
 		Pontifex = 4023,
 		SledgerC = 4024,
+		BonemancerC = 4025,
 
 		// Scout
 		Scout = 5001,
@@ -122,6 +127,7 @@ namespace Melia.Shared.Game.Const
 		Jaguar = 5018,
 		Desperado = 5019,
 		VultureT = 5020,
+		BlitzHunterT = 5021,
 
 		// GM
 		GM = 9001,

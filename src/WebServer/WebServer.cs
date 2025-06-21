@@ -13,6 +13,8 @@ using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Web.Controllers;
+using Melia.Web.Controllers.Api;
+using Melia.Web.Database;
 using Melia.Web.Logging;
 using Melia.Web.Modules;
 using Yggdrasil.Logging;
@@ -34,6 +36,11 @@ namespace Melia.Web
 		public Communicator Communicator { get; private set; }
 
 		/// <summary>
+		/// Returns reference to the server's database interface.
+		/// </summary>
+		public WebDb Database { get; } = new();
+
+		/// <summary>
 		/// Runs the server.
 		/// </summary>
 		/// <param name="args"></param>
@@ -49,10 +56,11 @@ namespace Melia.Web
 			this.LoadConf(this.Conf);
 			this.LoadData(ServerType.Web);
 			this.LoadServerList(this.Data.ServerDb, ServerType.Web, groupId, serverId);
+			this.InitDatabase(this.Database, this.Conf);
 			this.CheckDependencies();
 
-			this.StartCommunicator();
 			this.StartWebServer();
+			this.StartCommunicator();
 
 			ConsoleUtil.RunningTitle();
 
@@ -64,7 +72,14 @@ namespace Melia.Web
 		/// </summary>
 		private void CheckDependencies()
 		{
-			var phpFilePath = this.Conf.Web.PhpCgiFilePath;
+			var phpProcessor = this.Conf.Web.CgiProcessors.Find(p => p.Name == "PHP");
+			if (phpProcessor == null)
+			{
+				Log.Warning("No PHP CGI processor configured, the web server will not be able to handle PHP scripts.");
+				return;
+			}
+
+			var phpFilePath = phpProcessor.Path;
 			var phpFolderPath = Path.GetDirectoryName(phpFilePath);
 
 			// If the binary exists we got all we need
@@ -136,6 +151,7 @@ namespace Melia.Web
 
 				downloading = false;
 
+				Console.WriteLine();
 				Log.Info("PHP download complete, extracting...");
 
 				if (Directory.Exists(phpFolderPath))
@@ -148,9 +164,32 @@ namespace Melia.Web
 
 				Log.Info("PHP extraction complete, setting up...");
 
+				// Download cert file
+				result = wc.GetAsync("https://curl.se/ca/cacert.pem").Result;
+				var caCertFilePath = Path.GetFullPath(Path.Combine(phpFolderPath, "cacert.pem"));
+				using (var fs = new FileStream(caCertFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+					result.Content.CopyToAsync(fs).Wait();
+
+				// Create ini file
 				var productionIniFilePath = Path.Combine(phpFolderPath, "php.ini-production");
 				var iniFilePath = Path.Combine(phpFolderPath, "php.ini");
 				File.Copy(productionIniFilePath, iniFilePath);
+
+				// Enable common extensions
+				var iniContents = File.ReadAllText(iniFilePath);
+				iniContents = iniContents.Replace(";zend_extension=opcache",
+					";zend_extension=opcache\r\n\r\n" +
+					"extension_dir=\"ext\"\r\n" +
+					"extension=curl\r\n" +
+					"extension=mysqli\r\n" +
+					"extension=openssl\r\n" +
+					"extension=pdo_mysql\r\n" +
+					"extension=pdo_sqlite\r\n" +
+					"extension=zip\r\n" +
+					"curl.cainfo=\"" + caCertFilePath + "\"\r\n" +
+					""
+				);
+				File.WriteAllText(iniFilePath, iniContents);
 
 				Log.Info("Successfully downloaded PHP to '{0}'.", phpFolderPath);
 			}
@@ -192,21 +231,34 @@ namespace Melia.Web
 			var barracksServerInfo = this.GetServerInfo(ServerType.Barracks, 1);
 			var authentication = this.Conf.Inter.Authentication;
 
-			try
+			var tries = 0;
+			var silenceThreshold = 4;
+
+			while (true)
 			{
-				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
+				try
+				{
+					this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
 
-				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
-				this.Communicator.Subscribe("Coordinator", "AllServers");
+					this.Communicator.Subscribe("Coordinator", "ServerUpdates");
+					this.Communicator.Subscribe("Coordinator", "AllServers");
 
-				Log.Info("Successfully connected to coordinator.");
-			}
-			catch
-			{
-				Log.Error("Failed to connect to coordinator, trying again in 5 seconds...");
-				Thread.Sleep(5000);
+					Log.Info("Successfully connected to coordinator.");
+					break;
+				}
+				catch
+				{
+					if (tries < silenceThreshold)
+					{
+						if (tries + 1 < silenceThreshold)
+							Log.Error("Failed to connect to coordinator, trying again...");
+						else
+							Log.Error("Failed to connect to coordinator. Will keep trying...");
+					}
 
-				this.ConnectToCoordinator();
+					tries++;
+					Thread.Sleep(5000);
+				}
 			}
 		}
 
@@ -216,7 +268,7 @@ namespace Melia.Web
 		/// <param name="commName"></param>
 		private void Communicator_OnDisconnected(string commName)
 		{
-			Log.Error("Lost connection to coordinator, will try to reconnect in 5 seconds...");
+			Log.Error("Lost connection to coordinator, attempting to reconnect...");
 			Thread.Sleep(5000);
 
 			this.ConnectToCoordinator();
@@ -258,17 +310,21 @@ namespace Melia.Web
 
 				_server = new EmbedIO.WebServer(url);
 
-				// The PHP module handles all requests to PHP scripts,
-				// including defaulting to index.php and prioritizing
-				// the user folder. Should this fail, we'll try static
-				// requests to user and system.
-				// TODO: Look into handling PHP scripts from a FileModule,
+				_server.WithWebApi("/toslive/patch/", m => m.WithController<LaunchController>());
+				_server.WithWebApi("/api/info/", m => m.WithController<InfoController>());
+				_server.WithWebApi("/api/account/", m => m.WithController<AccountController>());
+
+				_server.WithModule(new AuthModule("/api/admin/"));
+				_server.WithWebApi("/api/admin/", m => m.WithController<AdminController>());
+
+				// The CGI module handles all requests to the scripts, including
+				// defaulting to index.* and prioritizing the user folder. Should
+				// this fail, we'll try static requests to user and system.
+				// TODO: Look into handling CGI scripts from a FileModule,
 				//   adding a pre-processor.
 
-				_server.WithWebApi("/toslive/patch/", m => m.WithController<TosPatchController>());
-				_server.WithWebApi("/api/", m => m.WithController<ApiController>());
-
-				_server.WithModule(new PhpModule("/"));
+				foreach (var processor in this.Conf.Web.CgiProcessors)
+					_server.WithModule(new CgiProcessorModule("/", processor.Name, processor.Path, processor.FileExtensions));
 
 				if (Directory.Exists("user/web/"))
 				{

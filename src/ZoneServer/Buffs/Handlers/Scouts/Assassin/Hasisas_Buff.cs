@@ -7,6 +7,10 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 	/// <summary>
 	/// Handle for the Hasisas Buff, which increases the target's Attack speed and Crit damage
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: 1 if the evasion bonus is applied
+	/// </remarks>
 	[BuffHandler(BuffId.Hasisas_Buff)]
 	public class Hasisas_Buff : BuffHandler
 	{
@@ -14,6 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 		private const float AspdBonusPerLevel = 20;
 		private const float CritBonusBase = 3f;
 		private const float CritBonusPerLevel = 1.5f;
+		private const float DRBonusBase = 0.2f;
 		private const float HpLossRate = 0.01f;
 
 		public override void OnActivate(Buff buff, ActivationType activationType)
@@ -23,12 +28,22 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 
 			AddPropertyModifier(buff, buff.Target, PropertyName.ASPD_BM, aspdBonus);
 			AddPropertyModifier(buff, buff.Target, PropertyName.CRTATK_BM, critBonus);
+
+			buff.Vars.SetInt("Hasisas.TickCounter", 0);
+
+			if (buff.NumArg2 > 0)
+			{
+				var drBonus = buff.Target.Properties.GetFloat(PropertyName.DR) * DRBonusBase;
+
+				AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, drBonus);
+			}
 		}
 
 		public override void OnEnd(Buff buff)
 		{
 			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
 			RemovePropertyModifier(buff, buff.Target, PropertyName.CRTATK_BM);
+			RemovePropertyModifier(buff, buff.Target, PropertyName.DR_BM);
 		}
 
 		public override void WhileActive(Buff buff)
@@ -45,6 +60,24 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.Assassin
 		{
 			if (Feature.IsEnabled("HasisasNoHpLoss"))
 				return;
+
+			// Assassin2 increases the number of ticks before you take
+			// damage.  This is done using a counter in a buff variable.
+			// The tick limit is set when applying the buff
+			var tickCounter = buff.Vars.GetInt("Hasisas.TickCounter");
+			tickCounter++;
+
+			if (tickCounter > buff.Vars.GetInt("Hasisas.TickLimit"))
+			{
+				// reset the counter and continue
+				buff.Vars.SetInt("Hasisas.TickCounter", 0);
+			}
+			else
+			{
+				// update the counter and return
+				buff.Vars.SetInt("Hasisas.TickCounter", tickCounter);
+				return;
+			}
 
 			// The description stats an HP loss of 1% per 10 seconds,
 			// which matches the buff's update time. Should a user

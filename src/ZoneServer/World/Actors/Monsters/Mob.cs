@@ -5,7 +5,9 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
@@ -140,11 +142,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Raised when the monster died.
-		/// </summary>
-		public event Action<Mob, ICombatEntity> Died;
-
-		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
@@ -208,6 +205,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a list of fixed items the monster drops as is when it dies.
 		/// </summary>
 		public ConcurrentBag<Item> StaticDrops { get; } = new ConcurrentBag<Item>();
+
+		/// <summary>
+		/// Raised when the monster died.
+		/// </summary>
+		public event Action<ICombatEntity, ICombatEntity> Died;
 
 		/// <summary>
 		/// Creates new NPC.
@@ -295,6 +297,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
 			var beneficiary = this.GetKillBeneficiary(killer);
@@ -736,6 +739,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (entity.IsDead)
 				return false;
 
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
 			// For now, let's specify that mobs can attack any combat
 			// entities, since we want them them to be able to attack
 			// both characters and other mobs.
@@ -773,6 +779,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			// TODO: Move this somewhere else, perhaps with a hook/event?
 			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			var healingModifier = Math.Max(0, 1 - healingReduction);
 

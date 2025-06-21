@@ -84,7 +84,7 @@ namespace Melia.Zone.Commands
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
-			this.Add("kick", "<team name>", "Kicks the player with the given team name if they're online.", this.HandleKick);
+			this.Add("kick", "<'all'|map name|team name>", "Kicks the player or specified group.", this.HandleKick);
 			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
 			this.Add("daytime", "[timeOfDay=day|night|dawn|dusk]", "Sets the current day time.", this.HandleDayTime);
 			this.Add("storage", "", "Opens personal storage.", this.HandlePersonalStorage);
@@ -100,7 +100,7 @@ namespace Melia.Zone.Commands
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
-			this.Add("nosave", "<enabled>", "Toggles whether the character will be saved on logout.", this.NoSave);
+			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.NoSave);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -1092,7 +1092,7 @@ namespace Melia.Zone.Commands
 				}
 				else if (droppers.Length == 0)
 				{
-					whoDropsEntry.Append(Localization.Get("This item is not dropped by any monsters"));
+					whoDropsEntry.Append(Localization.Get("This item is not dropped by any monsters."));
 				}
 				else
 				{
@@ -1186,8 +1186,8 @@ namespace Melia.Zone.Commands
 			//   we have to search for characters across all of them.
 
 			var teamName = args.Get(0);
-			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
-			if (character == null)
+
+			if (!ZoneServer.Instance.World.TryGetCharacterByTeamName(teamName, out var character))
 			{
 				sender.ServerMessage(Localization.Get("Character not found."));
 				return CommandResult.Okay;
@@ -1226,8 +1226,8 @@ namespace Melia.Zone.Commands
 			//   we have to search for characters across all of them.
 
 			var teamName = args.Get(0);
-			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
-			if (character == null)
+
+			if (!ZoneServer.Instance.World.TryGetCharacterByTeamName(teamName, out var character))
 			{
 				sender.ServerMessage(Localization.Get("Character not found."));
 				return CommandResult.Okay;
@@ -1980,7 +1980,14 @@ namespace Melia.Zone.Commands
 			var targetName = args.Get(0);
 			var originName = sender.TeamName;
 
-			if (ZoneServer.Instance.Data.MapDb.TryFind(targetName, out _))
+			if (targetName == "all")
+			{
+				var commMessage = new KickMessage(KickTargetType.Zone, targetName, originName);
+				ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
+
+				sender.ServerMessage(Localization.Get("Request for kicking all players sent."));
+			}
+			else if (ZoneServer.Instance.Data.MapDb.TryFind(targetName, out _))
 			{
 				var commMessage = new KickMessage(KickTargetType.Map, targetName, originName);
 				ZoneServer.Instance.Communicator.Send("Coordinator", commMessage.BroadcastTo("AllZones"));
@@ -2001,7 +2008,7 @@ namespace Melia.Zone.Commands
 		/// <summary>
 		/// Official slash command, purpose unknown.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <param name="sender"></param>
 		/// <param name="message"></param>
 		/// <param name="command"></param>
 		/// <param name="args"></param>

@@ -100,7 +100,7 @@ namespace Melia.Shared
 			this.Conf.Load();
 			Log.SetFilter(this.Conf.Log.Filter);
 
-			if (this.Conf.Inter.Authentication == "change_me")
+			if (this.Conf.Inter.IsUsingDefaultAuthentication)
 				Log.Warning("You're using the default password for inter-server communication. It is highly recommended that you change it in inter.conf.");
 
 			return this.Conf;

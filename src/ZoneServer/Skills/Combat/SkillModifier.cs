@@ -46,15 +46,6 @@ namespace Melia.Zone.Skills.Combat
 		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
-		/// Gets or sets flat crit rate bonus.
-		/// </summary>
-		/// <remarks>
-		/// The value is in percent. For example, setting it to 20 increases the
-		/// crit chance by 20%.
-		/// </remarks>
-		public float BonusCritChance { get; set; }
-
-		/// <summary>
 		/// Gets or sets percentage-based defense penetration for DEF and MDEF.
 		/// </summary>
 		/// <remarks>
@@ -84,6 +75,26 @@ namespace Melia.Zone.Skills.Combat
 		public float MinCritChance { get; set; } = 0;
 
 		/// <summary>
+		/// Gets or sets the crit chance multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The multiplier gets applied to the crit chance before other bonuses,
+		/// such as BonusCritChance. For example, with a base crit chance of 10%,
+		/// a multiplier of 1.5 and a bonus of 20%, the final crit chance would be:
+		/// 10 * 1.5 + 20 = 35%.
+		/// </remarks>
+		public float CritChanceMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets flat crit chance bonus.
+		/// </summary>
+		/// <remarks>
+		/// The value is in percent. For example, setting it to 20 increases the
+		/// crit chance by 20%.
+		/// </remarks>
+		public float BonusCritChance { get; set; }
+
+		/// <summary>
 		/// Gets or sets damage multiplier applied to skill damage after
 		/// defense, crit, and other modifiers were applied.
 		/// </summary>
@@ -106,7 +117,16 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
 		/// </summary>
-		public bool Unblockable { get; set; }
+		public bool Unblockable { get; set; }		
+
+		/// <summary>
+		/// Gets or sets forced block status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack is always blocked
+		/// unless it is unblockable.
+		/// </remarks>
+		public bool ForcedBlock { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced hit status.
@@ -117,12 +137,13 @@ namespace Melia.Zone.Skills.Combat
 		public bool ForcedHit { get; set; }
 
 		/// <summary>
-		/// Gets or sets forced block status.
+		/// Gets or sets forced evade status.
 		/// </summary>
 		/// <remarks>
-		/// If this is true, the attack is always blocked.
+		/// If this is true, the attack is always evaded
+		/// unless it is unavoidable
 		/// </remarks>
-		public bool ForcedBlock { get; set; }
+		public bool ForcedEvade { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced critical status.

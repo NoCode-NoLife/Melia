@@ -36,21 +36,28 @@ will be.
 Contributing code
 =============================================================================
 
-We welcome contributions via pull requests (PR), be it new features,
+We welcome contributions via pull requests (PRs), be it new features,
 bug fixes, or updates. To make the process of reviewing and merging
-your PR as comfortable as possible for all involved parties, we ask
-you to follow the following guidelines.
+your PRs as comfortable as possible for all parties involved, we ask
+you to adhere to the following guidelines.
 
-- Your pull requests and commits should be as concice as possible, focusing
-  on as few related things as possible. For example: one PR per bug fix.
+- Your pull requests and commits should be as concise as possible, focusing
+  on the least amount of related changes. For example: one PR per bug fix.
 - Your commit messages should be clear and descriptive. For example:
   "Fixed bug XY" or "Added feature YZ".
 - You should give a short description of what your PR accomplishes.
-- The PR should be based on a resonably recent fork of the `master` branch.
+- The PR should be based on a reasonably recent fork of the `master` branch.
 - Your code should follow the coding conventions below.
-- Big changes to the code base should be discussed in issues before
-  they are pushed, to discuss potential implementions and to get an
-  overview of what all contributors are working on.
+
+Further, we'd like to give a heads-up regarding pull requests that make
+larger changes to existing systems or processes, or that may raise concerns
+over compatibility and maintainability of the project. Due to its open
+source nature, we have to be selective over the changes we merge and
+lengthy reviews may at times be necessary to ensure we maintain a certain
+degree of code quality and future-proofness. This takes precedence over
+short-term gains. If you'd like to minimize any potential friction during
+the pull request review, we invite you to discuss changes with the team
+ahead of time via available channels.
 
 Coding conventions
 -----------------------------------------------------------------------------

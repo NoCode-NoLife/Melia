@@ -227,7 +227,7 @@ namespace Melia.Zone.Buffs
 		/// <param name="activationType"></param>
 		internal void Activate(ActivationType activationType)
 		{
-			this.ExtendDuration();
+			this.RefreshDuration();
 
 #pragma warning disable CS0618
 			// Temporarily call OnStart for backwards compatibility until users
@@ -244,18 +244,19 @@ namespace Melia.Zone.Buffs
 		/// </summary>
 		internal void Extend()
 		{
-			this.ExtendDuration();
+			this.RefreshDuration();
 			this.Handler?.OnExtend(this);
 		}
 
 		/// <summary>
-		/// Extends the buff's removal and update times if applicable.
+		/// Refreshes the buff's removal and update times if applicable.
 		/// </summary>
 		/// <remarks>
-		/// Effectively extends the buff's duration and resets the update time,
-		/// so it ticks again after the update time has passed.
+		/// Effectively restarts the buff's duration and resets the update time,
+		/// so it ticks again after the update time has passed. This would usually
+		/// occur if the buff is applied again.
 		/// </remarks>
-		internal void ExtendDuration()
+		internal void RefreshDuration()
 		{
 			if (this.HasDuration)
 			{
@@ -264,7 +265,22 @@ namespace Melia.Zone.Buffs
 			}
 
 			if (this.HasUpdateTime)
-				this.NextUpdateTime = DateTime.Now.Add(this.Data.UpdateTime);
+				this.NextUpdateTime = DateTime.Now.Add(this.UpdateTime);
+		}
+
+		/// <summary>
+		/// Extends the buff's duration by the given amount of time.
+		/// </summary>
+		/// <remarks>
+		/// Unlike RefreshDuration, this only extends the buff's duration,
+		/// starting from the current time. No other changes are made,
+		/// the buff will simply keep ticking for the given amount of
+		/// time.
+		/// </remarks>
+		internal void ExtendDuration(TimeSpan amount)
+		{
+			if (this.HasDuration)
+				this.RemovalTime = DateTime.Now.Add(amount);
 		}
 
 		/// <summary>

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using Melia.Barracks.Database;
 using Melia.Barracks.Events;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -65,11 +62,14 @@ namespace Melia.Barracks.Network
 			}
 
 			// Create new account
-			if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
+			if (BarracksServer.Instance.Conf.Barracks.EnableAccountCreation)
 			{
-				accountName = accountName.Substring("new__".Length);
-				if (!BarracksServer.Instance.Database.AccountExists(accountName))
-					BarracksServer.Instance.Database.CreateAccount(accountName, password);
+				if (accountName.StartsWith("new__") || accountName.StartsWith("new//"))
+				{
+					accountName = accountName.Substring("new__".Length);
+					if (!BarracksServer.Instance.Database.AccountExists(accountName))
+						BarracksServer.Instance.Database.CreateAccount(accountName, password);
+				}
 			}
 
 			// Check account
@@ -153,7 +153,7 @@ namespace Melia.Barracks.Network
 		[PacketHandler(Op.CB_START_BARRACK)]
 		public void CB_START_BARRACK(IBarracksConnection conn, Packet packet)
 		{
-			var unkByte = packet.GetByte();
+			var origin = packet.GetByte();
 			var serviceNation = packet.GetString(64); // [i373230 (2023-05-10)] Might've been added before
 
 			Send.BC_IES_MODIFY_LIST(conn);

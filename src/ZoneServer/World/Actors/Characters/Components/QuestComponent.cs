@@ -580,6 +580,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			///		string ClassId
 			///		string Name
 			///		string Description
+			///		string Type
 			///		int Level
 			///		string Status
 			///		bool Done
@@ -619,6 +620,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("ClassId", "0x" + quest.Data.Id.Value.ToString("X16"));
 			questTable.Insert("Name", quest.Data.Name);
 			questTable.Insert("Description", quest.Data.Description);
+			questTable.Insert("Type", quest.Data.Type.ToString());
 			questTable.Insert("Level", quest.Data.Level);
 			questTable.Insert("Status", quest.Status.ToString());
 			questTable.Insert("Done", quest.ObjectivesCompleted);

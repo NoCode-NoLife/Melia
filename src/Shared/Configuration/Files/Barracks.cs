@@ -30,6 +30,11 @@ namespace Melia.Shared.Configuration.Files
 		public Position StartPosition { get; private set; }
 
 		/// <summary>
+		/// Returns whether account creation via "new__" prefix is enabled.
+		/// </summary>
+		public bool EnableAccountCreation { get; private set; }
+
+		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
 		/// <param name="filePath"></param>
@@ -42,6 +47,8 @@ namespace Melia.Shared.Configuration.Files
 
 			this.StartMap = this.GetString("start_map", "f_siauliai_west");
 			this.StartPosition = this.GetPosition("start_position", new Position(-628, 260, -1025));
+
+			this.EnableAccountCreation = this.GetBool("enable_account_creation", true);
 		}
 
 		/// <summary>

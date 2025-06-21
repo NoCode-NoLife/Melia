@@ -7,6 +7,7 @@ using Melia.Zone.Buffs;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers.Wizards.Wizard;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -107,6 +108,11 @@ namespace Melia.Zone.World.Actors
 		/// Returns the entity's component collection.
 		/// </summary>
 		ComponentCollection Components { get; }
+
+		/// <summary>
+		/// Raised when the entity died.
+		/// </summary>
+		event Action<ICombatEntity, ICombatEntity> Died;
 
 		/// <summary>
 		/// Makes entity take damage and kills it if its HP reach 0.
@@ -336,6 +342,26 @@ namespace Melia.Zone.World.Actors
 			=> entity.Components.Get<BuffComponent>()?.Has(buffId) ?? false;
 
 		/// <summary>
+		/// Returns true if any of the given buffs are active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffIds"></param>
+		/// <returns></returns>
+		public static bool IsAnyBuffActive(this ICombatEntity entity, params BuffId[] buffIds)
+		{
+			if (entity.Components.TryGet<BuffComponent>(out var buffs))
+			{
+				foreach (var buffId in buffIds)
+				{
+					if (buffs.Has(buffId))
+						return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Returns the buff with the given id via out if it's active. Returns
 		/// false if the buff is not active.
 		/// </summary>
@@ -511,12 +537,22 @@ namespace Melia.Zone.World.Actors
 		/// <summary>
 		/// Applies a combat hit to the target, making it take damage.
 		/// </summary>
+		/// <remarks>
+		/// If the target is already dead, nothing happens.
+		/// </remarks>
 		/// <param name="entity"></param>
 		/// <param name="attacker"></param>
 		/// <param name="skillId"></param>
 		/// <param name="damage"></param>
 		public static void TakeSimpleHit(this ICombatEntity entity, float damage, ICombatEntity attacker, SkillId skillId)
 		{
+			// TakeDamage has its own checks for dead entities, but don't want to
+			// send the hit info for dead targets, so we gotta check this here.
+			// TODO: A potential improvement could be a more detailed result from
+			//   TakeDamage that lets us know the target was already dead.
+			if (entity.IsDead)
+				return;
+
 			entity.TakeDamage(damage, attacker);
 
 			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);

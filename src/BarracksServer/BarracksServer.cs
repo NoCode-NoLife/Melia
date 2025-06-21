@@ -213,17 +213,6 @@ namespace Melia.Barracks
 		{
 			switch (requestMessage.Message)
 			{
-				case ReqPlayerCountMessage reqPlayerCountMessage:
-				{
-					var playerCount = this.ServerList.GetAll(ServerType.Zone).Sum(server => server.CurrentPlayers);
-
-					var message = new ResPlayerCountMessage(playerCount);
-					var responseMessage = new ResponseMessage(requestMessage.Id, message);
-
-					this.Communicator.Send(sender, responseMessage);
-					break;
-				}
-
 				case ReqServerListMessage reqMessage:
 				{
 					var servers = this.ServerList.GetAll();

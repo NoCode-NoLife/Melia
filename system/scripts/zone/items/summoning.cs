@@ -1,4 +1,10 @@
-﻿using System;
+﻿//--- Melia Script ----------------------------------------------------------
+// Summoning Scripts
+//--- Description -----------------------------------------------------------
+// Item scripts that handle summoning monsters using orbs.
+//---------------------------------------------------------------------------
+
+using System;
 using Melia.Shared.L10N;
 using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
