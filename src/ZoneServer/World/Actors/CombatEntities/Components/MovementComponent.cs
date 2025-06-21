@@ -419,7 +419,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				this.MoveSpeedType = type;
 				character.Properties.Invalidate(PropertyName.MSPD);
 
-				Send.ZC_MSPD(dummyCharacter.Owner, character);
+				Send.ZC_MSPD(character);
 			}
 		}
 

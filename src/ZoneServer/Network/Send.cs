@@ -3375,24 +3375,16 @@ namespace Melia.Zone.Network
 			conn.Send(packet);
 		}
 
-		/// <summary>
-		/// Updates entity's movement speed.
-		/// </summary>
-		/// <param name="entity"></param>
-		public static void ZC_MSPD(ICombatEntity entity)
-			=> ZC_MSPD(entity, entity);
-
-		/// <summary>
-		/// Updates entity movement speed for another entity that has connection.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="target"></param>
-		public static void ZC_MSPD(ICombatEntity entity, ICombatEntity target)
+        /// <summary>
+        /// Updates entity's movement speed.
+        /// </summary>
+        /// <param name="entity"></param>
+        public static void ZC_MSPD(ICombatEntity entity)
 		{
 			var packet = new Packet(Op.ZC_MSPD);
 
-			packet.PutInt(target.Handle);
-			packet.PutFloat(target.Properties.GetFloat(PropertyName.MSPD));
+			packet.PutInt(entity.Handle);
+			packet.PutFloat(entity.Properties.GetFloat(PropertyName.MSPD));
 			packet.PutLong(0);
 
 			entity.Map.Broadcast(packet, entity);

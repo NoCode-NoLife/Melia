@@ -50,7 +50,7 @@ public class SadhuDummyAiScript : AiScript
 		if (this.Entity is Character entityCharacter && entityCharacter is DummyCharacter dummyCharacter)
 		{
 			SetFixedMoveSpeed(55);
-			Send.ZC_MSPD(dummyCharacter.Owner, entityCharacter);
+			Send.ZC_MSPD(entityCharacter);
 		}
 		
 		var master = GetMaster();
