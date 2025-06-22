@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i396449
+//   Version: i396602
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30520,6 +30520,18 @@ string getPropertyName(int id)
         case 116293: return "EVENT_2506_VALENTAIN_8";
         case 116294: return "TeamBattleLeagueShop_5";
         case 116295: return "EVENT_2506_VALENTAIN_12";
+        case 116296: return "CollectionDressRoomRead_163";
+        case 116297: return "ep17tospace_thmace_cabinet";
+        case 116298: return "ep17tospace_theme";
+        case 116299: return "CollectionDressRoomRead_166";
+        case 116300: return "ContentsTotalShop_2506_1";
+        case 116301: return "dress_costume_ep17tospace02_m";
+        case 116302: return "dress_costume_ep17tospace01_m";
+        case 116303: return "dress_costume_ep17tospace02_f";
+        case 116304: return "ep17tospace_thsword_cabinet";
+        case 116305: return "dress_costume_ep17tospace01_f";
+        case 116306: return "CollectionDressRoomRead_165";
+        case 116307: return "CollectionDressRoomRead_164";
         default: return "Unknown";
     }
 }

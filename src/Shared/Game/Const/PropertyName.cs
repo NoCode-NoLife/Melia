@@ -9876,6 +9876,18 @@
 		public const string EVENT_2506_VALENTAIN_8 = "EVENT_2506_VALENTAIN_8";
 		public const string TeamBattleLeagueShop_5 = "TeamBattleLeagueShop_5";
 		public const string EVENT_2506_VALENTAIN_12 = "EVENT_2506_VALENTAIN_12";
+		public const string CollectionDressRoomRead_163 = "CollectionDressRoomRead_163";
+		public const string ep17tospace_thmace_cabinet = "ep17tospace_thmace_cabinet";
+		public const string ep17tospace_theme = "ep17tospace_theme";
+		public const string CollectionDressRoomRead_166 = "CollectionDressRoomRead_166";
+		public const string ContentsTotalShop_2506_1 = "ContentsTotalShop_2506_1";
+		public const string dress_costume_ep17tospace02_m = "dress_costume_ep17tospace02_m";
+		public const string dress_costume_ep17tospace01_m = "dress_costume_ep17tospace01_m";
+		public const string dress_costume_ep17tospace02_f = "dress_costume_ep17tospace02_f";
+		public const string ep17tospace_thsword_cabinet = "ep17tospace_thsword_cabinet";
+		public const string dress_costume_ep17tospace01_f = "dress_costume_ep17tospace01_f";
+		public const string CollectionDressRoomRead_165 = "CollectionDressRoomRead_165";
+		public const string CollectionDressRoomRead_164 = "CollectionDressRoomRead_164";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

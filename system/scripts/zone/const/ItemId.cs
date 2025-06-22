@@ -4152,6 +4152,8 @@ public static class ItemId
 	public const int Hat_Ep17idolmania03 = 11102030;
 	public const int Hat_Mermaidpopo2 = 11102031;
 	public const int Hat_Mermaidpopo3 = 11102032;
+	public const int Hat_Ep17tospace01 = 11102033;
+	public const int Hat_Ep17tospace02 = 11102034;
 	public const int Guiltynelaima_Shield = 11104006;
 	public const int EP15_Artefact_004 = 11104010;
 	public const int Ep15spring01_Shield = 11104014;
@@ -4908,6 +4910,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_24 = 11039024;
 	public const int DRESS_ROOM_COLLECT_25 = 11039025;
 	public const int DRESS_ROOM_COLLECT_26 = 11039026;
+	public const int DRESS_ROOM_COLLECT_27 = 11039027;
 	public const int COLLECT_326 = 11220000;
 	public const int COLLECT_327 = 11220001;
 	public const int COLLECT_328 = 11220002;
@@ -6038,6 +6041,8 @@ public static class ItemId
 	public const int EmoticonItem_2312_165 = 494423;
 	public const int EmoticonItem_2402_1 = 494426;
 	public const int EmoticonItem_2402_2 = 494427;
+	public const int EmoticonItem_2503_176 = 494467;
+	public const int EmoticonItem_2503_177 = 494468;
 	public const int Drug_MAXSTA1 = 640001;
 	public const int Drug_HP1 = 640002;
 	public const int Drug_HP2 = 640003;
@@ -8470,6 +8475,7 @@ public static class ItemId
 	public const int Papaya02_Colony_Flag_Klapeda = 721165;
 	public const int Papaya02_Colony_Flag_Orsha = 721166;
 	public const int Papaya02_Colony_Flag_Pedimian = 721167;
+	public const int Artifact_Ep17tospace = 721168;
 	public const int Artefact_Victory_Red_Trade = 721169;
 	public const int Spread_Bait_Basic = 730400;
 	public const int Event_1902_Spread_Bait = 730499;
@@ -19195,6 +19201,10 @@ public static class ItemId
 	public const int Costume_Mermaidpopo2_F = 11101074;
 	public const int Costume_Mermaidpopo3_M = 11101075;
 	public const int Costume_Mermaidpopo3_F = 11101076;
+	public const int Costume_Ep17tospace01_M = 11101077;
+	public const int Costume_Ep17tospace01_F = 11101078;
+	public const int Costume_Ep17tospace02_M = 11101079;
+	public const int Costume_Ep17tospace02_F = 11101080;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Helmet_M_Ep15explorer15 = 11103003;
@@ -19257,6 +19267,8 @@ public static class ItemId
 	public const int Effect_Tosw_Yellow = 11106009;
 	public const int Effect_Ep16spacepopori = 11106010;
 	public const int Effect_Ep16statue = 11106011;
+	public const int Effect_Ep17tospace1 = 11106012;
+	public const int Effect_Ep17tospace2 = 11106013;
 	public const int Wing_Char2_160 = 11108001;
 	public const int Wing_Pontifex = 11108005;
 	public const int Wing_Illusionist = 11108007;
@@ -19906,6 +19918,13 @@ public static class ItemId
 	public const int Special_Gift_Box_Leticia_2505_Papaya1 = 11205422;
 	public const int Special_Gift_Box_Leticia_2506 = 11205423;
 	public const int Special_Gift_Box_BlessedCube_2506_Papaya = 11205427;
+	public const int Selectbox_Ep17tospace01 = 11205428;
+	public const int Selectbox_Ep17tospace02 = 11205429;
+	public const int I202506_Summer_Package01 = 11205437;
+	public const int I202506_Summer_Package02 = 11205438;
+	public const int I202506_Summer_Premium_Package = 11205439;
+	public const int I202506_GoddessRaid_Selectbox = 11205440;
+	public const int I202506_GoddessIcor_Selectbox = 11205441;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
@@ -27498,6 +27517,8 @@ public static class ItemId
 	public const int Sniego_Staff_Papaya = 11104071;
 	public const int Sniego_Crossbow_Papaya = 11104072;
 	public const int Sniego_Thmace_Papaya = 11104073;
+	public const int Ep17tospace_Thsword = 11104075;
+	public const int Ep17tospace_Thmace = 11104076;
 	public const int EP15_RAID_SWORD = 11107000;
 	public const int EP15_RAID_THSWORD = 11107001;
 	public const int EP15_RAID_STAFF = 11107002;

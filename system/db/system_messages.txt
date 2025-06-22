@@ -17325,6 +17325,8 @@
 { classId: 560081, className: "emoticonItem_2402_1", text: "{nl} {nl}Use the item to acquire the chat emote.{nl} {nl}{#FF0000}Item will be consumed when used.{nl} {nl}{@st66d_y}Obtain the emote?" },
 { classId: 560082, className: "emoticonItem_2402_2", text: "{nl} {nl}Use the item to acquire the chat emote.{nl} {nl}{#FF0000}Item will be consumed when used.{nl} {nl}{@st66d_y}Obtain the emote?" },
 { classId: 560083, className: "emoticon_00", text: "{nl} {nl}Using the item will acquire a chat emote for this character.{nl} {nl}{#FF0000}Item will be consumed when used.{nl} {nl}{@st66d_y}Obtain the emote?" },
+{ classId: 560084, className: "emoticonItem_2503_176", text: "{nl} {nl}Using the item will acquire a chat emote for this character.{nl} {nl}{#FF0000}Item will be consumed when used.{nl} {nl}{@st66d_y}Obtain the emote?" },
+{ classId: 560085, className: "emoticonItem_2503_177", text: "{nl} {nl}Using the item will acquire a chat emote for this character.{nl} {nl}{#FF0000}Item will be consumed when used.{nl} {nl}{@st66d_y}Obtain the emote?" },
 { classId: 570000, className: "Already_Gesture", text: "You already have the gesture." },
 { classId: 570001, className: "Gesture_WAVE", text: "{nl} {nl}All character will acquire the gesture.{nl} {nl}{@st66d_y}Will you acquire gesture?{/} " },
 { classId: 570002, className: "Gesture_CHEERUP", text: "{nl} {nl}All character will acquire the gesture.{nl} {nl}{@st66d_y}Will you acquire gesture?{/} " },
