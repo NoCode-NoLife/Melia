@@ -348,6 +348,12 @@
 { jobId: 2027, skillId: 22204, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
 { jobId: 2027, skillId: 22205, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
 { jobId: 2027, skillId: 22206, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 2028, skillId: 22301, skillName: "Aquareave", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 2028, skillId: 22302, skillName: "Aqua Rift", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 2028, skillId: 22303, skillName: "Tide Call", unlockLevel: 1, maxLevel: 10 },
+{ jobId: 2028, skillId: 22304, skillName: "Frost Shatter ", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 2028, skillId: 22305, skillName: "Frimveil", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 2028, skillId: 22306, skillName: "Arcane Collapse", unlockLevel: 31, maxLevel: 5 },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -652,6 +658,12 @@
 { jobId: 4025, skillId: 42111, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
 { jobId: 4025, skillId: 42112, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
 { jobId: 4025, skillId: 42113, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 4026, skillId: 42114, skillName: "Aquareave", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4026, skillId: 42115, skillName: "Aqua Rift", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4026, skillId: 42116, skillName: "Tide Call", unlockLevel: 1, maxLevel: 10 },
+{ jobId: 4026, skillId: 42117, skillName: "Frost Shatter ", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 4026, skillId: 42118, skillName: "Frimveil", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 4026, skillId: 42119, skillName: "Arcane Collapse", unlockLevel: 31, maxLevel: 5 },
 
 // Scout
 //---------------------------------------------------------------------------

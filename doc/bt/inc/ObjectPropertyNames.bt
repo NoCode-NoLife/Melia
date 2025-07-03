@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i396602
+//   Version: i396901
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30532,6 +30532,26 @@ string getPropertyName(int id)
         case 116305: return "dress_costume_ep17tospace01_f";
         case 116306: return "CollectionDressRoomRead_165";
         case 116307: return "CollectionDressRoomRead_164";
+        case 116308: return "limit_field_drop_2";
+        case 116309: return "HiddenJob_Char4_26";
+        case 116310: return "HiddenJob_Char2_28";
+        case 116311: return "UnlockQuest_Char2_28";
+        case 116312: return "TSF04_130_1_cabinet_upgrade";
+        case 116313: return "TSF04_130_1_cabinet";
+        case 116314: return "GEM_AetherBlader_ArcaneCollapse_Wizard_cabinet";
+        case 116315: return "GEM_AetherBlader_Aquareave_Wizard_cabinet";
+        case 116316: return "GEM_AetherBlader_Frimveil_Wizard_cabinet";
+        case 116317: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_107";
+        case 116318: return "GEM_AetherBlader_FrostShatter_Wizard_cabinet";
+        case 116319: return "GEM_AetherBlader_Tidecall_Cleric_cabinet";
+        case 116320: return "GEM_AetherBlader_Tidecall_Wizard_cabinet";
+        case 116321: return "GEM_AetherBlader_AquaRift_Cleric_cabinet";
+        case 116322: return "GEM_AetherBlader_Frimveil_Cleric_cabinet";
+        case 116323: return "UnlockQuest_Char4_26";
+        case 116324: return "GEM_AetherBlader_FrostShatter_Cleric_cabinet";
+        case 116325: return "GEM_AetherBlader_AquaRift_Wizard_cabinet";
+        case 116326: return "GEM_AetherBlader_Aquareave_Cleric_cabinet";
+        case 116327: return "GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet";
         default: return "Unknown";
     }
 }

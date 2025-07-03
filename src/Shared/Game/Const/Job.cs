@@ -55,6 +55,7 @@ namespace Melia.Shared.Game.Const
 		Illusionist = 2025,
 		VultureW = 2026,
 		BonemancerW = 2027,
+		AetherBladerW = 2028,
 
 		// Archer
 		Archer = 3001,
@@ -105,6 +106,7 @@ namespace Melia.Shared.Game.Const
 		Pontifex = 4023,
 		SledgerC = 4024,
 		BonemancerC = 4025,
+		AetherBladerC = 4026,
 
 		// Scout
 		Scout = 5001,

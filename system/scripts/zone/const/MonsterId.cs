@@ -6459,6 +6459,7 @@ public static class MonsterId
 	public const int Bonemancer_Bone_Whip = 160256;
 	public const int Npc_Bonemancer = 160257;
 	public const int Npc_Blitzhunter = 160258;
+	public const int Npc_Aetherblader = 160260;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

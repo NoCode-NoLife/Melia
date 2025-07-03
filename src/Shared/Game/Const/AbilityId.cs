@@ -2411,6 +2411,32 @@ namespace Melia.Shared.Game.Const
 		Illusionist32 = 220037,
 		/// <summary>Apparition</summary>
 		Illusionist33 = 220038,
+		/// <summary>Aquareave: Enhance</summary>
+		AetherBlader1 = 221001,
+		/// <summary>Aqua Rift: Enhance</summary>
+		AetherBlader2 = 221002,
+		/// <summary>Frost Shatter: Enhance</summary>
+		AetherBlader4 = 221004,
+		/// <summary>Frimveil: Enhance</summary>
+		AetherBlader5 = 221005,
+		/// <summary>Arcane Collapse: Enhance</summary>
+		AetherBlader6 = 221006,
+		/// <summary>[Arts] Aquareave: Enhanced Upgrade</summary>
+		AetherBlader101 = 221007,
+		/// <summary>[Arts] Aqua Rift: Enhanced Upgrade</summary>
+		AetherBlader102 = 221008,
+		/// <summary>[Arts] Frost Shatter: Enhanced Upgrade</summary>
+		AetherBlader103 = 221009,
+		/// <summary>[Arts] Frimveil: Enhanced Upgrade</summary>
+		AetherBlader104 = 221010,
+		/// <summary>[Arts] Arcane Collapse: Enhanced Upgrade</summary>
+		AetherBlader105 = 221011,
+		/// <summary>[Arts] Frimveil: Frozen Stance </summary>
+		AetherBlader7 = 221012,
+		/// <summary>Frimveil: Cold Echo </summary>
+		AetherBlader8 = 221013,
+		/// <summary>[Arts] Frost Shatter: Shatterline </summary>
+		AetherBlader9 = 221014,
 		/// <summary>Multi Shot: Enhance</summary>
 		Archer11 = 301001,
 		/// <summary>Multi Shot: Enhance 2</summary>
