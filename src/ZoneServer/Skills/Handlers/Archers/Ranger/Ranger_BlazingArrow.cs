@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);
 
-			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, JumpDistance);
+			var targetPos = caster.Position.GetRelative2D(caster.Direction.Backwards, JumpDistance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 
 			caster.Position = targetPos;

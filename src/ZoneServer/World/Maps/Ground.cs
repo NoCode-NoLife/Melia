@@ -265,7 +265,7 @@ namespace Melia.Zone.World.Maps
 
 			while (currentPos.Get2DDistance(destination) > stepSize)
 			{
-				currentPos = currentPos.GetRelative(dir, stepSize);
+				currentPos = currentPos.GetRelative2D(dir, stepSize);
 
 				if (!this.TryGetHeightAt(currentPos, out var height))
 					return lastValidPos;
@@ -296,7 +296,7 @@ namespace Melia.Zone.World.Maps
 
 			while (currentPos.Get2DDistance(destinationCenter) > stepSize)
 			{
-				currentPos = currentPos.GetRelative(dir, stepSize);
+				currentPos = currentPos.GetRelative2D(dir, stepSize);
 
 				if (!this.TryGetHeightAt(currentPos, out var height))
 					return lastValidPos;
@@ -371,7 +371,7 @@ namespace Melia.Zone.World.Maps
 
 			while (curPos.Get2DDistance(pos2) > stepSize)
 			{
-				curPos = curPos.GetRelative(dir, stepSize);
+				curPos = curPos.GetRelative2D(dir, stepSize);
 
 				if (!this.IsValidPosition(curPos))
 					return true;

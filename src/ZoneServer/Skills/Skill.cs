@@ -299,7 +299,7 @@ namespace Melia.Zone.Skills
 				result.Direction = originPos.GetDirection(farPos);
 
 			result.OriginPos = caster.Position;
-			result.FarPos = result.OriginPos.GetRelative(result.Direction, length);
+			result.FarPos = result.OriginPos.GetRelative2D(result.Direction, length);
 
 			return result;
 		}

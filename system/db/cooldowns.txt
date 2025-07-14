@@ -1629,4 +1629,10 @@
 { id: 9004, className: "BlitzHunter_Lightningrod", isOverheat: false, overheatResetTime: 30000 },
 { id: 9005, className: "BlitzHunter_ElectricSurge", isOverheat: false, overheatResetTime: 30000 },
 { id: 9006, className: "BlitzHunter_Blitzkrieg", isOverheat: false, overheatResetTime: 60000 },
+{ id: 10001, className: "AetherBlader_Aquareave", isOverheat: false, overheatResetTime: 0 },
+{ id: 10002, className: "AetherBlader_AquaRift", isOverheat: false, overheatResetTime: 0 },
+{ id: 10003, className: "AetherBlader_Tidecall", isOverheat: false, overheatResetTime: 0 },
+{ id: 10004, className: "AetherBlader_FrostShatter", isOverheat: false, overheatResetTime: 0 },
+{ id: 10005, className: "AetherBlader_Frimveil", isOverheat: false, overheatResetTime: 0 },
+{ id: 10006, className: "AetherBlader_ArcaneCollapse", isOverheat: false, overheatResetTime: 0 },
 ]

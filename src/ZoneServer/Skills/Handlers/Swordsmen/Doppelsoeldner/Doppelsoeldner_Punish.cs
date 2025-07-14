@@ -56,7 +56,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Doppelsoeldner
 			// If the caster is already in range, they won't move.
 			if (attackPosDist > 0)
 			{
-				var endingPosition = caster.Position.GetRelative(caster.Direction, (float)attackPosDist);
+				var endingPosition = caster.Position.GetRelative2D(caster.Direction, (float)attackPosDist);
 				endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
 
 				caster.Position = endingPosition;

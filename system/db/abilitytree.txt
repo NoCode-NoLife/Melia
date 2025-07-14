@@ -885,6 +885,22 @@
 { category: "Vulture", classId: 101, abilityId: 321277, jobId: 2026, className: "Vulture21", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
 { category: "Vulture", classId: 102, abilityId: 321278, jobId: 2026, className: "Vulture22", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
 
+// AetherBlader
+//---------------------------------------------------------------------------
+{ category: "AetherBlader", classId: 101, abilityId: 221001, jobId: 2028, className: "AetherBlader1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_Aquareave_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 102, abilityId: 221002, jobId: 2028, className: "AetherBlader2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_AquaRift_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 104, abilityId: 221004, jobId: 2028, className: "AetherBlader4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_FrostShatter_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 105, abilityId: 221005, jobId: 2028, className: "AetherBlader5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_Frimveil_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 106, abilityId: 221006, jobId: 2028, className: "AetherBlader6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_ArcaneCollapse_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 1001, abilityId: 221007, jobId: 2028, className: "AetherBlader101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "AetherBlader1", argNum: 65 } },
+{ category: "AetherBlader", classId: 1002, abilityId: 221008, jobId: 2028, className: "AetherBlader102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "AetherBlader2", argNum: 65 } },
+{ category: "AetherBlader", classId: 1003, abilityId: 221009, jobId: 2028, className: "AetherBlader103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "AetherBlader4", argNum: 65 } },
+{ category: "AetherBlader", classId: 1004, abilityId: 221010, jobId: 2028, className: "AetherBlader104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "AetherBlader5", argNum: 65 } },
+{ category: "AetherBlader", classId: 1005, abilityId: 221011, jobId: 2028, className: "AetherBlader105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "AetherBlader6", argNum: 65 } },
+{ category: "AetherBlader", classId: 201, abilityId: 221012, jobId: 2028, className: "AetherBlader7", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_Frimveil_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 107, abilityId: 221013, jobId: 2028, className: "AetherBlader8", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_Frimveil_Wizard", argNum: 1 } },
+{ category: "AetherBlader", classId: 202, abilityId: 221014, jobId: 2028, className: "AetherBlader9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_FrostShatter_Wizard", argNum: 1 } },
+
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", classId: 101, abilityId: 301001, jobId: 3001, className: "Archer11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Archer_Multishot", argNum: 1 } },

@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			}
 			else
 			{
-				targetPos = caster.Position.GetRelative(caster.Direction, TeleportationDistance);
+				targetPos = caster.Position.GetRelative2D(caster.Direction, TeleportationDistance);
 				targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 			}
 

@@ -1629,5 +1629,11 @@ namespace Melia.Shared.Game.Const
 		BlitzHunter_Lightningrod = 9004,
 		BlitzHunter_ElectricSurge = 9005,
 		BlitzHunter_Blitzkrieg = 9006,
+		AetherBlader_Aquareave = 10001,
+		AetherBlader_AquaRift = 10002,
+		AetherBlader_Tidecall = 10003,
+		AetherBlader_FrostShatter = 10004,
+		AetherBlader_Frimveil = 10005,
+		AetherBlader_ArcaneCollapse = 10006,
 	}
 }

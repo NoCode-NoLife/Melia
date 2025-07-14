@@ -9876,6 +9876,36 @@
 		public const string EVENT_2506_VALENTAIN_8 = "EVENT_2506_VALENTAIN_8";
 		public const string TeamBattleLeagueShop_5 = "TeamBattleLeagueShop_5";
 		public const string EVENT_2506_VALENTAIN_12 = "EVENT_2506_VALENTAIN_12";
+		public const string CollectionDressRoomRead_163 = "CollectionDressRoomRead_163";
+		public const string ep17tospace_thmace_cabinet = "ep17tospace_thmace_cabinet";
+		public const string ep17tospace_theme = "ep17tospace_theme";
+		public const string CollectionDressRoomRead_166 = "CollectionDressRoomRead_166";
+		public const string ContentsTotalShop_2506_1 = "ContentsTotalShop_2506_1";
+		public const string dress_costume_ep17tospace02_m = "dress_costume_ep17tospace02_m";
+		public const string dress_costume_ep17tospace01_m = "dress_costume_ep17tospace01_m";
+		public const string dress_costume_ep17tospace02_f = "dress_costume_ep17tospace02_f";
+		public const string ep17tospace_thsword_cabinet = "ep17tospace_thsword_cabinet";
+		public const string dress_costume_ep17tospace01_f = "dress_costume_ep17tospace01_f";
+		public const string CollectionDressRoomRead_165 = "CollectionDressRoomRead_165";
+		public const string CollectionDressRoomRead_164 = "CollectionDressRoomRead_164";
+		public const string limit_field_drop_2 = "limit_field_drop_2";
+		public const string UnlockQuest_Char2_28 = "UnlockQuest_Char2_28";
+		public const string TSF04_130_1_cabinet_upgrade = "TSF04_130_1_cabinet_upgrade";
+		public const string TSF04_130_1_cabinet = "TSF04_130_1_cabinet";
+		public const string GEM_AetherBlader_ArcaneCollapse_Wizard_cabinet = "GEM_AetherBlader_ArcaneCollapse_Wizard_cabinet";
+		public const string GEM_AetherBlader_Aquareave_Wizard_cabinet = "GEM_AetherBlader_Aquareave_Wizard_cabinet";
+		public const string GEM_AetherBlader_Frimveil_Wizard_cabinet = "GEM_AetherBlader_Frimveil_Wizard_cabinet";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_107 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_107";
+		public const string GEM_AetherBlader_FrostShatter_Wizard_cabinet = "GEM_AetherBlader_FrostShatter_Wizard_cabinet";
+		public const string GEM_AetherBlader_Tidecall_Cleric_cabinet = "GEM_AetherBlader_Tidecall_Cleric_cabinet";
+		public const string GEM_AetherBlader_Tidecall_Wizard_cabinet = "GEM_AetherBlader_Tidecall_Wizard_cabinet";
+		public const string GEM_AetherBlader_AquaRift_Cleric_cabinet = "GEM_AetherBlader_AquaRift_Cleric_cabinet";
+		public const string GEM_AetherBlader_Frimveil_Cleric_cabinet = "GEM_AetherBlader_Frimveil_Cleric_cabinet";
+		public const string UnlockQuest_Char4_26 = "UnlockQuest_Char4_26";
+		public const string GEM_AetherBlader_FrostShatter_Cleric_cabinet = "GEM_AetherBlader_FrostShatter_Cleric_cabinet";
+		public const string GEM_AetherBlader_AquaRift_Wizard_cabinet = "GEM_AetherBlader_AquaRift_Wizard_cabinet";
+		public const string GEM_AetherBlader_Aquareave_Cleric_cabinet = "GEM_AetherBlader_Aquareave_Cleric_cabinet";
+		public const string GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet = "GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -21014,6 +21044,8 @@
 		public const string Pose_KawaikuteGomen = "Pose_KawaikuteGomen";
 		public const string HiddenJob_Char5_21 = "HiddenJob_Char5_21";
 		public const string HiddenJob_Char2_27 = "HiddenJob_Char2_27";
+		public const string HiddenJob_Char4_26 = "HiddenJob_Char4_26";
+		public const string HiddenJob_Char2_28 = "HiddenJob_Char2_28";
 
 		// SessionObject
 		public const string PosX = "PosX";

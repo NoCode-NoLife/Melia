@@ -1218,6 +1218,7 @@ namespace Melia.Shared.Network
 		public const int CZ_USE_INVITE_EVENT_CODE = 0x1078; // Size: 54
 		public const int CZ_GET_INVITE_EVENT_REWARD = 0x1079; // Size: 26
 		public const int ZC_ONLY_ROTATE_MODE = 0x107A; // Size: 787
+		public const int ZC_PLAY_FULLSCREEN_EFFECT = 0x107B; // Size: 274
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -2470,6 +2471,7 @@ namespace Melia.Shared.Network
 			Sizes[CZ_USE_INVITE_EVENT_CODE] = 54;
 			Sizes[CZ_GET_INVITE_EVENT_REWARD] = 26;
 			Sizes[ZC_ONLY_ROTATE_MODE] = 787;
+			Sizes[ZC_PLAY_FULLSCREEN_EFFECT] = 274;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;

@@ -44,7 +44,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			var pad = new Pad(PadName.Peltasta_ShieldLob, caster, skill, new Circle(caster.Position, 40));
-			pad.Position = caster.Position.GetRelative(caster.Direction, 25);
+			pad.Position = caster.Position.GetRelative2D(caster.Direction, 25);
 			pad.Trigger.Subscribe(TriggerType.Enter, this.OnShieldCollision);
 
 			caster.Map.AddPad(pad);

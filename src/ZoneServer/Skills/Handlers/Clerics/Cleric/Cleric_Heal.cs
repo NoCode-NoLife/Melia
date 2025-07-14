@@ -118,7 +118,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 				12,  6,  3,  9,  15,
 			};
 
-			var refPos = caster.Position.GetRelative(caster.Direction, 30);
+			var refPos = caster.Position.GetRelative2D(caster.Direction, 30);
 
 			var level = skill.Level;
 
@@ -141,8 +141,8 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 					if (level < minLevel)
 						continue;
 
-					var pos = refPos.GetRelative(caster.Direction.Left, (xi - 2) * size);
-					pos = pos.GetRelative(caster.Direction, yi * size);
+					var pos = refPos.GetRelative2D(caster.Direction.Left, (xi - 2) * size);
+					pos = pos.GetRelative2D(caster.Direction, yi * size);
 
 					var area = PolygonF.Rectangle(pos, new Vector2F(size, size), caster.Direction.NormalDegreeAngle);
 

@@ -119,7 +119,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			// Caster performs a small backwards leap at the end.
 			// You seem to jump only half the indicated distance.
-			var targetPos = caster.Position.GetRelative(caster.Direction.Backwards, JumpDistance);
+			var targetPos = caster.Position.GetRelative2D(caster.Direction.Backwards, JumpDistance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 
 			caster.Position = targetPos;

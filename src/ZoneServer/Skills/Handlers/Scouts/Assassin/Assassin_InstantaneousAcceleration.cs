@@ -40,7 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var endingPosition = caster.Position.GetRelative(caster.Direction, DashDistance);
+			var endingPosition = caster.Position.GetRelative2D(caster.Direction, DashDistance);
 			endingPosition = caster.Map.Ground.GetLastValidPosition(caster.Position, endingPosition);
 			var actualDistance = (float)endingPosition.Get2DDistance(caster.Position);
 
