@@ -59,7 +59,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			// [Arts] Spirit Expert: Wandering Soul: Instead of letting the player control the spirit,
 			// It spawns an clone character in form of a spirit that is controlled by AI.
 			// So we need to identify the Source character that will be used on the buff ending.
 			var characterSkillHandling = casterCharacter is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
@@ -157,13 +156,17 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="target"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			var dealsDamageCharacter = caster is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? dummyCharacter.Owner
+				: caster;
 
-			target.TakeDamage(skillHitResult.Damage, caster);
+			var skillHitResult = SCR_SkillHit(dealsDamageCharacter, target, skill);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(0));
+			target.TakeDamage(skillHitResult.Damage, dealsDamageCharacter);
 
-			Send.ZC_HIT_INFO(caster, target, hit);
+			var hit = new HitInfo(dealsDamageCharacter, target, skill, skillHitResult, TimeSpan.FromMilliseconds(0));
+
+			Send.ZC_HIT_INFO(dealsDamageCharacter, target, hit);
 		}
 
 		/// <summary>
@@ -187,15 +190,19 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 
 			foreach (var target in targets.LimitRandom(maxTargets))
 			{
-				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				var dealsDamageCharacter = caster is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+					? dummyCharacter.Owner
+					: caster;
 
-				target.TakeDamage(skillHitResult.Damage, caster);
+				var skillHitResult = SCR_SkillHit(dealsDamageCharacter, target, skill);
+
+				target.TakeDamage(skillHitResult.Damage, dealsDamageCharacter);
 
 				// 6 Consecutive hits instead of a single packet
 				for (int i = 0; i < 6; i++)
 				{
-					var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(i * 150));
-					Send.ZC_HIT_INFO(caster, target, hit);
+					var hit = new HitInfo(dealsDamageCharacter, target, skill, skillHitResult, TimeSpan.FromMilliseconds(i * 150));
+					Send.ZC_HIT_INFO(caster, dealsDamageCharacter, hit);
 				}
 			}
 		}

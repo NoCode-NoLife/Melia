@@ -1549,7 +1549,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_ENTER_PC(this.Connection, dummyCharacter);
 			Send.ZC_OWNER(this, dummyCharacter, this.Handle);
-			Send.ZC_UPDATED_PCAPPEARANCE(this, dummyCharacter);
+			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
 
 			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
 

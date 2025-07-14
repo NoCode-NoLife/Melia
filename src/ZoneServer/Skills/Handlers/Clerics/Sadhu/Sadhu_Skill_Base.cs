@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
-using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
@@ -42,7 +41,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			}
 
 			// Prevents from spamming the skills if
-			// somehow the user by pass clients checks
+			// somehow the user bypass clients checks
 			if (casterCharacter.IsOutOfBody())
 				return;
 
@@ -52,7 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 				return;
 			}
 
-			farPos = caster.Position.GetRelative(caster.Direction, 30);
+			farPos = caster.Position.GetRelative2D(caster.Direction, 30);
 			caster.SetAttackState(true);
 			this.SkillReady(caster, skill, farPos);
 
@@ -71,18 +70,17 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			// While the player apparence will assume the spirit form.
 			var dummyCharacter = casterCharacter.Clone(caster.Position);
 
-			Send.ZC_PLAY_ANI(dummyCharacter, "O", false, true);
-			Send.ZC_PLAY_ANI(dummyCharacter, "F_cleric_ramapose2", true, false);
+			Send.ZC_PLAY_ANI(dummyCharacter, "BORN", false);
+			Send.ZC_PLAY_ANI(dummyCharacter, "skl_OOBE_loop", true);
+			Send.ZC_NORMAL.UnkDynamicCastStart(dummyCharacter, SkillId.None);
 
 			this.SkillEffects(casterCharacter, dummyCharacter, dummyCharacter.Position, farPos);
-
-			Send.ZC_PLAY_ANI(dummyCharacter, "I_archer_Firebomb_force_mash", true);
 
 			casterCharacter.Position = farPos;
 			Send.ZC_SET_POS(casterCharacter, farPos);
 
-			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, casterCharacter, 255, 200, 100, 150, 0.01f);
-			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, casterCharacter, SkillId.None);
+			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 200, 100, 150, 0.01f);
+			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, SkillId.None);
 
 			this.SendAvailableSkills(casterCharacter, buffId, skill);
 
@@ -111,11 +109,10 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			var spirit = casterCharacter.Clone(farPos);
 
 			this.SkillEffects(casterCharacter, spirit, spirit.Position, farPos);
+			Send.ZC_SET_POS(spirit, farPos);
 
-			Send.ZC_SET_POS(casterCharacter, spirit.Handle, farPos);
-
-			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, spirit, 255, 200, 100, 150, 0.01f);
-			Send.ZC_NORMAL.UnkDynamicCastStart(casterCharacter, spirit, SkillId.None);
+			Send.ZC_NORMAL.UpdateModelColor(spirit, 255, 200, 100, 150, 0.01f);
+			Send.ZC_NORMAL.UnkDynamicCastStart(spirit, SkillId.None);
 
 			spirit.StartBuff(buffId, 0, 0, TimeSpan.FromSeconds(3), spirit);
 

@@ -15,14 +15,15 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 [Ai("SadhuDummy")]
 public class SadhuDummyAiScript : AiScript
 {
-	private const int MaxChaseDistance = 50;
-	private const int MaxMasterDistance = 80;
+	private const int MaxChaseDistance = 100;
+	private const int MaxMasterDistance = 120;
+	private const int AttackRange = 15;
 
 	ICombatEntity target;
 
 	protected override void Setup()
 	{
-		SetViewDistance(200);
+		SetViewDistance(350);
 
 		SetTendency(TendencyType.Aggressive);
 		HatesFaction(FactionType.Peaceful);
@@ -47,9 +48,9 @@ public class SadhuDummyAiScript : AiScript
 
 		movement.SetMoveSpeedType(MoveSpeedType.Run);
 		
-		if (this.Entity is Character entityCharacter && entityCharacter is DummyCharacter dummyCharacter)
+		if (this.Entity is Character entityCharacter && this.Entity is DummyCharacter dummyCharacter)
 		{
-			SetFixedMoveSpeed(55);
+			SetFixedMoveSpeed(85);
 			Send.ZC_MSPD(entityCharacter);
 		}
 		
@@ -61,17 +62,10 @@ public class SadhuDummyAiScript : AiScript
 		}
 
 		yield return Wait(250, 500);
-
-		SwitchRandom();
-
-		if (Case(80))
-		{
-			yield return MoveRandom();
-		}
 	}
 
 	protected IEnumerable Attack()
-	{		
+	{
 		// Remove the dummy character if the master is gone
 		if (TryGetMaster(out var master) && EntityGone(master) && this.Entity is DummyCharacter dummyCharacter)
 		{
@@ -81,9 +75,9 @@ public class SadhuDummyAiScript : AiScript
 
 		while (!target.IsDead)
 		{
-			if (!TryGetAutoAttackSkill(SkillId.Normal_Attack, out var skill))
+			if (!CanUseAutoAttackSkill(SkillId.Normal_Attack, out var skill))
 			{
-				if (TryGetAutoAttackSkill(SkillId.Hammer_Attack, out var skillHammer))
+				if (CanUseAutoAttackSkill(SkillId.Hammer_Attack, out var skillHammer))
 				{
 					skill = skillHammer;
 				} else
@@ -93,13 +87,10 @@ public class SadhuDummyAiScript : AiScript
 				}
 			}
 
-			while (!InRangeOf(target, 30))
-				yield return MoveTo(target.Position.GetRelative(this.Entity.Position, 25), wait: false);
-
 			yield return StopMove();
 
 			yield return UseAutoAttackSkill(skill, target);
-			yield return Wait(250, 500);
+			yield return Wait(100, 200);
 		}
 
 		yield break;
@@ -113,15 +104,21 @@ public class SadhuDummyAiScript : AiScript
 
 	protected IEnumerable StopAndAttack()
 	{
-		ExecuteOnce(TurnTowards(target));
-
 		yield return StopMove();
 		StartRoutine("Attack", Attack());
 	}
 
-	/// <summary>
-	/// Execute an auto attack towards the target
-	/// </summary>
+	protected IEnumerable MoveToTarget()
+	{
+		ExecuteOnce(TurnTowards(target));
+		yield return MoveTo(target.Position.GetRelative2D(this.Entity.Position, AttackRange - 5), wait: false);
+
+		if (InRangeOf(this.Entity, AttackRange))
+		{
+			StartRoutine("StopAndAttack", StopAndAttack());
+		}
+	}
+
 	private IEnumerable UseAutoAttackSkill(Skill skill, ICombatEntity target)
 	{
 		this.Entity.TurnTowards(target);
@@ -141,10 +138,7 @@ public class SadhuDummyAiScript : AiScript
 		yield return this.Wait(useTime);
 	}
 
-	/// <summary>
-	/// Gets the Auto Attack Skill for the dummy
-	/// </summary>
-	private bool TryGetAutoAttackSkill(SkillId skillId, out Skill skill)
+	private bool CanUseAutoAttackSkill(SkillId skillId, out Skill skill)
 	{
 		skill = null;
 		return this.Entity.Components.Get<SkillComponent>()?.TryGet(skillId, out skill) ?? false;
@@ -152,12 +146,27 @@ public class SadhuDummyAiScript : AiScript
 
 	private void CheckEnemies()
 	{
+		if (target != null && !target.IsDead)
+		{
+			return;
+		}
+
 		var attackableEntities = this.Entity.Map.GetAttackableEntitiesInRange(this.Entity, Entity.Position, MaxChaseDistance);
 
 		if (attackableEntities != null && attackableEntities.Count > 0)
 		{
-			target = attackableEntities[0];
-			StartRoutine("StopAndAttack", StopAndAttack());
+			var closestEnemy = attackableEntities[0];
+
+			foreach (var enemy in attackableEntities)
+			{
+				if (enemy.Position.Get2DDistance(this.Entity.Position)  < closestEnemy.Position.Get2DDistance(this.Entity.Position))
+				{
+					closestEnemy = enemy;
+				}
+			}
+
+			target = closestEnemy;
+			StartRoutine("MoveToTarget", MoveToTarget());
 		}
 	}
 

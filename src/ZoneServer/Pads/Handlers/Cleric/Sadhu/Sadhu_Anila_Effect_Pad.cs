@@ -14,8 +14,8 @@ namespace Melia.Zone.Pads.Handlers.Cleric.Sadhu
 	[PadHandler(PadName.Sadhu_Anila_Effect_Pad)]
 	public class Sadhu_Anila_Effect_Pad : ICreatePadHandler, IDestroyPadHandler
 	{
-		private const float PadMoveDistance = 200;
-		private const float PadMoveSpeedForward = 250;
+		private const float PadMoveDistance = 180;
+		private const float PadMoveSpeedForward = 185;
 
 		/// <summary>
 		/// Called when the pad is created.
@@ -44,8 +44,6 @@ namespace Melia.Zone.Pads.Handlers.Cleric.Sadhu
 			var creator = args.Creator;
 
 			Send.ZC_NORMAL.PadUpdate(creator, pad, PadName.Sadhu_Anila_Effect_Pad, 2.356195f, 0, 50, false);
-
-			CallSafe(this.MovePad(pad, args.Creator));
 		}
 
 		/// <summary>
@@ -55,12 +53,12 @@ namespace Melia.Zone.Pads.Handlers.Cleric.Sadhu
 		/// <param name="creator"></param>
 		private async Task MovePad(Pad pad, ICombatEntity creator)
 		{
-			// Forward and back, hovering a moment in between.
-			var dest = creator.Position.GetRelative(creator.Direction, PadMoveDistance);
-			var moveTime = pad.Movement.MoveTo(dest);
+			// Moves the pad forward.
+			var destination = creator.Position.GetRelative2D(creator.Direction, PadMoveDistance);
+			var moveTime = pad.Movement.MoveTo(destination);
 
 			await Task.Delay(moveTime);
-			await Task.Delay(300);
+			await Task.Delay(150);
 
 			pad.Destroy();
 		}

@@ -1,15 +1,9 @@
-﻿using System;
-using Melia.Shared.Game.Const;
-using Melia.Shared.World;
-using Melia.Zone.Network;
-using Melia.Zone.Skills;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Items;
+﻿using Melia.Zone.Network;
 
 namespace Melia.Zone.World.Actors.Characters
 {
 	/// <summary>
-	/// Represents a player character.
+	/// Represents a dummy character.
 	/// </summary>
 	public class DummyCharacter : Character
 	{
@@ -21,7 +15,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns true if the DummyCharacter has Owner
 		/// </summary>
-		public bool hasOwner => Owner != null;
+		public bool HasOwner => Owner != null;
 
 		/// <summary>
 		/// Despawns/Removes this entity from the map.

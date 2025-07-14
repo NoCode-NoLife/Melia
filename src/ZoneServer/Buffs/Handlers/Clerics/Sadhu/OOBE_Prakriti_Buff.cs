@@ -59,7 +59,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			if (caster is not Character casterCharacter)
 				return;
 
-			// [Arts] Spirit Expert: Wandering Soul: Instead of letting the player control the spirit,
 			// It spawns an clone character in form of a spirit that is controlled by AI.
 			// So we need to identify the Source character that will be used on the buff ending.
 			var skillCharacter = casterCharacter is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
@@ -128,7 +127,9 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				if (caster.IsAbilityActive(AbilityId.Sadhu46) && !target.IsBuffActive(BuffId.OOBE_Prakriti_Sadhu46_Debuff))				
 					target.StartBuff(BuffId.OOBE_Prakriti_Sadhu46_Debuff, 0, 0, TimeSpan.FromSeconds(60), caster);
 
-				target.StartBuff(BuffId.Common_Hold, 0, 0, TimeSpan.FromMilliseconds(5500), caster);
+				if (!target.IsBuffActive(BuffId.Common_Slow))
+					target.StartBuff(BuffId.Common_Slow, 0, 0, TimeSpan.FromSeconds(1), caster);
+
 				this.Attack(skill, caster, target);
 			}
 		}
@@ -141,14 +142,18 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="target"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
+			var dealsDamageCharacter = caster is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? dummyCharacter.Owner
+				: caster;
 
-			target.TakeDamage(skillHitResult.Damage, caster);
+			var skillHitResult = SCR_SkillHit(dealsDamageCharacter, target, skill);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult);
+			target.TakeDamage(skillHitResult.Damage, dealsDamageCharacter);
+
+			var hit = new HitInfo(dealsDamageCharacter, target, skill, skillHitResult);
 			hit.Type = HitType.Type33;
 
-			Send.ZC_HIT_INFO(caster, target, hit);
+			Send.ZC_HIT_INFO(dealsDamageCharacter, target, hit);
 		}
 	}
 }

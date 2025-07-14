@@ -138,14 +138,18 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// <param name="target"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
+			var dealsDamageCharacter = caster is DummyCharacter dummyCharacter && dummyCharacter.Owner.IsAbilityActive(AbilityId.Sadhu35)
+				? dummyCharacter.Owner
+				: caster;
+
 			var modifier = SkillModifier.MultiHit(5);
-			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
+			var skillHitResult = SCR_SkillHit(dealsDamageCharacter, target, skill, modifier);
 
-			target.TakeDamage(skillHitResult.Damage, caster);
+			target.TakeDamage(skillHitResult.Damage, dealsDamageCharacter);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
+			var hit = new HitInfo(dealsDamageCharacter, target, skill, skillHitResult, TimeSpan.FromMilliseconds(200));
 
-			Send.ZC_HIT_INFO(caster, target, hit);
+			Send.ZC_HIT_INFO(dealsDamageCharacter, target, hit);
 		}
 
 		/// <summary>

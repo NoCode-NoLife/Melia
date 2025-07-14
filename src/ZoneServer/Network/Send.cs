@@ -1330,22 +1330,6 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_UPDATED_PCAPPEARANCE of a targetCharacter
-		/// in range of character, updating their appearance.
-		/// </summary>
-		/// <param name="character"></param>
-		/// <param name="targetCharacter"></param>
-		public static void ZC_UPDATED_PCAPPEARANCE(Character character, Character targetCharacter)
-		{
-			var packet = new Packet(Op.ZC_UPDATED_PCAPPEARANCE);
-
-			packet.PutInt(targetCharacter.Handle);
-			packet.AddAppearancePc(targetCharacter);
-
-			character.Map.Broadcast(packet, character);
-		}
-
-		/// <summary>
 		/// Sends ZC_ITEM_ADD to character, adding the item to the inventory.
 		/// </summary>
 		/// <remarks>
@@ -1438,21 +1422,13 @@ namespace Melia.Zone.Network
 		/// Broadcasts ZC_SET_POS in range of actor, updating its position.
 		/// </summary>
 		/// <param name="actor"></param>
-		/// <param name="pos"></param>
-		public static void ZC_SET_POS(IActor actor, Position pos)
-			=> ZC_SET_POS(actor, actor.Handle, actor.Position);
-
-		/// <summary>
-		/// Broadcasts ZC_SET_POS in range of actor for a given target handle, updating its position.
-		/// </summary>
-		/// <param name="actor"></param>
 		/// <param name="targetHandle"></param>
 		/// <param name="pos"></param>
-		public static void ZC_SET_POS(IActor actor, int targetHandle, Position pos)
+		public static void ZC_SET_POS(IActor actor, Position pos)
 		{
 			var packet = new Packet(Op.ZC_SET_POS);
 
-			packet.PutInt(targetHandle);
+			packet.PutInt(actor.Handle);
 			packet.PutPosition(pos);
 			packet.PutByte(0);
 
@@ -1580,10 +1556,6 @@ namespace Melia.Zone.Network
 		/// <param name="propertyList"></param>
 		public static void ZC_OBJECT_PROPERTY(IZoneConnection conn, long objectId, PropertyList propertyList)
 		{
-			// TODO: Find a better way to check this - This was done to avoid sending packets for dummies (while receiving buffs)
-			if (conn == null)
-				return;
-
 			var packet = new Packet(Op.ZC_OBJECT_PROPERTY);
 
 			packet.PutLong(objectId);
@@ -3316,7 +3288,7 @@ namespace Melia.Zone.Network
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		/// <param name="unknowFlag">Used for Sadhu animations.</param>
-		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false, bool unknowFlag = false)
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
@@ -3327,19 +3299,10 @@ namespace Melia.Zone.Network
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			if (unknowFlag)
+			// [i373230] Maybe added earlier
 			{
-				// This seems to be necessary on sadhu dummy animation
-				{
-					packet.PutShort(252);
-				}
-			}
-			else
-			{
-				// [i373230] Maybe added earlier [Updated at 28/07/24]
-				{
-					packet.PutShort(0);
-				}
+				packet.PutByte(0);
+				packet.PutByte(0);
 			}
 
 			actor.Map.Broadcast(packet, actor);
