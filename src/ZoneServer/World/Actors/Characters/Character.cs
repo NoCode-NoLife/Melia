@@ -44,21 +44,6 @@ namespace Melia.Zone.World.Actors.Characters
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
 
 		/// <summary>
-		/// Returns the list of sadhu buffs
-		/// </summary>
-		private static readonly List<BuffId> sadhuBuffList = new List<BuffId>()
-		{
-			BuffId.OOBE_Prakriti_Buff,
-			BuffId.OOBE_Anila_Buff,
-			BuffId.OOBE_Possession_Buff,
-			BuffId.OOBE_Patati_Buff,
-			BuffId.OOBE_Moksha_Buff,
-			BuffId.OOBE_Tanoti_Buff,
-			BuffId.OOBE_Strong_Buff,
-			BuffId.OOBE_Stack_Buff
-		};
-
-		/// <summary>
 		/// Returns true if the character was just saved before a warp.
 		/// </summary>
 		internal bool SavedForWarp { get; private set; }
@@ -411,11 +396,6 @@ namespace Melia.Zone.World.Actors.Characters
 		public event Action<Character> SitStatusChanged;
 
 		/// <summary>
-		/// Raised when the character died.
-		/// </summary>
-		public event Action<Character, ICombatEntity> Died;
-
-		/// <summary>
 		/// Creates new character.
 		/// </summary>
 		public Character() : base()
@@ -635,10 +615,6 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
 				throw new ArgumentException("Map '" + mapId + "' not found in data.");
-
-			// Prevents the player to Warp while he is out of body (sadhu's skills)
-			if (this.IsOutOfBody())			
-				return;
 			
 			this.Position = pos;
 
@@ -1586,6 +1562,18 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool IsOutOfBody()
 		{
+			var sadhuBuffList = new List<BuffId>()
+			{
+				BuffId.OOBE_Prakriti_Buff,
+				BuffId.OOBE_Anila_Buff,
+				BuffId.OOBE_Possession_Buff,
+				BuffId.OOBE_Patati_Buff,
+				BuffId.OOBE_Moksha_Buff,
+				BuffId.OOBE_Tanoti_Buff,
+				BuffId.OOBE_Strong_Buff,
+				BuffId.OOBE_Stack_Buff
+			};
+
 			foreach (var buffId in sadhuBuffList) {
 				if (this.IsBuffActive(buffId))
 					return true;

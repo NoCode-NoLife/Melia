@@ -32,6 +32,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		{
 			var caster = buff.Caster;
 
+			AddPropertyModifier(buff, caster, PropertyName.MSPD_BM, (int)buff.NumArg1);
+
 			// Don't continue if the caster is not a Character
 			if (caster is not Character casterCharacter)
 				return;
@@ -39,7 +41,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			var dummyCharacter = casterCharacter.Map.GetCharacter((int)buff.NumArg2);
 
 			if (dummyCharacter != null)			
-				dummyCharacter.Died += this.OnDummyDied;			
+				dummyCharacter.Died += this.OnDummyDied;
 		}
 
 		/// <summary>
@@ -50,6 +52,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
+
+			RemovePropertyModifier(buff, caster, PropertyName.MSPD_BM);
 
 			// Ignore if the caster is not a Character
 			if (caster is not Character casterCharacter)
@@ -71,7 +75,7 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 			// Creates the Pad that will handles the buff ending effect that damages enemies that touches it.
 			var pad = new Pad(PadName.Sadhu_Anila_Effect_Pad, characterSkillHandling, skill, new Square(caster.Position, caster.Direction, 50, 65));
 
-			pad.Position = caster.Position;
+			pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
 			pad.Trigger.MaxActorCount = 7;
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
 			pad.Trigger.Subscribe(TriggerType.Enter, this.OnCollisionEnter);
@@ -97,9 +101,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				this.RemoveSpritCloneCharacter(dummyCharacter3);
 				return;
 			}
-
-			// Restore character move speed
-			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
 			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Anila_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);

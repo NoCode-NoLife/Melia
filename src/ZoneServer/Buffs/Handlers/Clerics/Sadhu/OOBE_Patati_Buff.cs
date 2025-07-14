@@ -34,6 +34,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		{
 			var caster = buff.Caster;
 
+			AddPropertyModifier(buff, caster, PropertyName.MSPD_BM, (int)buff.NumArg1);
+
 			// Don't continue if the caster is not a Character
 			if (caster is not Character casterCharacter)
 				return;
@@ -52,6 +54,8 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		public override void OnEnd(Buff buff)
 		{
 			var caster = buff.Caster;
+
+			RemovePropertyModifier(buff, caster, PropertyName.MSPD_BM);
 
 			// Ignore if the caster is not a Character
 			if (caster is not Character casterCharacter)
@@ -92,9 +96,6 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 				this.RemoveSpritCloneCharacter(dummyCharacter3);
 				return;
 			}
-
-			// Restore character move speed
-			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, -buff.NumArg1);
 
 			Send.ZC_NORMAL.EndOutOfBodyBuff(casterCharacter, BuffId.OOBE_Patati_Buff);
 			Send.ZC_NORMAL.UpdateModelColor(casterCharacter, 255, 255, 255, 255, 0.01f);

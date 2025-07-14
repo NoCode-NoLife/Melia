@@ -2360,6 +2360,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="actor"></param>
+		/// <param name="ownerHandle"></param>
 		public static void ZC_OWNER(Character character, IActor actor, int ownerHandle)
 		{
 			var packet = new Packet(Op.ZC_OWNER);
@@ -3314,30 +3315,31 @@ namespace Melia.Zone.Network
 		/// <param name="actor">Entity to animate.</param>
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
-			=> ZC_PLAY_ANI(actor, actor, animationName, stopOnLastFrame);
-
-		/// <summary>
-		/// Plays animation for actor and a target on nearby clients with a given animation name.
-		/// </summary>
-		/// <param name="actor">Entity to animate.</param>
-		/// <param name="target">Entity to animate.</param>
-		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
-		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
-		public static void ZC_PLAY_ANI(IActor actor, IActor target, string animationName, bool stopOnLastFrame = false)
+		/// <param name="unknowFlag">Used for Sadhu animations.</param>
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false, bool unknowFlag = false)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
-			packet.PutInt(target.Handle);
+			packet.PutInt(actor.Handle);
 			packet.AddStringId(animationName);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
 			packet.PutFloat(0);
 			packet.PutFloat(1);
 
-			// [i373230] Maybe added earlier [Updated at 28/07/24]
+			if (unknowFlag)
 			{
-				packet.PutShort(0);
+				// This seems to be necessary on sadhu dummy animation
+				{
+					packet.PutShort(252);
+				}
+			}
+			else
+			{
+				// [i373230] Maybe added earlier [Updated at 28/07/24]
+				{
+					packet.PutShort(0);
+				}
 			}
 
 			actor.Map.Broadcast(packet, actor);

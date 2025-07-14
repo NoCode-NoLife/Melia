@@ -56,12 +56,12 @@ namespace Melia.Zone.Buffs.Handlers.Clerics.Sadhu
 		/// </summary>
 		/// <param name="character"></param>
 		/// <param name="killer"></param>
-		protected void OnDummyDied(Character character, ICombatEntity killer)
+		protected void OnDummyDied(ICombatEntity character, ICombatEntity killer)
 		{
 			if (character is DummyCharacter dummyCharacter)
 				dummyCharacter.Owner.StopBuff(BuffId.OOBE_Anila_Buff);
-			else
-				character.StopBuff(BuffId.OOBE_Anila_Buff);
+			else if (character is Character ch)
+				ch.StopBuff(BuffId.OOBE_Anila_Buff);
 		}
 
 		/// <summary>

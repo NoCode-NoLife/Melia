@@ -10,6 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 {
@@ -65,17 +66,17 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 			}
 
 			var moveSpeedBonus = this.GetMoveSpeedBonus(skill);
-			casterCharacter.Properties.Modify(PropertyName.MSPD_BM, moveSpeedBonus);
 
 			// A dummy character, it will stays on the old character position
 			// While the player apparence will assume the spirit form.
 			var dummyCharacter = casterCharacter.Clone(caster.Position);
 
-			Send.ZC_PLAY_ANI(casterCharacter, dummyCharacter, "PRAY", false);
+			Send.ZC_PLAY_ANI(dummyCharacter, "O", false, true);
+			Send.ZC_PLAY_ANI(dummyCharacter, "F_cleric_ramapose2", true, false);
 
 			this.SkillEffects(casterCharacter, dummyCharacter, dummyCharacter.Position, farPos);
 
-			Send.ZC_PLAY_ANI(casterCharacter, dummyCharacter, "I_archer_Firebomb_force_mash", true);
+			Send.ZC_PLAY_ANI(dummyCharacter, "I_archer_Firebomb_force_mash", true);
 
 			casterCharacter.Position = farPos;
 			Send.ZC_SET_POS(casterCharacter, farPos);
@@ -85,6 +86,7 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Sadhu
 
 			this.SendAvailableSkills(casterCharacter, buffId, skill);
 
+			dummyCharacter.StartBuff(BuffId.ReduceDmgCommonAbil_Buff, 0, 0, TimeSpan.FromSeconds(10), dummyCharacter);
 			casterCharacter.StartBuff(buffId, moveSpeedBonus, dummyCharacter.Handle, TimeSpan.FromSeconds(10), casterCharacter);
 		}
 

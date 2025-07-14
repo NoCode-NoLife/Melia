@@ -2,10 +2,10 @@
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Monsters;
 
-namespace Melia.Zone.Pads.Handlers.Scout.Ardito
+namespace Melia.Zone.Pads.Handlers.Cleric.Sadhu
 {
 	/// <summary>
-	/// Handler for the Sadhu Prakriti Pad, creates and disables the effect
+	/// Handler for the Sadhu Moksha Pad, creates and disables the effect
 	/// </summary>
 	[PadHandler(PadName.Sadhu_Moksha_Pad)]
 	public class Sadhu_Moksha_Pad : ICreatePadHandler, IDestroyPadHandler

@@ -6,7 +6,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
 using static Melia.Shared.Util.TaskHelper;
 
-namespace Melia.Zone.Pads.Handlers.Scout.Ardito
+namespace Melia.Zone.Pads.Handlers.Cleric.Sadhu
 {
 	/// <summary>
 	/// Handler for the Sadhu Anila Effect Pad, creates and disables the effect
