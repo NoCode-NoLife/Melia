@@ -26,8 +26,17 @@ namespace Melia.Zone.World.Items
 		/// Creates new dummy item.
 		/// </summary>
 		/// <param name="slot"></param>
-		public DummyEquipItem(EquipSlot slot) : base(Melia.Shared.Game.Const.InventoryDefaults.EquipItems[(int)slot], 1)
+		public DummyEquipItem(EquipSlot slot) : base(InventoryDefaults.EquipItems[(int)slot], 1)
 		{
+		}
+
+		/// <summary>
+		/// Called to load the item's default properties based on its data.
+		/// </summary>
+		protected override void LoadDataProperties()
+		{
+			// Don't load any data or properties for dummy items, as the client
+			// tends to dislike it when dummy items have properties.
 		}
 	}
 }

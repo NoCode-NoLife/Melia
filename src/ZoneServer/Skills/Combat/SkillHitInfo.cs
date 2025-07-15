@@ -1,6 +1,8 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 
 namespace Melia.Zone.Skills.Combat
 {
@@ -86,6 +88,49 @@ namespace Melia.Zone.Skills.Combat
 			this.SkillHitDelay = skillHitDelay;
 			this.HitEffect = result.Effect;
 			this.HitCount = result.HitCount;
+		}
+
+		/// <summary>
+		/// Applies the knock back to the target and updates the hit type.
+		/// </summary>
+		/// <param name="target"></param>
+		public void ApplyKnockBack(ICombatEntity target)
+		{
+			if (this.KnockBackInfo == null)
+				throw new InvalidOperationException("Knock back info is not set.");
+
+			// Knockback immunity check - may need to move this
+			if (target.IsBuffActive(BuffId.BullyPainBarrier_Buff))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+
+			var isKnockBack = this.KnockBackInfo.HitType == HitType.KnockBack;
+			var isKnockDown = this.KnockBackInfo.HitType == HitType.KnockDown;
+
+			if (isKnockBack && target.IsLocked(LockType.GetKnockedBack))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+			else if (isKnockDown && target.IsLocked(LockType.GetKnockedDown))
+			{
+				this.KnockBackInfo = null;
+				return;
+			}
+
+			this.HitInfo.Type = this.KnockBackInfo.HitType;
+			target.Position = this.KnockBackInfo.ToPosition;
+
+			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+
+			// Set knock down state as well if applicable, so we can check for
+			// both KB and KD as necessary. We can't consider them to be the
+			// same because some skills and buffs have special behavior for
+			// knock downs.
+			if (isKnockDown)
+				target.AddState(StateType.KnockedDown, this.KnockBackInfo.Time);
 		}
 	}
 }

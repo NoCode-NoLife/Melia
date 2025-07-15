@@ -12,7 +12,7 @@ Melia.Util.Serialize = function(obj)
 	local s = "{ "
 
 	for k, v in pairs(obj) do
-		if type(k) ~= "number" then k = '"' .. k .. '"' end
+		if type(k) ~= "number" then k = '"' .. tostring(k) .. '"' end
 		s = s .. "["..k.."] = " .. Melia.Util.Serialize(v) .. ", "
 	end
 
@@ -25,4 +25,18 @@ end
 
 function DicID(str)
 	return Melia.Util.DicID(str)
+end
+
+Melia.Util.Split = function(str, sep)
+	if sep == '' then return {str} end
+  
+	local res, from = {}, 1
+
+	repeat
+		local pos = str:find(sep, from)
+		res[#res + 1] = str:sub(from, pos and pos - 1)
+		from = pos and pos + #sep
+	until not from
+
+	return res
 end

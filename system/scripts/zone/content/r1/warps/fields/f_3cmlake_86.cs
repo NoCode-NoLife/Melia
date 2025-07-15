@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_3cmlake_86WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Barynwell 86 Waters to Barynwell 85 Waters
 		AddWarp("F_3CMLAKE_86_TO_F_3CMLAKE_85", 16, From("f_3cmlake_86", -145.4085, -1696.083), To("f_3cmlake_85", -2064, 144));

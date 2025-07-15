@@ -200,7 +200,7 @@ namespace Melia.Barracks.Database
 					cmd.Set("slot", character.Index);
 
 					cmd.Execute();
-					character.Id = cmd.LastId;
+					character.DbId = cmd.LastId;
 				}
 
 				// Equip
@@ -221,7 +221,7 @@ namespace Melia.Barracks.Database
 
 					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
 					{
-						cmd.Set("characterId", character.Id);
+						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
 						cmd.Set("sort", 0);
 						cmd.Set("equipSlot", (byte)item.Slot);
@@ -233,7 +233,7 @@ namespace Melia.Barracks.Database
 				// Job
 				using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
 				{
-					cmd.Set("characterId", character.Id);
+					cmd.Set("characterId", character.DbId);
 					cmd.Set("jobId", character.JobId);
 					cmd.Set("selectionDate", DateTime.Now);
 
@@ -247,14 +247,14 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Deletes character.
 		/// </summary>
-		/// <param name="characterId"></param>
+		/// <param name="character"></param>
 		/// <returns></returns>
-		public bool DeleteCharacter(long characterId)
+		public bool DeleteCharacter(Character character)
 		{
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("DELETE FROM `characters` WHERE `characterId` = @characterId", conn))
 			{
-				mc.Parameters.AddWithValue("@characterId", characterId);
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 				return mc.ExecuteNonQuery() > 0;
 			}
@@ -270,7 +270,7 @@ namespace Melia.Barracks.Database
 			using (var conn = this.GetConnection())
 			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
 			{
-				cmd.AddParameter("@characterId", character.Id);
+				cmd.AddParameter("@characterId", character.DbId);
 				cmd.Set("teamName", character.TeamName);
 				cmd.Set("zone", character.MapId);
 				cmd.Set("bx", character.BarracksPosition.X);
@@ -304,7 +304,7 @@ namespace Melia.Barracks.Database
 						while (reader.Read())
 						{
 							var character = new Character();
-							character.Id = reader.GetInt64("characterId");
+							character.DbId = reader.GetInt64("characterId");
 							character.AccountId = accountId;
 							character.Name = reader.GetStringSafe("name");
 							character.JobId = (JobId)reader.GetInt16("job");
@@ -341,7 +341,7 @@ namespace Melia.Barracks.Database
 					// Items
 					using (var mc = new MySqlCommand("SELECT `i`.*, `inv`.`sort`, `inv`.`equipSlot` FROM `inventory` AS `inv` INNER JOIN `items` AS `i` ON `inv`.`itemId` = `i`.`itemUniqueId` WHERE `characterId` = @characterId AND `equipSlot` != 127", conn))
 					{
-						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 						using (var reader = mc.ExecuteReader())
 						{
@@ -358,7 +358,7 @@ namespace Melia.Barracks.Database
 					// Jobs
 					using (var mc = new MySqlCommand("SELECT `jobId` FROM `jobs` WHERE `characterId` = @characterId", conn))
 					{
-						mc.Parameters.AddWithValue("@characterId", character.Id);
+						mc.Parameters.AddWithValue("@characterId", character.DbId);
 
 						using (var reader = mc.ExecuteReader())
 						{
@@ -404,9 +404,9 @@ namespace Melia.Barracks.Database
 		/// <param name="password"></param>
 		public void SetAccountPassword(string accountName, string password)
 		{
-			var passwordBytes = Encoding.UTF8.GetBytes(password);
-			var passwordHashed = MD5.Encode(passwordBytes);
-			var hashedPassword = Hex.ToString(passwordHashed, HexStringOptions.None);
+			var salt = BCrypt.GenerateSalt();
+			var hashedPassword = MD5.Encode(password);
+			hashedPassword = BCrypt.HashPassword(hashedPassword, salt);
 
 			using (var conn = this.GetConnection())
 			using (var mc = new MySqlCommand("UPDATE `accounts` SET `password` = @password WHERE `name` = @accountName", conn))
@@ -551,16 +551,16 @@ namespace Melia.Barracks.Database
 		/// <summary>
 		/// Adds an item to the character's inventory.
 		/// </summary>
-		/// <param name="characterId"></param>
+		/// <param name="character"></param>
 		/// <param name="itemId"></param>
-		public void SaveItem(long characterId, long itemId)
+		public void SaveItem(Character character, long itemId)
 		{
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
 				using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn))
 				{
-					cmd.Set("characterId", characterId);
+					cmd.Set("characterId", character.DbId);
 					cmd.Set("itemId", itemId);
 					cmd.Set("sort", 0);
 					cmd.Set("equipSlot", 0x7F);

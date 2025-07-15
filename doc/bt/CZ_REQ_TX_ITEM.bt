@@ -2,7 +2,7 @@
 //--- 010 Editor v12.0.1 Binary Template
 //
 //      File: CZ_REQ_TX_ITEM.bt
-//   Authors: Salman T. Khan
+//   Authors: Salman T. Khan, exec
 //   Version: i346841
 //   Purpose: 
 //  Category: 
@@ -15,7 +15,11 @@
 
 ClientHeaderDynamic header;
 
-TxItemType txItemType; // 121, 72
-int64 itemWorldId; // item Id?
-int64 l2; // 0
-int64 l3; // 0
+TxItemType txItemType;
+int64 itemWorldId;
+int64 l2;
+int64 l3;
+byte argCount;
+
+if (argCount > 0)
+    int numArgs[argCount];

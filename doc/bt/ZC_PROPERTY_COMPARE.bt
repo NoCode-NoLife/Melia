@@ -88,6 +88,12 @@ string readEquipItem2(EquipItem2 &v)
     return result;
 }
 
+typedef struct (int count)
+{
+    EquipItem2 items[count];
+}
+EquipItemGroup <optimize=false>;
+
 typedef struct
 {
     short jobId;
@@ -111,7 +117,7 @@ char name[65];
 int64 characterId;
 int64 accountId;
 int i3;
-byte comparing;
+byte openWindow;
 byte addLike;
 int adventurerIndex; // -1 if Index = 0
 int adventurerRank; // -1 if unranked
@@ -123,25 +129,30 @@ char name2[65];
 byte b1;
 short jobId;
 int i2;
-byte gender;
-short s2;
-byte bin1[25];
-short serverGroupId;
-
-short s1;
-int level;
-byte unk2[4];
+int jobLevel;
+short gender;
+int hair;
+byte bin1[6];
+int i7[5];
+uint skinColor <format=hex>;
 short jobIds[4];
 int64 l1;
+
 short propertySize;
 short etcPropertySize;
 
 APPEARANCE_PC appearance;
 
-getProperties(propertySize);
-getProperties(etcPropertySize);
+if (propertySize > 0)
+    PropertyGroup properties(propertySize);
+if (etcPropertySize > 0)
+    PropertyGroup etcProperties(propertySize);
 
-EquipItem2 item[EquipSlotCount];
+byte b2;
+int i4;
+int i5;
+
+EquipItemGroup items(EquipSlotCount);
 
 short jobCount;
 if (jobCount > 0)

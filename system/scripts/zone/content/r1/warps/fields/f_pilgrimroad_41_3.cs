@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_41_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Rasvoy Lake to Salvia Forest
 		AddWarp("PILGRIM41_3_PILGRIM41_2", -88, From("f_pilgrimroad_41_3", -1543.187, 687.9524), To("f_pilgrimroad_41_2", 1890, -985));

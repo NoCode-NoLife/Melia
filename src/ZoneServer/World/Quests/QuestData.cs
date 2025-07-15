@@ -11,7 +11,7 @@ namespace Melia.Zone.World.Quests
 		/// <summary>
 		/// Get or sets the quest's id.
 		/// </summary>
-		public int Id { get; set; }
+		public QuestId Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quest's name.
@@ -24,6 +24,14 @@ namespace Melia.Zone.World.Quests
 		public string Description { get; set; }
 
 		/// <summary>
+		/// Gets or sets the quest's type.
+		/// </summary>
+		/// <remarks>
+		/// Currently used primarily for UI filtering purposes.
+		/// </remarks>
+		public QuestType Type { get; set; } = QuestType.Sub;
+
+		/// <summary>
 		/// Gets or sets the recommended level for the quest.
 		/// </summary>
 		public int Level { get; set; } = 1;
@@ -32,6 +40,12 @@ namespace Melia.Zone.World.Quests
 		/// Gets or sets whether the quest can be cancelled.
 		/// </summary>
 		public bool Cancelable { get; set; } = false;
+
+		/// <summary>
+		/// Gets or sets whether the quest is automatically added to the list
+		/// of tracked quests.
+		/// </summary>
+		public bool AutoTrack { get; set; } = false;
 
 		/// <summary>
 		/// Gets or sets the start delay between meeting the quests
@@ -100,5 +114,40 @@ namespace Melia.Zone.World.Quests
 		/// have been met.
 		/// </summary>
 		Auto,
+	}
+
+	/// <summary>
+	/// Specifies a quest's type.
+	/// </summary>
+	/// <remarks>
+	/// The names of these types mirror the names used in the client and should
+	/// not be changed unless the client is updated.
+	/// </remarks>
+	public enum QuestType
+	{
+		/// <summary>
+		/// A main story quest.
+		/// </summary>
+		Main,
+
+		/// <summary>
+		/// A side quest that is not part of the main story.
+		/// </summary>
+		Sub,
+
+		/// <summary>
+		/// A quest that can be repeated multiple times,
+		/// </summary>
+		Repeat,
+
+		/// <summary>
+		/// A quest that is to be completed with a party.
+		/// </summary>
+		Party,
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		KeyItem,
 	}
 }

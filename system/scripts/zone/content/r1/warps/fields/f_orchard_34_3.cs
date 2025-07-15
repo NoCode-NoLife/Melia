@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_orchard_34_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Barha Forest to Alemeth Forest
 		AddWarp("ORCHARD34_3_ORCHARD34_1", 270, From("f_orchard_34_3", -1649.754, 523.5295), To("f_orchard_34_1", 938, 280));

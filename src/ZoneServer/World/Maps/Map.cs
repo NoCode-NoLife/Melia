@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Network;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Network;
 using Melia.Shared.World;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Maps.Pathfinding;
 using Yggdrasil.Geometry;
 using Yggdrasil.Scheduling;
-using Melia.Zone.World.Actors.Pads;
-using Melia.Zone.World.Actors.Components;
-using Melia.Zone.World.Maps.Pathfinding;
 
 namespace Melia.Zone.World.Maps
 {
@@ -63,11 +62,6 @@ namespace Melia.Zone.World.Maps
 		private readonly Dictionary<int, Pad> _pads = new();
 
 		/// <summary>
-		/// Monsters to add to the map on the next update.
-		/// </summary>
-		private readonly Queue<IMonster> _addMonsters = new();
-
-		/// <summary>
 		/// List for entities during entity update.
 		/// </summary>
 		private readonly List<IUpdateable> _updateEntities = new();
@@ -111,12 +105,6 @@ namespace Melia.Zone.World.Maps
 		/// Returns the number of characters on the map.
 		/// </summary>
 		public int CharacterCount { get { lock (_characters) return _characters.Count; } }
-
-		/// <summary>
-		/// Returns the number of monsters on the map. This includes props
-		/// and item drops.
-		/// </summary>
-		public int MonsterCount { get { lock (_monsters) return _monsters.Count; } }
 
 		/// <summary>
 		/// Default dummy region.
@@ -176,12 +164,6 @@ namespace Melia.Zone.World.Maps
 			// If locked access to the collections ever becomes a
 			// bottle-neck, switch to ReaderWriterLockSlim.
 
-			lock (_addMonsters)
-			{
-				while (_addMonsters.Count > 0)
-					this.AddMonster(_addMonsters.Dequeue());
-			}
-
 			// Create a list of updatables instead of locking and then
 			// updating monsters and characters separately, so that
 			// actions taken by components that get updated don't
@@ -219,7 +201,7 @@ namespace Melia.Zone.World.Maps
 
 			foreach (var monster in toDisappear)
 			{
-				ZoneServer.Instance.ServerEvents.OnMonsterDisappears(monster);
+				ZoneServer.Instance.ServerEvents.MonsterDisappears.Raise(new MonsterEventArgs(monster));
 				this.RemoveMonster(monster);
 			}
 		}
@@ -303,7 +285,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Returns first character found by team name, or null if none exist.
 		/// </summary>
-		/// <param name="handle"></param>
+		/// <param name="teamName"></param>
 		/// <returns></returns>
 		public Character GetCharacterByTeamName(string teamName)
 		{
@@ -314,7 +296,6 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Returns all characters on this map.
 		/// </summary>
-		/// <param name="handle"></param>
 		/// <returns></returns>
 		public Character[] GetCharacters()
 		{
@@ -325,7 +306,7 @@ namespace Melia.Zone.World.Maps
 		/// <summary>
 		/// Returns all characters on this map that match the given predicate.
 		/// </summary>
-		/// <param name="handle"></param>
+		/// <param name="predicate"></param>
 		/// <returns></returns>
 		public Character[] GetCharacters(Func<Character, bool> predicate)
 		{
@@ -458,6 +439,17 @@ namespace Melia.Zone.World.Maps
 		/// <param name="area"></param>
 		/// <returns></returns>
 		public List<TActor> GetActorsIn<TActor>(IShapeF area) where TActor : IActor
+			=> this.GetActorsIn<TActor>(area, null);
+
+		/// <summary>
+		/// Returns all actors with the given type in the area that match the
+		/// predicate.
+		/// </summary>
+		/// <typeparam name="TActor"></typeparam>
+		/// <param name="area"></param>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public List<TActor> GetActorsIn<TActor>(IShapeF area, Func<TActor, bool> predicate) where TActor : IActor
 		{
 			// Searching through both characters and monsters isn't the
 			// most efficient way to get actors of a specific type in an
@@ -471,7 +463,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var monster in _monsters.Values)
 				{
-					if (monster is TActor actor && area.IsInside(actor.Position))
+					if (monster is TActor actor && area.IsInside(actor.Position) && (predicate?.Invoke(actor) ?? true))
 						result.Add(actor);
 				}
 			}
@@ -480,7 +472,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var character in _characters.Values)
 				{
-					if (character is TActor actor && area.IsInside(actor.Position))
+					if (character is TActor actor && area.IsInside(actor.Position) && (predicate?.Invoke(actor) ?? true))
 						result.Add(actor);
 				}
 			}
@@ -758,18 +750,33 @@ namespace Melia.Zone.World.Maps
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="alert"></param>
-		public void AlertAis(IActor source, IAiEventAlert alert)
+		public void AlertNearbyAis(IActor source, IAiEventAlert alert)
 		{
-			lock (_monsters)
+			lock (_combatEntities)
 			{
-				foreach (var monster in _monsters.Values)
+				foreach (var combatEntity in _combatEntities.Values)
 				{
-					if (!monster.Position.InRange2D(source.Position, VisibleRange))
+					if (!combatEntity.Position.InRange2D(source.Position, VisibleRange))
 						continue;
 
-					if (monster is not ICombatEntity combatEntity)
+					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
 						continue;
 
+					aiComponent.Script.QueueEventAlert(alert);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Alerts all AIs on the map about the given event.
+		/// </summary>
+		/// <param name="alert"></param>
+		public void AlertAis(IAiEventAlert alert)
+		{
+			lock (_combatEntities)
+			{
+				foreach (var combatEntity in _combatEntities.Values)
+				{
 					if (!combatEntity.Components.TryGet<AiComponent>(out var aiComponent))
 						continue;
 
@@ -805,22 +812,6 @@ namespace Melia.Zone.World.Maps
 				foreach (var character in _characters.Values.Where(a => (includeSource || a != source) && a.Position.InRange2D(source.Position, VisibleRange)))
 					character.Connection.Send(packet);
 			}
-		}
-	}
-
-	/// <summary>
-	/// Dummy map every creature gets by default.
-	/// </summary>
-	public class Limbo : Map
-	{
-		public Limbo()
-			: base(0, "__limbo__")
-		{
-		}
-
-		public override void Broadcast(Packet packet)
-		{
-			//Log.Warning("Broadcast in Limbo.");
 		}
 	}
 }

@@ -234,7 +234,7 @@ namespace Melia.Zone.World.Spawning
 		/// </summary>
 		/// <param name="monster"></param>
 		/// <param name="killer"></param>
-		private void OnMonsterDied(Mob monster, ICombatEntity killer)
+		private void OnMonsterDied(ICombatEntity monster, ICombatEntity killer)
 		{
 			this.Amount--;
 			_flexMeter += FlexMeterIncreasePerDeath;

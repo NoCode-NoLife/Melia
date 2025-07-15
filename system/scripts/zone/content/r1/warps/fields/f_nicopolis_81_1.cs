@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_nicopolis_81_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Starry Town to Istora Ruins
 		AddWarp("NICO811_REMAINS37_3", -18, From("f_nicopolis_81_1", 1647.505, -1414.545), To("f_remains_37_3", -702, 681));

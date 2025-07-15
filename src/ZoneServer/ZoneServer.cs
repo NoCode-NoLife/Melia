@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
-using Melia.Shared.Game.Const;
 using Melia.Shared.IES;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
@@ -122,8 +121,6 @@ namespace Melia.Zone
 			this.LoadIesMods();
 			this.StartWorld();
 
-			var skill = this.Data.SkillDb.Find("Bow_Hanging_Attack");
-
 			this.StartCommunicator();
 			this.StartAcceptor();
 
@@ -230,10 +227,14 @@ namespace Melia.Zone
 				{
 					IEnumerable<Character> characters;
 
+					// XXX: Should kicking exclude the origin character? Whether you
+					//   might want to kick yourself is debatable.
+
+					Log.Info("Received kick request for '{0}' from '{1}'.", kickMessage.TargetName, kickMessage.OriginName);
+
 					if (kickMessage.TargetType == KickTargetType.Player)
 					{
-						var targetCharacter = this.World.GetCharacterByTeamName(kickMessage.TargetName);
-						if (targetCharacter == null)
+						if (!this.World.TryGetCharacterByTeamName(kickMessage.TargetName, out var targetCharacter))
 							break;
 
 						characters = [targetCharacter];
@@ -244,6 +245,10 @@ namespace Melia.Zone
 							break;
 
 						characters = map.GetCharacters();
+					}
+					else if (kickMessage.TargetType == KickTargetType.Zone)
+					{
+						characters = this.World.GetCharacters();
 					}
 					else
 					{

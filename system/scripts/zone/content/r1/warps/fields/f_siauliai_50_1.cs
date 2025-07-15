@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_50_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Gytis Settlement Area to Baron Allerno
 		AddWarp("SIAUL50_1_TO_FARM_47_4", 157, From("f_siauliai_50_1", -794.7111, 1714.197), To("f_siauliai_47_4", 2449, -1222));

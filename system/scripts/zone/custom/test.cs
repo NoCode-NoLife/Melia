@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class TestScript1 : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		AddNpc(20104, "[Accessory Merchant] Ronesa", "c_Klaipe", 269, -611, 90, async dialog =>
 		{

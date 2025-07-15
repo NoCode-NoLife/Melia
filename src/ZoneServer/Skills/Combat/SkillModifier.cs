@@ -1,4 +1,7 @@
-﻿namespace Melia.Zone.Skills.Combat
+﻿using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
+
+namespace Melia.Zone.Skills.Combat
 {
 	/// <summary>
 	/// A class for properties that can modify the damage calculation for a skill.
@@ -22,6 +25,25 @@
 		/// This damage is added before any defense, crit, block, etc. calculations.
 		/// </remarks>
 		public float BonusDamage { get; set; }
+
+		/// <summary>
+		/// Gets or sets the skill's hit multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The user's hit property is multiplied by this value. For example,
+		/// a value of 1.3 would increase the attacker's hit by 30%.
+		/// </remarks>
+		public float HitRateMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the skill's block pen multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The user's block penetration property is multiplied by this value.
+		/// For example, a value of 1.3 would increase the attacker's block
+		/// penetration by 30%.
+		/// </remarks>
+		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets percentage-based defense penetration for DEF and MDEF.
@@ -48,9 +70,29 @@
 		/// </summary>
 		/// <remarks>
 		/// If set, this value acts as the minimum possible chance for a crit
-		/// to occur.
+		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
 		/// </remarks>
 		public float MinCritChance { get; set; } = 0;
+
+		/// <summary>
+		/// Gets or sets the crit chance multiplier.
+		/// </summary>
+		/// <remarks>
+		/// The multiplier gets applied to the crit chance before other bonuses,
+		/// such as BonusCritChance. For example, with a base crit chance of 10%,
+		/// a multiplier of 1.5 and a bonus of 20%, the final crit chance would be:
+		/// 10 * 1.5 + 20 = 35%.
+		/// </remarks>
+		public float CritChanceMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets flat crit chance bonus.
+		/// </summary>
+		/// <remarks>
+		/// The value is in percent. For example, setting it to 20 increases the
+		/// crit chance by 20%.
+		/// </remarks>
+		public float BonusCritChance { get; set; }
 
 		/// <summary>
 		/// Gets or sets damage multiplier applied to skill damage after
@@ -75,15 +117,33 @@
 		/// <summary>
 		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
 		/// </summary>
-		public bool Unblockable { get; set; }
+		public bool Unblockable { get; set; }		
 
 		/// <summary>
 		/// Gets or sets forced block status.
 		/// </summary>
 		/// <remarks>
-		/// If this is true, the attack is always blocked.
+		/// If this is true, the attack is always blocked
+		/// unless it is unblockable.
 		/// </remarks>
 		public bool ForcedBlock { get; set; }
+
+		/// <summary>
+		/// Gets or sets forced hit status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack can't be evaded.
+		/// </remarks>
+		public bool ForcedHit { get; set; }
+
+		/// <summary>
+		/// Gets or sets forced evade status.
+		/// </summary>
+		/// <remarks>
+		/// If this is true, the attack is always evaded
+		/// unless it is unavoidable
+		/// </remarks>
+		public bool ForcedEvade { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced critical status.
@@ -92,6 +152,22 @@
 		/// If this is true, the attack always deals a critical hit.
 		/// </remarks>
 		public bool ForcedCritical { get; set; }
+
+		/// <summary>
+		/// Gets or sets the attack's attribute.
+		/// </summary>
+		/// <remarks>
+		/// If this is set to None, the skill's attribute is used.
+		/// </remarks>
+		public AttributeType AttackAttribute { get; set; } = AttributeType.None;
+
+		/// <summary>
+		/// Gets or sets the target's attribute.
+		/// </summary>
+		/// <remarks>
+		/// If this is set to None, the target's attribute is used.
+		/// </remarks>
+		public AttributeType DefenseAttribute { get; set; } = AttributeType.None;
 
 		/// <summary>
 		/// Returns a new skill modifier with default values.

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class c_KlaipeWarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Klaipeda to West Siauliai Woods
 		AddWarp("WS_KLAPEDA_SIAULST1", -10, From("c_Klaipe", -201, -1182), To("f_siauliai_west", 1630, -733));

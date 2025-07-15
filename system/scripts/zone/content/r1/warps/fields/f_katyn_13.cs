@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_13WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Poslinkis Forest to Owl Burial Ground
 		AddWarp("KATYN13_KATYN7_2", 94, From("f_katyn_13", 71, -2123), To("f_katyn_7_2", 363, 1703));

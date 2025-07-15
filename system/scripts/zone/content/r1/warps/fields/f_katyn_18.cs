@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_18WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Kule Peak to Svalphinghas Forest
 		AddWarp("WS_KATYN18_TO_MAPLE25_2", 90, From("f_katyn_18", 3248, -1961), To("f_maple_25_2", -706, -881));

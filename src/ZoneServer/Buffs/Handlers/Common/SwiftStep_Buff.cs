@@ -14,7 +14,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		private const float DodgeRateBonusPerLevel = 0.03f;
 		private const float MovingShotBonusPerLevel = 0.2f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var drBonus = this.GetDodgeRateBonus(buff);
 			var movingShotBonus = this.GetMovingShotBonus(buff);

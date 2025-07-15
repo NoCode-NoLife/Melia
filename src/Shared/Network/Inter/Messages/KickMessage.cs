@@ -53,5 +53,10 @@ namespace Melia.Shared.Network.Inter.Messages
 		/// Kicks all players on the map with the specified class name.
 		/// </summary>
 		Map,
+
+		/// <summary>
+		/// Kicks all players on the receiving zone server(s).
+		/// </summary>
+		Zone,
 	}
 }

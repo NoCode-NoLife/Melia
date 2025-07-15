@@ -11,6 +11,7 @@ using Melia.Shared.Network.Helpers;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Yggdrasil.Extensions;
+using Melia.Shared.Data.Database;
 
 namespace Melia.Barracks.Network
 {
@@ -247,7 +248,7 @@ namespace Melia.Barracks.Network
 			packet.PutInt(port);
 			packet.PutInt(character.MapId);
 			packet.PutByte((byte)channelId);
-			packet.PutLong(character.Id);
+			packet.PutLong(character.ObjectId);
 			packet.PutByte(0); // Only connects if 0
 			packet.PutByte(1); // Passed to a function if ^ is 0
 
@@ -255,21 +256,25 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Sends social server connection information?
+		/// Sends social server connection information.
 		/// </summary>
 		/// <param name="conn"></param>
-		/// <param name="ip1"></param>
-		/// <param name="port1"></param>
-		/// <param name="ip2"></param>
-		/// <param name="port2"></param>
-		public static void BC_SERVER_ENTRY(IBarracksConnection conn, string ip1, int port1, string ip2, int port2)
+		public static void BC_SERVER_ENTRY(IBarracksConnection conn)
 		{
+			// Get the social servers or default to localhost if they're missing.
+			// This won't fix anything for players if an admin removes the entries
+			// for some reason, but we still want to send the packet either way.
+			var socialServers = BarracksServer.Instance.ServerList.GetAll(ServerType.Social);
+
+			var chatServer = socialServers.FirstOrDefault(a => a.Id == 1) ?? new() { Ip = "127.0.0.1", Port = 9001 };
+			var relationServer = socialServers.FirstOrDefault(a => a.Id == 2) ?? new() { Ip = "127.0.0.1", Port = 9002 };
+
 			var packet = new Packet(Op.BC_SERVER_ENTRY);
 
-			packet.PutInt(IPAddress.Parse(ip1).ToInt32());
-			packet.PutInt(IPAddress.Parse(ip2).ToInt32());
-			packet.PutShort(port1);
-			packet.PutShort(port2);
+			packet.PutInt(IPAddress.Parse(chatServer.Ip).ToInt32());
+			packet.PutInt(IPAddress.Parse(relationServer.Ip).ToInt32());
+			packet.PutShort(chatServer.Port);
+			packet.PutShort(relationServer.Port);
 
 			conn.Send(packet);
 		}

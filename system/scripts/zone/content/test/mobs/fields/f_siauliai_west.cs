@@ -4,7 +4,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 internal class FieldSialuliaiWestMobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		AddPropertyOverrides("f_siauliai_west", MonsterId.Onion, Properties("MHP", 660, "MINPATK", 112, "MAXPATK", 120, "MINMATK", 112, "MAXMATK", 120, "DEF", 10, "MDEF", 10));
 		AddPropertyOverrides("f_siauliai_west", MonsterId.Onion_Big, Properties("MHP", 1385, "MINPATK", 145, "MAXPATK", 156, "MINMATK", 145, "MAXMATK", 156, "DEF", 14, "MDEF", 14));

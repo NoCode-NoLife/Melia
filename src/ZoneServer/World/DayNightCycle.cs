@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
-using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -15,10 +14,10 @@ namespace Melia.Zone.World
 	{
 		private readonly static int TransitionFps = 2;
 
-		public readonly static DaylightParameters DawnParameters = new DaylightParameters(289, 238, 238);
-		public readonly static DaylightParameters DayParameters = new DaylightParameters(255, 255, 255);
-		public readonly static DaylightParameters DuskParameters = new DaylightParameters(306, 221, 221);
-		public readonly static DaylightParameters NightParameters = new DaylightParameters(127, 127, 180, 1, 1.2f);
+		public readonly static DaylightParameters DawnParameters = new(289, 238, 238);
+		public readonly static DaylightParameters DayParameters = new(255, 255, 255);
+		public readonly static DaylightParameters DuskParameters = new(306, 221, 221);
+		public readonly static DaylightParameters NightParameters = new(127, 127, 180, 1, 1.2f);
 
 		private readonly TimeSpan _transitionTime;
 		private long _transitionId;
@@ -50,7 +49,7 @@ namespace Melia.Zone.World
 				case TimeOfDay.Night: this.CurrentParameters = NightParameters; break;
 			}
 
-			ZoneServer.Instance.ServerEvents.PlayerReady += this.OnPlayerReady;
+			ZoneServer.Instance.ServerEvents.PlayerReady.Subscribe(this.OnPlayerReady);
 		}
 
 		/// <summary>
@@ -229,9 +228,9 @@ namespace Melia.Zone.World
 		public float MapLightStrength;
 		public float ModelLightStrength;
 
-		public float FR => R / 255f;
-		public float FG => G / 255f;
-		public float FB => B / 255f;
+		public readonly float FR => this.R / 255f;
+		public readonly float FG => this.G / 255f;
+		public readonly float FB => this.B / 255f;
 
 		/// <summary>
 		/// Creates new parameters from the given values.

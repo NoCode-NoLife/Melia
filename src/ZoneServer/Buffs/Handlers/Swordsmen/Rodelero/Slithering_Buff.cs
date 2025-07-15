@@ -19,7 +19,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 		private const float DefRateBonusPerLevel = 0.05f;
 		private const float MSPDBonusPerLevel = 1.5f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.BLK_RATE_BM, this.GetBlkBonus(buff));
 			AddPropertyModifier(buff, buff.Target, PropertyName.DEF_RATE_BM, this.GetDefBonus(buff));

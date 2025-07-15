@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_73WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Kadumel Cliff to Sventimas Exile
 		AddWarp("TABLELAND73_TABLELAND72", 90, From("f_tableland_73", 1480.685, -1197.682), To("f_tableland_72", 784, 1877));

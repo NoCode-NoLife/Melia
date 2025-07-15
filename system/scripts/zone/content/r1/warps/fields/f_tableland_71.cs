@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_71WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Grand Yard Mesa to Ibre Plateau
 		AddWarp("TABLELAND71_TABLELAND70", 33, From("f_tableland_71", 1939.665, 302.0853), To("f_tableland_70", 895, -2999));

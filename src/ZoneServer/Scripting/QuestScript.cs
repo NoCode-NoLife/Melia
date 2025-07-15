@@ -13,10 +13,10 @@ namespace Melia.Zone.Scripting
 	/// </summary>
 	public abstract class QuestScript : IScript, IDisposable
 	{
-		private readonly static object ScriptsSyncLock = new object();
-		private readonly static Dictionary<int, QuestScript> Scripts = new Dictionary<int, QuestScript>();
-		private readonly static Dictionary<Type, QuestObjective> Objectives = new Dictionary<Type, QuestObjective>();
-		private readonly static List<QuestScript> AutoReceiveQuests = new List<QuestScript>();
+		private readonly static object ScriptsSyncLock = new();
+		private readonly static Dictionary<QuestId, QuestScript> Scripts = new();
+		private readonly static Dictionary<Type, QuestObjective> Objectives = new();
+		private readonly static List<QuestScript> AutoReceiveQuests = new();
 
 		/// <summary>
 		/// Returns this script's quest data.
@@ -26,7 +26,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Returns the id of the quest this script created.
 		/// </summary>
-		public int QuestId => this.Data.Id;
+		public QuestId QuestId => this.Data.Id;
 
 		/// <summary>
 		/// Initializes script, creating the quest and saving it for
@@ -37,7 +37,7 @@ namespace Melia.Zone.Scripting
 		{
 			this.Load();
 
-			if (this.Data.Id == 0)
+			if (this.Data.Id == QuestId.Zero)
 				throw new MissingFieldException($"Quest '{this.GetType().Name}' has no id defined.");
 			if (this.Data.Name == null)
 				throw new MissingFieldException($"Quest '{this.GetType().Name}' has no name defined.");
@@ -72,7 +72,7 @@ namespace Melia.Zone.Scripting
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public static bool Exists(int questId)
+		public static bool Exists(QuestId questId)
 		{
 			lock (ScriptsSyncLock)
 				return Scripts.ContainsKey(questId);
@@ -85,7 +85,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="questId"></param>
 		/// <param name="questScript"></param>
 		/// <returns></returns>
-		public static bool TryGet(int questId, out QuestScript questScript)
+		public static bool TryGet(QuestId questId, out QuestScript questScript)
 		{
 			lock (ScriptsSyncLock)
 				return Scripts.TryGetValue(questId, out questScript);
@@ -104,27 +104,14 @@ namespace Melia.Zone.Scripting
 				if (AutoReceiveQuests.Count == 0)
 					return;
 
-				for (var i = 0; i < AutoReceiveQuests.Count; ++i)
+				foreach (var questScript in AutoReceiveQuests)
 				{
-					var questScript = AutoReceiveQuests[i];
-
-					// Skip if character already has the quest
 					if (character.Quests.Has(questScript.Data.Id))
 						continue;
 
-					// Check if all prerequisites are met
-					var allMet = true;
-					for (var j = 0; j < questScript.Data.Prerequisites.Count; ++j)
-					{
-						var prerequisite = questScript.Data.Prerequisites[j];
-						if (!prerequisite.Met(character))
-							allMet = false;
-					}
-
-					if (!allMet)
+					if (!character.Quests.MeetsPrerequisites(questScript))
 						continue;
 
-					// Start the quest
 					character.Quests.Start(questScript.Data.Id, questScript.Data.StartDelay);
 				}
 			}
@@ -163,8 +150,22 @@ namespace Melia.Zone.Scripting
 		/// Sets the quest's id.
 		/// </summary>
 		/// <param name="id"></param>
-		protected void SetId(int id)
-			=> this.Data.Id = id;
+		[Obsolete("Use SetId(string, int) instead.")]
+		protected void SetId(long id)
+			=> this.SetId(null, id);
+
+		/// <summary>
+		/// Sets the quest's namespace and id.
+		/// </summary>
+		/// <remarks>
+		/// Quests should be grouped within certain namespaces to reduce the risk
+		/// of collisions. These may be based on the creator of the quest, the
+		/// name of a questline, or any number of other factors.
+		/// </remarks>
+		/// <param name="questNamespace">Namespace to place the quest in.</param>
+		/// <param name="id">The id of the quest within the given namespace. Valid range: 1-65535</param>
+		protected void SetId(string questNamespace, long id)
+			=> this.Data.Id = new QuestId(questNamespace, id);
 
 		/// <summary>
 		/// Sets the quest's name.
@@ -181,6 +182,13 @@ namespace Melia.Zone.Scripting
 			=> this.Data.Description = description;
 
 		/// <summary>
+		/// Sets the quest's type.
+		/// </summary>
+		/// <param name="type"></param>
+		protected void SetType(QuestType type)
+			=> this.Data.Type = type;
+
+		/// <summary>
 		/// Sets how the quest handles objective unlocking.
 		/// </summary>
 		/// <param name="unlockType"></param>
@@ -193,6 +201,14 @@ namespace Melia.Zone.Scripting
 		/// <param name="cancelable"></param>
 		protected void SetCancelable(bool cancelable)
 			=> this.Data.Cancelable = cancelable;
+
+		/// <summary>
+		/// Sets whether whether the quest is automatically added to the list
+		/// of tracked quests.
+		/// </summary>
+		/// <param name="enabled"></param>
+		protected void SetAutoTracked(bool enabled)
+			=> this.Data.AutoTrack = enabled;
 
 		/// <summary>
 		/// Sets how the quest is given to players.
@@ -263,7 +279,7 @@ namespace Melia.Zone.Scripting
 		/// <param name="prerequisites"></param>
 		/// <returns></returns>
 		protected OrPrerequisite Or(params QuestPrerequisite[] prerequisites)
-			=> new OrPrerequisite(prerequisites);
+			=> new(prerequisites);
 
 		/// <summary>
 		/// Registers a hook for a dialog.
@@ -315,6 +331,7 @@ namespace Melia.Zone.Scripting
 	/// Used to define which quest scripts handle which quests, based on
 	/// a quest id.
 	/// </summary>
+	[AttributeUsage(AttributeTargets.Class)]
 	public class QuestScriptAttribute : Attribute
 	{
 		/// <summary>

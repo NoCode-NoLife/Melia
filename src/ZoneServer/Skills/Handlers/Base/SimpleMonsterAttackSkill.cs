@@ -41,6 +41,13 @@ namespace Melia.Zone.Skills.Handlers.Base
 			var hitDelay = this.GetHitDelay(skill);
 			var skillHitDelay = skill.Properties.HitDelay;
 
+			// Adjust delays based on skill speed rate. The way the speed rate
+			// actually works is currently somewhat guessed and is mostly based
+			// on research done on dagger attacks by players. For more info,
+			// see MeleeGroundSkillHandler.
+			damageDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
+			hitDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
+
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, designatedTarget.Position, null);
 
 			// Some skills are running on a timer, such as Onion_Attack1.
@@ -54,9 +61,19 @@ namespace Melia.Zone.Skills.Handlers.Base
 			if (hitDelay > TimeSpan.Zero)
 				await Task.Delay(hitDelay);
 
-			// Check if attacker is still able to fight after the delay
+			// Check if attacker is still able to fight after the delay.
+			// Update: This check was primarily added to see if the caster
+			// is still alive after the delay, though we're now also checking
+			// for locks, which this doesn't cover, as the caster might've
+			// gotten locked and unlocked during the delay. We presumably
+			// wouldn't want to continue in that case, but we currently
+			// don't have a way for checking that. The proper way to handle
+			// this would probably be to cancel the skill execution.
 			if (!caster.CanFight())
+			{
+				Send.ZC_SKILL_DISABLE(caster);
 				return;
+			}
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -68,6 +85,8 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 				hits.Add(skillHit);
+
+				this.OnHit(caster, target, skill, skillHitResult);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
@@ -141,6 +160,17 @@ namespace Melia.Zone.Skills.Handlers.Base
 			}
 
 			return splashArea;
+		}
+
+		/// <summary>
+		/// Called for each hit the skill does on a target.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="hitResult"></param>
+		protected virtual void OnHit(ICombatEntity caster, ICombatEntity target, Skill skill, SkillHitResult hitResult)
+		{
 		}
 	}
 }

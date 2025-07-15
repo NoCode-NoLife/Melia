@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_thorn_22WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Dvasia Peak to Saknis Plains
 		AddWarp("THORN22_KATYN14", 0, From("d_thorn_22", -986, -2219), To("f_katyn_14", -3129, -1446));

@@ -4,9 +4,19 @@ function M_QUESTS_DRAW_LIST(frame, quests)
 	
 	frame:DeleteAllControl()
 
+	local filters = GET_QUEST_MODE_OPTION()
+
 	for i = 1, #quests do
 		local quest = quests[i]
-		y = y + M_QUESTS_DRAW_QUEST(frame, quest, i, x, y)
+
+		local filtered = filters[quest.Type] == false
+		if quest.Tracked and filters["Chase"] ~= true then
+			filtered = true
+		end
+
+		if not filtered then
+			y = y + M_QUESTS_DRAW_QUEST(frame, quest, i, x, y)
+		end
 	end
 
 	frame:Invalidate()
@@ -23,6 +33,7 @@ function M_QUESTS_DRAW_QUEST(frame, quest, i, x, y)
 	M_QUESTS_SET_NAME(questCtrl, quest)
 	M_QUESTS_SET_ICON(questCtrl, quest)
 	M_QUESTS_SET_BUTTONS(questCtrl, quest)
+	M_QUESTS_SET_CHASE(questCtrl, quest)
 
 	questCtrl:SetEventScript(ui.LBUTTONDOWN, "M_QUESTS_CLICK_INFO")
 	questCtrl:SetEventScriptArgString(ui.LBUTTONDOWN, quest.ObjectId)

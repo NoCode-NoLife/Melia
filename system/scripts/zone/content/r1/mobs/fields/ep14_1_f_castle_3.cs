@@ -11,7 +11,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class Ep141FCastle3MobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Monster Spawners ---------------------------------
 

@@ -15,7 +15,7 @@ namespace Melia.Shared.IES
 		/// <summary>
 		/// Returns the modified classes.
 		/// </summary>
-		public Dictionary<int, IesModClass> Classes { get; } = new Dictionary<int, IesModClass>();
+		public Dictionary<int, IesModClass> Classes { get; } = new();
 
 		/// <summary>
 		/// Creates new group.

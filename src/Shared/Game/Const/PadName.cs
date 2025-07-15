@@ -44,10 +44,16 @@ namespace Melia.Shared.Game.Const
 		public const string blackman_ArrowRain = "blackman_ArrowRain";
 		public const string blackman_ArrowRain2 = "blackman_ArrowRain2";
 		public const string blackman_pad1 = "blackman_pad1";
+		public const string BlitzHunter_ElectricSurge_Pad = "BlitzHunter_ElectricSurge_Pad";
+		public const string BlitzHunter_TempestShot_Pad = "BlitzHunter_TempestShot_Pad";
+		public const string BlitzHunter_VoltChain_Pad = "BlitzHunter_VoltChain_Pad";
+		public const string BlitzHunter_VoltStrike_Pad = "BlitzHunter_VoltStrike_Pad";
 		public const string BlossomBlader_ControlBlade = "BlossomBlader_ControlBlade";
 		public const string BlossomBlader_Flash = "BlossomBlader_Flash";
 		public const string Bokor_BwaKayiman = "Bokor_BwaKayiman";
 		public const string Bokor_BwaKayiman_Fluting = "Bokor_BwaKayiman_Fluting";
+		public const string Bonemancer_BoneReinforcement = "Bonemancer_BoneReinforcement";
+		public const string Bonemancer_BoneWhip = "Bonemancer_BoneWhip";
 		public const string boss_asiomage_doughnut = "boss_asiomage_doughnut";
 		public const string boss_asiomage_fire = "boss_asiomage_fire";
 		public const string boss_asiomage_square = "boss_asiomage_square";
@@ -291,6 +297,8 @@ namespace Melia.Shared.Game.Const
 		public const string Engineer_KingMechaV_Frozen = "Engineer_KingMechaV_Frozen";
 		public const string Engineer_LightningTurret_Default = "Engineer_LightningTurret_Default";
 		public const string Engineer_LightningTurret_Punishment = "Engineer_LightningTurret_Punishment";
+		public const string ep16_2_boss_firewall = "ep16_2_boss_firewall";
+		public const string ep16_2_grinender_firepillar = "ep16_2_grinender_firepillar";
 		public const string ep16_hogma_sorcerer_lethargy = "ep16_hogma_sorcerer_lethargy";
 		public const string EVENT_2001_NEWYEAR_INIT_PAD = "EVENT_2001_NEWYEAR_INIT_PAD";
 		public const string event_skiaclipse_pad_1 = "event_skiaclipse_pad_1";
@@ -490,10 +498,13 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_Austeja_Pad_Heal = "Kupole_Austeja_Pad_Heal";
 		public const string Kupole_Gabija_cleansing_falme = "Kupole_Gabija_cleansing_falme";
 		public const string Kupole_laima_Wheel_Of_Fate = "Kupole_laima_Wheel_Of_Fate";
+		public const string Kupole_naktis_nightfog = "Kupole_naktis_nightfog";
+		public const string Kupole_SantaZemyna_MerryChristmas = "Kupole_SantaZemyna_MerryChristmas";
 		public const string Kupole_saule_daylight = "Kupole_saule_daylight";
 		public const string Kupole_summerzesty_aquawind1 = "Kupole_summerzesty_aquawind1";
 		public const string Kupole_summerzesty_aquawind2 = "Kupole_summerzesty_aquawind2";
 		public const string Kupole_vakarine_shelter_for_traverlers = "Kupole_vakarine_shelter_for_traverlers";
+		public const string Kupole_Zesty_BladeWhirlwind = "Kupole_Zesty_BladeWhirlwind";
 		public const string lachrymator_pad = "lachrymator_pad";
 		public const string lachrymator_pad_Rogue26 = "lachrymator_pad_Rogue26";
 		public const string Lapene_Donuts = "Lapene_Donuts";
@@ -621,6 +632,7 @@ namespace Melia.Shared.Game.Const
 		public const string Necromancer_FleshHoop_abil = "Necromancer_FleshHoop_abil";
 		public const string Necromancer_FleshStrike = "Necromancer_FleshStrike";
 		public const string Nepenthes = "Nepenthes";
+		public const string neringa_ray_exploitation = "neringa_ray_exploitation";
 		public const string Nuodai_Poison_Remove = "Nuodai_Poison_Remove";
 		public const string Onmyoji_CrystalballShikigami_Pad = "Onmyoji_CrystalballShikigami_Pad";
 		public const string Onmyoji_CrystalballShikigami_Pad2 = "Onmyoji_CrystalballShikigami_Pad2";
@@ -691,6 +703,9 @@ namespace Melia.Shared.Game.Const
 		public const string RE_helgasercle_skl5 = "RE_helgasercle_skl5";
 		public const string RE_lecifer_bat_pad = "RE_lecifer_bat_pad";
 		public const string RE_solcomm_rizepillar_pad = "RE_solcomm_rizepillar_pad";
+		public const string Redania_Beeswax_Pad = "Redania_Beeswax_Pad";
+		public const string Redania_Hive_Honey_Pad = "Redania_Hive_Honey_Pad";
+		public const string Redania_Wall_Pad = "Redania_Wall_Pad";
 		public const string RingCrawler_ElectricFields = "RingCrawler_ElectricFields";
 		public const string Rodelero_ShieldCharge = "Rodelero_ShieldCharge";
 		public const string Rogue_Lachrymator_abil = "Rogue_Lachrymator_abil";
@@ -756,6 +771,7 @@ namespace Melia.Shared.Game.Const
 		public const string Shinobi_Mijin_no_jutsu = "Shinobi_Mijin_no_jutsu";
 		public const string shootpad_BleedingPierce = "shootpad_BleedingPierce";
 		public const string Shootpad_Bolas = "Shootpad_Bolas";
+		public const string shootpad_Bonemancer_BoneReaper = "shootpad_Bonemancer_BoneReaper";
 		public const string shootpad_Denoptic = "shootpad_Denoptic";
 		public const string shootpad_DodgeFire = "shootpad_DodgeFire";
 		public const string Shootpad_Fireball = "Shootpad_Fireball";
@@ -788,6 +804,8 @@ namespace Melia.Shared.Game.Const
 		public const string Skiaclipse_pad_6 = "Skiaclipse_pad_6";
 		public const string Skiaclipse_pad_7 = "Skiaclipse_pad_7";
 		public const string Skiaclipse_pad_8 = "Skiaclipse_pad_8";
+		public const string Sledger_BigBang_Sledger15 = "Sledger_BigBang_Sledger15";
+		public const string Sledger_ChargeHammer_Sledger13 = "Sledger_ChargeHammer_Sledger13";
 		public const string SLITHERING_Abil = "SLITHERING_Abil";
 		public const string Slogutis_Fire_Pad = "Slogutis_Fire_Pad";
 		public const string Slogutis_FireExplosion_Pad = "Slogutis_FireExplosion_Pad";
@@ -915,6 +933,7 @@ namespace Melia.Shared.Game.Const
 		public const string velcofer_curse_pad = "velcofer_curse_pad";
 		public const string Velo_Holdbuff = "Velo_Holdbuff";
 		public const string VIBORA_ArousalCharm_Fire_Pad = "VIBORA_ArousalCharm_Fire_Pad";
+		public const string Vulture_Devastation_Archer = "Vulture_Devastation_Archer";
 		public const string Warlock_Mastema = "Warlock_Mastema";
 		public const string Warlock_PoleofAgony = "Warlock_PoleofAgony";
 		public const string Warlock_Sabbath_Fluting = "Warlock_Sabbath_Fluting";
@@ -958,6 +977,7 @@ namespace Melia.Shared.Game.Const
 		public const string wingedhussars_battle_spirit_pad3 = "wingedhussars_battle_spirit_pad3";
 		public const string wingedhussars_ExplosionSpears_pad = "wingedhussars_ExplosionSpears_pad";
 		public const string wingedhussars_InfinitySpears_pad = "wingedhussars_InfinitySpears_pad";
+		public const string wingedhussars_InfinitySpears_pad_520 = "wingedhussars_InfinitySpears_pad_520";
 		public const string Wizard_Darkness = "Wizard_Darkness";
 		public const string Wizard_Fog = "Wizard_Fog";
 		public const string Wizard_Lethargy = "Wizard_Lethargy";

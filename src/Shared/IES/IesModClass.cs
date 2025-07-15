@@ -15,7 +15,7 @@ namespace Melia.Shared.IES
 		/// <summary>
 		/// Returns a list of the modified properties.
 		/// </summary>
-		public Dictionary<string, IesModProperty> Properties { get; } = new Dictionary<string, IesModProperty>();
+		public Dictionary<string, IesModProperty> Properties { get; } = new();
 
 		/// <summary>
 		/// Creates new class.

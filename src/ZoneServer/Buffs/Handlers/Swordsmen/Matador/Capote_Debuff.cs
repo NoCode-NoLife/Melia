@@ -24,8 +24,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 			AddPropertyModifier(buff, target, PropertyName.CRTDR_BM, DecreaseCrtResRate);
 
 			if (target.Components.TryGet<AiComponent>(out var component))			
-				component.Script.QueueEventAlert(new TauntEventAlert(target, caster));
-			
+				component.Script.QueueEventAlert(new TauntEventAlert(target, caster));			
 		}
 
 		public override void OnEnd(Buff buff)

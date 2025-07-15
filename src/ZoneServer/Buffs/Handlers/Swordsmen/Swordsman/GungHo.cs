@@ -11,7 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	{
 		private const float AtkRateBonusPerLevel = 0.02f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var bonus = this.GetAtkRateBonus(buff);
 

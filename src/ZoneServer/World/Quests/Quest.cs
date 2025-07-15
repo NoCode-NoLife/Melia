@@ -51,6 +51,11 @@ namespace Melia.Zone.World.Quests
 		public DateTime CompleteTime { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the quest is set to appear in the quest tracker.
+		/// </summary>
+		public bool Tracked { get; set; }
+
+		/// <summary>
 		/// Returns the quest's data.
 		/// </summary>
 		public QuestData Data { get; }
@@ -84,6 +89,9 @@ namespace Melia.Zone.World.Quests
 		{
 			this.Data = questData;
 
+			if (this.Data.AutoTrack)
+				this.Tracked = true;
+
 			this.InitProgresses();
 			this.InitialUnlock();
 		}
@@ -96,7 +104,7 @@ namespace Melia.Zone.World.Quests
 		/// <exception cref="ArgumentException">
 		/// Thrown if no quest with the given id could be found.
 		/// </exception>
-		public static Quest Create(int questId)
+		public static Quest Create(QuestId questId)
 		{
 			if (!QuestScript.TryGet(questId, out var questScript))
 				throw new ArgumentException($"Quest '{questId}' not found.");
@@ -176,13 +184,12 @@ namespace Melia.Zone.World.Quests
 			var quest = this;
 			var anythingChanged = false;
 
-			for (var j = 0; j < quest.Progresses.Count; j++)
+			foreach (var progress in quest.Progresses)
 			{
-				var progress = quest.Progresses[j];
 				if (!progress.Unlocked)
 					continue;
 
-				if (!(progress.Objective is TObjective tObjective))
+				if (progress.Objective is not TObjective tObjective)
 					continue;
 
 				var count = progress.Count;

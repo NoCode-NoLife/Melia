@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_55WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Penitence Route to Grand Corridor
 		AddWarp("PILGRIM55_CATHEDRAL54", 150, From("f_pilgrimroad_55", 1614.564, 40.79414), To("d_cathedral_54", -1717, -563));

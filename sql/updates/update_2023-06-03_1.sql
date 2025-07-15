@@ -47,7 +47,7 @@ ALTER TABLE `vars_accounts`
   MODIFY `varId` bigint(20) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `vars_accounts`
-  ADD CONSTRAINT `vars_accounts_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `characters` (`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `vars_accounts_ibfk_1` FOREIGN KEY (`accountId`) REFERENCES `accounts`(`accountId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- Remove variables of characters that don't exist anymore
 DELETE FROM `vars` WHERE `owner` LIKE "account:%" AND SUBSTRING(`owner`, 9) NOT IN (SELECT `accountId` FROM `characters`);

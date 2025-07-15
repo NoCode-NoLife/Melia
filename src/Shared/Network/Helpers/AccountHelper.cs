@@ -1,8 +1,10 @@
-﻿using Melia.Shared.Game.Const;
-using Melia.Shared.ObjectProperties;
+﻿using Melia.Shared.ObjectProperties;
 
 namespace Melia.Shared.Network.Helpers
 {
+	/// <summary>
+	/// Extension methods for writing account-related information to packets.
+	/// </summary>
 	public static class AccountHelper
 	{
 		/// <summary>

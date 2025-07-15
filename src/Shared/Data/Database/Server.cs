@@ -89,7 +89,7 @@ namespace Melia.Shared.Data.Database
 				}
 				else
 				{
-					serverData.MapIds = new int[0];
+					serverData.MapIds = [];
 				}
 
 				groupData.Servers.Add(serverData);

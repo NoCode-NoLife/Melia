@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_gele_57_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Tenet Garden to Nefritas Cliff
 		AddWarp("GELE574_TO_GELE573", 6, From("f_gele_57_4", -841, -155), To("f_gele_57_3", 199, 1086));

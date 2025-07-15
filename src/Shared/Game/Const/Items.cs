@@ -410,6 +410,7 @@ namespace Melia.Shared.Game.Const
 	/// </summary>
 	public static class ItemId
 	{
+		public const int Mic = 645001;
 		public const int Silver = 900011;
 		public const int Gold = 900012;
 	}

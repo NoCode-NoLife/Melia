@@ -431,6 +431,41 @@
 { category: "Vanquisher", classId: 108, abilityId: 125016, jobId: 1026, className: "Vanquisher3_1", maxLevel: 3, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_VoidSlash", argNum: 1 } },
 { category: "Vanquisher", classId: 203, abilityId: 125017, jobId: 1026, className: "Vanquisher6_1", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vanquisher_FatalSwordDance", argNum: 1 } },
 
+// Sledger
+//---------------------------------------------------------------------------
+{ category: "Sledger", classId: 101, abilityId: 421033, jobId: 1027, className: "Sledger1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_HeavySmashing_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 102, abilityId: 421034, jobId: 1027, className: "Sledger2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_RollingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 103, abilityId: 421035, jobId: 1027, className: "Sledger3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_ChargeHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 104, abilityId: 421036, jobId: 1027, className: "Sledger4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_SwingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 105, abilityId: 421037, jobId: 1027, className: "Sledger5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_BigBang_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 1001, abilityId: 421038, jobId: 1027, className: "Sledger6", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger1", argNum: 65 } },
+{ category: "Sledger", classId: 1002, abilityId: 421039, jobId: 1027, className: "Sledger7", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger2", argNum: 65 } },
+{ category: "Sledger", classId: 1003, abilityId: 421040, jobId: 1027, className: "Sledger8", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger3", argNum: 65 } },
+{ category: "Sledger", classId: 1004, abilityId: 421041, jobId: 1027, className: "Sledger9", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger4", argNum: 65 } },
+{ category: "Sledger", classId: 1005, abilityId: 421042, jobId: 1027, className: "Sledger10", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Sledger5", argNum: 65 } },
+{ category: "Sledger", classId: 107, abilityId: 421044, jobId: 1027, className: "Sledger13", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_ChargeHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 108, abilityId: 421045, jobId: 1027, className: "Sledger14", maxLevel: 5, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_SwingHammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 201, abilityId: 421046, jobId: 1027, className: "Sledger15", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_BigBang_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 109, abilityId: 421047, jobId: 1027, className: "Sledger16", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_Sledgehammer_Cleric", argNum: 1 } },
+{ category: "Sledger", classId: 110, abilityId: 421048, jobId: 1027, className: "Sledger17", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Sledger_RollingHammer_Cleric", argNum: 1 } },
+
+// Bonemancer
+//---------------------------------------------------------------------------
+{ category: "Bonemancer", classId: 101, abilityId: 321279, jobId: 1028, className: "Bonemancer1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneFist_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 102, abilityId: 321280, jobId: 1028, className: "Bonemancer2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneReaper_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 103, abilityId: 321281, jobId: 1028, className: "Bonemancer3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneWhip_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 104, abilityId: 321282, jobId: 1028, className: "Bonemancer4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneShield_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 105, abilityId: 321283, jobId: 1028, className: "Bonemancer5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneStorm_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 106, abilityId: 321284, jobId: 1028, className: "Bonemancer6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneReinforcement_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 1001, abilityId: 321286, jobId: 1028, className: "Bonemancer101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Bonemancer1", argNum: 65 } },
+{ category: "Bonemancer", classId: 1002, abilityId: 321287, jobId: 1028, className: "Bonemancer102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Bonemancer2", argNum: 65 } },
+{ category: "Bonemancer", classId: 1003, abilityId: 321288, jobId: 1028, className: "Bonemancer103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Bonemancer3", argNum: 65 } },
+{ category: "Bonemancer", classId: 1004, abilityId: 321289, jobId: 1028, className: "Bonemancer104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Bonemancer5", argNum: 65 } },
+{ category: "Bonemancer", classId: 1005, abilityId: 321290, jobId: 1028, className: "Bonemancer105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Bonemancer6", argNum: 65 } },
+{ category: "Bonemancer", classId: 107, abilityId: 321291, jobId: 1028, className: "Bonemancer7", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneFist_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 201, abilityId: 321292, jobId: 1028, className: "Bonemancer8", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneShield_Swordman", argNum: 1 } },
+{ category: "Bonemancer", classId: 202, abilityId: 321293, jobId: 1028, className: "Bonemancer9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneReinforcement_Swordman", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },
@@ -832,6 +867,24 @@
 { category: "Illusionist", classId: 301, abilityId: 220036, jobId: 2025, className: "Illusionist31", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
 { category: "Illusionist", classId: 302, abilityId: 220037, jobId: 2025, className: "Illusionist32", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char2_25", argNum: 45 } },
 
+// Vulture
+//---------------------------------------------------------------------------
+{ category: "Vulture", classId: 1, abilityId: 321261, jobId: 2026, className: "Vulture2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Decomposition_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 2, abilityId: 321262, jobId: 2026, className: "Vulture3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_GravityField_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 3, abilityId: 321263, jobId: 2026, className: "Vulture4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Diffusion_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 4, abilityId: 321265, jobId: 2026, className: "Vulture6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Purification_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 5, abilityId: 321266, jobId: 2026, className: "Vulture7", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Vulture_Devastation_Archer", argNum: 1 } },
+{ category: "Vulture", classId: 11, abilityId: 321268, jobId: 2026, className: "Vulture102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture2", argNum: 65 } },
+{ category: "Vulture", classId: 12, abilityId: 321269, jobId: 2026, className: "Vulture103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture3", argNum: 65 } },
+{ category: "Vulture", classId: 13, abilityId: 321270, jobId: 2026, className: "Vulture104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture4", argNum: 65 } },
+{ category: "Vulture", classId: 14, abilityId: 321272, jobId: 2026, className: "Vulture106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture6", argNum: 65 } },
+{ category: "Vulture", classId: 15, abilityId: 321273, jobId: 2026, className: "Vulture107", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Vulture7", argNum: 65 } },
+{ category: "Vulture", classId: 51, abilityId: 321274, jobId: 2026, className: "Vulture11", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture11", argNum: 350 } },
+{ category: "Vulture", classId: 52, abilityId: 321275, jobId: 2026, className: "Vulture12", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture12", argNum: 350 } },
+{ category: "Vulture", classId: 53, abilityId: 321276, jobId: 2026, className: "Vulture13", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_350LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "Vulture13", argNum: 350 } },
+{ category: "Vulture", classId: 101, abilityId: 321277, jobId: 2026, className: "Vulture21", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
+{ category: "Vulture", classId: 102, abilityId: 321278, jobId: 2026, className: "Vulture22", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_JOB_LEVEL", argStr: "Char3_25", argNum: 45 } },
+
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", classId: 101, abilityId: 301001, jobId: 3001, className: "Archer11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Archer_Multishot", argNum: 1 } },
@@ -1189,6 +1242,24 @@
 { category: "BowMaster", classId: 1004, abilityId: 321257, jobId: 3107, className: "BowMaster104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster4", argNum: 65 } },
 { category: "BowMaster", classId: 1005, abilityId: 321258, jobId: 3107, className: "BowMaster105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster5", argNum: 65 } },
 { category: "BowMaster", classId: 1006, abilityId: 321259, jobId: 3107, className: "BowMaster106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BowMaster6", argNum: 65 } },
+
+// BlitzHunter
+//---------------------------------------------------------------------------
+{ category: "BlitzHunter", classId: 101, abilityId: 321296, jobId: 3110, className: "BlitzHunter1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_VoltStrike_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 102, abilityId: 321297, jobId: 3110, className: "BlitzHunter2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_VoltChain_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 103, abilityId: 321298, jobId: 3110, className: "BlitzHunter3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_TempestShot_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 104, abilityId: 321299, jobId: 3110, className: "BlitzHunter4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_Lightningrod_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 105, abilityId: 321300, jobId: 3110, className: "BlitzHunter5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_ElectricSurge_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 1001, abilityId: 321301, jobId: 3110, className: "BlitzHunter101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BlitzHunter1", argNum: 65 } },
+{ category: "BlitzHunter", classId: 1002, abilityId: 321302, jobId: 3110, className: "BlitzHunter102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BlitzHunter2", argNum: 65 } },
+{ category: "BlitzHunter", classId: 1003, abilityId: 321303, jobId: 3110, className: "BlitzHunter103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BlitzHunter3", argNum: 65 } },
+{ category: "BlitzHunter", classId: 1004, abilityId: 321304, jobId: 3110, className: "BlitzHunter104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BlitzHunter4", argNum: 65 } },
+{ category: "BlitzHunter", classId: 1005, abilityId: 321305, jobId: 3110, className: "BlitzHunter105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "BlitzHunter5", argNum: 65 } },
+{ category: "BlitzHunter", classId: 201, abilityId: 321306, jobId: 3110, className: "BlitzHunter6", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_LightningStep_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 106, abilityId: 321307, jobId: 3110, className: "BlitzHunter7", maxLevel: 3, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_Lightningrod_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 202, abilityId: 321308, jobId: 3110, className: "BlitzHunter8", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_ElectricSurge_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 203, abilityId: 321309, jobId: 3110, className: "BlitzHunter9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_Blitzkrieg_Archer", argNum: 1 } },
+{ category: "BlitzHunter", classId: 107, abilityId: 321310, jobId: 3110, className: "BlitzHunter10", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_VoltChain_Archer", argNum: 1 } },
 
 // Cleric
 //---------------------------------------------------------------------------

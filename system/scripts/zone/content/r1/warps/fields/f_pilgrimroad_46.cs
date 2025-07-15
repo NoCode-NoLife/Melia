@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_pilgrimroad_46WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Starving Demon's Way to Fedimian
 		AddWarp("PILGRIM46_FEDMIAN", -45, From("f_pilgrimroad_46", -2072.84, -2455.15), To("c_fedimian", 807, 1031));

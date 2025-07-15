@@ -1,11 +1,11 @@
 Melia
 =============================================================================
 
-Melia is an open-source MMORPG server, developed as a collaborative affort
+Melia is an open-source MMORPG server, developed as a collaborative effort
 of programmers from all around the world. We're aiming to create a server
 software that provides a stable and extensible platform for users to build
-their own projects on top of, while giving developers the oppurtunity to
-learn and hone their skills in a familar environment.
+their own projects on top of, while giving developers the opportunity to
+learn and hone their skills in a familiar environment.
 
 This project is very explicilty not about playing a game or competing
 with any services provided by game developers or publishers, and we don't
@@ -69,10 +69,12 @@ Afterwards, you should be able to start Melia via the provided scripts or
 directly from the bin directories. If not, or if you need a more detailed
 guide, head over to our forum, the chat, or the wiki.
 
-Contribution
+Further Reading
 -----------------------------------------------------------------------------
 
-Check the file CONTRIBUTING.md for instructions on how you may contribute.
+* Check the FAQ.md for frequently asked questions about Melia.
+* Check the file CONTRIBUTING.md for detailed information on how you may
+  contribute.
 
 Links
 -----------------------------------------------------------------------------
@@ -81,4 +83,3 @@ Links
 * Wiki: https://github.com/NoCode-NoLife/melia/wiki
 * Forum: https://nocodenolife.org/forum/65-melia/
 * Chat: https://discord.gg/5sszEgw
-

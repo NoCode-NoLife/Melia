@@ -6,6 +6,7 @@
 
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
@@ -87,6 +88,12 @@ public class CustomCommandFunctionsScript : GeneralScript
 		var jobId = (JobId)numArg1;
 		var username = character.Connection.Account.Name;
 
+		if (ZoneServer.Instance.Conf.World.NoAdvancement)
+		{
+			Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' tried to switch jobs, despite job advancement being disabled.", username);
+			return CustomCommandResult.Fail;
+		}
+
 		if (!ZoneServer.Instance.Data.JobDb.TryFind(jobId, out var jobData))
 		{
 			Log.Warning("CZ_CUSTOM_COMMAND: User '{0}' requested job change to missing job '{1}'.", username, jobId);
@@ -128,7 +135,7 @@ public class CustomCommandFunctionsScript : GeneralScript
 		// Should the event happen regardless of how the job
 		// change happened? Should this code be cleaned up to
 		// use one simple function to accomplish all this? TBD.
-		ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+		ZoneServer.Instance.ServerEvents.PlayerAdvancedJob.Raise(new PlayerEventArgs(character));
 
 		return CustomCommandResult.Okay;
 	}

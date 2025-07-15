@@ -34,7 +34,7 @@ namespace Melia.Zone.Scripting
 		/// <summary>
 		/// Called during initialization to set up the script.
 		/// </summary>
-		public virtual void Load()
+		protected virtual void Load()
 		{
 		}
 	}

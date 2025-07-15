@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Shared.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -10,6 +11,7 @@ using Yggdrasil.Ai.Enumerable;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Scripting;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.Scripting.AI
 {
@@ -38,9 +40,9 @@ namespace Melia.Zone.Scripting.AI
 		private readonly HashSet<FactionType> _hatedFactions = new();
 		private readonly HashSet<int> _hatedMonsters = new();
 
-		private readonly Dictionary<string, List<Action>> _duringActions = new Dictionary<string, List<Action>>();
+		private readonly Dictionary<string, List<Action>> _duringActions = new();
 
-		private readonly Queue<IAiEventAlert> _eventAlerts = new Queue<IAiEventAlert>();
+		private readonly Queue<IAiEventAlert> _eventAlerts = new();
 
 		/// <summary>
 		/// Returns the entity that this script is controlling.
@@ -217,6 +219,12 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var handle = entity.Handle;
 
+			// Hate increases 500% faster if entity has the Liberate buff.
+			// This means instant aggro from aggressive monsters and a
+			// higher chance to keep it.
+			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
+				amount *= 5;
+
 			// Increase the hate level at the normal rate up to the
 			// min aggro level. Once we reach that point we lower
 			// the hate increase so it will still accumulate for
@@ -224,19 +232,39 @@ namespace Melia.Zone.Scripting.AI
 			// couldn't potentially keep up. In theory this should
 			// make it possible to steal aggro, but not too easily.
 
-			if (!_hateLevels.ContainsKey(handle))
-				_hateLevels[handle] = 0;
+			if (!_hateLevels.TryGetValue(handle, out var curHate))
+				_hateLevels[handle] = curHate = 0;
 
-			if (_hateLevels[handle] >= _minAggroHateLevel)
-				amount *= _overHateRate;
+			var newHate = curHate + amount;
 
-			// Hate increases 500% faster if entity has the Liberate buff.
-			// This means instant aggro from aggressive monsters and a
-			// higher chance to keep it.
-			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
-				amount *= 5;
+			// If we're below the min aggro level, increase hate normally
+			if (newHate <= _minAggroHateLevel)
+			{
+				newHate = curHate + amount;
+			}
+			// If we're going past the min aggro level, but we passed the
+			// threshold just now, go to the min level and add the adjusted
+			// amount on top of it
+			else if (curHate <= _minAggroHateLevel)
+			{
+				var hateAboveMinAggro = newHate - _minAggroHateLevel;
+				newHate = _minAggroHateLevel + hateAboveMinAggro * _overHateRate;
+			}
+			// If we've been past the min aggro level already, add the adjusted
+			// amount
+			else
+			{
+				newHate = curHate + amount * _overHateRate;
+			}
 
-			_hateLevels[handle] += amount;
+			// If we wanted to be clever we could do the following, but the above
+			// is easier to grasp.
+			//var addAdjusted = Math.Max(0, curHate + amount - _minAggroHateLevel);
+			//var addNormal = amount - addAdjusted;
+			//var newHate = curHate + addNormal;
+			//newHate += addAdjusted * _overHateRate;
+
+			_hateLevels[handle] = newHate;
 
 			Log.Debug("Monster {0} hate level for {1} is now {2} (min: {3}).", this.Entity.Name, handle, _hateLevels[handle], _minAggroHateLevel);
 		}
@@ -330,7 +358,8 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
-		/// Returns the enemy with the highest hate level in range.
+		/// Returns the enemy with the highest hate level in range. Returns null
+		/// if no nearby enemies have reached the minimum aggro level.
 		/// </summary>
 		/// <returns></returns>
 		protected ICombatEntity GetMostHated()
@@ -484,20 +513,27 @@ namespace Melia.Zone.Scripting.AI
 
 					break;
 				}
+
 				case DecreaseHateEventAlert decreaseHateEventAlert:
 				{
 					var entityWasAttacked = (decreaseHateEventAlert.Target.Handle == this.Entity.Handle);
 					var masterWasAttacked = (decreaseHateEventAlert.Target.Handle == _masterHandle);
 					var masterDidAttack = (decreaseHateEventAlert.Attacker.Handle == _masterHandle);
 
-					if (_hateLevels.Count <= 1)					
+					if (_hateLevels.Count <= 1)
 						return;
-					
+
 					if (entityWasAttacked || masterWasAttacked)
 						this.IncreaseHate(decreaseHateEventAlert.Attacker, -_hatePerHit);
 					else if (masterDidAttack)
 						this.IncreaseHate(decreaseHateEventAlert.Target, -_hatePerHit);
+						
+					break;
+				}
 
+				case HateIncreaseAlert hateIncreaseAlert:
+				{
+					this.IncreaseHate(hateIncreaseAlert.Target, hateIncreaseAlert.Amount);
 					break;
 				}
 			}
@@ -665,6 +701,33 @@ namespace Melia.Zone.Scripting.AI
 				return true;
 
 			return false;
+		}
+
+		/// <summary>
+		/// Gets a valid position adjacent to the given target within range.
+		/// </summary>
+		/// <remarks>
+		/// Returns target's position if no valid adjacent position could be
+		/// found within a reasonable amount of time.
+		/// </remarks>
+		/// <param name="target"></param>
+		/// <param name="range"></param>
+		/// <returns></returns>
+		protected Position GetAdjacentPosition(ICombatEntity target, float range)
+		{
+			var rnd = RandomProvider.Get();
+
+			var ground = target.Map.Ground;
+			var targetPos = target.Position;
+
+			for (var i = 0; i < 10; i++)
+			{
+				var pos = targetPos.GetRandomInRange2D((int)range, rnd);
+				if (ground.IsValidPosition(pos))
+					return pos;
+			}
+
+			return targetPos;
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Melia.Zone;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors;
@@ -59,11 +60,7 @@ public class BasicMonsterAiScript : AiScript
 				continue;
 			}
 
-			while (!InRangeOf(target, skill.GetAttackRange()))
-				yield return MoveTo(target.Position, wait: false);
-
-			yield return StopMove();
-
+			yield return MoveToAttack(target, skill.GetAttackRange());
 			yield return UseSkill(skill, target);
 			yield return Wait(skill.Properties.Delay);
 		}
@@ -98,6 +95,15 @@ public class BasicMonsterAiScript : AiScript
 
 	private void CheckTarget()
 	{
+		// Switch targets if the current one is no longer the most hated one
+		var mostHated = GetMostHated();
+		if (mostHated != null && target != mostHated)
+		{
+			target = mostHated;
+			StartRoutine("StopAndAttack", StopAndAttack());
+			return;
+		}
+
 		// Transition to idle if the target has vanished or is out of range
 		if (EntityGone(target) || !InRangeOf(target, MaxChaseDistance) || !IsHating(target))
 		{

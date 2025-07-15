@@ -91,6 +91,32 @@ namespace Melia.Zone.Scripting.AI
 	}
 
 	/// <summary>
+	/// Information for the AI that it should increase the Hate
+	/// </summary>
+	public class HateIncreaseAlert : IAiEventAlert
+	{
+		/// <summary>
+		/// Returns the entity for which the hate should increase
+		/// </summary>
+		public ICombatEntity Target { get; }
+
+		/// <summary>
+		/// Returns the amount of hate to gain.
+		/// </summary>
+		public float Amount { get; }
+
+		/// <summary>
+		/// Creates new event.
+		/// </summary>
+		/// <param name="target"></param>
+		public HateIncreaseAlert(ICombatEntity target, float amount)
+		{
+			this.Target = target;
+			this.Amount = amount;
+		}
+	}
+	
+	/// <summary>
 	/// Information for the AI that it should decrease the Hate
 	/// </summary>
 	public class DecreaseHateEventAlert : IAiEventAlert

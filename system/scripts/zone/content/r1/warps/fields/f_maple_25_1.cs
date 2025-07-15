@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_maple_25_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Nheto Forest to Inner Wall District 8
 		AddWarp("MAPLE_25_1_TO_CASTLE_20_3", 90, From("f_maple_25_1", 1582.666, 943.1121), To("f_castle_20_3", -1602, -526));

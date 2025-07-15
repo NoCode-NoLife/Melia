@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_tableland_70WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Ibre Plateau to Inner Enceinte District
 		AddWarp("TABLELAND70_FLASH64", 65, From("f_tableland_70", 4605.454, -4493.095), To("f_flash_64", -351, 1978));

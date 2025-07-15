@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_13_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Secret Room to Tenet Garden
 		AddWarp("KATYN_13_2_GELE574", 90, From("f_katyn_13_2", 522, -1938), To("f_gele_57_4", -930, 2378));

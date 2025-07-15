@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_abbey_35_4WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Elgos Monastery Main Building to Galeed Plateau
 		AddWarp("ABBEY_35_4_TO_ROKAS_36_1", -85, From("d_abbey_35_4", -1715.557, -549.7579), To("f_rokas_36_1", 1675, 364));

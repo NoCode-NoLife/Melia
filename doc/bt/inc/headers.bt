@@ -60,3 +60,11 @@ typedef struct
     short size;
 }
 ServerHeaderDynamic <optimize=false>;
+
+typedef struct
+{
+    short op;
+    int sequence;
+    int checksum;
+}
+ClientHeaderFixedSocial <optimize=false>;

@@ -3,6 +3,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
@@ -33,16 +34,15 @@ namespace Melia.Zone.Network
 			/// Attaches effect to actor on clients in range.
 			/// </summary>
 			/// <param name="actor"></param>
-			public static void AttachEffect(IActor actor, string packetString, float scale = 1)
+			/// <param name="effectName"></param>
+			/// <param name="scale"></param>
+			public static void AttachEffect(IActor actor, string effectName, float scale = 1)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -58,18 +58,15 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="actor"></param>
-			/// <param name="packetString"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
-			public static void AttachEffect(IZoneConnection conn, IActor actor, string packetString, float scale = 1)
+			public static void AttachEffect(IZoneConnection conn, IActor actor, string effectName, float scale = 1)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutInt(3);
 				packet.PutFloat(0);
@@ -97,22 +94,19 @@ namespace Melia.Zone.Network
 			/// Plays given effect on actor.
 			/// </summary>
 			/// <param name="actor"></param>
-			/// <param name="packetString"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
-			public static void PlayEffect(IActor actor, string packetString, float scale = 1)
+			public static void PlayEffect(IActor actor, string effectName, float scale = 1, EffectLocation location = EffectLocation.Bottom)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
 
 				packet.PutInt(actor.Handle);
 				packet.PutByte(1);
-				packet.PutInt(2);
+				packet.PutInt((int)location);
 				packet.PutByte(0);
 				packet.PutFloat(scale);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(effectName);
 				packet.PutInt(0);
 
 				actor.Map.Broadcast(packet, actor);
@@ -124,7 +118,7 @@ namespace Melia.Zone.Network
 			/// <remarks>
 			/// The text effect is a small floating text that appears above the
 			/// given actor. The actual string displayed is dictated by the
-			/// Lua function given as the "packetString" argument, which is
+			/// Lua function given as the "funcName" argument, which is
 			/// looked up in the packet string database, to send a reference
 			/// to that name in form of an integer. This means that you can
 			/// only use functions found inside that database by default.
@@ -165,33 +159,27 @@ namespace Melia.Zone.Network
 			/// </example>
 			/// <param name="actor"></param>
 			/// <param name="caster"></param>
-			/// <param name="packetString"></param>
+			/// <param name="funcName"></param>
 			/// <param name="argNum"></param>
 			/// <param name="argStr"></param>
 			/// <param name="idSpace"></param>
 			/// <param name="classId"></param>
-			public static void PlayTextEffect(IActor actor, IActor caster, string packetString, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
+			public static void PlayTextEffect(IActor actor, IActor caster, string funcName, float argNum = 0, string argStr = null, string idSpace = "None", int classId = 0)
 			{
 				// Replace SHOW_CUSTOM_TEXT with SHOW_BUFF_TEXT, to use that function,
 				// which we hijack
-				if (packetString == "SHOW_CUSTOM_TEXT")
+				if (funcName == "SHOW_CUSTOM_TEXT")
 				{
-					packetString = "SHOW_BUFF_TEXT";
+					funcName = "SHOW_BUFF_TEXT";
 					argStr = "CUSTOM:" + argStr;
 				}
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString, out var packetStringData))
-					throw new ArgumentException($"Packet string '{packetString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(idSpace, out var idSpaceData))
-					throw new ArgumentException($"Packet string '{idSpace}' not found.");
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
 
 				packet.PutInt(actor.Handle);
 				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(funcName);
 				packet.PutFloat(argNum);
 
 				if (argStr == null)
@@ -199,7 +187,7 @@ namespace Melia.Zone.Network
 				else
 					packet.PutLpString(argStr);
 
-				packet.PutInt(idSpaceData.Id);
+				packet.AddStringId(idSpace);
 				packet.PutInt(classId);
 
 				actor.Map.Broadcast(packet, actor);
@@ -222,19 +210,13 @@ namespace Melia.Zone.Network
 			/// <param name="f4"></param>
 			public static void SkillProjectile(ICombatEntity entity, string packetString1, float scale1, string packetString2, float scale2, Position position, float f1, float f2, float f3, float f4)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString1, out var packetStringData1))
-					throw new ArgumentException($"Packet string '{packetString1}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(packetString2, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{packetString2}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
 
 				packet.PutInt(entity.Handle);
-				packet.PutInt(packetStringData1.Id);
+				packet.AddStringId(packetString1);
 				packet.PutFloat(scale1);
-				packet.PutInt(packetStringData2.Id);
+				packet.AddStringId(packetString2);
 				packet.PutFloat(scale2);
 				packet.PutPosition(position);
 				packet.PutFloat(f1);
@@ -255,7 +237,7 @@ namespace Melia.Zone.Network
 			/// <param name="str"></param>
 			/// <param name="str2"></param>
 			/// <param name="position"></param>
-			/// <param name="animationName"></param>
+			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
 			/// <param name="tossScale"></param>
 			/// <param name="hangScale"></param>
@@ -265,11 +247,8 @@ namespace Melia.Zone.Network
 			/// <param name="f7"></param>
 			/// <param name="itemScale"></param>
 			/// <param name="itemStayTime"></param>
-			public static void SkillItemToss(IActor character, string str, string str2, Position position, string animationName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
+			public static void SkillItemToss(IActor character, string str, string str2, Position position, string effectName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-					throw new ArgumentException($"Packet string '{animationName}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillItemToss);
 
@@ -277,7 +256,7 @@ namespace Melia.Zone.Network
 				packet.PutLpString(str);
 				packet.PutLpString(str2);
 				packet.PutPosition(position);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(effectName);
 				packet.PutFloat(scale);
 				packet.PutFloat(tossScale);
 				packet.PutFloat(hangScale);
@@ -298,34 +277,19 @@ namespace Melia.Zone.Network
 			/// <param name="caster"></param>
 			/// <param name="source"></param>
 			/// <param name="target"></param>
-			/// <param name="effect1PacketString"></param>
+			/// <param name="effect1"></param>
 			/// <param name="effect1Scale"></param>
-			/// <param name="effect2PacketString"></param>
-			/// <param name="effect3PacketString"></param>
+			/// <param name="effect2"></param>
+			/// <param name="effect3"></param>
 			/// <param name="effect3Scale"></param>
-			/// <param name="effect4PacketString"></param>
-			/// <param name="effect5PacketString"></param>
+			/// <param name="effect4"></param>
+			/// <param name="effect5"></param>
 			/// <param name="speed"></param>
 			/// <exception cref="ArgumentException">
 			/// Thrown if any of the packet strings are not found.
 			/// </exception>
-			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1PacketString, float effect1Scale, string effect2PacketString, string effect3PacketString, float effect3Scale, string effect4PacketString, string effect5PacketString, float speed)
+			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1, float effect1Scale, string effect2, string effect3, float effect3Scale, string effect4, string effect5, float speed)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect1PacketString, out var packetStringData1))
-					throw new ArgumentException($"Packet string '{effect1PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect2PacketString, out var packetStringData2))
-					throw new ArgumentException($"Packet string '{effect2PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect3PacketString, out var packetStringData3))
-					throw new ArgumentException($"Packet string '{effect3PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect4PacketString, out var packetStringData4))
-					throw new ArgumentException($"Packet string '{effect4PacketString}' not found.");
-
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(effect5PacketString, out var packetStringData5))
-					throw new ArgumentException($"Packet string '{effect5PacketString}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayForceEffect);
 
@@ -335,13 +299,13 @@ namespace Melia.Zone.Network
 				packet.PutInt(source.Handle);
 				packet.PutInt(target.Handle);
 
-				packet.PutInt(packetStringData1.Id);
+				packet.AddStringId(effect1);
 				packet.PutFloat(effect1Scale);
-				packet.PutInt(packetStringData2.Id);
-				packet.PutInt(packetStringData3.Id);
+				packet.AddStringId(effect2);
+				packet.AddStringId(effect3);
 				packet.PutFloat(effect3Scale);
-				packet.PutInt(packetStringData4.Id);
-				packet.PutInt(packetStringData5.Id);
+				packet.AddStringId(effect4);
+				packet.AddStringId(effect5);
 
 				packet.PutFloat(speed);
 				packet.PutFloat(0);
@@ -411,21 +375,18 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="caster"></param>
 			/// <param name="pad"></param>
-			/// <param name="animationName"></param>
+			/// <param name="padName"></param>
 			/// <param name="f1"></param>
 			/// <param name="f2"></param>
 			/// <param name="f3"></param>
 			/// <param name="isVisible"></param>
-			public static void PadUpdate(ICombatEntity caster, Pad pad, string animationName, float f1, float f2, float f3, bool isVisible)
+			public static void PadUpdate(ICombatEntity caster, Pad pad, string padName, float f1, float f2, float f3, bool isVisible)
 			{
-				if (!ZoneServer.Instance.Data.PacketStringDb.TryFind(animationName, out var packetStringData))
-					throw new ArgumentException($"Packet string '{animationName}' not found.");
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
 				packet.PutInt(caster.Handle);
-				packet.PutInt(packetStringData.Id);
+				packet.AddStringId(padName);
 				packet.PutInt((int)pad.Skill.Id);
 				packet.PutInt(pad.Skill.Level);
 				packet.PutPosition(pad.Position);
@@ -539,6 +500,23 @@ namespace Melia.Zone.Network
 				packet.PutFloat(value);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Cancels certain repeating skill animations, like Barbarian_GiantSwing
+			/// and Cataphract_Rush
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="skillId"></param>
+			public static void SkillCancelCancel(IActor actor, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SkillCancelCancel);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt((int)skillId);
+
+				actor.Map.Broadcast(packet, actor);
 			}
 
 			/// <summary>
@@ -1381,22 +1359,6 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>
-			public static void Unknow_7D(Character character, SkillId skillId)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Unknow_7D);
-
-				packet.PutInt(character.Handle);
-				packet.PutInt((int)skillId);
-
-				character.Map.Broadcast(packet);
-			}
-
-			/// <summary>
-			/// Unkow purposes, used by Matador skill Back Slide
-			/// </summary>
-			/// <param name="character"></param>
-			/// <param name="skillId"></param>
 			public static void FloorEffect(Character character, SkillId skillId)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
@@ -1406,6 +1368,66 @@ namespace Melia.Zone.Network
 				packet.PutInt((int)skillId);
 
 				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Exact purpose unknown, used in some skills when there's no target.
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="skillId"></param>
+			/// <param name="direction"></param>
+			/// <param name="skillHandle"></param>
+			public static void Skill_42(IActor actor, SkillId skillId, Direction direction, int skillHandle)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_42);
+
+				packet.PutInt(actor.Handle);
+				packet.PutInt((int)skillId);
+				packet.PutInt(actor.Handle);
+				packet.PutDirection(direction);
+				packet.PutInt(1);
+				packet.PutFloat(600f);
+				packet.PutFloat(1f);
+				packet.PutInt(1);
+				packet.PutInt(skillHandle);
+				packet.PutFloat(1f);
+				packet.PutInt(0);
+				packet.PutInt(0);
+				packet.PutFloat(512f);
+				packet.PutFloat(55f);
+
+				actor.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Exact purpose unknown, used in some skills when there's no target.
+			/// </summary>
+			/// <param name="actor"></param>
+			public static void Skill_43(IActor actor)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Skill_43);
+
+				packet.PutInt(actor.Handle);
+
+				actor.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Opens book for the player.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="bookName"></param>
+			public static void OpenBook(Character character, string bookName)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.OpenBook);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(bookName);
+
+				character.Connection.Send(packet);
 			}
 		}
 	}

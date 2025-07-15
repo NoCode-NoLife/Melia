@@ -54,26 +54,22 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Reduce a cooldown by a given duration
+		/// Reduces an existing cooldown by the given amount.
 		/// </summary>
+		/// <remarks>
+		/// If no cooldown is active for the given id, this method does nothing.
+		/// </remarks>
 		/// <param name="cooldownId"></param>
-		/// <param name="duration"></param>
-		public void Reduce(CooldownId cooldownId, TimeSpan duration)
+		/// <param name="reduction"></param>
+		public void ReduceCooldown(CooldownId cooldownId, TimeSpan reduction)
 		{
-			lock (_syncLock)
-			{
-				if (_cooldowns.TryGetValue(cooldownId, out var existingCooldown))
-				{
-					var cooldown = existingCooldown;
-					cooldown.Update(duration);
+			var remaining = this.GetRemain(cooldownId);
+			if (remaining == TimeSpan.Zero)
+				return;
 
-					if (cooldown.Remaining == TimeSpan.Zero)
-						_cooldowns.Remove(cooldown.Id);
+			var duration = Math2.Max(TimeSpan.Zero, remaining - reduction);
 
-					if (this.Entity is Character character)
-						Send.ZC_COOLDOWN_CHANGED(character, cooldown, duration.TotalMilliseconds);
-				}
-			}
+			this.Start(cooldownId, duration);
 		}
 
 		/// <summary>
@@ -109,12 +105,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Returns true if the given cooldown is active.
+		/// Returns true if the given cooldown is active. Always returns false if
+		/// a cooldown id of 0 is given.
 		/// </summary>
 		/// <param name="cooldownId"></param>
 		/// <returns></returns>
 		public bool IsOnCooldown(CooldownId cooldownId)
 		{
+			if (cooldownId == 0)
+				return false;
+
 			lock (_syncLock)
 			{
 				if (_cooldowns.TryGetValue(cooldownId, out var cooldown))

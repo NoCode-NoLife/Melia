@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_siauliai_46_3WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Vilna Forest to Uskis Arable Land
 		AddWarp("SIAULIAI46_3_SIAULIAI46_2", 180, From("f_siauliai_46_3", 2224, 1573), To("f_siauliai_46_2", -2338, 3201));

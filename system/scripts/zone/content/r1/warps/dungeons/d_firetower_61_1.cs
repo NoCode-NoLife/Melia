@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_firetower_61_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Roxona Reconstruction Agency West Building to Apsimesti Crossroads
 		AddWarp("FIRETOWER611_TO_PILGRIMROAD52", 0, From("d_firetower_61_1", -300.3336, -2322.191), To("f_pilgrimroad_52", -1716, -27));

@@ -9,7 +9,7 @@ using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.World;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
@@ -18,6 +18,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
@@ -109,7 +110,7 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
-			ZoneServer.Instance.ServerEvents.OnPlayerLoggedIn(character);
+			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			map.AddCharacter(character);
 
@@ -148,7 +149,7 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 			var gameReadyArgs = new PlayerGameReadyEventArgs(character);
 
-			ZoneServer.Instance.ServerEvents.OnPlayerGameReady(gameReadyArgs);
+			ZoneServer.Instance.ServerEvents.PlayerGameReady.Raise(gameReadyArgs);
 			if (gameReadyArgs.CancelHandling)
 				return;
 
@@ -230,7 +231,7 @@ namespace Melia.Zone.Network
 
 			character.OpenEyes();
 
-			ZoneServer.Instance.ServerEvents.OnPlayerReady(character);
+			ZoneServer.Instance.ServerEvents.PlayerReady.Raise(new PlayerEventArgs(character));
 		}
 
 		/// <summary>
@@ -281,8 +282,14 @@ namespace Melia.Zone.Network
 			if (ZoneServer.Instance.ChatCommands.TryExecute(character, msg))
 				return;
 
+			if (character.IsLocked(LockType.Speak))
+			{
+				character.ServerMessage(Localization.Get("You are not allowed to speak right now."));
+				return;
+			}
+
 			Send.ZC_CHAT(character, msg);
-			ZoneServer.Instance.ServerEvents.OnPlayerChat(character, msg);
+			ZoneServer.Instance.ServerEvents.PlayerChat.Raise(new PlayerChatEventArgs(character, msg));
 		}
 
 		/// <summary>
@@ -756,6 +763,7 @@ namespace Melia.Zone.Network
 			var handle = packet.GetInt();
 
 			var character = conn.SelectedCharacter;
+			var cooldowns = character.Components.Get<CooldownComponent>();
 
 			// Get item
 			var item = character.Inventory.GetItem(worldId);
@@ -769,6 +777,13 @@ namespace Melia.Zone.Network
 			if (item.IsLocked)
 			{
 				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use a locked item.", conn.Account.Name);
+				return;
+			}
+
+			// Cooldown sanity check, the client shouldn't allow this
+			if (cooldowns.IsOnCooldown(item.Data.CooldownId))
+			{
+				Log.Warning("CZ_ITEM_USE: User '{0}' tried to use an item while its group was on cooldown.", conn.Account.Name);
 				return;
 			}
 
@@ -805,12 +820,17 @@ namespace Melia.Zone.Network
 						character.Inventory.Remove(item, 1, InventoryItemRemoveMsg.Used);
 				}
 
+				// Set cooldown if applicable
+				if (item.Data.HasCooldown)
+				{
+					var cooldownTime = item.Data.CooldownTime;
+					cooldownTime *= ZoneServer.Instance.Conf.World.ItemCooldownRate;
+
+					if (cooldownTime > TimeSpan.Zero)
+						cooldowns.Start(item.Data.CooldownId, cooldownTime);
+				}
+
 				Send.ZC_ITEM_USE(character, item.Id);
-			}
-			catch (BuffNotImplementedException ex)
-			{
-				character.ServerMessage(Localization.Get("This item has not been fully implemented yet."));
-				Log.Debug("CZ_ITEM_USE: Buff handler '{4}' missing for script execution of '{0}(\"{1}\", {2}, {3})'", script.Function, script.StrArg, script.NumArg1, script.NumArg2, ex.BuffId);
 			}
 			catch (Exception ex)
 			{
@@ -1267,7 +1287,9 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				character.TurnTowards(direction);
+				if (skill.Id != SkillId.Ranger_Strafe)
+					character.TurnTowards(direction);
+
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
@@ -1591,7 +1613,10 @@ namespace Melia.Zone.Network
 				var productId = packet.GetInt();
 				var amount = packet.GetInt();
 
-				purchases[productId] = amount;
+				if (!purchases.ContainsKey(productId))
+					purchases[productId] = amount;
+				else
+					purchases[productId] += amount;
 			}
 
 			var character = conn.SelectedCharacter;
@@ -1643,7 +1668,7 @@ namespace Melia.Zone.Network
 				}
 				else
 				{
-					totalCost += (int)productData.PriceMultiplier * productData.Amount;
+					totalCost += (int)productData.PriceMultiplier * amount;
 				}
 
 				purchaseList.Add(new Tuple<ItemData, int>(itemData, amount));
@@ -1940,6 +1965,12 @@ namespace Melia.Zone.Network
 			var oldJobId = (JobId)packet.GetShort();
 			var newJobId = (JobId)packet.GetShort();
 
+			if (ZoneServer.Instance.Conf.World.NoAdvancement)
+			{
+				Log.Warning("CZ_REQ_RANKRESET_SYSTEM: User '{0}' tried to switch jobs, despite job advancement being disabled.", conn.Account.Name);
+				return;
+			}
+
 			var character = conn.SelectedCharacter;
 
 			if (!character.Jobs.TryGet(oldJobId, out var oldJob))
@@ -1993,7 +2024,7 @@ namespace Melia.Zone.Network
 			//Send.ZC_JOB_PTS(character, newJob);
 			//Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
 
-			ZoneServer.Instance.ServerEvents.OnPlayerAdvancedJob(character);
+			ZoneServer.Instance.ServerEvents.PlayerAdvancedJob.Raise(new PlayerEventArgs(character));
 
 			// The intended behavior is to trigger a clean DC from the
 			// client with a move to barracks, but if we *need* the
@@ -2192,6 +2223,62 @@ namespace Melia.Zone.Network
 			catch (Exception ex)
 			{
 				Log.Debug("CZ_REQ_NORMAL_TX_NUMARG: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
+			}
+		}
+
+		/// <summary>
+		/// Request to execute a transaction script function with numeric
+		/// arguments for an item.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_TX_ITEM)]
+		public void CZ_REQ_TX_ITEM(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var classId = packet.GetInt();
+			var itemObjectId = packet.GetLong();
+			var l2 = packet.GetLong();
+			var l3 = packet.GetLong();
+			var argCount = packet.GetByte();
+			var numArgs = packet.GetList(argCount, packet.GetInt);
+
+			var character = conn.SelectedCharacter;
+
+			// Get data
+			if (!ZoneServer.Instance.Data.DialogTxDb.TryFind(classId, out var data))
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' sent an unknown dialog transaction id: {1}", conn.Account.Name, classId);
+				return;
+			}
+
+			// Get handler
+			if (!ScriptableFunctions.ItemTx.TryGet(data.Script, out var scriptFunc))
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: No handler registered for transaction script '{0}({1})'", data.Script, string.Join(", ", numArgs));
+				return;
+			}
+
+			// Get item
+			var item = character.Inventory.GetItem(itemObjectId);
+			if (item == null)
+			{
+				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+				return;
+			}
+
+			// Try to execute transaction
+			try
+			{
+				var result = scriptFunc(character, item, numArgs);
+				if (result == ItemTxResult.Fail)
+				{
+					Log.Debug("CZ_REQ_TX_ITEM: Execution of script '{0}({1})' failed.", data.Script, string.Join(", ", numArgs));
+				}
+			}
+			catch (Exception ex)
+			{
+				Log.Debug("CZ_REQ_TX_ITEM: Exception while executing script '{0}({1})': {2}", data.Script, string.Join(", ", numArgs), ex);
 			}
 		}
 
@@ -2620,8 +2707,8 @@ namespace Melia.Zone.Network
 		public void CZ_PROPERTY_COMPARE(IZoneConnection conn, Packet packet)
 		{
 			var handle = packet.GetInt();
-			var b1 = packet.GetByte();
-			var addLike = packet.GetByte();
+			var openWindow = packet.GetBool();
+			var like = packet.GetBool();
 
 			var character = conn.SelectedCharacter.Map.GetCharacter(handle);
 			if (character == null)
@@ -2630,7 +2717,12 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			Send.ZC_PROPERTY_COMPARE(conn, character);
+			// The response does not appear to include the number of likes.
+			// Instead, it seems like the client is supposed to get that
+			// information from the relation server, as there's a request
+			// op for it. This is not sent currently though.
+
+			Send.ZC_PROPERTY_COMPARE(conn, character, openWindow, like);
 		}
 
 		/// <summary>
@@ -2874,7 +2966,7 @@ namespace Melia.Zone.Network
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
-		[PacketHandler(0x520A)]
+		[PacketHandler(Op.CZ_InteractionCancel)]
 		public void CZ_InteractionCancel(IZoneConnection conn, Packet packet)
 		{
 			// The packet is spammed with a frequency of about 1-2 packets
@@ -2897,7 +2989,7 @@ namespace Melia.Zone.Network
 			var l1 = packet.GetLong();
 
 			var character = conn.SelectedCharacter;
-			var option = (ResurrectOptions)(1 << (int)optionIdx);
+			var option = (ResurrectOptions)(1 << optionIdx);
 
 			if (!character.IsDead)
 			{
@@ -2967,6 +3059,33 @@ namespace Melia.Zone.Network
 			var character = conn.SelectedCharacter;
 
 			Send.ZC_CLIENT_DIRECT(character, type, argStr);
+		}
+
+		/// <summary>
+		/// Request to cancel/remove a buff.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_BUFF_REMOVE)]
+		public void CZ_BUFF_REMOVE(IZoneConnection conn, Packet packet)
+		{
+			var buffId = (BuffId)packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (!character.TryGetBuff(buffId, out var buff))
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff they don't have ({1}).", conn.Account.Name, buffId);
+				return;
+			}
+
+			if (!buff.Data.Removable)
+			{
+				Log.Warning("CZ_BUFF_REMOVE: User '{0}' tried to remove a buff that can't be removed ({1}).", conn.Account.Name, buffId);
+				return;
+			}
+
+			character.StopBuff(buffId);
 		}
 	}
 }

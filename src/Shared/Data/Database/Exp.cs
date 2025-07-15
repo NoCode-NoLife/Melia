@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data;
 using Yggdrasil.Data.JSON;
@@ -28,8 +27,8 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class ExpDb : DatabaseJson<object>
 	{
-		private readonly List<BaseExpData> _exp = new List<BaseExpData>();
-		private readonly List<JobExpData> _jobExp = new List<JobExpData>();
+		private readonly List<BaseExpData> _exp = new();
+		private readonly List<JobExpData> _jobExp = new();
 
 		/// <summary>
 		/// Returns exp required to reach the next level after the

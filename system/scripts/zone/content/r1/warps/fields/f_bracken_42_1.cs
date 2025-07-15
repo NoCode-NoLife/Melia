@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_bracken_42_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Khonot Forest to Salvia Forest
 		AddWarp("BRACKEN42_1_TO_PILGRIM41_2", -24, From("f_bracken_42_1", -1014.497, -700.0676), To("f_pilgrimroad_41_2", 123, 1540));

@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Linq;
-using Melia.Shared.Database;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network.Helpers;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
-using Melia.Zone.Buffs;
-using Melia.Zone.Buffs.Handlers.Common;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -56,11 +58,19 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Gets or sets the character's unique database id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the database.
+		/// This is different from the ObjectId, which is used in the game.
+		/// </remarks>
 		public long DbId { get; set; }
 
 		/// <summary>
 		/// Returns the character's globally unique id.
 		/// </summary>
+		/// <remarks>
+		/// Represents the id the character is known by in the game, applying
+		/// an offset to the database id.
+		/// </remarks>
 		public long ObjectId => ObjectIdRanges.Characters + this.DbId;
 
 		/// <summary>
@@ -111,7 +121,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Gets or sets the character's current job id.
 		/// </summary>
 		/// <remarks>
-		/// This should essentially and presumably alwas be the id of the
+		/// This should essentially and presumably always be the id of the
 		/// last job the character changed to.
 		/// </remarks>
 		public JobId JobId { get; set; }
@@ -373,6 +383,11 @@ namespace Melia.Zone.World.Actors.Characters
 		private Localizer _localizer;
 
 		/// <summary>
+		/// Raised when the character died.
+		/// </summary>
+		public event Action<ICombatEntity, ICombatEntity> Died;
+
+		/// <summary>
 		/// Raised when the characters sits down or stands up.
 		/// </summary>
 		public event Action<Character> SitStatusChanged;
@@ -391,6 +406,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
 			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
 			this.Components.Add(this.Movement = new MovementComponent(this));
@@ -493,7 +509,12 @@ namespace Melia.Zone.World.Actors.Characters
 					//   options and save them, to sanity check the coming
 					//   resurrection request.
 
-					Send.ZC_RESURRECT_DIALOG(this, ResurrectOptions.NearestRevivalPoint);
+					var options = ResurrectOptions.NearestRevivalPoint;
+
+					if (ZoneServer.Instance.Conf.World.ResurrectCityOption)
+						options |= ResurrectOptions.NearestCity;
+
+					Send.ZC_RESURRECT_DIALOG(this, options);
 					_resurrectDialogTimer = ResurrectDialogDelay;
 				}
 			}
@@ -755,6 +776,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// TODO: Move this somewhere else, perhaps with a hook/event?
 			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
 			this.Properties.Modify(PropertyName.SP, spAmount);
@@ -1094,11 +1116,28 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <param name="className"></param>
 		/// <param name="args"></param>
 		public void SystemMessage(string className, params MsgParameter[] args)
-		{
-			if (!ZoneServer.Instance.Data.SystemMessageDb.TryFind(className, out var sysMsgData))
-				throw new ArgumentException($"System message '{className}' not found.");
+			=> this.SystemMessage(className, SystemMessageDisplayType.ChatOnly, args);
 
-			Send.ZC_SYSTEM_MSG(this, sysMsgData.ClassId, args);
+		/// <summary>
+		/// Displays system message in character's chat.
+		/// </summary>
+		/// <remarks>
+		/// Uses pre-defined, argument-supporting system messages found
+		/// in the clientmessage.xml file. The class name corresponds to
+		/// the class name in said XML, with arguments found inside those
+		/// messages, wrapped in curly braces.
+		/// </remarks>
+		/// <example>
+		/// ClassName="{Day}days"
+		/// SystemMessage("{Day}days", new MsgParameter("Day", "5 "))
+		/// -> "5 days"
+		/// </example>
+		/// <param name="clientMessage"></param>
+		/// <param name="displayType"></param>
+		/// <param name="args"></param>
+		public void SystemMessage(string clientMessage, SystemMessageDisplayType displayType, params MsgParameter[] args)
+		{
+			Send.ZC_SYSTEM_MSG(this, clientMessage, displayType, args);
 		}
 
 		/// <summary>
@@ -1237,7 +1276,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <returns></returns>
 		public bool TakeDamage(float damage, ICombatEntity attacker)
 		{
-			// Don't hit an already dead monster
+			// Don't hit an already dead character
 			if (this.IsDead)
 				return true;
 
@@ -1252,7 +1291,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (this.Hp == 0)
 				this.Kill(attacker);
 
-			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
+			this.Map.AlertNearbyAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}
@@ -1265,8 +1304,8 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 
-			//this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+			this.Died?.Invoke(this, killer);
+			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
 
@@ -1291,10 +1330,76 @@ namespace Melia.Zone.World.Actors.Characters
 					this.Warp(this.MapId, safePos);
 					break;
 				}
+				case ResurrectOptions.NearestCity:
+				{
+					var location = this.GetCityReturnLocation();
+					this.Warp(location);
+					break;
+				}
 			}
 
 			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
 			Send.ZC_RESURRECT(this);
+		}
+
+		/// <summary>
+		/// Returns the city return location for the actor.
+		/// </summary>
+		/// <remarks>
+		/// The return city map is retrieved from the map data by default.
+		/// Alternatively, a return location can be set via SetCityReturnLocation
+		/// or manually via the variables "Melia.CityReturnLocation.Map", ".X",
+		/// ".Y", and ".Z".
+		/// </remarks>
+		/// <returns></returns>
+		public Location GetCityReturnLocation()
+		{
+			MapData mapData;
+
+			if (this.Variables.Perm.Has("Melia.CityReturnLocation.Map"))
+			{
+				var mapName = this.Variables.Perm.GetString("Melia.CityReturnLocation.Map");
+
+				if (!ZoneServer.Instance.Data.MapDb.TryFind(mapName, out mapData))
+					throw new ArgumentException($"Map '{mapName}' not found in data.");
+
+				var x = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.X", 0);
+				var y = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Y", 0);
+				var z = this.Variables.Perm.GetFloat("Melia.CityReturnLocation.Z", 0);
+
+				if (x == 0 && y == 0 && z == 0)
+				{
+					x = mapData.DefaultPosition.X;
+					y = mapData.DefaultPosition.Y;
+					z = mapData.DefaultPosition.Z;
+				}
+
+				return new Location(mapData.Id, x, y, z);
+			}
+
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(this.Map.Data.NearbyCity, out mapData))
+			{
+				if (!ZoneServer.Instance.Data.MapDb.TryFind("c_Klaipe", out mapData))
+					throw new InvalidOperationException($"No nearby city found for map '{this.Map.ClassName}' and no fallback city found either.");
+			}
+
+			return new Location(mapData.Id, mapData.DefaultPosition);
+		}
+
+		/// <summary>
+		/// Sets the character's city return location, affecting where they will
+		/// respawn if they choose to ressurrect in the nearest city.
+		/// </summary>
+		/// <param name="location"></param>
+		public void SetCityReturnLocation(Location location)
+		{
+			if (!ZoneServer.Instance.Data.MapDb.TryFind(location.MapId, out var mapData))
+				throw new ArgumentException($"Map '{location.MapId}' not found in data.");
+
+			this.Variables.Perm.SetString("Melia.CityReturnLocation.Map", mapData.ClassName);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.X", location.X);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Y", location.Y);
+			this.Variables.Perm.SetFloat("Melia.CityReturnLocation.Z", location.Z);
 		}
 
 		/// <summary>
@@ -1304,6 +1409,9 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool CanFight()
 		{
 			if (this.IsDead)
+				return false;
+
+			if (this.IsLocked(LockType.Attack))
 				return false;
 
 			return true;
@@ -1320,6 +1428,9 @@ namespace Melia.Zone.World.Actors.Characters
 				return false;
 
 			if (entity.IsDead)
+				return false;
+
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
 				return false;
 
 			// For now, let's specify that characters can attack actual

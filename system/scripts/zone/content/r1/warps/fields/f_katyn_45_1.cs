@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_45_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Grynas Trails to Gele Plateau
 		AddWarp("KATYN45_1_GELE57_2", 270, From("f_katyn_45_1", -2572.086, -494.3665), To("f_gele_57_2", 1478, -380));

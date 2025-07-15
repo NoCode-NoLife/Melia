@@ -15,7 +15,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Doppelsoeldner
 	{
 		private const float LootingChanceBonusPerLevel = 3;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var bonus = this.GetLootingChanceBonus(buff);
 

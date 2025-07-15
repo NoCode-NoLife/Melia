@@ -1,0 +1,29 @@
+//------------------------------------------------
+//--- 010 Editor v9.0.2 Binary Template
+//
+//      File: WorldId.bt
+//   Authors: celophi
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+// GUID that is sometimes referred to as "instanceID".
+typedef struct 
+{
+    int count; // Incremented for every instance created since server restart
+    int base; // Incremented on every server restart
+}
+WorldId <optimize=false, read=readWorldId>;
+
+string readWorldId(WorldId& val)
+{
+    int64 combined = ((int64)val.base << 32) | (uint32)val.count;
+
+    string result;
+    SPrintf(result, "%I64d", combined);
+    return result;
+};

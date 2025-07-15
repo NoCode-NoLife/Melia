@@ -2,9 +2,24 @@ Melia.Override("QUEST_UPDATE_ALL", function(original, frame)
 	-- do nothing
 end)
 
-Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr, argNum)
-	-- TODO: Filter
+Melia.Override("QUESTINFOSET_2_QUEST_ANGLE", function(original, frame, msg, argStr, argNum)
+	-- do nothing
+end)
 
+Melia.Override("QUEST_TAB_CHANGE", function(original, frame, argStr, argNum)
+	local topFrame = frame:GetTopParentFrame();
+	local questbox_tab = GET_CHILD_RECURSIVELY(topFrame, "questBox", "ui::CTabControl");
+	local index = questbox_tab:GetSelectItemIndex();
+
+	topFrame:SetUserValue("CurTabIndex", index);
+
+	local levelOption = GET_QUEST_LEVEL_OPTION(index);
+	if levelOption ~= nil then
+		SET_QUEST_LEVEL_OPTION(levelOption);
+	end
+end)
+
+Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr, argNum)
 	AUTO_CAST(control)
 
 	if control:GetName() == "mode_all_check" then
@@ -18,4 +33,9 @@ Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr,
 			end
 		end
 	end
+
+	UPDATE_QUEST_FILTER_ALLCHECK()
+	SET_QUEST_MODE_OPTION(GET_QUEST_FILTER_OPTION_LIST())
+
+	M_QUESTS_UPDATE_LIST()
 end)

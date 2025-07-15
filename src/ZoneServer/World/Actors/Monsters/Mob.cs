@@ -5,12 +5,16 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
+using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
+using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Items;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -138,11 +142,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
-		/// Raised when the monster died.
-		/// </summary>
-		public event Action<Mob, ICombatEntity> Died;
-
-		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;
@@ -208,6 +207,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public ConcurrentBag<Item> StaticDrops { get; } = new ConcurrentBag<Item>();
 
 		/// <summary>
+		/// Raised when the monster died.
+		/// </summary>
+		public event Action<ICombatEntity, ICombatEntity> Died;
+
+		/// <summary>
 		/// Creates new NPC.
 		/// </summary>
 		public Mob(int id, MonsterType type) : base()
@@ -217,6 +221,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new CombatComponent(this));
+			this.Components.Add(new StateLockComponent(this));
 
 			this.LoadData();
 		}
@@ -279,7 +284,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.Hp == 0)
 				this.Kill(attacker);
 
-			this.Map.AlertAis(this, new HitEventAlert(this, attacker, damage));
+			this.Map.AlertNearbyAis(this, new HitEventAlert(this, attacker, damage));
 
 			return this.IsDead;
 		}
@@ -292,6 +297,7 @@ namespace Melia.Zone.World.Actors.Monsters
 		{
 			this.Properties.SetFloat(PropertyName.HP, 0);
 			this.Components.Get<MovementComponent>()?.Stop();
+
 			this.DisappearTime = DateTime.Now.AddSeconds(2);
 
 			var beneficiary = this.GetKillBeneficiary(killer);
@@ -305,7 +311,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			}
 
 			this.Died?.Invoke(this, killer);
-			ZoneServer.Instance.ServerEvents.OnEntityKilled(this, killer);
+			ZoneServer.Instance.ServerEvents.EntityKilled.Raise(new CombatEventArgs(this, killer));
 
 			Send.ZC_DEAD(this);
 		}
@@ -647,6 +653,9 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <returns></returns>
 		public void PossiblyBecomeRare(float jackpotRate = 100, float eliteRate = 100)
 		{
+			if (this.Data.Rank > MonsterRank.Elite)
+				return;
+
 			var rnd = RandomProvider.Get();
 
 			var worldConf = ZoneServer.Instance.Conf.World;
@@ -711,6 +720,9 @@ namespace Melia.Zone.World.Actors.Monsters
 			if (this.IsDead)
 				return false;
 
+			if (this.IsLocked(LockType.Attack))
+				return false;
+
 			return true;
 		}
 
@@ -725,6 +737,9 @@ namespace Melia.Zone.World.Actors.Monsters
 				return false;
 
 			if (entity.IsDead)
+				return false;
+
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
 				return false;
 
 			// For now, let's specify that mobs can attack any combat
@@ -764,6 +779,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			// TODO: Move this somewhere else, perhaps with a hook/event?
 			DecreaseHeal_Debuff.TryApply(this, ref hpAmount);
+			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			var healingModifier = Math.Max(0, 1 - healingReduction);
 

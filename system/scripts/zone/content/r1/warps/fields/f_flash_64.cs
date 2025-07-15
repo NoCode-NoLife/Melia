@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_flash_64WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Inner Enceinte District to Downtown
 		AddWarp("FLASH64_FLASH63", -9, From("f_flash_64", 12, -2596), To("f_flash_63", -224, 1342));

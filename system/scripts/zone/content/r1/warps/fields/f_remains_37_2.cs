@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_remains_37_2WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Namu Temple Ruins to Nuoridin Falls
 		AddWarp("REMAINS37_2_REMAINS37_1", 172, From("f_remains_37_2", 1862.454, -378.2695), To("f_remains_37_1", -2700, 1464));

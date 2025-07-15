@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_cmine_6WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Crystal Mine 3F to Crystal Mine 2F
 		AddWarp("WS_ACT4_3_ACT4_2", 252, From("d_cmine_6", -2147, -1590), To("d_cmine_02", 1911, 1516));

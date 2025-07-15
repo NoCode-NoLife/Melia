@@ -59,9 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 				if (!caster.IsAbilityActive(AbilityId.Wizard23))
 				{
 					skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-					skillHit.HitInfo.Type = skill.Data.KnockDownHitType;
-
-					target.Position = skillHit.KnockBackInfo.ToPosition;
+					skillHit.ApplyKnockBack(target);
 				}
 
 				skillHits.Add(skillHit);

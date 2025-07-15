@@ -116,7 +116,7 @@ namespace Melia.Zone
 		/// DateTime of 00:18:00.
 		/// </example>
 		/// <param name="hour"></param>
-		/// <param name="minutes"></param>
+		/// <param name="minute"></param>
 		/// <returns></returns>
 		public static GameTime GetNextTime(int hour, int minute)
 			=> GetNextTime(DateTime.Now, hour, minute);

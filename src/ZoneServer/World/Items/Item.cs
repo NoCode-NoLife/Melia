@@ -136,7 +136,7 @@ namespace Melia.Zone.World.Items
 		/// <summary>
 		/// Loads item data from data files.
 		/// </summary>
-		private void LoadData()
+		protected virtual void LoadData()
 		{
 			if (this.Id == 0)
 				throw new InvalidOperationException("Item id wasn't set before calling LoadData.");
@@ -145,6 +145,14 @@ namespace Melia.Zone.World.Items
 			if (this.Data == null)
 				throw new NullReferenceException("No item data found for '" + this.Id + "'.");
 
+			this.LoadDataProperties();
+		}
+
+		/// <summary>
+		/// Called to load the item's default properties based on its data.
+		/// </summary>
+		protected virtual void LoadDataProperties()
+		{
 			if (this.Data.MinAtk != 0) this.Properties.SetFloat("MINATK", this.Data.MinAtk);
 			if (this.Data.MaxAtk != 0) this.Properties.SetFloat("MAXATK", this.Data.MaxAtk);
 			if (this.Data.MAtk != 0) this.Properties.SetFloat("MATK", this.Data.MAtk);

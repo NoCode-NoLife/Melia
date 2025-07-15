@@ -161,9 +161,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Status != QuestStatus.InProgress)
 						continue;
 
@@ -184,7 +183,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public void Start(int questId)
+		public void Start(QuestId questId)
 			=> this.Start(questId, TimeSpan.Zero);
 
 		/// <summary>
@@ -193,7 +192,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="questId"></param>
 		/// <param name="delay"></param>
 		/// <returns></returns>
-		public void Start(int questId, TimeSpan delay)
+		public void Start(QuestId questId, TimeSpan delay)
 		{
 			delay = Math2.Max(TimeSpan.Zero, delay);
 
@@ -240,13 +239,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="questId"></param>
 		/// <param name="objectiveIdent"></param>
 		/// <returns></returns>
-		public bool IsActive(int questId, string objectiveIdent)
+		public bool IsActive(QuestId questId, string objectiveIdent)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
@@ -268,13 +266,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public bool IsActive(int questId)
+		public bool IsActive(QuestId questId)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.InProgress && quest.Data.Id == questId)
 						return true;
 				}
@@ -289,13 +286,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public bool Has(int questId)
+		public bool Has(QuestId questId)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Data.Id != questId)
 						continue;
 
@@ -308,18 +304,64 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questNamespace"></param>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no quest with the given id was found.
+		/// </exception>
+		public bool MeetsPrerequisites(string questNamespace, long id)
+			=> this.MeetsPrerequisites(new QuestId(questNamespace, id));
+
+		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questId"></param>
+		/// <returns></returns>
+		/// <exception cref="ArgumentException">
+		/// Thrown if no quest with the given id was found.
+		/// </exception>
+		public bool MeetsPrerequisites(QuestId questId)
+		{
+			if (!QuestScript.TryGet(questId, out var questScript))
+				throw new ArgumentException($"Quest '{questId}' not found.");
+
+			return this.MeetsPrerequisites(questScript);
+		}
+
+		/// <summary>
+		/// Returns true if the character meets the prerequisites to start the
+		/// given quest.
+		/// </summary>
+		/// <param name="questScript"></param>
+		/// <returns></returns>
+		internal bool MeetsPrerequisites(QuestScript questScript)
+		{
+			foreach (var prerequisite in questScript.Data.Prerequisites)
+			{
+				if (!prerequisite.Met(this.Character))
+					return false;
+			}
+
+			return true;
+		}
+
+		/// <summary>
 		/// Returns true if the character has ever completed the quest
 		/// before.
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <returns></returns>
-		public bool HasCompleted(int questId)
+		public bool HasCompleted(QuestId questId)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Data.Id != questId)
 						continue;
 
@@ -336,13 +378,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// </summary>
 		/// <param name="questId"></param>
 		/// <param name="objectiveIdent"></param>
-		public void Complete(int questId, string objectiveIdent)
+		public void Complete(QuestId questId, string objectiveIdent)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
@@ -364,15 +405,12 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// to the character.
 		/// </summary>
 		/// <param name="questId"></param>
-		public void Complete(int questId)
+		public void Complete(QuestId questId)
 		{
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
-					quest.CompleteObjectives();
-
 					if (!quest.InProgress || quest.Data.Id != questId)
 						continue;
 
@@ -436,9 +474,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			lock (_syncLock)
 			{
-				for (var i = 0; i < _quests.Count; i++)
+				foreach (var quest in _quests)
 				{
-					var quest = _quests[i];
 					if (quest.Status != QuestStatus.NotStarted)
 						continue;
 
@@ -537,6 +574,34 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <exception cref="InvalidOperationException"></exception>
 		private LuaTable QuestToTable(Quest quest)
 		{
+			/// Quest
+			/// {
+			///		string ObjectId
+			///		string ClassId
+			///		string Name
+			///		string Description
+			///		string Type
+			///		int Level
+			///		string Status
+			///		bool Done
+			///		bool Cancelable
+			///		
+			///		Objectives[]
+			///		{
+			///			string Text
+			///			bool Unlocked
+			///			bool Done
+			///			int Count
+			///			int TargetCount
+			///		}
+			///		
+			///		Rewards[]
+			///		{
+			///			string Text
+			///			string Icon
+			///		}
+			/// }
+
 			var objectivesTable = this.ObjectivesToTable(quest);
 
 			var rewardsTable = new LuaTable();
@@ -552,13 +617,15 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			var questTable = new LuaTable();
 
 			questTable.Insert("ObjectId", "0x" + quest.ObjectId.ToString("X16"));
-			questTable.Insert("ClassId", quest.Data.Id);
+			questTable.Insert("ClassId", "0x" + quest.Data.Id.Value.ToString("X16"));
 			questTable.Insert("Name", quest.Data.Name);
 			questTable.Insert("Description", quest.Data.Description);
+			questTable.Insert("Type", quest.Data.Type.ToString());
 			questTable.Insert("Level", quest.Data.Level);
 			questTable.Insert("Status", quest.Status.ToString());
 			questTable.Insert("Done", quest.ObjectivesCompleted);
 			questTable.Insert("Cancelable", quest.Data.Cancelable);
+			questTable.Insert("Tracked", quest.Tracked);
 			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);
 

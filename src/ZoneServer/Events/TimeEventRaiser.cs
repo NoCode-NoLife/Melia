@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Zone.Events.Arguments;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.Events
@@ -33,44 +34,44 @@ namespace Melia.Zone.Events
 			}
 
 			// World tick
-			ZoneServer.Instance.ServerEvents.OnWorldTick(now);
+			ZoneServer.Instance.ServerEvents.WorldTick.Raise(new TimeEventArgs(now));
 
 			// Raise seconds event if the seconds have changed since
 			// the last update
 			if (_lastSecond != now.Second)
-				ZoneServer.Instance.ServerEvents.OnSecondTick(now);
+				ZoneServer.Instance.ServerEvents.SecondTick.Raise(new TimeEventArgs(now));
 
 			// Raise minutes event if the minutes have changed since
 			// the last update
 			if (_lastMinute != now.Minute)
 			{
-				ZoneServer.Instance.ServerEvents.OnMinuteTick(now);
+				ZoneServer.Instance.ServerEvents.MinuteTick.Raise(new TimeEventArgs(now));
 
 				// Raise five minutes event if the minutes have changed
 				// and it's now an even five minutes.
 				if ((now.Minute % 5) == 0)
-					ZoneServer.Instance.ServerEvents.OnFiveMinutesTick(now);
+					ZoneServer.Instance.ServerEvents.FiveMinutesTick.Raise(new TimeEventArgs(now));
 
 				// Raise fifteen minutes event if the minutes have changed
 				// and it's now an even fifteen minutes.
 				if ((now.Minute % 15) == 0)
-					ZoneServer.Instance.ServerEvents.OnFifteenMinutesTick(now);
+					ZoneServer.Instance.ServerEvents.FifteenMinutesTick.Raise(new TimeEventArgs(now));
 
 				// Raise twenty minutes event if the minutes have changed
 				// and it's now an even twenty minutes.
 				if ((now.Minute % 20) == 0)
-					ZoneServer.Instance.ServerEvents.OnTwentyMinutesTick(now);
+					ZoneServer.Instance.ServerEvents.TwentyMinutesTick.Raise(new TimeEventArgs(now));
 
 				// Raise thirty minutes event if the minutes have changed
 				// and it's now an even thirty minutes.
 				if ((now.Minute % 30) == 0)
-					ZoneServer.Instance.ServerEvents.OnThirtyMinutesTick(now);
+					ZoneServer.Instance.ServerEvents.ThirtyMinutesTick.Raise(new TimeEventArgs(now));
 			}
 
 			// Raise hours event if the hours have changed since
 			// the last update
 			if (_lastHour != now.Hour)
-				ZoneServer.Instance.ServerEvents.OnHourTick(now);
+				ZoneServer.Instance.ServerEvents.HourTick.Raise(new TimeEventArgs(now));
 
 			// Save times so we can compare them during the next update
 			_lastSecond = now.Second;

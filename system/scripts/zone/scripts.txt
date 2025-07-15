@@ -2,6 +2,8 @@
 // Script List File
 //---------------------------------------------------------------------------
 
+divert "/user/scripts/zone/scripts.txt"
+
 const/**/*
 commands/**/*
 core/**/*
@@ -10,8 +12,7 @@ ais/**/*
 
 other/character_init.cs
 other/character_adv.cs
+other/kill_events.cs
 
 require "scripts_content.txt"
 require "scripts_custom.txt"
-
-include "/user/scripts/zone/scripts.txt"

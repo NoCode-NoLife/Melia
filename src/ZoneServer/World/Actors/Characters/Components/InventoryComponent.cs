@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.World.Items;
 using Yggdrasil.Logging;
@@ -304,7 +305,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			// ZC_ITEM_ADD needs an update.
 			Send.ZC_ITEM_INVENTORY_DIVISION_LIST(this.Character);
 
-			ZoneServer.Instance.ServerEvents.OnPlayerAddedItem(this.Character, item.Id, amountToAdd);
+			ZoneServer.Instance.ServerEvents.PlayerAddedItem.Raise(new PlayerItemEventArgs(this.Character, item.Id, amountToAdd));
 		}
 
 		/// <summary>
@@ -599,7 +600,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				this.UpdateWeight();
 			}
 
-			ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, item.Id, amountRemoved);
+			ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Raise(new PlayerItemEventArgs(this.Character, item.Id, amountRemoved));
 
 			return InventoryResult.Success;
 		}
@@ -649,7 +650,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (amountRemoved != 0)
 			{
 				this.UpdateWeight();
-				ZoneServer.Instance.ServerEvents.OnPlayerRemovedItem(this.Character, itemId, amountRemoved);
+				ZoneServer.Instance.ServerEvents.PlayerRemovedItem.Raise(new PlayerItemEventArgs(this.Character, itemId, amountRemoved));
 			}
 
 			return amountRemoved;

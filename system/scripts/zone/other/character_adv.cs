@@ -8,11 +8,11 @@
 using Melia.Shared.Scripting;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
-using Melia.Zone.Events;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
+using Melia.Zone.Events.Arguments;
 
 public class CharacterAdvancementScript : GeneralScript
 {
@@ -285,6 +285,34 @@ public class CharacterAdvancementScript : GeneralScript
 				GiveItem(character, ItemId.ChangeJob_TSP01_111, 1);
 				break;
 			}
+			case JobId.WingedHussar:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+
+				LearnAbility(character, AbilityId.Spear);
+				LearnAbility(character, AbilityId.THSpear);
+				LearnAbility(character, AbilityId.CompanionRide);
+				LearnAbility(character, AbilityId.WingedHussars0);
+
+				GiveItem(character, ItemId.Costume_Char1_25, 1);
+				GiveItem(character, ItemId.ChangeJob_TSP01_111, 1);
+				break;
+			}
+			case JobId.Vanquisher:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+
+				LearnAbility(character, AbilityId.THSword);
+				LearnAbility(character, AbilityId.Vanquisher0);
+
+				GiveItem(character, ItemId.Costume_Char1_26, 1);
+				GiveItem(character, ItemId.ChangeJob_TSW01_129, 1);
+				break;
+			}
 			// Wizard
 			//---------------------------------------------------------------
 			case JobId.Wizard:
@@ -462,6 +490,26 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnSkill(character, SkillId.Keraunos_ElectricCurrent);
 
 				GiveItem(character, ItemId.Costume_Char2_24, 1);
+				break;
+			}
+			case JobId.Illusionist:
+			{
+				LearnSkill(character, SkillId.Magic_Attack);
+				LearnSkill(character, SkillId.Magic_Attack_TH);
+				LearnSkill(character, SkillId.Illusionist_Decoy);
+
+				LearnAbility(character, AbilityId.Illusionist33);
+
+				GiveItem(character, ItemId.Costume_Char2_25_1, 1);
+				break;
+			}
+			case JobId.VultureW:
+			{
+				LearnSkill(character, SkillId.Magic_Attack);
+				LearnSkill(character, SkillId.Magic_Attack_TH);
+				LearnSkill(character, SkillId.Vulture_Attack_Wizard);
+
+				GiveItem(character, ItemId.Costume_Char2_26, 1);
 				break;
 			}
 			// Archer
@@ -667,6 +715,41 @@ public class CharacterAdvancementScript : GeneralScript
 				GiveItem(character, ItemId.Costume_Char3_22_01, 1);
 				break;
 			}
+			case JobId.Engineer:
+			{
+				LearnSkill(character, SkillId.Bow_Attack);
+				LearnSkill(character, SkillId.CrossBow_Attack);
+				LearnSkill(character, SkillId.Sword_Attack);
+				LearnSkill(character, SkillId.Musket_Attack);
+				LearnSkill(character, SkillId.Cannon_Normal_Attack);
+				LearnSkill(character, SkillId.Common_MusketAttack);
+
+				GiveItem(character, ItemId.Costume_Char3_23_01, 1);
+				break;
+			}
+			case JobId.Godeye:
+			{
+				LearnSkill(character, SkillId.Bow_Attack);
+				LearnSkill(character, SkillId.CrossBow_Attack);
+				LearnSkill(character, SkillId.Musket_Attack);
+				LearnSkill(character, SkillId.Sword_Attack);
+
+				LearnAbility(character, AbilityId.BowMaster0);
+
+				GiveItem(character, ItemId.Costume_Char3_24, 1);
+				break;
+			}
+			case JobId.VultureA:
+			{
+				LearnSkill(character, SkillId.Bow_Attack);
+				LearnSkill(character, SkillId.CrossBow_Attack);
+				LearnSkill(character, SkillId.Musket_Attack);
+				LearnSkill(character, SkillId.Sword_Attack);
+				LearnSkill(character, SkillId.Vulture_Attack_Archer);
+
+				GiveItem(character, ItemId.Costume_Char3_25, 1);
+				break;
+			}
 			// Cleric
 			//---------------------------------------------------------------
 			case JobId.Cleric:
@@ -851,6 +934,14 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnAbility(character, AbilityId.THMace);
 
 				GiveItem(character, ItemId.Costume_Char4_22, 1);
+				break;
+			}
+			case JobId.Pontifex:
+			{
+				LearnSkill(character, SkillId.Hammer_Attack);
+				LearnSkill(character, SkillId.Hammer_Attack_TH);
+
+				GiveItem(character, ItemId.Costume_Char4_230, 1);
 				break;
 			}
 			// Scout
@@ -1118,6 +1209,35 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnSkill(character, SkillId.Common_DaggerAries);
 
 				GiveItem(character, ItemId.Costume_Char5_18, 1);
+				break;
+			}
+			case JobId.Desperado:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+				LearnSkill(character, SkillId.War_JustFrameAttack);
+				LearnSkill(character, SkillId.War_JustFrameDagger);
+				LearnSkill(character, SkillId.War_JustFramePistol);
+				LearnSkill(character, SkillId.Pistol_Attack);
+				LearnSkill(character, SkillId.Common_DaggerAries);
+
+				GiveItem(character, ItemId.Costume_Char5_19, 1);
+				break;
+			}
+			case JobId.VultureT:
+			{
+				LearnSkill(character, SkillId.Normal_Attack);
+				LearnSkill(character, SkillId.Normal_Attack_TH);
+				LearnSkill(character, SkillId.Warrior_Guard);
+				LearnSkill(character, SkillId.War_JustFrameAttack);
+				LearnSkill(character, SkillId.War_JustFrameDagger);
+				LearnSkill(character, SkillId.War_JustFramePistol);
+				LearnSkill(character, SkillId.Pistol_Attack);
+				LearnSkill(character, SkillId.Common_DaggerAries);
+				LearnSkill(character, SkillId.Vulture_Attack_Scout);
+
+				GiveItem(character, ItemId.Costume_Char5_20, 1);
 				break;
 			}
 		}

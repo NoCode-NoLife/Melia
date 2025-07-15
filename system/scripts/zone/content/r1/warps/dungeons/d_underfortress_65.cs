@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_underfortress_65WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Sentry Bailey to Inner Enceinte District
 		AddWarp("UNDERFORTRESS65_FLASH64", -22, From("d_underfortress_65", 585.64, -2290.492), To("f_flash_64", -29, 2247));

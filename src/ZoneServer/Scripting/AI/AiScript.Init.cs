@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Monsters;
 
 namespace Melia.Zone.Scripting.AI
 {
@@ -20,7 +18,10 @@ namespace Melia.Zone.Scripting.AI
 			var type = this.GetType();
 
 			foreach (var attribute in type.GetCustomAttributes<AiAttribute>())
-				Register(attribute.Name, type);
+			{
+				foreach (var name in attribute.Names)
+					Register(name, type);
+			}
 
 			return true;
 		}

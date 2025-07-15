@@ -159,7 +159,7 @@ namespace Melia.Barracks.Database
 		public Character GetCharacterById(long id)
 		{
 			lock (_characters)
-				return _characters.FirstOrDefault(a => a.Id == id);
+				return _characters.FirstOrDefault(a => a.ObjectId == id);
 		}
 
 		/// <summary>
@@ -235,7 +235,7 @@ namespace Melia.Barracks.Database
 			// do this regardless of the query result.
 			this.RemoveCharacter(character);
 
-			return BarracksServer.Instance.Database.DeleteCharacter(character.Id);
+			return BarracksServer.Instance.Database.DeleteCharacter(character);
 		}
 
 		/// <summary>

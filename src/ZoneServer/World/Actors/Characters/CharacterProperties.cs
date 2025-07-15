@@ -143,7 +143,7 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// TODO: Update damage bonus properties based on equipment and
 			//   other potential factors.
-			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)SkillAttribute.None));
+			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)AttributeType.None));
 			this.Create(new RFloatProperty(PropertyName.ArmorMaterial, () => (int)ArmorMaterialType.None));
 
 			// TODO: These were probably added for testing purposes or to

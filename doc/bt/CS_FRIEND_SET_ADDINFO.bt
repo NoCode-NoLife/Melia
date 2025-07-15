@@ -1,0 +1,22 @@
+//------------------------------------------------
+//--- 010 Editor v13.0.2 Binary Template
+//
+//      File: CS_FRIEND_SET_ADDINFO.bt
+//   Authors: exec
+//   Version: i389072
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+#include "inc/common.bt"
+
+ClientHeaderFixedSocial header;
+
+int i1;
+short s1;
+int64 accountId;
+char memo[140];
+int i1;

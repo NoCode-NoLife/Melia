@@ -100,7 +100,7 @@ namespace Melia.Shared
 			this.Conf.Load();
 			Log.SetFilter(this.Conf.Log.Filter);
 
-			if (this.Conf.Inter.Authentication == "change_me")
+			if (this.Conf.Inter.IsUsingDefaultAuthentication)
 				Log.Warning("You're using the default password for inter-server communication. It is highly recommended that you change it in inter.conf.");
 
 			return this.Conf;
@@ -265,6 +265,12 @@ namespace Melia.Shared
 
 					PropertyTable.Load(this.Data.PropertiesDb);
 				}
+				else if (serverType == ServerType.Social)
+				{
+					this.LoadDb(this.Data.PropertiesDb, "db/properties.txt");
+					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
+					this.LoadDb(this.Data.SystemMessageDb, "db/system_messages.txt");
+				}
 				else if (serverType == ServerType.Web)
 				{
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
@@ -394,7 +400,12 @@ namespace Melia.Shared
 					Log.Warning(ex);
 
 				foreach (var ex in this.ScriptLoader.LoadingExceptions)
+				{
+					if (ex.InnerException is MissingMethodException)
+						Log.Error("It appears like a script tried to use a method that does (no longer) exist, which may be a caching issue. Try deleting the user/cache/ folder and run the server again.");
+
 					Log.Error(ex);
+				}
 			}
 			catch (CompilerErrorException ex)
 			{

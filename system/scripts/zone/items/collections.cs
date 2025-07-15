@@ -1,7 +1,14 @@
-﻿using Melia.Shared.Game.Const;
+﻿//--- Melia Script ----------------------------------------------------------
+// Collection Item Scripts
+//--- Description -----------------------------------------------------------
+// Scripts that handle item-collection related actions, such as registering
+// a new item to a collection.
+//---------------------------------------------------------------------------
+
+using Melia.Shared.Game.Const;
 using Melia.Shared.Scripting;
 using Melia.Zone;
-using Melia.Zone.Events;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_rokas_26WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Overlong Bridge Valley to Ramstis Ridge
 		AddWarp("ROKAS26_ROKAS25", 0, From("f_rokas_26", 483, -2502), To("f_rokas_25", 2714, -1106));

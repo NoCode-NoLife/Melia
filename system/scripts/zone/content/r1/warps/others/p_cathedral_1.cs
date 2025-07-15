@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class p_cathedral_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Passage of the Recluse to Stele Road
 		AddWarp("PCATHEDRAL1_REMAINS37", 180, From("p_cathedral_1", 61, 363), To("f_remains_37", 491, -2497));

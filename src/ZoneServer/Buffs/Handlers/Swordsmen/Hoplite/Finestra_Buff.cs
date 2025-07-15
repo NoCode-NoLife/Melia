@@ -12,7 +12,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Hoplite
 		private const float CrtBonusBase = 20f;
 		private const float CrtBonusPerLevel = 8f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 

@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_flash_61WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Ruklys Street to Roxona Market
 		AddWarp("FLASH61_FLASH60", 180, From("f_flash_61", -100, 1555), To("f_flash_60", 924, 1567));

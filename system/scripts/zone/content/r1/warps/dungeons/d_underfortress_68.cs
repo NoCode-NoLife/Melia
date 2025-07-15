@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class d_underfortress_68WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Storage Quarter to Resident Quarter
 		AddWarp("UNDERFORTRESS68_UNDERFORTRESS67", 262, From("d_underfortress_68", -2897.62, -1228.351), To("d_underfortress_67", 356, 400));

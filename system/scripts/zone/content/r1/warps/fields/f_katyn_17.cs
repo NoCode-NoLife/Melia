@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_katyn_17WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Bladelight Basin to (Closed) (Ex)Woods of the Linked Bridges
 		AddWarp("KATYN17_SIAUL15", 360, From("f_katyn_17", 1988, -4112), To("f_siauliai_15_re", -446, -3316));

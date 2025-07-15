@@ -18,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 		private const float DRPenaltyPerLevel = 15f;
 		private const float MSPDPenaltyPerLevel = 4f;
 
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			AddPropertyModifier(buff, buff.Target, PropertyName.DR_BM, -this.GetDodgePenalty(buff));
 			AddPropertyModifier(buff, buff.Target, PropertyName.MSPD_BM, -this.GetMSPDPenalty(buff));

@@ -19,7 +19,7 @@ namespace Melia.Barracks.Network.Helpers
 		{
 			packet.AddAppearancePc(pc);
 
-			packet.PutLong(pc.Id);
+			packet.PutLong(pc.ObjectId);
 
 			// [i11025 (2016-02-26)]
 			// Index was previously stored as a short, now there seem
@@ -61,9 +61,9 @@ namespace Melia.Barracks.Network.Helpers
 	public interface IAppearanceBarrackPc : IAppearancePc
 	{
 		/// <summary>
-		/// Returns the character's unique id.
+		/// Returns the character's globally unique id.
 		/// </summary>
-		long Id { get; }
+		long ObjectId { get; }
 
 		/// <summary>
 		/// Returns the character's index in the character list.
@@ -76,7 +76,7 @@ namespace Melia.Barracks.Network.Helpers
 		int MapId { get; }
 
 		/// <summary>
-		/// ?
+		/// Gets or sets the channel the character connected to last.
 		/// </summary>
 		int Channel { get; }
 

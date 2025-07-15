@@ -47,15 +47,15 @@ namespace Melia.Barracks.Network
 			}
 
 			/// <summary>
-			/// Purpose unknown. Related to buying themas and appears to
-			/// sometimes send the player back to the character selection
+			/// Exact purpose unknown. Related to buying themas and appears
+			/// to sometimes send the player back to the character selection
 			/// screen.
 			/// </summary>
 			/// <param name="conn"></param>
-			public static void UnkThema1(IBarracksConnection conn)
+			public static void ThemaSuccess(IBarracksConnection conn)
 			{
 				var packet = new Packet(Op.BC_NORMAL);
-				packet.PutInt(NormalOp.Barrack.UnkThema1);
+				packet.PutInt(NormalOp.Barrack.ThemaSuccess);
 
 				conn.Send(packet);
 			}
@@ -347,7 +347,7 @@ namespace Melia.Barracks.Network
 				packet.PutInt(characters.Length);
 				foreach (var character in characters)
 				{
-					packet.PutLong(character.Id);
+					packet.PutLong(character.ObjectId);
 					packet.PutString(character.Name, 64);
 					packet.PutEmptyBin(24);
 				}

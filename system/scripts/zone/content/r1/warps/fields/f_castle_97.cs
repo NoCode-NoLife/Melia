@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class f_castle_97WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Vienibe Shelter to Sajunga Road
 		AddWarp("F_CASTLE_97_TO_D_CASTLE_19_1", 179, From("f_castle_97", -82.72789, 1942.764), To("d_castle_19_1", -8, 288));

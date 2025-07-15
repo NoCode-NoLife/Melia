@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class ep15_1_f_abbey_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Novaha Institute to Woods of the Linked Bridges
 		AddWarp("WARP_EP15_1_FABBEY_1_TO_EP13_F_SIAULIAI_2", 90, From("ep15_1_f_abbey_1", 1465.371, 217.9448), To("ep13_f_siauliai_2", 2048, 1031));

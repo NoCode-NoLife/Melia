@@ -18,8 +18,11 @@ ServerHeaderDynamic header;
 int type;
 switch (type)
 {
-    // Login Related?
+    // LoginSuccess
     case 0x00:
+        break;
+
+    // Login Related?
     case 0x02:
         break;
 
@@ -27,7 +30,7 @@ switch (type)
         int i1; // 3
         break;
 
-    // Chat
+    // AddMessage
     case 0x03:
         int64 chatId; // 554836760199289
         int64 l2; // 1 = Chat Room, 2 = Player
@@ -44,98 +47,116 @@ switch (type)
         lpString serverType; // GLOBAL
         break;
 
-    // Chat Room
+    // MessageList
     case 0x04:
+        typedef struct
+        {
+            int64 l3; // 2
+            FILETIME timeStamp2;
+            lpString teamName; // Shayaan
+            lpString text; // !@#$NewRoomHasBeenCreated#@!
+        }
+        ChatMessage <optimize=false>;
+
         int64 chatId; // 557001423716382
-        int i1; // 2
-        int64 l2; // 1
-        FILETIME timeStamp;
-        lpString senderTeamName; // Shayaan
-        lpString message; // !@#$NewRoomHasBeenCreated#@!
-        int64 l3; // 2
-        FILETIME timeStamp2;
-        lpString ownerName; // Shayaan
-        lpString message2; // !@#$NewRoomHasBeenCreated#@!
+        int messageCount;
+        ChatMessage messages[messageCount];
         break;
 
-    // Chat Logs?
+    // CreateRoom
     case 0x05:
+        typedef struct
+        {
+            int64 accountId;
+            lpString teamName;
+            byte isOnline;
+            byte gap1[3];
+        }
+        ChatMember <optimize=false>;
+
         int64 chatId;
-        int i1; // 121
-        int64 l2;
-        byte b[4];
-        short s1;
-        int i3;
+        int roomType;
+        lpString str1;
+        int64 l1;
+        lpString roomName;
+        int memberCount;
         int i4;
         byte b1;
-        int64 accountId1;
-        lpString name1;
-        int i5;
-        if (i1 == 0 || i3 == 2)
-        {
-            int64 accountId2;
-            lpString name2;
-            int i6;
-        }
+        ChatMember members[memberCount];
         break;
 
-    // Group Chat Creation?
+    // SystemMessage
     case 0x07:
-        int i1; // 22507
-        short s1; // 1
-        byte b0; // 0
-        break;
-
-    case 0x08:
-        byte messageIdx; // 1,2,3,4,5,6,7,8
-        int64 accountId; // 76561199199698202 (Social ID)?
-        int64 l1; // 1
-        int i1; // 0
-        int64 l1; // 76561199199698202
-        char teamName[128];
-        int level;
-        char name[128];
-        short s0;
-        int jobId;
-        short s1;
-        int i2;
-        short s2;
-        int i3;
-        byte bin[26];
-        ubyte bin2[4];
-        byte bin3[18];
-        ShortDate timeStamp;
-        byte bin4[36];
-        byte b1;
+        int clientMessageId;
         lpString parameter;
-        lpString message;
         break;
 
-    // Buffs or Position?
-    case 0x0C:
-        byte b1; // 0
-        switch (b1)
+    // FriendInfo
+    case 0x08:
+        typedef struct
         {
+            int64 l1;
+            int64 accountId;
+            char teamName1[64];
+            char str1[56];
+            int64 l2;
+            int level;
+            char teamName2[64];
+            char name[64];
+            short s3;
+            short jobId;
+            int i4;
+            int i2;
+            short gender;
+            int hair;
+            byte bin[26];
+            uint i3 <format=hex>;
+            byte bin3[16];
+            short s4;
+            ShortDate lastLogin;
+            char str2[32];
+            byte b1;
+            short mapId;
+            short channelId;
+            lpString group;
+            lpString note;
+        }
+        Friend <optimize=false>;
+
+        byte friendStatus;
+        int64 accountId;
+        int count;
+        Friend friends[count];
+        break;
+
+    // Party Member Update
+    case 0x0C:
+        byte partyType;
+        int64 partyId;
+        byte type;
+
+        switch (type)
+        {
+            // Character Info
             case 0:
-                int64 l1; // 554643486671500
-                byte b2; // 1
-                int64 accountId; // account Id
-                int buffId; // -1 or 110016 (Buff Ids 130001 110016 180041 4532 4723)?
+                int64 accountId;
+                position pos;
+                int sp;
+                int hp;
+                int maxHp;
+                int maxSp;
+                int i1;
+                int i2; // gap?
+                int level;
+                break;
+
+            // Buff Info
+            case 1:
+                int64 accountId;
+                int buffId;
                 int i2; // -1 or 1
                 int i3; // -1
-                byte isLastPacket; // 1
-                break;
-            case 1:
-                int64 l1; // 554643486671500
-                byte b2; // 1
-                int64 accountId; // account Id
-                position pos; // X: 324.000000, Y: 79.959557, Z: 151.000000
-                int sp; // 11038
-                int hp; // 202266
-                int maxHp; // 11038
-                int maxSp; // 202266
-                int64 l2; // 0
-                int level; // 460
+                byte isLastPacket;
                 break;
         }
         break;
@@ -147,25 +168,50 @@ switch (type)
         break;
 
     case 0x19:
-        int64 accountId; // 76561198023169014
-        int64 accountId; // 76561198023169014
+        int64 accountId1; // 76561198023169014
+        int64 accountId2; // 76561198023169014
         byte bin[16]; // 0s
         lpString str; // WEEK
         int64 l1; // 1
         break;
 
-    // 32009?
-    case 0x7D09:
-        int i1; // 1
-        lpString teamName;
+    // LikeSuccess
+    case 0x7D05:
+        int64 accountId;
+		lpString teamName;
         break;
+
+    // UnlikeSuccess
+    case 0x7D07:
+        int64 accountId;
+		lpString teamName;
+        break;
+
+    // LikedList
+    // List of other players that were liked by the player
+    case 0x7D09:
+        int count;
+        lpString teamNames[count];
+        break;
+		
+    // LikedMeList
+    // List of other players that liked the player
     case 0x7D0A:
-        int i1; // 2
-        lpString teamName;
-        FILETIME time; // 01/14/2022 00:23:05
-        byte b1; // 1
-        lpString teamName2;
-        FILETIME time2; // 01/14/2022 13:35:39
-        byte b2; // 1
+        typedef struct
+        {
+            lpString teamName;
+            FILETIME time;
+            byte b1;
+        }
+        LikeMeInfo <optimize=false>;
+
+        int count;
+        LikeMeInfo infos[count];
+        break;
+		
+	// LikeCount
+    case 0x7D0B:
+        int64 accountId;
+		int count;
         break;
 }

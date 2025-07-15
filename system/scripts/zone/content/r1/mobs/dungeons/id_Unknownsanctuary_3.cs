@@ -11,15 +11,15 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class IdUnknownsanctuary3MobScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Property Overrides -------------------------------
 
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Helga, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Lecifer, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Solcomm, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Zawra, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
-		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Gresmetruth, Properties("MHP", 6000000, "MINPATK", 350000, "MAXPATK", 350000, "MINMATK", 350000, "MAXMATK", 350000, "DEF", 9000000, "MDEF", 9000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Helga, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Lecifer, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Solcomm, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Zawra, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
+		AddPropertyOverrides("id_Unknownsanctuary_3", MonsterId.RE_Boss_Gresmetruth, Properties("MHP", 15000000, "MINPATK", 250000, "MAXPATK", 250000, "MINMATK", 250000, "MAXMATK", 250000, "DEF", 30000000, "MDEF", 30000000));
 
 		// Monster Spawners ---------------------------------
 

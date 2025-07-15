@@ -9,7 +9,7 @@ using static Melia.Zone.Scripting.Shortcuts;
 
 public class id_catacomb_38_1WarpsScript : GeneralScript
 {
-	public override void Load()
+	protected override void Load()
 	{
 		// Videntis Shrine to Underground Grave of Ritinis
 		AddWarp("CATACOMB_38_1_CATACOMB_04", 270, From("id_catacomb_38_1", -2118.84, -923.8241), To("id_catacomb_04", 2272, 1238));
