@@ -95,7 +95,7 @@ namespace Melia.Zone.Abilities
 			if (handler is IAbilityCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + abilityId, beforeCalcAttackHandler.OnAttackBeforeCalc);
 			if (handler is IAbilityCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + abilityId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
 
-			if (handler is IAbilityCombatAttackAfterCalcHandler afterCalcAttackHandler) registerAttackFunc("SCR_Combat_AfterCalc_Attack_" + abilityId, afterCalcAttackHandler.OnAttackAfterCalc);
+			if (handler is IAbilityCombatAttackAfterCalcHandler afterCalcAttackHandler) registerAttackFunc("SCR_Combat_AfterCalc_Attack_Abillity_" + abilityId, afterCalcAttackHandler.OnAttackAfterCalc);
 			if (handler is IAbilityCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerDefenseFunc("SCR_Combat_AfterCalc_Defense_" + abilityId, afterCalcDefenseHandler.OnDefenseAfterCalc);
 
 			if (handler is IAbilityCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerAttackFunc("SCR_Combat_BeforeBonuses_Attack_" + abilityId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);

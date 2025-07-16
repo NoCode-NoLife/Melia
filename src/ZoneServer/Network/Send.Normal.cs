@@ -1302,7 +1302,6 @@ namespace Melia.Zone.Network
 			/// Updates the entity model color
 			/// </summary>
 			/// <param name="entity"></param>
-			/// <param name="targetHandle"></param>
 			/// <param name="red"></param>
 			/// <param name="green"></param>
 			/// <param name="blue"></param>
@@ -1355,7 +1354,7 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Unkow purposes, used by Matador skill Back Slide
+			/// Unknow purposes, used by Matador skill Back Slide
 			/// </summary>
 			/// <param name="character"></param>
 			/// <param name="skillId"></param>

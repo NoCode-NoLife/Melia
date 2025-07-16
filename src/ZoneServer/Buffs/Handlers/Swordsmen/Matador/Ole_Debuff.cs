@@ -3,7 +3,7 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting.AI;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 
-namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
+namespace Melia.Zone.Buffs.Handlers.Swordsmen.Matador
 {
 	/// <summary>
 	/// Handle for the Ole Debuff, which increases the thread from the mob to the caster
@@ -11,9 +11,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 	[BuffHandler(BuffId.Ole_Debuff)]
 	public class Ole_Debuff : BuffHandler
 	{
-		private const float DecreaseCrtResRate = -0.15f;
-
-		public override void OnStart(Buff buff)
+		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var target = buff.Target;
 			var caster = buff.Caster;
@@ -28,7 +26,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 			var caster = buff.Caster;
 
 			if (target.Components.TryGet<AiComponent>(out var component))
-				component.Script.QueueEventAlert(new DecreaseHateEventAlert(target, caster));
+				component.Script.QueueEventAlert(new ResetTauntHateEventAlert(target, caster));
 		}
 	}
 }

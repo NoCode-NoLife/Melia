@@ -64,7 +64,8 @@ namespace Melia.Zone.Scripting.AI
 	}
 
 	/// <summary>
-	/// Information for the AI that the entity was taunted (should change aggro).
+	/// This event is design to give the attacker the most Hate of a entity
+	/// Making it be changing target to the new attacker.
 	/// </summary>
 	public class TauntEventAlert : IAiEventAlert
 	{
@@ -115,11 +116,12 @@ namespace Melia.Zone.Scripting.AI
 			this.Amount = amount;
 		}
 	}
-	
+
 	/// <summary>
-	/// Information for the AI that it should decrease the Hate
+	/// This event is design to lower the attacker to default Hate of a entity
+	/// Making it go back to initial target if possible.
 	/// </summary>
-	public class DecreaseHateEventAlert : IAiEventAlert
+	public class ResetTauntHateEventAlert : IAiEventAlert
 	{
 		/// <summary>
 		/// Returns the target.
@@ -136,7 +138,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="target"></param>
 		/// <param name="attacker"></param>
-		public DecreaseHateEventAlert(ICombatEntity target, ICombatEntity attacker)
+		public ResetTauntHateEventAlert(ICombatEntity target, ICombatEntity attacker)
 		{
 			this.Target = target;
 			this.Attacker = attacker;

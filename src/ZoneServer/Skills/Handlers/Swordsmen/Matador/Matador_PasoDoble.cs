@@ -78,20 +78,18 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 
 				var skillHitInfo = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
+				// Paso Doble: Remove Knockdown
+				if (!caster.IsAbilityActive(AbilityId.Matador12))
+				{
+					skillHitInfo.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, HitType.KnockBack, 300, 89);
+					skillHitInfo.ApplyKnockBack(target);
+				}
+
 				skillHits.Add(skillHitInfo);
 
 				var debuffVal = 4f * skill.Level;
 
 				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, debuffVal, TimeSpan.FromSeconds(3), caster);
-
-				// Paso Doble: Remove Knockdown
-				if (!caster.IsAbilityActive(AbilityId.Matador12))
-				{
-					var knockBackInfo = new KnockBackInfo(caster.Position, target.Position, HitType.KnockBack, 300, 89);
-					target.Position = knockBackInfo.ToPosition;
-
-					Send.ZC_KNOCKDOWN_INFO(caster, target, knockBackInfo);
-				}
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHits);

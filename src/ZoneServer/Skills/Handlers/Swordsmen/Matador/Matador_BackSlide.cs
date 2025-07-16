@@ -5,7 +5,6 @@ using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
-using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using static Melia.Shared.Util.TaskHelper;
@@ -58,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 			caster.StopBuff(BuffId.BackSlide_MomentaryEvasion_Buff);
 
 			if (caster is Character character)
-				Send.ZC_NORMAL.Unknow_7D(character, skill.Id);
+				Send.ZC_NORMAL.SkillCancelCancel(character, skill.Id);
 		}
 	}
 }

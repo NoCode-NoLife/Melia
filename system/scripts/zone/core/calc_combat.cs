@@ -398,41 +398,6 @@ public class CombatCalculationsScript : GeneralScript
 				attackType = rhItem.Data.AttackType;
 		}
 
-		// Melee phisical attacks ignored when counter-attacking (Matador).
-		if (target.IsBuffActive(BuffId.Muleta_Cast_Buff) && (attackType == SkillAttackType.Slash || attackType == SkillAttackType.Strike || attackType == SkillAttackType.Melee))
-		{
-			// Muleta: Counterattack Master
-			if ((attacker.Race == RaceType.Widling || target.IsAbilityActive(AbilityId.Matador8)) && target is Character character)
-			{
-				character.StopBuff(BuffId.IS_Channeling_Buff);
-
-				// [Arts] Muleta: Faena
-				// Casts Faena instead of default attack when counter-attacking
-				if (character.IsAbilityActive(AbilityId.Matador26))
-					Send.ZC_NORMAL.ForceClientCastSkill(character, SkillId.Matador_Muleta, SkillId.Matador_Muleta_Faena);
-				else
-					Send.ZC_NORMAL.ForceClientCastSkill(character, SkillId.Matador_Muleta, SkillId.Muleta_Attack);
-
-				// Muleta: Showtime
-				if (character.IsAbilityActive(AbilityId.Matador16) && character.TryGetAbility(AbilityId.Matador16, out var ability))
-				{
-					var reductionInSeconds = ability.Level;
-					var matadorSkillTreeDataList = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(JobId.Matador);
-
-					foreach (var charSkill in character.Skills.GetList())
-					{
-						if (charSkill.Id == SkillId.Matador_Muleta)
-							continue;
-
-						if (matadorSkillTreeDataList.Contains(charSkill.Id) && charSkill.IsOnCooldown)
-							charSkill.ReduceCooldown(TimeSpan.FromSeconds(reductionInSeconds));
-					}
-				}				
-			}
-
-			return 0;
-		}
-
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{
 			if (attackType == SkillAttackType.Slash)

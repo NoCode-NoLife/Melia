@@ -227,22 +227,6 @@ namespace Melia.Zone.Skills
 			Send.ZC_OVERHEAT_CHANGED(character, this);
 		}
 
-
-		/// <summary>
-		/// Reduces the skill's cooldownTime
-		/// </summary>
-		/// <param name="cooldownTime"></param>
-		public void ReduceCooldown(TimeSpan reductionTime)
-		{
-			if (this.Owner is not Character character)
-				return;
-
-			if (!this.Owner.Components.TryGet<CooldownComponent>(out var cooldownComponent))
-				return;
-
-			cooldownComponent.Reduce(this.Data.CooldownGroup, reductionTime);
-		}
-
 		/// <summary>
 		/// Reduces the skill's cooldown by the given amount of time.
 		/// </summary>

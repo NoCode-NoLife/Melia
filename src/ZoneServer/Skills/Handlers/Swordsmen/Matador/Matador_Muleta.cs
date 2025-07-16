@@ -37,7 +37,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			caster.StartBuff(BuffId.Muleta_Cast_Buff);
+			caster.StartBuff(BuffId.Muleta_Cast_Buff, TimeSpan.FromSeconds(2));
 			caster.StartBuff(BuffId.IS_Channeling_Buff, TimeSpan.FromSeconds(2));
 
 			if (caster is Character character)

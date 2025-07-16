@@ -3,7 +3,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
-namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 {
 	/// <summary>
 	/// Handler for the Hoplite skill Sharp Spear.

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
-using Melia.Zone.Abilities.Handlers.Swordsmen.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -123,10 +122,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
-			var targetSize = SizeType.M;
-
-			if (target is Mob mob)
-				targetSize = mob.Data.Size;
+			var targetSize = target.EffectiveSize;
 
 			// Increase Final Damage by 20% against Large and Boss monsters
 			if (targetSize == SizeType.L || target.Rank == MonsterRank.Boss)

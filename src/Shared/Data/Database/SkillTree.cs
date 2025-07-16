@@ -22,8 +22,7 @@ namespace Melia.Shared.Data.Database
 	public class SkillTreeDb : DatabaseJson<SkillTreeData>
 	{
 		/// <summary>
-		/// Returns all skills the given job can learn at a certain job level
-		/// level.
+		/// Returns all skills the given job can learn at a certain job level.
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <param name="circle"></param>
@@ -34,11 +33,11 @@ namespace Melia.Shared.Data.Database
 		}
 
 		/// <summary>
-		/// Returns a list of SkillIds that the given job can learn
+		/// Returns a list of SkillIds that the given job can learn.
 		/// </summary>
 		/// <param name="jobId"></param>
 		/// <returns></returns>
-		public List<SkillId> FindSkills(JobId jobId)
+		public List<SkillId> FindSkillIds(JobId jobId)
 		{
 			return this.Entries.Where(a => a.JobId == jobId).Select(a => a.SkillId).ToList();
 		}

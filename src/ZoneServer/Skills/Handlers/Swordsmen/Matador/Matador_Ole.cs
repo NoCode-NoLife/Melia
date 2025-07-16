@@ -3,6 +3,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -63,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 		/// <param name="skillHitResult"></param>
 		public void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			modifier.MinCritChance *= 1 + this.GetIncreaseMinimalCritChance(skill);
+			modifier.MinCritChance += this.GetIncreaseMinimalCritChance(skill);
 		}
 
 		/// <summary>
@@ -73,21 +74,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 		/// <returns></returns>
 		private float GetIncreaseMinimalCritChance(Skill skill)
 		{
-			switch(skill.Level)
-			{
-				case 1:
-					return 0.17f;
-				case 2:
-					return 0.2f;
-				case 3:
-					return 0.22f;
-				case 4:
-					return 0.25f;
-				case 5:
-					return 0.27f;
-				default:
-					return 15 + (0.025f * skill.Level);
-			}
+			var SCR_Get_AbilityReinforceRate = ScriptableFunctions.Skill.Get("SCR_Get_AbilityReinforceRate");
+			return (15 + (2.5f * skill.Level)) * SCR_Get_AbilityReinforceRate(skill);
 		}
 	}
 }

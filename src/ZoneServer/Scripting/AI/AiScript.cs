@@ -266,7 +266,7 @@ namespace Melia.Zone.Scripting.AI
 
 			_hateLevels[handle] = newHate;
 
-			Log.Debug("Monster {0} hate level for {1} is now {2} (min: {3}).", this.Entity.Name, handle, _hateLevels[handle], _minAggroHateLevel);
+			//Log.Debug("Monster {0} hate level for {1} is now {2} (min: {3}).", this.Entity.Name, handle, _hateLevels[handle], _minAggroHateLevel);
 		}
 
 		/// <summary>
@@ -496,15 +496,7 @@ namespace Melia.Zone.Scripting.AI
 					var masterWasAttacked = (tauntEventAlert.Target.Handle == _masterHandle);
 					var masterDidAttack = (tauntEventAlert.Attacker.Handle == _masterHandle);
 
-					var highestHate = 0f;
-
-					foreach (var entry in _hateLevels)
-					{
-						var hate = entry.Value;
-
-						if (hate > highestHate)
-							highestHate = hate;
-					}
+					var highestHate = _hateLevels.Count > 0 ? _hateLevels.Max(a => a.Value) : 0;
 
 					if (entityWasAttacked || masterWasAttacked)
 						this.IncreaseHate(tauntEventAlert.Attacker, highestHate + _hatePerHit);
@@ -514,19 +506,19 @@ namespace Melia.Zone.Scripting.AI
 					break;
 				}
 
-				case DecreaseHateEventAlert decreaseHateEventAlert:
+				case ResetTauntHateEventAlert resetTauntHateEventAlert:
 				{
-					var entityWasAttacked = (decreaseHateEventAlert.Target.Handle == this.Entity.Handle);
-					var masterWasAttacked = (decreaseHateEventAlert.Target.Handle == _masterHandle);
-					var masterDidAttack = (decreaseHateEventAlert.Attacker.Handle == _masterHandle);
+					var entityWasAttacked = (resetTauntHateEventAlert.Target.Handle == this.Entity.Handle);
+					var masterWasAttacked = (resetTauntHateEventAlert.Target.Handle == _masterHandle);
+					var masterDidAttack = (resetTauntHateEventAlert.Attacker.Handle == _masterHandle);
 
 					if (_hateLevels.Count <= 1)
 						return;
 
 					if (entityWasAttacked || masterWasAttacked)
-						this.IncreaseHate(decreaseHateEventAlert.Attacker, -_hatePerHit);
+						this.IncreaseHate(resetTauntHateEventAlert.Attacker, -_hatePerHit);
 					else if (masterDidAttack)
-						this.IncreaseHate(decreaseHateEventAlert.Target, -_hatePerHit);
+						this.IncreaseHate(resetTauntHateEventAlert.Target, -_hatePerHit);
 						
 					break;
 				}
