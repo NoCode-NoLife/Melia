@@ -14,20 +14,19 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Matador
 	/// Handle for the Muleta Cast Buff, which makes the character immune to some type of attacks.
 	/// </summary>
 	[BuffHandler(BuffId.Muleta_Cast_Buff)]
-	public class Muleta_Cast_Buff : BuffHandler, IBuffCombatAttackAfterCalcHandler
+	public class Muleta_Cast_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
 	{
 		/// <summary>
 		/// Makes the character immune to some type of physical attacks,
 		/// Also can decrease cooldown for Matador skills on hits.
-		/// </summary>
 		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
-		{
+		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		{		
 			if (!target.IsBuffActive(BuffId.Muleta_Cast_Buff))
 				return;
 
@@ -41,6 +40,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Matador
 
 					if (target is Character targetCharacter)
 					{
+						targetCharacter.TurnTowards(attacker);
+
 						// [Arts] Muleta: Faena
 						// Casts Faena instead of default attack when counter-attacking
 						if (targetCharacter.IsAbilityActive(AbilityId.Matador26))

@@ -113,7 +113,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Matador
 		/// <param name="target"></param>
 		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			var modifier = SkillModifier.MultiHit(6);
+			var modifier = SkillModifier.MultiHit(2);
 
 			var knockBackInfo = new KnockBackInfo(caster.Position, target.Position, HitType.KnockBack, 55, -210);
 			target.Position = knockBackInfo.ToPosition;
