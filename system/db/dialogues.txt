@@ -3262,6 +3262,7 @@
 { classId: 90015, className: "PERSONAL_HOUSING_OBJ_BARRACK_12_PHONE_2_2_1" },
 { classId: 90016, className: "PERSONAL_hp_barrack_12_sandglass_1" },
 { classId: 90017, className: "PERSONAL_HOUSING_reputation_give_1" },
+{ classId: 90018, className: "PERSONAL_HOUSING_exhibition" },
 { classId: 90100, className: "IsUseQuestClear_real_dlg_1" },
 { classId: 90130, className: "ROKAS30_PIPOTI01_select1" },
 { classId: 90131, className: "ROKAS30_PIPOTI01_prog_startnpc" },

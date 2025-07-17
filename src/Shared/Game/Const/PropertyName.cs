@@ -9906,6 +9906,33 @@
 		public const string GEM_AetherBlader_AquaRift_Wizard_cabinet = "GEM_AetherBlader_AquaRift_Wizard_cabinet";
 		public const string GEM_AetherBlader_Aquareave_Cleric_cabinet = "GEM_AetherBlader_Aquareave_Cleric_cabinet";
 		public const string GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet = "GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet";
+		public const string ARCHEOLOGY_COIN = "ARCHEOLOGY_COIN";
+		public const string ARCHEOLOGY_EQUIP = "ARCHEOLOGY_EQUIP";
+		public const string ARCHEOLOGY_EXP = "ARCHEOLOGY_EXP";
+		public const string ARCHEOLOGY_COST = "ARCHEOLOGY_COST";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_01 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_01";
+		public const string GEM_AetherBlader_AquaRift_Scout_cabinet = "GEM_AetherBlader_AquaRift_Scout_cabinet";
+		public const string HaveEmoticon_180 = "HaveEmoticon_180";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_05 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_05";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_03 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_03";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_02 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_02";
+		public const string AchieveReward_EVENT_2507_ARCHEOLOGY1 = "AchieveReward_EVENT_2507_ARCHEOLOGY1";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_04 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_04";
+		public const string AchieveReward_EVENT_2507_ARCHEOLOGY4 = "AchieveReward_EVENT_2507_ARCHEOLOGY4";
+		public const string AchieveReward_EVENT_2506_SUMMER_ACHIEVE_06 = "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_06";
+		public const string GEM_AetherBlader_Frimveil_Scout_cabinet = "GEM_AetherBlader_Frimveil_Scout_cabinet";
+		public const string AchieveReward_EVENT_2507_ARCHEOLOGY3 = "AchieveReward_EVENT_2507_ARCHEOLOGY3";
+		public const string ARCHEOLOGY_SHOP_CNT_01 = "ARCHEOLOGY_SHOP_CNT_01";
+		public const string AchieveReward_EVENT_2507_ARCHEOLOGY2 = "AchieveReward_EVENT_2507_ARCHEOLOGY2";
+		public const string GEM_AetherBlader_ArcaneCollapse_Scout_cabinet = "GEM_AetherBlader_ArcaneCollapse_Scout_cabinet";
+		public const string GEM_AetherBlader_FrostShatter_Scout_cabinet = "GEM_AetherBlader_FrostShatter_Scout_cabinet";
+		public const string EVENT_2006_SUMMER_SHOP27 = "EVENT_2006_SUMMER_SHOP27";
+		public const string HaveEmoticon_181 = "HaveEmoticon_181";
+		public const string GEM_AetherBlader_Tidecall_Scout_cabinet = "GEM_AetherBlader_Tidecall_Scout_cabinet";
+		public const string GEM_AetherBlader_Aquareave_Scout_cabinet = "GEM_AetherBlader_Aquareave_Scout_cabinet";
+		public const string UnlockQuest_Char5_22 = "UnlockQuest_Char5_22";
+		public const string AchieveReward_EVENT_2507_ARCHEOLOGY5 = "AchieveReward_EVENT_2507_ARCHEOLOGY5";
+		public const string EVENT_POPOBOOST_SUMMER = "EVENT_POPOBOOST_SUMMER";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -10746,6 +10773,7 @@
 		public const string TxAddFunc = "TxAddFunc";
 		public const string OptionList = "OptionList";
 		public const string OverValueCount = "OverValueCount";
+		public const string GoalStack = "GoalStack";
 
 		// Monster
 		public const string MonDmgRate = "MonDmgRate";
@@ -21046,6 +21074,10 @@
 		public const string HiddenJob_Char2_27 = "HiddenJob_Char2_27";
 		public const string HiddenJob_Char4_26 = "HiddenJob_Char4_26";
 		public const string HiddenJob_Char2_28 = "HiddenJob_Char2_28";
+		public const string Kill_Gold_MolaMola = "Kill_Gold_MolaMola";
+		public const string HiddenJob_Char5_22 = "HiddenJob_Char5_22";
+		public const string popoboost_participate_summer = "popoboost_participate_summer";
+		public const string EVENT_POPOBOOST_MAX_GEARSCORE_SUMMER = "EVENT_POPOBOOST_MAX_GEARSCORE_SUMMER";
 
 		// SessionObject
 		public const string PosX = "PosX";

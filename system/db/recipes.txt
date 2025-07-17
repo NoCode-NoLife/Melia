@@ -680,6 +680,8 @@
 { recipeId: 40039, className: "R_Steam_YC_Event", productName: "[Event] Restored Goddess Sculpture", productClassName: "Event_Steam_YC_5", productAmount: 1, ingredients: [{ className: "R_Steam_YC_Event", amount: 1 },{ className: "Event_Steam_YC_1", amount: 1 },{ className: "Event_Steam_YC_2", amount: 1 },{ className: "Event_Steam_YC_3", amount: 1 },{ className: "Event_Steam_YC_4", amount: 1 }] },
 { recipeId: 50103, className: "R_God_Potion_ATK", productName: "Goddess' Support Box: Punishment", productClassName: "God_Potion_ATK", productAmount: 1, ingredients: [{ className: "R_God_Potion_ATK", amount: 1 },{ className: "Potion_hero_selectbox", amount: 10 }] },
 { recipeId: 50104, className: "R_God_Potion_DEF", productName: "Goddess' Support Box: Protection", productClassName: "God_Potion_DEF", productAmount: 1, ingredients: [{ className: "R_God_Potion_DEF", amount: 1 },{ className: "Potion_hero_selectbox", amount: 10 }] },
+{ recipeId: 60000, className: "R_Revenge_Potion", productName: "Revenge Potion", productClassName: "Potion_Revenge_UP", productAmount: 1, ingredients: [{ className: "R_Revenge_Potion", amount: 1 },{ className: "Alchemy_Essence", amount: 10 }] },
+{ recipeId: 60001, className: "R_Perfection_Potion", productName: "Perfection Potion", productClassName: "Potion_Perfection_UP", productAmount: 1, ingredients: [{ className: "R_Perfection_Potion", amount: 1 },{ className: "Alchemy_Essence", amount: 10 }] },
 
 // MagicAmulet
 //---------------------------------------------------------------------------

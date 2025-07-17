@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i396901
+//   Version: i397447
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30552,6 +30552,40 @@ string getPropertyName(int id)
         case 116325: return "GEM_AetherBlader_AquaRift_Wizard_cabinet";
         case 116326: return "GEM_AetherBlader_Aquareave_Cleric_cabinet";
         case 116327: return "GEM_AetherBlader_ArcaneCollapse_Cleric_cabinet";
+        case 116328: return "ARCHEOLOGY_COIN";
+        case 116329: return "ARCHEOLOGY_EQUIP";
+        case 116330: return "ARCHEOLOGY_EXP";
+        case 116331: return "ARCHEOLOGY_COST";
+        case 116332: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_01";
+        case 116333: return "GEM_AetherBlader_AquaRift_Scout_cabinet";
+        case 116334: return "HaveEmoticon_180";
+        case 116335: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_05";
+        case 116336: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_03";
+        case 116337: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_02";
+        case 116338: return "AchieveReward_EVENT_2507_ARCHEOLOGY1";
+        case 116339: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_04";
+        case 116340: return "AchieveReward_EVENT_2507_ARCHEOLOGY4";
+        case 116341: return "AchieveReward_EVENT_2506_SUMMER_ACHIEVE_06";
+        case 116342: return "GEM_AetherBlader_Frimveil_Scout_cabinet";
+        case 116343: return "AchieveReward_EVENT_2507_ARCHEOLOGY3";
+        case 116344: return "ARCHEOLOGY_SHOP_CNT_01";
+        case 116345: return "AchieveReward_EVENT_2507_ARCHEOLOGY2";
+        case 116346: return "GEM_AetherBlader_ArcaneCollapse_Scout_cabinet";
+        case 116347: return "GEM_AetherBlader_FrostShatter_Scout_cabinet";
+        case 116348: return "EVENT_2006_SUMMER_SHOP27";
+        case 116349: return "HaveEmoticon_181";
+        case 116350: return "GEM_AetherBlader_Tidecall_Scout_cabinet";
+        case 116351: return "GEM_AetherBlader_Aquareave_Scout_cabinet";
+        case 116352: return "UnlockQuest_Char5_22";
+        case 116353: return "AchieveReward_EVENT_2507_ARCHEOLOGY5";
+        case 116354: return "Kill_Gold_MolaMola";
+        case 116355: return "HaveEmoticon_181";
+        case 116356: return "HaveEmoticon_180";
+        case 116357: return "HiddenJob_Char5_22";
+        case 116358: return "GoalStack";
+        case 116359: return "popoboost_participate_summer";
+        case 116360: return "EVENT_POPOBOOST_MAX_GEARSCORE_SUMMER";
+        case 116361: return "EVENT_POPOBOOST_SUMMER";
         default: return "Unknown";
     }
 }
