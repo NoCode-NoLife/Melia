@@ -67,7 +67,7 @@ namespace Melia.Zone.Skills.SplashAreas
 			this.Height = height;
 			this.Width = width;
 
-			this.FarSidePos = originPos.GetRelative(direction, height);
+			this.FarSidePos = originPos.GetRelative2D(direction, height);
 
 			// Double the width, as the width defined by the game is
 			// basically the "radius" of the square
@@ -86,8 +86,8 @@ namespace Melia.Zone.Skills.SplashAreas
 		{
 			var halfHeight = height / 2f;
 
-			var originPos = centerPos.GetRelative(direction, -halfHeight);
-			var farSidePos = centerPos.GetRelative(direction, halfHeight);
+			var originPos = centerPos.GetRelative2D(direction, -halfHeight);
+			var farSidePos = centerPos.GetRelative2D(direction, halfHeight);
 
 			return new Square(originPos, direction, height, width);
 		}

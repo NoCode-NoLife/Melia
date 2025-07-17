@@ -85,7 +85,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 0, 0, 0.5f, 0.7f, 0.7f, 90);
 			caster.Position = targetPos;
 
-			var splashArea = new Circle(targetPos.GetRelative(caster.Direction, 15f), 30);
+			var splashArea = new Circle(targetPos.GetRelative2D(caster.Direction, 15f), 30);
 
 			CallSafe(this.Attack(skill, caster, splashArea));
 		}

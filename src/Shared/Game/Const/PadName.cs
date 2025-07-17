@@ -5,6 +5,11 @@ namespace Melia.Shared.Game.Const
 	/// </summary>
 	public static class PadName
 	{
+		public const string AetherBlader_AquaRift = "AetherBlader_AquaRift";
+		public const string AetherBlader_ArcaneCollapse = "AetherBlader_ArcaneCollapse";
+		public const string AetherBlader_FrostShatter = "AetherBlader_FrostShatter";
+		public const string AetherBlader_FrostShatter_pad = "AetherBlader_FrostShatter_pad";
+		public const string AetherBlader_Puddle_pad = "AetherBlader_Puddle_pad";
 		public const string Ancient_Asiomage_Heal_PAD = "Ancient_Asiomage_Heal_PAD";
 		public const string Ancient_Blud_Mon_PoisonPilla_orange = "Ancient_Blud_Mon_PoisonPilla_orange";
 		public const string Ancient_Blud_pad = "Ancient_Blud_pad";

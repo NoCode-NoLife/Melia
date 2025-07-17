@@ -104,7 +104,7 @@ namespace Melia.Zone.Skills.SplashAreas
 
 			_blades = new PolygonF[bladeCount];
 
-			var blade1Center = centerPos.GetRelative(Direction.North, bladeLength / 2);
+			var blade1Center = centerPos.GetRelative2D(Direction.North, bladeLength / 2);
 
 			var size = new Vector2F(bladeWidth, bladeLength);
 

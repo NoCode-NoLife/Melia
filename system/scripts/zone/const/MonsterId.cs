@@ -6459,6 +6459,7 @@ public static class MonsterId
 	public const int Bonemancer_Bone_Whip = 160256;
 	public const int Npc_Bonemancer = 160257;
 	public const int Npc_Blitzhunter = 160258;
+	public const int Npc_Aetherblader = 160260;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;
@@ -6905,6 +6906,7 @@ public static class MonsterId
 	public const int Hp_Barrack_12_Tablelamp = 3010229;
 	public const int Hp_Barrack_12_Chess = 3010230;
 	public const int Hp_Pharmacy_1 = 3010231;
+	public const int Hp_Barrack_Exhibition_Stand = 3010232;
 	public const int Hp_F_Blud_Bronze = 3018000;
 	public const int Hp_F_Blud_Silver = 3018001;
 	public const int Hp_F_Blud_Gold = 3018002;

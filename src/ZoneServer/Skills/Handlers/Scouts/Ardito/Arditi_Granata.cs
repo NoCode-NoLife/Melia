@@ -51,7 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			caster.SetAttackState(true);
 
 			var direction = (originPos == farPos) ? caster.Direction : originPos.GetDirection(farPos);
-			var castPosition = caster.Position.GetRelative(direction, CastLength);
+			var castPosition = caster.Position.GetRelative2D(direction, CastLength);
 
 			Send.ZC_SKILL_READY(caster, skill, originPos, originPos);
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(castPosition), Position.Zero);

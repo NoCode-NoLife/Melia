@@ -50,6 +50,8 @@ public class CharacterInitializationScript : GeneralScript
 		props.SetFloat("UnlockQuest_Char4_25", 1); // Bonemancer [C]
 		props.SetFloat("UnlockQuest_Char3_27", 1); // Blitz Hunter [A]
 		props.SetFloat("UnlockQuest_Char5_21", 1); // Blitz Hunter [T]
+		props.SetFloat("UnlockQuest_Char2_28", 1); // Aether Blader [W]
+		props.SetFloat("UnlockQuest_Char4_26", 1); // Aether Blader [C]
 	}
 
 	private static void InitCharacter(Character character)

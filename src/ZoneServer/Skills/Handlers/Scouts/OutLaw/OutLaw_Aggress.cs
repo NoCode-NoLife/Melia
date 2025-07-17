@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			// Splash area is a square of length 300, width 100, starting 100
 			// units behind the caster
-			var splashArea = new Square(caster.Position.GetRelative(caster.Direction, -100f), caster.Direction, 200f, 100f);
+			var splashArea = new Square(caster.Position.GetRelative2D(caster.Direction, -100f), caster.Direction, 200f, 100f);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var maxTargets = Math.Min(targets.Count, 3 * skill.Level);

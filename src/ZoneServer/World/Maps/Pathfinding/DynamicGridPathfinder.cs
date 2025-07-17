@@ -123,7 +123,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 
 				// Always add one neighbor in last valid position towards goal
 				var direction = current.GetDirection(goal);
-				var neighborTowardsGoal = current.GetRelative(direction, gridScale);
+				var neighborTowardsGoal = current.GetRelative2D(direction, gridScale);
 				neighbors.Add(_ground.GetLastValidCirclePosition(current, radius, neighborTowardsGoal));
 
 				// Update scores

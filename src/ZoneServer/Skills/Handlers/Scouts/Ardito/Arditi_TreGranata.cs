@@ -62,9 +62,9 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 		/// <param name="direction"></param>
 		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos, Direction direction)
 		{
-			var pos1 = farPos.GetRelative(direction, 50);
-			var pos2 = pos1.GetRelative(direction, 50);
-			var pos3 = pos2.GetRelative(direction, 50);
+			var pos1 = farPos.GetRelative2D(direction, 50);
+			var pos2 = pos1.GetRelative2D(direction, 50);
+			var pos3 = pos2.GetRelative2D(direction, 50);
 
 			var circle1 = new Circle(pos1, 50);
 			var circle2 = new Circle(pos2, 50);
@@ -95,7 +95,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			pad3.Trigger.MaxActorCount = 15;
 			pad3.Trigger.UpdateInterval = TimeSpan.FromSeconds(1);
 
-			var pad4Position = farPos.GetRelative(direction, 25);
+			var pad4Position = farPos.GetRelative2D(direction, 25);
 
 			var pad4 = new Pad(PadName.Arditi_TreGranata_DamagePad, caster, skill, new Square(pad4Position, caster.Direction, 150, 50));
 			pad4.Position = new Position(pad4.Trigger.Area.Center.X, pad4Position.Y, pad4.Trigger.Area.Center.Y);

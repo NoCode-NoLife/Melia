@@ -108,7 +108,7 @@ namespace Melia.Zone.Skills.Combat
 				var distance = 93.570992087511f;
 
 				this.Time = TimeSpan.FromMilliseconds(6747);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else if (this.Velocity == 300 && this.VAngle == 89)
 			{
@@ -122,7 +122,7 @@ namespace Melia.Zone.Skills.Combat
 				var distance = 30.570992087511f;
 
 				this.Time = TimeSpan.FromMilliseconds(4200);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else if (this.Velocity == 250 && this.VAngle == 10) // Rim Blow
 			{
@@ -131,28 +131,28 @@ namespace Melia.Zone.Skills.Combat
 				var distance = 22f * 4;
 
 				this.Time = TimeSpan.FromMilliseconds(180);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else if (this.Velocity == 150 && this.VAngle == 10) // Taglio
 			{
 				var distance = 10;
 
 				this.Time = TimeSpan.FromMilliseconds(180);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else if (this.Velocity == 100 && this.VAngle == 85) // Granata
 			{
 				var distance = 1;
 
 				this.Time = TimeSpan.FromMilliseconds(180);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else if (this.Velocity == 150 && this.VAngle == 60) // Timebomb Arrow, other targets
 			{
 				var distance = 70;
 
 				this.Time = TimeSpan.FromMilliseconds(2000);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 			else
 			{
@@ -161,7 +161,7 @@ namespace Melia.Zone.Skills.Combat
 				this.Velocity = 150;
 				this.VAngle = 10;
 				this.Time = TimeSpan.FromMilliseconds(180);
-				this.ToPosition = this.FromPosition.GetRelative(this.Direction, distance);
+				this.ToPosition = this.FromPosition.GetRelative2D(this.Direction, distance);
 			}
 		}
 
@@ -221,7 +221,7 @@ namespace Melia.Zone.Skills.Combat
 
 			Log.Debug("Velocity: {0}, Seconds: {1}, Distance: {2}", velocity, seconds, distance);
 
-			return pos.GetRelative(dir, distance);
+			return pos.GetRelative2D(dir, distance);
 		}
 	}
 }

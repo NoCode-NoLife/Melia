@@ -77,7 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			var hitDelay = TimeSpan.FromMilliseconds(400);
 
 			// First perform the jump
-			var targetPos = caster.Position.GetRelative(caster.Direction, JumpDistance);
+			var targetPos = caster.Position.GetRelative2D(caster.Direction, JumpDistance);
 			targetPos = caster.Map.Ground.GetLastValidPosition(caster.Position, targetPos);
 
 			caster.Position = targetPos;

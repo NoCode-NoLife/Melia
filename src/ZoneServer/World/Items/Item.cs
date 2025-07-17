@@ -227,7 +227,7 @@ namespace Melia.Zone.World.Items
 			// pick up the item. Might act as "IsYourDrop" for items.
 
 			var itemMonster = ItemMonster.Create(this);
-			var flyDropPos = position.GetRelative(direction, distance);
+			var flyDropPos = position.GetRelative2D(direction, distance);
 
 			itemMonster.Position = position;
 			itemMonster.Direction = direction;
