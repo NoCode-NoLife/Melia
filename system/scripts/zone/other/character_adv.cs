@@ -208,7 +208,8 @@ public class CharacterAdvancementScript : GeneralScript
 				LearnSkill(character, SkillId.Normal_Attack);
 				LearnSkill(character, SkillId.Normal_Attack_TH);
 				LearnSkill(character, SkillId.Warrior_Guard);
-				LearnSkill(character, SkillId.Muleta_Attack);
+				LearnSkill(character, SkillId.Muleta_Attack, true);
+				LearnSkill(character, SkillId.Matador_Muleta_Faena, true);
 
 				LearnAbility(character, AbilityId.Rapier);
 
@@ -1250,10 +1251,17 @@ public class CharacterAdvancementScript : GeneralScript
 		character.Inventory.Add(itemId, amount);
 	}
 
-	private static void LearnSkill(Character character, SkillId skillId)
+	private static void LearnSkill(Character character, SkillId skillId, bool silent = false)
 	{
 		if (character.Skills.Has(skillId))
 			return;
+
+		if (silent)
+		{
+			var silentSkill = new Skill(character, skillId, 1);
+			character.Skills.AddSilent(silentSkill);
+			return;
+		}
 
 		var skill = new Skill(character, skillId, 1);
 		character.Skills.Add(skill);

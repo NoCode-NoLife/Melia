@@ -1282,7 +1282,6 @@ namespace Melia.Zone.Network
 				character.Connection.Send(packet);
 			}
 
-
 			/// <summary>
 			/// Updates the collection for the player.
 			/// </summary>
@@ -1297,6 +1296,77 @@ namespace Melia.Zone.Network
 				packet.PutLong(itemId);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates the entity model color
+			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="red"></param>
+			/// <param name="green"></param>
+			/// <param name="blue"></param>
+			/// <param name="alpha"></param>
+			/// <param name="f1"></param>
+			public static void UpdateModelColor(ICombatEntity entity, int red, int green, int blue, int alpha, float f1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateModelColor);
+
+				packet.PutInt(entity.Handle);
+				packet.PutByte((byte)red);
+				packet.PutByte((byte)green);
+				packet.PutByte((byte)blue);
+				packet.PutByte((byte)alpha);
+				packet.PutByte(1);
+				packet.PutFloat(f1);
+				packet.PutByte(1);
+
+				entity.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Seems to force the client to cast a skill (used on Matador's Muleta skill)
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			/// <param name="castSkillId"></param>
+			public static void ForceClientCastSkill(Character character, SkillId beforeSkillId, SkillId castSkillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ForceClientCastSkill);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)beforeSkillId);
+				packet.PutFloat(0.515625f);
+				packet.PutShort(-32255);
+				packet.PutShort(164);
+				packet.PutShort(0);
+				packet.PutShort(2368);
+				packet.PutShort(68);
+				packet.PutShort(22096);
+				packet.PutShort(62);
+				packet.PutByte(0xA0);
+				packet.PutShort(-15173);
+				packet.PutInt((int)castSkillId);
+				packet.PutFloat(1000f);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Unknow purposes, used by Matador skill Back Slide
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="skillId"></param>
+			public static void FloorEffect(Character character, SkillId skillId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.FloorEffect);
+
+				packet.PutInt(character.Handle);
+				packet.PutInt((int)skillId);
+
+				character.Map.Broadcast(packet);
 			}
 
 			/// <summary>
@@ -1343,6 +1413,7 @@ namespace Melia.Zone.Network
 				actor.Map.Broadcast(packet);
 			}
 
+			/// <summary>
 			/// Opens book for the player.
 			/// </summary>
 			/// <param name="character"></param>

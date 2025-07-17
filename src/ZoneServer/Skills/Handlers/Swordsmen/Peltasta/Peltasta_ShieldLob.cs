@@ -3,7 +3,6 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Abilities.Handlers.Swordsmen.Peltasta;
-using Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;

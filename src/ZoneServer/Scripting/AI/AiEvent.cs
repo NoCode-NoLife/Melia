@@ -43,6 +43,9 @@ namespace Melia.Zone.Scripting.AI
 		}
 	}
 
+	/// <summary>
+	/// Information for the AI that it should reset the aggro.
+	/// </summary>
 	public class HateResetAlert : IAiEventAlert
 	{
 		/// <summary>
@@ -60,6 +63,37 @@ namespace Melia.Zone.Scripting.AI
 		}
 	}
 
+	/// <summary>
+	/// This event is design to give the attacker the most Hate of a entity
+	/// Making it be changing target to the new attacker.
+	/// </summary>
+	public class TauntEventAlert : IAiEventAlert
+	{
+		/// <summary>
+		/// Returns the target.
+		/// </summary>
+		public ICombatEntity Target { get; }
+
+		/// <summary>
+		/// Returns the attacker.
+		/// </summary>
+		public ICombatEntity Attacker { get; }
+
+		/// <summary>
+		/// Creates new event.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="attacker"></param>
+		public TauntEventAlert(ICombatEntity target, ICombatEntity attacker)
+		{
+			this.Target = target;
+			this.Attacker = attacker;
+		}
+	}
+
+	/// <summary>
+	/// Information for the AI that it should increase the Hate
+	/// </summary>
 	public class HateIncreaseAlert : IAiEventAlert
 	{
 		/// <summary>
@@ -80,6 +114,34 @@ namespace Melia.Zone.Scripting.AI
 		{
 			this.Target = target;
 			this.Amount = amount;
+		}
+	}
+
+	/// <summary>
+	/// This event is design to lower the attacker to default Hate of a entity
+	/// Making it go back to initial target if possible.
+	/// </summary>
+	public class ResetTauntHateEventAlert : IAiEventAlert
+	{
+		/// <summary>
+		/// Returns the target.
+		/// </summary>
+		public ICombatEntity Target { get; }
+
+		/// <summary>
+		/// Returns the attacker.
+		/// </summary>
+		public ICombatEntity Attacker { get; }
+
+		/// <summary>
+		/// Creates new event.
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="attacker"></param>
+		public ResetTauntHateEventAlert(ICombatEntity target, ICombatEntity attacker)
+		{
+			this.Target = target;
+			this.Attacker = attacker;
 		}
 	}
 }

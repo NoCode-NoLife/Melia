@@ -84,6 +84,17 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Return the Cooldown Object for the given CooldownId
+		/// existing cooldowns.
+		/// </summary>
+		/// <param name="cooldown"></param>
+		internal Cooldown GetCooldown(CooldownId cooldownId)
+		{
+			lock (_syncLock)
+				return _cooldowns[cooldownId];
+		}
+
+		/// <summary>
 		/// Returns a list of all cooldowns.
 		/// </summary>
 		/// <returns></returns>

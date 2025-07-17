@@ -8,6 +8,7 @@ using System;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone;
+using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;

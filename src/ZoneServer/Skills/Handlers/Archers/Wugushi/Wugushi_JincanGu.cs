@@ -63,7 +63,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		{
 			await Task.Delay(200);
 
-			Send.ZC_NORMAL.SkillProjectile(caster, "I_cleric_jincangu_force_mash#Dummy_effect_shoot", 0.4f, "", 1, farPos, 10, 0.6f, 0, 200);
+			Send.ZC_NORMAL.SkillProjectile(caster, "I_cleric_jincangu_force_mash#Dummy_effect_shoot", 0.4f, null, 1, farPos, 10, 0.6f, 0, 200);
 
 			await Task.Delay(600);
 
