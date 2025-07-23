@@ -69,7 +69,7 @@ Coding conventions
     properties, public fields, and methods.
   * Use tabs, not spaces.
 * Comment lines shouldn't exceed ~80 characters, other lines' lengths
-  are irrevelant.
+  are irrelevant if readability is not affected.
 * Excessive usage of the auto-formatting feature is encouraged.
   (Addon Suggestion: [Format document on Save](https://marketplace.visualstudio.com/items?itemName=mynkow.FormatdocumentonSave))
 * Regions should be used sparingly.
@@ -100,17 +100,6 @@ formatting settings that match the coding conventions as much as possible.
 * Comments should be used sparingly, to categorize data. Comments
   that explain data or functions should go into the header.
 * A space should be used after a comment. For example, `// comment`.
-
-## Lua
-* Lua scripts should use tabs for indention.
-* Words in variables and functions should run together, as done in standard
-  Lua, e.g. `somefunction`. Underscores are acceptable as separators in
-  some situations, such as between the name and the "category" of a
-  function, e.g. `npchandler_nameofnpc`.
-* Constants should be all upper-case, with words separated by underscores.
-  For example, `SOME_CONSTANT`.
-* Locals should be used in favor of globals whenever possible.
-* A space should be used after a comment. For example, `-- comment`.
 
 ## Binary Templates
 * Should use tabs for indention.
