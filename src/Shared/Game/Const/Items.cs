@@ -171,6 +171,7 @@ namespace Melia.Shared.Game.Const
 		OPTMisc_GoddessIcorWeapon,
 		OPTMisc_GoddessIcorArmor,
 		Armor_Shoulder,
+		Accessory_Core,
 	}
 
 	/// <summary>
@@ -240,6 +241,7 @@ namespace Melia.Shared.Game.Const
 		BELT,
 		SHOULDER,
 		Item_Consume,
+		CORE,
 	}
 
 	/// <summary>
@@ -297,6 +299,7 @@ namespace Melia.Shared.Game.Const
 		Earring,
 		BELT,
 		SHOULDER,
+		CORE
 	}
 
 	/// <remarks>
@@ -342,6 +345,7 @@ namespace Melia.Shared.Game.Const
 		Earring, // EARRING
 		Belt, // BELT
 		Shoulder, // SHOULDER
+		Core, // CORE
 	}
 
 	public enum InventoryItemRemoveMsg : byte
@@ -383,16 +387,17 @@ namespace Melia.Shared.Game.Const
 		/// [i337645] 25->30
 		/// [i339415] 30->32
 		/// [i354444] 32->33
-		/// [i361296] 33->34
-		/// [i367470] 34->35
+		/// [i361296] 33->34, belt
+		/// [i367470] 34->35, shoulder
+		/// [i398686] 35->36, core
 		/// </remarks>
-		public const int EquipSlotCount = 35;
+		public const int EquipSlotCount = 36;
 
 		/// <summary>
 		/// Ids of the items equipped by default.
 		/// (Literally empty items, NoHat, NoWeapon, etc.)
 		/// </summary>
-		public static readonly int[] EquipItems = new int[EquipSlotCount] { 2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996, 4, 4, 4 };
+		public static readonly int[] EquipItems = [2, 2, 12101, 8, 6, 7, 10000, 11000, 9999996, 9999996, 4, 9, 9, 4, 5, 9, 9, 9, 9, 10, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 9999996, 9999996, 4, 4, 4, 4];
 	}
 
 	public enum InventoryOrder : byte

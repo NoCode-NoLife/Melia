@@ -5,8 +5,11 @@ namespace Melia.Shared.Game.Const
 	/// </summary>
 	public static class SkillTag
 	{
+		public const string AccSkill = "AccSkill";
+		public const string Ancient = "Ancient";
 		public const string ArbalesterMissile = "ArbalesterMissile";
 		public const string BasicSkill = "BasicSkill";
+		public const string CanMoveCancel = "CanMoveCancel";
 		public const string Channeling = "channeling";
 		public const string CloseQuarterSkill = "CloseQuarterSkill";
 		public const string DefenderConditionBlindNo20 = "DefenderConditionBlind#20";
@@ -18,22 +21,31 @@ namespace Melia.Shared.Game.Const
 		public const string DefenderConditionWoundNo20 = "DefenderConditionWound#20";
 		public const string DefenderConditionWoundNo30 = "DefenderConditionWound#30";
 		public const string DOTSkill = "DOTSkill";
+		public const string EnableAddBlow = "EnableAddBlow";
+		public const string ExceptTimeForward = "ExceptTimeForward";
 		public const string ExpertSkill = "ExpertSkill";
+		public const string GoddessCardSkill = "GoddessCardSkill";
+		public const string HighValueCommonSkill = "HighValueCommonSkill";
 		public const string HPCOUNTDAMAGENo10 = "HPCOUNTDAMAGE#10";
 		public const string HPCOUNTDAMAGENo3 = "HPCOUNTDAMAGE#3";
 		public const string HPCOUNTDAMAGENo4 = "HPCOUNTDAMAGE#4";
 		public const string IgnoreCoolDownReduce = "IgnoreCoolDownReduce";
 		public const string IgnoreRevival = "IgnoreRevival";
 		public const string ItemSkill = "ItemSkill";
+		public const string Kupole = "Kupole";
+		public const string LegendSetSkill = "LegendSetSkill";
 		public const string LimitInstanceLevelUp = "LimitInstanceLevelUp";
 		public const string MaxDamage = "MaxDamage";
 		public const string Meteor = "Meteor";
+		public const string MoonSkill = "MoonSkill";
 		public const string NormalSkill = "NormalSkill";
 		public const string NormalSkillWeeklyBoss = "NormalSkillWeeklyBoss";
 		public const string NotHaveToValidPos = "NotHaveToValidPos";
 		public const string NotUseNormalAttack = "NotUseNormalAttack";
 		public const string PcSummonSkill = "pcSummonSkill";
+		public const string PvPException = "PvPException";
 		public const string SplHeightApply = "SplHeightApply";
+		public const string StarSkill = "StarSkill";
 		public const string TargetSkill = "TargetSkill";
 		public const string TwinShield = "TwinShield";
 		public const string TwinWeapon = "TwinWeapon";

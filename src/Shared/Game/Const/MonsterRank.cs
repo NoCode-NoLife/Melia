@@ -15,5 +15,6 @@
 		Neutral,
 		Pet,
 		Monster,
+		Instance,
 	}
 }

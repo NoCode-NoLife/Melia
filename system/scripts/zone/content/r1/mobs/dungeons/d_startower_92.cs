@@ -50,7 +50,7 @@ public class DStartower92MobScript : GeneralScript
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(704, 1127, 40));
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(882, 985, 40));
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1141, 650, 40));
-		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1367, 967, 40));
+		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1354, 919, 40));
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1575, 896, 40));
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1530, 584, 40));
 		AddSpawnPoint("d_startower_92.Id1", "d_startower_92", Rectangle(1655, 985, 40));

@@ -262,6 +262,9 @@ namespace Melia.Shared.Game.Const
 		public const string DelmoreCastleGate_SKL11_Pad1 = "DelmoreCastleGate_SKL11_Pad1";
 		public const string DelmoreCastleGate_SKL7_Pad1 = "DelmoreCastleGate_SKL7_Pad1";
 		public const string DelmoreCastleGate_WideArea = "DelmoreCastleGate_WideArea";
+		public const string DemonLair_Ashark_Flame_Prison_Pad = "DemonLair_Ashark_Flame_Prison_Pad";
+		public const string DemonLair_Ashark_MutantContagion_Pad = "DemonLair_Ashark_MutantContagion_Pad";
+		public const string DemonLair_Ashark_RushCold_Pad = "DemonLair_Ashark_RushCold_Pad";
 		public const string Dievdirbys_CarveAusirine = "Dievdirbys_CarveAusirine";
 		public const string Disnai_Svirti_PAD = "Disnai_Svirti_PAD";
 		public const string Dragoon_Gae_Bulg_atkabil = "Dragoon_Gae_Bulg_atkabil";
@@ -457,6 +460,10 @@ namespace Melia.Shared.Game.Const
 		public const string helgasercle_atk3 = "helgasercle_atk3";
 		public const string helgasercle_skl2 = "helgasercle_skl2";
 		public const string Hepatica_King_pad = "Hepatica_King_pad";
+		public const string Hermit_ConstellationResidueField = "Hermit_ConstellationResidueField";
+		public const string Hermit_Eclipse = "Hermit_Eclipse";
+		public const string Hermit_JudgementoftheCosmos = "Hermit_JudgementoftheCosmos";
+		public const string Hermit_TwilightVeil = "Hermit_TwilightVeil";
 		public const string Highlander_CrossGuard = "Highlander_CrossGuard";
 		public const string Hunter_Brawl = "Hunter_Brawl";
 		public const string Hwarang_DoNotRetreat = "Hwarang_DoNotRetreat";
@@ -512,6 +519,8 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_Zesty_BladeWhirlwind = "Kupole_Zesty_BladeWhirlwind";
 		public const string lachrymator_pad = "lachrymator_pad";
 		public const string lachrymator_pad_Rogue26 = "lachrymator_pad_Rogue26";
+		public const string Laimara_Corrosive_Ground_Pad = "Laimara_Corrosive_Ground_Pad";
+		public const string Laimara_Web_Pad = "Laimara_Web_Pad";
 		public const string Lapene_Donuts = "Lapene_Donuts";
 		public const string Lapene_Donuts1 = "Lapene_Donuts1";
 		public const string Lapene_Donuts2 = "Lapene_Donuts2";
@@ -702,6 +711,19 @@ namespace Melia.Shared.Game.Const
 		public const string Rancer_Charge = "Rancer_Charge";
 		public const string Rangda_Rawa = "Rangda_Rawa";
 		public const string Rangda_Rawa_Abil = "Rangda_Rawa_Abil";
+		public const string RE_boss_bearkaras_unique_pad = "RE_boss_bearkaras_unique_pad";
+		public const string RE_boss_ellaganos_unique_skill_pad = "RE_boss_ellaganos_unique_skill_pad";
+		public const string RE_boss_lilymaid_unique_pad = "RE_boss_lilymaid_unique_pad";
+		public const string RE_boss_lilymaid_unique_pillar_pad = "RE_boss_lilymaid_unique_pillar_pad";
+		public const string RE_boss_lilymaid_unique_ready_pad = "RE_boss_lilymaid_unique_ready_pad";
+		public const string RE_boss_magburk_unique_pad = "RE_boss_magburk_unique_pad";
+		public const string RE_boss_naktis_field_shot_pad = "RE_boss_naktis_field_shot_pad";
+		public const string RE_boss_salamander_unique_atk_after_pad = "RE_boss_salamander_unique_atk_after_pad";
+		public const string RE_boss_salamander_unique_atk_pad = "RE_boss_salamander_unique_atk_pad";
+		public const string RE_boss_spector_gh_skill2_pad = "RE_boss_spector_gh_skill2_pad";
+		public const string RE_boss_spector_gh_unique_skill_pad = "RE_boss_spector_gh_unique_skill_pad";
+		public const string RE_boss_tombmaiden_pad = "RE_boss_tombmaiden_pad";
+		public const string RE_boss_tombmaiden_unique_skill_pad = "RE_boss_tombmaiden_unique_skill_pad";
 		public const string RE_gresmetruth_laser_pad = "RE_gresmetruth_laser_pad";
 		public const string RE_gresmetruth_laser_trace_pad = "RE_gresmetruth_laser_trace_pad";
 		public const string RE_helgasercle_bloodstain_pad = "RE_helgasercle_bloodstain_pad";
@@ -936,6 +958,7 @@ namespace Melia.Shared.Game.Const
 		public const string Vasilissa_Thunderstroke_Pad = "Vasilissa_Thunderstroke_Pad";
 		public const string Vasilissa_Tsunami_Pad = "Vasilissa_Tsunami_Pad";
 		public const string velcofer_curse_pad = "velcofer_curse_pad";
+		public const string VELIORA_SKILL_5_Pad = "VELIORA_SKILL_5_Pad";
 		public const string Velo_Holdbuff = "Velo_Holdbuff";
 		public const string VIBORA_ArousalCharm_Fire_Pad = "VIBORA_ArousalCharm_Fire_Pad";
 		public const string Vulture_Devastation_Archer = "Vulture_Devastation_Archer";

@@ -1635,4 +1635,11 @@
 { id: 10004, className: "AetherBlader_FrostShatter", isOverheat: false, overheatResetTime: 0 },
 { id: 10005, className: "AetherBlader_Frimveil", isOverheat: false, overheatResetTime: 0 },
 { id: 10006, className: "AetherBlader_ArcaneCollapse", isOverheat: false, overheatResetTime: 0 },
+{ id: 11001, className: "Hermit_FallingStarlight", isOverheat: false, overheatResetTime: 0 },
+{ id: 11002, className: "Hermit_StellarRebound", isOverheat: false, overheatResetTime: 0 },
+{ id: 11003, className: "Hermit_LunarBrand", isOverheat: false, overheatResetTime: 0 },
+{ id: 11004, className: "Hermit_TwilightVeil", isOverheat: false, overheatResetTime: 0 },
+{ id: 11005, className: "Hermit_ConstellationResidueField", isOverheat: false, overheatResetTime: 0 },
+{ id: 11006, className: "Hermit_Eclipse", isOverheat: false, overheatResetTime: 0 },
+{ id: 11007, className: "Hermit_JudgementoftheCosmos", isOverheat: false, overheatResetTime: 0 },
 ]

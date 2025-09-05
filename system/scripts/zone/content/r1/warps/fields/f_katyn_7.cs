@@ -16,5 +16,8 @@ public class f_katyn_7WarpsScript : GeneralScript
 
 		// Entrance of Kateen Forest to Owl Burial Ground
 		AddWarp("KATYN7_KATYN7_2", 180, From("f_katyn_7", -864, 3894), To("f_katyn_7_2", 299, -4327));
+
+		// Entrance of Kateen Forest to EP17 Karolis Springs
+		AddWarp("EP17_2_KATYN_7_KATYN_10", 90, From("f_katyn_7", 1650, -3427), To("ep17_2_f_katyn_10", 4550, -1490));
 	}
 }

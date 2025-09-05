@@ -2437,6 +2437,46 @@ namespace Melia.Shared.Game.Const
 		AetherBlader8 = 221013,
 		/// <summary>[Arts] Frost Shatter: Shatterline </summary>
 		AetherBlader9 = 221014,
+		/// <summary>Celestial Rain: Enhance</summary>
+		Hermit1 = 221101,
+		/// <summary>Star Recall: Enhance</summary>
+		Hermit2 = 221102,
+		/// <summary>Lunar Stigma: Enhance</summary>
+		Hermit3 = 221103,
+		/// <summary>Twilight Veil: Enhance</summary>
+		Hermit4 = 221104,
+		/// <summary>Zodiac Refuge: Enhance</summary>
+		Hermit5 = 221105,
+		/// <summary>Eclipse: Enhance</summary>
+		Hermit6 = 221106,
+		/// <summary>Judgement of Cosmos: Enhance</summary>
+		Hermit7 = 221107,
+		/// <summary>Cosmos</summary>
+		Hermit100 = 221108,
+		/// <summary>[Arts] Celestial Rain: Enhanced Upgrade</summary>
+		Hermit101 = 221109,
+		/// <summary>[Arts] Stellar Recall: Enhanced Upgrade</summary>
+		Hermit102 = 221110,
+		/// <summary>[Arts] Lunar Stigma: Enhanced Upgrade</summary>
+		Hermit103 = 221111,
+		/// <summary>[Arts] Twilight Veil: Enhanced Upgrade</summary>
+		Hermit104 = 221112,
+		/// <summary>[Arts] Zodiac Refuge: Enhanced Upgrade</summary>
+		Hermit105 = 221113,
+		/// <summary>[Arts] Eclipse: Enhanced Upgrade</summary>
+		Hermit106 = 221114,
+		/// <summary>[Arts] Judgement of Cosmos: Enhanced Upgrade</summary>
+		Hermit107 = 221115,
+		/// <summary>Celestial Rain: Concentration</summary>
+		Hermit8 = 221116,
+		/// <summary>Lunar Stigma: Resonance</summary>
+		Hermit9 = 221117,
+		/// <summary>[Arts] Judgement of Cosmos: Cosmic Core</summary>
+		Hermit10 = 221119,
+		/// <summary>Zodiac Refuge: Stellar Erosion</summary>
+		Hermit11 = 221120,
+		/// <summary>[Arts] Eclipse: Total Eclipse</summary>
+		Hermit12 = 221121,
 		/// <summary>Multi Shot: Enhance</summary>
 		Archer11 = 301001,
 		/// <summary>Multi Shot: Enhance 2</summary>

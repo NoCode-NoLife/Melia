@@ -1324,4 +1324,11 @@
 { shopName: "JurateCertificateCoin_Shop", productId: 24303, itemId: 11201235, amount: 1, priceMultiplier: 1 },
 { shopName: "JurateCertificateCoin_Shop", productId: 24304, itemId: 11201236, amount: 1, priceMultiplier: 1 },
 { shopName: "JurateCertificateCoin_Shop", productId: 24305, itemId: 11201237, amount: 1, priceMultiplier: 1 },
+
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24400, itemId: 11202001, amount: 1, priceMultiplier: 1 },
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24401, itemId: 11202002, amount: 1, priceMultiplier: 1 },
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24402, itemId: 11202003, amount: 1, priceMultiplier: 1 },
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24403, itemId: 11202004, amount: 1, priceMultiplier: 1 },
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24404, itemId: 11202005, amount: 1, priceMultiplier: 1 },
+{ shopName: "AustejaCertificateCoin_Shop", productId: 24405, itemId: 11202006, amount: 1, priceMultiplier: 1 },
 ]
