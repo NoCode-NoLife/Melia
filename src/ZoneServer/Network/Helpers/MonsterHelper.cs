@@ -26,17 +26,8 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte(monster.FromGround);
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
-			packet.PutShort(0);
-
-			// [i11025 (2016-02-26)] ?
-			{
-				packet.PutShort(16832);
-			}
-
-			// [i364857 (2022-10-22)] ?
-			{
-				packet.PutInt(0); // 0 | 1098907648
-			}
+			packet.PutInt(0); // monster.Shield
+			packet.PutInt(0); // monster.MaxShield
 
 			packet.PutFloat(monster.Properties.GetFloat(PropertyName.MSPD));
 
@@ -45,7 +36,8 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt((int)monster.Attribute);
 			packet.PutInt((int)monster.Race);
 
-			packet.PutInt(appearanceSize);
+			packet.AddMonsterApperance(monster);
+
 			packet.PutShort(propertiesSize);
 
 			packet.PutInt(0);
@@ -54,7 +46,6 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutShort(0);
 			packet.PutByte(0);
 
-			packet.AddMonsterApperance(monster);
 			packet.AddProperties(propertyList);
 		}
 
@@ -89,11 +80,11 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="monster"></param>
 		public static void AddMonsterApperance(this Packet packet, IMonsterAppearance monster)
 		{
-			packet.PutLpString(monster.Name);
-			packet.PutLpString(monster.UniqueName);
-			packet.PutLpString(monster.DialogName);
-			packet.PutLpString(monster.EnterName);
-			packet.PutLpString(monster.LeaveName);
+			packet.PutString(monster.Name, 256);
+			packet.PutString(monster.UniqueName, 256);
+			packet.PutString(monster.DialogName, 256);
+			packet.PutString(monster.EnterName, 256);
+			packet.PutString(monster.LeaveName, 256);
 		}
 
 		/// <summary>
