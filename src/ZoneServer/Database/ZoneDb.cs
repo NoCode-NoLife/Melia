@@ -25,7 +25,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.Database
 {
-	public class ZoneDb : MeliaDb
+	public partial class ZoneDb : MeliaDb
 	{
 		/// <summary>
 		/// Saves account.
@@ -173,6 +173,7 @@ namespace Melia.Zone.Database
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.LoadCollections(character);
+			this.LoadParty(character);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and

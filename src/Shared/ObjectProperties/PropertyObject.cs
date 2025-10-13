@@ -24,6 +24,7 @@
 
 	public static class ObjectIdRanges
 	{
+		public const long Account = 0x0000000000000000;
 		public const long Characters = 0x0100000000000000;
 		public const long SocialUser = 0x0200000000000000;
 		public const long Items = 0x0500000000000000;
@@ -31,6 +32,10 @@
 		public const long Abilities = 0x0700000000000000;
 		public const long SessionObjects = 0x0A00000000000000;
 		public const long Quests = 0x0B00000000000000;
+		public const long Companions = 0x0C00000000000000;
+		public const long Party = 0x0D00000000000000;
+		public const long Guild = 0x0E00000000000000;
+		public const long Assisters = 0x0F00000000000000;
 
 		// Old stuff for referecence:
 

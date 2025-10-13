@@ -57,6 +57,12 @@ namespace Melia.Zone.World
 		public GlobalVariables GlobalVariables { get; } = new();
 
 		/// <summary>
+		/// Returns the world's parties, a manager for
+		/// all the parties in the world.
+		/// </summary>
+		public PartyManager Parties { get; } = new PartyManager();
+
+		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
 		/// </summary>
 		/// <returns></returns>
@@ -332,6 +338,34 @@ namespace Melia.Zone.World
 		{
 			character = this.GetCharacterByTeamName(teamName);
 			return character != null;
+		}
+
+		/// <summary>
+		/// Returns a party if found by id or null
+		/// </summary>
+		/// <param name="partyId"></param>
+		/// <returns></returns>
+		public Party GetParty(long partyId)
+			=> this.Parties.GetParty(partyId);
+
+		/// <summary>
+		/// Returns the first character found that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Character GetCharacter(Func<Character, bool> predicate)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					var character = map.GetCharacter(predicate);
+					if (character != null)
+						return character;
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>

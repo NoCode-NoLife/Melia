@@ -3087,5 +3087,89 @@ namespace Melia.Zone.Network
 
 			character.StopBuff(buffId);
 		}
+
+		/// <summary>
+		/// Sent when accepting a party invite.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_ACCEPT)]
+		public void CZ_PARTY_INVITE_ACCEPT(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+			var character = conn.SelectedCharacter;
+			var sender = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (sender != null)
+			{
+				var party = sender.Connection.Party;
+				party ??= ZoneServer.Instance.World.Parties.Create(sender);
+				party.AddMember(character);
+			}
+		}
+
+		/// <summary>
+		/// Sent when canceling a party invite.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_INVITE_CANCEL)]
+		public void CZ_PARTY_INVITE_CANCEL(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var teamName = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var partyInviter = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (partyInviter != null)
+			{
+				Send.ZC_ADDON_MSG(partyInviter, AddonMessage.PARTY_INVITE_CANCEL, 0, character.TeamName);
+			}
+		}
+
+		/// <summary>
+		/// Sent when leaving a party.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_OUT)]
+		public void CZ_PARTY_OUT(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
+
+			if (party != null)
+			{
+				party.RemoveMember(character);
+				if (party.MemberCount == 0)
+					ZoneServer.Instance.World.Parties.Delete(party);
+			}
+		}
+
+		/// <summary>
+		/// Sent when changing party properties/settings.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PARTY_PROP_CHANGE)]
+		public void CZ_PARTY_PROP_CHANGE(IZoneConnection conn, Packet packet)
+		{
+			var b1 = packet.GetByte();
+			var type = packet.GetInt();
+			var b2 = packet.GetByte();
+			var b3 = packet.GetByte();
+			var s1 = packet.GetShort();
+			var value = packet.GetString();
+
+			var character = conn.SelectedCharacter;
+			var party = character.Connection.Party;
+
+			if (party != null && party.LeaderDbId == character.DbId)
+			{
+				party.UpdateSetting(type, value);
+			}
+		}
 	}
 }

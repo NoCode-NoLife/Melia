@@ -307,7 +307,10 @@ namespace Melia.Zone.World.Actors.Monsters
 				this.GetExpToGive(out var exp, out var jobExp);
 
 				this.DropItems(beneficiary);
-				beneficiary?.GiveExp(exp, jobExp, this);
+				if (beneficiary.Connection.Party != null)
+					beneficiary.Connection.Party.GiveExp(beneficiary, exp, jobExp, this);
+				else
+					beneficiary?.GiveExp(exp, jobExp, this);
 			}
 
 			this.Died?.Invoke(this, killer);
@@ -606,8 +609,21 @@ namespace Melia.Zone.World.Actors.Monsters
 				var dropRadius = ZoneServer.Instance.Conf.World.DropRadius;
 				var distance = rnd.Next(dropRadius / 2, dropRadius + 1);
 
-				dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
-				dropItem.Drop(this.Map, this.Position, direction, distance);
+				// Check if killer has party
+				var killersParty = killer.Connection?.Party;
+				if (killersParty != null)
+				{
+					if (killersParty.TryGetItemRecipient(killer, out var recipient))
+					{
+						dropItem.SetLootProtection(recipient, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+						dropItem.Drop(this.Map, this.Position, direction, distance);
+					}
+				}
+				else
+				{
+					dropItem.SetLootProtection(killer, TimeSpan.FromSeconds(ZoneServer.Instance.Conf.World.LootPrectionSeconds));
+					dropItem.Drop(this.Map, this.Position, direction, distance);
+				}
 			}
 		}
 

@@ -21,6 +21,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
@@ -4549,6 +4550,125 @@ namespace Melia.Zone.Network
 			packet.PutInt(numArg5);
 
 			toActor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends party information to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_INFO(Character character, IGroup group)
+		{
+			var propertyList = group.Properties.GetAll();
+			var propertiesSize = propertyList.GetByteCount();
+
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+			packet.PutByte((byte)group.Type);
+			packet.PutByte(0);
+			packet.PutDate(group.DateCreated);
+			packet.PutLong(group.ObjectId);
+			packet.PutLpString(group.Name);
+			packet.PutLong(group.Owner?.AccountObjectId ?? 0);
+			packet.PutLpString(group.Owner?.TeamName ?? "");
+			packet.PutInt(0);
+			packet.PutInt(1);
+			packet.PutShort((short)propertiesSize);
+			packet.AddProperties(propertyList);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party member list to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_LIST(IGroup group)
+		{
+			var members = group.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_LIST);
+			packet.PutLong(0);
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutByte((byte)members.Count);
+			foreach (var member in members)
+				packet.AddMember(member);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party enter notification to all party members.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_ENTER(Character character, IGroup group)
+		{
+			var packet = new Packet(Op.ZC_PARTY_ENTER);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.AddMember(group.ToMember(character));
+			packet.PutShort(0);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends party leave notification to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_OUT(Character character, IGroup group)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutLong(character.AccountId | ObjectIdRanges.Account);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party leave notification to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		/// <param name="member"></param>
+		public static void ZC_PARTY_OUT(IGroup group, IMember member)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutLong(member.AccountObjectId);
+			packet.PutByte(0);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts instant party information to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_INST_INFO(IGroup group)
+		{
+			var members = group.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_INST_INFO);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutInt(members.Count);
+			foreach (var member in members)
+				packet.AddPartyInstantMemberInfo(member);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+
+			group.Broadcast(packet);
 		}
 	}
 }

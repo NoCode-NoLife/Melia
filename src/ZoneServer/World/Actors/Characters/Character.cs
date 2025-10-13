@@ -27,7 +27,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public partial class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 		private int _destinationChannelId;
@@ -86,6 +86,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Id of the character's account.
 		/// </summary>
 		public long AccountId { get; set; }
+
+		/// <summary>
+		/// Returns the character's party id.
+		/// </summary>
+		public long PartyId { get; set; }
 
 		/// <summary>
 		/// Returns the character's faction.
