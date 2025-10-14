@@ -88,9 +88,6 @@ namespace Melia.Social.Network
 				{
 					chatRoom = SocialServer.Instance.ChatManager.CreateChatRoom(user, user.Character.PartyId, ChatRoomType.Friends);
 				}
-				else
-				{
-				}
 				chatRoom.AddMember(user);
 				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
 			}

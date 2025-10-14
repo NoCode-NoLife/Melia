@@ -136,7 +136,13 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_ENTER_PC(IZoneConnection conn, Character character)
 		{
-			var relationship = (byte)Math.Clamp((int)conn.SelectedCharacter.GetRelation(character), 0, 2);
+			var relation = conn.SelectedCharacter.GetRelation(character);
+
+			// Map Party to Friendly for display purposes
+			if (relation == RelationType.Party)
+				relation = RelationType.Friendly;
+
+			var relationship = (byte)Math.Clamp((int)relation, 0, 2);
 
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
