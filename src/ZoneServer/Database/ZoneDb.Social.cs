@@ -92,6 +92,8 @@ namespace Melia.Zone.Database
 		{
 			using (var conn = this.GetConnection())
 			{
+				var offlineMembers = new System.Collections.Generic.List<PartyMember>();
+
 				using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `partyId` = @partyId", conn))
 				{
 					mc.Parameters.AddWithValue("@partyId", party.DbId);
@@ -119,12 +121,47 @@ namespace Melia.Zone.Database
 								var z = reader.GetFloat("z");
 								member.Position = new Position(x, y, z);
 								member.IsOnline = loadCharacter.DbId == member.DbId;
-								party.AddMember(member);
+								offlineMembers.Add(member);
 							}
 							else
 								party.AddMember(character, true);
 						}
 					}
+				}
+
+				// Load jobs for offline members
+				foreach (var member in offlineMembers)
+				{
+					using (var mc = new MySqlCommand("SELECT `jobId` FROM `jobs` WHERE `characterId` = @characterId ORDER BY `selectionDate` ASC", conn))
+					{
+						mc.Parameters.AddWithValue("@characterId", member.DbId);
+						using (var reader = mc.ExecuteReader())
+						{
+							var i = 0;
+							while (reader.Read())
+							{
+								var jobId = (JobId)reader.GetInt32("jobId");
+								member.VisualJobId = jobId;
+								switch (i)
+								{
+									case 0:
+										member.FirstJobId = jobId;
+										break;
+									case 1:
+										member.SecondJobId = jobId;
+										break;
+									case 2:
+										member.ThirdJobId = jobId;
+										break;
+									case 3:
+										member.FourthJobId = jobId;
+										break;
+								}
+								i++;
+							}
+						}
+					}
+					party.AddMember(member);
 				}
 			}
 		}
