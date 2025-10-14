@@ -817,6 +817,7 @@ namespace Melia.Zone.World.Actors.Characters
 				newHp = (int)this.Properties.Modify(PropertyName.HP, amount);
 				priority = (this.HpChangeCounter += 1);
 			}
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>

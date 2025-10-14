@@ -95,12 +95,11 @@ namespace Melia.Zone.Database
 					{
 						var characterDbId = reader.GetInt64("characterId");
 
-						// Check if this is the character that's logging in
-						if (characterDbId == loadCharacter.DbId)
+						// Try to find the character in the world (they're online if found)
+						var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == characterDbId);
+						if (character == null)
 						{
-							// Use the actual character object that's logging in
-							// Can't use AddMember(Character) because Connection is null
-							// Create a PartyMember instead
+							// Character not in world yet or offline - create PartyMember placeholder
 							var member = new PartyMember
 							{
 								DbId = characterDbId,
@@ -113,38 +112,14 @@ namespace Melia.Zone.Database
 								MapId = reader.GetInt32("zone"),
 								Level = reader.GetInt32("level"),
 								Position = new Position(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z")),
-								IsOnline = loadCharacter.DbId == characterDbId
+								IsOnline = characterDbId == loadCharacter.DbId
 							};
 							party.AddMember(member);
 						}
 						else
 						{
-							// Try to find the character in the world (for other online members)
-							var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == characterDbId);
-							if (character == null)
-							{
-								// Character is offline, create a PartyMember placeholder
-								var member = new PartyMember
-								{
-									DbId = characterDbId,
-									AccountId = reader.GetInt64("accountId"),
-									Name = reader.GetString("name"),
-									TeamName = reader.GetString("teamName"),
-									VisualJobId = (JobId)reader.GetInt16("job"),
-									Gender = (Gender)reader.GetByte("gender"),
-									Hair = reader.GetInt32("hair"),
-									MapId = reader.GetInt32("zone"),
-									Level = reader.GetInt32("level"),
-									Position = new Position(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z")),
-									IsOnline = loadCharacter.DbId == reader.GetInt64("characterId")
-								};
-								party.AddMember(member);
-							}
-							else
-							{
-								// Character is online, use the actual character object
-								party.AddMember(character, true);
-							}
+							// Character is already in the world and online
+							party.AddMember(character, true);
 						}
 					}
 				}

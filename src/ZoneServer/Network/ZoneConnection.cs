@@ -34,11 +34,11 @@ namespace Melia.Zone.Network
 		/// Saves the account and character associated with this connection.
 		/// </summary>
 		/// <summary>
-	/// Gets or sets the current party.
-	/// </summary>
-	Party Party { get; set; }
+		/// Gets or sets the current party.
+		/// </summary>
+		Party Party { get; set; }
 
-	void SaveAccountAndCharacter();
+		void SaveAccountAndCharacter();
 	}
 
 	/// <summary>
@@ -85,6 +85,10 @@ namespace Melia.Zone.Network
 
 			var character = this.SelectedCharacter;
 			var justSaved = character?.SavedForWarp ?? false;
+
+			// Notify party members that this character has gone offline
+			if (character != null)
+				this.Party?.UpdateMember(character, false);
 
 			// We have two situations in which we want to save: On logout,
 			// and when the connection is closed somewhat unexpectedly.
