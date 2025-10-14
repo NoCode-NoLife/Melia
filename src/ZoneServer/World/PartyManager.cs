@@ -119,5 +119,33 @@ namespace Melia.Zone.World
 			}
 			return null;
 		}
+
+		/// <summary>
+		/// Finds a party that has a member with the given account ID.
+		/// Returns the party and the member if found.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="member"></param>
+		/// <returns></returns>
+		public Party FindPartyByAccountId(long accountId, out Groups.IMember member)
+		{
+			member = null;
+			lock (_parties)
+			{
+				foreach (var party in _parties.Values)
+				{
+					var members = party.GetMembers();
+					foreach (var m in members)
+					{
+						if (m.AccountId == accountId)
+						{
+							member = m;
+							return party;
+						}
+					}
+				}
+			}
+			return null;
+		}
 	}
 }

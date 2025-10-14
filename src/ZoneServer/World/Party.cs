@@ -160,6 +160,41 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Replaces an existing party member with a new character from the same account.
+		/// Used when a player switches characters while in a party.
+		/// </summary>
+		/// <param name="oldMember"></param>
+		/// <param name="newCharacter"></param>
+		public void ReplaceCharacter(Groups.IMember oldMember, Character newCharacter)
+		{
+			// Remove the old character from the party (in-memory only)
+			this.RemoveMember(oldMember);
+
+			// Update the old character's partyId in database to 0
+			ZoneServer.Instance.Database.UpdatePartyId(oldMember.DbId, 0);
+
+			// Transfer leadership if the old character was the leader
+			var wasLeader = this.IsLeader(oldMember.ObjectId);
+
+			// Add the new character to the party
+			this.AddMember(newCharacter, true);
+
+			// Update the new character's partyId in database
+			newCharacter.PartyId = this.DbId;
+			ZoneServer.Instance.Database.UpdatePartyId(newCharacter.DbId, this.DbId);
+
+			// Transfer leadership if needed
+			if (wasLeader)
+			{
+				this.LeaderDbId = newCharacter.DbId;
+				Send.ZC_NORMAL.PartyLeaderChange(this, newCharacter.AccountObjectId);
+			}
+
+			// Notify all party members about the change
+			Send.ZC_PARTY_LIST(this);
+		}
+
+		/// <summary>
 		/// Remove a party member and send ZC_PARTY_OUT to party members
 		/// </summary>
 		/// <param name="character"></param>

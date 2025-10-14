@@ -110,8 +110,14 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
-			// Reconnect to party if the character has one
-			conn.Party = ZoneServer.Instance.World.GetParty(character.PartyId);
+			// Get party
+			var existingParty = ZoneServer.Instance.World.Parties.FindPartyByAccountId(conn.Account.Id, out var oldMember);
+			if (existingParty != null && oldMember != null && oldMember.DbId != character.DbId)
+			{
+				// The account is already in a party with a different character
+				existingParty.ReplaceCharacter(oldMember, character);
+			}
+			conn.Party = existingParty;
 
 			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
