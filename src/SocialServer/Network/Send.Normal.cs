@@ -86,7 +86,7 @@ namespace Melia.Social.Network
 				packet.PutLpString(chatMessage.TargetTeamName);
 				packet.PutLpString("GLOBAL");
 
-				conn.Send(packet);
+				chatRoom.Broadcast(packet);
 			}
 
 			/// <summary>

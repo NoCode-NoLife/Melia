@@ -99,17 +99,6 @@ namespace Melia.Social.World
 
 			room.AddMember(creator);
 
-			// If this is a party chat room (chatId != 0, type Friends), add all online party members
-			if (chatId != 0 && type == ChatRoomType.Friends)
-			{
-				var partyMembers = SocialServer.Instance.UserManager.GetOnlineUsersByPartyId(chatId);
-				foreach (var member in partyMembers)
-				{
-					if (member.Id != creator.Id) // Don't add the creator again
-						room.AddMember(member);
-				}
-			}
-
 			if (chatId == 0)
 				room.AddMessage(new ChatMessage(creator, "!@#$NewRoomHasBeenCreated#@!"));
 

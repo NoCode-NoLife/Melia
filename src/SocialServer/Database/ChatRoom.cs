@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Network;
 using Melia.Social.Network;
 using Melia.Social.World;
 using Yggdrasil.Logging;
@@ -189,6 +190,22 @@ namespace Melia.Social.Database
 						Send.SC_NORMAL.CreateRoom(conn, this);
 						Send.SC_NORMAL.AddMessage(conn, this, message);
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Broadcasts packet to all members of the room who are online.
+		/// </summary>
+		/// <param name="packet"></param>
+		public virtual void Broadcast(Packet packet)
+		{
+			lock (_members)
+			{
+				foreach (var member in _members)
+				{
+					if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var user))
+						user.Connection?.Send(packet);
 				}
 			}
 		}
