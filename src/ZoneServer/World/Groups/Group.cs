@@ -285,8 +285,6 @@ namespace Melia.Zone.World.Groups
 			{
 				case GroupType.Party:
 					return GroupMember.ToPartyMember(character);
-				case GroupType.Guild:
-					return GroupMember.ToGuildMember(character);
 			}
 			return null;
 		}

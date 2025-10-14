@@ -81,69 +81,6 @@ namespace Melia.Zone.World.Groups
 			}
 			return member;
 		}
-
-		public static GuildMember ToGuildMember(Character character)
-		{
-			var member = new GuildMember()
-			{
-				DbId = character.DbId,
-				AccountId = character.AccountId,
-				Gender = character.Gender,
-				Hair = character.Hair,
-				Handle = character.Handle,
-				Hp = character.Hp,
-				JobLevel = character.Job?.Level ?? 1001,
-				Sp = character.Sp,
-				Level = character.Level,
-				MapId = character.MapId,
-				TeamName = character.TeamName,
-				MaxHp = character.MaxHp,
-				MaxSp = character.MaxSp,
-				Name = character.Name,
-				Position = character.Position,
-				Stance = character.Stance,
-				IsOnline = character.Connection?.LoggedIn ?? false,
-			};
-			var i = 0;
-			foreach (var job in character.Jobs.GetList())
-			{
-				member.VisualJobId = job.Id;
-				switch (i)
-				{
-					case 0:
-						member.FirstJobId = job.Id;
-						break;
-					case 1:
-						member.SecondJobId = job.Id;
-						break;
-					case 2:
-						member.ThirdJobId = job.Id;
-						break;
-					case 3:
-						member.FourthJobId = job.Id;
-						break;
-				}
-				i++;
-			}
-			return member;
-		}
-	}
-
-	public class GuildMember : GroupMember
-	{
-		public new Properties Properties { get; set; } = new Properties("GuildMember");
-
-		public int Contribution
-		{
-			get
-			{
-				return (int)this.Properties.GetFloat(PropertyName.Contribution);
-			}
-			set
-			{
-				this.Properties.SetFloat(PropertyName.Contribution, value);
-			}
-		}
 	}
 
 	public class PartyMember : GroupMember
