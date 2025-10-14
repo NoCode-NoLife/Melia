@@ -6,6 +6,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.Util;
+using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
@@ -149,6 +150,12 @@ namespace Melia.Zone.World
 				Send.ZC_PARTY_ENTER(character, this);
 				Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");
 				Send.ZC_UPDATE_ALL_STATUS(character, 0);
+				var members = character.Map.GetPartyMembers(character);
+				foreach (var otherMember in members)
+				{
+					Send.ZC_CHANGE_RELATION(character.Connection, otherMember.Handle, RelationType.Friendly);
+					Send.ZC_CHANGE_RELATION(otherMember.Connection, character.Handle, RelationType.Friendly);
+				}
 			}
 		}
 
@@ -182,12 +189,29 @@ namespace Melia.Zone.World
 		{
 			this.RemoveMember(member);
 			Send.ZC_PARTY_OUT(this, member);
+			foreach (var otherMemberId in _members.Keys)
+			{
+				var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == otherMemberId);
+				if (character == null)
+					continue;
+				if (character.MapId == member.MapId)
+					Send.ZC_CHANGE_RELATION(character.Connection, member.Handle, RelationType.Neutral);
+			}
 
 			var leavingCharacter = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member.ObjectId);
+			ZoneServer.Instance.ServerEvents.PlayerLeftParty.Raise(new PlayerEventArgs(leavingCharacter));
 			if (leavingCharacter != null)
 			{
 				leavingCharacter.PartyId = 0;
 				leavingCharacter.Connection.Party = null;
+				foreach (var otherMemberId in _members.Keys)
+				{
+					var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == otherMemberId);
+					if (character == null)
+						continue;
+					if (character.MapId == member.MapId)
+						Send.ZC_CHANGE_RELATION(leavingCharacter.Connection, character.Handle, RelationType.Neutral);
+				}
 				Send.ZC_PARTY_OUT(leavingCharacter, this);
 				leavingCharacter.AddonMessage(AddonMessage.SUCCESS_UPDATE_PARTY_INFO, "None");
 			}

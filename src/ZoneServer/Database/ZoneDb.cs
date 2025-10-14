@@ -158,6 +158,7 @@ namespace Melia.Zone.Database
 					var z = reader.GetFloat("z");
 					character.Position = new Position(x, y, z);
 					character.Direction = new Direction(0);
+					character.PartyId = reader.GetInt64("partyId");
 				}
 			}
 
@@ -419,6 +420,7 @@ namespace Melia.Zone.Database
 				cmd.Set("equipVisibility", character.VisibleEquip);
 				cmd.Set("stamina", character.Properties.Stamina);
 				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
+				cmd.Set("partyId", character.Connection.Party?.DbId ?? 0);
 
 				cmd.Execute();
 			}
@@ -437,6 +439,7 @@ namespace Melia.Zone.Database
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
+			this.SaveParty(character);
 		}
 
 		/// <summary>

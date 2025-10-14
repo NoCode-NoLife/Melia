@@ -2502,6 +2502,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Updates the relation type between the client and an entity.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="handle"></param>
+		/// <param name="relation"></param>
+		public static void ZC_CHANGE_RELATION(IZoneConnection conn, int handle, RelationType relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(handle);
+			packet.PutByte((byte)relation);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates the stance of a character.
 		/// </summary>
 		/// <param name="character"></param>

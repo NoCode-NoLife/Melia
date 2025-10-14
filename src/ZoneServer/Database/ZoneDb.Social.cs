@@ -81,11 +81,6 @@ namespace Melia.Zone.Database
 					}
 				}
 			}
-			else
-			{
-				if (party.TryGetMember(character.ObjectId, out var member))
-					member.IsOnline = true;
-			}
 		}
 
 		private void LoadPartyMembers(Character loadCharacter, Party party)
@@ -98,12 +93,17 @@ namespace Melia.Zone.Database
 				{
 					while (reader.Read())
 					{
-						var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == reader.GetInt64("characterId"));
-						if (character == null)
+						var characterDbId = reader.GetInt64("characterId");
+
+						// Check if this is the character that's logging in
+						if (characterDbId == loadCharacter.DbId)
 						{
+							// Use the actual character object that's logging in
+							// Can't use AddMember(Character) because Connection is null
+							// Create a PartyMember instead
 							var member = new PartyMember
 							{
-								DbId = reader.GetInt64("characterId"),
+								DbId = characterDbId,
 								AccountId = reader.GetInt64("accountId"),
 								Name = reader.GetString("name"),
 								TeamName = reader.GetString("teamName"),
@@ -113,12 +113,39 @@ namespace Melia.Zone.Database
 								MapId = reader.GetInt32("zone"),
 								Level = reader.GetInt32("level"),
 								Position = new Position(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z")),
-								IsOnline = loadCharacter.DbId == reader.GetInt64("characterId")
+								IsOnline = loadCharacter.DbId == characterDbId
 							};
 							party.AddMember(member);
 						}
 						else
-							party.AddMember(character, true);
+						{
+							// Try to find the character in the world (for other online members)
+							var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == characterDbId);
+							if (character == null)
+							{
+								// Character is offline, create a PartyMember placeholder
+								var member = new PartyMember
+								{
+									DbId = characterDbId,
+									AccountId = reader.GetInt64("accountId"),
+									Name = reader.GetString("name"),
+									TeamName = reader.GetString("teamName"),
+									VisualJobId = (JobId)reader.GetInt16("job"),
+									Gender = (Gender)reader.GetByte("gender"),
+									Hair = reader.GetInt32("hair"),
+									MapId = reader.GetInt32("zone"),
+									Level = reader.GetInt32("level"),
+									Position = new Position(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z")),
+									IsOnline = loadCharacter.DbId == reader.GetInt64("characterId")
+								};
+								party.AddMember(member);
+							}
+							else
+							{
+								// Character is online, use the actual character object
+								party.AddMember(character, true);
+							}
+						}
 					}
 				}
 			}

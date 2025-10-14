@@ -72,7 +72,9 @@ namespace Melia.Shared.Network
 			public const int PartyMemberData = 0xF4;
 			public const int PartyLeaderChange = 0xF6;
 			public const int PartyNameChange = 0xF7;
+			public const int PartyInvite = 0xF8;
 			public const int PartyPropertyChange = 0xF9;
+			public const int PartyMemberPropertyChange = 0xFA;
 			public const int ChannelTraffic = 0x12D;
 			public const int SetGreetingMessage = 0x136;
 			public const int ShowParty = 0x13C;

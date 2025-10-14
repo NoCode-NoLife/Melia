@@ -1450,6 +1450,24 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Sends party invite UI to player.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="sender"></param>
+			/// <param name="partyType"></param>
+			public static void PartyInvite(Character character, Character sender, GroupType partyType)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyInvite);
+				packet.PutByte((byte)partyType);
+				packet.PutLong(sender.AccountObjectId);
+				packet.PutLpString(sender.TeamName);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
 			/// Shows party name above character's head.
 			/// </summary>
 			/// <param name="character"></param>
@@ -1473,6 +1491,51 @@ namespace Melia.Zone.Network
 				}
 
 				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Shows party name for a character on a specific connection.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="character"></param>
+			public static void ShowParty(IZoneConnection conn, Character character)
+			{
+				var party = character.Connection.Party;
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowParty);
+
+				packet.PutInt(character.Handle);
+				if (party != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(3);
+				}
+				else
+				{
+					packet.PutByte(3);
+				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Member Property Change
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="character"></param>
+			/// <param name="properties"></param>
+			public static void PartyMemberPropertyUpdate(IGroup group, Character character, PropertyList properties)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyMemberPropertyChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutLong(character.ObjectId);
+				packet.AddProperties(properties);
+
+				group.Broadcast(packet);
 			}
 
 			/// <summary>

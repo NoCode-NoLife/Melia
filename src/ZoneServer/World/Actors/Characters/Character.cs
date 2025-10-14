@@ -88,6 +88,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public long AccountId { get; set; }
 
 		/// <summary>
+		/// Returns the character's account object id.
+		/// </summary>
+		public long AccountObjectId => ObjectIdRanges.Account + this.AccountId;
+
+		/// <summary>
 		/// Returns the character's party id.
 		/// </summary>
 		public long PartyId { get; set; }
@@ -695,6 +700,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", 3, "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
@@ -822,6 +828,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
@@ -833,6 +840,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var sp = this.Properties.Modify(PropertyName.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp, true);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>

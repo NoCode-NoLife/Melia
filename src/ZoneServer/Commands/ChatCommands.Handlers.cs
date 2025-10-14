@@ -44,6 +44,15 @@ namespace Melia.Zone.Commands
 			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 			this.Add("mic", "<message>", "", this.HandleMic);
 
+			// Client Party Commands
+			this.Add("memberinfoForAct", "<team name>", "", this.HandleMemberInfoForAct);
+			this.Add("partyleader", "<team name>", "", this.HandlePartyLeader);
+			this.Add("partymake", "<party name>", "", this.HandlePartyMake);
+			this.Add("partyname", "0 0 <account id> <party name>", "", this.HandlePartyName);
+			this.Add("partyDirectInvite", "<team name>", "", this.HandlePartyInvite);
+			this.Add("partyban", "0 <team name>", "", this.HandlePartyBan);
+			this.Add("pmyp", "0 <team name> <type> <quest id>", "", this.HandlePartyMemberProperty);
+
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
 			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
@@ -2330,6 +2339,232 @@ namespace Melia.Zone.Commands
 				target.ServerMessage(Localization.Get("Your TP were modified by {0} ({1} -> {2})."), sender.TeamName, oldValue, newValue);
 
 			Send.ZC_NORMAL.AccountProperties(target);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to show party info for a character.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleMemberInfoForAct(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 1)
+			{
+				Log.Debug("HandleMemberInfoForAct: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var character = ZoneServer.Instance.World.GetCharacterByTeamName(args.Get(0));
+			if (character != null)
+			{
+				if (character.Connection.Party != null)
+				{
+					Send.ZC_NORMAL.ShowParty(sender.Connection, character);
+				}
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to change a party name.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyName(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 4)
+			{
+				Log.Debug("HandlePartyName: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var party = sender.Connection.Party;
+
+			if (party == null)
+			{
+				sender.SystemMessage("HadNotMyParty");
+				return CommandResult.Okay;
+			}
+
+			if (party.IsLeader(sender))
+			{
+				var partyName = message.Substring(message.IndexOf(args.Get(2)) + args.Get(2).Length + 1);
+				// Client has an internal limit, additional safety check
+				if (partyName.Length > 2 && partyName.Length < 16)
+					sender.Connection.Party.ChangeName(partyName);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to create a party.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyMake(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 1)
+			{
+				Log.Debug("HandlePartyMake: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			if (sender.Connection.Party == null)
+			{
+				ZoneServer.Instance.World.Parties.Create(sender);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to invite a character to a party.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyInvite(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 1)
+			{
+				Log.Debug("HandlePartyInvite: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var character = ZoneServer.Instance.World.GetCharacterByTeamName(args.Get(0));
+
+			if (character == null)
+			{
+				sender.SystemMessage("TargetUserNotExist");
+				return CommandResult.Okay;
+			}
+
+			// Can't invite a player that already has a party
+			if (character.Connection.Party != null)
+			{
+				sender.SystemMessage("{PC}AlreadyBelongsToParty", new MsgParameter("PC", character.TeamName));
+				return CommandResult.Okay;
+			}
+
+			Send.ZC_NORMAL.PartyInvite(character, sender, GroupType.Party);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to expel a member from a party.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyBan(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 2)
+			{
+				Log.Debug("HandlePartyBan: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var teamName = args.Get(1);
+			var party = sender.Connection.Party;
+
+			if (party == null)
+			{
+				sender.SystemMessage("HadNotMyParty");
+				return CommandResult.Okay;
+			}
+
+			party?.Expel(sender, teamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to change party leader.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyLeader(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count != 1)
+			{
+				Log.Debug("HandlePartyLeader: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
+
+			var teamName = args.Get(0);
+			var party = sender.Connection.Party;
+
+			var character = ZoneServer.Instance.World.GetCharacterByTeamName(teamName);
+
+			if (character == null)
+			{
+				sender.SystemMessage("TargetUserNotExist");
+				return CommandResult.Okay;
+			}
+
+			if (party == null)
+			{
+				sender.SystemMessage("HadNotMyParty");
+				return CommandResult.Okay;
+			}
+
+			if (!party.IsLeader(sender))
+			{
+				return CommandResult.Okay;
+			}
+
+			party.ChangeLeader(character);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to update party member properties.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyMemberProperty(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var party = sender.Connection.Party;
+			if (party == null)
+				return CommandResult.Okay;
+
+			if (args.Count != 4)
+			{
+				Log.Debug("HandlePartyMemberProperty: Invalid call by user '{0}': {1}", sender.Username, commandName);
+				return CommandResult.Okay;
+			}
 
 			return CommandResult.Okay;
 		}

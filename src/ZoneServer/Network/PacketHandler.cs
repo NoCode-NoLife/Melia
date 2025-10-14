@@ -110,6 +110,9 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
+			// Reconnect to party if the character has one
+			conn.Party = ZoneServer.Instance.World.GetParty(character.PartyId);
+
 			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			map.AddCharacter(character);
@@ -228,6 +231,14 @@ namespace Melia.Zone.Network
 			// Send updates for the cooldowns loaded from db, so the client
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
+
+			// Handle party reconnection if the character has one
+			if (conn.Party != null)
+			{
+				Send.ZC_PARTY_INFO(character, conn.Party);
+				Send.ZC_PARTY_LIST(conn.Party);
+				conn.Party.UpdateMember(character, true);
+			}
 
 			character.OpenEyes();
 
