@@ -438,23 +438,25 @@ namespace Melia.Zone.World
 		{
 			var levelDifference = highestLevel - characterLevel;
 			var penaltyMultiplier = 1.0f;
+			var conf = ZoneServer.Instance.Conf.World;
 
-			if (levelDifference >= 20)
+			// Check thresholds from highest to lowest
+			if (levelDifference >= conf.PartyLevelPenaltyThreshold3)
 			{
-				penaltyMultiplier = 0.0f; // -100% exp
+				penaltyMultiplier = conf.PartyLevelPenalty3;
 			}
-			else if (levelDifference >= 15)
+			else if (levelDifference >= conf.PartyLevelPenaltyThreshold2)
 			{
-				penaltyMultiplier = 0.4f; // -60% exp
+				penaltyMultiplier = conf.PartyLevelPenalty2;
 			}
-			else if (levelDifference >= 10)
+			else if (levelDifference >= conf.PartyLevelPenaltyThreshold1)
 			{
-				penaltyMultiplier = 0.7f; // -30% exp
+				penaltyMultiplier = conf.PartyLevelPenalty1;
 			}
 
 			return (
-				(long)(baseExp * penaltyMultiplier),
-				(long)(baseClassExp * penaltyMultiplier)
+					(long)(baseExp * penaltyMultiplier),
+					(long)(baseClassExp * penaltyMultiplier)
 			);
 		}
 
@@ -489,26 +491,18 @@ namespace Melia.Zone.World
 				return 1f;
 			}
 
+			var conf = ZoneServer.Instance.Conf.World;
+
 			switch (onlineMemberCount)
 			{
 				case 2:
-					return 1.2f;
+					return conf.PartyExpMultiplier2;
 				case 3:
-					return 1.5f;
+					return conf.PartyExpMultiplier3;
 				case 4:
-					return 1.8f;
-				case 5:
-					return 2.2f;
-				case 6:
-					return 2.5f;
-				case 7:
-					return 2.8f;
-				case 8:
-					return 3.0f;
-				case 9:
-					return 3.5f;
-				default:
-					return (onlineMemberCount - 9) * .5f + 3.5f;
+					return conf.PartyExpMultiplier4;
+				default: // 5 or more
+					return conf.PartyExpMultiplier5Plus;
 			}
 		}
 
