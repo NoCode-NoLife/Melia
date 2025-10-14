@@ -81,45 +81,48 @@ namespace Melia.Zone.Database
 					}
 				}
 			}
+			else
+			{
+				if (party.TryGetMember(character.ObjectId, out var member))
+					member.IsOnline = true;
+			}
 		}
 
 		private void LoadPartyMembers(Character loadCharacter, Party party)
 		{
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `partyId` = @partyId", conn))
 			{
-				mc.Parameters.AddWithValue("@partyId", party.DbId);
-				using (var reader = mc.ExecuteReader())
+				using (var mc = new MySqlCommand("SELECT * FROM `characters` WHERE `partyId` = @partyId", conn))
 				{
-					while (reader.Read())
+					mc.Parameters.AddWithValue("@partyId", party.DbId);
+					using (var reader = mc.ExecuteReader())
 					{
-						var characterDbId = reader.GetInt64("characterId");
-
-						// Try to find the character in the world (they're online if found)
-						var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == characterDbId);
-						if (character == null)
+						while (reader.Read())
 						{
-							// Character not in world yet or offline - create PartyMember placeholder
-							var member = new PartyMember
+							var character = ZoneServer.Instance.World.GetCharacter(c => c.DbId == reader.GetInt64("characterId"));
+							if (character == null)
 							{
-								DbId = characterDbId,
-								AccountId = reader.GetInt64("accountId"),
-								Name = reader.GetString("name"),
-								TeamName = reader.GetString("teamName"),
-								VisualJobId = (JobId)reader.GetInt16("job"),
-								Gender = (Gender)reader.GetByte("gender"),
-								Hair = reader.GetInt32("hair"),
-								MapId = reader.GetInt32("zone"),
-								Level = reader.GetInt32("level"),
-								Position = new Position(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z")),
-								IsOnline = characterDbId == loadCharacter.DbId
-							};
-							party.AddMember(member);
-						}
-						else
-						{
-							// Character is already in the world and online
-							party.AddMember(character, true);
+								var member = new PartyMember
+								{
+									DbId = reader.GetInt64("characterId"),
+									AccountId = reader.GetInt64("accountId"),
+									Name = reader.GetString("name"),
+									TeamName = reader.GetString("teamName"),
+									VisualJobId = (JobId)reader.GetInt16("job"),
+									Gender = (Gender)reader.GetByte("gender"),
+									Hair = reader.GetInt32("hair"),
+									MapId = reader.GetInt32("zone"),
+									Level = reader.GetInt32("level"),
+								};
+								var x = reader.GetFloat("x");
+								var y = reader.GetFloat("y");
+								var z = reader.GetFloat("z");
+								member.Position = new Position(x, y, z);
+								member.IsOnline = loadCharacter.DbId == member.DbId;
+								party.AddMember(member);
+							}
+							else
+								party.AddMember(character, true);
 						}
 					}
 				}

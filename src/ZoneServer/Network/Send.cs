@@ -136,6 +136,8 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_ENTER_PC(IZoneConnection conn, Character character)
 		{
+			var relationship = (byte)Math.Clamp((int)conn.SelectedCharacter.GetRelation(character), 0, 2);
+
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
 			packet.PutInt(character.Handle);
@@ -144,7 +146,8 @@ namespace Melia.Zone.Network
 			packet.PutFloat(character.Position.Z);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
-			packet.PutShort(0);
+			packet.PutByte(relationship); // Changes name color (0 = Green/Friendly, 1 = Enemy, 2 = Neutral)
+			packet.PutByte(0);
 			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
 			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));

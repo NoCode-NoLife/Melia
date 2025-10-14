@@ -235,9 +235,25 @@ namespace Melia.Zone.Network
 			// Handle party reconnection if the character has one
 			if (conn.Party != null)
 			{
-				Send.ZC_PARTY_INFO(character, conn.Party);
-				Send.ZC_PARTY_LIST(conn.Party);
-				conn.Party.UpdateMember(character, true);
+				// Deletes the party if the leader is null for some reason (this may happens on instance dungeons parties)
+				if (conn.Party.Owner == null)
+				{
+					var partyManager = ZoneServer.Instance.World.Parties;
+
+					foreach (var partyMemberCharacter in conn.Party.GetPartyMembers())
+					{
+						conn.Party.RemoveMember(partyMemberCharacter);
+					}
+
+					if (conn.Party.MemberCount == 0)
+						partyManager.Delete(conn.Party);
+				}
+				else
+				{
+					Send.ZC_PARTY_INFO(character, conn.Party);
+					Send.ZC_PARTY_LIST(conn.Party);
+					conn.Party.UpdateMember(character, true);
+				}
 			}
 
 			character.OpenEyes();

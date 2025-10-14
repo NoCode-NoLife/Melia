@@ -98,6 +98,12 @@ namespace Melia.Zone.World.Actors.Characters
 		public long PartyId { get; set; }
 
 		/// <summary>
+		/// Returns true if the character has a party.
+		/// </summary>
+		public bool HasParty
+			=> this.Connection?.Party != null;
+
+		/// <summary>
 		/// Returns the character's faction.
 		/// </summary>
 		public FactionType Faction => FactionType.Law;
