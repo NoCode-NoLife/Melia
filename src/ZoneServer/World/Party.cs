@@ -167,7 +167,7 @@ namespace Melia.Zone.World
 		{
 			if (this.TryGetMember(character.ObjectId, out var member))
 			{
-				if (this.IsLeader(character) && this.MemberCount >= 2)
+				if (this.IsLeader(character.ObjectId) && this.MemberCount >= 2)
 				{
 					var nextLeader = this.GetMembers().Find(m => m.ObjectId != character.ObjectId);
 					if (nextLeader != null)
