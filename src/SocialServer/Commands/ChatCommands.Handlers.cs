@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using Melia.Social.Database;
 using Melia.Social.Network;
 using Melia.Social.World;
@@ -19,6 +19,7 @@ namespace Melia.Social.Commands
 		{
 			this.Add("w", "<teamName> <message>", "", this.HandleWhisper);
 			this.Add("f", "<chatId> <message>", "", this.HandleChatRoomChat);
+			this.Add("p", "<message>", "", this.HandlePartyChat);
 		}
 
 		/// <summary>
@@ -95,6 +96,38 @@ namespace Melia.Social.Commands
 			var text = Regex.Replace(message, @"^(?<command>.*?)\s+(?<target>[^\s]+)(\s+|$)", "");
 
 			var chatMessage = new ChatMessage(user, text);
+			chatRoom.AddMessage(chatMessage);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Request to send a party chat message.
+		/// </summary>
+		/// <param name="user"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePartyChat(SocialUser user, string message, string command, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				return CommandResult.Okay;
+			}
+
+			var text = message.Substring(message.IndexOf(" "));
+
+			if (string.IsNullOrEmpty(text))
+				return CommandResult.Okay;
+
+
+			if (!SocialServer.Instance.ChatManager.TryGetChatRoom(user.Character.PartyId, out var chatRoom))
+			{
+				chatRoom = SocialServer.Instance.ChatManager.CreateChatRoom(user, user.Character.PartyId, ChatRoomType.Friends);
+			}
+
+			var chatMessage = new ChatMessage(user, text, ChatMessageType.Party);
 			chatRoom.AddMessage(chatMessage);
 
 			return CommandResult.Okay;

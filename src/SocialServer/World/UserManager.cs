@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network;
@@ -171,6 +171,30 @@ namespace Melia.Social.World
 				return false;
 
 			return user.TryGetConnection(out _);
+		}
+
+		/// <summary>
+		/// Returns all online users with the given party id.
+		/// </summary>
+		/// <param name="partyId"></param>
+		/// <returns></returns>
+		public List<SocialUser> GetOnlineUsersByPartyId(long partyId)
+		{
+			var result = new List<SocialUser>();
+
+			if (partyId == 0)
+				return result;
+
+			lock (_users)
+			{
+				foreach (var user in _users.Values)
+				{
+					if (user.Character != null && user.Character.PartyId == partyId && user.TryGetConnection(out _))
+						result.Add(user);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>

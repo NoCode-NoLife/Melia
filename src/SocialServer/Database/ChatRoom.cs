@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Social.Network;
 using Melia.Social.World;
+using Yggdrasil.Logging;
 
 namespace Melia.Social.Database
 {
@@ -62,9 +63,22 @@ namespace Melia.Social.Database
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="type"></param>
-		public ChatRoom(string name, ChatRoomType type)
+		public ChatRoom(string name, ChatRoomType type) : this(0, name, type)
 		{
-			this.Id = SocialServer.Instance.ChatManager.GetNewChatId();
+		}
+
+		/// <summary>
+		/// Creates new chat room with specific id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="name"></param>
+		/// <param name="type"></param>
+		public ChatRoom(long id, string name, ChatRoomType type)
+		{
+			if (id == 0)
+				this.Id = SocialServer.Instance.ChatManager.GetNewChatId();
+			else
+				this.Id = id;
 
 			this.Name = name;
 			this.Type = type;
