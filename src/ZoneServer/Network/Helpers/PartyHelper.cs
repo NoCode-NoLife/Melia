@@ -24,9 +24,10 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutShort((short)member.FirstJobId);
 			packet.PutShort(0);
 			packet.PutInt(member.JobLevel);
-			packet.PutShort(1);
-			packet.PutInt(46);
-			packet.PutEmptyBin(18);
+			packet.PutShort((short)member.Gender);
+			packet.PutShort((short)member.Hair);
+			packet.PutInt(0);
+			packet.PutEmptyBin(16);
 			packet.PutInt(member.ServerGroup);
 			packet.PutInt(member.Level);
 			packet.PutByte(0x80);

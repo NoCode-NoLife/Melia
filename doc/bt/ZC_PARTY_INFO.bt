@@ -1,8 +1,8 @@
 //------------------------------------------------
 //--- 010 Editor v8.0 Binary Template
 //
-//      File: ZC_PARTY_INFO
-//   Authors: Tachiorz
+//      File: ZC_PARTY_INFO.bt
+//   Authors: Tachiorz, Salman T. Khan
 //   Version: i11XXX
 //   Purpose: 
 //  Category: 
@@ -15,7 +15,8 @@
 
 ServerHeaderDynamic header;
 
-short partyType; // 0: normal, 1: guild
+PartyType partyType; // 0: normal, 1: guild
+byte b1;
 
 // PARTY_INFO
 FILETIME creationTime;
