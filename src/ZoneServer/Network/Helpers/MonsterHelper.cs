@@ -40,12 +40,17 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.PutFloat(monster.Properties.GetFloat(PropertyName.MSPD));
 
+			// [i398XXX (2025-09-XX)]
+			// Around this time, the packet was restructured a little after
+			// this point. Check the commit history for details.
+
 			packet.AddMonsterApperanceBase(monster);
 
 			packet.PutInt((int)monster.Attribute);
 			packet.PutInt((int)monster.Race);
 
-			packet.PutInt(appearanceSize);
+			packet.AddMonsterApperance(monster);
+
 			packet.PutShort(propertiesSize);
 
 			packet.PutInt(0);
@@ -54,7 +59,6 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutShort(0);
 			packet.PutByte(0);
 
-			packet.AddMonsterApperance(monster);
 			packet.AddProperties(propertyList);
 		}
 
@@ -89,11 +93,22 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="monster"></param>
 		public static void AddMonsterApperance(this Packet packet, IMonsterAppearance monster)
 		{
-			packet.PutLpString(monster.Name);
-			packet.PutLpString(monster.UniqueName);
-			packet.PutLpString(monster.DialogName);
-			packet.PutLpString(monster.EnterName);
-			packet.PutLpString(monster.LeaveName);
+			// [i398XXX (2025-09-XX)]
+			// Names changed from length-prefixed to fixed-length strings.
+			// Good decision, IMC. Well over a kilobyte per monster is
+			// much better than 150 byte =)
+
+			//packet.PutLpString(monster.Name);
+			//packet.PutLpString(monster.UniqueName);
+			//packet.PutLpString(monster.DialogName);
+			//packet.PutLpString(monster.EnterName);
+			//packet.PutLpString(monster.LeaveName);
+
+			packet.PutString(monster.Name, 256);
+			packet.PutString(monster.UniqueName, 256);
+			packet.PutString(monster.DialogName, 256);
+			packet.PutString(monster.EnterName, 256);
+			packet.PutString(monster.LeaveName, 256);
 		}
 
 		/// <summary>
