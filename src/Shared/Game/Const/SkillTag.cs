@@ -28,12 +28,14 @@ namespace Melia.Shared.Game.Const
 		public const string LimitInstanceLevelUp = "LimitInstanceLevelUp";
 		public const string MaxDamage = "MaxDamage";
 		public const string Meteor = "Meteor";
+		public const string MoonSkill = "MoonSkill";
 		public const string NormalSkill = "NormalSkill";
 		public const string NormalSkillWeeklyBoss = "NormalSkillWeeklyBoss";
 		public const string NotHaveToValidPos = "NotHaveToValidPos";
 		public const string NotUseNormalAttack = "NotUseNormalAttack";
 		public const string PcSummonSkill = "pcSummonSkill";
 		public const string SplHeightApply = "SplHeightApply";
+		public const string StarSkill = "StarSkill";
 		public const string TargetSkill = "TargetSkill";
 		public const string TwinShield = "TwinShield";
 		public const string TwinWeapon = "TwinWeapon";

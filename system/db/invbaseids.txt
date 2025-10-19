@@ -162,4 +162,5 @@
 { id: 157, baseId: 785001, name: "OPTMisc_GoddessIcorWeapon", category: "Material/Ichors" },
 { id: 158, baseId: 790001, name: "OPTMisc_GoddessIcorArmor", category: "Material/Ichors" },
 { id: 159, baseId: 795001, name: "Armor_Shoulder", category: "Equipment/Armor" },
+{ id: 160, baseId: 800001, name: "Accessory_Core", category: "Equipment/Core" },
 ]

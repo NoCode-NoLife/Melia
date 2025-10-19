@@ -1635,5 +1635,12 @@ namespace Melia.Shared.Game.Const
 		AetherBlader_FrostShatter = 10004,
 		AetherBlader_Frimveil = 10005,
 		AetherBlader_ArcaneCollapse = 10006,
+		Hermit_FallingStarlight = 11001,
+		Hermit_StellarRebound = 11002,
+		Hermit_LunarBrand = 11003,
+		Hermit_TwilightVeil = 11004,
+		Hermit_ConstellationResidueField = 11005,
+		Hermit_Eclipse = 11006,
+		Hermit_JudgementoftheCosmos = 11007,
 	}
 }

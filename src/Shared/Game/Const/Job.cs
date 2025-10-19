@@ -56,6 +56,7 @@ namespace Melia.Shared.Game.Const
 		VultureW = 2026,
 		BonemancerW = 2027,
 		AetherBladerW = 2028,
+		HermitW = 2029,
 
 		// Archer
 		Archer = 3001,
@@ -81,6 +82,7 @@ namespace Melia.Shared.Game.Const
 		VultureA = 3108,
 		BonemancerA = 3109,
 		BlitzHunterA = 3110,
+		HermitA = 3111,
 
 		// Cleric
 		Cleric = 4001,
@@ -107,6 +109,7 @@ namespace Melia.Shared.Game.Const
 		SledgerC = 4024,
 		BonemancerC = 4025,
 		AetherBladerC = 4026,
+		HermitC = 4027,
 
 		// Scout
 		Scout = 5001,
@@ -130,6 +133,7 @@ namespace Melia.Shared.Game.Const
 		Desperado = 5019,
 		VultureT = 5020,
 		BlitzHunterT = 5021,
+		AetherBladerT = 5022,
 
 		// GM
 		GM = 9001,

@@ -901,6 +901,28 @@
 { category: "AetherBlader", classId: 107, abilityId: 221013, jobId: 2028, className: "AetherBlader8", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_Frimveil_Wizard", argNum: 1 } },
 { category: "AetherBlader", classId: 202, abilityId: 221014, jobId: 2028, className: "AetherBlader9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "AetherBlader_FrostShatter_Wizard", argNum: 1 } },
 
+// Hermit
+//---------------------------------------------------------------------------
+{ category: "Hermit", classId: 101, abilityId: 221101, jobId: 2029, className: "Hermit1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_FallingStarlight_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 102, abilityId: 221102, jobId: 2029, className: "Hermit2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_StellarRebound_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 103, abilityId: 221103, jobId: 2029, className: "Hermit3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_LunarBrand_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 104, abilityId: 221104, jobId: 2029, className: "Hermit4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_TwilightVeil_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 105, abilityId: 221105, jobId: 2029, className: "Hermit5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_ConstellationResidueField_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 106, abilityId: 221106, jobId: 2029, className: "Hermit6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_Eclipse_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 107, abilityId: 221107, jobId: 2029, className: "Hermit7", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_JudgementoftheCosmos_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 1001, abilityId: 221109, jobId: 2029, className: "Hermit101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit1", argNum: 65 } },
+{ category: "Hermit", classId: 1002, abilityId: 221110, jobId: 2029, className: "Hermit102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit2", argNum: 65 } },
+{ category: "Hermit", classId: 1003, abilityId: 221111, jobId: 2029, className: "Hermit103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit3", argNum: 65 } },
+{ category: "Hermit", classId: 1004, abilityId: 221112, jobId: 2029, className: "Hermit104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit4", argNum: 65 } },
+{ category: "Hermit", classId: 1005, abilityId: 221113, jobId: 2029, className: "Hermit105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit5", argNum: 65 } },
+{ category: "Hermit", classId: 1006, abilityId: 221114, jobId: 2029, className: "Hermit106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit6", argNum: 65 } },
+{ category: "Hermit", classId: 1007, abilityId: 221115, jobId: 2029, className: "Hermit107", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Hermit7", argNum: 65 } },
+{ category: "Hermit", classId: 108, abilityId: 221116, jobId: 2029, className: "Hermit8", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_FallingStarlight_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 109, abilityId: 221117, jobId: 2029, className: "Hermit9", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_LunarBrand_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 201, abilityId: 221119, jobId: 2029, className: "Hermit10", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_JudgementoftheCosmos_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 110, abilityId: 221120, jobId: 2029, className: "Hermit11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_ConstellationResidueField_Wizard", argNum: 1 } },
+{ category: "Hermit", classId: 202, abilityId: 221121, jobId: 2029, className: "Hermit12", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_Eclipse_Wizard", argNum: 1 } },
+
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", classId: 101, abilityId: 301001, jobId: 3001, className: "Archer11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Archer_Multishot", argNum: 1 } },
