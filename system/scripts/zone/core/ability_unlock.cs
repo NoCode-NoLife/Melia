@@ -13,6 +13,20 @@ using Melia.Zone.World.Actors.Characters;
 public class AbilityUnlockedFunctionsScript : GeneralScript
 {
 	/// <summary>
+	/// Unlocks if character base level is at least on the given level.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="argStr"></param>
+	/// <param name="minBaseLevel"></param>
+	/// <param name="data"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public static bool UNLOCK_BASE_LEVEL(Character character, string argStr, int minBaseLevel, AbilityData data)
+	{
+		return character.Level >= minBaseLevel;
+	}
+
+	/// <summary>
 	/// Unlock at given circle.
 	/// </summary>
 	/// <param name="character"></param>
