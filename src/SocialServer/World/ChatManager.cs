@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -89,14 +89,18 @@ namespace Melia.Social.World
 		/// Creates a new chat room for the given user.
 		/// </summary>
 		/// <param name="creator"></param>
+		/// <param name="chatId"></param>
+		/// <param name="type"></param>
 		/// <returns></returns>
-		public ChatRoom CreateChatRoom(SocialUser creator)
+		public ChatRoom CreateChatRoom(SocialUser creator, long chatId = 0, ChatRoomType type = ChatRoomType.Group)
 		{
-			var room = new ChatRoom("", ChatRoomType.Group);
+			var room = new ChatRoom(chatId, "", type);
 			this.AddChatRoom(room);
 
 			room.AddMember(creator);
-			room.AddMessage(new ChatMessage(creator, "!@#$NewRoomHasBeenCreated#@!"));
+
+			if (chatId == 0)
+				room.AddMessage(new ChatMessage(creator, "!@#$NewRoomHasBeenCreated#@!"));
 
 			return room;
 		}

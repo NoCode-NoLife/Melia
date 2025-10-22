@@ -2,6 +2,7 @@
 using Melia.Shared.Network;
 using Melia.Zone.Database;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Logging;
@@ -32,6 +33,11 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Saves the account and character associated with this connection.
 		/// </summary>
+		/// <summary>
+		/// Gets or sets the current party.
+		/// </summary>
+		Party Party { get; set; }
+
 		void SaveAccountAndCharacter();
 	}
 
@@ -56,6 +62,11 @@ namespace Melia.Zone.Network
 		public Dialog CurrentDialog { get; set; }
 
 		/// <summary>
+		/// Gets or sets the current party.
+		/// </summary>
+		public Party Party { get; set; }
+
+		/// <summary>
 		/// Handles the given packet for this connection.
 		/// </summary>
 		/// <param name="packet"></param>
@@ -74,6 +85,10 @@ namespace Melia.Zone.Network
 
 			var character = this.SelectedCharacter;
 			var justSaved = character?.SavedForWarp ?? false;
+
+			// Notify party members that this character has gone offline
+			if (character != null)
+				this.Party?.UpdateMember(character, false);
 
 			// We have two situations in which we want to save: On logout,
 			// and when the connection is closed somewhat unexpectedly.
