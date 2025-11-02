@@ -4077,6 +4077,7 @@ namespace Melia.Shared.Game.Const
 		EVENT_2002_CHOCO_BUFF3 = 170507,
 		EVENT_2002_CHOCO_BUFF4 = 170508,
 		EVENT_2002_CHOCO_BUFF5 = 170509,
+		PersonalHousingTeddyDoll_Buff = 170510,
 		Ancient_Fire_Buff = 180001,
 		Ancient_Ice_Buff = 180002,
 		Ancient_Lightning_Buff = 180003,

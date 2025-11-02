@@ -7010,6 +7010,7 @@ public static class MonsterId
 	public const int Hp_Barrack_12_Chess = 3010230;
 	public const int Hp_Pharmacy_1 = 3010231;
 	public const int Hp_Barrack_Exhibition_Stand = 3010232;
+	public const int Hp_Barrack_Teddydoll = 3010233;
 	public const int Hp_F_Blud_Bronze = 3018000;
 	public const int Hp_F_Blud_Silver = 3018001;
 	public const int Hp_F_Blud_Gold = 3018002;

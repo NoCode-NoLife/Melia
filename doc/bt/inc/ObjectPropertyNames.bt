@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i399423
+//   Version: i399566
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30960,6 +30960,21 @@ string getPropertyName(int id)
         case 116734: return "HaveEmoticon_183";
         case 116735: return "HaveEmoticon_182";
         case 116736: return "HaveEmoticon_183";
+        case 116737: return "EVENT_2510_AUTUMN_MAPLE_MAX_COIN_COUNT";
+        case 116738: return "CollectionDressRoomRead_172";
+        case 116739: return "EVENT_2510_AUTUMN_MAPLE_WEEK_COIN_COUNT";
+        case 116740: return "CollectionDressRoomRead_171";
+        case 116741: return "CollectionDressRoomRead_174";
+        case 116742: return "ep17couplelook_shield_cabinet";
+        case 116743: return "dress_costume_ep17couplelook02_m";
+        case 116744: return "dress_costume_ep17couplelook01_f";
+        case 116745: return "ep17couplelook_crossbow_cabinet";
+        case 116746: return "CollectionDressRoomRead_173";
+        case 116747: return "ep17couplelook_theme";
+        case 116748: return "dress_costume_ep17couplelook01_m";
+        case 116749: return "ep17couplelook_thspear_cabinet";
+        case 116750: return "ContentsTotalShop_EP17_20";
+        case 116751: return "dress_costume_ep17couplelook02_f";
         default: return "Unknown";
     }
 }

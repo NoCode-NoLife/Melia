@@ -462,6 +462,7 @@ namespace Melia.Shared.Game.Const
 		public const string Hepatica_King_pad = "Hepatica_King_pad";
 		public const string Hermit_ConstellationResidueField = "Hermit_ConstellationResidueField";
 		public const string Hermit_Eclipse = "Hermit_Eclipse";
+		public const string Hermit_Eclipse_Hermit12 = "Hermit_Eclipse_Hermit12";
 		public const string Hermit_JudgementoftheCosmos = "Hermit_JudgementoftheCosmos";
 		public const string Hermit_TwilightVeil = "Hermit_TwilightVeil";
 		public const string Highlander_CrossGuard = "Highlander_CrossGuard";

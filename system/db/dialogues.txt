@@ -18799,6 +18799,7 @@
 { classId: 5651652, className: "DemonLair_Ashark_AreaStart_Dlg_8" },
 { classId: 5651653, className: "W_2509_AUTUMN_DLG_INTRO" },
 { classId: 5651654, className: "W_2509_AUTUMN_DLG_GUID" },
+{ classId: 5651655, className: "W_2510_AUTUMN_MAPLE_DLG_INTRO" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

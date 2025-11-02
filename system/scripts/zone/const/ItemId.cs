@@ -594,6 +594,7 @@ public static class ItemId
 	public const int HAIR_F_152 = 12552;
 	public const int HAIR_F_153 = 12553;
 	public const int HAIR_F_154 = 12554;
+	public const int HAIR_F_155 = 12555;
 	public const int LENS01_001 = 18001;
 	public const int LENS01_002 = 18002;
 	public const int LENS01_003 = 18003;
@@ -4165,6 +4166,10 @@ public static class ItemId
 	public const int Hat_Ep17tospace02 = 11102034;
 	public const int Hat_Ep17postman01 = 11102035;
 	public const int Hat_Ep17postman02 = 11102036;
+	public const int Hat_Ep17couplelook01 = 11102037;
+	public const int Hat_Ep17couplelook02 = 11102038;
+	public const int Hat_Ep17couplelook03 = 11102039;
+	public const int Hat_Ep17couplelook04 = 11102040;
 	public const int Guiltynelaima_Shield = 11104006;
 	public const int EP15_Artefact_004 = 11104010;
 	public const int Ep15spring01_Shield = 11104014;
@@ -4173,6 +4178,7 @@ public static class ItemId
 	public const int Ep15viking_Shield = 11104044;
 	public const int Ep16angler_Shield = 11104069;
 	public const int Ep17postman_Shield = 11104078;
+	public const int Ep17couplelook_Shield = 11104080;
 	public const int EP15_RAID_SHIELD = 11107007;
 	public const int EP15_RAID_CLOTH_TOP = 11107017;
 	public const int EP15_RAID_CLOTH_LEG = 11107018;
@@ -4995,6 +5001,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_26 = 11039026;
 	public const int DRESS_ROOM_COLLECT_27 = 11039027;
 	public const int DRESS_ROOM_COLLECT_28 = 11039028;
+	public const int DRESS_ROOM_COLLECT_29 = 11039029;
 	public const int COLLECT_326 = 11220000;
 	public const int COLLECT_327 = 11220001;
 	public const int COLLECT_328 = 11220002;
@@ -8614,6 +8621,7 @@ public static class ItemId
 	public const int Tosz_Colony_Flag_Klapeda = 721170;
 	public const int Tosz_Colony_Flag_Orsha = 721171;
 	public const int Tosz_Colony_Flag_Pedimian = 721172;
+	public const int Toy_Ep17couplelook = 721173;
 	public const int Spread_Bait_Basic = 730400;
 	public const int Event_1902_Spread_Bait = 730499;
 	public const int Spread_Bait_Premium_1 = 730500;
@@ -9232,6 +9240,7 @@ public static class ItemId
 	public const int PersonalHousing_Item_Hp_F_Falouros_Silver = 1248079;
 	public const int PersonalHousing_Item_Hp_F_Falouros_Gold = 1248080;
 	public const int PersonalHousing_Item_Hp_P_H_Barrack_Exhibition_Stand = 1249904;
+	public const int PersonalHousing_Item_Hp_P_H_Barrack_Teddydoll = 1249905;
 	public const int Motion_Medeina_Emotion01 = 1250003;
 	public const int Motion_Medeina_Emotion02 = 1250004;
 	public const int Egg_003_ContentsTotalShop = 1250005;
@@ -19625,6 +19634,10 @@ public static class ItemId
 	public const int Costume_Ep17postman01_F = 11101082;
 	public const int Costume_Ep17postman02_M = 11101083;
 	public const int Costume_Ep17postman02_F = 11101084;
+	public const int Costume_Ep17couplelook01_M = 11101085;
+	public const int Costume_Ep17couplelook01_F = 11101086;
+	public const int Costume_Ep17couplelook02_M = 11101087;
+	public const int Costume_Ep17couplelook02_F = 11101088;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Helmet_M_Ep15explorer15 = 11103003;
@@ -19679,6 +19692,7 @@ public static class ItemId
 	public const int Wing_Sniego_Papaya = 11105034;
 	public const int Wing_Ep17postman01 = 11105035;
 	public const int Wing_Ep17postman02 = 11105036;
+	public const int Wing_Ep17couplelook = 11105037;
 	public const int Effect_Ep15snowknight_Aurora = 11106001;
 	public const int Effect_Ep15snowknight_Snowflake = 11106002;
 	public const int Effect_Nightrabbit = 11106003;
@@ -20445,6 +20459,8 @@ public static class ItemId
 	public const int Selectbox_Specialclass_Allinone2 = 11205502;
 	public const int Selectbox_Specialclass_03 = 11205503;
 	public const int Special_Gift_Box_Leticia_2510_Papaya1 = 11205505;
+	public const int Selectbox_Ep17couplelook01 = 11205506;
+	public const int Selectbox_Ep17couplelook02 = 11205507;
 	public const int Special_Gift_Box_Leticia_2510 = 11205508;
 	public const int I202510_Package01 = 11205509;
 	public const int I202510_Package02 = 11205510;
@@ -28103,6 +28119,8 @@ public static class ItemId
 	public const int Ep17tospace_Thmace = 11104076;
 	public const int Ep17postman_Staff = 11104077;
 	public const int Ep17postman_Crossbow = 11104079;
+	public const int Ep17couplelook_Thspear = 11104081;
+	public const int Ep17couplelook_Crossbow = 11104082;
 	public const int EP15_RAID_SWORD = 11107000;
 	public const int EP15_RAID_THSWORD = 11107001;
 	public const int EP15_RAID_STAFF = 11107002;

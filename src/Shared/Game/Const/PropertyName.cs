@@ -10140,6 +10140,21 @@
 		public const string EVENT_POPOBOOST_AUTUMN = "EVENT_POPOBOOST_AUTUMN";
 		public const string HaveEmoticon_182 = "HaveEmoticon_182";
 		public const string HaveEmoticon_183 = "HaveEmoticon_183";
+		public const string EVENT_2510_AUTUMN_MAPLE_MAX_COIN_COUNT = "EVENT_2510_AUTUMN_MAPLE_MAX_COIN_COUNT";
+		public const string CollectionDressRoomRead_172 = "CollectionDressRoomRead_172";
+		public const string EVENT_2510_AUTUMN_MAPLE_WEEK_COIN_COUNT = "EVENT_2510_AUTUMN_MAPLE_WEEK_COIN_COUNT";
+		public const string CollectionDressRoomRead_171 = "CollectionDressRoomRead_171";
+		public const string CollectionDressRoomRead_174 = "CollectionDressRoomRead_174";
+		public const string ep17couplelook_shield_cabinet = "ep17couplelook_shield_cabinet";
+		public const string dress_costume_ep17couplelook02_m = "dress_costume_ep17couplelook02_m";
+		public const string dress_costume_ep17couplelook01_f = "dress_costume_ep17couplelook01_f";
+		public const string ep17couplelook_crossbow_cabinet = "ep17couplelook_crossbow_cabinet";
+		public const string CollectionDressRoomRead_173 = "CollectionDressRoomRead_173";
+		public const string ep17couplelook_theme = "ep17couplelook_theme";
+		public const string dress_costume_ep17couplelook01_m = "dress_costume_ep17couplelook01_m";
+		public const string ep17couplelook_thspear_cabinet = "ep17couplelook_thspear_cabinet";
+		public const string ContentsTotalShop_EP17_20 = "ContentsTotalShop_EP17_20";
+		public const string dress_costume_ep17couplelook02_f = "dress_costume_ep17couplelook02_f";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
