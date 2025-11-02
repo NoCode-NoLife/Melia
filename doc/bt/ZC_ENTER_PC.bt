@@ -16,6 +16,8 @@
 //   - i174236: b3 was added
 //   - i197611: b3 was removed
 //   - i373230: i6 was added
+//   - i381165: b4 was added
+//   - changed from s2 (short) to 2 bytes
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -23,11 +25,8 @@
 ServerHeaderFixed header;
 
 int handle;
-float x;
-float y;
-float z;
-float dcos;
-float dsin;
+position pos;
+direction dir;
 short s1;
 int64 socialInfoId;
 byte pose; // ?
@@ -42,7 +41,8 @@ int i6;
 int stamina;
 int maxStamina;
 byte b1;
-short s2;
+byte b0;
+byte isSitting;
 int titleAchievementId;
 int i3;
 byte b2;

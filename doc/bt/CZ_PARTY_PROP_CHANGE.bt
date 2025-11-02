@@ -14,5 +14,8 @@
 #include "inc/common.bt"
 
 ClientHeaderFixed header;
-byte b1;
-getProperties(17*8);
+
+PartyType type;
+int propertyId;
+int i1;
+char propertyValue[64];

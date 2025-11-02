@@ -48,6 +48,18 @@ namespace Melia.Shared.Configuration.Files
 		// misc.conf
 		public bool ResurrectCityOption { get; protected set; }
 
+		// party.conf
+		public float PartyExpMultiplier2 { get; protected set; }
+		public float PartyExpMultiplier3 { get; protected set; }
+		public float PartyExpMultiplier4 { get; protected set; }
+		public float PartyExpMultiplier5Plus { get; protected set; }
+		public int PartyLevelPenaltyThreshold1 { get; protected set; }
+		public float PartyLevelPenalty1 { get; protected set; }
+		public int PartyLevelPenaltyThreshold2 { get; protected set; }
+		public float PartyLevelPenalty2 { get; protected set; }
+		public int PartyLevelPenaltyThreshold3 { get; protected set; }
+		public float PartyLevelPenalty3 { get; protected set; }
+
 		// quests.conf
 		public bool DisplayQuestObjectives { get; protected set; }
 
@@ -139,6 +151,17 @@ namespace Melia.Shared.Configuration.Files
 			this.NoAdvancement = this.GetBool("no_advancement", false);
 
 			this.ResurrectCityOption = this.GetBool("resurrect_city_option", true);
+
+			this.PartyExpMultiplier2 = this.GetFloat("party_exp_multiplier_2", 1.2f);
+			this.PartyExpMultiplier3 = this.GetFloat("party_exp_multiplier_3", 1.5f);
+			this.PartyExpMultiplier4 = this.GetFloat("party_exp_multiplier_4", 1.8f);
+			this.PartyExpMultiplier5Plus = this.GetFloat("party_exp_multiplier_5plus", 2.2f);
+			this.PartyLevelPenaltyThreshold1 = this.GetInt("party_level_penalty_threshold_1", 10);
+			this.PartyLevelPenalty1 = this.GetFloat("party_level_penalty_1", 0.7f);
+			this.PartyLevelPenaltyThreshold2 = this.GetInt("party_level_penalty_threshold_2", 15);
+			this.PartyLevelPenalty2 = this.GetFloat("party_level_penalty_2", 0.4f);
+			this.PartyLevelPenaltyThreshold3 = this.GetInt("party_level_penalty_threshold_3", 20);
+			this.PartyLevelPenalty3 = this.GetFloat("party_level_penalty_3", 0.0f);
 
 			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 

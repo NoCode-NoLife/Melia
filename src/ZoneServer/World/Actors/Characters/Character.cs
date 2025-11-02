@@ -27,7 +27,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public partial class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
 	{
 		private bool _warping;
 		private int _destinationChannelId;
@@ -86,6 +86,22 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Id of the character's account.
 		/// </summary>
 		public long AccountId { get; set; }
+
+		/// <summary>
+		/// Returns the character's account object id.
+		/// </summary>
+		public long AccountObjectId => ObjectIdRanges.Account + this.AccountId;
+
+		/// <summary>
+		/// Returns the character's party id.
+		/// </summary>
+		public long PartyId { get; set; }
+
+		/// <summary>
+		/// Returns true if the character has a party.
+		/// </summary>
+		public bool HasParty
+			=> this.Connection?.Party != null;
 
 		/// <summary>
 		/// Returns the character's faction.
@@ -690,6 +706,7 @@ namespace Melia.Zone.World.Actors.Characters
 			Send.ZC_OBJECT_PROPERTY(this);
 			Send.ZC_ADDON_MSG(this, "NOTICE_Dm_levelup_base", 3, "!@#$Auto_KaeLigTeo_LeBeli_SangSeungHayeossSeupNiDa#@!");
 			Send.ZC_NORMAL.PlayEffect(this, "F_pc_level_up", 3);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
@@ -806,6 +823,7 @@ namespace Melia.Zone.World.Actors.Characters
 				newHp = (int)this.Properties.Modify(PropertyName.HP, amount);
 				priority = (this.HpChangeCounter += 1);
 			}
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
@@ -817,6 +835,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.ModifyHpSafe(amount, out var hp, out var priority);
 			Send.ZC_ADD_HP(this, amount, hp, priority);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
@@ -828,6 +847,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			var sp = this.Properties.Modify(PropertyName.SP, amount);
 			Send.ZC_UPDATE_SP(this, sp, true);
+			this.Connection.Party?.UpdateMemberInfo(this);
 		}
 
 		/// <summary>
