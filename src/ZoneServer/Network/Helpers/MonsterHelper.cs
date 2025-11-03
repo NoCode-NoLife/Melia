@@ -53,8 +53,8 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.PutShort(propertiesSize);
 
-			packet.PutInt(0);
-			packet.PutInt(0);
+			packet.PutInt(monster.AssociatedHandle);
+			packet.PutInt(monster.OwnerHandle);
 
 			packet.PutShort(0);
 			packet.PutByte(0);

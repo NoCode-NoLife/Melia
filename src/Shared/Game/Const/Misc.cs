@@ -46,4 +46,58 @@
 		/// </summary>
 		Count = 5,
 	}
+
+	/// <summary>
+	/// Defines the types of commands that can be issued to a pet.
+	/// </summary>
+	/// <remarks>
+	/// These commands are sent from the client to the server through the
+	/// <c>CB_PET_COMMAND</c> packet to perform actions such as reviving or
+	/// deleting a pet.
+	/// </remarks>
+	public enum PetCommand
+	{
+		/// <summary>
+		/// Revives a pet that has been defeated or removed.
+		/// </summary>
+		/// <remarks>
+		/// Haven't seen any usage of this, legacy comment in Melia
+		/// implies this value was used for this.
+		/// </remarks>
+		Revive = 0,
+
+		/// <summary>
+		/// Deletes the pet from the account's companion list.
+		/// </summary>
+		Delete = 1,
+	}
+
+
+	/// <summary>
+	/// Defines how an actor leaves the map (visual and logical effects).
+	/// </summary>
+	public enum LeaveType : short
+	{
+		/// <summary>
+		/// Shows a blue effect when the entity disappears.
+		/// </summary>
+		BlueEffect = 0,
+
+		/// <summary>
+		/// Default disappearance with no special effects.
+		/// </summary>
+		Normal = 1,
+
+		/// <summary>
+		/// Used when the entity is removed but an animation should still play.
+		/// Specifically used with item pickup.
+		/// </summary>
+		PlayAnimation = 2,
+
+		/// <summary>
+		/// Used when the entity disappears immediately without an animation.
+		/// Specifically used with item no pickup and companions leaving.
+		/// </summary>
+		NoAnimation = 4,
+	}
 }

@@ -30,6 +30,12 @@ namespace Melia.Shared.Data.Database
 		public int Exp { get; set; }
 		public int JobExp { get; set; }
 
+		public int Str { get; set; }
+		public int Dex { get; set; }
+		public int Con { get; set; }
+		public int Int { get; set; }
+		public int Mna { get; set; }
+
 		public float Hp { get; set; }
 		public float Sp { get; set; }
 		public float PhysicalAttackMin { get; set; }
