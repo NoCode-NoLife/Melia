@@ -21,6 +21,7 @@ using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
+using Melia.Shared.Game.Properties;
 
 namespace Melia.Zone.Commands
 {
@@ -43,6 +44,8 @@ namespace Melia.Zone.Commands
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
 			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 			this.Add("mic", "<message>", "", this.HandleMic);
+			this.Add("pethire", "", "", this.HandlePetHire);
+			this.Add("petstat", "", "", this.HandlePetStat);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -323,6 +326,118 @@ namespace Melia.Zone.Commands
 			{
 				target.ServerMessage(Localization.Get("You were warped to {0} by {1}."), target.Position, sender.TeamName);
 				sender.ServerMessage(Localization.Get("Target was warped."));
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to hire a pet
+		/// </summary>
+		/// <example>/pethire 3 Pet</example>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePetHire(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+			if (args.Count < 2)
+			{
+				Log.Debug("HandlePetHire: Invalid call by user '{0}': {1}", sender.Username, command);
+				return CommandResult.Okay;
+			}
+
+			if (sender.Companions.HasCompanions)
+				return CommandResult.Okay;
+
+			if (!int.TryParse(args.Get(0), out var petShopId))
+				return CommandResult.InvalidArgument;
+
+			if (!ZoneServer.Instance.Data.CompanionDb.TryFind(petShopId, out var data))
+				return CommandResult.InvalidArgument;
+
+			if (!ZoneServer.Instance.Data.MonsterDb.TryFind(data.ClassName, out var monData))
+				return CommandResult.InvalidArgument;
+
+			// TODO: Replace with Scripting Variable.
+			//var targetNpcName = "Companion Trader";
+			//var currentNpcName = sender.Connection.CurrentDialog?.Npc.Name;
+			//if (string.IsNullOrEmpty(currentNpcName) || !currentNpcName.Contains(targetNpcName))
+			//return CommandResult.InvalidArgument;
+
+			// TODO: Decide if we sell pets that don't have a price defined.
+			if (data.Price == 0)
+				return CommandResult.Okay;
+
+			if (sender.Inventory.CountItem(ItemId.Silver) < data.Price)
+			{
+				sender.ServerMessage(Localization.Get("You don't have enough silver to purchase a companion."));
+				return CommandResult.Okay;
+			}
+
+			if (sender.Inventory.Remove(ItemId.Silver, data.Price) != InventoryResult.Success)
+				return CommandResult.Fail;
+
+			var companion = new Companion(sender, monData.Id);
+			if (args.Count > 1)
+				companion.Name = args.Get(1);
+
+			sender.Companions.CreateCompanion(companion);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Official slash command to raise pet stats
+		/// </summary>
+		/// <example>/petstat 528525790635969 MHP 1</example>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePetStat(Character sender, Character target, string message, string command, Arguments args)
+		{
+			// Since this command is sent via UI interactions, we'll not
+			// use any automated command result messages, but we'll leave
+			// debug messages for now, in case of unexpected values.
+			if (args.Count < 2)
+			{
+				Log.Debug("HandlePetStat: Invalid call by user '{0}': {1}", sender.Username, command);
+				return CommandResult.Okay;
+			}
+
+			if (!sender.Companions.HasCompanions)
+				return CommandResult.Okay;
+
+			if (long.TryParse(args.Get(0), out var companionObjectId))
+			{
+				var companion = sender.Companions.GetCompanion(companionObjectId);
+				var propertyName = "Monster_Stat_" + args.Get(1);
+
+				if (companion != null && PropertyTable.Exists("Monster", propertyName)
+					&& int.TryParse(args.Get(2), out var modifierValue))
+				{
+					var baseCost = propertyName == PropertyName.Stat_DEF ? 600 : 300;
+					var totalCost = 0;
+					var currentValue = companion.Properties.GetFloat(propertyName) - 1;
+
+					for (var i = currentValue; i < (currentValue + modifierValue); i++)
+						totalCost += (int)Math.Floor(baseCost * Math.Pow(1.08, i));
+
+					if (sender.Inventory.CountItem(ItemId.Silver) >= totalCost)
+					{
+						sender.Inventory.Remove(ItemId.Silver, totalCost);
+						companion.Properties.Modify(propertyName, modifierValue);
+						Send.ZC_OBJECT_PROPERTY(sender.Connection, companion);
+					}
+				}
 			}
 
 			return CommandResult.Okay;

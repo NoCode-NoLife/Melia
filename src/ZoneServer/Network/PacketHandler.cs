@@ -12,6 +12,7 @@ using Melia.Shared.World;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.AI;
 using Melia.Zone.Scripting.Dialogues;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World;
@@ -228,6 +229,18 @@ namespace Melia.Zone.Network
 			// Send updates for the cooldowns loaded from db, so the client
 			// will display the restored cooldowns
 			Send.ZC_COOLDOWN_LIST(character, character.Components.Get<CooldownComponent>().GetAll());
+
+			if (character.Companions.HasCompanions)
+			{
+				foreach (var companion in character.Companions.GetList())
+				{
+					Send.ZC_NORMAL.Pet_AssociateHandleWorldId(character, companion);
+					Send.ZC_OBJECT_PROPERTY(conn, companion);
+					if (companion.IsActivated)
+						companion.SetCompanionState(companion.IsActivated);
+				}
+				Send.ZC_NORMAL.PetInfo(character);
+			}
 
 			character.OpenEyes();
 
@@ -3086,6 +3099,66 @@ namespace Melia.Zone.Network
 			}
 
 			character.StopBuff(buffId);
+		}
+
+		/// <summary>
+		/// Client request to summon a companion
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_SUMMON_PET)]
+		public void CZ_SUMMON_PET(IZoneConnection conn, Packet packet)
+		{
+			var companionId = packet.GetLong();
+			var petId = packet.GetInt();
+			var i1 = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (character.Companions.TryGetCompanion(c => c.ObjectId == companionId && c.Id == petId, out var companion))
+				companion.SetCompanionState(!companion.IsActivated);
+		}
+
+		/// <summary>
+		/// Ride pet request
+		/// </summary>
+		[PacketHandler(Op.CZ_VEHICLE_RIDE)]
+		public void CZ_VEHICLE_RIDE(IZoneConnection conn, Packet packet)
+		{
+			var petHandle = packet.GetInt();
+			var isRiding = packet.GetBool();
+
+			var character = conn.SelectedCharacter;
+			var monster = character.Map.GetMonster(petHandle);
+
+			if (monster is Companion companion && companion.Owner.ObjectId == character.ObjectId)
+			{
+				if (isRiding)
+				{
+					character.StartBuff(BuffId.RidingCompanion, 0, 0, TimeSpan.Zero, companion);
+					companion.StartBuff(BuffId.TakingOwner, 0, 0, TimeSpan.Zero, character);
+				}
+				else
+				{
+					character.StopBuff(BuffId.RidingCompanion);
+					companion.StopBuff(BuffId.TakingOwner);
+				}
+				// TODO: Pause AiScript while riding (No Equivalent in Melia currently).
+				// For now lets just remove the AiComponent
+				if (isRiding)
+				{
+					companion.Components.Remove<AiComponent>();
+				}
+				else
+				{
+					var ai = new AiComponent(companion, "BasicMonster");
+					ai.Script.SetMaster(character);
+					companion.Components.Add(ai);
+				}
+				companion.IsRiding = isRiding;
+				Send.ZC_NORMAL.PetIsInactive(conn, companion);
+				Send.ZC_NORMAL.RidePet(character, companion);
+			}
 		}
 	}
 }
