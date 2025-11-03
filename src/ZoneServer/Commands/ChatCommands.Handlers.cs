@@ -371,12 +371,13 @@ namespace Melia.Zone.Commands
 				return CommandResult.InvalidArgument;
 
 			//TODO: Decide if we sell pets that don't have a price defined.
-			if (data.Price == 0)
+			if (data.Price < 0)
 				return CommandResult.Okay;
 
 			if (sender.Inventory.CountItem(ItemId.Silver) < data.Price)
 			{
-				sender.SystemMessage("OwnerDontHaveSilver");
+				sender.ServerMessage(Localization.Get("You don't have enough silver to purchase a companion."));
+				//sender.ServerMessage("OwnerDontHaveSilver");
 				return CommandResult.Okay;
 			}
 

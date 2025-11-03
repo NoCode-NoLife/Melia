@@ -46,4 +46,38 @@
 		/// </summary>
 		Count = 5,
 	}
+
+	public enum PetCommand
+	{
+		Revive = 0,
+		Delete = 1,
+	}
+
+	/// <summary>
+	/// Defines how an actor leaves the map (visual and logical effects).
+	/// </summary>
+	public enum LeaveType : short
+	{
+		/// <summary>
+		/// Shows a blue effect when the entity disappears.
+		/// </summary>
+		BlueEffect = 0,
+
+		/// <summary>
+		/// Default disappearance with no special effects.
+		/// </summary>
+		Normal = 1,
+
+		/// <summary>
+		/// Used when the entity is removed but an animation should still play.
+		/// Specifically used with item pickup.
+		/// </summary>
+		PlayAnimation = 2,
+
+		/// <summary>
+		/// Used when the entity disappears immediately without an animation.
+		/// Specifically used with item no pickup and companions leaving.
+		/// </summary>
+		NoAnimation = 4,
+	}
 }

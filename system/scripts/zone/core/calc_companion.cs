@@ -9,21 +9,20 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Maps;
 
 public class CompanionCalculationsScript : GeneralScript
 {
-	private const float PET_STAT_BY_OWNER_RATE = 0.5f;
+	private const float PetStatByOwnerRate = 0.5f;
 
-	public float PET_STAT_BY_OWNER(Companion companion, string statName)
+	private float PetStatByOwner(Companion companion, string statName)
 	{
 		var value = 0f;
 		var owner = companion.Owner;
 
 		if (owner != null)
-			value = owner.Properties.GetFloat(statName) * PET_STAT_BY_OWNER_RATE;
+			value = owner.Properties.GetFloat(statName) * PetStatByOwnerRate;
 
-		return (float)Math.Floor(value);
+		return MathF.Floor(value);
 	}
 
 	/// <summary>
@@ -34,12 +33,11 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_STR(Companion companion)
 	{
-		var baseValue = companion.Data.STR;
-		var ownerValue = PET_STAT_BY_OWNER(companion, PropertyName.STR);
-
+		var baseValue = companion.Data.Str;
+		var ownerValue = PetStatByOwner(companion, PropertyName.STR);
 		var result = baseValue + ownerValue;
 
-		return (float)Math.Floor(result);
+		return MathF.Floor(result);
 	}
 
 	/// <summary>
@@ -50,14 +48,12 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_DEX(Companion companion)
 	{
-		var ownerProperties = companion.Owner.Properties;
-
-		var baseValue = companion.Data.DEX;
-		var ownerValue = ownerProperties.GetFloat(PropertyName.DEX) * PET_STAT_BY_OWNER_RATE;
+		var baseValue = companion.Data.Dex;
+		var ownerValue = PetStatByOwner(companion, PropertyName.DEX);
 
 		var result = baseValue + ownerValue;
 
-		return (float)Math.Floor(result);
+		return MathF.Floor(result);
 	}
 
 	/// <summary>
@@ -68,14 +64,11 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_CON(Companion companion)
 	{
-		var ownerProperties = companion.Owner.Properties;
-
-		var baseValue = companion.Data.CON;
-		var ownerValue = ownerProperties.GetFloat(PropertyName.CON) * PET_STAT_BY_OWNER_RATE;
-
+		var baseValue = companion.Data.Con;
+		var ownerValue = PetStatByOwner(companion, PropertyName.CON);
 		var result = baseValue + ownerValue;
 
-		return (float)Math.Floor(result);
+		return MathF.Floor(result);
 	}
 
 	/// <summary>
@@ -86,14 +79,11 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_INT(Companion companion)
 	{
-		var ownerProperties = companion.Owner.Properties;
-
-		var baseValue = companion.Data.INT;
-		var ownerValue = ownerProperties.GetFloat(PropertyName.INT) * PET_STAT_BY_OWNER_RATE;
-
+		var baseValue = companion.Data.Int;
+		var ownerValue = PetStatByOwner(companion, PropertyName.INT);
 		var result = baseValue + ownerValue;
 
-		return (float)Math.Floor(result);
+		return MathF.Floor(result);
 	}
 
 	/// <summary>
@@ -104,14 +94,11 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_MNA(Companion companion)
 	{
-		var ownerProperties = companion.Owner.Properties;
-
-		var baseValue = companion.Data.MNA;
-		var ownerValue = ownerProperties.GetFloat(PropertyName.MNA) * PET_STAT_BY_OWNER_RATE;
-
+		var baseValue = companion.Data.Mna;
+		var ownerValue = PetStatByOwner(companion, PropertyName.MNA);
 		var result = baseValue + ownerValue;
 
-		return (float)Math.Floor(result);
+		return MathF.Floor(result);
 	}
 
 	/// <summary>
@@ -125,7 +112,7 @@ public class CompanionCalculationsScript : GeneralScript
 		var properties = companion.Properties;
 		var byLv = properties.GetFloat(PropertyName.Lv);
 		var addLv = properties.GetFloat(PropertyName.Level);
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.DEF);
+		var byOwner = PetStatByOwner(companion, PropertyName.DEF);
 		var value = (byLv + addLv) / 2f + byOwner + properties.GetFloat(PropertyName.Stat_DEF);
 
 		var owner = companion.Owner;
@@ -151,7 +138,7 @@ public class CompanionCalculationsScript : GeneralScript
 		var properties = companion.Properties;
 		var byLv = properties.GetFloat(PropertyName.Lv);
 		var addLv = properties.GetFloat(PropertyName.Level);
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.MDEF);
+		var byOwner = PetStatByOwner(companion, PropertyName.MDEF);
 		var value = (byLv + addLv) / 2f + byOwner + properties.GetFloat(PropertyName.Stat_MDEF);
 
 		var owner = companion.Owner;
@@ -163,7 +150,7 @@ public class CompanionCalculationsScript : GeneralScript
 				value *= 0.75f;
 		}
 
-		return (float)Math.Floor(Math.Max(1, value));
+		return MathF.Floor(MathF.Max(1, value));
 	}
 
 	/// <summary>
@@ -177,10 +164,10 @@ public class CompanionCalculationsScript : GeneralScript
 		var properties = companion.Properties;
 		var byLv = properties.GetFloat(PropertyName.Lv);
 		var addLv = properties.GetFloat(PropertyName.Level);
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.DR);
-		var value = byLv + addLv + byOwner + properties.GetFloat("DEX") + properties.GetFloat(PropertyName.Stat_DR);
+		var byOwner = PetStatByOwner(companion, PropertyName.DR);
+		var value = byLv + addLv + byOwner + properties.GetFloat(PropertyName.DEX) + properties.GetFloat(PropertyName.Stat_DR);
 
-		return (float)Math.Floor(value);
+		return MathF.Floor(value);
 	}
 
 	/// <summary>
@@ -194,10 +181,12 @@ public class CompanionCalculationsScript : GeneralScript
 		var properties = companion.Properties;
 		var byLv = properties.GetFloat(PropertyName.Lv);
 		var addLv = properties.GetFloat(PropertyName.Level);
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.HR);
-		var value = byLv + addLv + byOwner + properties.GetFloat("DEX") + properties.GetFloat(PropertyName.Stat_DR) + properties.GetFloat(PropertyName.Stat_HR_BM);
+		var byOwner = PetStatByOwner(companion, PropertyName.HR);
+		var value = byLv + addLv + byOwner + properties.GetFloat(PropertyName.DEX)
+			+ properties.GetFloat(PropertyName.Stat_DR)
+			+ properties.GetFloat(PropertyName.Stat_HR_BM);
 
-		return (float)Math.Floor(value);
+		return MathF.Floor(value);
 	}
 
 	/// <summary>
@@ -215,7 +204,9 @@ public class CompanionCalculationsScript : GeneralScript
 		var stat = properties.GetFloat(PropertyName.CON, 1);
 
 		var byLevel = Math.Floor((standardMHP / 4) * level);
-		var byStat = Math.Floor((byLevel * (stat * 0.0015)) + (byLevel * (Math.Floor(stat / 10) * 0.005)) + (27 * properties.GetFloat(PropertyName.Stat_MHP)));
+		var byStat = Math.Floor((byLevel * (stat * 0.0015))
+			+ (byLevel * (Math.Floor(stat / 10) * 0.005))
+			+ (27 * properties.GetFloat(PropertyName.Stat_MHP)));
 
 		var value = byLevel + byStat;
 
@@ -244,9 +235,10 @@ public class CompanionCalculationsScript : GeneralScript
 		var properties = companion.Properties;
 
 		var addLv = companion.Data.Level;
-		var atk = properties.GetFloat(PropertyName.Lv) + companion.Data.STR + addLv + properties.GetFloat(PropertyName.Stat_ATK) + properties.GetFloat(PropertyName.Stat_ATK_BM);
+		var atk = properties.GetFloat(PropertyName.Lv) + companion.Data.Str + addLv
+			+ properties.GetFloat(PropertyName.Stat_ATK) + properties.GetFloat(PropertyName.Stat_ATK_BM);
 
-		var average = PET_STAT_BY_OWNER(companion, PropertyName.MINPATK) + PET_STAT_BY_OWNER(companion, PropertyName.MAXPATK);
+		var average = PetStatByOwner(companion, PropertyName.MINPATK) + PetStatByOwner(companion, PropertyName.MAXPATK);
 		if (average != 0)
 			average /= 2;
 
@@ -277,7 +269,7 @@ public class CompanionCalculationsScript : GeneralScript
 		var byBuff = properties.GetFloat(PropertyName.PATK_BM);
 		var value = byStat + byBuff;
 
-		return (float)Math.Floor(value);
+		return MathF.Floor(value);
 	}
 
 	/// <summary>
@@ -293,7 +285,7 @@ public class CompanionCalculationsScript : GeneralScript
 		var byBuff = properties.GetFloat(PropertyName.PATK_BM);
 		var value = byStat + byBuff;
 
-		return (float)Math.Floor(value);
+		return MathF.Floor(value);
 	}
 
 	/// <summary>
@@ -306,7 +298,7 @@ public class CompanionCalculationsScript : GeneralScript
 	{
 		var properties = companion.Properties;
 		var byStat = companion.Data.MagicalAttackMin;
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.MINMATK);
+		var byOwner = PetStatByOwner(companion, PropertyName.MINMATK);
 		var byBuff = properties.GetFloat(PropertyName.PATK_BM);
 		var value = byStat + byOwner + byBuff;
 
@@ -332,7 +324,7 @@ public class CompanionCalculationsScript : GeneralScript
 	{
 		var properties = companion.Properties;
 		var byStat = companion.Data.MagicalAttackMax;
-		var byOwner = PET_STAT_BY_OWNER(companion, PropertyName.MAXMATK);
+		var byOwner = PetStatByOwner(companion, PropertyName.MAXMATK);
 		var byBuff = properties.GetFloat(PropertyName.PATK_BM);
 		var value = byStat + byOwner + byBuff;
 
@@ -356,7 +348,7 @@ public class CompanionCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_Companion_MOUNTDEF(Companion companion)
 	{
-		return (float)Math.Floor(companion.Properties.CFloat("DEF") * 0.1);
+		return (float)Math.Floor(companion.Properties.GetFloat(PropertyName.DEF) * 0.1);
 	}
 
 	/// <summary>
@@ -382,7 +374,7 @@ public class CompanionCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns companion's total mana.
+	/// Returns companion's total SDR.
 	/// </summary>
 	/// <param name="companion"></param>
 	/// <returns></returns>

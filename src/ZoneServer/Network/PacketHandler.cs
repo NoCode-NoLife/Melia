@@ -3100,7 +3100,7 @@ namespace Melia.Zone.Network
 
 			character.StopBuff(buffId);
 		}
-		
+
 		/// <summary>
 		/// Client request to summon a companion
 		/// </summary>
@@ -3113,14 +3113,10 @@ namespace Melia.Zone.Network
 			var petId = packet.GetInt();
 			var i1 = packet.GetInt();
 
-			if (companionId != 0)
-			{
-				var character = conn.SelectedCharacter;
-				var companion = character.Companions.GetCompanion(companionId);
+			var character = conn.SelectedCharacter;
 
-				if (companion != null && companion.Id == petId)
-					companion.SetCompanionState(!companion.IsActivated);
-			}
+			if (character.Companions.TryGetCompanion(c => c.ObjectId == companionId && c.Id == petId, out var companion))
+				companion.SetCompanionState(!companion.IsActivated);
 		}
 
 		/// <summary>
@@ -3130,7 +3126,7 @@ namespace Melia.Zone.Network
 		public void CZ_VEHICLE_RIDE(IZoneConnection conn, Packet packet)
 		{
 			var petHandle = packet.GetInt();
-			var isRiding = packet.GetByte() == 1;
+			var isRiding = packet.GetBool();
 
 			var character = conn.SelectedCharacter;
 			var monster = character.Map.GetMonster(petHandle);
@@ -3166,6 +3162,7 @@ namespace Melia.Zone.Network
 				else
 				{
 					var ai = new AiComponent(companion, "BasicMonster");
+					ai.Script.SetMaster(character);
 					companion.Components.Add(ai);
 				}
 				companion.IsRiding = isRiding;

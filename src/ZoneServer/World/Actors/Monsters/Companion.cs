@@ -10,6 +10,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Scheduling;
 using System.Threading;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -163,7 +164,7 @@ namespace Melia.Zone.World.Actors.Monsters
 			{
 				this.Map = this.Owner.Map;
 				this.OwnerHandle = this.Owner.Handle;
-				this.Position = this.Owner.Position.GetRandomInRange2D(15, new Random());
+				this.Position = this.Owner.Position.GetRandomInRange2D(15, RandomProvider.Get());
 				this.Components.Add(new MovementComponent(this));
 				this.Components.Add(new AiComponent(this, "BasicMonster"));
 				this.Components.Get<AiComponent>()?.Script.SetMaster(this.Owner);
@@ -178,7 +179,7 @@ namespace Melia.Zone.World.Actors.Monsters
 				this.Position = Position.Zero;
 				this.OwnerHandle = 0;
 				// Clear Buffs
-				Send.ZC_LEAVE(this.Owner, 4);
+				Send.ZC_LEAVE(this.Owner, LeaveType.NoAnimation);
 				this.Map.RemoveMonster(this);
 			}
 		}
@@ -190,7 +191,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// <param name="monster"></param>
 		public void GiveExp(long exp, IMonsterBase monster)
 		{
-			// Base EXP
 			this.Exp += exp;
 			this.TotalExp += exp;
 
@@ -201,7 +201,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			var maxExp = this.MaxExp;
 			var maxLevel = ZoneServer.Instance.Data.ExpDb.GetMaxLevel();
 
-			// Consume EXP as many times as possible to reach new levels
 			while (this.Exp >= maxExp && level < maxLevel)
 			{
 				this.Exp -= maxExp;
@@ -211,9 +210,6 @@ namespace Melia.Zone.World.Actors.Monsters
 				maxExp = ZoneServer.Instance.Data.ExpDb.GetNextExp(level);
 			}
 
-			// Execute level up only once to avoid client lag on multiple
-			// level ups. Leveling up a thousand times in a loop is not
-			// fun for the client =D"
 			if (levelUps > 0)
 				this.LevelUp(levelUps);
 		}

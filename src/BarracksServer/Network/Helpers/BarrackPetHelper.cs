@@ -14,7 +14,6 @@ namespace Melia.Barracks.Network.Helpers
 		/// </summary>
 		/// <param name="packet"></param>
 		/// <param name="companion"></param>
-		/// <exception cref="InvalidOperationException"></exception>
 		public static void AddCompanion(this Packet packet, Companion companion)
 		{
 			packet.PutInt(companion.MonsterId);

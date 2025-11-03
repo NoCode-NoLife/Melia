@@ -639,10 +639,13 @@ namespace Melia.Barracks.Database
 		}
 
 		/// <summary>
-		/// Deletes a companion.
+		/// Deletes the companion with the specified ID from the database.
 		/// </summary>
-		/// <param name="companionId"></param>
-		/// <returns></returns>
+		/// <param name="companionId">The unique ID of the companion to delete.</param>
+		/// <returns>
+		/// <c>true</c> if a companion with the given ID existed and was deleted successfully; 
+		/// otherwise, <c>false</c>.
+		/// </returns>
 		public bool DeleteCompanion(long companionId)
 		{
 			using (var conn = this.GetConnection())

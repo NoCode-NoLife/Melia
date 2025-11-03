@@ -1467,9 +1467,8 @@ namespace Melia.Zone.Database
 		public void CreateCompanion(long accountId, long characterId, Companion companion)
 		{
 			using (var conn = this.GetConnection())
-			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `companions` {0}", conn, trans))
+				using (var cmd = new InsertCommand("INSERT INTO `companions` {0}", conn))
 				{
 					companion.AdoptTime = DateTime.Now;
 
@@ -1485,8 +1484,6 @@ namespace Melia.Zone.Database
 					cmd.Execute();
 					companion.DbId = cmd.LastId;
 				}
-
-				trans.Commit();
 			}
 		}
 

@@ -1744,15 +1744,19 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Removes actor from all clients on the map it's on.
+		/// Removes the specified actor from all clients on the map it is on.
 		/// </summary>
-		/// <param name="actor"></param>
-		public static void ZC_LEAVE(IActor actor, short leaveType = 1)
+		/// <param name="actor">The actor to remove from the map.</param>
+		/// <param name="leaveType">
+		/// The type of leave effect to display when the actor disappears. 
+		/// Defaults to <see cref="LeaveType.Normal"/>.
+		/// </param>
+		public static void ZC_LEAVE(IActor actor, LeaveType leaveType = LeaveType.Normal)
 		{
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(actor.Handle);
-			packet.PutShort(1); // 0 shows a blue effect when the entity disappears
+			packet.PutShort((short)leaveType);
 
 			actor.Map.Broadcast(packet, actor);
 		}
@@ -1764,7 +1768,7 @@ namespace Melia.Zone.Network
 		/// <param name="actor"></param>
 		public static void ZC_LEAVE(IZoneConnection conn, IActor actor)
 		{
-			var s1 = 1;
+			var leaveType = LeaveType.Normal;
 
 			// Items don't seem to disappear with our default, 1, nor with
 			// 2, which is used on officials. 4 does get rid of the items
@@ -1773,12 +1777,12 @@ namespace Melia.Zone.Network
 			// to get picked up for this very reason, so we'll check whether
 			// it was picked up or not.
 			if (actor is ItemMonster itemMonster)
-				s1 = itemMonster.PickedUp ? 2 : 4;
+				leaveType = itemMonster.PickedUp ? LeaveType.PlayAnimation : LeaveType.NoAnimation;
 
 			var packet = new Packet(Op.ZC_LEAVE);
 
 			packet.PutInt(actor.Handle);
-			packet.PutShort(s1); // 0 shows a blue effect when the entity disappears
+			packet.PutShort((short)leaveType); // 0 shows a blue effect when the entity disappears
 
 			conn.Send(packet);
 		}

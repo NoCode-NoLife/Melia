@@ -703,7 +703,7 @@ namespace Melia.Barracks.Network
 		{
 			var companionId = packet.GetLong();
 			var characterId = packet.GetLong();
-			var command = packet.GetByte(); // 0 : revive request; 1 : delete pet request.
+			var command = (PetCommand)packet.GetByte();
 
 			var companion = conn.Account.GetCompanionById(companionId);
 			if (companion == null)
@@ -715,8 +715,7 @@ namespace Melia.Barracks.Network
 			companion.CharacterDbId = characterId;
 			switch (command)
 			{
-				// Delete
-				case 1:
+				case PetCommand.Delete:
 					if (BarracksServer.Instance.Database.DeleteCompanion(companion.DbId))
 					{
 						Send.BC_NORMAL.DeleteCompanion(conn, companionId);

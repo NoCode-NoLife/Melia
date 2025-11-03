@@ -32,20 +32,19 @@ namespace Melia.Shared.Data.Database
 
 		protected override void ReadEntry(JObject entry)
 		{
-			// Values: id, className, name, rideMSPD, premium, pet, ride, endRideOnHit, [foodGroup], [buff]
-			entry.AssertNotMissing("id", "className");
+			// Values: id, className, name, rideMSPD, isPremium, canPet, canRide, endRideOnHit, [foodGroup], [buff], [feedAnimation], [feedSleep]
+			entry.AssertNotMissing("id", "className", "rideMSPD", "isPremium", "canPet", "canRide", "endRideOnHit");
 
 			var data = new CompanionData();
 
 			data.Id = entry.ReadInt("id");
 			data.ClassName = entry.ReadString("className");
 			data.Name = entry.ReadString("name");
-			if (entry.ContainsKey("price"))
-				data.Price = entry.ReadInt("price");
+			data.Price = entry.ReadInt("price", -1);
 			data.RideMSPD = entry.ReadFloat("rideMSPD");
-			data.IsPremium = entry.ReadBool("premium");
-			data.CanPet = entry.ReadBool("pet");
-			data.CanRide = entry.ReadBool("ride");
+			data.IsPremium = entry.ReadBool("isPremium");
+			data.CanPet = entry.ReadBool("canPet");
+			data.CanRide = entry.ReadBool("canRide");
 			data.EndRideOnHit = entry.ReadBool("endRideOnHit");
 			data.FoodGroup = entry.ReadInt("foodGroup", -1);
 			if (entry.ContainsKey("buff") && !string.IsNullOrEmpty(data.Name))

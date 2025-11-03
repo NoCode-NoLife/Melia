@@ -8,9 +8,6 @@ namespace Melia.Zone.Network.Helpers
 	{
 		public static void AddCompanion(this Packet packet, Companion companion)
 		{
-			// Safety check
-			if (companion == null)
-				return;
 			var properties = companion.Properties.GetAll();
 			var propertiesSize = properties.GetByteCount();
 
