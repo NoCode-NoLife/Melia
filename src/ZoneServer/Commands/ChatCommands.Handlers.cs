@@ -2354,7 +2354,8 @@ namespace Melia.Zone.Commands
 		private CommandResult HandlePetHire(Character sender, Character target, string message, string commandName, Arguments args)
 		{
 			// STUB: Not actually implemented yet!
-			sender.ServerMessage("Companion hired! But not actually implemented!");
+			var petName = args.Count > 1 ? args.Get(1) : "Unknown";
+			sender.ServerMessage($"Companion '{petName}' hired! But this feature is not actually implemented!");
 			return CommandResult.Okay;
 		}
 	}

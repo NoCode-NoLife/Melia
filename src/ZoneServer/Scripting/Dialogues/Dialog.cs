@@ -149,7 +149,12 @@ namespace Melia.Zone.Scripting.Dialogues
 		internal void Resume(string response)
 		{
 			if (this.State != DialogState.Waiting)
-				throw new InvalidOperationException($"The dialog is not paused and waiting for a response.");
+			{
+				// Return silently because client sometimes sends
+				// DialogAcknowledgement.Okay twice and this could crash the
+				// server.
+				return;
+			}
 
 			_response = response;
 			_resumeSignal.Release();

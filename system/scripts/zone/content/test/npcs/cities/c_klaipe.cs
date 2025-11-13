@@ -141,15 +141,13 @@ public class CKlaipeNpcTestScript : GeneralScript
 			dialog.SetTitle("Marina");
 			dialog.SetPortrait("Dlg_port_kristina");
 
-			var response = await dialog.Select("Welcome! Looking for a companion?",
+			var selectedOption = await dialog.Select("Welcome! Looking for a companion?",
 				Option("Adopt Companion", "adopt"),
 				Option("Leave", "leave")
 			);
 
-			if (response == "adopt")
-			{
+			if (selectedOption == "adopt")
 				await dialog.OpenCustomCompanionShop("MarinaCompanions");
-			}
 		});
 	}
 
