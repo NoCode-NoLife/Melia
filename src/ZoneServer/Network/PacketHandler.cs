@@ -1905,6 +1905,114 @@ namespace Melia.Zone.Network
 		public void CZ_EXCHANGE_REQUEST(IZoneConnection conn, Packet packet)
 		{
 			var targetHandle = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (character == null)
+				return;
+
+			var targetCharacter = character.Map.GetCharacter(targetHandle);
+			if (targetCharacter == null)
+			{
+				Log.Warning("CZ_EXCHANGE_REQUEST: User '{0}' trade partner not found.", conn.Account.Name);
+				return;
+			}
+
+			ZoneServer.Instance.World.Trades.RequestTrade(character, targetCharacter);
+		}
+
+		/// <summary>
+		/// Indicates an accepted request from the client to trade with another character.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_ACCEPT)]
+		public void CZ_EXCHANGE_ACCEPT(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (!character.IsTrading)
+			{
+				Log.Warning("CZ_EXCHANGE_ACCEPT:  User '{0}' tried to accept a non-existent trade.", conn.Account.Name);
+				return;
+			}
+
+			ZoneServer.Instance.World.Trades.StartTrade(character);
+		}
+
+		/// <summary>
+		/// Request to offer an item for trade
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_OFFER)]
+		public void CZ_EXCHANGE_OFFER(IZoneConnection conn, Packet packet)
+		{
+			var i1 = packet.GetInt();
+			var worldId = packet.GetLong();
+			var amount = packet.GetInt();
+			var i3 = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (character == null)
+				return;
+
+			if (!character.IsTrading)
+			{
+				Log.Warning("CZ_EXCHANGE_OFFER: User '{0}' tried to trade without actually trading.", conn.Account.Name);
+				return;
+			}
+
+			ZoneServer.Instance.World.Trades.OfferTradeItem(character, worldId, amount);
+		}
+
+		/// <summary>
+		/// Initial trade agreement request
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_AGREE)]
+		public void CZ_EXCHANGE_AGREE(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (character == null)
+				return;
+
+			ZoneServer.Instance.World.Trades.ConfirmTrade(character);
+		}
+
+		/// <summary>
+		/// Final trade agreement request
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_FINALAGREE)]
+		public void CZ_EXCHANGE_FINALAGREE(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (character == null)
+				return;
+
+			ZoneServer.Instance.World.Trades.FinalConfirmTrade(character);
+		}
+
+		/// <summary>
+		/// Cancel trade request
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_EXCHANGE_CANCEL)]
+		public void CZ_EXCHANGE_CANCEL(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (character == null)
+				return;
+
+			ZoneServer.Instance.World.Trades.CancelTrade(character);
 		}
 
 		/// <summary>

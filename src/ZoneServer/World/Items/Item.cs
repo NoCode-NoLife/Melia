@@ -116,7 +116,7 @@ namespace Melia.Zone.World.Items
 		/// Creates a copy of the given item.
 		/// </summary>
 		/// <param name="other"></param>
-		public Item(Item other)
+		public Item(Item other, int amount = -1)
 		{
 			this.Id = other.Id;
 			this.LoadData();
@@ -129,8 +129,15 @@ namespace Melia.Zone.World.Items
 			this.LootProtectionEnd = other.LootProtectionEnd;
 
 			other.Properties.CopyFrom(this.Properties);
+			// TODO:
+			// Copy sockets
+			// -----------------------------------
+			// this.CopyGemSockets(other);
 
-			this.Amount = other.Amount;
+			if (amount == -1)
+				this.Amount = other.Amount;
+			else
+				this.Amount = amount;
 		}
 
 		/// <summary>
