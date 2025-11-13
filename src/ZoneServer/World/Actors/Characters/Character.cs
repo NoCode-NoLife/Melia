@@ -182,6 +182,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public bool IsSitting { get; set; }
 
 		/// <summary>
+		/// Gets whether the character is currently in a trade.
+		/// </summary>
+		public bool IsTrading => ZoneServer.Instance.World.Trades.IsTrading(this.ObjectId);
+
+		/// <summary>
 		/// Returns the character's personal storage.
 		/// </summary>
 		public PersonalStorage PersonalStorage { get; }

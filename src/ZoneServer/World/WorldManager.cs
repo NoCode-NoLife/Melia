@@ -57,6 +57,11 @@ namespace Melia.Zone.World
 		public GlobalVariables GlobalVariables { get; } = new();
 
 		/// <summary>
+		/// Returns the world's trade manager.
+		/// </summary>
+		public TradeManager Trades { get; } = new TradeManager();
+
+		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
 		/// </summary>
 		/// <returns></returns>
@@ -332,6 +337,27 @@ namespace Melia.Zone.World
 		{
 			character = this.GetCharacterByTeamName(teamName);
 			return character != null;
+		}
+
+		/// <summary>
+		/// Returns the first character that matches the given predicate,
+		/// or null if none were found.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Character GetCharacter(Func<Character, bool> predicate)
+		{
+			lock (_mapsLock)
+			{
+				foreach (var map in _mapsId.Values)
+				{
+					var characters = map.GetCharacters(predicate);
+					if (characters.Length > 0)
+						return characters[0];
+				}
+			}
+
+			return null;
 		}
 
 		/// <summary>
