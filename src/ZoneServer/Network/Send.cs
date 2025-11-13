@@ -1695,6 +1695,17 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Send ZC_LEAVE_TRIGGER after dialog close.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void ZC_LEAVE_TRIGGER(IZoneConnection conn)
+		{
+			var packet = new Packet(Op.ZC_LEAVE_TRIGGER);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Sends ZC_DIALOG_STRINGINPUT to connection, containing a dialog
 		/// message, and requesting putting in a string.
 		/// </summary>
