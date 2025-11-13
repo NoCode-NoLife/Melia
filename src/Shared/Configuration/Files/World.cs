@@ -40,6 +40,7 @@ namespace Melia.Shared.Configuration.Files
 
 		// items.conf
 		public float ItemCooldownRate { get; protected set; }
+		public bool GoddessBillsEnabled { get; protected set; }
 
 		// jobs.conf
 		public int JobMaxRank { get; protected set; }
@@ -134,6 +135,7 @@ namespace Melia.Shared.Configuration.Files
 			this.EnableDayNightCycle = this.GetBool("enable_day_night_cycle", true);
 
 			this.ItemCooldownRate = this.GetFloat("item_cooldown_rate", 1);
+			this.GoddessBillsEnabled = this.GetBool("goddess_bills_enabled", false);
 
 			this.JobMaxRank = this.GetInt("job_max_rank", 4);
 			this.NoAdvancement = this.GetBool("no_advancement", false);
