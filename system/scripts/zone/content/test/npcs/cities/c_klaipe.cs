@@ -132,5 +132,37 @@ public class CKlaipeNpcTestScript : GeneralScript
 
 			await dialog.Msg("The capital may already be in ruins, but I will protect Klaipeda.");
 		});
+
+		// [Companion Trader] Marina
+		//-------------------------------------------------------------------------
+		CreateMarinaCompanionShop();
+		AddNpc(153005, "[Companion Trader] Marina", "Marina", "c_Klaipe", -1, -760, 90, async dialog =>
+		{
+			dialog.SetTitle("Marina");
+			dialog.SetPortrait("Dlg_port_kristina");
+
+			var response = await dialog.Select("Welcome! Looking for a companion?",
+				Option("Adopt Companion", "adopt"),
+				Option("Leave", "leave")
+			);
+
+			if (response == "adopt")
+			{
+				await dialog.OpenCustomCompanionShop("MarinaCompanions");
+			}
+		});
+	}
+
+	/// <summary>
+	/// Creates Marina's companion shop
+	/// </summary>
+	private void CreateMarinaCompanionShop()
+	{
+		CreateCompanionShop("MarinaCompanions", shop =>
+		{
+			shop.AddCompanion("Velhider", price: 110000);
+			shop.AddCompanion("hoglan_Pet", price: 453600);
+			shop.AddCompanion("pet_hawk", price: 453600);
+		});
 	}
 }

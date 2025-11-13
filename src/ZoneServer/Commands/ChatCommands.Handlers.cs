@@ -47,6 +47,7 @@ namespace Melia.Zone.Commands
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
 			this.Add("updatemouse", "", "", this.HandleUpdateMouse);
+			this.Add("pethire", "", "", this.HandlePetHire);
 
 			// Normal
 			this.Add("where", "", "Displays current location.", this.HandleWhere);
@@ -2331,6 +2332,29 @@ namespace Melia.Zone.Commands
 
 			Send.ZC_NORMAL.AccountProperties(target);
 
+			return CommandResult.Okay;
+		}
+
+		// ============================================================================
+		// WARNING: STUB IMPLEMENTATION - NOT ACTUALLY IMPLEMENTED!
+		// ============================================================================
+		// TODO: This is a placeholder stub for companion/pet hiring functionality.
+		//       The actual implementation needs to be completed in a future PR.
+		//       This method currently does nothing except return a message to the user.
+		// ============================================================================
+		/// <summary>
+		/// Stub handler for pet/companion hiring functionality.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandlePetHire(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			// STUB: Not actually implemented yet!
+			sender.ServerMessage("Companion hired! But not actually implemented!");
 			return CommandResult.Okay;
 		}
 	}
