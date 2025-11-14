@@ -110,6 +110,9 @@ namespace Melia.Zone.Network
 			character.Connection = conn;
 			conn.SelectedCharacter = character;
 
+			// Finish loading account-level data that requires both Account and Character
+			ZoneServer.Instance.Database.AfterLoad(conn.Account, character);
+
 			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
 
 			map.AddCharacter(character);
@@ -177,6 +180,7 @@ namespace Melia.Zone.Network
 			Send.ZC_OBJECT_PROPERTY(conn, character.Etc);
 			Send.ZC_START_GAME(conn);
 			Send.ZC_UPDATE_ALL_STATUS(character, 0);
+			Send.ZC_SET_WEBSERVICE_URL(conn);
 			Send.ZC_MOVE_SPEED(character);
 			Send.ZC_STAMINA(character, character.Stamina);
 			Send.ZC_UPDATE_SP(character, character.Sp, false);
@@ -1462,16 +1466,29 @@ namespace Melia.Zone.Network
 
 			var character = conn.SelectedCharacter;
 
-			if (type == StorageType.PersonalStorage)
+			if (type == StorageType.PersonalStorage && character.CurrentStorage is PersonalStorage storage && storage.IsBrowsing)
 			{
-				var storage = character.CurrentStorage;
-
-				if (storage.IsBrowsing)
-					Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, storage.GetItems());
+				var items = storage.GetItems();
+				Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, items);
+				// TODO:
+				// Check for item sockets
+				// --------------------------
+				// foreach (var socketedItems in items.Values.Where(a => a.HasSockets))
+				//	Send.ZC_EQUIP_GEM_INFO(character, socketedItems);
 			}
-			else if (type == StorageType.TeamStorage)
+			else if (type == StorageType.TeamStorage && character.CurrentStorage is TeamStorage teamStorage && teamStorage.IsBrowsing)
 			{
-				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+				var items = teamStorage.GetItems();
+				Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, items);
+				// TODO:
+				// Check for item sockets
+				// --------------------------
+				// foreach (var socketedItems in items.Values.Where(a => a.HasSockets))
+				// 	Send.ZC_EQUIP_GEM_INFO(character, socketedItems);
+			}
+			else
+			{
+				Send.ZC_SOLD_ITEM_DIVISION_LIST(character, type, new Dictionary<int, Item>());
 			}
 		}
 
@@ -1531,7 +1548,46 @@ namespace Melia.Zone.Network
 			}
 			else if (type == StorageType.TeamStorage)
 			{
-				character.ServerMessage(Localization.Get("Team storage has not been implemented yet."));
+				var inventory = character.Inventory;
+				var storage = character.CurrentStorage as TeamStorage;
+
+				var interactionCost = ZoneServer.Instance.Conf.World.TeamStorageFee;
+				var silver = inventory.CountItem(ItemId.Silver);
+
+				if (silver < interactionCost)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to store or retrieve team items without silver", conn.Account.Name);
+					return;
+				}
+
+				if (storage == null)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their team storage with wrong storage type open.", conn.Account.Name);
+					return;
+				}
+
+				if (!storage.IsBrowsing)
+				{
+					Log.Warning("CZ_WAREHOUSE_CMD: User '{0}' tried to manage their team storage without it being open.", conn.Account.Name);
+					return;
+				}
+
+				if (interaction == StorageInteraction.Store)
+				{
+					var item = inventory.GetItem(worldId);
+					if (item?.Id == ItemId.Silver)
+					{
+						storage.StoreSilver(amount);
+					}
+					else if (storage.StoreItem(worldId, amount) == StorageResult.Success)
+					{
+						inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+					}
+				}
+				else if (interaction == StorageInteraction.Retrieve && storage.RetrieveItem(worldId, amount) == StorageResult.Success)
+				{
+					inventory.Remove(ItemId.Silver, interactionCost, InventoryItemRemoveMsg.Given);
+				}
 			}
 			else
 			{
@@ -1580,11 +1636,20 @@ namespace Melia.Zone.Network
 			{
 				case StorageType.PersonalStorage:
 				{
-					var storage = character.CurrentStorage;
+					var storage = character.CurrentStorage as PersonalStorage;
 
 					var result = storage.TryExtendStorage(PersonalStorage.ExtensionSize);
 					if (result != StorageResult.Success)
 						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their personal storage, but failed ({1}).", conn.Account.Name, result);
+					break;
+				}
+				case StorageType.TeamStorage:
+				{
+					var storage = character.CurrentStorage as TeamStorage;
+
+					var result = storage.TryExtendStorage(TeamStorage.ExtensionSize);
+					if (result != StorageResult.Success)
+						Log.Warning("CZ_EXTEND_WAREHOUSE: User '{0}' tried to extend their team storage, but failed ({1}).", conn.Account.Name, result);
 					break;
 				}
 				default:
@@ -1594,6 +1659,76 @@ namespace Melia.Zone.Network
 					break;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Sent when retrieving multiple items from team storage at once.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_WAREHOUSE_TAKE_LIST)]
+		public void CZ_WAREHOUSE_TAKE_LIST(IZoneConnection conn, Packet packet)
+		{
+			var size = packet.GetShort();
+			var type = (StorageType)packet.GetByte();
+			var itemCount = packet.GetInt();
+			var i0 = packet.GetInt();
+
+			var character = conn.SelectedCharacter;
+
+			if (type == StorageType.TeamStorage)
+			{
+				if (character.CurrentStorage is not TeamStorage storage || !storage.IsBrowsing)
+				{
+					Log.Warning("CZ_WAREHOUSE_TAKE_LIST: User '{0}' tried to manage their team storage without it being open.", conn.Account.Name);
+					return;
+				}
+
+				// Retrieve silver
+				var silverItem = storage.GetSilver();
+
+				for (var i = 0; i < itemCount; i++)
+				{
+					var worldId = packet.GetLong();
+					var amount = packet.GetInt();
+					var i1 = packet.GetInt();
+
+					// Note: For some reason, client may send worldId zero
+					// when trying to retrieve silver.
+					if ((silverItem != null && silverItem.ObjectId == worldId) || worldId == 0)
+					{
+						if (storage.RetrieveSilver(amount) != StorageResult.Success)
+						{
+							// Log.Debug("CZ_WAREHOUSE_TAKE_LIST: User '{0}' failed to retrieve silver {1} with amount {2}.", conn.Account.Name, worldId, amount);
+						}
+					}
+					else if (storage.RetrieveItem(worldId, amount) != StorageResult.Success)
+					{
+						Log.Warning("CZ_WAREHOUSE_TAKE_LIST: User '{0}' failed to retrieve item {1} with amount {2}.", conn.Account.Name, worldId, amount);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Sent when requesting team storage silver transaction history.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_REQ_ACC_WARE_VIS_LOG)]
+		public void CZ_REQ_ACC_WARE_VIS_LOG(IZoneConnection conn, Packet packet)
+		{
+			var character = conn.SelectedCharacter;
+
+			if (character.CurrentStorage is not TeamStorage storage || !storage.IsBrowsing)
+			{
+				Log.Warning("CZ_REQ_ACC_WARE_VIS_LOG: User '{0}' tried to manage their team storage without it being open.", conn.Account.Name);
+				return;
+			}
+
+			var transList = storage.GetSilverTransactions();
+
+			Send.ZC_NORMAL.StorageSilverTransaction(character, transList, true);
 		}
 
 		/// <summary>

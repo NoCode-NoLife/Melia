@@ -75,6 +75,7 @@ namespace Melia.Shared.Network
 			public const int SetSessionKey = 0x14F;
 			public const int ItemDrop = 0x152;
 			public const int NGSCallback = 0x170;
+			public const int StorageSilverTransaction = 0x171;
 			public const int HeadgearVisibilityUpdate = 0x17C;
 			public const int UpdateSkillUI = 0x189;
 			public const int AdventureBook = 0x197;

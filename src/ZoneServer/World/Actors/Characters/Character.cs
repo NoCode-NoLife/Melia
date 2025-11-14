@@ -17,6 +17,7 @@ using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Storage;
+using StorageBase = Melia.Zone.World.Storage.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
@@ -189,7 +190,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Returns the character's account's team storage.
 		/// </summary>
-		public PersonalStorage TeamStorage { get; }
+		public TeamStorage TeamStorage => this.Connection.Account.TeamStorage;
 
 		/// <summary>
 		/// Returns a reference to the character's current storage.
@@ -199,9 +200,9 @@ namespace Melia.Zone.World.Actors.Characters
 		/// to support the dynamic opening of arbitrary storages. If no
 		/// special storage was set, it defaults to the personal storage.
 		/// </remarks>
-		public PersonalStorage CurrentStorage
+		public StorageBase CurrentStorage
 		{
-			get => this.Variables.Temp.Get<PersonalStorage>("Melia.Storage") ?? this.PersonalStorage;
+			get => this.Variables.Temp.Get<StorageBase>("Melia.Storage") ?? this.PersonalStorage;
 			set => this.Variables.Temp.Set("Melia.Storage", value);
 		}
 
@@ -416,7 +417,6 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Init storage after etc, since it uses etc properties
 			this.PersonalStorage = new PersonalStorage(this);
-			this.TeamStorage = new PersonalStorage(this);
 
 			this.AddSessionObjects();
 		}
@@ -1462,6 +1462,24 @@ namespace Melia.Zone.World.Actors.Characters
 
 			// Remove it from the map, so it can't be picked up again.
 			this.Map.RemoveMonster(itemMonster);
+		}
+
+		/// <summary>
+		/// Returns true if the character has silver and has at least the
+		/// requested amount.
+		/// </summary>
+		/// <param name="amount">Amount of silver required.</param>
+		/// <param name="silently">If false, sends a
+		/// "NotEnoughMoney" system message to the character.</param>
+		/// <returns>
+		/// True if the character has enough silver, false otherwise.
+		/// </returns>
+		public bool HasSilver(int amount, bool silently = true)
+		{
+			var hasEnoughSilver = this.Inventory.CountItem(ItemId.Silver) >= amount;
+			if (!hasEnoughSilver && !silently)
+				this.SystemMessage("NotEnoughMoney");
+			return hasEnoughSilver;
 		}
 
 		/// <summary>
