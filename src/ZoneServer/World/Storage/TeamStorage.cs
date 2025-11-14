@@ -1,0 +1,431 @@
+using System;
+using System.Collections.Generic;
+using Melia.Shared.Game.Const;
+using Melia.Zone.Network;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Items;
+
+namespace Melia.Zone.World.Storage
+{
+	/// <summary>
+	/// Team storage of an account.
+	/// </summary>
+	public class TeamStorage : Storage
+	{
+		private int _silver;
+		private readonly int _silverMax;
+		private readonly Queue<StorageSilverTransaction> _silverTransactions;
+		// This is necessary because the client identifies the
+		// silver in storage by its objectId
+		private readonly Item _silverDummyItem;
+		private readonly int _maxSilverTransactions = 5; // Client limit
+		private readonly object _silverLock = new(); // Lock for silver operations
+
+		public const int DefaultSize = 5;
+		public const int ExtensionSize = 1;
+
+		/// <summary>
+		/// Returns the silver transactions in this storage.
+		/// Returns null if no transactions were made.
+		/// </summary>
+		/// <returns></returns>
+		public StorageSilverTransaction[] GetSilverTransactions()
+		{
+			lock (_silverLock)
+			{
+				return _silverTransactions.ToArray();
+			}
+		}
+
+		/// <summary>
+		/// Character that owns this team storage.
+		/// </summary>
+		public Character Owner { get; private set; }
+
+		/// <summary>
+		/// Creates new team storage.
+		/// </summary>
+		/// <param name="owner"></param>
+		public TeamStorage(Character owner) : base()
+		{
+			this.Owner = owner;
+			this.SetStorageSize(DefaultSize);
+
+			_silverDummyItem = new Item(ItemId.Silver);
+			_silverMax = _silverDummyItem.Data.MaxStack;
+			_silverTransactions = new Queue<StorageSilverTransaction>();
+		}
+
+		/// <summary>
+		/// Opens storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <returns></returns>
+		public override StorageResult Open()
+		{
+			this.IsBrowsing = true;
+			this.Owner.CurrentStorage = this;
+
+			Send.ZC_CUSTOM_DIALOG(this.Owner, "accountwarehouse", "");
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Closes storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <returns></returns>
+		public override StorageResult Close()
+		{
+			this.IsBrowsing = false;
+			this.Owner.CurrentStorage = null;
+
+			Send.ZC_DIALOG_CLOSE(this.Owner.Connection);
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Adds an item to storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public override StorageResult StoreItem(long objectId, int amount)
+		{
+			return this.StoreItem(this.Owner, objectId, amount, InventoryType.TeamStorage);
+		}
+
+		/// <summary>
+		/// Retrieves an item from storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <param name="objectId"></param>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public override StorageResult RetrieveItem(long objectId, int amount)
+		{
+			return this.RetrieveItem(this.Owner, objectId, amount, InventoryType.TeamStorage);
+		}
+
+		/// <summary>
+		/// Returns the silver item or null
+		/// if no silver exists
+		/// </summary>
+		/// <returns></returns>
+		public Item GetSilver()
+		{
+			lock (_silverLock)
+			{
+				if (_silver <= 0)
+					return null;
+
+				if (_silverDummyItem == null)
+					return null;
+
+				// Return the dummy item with updated amount
+				// We lock to ensure thread safety when modifying Amount
+				_silverDummyItem.Amount = _silver;
+				return _silverDummyItem;
+			}
+		}
+
+		/// <summary>
+		/// Sets the silver in storage
+		/// </summary>
+		public void SetSilver(int amount)
+		{
+			lock (_silverLock)
+			{
+				_silver = Math.Min(_silverMax, amount);
+			}
+			this.AddSilverTransaction(StorageInteraction.Store, amount);
+		}
+
+		/// <summary>
+		/// Adds a silver transaction to this storage.
+		/// If number of transactions exceed the max, deletes older transactions.
+		/// Does not update client.
+		/// </summary>
+		/// <param name="interaction">Retrieve or Store interaction</param>
+		/// <param name="silverTransacted">Amount of silver</param>
+		/// <param name="silverTotal">If not provided will automatically update total</param>
+		/// <param name="fileTime">If not provided will be set to current time</param>
+		/// <returns></returns>
+		public StorageResult AddSilverTransaction(StorageInteraction interaction, int silverTransacted, int silverTotal = -1, long fileTime = -1)
+		{
+			if ((silverTotal < -1) || (fileTime < -1))
+				return StorageResult.InvalidOperation;
+
+			if ((interaction != StorageInteraction.Store) && (interaction != StorageInteraction.Retrieve))
+				return StorageResult.InvalidOperation;
+
+			lock (_silverLock)
+			{
+				// Adds transaction
+				var transaction = new StorageSilverTransaction();
+				transaction.Interaction = interaction;
+				transaction.SilverTransacted = silverTransacted;
+				transaction.SilverTotal = silverTotal != -1 ? silverTotal : _silver;
+				_silverTransactions.Enqueue(transaction);
+
+				if (_silverTransactions.Count > _maxSilverTransactions)
+				{
+					_silverTransactions.Dequeue();
+				}
+			}
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Stores silver to storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public StorageResult StoreSilver(int amount)
+		{
+			return this.StoreSilver(this.Owner.Connection.SelectedCharacter, amount, InventoryType.TeamStorage);
+		}
+
+		/// <summary>
+		/// Retrieves silver from storage.
+		/// Updates client for owner.
+		/// </summary>
+		/// <param name="amount"></param>
+		/// <returns></returns>
+		public StorageResult RetrieveSilver(int amount)
+		{
+			return this.RetrieveSilver(this.Owner.Connection.SelectedCharacter, amount, InventoryType.TeamStorage);
+		}
+
+		/// <summary>
+		/// Extends the storage by the given size. The operation may fail if
+		/// the owner does not have enough TP.
+		/// </summary>
+		/// <param name="addSize"></param>
+		/// <returns></returns>
+		public StorageResult TryExtendStorage(int addSize)
+		{
+			var account = this.Owner.Connection.Account;
+			var character = this.Owner.Connection.SelectedCharacter;
+
+			var curSize = this.GetStorageSize();
+			var newSize = curSize + addSize;
+
+			var extCost = this.GetExtensionCost(newSize);
+
+			if (!character.HasSilver(extCost, silently: false))
+				return StorageResult.InvalidOperation;
+
+			if (curSize >= ZoneServer.Instance.Conf.World.TeamStorageMaxSize)
+				return StorageResult.InvalidOperation;
+
+			character.Inventory.Remove(ItemId.Silver, extCost, InventoryItemRemoveMsg.Given);
+			this.ModifySize(addSize);
+			account.Properties.Modify(PropertyName.AccountWareHouseExtend, addSize);
+
+			Send.ZC_NORMAL.AccountProperties(character, PropertyName.AccountWareHouseExtend);
+
+			Send.ZC_ADDON_MSG(character, "ACCOUNT_WAREHOUSE_ITEM_LIST", 0, null);
+			Send.ZC_ADDON_MSG(character, "ACCOUNT_UPDATE", 0, null);
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Returns the cost of extending the storage to the given size.
+		/// </summary>
+		/// <param name="newSize"></param>
+		/// <returns></returns>
+		private int GetExtensionCost(int newSize)
+		{
+			// The price increases as the number of total rows increases
+			var addSize = newSize - DefaultSize;
+
+			var baseCost = ZoneServer.Instance.Conf.World.TeamStorageExtCost;
+			var cost = baseCost * addSize;
+
+			return Math.Min(cost, 2000000);
+		}
+
+		/// <summary>
+		/// Adds an amount of silver to storage.
+		/// Updates client.
+		/// </summary>
+		/// <param name="character">Character that is performing interaction</param>
+		/// <param name="amount">Amount of silver to store</param>
+		/// <param name="invType">Storage inventory type</param>
+		/// <returns></returns>
+		private StorageResult StoreSilver(Character character, int amount, InventoryType invType)
+		{
+			if (amount <= 0)
+				return StorageResult.InvalidOperation;
+
+			var inventory = character.Inventory;
+			int actualAmount;
+			Item silverItem;
+
+			lock (_silverLock)
+			{
+				// Transaction limit
+				actualAmount = Math.Min(inventory.CountItem(ItemId.Silver), amount);
+				actualAmount = Math.Min(_silverMax - _silver, actualAmount);
+
+				// Storing
+				inventory.Remove(ItemId.Silver, actualAmount, InventoryItemRemoveMsg.Given);
+				_silver += actualAmount;
+
+				// Use the dummy item for packet (it has the correct ObjectId)
+				// We just need to ensure its Amount is updated
+				_silverDummyItem.Amount = _silver;
+				silverItem = _silverDummyItem;
+			}
+
+			// This packet updates how much silver client knows there is in storage,
+			// even if it is not visible in UI
+			Send.ZC_ITEM_ADD(character, silverItem, 0, actualAmount, InventoryAddType.New, invType);
+
+			// Updates transaction list
+			this.AddSilverTransaction(StorageInteraction.Store, actualAmount);
+			Send.ZC_NORMAL.AccountProperties(character);
+			Send.ZC_NORMAL.StorageSilverTransaction(character, this.GetSilverTransactions(), false);
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Removes an amount of silver from storage.
+		/// Updates client. Thread-safe.
+		/// </summary>
+		/// <param name="character">Character that is performing interaction</param>
+		/// <param name="amount">Amount of silver to retrieve</param>
+		/// <param name="invType">Storage inventory type</param>
+		/// <returns></returns>
+		private StorageResult RetrieveSilver(Character character, int amount, InventoryType invType)
+		{
+			if (amount <= 0)
+				return StorageResult.InvalidOperation;
+
+			var inventory = character.Inventory;
+			int actualAmount;
+			long silverObjectId;
+
+			lock (_silverLock)
+			{
+				if (_silver <= 0)
+					return StorageResult.InvalidOperation;
+
+				// Transaction limit
+				actualAmount = Math.Min(_silver, amount);
+				actualAmount = Math.Min(_silverMax, actualAmount);
+
+				// Retrieving
+				inventory.Add(ItemId.Silver, actualAmount, InventoryAddType.New);
+				_silver -= actualAmount;
+
+				// Get the object ID for the packet
+				silverObjectId = _silverDummyItem.ObjectId;
+			}
+
+			// This packet updates how much silver client knows there is in storage,
+			// even if it is not visible in UI
+			Send.ZC_ITEM_REMOVE(character, silverObjectId, actualAmount, InventoryItemRemoveMsg.Given, invType);
+
+			// Updates transaction list
+			this.AddSilverTransaction(StorageInteraction.Retrieve, actualAmount);
+			Send.ZC_NORMAL.AccountProperties(character);
+			Send.ZC_NORMAL.StorageSilverTransaction(character, this.GetSilverTransactions(), false);
+
+			return StorageResult.Success;
+		}
+
+		/// <summary>
+		/// Gets items in this storage.
+		/// Client expects silver to be in item list of team storage.
+		/// </summary>
+		/// <returns></returns>
+		public override Dictionary<int, Item> GetItems()
+		{
+			// For team storage client expects silver item to be in this
+			// list.
+			var items = new Dictionary<int, Item>();
+
+			// Add silver item at index 0 if exists
+			var silverItem = this.GetSilver();
+			if (silverItem != null)
+			{
+				items[0] = silverItem;
+			}
+
+			// Get normal items
+			var normalItems = base.GetItems();
+
+			// Combine dictionaries, adding normal items after silver
+			foreach (var kvp in normalItems)
+			{
+				if (silverItem != null)
+					items[kvp.Key + 1] = kvp.Value;
+				else
+					items[kvp.Key] = kvp.Value;
+			}
+
+			return items;
+		}
+
+		/// <summary>
+		/// Initializes the size of the storage.
+		/// </summary>
+		public virtual void InitSize()
+		{
+			// My hope was that we would be able to adjust the size of the
+			// storage dynamically, so we could have arbitrary storages of
+			// various sizes that we can access through the personal storage
+			// system. You might have a guid storage, or chests, etc. However,
+			// it seems like the client is not a big fan of trying to resize
+			// the storage up and down on the fly. It's inherently designed
+			// for extension only, and in my attempts to force it to shrink
+			// the storage, I experienced some odd behavior, such as the
+			// client locking up, trying to connect to barrack servers that
+			// don't exist, and refusing to launch afterwards. As such, I'm
+			// going to put a pin in this for now and we'll live with all
+			// storages, including custom ones, having the same size.
+			// I recommend not messing with the sizing too much unless you
+			// want to try to get this working.
+			// -- exec
+
+			this.SetStorageSize(this.GetSavedSize());
+		}
+
+		/// <summary>
+		/// Returns the saved size of the storage.
+		/// </summary>
+		/// <returns></returns>
+		protected virtual int GetSavedSize()
+		{
+			var size = (int)this.Owner.Connection.Account.Properties.GetFloat(PropertyName.MaxAccountWarehouseCount, this.GetStorageSize());
+
+			// Upgrade sizes of storages that were created/extended when there
+			// was a lower default.
+			if (size != ZoneServer.Instance.Conf.World.TeamStorageDefaultSize)
+			{
+				size = ZoneServer.Instance.Conf.World.TeamStorageDefaultSize;
+				this.SetSavedSize(size);
+			}
+
+			return size;
+		}
+
+		/// <summary>
+		/// Sets the saved size of the storage.
+		/// </summary>
+		/// <param name="size"></param>
+		protected virtual void SetSavedSize(int size)
+		{
+			this.Owner.Connection.Account.Properties.SetFloat(PropertyName.MaxAccountWarehouseCount, size);
+		}
+	}
+}

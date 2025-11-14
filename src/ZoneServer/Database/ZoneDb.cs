@@ -195,11 +195,19 @@ namespace Melia.Zone.Database
 			// non-character information, like account properties, have to be
 			// loaded from a different location.
 			character.PersonalStorage.InitSize();
-			character.TeamStorage.InitSize();
 			this.LoadStorage(character.PersonalStorage, "storage_personal", "characterId", character.DbId);
-			this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
 
 			return character;
+		}
+
+		/// <summary>
+		/// Finishes loading data that depends on both Account and Character objects being present.
+		/// </summary>
+		public void AfterLoad(Account account, Character character)
+		{
+			account.TeamStorage = new TeamStorage(character);
+			character.TeamStorage.InitSize();
+			this.LoadStorage(character.TeamStorage, "storage_team", "accountId", character.AccountId);
 		}
 
 		/// <summary>
@@ -696,7 +704,12 @@ namespace Melia.Zone.Database
 
 						var item = new Item(itemId, amount);
 
-						storage.AddAtPosition(item, position, out var addedAmount);
+						if (itemId == ItemId.Silver && storage is TeamStorage teamStorage)
+						{
+							teamStorage.SetSilver(amount);
+						}
+						else
+							storage.AddAtPosition(item, position, out var addedAmount);
 					}
 				}
 			}
