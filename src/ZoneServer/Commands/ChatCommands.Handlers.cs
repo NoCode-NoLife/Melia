@@ -78,6 +78,7 @@ namespace Melia.Zone.Commands
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
 			this.Add("heal", "[hp] [sp] [stamina]", "Heals the character's HP, SP, and Stamina.", this.HandleHeal);
+			this.Add("alive", "", "Revives the character if dead, or fully heals if alive.", this.HandleAlive);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
@@ -1348,7 +1349,7 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Heals the target hp and optionally sp.
+		/// Heals the target hp and optionally sp/stamina.
 		/// If no argument is given, heals fully.
 		/// Can also heal negative values.
 		/// </summary>
@@ -1363,20 +1364,24 @@ namespace Melia.Zone.Commands
 			if (args.Count > 3)
 				return CommandResult.InvalidArgument;
 
+			if (target.IsDead)
+				return CommandResult.Okay;
+
 			// TODO: Maybe refactor to take indexed arguments, named
 			//   ones, or combinations, so you can, for example, heal
 			//   stamina without specifying HP and SP like so:
 			//   >heal sp:10
 
-			// Fully heal HP and SP if no arguments are given
+			// Fully heal HP, SP and Stamina if no arguments are given
 			if (args.Count == 0)
 			{
 				target.ModifyHp(target.MaxHp);
 				target.ModifySp(target.MaxSp);
+				target.ModifyStamina(target.MaxStamina);
 
-				sender.ServerMessage(Localization.Get("Healed HP and SP."));
+				sender.ServerMessage(Localization.Get("Healed HP, SP and Stamina."));
 				if (sender != target)
-					target.ServerMessage(Localization.Get("Your HP and SP were healed by {0}."), sender.TeamName);
+					target.ServerMessage(Localization.Get("Your HP, SP and Stamina were healed by {0}."), sender.TeamName);
 			}
 			// Modify only HP if one argument is given
 			else if (args.Count == 1)
@@ -1430,6 +1435,40 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Healed HP by {0}, SP by {1}, and Stamina by {2} points."), hpAmount, spAmount, staminaAmount);
 				if (sender != target)
 					target.ServerMessage(Localization.Get("{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points."), sender.TeamName, hpAmount, spAmount, staminaAmount);
+			}
+
+			if (target.Hp == 0)
+			{
+				// Commit sudoku
+				sender.Kill(target);
+			}
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Revives the character if dead, or fully heals if alive.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleAlive(Character sender, Character target, string message, string command, Arguments
+		args)
+		{
+			if (target.IsDead)
+			{
+				// Revive in place like soul crystal
+				target.Resurrect(ResurrectOptions.TryAgain);
+			}
+			else
+			{
+				// Fully heal HP, SP and Stamina
+				target.ModifyHp(target.MaxHp);
+				target.ModifySp(target.MaxSp);
+				target.ModifyStamina(target.MaxStamina);
 			}
 
 			return CommandResult.Okay;
