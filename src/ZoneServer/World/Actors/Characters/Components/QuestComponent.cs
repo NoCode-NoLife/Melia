@@ -5,6 +5,8 @@ using Melia.Shared.Scripting;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Quests;
+using Melia.Zone.World.Quests.Modifiers;
+using Melia.Zone.World.Quests.Objectives;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
 
@@ -108,6 +110,22 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Gets quest by id and returns it via out, returns false if the
+		/// quest didn't exist.
+		/// </summary>
+		/// <param name="questId"></param>
+		/// <param name="quest"></param>
+		/// <returns></returns>
+		public bool TryGetById(QuestId questId, out Quest quest)
+		{
+			lock (_syncLock)
+			{
+				quest = _quests.FirstOrDefault(a => a.Data.Id == questId);
+				return quest != null;
+			}
+		}
+
+		/// <summary>
 		/// Returns a list of all active quests.
 		/// </summary>
 		/// <returns></returns>
@@ -172,6 +190,32 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					{
 						quest.UpdateUnlock();
 						this.UpdateClient_UpdateQuest(quest);
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Iterates over the quests' modifiers, runs the given function
+		/// over all modifiers with the given type, and updates the quest
+		/// if any progresses changed.
+		/// </summary>
+		/// <typeparam name="TModifier"></typeparam>
+		/// <param name="updater"></param>
+		public void UpdateModifiers<TModifier>(QuestModifiersUpdateFunc<TModifier> updater) where TModifier : QuestModifier
+		{
+			lock (_syncLock)
+			{
+				foreach (var quest in _quests)
+				{
+					if (quest.Status != QuestStatus.InProgress)
+						continue;
+
+					quest.UpdateModifiers(updater);
+
+					if (quest.ChangesOnLastUpdate)
+					{
+						quest.UpdateUnlock();
 					}
 				}
 			}
@@ -393,12 +437,21 @@ namespace Melia.Zone.World.Actors.Characters.Components
 					if (!progress.Done)
 					{
 						progress.SetDone();
+						quest.UpdateUnlock();
 						this.UpdateClient_UpdateQuest(quest);
 						continue;
 					}
 				}
 			}
 		}
+
+		/// <summary>
+		/// Completes the objective on all quests with the given id.
+		/// </summary>
+		/// <param name="questId"></param>
+		/// <param name="objectiveIdent"></param>
+		public void CompleteObjective(QuestId questId, string objectiveIdent)
+			=> this.Complete(questId, objectiveIdent);
 
 		/// <summary>
 		/// Completes all quests with the given id and gives the rewards
@@ -616,10 +669,40 @@ namespace Melia.Zone.World.Actors.Characters.Components
 
 			var questTable = new LuaTable();
 
+			// Convert map class name(s) to display name(s)
+			string locationName = null;
+			if (!string.IsNullOrEmpty(quest.Data.Location))
+			{
+				var mapClassNames = quest.Data.Location.Split(',');
+				var mapNames = new List<string>();
+
+				foreach (var mapClassName in mapClassNames)
+				{
+					var trimmedClassName = mapClassName.Trim();
+					if (ZoneServer.Instance.World.TryGetMap(trimmedClassName, out var map))
+						mapNames.Add(map.Data.Name);
+					else
+						mapNames.Add(trimmedClassName);
+				}
+
+				locationName = string.Join(", ", mapNames);
+			}
+
+			// Convert quest giver map class name to display name
+			string questGiverLocationName = null;
+			if (!string.IsNullOrEmpty(quest.Data.QuestGiverLocation))
+			{
+				if (ZoneServer.Instance.World.TryGetMap(quest.Data.QuestGiverLocation, out var map))
+					questGiverLocationName = map.Data.Name;
+				else
+					questGiverLocationName = quest.Data.QuestGiverLocation;
+			}
+
 			questTable.Insert("ObjectId", "0x" + quest.ObjectId.ToString("X16"));
 			questTable.Insert("ClassId", "0x" + quest.Data.Id.Value.ToString("X16"));
 			questTable.Insert("Name", quest.Data.Name);
 			questTable.Insert("Description", quest.Data.Description);
+			questTable.Insert("Location", locationName);
 			questTable.Insert("Type", quest.Data.Type.ToString());
 			questTable.Insert("Level", quest.Data.Level);
 			questTable.Insert("Status", quest.Status.ToString());
@@ -628,6 +711,14 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			questTable.Insert("Tracked", quest.Tracked);
 			questTable.Insert("Objectives", objectivesTable);
 			questTable.Insert("Rewards", rewardsTable);
+
+			// Add quest giver information if available
+			if (!string.IsNullOrEmpty(quest.Data.StartNpcUniqueName))
+				questTable.Insert("QuestGiver", quest.Data.StartNpcUniqueName);
+
+			// Add quest giver location if available
+			if (!string.IsNullOrEmpty(questGiverLocationName))
+				questTable.Insert("QuestGiverLocation", questGiverLocationName);
 
 			return questTable;
 		}
@@ -652,6 +743,31 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				objectiveTable.Insert("Done", progress.Done);
 				objectiveTable.Insert("Count", progress.Count);
 				objectiveTable.Insert("TargetCount", objective.TargetCount);
+
+				// Add monster names for collection objectives with drop modifiers
+				if (objective is CollectItemObjective collectObjective)
+				{
+					var monsterNames = new List<string>();
+					foreach (var modifier in quest.Data.Modifiers)
+					{
+						if (modifier is ItemDropModifier dropModifier && dropModifier.ItemId == collectObjective.ItemId)
+						{
+							foreach (var monsterId in dropModifier.MonsterIds)
+							{
+								if (ZoneServer.Instance.Data.MonsterDb.TryFind(monsterId, out var monsterData))
+									monsterNames.Add(monsterData.Name);
+							}
+						}
+					}
+
+					if (monsterNames.Count > 0)
+					{
+						var monstersTable = new LuaTable();
+						foreach (var monsterName in monsterNames)
+							monstersTable.Insert(monsterName);
+						objectiveTable.Insert("Monsters", monstersTable);
+					}
+				}
 
 				objectivesTable.Insert(objectiveTable);
 			}
