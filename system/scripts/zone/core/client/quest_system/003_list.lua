@@ -1,11 +1,3 @@
-local QuestIcons = {
-	Main = "MAIN",
-	Sub = "SUB",
-	Repeat = "REPEAT",
-	Party = "PARTY",
-	KeyItem = "except",
-}
-
 function M_QUESTS_SET_NAME(questCtrl, quest)
 	local txtName = GET_CHILD(questCtrl, "name", "ui::CRichText")
 	local lvlText = GET_CHILD(questCtrl, "level", "ui::CRichText")
@@ -24,11 +16,7 @@ function M_QUESTS_SET_ICON(questCtrl, quest)
 	else
 		questmark:EnableHitTest(1)
 		questmark:SetTextTooltip("{@st59}The quest's objectives have been cleared.{/}")
-	end
-
-	if QuestIcons[quest.Type] then
-		local nr = quest.Done and 3 or 1
-		iconName = "minimap_" .. nr .. "_" .. QuestIcons[quest.Type]
+		iconName = "minimap_1_MAIN"
 	end
 
 	questmark:SetImage(iconName)
