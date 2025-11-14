@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Items;
@@ -63,6 +64,15 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public override StorageResult Open()
 		{
+			var minLevel = ZoneServer.Instance.Conf.World.TeamStorageMinimumLevelRequired;
+
+			// Check if character meets the minimum level requirement
+			if (this.Owner.Level < minLevel)
+			{
+				this.Owner.ServerMessage(Localization.Get("You must be at least level {0} to access team storage."), minLevel);
+				return StorageResult.InvalidOperation;
+			}
+
 			this.IsBrowsing = true;
 			this.Owner.CurrentStorage = this;
 
@@ -213,6 +223,16 @@ namespace Melia.Zone.World.Storage
 			var account = this.Owner.Connection.Account;
 			var character = this.Owner.Connection.SelectedCharacter;
 
+			// Check if player has reached the maximum number of silver expansions
+			var currentExtensions = (int)account.Properties.GetFloat(PropertyName.AccountWareHouseExtend, 0);
+			var maxSilverExpands = ZoneServer.Instance.Conf.World.TeamStorageMaxSilverExpands;
+
+			if (currentExtensions >= maxSilverExpands)
+			{
+				character.ServerMessage(Localization.Get("You have reached the maximum number of silver expansions ({0}). Use other methods to expand further."), maxSilverExpands);
+				return StorageResult.InvalidOperation;
+			}
+
 			var curSize = this.GetStorageSize();
 			var newSize = curSize + addSize;
 
@@ -228,7 +248,8 @@ namespace Melia.Zone.World.Storage
 			this.ModifySize(addSize);
 			account.Properties.Modify(PropertyName.AccountWareHouseExtend, addSize);
 
-			Send.ZC_NORMAL.AccountProperties(character, PropertyName.AccountWareHouseExtend);
+			// Send updated properties to client
+			Send.ZC_NORMAL.AccountProperties(character, PropertyName.AccountWareHouseExtend, PropertyName.BasicAccountWarehouseSlotCount);
 
 			Send.ZC_ADDON_MSG(character, "ACCOUNT_WAREHOUSE_ITEM_LIST", 0, null);
 			Send.ZC_ADDON_MSG(character, "ACCOUNT_UPDATE", 0, null);
@@ -243,11 +264,19 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		private int GetExtensionCost(int newSize)
 		{
-			// The price increases as the number of total rows increases
-			var addSize = newSize - DefaultSize;
-
+			var account = this.Owner.Connection.Account;
 			var baseCost = ZoneServer.Instance.Conf.World.TeamStorageExtCost;
-			var cost = baseCost * addSize;
+
+			// Get the number of extensions already purchased
+			var currentExtensions = (int)account.Properties.GetFloat(PropertyName.AccountWareHouseExtend, 0);
+
+			// Cost doubles with each expansion
+			// 1st expansion (currentExtensions = 0): baseCost * 2^0 = 200k
+			// 2nd expansion (currentExtensions = 1): baseCost * 2^1 = 400k
+			// 3rd expansion (currentExtensions = 2): baseCost * 2^2 = 800k
+			// 4th expansion (currentExtensions = 3): baseCost * 2^3 = 1.6m
+			// 5th+ expansion: capped at 2m
+			var cost = baseCost * (int)Math.Pow(2, currentExtensions);
 
 			return Math.Min(cost, 2000000);
 		}
@@ -406,26 +435,47 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		protected virtual int GetSavedSize()
 		{
-			var size = (int)this.Owner.Connection.Account.Properties.GetFloat(PropertyName.MaxAccountWarehouseCount, this.GetStorageSize());
+			var account = this.Owner.Connection.Account;
+			var defaultSize = ZoneServer.Instance.Conf.World.TeamStorageDefaultSize;
 
-			// Upgrade sizes of storages that were created/extended when there
-			// was a lower default.
-			if (size != ZoneServer.Instance.Conf.World.TeamStorageDefaultSize)
+			// NOTE: The client's GetAccountWarehouseSlotCount() function adds +1 to the slot count
+			// it displays (formula: BasicAccountWarehouseSlotCount + AccountWareHouseExtend + 1).
+			// To make the client display the correct number of slots as configured, we need to
+			// subtract 1 from the default size when setting BasicAccountWarehouseSlotCount.
+			//
+			// Example with team_storage_default_size = 5:
+			//   Server internal storage: 5 slots (can store 5 items)
+			//   BasicAccountWarehouseSlotCount: 4 (what we tell the client)
+			//   Client displays: 4 + 0 + 1 = 5 slots ✓ Correct!
+
+			// The client property needs to be defaultSize - 1
+			var clientBaseSlots = Math.Max(0, defaultSize - 1);
+
+			// Get the current BasicAccountWarehouseSlotCount property
+			var currentClientSlots = (int)account.Properties.GetFloat(PropertyName.BasicAccountWarehouseSlotCount, 0);
+
+			// If BasicAccountWarehouseSlotCount hasn't been set yet, initialize it
+			if (currentClientSlots == 0)
 			{
-				size = ZoneServer.Instance.Conf.World.TeamStorageDefaultSize;
-				this.SetSavedSize(size);
+				currentClientSlots = clientBaseSlots;
+				account.Properties.SetFloat(PropertyName.BasicAccountWarehouseSlotCount, clientBaseSlots);
 			}
 
-			return size;
-		}
+			// Get the number of extensions purchased
+			var extensions = (int)account.Properties.GetFloat(PropertyName.AccountWareHouseExtend, 0);
 
-		/// <summary>
-		/// Sets the saved size of the storage.
-		/// </summary>
-		/// <param name="size"></param>
-		protected virtual void SetSavedSize(int size)
-		{
-			this.Owner.Connection.Account.Properties.SetFloat(PropertyName.MaxAccountWarehouseCount, size);
+			// Server's actual storage size = what the client WOULD show (before the +1)
+			// This gives us the correct number of usable slots
+			var totalSize = currentClientSlots + extensions + 1;
+
+			// Upgrade base slots if config default has increased
+			if (currentClientSlots < clientBaseSlots)
+			{
+				account.Properties.SetFloat(PropertyName.BasicAccountWarehouseSlotCount, clientBaseSlots);
+				totalSize = clientBaseSlots + extensions + 1;
+			}
+
+			return totalSize;
 		}
 	}
 }

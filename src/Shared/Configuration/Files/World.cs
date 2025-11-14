@@ -71,6 +71,7 @@ namespace Melia.Shared.Configuration.Files
 		public int TeamStorageFee { get; protected set; }
 		public int TeamStorageDefaultSize { get; protected set; }
 		public int TeamStorageExtCost { get; protected set; }
+		public int TeamStorageMaxSilverExpands { get; protected set; }
 		public int TeamStorageMaxSize { get; protected set; }
 		public int TeamStorageMinimumLevelRequired { get; protected set; }
 
@@ -131,6 +132,7 @@ namespace Melia.Shared.Configuration.Files
 			this.TeamStorageFee = this.GetInt("team_storage_fee", 0);
 			this.TeamStorageDefaultSize = this.GetInt("team_storage_default_size", 5);
 			this.TeamStorageExtCost = this.GetInt("team_storage_ext_cost", 200000);
+			this.TeamStorageMaxSilverExpands = this.GetInt("team_storage_max_silver_expands", 9);
 			this.TeamStorageMaxSize = this.GetInt("team_storage_max_size", 70);
 			this.TeamStorageMinimumLevelRequired = this.GetInt("team_storage_min_level_req", 15);
 
