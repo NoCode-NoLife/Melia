@@ -14,7 +14,7 @@ public class FOrchard324NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(156037, "", "f_orchard_32_4", 1402.254, 135.6041, 557.9661, 0, "f_orchard_32_4_wheel");
-		AddTrackNPC(156038, "", "f_orchard_32_4", -333.8946, 19.81506, 796.1085, 90, "f_orchard_32_4_elt");
+		AddTrackNPC(156037, "", "f_orchard_32_4", 1402.254, 135.6041, 557.9661, 0, "f_orchard_32_4_wheel", 2, 1);
+		AddTrackNPC(156038, "", "f_orchard_32_4", -333.8946, 19.81506, 796.1085, 90, "f_orchard_32_4_elt", 2, 1);
 	}
 }

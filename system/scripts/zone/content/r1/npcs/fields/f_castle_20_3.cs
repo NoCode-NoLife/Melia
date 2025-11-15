@@ -14,6 +14,6 @@ public class FCastle203NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(157030, "", "f_castle_20_3", 467.1729, 139.2464, -586.9828, 0, "f_castle_20_3_elt");
+		AddTrackNPC(157030, "", "f_castle_20_3", 467.1729, 139.2464, -586.9828, 0, "f_castle_20_3_elt", 2, 1);
 	}
 }

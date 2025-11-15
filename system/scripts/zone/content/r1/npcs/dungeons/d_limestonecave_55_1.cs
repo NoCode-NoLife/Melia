@@ -14,6 +14,6 @@ public class DLimestonecave551NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(154099, "", "d_limestonecave_55_1", 1227.525, 151.018, 529.8058, 16, "d_limestonecave_55_1_elt");
+		AddTrackNPC(154099, "", "d_limestonecave_55_1", 1227.525, 151.018, 529.8058, 16, "d_limestonecave_55_1_elt", 2, 1);
 	}
 }

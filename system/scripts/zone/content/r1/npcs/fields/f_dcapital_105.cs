@@ -14,6 +14,6 @@ public class FDcapital105NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153231, "", "f_dcapital_105", -264.1042, 111.0862, -237.836, 0, "f_dcapital_105_elt");
+		AddTrackNPC(153231, "", "f_dcapital_105", -264.1042, 111.0862, -237.836, 0, "f_dcapital_105_elt", 2, 1);
 	}
 }

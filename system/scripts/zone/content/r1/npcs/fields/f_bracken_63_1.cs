@@ -14,6 +14,6 @@ public class FBracken631NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153107, "", "f_bracken_63_1", -268.1401, 544.2999, 995.2676, 21, "f_bracken_63_1_elt", 3);
+		AddTrackNPC(153107, "", "f_bracken_63_1", -268.1401, 544.2999, 995.2676, 21, "f_bracken_63_1_elt", 3, 2);
 	}
 }

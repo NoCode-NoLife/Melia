@@ -14,6 +14,6 @@ public class FWhitetrees561NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(157038, "", "f_whitetrees_56_1", 1384.889, 68.06953, 243.3077, 10, "f_whitetrees_56_1_elt");
+		AddTrackNPC(157038, "", "f_whitetrees_56_1", 1384.889, 68.06953, 243.3077, 10, "f_whitetrees_56_1_elt", 2, 1);
 	}
 }

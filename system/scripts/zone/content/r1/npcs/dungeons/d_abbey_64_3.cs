@@ -14,6 +14,6 @@ public class DAbbey643NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153114, "", "d_abbey_64_3", -1155.956, 411.8994, -1264.598, 90, "d_abbey_64_3_elt");
+		AddTrackNPC(153114, "", "d_abbey_64_3", -1155.956, 411.8994, -1264.598, 90, "d_abbey_64_3_elt", 2, 1);
 	}
 }

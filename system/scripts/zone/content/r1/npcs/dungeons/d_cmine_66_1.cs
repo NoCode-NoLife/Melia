@@ -14,6 +14,6 @@ public class DCmine661NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(155110, "", "d_cmine_66_1", 77.5127, 413.2733, -77.08086, 0, "d_cmine_66_1_elt");
+		AddTrackNPC(155110, "", "d_cmine_66_1", 77.5127, 413.2733, -77.08086, 0, "d_cmine_66_1_elt", 2, 1);
 	}
 }

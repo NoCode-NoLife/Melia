@@ -14,6 +14,6 @@ public class FFlash63NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(147427, "", "f_flash_63", 897.8192, 233.7511, 654.0224, 1, "flash_elevator");
+		AddTrackNPC(147427, "", "f_flash_63", 897.8192, 233.7511, 654.0224, 357.82477, "flash_elevator", 2, 1);
 	}
 }

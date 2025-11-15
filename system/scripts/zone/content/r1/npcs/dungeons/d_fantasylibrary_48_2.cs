@@ -14,6 +14,6 @@ public class DFantasylibrary482NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(157051, "", "d_fantasylibrary_48_2", 60.01674, 69.90582, -182.7349, 0, "d_fantasylibrary_48_2_elt");
+		AddTrackNPC(157051, "", "d_fantasylibrary_48_2", 60.01674, 69.90582, -182.7349, 90, "d_fantasylibrary_48_2_elt", 2, 1);
 	}
 }

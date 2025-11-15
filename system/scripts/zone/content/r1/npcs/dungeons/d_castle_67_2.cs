@@ -14,7 +14,7 @@ public class DCastle672NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153130, "", "d_castle_67_2", -741.084, 95.06264, 125.5274, 0, "d_castle_67_2_elt");
-		AddTrackNPC(153130, "", "d_castle_67_2", -865.5137, 93.15315, -926.0688, 0, "d_castle_67_2_elt2");
+		AddTrackNPC(153130, "", "d_castle_67_2", -741.084, 95.06264, 125.5274, 0, "d_castle_67_2_elt", 3, 2);
+		AddTrackNPC(153130, "", "d_castle_67_2", -865.5137, 93.15315, -926.0688, 16, "d_castle_67_2_elt2", 3, 2);
 	}
 }

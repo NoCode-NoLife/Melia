@@ -14,6 +14,6 @@ public class DPrison622NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(154058, "", "d_prison_62_2", 5.702232, -707.8696, -1245.999, 0, "d_prison_62_2_elt");
+		AddTrackNPC(154058, "", "d_prison_62_2", 5.702232, -707.8696, -1245.999, 0, "d_prison_62_2_elt", 2, 1);
 	}
 }

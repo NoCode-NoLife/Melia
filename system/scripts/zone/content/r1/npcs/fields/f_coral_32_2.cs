@@ -14,6 +14,6 @@ public class FCoral322NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(157003, "", "f_coral_32_2", -641.0241, -36.33413, 1405.18, 0, "f_coral_32_2_elt");
+		AddTrackNPC(157003, "", "f_coral_32_2", -641.0241, -36.33413, 1405.18, 21, "f_coral_32_2_elt", 3, 2);
 	}
 }

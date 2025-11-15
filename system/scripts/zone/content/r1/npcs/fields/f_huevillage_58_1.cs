@@ -14,6 +14,6 @@ public class FHuevillage581NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153008, "", "f_huevillage_58_1", 638.2, 129.74, 468.58, 0, "f_huevillage58_1_cablecar");
+		AddTrackNPC(153008, "", "f_huevillage_58_1", 638.2, 129.74, 468.58, 0, "f_huevillage58_1_cablecar", 2, 5);
 	}
 }

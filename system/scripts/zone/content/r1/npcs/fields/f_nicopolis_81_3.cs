@@ -14,6 +14,6 @@ public class FNicopolis813NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(153233, "", "f_nicopolis_81_3", -372.14, -117.52, -888.32, 0, "f_nicopolis_81_3_elt");
+		AddTrackNPC(153233, "", "f_nicopolis_81_3", -372.14, -157.52, -888.32, 1, "f_nicopolis_81_3_elt", 4, 1);
 	}
 }

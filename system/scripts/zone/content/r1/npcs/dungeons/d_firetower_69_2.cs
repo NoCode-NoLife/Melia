@@ -14,6 +14,6 @@ public class DFiretower692NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		AddTrackNPC(157026, "", "d_firetower_69_2", -757.8323, 85.4979, 728.7798, 0, "d_firetower_69_2_elt");
+		AddTrackNPC(157026, "", "d_firetower_69_2", -757.8323, 85.4979, 728.7798, 45, "d_firetower_69_2_elt", 2, 1);
 	}
 }
