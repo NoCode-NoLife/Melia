@@ -14,10 +14,9 @@ public class DFiretower691NpcScript : GeneralScript
 	{
 		// Track NPCs
 		//---------------------------------------------------------------------------
-		// TODO: Check rotation
-		// AddTrackNPC(154081, "", "d_firetower_69_1", -1674.647, 0, -1202.516, 3.571429, "d_firetower_69_1_elt");
-		// AddTrackNPC(154081, "", "d_firetower_69_1", -1535.553, 0, -1129.915, 0, "d_firetower_69_1_elt");
-		// AddTrackNPC(154083, "", "d_firetower_69_1", -1689.049, 0, -965.8168, 0, "d_firetower_69_1_elt");
-		// AddTrackNPC(154083, "", "d_firetower_69_1", -1553.533, 0, -910.1417, 0, "d_firetower_69_1_elt");
+		AddTrackNPC(154081, "", "d_firetower_69_1", -1674.647, -875.7016, -1202.516, 1, "d_firetower_69_1_elt", 2, 1);
+		AddTrackNPC(154081, "", "d_firetower_69_1", -1535.553, -878.40466, -1129.915, 1, "d_firetower_69_1_elt", 3, 1);
+		AddTrackNPC(154083, "", "d_firetower_69_1", -1689.049, -873.08508, -965.8168, 1, "d_firetower_69_1_elt", 4, 1);
+		AddTrackNPC(154083, "", "d_firetower_69_1", -1553.533, -880.21301, -910.1417, 182, "d_firetower_69_1_elt", 5, 1);
 	}
 }
