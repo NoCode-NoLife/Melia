@@ -957,6 +957,9 @@ namespace Melia.Zone.World.Actors.Characters
 							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
 					}
 
+					if (monster is Actor actor)
+						actor.Effects.ShowEffects(this.Connection);
+
 					if (monster is ICombatEntity entity)
 					{
 						Send.ZC_FACTION(this.Connection, monster, entity.Faction);
@@ -999,6 +1002,8 @@ namespace Melia.Zone.World.Actors.Characters
 							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
 					}
 
+					character.Effects.ShowEffects(this.Connection);
+
 					if (character.Components.Get<BuffComponent>()?.Count != 0)
 						Send.ZC_BUFF_LIST(this.Connection, character);
 				}
@@ -1039,6 +1044,20 @@ namespace Melia.Zone.World.Actors.Characters
 				_visibleMonsters = [];
 				_visibleCharacters = [];
 			}
+		}
+
+		/// <summary>
+		/// Returns if a character can see an actor.
+		/// </summary>
+		public bool CanSee(IActor actor)
+		{
+			if (actor.Visibility == ActorVisibility.Always)
+				return true;
+			if (actor == null)
+				return false;
+			if (!this.Position.InRange2D(actor.Position, Maps.Map.VisibleRange))
+				return false;
+			return true;
 		}
 
 		/// <summary>

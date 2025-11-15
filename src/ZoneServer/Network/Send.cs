@@ -4550,5 +4550,27 @@ namespace Melia.Zone.Network
 
 			toActor.Map.Broadcast(packet);
 		}
+
+		/// <summary>
+		/// Sends ZC_DIRECTION_APC packet to initialize track animation.
+		/// </summary>
+		/// <param name="conn">The connection to send to.</param>
+		/// <param name="actor">The actor to animate.</param>
+		/// <param name="packetStringId">The packet string ID for the track.</param>
+		/// <param name="i1">Track start index.</param>
+		/// <param name="i2">Track end index.</param>
+		/// <param name="f1">Time parameter.</param>
+		public static void ZC_DIRECTION_APC(IZoneConnection conn, IActor actor, int packetStringId, int i1, int i2, float f1)
+		{
+			var packet = new Packet(Op.ZC_DIRECTION_APC);
+
+			packet.PutInt(actor.Handle);
+			packet.PutInt(packetStringId);
+			packet.PutInt(i1);
+			packet.PutInt(i2);
+			packet.PutFloat(f1);
+
+			conn.Send(packet);
+		}
 	}
 }
