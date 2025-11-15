@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Melia.Shared.Network;
@@ -55,6 +56,11 @@ namespace Melia.Zone.World
 		/// Returns the world's global variables manager.
 		/// </summary>
 		public GlobalVariables GlobalVariables { get; } = new();
+
+		/// <summary>
+		/// Returns the world's running time for animation synchronization.
+		/// </summary>
+		public Stopwatch WorldTime { get; } = new Stopwatch();
 
 		/// <summary>
 		/// Returns a new handle to be used for a character or monster.
@@ -135,6 +141,7 @@ namespace Melia.Zone.World
 		/// </summary>
 		internal void Start()
 		{
+			this.WorldTime.Start();
 			this.Heartbeat.Start();
 		}
 
