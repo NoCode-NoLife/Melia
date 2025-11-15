@@ -56,20 +56,6 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
-		/// Adds an effect with a specific name.
-		/// </summary>
-		/// <param name="effectName">The name to identify the effect.</param>
-		/// <param name="effect">The effect to add.</param>
-		public void AddEffect(string effectName, Effect effect)
-		{
-			lock (_effects)
-			{
-				_effects.Add(effectName, effect);
-				this.BroadcastEffectAddition(effect);
-			}
-		}
-
-		/// <summary>
 		/// Sends an effect to all players that can currently see the owner.
 		/// </summary>
 		/// <param name="effect">The effect to show.</param>

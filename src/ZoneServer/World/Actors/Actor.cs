@@ -129,16 +129,6 @@ namespace Melia.Zone.World.Actors
 		{
 			this.Effects.AddEffect(effect);
 		}
-
-		/// <summary>
-		/// Adds a named effect to the actor.
-		/// </summary>
-		/// <param name="effectName">The name to identify the effect.</param>
-		/// <param name="effect">The effect to add.</param>
-		public void AddEffect(string effectName, Effect effect)
-		{
-			this.Effects.AddEffect(effectName, effect);
-		}
 	}
 
 	/// <summary>
