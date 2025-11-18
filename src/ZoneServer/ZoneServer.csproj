@@ -26,6 +26,6 @@
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
     <PackageReference Include="geometry3Sharp" Version="1.0.324" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
   </ItemGroup>
 </Project>
