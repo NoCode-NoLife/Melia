@@ -35,7 +35,7 @@ public class KlaipeQuestNpcsScript : GeneralScript
 					return;
 				}
 
-				var variableKey = $"Laima.Quests.Quest1002.KlaipePlantSample{sampleNumber}";
+				var variableKey = $"Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample{sampleNumber}";
 				var collected = character.Variables.Perm.GetBool(variableKey, false);
 
 				if (collected)
@@ -267,130 +267,6 @@ public class KlaipeQuestNpcsScript : GeneralScript
 				}
 			});
 
-		// Merchant Guild Representative Anastasia
-		//-------------------------------------------------------------------------
-		AddNpc(20104, "[Merchant Guild] Anastasia", "c_Klaipe", -495, 45, 45, async dialog =>
-		{
-			var character = dialog.Player;
-			var questId = new QuestId("Klaipeda", 1004);
-
-			dialog.SetTitle("Anastasia");
-
-			if (!character.Quests.Has(questId))
-			{
-				await dialog.Msg("The Merchant Guild is working to reestablish trade routes between the three great cities.");
-				await dialog.Msg("Klaipeda, Orsha, and Fedimian were once connected by thriving commerce. Now... we barely communicate.");
-
-				if (await dialog.YesNo("I need a reliable courier to deliver trade proposals to my counterparts in Orsha and Fedimian. Would you be willing to travel between the cities?"))
-				{
-					character.Quests.Start(questId);
-					await dialog.Msg("Splendid! Here are sealed letters for the guild representatives in both cities.");
-					await dialog.Msg("Deliver them personally - don't trust these to random messengers. The future of our economy depends on reopening these trade routes.");
-
-					// Give quest items
-					character.Inventory.Add(663220, 1, InventoryAddType.PickUp); // Letter to Orsha
-					character.Inventory.Add(663221, 1, InventoryAddType.PickUp); // Letter to Fedimian
-				}
-				else
-				{
-					await dialog.Msg("I understand. It's quite a journey. If you change your mind, the guild would compensate you well.");
-				}
-			}
-			else if (character.Quests.IsActive(questId))
-			{
-				var hasOrshaLetter = character.Inventory.HasItem(663220);
-				var hasFedimianLetter = character.Inventory.HasItem(663221);
-				var deliveredOrsha = character.Variables.Perm.GetBool("Laima.Quests.Quest1004.DeliveredOrshaLetter", false);
-				var deliveredFedimian = character.Variables.Perm.GetBool("Laima.Quests.Quest1004.DeliveredFedimianLetter", false);
-
-				if (deliveredOrsha && deliveredFedimian)
-				{
-					await dialog.Msg("You've delivered both letters! The responses are... cautiously optimistic.");
-					await dialog.Msg("Orsha is willing to resume grain shipments, and Fedimian will provide academic resources. It's a start!");
-					await dialog.Msg("Here's your payment, plus a bonus. You've helped lay the foundation for economic recovery across all three cities.");
-
-					character.Quests.Complete(questId);
-				}
-				else
-				{
-					var status = "";
-					if (!deliveredOrsha && !deliveredFedimian)
-						status = "You still need to deliver letters to both Orsha and Fedimian.";
-					else if (!deliveredOrsha)
-						status = "You've delivered to Fedimian. Now deliver to the Orsha guild representative - Rose.";
-					else
-						status = "You've delivered to Orsha. Now deliver to the Fedimian guild representative - Anne.";
-
-					await dialog.Msg(status);
-					await dialog.Msg("Remember - deliver them personally to the guild representatives in each city.");
-				}
-			}
-			else if (character.Quests.HasCompleted(questId))
-			{
-				await dialog.Msg("Thanks to your deliveries, trade is slowly resuming between our cities.");
-				await dialog.Msg("It'll take time to return to pre-war prosperity, but at least we're moving in the right direction.");
-			}
-		});
-
-		// Mayor of Klaipeda - Unity Summit Quest (Fedimian/3003)
-		//-------------------------------------------------------------------------
-		AddNpc(155016, "[Mayor] Oswald", "c_Klaipe", -435, 151, 45, async dialog =>
-		{
-			var character = dialog.Player;
-			var unitySummitQuestId = new QuestId("Fedimian", 3003);
-
-			dialog.SetTitle("Mayor Oswald");
-
-			if (character.Quests.IsActive(unitySummitQuestId))
-			{
-				var deliveredKlaipeda = character.Variables.Perm.GetBool("Laima.Quests.Quest3003.DeliveredKlaipedaContract", false);
-
-				if (deliveredKlaipeda)
-				{
-					await dialog.Msg("I've already signed the cooperation contract. Deliver it to Agatha in Fedimian.");
-					await dialog.Msg("Klaipeda is ready to work with the other cities for our mutual prosperity.");
-				}
-				else if (character.Inventory.HasItem(650633))
-				{
-					await dialog.Msg("A cooperation contract from Fedimian? Let me see...");
-					await dialog.Msg("{#666666}*He reads the contract carefully*{/}");
-					await dialog.Msg("A Unity Summit to establish cooperation between our three cities? Interesting...");
-					await dialog.Msg("Klaipeda has much to gain from renewed trade and cooperation. We need resources, knowledge, and allies.");
-					await dialog.Msg("Tell Agatha that Klaipeda accepts. We'll send our best delegates to represent our interests.");
-					await dialog.Msg("Perhaps working together, we can all recover from this war faster.");
-
-					character.Inventory.Remove(650633, 1, InventoryItemRemoveMsg.Given);
-					character.Variables.Perm.Set("Laima.Quests.Quest3003.DeliveredKlaipedaContract", true);
-					character.Quests.CompleteObjective(unitySummitQuestId, "inviteKlaipeda");
-
-					var contractsDelivered = character.Variables.Perm.GetInt("Laima.Quests.Quest3003.UnityContractsDelivered", 0);
-					character.Variables.Perm.Set("Laima.Quests.Quest3003.UnityContractsDelivered", contractsDelivered + 1);
-
-					character.ServerMessage($"Unity contracts delivered: {contractsDelivered + 1}/2");
-
-					if (contractsDelivered + 1 >= 2)
-					{
-						character.ServerMessage("{#FFD700}All contracts delivered! Return to Agatha in Fedimian.{/}");
-					}
-				}
-				else
-				{
-					await dialog.Msg("Do you need me to sign a cooperation contract? You'll need to bring it to me first.");
-				}
-			}
-			else if (character.Quests.HasCompleted(unitySummitQuestId))
-			{
-				await dialog.Msg("The Unity Summit was a great success. Our delegates reported productive discussions.");
-				await dialog.Msg("Klaipeda looks forward to working with Orsha and Fedimian for our mutual benefit.");
-			}
-			else
-			{
-				await dialog.Msg("As Mayor of Klaipeda, I oversee the city's recovery and reconstruction efforts.");
-				await dialog.Msg("We're working hard to rebuild what the demon war destroyed.");
-				await dialog.Msg("If you have business with the city, speak with our various coordinators around town.");
-			}
-		});
-
 		// Cursed Refugee Aldric
 		//-------------------------------------------------------------------------
 		AddNpc(147382, "[Cursed Refugee] Aldric", "c_voodoo", -62, -16, 90, async dialog =>
@@ -535,19 +411,19 @@ public class KlaipeRiverCorruptionQuest : QuestScript
 	public override void OnComplete(Character character, Quest quest)
 	{
 		// Unlock follow-up quest about purification ritual (future content)
-		character.Variables.Perm.Set("Laima.Quests.Quest1002.KlaipeRiverQuestComplete", true);
+		character.Variables.Perm.Set("Melia.Quests.Klaipeda.Quest1002.KlaipeRiverQuestComplete", true);
 
 		// Remove quest items
 		character.Inventory.Remove(650427, character.Inventory.CountItem(650427),
 			InventoryItemRemoveMsg.Destroyed);
 
 		// Clear all collection flags so they can be reused if quest becomes repeatable
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample1");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample2");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample3");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample4");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample5");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample6");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample1");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample2");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample3");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample4");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample5");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample6");
 	}
 
 	public override void OnCancel(Character character, Quest quest)
@@ -557,12 +433,12 @@ public class KlaipeRiverCorruptionQuest : QuestScript
 			InventoryItemRemoveMsg.Destroyed);
 
 		// Clear all collection flags so player can re-collect if they re-accept the quest
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample1");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample2");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample3");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample4");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample5");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1002.KlaipePlantSample6");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample1");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample2");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample3");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample4");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample5");
+		character.Variables.Perm.Remove("Melia.Quests.Klaipeda.Quest1002.KlaipePlantSample6");
 	}
 }
 
@@ -616,67 +492,6 @@ public class KlaipeReconstructionQuest : QuestScript
 		// Remove quest items
 		character.Inventory.Remove(667203, character.Inventory.CountItem(667203),
 			InventoryItemRemoveMsg.Destroyed);
-	}
-}
-
-// Quest 1004: Merchant Guild Deliveries
-//-----------------------------------------------------------------------------
-public class KlaipeMerchantGuildQuest : QuestScript
-{
-	protected override void Load()
-	{
-		SetId("Klaipeda", 1004);
-		SetName("Reopening Trade Routes");
-		SetDescription("Deliver trade proposals to the Merchant Guild representatives in Orsha and Fedimian.");
-		SetLocation("c_fedimian", "c_orsha");
-		SetAutoTracked(true);
-
-		SetReceive(QuestReceiveType.Manual);
-		SetCancelable(true);
-		SetUnlock(QuestUnlockType.AllAtOnce);
-		AddQuestGiver("[Merchant Guild] Anastasia", "c_Klaipe");
-
-		// Deliver to Orsha
-		AddObjective("deliverOrsha", "Deliver letter to Orsha Merchant Guild",
-			new ManualObjective());
-
-		// Deliver to Fedimian
-		AddObjective("deliverFedimian", "Deliver letter to Fedimian Merchant Guild",
-			new ManualObjective());
-
-		// Rewards
-		AddReward(new ExpReward(500, 300));
-		AddReward(new SilverReward(5000));
-		AddReward(new ItemReward(640002, 10)); // HP potions
-		AddReward(new ItemReward(640005, 10)); // SP potions
-		AddReward(new ItemReward(ItemId.Scroll_Warp_Klaipe, 5));
-		AddReward(new ItemReward(ItemId.Scroll_Warp_Orsha, 5));
-		AddReward(new ItemReward(ItemId.Scroll_Warp_Fedimian, 5));
-		AddReward(new ItemReward(640080, 2)); // Lv1 EXP Cards
-	}
-
-	public override void OnComplete(Character character, Quest quest)
-	{
-		// Remove quest letters
-		character.Inventory.Remove(644010, character.Inventory.CountItem(644010),
-			InventoryItemRemoveMsg.Destroyed);
-		character.Inventory.Remove(644011, character.Inventory.CountItem(644011),
-			InventoryItemRemoveMsg.Destroyed);
-
-		character.Variables.Perm.Remove("Laima.Quests.Quest1004.DeliveredOrshaLetter");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1004.DeliveredFedimianLetter");
-	}
-
-	public override void OnCancel(Character character, Quest quest)
-	{
-		// Remove quest letters
-		character.Inventory.Remove(644010, character.Inventory.CountItem(644010),
-			InventoryItemRemoveMsg.Destroyed);
-		character.Inventory.Remove(644011, character.Inventory.CountItem(644011),
-			InventoryItemRemoveMsg.Destroyed);
-
-		character.Variables.Perm.Remove("Laima.Quests.Quest1004.DeliveredOrshaLetter");
-		character.Variables.Perm.Remove("Laima.Quests.Quest1004.DeliveredFedimianLetter");
 	}
 }
 
