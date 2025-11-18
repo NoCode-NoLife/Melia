@@ -20,7 +20,7 @@
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ExecTails.Yggdrasil" Version="1.4.0" />
+    <PackageReference Include="ExecTails.Yggdrasil" Version="1.4.1" />
     <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
     <PackageReference Include="ExecTails.Yggdrasil.Scripting" Version="1.0.1" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
