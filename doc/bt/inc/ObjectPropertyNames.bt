@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i399566
+//   Version: i399882
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -30975,6 +30975,30 @@ string getPropertyName(int id)
         case 116749: return "ep17couplelook_thspear_cabinet";
         case 116750: return "ContentsTotalShop_EP17_20";
         case 116751: return "dress_costume_ep17couplelook02_f";
+        case 116752: return "EVENT_FIELD_BOSS_10TH";
+        case 116753: return "Kill_Gold_MolaMola2";
+        case 116754: return "DR_CONST";
+        case 116755: return "HiddenJob_Char5_23";
+        case 116756: return "HiddenJob_Char1_29";
+        case 116757: return "TSF04_132_1_cabinet_upgrade";
+        case 116758: return "UnlockQuest_Char5_23";
+        case 116759: return "UnlockQuest_Char1_29";
+        case 116760: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_109";
+        case 116761: return "GEM_Grimmark_BloodEruption_Scout_cabinet";
+        case 116762: return "GEM_Grimmark_ChainOfThirst_Swordman_cabinet";
+        case 116763: return "GEM_Grimmark_ChainOfThirst_Scout_cabinet";
+        case 116764: return "TSF04_132_1_cabinet";
+        case 116765: return "GEM_Grimmark_StakeOfTerminus_Swordman_cabinet";
+        case 116766: return "GEM_Grimmark_BloodspearPierce_Swordman_cabinet";
+        case 116767: return "GEM_Grimmark_HamstringPin_Scout_cabinet";
+        case 116768: return "GEM_Grimmark_ExploitWeakness_Swordman_cabinet";
+        case 116769: return "GEM_Grimmark_BloodspearPierce_Scout_cabinet";
+        case 116770: return "GEM_Grimmark_PiercingLeap_Swordman_cabinet";
+        case 116771: return "GEM_Grimmark_ExploitWeakness_Scout_cabinet";
+        case 116772: return "GEM_Grimmark_BloodEruption_Swordman_cabinet";
+        case 116773: return "GEM_Grimmark_HamstringPin_Swordman_cabinet";
+        case 116774: return "GEM_Grimmark_StakeOfTerminus_Scout_cabinet";
+        case 116775: return "GEM_Grimmark_PiercingLeap_Scout_cabinet";
         default: return "Unknown";
     }
 }

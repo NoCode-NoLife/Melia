@@ -20470,6 +20470,15 @@ public static class ItemId
 	public const int I202510_Package06 = 11205514;
 	public const int I202510_Package07 = 11205515;
 	public const int I202510_Package08 = 11205516;
+	public const int Special_Gift_Box_Leticia_2511 = 11205518;
+	public const int I202511_Package07 = 11205519;
+	public const int I202511_Package05 = 11205520;
+	public const int I202511_Package06 = 11205521;
+	public const int I202511_Package08 = 11205522;
+	public const int I202511_Package02 = 11205523;
+	public const int I202511_Package03 = 11205524;
+	public const int I202511_Package01 = 11205525;
+	public const int I202511_Package04 = 11205526;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

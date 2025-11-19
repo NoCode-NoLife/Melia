@@ -10155,6 +10155,26 @@
 		public const string ep17couplelook_thspear_cabinet = "ep17couplelook_thspear_cabinet";
 		public const string ContentsTotalShop_EP17_20 = "ContentsTotalShop_EP17_20";
 		public const string dress_costume_ep17couplelook02_f = "dress_costume_ep17couplelook02_f";
+		public const string EVENT_FIELD_BOSS_10TH = "EVENT_FIELD_BOSS_10TH";
+		public const string TSF04_132_1_cabinet_upgrade = "TSF04_132_1_cabinet_upgrade";
+		public const string UnlockQuest_Char5_23 = "UnlockQuest_Char5_23";
+		public const string UnlockQuest_Char1_29 = "UnlockQuest_Char1_29";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_109 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_109";
+		public const string GEM_Grimmark_BloodEruption_Scout_cabinet = "GEM_Grimmark_BloodEruption_Scout_cabinet";
+		public const string GEM_Grimmark_ChainOfThirst_Swordman_cabinet = "GEM_Grimmark_ChainOfThirst_Swordman_cabinet";
+		public const string GEM_Grimmark_ChainOfThirst_Scout_cabinet = "GEM_Grimmark_ChainOfThirst_Scout_cabinet";
+		public const string TSF04_132_1_cabinet = "TSF04_132_1_cabinet";
+		public const string GEM_Grimmark_StakeOfTerminus_Swordman_cabinet = "GEM_Grimmark_StakeOfTerminus_Swordman_cabinet";
+		public const string GEM_Grimmark_BloodspearPierce_Swordman_cabinet = "GEM_Grimmark_BloodspearPierce_Swordman_cabinet";
+		public const string GEM_Grimmark_HamstringPin_Scout_cabinet = "GEM_Grimmark_HamstringPin_Scout_cabinet";
+		public const string GEM_Grimmark_ExploitWeakness_Swordman_cabinet = "GEM_Grimmark_ExploitWeakness_Swordman_cabinet";
+		public const string GEM_Grimmark_BloodspearPierce_Scout_cabinet = "GEM_Grimmark_BloodspearPierce_Scout_cabinet";
+		public const string GEM_Grimmark_PiercingLeap_Swordman_cabinet = "GEM_Grimmark_PiercingLeap_Swordman_cabinet";
+		public const string GEM_Grimmark_ExploitWeakness_Scout_cabinet = "GEM_Grimmark_ExploitWeakness_Scout_cabinet";
+		public const string GEM_Grimmark_BloodEruption_Swordman_cabinet = "GEM_Grimmark_BloodEruption_Swordman_cabinet";
+		public const string GEM_Grimmark_HamstringPin_Swordman_cabinet = "GEM_Grimmark_HamstringPin_Swordman_cabinet";
+		public const string GEM_Grimmark_StakeOfTerminus_Scout_cabinet = "GEM_Grimmark_StakeOfTerminus_Scout_cabinet";
+		public const string GEM_Grimmark_PiercingLeap_Scout_cabinet = "GEM_Grimmark_PiercingLeap_Scout_cabinet";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -11895,6 +11915,7 @@
 		public const string core_option_vibora = "core_option_vibora";
 		public const string core_option_ausirine_BM = "core_option_ausirine_BM";
 		public const string core_option_vibora_BM = "core_option_vibora_BM";
+		public const string DR_CONST = "DR_CONST";
 
 		// PCEtc
 		public const string FromMission = "FromMission";
@@ -21406,6 +21427,9 @@
 		public const string EVENT_POPOBOOST_MAX_GEARSCORE_AUTUMN = "EVENT_POPOBOOST_MAX_GEARSCORE_AUTUMN";
 		public const string Kill_RE_boss_lilymaid = "Kill_RE_boss_lilymaid";
 		public const string popoboost_participate_autumn = "popoboost_participate_autumn";
+		public const string Kill_Gold_MolaMola2 = "Kill_Gold_MolaMola2";
+		public const string HiddenJob_Char5_23 = "HiddenJob_Char5_23";
+		public const string HiddenJob_Char1_29 = "HiddenJob_Char1_29";
 
 		// SessionObject
 		public const string PosX = "PosX";
