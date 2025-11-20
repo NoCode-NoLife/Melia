@@ -24,6 +24,21 @@ namespace Melia.Zone.World.Quests
 		public string Description { get; set; }
 
 		/// <summary>
+		/// Gets or sets the quest's location (map class name).
+		/// </summary>
+		public string Location { get; set; }
+
+		/// <summary>
+		/// Gets or sets the map class name where the quest giver is located.
+		/// </summary>
+		public string QuestGiverLocation { get; set; }
+
+		/// <summary>
+		/// Gets or sets the quest giver NPC unique name.
+		/// </summary>
+		public string StartNpcUniqueName { get; set; }
+
+		/// <summary>
 		/// Gets or sets the quest's type.
 		/// </summary>
 		/// <remarks>
@@ -79,6 +94,11 @@ namespace Melia.Zone.World.Quests
 		/// met to receive the quest automatically.
 		/// </summary>
 		public List<QuestPrerequisite> Prerequisites { get; } = new List<QuestPrerequisite>();
+
+		/// <summary>
+		/// Returns a list of the quest's modifiers.
+		/// </summary>
+		public List<QuestModifier> Modifiers { get; } = new List<QuestModifier>();
 	}
 
 	/// <summary>
