@@ -117,5 +117,25 @@ namespace Melia.Zone.Scripting
 			var shopData = shopBuilder.Build();
 			ZoneServer.Instance.Data.ShopDb.AddOrReplace(shopData.Name, shopData);
 		}
+
+		/// <summary>
+		/// A function that initializes a companion shop.
+		/// </summary>
+		/// <param name="shop"></param>
+		public delegate void CompanionShopCreationFunc(CompanionShopBuilder shop);
+
+		/// <summary>
+		/// Creates a custom companion shop.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="creationFunc"></param>
+		public static void CreateCompanionShop(string name, CompanionShopCreationFunc creationFunc)
+		{
+			var shopBuilder = new CompanionShopBuilder(name);
+			creationFunc(shopBuilder);
+
+			var shopData = shopBuilder.Build();
+			ZoneServer.Instance.Data.CompanionShopDb.AddOrReplace(shopData.Name, shopData);
+		}
 	}
 }

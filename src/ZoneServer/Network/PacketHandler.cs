@@ -954,7 +954,7 @@ namespace Melia.Zone.Network
 			}
 			else
 			{
-				Send.ZC_DIALOG_CLOSE(conn);
+				Send.ZC_LEAVE_TRIGGER(conn);
 				conn.CurrentDialog = null;
 			}
 		}
