@@ -379,27 +379,23 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public override Dictionary<int, Item> GetItems()
 		{
-			// For team storage client expects silver item to be in this
-			// list.
 			var items = new Dictionary<int, Item>();
 
-			// Add silver item at index 0 if exists
+			// Get normal items at their actual positions (0 to size-1)
+			var normalItems = base.GetItems();
+			foreach (var kvp in normalItems)
+			{
+				items[kvp.Key] = kvp.Value;
+			}
+
+			// Add silver item AFTER the last storage position so it never
+			// conflicts with regular items. Silver does NOT count towards
+			// storage capacity.
 			var silverItem = this.GetSilver();
 			if (silverItem != null)
 			{
-				items[0] = silverItem;
-			}
-
-			// Get normal items
-			var normalItems = base.GetItems();
-
-			// Combine dictionaries, adding normal items after silver
-			foreach (var kvp in normalItems)
-			{
-				if (silverItem != null)
-					items[kvp.Key + 1] = kvp.Value;
-				else
-					items[kvp.Key] = kvp.Value;
+				var storageSize = this.GetStorageSize();
+				items[storageSize] = silverItem;
 			}
 
 			return items;
