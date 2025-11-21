@@ -1180,23 +1180,6 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Purpose unknown. Added for testing purposes, but turned
-			/// out to not be necessary.
-			/// </summary>
-			/// <param name="entity"></param>
-			/// <param name="b1"></param>
-			public static void Unk13E(ICombatEntity entity, bool b1)
-			{
-				var packet = new Packet(Op.ZC_NORMAL);
-				packet.PutInt(NormalOp.Zone.Unk13E);
-
-				packet.PutInt(entity.Handle);
-				packet.PutByte(b1);
-
-				entity.Map.Broadcast(packet, entity);
-			}
-
-			/// <summary>
 			/// Starts a time action, displaying a progress bar and
 			/// potentially putting the character in an animation.
 			/// </summary>
@@ -1356,6 +1339,55 @@ namespace Melia.Zone.Network
 				packet.PutLpString(bookName);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Sent with Resurrect Packets?
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="actor"></param>
+			public static void Revive(IZoneConnection conn, IActor actor)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.Revive);
+
+				packet.PutInt(actor.Handle);
+				packet.PutByte(0);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// NPC Position For a script?
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="actor"></param>
+			public static void SetNPCTrackPosition(IZoneConnection conn, IActor actor)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.SetNPCTrackPosition);
+
+				packet.PutInt(actor.Handle);
+				packet.PutPosition(actor.Position);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// NPC Play a Track (Client side direction)
+			/// </summary>
+			public static void NPC_PlayTrack(IActor actor, string trackName, int i1, int i2, float f1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.NPC_PlayTrack);
+
+				packet.PutInt(actor.Handle);
+				packet.PutLpString(trackName);
+				packet.PutInt(i1);
+				packet.PutInt(i2);
+				packet.PutFloat(f1);
+
+				actor.Map.Broadcast(packet);
 			}
 		}
 	}
