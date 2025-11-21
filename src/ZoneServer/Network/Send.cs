@@ -3413,15 +3413,15 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Not too sure what this does, maybe for store purchases?
+		/// Sends the web service URLs to the client for guild and market features.
 		/// </summary>
 		/// <param name="conn"></param>
 		public static void ZC_SET_WEBSERVICE_URL(IZoneConnection conn)
 		{
 			var packet = new Packet(Op.ZC_SET_WEBSERVICE_URL);
 
-			packet.PutString("https://52.58.92.141:9004", 128);
-			packet.PutString("https://52.29.227.229:9005", 128);
+			packet.PutString("http://127.0.0.1:9004", 128);
+			packet.PutString("http://127.0.0.1:9005", 128);
 
 			conn.Send(packet);
 		}

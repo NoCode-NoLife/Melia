@@ -42,6 +42,20 @@ namespace Melia.Web.Controllers
 		}
 
 		/// <summary>
+		/// Sends content as binary with the given mime type.
+		/// </summary>
+		/// <param name="mimeType"></param>
+		/// <param name="content"></param>
+		protected void SendBinary(string mimeType, byte[] content)
+		{
+			this.Response.StatusCode = 200;
+			this.Response.ContentType = mimeType;
+
+			using (var stream = this.Response.OutputStream)
+				stream.Write(content, 0, content.Length);
+		}
+
+		/// <summary>
 		/// A string writer that uses UTF-8 without BOM (byte-order mark).
 		/// </summary>
 		protected class Utf8StringWriter : StringWriter

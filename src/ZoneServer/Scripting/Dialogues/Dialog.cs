@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.Hooking;
@@ -544,7 +545,9 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task OpenPersonalStorage()
 		{
-			this.Player.PersonalStorage.Open();
+			var result = this.Player.PersonalStorage.Open();
+			if (result != StorageResult.Success)
+				return;
 			await this.GetClientResponse();
 		}
 
@@ -554,7 +557,9 @@ namespace Melia.Zone.Scripting.Dialogues
 		/// <returns></returns>
 		public async Task OpenTeamStorage()
 		{
-			this.Player.TeamStorage.Open();
+			var result = this.Player.TeamStorage.Open();
+			if (result != StorageResult.Success)
+				return;
 			await this.GetClientResponse();
 		}
 
