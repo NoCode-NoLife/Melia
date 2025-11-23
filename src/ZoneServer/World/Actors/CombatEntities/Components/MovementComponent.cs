@@ -315,6 +315,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			this.MoveTarget = MoveTargetType.Direction;
 
 			Send.ZC_MOVE_DIR(this.Entity, pos, dir, unkFloat);
+
+			if (this.Entity is Character character)
+				character.Connection.Party?.UpdateMemberInfo(character);
 		}
 
 		/// <summary>

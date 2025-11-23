@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using Melia.Shared.Network;
 using Melia.Social.Network;
 using Melia.Social.World;
+using Yggdrasil.Logging;
 
 namespace Melia.Social.Database
 {
@@ -62,9 +64,22 @@ namespace Melia.Social.Database
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="type"></param>
-		public ChatRoom(string name, ChatRoomType type)
+		public ChatRoom(string name, ChatRoomType type) : this(0, name, type)
 		{
-			this.Id = SocialServer.Instance.ChatManager.GetNewChatId();
+		}
+
+		/// <summary>
+		/// Creates new chat room with specific id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="name"></param>
+		/// <param name="type"></param>
+		public ChatRoom(long id, string name, ChatRoomType type)
+		{
+			if (id == 0)
+				this.Id = SocialServer.Instance.ChatManager.GetNewChatId();
+			else
+				this.Id = id;
 
 			this.Name = name;
 			this.Type = type;
@@ -175,6 +190,22 @@ namespace Melia.Social.Database
 						Send.SC_NORMAL.CreateRoom(conn, this);
 						Send.SC_NORMAL.AddMessage(conn, this, message);
 					}
+				}
+			}
+		}
+
+		/// <summary>
+		/// Broadcasts packet to all members of the room who are online.
+		/// </summary>
+		/// <param name="packet"></param>
+		public virtual void Broadcast(Packet packet)
+		{
+			lock (_members)
+			{
+				foreach (var member in _members)
+				{
+					if (SocialServer.Instance.UserManager.TryGet(member.AccountId, out var user))
+						user.Connection?.Send(packet);
 				}
 			}
 		}
