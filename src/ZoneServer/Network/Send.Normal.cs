@@ -9,6 +9,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
 {
@@ -347,7 +348,7 @@ namespace Melia.Zone.Network
 				packet.PutInt(character.Handle);
 				packet.PutInt((int)skillId);
 
-				character.Connection.Send(packet);
+				character.Map.Broadcast(packet, character);
 			}
 
 			/// <summary>
@@ -560,16 +561,24 @@ namespace Melia.Zone.Network
 			/// clients in range.
 			/// </summary>
 			/// <param name="character"></param>
-			public static void HeadgearVisibilityUpdate(Character character)
+			public static void HeadgearVisibilityUpdate(Character character) => HeadgearVisibilityUpdate(character, character);
+
+			/// <summary>
+			/// Updates which headgears are visible for the character on
+			/// clients in range.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="targetCharacter"></param>
+			public static void HeadgearVisibilityUpdate(Character character, Character targetCharacter)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.HeadgearVisibilityUpdate);
 
-				packet.PutInt(character.Handle);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear1) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear2) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Headgear3) != 0);
-				packet.PutByte((character.VisibleEquip & VisibleEquip.Wig) != 0);
+				packet.PutInt(targetCharacter.Handle);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear1) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear2) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Headgear3) != 0);
+				packet.PutByte((targetCharacter.VisibleEquip & VisibleEquip.Wig) != 0);
 
 				character.Map.Broadcast(packet, character);
 			}
@@ -647,6 +656,18 @@ namespace Melia.Zone.Network
 			/// Appears to update information about a skill effect on the
 			/// clients in range of entity.
 			/// </summary>
+			/// <param name="entity"></param>
+			/// <param name="targetHandle"></param>
+			/// <param name="originPos"></param>
+			/// <param name="direction"></param>
+			/// <param name="farPos"></param>
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
+					=> UpdateSkillEffect(entity, targetHandle, originPos, direction, farPos, 0);
+
+			/// <summary>
+			/// Appears to update information about a skill effect on the
+			/// clients in range of entity.
+			/// </summary>
 			/// <remarks>
 			/// Observed updating the origin position of the Earthquake
 			/// effect. Once the packet was sent once, the dust cloud
@@ -660,13 +681,14 @@ namespace Melia.Zone.Network
 			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
 			/// <param name="farPos"></param>
-			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
+			/// <param name="unknowInt"></param>
+			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos, int unknowInt)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateSkillEffect);
 
 				packet.PutInt(entity.Handle);
-				packet.PutInt(0);
+				packet.PutInt(unknowInt);
 				packet.PutInt(0);
 				packet.PutInt(targetHandle);
 				packet.PutPosition(originPos);
@@ -1300,6 +1322,80 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Updates the entity model color
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="targetHandle"></param>
+			/// <param name="red"></param>
+			/// <param name="green"></param>
+			/// <param name="blue"></param>
+			/// <param name="alpha"></param>
+			/// <param name="f1"></param>
+			public static void UpdateModelColor(Character character, int red, int green, int blue, int alpha, float f1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UpdateModelColor);
+
+				packet.PutInt(character.Handle);
+				packet.PutByte((byte)red);
+				packet.PutByte((byte)green);
+				packet.PutByte((byte)blue);
+				packet.PutByte((byte)alpha);				
+				packet.PutByte(1);
+				packet.PutFloat(f1);
+				packet.PutByte(1);
+
+				character.Map.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Enable to use a skill while being out of body (Sadhu).
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="buffId"></param>
+			/// <param name="skillId"></param>
+			public static void EnableUseSkillWhileOutOfBody(Character character, BuffId buffId, SkillId skillId)
+			{
+				if (!ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData))
+				{
+					Log.Error("EnableUseSkillWhileOutOfBody: BuffId '{0}' was not found.", buffId);
+					return;
+				}
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.EnableUseSkillWhileOutOfBody);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(buffData.ClassName);
+				packet.PutInt((int)skillId);
+				packet.PutByte(1);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Set the buff that will be used while out of body (Sadhu).
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="buffId"></param>
+			public static void EndOutOfBodyBuff(Character character, BuffId buffId)
+			{
+				if (!ZoneServer.Instance.Data.BuffDb.TryFind(buffId, out var buffData))
+				{
+					Log.Error("EndOutOfBodyBuff: BuffId '{0}' was not found.", buffId);
+					return;
+				}
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.EndOutOfBodyBuff);
+
+				packet.PutInt(character.Handle);
+				packet.PutLpString(buffData.ClassName);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
 			/// Exact purpose unknown, used in some skills when there's no target.
 			/// </summary>
 			/// <param name="actor"></param>
@@ -1343,6 +1439,7 @@ namespace Melia.Zone.Network
 				actor.Map.Broadcast(packet);
 			}
 
+			/// <summary>
 			/// Opens book for the player.
 			/// </summary>
 			/// <param name="character"></param>

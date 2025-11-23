@@ -25,7 +25,7 @@ namespace Melia.Shared.Data.Database
 		/// level.
 		/// </summary>
 		/// <param name="jobId"></param>
-		/// <param name="circle"></param>
+		/// <param name="jobLevel"></param>
 		/// <returns></returns>
 		public SkillTreeData[] FindSkills(JobId jobId, int jobLevel)
 		{
