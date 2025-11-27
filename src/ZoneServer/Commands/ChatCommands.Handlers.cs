@@ -1498,9 +1498,28 @@ namespace Melia.Zone.Commands
 
 			if (job == null)
 			{
+				// Store current levels of all existing jobs before adding the new one,
+				// because adding a job changes the rank which affects how TotalExp
+				// translates to Level (Level is calculated from TotalExp + rank)
+				var existingJobLevels = new Dictionary<JobId, int>();
+				foreach (var existingJob in target.Jobs.GetList())
+					existingJobLevels[existingJob.Id] = existingJob.Level;
+
 				Send.ZC_PC(target, PcUpdateType.Job, (int)jobId, (int)circle);
 				target.JobId = jobId;
 				target.Jobs.Add(new Job(target, jobId, circle));
+
+				// After adding the job, the rank has increased. Recalculate TotalExp
+				// for all existing jobs to maintain their levels at the new rank.
+				var newRank = target.Jobs.GetCurrentRank();
+				foreach (var existingJob in target.Jobs.GetList())
+				{
+					if (existingJob.Id == jobId)
+						continue; // Skip the newly added job
+
+					var targetLevel = existingJobLevels[existingJob.Id];
+					existingJob.TotalExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(newRank, targetLevel);
+				}
 			}
 			else
 				target.Jobs.ChangeCircle(jobId, circle);
