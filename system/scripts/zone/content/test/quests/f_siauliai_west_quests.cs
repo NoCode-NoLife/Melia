@@ -188,7 +188,7 @@ public class FSiauliaiWestQuestNpcsScript : GeneralScript
 			}
 			else if (character.Quests.IsActive(questId))
 			{
-				var chinencyCount = character.Inventory.CountItem(650904);
+				var chinencyCount = character.Inventory.CountItem(ItemId.Misc_Bokchoy2);
 
 				if (chinencyCount >= 8)
 				{
@@ -198,7 +198,7 @@ public class FSiauliaiWestQuestNpcsScript : GeneralScript
 					await dialog.Msg("This confirms my hypothesis! The war's magical fallout has created a new ecological balance. Fascinating and terrifying in equal measure.");
 					await dialog.Msg("Your contribution to science will not be forgotten! Here, take these - they're experimental potions I've been developing.");
 
-					character.Inventory.Remove(650904, 8, InventoryItemRemoveMsg.Given);
+					character.Inventory.Remove(ItemId.Misc_Bokchoy2, 8, InventoryItemRemoveMsg.Given);
 					character.Quests.Complete(questId);
 				}
 				else
@@ -511,7 +511,7 @@ public class FSiauliaiWestHerbalistQuest : QuestScript
 
 		// Collect samples (items already drop normally)
 		AddObjective("collectChinency", "Collect Chinency Roots",
-			new CollectItemObjective(650904, 8));
+			new CollectItemObjective(ItemId.Misc_Bokchoy2, 8));
 
 		// Rewards
 		AddReward(new ExpReward(420, 280));
