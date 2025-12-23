@@ -406,6 +406,8 @@
 { id: 2398, className: "EVENT_2507_ARCHEOLOGY4", category: "Event", name: "", point: "EVENT_2507_ARCHEOLOGY", count: 4, repeatable: false, account: false },
 { id: 2499, className: "plate_achieve_hermit", category: "Event", name: "Oracle of Eclipse", point: "plate_achieve_hermit", count: 1, repeatable: false, account: false },
 { id: 2511, className: "plate_achieve_Spider_Sisters", category: "Event", name: "Spider Sisters", point: "plate_achieve_Spider_Sisters", count: 1, repeatable: false, account: false },
+{ id: 2512, className: "plate_achieve_grimmark", category: "Event", name: "Howling Runner", point: "plate_achieve_grimmark", count: 1, repeatable: false, account: false },
+{ id: 2513, className: "plate_achieve_Merry_Xmas", category: "Event", name: "Merry X'mas", point: "plate_achieve_Merry_Xmas", count: 1, repeatable: false, account: false },
 { id: 3001, className: "Pardoner10", category: "Skills", name: "Philanthropist", point: "PardonerAbility", count: 10, repeatable: false, account: false },
 { id: 3002, className: "Pardoner50", category: "Skills", name: "Regular Pardoner", point: "PardonerAbility", count: 50, repeatable: false, account: false },
 { id: 3003, className: "Pardoner100", category: "Skills", name: "Senior Pardoner", point: "PardonerAbility", count: 100, repeatable: false, account: false },
@@ -1166,6 +1168,7 @@
 { id: 160106, className: "WEEKLY_BOSS_RANK_CLASS_106", category: "Ranking", name: "Blitz Hunter", point: "WeeklyRankClass_106", count: 1, repeatable: false, account: false },
 { id: 160107, className: "WEEKLY_BOSS_RANK_CLASS_107", category: "Ranking", name: "Aether Blader ", point: "WeeklyRankClass_107", count: 1, repeatable: false, account: false },
 { id: 160108, className: "WEEKLY_BOSS_RANK_CLASS_108", category: "Ranking", name: "Hermit", point: "WeeklyRankClass_108", count: 1, repeatable: false, account: false },
+{ id: 160109, className: "WEEKLY_BOSS_RANK_CLASS_109", category: "Ranking", name: "Grimmark", point: "WeeklyRankClass_109", count: 1, repeatable: false, account: false },
 { id: 170001, className: "Relic_First", category: "Res Sacrae", name: "The Ruler of Relic", point: "Relic_First", count: 1, repeatable: false, account: false },
 { id: 170002, className: "Relic_Lv10", category: "Res Sacrae", name: "Relic Trailblazer", point: "Relic_Lv10", count: 1, repeatable: false, account: false },
 { id: 180001, className: "PilgrimRank_1", category: "Ranking", name: "Revival Judgment", point: "PilgrimRank_1", count: 1, repeatable: false, account: false },
@@ -1208,4 +1211,5 @@
 { id: 500550, className: "GuideQuest_6_4", category: "Growth Achievement", name: "", point: "GuideQuest_6_4", count: 1, repeatable: false, account: false },
 { id: 500560, className: "GuideQuest_6_5", category: "Growth Achievement", name: "", point: "GuideQuest_6_5", count: 10, repeatable: false, account: false },
 { id: 500570, className: "GuideQuest_6_6", category: "Growth Achievement", name: "", point: "GuideQuest_6_6", count: 5, repeatable: false, account: false },
+{ id: 500571, className: "plate_shade_of_the_decennial_tree", category: "Title", name: "Decennial Tree", point: "plate_shade_of_the_decennial_tree", count: 1, repeatable: false, account: false },
 ]

@@ -1611,6 +1611,7 @@ namespace Melia.Shared.Game.Const
 		RichEnergy = 6010,
 		NightFog = 6011,
 		BladeWhirlwind = 6012,
+		SweetDrops = 6013,
 		Sledger_HeavySmashing = 7000,
 		Sledger_RollingHammer = 7001,
 		Sledger_ChargeHammer = 7002,
@@ -1642,5 +1643,12 @@ namespace Melia.Shared.Game.Const
 		Hermit_ConstellationResidueField = 11005,
 		Hermit_Eclipse = 11006,
 		Hermit_JudgementoftheCosmos = 11007,
+		Grimmark_HunterMark = 12001,
+		Grimmark_PiercingLeap = 12002,
+		Grimmark_HamstringPin = 12003,
+		Grimmark_BloodspearPierce = 12004,
+		Grimmark_ChainOfThirst = 12005,
+		Grimmark_StakeOfTerminus = 12006,
+		Grimmark_BloodEruption = 12007,
 	}
 }

@@ -26,6 +26,7 @@ namespace Melia.Shared.Game.Const
 		public const string IgnoreRevival = "IgnoreRevival";
 		public const string ItemSkill = "ItemSkill";
 		public const string LimitInstanceLevelUp = "LimitInstanceLevelUp";
+		public const string MarkSkill = "MarkSkill";
 		public const string MaxDamage = "MaxDamage";
 		public const string Meteor = "Meteor";
 		public const string MoonSkill = "MoonSkill";

@@ -425,6 +425,7 @@ namespace Melia.Shared.Game.Const
 		public const string Giltine_Shot_Pad = "Giltine_Shot_Pad";
 		public const string Giltine_Skl8_pad = "Giltine_Skl8_pad";
 		public const string Giltine_Smoke_DmgPad = "Giltine_Smoke_DmgPad";
+		public const string GM_Cathedral_AttackDevice_Pad = "GM_Cathedral_AttackDevice_Pad";
 		public const string GM_MGAME_BORUTA_HATE_RESET_PAD = "GM_MGAME_BORUTA_HATE_RESET_PAD";
 		public const string gm_stake_stockades_knokdown = "gm_stake_stockades_knokdown";
 		public const string GoddessSpecial_IceOrb = "GoddessSpecial_IceOrb";
@@ -443,6 +444,8 @@ namespace Melia.Shared.Game.Const
 		public const string GravityPole_PVP = "GravityPole_PVP";
 		public const string GreenwoodShikigami_Pad = "GreenwoodShikigami_Pad";
 		public const string GreenwoodShikigami_Pad_Effect = "GreenwoodShikigami_Pad_Effect";
+		public const string Grimmark_BloodEruption = "Grimmark_BloodEruption";
+		public const string Grimmark_StakeOfTerminus = "Grimmark_StakeOfTerminus";
 		public const string Grinender_FirePillar = "Grinender_FirePillar";
 		public const string gtower_killthemall = "gtower_killthemall";
 		public const string gtower_mon_darkground = "gtower_mon_darkground";
@@ -514,6 +517,7 @@ namespace Melia.Shared.Game.Const
 		public const string Kupole_naktis_nightfog = "Kupole_naktis_nightfog";
 		public const string Kupole_SantaZemyna_MerryChristmas = "Kupole_SantaZemyna_MerryChristmas";
 		public const string Kupole_saule_daylight = "Kupole_saule_daylight";
+		public const string Kupole_SugarGabia_SweetDrops = "Kupole_SugarGabia_SweetDrops";
 		public const string Kupole_summerzesty_aquawind1 = "Kupole_summerzesty_aquawind1";
 		public const string Kupole_summerzesty_aquawind2 = "Kupole_summerzesty_aquawind2";
 		public const string Kupole_vakarine_shelter_for_traverlers = "Kupole_vakarine_shelter_for_traverlers";

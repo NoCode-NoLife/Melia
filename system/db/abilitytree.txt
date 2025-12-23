@@ -466,6 +466,26 @@
 { category: "Bonemancer", classId: 201, abilityId: 321292, jobId: 1028, className: "Bonemancer8", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneShield_Swordman", argNum: 1 } },
 { category: "Bonemancer", classId: 202, abilityId: 321293, jobId: 1028, className: "Bonemancer9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Bonemancer_BoneReinforcement_Swordman", argNum: 1 } },
 
+// Grimmark
+//---------------------------------------------------------------------------
+{ category: "Grimmark", classId: 101, abilityId: 900301, jobId: 1029, className: "Grimmark1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_PiercingLeap_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 102, abilityId: 900302, jobId: 1029, className: "Grimmark2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_HamstringPin_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 103, abilityId: 900303, jobId: 1029, className: "Grimmark3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_BloodspearPierce_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 104, abilityId: 900304, jobId: 1029, className: "Grimmark4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_ChainOfThirst_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 105, abilityId: 900305, jobId: 1029, className: "Grimmark5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_StakeOfTerminus_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 1001, abilityId: 900306, jobId: 1029, className: "Grimmark101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark1", argNum: 65 } },
+{ category: "Grimmark", classId: 1002, abilityId: 900307, jobId: 1029, className: "Grimmark102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark2", argNum: 65 } },
+{ category: "Grimmark", classId: 1003, abilityId: 900308, jobId: 1029, className: "Grimmark103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark3", argNum: 65 } },
+{ category: "Grimmark", classId: 1004, abilityId: 900309, jobId: 1029, className: "Grimmark104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark4", argNum: 65 } },
+{ category: "Grimmark", classId: 1005, abilityId: 900310, jobId: 1029, className: "Grimmark105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark5", argNum: 65 } },
+{ category: "Grimmark", classId: 106, abilityId: 900311, jobId: 1029, className: "Grimmark6", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_PiercingLeap_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 201, abilityId: 900312, jobId: 1029, className: "Grimmark7", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_BloodspearPierce_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 107, abilityId: 900313, jobId: 1029, className: "Grimmark8", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_ChainOfThirst_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 108, abilityId: 900315, jobId: 1029, className: "Grimmark9", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_BloodEruption_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 1006, abilityId: 900316, jobId: 1029, className: "Grimmark106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Grimmark9", argNum: 65 } },
+{ category: "Grimmark", classId: 202, abilityId: 900317, jobId: 1029, className: "Grimmark10", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_ChainOfThirst_Scout", argNum: 1 } },
+{ category: "Grimmark", classId: 109, abilityId: 900318, jobId: 1029, className: "Grimmark11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_HunterMark_Scout", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },

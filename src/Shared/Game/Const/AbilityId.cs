@@ -5629,5 +5629,41 @@ namespace Melia.Shared.Game.Const
 		Paladin13 = 900179,
 		/// <summary>Craft Anti-Magic</summary>
 		Pardoner_Antimagic = 900207,
+		/// <summary>Sudden Penetration: Enhance</summary>
+		Grimmark1 = 900301,
+		/// <summary>Hamstring Pin: Enhance</summary>
+		Grimmark2 = 900302,
+		/// <summary>Bloody Pierce: Enhance</summary>
+		Grimmark3 = 900303,
+		/// <summary>Serial Thirst: Enhance</summary>
+		Grimmark4 = 900304,
+		/// <summary>Doompierce: Enhance</summary>
+		Grimmark5 = 900305,
+		/// <summary>[Arts] Sudden Penetration: Enhanced Upgrade</summary>
+		Grimmark101 = 900306,
+		/// <summary>[Arts] Hamstring Pin: Enhanced Upgrade</summary>
+		Grimmark102 = 900307,
+		/// <summary>[Arts] Bloody Pierce: Enhanced Upgrade</summary>
+		Grimmark103 = 900308,
+		/// <summary>[Arts] Serial Thirst: Enhanced Upgrade</summary>
+		Grimmark104 = 900309,
+		/// <summary>[Arts] Doompierce: Enhanced Upgrade</summary>
+		Grimmark105 = 900310,
+		/// <summary>Sudden Penetration: Endless Pursuit</summary>
+		Grimmark6 = 900311,
+		/// <summary>[Arts] Bloody Pierce: Instinct of Predator</summary>
+		Grimmark7 = 900312,
+		/// <summary>[Arts] Serial Thirst: Diffusion</summary>
+		Grimmark8 = 900313,
+		/// <summary>Oath of Hunt</summary>
+		Grimmark100 = 900314,
+		/// <summary>Blood Surge: Enhance</summary>
+		Grimmark9 = 900315,
+		/// <summary>[Arts] Blood Surge: Enhanced Upgrade</summary>
+		Grimmark106 = 900316,
+		/// <summary>[Arts] Serial Thirst: Thirst Quencher</summary>
+		Grimmark10 = 900317,
+		/// <summary>Hunting Mark: Herding</summary>
+		Grimmark11 = 900318,
 	}
 }

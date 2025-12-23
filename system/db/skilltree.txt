@@ -181,6 +181,14 @@
 { jobId: 1028, skillId: 12342, skillName: "Bone Shield", unlockLevel: 16, maxLevel: 5 },
 { jobId: 1028, skillId: 12343, skillName: "Bone Storm", unlockLevel: 16, maxLevel: 10 },
 { jobId: 1028, skillId: 12344, skillName: "Bone Reinforcement", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 1029, skillId: 12345, skillName: "Hunting Mark", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 1029, skillId: 12346, skillName: "Sudden Penetration", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1029, skillId: 12347, skillName: "Hamstring Pin", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 1029, skillId: 12351, skillName: "Read Weakness", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 1029, skillId: 12352, skillName: "Blood Surge", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1029, skillId: 12348, skillName: "Bloody Pierce", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1029, skillId: 12349, skillName: "Serial Thirst", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 1029, skillId: 12350, skillName: "Doompierce", unlockLevel: 31, maxLevel: 5 },
 
 // Wizard
 //---------------------------------------------------------------------------
@@ -829,6 +837,14 @@
 { jobId: 5022, skillId: 51732, skillName: "Frost Shatter ", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5022, skillId: 51733, skillName: "Frimveil", unlockLevel: 16, maxLevel: 10 },
 { jobId: 5022, skillId: 51734, skillName: "Arcane Collapse", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 5023, skillId: 51735, skillName: "Hunting Mark", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 5023, skillId: 51736, skillName: "Sudden Penetration", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5023, skillId: 51737, skillName: "Hamstring Pin", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 5023, skillId: 51741, skillName: "Read Weakness", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 5023, skillId: 51742, skillName: "Blood Surge", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5023, skillId: 51738, skillName: "Bloody Pierce", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5023, skillId: 51739, skillName: "Serial Thirst", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 5023, skillId: 51740, skillName: "Doompierce", unlockLevel: 31, maxLevel: 5 },
 
 // GM
 //---------------------------------------------------------------------------
