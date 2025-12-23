@@ -1224,6 +1224,11 @@ namespace Melia.Shared.Network
 		public const int ZC_PLAY_FULLSCREEN_EFFECT = 0x107E; // Size: 274
 		public const int CZ_REQ_DEMONLAIR_STATUS_INFO = 0x107F; // Size: 26
 		public const int CZ_APPLY_DEMONLAIR_BUFF_AND_PENALTY = 0x1080; // Size: 38
+		public const int CZ_REQ_CRAFT_TIME_REDUCE_BUFF = 0x1081; // Size: 26
+		public const int CZ_REQ_GUILD_AGIT_MOVE = 0x1082; // Size: 26
+		public const int CZ_REQ_GUILD_TOWER_REMOVE = 0x1083; // Size: 26
+		public const int CZ_REQ_GUILD_QUEST_REWARD_INFO = 0x1084; // Size: 26
+		public const int ZC_SEND_GUILD_QUEST_REWARD_INFO = 0x1085; // Size: 0
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -2482,6 +2487,11 @@ namespace Melia.Shared.Network
 			Sizes[ZC_PLAY_FULLSCREEN_EFFECT] = 274;
 			Sizes[CZ_REQ_DEMONLAIR_STATUS_INFO] = 26;
 			Sizes[CZ_APPLY_DEMONLAIR_BUFF_AND_PENALTY] = 38;
+			Sizes[CZ_REQ_CRAFT_TIME_REDUCE_BUFF] = 26;
+			Sizes[CZ_REQ_GUILD_AGIT_MOVE] = 26;
+			Sizes[CZ_REQ_GUILD_TOWER_REMOVE] = 26;
+			Sizes[CZ_REQ_GUILD_QUEST_REWARD_INFO] = 26;
+			Sizes[ZC_SEND_GUILD_QUEST_REWARD_INFO] = 0;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;
