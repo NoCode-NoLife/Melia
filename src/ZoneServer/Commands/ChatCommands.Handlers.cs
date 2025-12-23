@@ -21,6 +21,8 @@ using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
+using Melia.Zone.World.Maps;
+using Melia.Zone.World.Spawning;
 
 namespace Melia.Zone.Commands
 {
@@ -72,6 +74,7 @@ namespace Melia.Zone.Commands
 			this.Add("iteminfo", "<name>", "Displays information about an item.", this.HandleItemInfo);
 			this.Add("monsterinfo", "<name>", "Displays information about a monster.", this.HandleMonsterInfo);
 			this.Add("whodrops", "<name>", "Finds monsters that drop a given item", this.HandleWhoDrops);
+			this.Add("whereis", "<name>", "Finds the maps where a monster spawns.", this.HandleWhereIs);
 			this.Add("go", "<destination>", "Warps to certain pre-defined destinations.", this.HandleGo);
 			this.Add("goto", "<team name>", "Warps to another character.", this.HandleGoTo);
 			this.Add("recall", "<team name>", "Warps another character back.", this.HandleRecall);
@@ -1126,6 +1129,106 @@ namespace Melia.Zone.Commands
 
 			return CommandResult.Okay;
 		}
+
+
+		/// <summary>
+		/// Finds the maps where a monster respawns
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleWhereIs(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count == 0)
+				return CommandResult.InvalidArgument;
+
+			var search = string.Join(" ", args.GetAll()).ToLower();
+
+			// Find the monster data that matches the search term
+			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAllPreferExact(search);
+			if (monsters.Count == 0)
+			{
+				sender.ServerMessage(Localization.Get("No monsters found for '{0}'."), search);
+				return CommandResult.Okay;
+			}
+
+			// Get all spawners in the world
+			var spawners = ZoneServer.Instance.World.GetSpawners()
+				.OfType<MonsterSpawner>();
+
+			var results = new List<(MonsterData Monster, Map Map, MonsterSpawner Spawner)>();
+
+			foreach (var monster in monsters)
+			{
+				// Find all spawners that spawn this monster
+				foreach (var spawner in spawners)
+				{
+					if (spawner is MonsterSpawner monsterSpawner)
+					{
+						// Skip if this spawner doesn't spawn our monster
+						if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterSpawner.MonsterData.Id, out var spawnerMonster) ||
+							spawnerMonster.Id != monster.Id)
+							continue;
+
+						// Get the map from the spawn areas
+						if (!ZoneServer.Instance.World.TryGetSpawnAreas(spawner.SpawnPointsIdent, out var spawnAreas))
+							continue;
+
+						foreach (var area in spawnAreas.GetAll())
+						{
+							if (!ZoneServer.Instance.World.TryGetMap(area.Map.Id, out var map))
+								continue;
+
+							results.Add((monster, map, monsterSpawner));
+						}
+					}
+				}
+			}
+
+			if (results.Count == 0)
+			{
+				sender.ServerMessage(Localization.Get("No spawn locations found for '{0}'."), search);
+				return CommandResult.Okay;
+			}
+
+			// Order results by map name
+			results = results.OrderBy(x => x.Map.ClassName).ToList();
+
+			// Display results
+			foreach (var result in results)
+			{
+				var spawner = result.Spawner;
+				var respawnInfo = "";
+
+				// Add respawn time info if it exists
+				if (spawner.MinRespawnDelay != TimeSpan.Zero || spawner.MaxRespawnDelay != TimeSpan.Zero)
+				{
+					if (spawner.MinRespawnDelay == spawner.MaxRespawnDelay)
+						respawnInfo = $" [Delay: {spawner.MinRespawnDelay.TotalSeconds:0}s]";
+					else
+						respawnInfo = $" [Delay: {spawner.MinRespawnDelay.TotalSeconds:0}s~{spawner.MaxRespawnDelay.TotalSeconds:0}s]";
+				}
+
+				var response = string.Format(
+					"{0} ({1}) - {2} ({3}) - Quantity: {4}~{5}{6}",
+					result.Monster.Name,
+					result.Monster.ClassName,
+					result.Map?.Data?.Name ?? "Unknown",
+					result.Map.ClassName,
+					spawner.MinAmount,
+					spawner.MaxAmount,
+					respawnInfo
+				);
+
+				sender.ServerMessage(response);
+			}
+
+			return CommandResult.Okay;
+		}
+
 
 		/// <summary>
 		/// Warps target to a pre-defined location.
