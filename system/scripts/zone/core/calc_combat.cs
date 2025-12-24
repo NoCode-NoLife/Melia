@@ -387,16 +387,6 @@ public class CombatCalculationsScript : GeneralScript
 		var attackType = skill.Data.AttackType;
 		var targetArmor = target.ArmorMaterial;
 
-		// Use the right-hand weapon's attack type if a weapon is equipped.
-		// This doesn't necessarily take into account off-hand attacks,
-		// but it's currently unclear if/how those would be handled.
-		if (attacker.Components.TryGet<InventoryComponent>(out var inventory))
-		{
-			var rhItem = inventory.GetEquip(EquipSlot.RightHand);
-			if (rhItem is not DummyEquipItem)
-				attackType = rhItem.Data.AttackType;
-		}
-
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{
 			if (attackType == SkillAttackType.Slash)
