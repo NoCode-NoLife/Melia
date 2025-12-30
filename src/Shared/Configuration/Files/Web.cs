@@ -21,6 +21,11 @@ namespace Melia.Shared.Configuration.Files
 		public List<CgiProcessor> CgiProcessors { get; private set; }
 
 		/// <summary>
+		/// Returns the port for the guild web server.
+		/// </summary>
+		public int GuildPort { get; private set; }
+
+		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
 		/// <param name="filePath"></param>
@@ -30,6 +35,7 @@ namespace Melia.Shared.Configuration.Files
 
 			this.EnableApiAccountCreation = this.GetBool("enable_api_account_creation", false);
 			this.CgiProcessors = this.GetCgiProcessors();
+			this.GuildPort = this.GetInt("guild_port", 9004);
 		}
 
 		/// <summary>

@@ -29,6 +29,7 @@ namespace Melia.Web
 		public readonly static WebServer Instance = new();
 
 		private EmbedIO.WebServer _server;
+		private EmbedIO.WebServer _guildServer;
 
 		/// <summary>
 		/// Returns the server's inter-server communicator.
@@ -60,6 +61,7 @@ namespace Melia.Web
 			this.CheckDependencies();
 
 			this.StartWebServer();
+			this.StartGuildWebServer();
 			this.StartCommunicator();
 
 			ConsoleUtil.RunningTitle();
@@ -364,6 +366,54 @@ namespace Melia.Web
 			catch (Exception ex)
 			{
 				Log.Error("Failed to start web server: {0}", ex);
+				ConsoleUtil.Exit(1);
+			}
+		}
+
+		/// <summary>
+		/// Starts guild web server.
+		/// </summary>
+		private void StartGuildWebServer()
+		{
+			try
+			{
+				var url = string.Format("http://*:{0}/", this.Conf.Web.GuildPort);
+
+				Swan.Logging.Logger.NoLogging();
+				Swan.Logging.Logger.RegisterLogger(new YggdrasilLogger(this.Conf.Log.Filter));
+
+				EndPointManager.UseIpv6 = false;
+
+				var options = new WebServerOptions()
+					.WithMode(HttpListenerMode.EmbedIO)
+					.WithUrlPrefix(url);
+				_guildServer = new EmbedIO.WebServer(options);
+
+				var webFolder = "system/web/";
+				if (Directory.Exists("user/web/"))
+					webFolder = "user/web/";
+
+				_guildServer
+					.WithWebApi("/", m => m.WithController<TosGuildController>())
+					.WithStaticFolder("/", webFolder, false, fm =>
+					{
+						fm.DefaultDocument = "index.htm";
+						fm.OnMappingFailed = FileRequestHandler.PassThrough;
+						fm.OnDirectoryNotListable = FileRequestHandler.PassThrough;
+					});
+				_guildServer.RunAsync();
+
+				if (_guildServer.State == WebServerState.Stopped)
+				{
+					Log.Error("Failed to start guild server, make sure there's only one instance running.");
+					ConsoleUtil.Exit(1);
+				}
+
+				Log.Status("Guild Server now running on '{0}'", url);
+			}
+			catch (Exception ex)
+			{
+				Log.Error("Failed to start guild web server: {0}", ex);
 				ConsoleUtil.Exit(1);
 			}
 		}

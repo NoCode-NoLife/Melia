@@ -7,6 +7,7 @@ using Melia.Shared.ObjectProperties;
 using Melia.Shared.Scripting;
 using Melia.Zone.World;
 using Melia.Zone.World.Maps;
+using Melia.Zone.World.Storage;
 
 namespace Melia.Zone.Database
 {
@@ -118,6 +119,11 @@ namespace Melia.Zone.Database
 		/// Returns the account's premium status manager.
 		/// </summary>
 		public PremiumStatus Premium { get; } = new();
+
+		/// <summary>
+		/// Returns the account's team storage.
+		/// </summary>
+		public TeamStorage TeamStorage { get; set; }
 
 		/// <summary>
 		/// Creates new account.

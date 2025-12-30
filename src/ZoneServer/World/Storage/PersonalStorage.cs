@@ -21,11 +21,6 @@ namespace Melia.Zone.World.Storage
 		public Character Owner { get; private set; }
 
 		/// <summary>
-		/// Whether the owner is currently browsing this storage.
-		/// </summary>
-		public bool IsBrowsing { get; private set; }
-
-		/// <summary>
 		/// Creates new personal storage.
 		/// </summary>
 		/// <param name="owner"></param>
@@ -78,7 +73,7 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public override StorageResult StoreItem(long objectId, int amount)
 		{
-			return this.StoreItem(this.Owner, objectId, amount, InventoryType.Warehouse);
+			return this.StoreItem(this.Owner, objectId, amount, InventoryType.PersonalStorage);
 		}
 
 		/// <summary>
@@ -90,7 +85,7 @@ namespace Melia.Zone.World.Storage
 		/// <returns></returns>
 		public override StorageResult RetrieveItem(long objectId, int amount)
 		{
-			return this.RetrieveItem(this.Owner, objectId, amount, InventoryType.Warehouse);
+			return this.RetrieveItem(this.Owner, objectId, amount, InventoryType.PersonalStorage);
 		}
 
 		/// <summary>
