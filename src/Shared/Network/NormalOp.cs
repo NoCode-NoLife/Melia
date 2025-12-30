@@ -50,6 +50,8 @@ namespace Melia.Shared.Network
 			public const int AccountProperties = 0x4D;
 			public const int UnkDynamicCastStart = 0x4F;
 			public const int UnkDynamicCastEnd = 0x50;
+			public const int NPC_PlayTrack = 0x53;
+			public const int SetNPCTrackPosition = 0x54;
 			public const int PadUpdate = 0x59;
 			public const int PadSetMonsterAltitude = 0x5C;
 			public const int ParticleEffect = 0x61;
@@ -71,7 +73,7 @@ namespace Melia.Shared.Network
 			public const int Unknown_EF = 0xF2;
 			public const int ChannelTraffic = 0x12D;
 			public const int SetGreetingMessage = 0x136;
-			public const int Unk13E = 0x13E;
+			public const int Revive = 0x13E;
 			public const int SetSessionKey = 0x14F;
 			public const int ItemDrop = 0x152;
 			public const int NGSCallback = 0x170;

@@ -9,13 +9,14 @@ using Yggdrasil.Util;
 using System.Threading.Tasks;
 using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.Skills;
+using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
 	/// <summary>
 	/// A non-player character that supports dialogues.
 	/// </summary>
-	public class Npc : MonsterInName, ITriggerableArea
+	public class Npc : MonsterInName, ITriggerableArea, IUpdateable
 	{
 		// TODO: Determine whether NPCs and mobs should actually be
 		//   separate classes. NPCs don't typically fight, and many
@@ -142,6 +143,15 @@ namespace Melia.Zone.World.Actors.Monsters
 		public void SetTriggerArea(IShapeF area)
 		{
 			this.Area = area;
+		}
+
+		/// <summary>
+		/// Updates NPC and its components.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		public void Update(TimeSpan elapsed)
+		{
+			this.Effects.Update(elapsed);
 		}
 
 		/// <summary>
