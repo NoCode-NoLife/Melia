@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
+using Yggdrasil.Network.Communication;
 
 namespace Melia.Zone.World
 {
@@ -31,6 +33,12 @@ namespace Melia.Zone.World
 			party.AddMember(character, true);
 
 			ZoneServer.Instance.Database.CreateParty(party);
+
+			// Notify SocialServer to add player to party chat room
+			// Must be done after CreateParty() so party.DbId is valid
+			var partyUpdateMsg = new PartyUpdateMessage(character.Connection.Account.Id, party.DbId, true);
+			ZoneServer.Instance.Communicator.Send("Coordinator", partyUpdateMsg.BroadcastTo("Chat"));
+
 			Send.ZC_PARTY_INFO(character, party);
 			Send.ZC_ADDON_MSG(character, AddonMessage.PARTY_JOIN, 0, "None");
 			Send.ZC_PARTY_LIST(party);
@@ -69,9 +77,7 @@ namespace Melia.Zone.World
 		/// Removes the party with given id from the manager.
 		/// </summary>
 		/// <param name="partyId"></param>
-		/// <exception cref="ArgumentException">
-		/// Thrown if no party with the given id exists.
-		/// </exception>
+		/// <returns>True if the party was removed, false if it didn't exist.</returns>
 		public bool Remove(long partyId)
 		{
 			if (partyId < ObjectIdRanges.Party)
@@ -79,9 +85,6 @@ namespace Melia.Zone.World
 
 			lock (_parties)
 			{
-				if (!_parties.ContainsKey(partyId))
-					throw new ArgumentException($"Party {partyId} doesn't exist.");
-
 				return _parties.Remove(partyId);
 			}
 		}

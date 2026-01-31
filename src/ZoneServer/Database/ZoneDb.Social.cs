@@ -78,6 +78,11 @@ namespace Melia.Zone.Database
 							this.LoadPartyMembers(character, party);
 							ZoneServer.Instance.World.Parties.Add(party);
 						}
+						else
+						{
+							// Party no longer exists in database - clear stale reference
+							character.PartyId = 0;
+						}
 					}
 				}
 			}

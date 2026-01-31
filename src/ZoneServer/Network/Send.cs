@@ -3922,6 +3922,12 @@ namespace Melia.Zone.Network
 			packet.AddTargetedBuff(buff);
 
 			entity.Map.Broadcast(packet, entity);
+
+			if (entity is Character character)
+				character.Connection?.Party?.BroadcastMemberBuffUpdate(character, packet);
+
+			// Send ZC_BUFF_UPDATE as well for party UI synchronization
+			ZC_BUFF_UPDATE(entity, buff);
 		}
 
 		/// <summary>
@@ -3953,6 +3959,9 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet, entity);
+
+			if (entity is Character character)
+				character.Connection?.Party?.BroadcastMemberBuffUpdate(character, packet);
 		}
 
 		/// <summary>

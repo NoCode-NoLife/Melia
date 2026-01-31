@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -82,12 +83,27 @@ namespace Melia.Social.Network
 			user.Friends.RefreshList();
 			user.Friends.RefreshStatus();
 
-			if (conn.User.Character.PartyId != 0)
+			// Clean up stale party chat room memberships
+			// This handles the case where a player left a party while offline
+			// or the SocialServer wasn't notified of the change
+			var currentRooms = SocialServer.Instance.ChatManager.FindChatRooms(user);
+			foreach (var room in currentRooms)
+			{
+				// Check if this is a party chat room (ID has party range prefix)
+				if ((room.Id & unchecked((long)0xFF00000000000000)) == ObjectIdRanges.Party)
+				{
+					// If user is no longer in this party, remove them from the chat room
+					if (room.Id != user.Character.PartyId)
+						room.RemoveMember(user.AccountId);
+				}
+			}
+
+			// Only add to party chat room if user actually has a party
+			// (PartyId equals just ObjectIdRanges.Party when partyId is 0 in database)
+			if (conn.User.Character.PartyId != ObjectIdRanges.Party)
 			{
 				if (!SocialServer.Instance.ChatManager.TryGetChatRoom(user.Character.PartyId, out var chatRoom))
-				{
 					chatRoom = SocialServer.Instance.ChatManager.CreateChatRoom(user, user.Character.PartyId, ChatRoomType.Friends);
-				}
 				chatRoom.AddMember(user);
 				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
 			}

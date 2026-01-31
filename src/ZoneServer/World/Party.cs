@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network;
+using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
 using Melia.Shared.Game.Properties;
@@ -11,7 +12,9 @@ using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Groups;
+using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
+using Yggdrasil.Network.Communication;
 using Yggdrasil.Scheduling;
 
 namespace Melia.Zone.World
@@ -156,6 +159,10 @@ namespace Melia.Zone.World
 					Send.ZC_CHANGE_RELATION(character.Connection, otherMember.Handle, RelationType.Friendly);
 					Send.ZC_CHANGE_RELATION(otherMember.Connection, character.Handle, RelationType.Friendly);
 				}
+
+				// Notify SocialServer to add player to party chat room
+				var partyUpdateMsg = new PartyUpdateMessage(character.Connection.Account.Id, this.DbId, true);
+				ZoneServer.Instance.Communicator.Send("Coordinator", partyUpdateMsg.BroadcastTo("Chat"));
 			}
 		}
 
@@ -254,6 +261,10 @@ namespace Melia.Zone.World
 			{
 				ZoneServer.Instance.Database.UpdatePartyId(member.DbId);
 			}
+
+			// Notify SocialServer to remove player from party chat room
+			var partyUpdateMsg = new PartyUpdateMessage(member.AccountId, 0, false);
+			ZoneServer.Instance.Communicator.Send("Coordinator", partyUpdateMsg.BroadcastTo("Chat"));
 		}
 
 		/// <summary>
@@ -312,8 +323,9 @@ namespace Melia.Zone.World
 			var list = new List<Character>();
 			foreach (var member in _members.Keys)
 			{
-				// TODO: Improve this
-				list.Add(ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member));
+				var character = ZoneServer.Instance.World.GetCharacter(c => c.ObjectId == member);
+				if (character != null)
+					list.Add(character);
 			}
 
 			return list;
@@ -332,6 +344,33 @@ namespace Melia.Zone.World
 				}
 				Send.ZC_PARTY_INST_INFO(this);
 			}
+		}
+
+		/// <summary>
+		/// Broadcasts buff updates to party members for party UI synchronization.
+		/// Sends the individual buff packet to party members outside visible range
+		/// and triggers a party info update.
+		/// </summary>
+		/// <param name="character">The character whose buff changed.</param>
+		/// <param name="packet">The individual buff packet to send.</param>
+		public void BroadcastMemberBuffUpdate(Character character, Packet packet)
+		{
+			var members = this.GetPartyMembers();
+
+			foreach (var member in members)
+			{
+				if (member == character)
+					continue;
+
+				if (member.Connection == null)
+					continue;
+
+				// Send individual buff packet to members outside visible range
+				if (!(member.Map == character.Map && member.Position.InRange2D(character.Position, Map.VisibleRange) && member.Layer == character.Layer))
+					member.Connection.Send(packet);
+			}
+
+			Send.ZC_PARTY_INST_INFO(this);
 		}
 
 		/// <summary>
