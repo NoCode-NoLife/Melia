@@ -99,5 +99,13 @@
 		/// Player character sized. For most purposes, this is the same as Medium.
 		/// </summary>
 		PC,
+
+		/// <summary>
+		/// ?
+		/// </summary>
+		/// <remarks>
+		/// First seen in i402363.
+		/// </remarks>
+		EX,
 	}
 }
