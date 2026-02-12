@@ -1650,4 +1650,10 @@
 { id: 12005, className: "Grimmark_ChainOfThirst", isOverheat: false, overheatResetTime: 0 },
 { id: 12006, className: "Grimmark_StakeOfTerminus", isOverheat: false, overheatResetTime: 0 },
 { id: 12007, className: "Grimmark_BloodEruption", isOverheat: false, overheatResetTime: 0 },
+{ id: 13001, className: "Kneller_GraveHand", isOverheat: false, overheatResetTime: 0 },
+{ id: 13002, className: "Kneller_MourningChime", isOverheat: false, overheatResetTime: 0 },
+{ id: 13003, className: "Kneller_PassingBell", isOverheat: false, overheatResetTime: 0 },
+{ id: 13004, className: "Kneller_RestingGround", isOverheat: false, overheatResetTime: 0 },
+{ id: 13005, className: "Kneller_ResonantPulse", isOverheat: false, overheatResetTime: 0 },
+{ id: 13006, className: "Kneller_DeathKnell", isOverheat: false, overheatResetTime: 0 },
 ]

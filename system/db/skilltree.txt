@@ -369,6 +369,13 @@
 { jobId: 2029, skillId: 22405, skillName: "Zodiac Refuge", unlockLevel: 16, maxLevel: 10 },
 { jobId: 2029, skillId: 22406, skillName: "Eclipse", unlockLevel: 16, maxLevel: 10 },
 { jobId: 2029, skillId: 22407, skillName: "Judgement of Cosmos", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 2030, skillId: 22501, skillName: "Grave Hands", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 2030, skillId: 22502, skillName: "Mourning Chime", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 2030, skillId: 22503, skillName: "Passing Bell", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 2030, skillId: 22504, skillName: "Deep Resonance ", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 2030, skillId: 22505, skillName: "Resting Sepulcher", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 2030, skillId: 22506, skillName: "Resonance Pulse", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 2030, skillId: 22507, skillName: "Death Knell", unlockLevel: 31, maxLevel: 5 },
 
 // Archer
 //---------------------------------------------------------------------------
@@ -531,6 +538,14 @@
 { jobId: 3111, skillId: 32250, skillName: "Zodiac Refuge", unlockLevel: 16, maxLevel: 10 },
 { jobId: 3111, skillId: 32251, skillName: "Eclipse", unlockLevel: 16, maxLevel: 10 },
 { jobId: 3111, skillId: 32252, skillName: "Judgement of Cosmos", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 3112, skillId: 32253, skillName: "Hunting Mark", unlockLevel: 1, maxLevel: 1 },
+{ jobId: 3112, skillId: 32254, skillName: "Sudden Penetration", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3112, skillId: 32255, skillName: "Hamstring Pin", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 3112, skillId: 32259, skillName: "Read Weakness", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 3112, skillId: 32260, skillName: "Blood Surge", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3112, skillId: 32256, skillName: "Bloody Pierce", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3112, skillId: 32257, skillName: "Serial Thirst", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 3112, skillId: 32258, skillName: "Doompierce", unlockLevel: 31, maxLevel: 5 },
 
 // Cleric
 //---------------------------------------------------------------------------
@@ -693,6 +708,13 @@
 { jobId: 4027, skillId: 42125, skillName: "Zodiac Refuge", unlockLevel: 16, maxLevel: 10 },
 { jobId: 4027, skillId: 42126, skillName: "Eclipse", unlockLevel: 16, maxLevel: 10 },
 { jobId: 4027, skillId: 42127, skillName: "Judgement of Cosmos", unlockLevel: 31, maxLevel: 5 },
+{ jobId: 4028, skillId: 42128, skillName: "Grave Hands", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4028, skillId: 42129, skillName: "Mourning Chime", unlockLevel: 1, maxLevel: 15 },
+{ jobId: 4028, skillId: 42130, skillName: "Passing Bell", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 4028, skillId: 42131, skillName: "Deep Resonance ", unlockLevel: 1, maxLevel: 5 },
+{ jobId: 4028, skillId: 42132, skillName: "Resting Sepulcher", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 4028, skillId: 42133, skillName: "Resonance Pulse", unlockLevel: 16, maxLevel: 10 },
+{ jobId: 4028, skillId: 42134, skillName: "Death Knell", unlockLevel: 31, maxLevel: 5 },
 
 // Scout
 //---------------------------------------------------------------------------

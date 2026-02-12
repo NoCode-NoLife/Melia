@@ -943,6 +943,27 @@
 { category: "Hermit", classId: 110, abilityId: 221120, jobId: 2029, className: "Hermit11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_ConstellationResidueField_Wizard", argNum: 1 } },
 { category: "Hermit", classId: 202, abilityId: 221121, jobId: 2029, className: "Hermit12", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Hermit_Eclipse_Wizard", argNum: 1 } },
 
+// Kneller
+//---------------------------------------------------------------------------
+{ category: "Kneller", classId: 101, abilityId: 421050, jobId: 2030, className: "Kneller1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_GraveHand_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 102, abilityId: 421051, jobId: 2030, className: "Kneller2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_MourningChime_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 103, abilityId: 421052, jobId: 2030, className: "Kneller3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_PassingBell_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 104, abilityId: 421053, jobId: 2030, className: "Kneller4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_RestingGround_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 105, abilityId: 421054, jobId: 2030, className: "Kneller5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_ResonantPulse_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 106, abilityId: 421055, jobId: 2030, className: "Kneller6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_DeathKnell_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 1001, abilityId: 421056, jobId: 2030, className: "Kneller101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller1", argNum: 65 } },
+{ category: "Kneller", classId: 1002, abilityId: 421057, jobId: 2030, className: "Kneller102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller2", argNum: 65 } },
+{ category: "Kneller", classId: 1003, abilityId: 421058, jobId: 2030, className: "Kneller103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller3", argNum: 65 } },
+{ category: "Kneller", classId: 1004, abilityId: 421059, jobId: 2030, className: "Kneller104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller4", argNum: 65 } },
+{ category: "Kneller", classId: 1005, abilityId: 421060, jobId: 2030, className: "Kneller105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller5", argNum: 65 } },
+{ category: "Kneller", classId: 1006, abilityId: 421061, jobId: 2030, className: "Kneller106", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Kneller6", argNum: 65 } },
+{ category: "Kneller", classId: 107, abilityId: 421062, jobId: 2030, className: "Kneller7", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_GraveHand_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 108, abilityId: 421063, jobId: 2030, className: "Kneller8", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_MourningChime_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 109, abilityId: 421064, jobId: 2030, className: "Kneller9", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_PassingBell_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 110, abilityId: 421065, jobId: 2030, className: "Kneller10", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_RestingGround_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 111, abilityId: 421066, jobId: 2030, className: "Kneller11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_ResonantPulse_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 112, abilityId: 421068, jobId: 2030, className: "Kneller12", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_RestingGround_Cleric", argNum: 1 } },
+
 // Archer
 //---------------------------------------------------------------------------
 { category: "Archer", classId: 101, abilityId: 301001, jobId: 3001, className: "Archer11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Archer_Multishot", argNum: 1 } },

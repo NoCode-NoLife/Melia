@@ -263,4 +263,9 @@
 { classId: 290, className: "ARC_UNEQUIP_ITEM", type: "ItemArg", script: "SCR_ARC_UNEQUIP_ITEM" },
 { classId: 291, className: "ARC_UPGRADE", type: "ItemArg", script: "SCR_ARC_UPGRADE" },
 { classId: 292, className: "PHARMACY_END", type: "ItemList", script: "SCR_PHARMACY_END" },
+{ classId: 294, className: "ARCHEOLOGY_IDENTIFY", type: "ItemArg", script: "SCR_ARCHEOLOGY_IDENTIFY" },
+{ classId: 295, className: "LEVEL_UP_GUILD_DRESS_ROOM", type: "ItemArg", script: "SCR_LEVEL_UP_GUILD_DRESS_ROOM" },
+{ classId: 296, className: "MAKE_COSTUME_GUILD_DRESS_ROOM", type: "ItemArg", script: "SCR_MAKE_ITEM_FROM_GUILD_DRESS_ROOM" },
+{ classId: 297, className: "ARC_OPEN_LOGGING", type: "ItemArg", script: "SCR_ARC_OPEN_LOGGING" },
+{ classId: 298, className: "BOSS_CARD_UPGRADE", type: "ItemList", script: "SCR_BOSS_CARD_UPGRADE" },
 ]

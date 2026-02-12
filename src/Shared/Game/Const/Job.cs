@@ -58,6 +58,7 @@ namespace Melia.Shared.Game.Const
 		BonemancerW = 2027,
 		AetherBladerW = 2028,
 		HermitW = 2029,
+		KnellerW = 2030,
 
 		// Archer
 		Archer = 3001,
@@ -84,6 +85,7 @@ namespace Melia.Shared.Game.Const
 		BonemancerA = 3109,
 		BlitzHunterA = 3110,
 		HermitA = 3111,
+		GrimmarkA = 3112,
 
 		// Cleric
 		Cleric = 4001,
@@ -111,6 +113,7 @@ namespace Melia.Shared.Game.Const
 		BonemancerC = 4025,
 		AetherBladerC = 4026,
 		HermitC = 4027,
+		KnellerC = 4028,
 
 		// Scout
 		Scout = 5001,

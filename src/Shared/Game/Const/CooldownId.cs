@@ -1650,5 +1650,11 @@ namespace Melia.Shared.Game.Const
 		Grimmark_ChainOfThirst = 12005,
 		Grimmark_StakeOfTerminus = 12006,
 		Grimmark_BloodEruption = 12007,
+		Kneller_GraveHand = 13001,
+		Kneller_MourningChime = 13002,
+		Kneller_PassingBell = 13003,
+		Kneller_RestingGround = 13004,
+		Kneller_ResonantPulse = 13005,
+		Kneller_DeathKnell = 13006,
 	}
 }

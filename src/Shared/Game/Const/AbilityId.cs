@@ -5149,6 +5149,46 @@ namespace Melia.Shared.Game.Const
 		Sledger16 = 421047,
 		/// <summary>Rolling Hammer: Positioning</summary>
 		Sledger17 = 421048,
+		/// <summary>Resonance of Knell</summary>
+		Kneller100 = 421049,
+		/// <summary>Grave Hands: Enhance</summary>
+		Kneller1 = 421050,
+		/// <summary>Mourning Chime: Enhance</summary>
+		Kneller2 = 421051,
+		/// <summary>Passing Bell: Enhance</summary>
+		Kneller3 = 421052,
+		/// <summary>Resting Sepulcher: Enhance</summary>
+		Kneller4 = 421053,
+		/// <summary>Resonance Pulse: Enhance</summary>
+		Kneller5 = 421054,
+		/// <summary>Death Knell: Enhance</summary>
+		Kneller6 = 421055,
+		/// <summary>[Arts] Grave Hands: Enhanced Upgrade</summary>
+		Kneller101 = 421056,
+		/// <summary>[Arts] Mourning Chime: Enhanced Upgrade</summary>
+		Kneller102 = 421057,
+		/// <summary>[Arts] Passing Bell: Enhanced Upgrade</summary>
+		Kneller103 = 421058,
+		/// <summary>[Arts] Resting Sepulcher: Enhanced Upgrade</summary>
+		Kneller104 = 421059,
+		/// <summary>[Arts] Resonance Pulse: Enhanced Upgrade</summary>
+		Kneller105 = 421060,
+		/// <summary>[Arts] Death Knell: Enhanced Upgrade</summary>
+		Kneller106 = 421061,
+		/// <summary>Grave Hands: Frost Grave</summary>
+		Kneller7 = 421062,
+		/// <summary>Mourning Chime: Frost Resonance</summary>
+		Kneller8 = 421063,
+		/// <summary>Passing Bell: Requiem Step </summary>
+		Kneller9 = 421064,
+		/// <summary>Resting Sepulcher: Frost Grave</summary>
+		Kneller10 = 421065,
+		/// <summary>Resonance Pulse: Frost Resonance</summary>
+		Kneller11 = 421066,
+		/// <summary>[Arts] Death Knell: Sentence</summary>
+		Kneller107 = 421067,
+		/// <summary>Resting Sepulcher: Tomb Wall</summary>
+		Kneller12 = 421068,
 		/// <summary>Cloaking: Enhance</summary>
 		Scout18 = 501001,
 		/// <summary>Dagger Slash: Enhance</summary>

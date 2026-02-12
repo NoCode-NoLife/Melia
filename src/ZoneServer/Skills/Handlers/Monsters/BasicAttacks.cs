@@ -17805,17 +17805,6 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		}
 	}
 
-	[SkillHandler(SkillId.Mon_boss_Redania_Skill_1, SkillId.Mon_boss_Redania_Auto_Skill_1, SkillId.Mon_boss_Redania_Solo_Skill_1, SkillId.Mon_boss_Redania_Illusion_Skill_1)]
-	public class Mon_boss_Redania_Skill_1 : ParametersOnlySkill
-	{
-		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(600);
-		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(400);
-		protected override SplashType SplashType { get; } = SplashType.Fan;
-		protected override float Length { get; } = 150f;
-		protected override float Width { get; } = 200f;
-		protected override float Angle { get; } = 15f;
-	}
-
 	[SkillHandler(SkillId.Mon_boss_Redania_Skill_3, SkillId.Mon_boss_Redania_Skill_5, SkillId.Mon_boss_Redania_Skill_12, SkillId.Mon_boss_Redania_Skill_13, SkillId.Mon_boss_Redania_Auto_Skill_3, SkillId.Mon_boss_Redania_Auto_Skill_5, SkillId.Mon_boss_Redania_Auto_Skill_12, SkillId.Mon_boss_Redania_Auto_Skill_13, SkillId.Mon_boss_Redania_Solo_Skill_3, SkillId.Mon_boss_Redania_Solo_Skill_5, SkillId.Mon_boss_Redania_Solo_Skill_12, SkillId.Mon_boss_Redania_Solo_Skill_13, SkillId.Mon_boss_Redania_Illusion_Skill_3, SkillId.Mon_boss_Redania_Illusion_Skill_5, SkillId.Mon_boss_Redania_Illusion_Skill_12, SkillId.Mon_boss_Redania_Illusion_Skill_13)]
 	public class Mon_boss_Redania_Skill_3 : ParametersOnlySkill
 	{
@@ -17825,6 +17814,17 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 30f;
 		protected override float Width { get; } = 30f;
 		protected override float Angle { get; } = 10f;
+	}
+
+	[SkillHandler(SkillId.Mon_boss_Redania_Auto_Skill_1, SkillId.Mon_boss_Redania_Solo_Skill_1, SkillId.Mon_boss_Redania_Illusion_Skill_1)]
+	public class Mon_boss_Redania_Auto_Skill_1 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(600);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(400);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 150f;
+		protected override float Width { get; } = 200f;
+		protected override float Angle { get; } = 15f;
 	}
 
 	[SkillHandler(SkillId.Mon_boss_Redania_Scout_Skill_1, SkillId.Mon_boss_Redania_Hiveguard_Skill_1)]
@@ -17847,6 +17847,17 @@ namespace Melia.Zone.Skills.Handlers.Monsters
 		protected override float Length { get; } = 160f;
 		protected override float Width { get; } = 200f;
 		protected override float Angle { get; } = 10f;
+	}
+
+	[SkillHandler(SkillId.Mon_boss_Zmei_Skill_1, SkillId.Mon_boss_Zmei_Skill_2, SkillId.Mon_boss_Zmei_Auto_Skill_1, SkillId.Mon_boss_Zmei_Auto_Skill_2, SkillId.Mon_boss_Zmei_Solo_Skill_1, SkillId.Mon_boss_Zmei_Solo_Skill_2)]
+	public class Mon_boss_Zmei_Skill_1 : ParametersOnlySkill
+	{
+		protected override TimeSpan DamageDelay { get; } = TimeSpan.FromMilliseconds(10199);
+		protected override TimeSpan HitDelay { get; } = TimeSpan.FromMilliseconds(9999);
+		protected override SplashType SplashType { get; } = SplashType.Fan;
+		protected override float Length { get; } = 180f;
+		protected override float Width { get; } = 30f;
+		protected override float Angle { get; } = 15f;
 	}
 
 	[SkillHandler(SkillId.Mon_event_gazer_Skill_2)]

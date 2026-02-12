@@ -261,6 +261,10 @@ public static class ItemId
 	public const int TSF04_132_1_Lv2 = 11002251;
 	public const int TSF04_132_1_Lv3 = 11002252;
 	public const int TSF04_132_1_Lv4 = 11002253;
+	public const int TSF04_133_1 = 11002254;
+	public const int TSF04_133_1_Lv2 = 11002255;
+	public const int TSF04_133_1_Lv3 = 11002256;
+	public const int TSF04_133_1_Lv4 = 11002257;
 	public const int EP13_Galimybe_TOP = 11003061;
 	public const int GrowthVision_Armor = 11003062;
 	public const int SWD04_126_Lv2 = 11050000;
@@ -3854,6 +3858,11 @@ public static class ItemId
 	public const int EP14_Artefact_007 = 11007376;
 	public const int EP14_Artefact_018 = 11007387;
 	public const int EP12_Artefact_111 = 11007400;
+	public const int EP13_Artefact_11095007 = 11007449;
+	public const int EP13_Artefact_11100034 = 11007450;
+	public const int EP13_Artefact_11107007 = 11007451;
+	public const int EP13_Artefact_11107036 = 11007452;
+	public const int EP13_Artefact_11107065 = 11007453;
 	public const int EP12_FIELD_TOP_001 = 11010001;
 	public const int EP12_FIELD_TOP_002 = 11010002;
 	public const int EP12_FIELD_TOP_003 = 11010003;
@@ -4098,6 +4107,22 @@ public static class ItemId
 	public const int EP17_Kalentis_BRC_03 = 11100076;
 	public const int EP17_Kalentis_NECK_04 = 11100077;
 	public const int EP17_Kalentis_BRC_04 = 11100078;
+	public const int EP18_NECK_01 = 11100079;
+	public const int EP18_BRC_01 = 11100080;
+	public const int EP18_NECK_02 = 11100081;
+	public const int EP18_BRC_02 = 11100082;
+	public const int EP18_NECK_03 = 11100083;
+	public const int EP18_BRC_03 = 11100084;
+	public const int EP18_NECK_04 = 11100085;
+	public const int EP18_BRC_04 = 11100086;
+	public const int EP19_NECK_01 = 11100087;
+	public const int EP19_BRC_01 = 11100088;
+	public const int EP19_NECK_02 = 11100089;
+	public const int EP19_BRC_02 = 11100090;
+	public const int EP19_NECK_03 = 11100091;
+	public const int EP19_BRC_03 = 11100092;
+	public const int EP19_NECK_04 = 11100093;
+	public const int EP19_BRC_04 = 11100094;
 	public const int EP14_Goddess_Noble_1_TOP = 11100100;
 	public const int EP14_Goddess_Noble_1_LEG = 11100101;
 	public const int EP14_Goddess_Noble_1_FOOT = 11100102;
@@ -4264,6 +4289,11 @@ public static class ItemId
 	public const int Hat_Grimmark = 11108044;
 	public const int Hat2_Grimmark = 11108045;
 	public const int Costume_Char1_29 = 11108046;
+	public const int Costume_Char3_29 = 11108049;
+	public const int Costume_Char4_28 = 11108052;
+	public const int Costume_Char2_30 = 11108053;
+	public const int Hat_Kneller_M = 11108055;
+	public const int Hat_Kneller_F = 11108056;
 	public const int SHD02_101_16 = 11109009;
 	public const int SHD02_102_16 = 11109010;
 	public const int SHD02_103_16 = 11109011;
@@ -4661,6 +4691,9 @@ public static class ItemId
 	public const int Card_Cyrenia = 644157;
 	public const int Card_Neringa = 644158;
 	public const int Card_Glacier = 644159;
+	public const int Card_Zmei_Left = 644160;
+	public const int Card_Zmei_Center = 644161;
+	public const int Card_Zmei_Right = 644162;
 	public const int Master_Card_Boruble = 644501;
 	public const int Master_Card_MariaLeed = 644502;
 	public const int Master_Card_JuraSwajone = 644503;
@@ -5607,6 +5640,9 @@ public static class ItemId
 	public const int Gacha_Goddess_Raid_Veliora_Auto_Dummy = 1520034;
 	public const int Gacha_Goddess_Raid_Veliora_Solo_Dummy = 1520035;
 	public const int Gacha_DemonLair_Ashark_Dummy = 1520036;
+	public const int Gacha_Goddess_Raid_Zmei_Party_Dummy = 1520037;
+	public const int Gacha_Goddess_Raid_Zmei_Auto_Dummy = 1520038;
+	public const int Gacha_Goddess_Raid_Zmei_Solo_Dummy = 1520039;
 	public const int HiddenAbility_TotalCube = 2020001;
 	public const int HiddenAbility_SwordmanCube = 2020002;
 	public const int HiddenAbility_WizardCube = 2020003;
@@ -5698,6 +5734,7 @@ public static class ItemId
 	public const int EVENT_W_MOON_BOX_7 = 10000657;
 	public const int Event_2501_Newyear_Gacha_Box = 10000661;
 	public const int Event_Voucher_Box_Papaya = 10000662;
+	public const int Event_2602_Newyear_Gacha_Box = 10000668;
 	public const int EVENT_2004_Arbor_Day_BOX = 10003011;
 	public const int EVENT_2004_Arbor_Day_Gift_Pouch1 = 10003012;
 	public const int EVENT_2004_Arbor_Day_Gift_Pouch2 = 10003013;
@@ -6118,6 +6155,8 @@ public static class ItemId
 	public const int SilverBox_Dungeonkey_Care = 11035434;
 	public const int Global_SilverBox_Dungeonkey_Care = 11035451;
 	public const int SilverBox_Skillgem_Care = 11035568;
+	public const int Arc_Epic_Rare_Random_Box = 11039540;
+	public const int Arc_Epic_Rare_Random_Box_NoTrade = 11039541;
 	public const int Misc_Reinforce_PercentUp_470_NoTrade_10ea = 11200054;
 	public const int Misc_Reinforce_PercentUp_470_NoTrade_30ea = 11200055;
 	public const int Misc_Reinforce_PercentUp_470_NoTrade_50ea = 11200056;
@@ -6186,6 +6225,11 @@ public static class ItemId
 	public const int Austeja_Random_Piece_Equip_Box = 11203053;
 	public const int Misc_Unsealing_Stone_540_10ea = 11204029;
 	public const int Event_2023_Popo_Silver_Box = 11205067;
+	public const int Weapon_Artifact_SelectBox_EP13_01 = 11300000;
+	public const int Weapon_Artifact_SelectBox_EP13_02 = 11300001;
+	public const int Weapon_Artifact_SelectBox_EP13_03 = 11300002;
+	public const int Weapon_Artifact_SelectBox_EP13_04 = 11300003;
+	public const int Weapon_Artifact_SelectBox_EP13_05 = 11300004;
 
 	// Drug
 	//-----------------------------------------------------------------------
@@ -6205,6 +6249,7 @@ public static class ItemId
 	public const int EmoticonItem_2402_2 = 494427;
 	public const int EmoticonItem_2503_176 = 494467;
 	public const int EmoticonItem_2503_177 = 494468;
+	public const int EmoticonItem_186 = 494496;
 	public const int Drug_MAXSTA1 = 640001;
 	public const int Drug_HP1 = 640002;
 	public const int Drug_HP2 = 640003;
@@ -9867,6 +9912,7 @@ public static class ItemId
 	public const int Item_Achieve_Plate_AetherBlader = 11030503;
 	public const int Item_Achieve_Plate_Hermit = 11030504;
 	public const int Item_Achieve_Plate_Grimmark = 11030505;
+	public const int Item_Achieve_Plate_Kneller = 11030506;
 	public const int UnknownSantuaryDEFpotion = 11035357;
 	public const int BerniceDEFpotion = 11035358;
 	public const int VasilissaAutoSoloHEALpotion = 11035359;
@@ -9879,6 +9925,36 @@ public static class ItemId
 	public const int Event_Crack_Archeology_Compass = 11039506;
 	public const int Event_ReStore_Archeology_Compass = 11039507;
 	public const int Event_Perfect_Archeology_Compass = 11039508;
+	public const int Arc_Klaipeda_Ancient_Lamp = 11039510;
+	public const int Arc_Klaipeda_Gele_Totem = 11039511;
+	public const int Arc_Orsha_Royal_Seal = 11039512;
+	public const int Arc_Fedimian_War_Helm = 11039513;
+	public const int Arc_Fedimian_Holy_Relic = 11039514;
+	public const int Arc_Forest_Spirit_Stone = 11039515;
+	public const int Arc_Kallis_Monolith = 11039516;
+	public const int Arc_Starry_Astrolabe = 11039517;
+	public const int Arc_Royal_Sword = 11039518;
+	public const int Arc_Ashaq_Grimoire = 11039519;
+	public const int Arc_Saule_Golden_Crown = 11039520;
+	public const int Arc_Saule_Holy_Chalice = 11039521;
+	public const int Arc_Dina_Bee_Spirit_Mask = 11039522;
+	public const int Arc_Dina_Bee_Crystal = 11039523;
+	public const int Arc_Vakarine_Moon_Shield = 11039524;
+	public const int Arc_Vakarine_Goddess_Statue = 11039525;
+	public const int Arc_Siaulai_Druid_Staff = 11039526;
+	public const int Arc_Siaulai_Nature_Stone = 11039527;
+	public const int Arc_Tenet_Flower_Fossil = 11039528;
+	public const int Arc_Tenet_Eternal_Wood = 11039529;
+	public const int Arc_Lemprasa_Iron_Axe = 11039530;
+	public const int Arc_Lemprasa_Miner_Hammer = 11039531;
+	public const int Arc_Tantra_Warrior_Sword = 11039532;
+	public const int Arc_Tantra_Battle_Banner = 11039533;
+	public const int Arc_Manor_Pocket_Watch = 11039534;
+	public const int Arc_Manor_Ornate_Mirror = 11039535;
+	public const int Arc_Train_Steam_Part = 11039536;
+	public const int Arc_Train_Clock_Device = 11039537;
+	public const int Arc_Alchemist_Flask = 11039538;
+	public const int Arc_Alchemist_Crystal = 11039539;
 	public const int Secret_Medicine_Str_470 = 11200035;
 	public const int Secret_Medicine_Int_470 = 11200036;
 	public const int Secret_Medicine_Con_470 = 11200037;
@@ -9922,6 +9998,7 @@ public static class ItemId
 	public const int Secret_Medicine_Str_540 = 11201379;
 	public const int Secret_Medicine_Int_540 = 11201380;
 	public const int Secret_Medicine_Con_540 = 11201381;
+	public const int QuestReward_RepairPotion_550 = 11201388;
 	public const int QuestReward_RepairPotion_540 = 11202000;
 	public const int Plate_Achieve_Pontifex = 11205105;
 	public const int Plate_Achieve_Illusionist = 11205123;
@@ -9950,6 +10027,7 @@ public static class ItemId
 	public const int Plate_Achieve_Grimmark = 11205517;
 	public const int Plate_Shade_Of_The_Decennial_Tree = 11205527;
 	public const int Plate_Achieve_Merry_Xmas = 11205532;
+	public const int Plate_Achieve_Kneller = 11205571;
 	public const int Moru_Goddess_Event_9th = 11210041;
 
 	// Earring
@@ -10858,6 +10936,7 @@ public static class ItemId
 	public const int Event_W_Snd_Anni_Campanion_Select_Box = 10003730;
 	public const int Event_W_Snd_Anni_Costume_Select_Box = 10003731;
 	public const int Event_W_Snd_Anni_Hair_Costume_Select_Box = 10003732;
+	public const int EVENT_Dujokku = 10003738;
 	public const int Event_Ability_Point_Stone_10000_Limit_2 = 10004000;
 	public const int Event_Misc_Pvpmine2_Ticket_5000_Limit_2 = 10004001;
 	public const int Event_Contents_Total_Point_Boost_Coupon_Limit_2 = 10004002;
@@ -10959,6 +11038,10 @@ public static class ItemId
 	public const int Popoboost_Weapon_Main_Box_2503 = 11205382;
 	public const int Popoboost_Select_Sub_Weapon_Box_2503 = 11205383;
 	public const int Popoboost_Aromor_Box_2503 = 11205384;
+	public const int Test_Amror_Box_Melee = 11205417;
+	public const int TEST_MAIN_WEAPON = 11205418;
+	public const int TEST_SUB_WEAPON = 11205419;
+	public const int Test_Amror_Box_Magic = 11205420;
 	public const int Popoboost_2506_Special_Equipment_Box = 11205442;
 	public const int Popoboost_Weapon_Box_2506 = 11205443;
 	public const int Popoboost_Weapon_Main_Box_2506 = 11205444;
@@ -10973,6 +11056,8 @@ public static class ItemId
 	public const int Popoboost_Weapon_Main_Box_2512 = 11205529;
 	public const int Popoboost_Select_Sub_Weapon_Box_2512 = 11205530;
 	public const int Popoboost_Aromor_Box_2512 = 11205531;
+	public const int Popoboost_Aromor_Box_2512_Papaya = 11205567;
+	public const int Popoboost_2512_Special_Equipment_Box_Papaya = 11205568;
 
 	// ExpOrb
 	//-----------------------------------------------------------------------
@@ -11926,6 +12011,27 @@ public static class ItemId
 	public const int GEM_Grimmark_ExploitWeakness_Scout = 745049;
 	public const int GEM_Grimmark_BloodEruption_Scout = 745050;
 	public const int GEM_Grimmark_BloodEruption_Swordman = 745051;
+	public const int GEM_Grimmark_PiercingLeap_Archer = 745052;
+	public const int GEM_Grimmark_HamstringPin_Archer = 745053;
+	public const int GEM_Grimmark_BloodspearPierce_Archer = 745054;
+	public const int GEM_Grimmark_ChainOfThirst_Archer = 745055;
+	public const int GEM_Grimmark_StakeOfTerminus_Archer = 745056;
+	public const int GEM_Grimmark_ExploitWeakness_Archer = 745057;
+	public const int GEM_Grimmark_BloodEruption_Archer = 745058;
+	public const int GEM_Kneller_GraveHand_Cleric = 745059;
+	public const int GEM_Kneller_MourningChime_Cleric = 745060;
+	public const int GEM_Kneller_PassingBell_Cleric = 745061;
+	public const int GEM_Kneller_DeeperResonance_Cleric = 745062;
+	public const int GEM_Kneller_RestingGround_Cleric = 745063;
+	public const int GEM_Kneller_ResonantPulse_Cleric = 745064;
+	public const int GEM_Kneller_DeathKnell_Cleric = 745065;
+	public const int GEM_Kneller_GraveHand_Wizard = 745066;
+	public const int GEM_Kneller_MourningChime_Wizard = 745067;
+	public const int GEM_Kneller_PassingBell_Wizard = 745068;
+	public const int GEM_Kneller_DeeperResonance_Wizard = 745069;
+	public const int GEM_Kneller_RestingGround_Wizard = 745070;
+	public const int GEM_Kneller_ResonantPulse_Wizard = 745071;
+	public const int GEM_Kneller_DeathKnell_Wizard = 745072;
 
 	// Gem_High_Color
 	//-----------------------------------------------------------------------
@@ -14431,6 +14537,7 @@ public static class ItemId
 	public const int Event_Pharmacy_Recipe_530_Str = 11200472;
 	public const int Event_Pharmacy_Recipe_530_Int = 11200473;
 	public const int Event_Pharmacy_Recipe_530_Con = 11200474;
+	public const int Ticket_Event_Blessed_Cube = 11200495;
 	public const int Misc_Reinforce_PercentUp_490 = 11201030;
 	public const int Misc_Reinforce_PercentUp_490_NoTrade = 11201031;
 	public const int Common_Skill_Enchant_Jewal_480 = 11201039;
@@ -14476,6 +14583,8 @@ public static class ItemId
 	public const int Misc_Reinforce_PercentUp_540_NoTrade = 11202023;
 	public const int Misc_Evolve_Misc_540 = 11202030;
 	public const int Misc_Evolve_Misc_540_NoTrade = 11202031;
+	public const int Misc_Reinforce_PercentUp_550 = 11202068;
+	public const int Misc_Reinforce_PercentUp_550_NoTrade = 11202069;
 	public const int Event_9th_Col_Coin = 11210040;
 
 	// Misc
@@ -14584,6 +14693,7 @@ public static class ItemId
 	public const int Ticket_Bountyhunt_Pedimian_Ep14_Hard = 11035654;
 	public const int Ticket_Bountyhunt_Orsha_Ep14_Hard = 11035655;
 	public const int EVENT_Artefact_Detector = 11039500;
+	public const int Ancient_Fragment = 11039509;
 	public const int Piece_GabijaEarring = 11200001;
 	public const int Archeology_Relic_A_1_Lv470 = 11200042;
 	public const int Archeology_Relic_A_2_Lv470 = 11200043;
@@ -14892,6 +15002,9 @@ public static class ItemId
 	public const int Piece_Random_Skill_Gem_540_NoTrade = 11202040;
 	public const int EXPERT_MODE_MULTIPLE_RECIPE_541 = 11202044;
 	public const int Convert_Challenge_540_To_520 = 11202067;
+	public const int Misc_Ep18_Acc = 11202074;
+	public const int Misc_Ep18_Acc_NoTrade = 11202075;
+	public const int Misc_Ep18_Card = 11202076;
 	public const int Piece_EP17_Penetration_Belt = 11203001;
 	public const int Piece_EP17_Penetration_Belt_NoTrade = 11203002;
 	public const int Piece_EP17_Penetration_Belt_All = 11203003;
@@ -15999,6 +16112,12 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char1_29 = 494485;
 	public const int HiddenJobUnlock_Char1_29_NoTrade = 494486;
 	public const int EmoticonItem_2512_Popo = 494487;
+	public const int HiddenJobUnlock_Char3_29 = 494488;
+	public const int HiddenJobUnlock_Char3_29_NoTrade = 494489;
+	public const int HiddenJobUnlock_Char4_28 = 494490;
+	public const int HiddenJobUnlock_Char4_28_NoTrade = 494491;
+	public const int HiddenJobUnlock_Char2_30 = 494492;
+	public const int HiddenJobUnlock_Char2_30_NoTrade = 494493;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -17173,6 +17292,10 @@ public static class ItemId
 	public const int GACHA_HAIRACC_ReRun_2024_010_TWN = 1000164;
 	public const int GACHA_HAIRACC_ReSale_10_NoTrade = 1000165;
 	public const int GACHA_HAIRACC_ReRun_2025_001_10YEAR = 1000166;
+	public const int Event_Blessed_CUBE_10 = 1000167;
+	public const int Event_Blessed_CUBE_01 = 1000168;
+	public const int Recycle_Blessed_CUBE_10 = 1000169;
+	public const int Recycle_Blessed_CUBE_01 = 1000170;
 	public const int PersonalHousing_Item_Voucher_1 = 1249900;
 	public const int PersonalHousing_Item_Voucher_2 = 1249901;
 	public const int PersonalHousing_Item_Voucher_3 = 1249902;
@@ -17523,6 +17646,12 @@ public static class ItemId
 	public const int Premium_AbillityArts_Char5_23_1d = 2021274;
 	public const int Premium_AbillityArts_Char1_29 = 2021275;
 	public const int Premium_AbillityArts_Char1_29_1d = 2021276;
+	public const int Premium_AbillityArts_Char3_29 = 2021277;
+	public const int Premium_AbillityArts_Char3_29_1d = 2021278;
+	public const int Premium_AbillityArts_Char4_28 = 2021279;
+	public const int Premium_AbillityArts_Char4_28_1d = 2021280;
+	public const int Premium_AbillityArts_Char2_30 = 2021281;
+	public const int Premium_AbillityArts_Char2_30_1d = 2021282;
 	public const int GLOBAL_Steam_Lucky_Shard_Package = 2500000;
 	public const int GLOBAL_Steam_Feeling_Lucky_Package = 2500001;
 	public const int GLOBAL_Steam_Lucky_Sub_Box = 2500002;
@@ -19831,6 +19960,7 @@ public static class ItemId
 	public const int Hat_Winter_F = 11108048;
 	public const int Helmet_Santapopolion_M = 11108050;
 	public const int Helmet_Santapopolion_F = 11108051;
+	public const int Wing_Kneller = 11108054;
 	public const int Unlock_Earring_Belonging_Scroll = 11200002;
 	public const int Ticket_Earring_Raid_1d = 11200003;
 	public const int Ticket_Earring_Raid = 11200004;
@@ -20066,6 +20196,10 @@ public static class ItemId
 	public const int Ticket_DemonLair_Ashark_Enter = 11200484;
 	public const int Ticket_DemonLair_Ashark_Enter_NoTrade = 11200485;
 	public const int Ticket_DemonLair_Ashark_Enter_LimitTime = 11200486;
+	public const int Multiple_Token_Zmei_Solo = 11200487;
+	public const int Multiple_Token_Zmei_Solo_NoTrade = 11200488;
+	public const int Multiple_Token_Zmei_Party = 11200489;
+	public const int Multiple_Token_Zmei_Party_NoTrade = 11200490;
 	public const int Multiple_Token_TurbulentCore_Party = 11201009;
 	public const int Multiple_Token_TurbulentCore_Party_NoTrade = 11201010;
 	public const int Misc_Reinforce_PercentUp_500_NoTrade_11ea_Recycle = 11201070;
@@ -20131,6 +20265,12 @@ public static class ItemId
 	public const int Misc_Reinforce_PercentUp_530_NoTrade_15ea_Achieve = 11201341;
 	public const int Misc_Reinforce_PercentUp_530_NoTrade_30ea_Achieve = 11201342;
 	public const int Selectbox_NoTrade_ReputationGoddess_Card_Lv10 = 11201363;
+	public const int ExchangeACC_Book_550 = 11201382;
+	public const int ExchangeACC_Book_550_1d = 11201383;
+	public const int Unlock_Acc_Belonging_Scroll_550_Recycle = 11201384;
+	public const int Unlock_Acc_Belonging_Scroll_550_Recycle_3ea = 11201385;
+	public const int Unlock_Acc_Belonging_Scroll_550 = 11201386;
+	public const int Unlock_Acc_Belonging_Scroll_550_1d = 11201387;
 	public const int Misc_Reinforce_PercentUp_540_NoTrade_11ea_Recycle = 11202024;
 	public const int Misc_Reinforce_PercentUp_540_NoTrade_10ea_Achieve = 11202025;
 	public const int Misc_Reinforce_PercentUp_540_NoTrade_15ea_Achieve = 11202026;
@@ -20147,6 +20287,11 @@ public static class ItemId
 	public const int Box_Balance_Care_Item_8_7d = 11202049;
 	public const int Misc_Misc_BlessedStone_2_350ea = 11202053;
 	public const int Austeja_Col_Random_Box = 11202057;
+	public const int Misc_Reinforce_PercentUp_550_NoTrade_11ea_Recycle = 11202070;
+	public const int Misc_Reinforce_PercentUp_550_NoTrade_10ea_Achieve = 11202071;
+	public const int Misc_Reinforce_PercentUp_550_NoTrade_15ea_Achieve = 11202072;
+	public const int Misc_Reinforce_PercentUp_550_NoTrade_30ea_Achieve = 11202073;
+	public const int Box_Balance_Care_Item_9_7d = 11202077;
 	public const int Unlock_Belt_Team_Belonging_Scroll_540_Recycle_1d = 11203049;
 	public const int Unlock_Belt_Team_Belonging_Scroll_540_Recycle = 11203050;
 	public const int Unlock_Shoulder_Team_Belonging_Scroll_540_Recycle = 11203051;
@@ -20607,12 +20752,37 @@ public static class ItemId
 	public const int I2512_10year_Package_E = 11205542;
 	public const int I2512_10year_Package_F = 11205543;
 	public const int I2512_10year_Package_G = 11205544;
+	public const int Leticia_GrimmarkA_Unlockbox = 11205545;
 	public const int Selectbox_Santapopo = 11205546;
 	public const int Selectbox_Ep17bunnygambler01 = 11205547;
 	public const int Selectbox_Ep17bunnygambler02 = 11205548;
 	public const int Selectbox_Specialclass_04 = 11205549;
 	public const int Selectbox_Specialclass_Allinone3 = 11205550;
 	public const int I2512_10year_Package_H = 11205551;
+	public const int Selectbox_Kneller = 11205552;
+	public const int Leticia_Kneller_Unlockbox = 11205553;
+	public const int Special_Gift_Box_Leticia_2601_Papaya1 = 11205554;
+	public const int Special_Gift_Box_Leticia_2601 = 11205555;
+	public const int I202601_Package01 = 11205556;
+	public const int I202601_Package02 = 11205557;
+	public const int I202601_Package03 = 11205558;
+	public const int I202601_Package04 = 11205559;
+	public const int I202601_Package05 = 11205560;
+	public const int I202601_Package06 = 11205561;
+	public const int I202601_Package07 = 11205562;
+	public const int I202601_Package08 = 11205563;
+	public const int I202601_Package09 = 11205564;
+	public const int I202511_Package08_Papaya = 11205565;
+	public const int I202511_Package04_Papaya = 11205566;
+	public const int Package_Singularity_Boost = 11205569;
+	public const int Selectbox_Kneller02 = 11205570;
+	public const int Special_Gift_Box_Leticia_2602_Papaya1 = 11205572;
+	public const int Grimmark_Hermit_Pakcage = 11205573;
+	public const int I202602_Package01 = 11205574;
+	public const int I202602_Package02 = 11205575;
+	public const int I202602_Package03 = 11205576;
+	public const int I202602_Package04 = 11205577;
+	public const int Special_Gift_Box_Leticia_2602 = 11205578;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
@@ -20670,6 +20840,14 @@ public static class ItemId
 	public const int Ticket_Veliora_Party_Enter = 11210058;
 	public const int Ticket_Neringa_Party_Enter_NoTrade = 11210059;
 	public const int Ticket_Golem_Party_Enter_NoTrade = 11210060;
+	public const int Ticket_Zmei_Auto_Enter = 11210061;
+	public const int Ticket_Zmei_Auto_Enter_NoTrade = 11210062;
+	public const int Ticket_Zmei_Auto_Enter_LimitTime = 11210063;
+	public const int Ticket_Redania_Party_Enter_NoTrade = 11210064;
+	public const int Ticket_Veliora_Party_Enter_NoTrade = 11210065;
+	public const int Ticket_Laimara_Party_Enter_NoTrade = 11210066;
+	public const int Ticket_Zmei_Party_Enter = 11210067;
+	public const int Ticket_Zmei_Party_Enter_NoTrade = 11210068;
 
 	// Quest
 	//-----------------------------------------------------------------------
@@ -24186,6 +24364,7 @@ public static class ItemId
 	public const int R_Ticket_Laimara_Auto_Enter_WorldEvent = 960230;
 	public const int R_Ticket_Veliora_Auto_Enter_WorldEvent = 960231;
 	public const int R_Ticket_DemonLair_Ashark_Enter_NoTrade = 960232;
+	public const int R_Ticket_Zmei_Auto_Enter_NoTrade = 960233;
 	public const int R_HIDDEN_BULLETMARKER_ITEM1 = 1010000;
 	public const int R_HIDDEN_BULLETMARKER_ITEM2 = 1010001;
 	public const int R_HIDDEN_BULLETMARKER_ITEM3 = 1010002;
@@ -24970,6 +25149,16 @@ public static class ItemId
 	public const int EP12_Artefact_113 = 11007402;
 	public const int EP12_Artefact_117 = 11007406;
 	public const int EP13_Artefact_121_NoTrade = 11007410;
+	public const int EP13_Artefact_11095010 = 11007459;
+	public const int EP13_Artefact_11100037 = 11007460;
+	public const int EP13_Artefact_11107010 = 11007461;
+	public const int EP13_Artefact_11107039 = 11007462;
+	public const int EP13_Artefact_11107068 = 11007463;
+	public const int EP13_Artefact_11095012 = 11007479;
+	public const int EP13_Artefact_11100039 = 11007480;
+	public const int EP13_Artefact_11107012 = 11007481;
+	public const int EP13_Artefact_11107041 = 11007482;
+	public const int EP13_Artefact_11107070 = 11007483;
 	public const int EP12_FIELD_DAGGER = 11020011;
 	public const int EP12_FIELD_PISTOL = 11020013;
 	public const int EP12_FIELD_TRINKET = 11020017;
@@ -28096,6 +28285,71 @@ public static class ItemId
 	public const int EP13_Artefact_122_NoTrade = 11007411;
 	public const int EP13_Artefact_123_NoTrade = 11007412;
 	public const int EP13_Artefact_124_NoTrade = 11007413;
+	public const int EP13_Artefact_11095000 = 11007414;
+	public const int EP13_Artefact_11100027 = 11007415;
+	public const int EP13_Artefact_11107000 = 11007416;
+	public const int EP13_Artefact_11107029 = 11007417;
+	public const int EP13_Artefact_11107058 = 11007418;
+	public const int EP13_Artefact_11095001 = 11007419;
+	public const int EP13_Artefact_11100028 = 11007420;
+	public const int EP13_Artefact_11107001 = 11007421;
+	public const int EP13_Artefact_11107030 = 11007422;
+	public const int EP13_Artefact_11107059 = 11007423;
+	public const int EP13_Artefact_11095008 = 11007424;
+	public const int EP13_Artefact_11100035 = 11007425;
+	public const int EP13_Artefact_11107008 = 11007426;
+	public const int EP13_Artefact_11107037 = 11007427;
+	public const int EP13_Artefact_11107066 = 11007428;
+	public const int EP13_Artefact_11095009 = 11007429;
+	public const int EP13_Artefact_11100036 = 11007430;
+	public const int EP13_Artefact_11107009 = 11007431;
+	public const int EP13_Artefact_11107038 = 11007432;
+	public const int EP13_Artefact_11107067 = 11007433;
+	public const int EP13_Artefact_11095005 = 11007434;
+	public const int EP13_Artefact_11100032 = 11007435;
+	public const int EP13_Artefact_11107005 = 11007436;
+	public const int EP13_Artefact_11107034 = 11007437;
+	public const int EP13_Artefact_11107063 = 11007438;
+	public const int EP13_Artefact_11095003 = 11007439;
+	public const int EP13_Artefact_11100030 = 11007440;
+	public const int EP13_Artefact_11107003 = 11007441;
+	public const int EP13_Artefact_11107032 = 11007442;
+	public const int EP13_Artefact_11107061 = 11007443;
+	public const int EP13_Artefact_11095014 = 11007444;
+	public const int EP13_Artefact_11100041 = 11007445;
+	public const int EP13_Artefact_11107014 = 11007446;
+	public const int EP13_Artefact_11107043 = 11007447;
+	public const int EP13_Artefact_11107072 = 11007448;
+	public const int EP13_Artefact_11095013 = 11007454;
+	public const int EP13_Artefact_11100040 = 11007455;
+	public const int EP13_Artefact_11107013 = 11007456;
+	public const int EP13_Artefact_11107042 = 11007457;
+	public const int EP13_Artefact_11107071 = 11007458;
+	public const int EP13_Artefact_11095015 = 11007464;
+	public const int EP13_Artefact_11100042 = 11007465;
+	public const int EP13_Artefact_11107015 = 11007466;
+	public const int EP13_Artefact_11107044 = 11007467;
+	public const int EP13_Artefact_11107073 = 11007468;
+	public const int EP13_Artefact_11095002 = 11007469;
+	public const int EP13_Artefact_11100029 = 11007470;
+	public const int EP13_Artefact_11107002 = 11007471;
+	public const int EP13_Artefact_11107031 = 11007472;
+	public const int EP13_Artefact_11107060 = 11007473;
+	public const int EP13_Artefact_11095011 = 11007474;
+	public const int EP13_Artefact_11100038 = 11007475;
+	public const int EP13_Artefact_11107011 = 11007476;
+	public const int EP13_Artefact_11107040 = 11007477;
+	public const int EP13_Artefact_11107069 = 11007478;
+	public const int EP13_Artefact_11095004 = 11007484;
+	public const int EP13_Artefact_11100031 = 11007485;
+	public const int EP13_Artefact_11107004 = 11007486;
+	public const int EP13_Artefact_11107033 = 11007487;
+	public const int EP13_Artefact_11107062 = 11007488;
+	public const int EP13_Artefact_11095006 = 11007489;
+	public const int EP13_Artefact_11100033 = 11007490;
+	public const int EP13_Artefact_11107006 = 11007491;
+	public const int EP13_Artefact_11107035 = 11007492;
+	public const int EP13_Artefact_11107064 = 11007493;
 	public const int EP12_FIELD_SWORD = 11020001;
 	public const int EP12_FIELD_THSWORD = 11020002;
 	public const int EP12_FIELD_STAFF = 11020003;

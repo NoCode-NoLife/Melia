@@ -510,6 +510,11 @@ namespace Melia.Shared.Game.Const
 		public const string Keraunos_MagneticField_Pad = "Keraunos_MagneticField_Pad";
 		public const string Keraunos_OverLoad_Pad = "Keraunos_OverLoad_Pad";
 		public const string Kerberos_FireStadium = "Kerberos_FireStadium";
+		public const string Kneller_GraveHand = "Kneller_GraveHand";
+		public const string Kneller_MourningChime = "Kneller_MourningChime";
+		public const string Kneller_ResonantPulse = "Kneller_ResonantPulse";
+		public const string Kneller_RestingGround = "Kneller_RestingGround";
+		public const string Kneller_RestingGround_Kneller12 = "Kneller_RestingGround_Kneller12";
 		public const string kubas_prominence = "kubas_prominence";
 		public const string Kupole_Austeja_Pad_Heal = "Kupole_Austeja_Pad_Heal";
 		public const string Kupole_Gabija_cleansing_falme = "Kupole_Gabija_cleansing_falme";
@@ -1026,6 +1031,11 @@ namespace Melia.Shared.Game.Const
 		public const string YinYangConsonance_Pad = "YinYangConsonance_Pad";
 		public const string ykTest1 = "ykTest1";
 		public const string Zaura_pad = "Zaura_pad";
+		public const string ZMEI_CATACLYSM_PAD = "ZMEI_CATACLYSM_PAD";
+		public const string ZMEI_FIRE_TORNADO_PAD = "ZMEI_FIRE_TORNADO_PAD";
+		public const string ZMEI_FIREROAD_PAD = "ZMEI_FIREROAD_PAD";
+		public const string ZMEI_SKILL13_Pad = "ZMEI_SKILL13_Pad";
+		public const string ZMEI_SKILL13_PAD2 = "ZMEI_SKILL13_PAD2";
 		public const string zombie_wall = "zombie_wall";
 	}
 }
