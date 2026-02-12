@@ -524,7 +524,7 @@ namespace Melia.Shared.Network
 		public const int CZ_COMPLETE_PRELOAD = 0xDBC; // Size: 26
 		public const int CZ_MGAME_JOIN_CMD = 0xDBD; // Size: 58
 		public const int CZ_ADD_HELP = 0xDBE; // Size: 26
-		public const int ZC_ATTACH_TO_OBJ = 0xDBF; // Size: 53
+		public const int ZC_ATTACH_TO_OBJ = 0xDBF; // Size: 61
 		public const int ZC_DETACH_FROM_OBJ = 0xDC0; // Size: 18
 		public const int ZC_RUN_FROM = 0xDC1; // Size: 18
 		public const int ZC_LOOKAT_OBJ = 0xDC2; // Size: 18
@@ -1787,7 +1787,7 @@ namespace Melia.Shared.Network
 			Sizes[CZ_COMPLETE_PRELOAD] = 26;
 			Sizes[CZ_MGAME_JOIN_CMD] = 58;
 			Sizes[CZ_ADD_HELP] = 26;
-			Sizes[ZC_ATTACH_TO_OBJ] = 53;
+			Sizes[ZC_ATTACH_TO_OBJ] = 61;
 			Sizes[ZC_DETACH_FROM_OBJ] = 18;
 			Sizes[ZC_RUN_FROM] = 18;
 			Sizes[ZC_LOOKAT_OBJ] = 18;
