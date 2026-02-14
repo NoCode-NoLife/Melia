@@ -156,6 +156,54 @@ namespace Melia.Zone.World.Actors.Components
 		}
 
 		/// <summary>
+		/// Adds a lock without executing movement side effects.
+		/// Must be called from within a lock(_syncLock) block.
+		/// </summary>
+		private void LockInternal(string lockType, TimeSpan duration)
+		{
+			if (_lockCounts.TryGetValue(lockType, out var value))
+				_lockCounts[lockType] = ++value;
+			else
+				_lockCounts[lockType] = 1;
+
+			if (duration != TimeSpan.MaxValue)
+			{
+				var endTime = DateTime.Now.Add(duration);
+				_lockEnds.Add(new(lockType, endTime));
+			}
+		}
+
+		/// <summary>
+		/// Releases a lock without executing movement side effects.
+		/// Must be called from within a lock(_syncLock) block.
+		/// </summary>
+		private void UnlockInternal(string lockType)
+		{
+			if (!_lockCounts.TryGetValue(lockType, out var value))
+				return;
+
+			_lockCounts[lockType] = --value;
+
+			if (_lockCounts[lockType] <= 0)
+				_lockCounts.Remove(lockType);
+		}
+
+		/// <summary>
+		/// Applies movement side effects (stop movement, invalidate MSPD).
+		/// Must be called outside of lock(_syncLock) to avoid deadlock.
+		/// </summary>
+		private void ApplyMovementSideEffects()
+		{
+			if (this.Owner is ICombatEntity entity)
+			{
+				if (entity.Components.TryGet<MovementComponent>(out var movement))
+					movement.Stop();
+
+				entity.Properties.Invalidate(PropertyName.MSPD);
+			}
+		}
+
+		/// <summary>
 		/// Registers a new state, which represents a set of locks the will
 		/// be set when the state is activated.
 		/// </summary>
@@ -198,10 +246,7 @@ namespace Melia.Zone.World.Actors.Components
 		/// <exception cref="ArgumentException"></exception>
 		public void AddState(string stateType, TimeSpan duration)
 		{
-			// Technically we could do away with tracking states, now that they're
-			// mostly glorified lock lists. We could just get the locks to apply
-			// on add and remove. But we'll leave it like this for now, in case
-			// we need to be able to tell whether a specific state is active.
+			var needsMovementSideEffects = false;
 
 			lock (_syncLock)
 			{
@@ -209,7 +254,11 @@ namespace Melia.Zone.World.Actors.Components
 					throw new ArgumentException($"Unknown state '{stateType}'.");
 
 				foreach (var lockType in state.Locks)
-					this.Lock(lockType);
+				{
+					this.LockInternal(lockType, TimeSpan.MaxValue);
+					if (lockType == LockType.Movement)
+						needsMovementSideEffects = true;
+				}
 
 				if (_stateCounts.TryGetValue(stateType, out var value))
 					_stateCounts[stateType] = ++value;
@@ -222,6 +271,9 @@ namespace Melia.Zone.World.Actors.Components
 					_stateEnds.Add(new(stateType, endTime));
 				}
 			}
+
+			if (needsMovementSideEffects)
+				this.ApplyMovementSideEffects();
 		}
 
 		/// <summary>
@@ -231,6 +283,8 @@ namespace Melia.Zone.World.Actors.Components
 		/// <exception cref="ArgumentException"></exception>
 		public void RemoveState(string stateType)
 		{
+			var needsMovementSideEffects = false;
+
 			lock (_syncLock)
 			{
 				if (!_states.TryGetValue(stateType, out var state))
@@ -245,8 +299,15 @@ namespace Melia.Zone.World.Actors.Components
 					_stateCounts.Remove(stateType);
 
 				foreach (var lockType in state.Locks)
-					this.Unlock(lockType);
+				{
+					this.UnlockInternal(lockType);
+					if (lockType == LockType.Movement)
+						needsMovementSideEffects = true;
+				}
 			}
+
+			if (needsMovementSideEffects)
+				this.ApplyMovementSideEffects();
 		}
 
 		/// <summary>
@@ -256,6 +317,7 @@ namespace Melia.Zone.World.Actors.Components
 		public void Update(TimeSpan elapsed)
 		{
 			var now = DateTime.Now;
+			var needsMovementSideEffects = false;
 
 			if (this.Owner.Map.ClassName.StartsWith("c_high") && this.Owner is Mob mob && mob.Id == 400001)
 			{
@@ -270,7 +332,24 @@ namespace Melia.Zone.World.Actors.Components
 
 					if (now >= stateEnd.EndTime)
 					{
-						this.RemoveState(stateEnd.Type);
+						if (_states.TryGetValue(stateEnd.Type, out var state))
+						{
+							if (_stateCounts.TryGetValue(stateEnd.Type, out var value))
+							{
+								_stateCounts[stateEnd.Type] = --value;
+
+								if (_stateCounts[stateEnd.Type] <= 0)
+									_stateCounts.Remove(stateEnd.Type);
+
+								foreach (var lockType in state.Locks)
+								{
+									this.UnlockInternal(lockType);
+									if (lockType == LockType.Movement)
+										needsMovementSideEffects = true;
+								}
+							}
+						}
+
 						_stateEnds.RemoveAt(i);
 					}
 				}
@@ -281,11 +360,17 @@ namespace Melia.Zone.World.Actors.Components
 
 					if (now >= lockEnd.EndTime)
 					{
-						this.Unlock(lockEnd.Type);
+						this.UnlockInternal(lockEnd.Type);
+						if (lockEnd.Type == LockType.Movement)
+							needsMovementSideEffects = true;
+
 						_lockEnds.RemoveAt(i);
 					}
 				}
 			}
+
+			if (needsMovementSideEffects)
+				this.ApplyMovementSideEffects();
 		}
 	}
 
