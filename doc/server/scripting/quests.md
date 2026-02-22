@@ -1,9 +1,14 @@
 Quest Scripts
 =============================================================================
 
+Melia uses a custom quest system that allows the creation of quests with
+a wide variety of objectives, rewards, and prerequisites. The system
+aims to support any type of quest available in the original game and more,
+in such a way that quests can be created with ease and flexibility, and
+without requiring client modifications.
+
 Quests are commonly defined via script classes, using the dedicated type
-`QuestScript`, which provides methods to specify a quest's objectives,
-rewards, and more.
+`QuestScript`, which provides methods to specify a quest's properties.
 
 Example Script
 -----------------------------------------------------------------------------
@@ -113,7 +118,7 @@ AddPrerequisite(new LevelPrerequisite(3));
 AddPrerequisite(new CompletedPrerequisite("Melia.Test", 1));
 ```
 
-To create a new quest prequisite type, create a new class that inherits
+To create a new quest prerequisite type, create a new class that inherits
 from `QuestPrerequisite`.
 
 Rewards
@@ -122,12 +127,12 @@ Rewards
 Once the player completes a quest, they will receive all rewards that
 were defined for a quest, such as items, experience points, etc. As with
 objectives and prerequisites, these are flexible and you can create any
-rewards you can think of.
+reward you can think of.
 
 The rewards provided by default include:
 - `ExpReward`: Grants a number of EXP and job EXP.
 - `ItemReward`: Grants an item or number thereof.
-- `SilverReward`: Grants an amount of silver.
+- `SilverReward`: Grants a certain amount of silver.
 
 ```cs
 AddReward(new ItemReward(ItemId.Card_Onion_The_Great));
@@ -172,7 +177,7 @@ private async Task<HookResult> RonesaDialog(Dialog dialog)
 }
 ```
 
-In this example the accessory merchant Ronesa in Klaipeda is hooked,
+In this example, the accessory merchant Ronesa in Klaipeda is hooked,
 with the code getting executed before her normal dialog starts. The
 hook then checks whether the current quest and the objective to talk
 to her are actually active, and if so, the quest dialog is executed
@@ -180,8 +185,8 @@ and the quest completed. Instead of completing the entire quest though,
 you could also complete only the objective to let the player complete
 the quest manually, or send them on to the next objective.
 
-Note, however, that NPCs need to get prepared to receive hooks,
-by explicitly executing them within their code.
+Note that NPCs need to get prepared to receive hooks though, which can
+be done by explicitly executing them within their code.
 
 ```cs
 AddNpc(20104, "[Accessory Merchant] Ronesa", "Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>

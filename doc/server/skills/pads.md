@@ -51,9 +51,9 @@ containing the actor that effectively triggered the event, the others use
 `PadTriggerArgs`, without an initiator, as they occur independently.
 
 In addition to manually subscribing to the events, you can also create
-pad handlers that are subscribed automatically if they have a matching
-name. This useful for making pads reusable and operate independently
-of a specific skill.
+pad handler classes that are subscribed automatically if they have a
+matching name. This is useful for making pads reusable and operate
+independently of a specific skill.
 
 ```cs
 [PadHandler("Foobar")]
@@ -73,5 +73,5 @@ For every event you may subscribe to, there is a corresponding pad
 handler interface. Namely, `ICreatePadHandler`, `IDestroyPadHandler`,
 `IUpdatePadHandler`, `IEnterPadHandler`, and `ILeavePadHandler`.
 
-For more concrete examples on how to create an use pads, we recommend
+For more concrete examples on how to create and use pads, we recommend
 looking into existing skills and how they utilize them.

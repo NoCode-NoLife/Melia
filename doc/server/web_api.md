@@ -76,7 +76,7 @@ Example Output:
 
 ### Account Creation
 
-Creates new accounts if enabled.
+Creates new accounts. This feature must be enabled in `web.conf`.
 
 Request: POST `/api/account/create/`
 
@@ -107,8 +107,8 @@ Authorization: InterKey <YourKeyHere>
 For security reasons, this key should _never_ be shared with any users
 of your server and should not be included as part of any content sent
 to the users' browsers, as they would otherwise be able to use it to
-gain limited, admistrative access. Only ever use these endpoints from
-secured environments, such as password-protected control-panels, or
+gain limited administrative access. Only ever use these endpoints from
+secured environments, such as password-protected control-panels or
 server-side scripts.
 
 ### Messaging all Players
@@ -140,7 +140,8 @@ Example Output:
 
 ### Kick Players on Map
 
-Kicks the players that are currently on the given map.
+Kicks all players that are currently on the given map on any channel.
+The map name is the class name found in the map data, such as `c_Klaipe`.
 
 Request: POST `/api/admin/kick/map/<mapName>/`
 
@@ -151,7 +152,7 @@ Example Output:
 
 ### Kick All Players
 
-Kicks all currently active players.
+Kicks all currently active players on all channels.
 
 Request: POST `/api/admin/kick/all/`
 

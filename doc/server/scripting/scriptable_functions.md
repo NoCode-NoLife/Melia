@@ -14,9 +14,10 @@ methods by name, as is done for item usage scripts.
 
 To illustrate this, take a look at the following scriptable
 function, which is referenced in the item data by its name,
-`SCR_USE_ITEM_EXPCARD`. When the item is used, we get the
-function by name and call it with the arguments defined in
-the item data.
+`SCR_USE_ITEM_EXPCARD`. When an item with this script function
+is used, we get the function by name and call it with the arguments
+defined in the item data.
+
 ```cs
 [ScriptableFunction]
 public ItemUseResult SCR_USE_ITEM_EXPCARD(Character character, Item item, string strArg, float numArg1, float numArg2)
@@ -47,9 +48,9 @@ public ItemUseResult UseExpCard(Character character, Item item, string strArg, f
 
 ## Types
 
-Because of the nature of C#'s static typing, we only support
-pre-defined delegate types as scriptable functions. The defined
-types are as follows.
+Because of the nature of C#'s static typing, we only support pre-defined
+delegate types as scriptable functions. The defined function signatures
+are as follows.
 
 ```cs
 float Character(Character character);
@@ -92,7 +93,7 @@ For example, most any combat skill uses the function `SCR_SkillHit`
 to calculate the skill damage and determine the hit outcome, such as
 whether a crit or dodge should occur. These functions being scriptable
 also means that they can easily be overwritten from custom scripts,
-which may allow users to modify their behavior. If you dislike certain
+which allows users to modify their behavior. If you dislike certain
 formulas for example, changing them might be a rather simple matter.
 The following example will change crit chance to always be 50%,
 no matter what.

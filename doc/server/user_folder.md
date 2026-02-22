@@ -2,16 +2,19 @@ User Folder
 =============================================================================
 
 The server uses two folders to organize its data: `system` and `user`.
-While the project's developers focus on the system folder, users can
-extend and override the server's data from the user folder, without
-worry of updates affecting their changes or causing conflics.
+While the project's developers primarily use the system folder, users
+can extend and override the server's data from the user folder, without
+worry of updates affecting their changes or causing conflicts.
 
-This data includes databases, configurations, and scripts, which are
-treated with a higher priority than the ones in the system folder in
-one way or another. While it's technically possible for you to just
-make your changes in the system folder, it's strongly recommended
-you only use the user folder. Not only is it safer during updates,
-it also makes backups and similar operations much simpler.
+This data includes databases, configurations, and scripts, and is treated
+with a higher priority if placed in the user folder. That means that if
+data is found in both folders, the server will use the one in the user folder
+or extend the system data with it, depending on the data type.
+
+While it's technically possible for you to simply edit the files in the
+system folder to make your changes, it's strongly recommended you only
+use the user folder. Not only is it safer during updates, it also makes
+backups and similar operations much simpler.
 
 This guide aims to explain the intricacies of this system, and how you
 may customize your server using it.
@@ -76,13 +79,13 @@ layer to it.
 First we have the script lists, which specify which scripts to load,
 like `system/scripts/zone/scripts_custom.txt` for the zone server.
 If you look at these files, you might notice familar `include`
-statements, as they're also found in the conf files. These essentially
+statements, like they're also found in the conf files. These essentially
 work the same way, with the server starting in the system folder and
 continuing to read the included files form user. Instead of overwriting
 previously loaded values, however, any additional scripts found are
 simply added to the list of scripts to load.
 
-Additionally, there is a `divert` statement though, which stops
+Additionally, there exists a `divert` statement, which stops
 the server from reading the current file and redirects to the
 given one if it exists. This is used in most script lists, like
 `scripts_content.txt`, to allow overriding the system lists
@@ -100,5 +103,5 @@ user folder. If there's a script found at
 `system/scripts/zone/custom/test.cs`, and you create a file at
 `user/scripts/zone/custom/test.cs`, the user version will take
 precedence over the one in system and the server will only load
-the former. This allows you to customize specific scripts without
+that one. This allows you to customize specific scripts without
 modifying the script lists.
