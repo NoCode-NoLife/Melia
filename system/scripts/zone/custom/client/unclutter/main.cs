@@ -8,6 +8,7 @@
 // 003.lua: Disables functions, such as obsolete skill usage UI prompts.
 // 004.lua: Removes certain unrelated information from the stats window.
 // 005.lua: Removes empty enemy buff frame.
+// 006.lua: Removes (currently) unused inventory features.
 //---------------------------------------------------------------------------
 
 using Melia.Zone.Scripting;
