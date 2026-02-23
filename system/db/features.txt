@@ -138,10 +138,13 @@
 		// Switches Heal from getting casted instantly to using a party
 		// member target selection wheel
 		{ name: "ClericHealPartySelect", enabled: true },
-	]},		
+	]},
+	
+	// Enables new icons and names for skill gem items
+	{ name: "SkillGemRevamp", enabled: true },
 ]},
 
-// Let's disable certain features for now to hide things that aren't
-// fully implemented
+// Let's disable certain features for now, to disable undesired changes or
+// hide things that aren't fully implemented
 { name: "GrowthEquipOnStart", enabled: false },
 ]
