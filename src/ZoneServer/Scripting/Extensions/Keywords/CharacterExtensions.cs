@@ -10,7 +10,7 @@ namespace Melia.Zone.Scripting.Extensions.Keywords
 	/// </summary>
 	public static class CharacterExtensions
 	{
-		private const string KeywordsVar = "Melia.Character.Keywords";
+		private const string KeywordsVar = "Ashen.Character.Keywords";
 		private const char Delimiter = ';';
 
 		/// <summary>

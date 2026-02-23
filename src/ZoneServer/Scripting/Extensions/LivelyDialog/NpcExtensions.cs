@@ -52,7 +52,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="dialog"></param>
 		/// <returns></returns>
 		public static int GetFavor(this Dialog dialog)
-		=> GetRelationValue(dialog.Npc, dialog.Player, "Favor", FavorReductionTick);
+			=> GetRelationValue(dialog.Npc, dialog.Player, "Favor", FavorReductionTick);
 
 		/// <summary>
 		/// Returns a value between 0 and 100 that represents the NPC's
@@ -168,7 +168,7 @@ namespace Melia.Zone.Scripting.Extensions.LivelyDialog
 		/// <param name="dialog"></param>
 		/// <returns></returns>
 		public static RelationshipStatus GetRelationshipStatus(this Dialog dialog)
-			=> new RelationshipStatus(dialog);
+			=> new(dialog);
 
 		/// <summary>
 		/// Applies standard update to relation values. Intended to be used
