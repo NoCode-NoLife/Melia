@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
-using Melia.Zone.Buffs;
-using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
@@ -28,16 +25,24 @@ namespace Melia.Zone.Skills.Handlers
 		/// </summary>
 		public void Init()
 		{
-			this.LoadHandlersFromAssembly();
+			this.LoadHandlersFromAssembly(Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>
 		/// Loads skill handlers marked with a skill handler attribute in
-		/// the current assembly.
+		/// the given assembly.
 		/// </summary>
-		private void LoadHandlersFromAssembly()
+		/// <remarks>
+		/// Searches the given assembly for classes implementing the <see
+		/// cref="ISkillHandler"/> interface and marked with the <see
+		/// cref="SkillHandlerAttribute"/>. The handlers are then
+		/// registered for the skill ids specified in the attribute.
+		/// </remarks>
+		/// <param name="assembly">Assembly to search for skill
+		/// handlers.</param>
+		public void LoadHandlersFromAssembly(Assembly assembly)
 		{
-			foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(a => typeof(ISkillHandler).IsAssignableFrom(a) && !a.IsInterface))
+			foreach (var type in assembly.GetTypes().Where(a => typeof(ISkillHandler).IsAssignableFrom(a) && !a.IsInterface))
 			{
 				foreach (var attr in type.GetCustomAttributes<SkillHandlerAttribute>())
 				{
@@ -70,6 +75,7 @@ namespace Melia.Zone.Skills.Handlers
 				_handlers[skillId] = handler;
 
 			this.LoadCombatEvents(skillId, handler);
+			ScriptableFunctions.Load(handler);
 		}
 
 		/// <summary>
