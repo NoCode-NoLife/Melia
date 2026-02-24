@@ -230,7 +230,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 		{
 			var funcName = baseFuncName + "_" + buffId;
 
-			if (ScriptableFunctions.Combat.TryGet(funcName, out var func))
+			if (ScriptableFunctions.CombatModifier.TryGet(funcName, out var func))
 				func(attacker, target, skill, modifier, skillHitResult);
 		}
 	}
@@ -258,7 +258,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 		{
 			var funcName = baseFuncName + "_" + skillId;
 
-			if (ScriptableFunctions.Combat.TryGet(funcName, out var func))
+			if (ScriptableFunctions.CombatModifier.TryGet(funcName, out var func))
 				func(attacker, target, skill, modifier, skillHitResult);
 		}
 	}
@@ -286,7 +286,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 		{
 			var funcName = baseFuncName + "_" + abilityId;
 
-			if (ScriptableFunctions.Combat.TryGet(funcName, out var func))
+			if (ScriptableFunctions.CombatModifier.TryGet(funcName, out var func))
 				func(attacker, target, skill, modifier, skillHitResult);
 		}
 	}
@@ -314,7 +314,7 @@ public class CombatModifierCalculationsScript : GeneralScript
 		{
 			var funcName = baseFuncName + "_" + equipId;
 
-			if (ScriptableFunctions.Combat.TryGet(funcName, out var func))
+			if (ScriptableFunctions.CombatModifier.TryGet(funcName, out var func))
 				func(attacker, target, skill, modifier, skillHitResult);
 		}
 	}

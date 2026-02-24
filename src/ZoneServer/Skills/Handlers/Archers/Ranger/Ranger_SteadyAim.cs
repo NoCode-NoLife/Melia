@@ -26,20 +26,20 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Ranger_SteadyAim)]
-		public float OnCombatBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnCombatBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// Ranger47 completely changes the bonus
 			if (!attacker.IsAbilityActive(AbilityId.Ranger47))
-				return 0;
+				return;
 
 			if (!attacker.TryGetSkill(SkillId.Ranger_SteadyAim, out var skill))
-				return 0;
+				return;
 
 			var inventory = attacker.Components.Get<InventoryComponent>();
 			var weapon = inventory?.GetItem(EquipSlot.RightHand);
 
 			if (weapon == null)
-				return 0;
+				return;
 
 			var multiplierBonus = 0.18f + skill.Level * 0.03f + 0.65f;
 
@@ -48,8 +48,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				case EquipType.THBow: modifier.HitRateMultiplier += multiplierBonus; break;
 				case EquipType.Bow: modifier.BlockPenetrationMultiplier += multiplierBonus; break;
 			}
-
-			return 0;
 		}
 
 		/// <summary>
@@ -61,14 +59,14 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		[CombatCalcModifier(CombatCalcPhase.AfterBonuses, SkillId.Ranger_SteadyAim)]
-		public float OnCombatAfterBonuses(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnCombatAfterBonuses(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// Ranger47 completely changes the bonus
 			if (attacker.IsAbilityActive(AbilityId.Ranger47))
-				return 0;
+				return;
 
 			if (!attacker.TryGetSkill(SkillId.Ranger_SteadyAim, out var skill))
-				return 0;
+				return;
 
 			var isCrit = skillHitResult.Result == HitResultType.Crit;
 			var isRangerAttackSkill = attackerSkill.Id >= SkillId.Ranger_Barrage && attackerSkill.Id <= SkillId.Ranger_BlazingArrow;
@@ -78,8 +76,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				var multiplierBonus = 0.18f + skill.Level * 0.03f;
 				modifier.FinalDamageMultiplier += multiplierBonus;
 			}
-
-			return 0;
 		}
 	}
 }
