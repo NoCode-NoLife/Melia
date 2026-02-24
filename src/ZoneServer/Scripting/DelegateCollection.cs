@@ -101,14 +101,16 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Looks up a function that was overridden by the given function and
-		/// returns it via out. Returns false if no such function was found.
+		/// Looks up a function that was overridden by the given function
+		/// and returns it via out. Returns false if no such function was
+		/// found.
 		/// </summary>
 		/// <remarks>
-		/// If a function is registered with the same name as an existing function,
-		/// a reference to the overriden function is stored and can be retrieved
-		/// via this method. This allows overriding functions to access the original
-		/// function, its functionality, and its results.
+		/// If a function is registered with the same name as an existing
+		/// function, a reference to the overriden function is stored and
+		/// can be retrieved via this method. This allows overriding
+		/// functions to access the original function, its functionality,
+		/// and its results.
 		/// </remarks>
 		/// <param name="func"></param>
 		/// <param name="overriddenFunc"></param>
@@ -126,6 +128,38 @@ namespace Melia.Zone.Scripting
 
 			overriddenFunc = null;
 			return false;
+		}
+
+		/// <summary>
+		/// Looks up the oldest function that was overriden by the given
+		/// function and its earlier overrides and returns it via out.
+		/// Returns false if there's no overrides.
+		/// </summary>
+		/// <remarks>
+		/// If a function is registered with the same name as an existing
+		/// function, a reference to the overriden function is stored and
+		/// can be retrieved via <see cref="TryGetOverridden"/>. By looping
+		/// through the chain of overrides, the original function can be
+		/// found, which this method is a shortcut for.
+		/// 
+		/// A potential application of this method is looking up the
+		/// original core scriptable function, to get the original
+		/// functionality and results.
+		/// </remarks>
+		/// <param name="func"></param>
+		/// <param name="originalFunc"></param>
+		/// <returns></returns>
+		public bool TryGetOriginal(TDelegate func, out TDelegate originalFunc)
+		{
+			originalFunc = null;
+
+			while (this.TryGetOverridden(func, out var overriddenFunc))
+			{
+				originalFunc = overriddenFunc;
+				func = overriddenFunc;
+			}
+
+			return originalFunc != null;
 		}
 
 		/// <summary>
@@ -157,7 +191,8 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Returns true if the method has the given signature.
+		/// Returns true if this collection manages methods with the given
+		/// signature.
 		/// </summary>
 		/// <param name="method"></param>
 		/// <returns></returns>
