@@ -303,10 +303,11 @@ namespace Melia.Shared.Game.Const
 	}
 
 	/// <remarks>
-	/// We're using this enum to save which slot an item is equipped on,
-	/// should the values change, the values in the database would be
-	/// incorrect. Should this enum change again, we should think about
-	/// saving the slots as string or creating an intermediary enum.
+	/// We're using this enum to save which slot an item is equipped on.
+	/// Should these values change, the values in the database would be
+	/// incorrect, as it happened once before. Should this happen again,
+	/// we should think about saving the slots as strings or about
+	/// creating an intermediary enum.
 	/// </remarks>
 	public enum EquipSlot : byte
 	{

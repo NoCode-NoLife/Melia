@@ -43,7 +43,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns list of ids of equipped items, in the order of EquipSlot.
+		/// Returns list of ids of equipped items, including dummy items,
+		/// in the order of EquipSlot.
 		/// </summary>
 		/// <returns></returns>
 		public int[] GetEquipIds()
