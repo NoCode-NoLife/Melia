@@ -35,10 +35,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			if (!attacker.TryGetSkill(SkillId.Ranger_SteadyAim, out var skill))
 				return;
 
-			var inventory = attacker.Components.Get<InventoryComponent>();
-			var weapon = inventory?.GetItem(EquipSlot.RightHand);
-
-			if (weapon == null)
+			if (!attacker.TryGetItem(EquipSlot.RightHand, out var weapon))
 				return;
 
 			var multiplierBonus = 0.18f + skill.Level * 0.03f + 0.65f;
