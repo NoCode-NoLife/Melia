@@ -21,15 +21,19 @@ namespace Melia.Zone.Scripting.ScriptableEvents
 	/// </remarks>
 	/// <example>
 	/// [CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Ranger_SteadyAim)]
-	/// public float OnCombatBeforeCalc(...)
+	/// public void OnCombatBeforeCalc(...)
 	///
 	/// The above method will be registered as a scriptable function with
 	/// the name "SCR_Combat_BeforeCalc_Ranger_SteadyAim" and called
 	/// during the BeforeCalc phase of combat calculations if the attacker
 	/// or the target has the relevant skills. Effectively, it's the same
-	/// as creating a scriptable function with this attribute:
+	/// as creating a scriptable function with these attributes:
 	/// 
 	/// [ScriptableFunction("SCR_Combat_BeforeCalc_Ranger_SteadyAim")]
+	/// public void OnCombatBeforeCalc(...)
+	/// 
+	/// [ScriptableFunction]
+	/// public void SCR_Combat_BeforeCalc_Ranger_SteadyAim(...)
 	/// </example>
 	[AttributeUsage(AttributeTargets.Method)]
 	public class CombatCalcModifierAttribute : ScriptableFunctionAttribute
