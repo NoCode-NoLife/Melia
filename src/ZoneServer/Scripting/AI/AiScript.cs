@@ -5,6 +5,7 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Ai.Enumerable;

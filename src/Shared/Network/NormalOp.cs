@@ -41,6 +41,7 @@ namespace Melia.Shared.Network
 			public const int PlayEffect = 0x16;
 			public const int PlayForceEffect = 0x17;
 			public const int UpdateSkillEffect = 0x1F;
+			public const int UpdateModelColor = 0x20;
 			public const int FadeOut = 0x38;
 			public const int BarrackSlotCount = 0x3C;
 			public const int AttackCancel = 0x41;
@@ -69,6 +70,8 @@ namespace Melia.Shared.Network
 			public const int PlayTextEffect = 0xE3;
 			public const int Unknown_E4 = 0xE7;
 			public const int Unknown_EF = 0xF2;
+			public const int EnableUseSkillWhileOutOfBody = 0x10B;
+			public const int EndOutOfBodyBuff = 0x10C;
 			public const int ChannelTraffic = 0x12D;
 			public const int SetGreetingMessage = 0x136;
 			public const int Unk13E = 0x13E;

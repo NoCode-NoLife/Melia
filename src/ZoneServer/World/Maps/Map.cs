@@ -794,7 +794,7 @@ namespace Melia.Zone.World.Maps
 			lock (_characters)
 			{
 				foreach (var character in _characters.Values)
-					character.Connection.Send(packet);
+					character.Connection?.Send(packet);
 			}
 		}
 
@@ -810,7 +810,7 @@ namespace Melia.Zone.World.Maps
 			lock (_characters)
 			{
 				foreach (var character in _characters.Values.Where(a => (includeSource || a != source) && a.Position.InRange2D(source.Position, VisibleRange)))
-					character.Connection.Send(packet);
+					character.Connection?.Send(packet);
 			}
 		}
 	}

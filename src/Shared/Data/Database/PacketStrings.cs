@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using Yggdrasil.Data.JSON;
 
@@ -16,6 +17,17 @@ namespace Melia.Shared.Data.Database
 	/// </summary>
 	public class PacketStringDb : DatabaseJsonIndexed<string, PacketStringData>
 	{
+		/// <summary>
+		/// Tries to find a Packet string data for a given id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public bool TryFind(int id, out PacketStringData data)
+		{
+			data = this.Entries.Values.FirstOrDefault(a => a.Id == id);
+			return data != null;
+		}
+
 		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>

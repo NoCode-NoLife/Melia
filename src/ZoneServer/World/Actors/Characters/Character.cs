@@ -21,6 +21,9 @@ using Yggdrasil.Composition;
 using Yggdrasil.Logging;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
+using System.Collections.Generic;
+using Melia.Zone.Skills;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -612,7 +615,7 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
 				throw new ArgumentException("Map '" + mapId + "' not found in data.");
-
+			
 			this.Position = pos;
 
 			if (this.MapId == mapId)
@@ -1309,6 +1312,8 @@ namespace Melia.Zone.World.Actors.Characters
 
 			Send.ZC_DEAD(this);
 
+			this.Died?.Invoke(this, killer);
+
 			_resurrectDialogTimer = ResurrectDialogDelay;
 		}
 
@@ -1492,6 +1497,89 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Hair = hairTypeIndex;
 			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
+
+		/// <summary>
+		/// Clones the character within it's same appearance and
+		/// spawns it on the current map at a given position.
+		/// </summary>
+		/// <param name="position"></param>
+		public Character Clone(Position position)
+		{
+			var dummyCharacter = new DummyCharacter();
+
+			dummyCharacter.DbId = this.DbId;
+			dummyCharacter.AccountId = this.AccountId;
+			dummyCharacter.Name = this.Name;
+			dummyCharacter.TeamName = this.TeamName;
+			dummyCharacter.JobId = this.JobId;
+			dummyCharacter.Gender = this.Gender;
+			dummyCharacter.Hair = this.Hair;
+			dummyCharacter.SkinColor = this.SkinColor;
+			dummyCharacter.MapId = this.MapId;
+
+			dummyCharacter.Position = position;
+			dummyCharacter.Direction = this.Direction;
+
+			foreach (var item in this.Inventory.GetEquip())
+			{
+				var newItem = new Item(item.Value.Id, item.Value.Amount);
+				dummyCharacter.Inventory.SetEquipSilent(item.Key, newItem);
+			}
+
+			foreach (var job in this.Jobs.GetList())
+			{
+				dummyCharacter.Jobs.AddSilent(new Job(dummyCharacter, job.Id));
+			}
+
+			foreach (var skill in this.Skills.GetList())
+			{
+				var newSkill = new Skill(dummyCharacter, skill.Id, skill.Level);
+				dummyCharacter.Skills.AddSilent(newSkill);
+			}
+
+			dummyCharacter.InitProperties();
+			dummyCharacter.Properties.Stamina = (int)this.Properties.GetFloat(PropertyName.MaxSta);
+			dummyCharacter.UpdateStance();
+			dummyCharacter.ModifyHpSafe(this.MaxHp, out var hp, out var priority);
+
+			dummyCharacter.Owner = this;
+
+			this.Map.AddCharacter(dummyCharacter);
+
+			Send.ZC_ENTER_PC(this.Connection, dummyCharacter);
+			Send.ZC_OWNER(this, dummyCharacter, this.Handle);
+			Send.ZC_UPDATED_PCAPPEARANCE(dummyCharacter);
+
+			Send.ZC_NORMAL.HeadgearVisibilityUpdate(dummyCharacter);
+
+			return dummyCharacter;
+		}
+
+		/// <summary>
+		/// Return true in case of the character has used Out Of Body Skill
+		/// </summary>
+		/// <returns></returns>
+		public bool IsOutOfBody()
+		{
+			var sadhuBuffList = new List<BuffId>()
+			{
+				BuffId.OOBE_Prakriti_Buff,
+				BuffId.OOBE_Anila_Buff,
+				BuffId.OOBE_Possession_Buff,
+				BuffId.OOBE_Patati_Buff,
+				BuffId.OOBE_Moksha_Buff,
+				BuffId.OOBE_Tanoti_Buff,
+				BuffId.OOBE_Strong_Buff,
+				BuffId.OOBE_Stack_Buff
+			};
+
+			foreach (var buffId in sadhuBuffList) {
+				if (this.IsBuffActive(buffId))
+					return true;
+			}
+
+			return false;
 		}
 	}
 }

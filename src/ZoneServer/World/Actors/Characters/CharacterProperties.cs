@@ -1,12 +1,11 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
-using Yggdrasil.Util;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
-using Melia.Zone.Buffs;
-using Melia.Shared.Data.Database;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -210,6 +209,10 @@ namespace Melia.Zone.World.Actors.Characters
 		/// </summary>
 		private void InitEvents()
 		{
+			// This was done to avoid sending packets for dummies (while receiving buffs)
+			if (this.Character.Connection == null)
+				return;
+
 			// Update recovery times when the character sits down,
 			// as those properties are affected by the sitting status.
 			this.Character.SitStatusChanged += this.SitStatusChanged;

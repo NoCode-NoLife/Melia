@@ -535,6 +535,8 @@ public class CombatCalculationsScript : GeneralScript
 		var buffComponent = attacker.Components.Get<BuffComponent>();
 		if (buffComponent.Has(BuffId.Cloaking_Buff))
 			buffComponent.Remove(BuffId.Cloaking_Buff);
+		if (target.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+			result.Damage = 0;
 
 		return result;
 	}
