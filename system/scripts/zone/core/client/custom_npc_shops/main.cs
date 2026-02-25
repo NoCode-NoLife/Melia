@@ -23,6 +23,18 @@ public class CustomNpcShopsClientScript : ClientScript
 		this.LoadLuaScript("001.lua");
 		this.LoadLuaScript("002.lua");
 		this.LoadLuaScript("003.lua");
+		this.LoadLuaScript("004.lua");
+		this.LoadLuaScript("004b.lua");
+		this.LoadLuaScript("005.lua");
+		this.LoadLuaScript("005b.lua");
+		this.LoadLuaScript("005c.lua");
+		this.LoadLuaScript("005d.lua");
+		this.LoadLuaScript("005e.lua");
+		this.LoadLuaScript("005f.lua");
+		this.LoadLuaScript("005g.lua");
+		this.LoadLuaScript("006.lua");
+		this.LoadLuaScript("006b.lua");
+		this.LoadLuaScript("006c.lua");
 	}
 
 	protected override void Ready(Character character)
@@ -30,5 +42,17 @@ public class CustomNpcShopsClientScript : ClientScript
 		this.SendLuaScript(character, "001.lua");
 		this.SendLuaScript(character, "002.lua");
 		this.SendLuaScript(character, "003.lua");
+		this.SendLuaScript(character, "004.lua");
+		this.SendLuaScript(character, "004b.lua");
+		this.SendLuaScript(character, "005.lua");
+		this.SendLuaScript(character, "005b.lua");
+		this.SendLuaScript(character, "005c.lua");
+		this.SendLuaScript(character, "005d.lua");
+		this.SendLuaScript(character, "005e.lua");
+		this.SendLuaScript(character, "005f.lua");
+		this.SendLuaScript(character, "005g.lua");
+		this.SendLuaScript(character, "006.lua");
+		this.SendLuaScript(character, "006b.lua");
+		this.SendLuaScript(character, "006c.lua");
 	}
 }

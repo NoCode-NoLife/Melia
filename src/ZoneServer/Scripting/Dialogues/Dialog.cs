@@ -149,7 +149,12 @@ namespace Melia.Zone.Scripting.Dialogues
 		internal void Resume(string response)
 		{
 			if (this.State != DialogState.Waiting)
-				throw new InvalidOperationException($"The dialog is not paused and waiting for a response.");
+			{
+				// Return silently because client sometimes sends
+				// DialogAcknowledgement.Okay twice and this could crash the
+				// server.
+				return;
+			}
 
 			_response = response;
 			_resumeSignal.Release();
@@ -619,6 +624,48 @@ namespace Melia.Zone.Scripting.Dialogues
 			{
 				Send.ZC_DIALOG_TRADE(this.Player.Connection, shopData.Name);
 			}
+
+			await this.GetClientResponse();
+		}
+
+		/// <summary>
+		/// Opens a custom companion shop with the given name.
+		/// </summary>
+		/// <param name="shopName"></param>
+		public async Task OpenCustomCompanionShop(string shopName)
+		{
+			if (!ZoneServer.Instance.Data.CompanionShopDb.TryFind(shopName, out var shopData))
+				throw new ArgumentException($"Companion shop '{shopName}' not found.");
+
+			// Start receival of companion data
+			Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.BeginRecv('CustomCompanionShop')");
+
+			// Send companion data
+			var sb = new StringBuilder();
+			foreach (var productData in shopData.Products.Values)
+			{
+				sb.AppendFormat("{{\"{0}\",{1}}},", productData.CompanionClassName, productData.Price);
+
+				if (sb.Length > ClientScript.ScriptMaxLength * 0.8)
+				{
+					Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomCompanionShop', {{ {sb} }})");
+					sb.Clear();
+				}
+			}
+
+			// Send remaining companions
+			if (sb.Length > 0)
+			{
+				Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, $"Melia.Comm.Recv('CustomCompanionShop', {{ {sb} }})");
+				sb.Clear();
+			}
+
+			// End receival and set the companion shop
+			Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.ExecData('CustomCompanionShop', M_SET_CUSTOM_COMPANION_SHOP)");
+			Send.ZC_EXEC_CLIENT_SCP(this.Player.Connection, "Melia.Comm.EndRecv('CustomCompanionShop')");
+
+			// Open the companion shop UI
+			Send.ZC_ADDON_MSG(this.Player, "OPEN_DLG_COMPANIONSHOP", 0, "Normal");
 
 			await this.GetClientResponse();
 		}
