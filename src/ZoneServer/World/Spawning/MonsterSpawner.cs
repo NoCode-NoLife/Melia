@@ -71,6 +71,11 @@ namespace Melia.Zone.World.Spawning
 		public int FlexAmount { get; private set; }
 
 		/// <summary>
+		/// Returns the monster data currently being used for this spawner.
+		/// </summary>
+		public MonsterData MonsterData { get { return _monsterData; } }
+
+		/// <summary>
 		/// Returns the amount of monsters currently spawned.
 		/// </summary>
 		public int Amount { get; private set; }
