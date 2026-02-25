@@ -372,6 +372,85 @@ namespace Melia.Barracks.Network
 
 				conn.Send(packet);
 			}
+
+			/// <summary>
+			/// Moves a companion in the barrack.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companionId"></param>
+			/// <param name="position"></param>
+			public static void SetCompanionPosition(IBarracksConnection conn, long companionId, Position position)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.SetCompanionPosition);
+
+				packet.PutLong(conn.Account.Id);
+				packet.PutLong(companionId);
+				packet.PutFloat(position.X);
+				packet.PutFloat(position.Y);
+				packet.PutFloat(position.Z);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Adds companions in the barrack.
+			/// </summary>
+			/// <param name="conn"></param>
+			public static void CompanionInfo(IBarracksConnection conn)
+			{
+				var allCompanions = conn.Account.GetCompanions();
+				var layerCompanions = allCompanions.Where(x => x.BarracksLayer == conn.Account.SelectedBarrackLayer);
+				var companionCount = layerCompanions.Count();
+				if (companionCount == 0)
+					return;
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.CompanionInfo);
+
+				packet.PutLong(conn.Account.Id);
+				packet.PutInt(companionCount);
+				foreach (var companion in layerCompanions)
+				{
+					packet.AddCompanion(companion);
+				}
+				packet.PutInt(companionCount);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Set a companion's associated character in the barrack.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companionId"></param>
+			/// <param name="characterId"></param>
+			public static void SetCompanion(IBarracksConnection conn, long companionId, long characterId)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.SetCompanion);
+
+				packet.PutLong(conn.Account.Id);
+				packet.PutLong(companionId);
+				packet.PutLong(characterId);
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Deletes a companion in the barrack.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="companionId"></param>
+			public static void DeleteCompanion(IBarracksConnection conn, long companionId)
+			{
+				var packet = new Packet(Op.BC_NORMAL);
+				packet.PutInt(NormalOp.Barrack.DeleteCompanion);
+
+				packet.PutLong(conn.Account.Id);
+				packet.PutLong(companionId);
+
+				conn.Send(packet);
+			}
 		}
 	}
 }

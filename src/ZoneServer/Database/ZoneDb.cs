@@ -15,6 +15,7 @@ using Melia.Zone.World;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
@@ -173,6 +174,7 @@ namespace Melia.Zone.Database
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.LoadCollections(character);
+			this.LoadCompanions(character);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -436,6 +438,7 @@ namespace Melia.Zone.Database
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
+			this.SaveCompanions(character);
 		}
 
 		/// <summary>
@@ -1451,6 +1454,98 @@ namespace Melia.Zone.Database
 				}
 
 				character.Properties.InvalidateAll();
+			}
+		}
+
+		/// <summary>
+		/// Inserts companion in database.
+		/// </summary>
+		/// <param name="accountId"></param>
+		/// <param name="characterId"></param>
+		/// <param name="companion"></param>
+		/// <returns></returns>
+		public void CreateCompanion(long accountId, long characterId, Companion companion)
+		{
+			using (var conn = this.GetConnection())
+			{
+				using (var cmd = new InsertCommand("INSERT INTO `companions` {0}", conn))
+				{
+					companion.AdoptTime = DateTime.Now;
+
+					cmd.Set("accountId", accountId);
+					cmd.Set("characterId", characterId);
+					cmd.Set("name", companion.Name);
+					cmd.Set("monsterId", companion.Id);
+					cmd.Set("stamina", companion.Stamina);
+					cmd.Set("exp", companion.Exp);
+					cmd.Set("adoptTime", companion.AdoptTime);
+					cmd.Set("active", companion.IsActivated ? 1 : 0);
+
+					cmd.Execute();
+					companion.DbId = cmd.LastId;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Loads character's companion from the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void LoadCompanions(Character character)
+		{
+			using (var conn = this.GetConnection())
+			using (var mc = new MySqlCommand("SELECT * FROM `companions` WHERE `characterId` = @characterId", conn))
+			{
+				mc.Parameters.AddWithValue("@characterId", character.DbId);
+
+				using (var reader = mc.ExecuteReader())
+				{
+					if (!reader.Read())
+						return;
+
+					var companion = new Companion(character, reader.GetInt32("monsterId"));
+					companion.DbId = reader.GetInt64("companionId");
+					companion.Name = reader.GetString("name");
+					companion.Stamina = reader.GetInt32("stamina");
+					companion.Exp = reader.GetInt64("exp");
+					companion.IsActivated = reader.GetByte("active") == 1;
+
+					companion.Position = Position.Zero;
+					companion.Direction = new Direction(0);
+
+					character.Companions.AddCompanion(companion, true);
+				}
+			}
+		}
+
+		/// <summary>
+		/// Persists the character's companions to the database.
+		/// </summary>
+		/// <param name="character"></param>
+		private void SaveCompanions(Character character)
+		{
+			if (!character.Companions.HasCompanions)
+				return;
+			using (var conn = this.GetConnection())
+			using (var trans = conn.BeginTransaction())
+			{
+				foreach (var companion in character.Companions.GetList())
+				{
+					using (var cmd = new UpdateCommand("UPDATE `companions` SET {0} WHERE `companionId` = @companionId", conn, trans))
+					{
+						cmd.AddParameter("@companionId", companion.Id);
+						cmd.Set("accountId", character.AccountId);
+						cmd.Set("characterId", character.DbId);
+						cmd.Set("name", companion.Name);
+						cmd.Set("stamina", companion.Stamina);
+						cmd.Set("exp", companion.Exp);
+						cmd.Set("active", companion.IsActivated ? 1 : 0);
+
+						cmd.Execute();
+					}
+				}
+
+				trans.Commit();
 			}
 		}
 	}

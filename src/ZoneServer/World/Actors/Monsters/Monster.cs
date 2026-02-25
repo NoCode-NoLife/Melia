@@ -54,6 +54,23 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Returns a reference to the monster's properties.
 		/// </summary>
 		Properties Properties { get; }
+
+		/// <summary>
+		/// Handle of the actor that owns or controls this object.
+		/// </summary>
+		/// <remarks>
+		/// For example, the summoner of a summon, or the creator of a turret or trap.
+		/// </remarks>
+		int OwnerHandle { get; }
+
+		/// <summary>
+		/// Handle of a related or linked actor.
+		/// </summary>
+		/// <remarks>
+		/// Usually the same as <see cref="OwnerHandle"/> for summons, turrets, and traps.
+		/// Some entities, such as Sage portals, may only use an associated handle.
+		/// </remarks>
+		int AssociatedHandle { get; }
 	}
 
 	/// <summary>
