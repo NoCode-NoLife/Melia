@@ -14,8 +14,9 @@
 #include "inc/common.bt" 
 
 ServerHeaderFixed header;
+
+int handle;
+int packetString;
 int i1;
 int i2;
-int i3;
-int i4;
-float f2;
+float serverAppTimeOffset;

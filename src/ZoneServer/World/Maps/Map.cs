@@ -320,7 +320,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="character"></param>
 		/// <returns></returns>
 		public Character[] GetVisibleCharacters(Character character)
-			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
+			=> this.GetCharacters(a => a != character && character.CanSee(a));
 
 		/// <summary>
 		/// Adds monster to map.
@@ -635,8 +635,7 @@ namespace Melia.Zone.World.Maps
 		/// <param name="character"></param>
 		/// <returns></returns>
 		public IMonster[] GetVisibleMonsters(Character character)
-			// TODO: Move responsibility about visibility to Character.
-			=> this.GetMonsters(a => (a is not Npc npc || npc.State != NpcState.Invisible) && character.Position.InRange2D(a.Position, VisibleRange));
+			=> this.GetMonsters(a => (a is not Npc npc || npc.State != NpcState.Invisible) && character.CanSee(a));
 
 		/// <summary>
 		/// Removes all scripted entities, like NPCs, monsters, and warps.
