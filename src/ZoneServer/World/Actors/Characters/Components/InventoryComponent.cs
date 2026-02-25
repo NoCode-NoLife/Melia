@@ -446,7 +446,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Moves item with the given id into the given slot.
 		/// </summary>
 		/// <param name="slot"></param>
-		/// <param name="item"></param>
+		/// <param name="worldId"></param>
 		/// <returns></returns>
 		public InventoryResult Equip(EquipSlot slot, long worldId)
 		{
