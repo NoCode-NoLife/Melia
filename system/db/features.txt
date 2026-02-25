@@ -106,6 +106,9 @@
 		// Changes Hasisas to not base crit bonus on HP lost
 		{ name: "HasisasNoHpCritBonus", enabled: true },
 
+		// Removes Stone Bullet requirement for Stone Shot
+		{ name: "StoneShotNoAmmo", enabled: true },
+
 		// Changes Pierce to not base its hit count on target size
 		{ name: "PierceNoSizeEffect", enabled: true },
 

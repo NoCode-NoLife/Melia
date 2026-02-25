@@ -457,6 +457,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (item == null)
 				return InventoryResult.ItemNotFound;
 
+			// Check if we are prevented from equipping this item
+			if (item.Data.EquipType1 == EquipType.Shield && this.Character.IsBuffActive(BuffId.Common_ShieldDesrption))
+				return InventoryResult.InvalidOperation;
+
 			// Unequip existing item first.
 			var collision = false;
 			lock (_syncLock)

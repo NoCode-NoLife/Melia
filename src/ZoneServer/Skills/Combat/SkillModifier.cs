@@ -19,6 +19,11 @@ namespace Melia.Zone.Skills.Combat
 		public float BonusMAtk { get; set; }
 
 		/// <summary>
+		/// Gets or sets bonus skill factor.
+		/// </summary>
+		public float BonusFactor { get; set; }
+
+		/// <summary>
 		/// Gets or sets flat damage bonus added to skill damage.
 		/// </summary>
 		/// <remarks>
