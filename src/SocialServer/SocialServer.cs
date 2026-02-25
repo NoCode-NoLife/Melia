@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Melia.Shared;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Network.Inter.Messages;
+using Melia.Shared.ObjectProperties;
 using Melia.Social.Commands;
 using Melia.Social.Database;
 using Melia.Social.Network;
@@ -116,6 +119,8 @@ namespace Melia.Social
 
 				this.Communicator.Subscribe("Coordinator", "AllServers");
 				this.Communicator.Subscribe("Coordinator", "AllSocials");
+				if (this.ServerInfo.Id == 1)
+					this.Communicator.Subscribe("Coordinator", "Chat");
 
 				Log.Info("Successfully connected to coordinator.");
 			}
@@ -163,6 +168,52 @@ namespace Melia.Social
 					}
 
 					Send.SC_NORMAL.Shout(shoutingUser, shoutMessage.Text);
+					break;
+				}
+				case PartyUpdateMessage partyUpdateMessage:
+				{
+					if (!this.UserManager.TryGet(partyUpdateMessage.AccountId, out var user))
+					{
+						Log.Warning("PartyUpdateMessage: User not found for AccountId={0}, PartyId={1}, IsJoining={2}",
+							partyUpdateMessage.AccountId, partyUpdateMessage.PartyId, partyUpdateMessage.IsJoining);
+						break;
+					}
+
+					if (partyUpdateMessage.IsJoining)
+					{
+						// Update the user's PartyId directly from the message
+						// (don't read from database - it may not be updated yet)
+						var partyRoomId = partyUpdateMessage.PartyId | ObjectIdRanges.Party;
+						user.Character.PartyId = partyRoomId;
+
+						// Add them to the party chat room
+						if (!this.ChatManager.TryGetChatRoom(partyRoomId, out var chatRoom))
+							chatRoom = this.ChatManager.CreateChatRoom(user, partyRoomId, ChatRoomType.Friends);
+
+						chatRoom.AddMember(user);
+
+						if (user.TryGetConnection(out var conn))
+							Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+					}
+					else
+					{
+						// Clear the user's PartyId
+						user.Character.PartyId = ObjectIdRanges.Party;
+
+						// Remove them from all party chat rooms
+						var rooms = this.ChatManager.FindChatRooms(user);
+						foreach (var room in rooms)
+						{
+							if ((room.Id & unchecked((long)0xFF00000000000000)) == ObjectIdRanges.Party)
+							{
+								room.RemoveMember(user.AccountId);
+
+								// Destroy the chat room if it's now empty
+								if (room.MemberCount == 0)
+									this.ChatManager.RemoveChatRoom(room.Id);
+							}
+						}
+					}
 					break;
 				}
 			}

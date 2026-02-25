@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Network;
@@ -73,20 +73,20 @@ namespace Melia.Social.Network
 				packet.PutInt(NormalOp.Social.AddMessage);
 
 				packet.PutLong(chatRoom.Id); // Chat Id
-				packet.PutLong(1); // msg id?
+				packet.PutLong((long)chatRoom.Type); // msg id?
 				packet.PutByte(1);
 				packet.PutDate(chatMessage.SentTime);
 				packet.PutLpString(chatMessage.SenderTeamName);
 				packet.PutShort(1001); // server group?
 				packet.PutLpString(chatMessage.Message);
 				packet.PutByte(0); // 0 or 1
-				packet.PutInt(2);
+				packet.PutInt((int)chatMessage.Type);
 				packet.PutShort(1);
 				packet.PutByte(0);
-				packet.PutLpString("");
+				packet.PutLpString(chatMessage.TargetTeamName);
 				packet.PutLpString("GLOBAL");
 
-				conn.Send(packet);
+				chatRoom.Broadcast(packet);
 			}
 
 			/// <summary>

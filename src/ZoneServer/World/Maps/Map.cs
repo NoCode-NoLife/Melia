@@ -304,6 +304,17 @@ namespace Melia.Zone.World.Maps
 		}
 
 		/// <summary>
+		/// Returns the first character on this map that matches the given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Character GetCharacter(Func<Character, bool> predicate)
+		{
+			lock (_characters)
+				return _characters.Values.FirstOrDefault(predicate);
+		}
+
+		/// <summary>
 		/// Returns all characters on this map that match the given predicate.
 		/// </summary>
 		/// <param name="predicate"></param>
@@ -321,6 +332,51 @@ namespace Melia.Zone.World.Maps
 		/// <returns></returns>
 		public Character[] GetVisibleCharacters(Character character)
 			=> this.GetCharacters(a => a != character && character.Position.InRange2D(a.Position, VisibleRange));
+
+		/// <summary>
+		/// Returns all party members of the character on this map.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <returns></returns>
+		public List<Character> GetPartyMembers(Character character)
+		{
+			if (character.Connection.Party == null) return new List<Character>();
+
+			var party = character.Connection.Party;
+			return _characters.Values
+				.Where(a => a.Connection.Party?.ObjectId == party.ObjectId)
+				.ToList();
+		}
+
+		/// <summary>
+		/// Returns all party members in range of the character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="radius"></param>
+		/// <param name="areAlive"></param>
+		/// <returns></returns>
+		public List<Character> GetPartyMembersInRange(Character character, float radius, bool areAlive = true) =>
+			GetPartyMembersInRange(character, character.Position, radius, areAlive);
+
+		/// <summary>
+		/// Returns all party members in range of the specified position.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="position"></param>
+		/// <param name="radius"></param>
+		/// <param name="areAlive"></param>
+		/// <returns></returns>
+		public List<Character> GetPartyMembersInRange(Character character, Position position, float radius, bool areAlive = true)
+		{
+			if (character.Connection.Party == null) return new List<Character>();
+
+			var party = character.Connection.Party;
+			return _characters.Values
+				.Where(a => (radius == 0 || a.Position.InRange2D(position, radius)) &&
+						   a.Connection.Party?.ObjectId == party.ObjectId &&
+						   a.IsDead == !areAlive)
+				.ToList();
+		}
 
 		/// <summary>
 		/// Adds monster to map.

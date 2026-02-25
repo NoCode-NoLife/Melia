@@ -28,7 +28,7 @@ typedef struct
     int64 l1;
     int i11;
     int i0;
-    int i1;
+    int mapId; //  Might be offline if set to 0?
     int handle;
     char teamName1[64];
     char characterName[64];
@@ -38,10 +38,11 @@ typedef struct
     short baseJob1;
     ushort s10;
     int jobLevel;
-    short s5;
-    int i5;
-    byte bin[18];
-    int mapId; // removed s12 and merged, it was a 0
+    short gender;
+    short hair;
+    int i12;
+    byte bin[16];
+    int serverGroup; // removed s12 and merged, it was a 0
     int level;
     byte b1;
     byte b2;

@@ -25,7 +25,7 @@ using Yggdrasil.Util;
 
 namespace Melia.Zone.Database
 {
-	public class ZoneDb : MeliaDb
+	public partial class ZoneDb : MeliaDb
 	{
 		/// <summary>
 		/// Saves account.
@@ -158,6 +158,7 @@ namespace Melia.Zone.Database
 					var z = reader.GetFloat("z");
 					character.Position = new Position(x, y, z);
 					character.Direction = new Direction(0);
+					character.PartyId = reader.GetInt64("partyId");
 				}
 			}
 
@@ -173,6 +174,7 @@ namespace Melia.Zone.Database
 			this.LoadProperties("character_properties", "characterId", character.DbId, character.Properties);
 			this.LoadProperties("character_etc_properties", "characterId", character.DbId, character.Etc.Properties);
 			this.LoadCollections(character);
+			this.LoadParty(character);
 
 			// Initialize the properties to trigger calculated properties
 			// and to set some properties in case the character is new and
@@ -418,6 +420,7 @@ namespace Melia.Zone.Database
 				cmd.Set("equipVisibility", character.VisibleEquip);
 				cmd.Set("stamina", character.Properties.Stamina);
 				cmd.Set("silver", character.Inventory.CountItem(ItemId.Silver));
+				cmd.Set("partyId", character.Connection.Party?.DbId ?? 0);
 
 				cmd.Execute();
 			}
@@ -436,6 +439,7 @@ namespace Melia.Zone.Database
 			this.SaveBuffs(character);
 			this.SaveCooldowns(character);
 			this.SaveQuests(character);
+			this.SaveParty(character);
 		}
 
 		/// <summary>

@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Melia.Shared.Network;
 using Melia.Zone.Buffs;
+using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Network.Helpers
 {
@@ -51,8 +52,13 @@ namespace Melia.Zone.Network.Helpers
 
 			packet.PutInt(buff.Caster.Handle);
 			packet.PutInt(buff.Handle);
-			packet.PutInt(0);
-			packet.PutInt(0);
+
+			// Party ID for party UI buff synchronization
+			long partyId = 0;
+			if (buff.Target is Character targetChar && targetChar.Connection?.Party != null)
+				partyId = targetChar.Connection.Party.ObjectId;
+			packet.PutLong(partyId);
+
 			packet.PutByte(1);
 			packet.PutByte(0); // if 1, DashRun is sent again while running, which seems wrong
 		}

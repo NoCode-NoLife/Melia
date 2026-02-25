@@ -329,7 +329,7 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			{
 				var query = @"
-					SELECT `c`.`characterId`, `c`.`name`, `c`.`teamName`, `c`.`level`, `c`.`job`, `c`.`gender`, `c`.`hair`, `c`.`skinColor`, `c`.`equipVisibility`, `c`.`zone`
+					SELECT `c`.`characterId`, `c`.`name`, `c`.`teamName`, `c`.`level`, `c`.`job`, `c`.`gender`, `c`.`hair`, `c`.`skinColor`, `c`.`equipVisibility`, `c`.`zone`, `c`.`partyId`
 					FROM `accounts` AS `a`
 					INNER JOIN `characters` AS `c` ON `a`.`loginCharacter` = `c`.`characterId`
 					WHERE `a`.`accountId` = @accountId
@@ -361,6 +361,11 @@ namespace Melia.Social.Database
 						character.SkinColor = reader.GetUInt32("skinColor");
 						character.VisibleHats = (VisibleEquip)reader.GetInt32("equipVisibility");
 						character.MapId = reader.GetInt32("zone");
+
+						// Only set PartyId from database if not already set
+						// This prevents overwriting values set from PartyUpdateMessage
+						if (character.PartyId == ObjectIdRanges.Party)
+							character.PartyId = reader.GetInt64("partyId") | ObjectIdRanges.Party;
 					}
 				}
 			}

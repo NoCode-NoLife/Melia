@@ -21,6 +21,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Groups;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Yggdrasil.Extensions;
@@ -135,6 +136,14 @@ namespace Melia.Zone.Network
 		/// <param name="character"></param>
 		public static void ZC_ENTER_PC(IZoneConnection conn, Character character)
 		{
+			var relation = conn.SelectedCharacter.GetRelation(character);
+
+			// Map Party to Friendly for display purposes
+			if (relation == RelationType.Party)
+				relation = RelationType.Friendly;
+
+			var relationship = (byte)Math.Clamp((int)relation, 0, 2);
+
 			var packet = new Packet(Op.ZC_ENTER_PC);
 
 			packet.PutInt(character.Handle);
@@ -143,7 +152,8 @@ namespace Melia.Zone.Network
 			packet.PutFloat(character.Position.Z);
 			packet.PutFloat(character.Direction.Cos);
 			packet.PutFloat(character.Direction.Sin);
-			packet.PutShort(0);
+			packet.PutByte(relationship); // Changes name color (0 = Green/Friendly, 1 = Enemy, 2 = Neutral)
+			packet.PutByte(0);
 			packet.PutLong(character.SocialUserId);
 			packet.PutByte(0); // Pose
 			packet.PutFloat(character.Properties.GetFloat(PropertyName.MSPD));
@@ -2501,6 +2511,22 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Updates the relation type between the client and an entity.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="handle"></param>
+		/// <param name="relation"></param>
+		public static void ZC_CHANGE_RELATION(IZoneConnection conn, int handle, RelationType relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(handle);
+			packet.PutByte((byte)relation);
+
+			conn.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates the stance of a character.
 		/// </summary>
 		/// <param name="character"></param>
@@ -3896,6 +3922,12 @@ namespace Melia.Zone.Network
 			packet.AddTargetedBuff(buff);
 
 			entity.Map.Broadcast(packet, entity);
+
+			if (entity is Character character)
+				character.Connection?.Party?.BroadcastMemberBuffUpdate(character, packet);
+
+			// Send ZC_BUFF_UPDATE as well for party UI synchronization
+			ZC_BUFF_UPDATE(entity, buff);
 		}
 
 		/// <summary>
@@ -3927,6 +3959,9 @@ namespace Melia.Zone.Network
 			packet.PutByte(0);
 
 			entity.Map.Broadcast(packet, entity);
+
+			if (entity is Character character)
+				character.Connection?.Party?.BroadcastMemberBuffUpdate(character, packet);
 		}
 
 		/// <summary>
@@ -4549,6 +4584,125 @@ namespace Melia.Zone.Network
 			packet.PutInt(numArg5);
 
 			toActor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends party information to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_INFO(Character character, IGroup group)
+		{
+			var propertyList = group.Properties.GetAll();
+			var propertiesSize = propertyList.GetByteCount();
+
+			var packet = new Packet(Op.ZC_PARTY_INFO);
+			packet.PutByte((byte)group.Type);
+			packet.PutByte(0);
+			packet.PutDate(group.DateCreated);
+			packet.PutLong(group.ObjectId);
+			packet.PutLpString(group.Name);
+			packet.PutLong(group.Owner?.AccountObjectId ?? 0);
+			packet.PutLpString(group.Owner?.TeamName ?? "");
+			packet.PutInt(0);
+			packet.PutInt(1);
+			packet.PutShort((short)propertiesSize);
+			packet.AddProperties(propertyList);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party member list to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_LIST(IGroup group)
+		{
+			var members = group.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_LIST);
+			packet.PutLong(0);
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutByte((byte)members.Count);
+			foreach (var member in members)
+				packet.AddMember(member);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party enter notification to all party members.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_ENTER(Character character, IGroup group)
+		{
+			var packet = new Packet(Op.ZC_PARTY_ENTER);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.AddMember(group.ToMember(character));
+			packet.PutShort(0);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Sends party leave notification to character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_OUT(Character character, IGroup group)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutLong(character.AccountId | ObjectIdRanges.Account);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts party leave notification to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		/// <param name="member"></param>
+		public static void ZC_PARTY_OUT(IGroup group, IMember member)
+		{
+			var packet = new Packet(Op.ZC_PARTY_OUT);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutLong(group.ObjectId);
+			packet.PutLong(member.AccountObjectId);
+			packet.PutByte(0);
+
+			group.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Broadcasts instant party information to all party members.
+		/// </summary>
+		/// <param name="group"></param>
+		public static void ZC_PARTY_INST_INFO(IGroup group)
+		{
+			var members = group.GetMembers();
+
+			var packet = new Packet(Op.ZC_PARTY_INST_INFO);
+
+			packet.PutByte((byte)group.Type);
+			packet.PutInt(members.Count);
+			foreach (var member in members)
+				packet.AddPartyInstantMemberInfo(member);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutInt(0);
+			packet.PutByte(0);
+
+			group.Broadcast(packet);
 		}
 	}
 }

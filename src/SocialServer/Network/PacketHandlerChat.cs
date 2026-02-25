@@ -1,6 +1,9 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
+using Melia.Shared.Game.Const;
+using Melia.Shared.ObjectProperties;
 using Melia.Social.Database;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
@@ -74,6 +77,37 @@ namespace Melia.Social.Network
 		[PacketHandler(Op.CS_NORMAL_GAME_START)]
 		public void CS_NORMAL_GAME_START(ISocialConnection conn, Packet packet)
 		{
+			var user = conn.User;
+
+			SocialServer.Instance.Database.LoadCharacterInfo(user);
+			user.Friends.RefreshList();
+			user.Friends.RefreshStatus();
+
+			// Clean up stale party chat room memberships
+			// This handles the case where a player left a party while offline
+			// or the SocialServer wasn't notified of the change
+			var currentRooms = SocialServer.Instance.ChatManager.FindChatRooms(user);
+			foreach (var room in currentRooms)
+			{
+				// Check if this is a party chat room (ID has party range prefix)
+				if ((room.Id & unchecked((long)0xFF00000000000000)) == ObjectIdRanges.Party)
+				{
+					// If user is no longer in this party, remove them from the chat room
+					if (room.Id != user.Character.PartyId)
+						room.RemoveMember(user.AccountId);
+				}
+			}
+
+			// Only add to party chat room if user actually has a party
+			// (PartyId equals just ObjectIdRanges.Party when partyId is 0 in database)
+			if (conn.User.Character.PartyId != ObjectIdRanges.Party)
+			{
+				if (!SocialServer.Instance.ChatManager.TryGetChatRoom(user.Character.PartyId, out var chatRoom))
+					chatRoom = SocialServer.Instance.ChatManager.CreateChatRoom(user, user.Character.PartyId, ChatRoomType.Friends);
+				chatRoom.AddMember(user);
+				Send.SC_NORMAL.MessageList(conn, chatRoom, chatRoom.GetMessages());
+			}
+
 			Send.SC_FROM_INTEGRATE.Unknown_01(conn.User);
 		}
 
@@ -316,7 +350,7 @@ namespace Melia.Social.Network
 		/// server to accept join requests, as client doesn't seem to wait
 		/// for a response. The invite tag is added to the chat input either
 		/// way. The tag takes the following form in a whisper message:
-		/// 
+		///
 		/// /w Name {a SLC 1@@@557516819791874}{#0000FF}{img link_whisper 24 24}New Chat1{/}{/}{/}
 		/// </remarks>
 		/// <param name="conn"></param>
@@ -467,6 +501,36 @@ namespace Melia.Social.Network
 			var jobName = packet.GetString(16);
 
 			// What to do with this? Perhaps it's a job update of some sort?
+		}
+
+		[PacketHandler(Op.CS_PARTY_CLIENT_INFO_SEND)]
+		public void CS_PARTY_CLIENT_INFO_SEND(ISocialConnection conn, Packet packet)
+		{
+			var partyType = (GroupType)packet.GetByte();
+			var partyId = packet.GetLong();
+			var b1 = packet.GetByte();
+			var accountId = packet.GetLong();
+			var l1 = packet.GetLong();
+			var sessionObjectId = packet.GetInt(); // Main Session Object (90000)
+			var propertySize = packet.GetInt();
+
+			switch (b1)
+			{
+				// Silver Gained by Party Member?
+				case 1:
+					break;
+				// Session Object Update?
+				case 2:
+					for (var i = 0; i < propertySize; i++)
+					{
+						var propId = packet.GetInt();
+						var propValue = packet.GetInt();
+					}
+					break;
+				// Some other party related update?
+				case 3:
+					break;
+			}
 		}
 	}
 }

@@ -130,6 +130,11 @@ namespace Melia.Zone.Events
 		/// </summary>
 		public readonly Event<PlayerDialogEventArgs> PlayerDialog = new();
 
+		/// <summary>
+		/// Raised when a player leaves a party.
+		/// </summary>
+		public readonly Event<PlayerEventArgs> PlayerLeftParty = new();
+
 		// Combat Events
 		//-------------------------------------------------------------------
 

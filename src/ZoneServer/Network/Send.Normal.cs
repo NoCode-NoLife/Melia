@@ -2,6 +2,7 @@
 using Melia.Shared.Game.Const;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Helpers;
+using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Network.Helpers;
 using Melia.Zone.World.Actors;
@@ -9,6 +10,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Groups;
 
 namespace Melia.Zone.Network
 {
@@ -1356,6 +1358,202 @@ namespace Melia.Zone.Network
 				packet.PutLpString(bookName);
 
 				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Sends party member data to all party members.
+			/// </summary>
+			/// <param name="member"></param>
+			/// <param name="group"></param>
+			public static void PartyMemberData(IMember member, IGroup group)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyMemberData);
+				packet.PutByte(member.IsOnline);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutLong(member.AccountObjectId);
+				packet.AddMember(member);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Notifies all party members of a leader change.
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="leaderId"></param>
+			public static void PartyLeaderChange(IGroup group, long leaderId)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyLeaderChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutLong(leaderId);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Name Change
+			/// </summary>
+			/// <param name="group"></param>
+			public static void PartyNameChange(IGroup group)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PartyNameChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutInt(0);
+				packet.PutLong(group.Owner.ObjectId);
+				packet.PutLpString(group.Name);
+				packet.PutInt(1);
+				packet.PutByte(1);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Property Change
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="propertyId"></param>
+			/// <param name="propertyValue"></param>
+			public static void PartyPropertyUpdate(IGroup group, int propertyId, string propertyValue)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PartyPropertyChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutInt(propertyId);
+				packet.PutLpString(propertyValue);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Property Change
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="properties"></param>
+			public static void PartyPropertyUpdate(IGroup group, PropertyList properties)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.PartyPropertyChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.AddProperties(properties);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Sends party invite UI to player.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="sender"></param>
+			/// <param name="partyType"></param>
+			public static void PartyInvite(Character character, Character sender, GroupType partyType)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyInvite);
+				packet.PutByte((byte)partyType);
+				packet.PutLong(sender.AccountObjectId);
+				packet.PutLpString(sender.TeamName);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Shows party name above character's head.
+			/// </summary>
+			/// <param name="character"></param>
+			public static void ShowParty(Character character)
+			{
+				var party = character.Connection.Party;
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowParty);
+
+				packet.PutInt(character.Handle);
+				if (party != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(3);
+				}
+				else
+				{
+					packet.PutByte(3);
+				}
+
+				character.Map.Broadcast(packet, character);
+			}
+
+			/// <summary>
+			/// Shows party name for a character on a specific connection.
+			/// </summary>
+			/// <param name="conn"></param>
+			/// <param name="character"></param>
+			public static void ShowParty(IZoneConnection conn, Character character)
+			{
+				var party = character.Connection.Party;
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.ShowParty);
+
+				packet.PutInt(character.Handle);
+				if (party != null)
+				{
+					packet.PutByte(1);
+					packet.PutLpString(party.Name);
+					packet.PutByte(3);
+				}
+				else
+				{
+					packet.PutByte(3);
+				}
+
+				conn.Send(packet);
+			}
+
+			/// <summary>
+			/// Server response on Party Member Property Change
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="character"></param>
+			/// <param name="properties"></param>
+			public static void PartyMemberPropertyUpdate(IGroup group, Character character, PropertyList properties)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+
+				packet.PutInt(NormalOp.Zone.PartyMemberPropertyChange);
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(group.ObjectId);
+				packet.PutLong(character.ObjectId);
+				packet.AddProperties(properties);
+
+				group.Broadcast(packet);
+			}
+
+			/// <summary>
+			/// Updates member map status for all party members.
+			/// </summary>
+			/// <param name="group"></param>
+			/// <param name="member"></param>
+			public static void MemberMapStatusUpdate(IGroup group, IMember member)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.MemberMapStatusUpdate);
+
+				packet.PutByte((byte)group.Type);
+				packet.PutLong(member.AccountObjectId);
+				packet.PutShort(member.IsOnline ? member.MapId : 0);
+				packet.PutShort(member.IsOnline ? member.Channel : 0);
+
+				group.Broadcast(packet);
 			}
 		}
 	}

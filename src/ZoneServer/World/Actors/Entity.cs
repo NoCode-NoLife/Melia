@@ -165,6 +165,45 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns the relation between two entities.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="target"></param>
+		/// <returns></returns>
+		public static RelationType GetRelation(this ICombatEntity entity, ICombatEntity target)
+		{
+			// Entity is always friendly to itself
+			if (entity == target)
+				return RelationType.Friendly;
+
+			// Monsters are friendly to each other if same faction
+			if (target is IMonster monster)
+			{
+				if (entity.Faction == target.Faction)
+					return RelationType.Friendly;
+				return (RelationType)monster.MonsterType;
+			}
+
+			// Check relations between entities of the same faction
+			if (entity.Faction == target.Faction)
+			{
+				if (entity is Character character && target is Character targetCharacter)
+				{
+					// Check if both characters are in the same party
+					if (character.HasParty && targetCharacter.HasParty
+						&& character.Connection.Party == targetCharacter.Connection.Party)
+						return RelationType.Party;
+				}
+
+				return RelationType.Neutral;
+			}
+
+			var isHostile = entity.IsHostileFaction(target);
+
+			return isHostile ? RelationType.Enemy : RelationType.Neutral;
+		}
+
+		/// <summary>
 		/// Makes the entity turn towards the actor if it's not null.
 		/// </summary>
 		/// <param name="entity"></param>

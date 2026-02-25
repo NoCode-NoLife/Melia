@@ -72,6 +72,11 @@ namespace Melia.Social.Database
 		public int ChannelId { get; set; }
 
 		/// <summary>
+		/// Gets or sets the character's party id.
+		/// </summary>
+		public long PartyId { get; set; }
+
+		/// <summary>
 		/// Resets select properties that will make the character appear offline
 		/// when included in a friend list refresh.
 		/// </summary>
