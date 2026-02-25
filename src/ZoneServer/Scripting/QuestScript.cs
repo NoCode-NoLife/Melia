@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Melia.Zone.Scripting.Hooking;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Quests;
+using Melia.Zone.World.Quests.Modifiers;
 using Melia.Zone.World.Quests.Prerequisites;
 using Yggdrasil.Scripting;
 
@@ -16,6 +17,7 @@ namespace Melia.Zone.Scripting
 		private readonly static object ScriptsSyncLock = new();
 		private readonly static Dictionary<QuestId, QuestScript> Scripts = new();
 		private readonly static Dictionary<Type, QuestObjective> Objectives = new();
+		private readonly static Dictionary<Type, QuestModifier> Modifiers = new();
 		private readonly static List<QuestScript> AutoReceiveQuests = new();
 
 		/// <summary>
@@ -57,6 +59,16 @@ namespace Melia.Zone.Scripting
 					{
 						Objectives[type] = objective;
 						objective.Load();
+					}
+				}
+
+				foreach (var modifier in this.Data.Modifiers)
+				{
+					var type = modifier.GetType();
+					if (!Modifiers.ContainsKey(type))
+					{
+						Modifiers[type] = modifier;
+						modifier.Load();
 					}
 				}
 
@@ -131,13 +143,31 @@ namespace Melia.Zone.Scripting
 
 			lock (ScriptsSyncLock)
 			{
-				if (Objectives.Count == 0)
-					return;
+				if (Objectives.Count != 0)
+				{
+					foreach (var objective in Objectives.Values)
+						objective.Unload();
 
-				foreach (var objective in Objectives.Values)
-					objective.Unload();
+					Objectives.Clear();
+				}
 
-				Objectives.Clear();
+				if (Modifiers.Count != 0)
+				{
+					foreach (var modifier in Modifiers.Values)
+						modifier.Unload();
+
+					Modifiers.Clear();
+				}
+
+				if (Scripts.Count != 0)
+				{
+					Scripts.Clear();
+				}
+
+				if (AutoReceiveQuests.Count != 0)
+				{
+					AutoReceiveQuests.Clear();
+				}
 			}
 		}
 
@@ -180,6 +210,33 @@ namespace Melia.Zone.Scripting
 		/// <param name="description"></param>
 		protected void SetDescription(string description)
 			=> this.Data.Description = description;
+
+		/// <summary>
+		/// Sets the quest's location (map class name).
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		protected void SetLocation(string mapClassName)
+			=> this.Data.Location = mapClassName;
+
+		/// <summary>
+		/// Sets the quest's locations (multiple map class names).
+		/// </summary>
+		/// <param name="mapClassNames">Map class names separated by commas</param>
+		protected void SetLocation(params string[] mapClassNames)
+			=> this.Data.Location = string.Join(",", mapClassNames);
+
+		/// <summary>
+		/// Sets the quest giver NPC name and location.
+		/// </summary>
+		/// <param name="npcName">The name of the NPC that gives the quest</param>
+		/// <param name="mapClassName">The map class name where the NPC is located</param>
+		protected void AddQuestGiver(string npcName, string mapClassName)
+		{
+			this.Data.StartNpcUniqueName = npcName;
+			this.Data.QuestGiverLocation = mapClassName;
+			if (string.IsNullOrEmpty(this.Data.Location))
+				this.Data.Location = mapClassName;
+		}
 
 		/// <summary>
 		/// Sets the quest's type.
@@ -270,6 +327,17 @@ namespace Melia.Zone.Scripting
 		protected void AddPrerequisite(QuestPrerequisite prerequisite)
 		{
 			this.Data.Prerequisites.Add(prerequisite);
+		}
+
+		/// <summary>
+		/// Adds an item drop modifier using item ID and monster IDs directly.
+		/// </summary>
+		/// <param name="itemId">The ID of the item to drop</param>
+		/// <param name="dropChance">Drop probability (0.0 to 1.0, where 0.5 = 50%)</param>
+		/// <param name="monsterIds">Monster IDs that should drop this item</param>
+		protected void AddDrop(int itemId, float dropChance, params int[] monsterIds)
+		{
+			this.Data.Modifiers.Add(new ItemDropModifier(itemId, dropChance, monsterIds));
 		}
 
 		/// <summary>

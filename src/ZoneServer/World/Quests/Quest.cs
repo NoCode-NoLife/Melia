@@ -206,6 +206,42 @@ namespace Melia.Zone.World.Quests
 		}
 
 		/// <summary>
+		/// Iterates over the quest's modifiers and runs the given function
+		/// on all modifiers with the given type. If any progresses changed,
+		/// the ChangesOnLastUpdate property will be true.
+		/// </summary>
+		/// <typeparam name="TModifier"></typeparam>
+		/// <param name="updater"></param>
+		public void UpdateModifiers<TModifier>(QuestModifiersUpdateFunc<TModifier> updater) where TModifier : QuestModifier
+		{
+			var quest = this;
+			var anythingChanged = false;
+
+			foreach (var progress in quest.Progresses)
+			{
+				if (!progress.Unlocked)
+					continue;
+
+				var count = progress.Count;
+				var done = progress.Done;
+				var unlocked = progress.Unlocked;
+
+				for (var i = 0; i < quest.Data.Modifiers.Count; i++)
+				{
+					var modifier = quest.Data.Modifiers[i];
+					if (modifier is not TModifier tModifier)
+						continue;
+					updater(this, tModifier, progress);
+				}
+
+				if (progress.Count != count || progress.Done != done || progress.Unlocked != unlocked)
+					anythingChanged = true;
+			}
+
+			this.ChangesOnLastUpdate = anythingChanged;
+		}
+
+		/// <summary>
 		/// Marks all of the quest's objectives as done.
 		/// </summary>
 		public void CompleteObjectives()
@@ -223,6 +259,15 @@ namespace Melia.Zone.World.Quests
 	/// <param name="objective"></param>
 	/// <param name="progress"></param>
 	public delegate void QuestObjectivesUpdateFunc<TObjective>(Quest quest, TObjective objective, QuestProgress progress) where TObjective : QuestObjective;
+
+	/// <summary>
+	/// A function used to update a quest's modifiers.
+	/// </summary>
+	/// <typeparam name="TModifier"></typeparam>
+	/// <param name="quest"></param>
+	/// <param name="modifier"></param>
+	/// <param name="progress"></param>
+	public delegate void QuestModifiersUpdateFunc<TModifier>(Quest quest, TModifier modifier, QuestProgress progress) where TModifier : QuestModifier;
 
 	/// <summary>
 	/// Specifies a quest's current status.

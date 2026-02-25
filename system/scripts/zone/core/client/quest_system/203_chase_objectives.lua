@@ -8,6 +8,7 @@ function M_CHASE_CREATE_OBJECTIVES(parent, quest, x, y)
 	local checkSize = 10
 	local checkSpacing = 5
 	local width = parent:GetWidth() - x - SCROLL_WIDTH
+	local textWidth = width - offsetX - checkSize - checkSpacing
 	local textStyle = "{@s16}{#ffffff}";
 
 	for i = 1, #quest.Objectives do
@@ -21,7 +22,7 @@ function M_CHASE_CREATE_OBJECTIVES(parent, quest, x, y)
 			chkComplete:ToggleCheck()
 		end
 
-		local lblDesc = parent:CreateOrGetControl("richtext", "QuestObjectiveDesc" .. tostring(i), x + offsetX + chkComplete:GetWidth() + checkSpacing, y + height + 3, width, 10)
+		local lblDesc = parent:CreateOrGetControl("richtext", "QuestObjectiveDesc" .. tostring(i), x + offsetX + chkComplete:GetWidth() + checkSpacing, y + height + 3, textWidth, 10)
 		--lblDesc:EnableHitTest(0)
 		lblDesc:SetTextFixWidth(1)
 
