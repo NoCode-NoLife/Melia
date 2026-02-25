@@ -1553,6 +1553,139 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Send a trade request to another player acknowledgement
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_REQUEST_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_REQUEST_ACK);
+
+			packet.PutString(character.Name, 65);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send a trade request to another player
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_REQUEST_RECEIVED(Character character, string requesterName)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_REQUEST_RECEIVED);
+
+			packet.PutString(requesterName, 65);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send start trade to client
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_START(Character character, string tradePartnerTeamName)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_START);
+
+			packet.PutString(tradePartnerTeamName, 65);
+			packet.PutByte(0);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send item offer to client
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_OFFER_ACK(Character character, bool sameAsSender, Item item, int amount)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_OFFER_ACK);
+
+			var propertyList = item.Properties.GetAll();
+			var propertiesSize = propertyList.GetByteCount();
+
+			packet.PutByte((byte)(sameAsSender ? 0 : 1));
+			packet.PutInt(0);
+			packet.PutInt(-1);
+			packet.PutLong(item.ObjectId);
+			packet.PutInt(item.Id);
+			packet.PutInt(amount);
+			packet.PutShort(propertiesSize);
+			packet.AddProperties(propertyList);
+			packet.PutShort(0);
+			packet.PutLong(item.ObjectId);
+
+			// TODO:
+			// Check for item sockets when trading
+			// -----------------------------------
+			// if (!item.HasSockets)
+			// 	packet.PutShort(0);
+			// else
+			// {
+			// 	var gems = item.GetGemSockets();
+			// 	packet.PutShort(gems.Count);
+			// 
+			// 	short gemIndex = 0;
+			// 	foreach (var gem in gems)
+			// 	{
+			// 		packet.AddSocket(gemIndex, gem);
+			// 		gemIndex++;
+			// 	}
+			// }
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send exchange initial agree acknowledgement to client
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="isSameAsSender"></param>
+		public static void ZC_EXCHANGE_AGREE_ACK(Character character, bool isSameAsSender)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_AGREE_ACK);
+			packet.PutByte((byte)(isSameAsSender ? 0 : 1));
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send exchange final agree acknowledgement to client
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="isSameAsSender"></param>
+		public static void ZC_EXCHANGE_FINALAGREE_ACK(Character character, bool isSameAsSender)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_FINALAGREE_ACK);
+
+			packet.PutByte((byte)(isSameAsSender ? 0 : 1));
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send trade successfully completed
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_SUCCESS(Character character)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_SUCCESS);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Send trade canceled
+		/// </summary>
+		/// <param name="character"></param>
+		public static void ZC_EXCHANGE_CANCEL_ACK(Character character)
+		{
+			var packet = new Packet(Op.ZC_EXCHANGE_CANCEL_ACK);
+
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
 		/// Updates actor's rotation for characters in range of it.
 		/// </summary>
 		/// <param name="actor"></param>
