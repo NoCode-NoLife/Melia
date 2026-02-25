@@ -362,7 +362,8 @@ namespace Melia.Shared.Game.Const
 	public enum InventoryType : byte
 	{
 		Inventory = 0,
-		Warehouse = 1,
+		PersonalStorage = 1,
+		TeamStorage = 6,
 	}
 
 	public enum InventoryAddType : byte

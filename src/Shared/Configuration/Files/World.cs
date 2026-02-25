@@ -68,6 +68,12 @@ namespace Melia.Shared.Configuration.Files
 		public int StorageMaxSize { get; protected set; }
 		public int StorageMaxExtensions { get; protected set; }
 		public bool StorageMultiStack { get; protected set; }
+		public int TeamStorageFee { get; protected set; }
+		public int TeamStorageDefaultSize { get; protected set; }
+		public int TeamStorageExtCost { get; protected set; }
+		public int TeamStorageMaxSilverExpands { get; protected set; }
+		public int TeamStorageMaxSize { get; protected set; }
+		public int TeamStorageMinimumLevelRequired { get; protected set; }
 
 		// summons.conf
 		public bool BlueOrbFollowWarp { get; protected set; }
@@ -122,6 +128,13 @@ namespace Melia.Shared.Configuration.Files
 			this.StorageDefaultSize = this.GetInt("storage_default_size", 60);
 			this.StorageMaxSize = this.GetInt("storage_max_size", 110);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
+
+			this.TeamStorageFee = this.GetInt("team_storage_fee", 0);
+			this.TeamStorageDefaultSize = this.GetInt("team_storage_default_size", 5);
+			this.TeamStorageExtCost = this.GetInt("team_storage_ext_cost", 200000);
+			this.TeamStorageMaxSilverExpands = this.GetInt("team_storage_max_silver_expands", 9);
+			this.TeamStorageMaxSize = this.GetInt("team_storage_max_size", 70);
+			this.TeamStorageMinimumLevelRequired = this.GetInt("team_storage_min_level_req", 15);
 
 			this.ExpRate = this.GetFloat("exp_rate", 100);
 			this.JobExpRate = this.GetFloat("job_exp_rate", 100);

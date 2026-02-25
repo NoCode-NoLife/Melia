@@ -21,6 +21,11 @@ namespace Melia.Zone.World.Storage
 		private int _storageSize = 0;
 
 		/// <summary>
+		/// Returns whether the storage is currently being browsed.
+		/// </summary>
+		public bool IsBrowsing { get; protected set; }
+
+		/// <summary>
 		/// Gets the first available position in storage.
 		/// Returns -1 if not found.
 		/// </summary>
@@ -527,7 +532,7 @@ namespace Melia.Zone.World.Storage
 		/// of storage.
 		/// </summary>
 		/// <returns></returns>
-		public Dictionary<int, Item> GetItems()
+		public virtual Dictionary<int, Item> GetItems()
 		{
 			lock (_syncLock)
 				return _storageItems.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);

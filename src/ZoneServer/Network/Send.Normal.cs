@@ -9,6 +9,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Storage;
 
 namespace Melia.Zone.Network
 {
@@ -791,6 +792,27 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Sends specific account properties to character's client.
+			/// </summary>
+			/// <param name="character"></param>
+			/// <param name="propertyNames"></param>
+			public static void AccountProperties(Character character, params string[] propertyNames)
+			{
+				var account = character.Connection.Account;
+				var properties = propertyNames != null ? account.Properties.GetSelect(propertyNames) : account.Properties.GetAll();
+				var propertySize = properties.GetByteCount();
+
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.AccountProperties);
+
+				packet.PutLong(account.Id);
+				packet.PutShort(propertySize);
+				packet.AddProperties(properties);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
 			/// Makes monster fade out over the given amount of time.
 			/// </summary>
 			/// <param name="monster"></param>
@@ -1354,6 +1376,33 @@ namespace Melia.Zone.Network
 
 				packet.PutInt(character.Handle);
 				packet.PutLpString(bookName);
+
+				character.Connection.Send(packet);
+			}
+
+			/// <summary>
+			/// Updates silver transactions for storage
+			/// </summary>
+			/// <param name="character">Character browsing storage</param>
+			/// <param name="transactions">Silver transaction list</param>
+			/// <param name="init">'True' will erase previous transactions.</param>
+			public static void StorageSilverTransaction(Character character, StorageSilverTransaction[] transactions, bool init)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.StorageSilverTransaction);
+
+				packet.Zlib(true, zpacket =>
+				{
+					zpacket.PutByte(init);
+					zpacket.PutInt(transactions.Length);
+					foreach (var trans in transactions)
+					{
+						zpacket.PutByte((byte)trans.Interaction);
+						zpacket.PutLong(trans.SilverTransacted);
+						zpacket.PutLong(trans.SilverTotal);
+						zpacket.PutLong(trans.TransactionTime);
+					}
+				});
 
 				character.Connection.Send(packet);
 			}
