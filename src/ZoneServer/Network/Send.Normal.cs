@@ -1098,16 +1098,16 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void UpdateSkillUI(Character character)
 			{
-				// While the client will apparently gladly accept any combination
-				// of jobs, the skill UI will only appear correctly if job
-				// data for the character's current "display job" is sent.
-				// For example, if the display job is Archer, data for *that*
-				// job must be sent. Other base classes or higher jobs in the
-				// same class do not work. Same thing for when the display
-				// job is a higher job.
-				// If data for the base job is sent though, other jobs will
-				// appears as well. So it seems like you can create a Wizard/
-				// Archer hybrid for example.
+				// While the client will apparently gladly accept any
+				// combination of jobs, the skill UI will only appear
+				// correctly if job data for the character's current
+				// "display job" is sent. For example, if the display job
+				// is Archer, data for *that* job must be sent. Other base
+				// classes or higher jobs in the same class do not work.
+				// Same thing for when the display job is a higher job.
+				// If data for the base job is sent though, other jobs
+				// will appear as well. So it seems like you can create a
+				// Wizard/Archer hybrid for example.
 
 				var jobs = character.Jobs.GetList();
 
