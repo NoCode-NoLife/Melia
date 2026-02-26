@@ -77,9 +77,8 @@ namespace Melia.Zone.Skills
 		{
 			get
 			{
-				var getOverheatMaxCount =
-					ScriptableFunctions.Skill.Get("GET_SKILL_OVERHEAT_COUNT_" + this.Id) ??
-					ScriptableFunctions.Skill.Get("GET_SKILL_OVERHEAT_COUNT");
+				if (!ScriptableFunctions.Skill.TryGet("GET_SKILL_OVERHEAT_COUNT_" + this.Id, out var getOverheatMaxCount))
+					ScriptableFunctions.Skill.TryGet("GET_SKILL_OVERHEAT_COUNT", out getOverheatMaxCount);
 
 				if (getOverheatMaxCount == null)
 					return this.Data.OverheatCount;
@@ -96,9 +95,8 @@ namespace Melia.Zone.Skills
 		{
 			get
 			{
-				var getOverheatCooldown =
-					ScriptableFunctions.Skill.Get("SCR_GET_USEOVERHEAT_" + this.Id) ??
-					ScriptableFunctions.Skill.Get("SCR_GET_USEOVERHEAT");
+				if (!ScriptableFunctions.Skill.TryGet("SCR_GET_USEOVERHEAT_" + this.Id, out var getOverheatCooldown))
+					ScriptableFunctions.Skill.TryGet("SCR_GET_USEOVERHEAT", out getOverheatCooldown);
 
 				if (getOverheatCooldown == null)
 					return this.OverheatData.OverheatResetTime;
