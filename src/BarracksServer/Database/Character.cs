@@ -2,8 +2,9 @@
 using System.Linq;
 using Melia.Barracks.Network.Helpers;
 using Melia.Shared.Game.Const;
-using Melia.Shared.World;
 using Melia.Shared.ObjectProperties;
+using Melia.Shared.Scripting;
+using Melia.Shared.World;
 
 namespace Melia.Barracks.Database
 {
@@ -64,6 +65,23 @@ namespace Melia.Barracks.Database
 		/// Gets or sets id of the character's hair style.
 		/// </summary>
 		public int Hair { get; set; }
+
+		/// <summary>
+		/// Returns the character's displayed hair style, depending on
+		/// their actual hair and factors like equipped items.
+		/// </summary>
+		public int DisplayHair
+		{
+			get
+			{
+				var hair = this.Hair;
+
+				if (this.Variables.Perm.TryGetInt("Melia.DisplayHair", out var displayHair))
+					hair = displayHair;
+
+				return hair;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the character's skin color.
@@ -215,6 +233,11 @@ namespace Melia.Barracks.Database
 		/// Returns the max EXP for the character's current level.
 		/// </summary>
 		public long MaxExp => BarracksServer.Instance.Data.ExpDb.GetNextExp(this.Level);
+
+		/// <summary>
+		/// Character's scripting variables.
+		/// </summary>
+		public VariablesContainer Variables { get; } = new VariablesContainer();
 
 		/// <summary>
 		/// Creates a new character with default values.

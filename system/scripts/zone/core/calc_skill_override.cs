@@ -1,15 +1,22 @@
 ﻿//--- Melia Script ----------------------------------------------------------
 // Skill Calculation Script
 //--- Description -----------------------------------------------------------
-// Functions that calculate skill-related values, such as properties.
+// Functions that calculate skill-related values, such as properties,
+// and override general purpose functions for specific skills.
+//--- Notes -----------------------------------------------------------------
+// Skill calculation functions automatically switch to override functions
+// if they exist. For example, if the property SpendSP is calculated, set
+// up as a calculated property that is to use the function
+// "SCR_Get_SpendSP", that function will be used by default. However, if
+// the skill's class name is "Wizard_EarthQuake", and a function named
+// "SCR_Get_SpendSP_Wizard_EarthQuake" exists, that function will be used
+// instead of the default one.
 //---------------------------------------------------------------------------
 
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 public class SkillOverrideCalculationsScript : GeneralScript
 {
@@ -26,8 +33,8 @@ public class SkillOverrideCalculationsScript : GeneralScript
 		// Not sure if this is correct in any shape or form
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
+		var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		value += (value * 0.5f * overbuffCount);
 
 		return value;
 	}
@@ -44,8 +51,8 @@ public class SkillOverrideCalculationsScript : GeneralScript
 
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Cure_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
+		var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Cure_Overload_Buff);
+		value += (value * 0.5f * overbuffCount);
 
 		return value;
 	}

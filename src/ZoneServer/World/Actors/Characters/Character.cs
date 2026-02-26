@@ -16,6 +16,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -152,9 +153,36 @@ namespace Melia.Zone.World.Actors.Characters
 		public Gender Gender { get; set; }
 
 		/// <summary>
-		/// Character's hair style.
+		/// Gets or sets the character's hair style.
 		/// </summary>
+		/// <remarks>
+		/// Affects the character's base hair style, indepent of wigs or
+		/// other factors that can change the displayed hair style. Get
+		/// <see cref="DisplayHair"/> to get the currently displayed hair
+		/// style.
+		/// </remarks>
 		public int Hair { get; set; }
+
+		/// <summary>
+		/// Returns the character's current hair style.
+		/// </summary>
+		/// <remarks>
+		/// The returned hair style is whatever hair style the character
+		/// should currently be displayed with, based on factors such as
+		/// worn wigs.
+		/// </remarks>
+		public int DisplayHair
+		{
+			get
+			{
+				var hair = this.Hair;
+
+				if (this.Variables.Perm.TryGetInt("Melia.DisplayHair", out var displayHair))
+					hair = displayHair;
+
+				return hair;
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the character's skin color.

@@ -76,14 +76,14 @@ namespace Melia.Shared.Network
 			public const int ItemDrop = 0x152;
 			public const int NGSCallback = 0x170;
 			public const int HeadgearVisibilityUpdate = 0x17C;
-			public const int UpdateSkillUI = 0x189;
-			public const int AdventureBook = 0x197;
-			public const int Unknown_19B = 0x19E;
-			public const int PadSetModel = 0x1AB;
-			public const int WigVisibilityUpdate = 0x1AC;
-			public const int Unknown_1B4 = 0x1B7;
-			public const int ActorRotate = 0x1BF;
-			public const int SubWeaponVisibilityUpdate = 0x1C5;
+			public const int UpdateSkillUI = 0x18B;
+			public const int AdventureBook = 0x199;
+			public const int Unknown_19B = 0x1A0;
+			public const int PadSetModel = 0x1AD;
+			public const int WigVisibilityUpdate = 0x1AE;
+			public const int Unknown_1B4 = 0x1B9;
+			public const int ActorRotate = 0x1C1;
+			public const int SubWeaponVisibilityUpdate = 0x1C7;
 		}
 
 		/// <summary>

@@ -233,7 +233,7 @@ namespace Melia.Zone.Skills
 			{
 				this.OverheatCounter = 0;
 				this.OverheatTimeRemaining = TimeSpan.Zero;
-				overheated = false;
+				overheated = true;
 
 				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.OverheatCooldown);
 			}

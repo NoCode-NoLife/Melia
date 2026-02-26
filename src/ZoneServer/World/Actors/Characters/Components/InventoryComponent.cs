@@ -459,7 +459,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Moves item with the given id into the given slot.
 		/// </summary>
 		/// <param name="slot"></param>
-		/// <param name="item"></param>
+		/// <param name="worldId"></param>
 		/// <returns></returns>
 		public InventoryResult Equip(EquipSlot slot, long worldId)
 		{
@@ -487,7 +487,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			}
 
 			// Update character
-			this.Character.UpdateStance();
+			this.HandleAppearanceChanges(slot);
 
 			// Update client
 			Send.ZC_ITEM_REMOVE(this.Character, item.ObjectId, 1, InventoryItemRemoveMsg.Equipped, InventoryType.Inventory);
@@ -517,6 +517,10 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			lock (_syncLock)
 				_equip[slot] = new DummyEquipItem(slot);
 
+			// Update character
+			this.HandleAppearanceChanges(slot);
+
+			// Update client
 			Send.ZC_ITEM_EQUIP_LIST(this.Character);
 			Send.ZC_UPDATED_PCAPPEARANCE(this.Character);
 
@@ -525,6 +529,35 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			this.Unequipped?.Invoke(this.Character, item);
 
 			return InventoryResult.Success;
+		}
+
+		/// <summary>
+		/// Updates appearance related properties when (un)equipping
+		/// relevant item.
+		/// </summary>
+		/// <param name="slot"></param>
+		private void HandleAppearanceChanges(EquipSlot slot)
+		{
+			if (slot == EquipSlot.Hair)
+			{
+				var hair = this.Character.Hair;
+
+				var hairEquip = this.GetEquip(EquipSlot.Hair);
+				if (hairEquip is not DummyEquipItem)
+				{
+					var hairClassName = hairEquip.Data.Script.StrArg;
+
+					if (ZoneServer.Instance.Data.HairTypeDb.TryFindByClassName(hairClassName, out var partData))
+						hair = partData.Index;
+				}
+
+				if (hair != this.Character.Hair)
+					this.Character.Variables.Perm.SetInt("Melia.DisplayHair", hair);
+				else
+					this.Character.Variables.Perm.Remove("Melia.DisplayHair");
+			}
+
+			this.Character.UpdateStance();
 		}
 
 		/// <summary>
