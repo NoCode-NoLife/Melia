@@ -376,6 +376,16 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns the overbuff counter for the given buff. Returns 0
+		/// if the buff isn't active.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="buffId"></param>
+		/// <returns></returns>
+		public static int GetOverbuffCount(this ICombatEntity entity, BuffId buffId)
+			=> entity.Components.Get<BuffComponent>()?.GetOverbuffCount(buffId) ?? 0;
+
+		/// <summary>
 		/// Returns the skill with the given ID if the entity knows that skill.
 		/// Returns false if the entity doesn't know that skill.
 		/// </summary>

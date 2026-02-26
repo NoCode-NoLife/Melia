@@ -17,7 +17,6 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 public class SkillOverrideCalculationsScript : GeneralScript
 {
@@ -34,8 +33,8 @@ public class SkillOverrideCalculationsScript : GeneralScript
 		// Not sure if this is correct in any shape or form
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Heal_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
+		var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Heal_Overload_Buff);
+		value += (value * 0.5f * overbuffCount);
 
 		return value;
 	}
@@ -52,8 +51,8 @@ public class SkillOverrideCalculationsScript : GeneralScript
 
 		var value = SCR_Get_SpendSP(skill);
 
-		var overloadBuffCount = skill.Owner.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.Cure_Overload_Buff);
-		value += (value * 0.5f * overloadBuffCount);
+		var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Cure_Overload_Buff);
+		value += (value * 0.5f * overbuffCount);
 
 		return value;
 	}
