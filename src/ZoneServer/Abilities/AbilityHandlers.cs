@@ -6,6 +6,8 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
+using Melia.Zone.Skills.Handlers;
+using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
 namespace Melia.Zone.Abilities
@@ -18,30 +20,37 @@ namespace Melia.Zone.Abilities
 		private readonly Dictionary<AbilityId, IAbilityHandler> _handlers = new();
 
 		/// <summary>
-		/// Creates a new ability handler manager.
+		/// Creates a new ability handler manager and loads all handlers
+		/// found in the current assembly.
 		/// </summary>
 		public AbilityHandlers()
 		{
-			this.LoadHandlersFromAssembly();
+			this.LoadHandlersFromAssembly(Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>
-		/// Loads ability handlers marked with a ability handler attribute in
-		/// the current assembly.
+		/// Loads ability handlers marked with an ability handler
+		/// attribute in the given assembly.
 		/// </summary>
-		private void LoadHandlersFromAssembly()
+		/// <remarks>
+		/// Searches the given assembly for classes implementing the <see
+		/// cref="IAbilityHandler"/> interface and marked with the <see
+		/// cref="AbilityHandlerAttribute"/>. The handlers are then
+		/// registered for the ability ids specified in the attribute.
+		/// </remarks>
+		/// <param name="assembly">Assembly to search for handlers.</param>
+		public void LoadHandlersFromAssembly(Assembly assembly)
 		{
-			foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+			foreach (var type in assembly.GetTypes().Where(a => typeof(IAbilityHandler).IsAssignableFrom(a) && !a.IsInterface))
 			{
-				var attributes = type.GetCustomAttributes(typeof(AbilityHandlerAttribute), false);
-				if (attributes == null || attributes.Length == 0)
-					continue;
+				foreach (var attr in type.GetCustomAttributes<AbilityHandlerAttribute>())
+				{
+					var handler = (IAbilityHandler)Activator.CreateInstance(type);
+					var abilityIds = attr.Ids;
 
-				var handler = Activator.CreateInstance(type) as IAbilityHandler;
-				var abilityIds = (attributes.First() as AbilityHandlerAttribute).Ids;
-
-				foreach (var abilityId in abilityIds)
-					this.Register(abilityId, handler);
+					foreach (var abilityId in abilityIds)
+						this.Register(abilityId, handler);
+				}
 			}
 		}
 
@@ -56,6 +65,7 @@ namespace Melia.Zone.Abilities
 				_handlers[abilityId] = handler;
 
 			this.LoadCombatEvents(abilityId, handler);
+			ScriptableFunctions.Load(handler);
 		}
 
 		/// <summary>

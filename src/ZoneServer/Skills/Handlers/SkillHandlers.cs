@@ -38,8 +38,7 @@ namespace Melia.Zone.Skills.Handlers
 		/// cref="SkillHandlerAttribute"/>. The handlers are then
 		/// registered for the skill ids specified in the attribute.
 		/// </remarks>
-		/// <param name="assembly">Assembly to search for skill
-		/// handlers.</param>
+		/// <param name="assembly">Assembly to search for handlers.</param>
 		public void LoadHandlersFromAssembly(Assembly assembly)
 		{
 			foreach (var type in assembly.GetTypes().Where(a => typeof(ISkillHandler).IsAssignableFrom(a) && !a.IsInterface))

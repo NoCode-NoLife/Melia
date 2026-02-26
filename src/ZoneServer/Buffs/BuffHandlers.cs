@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Abilities;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
@@ -23,26 +24,32 @@ namespace Melia.Zone.Buffs
 		/// </summary>
 		public BuffHandlers()
 		{
-			this.LoadHandlersFromAssembly();
+			this.LoadHandlersFromAssembly(Assembly.GetExecutingAssembly());
 		}
 
 		/// <summary>
-		/// Loads buff handlers marked with a buff handler attribute in
-		/// the current assembly.
+		/// Loads ability handlers marked with an ability handler
+		/// attribute in the given assembly.
 		/// </summary>
-		private void LoadHandlersFromAssembly()
+		/// <remarks>
+		/// Searches the given assembly for classes implementing the <see
+		/// cref="IAbilityHandler"/> interface and marked with the <see
+		/// cref="AbilityHandlerAttribute"/>. The handlers are then
+		/// registered for the ability ids specified in the attribute.
+		/// </remarks>
+		/// <param name="assembly">Assembly to search for handlers.</param>
+		public void LoadHandlersFromAssembly(Assembly assembly)
 		{
-			foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+			foreach (var type in assembly.GetTypes().Where(a => typeof(IBuffHandler).IsAssignableFrom(a) && !a.IsInterface))
 			{
-				var attributes = type.GetCustomAttributes(typeof(BuffHandlerAttribute), false);
-				if (attributes == null || attributes.Length == 0)
-					continue;
+				foreach (var attr in type.GetCustomAttributes<BuffHandlerAttribute>())
+				{
+					var handler = (IBuffHandler)Activator.CreateInstance(type);
+					var buffIds = attr.BuffIds;
 
-				var handler = Activator.CreateInstance(type) as IBuffHandler;
-				var buffIds = (attributes.First() as BuffHandlerAttribute).BuffIds;
-
-				foreach (var buffId in buffIds)
-					this.Register(buffId, handler);
+					foreach (var buffId in buffIds)
+						this.Register(buffId, handler);
+				}
 			}
 		}
 
@@ -57,6 +64,7 @@ namespace Melia.Zone.Buffs
 				_buffHandlers[buffId] = handler;
 
 			this.LoadCombatEvents(buffId, handler);
+			ScriptableFunctions.Load(handler);
 		}
 
 		/// <summary>
