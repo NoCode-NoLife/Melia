@@ -73,9 +73,10 @@ namespace Melia.Shared.Network
 			public const int SetGreetingMessage = 0x136;
 			public const int Unk13E = 0x13E;
 			public const int SetSessionKey = 0x14F;
-			public const int ItemDrop = 0x152;
-			public const int NGSCallback = 0x170;
-			public const int HeadgearVisibilityUpdate = 0x17C;
+			// [i402363] Noticed shift by +2 in ItemDrop and UpdateSkillUI
+			public const int ItemDrop = 0x154;
+			public const int NGSCallback = 0x172;
+			public const int HeadgearVisibilityUpdate = 0x17E;
 			public const int UpdateSkillUI = 0x18B;
 			public const int AdventureBook = 0x199;
 			public const int Unknown_19B = 0x1A0;
