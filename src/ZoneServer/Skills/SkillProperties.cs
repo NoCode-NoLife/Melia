@@ -89,7 +89,7 @@ namespace Melia.Zone.Skills
 			this.Create(new RFloatProperty(PropertyName.SpendPoison, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.ReadyTime, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.SkillAtkAdd, () => 0f));
-			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => (int)this.Skill.Data.CooldownTime.TotalMilliseconds));
+			this.Create(new RFloatProperty(PropertyName.UseOverHeat, () => this.CalculateProperty("SCR_GET_USEOVERHEAT")));
 			this.Create(new RFloatProperty(PropertyName.SkillASPD, () => 1f));
 			this.Create(new RFloatProperty(PropertyName.BackHitRange, () => 0f));
 			this.Create(new RFloatProperty(PropertyName.DelayTime, () => (int)this.Skill.Data.DelayTime.TotalMilliseconds));

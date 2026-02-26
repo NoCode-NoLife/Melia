@@ -12,7 +12,6 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 
 public class SkillCalculationsScript : GeneralScript
@@ -399,5 +398,38 @@ public class SkillCalculationsScript : GeneralScript
 		var baseValue = skill.Data.ShootTime.TotalMilliseconds;
 
 		return (float)(baseValue / sklSpdRate);
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's overheat cooldown time in
+	/// milliseconds.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_USEOVERHEAT(Skill skill)
+	{
+		var baseValue = (int)skill.Data.CooldownTime.TotalMilliseconds;
+		var buffModifier = 1f;
+
+		if (skill.Owner.Properties.TryGetFloat(PropertyName.OverHeat_BM, out var overheatBm))
+			buffModifier += overheatBm / 100f;
+
+		return (int)Math.Max(0, baseValue * buffModifier);
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's available max overheat count,
+	/// indicating how many times the skill can be used before it goes on
+	/// cooldown.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float GET_SKILL_OVERHEAT_COUNT(Skill skill)
+	{
+		var baseValue = skill.Data.OverheatCount;
+
+		return Math.Max(0, baseValue);
 	}
 }
