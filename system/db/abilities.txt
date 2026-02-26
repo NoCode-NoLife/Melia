@@ -2597,6 +2597,7 @@
 { id: 421066, className: "Kneller11", name: "Resonance Pulse: Frost Resonance", level: 1, passive: false },
 { id: 421067, className: "Kneller107", name: "[Arts] Death Knell: Sentence", level: 1, passive: false },
 { id: 421068, className: "Kneller12", name: "Resting Sepulcher: Tomb Wall", level: 1, passive: false },
+{ id: 421069, className: "Kneller108", name: "[Arts] Resonance Pulse: Centripetal", level: 1, passive: false },
 { id: 501001, className: "Scout18", name: "Cloaking: Enhance", level: 1, passive: true },
 { id: 501002, className: "Scout19", name: "Dagger Slash: Enhance", level: 1, passive: true },
 { id: 501003, className: "Scout20", name: "Oblique Fire: Enhance", level: 1, passive: true },

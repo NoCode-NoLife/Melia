@@ -10367,6 +10367,7 @@
 		public const string EVENT_2602_NEWYEAR_SHOP_06 = "EVENT_2602_NEWYEAR_SHOP_06";
 		public const string EVENT_2602_NEWYEAR_SHOP_01 = "EVENT_2602_NEWYEAR_SHOP_01";
 		public const string HaveEmoticon_186 = "HaveEmoticon_186";
+		public const string GuildDignityBuffOption2 = "GuildDignityBuffOption2";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

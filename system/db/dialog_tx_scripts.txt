@@ -267,5 +267,5 @@
 { classId: 295, className: "LEVEL_UP_GUILD_DRESS_ROOM", type: "ItemArg", script: "SCR_LEVEL_UP_GUILD_DRESS_ROOM" },
 { classId: 296, className: "MAKE_COSTUME_GUILD_DRESS_ROOM", type: "ItemArg", script: "SCR_MAKE_ITEM_FROM_GUILD_DRESS_ROOM" },
 { classId: 297, className: "ARC_OPEN_LOGGING", type: "ItemArg", script: "SCR_ARC_OPEN_LOGGING" },
-{ classId: 298, className: "BOSS_CARD_UPGRADE", type: "ItemList", script: "SCR_BOSS_CARD_UPGRADE" },
+{ classId: 298, className: "BOSS_CARD_UPGRADE", type: "ItemList", script: "SCR_BOSS_CARD_UPGRADE_TX" },
 ]

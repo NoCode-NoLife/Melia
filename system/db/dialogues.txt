@@ -17360,6 +17360,7 @@
 { classId: 4620443, className: "EP18_1_F_TABLELAND_72_MQ7_NPC_DLG1_1", image: "uriel_cat" },
 { classId: 4620444, className: "EP18_1_F_TABLELAND_74_MQ16_TRACK_DLG1" },
 { classId: 4620445, className: "EP18_1_F_TABLELAND_74_MQ16_TRACK_DLG2" },
+{ classId: 4620446, className: "EP18_1_F_TABLELAND_74_MQ16_TRACK_SKIP", image: "uriel_cat" },
 { classId: 4791000, className: "CORAL_44_2_MAN3_BASIC" },
 { classId: 4791001, className: "FLIBRARY482_VIDA_NPC_BASIC" },
 { classId: 4791002, className: "FLIBRARY482_SVAJA_NPC_BASIC" },

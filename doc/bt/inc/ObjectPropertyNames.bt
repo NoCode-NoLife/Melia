@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i402363
+//   Version: i402595
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32869,6 +32869,7 @@ string getPropertyName(int id)
         case 118643: return "HaveEmoticon_186";
         case 118644: return "HaveEmoticon_186";
         case 118645: return "GuildDressRoomItem";
+        case 118646: return "GuildDignityBuffOption2";
         default: return "Unknown";
     }
 }

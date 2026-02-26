@@ -4115,14 +4115,6 @@ public static class ItemId
 	public const int EP18_BRC_03 = 11100084;
 	public const int EP18_NECK_04 = 11100085;
 	public const int EP18_BRC_04 = 11100086;
-	public const int EP19_NECK_01 = 11100087;
-	public const int EP19_BRC_01 = 11100088;
-	public const int EP19_NECK_02 = 11100089;
-	public const int EP19_BRC_02 = 11100090;
-	public const int EP19_NECK_03 = 11100091;
-	public const int EP19_BRC_03 = 11100092;
-	public const int EP19_NECK_04 = 11100093;
-	public const int EP19_BRC_04 = 11100094;
 	public const int EP14_Goddess_Noble_1_TOP = 11100100;
 	public const int EP14_Goddess_Noble_1_LEG = 11100101;
 	public const int EP14_Goddess_Noble_1_FOOT = 11100102;

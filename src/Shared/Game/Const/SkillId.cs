@@ -7739,6 +7739,7 @@ namespace Melia.Shared.Game.Const
 		Mon_boss_crystal_golem_season_Skill_5 = 165748,
 		Mon_boss_crystal_golem_season_Skill_6 = 165749,
 		Mon_boss_crystal_golem_season_Skill_7 = 165750,
+		Mon_boss_Redania_Skill_1 = 165751,
 		Mon_boss_Redania_Skill_2 = 165752,
 		Mon_boss_Redania_Skill_3 = 165753,
 		Mon_boss_Redania_Skill_4 = 165754,
