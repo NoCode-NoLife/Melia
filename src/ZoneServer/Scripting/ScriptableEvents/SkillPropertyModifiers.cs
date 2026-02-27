@@ -24,9 +24,9 @@ namespace Melia.Zone.Scripting.ScriptableEvents
 	/// skill.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
-	public class SkillOverbuffMaxCountModifierAttribute : ScriptableFunctionAttribute
+	public class SkillOverheatMaxCountModifierAttribute : ScriptableFunctionAttribute
 	{
-		public SkillOverbuffMaxCountModifierAttribute(SkillId skillId)
+		public SkillOverheatMaxCountModifierAttribute(SkillId skillId)
 			: base("GET_SKILL_OVERHEAT_COUNT_" + skillId)
 		{
 		}
@@ -38,9 +38,9 @@ namespace Melia.Zone.Scripting.ScriptableEvents
 	/// the overheat cooldown calculations for the specified skill.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method)]
-	public class SkillOverbuffCooldownModifierAttribute : ScriptableFunctionAttribute
+	public class SkillOverheatCooldownModifierAttribute : ScriptableFunctionAttribute
 	{
-		public SkillOverbuffCooldownModifierAttribute(SkillId skillId)
+		public SkillOverheatCooldownModifierAttribute(SkillId skillId)
 			: base("SCR_GET_USEOVERHEAT_" + skillId)
 		{
 		}
