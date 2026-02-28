@@ -10364,6 +10364,7 @@
 	{ namespace: "Account", name: "EVENT_2602_NEWYEAR_SHOP_06", type: "Number", id: 117853 },
 	{ namespace: "Account", name: "EVENT_2602_NEWYEAR_SHOP_01", type: "Number", id: 117854 },
 	{ namespace: "Account", name: "HaveEmoticon_186", type: "Number", id: 118643 },
+	{ namespace: "Account", name: "GuildDignityBuffOption2", type: "Number", id: 118646 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },

@@ -5189,6 +5189,8 @@ namespace Melia.Shared.Game.Const
 		Kneller107 = 421067,
 		/// <summary>Resting Sepulcher: Tomb Wall</summary>
 		Kneller12 = 421068,
+		/// <summary>[Arts] Resonance Pulse: Centripetal</summary>
+		Kneller108 = 421069,
 		/// <summary>Cloaking: Enhance</summary>
 		Scout18 = 501001,
 		/// <summary>Dagger Slash: Enhance</summary>

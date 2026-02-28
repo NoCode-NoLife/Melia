@@ -1229,6 +1229,7 @@ namespace Melia.Shared.Network
 		public const int CZ_REQ_GUILD_TOWER_REMOVE = 0x1083; // Size: 26
 		public const int CZ_REQ_GUILD_QUEST_REWARD_INFO = 0x1084; // Size: 26
 		public const int ZC_SEND_GUILD_QUEST_REWARD_INFO = 0x1085; // Size: 0
+		public const int CZ_CHECK_GUILD_TICKET_RESET = 0x1086; // Size: 26
 		public const int CS_LOGIN = 0x3E1D; // Size: 411
 		public const int SC_NORMAL = 0x3E1E; // Size: 0
 		public const int SC_FROM_INTEGRATE = 0x3E1F; // Size: 0
@@ -2492,6 +2493,7 @@ namespace Melia.Shared.Network
 			Sizes[CZ_REQ_GUILD_TOWER_REMOVE] = 26;
 			Sizes[CZ_REQ_GUILD_QUEST_REWARD_INFO] = 26;
 			Sizes[ZC_SEND_GUILD_QUEST_REWARD_INFO] = 0;
+			Sizes[CZ_CHECK_GUILD_TICKET_RESET] = 26;
 			Sizes[CS_LOGIN] = 411;
 			Sizes[SC_NORMAL] = 0;
 			Sizes[SC_FROM_INTEGRATE] = 0;

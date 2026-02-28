@@ -963,6 +963,7 @@
 { category: "Kneller", classId: 110, abilityId: 421065, jobId: 2030, className: "Kneller10", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_RestingGround_Cleric", argNum: 1 } },
 { category: "Kneller", classId: 111, abilityId: 421066, jobId: 2030, className: "Kneller11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_ResonantPulse_Cleric", argNum: 1 } },
 { category: "Kneller", classId: 112, abilityId: 421068, jobId: 2030, className: "Kneller12", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_RestingGround_Cleric", argNum: 1 } },
+{ category: "Kneller", classId: 201, abilityId: 421069, jobId: 2030, className: "Kneller108", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Kneller_ResonantPulse_Cleric", argNum: 1 } },
 
 // Archer
 //---------------------------------------------------------------------------
