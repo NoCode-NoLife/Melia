@@ -56,23 +56,4 @@ public class SkillOverrideCalculationsScript : GeneralScript
 
 		return value;
 	}
-
-	/// <summary>
-	/// Returns the amount of SP spent when using the skill.
-	/// </summary>
-	/// <param name="skill"></param>
-	/// <returns></returns>
-	[ScriptableFunction]
-	public float SCR_Get_SpendSP_Wizard_EarthQuake(Skill skill)
-	{
-		var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
-
-		var value = SCR_Get_SpendSP(skill);
-
-		// Ability "Earthquake: Remove Knockdown"
-		if (skill.Owner.IsAbilityActive(AbilityId.Wizard23))
-			value += value * 0.10f;
-
-		return value;
-	}
 }

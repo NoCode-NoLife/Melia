@@ -162,6 +162,8 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_SpendSP(Skill skill)
 	{
+		var SCR_Get_SpendSP_AbilityModifier = ScriptableFunctions.Skill.Get(nameof(SCR_Get_SpendSP_AbilityRate));
+
 		var baseValue = skill.Data.BasicSp;
 		if (baseValue == 0)
 			return 0;
@@ -179,10 +181,28 @@ public class SkillCalculationsScript : GeneralScript
 
 		var value = baseValue * (levelCorrection + 1);
 
-		var byAbilityRate = 0; // TODO: Add ability multiplier support
+		var byAbilityRate = SCR_Get_SpendSP_AbilityModifier(skill);
 		value += value * (byAbilityRate / 100f);
 
 		return (int)Math.Max(0, value);
+	}
+
+	/// <summary>
+	/// Returns the modifier for the skill's SP usage based on the owner's
+	/// active abilities. The result is a relative percentage, such as
+	/// 10 for a +10% increase.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_SpendSP_AbilityRate(Skill skill)
+	{
+		var result = 0;
+
+		if (skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			result += abilities.GetModifier(skill.Id.ToString(), AbilityModifierType.SP);
+
+		return result;
 	}
 
 	/// <summary>
