@@ -38,8 +38,25 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <param name="job"></param>
 		public void AddSilent(Job job)
 		{
+			// Setting the rank based on the order jobs are added was the
+			// simplest solution to add the Rank property after the fact,
+			// but this works out well, because we don't have to worry
+			// about getting and setting the correct rank manually this
+			// way.
+
 			lock (_jobs)
+			{
+				var rank = 1;
+
+				if (_jobs.Count > 0)
+					rank = this.GetCurrentRank() + 1;
+
+				if (_jobs.TryGetValue(job.Id, out var existing))
+					rank = existing.Rank;
+
 				_jobs[job.Id] = job;
+				job.Rank = rank;
+			}
 		}
 
 		/// <summary>
@@ -323,7 +340,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// <summary>
 		/// Returns the total maximum EXP that can be collected on this job.
 		/// </summary>
-		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Character.Jobs.GetCurrentRank(), this.MaxLevel);
+		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Rank, this.MaxLevel);
 
 		/// <summary>
 		/// Returns the level reached on this job based on the
@@ -338,7 +355,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				//   way I expect it to.
 
 				var jobId = this.Id;
-				var rank = this.Character.Jobs.GetCurrentRank();
+				var rank = this.Rank;
 				var totalExp = this.TotalExp;
 				var max = this.MaxLevel;
 
@@ -369,7 +386,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				// Maybe it would make more sense to determine the job's
 				// max level based on the rank it was added on.
 
-				var rank = this.Character.Jobs.GetCurrentRank();
+				var rank = this.Rank;
 				return ZoneServer.Instance.Data.ExpDb.GetMaxJobLevel(rank);
 			}
 		}
@@ -378,6 +395,15 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Gets or sets the date the character chose this job.
 		/// </summary>
 		public DateTime SelectionDate { get; set; } = DateTime.Now;
+
+		/// <summary>
+		/// Gets or sets the rank the job was added on.
+		/// </summary>
+		/// <remarks>
+		/// This value is used to determine the job's (max) level and is
+		/// assigned automatically based on the order the jobs were added.
+		/// </remarks>
+		public int Rank { get; set; }
 
 		/// <summary>
 		/// Creates new instance for character.
