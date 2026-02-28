@@ -1,5 +1,6 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -10,18 +11,18 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 	/// Handler for the passive Barbarian skill Frenzy.
 	/// </summary>
 	[SkillHandler(SkillId.Barbarian_Frenzy)]
-	public class Frenzy : ISkillHandler, ISkillCombatAttackBeforeCalcHandler
+	public class Frenzy : ISkillHandler
 	{
 		/// <summary>
 		/// Applies the skill's effect before combat calculations.
 		/// </summary>
-		/// <param name="skill"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="attackerSkill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Barbarian_Frenzy)]
+		public void OnAttackBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// You lose Frenzy if you attack a different target, unless Barbarian22
 			// is active.
