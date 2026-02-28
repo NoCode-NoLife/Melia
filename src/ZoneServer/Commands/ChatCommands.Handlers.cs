@@ -98,6 +98,7 @@ namespace Melia.Zone.Commands
 			this.Add("ai", "[ai name]", "Activates AI for character.", this.HandleAi);
 			this.Add("updatedata", "", "Updates data.", this.HandleUpdateData);
 			this.Add("updatedatacom", "", "Updates data.", this.HandleUpdateDataCom);
+			this.Add("jobinfo", "", "Display information about character's jobs.", this.HandleJobInfo);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
 			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.NoSave);
@@ -1911,6 +1912,41 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Enabled feature '{0}'."), featureName);
 			else
 				sender.ServerMessage(Localization.Get("Disabled feature '{0}'."), featureName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Display's target's job information.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleJobInfo(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var sb = new StringBuilder();
+
+			sb.AppendFormat(Localization.Get("{0}'s Jobs ({1})"), target.Name, target.Jobs.Count);
+			sb.AppendLine();
+
+			foreach (var job in target.Jobs.GetList())
+			{
+				var maxExp = job.MaxExp;
+				var exp = Math.Min(maxExp, job.Exp);
+				var percent = 100f / maxExp * exp;
+
+				sb.AppendFormat(" {0}", job.Id);
+				sb.AppendLine();
+				sb.AppendFormat("   Rank: {0}, Level: {0}, SkillPoints: {0}", job.Rank, job.Level, job.SkillPoints);
+				sb.AppendLine();
+				sb.AppendFormat("   Exp: {0} / {1} ({2:0.0}%)", exp, maxExp, percent);
+				sb.AppendLine();
+			}
+
+			sender.ServerMessage(sb.ToString().Replace(Environment.NewLine, "{nl}"));
 
 			return CommandResult.Okay;
 		}

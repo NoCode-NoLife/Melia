@@ -269,8 +269,13 @@ namespace Melia.Zone.Database
 		/// <param name="character"></param>
 		private void LoadJobs(Character character)
 		{
+			// Note that the order the jobs are added in is important,
+			// because it determines the jobs' ranks, which are assigned
+			// based on their order. That's why they are queried by their
+			// selection date, which affectively determines their rank.
+
 			using (var conn = this.GetConnection())
-			using (var mc = new MySqlCommand("SELECT * FROM `jobs` WHERE `characterId` = @characterId", conn))
+			using (var mc = new MySqlCommand("SELECT * FROM `jobs` WHERE `characterId` = @characterId ORDER BY `selectionDate` ASC", conn))
 			{
 				mc.Parameters.AddWithValue("@characterId", character.DbId);
 
