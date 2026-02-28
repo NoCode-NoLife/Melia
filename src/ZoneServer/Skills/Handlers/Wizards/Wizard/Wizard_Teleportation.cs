@@ -72,7 +72,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 		/// </summary>
 		/// <param name="skill"></param>
 		/// <returns></returns>
-		[SkillOverheatMaxCountModifier(SkillId.Wizard_Teleportation)]
+		[SkillOverheatOverride(SkillId.Wizard_Teleportation)]
 		public float GetOverheatMaxCount(Skill skill)
 		{
 			var result = 1;
