@@ -4,7 +4,9 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -201,6 +203,25 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 			}
 
 			return Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Returns the amount of SP the skill uses.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		[SkillSpOverride(SkillId.Cleric_Heal)]
+		public float GetSpendSp(Skill skill)
+		{
+			var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
+
+			// Not sure if this is correct in any shape or form
+			var value = SCR_Get_SpendSP(skill);
+
+			var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Heal_Overload_Buff);
+			value += (value * 0.5f * overbuffCount);
+
+			return value;
 		}
 	}
 }

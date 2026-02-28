@@ -4,6 +4,8 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -76,6 +78,24 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 		private float GetRemoveChance(Skill skill)
 		{
 			return skill.Level * RemoveChancePerLevel;
+		}
+
+		/// <summary>
+		/// Returns the amount of SP the skill uses.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		[SkillSpOverride(SkillId.Cleric_Cure)]
+		public float GetSpendSp(Skill skill)
+		{
+			var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
+
+			var value = SCR_Get_SpendSP(skill);
+
+			var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Cure_Overload_Buff);
+			value += (value * 0.5f * overbuffCount);
+
+			return value;
 		}
 	}
 }
