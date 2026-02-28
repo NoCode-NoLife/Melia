@@ -1929,8 +1929,7 @@ namespace Melia.Zone.Commands
 		{
 			var sb = new StringBuilder();
 
-			sb.AppendFormat(Localization.Get("{0}'s Jobs ({1})"), target.Name, target.Jobs.Count);
-			sb.AppendLine();
+			sb.AppendLine(Localization.Get("{0}'s Jobs ({1})"), target.Name, target.Jobs.Count);
 
 			foreach (var job in target.Jobs.GetList())
 			{
@@ -1938,12 +1937,9 @@ namespace Melia.Zone.Commands
 				var exp = Math.Min(maxExp, job.Exp);
 				var percent = 100f / maxExp * exp;
 
-				sb.AppendFormat(" {0}", job.Id);
-				sb.AppendLine();
-				sb.AppendFormat("   Rank: {0}, Level: {0}, SkillPoints: {0}", job.Rank, job.Level, job.SkillPoints);
-				sb.AppendLine();
-				sb.AppendFormat("   Exp: {0} / {1} ({2:0.0}%)", exp, maxExp, percent);
-				sb.AppendLine();
+				sb.AppendLine(" {0}", job.Id);
+				sb.AppendLine("   Rank: {0}, Level: {0}, SkillPoints: {0}", job.Rank, job.Level, job.SkillPoints);
+				sb.AppendLine("   Exp: {0} / {1} ({2:0.0}%)", exp, maxExp, percent);
 			}
 
 			sender.ServerMessage(sb.ToString().Replace(Environment.NewLine, "{nl}"));
