@@ -23,6 +23,7 @@ namespace Melia.Shared.Data.Database
 
 		public float BasicSp { get; set; }
 		public float BasicStamina { get; set; }
+		public string SpendSpScript { get; set; }
 
 		public float EnableAngle { get; set; }
 		public float MaxRange { get; set; }
@@ -201,6 +202,7 @@ namespace Melia.Shared.Data.Database
 
 			data.BasicSp = entry.ReadFloat("basicSp", 0);
 			data.BasicStamina = entry.ReadFloat("basicStamina", 0);
+			data.SpendSpScript = entry.ReadString("spendSpScript", "SCR_Get_SpendSP");
 
 			data.EnableAngle = entry.ReadFloat("enableAngle");
 			data.MaxRange = entry.ReadFloat("maxRange");
