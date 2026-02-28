@@ -184,6 +184,9 @@ public class SkillCalculationsScript : GeneralScript
 		var byAbilityRate = SCR_Get_SpendSP_AbilityModifier(skill);
 		value += value * (byAbilityRate / 100f);
 
+		// TODO: Add ExProp "ZEMINA_BUFF_SP", reducing SpendSP by its
+		// value times ZEMINA_BUFF_SP.
+
 		return (int)Math.Max(0, value);
 	}
 
