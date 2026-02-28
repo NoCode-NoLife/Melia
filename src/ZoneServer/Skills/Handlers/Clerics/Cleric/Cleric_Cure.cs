@@ -8,6 +8,7 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
 
@@ -92,10 +93,12 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 
 			var value = SCR_Get_SpendSP(skill);
 
+			// The exact formula to increase the SP cost by based on
+			// overbuffing is currently unknown
 			var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Cure_Overload_Buff);
 			value += (value * 0.5f * overbuffCount);
 
-			return value;
+			return (int)Math.Max(0, value);
 		}
 	}
 }

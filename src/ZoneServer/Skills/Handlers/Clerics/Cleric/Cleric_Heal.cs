@@ -11,6 +11,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
@@ -215,13 +216,27 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 		{
 			var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
 
-			// Not sure if this is correct in any shape or form
 			var value = SCR_Get_SpendSP(skill);
 
+			// The exact formula to increase the SP cost by based on
+			// overbuffing is currently unknown
 			var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Heal_Overload_Buff);
 			value += (value * 0.5f * overbuffCount);
 
-			return value;
+			// "Bonus effects are applied when the caster has advanced
+			// into certain classes"
+			if (skill.Owner.Components.TryGet<JobComponent>(out var jobs))
+			{
+				// "Priest: Decreases SP consumption by 25"
+				if (jobs.Has(JobId.Priest))
+					value -= 25;
+
+				// "Pardoner: Decreases SP consumption by 50"
+				if (jobs.Has(JobId.Pardoner))
+					value -= 50;
+			}
+
+			return (int)Math.Max(0, value);
 		}
 	}
 }
