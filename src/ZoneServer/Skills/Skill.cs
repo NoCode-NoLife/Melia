@@ -203,7 +203,12 @@ namespace Melia.Zone.Skills
 		/// </summary>
 		/// <returns
 		public bool IncreaseOverheat()
-			=> this.IncreaseOverheat(this.OverheatMaxCount);
+		{
+			var overheatMaxCount = this.OverheatMaxCount;
+			var overheatCooldown = this.OverheatCooldown;
+
+			return this.IncreaseOverheat(overheatMaxCount, overheatCooldown);
+		}
 
 		/// <summary>
 		/// Increases skill's overheat counter by 1 if the skill can
@@ -212,8 +217,9 @@ namespace Melia.Zone.Skills
 		/// skill overheated or not.
 		/// </summary>
 		/// <param name="overheatMaxCount"></param>
+		/// <param name="overheatCooldown"></param>
 		/// <returns
-		public bool IncreaseOverheat(int overheatMaxCount)
+		public bool IncreaseOverheat(int overheatMaxCount, TimeSpan overheatCooldown)
 		{
 			// No cooldowns for monsters
 			if (this.Owner is not Character character)
@@ -233,7 +239,7 @@ namespace Melia.Zone.Skills
 				this.OverheatTimeRemaining = TimeSpan.Zero;
 				overheated = true;
 
-				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.OverheatCooldown);
+				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, overheatCooldown);
 			}
 
 			// Update the overheat after the max was checked so we reset it

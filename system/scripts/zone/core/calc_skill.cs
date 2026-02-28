@@ -429,13 +429,34 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GET_USEOVERHEAT(Skill skill)
 	{
+		var getAbilityRate = ScriptableFunctions.Skill.Get(nameof(SCR_GET_USEOVERHEAT_AbilityRate));
+
 		var baseValue = (int)skill.Data.CooldownTime.TotalMilliseconds;
 		var buffModifier = 1f;
 
 		if (skill.Owner.Properties.TryGetFloat(PropertyName.OverHeat_BM, out var overheatBm))
 			buffModifier += overheatBm / 100f;
 
-		return (int)Math.Max(0, baseValue * buffModifier);
+		var abilityModifier = getAbilityRate(skill);
+
+		return (int)Math.Max(0, baseValue * buffModifier + abilityModifier);
+	}
+
+	/// <summary>
+	/// Returns the cooldown modifier for the skill, in milliseconds,
+	/// based on the skill owner's active abilities.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_USEOVERHEAT_AbilityRate(Skill skill)
+	{
+		var result = 0;
+
+		if (skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			result += abilities.GetModifier(skill.Id.ToString(), AbilityModifierType.CoolDown);
+
+		return result;
 	}
 
 	/// <summary>
