@@ -326,14 +326,13 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public JobData Data { get; }
 
 		/// <summary>
-		/// Total EXP collected for this job.
+		/// Gets or sets the total EXP collected for this job.
 		/// </summary>
 		/// <remarks>
-		/// Every job has its own total EXP count, which the client uses
-		/// in combination with the character's current job and rank to
-		/// determine the level. There doesn't seem to be a way
-		/// to change the max job EXP from the server, as it is with
-		/// the base EXP.
+		/// Every job has its own EXP count, which the client uses in
+		/// combination with the job and its rank to determine the level.
+		/// There doesn't seem to be a way to change the max job EXP from
+		/// the server, as it is with the base EXP.
 		/// </remarks>
 		public long TotalExp { get; set; }
 
@@ -341,6 +340,39 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// Returns the total maximum EXP that can be collected on this job.
 		/// </summary>
 		public long TotalMaxExp => ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Rank, this.MaxLevel);
+
+		/// <summary>
+		/// Returns the EXP collected on the job's current level.
+		/// </summary>
+		public long Exp
+		{
+			get
+			{
+				if (this.Level == 1 || this.Level == this.MaxLevel)
+					return this.TotalExp;
+
+				return this.TotalExp - ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Rank, Math.Max(1, this.Level - 1));
+			}
+		}
+
+		/// <summary>
+		/// Returns the EXP necessary for leveling up at the current
+		/// level.
+		/// </summary>
+		public long MaxExp
+		{
+			get
+			{
+				var curLevelExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Rank, Math.Min(this.MaxLevel, this.Level));
+
+				if (this.Level == 1 || this.Level == this.MaxLevel)
+					return curLevelExp;
+
+				var lastLevelExp = ZoneServer.Instance.Data.ExpDb.GetNextTotalJobExp(this.Rank, Math.Max(1, this.Level - 1));
+
+				return curLevelExp - lastLevelExp;
+			}
+		}
 
 		/// <summary>
 		/// Returns the level reached on this job based on the
