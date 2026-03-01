@@ -1,22 +1,23 @@
 Scriptable Functions
 =============================================================================
 
-## Introduction
+Introduction
+-----------------------------------------------------------------------------
 
-In essence, scriptable functions are C# methods like any other,
-but the server gathers them and saves references to them, to
-be able to later call them from anywhere. This makes it easy
-to quickly call methods by name globally, which is particularly
-handy for overwriting methods from scripts or to reference
-methods by name, as is done for item usage scripts.
+In essence, scriptable functions are C# methods like any other, but with
+the difference that they are registered globally and can be retrieved by
+name to call them from anywhere. This makes it easy to call or override
+these methods quickly, which is particularly handy for overriding
+functions from scripts or to reference methods by name, as is done for
+item usage scripts.
 
-## Example
+Example
+-----------------------------------------------------------------------------
 
-To illustrate this, take a look at the following scriptable
-function, which is referenced in the item data by its name,
-`SCR_USE_ITEM_EXPCARD`. When an item with this script function
-is used, we get the function by name and call it with the arguments
-defined in the item data.
+To illustrate this, let's take a look at the following scriptable function,
+which is referenced in the item data by its name, `SCR_USE_ITEM_EXPCARD`.
+When an item with this script function is used, we get the function by
+name and call it with the arguments defined in the item data.
 
 ```cs
 [ScriptableFunction]
@@ -32,21 +33,33 @@ public ItemUseResult SCR_USE_ITEM_EXPCARD(Character character, Item item, string
 }
 ```
 
-## Attribute
+Attribute
+-----------------------------------------------------------------------------
 
-The way we accomplish this is via the `ScriptableFunction` attribute.
-Every function that is part of a `GeneralScript` and is decorated with
-this attribute will be considered a scriptable function, using either
-the function's name or the string defined in the attribute. For example,
-the following function would get registered as `SCR_USE_ITEM_EXPCARD`
-as well.
+The way we set up the function in the example is via the
+`ScriptableFunction` attribute. This marks a method as intended for use as
+a scriptable function and the server will pick these up and automatically
+register them from certain classes, such as `GeneralScript` and skill
+handlers.
+
+The name of registered function defaults to the name of the method by
+default, but you can also specify a custom name by passing it as an
+argument. For example, the following function would be registered as
+`SCR_USE_ITEM_EXPCARD` as well.
 
 ```cs
 [ScriptableFunction("SCR_USE_ITEM_EXPCARD")]
 public ItemUseResult UseExpCard(Character character, Item item, string strArg, float numArg1, float numArg2)
 ```
 
-## Types
+Alternatively, you can also register a function manually by calling the
+`Register` or `TryRegister` methods on the delegate collections found
+inside the static `ScriptableFunctions` class. This is useful if you
+aren't able to use an attribute or you have more complex registration
+and naming logic.
+
+Types
+-----------------------------------------------------------------------------
 
 Because of the nature of C#'s static typing, we only support pre-defined
 delegate types as scriptable functions. The defined function signatures
@@ -57,6 +70,7 @@ float Character(Character character);
 float Monster(Mob monster);
 float Skill(Skill skill);
 float Combat(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
+void CombatModifier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
 SkillHitResult SkillHit(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier);
 ItemUseResult ItemScriptFunc(Character character, Item item, string strArg, float numArg1, float numArg2);
 NormalTxResult NormalTx(Character character, string strArg);
@@ -67,9 +81,8 @@ bool AbilityUnlock(Character character, string argStr, int argInt, AbilityData d
 void AbilityPrice(Character character, AbilityData abilityData, int abilityLevel, int maxLevel, out int price, out int time);
 ```
 
-If you use the `ScriptableFunction` attribute on any functions
-that match any of these signatures inside a `GeneralScript`,
-they will be picked up and can then be called from anywhere.
+If you use the `ScriptableFunction` attribute on any functions that match
+any of these signatures, they will be picked up when loading the class.
 
 ## Execution
 
@@ -83,20 +96,44 @@ var maxPatk = func(character);
 // ...
 ```
 
-## Usage
+You can also use a `TryGet`, as to not trigger an exception if the
+function doesn't exist.
+
+```cs
+var maxPatk = 0f;
+
+if (ScriptableFunctions.Character.TryGet("SCR_Get_Character_MAXPATK", out var func))
+	maxPatk = func(character);
+
+// ...
+```
+
+As with registering functions, you need to use the respective function
+type collection for getting them, such as `Character` for the character
+calculation focused functions, `Combat` for combat related functions,
+and so on, as inferable from the type list above.
+
+Usecases
+-----------------------------------------------------------------------------
 
 Internally we primarily use scriptable functions for item interactions
 and combat calculations, where this feature makes it easier for us to
 interact with the client and take advantage of existing information.
 
-For example, most any combat skill uses the function `SCR_SkillHit`
-to calculate the skill damage and determine the hit outcome, such as
-whether a crit or dodge should occur. These functions being scriptable
-also means that they can easily be overwritten from custom scripts,
-which allows users to modify their behavior. If you dislike certain
-formulas for example, changing them might be a rather simple matter.
-The following example will change crit chance to always be 50%,
-no matter what.
+One example are various item and transaction scripts, which are commonly
+referenced by name in the client and networking data. By having these as
+scriptable functions, we can easily refer to them, call them, and modify
+them as needed.
+
+Another example are combat related functions, such as those containing
+formulas or logic for determining hit outcomes. Most any combat skill uses
+the function `SCR_SkillHit` and the functions it calls to calculate the
+skill damage and to checker whether a crit or dodge should occur. As
+scriptable functions, these can easily be overridden to modify their
+behavior. If you dislike certain formulas for example, changing them might
+be a rather simple matter. The following example, placed inside a user
+script, will change the crit chance of all hits to always be 50%, no
+matter what.
 
 ```cs
 [ScriptableFunction]
@@ -106,7 +143,8 @@ public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Ski
 }
 ```
 
-## Overrides
+Overrides
+-----------------------------------------------------------------------------
 
 In cases where scripts replace and override existing functions, the original
 can be retrieved via the global `ScriptableFunctions` class. The respective
@@ -141,7 +179,9 @@ if a function is overridden multiple times, each one is able to reference
 its immediate parent. This way it's possible to walk up the tree of
 overrides by repeatedly passing the reference to the overridden function
 to `TryGetOverridden`, should there ever be a need to find even older
-versions.
+versions. It's also possible to directly get the original function,
+meaning the first one registered under the name, by using the
+`TryGetOriginal` method instead.
 
 Accessing overridden functions is useful primarily when modifying results,
 such as the calculations of existing core functions. The original function
@@ -154,8 +194,9 @@ script function, as its behavior is self-contained and it returns only
 the result of the item usage. Although there are cases where overriding
 such a function could be used to monitor or react to certain results.
 
-## More
+More
+-----------------------------------------------------------------------------
 
-To find more examples and figure out which functions may exist for
+To find more examples and learn about which functions may exist for
 potential overrides, we recommend studying the scripts found in Melia.
 Particularly, the files in `system/scripts/zone/core/`.

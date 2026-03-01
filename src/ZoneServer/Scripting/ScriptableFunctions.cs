@@ -31,6 +31,7 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<MonsterCalcFunc> Monster = new();
 		public static readonly DelegateCollection<SkillCalcFunc> Skill = new();
 		public static readonly DelegateCollection<CombatCalcFunction> Combat = new();
+		public static readonly DelegateCollection<CombatCalcModifierFunction> CombatModifier = new();
 		public static readonly DelegateCollection<SkillHitFunction> SkillHit = new();
 		public static readonly DelegateCollection<ItemScriptFunc> Item = new();
 		public static readonly DelegateCollection<NormalTxScriptFunc> NormalTx = new();
@@ -143,6 +144,15 @@ namespace Melia.Zone.Scripting
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	public delegate float CombatCalcFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
+
+	/// <summary>
+	/// A function that modifies values related to skill usage and combat.
+	/// </summary>
+	/// <param name="attacker"></param>
+	/// <param name="target"></param>
+	/// <param name="skill"></param>
+	/// <param name="skillHitResult"></param>
+	public delegate void CombatCalcModifierFunction(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
 
 	/// <summary>
 	/// A function that determines the result of a skill hitting a target.

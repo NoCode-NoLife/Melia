@@ -5,6 +5,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -67,6 +68,42 @@ namespace Melia.Zone.Skills
 		/// skill's maximum overheat, the skill goes on a cooldown.
 		/// </summary>
 		public int OverheatCounter { get; private set; }
+
+		/// <summary>
+		/// Returns the skill's current maximum overheat count, which can
+		/// be affected by factors such as buffs and abilities.
+		/// </summary>
+		public int OverheatMaxCount
+		{
+			get
+			{
+				if (!ScriptableFunctions.Skill.TryGet("GET_SKILL_OVERHEAT_COUNT_" + this.Id, out var getOverheatMaxCount))
+					ScriptableFunctions.Skill.TryGet("GET_SKILL_OVERHEAT_COUNT", out getOverheatMaxCount);
+
+				if (getOverheatMaxCount == null)
+					return this.Data.OverheatCount;
+
+				return (int)getOverheatMaxCount(this);
+			}
+		}
+
+		/// <summary>
+		/// Returns the amount of time the skill goes on cooldown once its
+		/// overheat counter reaches the max count.
+		/// </summary>
+		public TimeSpan OverheatCooldown
+		{
+			get
+			{
+				if (!ScriptableFunctions.Skill.TryGet("SCR_GET_USEOVERHEAT_" + this.Id, out var getOverheatCooldown))
+					ScriptableFunctions.Skill.TryGet("SCR_GET_USEOVERHEAT", out getOverheatCooldown);
+
+				if (getOverheatCooldown == null)
+					return this.OverheatData.OverheatResetTime;
+
+				return TimeSpan.FromMilliseconds(getOverheatCooldown(this));
+			}
+		}
 
 		/// <summary>
 		/// Returns the time until the skill's overheat counter is reset.
@@ -161,22 +198,28 @@ namespace Melia.Zone.Skills
 		/// <summary>
 		/// Increases skill's overheat counter by 1 if the skill can
 		/// overheat and updates the client. Activates cooldown once
-		/// the max overheat is reached. Returns whether the skill
-		/// overheated or not.
+		/// the skill's max overheat is reached. Returns whether the
+		/// skill overheated or not.
 		/// </summary>
 		/// <returns
 		public bool IncreaseOverheat()
-			=> this.IncreaseOverheat(this.Data.OverheatCount);
+		{
+			var overheatMaxCount = this.OverheatMaxCount;
+			var overheatCooldown = this.OverheatCooldown;
+
+			return this.IncreaseOverheat(overheatMaxCount, overheatCooldown);
+		}
 
 		/// <summary>
 		/// Increases skill's overheat counter by 1 if the skill can
 		/// overheat and updates the client. Activates cooldown once
-		/// the max overheat is reached. Returns whether the skill
-		/// overheated or not.
+		/// the given max overheat is reached. Returns whether the
+		/// skill overheated or not.
 		/// </summary>
 		/// <param name="overheatMaxCount"></param>
+		/// <param name="overheatCooldown"></param>
 		/// <returns
-		public bool IncreaseOverheat(int overheatMaxCount)
+		public bool IncreaseOverheat(int overheatMaxCount, TimeSpan overheatCooldown)
 		{
 			// No cooldowns for monsters
 			if (this.Owner is not Character character)
@@ -196,7 +239,7 @@ namespace Melia.Zone.Skills
 				this.OverheatTimeRemaining = TimeSpan.Zero;
 				overheated = true;
 
-				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, this.Data.CooldownTime);
+				this.Owner.Components.Get<CooldownComponent>().Start(this.Data.CooldownGroup, overheatCooldown);
 			}
 
 			// Update the overheat after the max was checked so we reset it

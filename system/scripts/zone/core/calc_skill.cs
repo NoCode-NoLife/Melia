@@ -12,7 +12,6 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 
 public class SkillCalculationsScript : GeneralScript
@@ -163,6 +162,8 @@ public class SkillCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_Get_SpendSP(Skill skill)
 	{
+		var SCR_Get_SpendSP_AbilityModifier = ScriptableFunctions.Skill.Get(nameof(SCR_Get_SpendSP_AbilityRate));
+
 		var baseValue = skill.Data.BasicSp;
 		if (baseValue == 0)
 			return 0;
@@ -180,10 +181,31 @@ public class SkillCalculationsScript : GeneralScript
 
 		var value = baseValue * (levelCorrection + 1);
 
-		var byAbilityRate = 0; // TODO: Add ability multiplier support
+		var byAbilityRate = SCR_Get_SpendSP_AbilityModifier(skill);
 		value += value * (byAbilityRate / 100f);
 
+		// TODO: Add ExProp "ZEMINA_BUFF_SP", reducing SpendSP by its
+		// value times ZEMINA_BUFF_SP.
+
 		return (int)Math.Max(0, value);
+	}
+
+	/// <summary>
+	/// Returns the modifier for the skill's SP usage based on the owner's
+	/// active abilities. The result is a relative percentage, such as
+	/// 10 for a +10% increase.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_SpendSP_AbilityRate(Skill skill)
+	{
+		var result = 0;
+
+		if (skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			result += abilities.GetModifier(skill.Id.ToString(), AbilityModifierType.SP);
+
+		return result;
 	}
 
 	/// <summary>
@@ -399,5 +421,59 @@ public class SkillCalculationsScript : GeneralScript
 		var baseValue = skill.Data.ShootTime.TotalMilliseconds;
 
 		return (float)(baseValue / sklSpdRate);
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's overheat cooldown time in
+	/// milliseconds.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_USEOVERHEAT(Skill skill)
+	{
+		var getAbilityRate = ScriptableFunctions.Skill.Get(nameof(SCR_GET_USEOVERHEAT_AbilityRate));
+
+		var baseValue = (int)skill.Data.CooldownTime.TotalMilliseconds;
+		var buffModifier = 1f;
+
+		if (skill.Owner.Properties.TryGetFloat(PropertyName.OverHeat_BM, out var overheatBm))
+			buffModifier += overheatBm / 100f;
+
+		var abilityModifier = getAbilityRate(skill);
+
+		return (int)Math.Max(0, baseValue * buffModifier + abilityModifier);
+	}
+
+	/// <summary>
+	/// Returns the cooldown modifier for the skill, in milliseconds,
+	/// based on the skill owner's active abilities.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_USEOVERHEAT_AbilityRate(Skill skill)
+	{
+		var result = 0;
+
+		if (skill.Owner.Components.TryGet<AbilityComponent>(out var abilities))
+			result += abilities.GetModifier(skill.Id.ToString(), AbilityModifierType.CoolDown);
+
+		return result;
+	}
+
+	/// <summary>
+	/// Calculates and returns the skill's available max overheat count,
+	/// indicating how many times the skill can be used before it goes on
+	/// cooldown.
+	/// </summary>
+	/// <param name="skill"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float GET_SKILL_OVERHEAT_COUNT(Skill skill)
+	{
+		var baseValue = skill.Data.OverheatCount;
+
+		return Math.Max(0, baseValue);
 	}
 }

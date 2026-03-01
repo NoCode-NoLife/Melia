@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Newtonsoft.Json.Linq;
+using Yggdrasil.Data;
 using Yggdrasil.Data.JSON;
 
 namespace Melia.Shared.Data.Database
@@ -14,6 +16,25 @@ namespace Melia.Shared.Data.Database
 		public string EngName { get; set; }
 		public int Level { get; set; }
 		public bool Passive { get; set; }
+		public HashSet<string> Categories { get; set; } = new();
+		public Dictionary<AbilityModifierType, int> Modifiers { get; set; } = new();
+	}
+
+	public enum AbilityModifierType
+	{
+		/// <summary>
+		/// A percentage based modifier that affects the SP cost of a
+		/// skill. For example, a modifier of -20 would reduce the SP cost
+		/// of the skill by 20%.
+		/// </summary>
+		SP,
+
+		/// <summary>
+		/// A modifier that affects a skill's cooldown, in milliseconds.
+		/// For example, a modifier of 500 would increase the cooldown of
+		/// a skill by 0.5 seconds.
+		/// </summary>
+		CoolDown,
 	}
 
 	/// <summary>
@@ -47,6 +68,27 @@ namespace Melia.Shared.Data.Database
 			data.EngName = entry.ReadString("name");
 			data.Level = entry.ReadInt("level");
 			data.Passive = entry.ReadBool("passive");
+
+			if (entry.ContainsKey("categories"))
+			{
+				var categories = entry["categories"] as JArray;
+
+				foreach (var category in categories)
+					data.Categories.Add((string)category);
+			}
+
+			if (entry.ContainsKey("modifiers"))
+			{
+				var modifiers = entry["modifiers"] as JObject;
+
+				foreach (var modifier in modifiers)
+				{
+					var type = Enum.Parse<AbilityModifierType>(modifier.Key);
+					var value = (int)modifier.Value;
+
+					data.Modifiers[type] = value;
+				}
+			}
 
 			this.AddOrReplace(data.Id, data);
 		}

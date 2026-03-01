@@ -13,6 +13,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 using Yggdrasil.Composition;
 using Yggdrasil.Util;
 using static Melia.Zone.Skills.SkillUseFunctions;
@@ -442,6 +443,23 @@ namespace Melia.Zone.World.Actors
 
 			level = ability.Level;
 			return ability.Active;
+		}
+
+		/// <summary>
+		/// Returns the item in the given slot via out if it exists.
+		/// Returns false if the entity doesn't have an inventory
+		/// or the slot is empty. Returns dummy items if they exist.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="slot"></param>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public static bool TryGetItem(this ICombatEntity entity, EquipSlot slot, out Item item)
+		{
+			var inventory = entity.Components.Get<InventoryComponent>();
+
+			item = inventory?.GetItem(slot);
+			return item != null;
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Melia.Shared.World;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -45,15 +46,15 @@ namespace Melia.Zone.Skills.Handlers.Base
 		void EndDynamicCast(Skill skill, ICombatEntity caster);
 	}
 
-	public interface ISkillCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface ISkillCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface ISkillCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface ISkillCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface ISkillCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface ISkillCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface ISkillCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface ISkillCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface ISkillCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult); }
 }

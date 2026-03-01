@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
@@ -170,6 +172,45 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		{
 			lock (_abilities)
 				return _abilities.Values.FirstOrDefault(a => a.Data.ClassName == abilityClassName);
+		}
+
+		/// <summary>
+		/// Returns the total modifier of the given type for the category
+		/// based on all active abilities. May return 0 if there are no
+		/// relevant modifiers.
+		/// </summary>
+		/// <remarks>
+		/// Category and type refer to the category an ability relates to
+		/// and the modifier types respectively. The type essentially
+		/// declares which skill property is being modified, while the
+		/// category will usually be the name of the skill the modifier
+		/// applies to. However, due to changes in skill names, some
+		/// categories may no longer exist in the form of actual skills,
+		/// such as "Barbarian_HelmChopper".
+		/// </remarks>
+		/// <param name="category"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public int GetModifier(string category, AbilityModifierType type)
+		{
+			// TODO: Cache the modifier and invalidate cache on ability
+			// changes.
+
+			var result = 0;
+
+			lock (_abilities)
+			{
+				foreach (var ability in _abilities.Values)
+				{
+					if (!ability.Active || !ability.Data.Categories.Contains(category))
+						continue;
+
+					if (ability.Data.Modifiers.TryGetValue(type, out var modifier))
+						result += modifier;
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>

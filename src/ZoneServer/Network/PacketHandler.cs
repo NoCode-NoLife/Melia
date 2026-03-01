@@ -2622,7 +2622,9 @@ namespace Melia.Zone.Network
 					var canLearn = unlockFunc(character, abilityTreeData.UnlockScriptArgStr, abilityTreeData.UnlockScriptArgNum, abilityData);
 					if (!canLearn)
 					{
-						Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn an ability they haven't unlocked yet (Ability: {1}, Unlock: {2}).", character.Username, abilityData.ClassName, abilityTreeData.UnlockScriptName);
+						var callStr = string.Format("{0}('{1}', {2})", abilityTreeData.UnlockScriptName, abilityTreeData.UnlockScriptArgStr, abilityTreeData.UnlockScriptArgNum);
+
+						Log.Warning("CZ_REQ_LEARN_ABILITY: User '{0}' tried to learn an ability they haven't unlocked yet (Ability: {1}, Unlock: {2}).", character.Username, abilityData.ClassName, callStr);
 						return;
 					}
 				}

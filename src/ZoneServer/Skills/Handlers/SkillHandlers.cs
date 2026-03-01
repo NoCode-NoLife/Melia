@@ -38,8 +38,7 @@ namespace Melia.Zone.Skills.Handlers
 		/// cref="SkillHandlerAttribute"/>. The handlers are then
 		/// registered for the skill ids specified in the attribute.
 		/// </remarks>
-		/// <param name="assembly">Assembly to search for skill
-		/// handlers.</param>
+		/// <param name="assembly">Assembly to search for handlers.</param>
 		public void LoadHandlersFromAssembly(Assembly assembly)
 		{
 			foreach (var type in assembly.GetTypes().Where(a => typeof(ISkillHandler).IsAssignableFrom(a) && !a.IsInterface))
@@ -112,6 +111,7 @@ namespace Melia.Zone.Skills.Handlers
 				});
 			}
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			if (handler is ISkillCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + skillId, beforeCalcAttackHandler.OnAttackBeforeCalc);
 			if (handler is ISkillCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + skillId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
 
@@ -123,6 +123,7 @@ namespace Melia.Zone.Skills.Handlers
 
 			if (handler is ISkillCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerAttackFunc("SCR_Combat_AfterBonuses_Attack_" + skillId, afterBonusesAttackHandler.OnAttackAfterBonuses);
 			if (handler is ISkillCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_AfterBonuses_Defense_" + skillId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
+#pragma warning restore CS0618 // Type or member is obsolete
 		}
 
 		private delegate void CombatCalcHookFunction(Skill skill, ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult);

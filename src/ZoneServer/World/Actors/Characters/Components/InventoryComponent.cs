@@ -56,6 +56,19 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns unordered list of ids of equipped items, excluding
+		/// dummy items.
+		/// </summary>
+		/// <returns></returns>
+		public int[] GetActualEquipIds()
+		{
+			// TODO: Cache.
+
+			lock (_syncLock)
+				return _equip.Where(a => (int)a.Key <= InventoryDefaults.EquipSlotCount && a.Value is not DummyEquipItem).Select(a => a.Value.Id).ToArray();
+		}
+
+		/// <summary>
 		/// Returns dictionary of equipped items.
 		/// </summary>
 		/// <remarks>

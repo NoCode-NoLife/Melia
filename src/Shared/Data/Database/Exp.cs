@@ -81,7 +81,7 @@ namespace Melia.Shared.Data.Database
 			var maxLevel = this.GetMaxJobLevel(rank);
 
 			if (level < 1 || level > maxLevel)
-				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}).");
+				throw new ArgumentException($"Invalid level (expected: 1~{maxLevel}, got: {level}).");
 
 			var highestRank = _jobExp.Max(a => a.Rank);
 			if (rank > highestRank)

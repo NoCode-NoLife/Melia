@@ -4,11 +4,14 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
 using Melia.Zone.Scripting.Dialogues;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Yggdrasil.Geometry;
@@ -201,6 +204,39 @@ namespace Melia.Zone.Skills.Handlers.Clerics.Cleric
 			}
 
 			return Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Returns the amount of SP the skill uses.
+		/// </summary>
+		/// <param name="skill"></param>
+		/// <returns></returns>
+		[SkillSpOverride(SkillId.Cleric_Heal)]
+		public float GetSpendSp(Skill skill)
+		{
+			var SCR_Get_SpendSP = ScriptableFunctions.Skill.Get("SCR_Get_SpendSP");
+
+			var value = SCR_Get_SpendSP(skill);
+
+			// The exact formula to increase the SP cost by based on
+			// overbuffing is currently unknown
+			var overbuffCount = skill.Owner.GetOverbuffCount(BuffId.Heal_Overload_Buff);
+			value += (value * 0.5f * overbuffCount);
+
+			// "Bonus effects are applied when the caster has advanced
+			// into certain classes"
+			if (skill.Owner.Components.TryGet<JobComponent>(out var jobs))
+			{
+				// "Priest: Decreases SP consumption by 25"
+				if (jobs.Has(JobId.Priest))
+					value -= 25;
+
+				// "Pardoner: Decreases SP consumption by 50"
+				if (jobs.Has(JobId.Pardoner))
+					value -= 50;
+			}
+
+			return (int)Math.Max(0, value);
 		}
 	}
 }
