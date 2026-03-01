@@ -302,13 +302,35 @@ namespace Melia.Zone.World.Actors.Components
 		/// <summary>
 		/// Prevents other actors from attacking this one.
 		/// </summary>
+		[Obsolete("User GetTargeted and GetDamaged instead.")]
 		public const string GetHit = nameof(GetHit);
+
+		/// <summary>
+		/// Prevents other actors from targeting this one.
+		/// </summary>
+		/// <remarks>
+		/// An actor that can't be targeted can't become a target for a
+		/// new attack, but they can still be affected by hits that aren't
+		/// targeted, such as damage over time effects.
+		/// </remarks>
+		public const string GetTargeted = nameof(GetTargeted);
+
+		/// <summary>
+		/// Prevents other actors from damaging this one.
+		/// </summary>
+		/// <remarks>
+		/// An actor that can't be damaged may still be targeted by
+		/// attacks, but the attacks won't deal damage. It's effectively
+		/// an invulnerability state.
+		/// </remarks>
+		public const string GetDamaged = nameof(GetDamaged);
 
 		/// <summary>
 		/// Prevents the actor from being knocked back.
 		/// </summary>
 		/// <remarks>
-		/// Getting knocked back and knock down are separate actions and states.
+		/// Getting knocked back and knock down are separate actions and
+		/// states.
 		/// </remarks>
 		public const string GetKnockedBack = nameof(GetKnockedBack);
 
@@ -316,7 +338,8 @@ namespace Melia.Zone.World.Actors.Components
 		/// Prevents the actor from being knocked down.
 		/// </summary>
 		/// <remarks>
-		/// Getting knocked back and knock down are separate actions and states.
+		/// Getting knocked back and knock down are separate actions and
+		/// states.
 		/// </remarks>
 		public const string GetKnockedDown = nameof(GetKnockedDown);
 

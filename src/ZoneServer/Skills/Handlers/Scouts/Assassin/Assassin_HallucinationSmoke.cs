@@ -87,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			if (pad.Trigger.AtCapacity)
 				return;
 
-			if (!creator.CanAttack(target))
+			if (!creator.CanDamage(target))
 				return;
 
 			// Assassin18 applies a special debuff.  Only one enemy can have this

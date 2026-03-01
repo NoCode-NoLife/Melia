@@ -181,7 +181,7 @@ namespace Melia.Zone.World.Actors.Components
 		public List<ICombatEntity> GetAttackableEntities(ICombatEntity attacker)
 		{
 			lock (_syncLock)
-				return _actorsInside.OfType<ICombatEntity>().Where(attacker.CanAttack).ToList();
+				return _actorsInside.OfType<ICombatEntity>().Where(attacker.CanDamage).ToList();
 		}
 
 		/// <summary>

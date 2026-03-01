@@ -727,19 +727,31 @@ namespace Melia.Zone.World.Actors.Monsters
 		}
 
 		/// <summary>
-		/// Returns true if the monster can attack the entity.
+		/// Returns true if the given entity can be attacked by this one.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
+		[Obsolete("Use CanTarget and CanDamage instead.")]
 		public bool CanAttack(ICombatEntity entity)
+			=> this.CanDamage(entity);
+
+		/// <summary>
+		/// Returns true if this entity can hit the given one in a general
+		/// sense.
+		/// </summary>
+		/// <remarks>
+		/// Checks general purpose factors, such as whether the entity is
+		/// alive and a potentiel hostile target. Does not check
+		/// specialized states, such as locks.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanHit(ICombatEntity entity)
 		{
 			if (entity == this)
 				return false;
 
 			if (entity.IsDead)
-				return false;
-
-			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
 				return false;
 
 			// For now, let's specify that mobs can attack any combat
@@ -756,6 +768,42 @@ namespace Melia.Zone.World.Actors.Monsters
 				return false;
 
 			return ai.Script.IsHostileTowards(entity);
+		}
+
+		/// <summary>
+		/// Returns true if the given entity can be targeted by this one.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanTarget(ICombatEntity entity)
+		{
+			if (!this.CanHit(entity))
+				return false;
+
+			if (entity.IsLocked(LockType.GetTargeted))
+				return false;
+
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if the given entity can receive damage by this
+		/// one.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		public bool CanDamage(ICombatEntity entity)
+		{
+			if (!this.CanHit(entity))
+				return false;
+
+			if (entity.IsLocked(LockType.GetDamaged))
+				return false;
+
+			if (entity.IsBuffActive(BuffId.Skill_NoDamage_Buff))
+				return false;
+
+			return true;
 		}
 
 		/// <summary>

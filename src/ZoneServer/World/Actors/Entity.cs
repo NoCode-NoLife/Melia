@@ -131,11 +131,40 @@ namespace Melia.Zone.World.Actors
 		bool CanFight();
 
 		/// <summary>
-		/// Returns true if this entity can attack the given one.
+		/// Returns true if the given entity can be attacked by this one.
 		/// </summary>
 		/// <param name="entity"></param>
 		/// <returns></returns>
+		[Obsolete("Use CanTarget and CanDamage instead.")]
 		bool CanAttack(ICombatEntity entity);
+
+		/// <summary>
+		/// Returns true if this entity can hit the given one in a general
+		/// sense.
+		/// </summary>
+		/// <remarks>
+		/// Checks general purpose factors, such as whether the entity is
+		/// alive and a potentiel hostile target. Does not check
+		/// specialized states, such as locks.
+		/// </remarks>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		bool CanHit(ICombatEntity entity);
+
+		/// <summary>
+		/// Returns true if the given entity can be targeted by this one.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		bool CanTarget(ICombatEntity entity);
+
+		/// <summary>
+		/// Returns true if the given entity can receive damage by this
+		/// one.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <returns></returns>
+		bool CanDamage(ICombatEntity entity);
 
 		/// <summary>
 		/// Heals the entity's HP and SP by the given amounts.

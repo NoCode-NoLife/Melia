@@ -15,6 +15,7 @@ using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
+using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Yggdrasil.Extensions;
@@ -530,6 +531,9 @@ public class CombatCalculationsScript : GeneralScript
 
 		var result = new SkillHitResult();
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, modifier, result);
+
+		if (!attacker.CanDamage(target))
+			result.Damage = 0;
 
 		// TODO: Find a better location to handle disabling buffs on attack?
 		var buffComponent = attacker.Components.Get<BuffComponent>();

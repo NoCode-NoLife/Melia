@@ -1064,9 +1064,13 @@ namespace Melia.Zone.Network
 					continue;
 				}
 
-				if (!character.CanAttack(target))
+				if (!character.CanTarget(target))
 				{
-					Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to attack invalid target '{1}'.", conn.Account.Name, handle);
+					// Don't warn about this, as the client might send
+					// invalid targets for various reasons, including lag
+					// or not being aware of server-side locks and checks.
+
+					//Log.Warning("CZ_CLIENT_HIT_LIST: User '{0}' tried to attack invalid target '{1}'.", conn.Account.Name, handle);
 					continue;
 				}
 
@@ -1156,6 +1160,12 @@ namespace Melia.Zone.Network
 			//	Log.Warning("CZ_SKILL_TARGET: User '{0}' tried to use a skill on a non-existing target.", conn.Account.Name);
 			//	return;
 			//}
+
+			if (!character.CanTarget(target))
+			{
+				target = null;
+				character.ServerMessage(Localization.Get("The target can't be attacked in its current state."));
+			}
 
 			// Try to use skill
 			try
@@ -1274,7 +1284,10 @@ namespace Melia.Zone.Network
 				// now and leave target as null, under the assumption
 				// that you never use skills on non-combatants.
 				if (actor is ICombatEntity ce)
-					target = ce;
+				{
+					if (character.CanTarget(ce))
+						target = ce;
+				}
 			}
 
 			// Try to use skill

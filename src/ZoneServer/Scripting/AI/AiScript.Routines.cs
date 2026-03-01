@@ -240,7 +240,7 @@ namespace Melia.Zone.Scripting.AI
 			if (this.Entity.IsLocked(LockType.Attack))
 				yield break;
 
-			if (target.IsLocked(LockType.GetHit))
+			if (target.IsLocked(LockType.GetTargeted))
 				yield break;
 
 			this.Entity.TurnTowards(target);

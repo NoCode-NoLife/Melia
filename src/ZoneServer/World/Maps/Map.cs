@@ -398,7 +398,7 @@ namespace Melia.Zone.World.Maps
 
 			lock (_combatEntities)
 			{
-				var entities = _combatEntities.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanAttack(a));
+				var entities = _combatEntities.Values.Where(a => a.Position.InRange2D(position, radius) && attacker.CanDamage(a));
 				result.AddRange(entities);
 			}
 
@@ -419,7 +419,7 @@ namespace Melia.Zone.World.Maps
 			{
 				foreach (var entity in _combatEntities.Values)
 				{
-					if (!attacker.CanAttack(entity))
+					if (!attacker.CanDamage(entity))
 						continue;
 
 					if (!shape.IsInside(entity.Position))
