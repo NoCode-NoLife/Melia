@@ -36,18 +36,37 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
+			[Obsolete("Use AttachableEffect overload instead.")]
 			public static void AttachEffect(IActor actor, string effectName, float scale = 1)
+				=> AttachEffect(actor, new AttachableEffect(effectName, scale));
+
+			/// <summary>
+			/// Attaches effect to actor on client.
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="effectName"></param>
+			/// <param name="scale"></param>
+			[Obsolete("Use AttachableEffect overload instead.")]
+			public static void AttachEffect(IZoneConnection conn, IActor actor, string effectName, float scale = 1)
+				=> AttachEffect(conn, actor, new AttachableEffect(effectName, scale));
+
+			/// <summary>
+			/// Attaches effect to actor on clients in range.
+			/// </summary>
+			/// <param name="actor"></param>
+			/// <param name="effect"></param>
+			public static void AttachEffect(IActor actor, AttachableEffect effect)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.AddStringId(effectName);
-				packet.PutFloat(scale);
-				packet.PutInt(3);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.AddStringId(effect.PacketString);
+				packet.PutFloat(effect.Scale);
+				packet.PutInt((int)effect.Location);
+				packet.PutFloat(effect.Offset.X);
+				packet.PutFloat(effect.Offset.Y);
+				packet.PutFloat(effect.Offset.Z);
 				packet.PutFloat(0);
 
 				actor.Map.Broadcast(packet, actor);
@@ -58,20 +77,19 @@ namespace Melia.Zone.Network
 			/// </summary>
 			/// <param name="conn"></param>
 			/// <param name="actor"></param>
-			/// <param name="effectName"></param>
-			/// <param name="scale"></param>
-			public static void AttachEffect(IZoneConnection conn, IActor actor, string effectName, float scale = 1)
+			/// <param name="effect"></param>
+			public static void AttachEffect(IZoneConnection conn, IActor actor, AttachableEffect effect)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
-				packet.AddStringId(effectName);
-				packet.PutFloat(scale);
-				packet.PutInt(3);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
-				packet.PutFloat(0);
+				packet.AddStringId(effect.PacketString);
+				packet.PutFloat(effect.Scale);
+				packet.PutInt((int)effect.Location);
+				packet.PutFloat(effect.Offset.X);
+				packet.PutFloat(effect.Offset.Y);
+				packet.PutFloat(effect.Offset.Z);
 				packet.PutFloat(0);
 
 				conn.Send(packet);
@@ -96,6 +114,7 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			/// <param name="effectName"></param>
 			/// <param name="scale"></param>
+			/// <param name="location"></param>
 			public static void PlayEffect(IActor actor, string effectName, float scale = 1, EffectLocation location = EffectLocation.Bottom)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);

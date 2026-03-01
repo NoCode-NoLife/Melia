@@ -1,4 +1,6 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.World.Maps;
@@ -81,19 +83,38 @@ namespace Melia.Zone.World.Actors
 		/// </summary>
 		public Direction Direction { get; set; }
 
-
 		/// <summary>
-		/// Attaches an effect to the actor that is displayed alongside it.
+		/// Attaches an effect to the actor that is displayed alongside it
+		/// and updates clients.
 		/// </summary>
 		/// <param name="packetString"></param>
 		/// <param name="scale"></param>
+		[Obsolete("User AttachableEffect overload instead.")]
 		public void AttachEffect(string packetString, float scale = 1)
+			=> this.AttachEffect(new AttachableEffect(packetString, scale));
+
+		/// <summary>
+		/// Attaches an effect to the actor that is displayed alongside it
+		/// and updates clients.
+		/// </summary>
+		/// <param name="effect"></param>
+		public void AttachEffect(AttachableEffect effect)
 		{
-			var effect = new AttachableEffect(packetString, scale);
 			this.AttachableEffects.Add(effect);
 
 			if (this.Map != Map.Limbo)
-				Send.ZC_NORMAL.AttachEffect(this, effect.PacketString, effect.Scale);
+				Send.ZC_NORMAL.AttachEffect(this, effect);
+		}
+
+		/// <summary>
+		/// Removes all attached effects and updates clients.
+		/// </summary>
+		public void ClearEffects()
+		{
+			this.AttachableEffects.Clear();
+
+			if (this.Map != Map.Limbo)
+				Send.ZC_NORMAL.ClearEffects(this);
 		}
 	}
 
@@ -113,14 +134,51 @@ namespace Melia.Zone.World.Actors
 		public float Scale { get; }
 
 		/// <summary>
+		/// Gets or sets the base location the effect appears at, such as
+		/// "Top" to display it above an NPC.
+		/// </summary>
+		public EffectLocation Location { get; set; }
+
+		/// <summary>
+		/// Gets or sets the offset the effect appears at, relative to the
+		/// base location.
+		/// </summary>
+		public Position Offset { get; set; }
+
+		/// <summary>
 		/// Creates a new attachable effect.
 		/// </summary>
 		/// <param name="packetString"></param>
 		/// <param name="scale"></param>
 		public AttachableEffect(string packetString, float scale)
+			: this(packetString, scale, EffectLocation.Bottom, Position.Zero)
+		{
+		}
+
+		/// <summary>
+		/// Creates a new attachable effect.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <param name="scale"></param>
+		/// <param name="location"></param>
+		public AttachableEffect(string packetString, float scale, EffectLocation location)
+			: this(packetString, scale, location, Position.Zero)
+		{
+		}
+
+		/// <summary>
+		/// Creates a new attachable effect.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <param name="scale"></param>
+		/// <param name="location"></param>
+		/// <param name="offset"></param>
+		public AttachableEffect(string packetString, float scale, EffectLocation location, Position offset)
 		{
 			this.PacketString = packetString;
 			this.Scale = scale;
+			this.Location = location;
+			this.Offset = offset;
 		}
 	}
 }

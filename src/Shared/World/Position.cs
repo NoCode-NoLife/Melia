@@ -34,9 +34,9 @@ namespace Melia.Shared.World
 		/// <summary>
 		/// Creates new position from coordinates.
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
+		/// <param name="x">X coordinate (left/right)</param>
+		/// <param name="y">Y coordinate (up/down)</param>
+		/// <param name="z">Z coordinate (depth)</param>
 		public Position(float x, float y, float z)
 		{
 			this.X = x;

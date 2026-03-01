@@ -982,7 +982,7 @@ namespace Melia.Zone.World.Actors.Characters
 					if (!monster.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in monster.AttachableEffects)
-							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect.PacketString, effect.Scale);
+							Send.ZC_NORMAL.AttachEffect(this.Connection, monster, effect);
 					}
 
 					if (monster is ICombatEntity entity)
@@ -1024,7 +1024,7 @@ namespace Melia.Zone.World.Actors.Characters
 					if (!character.AttachableEffects.IsEmpty)
 					{
 						foreach (var effect in character.AttachableEffects)
-							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect.PacketString, effect.Scale);
+							Send.ZC_NORMAL.AttachEffect(this.Connection, character, effect);
 					}
 
 					if (character.Components.Get<BuffComponent>()?.Count != 0)

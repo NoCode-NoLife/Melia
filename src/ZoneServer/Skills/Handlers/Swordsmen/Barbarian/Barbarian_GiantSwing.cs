@@ -104,7 +104,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var rotationTime = TimeSpan.FromSeconds(rotationCount * rotationDuration);
 
 			Send.ZC_NORMAL.SpinObject(caster, 0, rotationCount, rotationDuration, 1);
-			Send.ZC_NORMAL.AttachEffect(target, "I_smoke004", 1.5f);
+			Send.ZC_NORMAL.AttachEffect(target, new AttachableEffect("I_smoke004", 1.5f));
 
 			await Task.Delay(rotationTime + rotateDelay);
 

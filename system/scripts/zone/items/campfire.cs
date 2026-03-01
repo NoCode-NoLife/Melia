@@ -84,7 +84,7 @@ public class CampfireActionScript : GeneralScript
 		campfire.Faction = FactionType.Neutral;
 		campfire.Position = pos;
 		campfire.Direction = creator.Direction;
-		campfire.AttachEffect("F_bg_fire003");
+		campfire.AttachEffect(new AttachableEffect("F_bg_fire003", 1));
 
 		creator.Map.AddMonster(campfire);
 
