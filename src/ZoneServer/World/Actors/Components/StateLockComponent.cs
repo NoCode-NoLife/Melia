@@ -52,6 +52,7 @@ namespace Melia.Zone.World.Actors.Components
 			this.RegisterState(new(StateType.KnockedBack, [LockType.Movement, LockType.Attack]));
 			this.RegisterState(new(StateType.KnockedDown, [LockType.Movement, LockType.Attack, LockType.GetKnockedBack]));
 			this.RegisterState(new(StateType.Held, [LockType.Movement]));
+			this.RegisterState(new(StateType.Captured, [LockType.Movement, LockType.Attack, LockType.GetTargeted]));
 		}
 
 		/// <summary>
@@ -354,10 +355,29 @@ namespace Melia.Zone.World.Actors.Components
 	/// </summary>
 	public static class StateType
 	{
+		/// <summary>
+		/// Entity is unable to act, such as moving or attacking.
+		/// </summary>
 		public const string Stunned = nameof(Stunned);
+
+		/// <summary>
+		/// Entity is unable to act, such as moving or attacking.
+		/// </summary>
 		public const string KnockedBack = nameof(KnockedBack);
+
+		/// <summary>
+		/// Entity is unable to act or get knocked back further.
+		/// </summary>
 		public const string KnockedDown = nameof(KnockedDown);
+
+		/// <summary>
+		/// Entity is unable to move.
+		/// </summary>
 		public const string Held = nameof(Held);
+
+		/// <summary>
+		/// Entity is unable, to move or attack and can't be targeted.
+		/// </summary>
 		public const string Captured = nameof(Captured);
 	}
 
