@@ -358,6 +358,7 @@ namespace Melia.Zone.World.Actors.Components
 		public const string KnockedBack = nameof(KnockedBack);
 		public const string KnockedDown = nameof(KnockedDown);
 		public const string Held = nameof(Held);
+		public const string Captured = nameof(Captured);
 	}
 
 	/// <summary>
