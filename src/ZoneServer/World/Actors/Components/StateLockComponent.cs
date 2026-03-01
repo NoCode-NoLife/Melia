@@ -257,11 +257,6 @@ namespace Melia.Zone.World.Actors.Components
 		{
 			var now = DateTime.Now;
 
-			if (this.Owner.Map.ClassName.StartsWith("c_high") && this.Owner is Mob mob && mob.Id == 400001)
-			{
-				Log.Debug("locks: {0}", string.Join(", ", _lockCounts.Keys));
-			}
-
 			lock (_syncLock)
 			{
 				for (var i = _stateEnds.Count - 1; i >= 0; --i)
