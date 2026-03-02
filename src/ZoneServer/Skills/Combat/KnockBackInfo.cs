@@ -33,7 +33,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Returns the hit type of the knock back.
 		/// </summary>
-		public HitType HitType { get; }
+		public KnockBackType HitType { get; }
 
 		/// <summary>
 		/// Returns the velocity by which the target moves back.
@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="knockDownHitType"></param>
 		/// <param name="velocity"></param>
 		/// <param name="vAngle"></param>
-		public KnockBackInfo(Position attackerPosition, Position targetPosition, HitType knockDownHitType, int velocity, int vAngle)
+		public KnockBackInfo(Position attackerPosition, Position targetPosition, KnockBackType knockDownHitType, int velocity, int vAngle)
 		{
 			this.Direction = attackerPosition.GetDirection(targetPosition);
 			this.HitType = knockDownHitType;
@@ -218,7 +218,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets the type of hit/knock back.
 		/// </summary>
-		public HitType Type { get; set; }
+		public KnockBackType Type { get; set; }
 
 		/// <summary>
 		/// Gets or sets the velocity by which to knock back the target.

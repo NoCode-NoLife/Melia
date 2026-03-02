@@ -139,7 +139,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				// would also be interesting and realistic.
 				var explosionPos = target.Position.GetRelative2D(target.Direction, 2f);
 
-				skillHit.KnockBackInfo = new KnockBackInfo(explosionPos, target.Position, HitType.KnockDown, 150, 60);
+				skillHit.KnockBackInfo = new KnockBackInfo(explosionPos, target.Position, KnockBackType.KnockDown, 150, 60);
 				skillHit.ApplyKnockBack(target);
 			}
 
@@ -184,7 +184,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				var skillHit = new SkillHitInfo(caster, blastTarget, skill, skillHitResult, damageDelay, skillHitDelay);
 				if (!caster.IsAbilityActive(AbilityId.Ranger35))
 				{
-					skillHit.KnockBackInfo = new KnockBackInfo(target.Position, blastTarget.Position, HitType.KnockDown, 150, 60);
+					skillHit.KnockBackInfo = new KnockBackInfo(target.Position, blastTarget.Position, KnockBackType.KnockDown, 150, 60);
 					skillHit.ApplyKnockBack(blastTarget);
 				}
 

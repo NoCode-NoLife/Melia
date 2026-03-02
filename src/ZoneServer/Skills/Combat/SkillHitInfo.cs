@@ -126,7 +126,7 @@ namespace Melia.Zone.Skills.Combat
 			{
 				var result = this.HitResult;
 
-				if (result.KnockBack.Type == HitType.Normal)
+				if (result.KnockBack.Type == KnockBackType.None)
 					return;
 
 				var type = result.KnockBack.Type;
@@ -143,8 +143,8 @@ namespace Melia.Zone.Skills.Combat
 				return;
 			}
 
-			var isKnockBack = this.KnockBackInfo.HitType == HitType.KnockBack;
-			var isKnockDown = this.KnockBackInfo.HitType == HitType.KnockDown;
+			var isKnockBack = this.KnockBackInfo.HitType == KnockBackType.KnockBack;
+			var isKnockDown = this.KnockBackInfo.HitType == KnockBackType.KnockDown;
 
 			if (isKnockBack && target.IsLocked(LockType.GetKnockedBack))
 			{
@@ -157,7 +157,7 @@ namespace Melia.Zone.Skills.Combat
 				return;
 			}
 
-			this.HitInfo.Type = this.KnockBackInfo.HitType;
+			this.HitInfo.KnockBackType = this.KnockBackInfo.HitType;
 			target.Position = this.KnockBackInfo.ToPosition;
 
 			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);

@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Returns the type of the hit, affecting the hit effect.
 		/// </summary>
-		public HitType Type { get; set; }
+		public KnockBackType KnockBackType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the hit's force id.

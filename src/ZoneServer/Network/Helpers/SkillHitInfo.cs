@@ -68,7 +68,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutInt((int)hitInfo.Damage);
 			packet.PutInt((int)hitInfo.Hp);
 			packet.PutInt(hitInfo.HpPriority);
-			packet.PutShort((short)hitInfo.Type);
+			packet.PutShort((short)hitInfo.KnockBackType);
 
 			packet.PutByte(0);
 			packet.PutByte(0);

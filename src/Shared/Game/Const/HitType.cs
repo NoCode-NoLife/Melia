@@ -1,8 +1,8 @@
 ﻿namespace Melia.Shared.Game.Const
 {
-	public enum HitType : short
+	public enum KnockBackType : short
 	{
-		Normal = 0,
+		None = 0,
 		Motion = 1,
 		NoMotion = 2,
 		KnockBack = 3,

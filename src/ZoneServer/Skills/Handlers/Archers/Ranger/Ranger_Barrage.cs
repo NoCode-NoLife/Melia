@@ -66,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			if (caster.TryGetActiveAbilityLevel(AbilityId.Ranger1, out var level) && skill.OverheatCounter == 0)
 			{
 				// TODO: The knockback power / scaling of this ability is unknown.
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, HitType.KnockBack, 50 + 5 * level, 10);
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, KnockBackType.KnockBack, 50 + 5 * level, 10);
 				skillHit.ApplyKnockBack(target);
 			}
 
