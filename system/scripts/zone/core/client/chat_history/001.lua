@@ -10,7 +10,7 @@ chatEditCtrl:SetEventScript(ui.ENTERKEY, "M_CHAT_ENTERKEY");
 local chatTimer = chatFrame:CreateControl("timer", "ChatTimer", 0, 0, 1, 1)
 AUTO_CAST(chatTimer)
 chatTimer:SetUpdateScript("M_CHAT_ON_TIMER");
-chatTimer:Start(0.01);
+chatTimer:Start(0.001)
 
 function M_CHAT_ON_TIMER(frame)
 	if keyboard.IsKeyDown("UP") == 1 then
