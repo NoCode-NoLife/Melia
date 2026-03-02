@@ -10,7 +10,9 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
+using Melia.Zone.World.Actors.Components;
 using Yggdrasil.Extensions;
+using Yggdrasil.Logging;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
@@ -91,6 +93,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 					subTarget.TakeDamage(skillHitResult.Damage, caster);
 
 					var hit = new HitInfo(caster, subTarget, skill, skillHitResult.Damage, skillHitResult.Result);
+					hit.ForceId = ForceId.GetNew();
 					hits.Add(hit);
 
 					Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);

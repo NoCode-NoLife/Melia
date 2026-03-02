@@ -133,8 +133,11 @@ namespace Melia.Zone.Skills.Combat
 			this.Hp = target.Hp;
 			this.HpPriority = target.HpChangeCounter;
 
-			if (hitType == SkillHitType.Force)
-				this.ForceId = Combat.ForceId.GetNew();
+			// Disabled for now as it caused issues with some skills.
+			// Multishot for example is type Force, but the hits get
+			// delayed if a ForceId is sent.
+			//if (hitType == SkillHitType.Force)
+			//	this.ForceId = Combat.ForceId.GetNew();
 		}
 	}
 }
