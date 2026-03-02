@@ -161,9 +161,11 @@ namespace Melia.Zone.Skills.Combat
 			}
 
 			this.HitInfo.KnockBackType = this.KnockBackInfo.HitType;
-			target.Position = this.KnockBackInfo.ToPosition;
 
+			// Set state first, which also stops movement, then set the
+			// new position.
 			target.AddState(StateType.KnockedBack, this.KnockBackInfo.Time);
+			target.Position = this.KnockBackInfo.ToPosition;
 
 			// Set knock down state as well if applicable, so we can check for
 			// both KB and KD as necessary. We can't consider them to be the
