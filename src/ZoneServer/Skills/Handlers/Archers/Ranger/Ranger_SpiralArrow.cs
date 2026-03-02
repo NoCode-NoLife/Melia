@@ -173,7 +173,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.TakeDamage(skillHitResult.Damage, caster);
 				results.Add(skillHitResult);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.Unk8);
+				var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.SilentHit);
 
 				if (skillHitResult.Damage > 0)
 				{

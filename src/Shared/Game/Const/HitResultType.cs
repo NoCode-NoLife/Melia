@@ -40,12 +40,12 @@
 		/// <summary>
 		/// Hit with damage and a metallic sound.
 		/// </summary>
-		Unk7 = 7,
+		MetallicHit = 7,
 
 		/// <summary>
 		/// Normal hit, but without hit sound.
 		/// </summary>
-		Unk8 = 8,
+		SilentHit = 8,
 
 		/// <summary>
 		/// Same as Unk4? Seen with Magic Missile.

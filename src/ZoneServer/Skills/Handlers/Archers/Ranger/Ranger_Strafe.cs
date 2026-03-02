@@ -84,7 +84,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.Unk8);
+			var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.SilentHit);
 
 			Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, "I_arrow009_red", 0.2f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
 			Send.ZC_HIT_INFO(caster, target, hit);

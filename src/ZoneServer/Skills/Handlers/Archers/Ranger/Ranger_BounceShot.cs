@@ -113,7 +113,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				await Task.Delay(damageDelay);
 				bounceHitDelay = TimeSpan.FromMilliseconds(400);
 
-				var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.Unk8);
+				var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.SilentHit);
 
 				Send.ZC_NORMAL.PlayEffect(target, blastName, 0.5f);
 				Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, animationName, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
@@ -155,7 +155,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 					results.Add(skillHitResult2);
 
-					var hit2 = new HitInfo(caster, bounceTarget, skill, skillHitResult2, HitResultType.Unk8);
+					var hit2 = new HitInfo(caster, bounceTarget, skill, skillHitResult2, HitResultType.SilentHit);
 
 					Send.ZC_NORMAL.PlayForceEffect(hit2.ForceId, caster, target, bounceTarget, animationName2, 0.7f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
 					Send.ZC_HIT_INFO(caster, bounceTarget, hit2);
