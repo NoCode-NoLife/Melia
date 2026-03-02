@@ -83,6 +83,7 @@ namespace Melia.Zone.Commands
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
 			this.Add("skillpoints", "<job id> <modifier>", "Modifies character's skill points.", this.HandleSkillPoints);
 			this.Add("statpoints", "<amount>", "Modifies character's stat points.", this.HandleStatPoints);
+			this.Add("abilitypoints", "<modifier>", "Modifies character's ability points.", this.HandleAbilityPoints);
 			this.Add("broadcast", "<message>", "Broadcasts text message to all players.", this.HandleBroadcast);
 			this.Add("kick", "<'all'|map name|team name>", "Kicks the player or specified group.", this.HandleKick);
 			this.Add("fixcam", "", "Fixes the character's camera in place.", this.HandleFixCamera);
@@ -1638,6 +1639,29 @@ namespace Melia.Zone.Commands
 			sender.ServerMessage(Localization.Get("Added {0} stat points."), amount);
 			if (sender != target)
 				sender.ServerMessage(Localization.Get("{1} added {0} stat points to your character."), amount, sender.TeamName);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Modifies the target's ability points.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="command"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleAbilityPoints(Character sender, Character target, string message, string command, Arguments args)
+		{
+			if (!int.TryParse(args.Get(0), out var modifier))
+				return CommandResult.InvalidArgument;
+
+			target.ModifyAbilityPoints(modifier);
+
+			sender.ServerMessage(Localization.Get("The ability points were modified."));
+			if (target != sender)
+				sender.ServerMessage(Localization.Get("Your ability points were modified by {0}."), sender.Name);
 
 			return CommandResult.Okay;
 		}
