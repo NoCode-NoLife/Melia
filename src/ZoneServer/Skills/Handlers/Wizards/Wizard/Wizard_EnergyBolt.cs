@@ -58,12 +58,11 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHit(2));
-				target.TakeDamage(skillHitResult.Damage, caster);
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-				skillHit.ApplyKnockBack(target);
+				
+				skillHit.ApplyDamage();
+				skillHit.ApplyKnockBack();
 
 				skillHits.Add(skillHit);
 			}

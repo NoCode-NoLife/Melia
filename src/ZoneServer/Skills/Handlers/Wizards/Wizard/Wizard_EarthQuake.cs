@@ -58,6 +58,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 					skillHitResult.KnockBack.Type = KnockBackType.None;
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
+
 				skillHit.ApplyDamage();
 				skillHit.ApplyKnockBack();
 

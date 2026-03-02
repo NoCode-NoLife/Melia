@@ -47,7 +47,10 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			var usedRecently = false;
 
 			if (skill.Vars.TryGet("Melia.LastUse", out DateTime lastUse))
-				usedRecently = DateTime.Now - lastUse < ReUseTime;
+			{
+				var elapsed = now - lastUse;
+				usedRecently = elapsed < ReUseTime;
+			}
 
 			Position targetPos;
 			if (usedRecently && skill.Vars.TryGet<Position>("Melia.LastPos", out var lastPos))
