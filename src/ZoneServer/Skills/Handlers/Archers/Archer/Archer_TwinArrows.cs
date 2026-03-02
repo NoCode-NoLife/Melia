@@ -56,7 +56,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-			skillHit.ForceId = ForceId.GetNew();
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 		}

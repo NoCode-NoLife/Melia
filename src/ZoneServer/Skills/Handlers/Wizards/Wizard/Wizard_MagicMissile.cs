@@ -63,7 +63,6 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 					target.TakeDamage(skillHitResult.Damage, caster);
 
 					var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-					skillHit.ForceId = ForceId.GetNew();
 					skillHits.Add(skillHit);
 				}
 			}
@@ -92,7 +91,6 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 					subTarget.TakeDamage(skillHitResult.Damage, caster);
 
 					var hit = new HitInfo(caster, subTarget, skill, skillHitResult.Damage, skillHitResult.Result);
-					hit.ForceId = ForceId.GetNew();
 					hits.Add(hit);
 
 					Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, target, subTarget, "I_force001_yellow", 1, "arrow_cast", "I_explosion004_yellow", 1, "arrow_blow", "SLOW", 150);

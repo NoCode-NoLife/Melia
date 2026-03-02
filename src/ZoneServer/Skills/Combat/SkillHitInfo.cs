@@ -94,6 +94,9 @@ namespace Melia.Zone.Skills.Combat
 			this.SkillHitDelay = skillHitDelay;
 			this.HitEffect = result.Effect;
 			this.HitCount = result.HitCount;
+
+			if (skill.Data.HitType == SkillHitType.Force)
+				this.ForceId = Melia.Zone.Skills.Combat.ForceId.GetNew();
 		}
 
 		/// <summary>

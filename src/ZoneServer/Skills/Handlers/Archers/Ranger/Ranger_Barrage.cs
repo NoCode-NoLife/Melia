@@ -59,7 +59,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			target.TakeDamage(skillHitResult.Damage, caster);
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-			skillHit.ForceId = ForceId.GetNew();
 
 			// Add Knockback adds knockback only to the skill's final charge
 			// (ie, the usage that puts the skill on overheat cooldown)

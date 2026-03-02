@@ -94,7 +94,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 				target.TakeDamage(skillHitResult.Damage, caster);
-				var hit = new HitInfo(caster, target, skill.Id, skillHitResult.Damage, HitResultType.Hit);
+				var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, HitResultType.Hit);
 
 				Send.ZC_HIT_INFO(caster, target, hit);
 

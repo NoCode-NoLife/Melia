@@ -612,7 +612,7 @@ namespace Melia.Zone.World.Actors
 
 			entity.TakeDamage(damage, attacker);
 
-			var hit = new HitInfo(attacker, entity, skillId, damage, HitResultType.Hit);
+			var hit = new HitInfo(attacker, entity, skillId, damage, SkillHitType.Melee, HitResultType.Hit);
 			Send.ZC_HIT_INFO(attacker, entity, hit);
 		}
 
@@ -634,7 +634,7 @@ namespace Melia.Zone.World.Actors
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 			target.TakeDamage(skillHitResult.Damage, caster);
-			var hit = new HitInfo(caster, target, skill.Id, skillHitResult.Damage, HitResultType.Hit);
+			var hit = new HitInfo(caster, target, skill, skillHitResult.Damage, HitResultType.Hit);
 
 			Send.ZC_HIT_INFO(caster, target, hit);
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -89,7 +90,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="hitCount"></param>
 		/// <param name="damageDelay"></param>
 		public HitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, float damage, HitResultType resultType, int hitCount = 0, TimeSpan damageDelay = default)
-			: this(attacker, target, skill.Id, damage, resultType, hitCount, damageDelay)
+			: this(attacker, target, skill.Id, damage, skill.Data.HitType, resultType, hitCount, damageDelay)
 		{
 		}
 
@@ -101,9 +102,10 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="skillId"></param>
 		/// <param name="damage"></param>
 		/// <param name="resultType"></param>
+		/// <param name="hitType"></param>
 		///	<param name="hitCount"></param>
 		///	<param name="damageDelay"></param>
-		public HitInfo(ICombatEntity attacker, ICombatEntity target, SkillId skillId, float damage, HitResultType resultType, int hitCount = 0, TimeSpan damageDelay = default)
+		public HitInfo(ICombatEntity attacker, ICombatEntity target, SkillId skillId, float damage, SkillHitType hitType, HitResultType resultType, int hitCount = 0, TimeSpan damageDelay = default)
 		{
 			this.Attacker = attacker;
 			this.Target = target;
@@ -116,6 +118,9 @@ namespace Melia.Zone.Skills.Combat
 
 			this.Hp = target.Hp;
 			this.HpPriority = target.HpChangeCounter;
+
+			if (hitType == SkillHitType.Force)
+				this.ForceId = Combat.ForceId.GetNew();
 		}
 	}
 }

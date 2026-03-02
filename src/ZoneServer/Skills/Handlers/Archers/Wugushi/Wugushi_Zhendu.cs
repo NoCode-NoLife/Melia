@@ -36,8 +36,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 			caster.SetAttackState(true);
 			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster, skill.Id);
 
-			var effectId = ForceId.GetNew();
-
 			var pad = new Pad(PadName.Archer_Zhendu, caster, skill, new Square(caster.Position, caster.Direction, 1, 1));
 			pad.Trigger.LifeTime = TimeSpan.FromSeconds(1);
 
