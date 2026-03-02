@@ -1470,10 +1470,15 @@ namespace Melia.Zone.Commands
 			if (args.Count == 0)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args.Get(0), out var iJobId))
+			JobId jobId;
+
+			if (int.TryParse(args.Get(0), out var iJobId))
+				jobId = (JobId)iJobId;
+			else if (Enum.TryParse<JobId>(args.Get(0), out var eJobId))
+				jobId = eJobId;
+			else
 				return CommandResult.InvalidArgument;
 
-			var jobId = (JobId)iJobId;
 			if (!ZoneServer.Instance.Data.JobDb.Contains(jobId))
 			{
 				sender.ServerMessage(Localization.Get("Job data for '{0}' not found."), jobId);
@@ -1571,13 +1576,17 @@ namespace Melia.Zone.Commands
 			if (args.Count < 2)
 				return CommandResult.InvalidArgument;
 
-			if (!int.TryParse(args.Get(0), out var iJobId))
+			JobId jobId;
+
+			if (int.TryParse(args.Get(0), out var iJobId))
+				jobId = (JobId)iJobId;
+			else if (Enum.TryParse<JobId>(args.Get(0), out var eJobId))
+				jobId = eJobId;
+			else
 				return CommandResult.InvalidArgument;
 
 			if (!int.TryParse(args.Get(1), out var modifier))
 				return CommandResult.InvalidArgument;
-
-			var jobId = (JobId)iJobId;
 
 			if (!target.Jobs.ModifySkillPoints(jobId, modifier))
 			{
