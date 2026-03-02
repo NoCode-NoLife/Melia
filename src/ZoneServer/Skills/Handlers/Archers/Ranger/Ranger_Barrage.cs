@@ -48,7 +48,8 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 
 			var modifier = SkillModifier.MultiHit(3);
 
-			// Wild throw reduces base hit rate by 70% but cuts cooldown by 5s
+			// Wild throw reduces base hit rate by 70% but cuts cooldown
+			// by 5s
 			if (caster.IsAbilityActive(AbilityId.Ranger39))
 			{
 				modifier.HitRateMultiplier -= 0.7f;
@@ -56,18 +57,23 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			}
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHit(3));
-			target.TakeDamage(skillHitResult.Damage, caster);
+
+			// Ability "Barrage: Knockback": Apply knock back on the last
+			// hit before the skill goes on cooldown
+			if (caster.TryGetActiveAbilityLevel(AbilityId.Ranger1, out var level) && skill.OverheatCounter == 0)
+			{
+				// TODO: The knockback power / scaling of this ability is
+				// unknown.
+				var velocity = 50 + 5 * level;
+
+				skillHitResult.KnockBack.Type = KnockBackType.KnockBack;
+				skillHitResult.KnockBack.Velocity = velocity;
+			}
 
 			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-			// Add Knockback adds knockback only to the skill's final charge
-			// (ie, the usage that puts the skill on overheat cooldown)
-			if (caster.TryGetActiveAbilityLevel(AbilityId.Ranger1, out var level) && skill.OverheatCounter == 0)
-			{
-				// TODO: The knockback power / scaling of this ability is unknown.
-				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, KnockBackType.KnockBack, 50 + 5 * level, 10);
-				skillHit.ApplyKnockBack(target);
-			}
+			skillHit.ApplyDamage();
+			skillHit.ApplyKnockBack();
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
