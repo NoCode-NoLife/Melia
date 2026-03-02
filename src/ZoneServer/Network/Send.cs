@@ -4502,6 +4502,13 @@ namespace Melia.Zone.Network
 			packet.PutByte(b2);
 			packet.PutByte(b3);
 
+			// [i402363] 8 unkown bytes, first seen in this patch.
+			// Purpose and exact position unknown, but old packets
+			// appear to work like this.
+			{
+				packet.PutEmptyBin(8);
+			}
+
 			actor.Map.Broadcast(packet);
 		}
 
