@@ -87,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 				{
 					var subTarget = subTargets.Random();
 
-					var skillHitResult = SCR_SkillHit(caster, target, skill);
+					var skillHitResult = SCR_SkillHit(caster, subTarget, skill);
 					subTarget.TakeDamage(skillHitResult.Damage, caster);
 
 					var hit = new HitInfo(caster, subTarget, skill, skillHitResult.Damage, skillHitResult.Result);
