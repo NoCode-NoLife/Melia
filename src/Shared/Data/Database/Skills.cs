@@ -56,6 +56,7 @@ namespace Melia.Shared.Data.Database
 
 		public bool EnableCastMove { get; set; }
 
+		public SkillHitType HitType { get; set; }
 		public KnockBackType KnockDownHitType { get; set; }
 		public int KnockDownVelocity { get; set; }
 		public int KnockDownHAngle { get; set; }
@@ -235,7 +236,8 @@ namespace Melia.Shared.Data.Database
 
 			data.EnableCastMove = entry.ReadBool("enableCastMove");
 
-			data.KnockDownHitType = entry.ReadEnum<KnockBackType>("knockDownType", KnockBackType.None);
+			data.HitType = entry.ReadEnum("hitType", SkillHitType.Melee);
+			data.KnockDownHitType = entry.ReadEnum("knockDownType", KnockBackType.None);
 			data.KnockDownVelocity = entry.ReadInt("knockDownVelocity", 0);
 			data.KnockDownHAngle = entry.ReadInt("knockDownHAngle", 0);
 			data.KnockDownVAngle = entry.ReadInt("knockDownVAngle", 0);
