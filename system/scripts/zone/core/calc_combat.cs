@@ -530,6 +530,11 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_CalculateDamage = ScriptableFunctions.Combat.Get("SCR_CalculateDamage");
 
 		var result = new SkillHitResult();
+
+		result.KnockBack.Type = skill.Data.KnockDownHitType;
+		result.KnockBack.Velocity = skill.Data.KnockDownVelocity;
+		result.KnockBack.VAngle = skill.Data.KnockDownVAngle;
+
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, modifier, result);
 
 		if (!attacker.CanDamage(target))

@@ -95,7 +95,7 @@ namespace Melia.Zone.Skills.Combat
 			//this.Time = this.GetTime();
 
 			// Hacks until we have a working formula
-			if (this.Velocity == 400 && this.VAngle == 86)
+			if (this.Velocity == 400 && this.VAngle == 86) // Earthquake
 			{
 				var distance = 93.570992087511f;
 
@@ -208,5 +208,26 @@ namespace Melia.Zone.Skills.Combat
 
 			return pos.GetRelative2D(dir, distance);
 		}
+	}
+
+	/// <summary>
+	/// Simple collection of the parameters defining a knock back.
+	/// </summary>
+	public class KnockBackParameters
+	{
+		/// <summary>
+		/// Gets or sets the type of hit/knock back.
+		/// </summary>
+		public HitType Type { get; set; }
+
+		/// <summary>
+		/// Gets or sets the velocity by which to knock back the target.
+		/// </summary>
+		public int Velocity { get; set; }
+
+		/// <summary>
+		/// Gets or sets the vertical angle to knock back the target at.
+		/// </summary>
+		public int VAngle { get; set; }
 	}
 }

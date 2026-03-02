@@ -117,7 +117,7 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets whether the attack can be blocked. Beats out ForcedBlock.
 		/// </summary>
-		public bool Unblockable { get; set; }		
+		public bool Unblockable { get; set; }
 
 		/// <summary>
 		/// Gets or sets forced block status.

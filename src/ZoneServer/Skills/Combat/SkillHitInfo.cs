@@ -27,6 +27,11 @@ namespace Melia.Zone.Skills.Combat
 		public Skill Skill { get; }
 
 		/// <summary>
+		/// Returns the result of the combat calculations.
+		/// </summary>
+		private SkillHitResult HitResult { get; }
+
+		/// <summary>
 		/// Returns the hit's damage information.
 		/// </summary>
 		public HitInfo HitInfo { get; }
@@ -83,6 +88,7 @@ namespace Melia.Zone.Skills.Combat
 			this.Attacker = attacker;
 			this.Target = target;
 			this.Skill = skill;
+			this.HitResult = result;
 			this.HitInfo = new HitInfo(attacker, target, skill, result.Damage, result.Result);
 			this.DamageDelay = damageDelay;
 			this.SkillHitDelay = skillHitDelay;
@@ -91,13 +97,44 @@ namespace Melia.Zone.Skills.Combat
 		}
 
 		/// <summary>
+		/// Applies the calculated damage to the target of the hit.
+		/// </summary>
+		public void ApplyDamage()
+		{
+			this.Target.TakeDamage(this.HitInfo.Damage, this.Attacker);
+		}
+
+		/// <summary>
+		/// Applies the knock back to the hit's target and updates the hit
+		/// type.
+		/// </summary>
+		public void ApplyKnockBack()
+			=> this.ApplyKnockBack(this.Target);
+
+		/// <summary>
 		/// Applies the knock back to the target and updates the hit type.
 		/// </summary>
 		/// <param name="target"></param>
 		public void ApplyKnockBack(ICombatEntity target)
 		{
+			// Create knock back info if it wasn't yet set from the
+			// outside. This way we don't get knock back information into
+			// the combat packets if we don't set or apply the knock back.
+			// The option to set it manually is primarily for backwards
+			// compatibility.
 			if (this.KnockBackInfo == null)
-				throw new InvalidOperationException("Knock back info is not set.");
+			{
+				var result = this.HitResult;
+
+				if (result.KnockBack.Type == HitType.Normal)
+					return;
+
+				var type = result.KnockBack.Type;
+				var velocity = result.KnockBack.Velocity;
+				var vAngle = result.KnockBack.VAngle;
+
+				this.KnockBackInfo = new KnockBackInfo(this.Attacker.Position, target.Position, type, velocity, vAngle);
+			}
 
 			// Knockback immunity check - may need to move this
 			if (target.IsBuffActive(BuffId.BullyPainBarrier_Buff))

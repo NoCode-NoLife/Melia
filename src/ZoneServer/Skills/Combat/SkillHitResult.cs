@@ -28,5 +28,15 @@ namespace Melia.Zone.Skills.Combat
 		/// will be split evenly between the hits.
 		/// </summary>
 		public int HitCount { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the knock back parameters for this hit.
+		/// </summary>
+		/// <remarks>
+		/// The parameters are used to set up the knock back info
+		/// automatically on knock back application if no other info was
+		/// set set manually.
+		/// </remarks>
+		public KnockBackParameters KnockBack { get; set; } = new();
 	}
 }
