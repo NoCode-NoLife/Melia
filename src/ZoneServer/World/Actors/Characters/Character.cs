@@ -1561,6 +1561,16 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
+		/// Plays animation for the character.
+		/// </summary>
+		/// <param name="packetString"></param>
+		/// <param name="animationSpeed"></param>
+		public void PlayAnimation(string packetString, float animationSpeed = 1)
+		{
+			Send.ZC_PLAY_ANI(this, packetString, false, 0, animationSpeed);
+		}
+
+		/// <summary>
 		/// Changes the character's hair and updates nearby clients.
 		/// </summary>
 		/// <param name="hairTypeIndex"></param>
@@ -1568,6 +1578,23 @@ namespace Melia.Zone.World.Actors.Characters
 		{
 			this.Hair = hairTypeIndex;
 			Send.ZC_UPDATED_PCAPPEARANCE(this);
+		}
+
+		/// <summary>
+		/// Toggles control over the character on the client, enabling or
+		/// disabling movement and skill usage.
+		/// </summary>
+		/// <remarks>
+		/// The identifier is used to handle multiple control changes.
+		/// If two identifiers disabled control, both need to be enabled
+		/// again to regain control.
+		/// </remarks>
+		/// <param name="ident"></param>
+		/// <param name="enabled"></param>
+		public void ToggleControl(string ident, bool enabled)
+		{
+			Send.ZC_ENABLE_CONTROL(this, ident, enabled);
+			Send.ZC_LOCK_KEY(this, ident, !enabled);
 		}
 	}
 }
