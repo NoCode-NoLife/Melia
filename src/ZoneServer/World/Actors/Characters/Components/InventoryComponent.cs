@@ -283,6 +283,43 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the first item stack in the inventory that matches the
+		/// given predicate.
+		/// </summary>
+		/// <param name="predicate"></param>
+		/// <returns></returns>
+		public Item FindItem(Predicate<Item> predicate)
+		{
+			lock (_syncLock)
+			{
+				foreach (var category in _items)
+				{
+					for (var i = 0; i < category.Value.Count; ++i)
+					{
+						var item = category.Value[i];
+						if (predicate(item))
+							return item;
+					}
+				}
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// Returns the first item stack in the inventory that matches the
+		/// given class name via out. Returns false if no match was found.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public bool TryFindItem(string className, out Item item)
+		{
+			item = this.FindItem(a => a.Data.ClassName == className);
+			return item != null;
+		}
+
+		/// <summary>
 		/// Adds item to inventory without updating the character's client.
 		/// </summary>
 		/// <param name="item"></param>
