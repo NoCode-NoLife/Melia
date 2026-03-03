@@ -45,7 +45,9 @@ typedef struct
 {
     short op;
     int sequence;
-    int checksum;
+
+    if (NEW_HEADERS)
+        int checksum;
 }
 ServerHeaderFixed <optimize=false>;
 
