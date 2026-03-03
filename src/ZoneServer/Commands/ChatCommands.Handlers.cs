@@ -21,6 +21,10 @@ using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
+using System.Threading.Tasks;
+using Melia.Zone.World.Gacha;
+using System.Net.Http.Headers;
+using Melia.Zone.Scripting;
 
 namespace Melia.Zone.Commands
 {
@@ -43,6 +47,7 @@ namespace Melia.Zone.Commands
 			this.Add("buyabilpoint", "<amount>", "", this.HandleBuyAbilPoint);
 			this.Add("intewarpByToken", "<destination>", "", this.HandleTokenWarp);
 			this.Add("mic", "<message>", "", this.HandleMic);
+			this.Add("hairgacha", "<type>", "", this.HandleHairGacha);
 
 			// Custom Client Commands
 			this.Add("buyshop", "", "", this.HandleBuyShop);
@@ -2345,6 +2350,66 @@ namespace Melia.Zone.Commands
 			// Broadcast the message to all servers, so they can do whatever
 			// with it. React to shouts on zones, put them on a web page, etc.
 			ZoneServer.Instance.Communicator.Send("Coordinator", new ShoutMessage(target.TeamName, shoutText).BroadcastTo("AllServers"));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Uses a selected gacha item, aka goddess' blessed cube.
+		/// </summary>
+		/// <remarks>
+		/// Used by items with the assigned client script
+		/// 'CLIENT_GACHA_SCP'.
+		/// </remarks>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleHairGacha(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 2)
+			{
+				var argsStr = string.Join(", ", args.GetAll());
+				if (string.IsNullOrWhiteSpace(argsStr))
+					argsStr = "None";
+
+				Log.Warning("HandleGachaItem: Not enough arguments given by user '{0}'. Args: {1}", sender.TeamName, argsStr);
+				return CommandResult.Okay;
+			}
+
+			// Example arguments: "Gacha_HairAcc_001", "NO"
+
+			var className = args.Get(0);
+			var skipAnimation = args.Get(1) == "YES";
+
+			if (!sender.Inventory.TryFindItem(className, out var item))
+			{
+				sender.MsgBox(Localization.Get("Item not found."));
+				Log.Warning("HandleHairGacha: User '{0}' tried to use command with an item they don't own ('{1}').", sender.TeamName, className);
+				return CommandResult.Okay;
+			}
+
+			var gachaClassName = item.Data.Script.StrArg;
+			var pullCount = (int)item.Data.Script.NumArg1;
+
+			if (string.IsNullOrWhiteSpace(gachaClassName))
+				gachaClassName = className;
+
+			if (pullCount != 1 && pullCount != 10 && pullCount != 11)
+				pullCount = 1;
+
+			var functionName = "GACHA_SCP_" + gachaClassName;
+
+			if (!ScriptableFunctions.GachaScp.TryGet(functionName, out var func))
+			{
+				sender.MsgBox(Localization.Get("This item has not been implemented yet."));
+				Log.Debug("HandleHairGacha: Scriptable function '{0}' not found.", functionName);
+				return CommandResult.Okay;
+			}
+
+			func(sender, item, gachaClassName, skipAnimation, pullCount);
 
 			return CommandResult.Okay;
 		}

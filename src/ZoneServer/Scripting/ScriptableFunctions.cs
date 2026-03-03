@@ -7,6 +7,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Items;
 
 namespace Melia.Zone.Scripting
 {
@@ -41,6 +42,7 @@ namespace Melia.Zone.Scripting
 		public static readonly DelegateCollection<CustomCommandScriptFunc> CustomCommand = new();
 		public static readonly DelegateCollection<AbilityUnlockFunc> AbilityUnlock = new();
 		public static readonly DelegateCollection<AbilityPriceFunc> AbilityPrice = new();
+		public static readonly DelegateCollection<ClientGachaScpFunc> GachaScp = new();
 
 		/// <summary>
 		/// Sets up delegate collections.
@@ -185,4 +187,15 @@ namespace Melia.Zone.Scripting
 	/// <param name="time"></param>
 	/// <returns></returns>
 	public delegate void AbilityPriceFunc(Character character, AbilityData abilityData, int abilityLevel, int maxLevel, out int price, out int time);
+
+	/// <summary>
+	/// A function the handles a request to use certain gacha items.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <param name="item"></param>
+	/// <param name="className"></param>
+	/// <param name="skipAnimation"></param>
+	/// <param name="pullCount"></param>
+	/// <returns></returns>
+	public delegate void ClientGachaScpFunc(Character character, Item item, string className, bool skipAnimation, int pullCount);
 }
