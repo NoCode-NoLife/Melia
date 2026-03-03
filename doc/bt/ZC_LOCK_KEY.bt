@@ -2,8 +2,8 @@
 //--- 010 Editor v11.0.1 Binary Template
 //
 //      File: ZC_LOCK_KEY.bt
-//   Authors: Salman T. Khan
-//   Version: 351705
+//   Authors: Salman T. Khan, exec
+//   Version: i351705
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -15,17 +15,6 @@
 
 ServerHeaderFixed header;
 
-char name[64]; // TUTORIAL_DIRECT
-byte b1; // 1
-int handle; // Handle?
-
-/**
-41 55 54 4F 53 45 4C 4C 45 52 00 name: AutoSeller
-FF FF FF 
-05 00 00 00 00 00 00 00 28 9A 12 41 01 00 00 00 
-01 00
-00 00 01 00 00 00 BD 1A 00 00 00 00 00 00 68 24
-1E 40 01 00 00 00 98 DA ED 9B 00 00 00 00 00 A2
-00 5D 9A 05 00
-
-**/
+char ident[64]; // e.g. TUTORIAL_DIRECT
+byte enabled;
+int handle;

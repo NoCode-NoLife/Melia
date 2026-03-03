@@ -3474,75 +3474,67 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Unknown purpose, sent when changing map and tutorial related?
+		/// Toggles client's control over the character, locking or
+		/// unlocking movement and usage of skills.
 		/// </summary>
-		/// <param name="conn"></param>
-		/// <param name="enabled"></param>
-		public static void ZC_ENABLE_CONTROL(IZoneConnection conn, bool enabled)
-		{
-			//	var packet = new Packet(Op.ZC_ENABLE_CONTROL);
-			//	packet.PutInt(0);
-			//	packet.PutByte(enabled);
-			//	conn.Send(packet);
-
-			var packet = new Packet(Op.ZC_ENABLE_CONTROL);
-
-			packet.PutInt(0);
-			packet.PutString("TUTORIAL_DIRECT");
-			packet.PutShort(0);
-			packet.PutLong(0x48); // 72
-			packet.PutInt(0);
-
-			if (enabled)
-			{
-				packet.PutInt(0); // 32760 or 0
-				packet.PutInt(17314416);
-				packet.PutInt(0);
-				packet.PutInt(1075545872);
-				packet.PutInt(1);
-			}
-			else
-			{
-				packet.PutInt(32760); // 32760 or 0
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-				packet.PutInt(0);
-			}
-
-			packet.PutLong(3037879632);
-			packet.PutInt(15);
-			packet.PutShort(0);
-			packet.PutByte(enabled); // 0 or 1
-
-			conn.Send(packet);
-		}
-
-		/// <summary>
-		/// Unknown purpose, sent when changing map and tutorial related?
-		/// </summary>
-		/// <param name="conn"></param>
-		public static void ZC_LOCK_KEY(IZoneConnection conn)
+		/// <remarks>
+		/// Functions like a single-layer locking mechanism. Regardless of
+		/// how often control gets locked using a certain identifier, it
+		/// only needs one unlock to regain control.
+		///
+		/// While control is locked, the skill icons in the hotkeys are
+		/// grayed out.
+		///
+		/// This packet is routinely sent together with ZC_ENABLE_CONTROL,
+		/// even though they appear to essentially do the same thing.
+		/// Reason unknown.
+		/// </remarks>
+		/// <param name="character">Character to toggle controls for.</param>
+		/// <param name="ident">Identifier for the lock.</param>
+		/// <param name="locked">Whether to lock (true) or unlock (false) control.</param>
+		public static void ZC_LOCK_KEY(Character character, string ident, bool locked)
 		{
 			var packet = new Packet(Op.ZC_LOCK_KEY);
 
-			packet.PutString("TUTORIAL_DIRECT");
-			packet.PutLong(0);
-			packet.PutInt(0xAA); // 170
-			packet.PutShort(0);
-			packet.PutInt(-1);
-			packet.PutInt(0);
-			packet.PutFloat(3.387241f);
-			packet.PutInt(1);
-			packet.PutFloat(-414.8486f);
-			packet.PutInt(0);
-			packet.PutByte(0x89);
-			packet.PutByte(0xE5);
-			packet.PutShort(32001);
-			packet.PutShort(728);
-			packet.PutByte(0);
+			packet.PutString(ident, 64);
+			packet.PutByte(locked);
+			packet.PutInt(character.Handle);
 
-			conn.Send(packet);
+			character.Connection.Send(packet);
+		}
+
+		/// <summary>
+		/// Toggles client's control over the character, enabling or
+		/// disabling movement and usage of skills.
+		/// </summary>
+		/// <remarks>
+		/// Functions like a single-layer locking mechanism. Regardless of
+		/// how often control gets disabled using a certain identifier, it
+		/// only needs one enable to regain control.
+		///
+		/// While control is disabled, the skill icons in the hotkeys are
+		/// grayed out.
+		///
+		/// This packet is routinely sent together with ZC_LOCK_KEY,
+		/// even though they appear to essentially do the same thing.
+		/// Reason unknown.
+		/// </remarks>
+		/// <param name="character">Character to toggle controls for.</param>
+		/// <param name="ident">Identifier for the lock.</param>
+		/// <param name="enabled">Whether to enable (true) or disable (false) control.</param>
+		public static void ZC_ENABLE_CONTROL(Character character, string ident, bool enabled)
+		{
+			var packet = new Packet(Op.ZC_ENABLE_CONTROL);
+
+			// The integer is definitely a handle, though its purpose is
+			// currently unclear, since it appears to always be 0 in the
+			// logs.
+
+			packet.PutInt(0);
+			packet.PutString(ident, 64);
+			packet.PutByte(enabled);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
