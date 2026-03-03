@@ -24,6 +24,10 @@ namespace Melia.Zone.World.Gacha
 		/// identify the item its based on and the associated animations
 		/// and item lists.
 		/// </summary>
+		/// <remarks>
+		/// This can be understood as the "banner" the machine handles.
+		/// Pity is tracked separately for each class name.
+		/// </remarks>
 		public string ClassName { get; }
 
 		/// <summary>
@@ -70,7 +74,7 @@ namespace Melia.Zone.World.Gacha
 		/// <summary>
 		/// Creates new machine.
 		/// </summary>
-		/// <param name="className"></param>
+		/// <param name="className">The class name of the machine, aka the "banner".</param>
 		/// <param name="type"></param>
 		public GachaMachine(string className, GachaMachineType type)
 		{
@@ -81,7 +85,7 @@ namespace Melia.Zone.World.Gacha
 		/// <summary>
 		/// Creates new machine and fills it with the given entries.
 		/// </summary>
-		/// <param name="className"></param>
+		/// <param name="className">The class name of the machine, aka the "banner".</param>
 		/// <param name="type"></param>
 		/// <param name="entries"></param>
 		public GachaMachine(string className, GachaMachineType type, IEnumerable<GachaEntry> entries)
