@@ -3260,6 +3260,17 @@ namespace Melia.Zone.Network
 		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
 		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
 		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame = false)
+			=> ZC_PLAY_ANI(actor, animationName, stopOnLastFrame, 0, 1);
+
+		/// <summary>
+		/// Plays animation for actor on nearby clients.
+		/// </summary>
+		/// <param name="actor">Entity to animate.</param>
+		/// <param name="animationName">Name of the animation to play (uses packet string database to retrieve the id of the string).</param>
+		/// <param name="stopOnLastFrame">If true, the animation plays once and then stops on the last frame.</param>
+		/// <param name="animationSpeed">Animation speed multiplier. 1 = 100%, 2 = 200%, etc.</param>
+		/// <param name="delaySeconds">Time in seconds before the animation begins playing.</param>
+		public static void ZC_PLAY_ANI(IActor actor, string animationName, bool stopOnLastFrame, float delaySeconds, float animationSpeed)
 		{
 			var packet = new Packet(Op.ZC_PLAY_ANI);
 
@@ -3267,8 +3278,8 @@ namespace Melia.Zone.Network
 			packet.AddStringId(animationName);
 			packet.PutByte(stopOnLastFrame);
 			packet.PutByte(0);
-			packet.PutFloat(0);
-			packet.PutFloat(1);
+			packet.PutFloat(delaySeconds);
+			packet.PutFloat(animationSpeed);
 
 			// [i373230] Maybe added earlier
 			{

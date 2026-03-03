@@ -17,10 +17,10 @@ ServerHeaderFixed header;
 
 int handle;
 int animationId;
-byte b1;
+byte stopOnLastFrame;
 byte b2;
-float i2;
-float f1;
+float startDelay; // time in seconds
+float animationSpeed; // multiplier, 1 = 100%
 
 if (LOG_DATE >= 20230509)
 {
