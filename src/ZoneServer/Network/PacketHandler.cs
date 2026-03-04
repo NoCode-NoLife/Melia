@@ -2276,8 +2276,20 @@ namespace Melia.Zone.Network
 			var item = character.Inventory.GetItem(itemObjectId);
 			if (item == null)
 			{
-				Log.Warning("CZ_REQ_TX_ITEM: User '{0}' tried to use an item they don't have.", conn.Account.Name);
-				return;
+				// We're not always given an item to use the function
+				// with. Such is the case with SCR_USE_SKILL_RESET_JOB,
+				// which is used via the skill window and sends 0 as the
+				// item object id. We'll allow this specific one for now,
+				// though it's possible we're never guaranteed an item,
+				// in which case we should remove the above null check
+				// and let the functions handle that case.
+				var allowMissingItem = data.ClassName == "SCR_USE_SKILL_RESET_JOB";
+
+				if (!allowMissingItem)
+				{
+					Log.Warning("CZ_REQ_TX_ITEM: User '{0}' tried to use an item they don't have.", conn.Account.Name);
+					return;
+				}
 			}
 
 			// Try to execute transaction
