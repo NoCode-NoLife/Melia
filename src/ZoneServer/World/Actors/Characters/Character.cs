@@ -9,6 +9,7 @@ using Melia.Shared.Scripting;
 using Melia.Shared.World;
 using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
+using Melia.Zone.Database;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
@@ -1264,19 +1265,35 @@ namespace Melia.Zone.World.Actors.Characters
 		/// Resets the character's skills.
 		/// </summary>
 		/// <remarks>
-		/// Resets the levels of all skills the character has and returns
-		/// the points that were put into them to the jobs.
+		/// Resets the levels of all skills aquired via the skill tree and
+		/// returns the points that were put into them to the jobs.
 		/// </remarks>
 		public void ResetSkills()
 		{
-			// Remove all skills
-			foreach (var skill in this.Skills.GetList())
-				this.Skills.Remove(skill.Id);
-
-			// Reset jobs' skill points, so they're equal to their level,
-			// minus 1, because 1 is the default level.
 			foreach (var job in this.Jobs.GetList())
-				job.SetSkillPoints(job.Level - 1);
+				this.ResetSkills(job.Id);
+		}
+
+		/// <summary>
+		/// Resets the character's skills associated with the given job.
+		/// </summary>
+		/// <remarks>
+		/// Resets the levels of the job's skills aquired via the skill
+		/// tree and returns the points that were put into them to the
+		/// job.
+		/// </remarks>
+		/// <param name="jobId"></param>
+		public void ResetSkills(JobId jobId)
+		{
+			if (!this.Jobs.TryGet(jobId, out var job))
+				return;
+
+			var skillTreeDatas = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(jobId, 10000);
+
+			foreach (var data in skillTreeDatas)
+				this.Skills.Remove(data.SkillId);
+
+			job.SetSkillPoints(job.Level - 1);
 		}
 
 		/// <summary>
