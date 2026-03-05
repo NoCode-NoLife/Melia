@@ -1,5 +1,12 @@
 // Melia
 // Database file
+// 
+// Features are toggles that enable or disable certain functionality in
+// the game, such as which classes are available or whether anyone can
+// dash. They are organized in a tree, so it's easy to enable or disable
+// a series of related features at once.
+// 
+// For more information, please check the doc folder.
 //---------------------------------------------------------------------------
 
 [
