@@ -64,6 +64,7 @@ for "f_siauliai_west" in the scripts folder.
 ### API
 
 ```cs
+AddSpawner(int monsterClassId, int amount, string map, IShapeF area)
 AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShapeF area)
 AddSpawner(int monsterClassId, int amount, TimeSpan respawn, string map, IShapeF area, TendencyType tendency)
 AddSpawner(int monsterClassId, int min, int max, TimeSpan respawn, string map, IShapeF area)
