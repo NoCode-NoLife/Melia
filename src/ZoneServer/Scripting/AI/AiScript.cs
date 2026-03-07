@@ -39,6 +39,9 @@ namespace Melia.Zone.Scripting.AI
 		private readonly HashSet<FactionType> _hatedFactions = new();
 		private readonly HashSet<int> _hatedMonsters = new();
 
+		private float _wanderRange = 300;
+		private readonly float _extraWanderRangeRate = 0.25f;
+
 		private readonly Dictionary<string, List<Action>> _duringActions = new();
 
 		private readonly Queue<IAiEventAlert> _eventAlerts = new();
@@ -47,6 +50,12 @@ namespace Melia.Zone.Scripting.AI
 		/// Returns the entity that this script is controlling.
 		/// </summary>
 		public ICombatEntity Entity { get; private set; }
+
+		/// <summary>
+		/// Gets or sets the position the entity was in when the AI script
+		/// was created.
+		/// </summary>
+		public Position? CreationPosition { get; set; }
 
 		/// <summary>
 		/// Returns the name of the currently running routine if it
@@ -62,6 +71,7 @@ namespace Melia.Zone.Scripting.AI
 		internal void InitFor(ICombatEntity combatEntity)
 		{
 			this.Entity = combatEntity;
+			this.CreationPosition = combatEntity.Position;
 
 			if (combatEntity is Mob mob)
 				this.SetTendency(mob.Tendency);
@@ -564,6 +574,16 @@ namespace Melia.Zone.Scripting.AI
 		protected void SetViewDistance(float viewRange)
 		{
 			_viewRange = viewRange;
+		}
+
+		/// <summary>
+		/// Sets the range around the creation position in which the
+		/// entity may wander randomly.
+		/// </summary>
+		/// <param name="range"></param>
+		protected void SetWanderRange(float range)
+		{
+			_wanderRange = range;
 		}
 
 		/// <summary>
