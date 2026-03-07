@@ -40,6 +40,7 @@ namespace Melia.Zone.Scripting.AI
 
 			var wanderRange = Math.Max(max, _wanderRange);
 			var extraRangeRate = _extraWanderRangeRate;
+			var freeRoam = creationPos == null || ZoneServer.Instance.Conf.World.FreeRoamMonsters;
 
 			for (var i = 0; i < 10; ++i)
 			{
@@ -51,7 +52,7 @@ namespace Melia.Zone.Scripting.AI
 				// much further past the wander limit movement is allowed.
 				// For example, 0.25 means movement is allowed up to 25%
 				// past the wander limit.
-				if (creationPos != null)
+				if (!freeRoam)
 				{
 					var distance = destination.Get2DDistance(creationPos.Value);
 

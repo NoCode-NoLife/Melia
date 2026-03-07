@@ -10,6 +10,8 @@ namespace Melia.Shared.Configuration.Files
 	{
 		// ai.conf
 		public bool MonstersUsePathfinding { get; protected set; }
+		public bool FreeRoamMonsters { get; protected set; }
+		public bool MonstersReturnHome { get; protected set; }
 
 		// drops.conf
 		public float SilverDropAmount { get; protected set; }
@@ -102,6 +104,8 @@ namespace Melia.Shared.Configuration.Files
 			this.Include(filePath);
 
 			this.MonstersUsePathfinding = this.GetBool("monsters_use_pathfinding", true);
+			this.FreeRoamMonsters = this.GetBool("free_roam_monsters", false);
+			this.MonstersReturnHome = this.GetBool("monsters_return_home", true);
 
 			this.SilverDropAmount = this.GetFloat("silver_drop_amount", 100);
 			this.SilverDropRate = this.GetFloat("silver_drop_rate", 100);

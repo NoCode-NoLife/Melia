@@ -446,6 +446,9 @@ namespace Melia.Zone.Scripting.AI
 			if (!this.CreationPosition.HasValue)
 				return false;
 
+			if (!ZoneServer.Instance.Conf.World.MonstersReturnHome)
+				return false;
+
 			var distance = this.Entity.Position.Get2DDistance(this.CreationPosition.Value);
 			var allowedDistance = _wanderRange * (1 + _extraWanderRangeRate);
 
