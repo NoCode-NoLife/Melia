@@ -43,7 +43,7 @@ namespace Melia.Zone.World.Maps
 			var outlines = new List<LineF>();
 
 			var edges = _mesh.Edges();
-			var outerEdges = edges.Where(a => a.d == -1);
+			var outerEdges = edges.Where(a => a.d == DMesh3.InvalidID);
 
 			foreach (var edge in outerEdges)
 			{
