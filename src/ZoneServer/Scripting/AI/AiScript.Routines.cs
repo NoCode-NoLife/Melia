@@ -175,6 +175,16 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Moves entity back to its spawn position.
+		/// </summary>
+		/// <returns></returns>
+		protected IEnumerable ReturnHome()
+		{
+			if (this.CreationPosition.HasValue)
+				yield return this.MoveTo(this.CreationPosition.Value);
+		}
+
+		/// <summary>
 		/// Makes entity turn towards the given actor.
 		/// </summary>
 		/// <param name="actor"></param>

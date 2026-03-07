@@ -35,6 +35,12 @@ public class BasicMonsterAiScript : AiScript
 			yield break;
 		}
 
+		if (IsFarFromHome())
+		{
+			yield return ReturnHome();
+			yield break;
+		}
+
 		yield return Wait(4000, 8000);
 
 		SwitchRandom();

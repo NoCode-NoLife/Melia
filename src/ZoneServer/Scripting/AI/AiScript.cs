@@ -434,6 +434,25 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Returns true if the entity is outside of its allowed wander
+		/// range, relative to its spawn location.
+		/// </summary>
+		/// <remarks>
+		/// Also returns false if no spawn position could be found or
+		/// monsters were configured to not return home.
+		/// </remarks>
+		public bool IsFarFromHome()
+		{
+			if (!this.CreationPosition.HasValue)
+				return false;
+
+			var distance = this.Entity.Position.Get2DDistance(this.CreationPosition.Value);
+			var allowedDistance = _wanderRange * (1 + _extraWanderRangeRate);
+
+			return (distance >= allowedDistance);
+		}
+
+		/// <summary>
 		/// Executed once during the AI's first tick.
 		/// </summary>
 		protected virtual void Setup()
