@@ -298,14 +298,14 @@ namespace Melia.Zone.Scripting.AI
 		/// <summary>
 		/// Makes AI hostile towards the given factions.
 		/// </summary>
-		/// <param name="faction"></param>
+		/// <param name="factions"></param>
 		protected void HatesFaction(params FactionType[] factions)
 			=> this.HatesFaction((IEnumerable<FactionType>)factions);
 
 		/// <summary>
 		/// Makes AI hostile towards the given factions.
 		/// </summary>
-		/// <param name="faction"></param>
+		/// <param name="factions"></param>
 		protected void HatesFaction(IEnumerable<FactionType> factions)
 		{
 			_hatedFactions.UnionWith(factions);
