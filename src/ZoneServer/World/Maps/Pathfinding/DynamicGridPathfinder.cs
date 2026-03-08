@@ -16,12 +16,12 @@ namespace Melia.Zone.World.Maps.Pathfinding
 		private readonly Ground _ground;
 
 		/// <summary>
-		/// Creates a new instance for the given map.
+		/// Creates a new instance for the given map ground.
 		/// </summary>
-		/// <param name="map"></param>
-		public DynamicGridPathfinder(Map map)
+		/// <param name="ground"></param>
+		public DynamicGridPathfinder(Ground ground)
 		{
-			_ground = map.Ground;
+			_ground = ground;
 		}
 
 		/// <summary>
