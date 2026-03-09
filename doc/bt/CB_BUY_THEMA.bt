@@ -15,6 +15,6 @@
 
 ClientHeaderFixed header;
 
-int i1;
+int type;
 int newMapId;
 int oldMapId;
