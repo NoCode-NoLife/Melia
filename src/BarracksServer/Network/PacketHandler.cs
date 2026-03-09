@@ -550,6 +550,18 @@ namespace Melia.Barracks.Network
 				conn.Account.SelectedBarrack = newMapId;
 				conn.Account.Themas.Add(newMapId);
 			}
+			else if (type == ThemaType.BuyCharacterSlot)
+			{
+				var price = BarracksServer.Instance.Conf.Barracks.CharacterSlotPrice;
+
+				if (!conn.Account.Charge(price))
+				{
+					Log.Warning("CB_BUY_THEMA: User '{0}' tried to buy a slot without having the necessary TP.", conn.Account.Name);
+					return;
+				}
+
+				conn.Account.AdditionalSlotCount++;
+			}
 			else
 			{
 				Log.Debug("CB_BUY_THEMA: User '{0}' sent unknown type '{1}'.", conn.Account.Name, type);

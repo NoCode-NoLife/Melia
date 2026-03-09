@@ -8,5 +8,6 @@
 	{
 		BuyLodge = 0,
 		UseLodge = 1,
+		BuyCharacterSlot = 2,
 	}
 }
