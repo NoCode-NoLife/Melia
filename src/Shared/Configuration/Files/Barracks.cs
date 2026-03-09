@@ -35,6 +35,11 @@ namespace Melia.Shared.Configuration.Files
 		public bool EnableAccountCreation { get; private set; }
 
 		/// <summary>
+		/// TP price for buying additional character slots.
+		/// </summary>
+		public int CharacterSlotPrice { get; private set; }
+
+		/// <summary>
 		/// Loads conf file and its options from the given path.
 		/// </summary>
 		/// <param name="filePath"></param>
@@ -49,6 +54,8 @@ namespace Melia.Shared.Configuration.Files
 			this.StartPosition = this.GetPosition("start_position", new Position(-628, 260, -1025));
 
 			this.EnableAccountCreation = this.GetBool("enable_account_creation", true);
+
+			this.CharacterSlotPrice = this.GetInt("character_slot_price", 33);
 		}
 
 		/// <summary>

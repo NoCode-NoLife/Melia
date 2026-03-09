@@ -367,5 +367,18 @@ namespace Melia.Barracks.Network
 
 			conn.Send(packet);
 		}
+
+		/// <summary>
+		/// Sends price of buying additional character slots to client.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="price"></param>
+		public static void BC_REQ_SLOT_PRICE(IBarracksConnection conn, int price)
+		{
+			var packet = new Packet(Op.BC_REQ_SLOT_PRICE);
+			packet.PutInt(price);
+
+			conn.Send(packet);
+		}
 	}
 }

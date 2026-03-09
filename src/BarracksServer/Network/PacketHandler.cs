@@ -976,5 +976,19 @@ namespace Melia.Barracks.Network
 			Send.BC_CHARACTER_SLOT_SWAP_SUCCESS(conn);
 			Send.BC_COMMANDER_LIST(conn);
 		}
+
+		/// <summary>
+		/// Request for the price of buying additional character slots.
+		/// Sent by client when the button to buy is clicked.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_REQ_SLOT_PRICE)]
+		public void CB_REQ_SLOT_PRICE(IBarracksConnection conn, Packet packet)
+		{
+			var price = BarracksServer.Instance.Conf.Barracks.CharacterSlotPrice;
+
+			Send.BC_REQ_SLOT_PRICE(conn, price);
+		}
 	}
 }
