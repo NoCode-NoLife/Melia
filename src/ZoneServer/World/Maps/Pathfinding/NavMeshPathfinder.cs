@@ -224,40 +224,45 @@ namespace Melia.Zone.World.Maps.Pathfinding
 				if (!this.TryGetPortal(cellPath[i], cellPath[i + 1], out var portal))
 					continue;
 
-				portals.Add(this.InsetPortal(portal, actorRadius));
+				portals.Add((portal.Left, portal.Right));
 			}
 
 			portals.Add((destination, destination));
 
-			return this.StringPull(portals);
+			return this.StringPull(portals, actorRadius);
 		}
 
 		/// <summary>
-		/// Returns the left and right points of the given portal, inset
-		/// by the given actor radius to account for their size.
+		/// Calculates the tangent point on a circle,representing a portal
+		/// corner, from the current apex, ensuring the path routes around
+		/// the corner with the given radius.
 		/// </summary>
-		/// <param name="portal"></param>
-		/// <param name="actorRadius"></param>
-		/// <returns></returns>
-		private (Position Left, Position Right) InsetPortal(NavMeshPortal portal, float actorRadius)
+		private Position GetTangentPoint(Position apex, Position center, float radius, bool isLeftCircle)
 		{
-			if (actorRadius <= 0f)
-				return (portal.Left, portal.Right);
+			if (radius <= 0.001f)
+				return center;
 
-			var width = (float)portal.Left.Get2DDistance(portal.Right);
-			if (width <= actorRadius * 2f)
-				return (portal.Left, portal.Right);
+			var dx = center.X - apex.X;
+			var dz = center.Z - apex.Z;
+			var dist = Math.Sqrt(dx * dx + dz * dz);
 
-			var insetLeft = portal.Left.GetRelative2D(portal.Right, actorRadius);
-			var insetRight = portal.Right.GetRelative2D(portal.Left, actorRadius);
+			if (dist <= radius)
+				return center;
 
-			if (_ground.TryGetHeightAt(insetLeft, out var leftHeight))
-				insetLeft.Y = leftHeight;
+			var theta = (float)Math.Atan2(dz, dx);
+			var alpha = (float)Math.Asin(radius / dist);
 
-			if (_ground.TryGetHeightAt(insetRight, out var rightHeight))
-				insetRight.Y = rightHeight;
+			var gamma = isLeftCircle ? theta + alpha + (float)Math.PI / 2f : theta - alpha - (float)Math.PI / 2f;
 
-			return (insetLeft, insetRight);
+			var pointX = center.X + radius * (float)Math.Cos(gamma);
+			var pointZ = center.Z + radius * (float)Math.Sin(gamma);
+
+			var pt = new Position(pointX, center.Y, pointZ);
+
+			if (_ground.TryGetHeightAt(pt, out var h))
+				pt.Y = h;
+
+			return pt;
 		}
 
 		/// <summary>
@@ -291,7 +296,7 @@ namespace Melia.Zone.World.Maps.Pathfinding
 		/// </summary>
 		/// <param name="portals"></param>
 		/// <returns></returns>
-		private List<Position> StringPull(List<(Position Left, Position Right)> portals)
+		private List<Position> StringPull(List<(Position Left, Position Right)> portals, float actorRadius)
 		{
 			var path = new List<Position>();
 
@@ -309,8 +314,22 @@ namespace Melia.Zone.World.Maps.Pathfinding
 
 			for (var i = 1; i < portals.Count; ++i)
 			{
-				var left = portals[i].Left;
-				var right = portals[i].Right;
+				// Use larger radius to account for tight corners where the
+				// path might overwise clip into the wall.
+				var radius = (i == portals.Count - 1) ? 0f : actorRadius * 1.5f;
+
+				var leftCenter = portals[i].Left;
+				var rightCenter = portals[i].Right;
+
+				var left = this.GetTangentPoint(portalApex, leftCenter, radius, true);
+				var right = this.GetTangentPoint(portalApex, rightCenter, radius, false);
+
+				if (this.TriArea2(portalApex, left, right) <= 0.001f && left != right)
+				{
+					var mid = new Position((leftCenter.X + rightCenter.X) / 2f, (leftCenter.Y + rightCenter.Y) / 2f, (leftCenter.Z + rightCenter.Z) / 2f);
+					if (_ground.TryGetHeightAt(mid, out var h)) mid.Y = h;
+					left = right = mid;
+				}
 
 				if (this.TriArea2(portalApex, portalRight, right) <= 0f)
 				{

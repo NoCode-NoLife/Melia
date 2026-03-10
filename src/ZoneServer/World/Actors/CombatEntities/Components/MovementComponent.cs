@@ -229,6 +229,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 				var toCellPos = this.Entity.Map.Ground.GetCellPosition(nextDestination);
 
 				Send.ZC_MOVE_PATH(this.Entity, fromCellPos, toCellPos, speed);
+
+				//this.Entity.TurnTowards(nextDestination);
+				//Send.ZC_MOVE_POS(this.Entity, position, nextDestination, speed);
 			}
 		}
 
