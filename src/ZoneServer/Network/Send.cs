@@ -4083,6 +4083,35 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
+		/// Makes actor move between the given positions.
+		/// </summary>
+		/// <remarks>
+		/// Appears to be an alternative to ZC_MOVE_PATH that doesn't use
+		/// cell positions. It also seems like monsters don't glitch off
+		/// the map even with invalid paths using this packet. They also
+		/// don't automatically look in the direction they're walking
+		/// though, which requires a separate packet.
+		/// </remarks>
+		/// <param name="actor"></param>
+		/// <param name="fromPos"></param>
+		/// <param name="toPos"></param>
+		/// <param name="speed"></param>
+		public static void ZC_MOVE_POS(IActor actor, Position fromPos, Position toPos, float speed)
+		{
+			var packet = new Packet(Op.ZC_MOVE_POS);
+
+			packet.PutInt(actor.Handle);
+			packet.PutPosition(fromPos);
+			packet.PutPosition(toPos);
+			packet.PutFloat(speed);
+			packet.PutFloat(0);
+			packet.PutByte(false); // if true, actor teleports after a moment?
+			packet.PutGap(3);
+
+			actor.Map.Broadcast(packet, actor);
+		}
+
+		/// <summary>
 		/// Removes the skill for the character.
 		/// </summary>
 		/// <param name="character"></param>

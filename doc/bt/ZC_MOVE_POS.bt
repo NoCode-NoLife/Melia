@@ -2,9 +2,9 @@
 //--- 010 Editor v12.0.1 Binary Template
 //
 //      File: ZC_MOVE_POS.bt
-//   Authors: Salman T. Khan
-//   Version: i35
-//   Purpose: Flying Companions Related Packet?
+//   Authors: Salman T. Khan, exec
+//   Version: i402595
+//   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
@@ -16,8 +16,9 @@
 ServerHeaderFixed header;
 
 int handle;
-position pos;
-position pos;
-float f1;
+position fromPos;
+position toPos;
+float speed;
 float f2;
-int i2;
+byte b1;
+byte gap1[3];
