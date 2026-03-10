@@ -1,4 +1,5 @@
-﻿using Melia.Shared.Network;
+﻿using Melia.Shared.Game.Const;
+using Melia.Shared.Network;
 using Melia.Shared.World;
 using Melia.Zone.World.Actors;
 
@@ -19,6 +20,19 @@ namespace Melia.Zone.Network.Helpers
 		/// <param name="toCellPos"></param>
 		/// <param name="speed"></param>
 		public static void AddCellMovement(this Packet packet, IActor actor, Position fromCellPos, Position toCellPos, float speed)
+			=> AddCellMovement(packet, actor, fromCellPos, toCellPos, speed, CellMoveType.Normal);
+
+		/// <summary>
+		/// Adds information about the actor moving between the given cell
+		/// positions to the packet.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="actor"></param>
+		/// <param name="fromCellPos"></param>
+		/// <param name="toCellPos"></param>
+		/// <param name="speed"></param>
+		/// <param name="type"></param>
+		public static void AddCellMovement(this Packet packet, IActor actor, Position fromCellPos, Position toCellPos, float speed, CellMoveType type)
 		{
 			packet.PutInt(actor.Handle);
 			packet.PutInt((int)fromCellPos.X);
@@ -31,7 +45,7 @@ namespace Melia.Zone.Network.Helpers
 
 			// [i354444] Float removed, byte added. Same thing?
 			//packet.PutFloat(0);
-			packet.PutByte(0);
+			packet.PutByte((byte)type);
 		}
 	}
 }
