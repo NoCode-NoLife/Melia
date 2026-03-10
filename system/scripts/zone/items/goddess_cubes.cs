@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿//--- Melia Script ----------------------------------------------------------
+// Goddess' Blessed Cubes Items
+//--- Description -----------------------------------------------------------
+// Scripts related to the Goddess' Blessed Cubes, aka the gacha items.
+//---------------------------------------------------------------------------
+
+using System.Collections.Generic;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
