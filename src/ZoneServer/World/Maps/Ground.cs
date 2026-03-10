@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using g3;
 using Melia.Shared.Data.Database;
@@ -21,6 +21,11 @@ namespace Melia.Zone.World.Maps
 		private DMeshAABBTree3 _spatial;
 		private Polygon2d[] _cells;
 		private LineF[] _outlines;
+
+		/// <summary>
+		/// Returns the data that was used to create the ground.
+		/// </summary>
+		public GroundData Data => _data;
 
 		/// <summary>
 		/// Loads the ground data.
