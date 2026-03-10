@@ -107,7 +107,7 @@ namespace Melia.Zone.Commands
 			this.Add("jobinfo", "", "Display information about character's jobs.", this.HandleJobInfo);
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
-			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.NoSave);
+			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.HandleNoSave);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -2302,7 +2302,7 @@ namespace Melia.Zone.Commands
 		/// <param name="args"></param>
 		/// <returns></returns>
 		/// <exception cref="NotImplementedException"></exception>
-		private CommandResult NoSave(Character sender, Character target, string message, string commandName, Arguments args)
+		private CommandResult HandleNoSave(Character sender, Character target, string message, string commandName, Arguments args)
 		{
 			if (args.Count < 1)
 			{
