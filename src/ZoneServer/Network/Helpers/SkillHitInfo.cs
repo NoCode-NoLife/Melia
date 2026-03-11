@@ -22,10 +22,7 @@ namespace Melia.Zone.Network.Helpers
 			packet.AddHitInfo(skillHitInfo.HitInfo);
 
 			packet.PutInt(skillHitInfo.IsKnockBack ? 1 : 0);
-			packet.PutShort((short)skillHitInfo.DamageDelay.TotalMilliseconds);
-			packet.PutByte(0);
-
-			packet.PutByte(0);
+			packet.PutInt((int)skillHitInfo.DamageDelay.TotalMilliseconds);
 			packet.PutShort((short)skillHitInfo.SkillHitDelay.TotalMilliseconds); // Skill Hit Delay? Adds pause in attack animation?
 			packet.PutByte((byte)skillHitInfo.HitEffect);
 			packet.PutByte(0);

@@ -108,11 +108,8 @@ typedef struct
     HitInfo hitInfo;
 	
 	int i1;
-	short damageDelay;
-	byte b4;
-
-	byte b5;
-    short skillHitDelay;
+	int aniTime; // See AnyTime in bytool data
+    short hitDelay; // See DefaultHitDelay in skill data
 	byte hitEffect;
 	byte b7;
 	int i2;
