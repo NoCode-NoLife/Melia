@@ -52,6 +52,17 @@ public class CharacterInitializationScript : GeneralScript
 		props.SetFloat("UnlockQuest_Char5_21", 1); // Blitz Hunter [T]
 		props.SetFloat("UnlockQuest_Char2_28", 1); // Aether Blader [W]
 		props.SetFloat("UnlockQuest_Char4_26", 1); // Aether Blader [C]
+		props.SetFloat("UnlockQuest_Char5_22", 1); // Aether Blader [T]
+		props.SetFloat("UnlockQuest_Char2_29", 1); // Hermit [W]
+		props.SetFloat("UnlockQuest_Char4_27", 1); // Hermit [C]
+		props.SetFloat("UnlockQuest_Char3_28", 1); // Hermit [A]
+		props.SetFloat("UnlockQuest_Char5_23", 1); // Grimmark [T]
+		props.SetFloat("UnlockQuest_Char1_29", 1); // Grimmark [S]
+		props.SetFloat("UnlockQuest_Char3_29", 1); // Grimmark [A]
+		props.SetFloat("UnlockQuest_Char2_30", 1); // Kneller [W]
+		props.SetFloat("UnlockQuest_Char4_28", 1); // Kneller [C]
+		props.SetFloat("UnlockQuest_Char5_24", 1); // Kneller [T]
+		props.SetFloat("UnlockQuest_Char1_30", 1); // Eskrimer
 	}
 
 	private static void InitCharacter(Character character)
