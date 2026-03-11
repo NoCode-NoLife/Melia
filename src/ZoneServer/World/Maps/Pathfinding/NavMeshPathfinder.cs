@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 
 namespace Melia.Zone.World.Maps.Pathfinding
@@ -237,6 +238,11 @@ namespace Melia.Zone.World.Maps.Pathfinding
 		/// corner, from the current apex, ensuring the path routes around
 		/// the corner with the given radius.
 		/// </summary>
+		/// <param name="apex"></param>
+		/// <param name="center"></param>
+		/// <param name="radius"></param>
+		/// <param name="isLeftCircle"></param>
+		/// <returns></returns>
 		private Position GetTangentPoint(Position apex, Position center, float radius, bool isLeftCircle)
 		{
 			if (radius <= 0.001f)
@@ -295,9 +301,16 @@ namespace Melia.Zone.World.Maps.Pathfinding
 		/// path.
 		/// </summary>
 		/// <param name="portals"></param>
+		/// <param name="actorRadius"></param>
 		/// <returns></returns>
 		private List<Position> StringPull(List<(Position Left, Position Right)> portals, float actorRadius)
 		{
+			// The string pull algorithm typically creates paths right up
+			// against the walls, expecting data that accounts for this.
+			// Since we're working with a raw nav mesh and multiple agent
+			// sizes, our current implementation attempts to offset the
+			// path relative to the walls as best as possible.
+
 			var path = new List<Position>();
 
 			if (portals.Count == 0)
