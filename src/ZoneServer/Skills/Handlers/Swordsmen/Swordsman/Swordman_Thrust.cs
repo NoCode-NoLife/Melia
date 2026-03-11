@@ -63,12 +63,17 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			// delay. However, the hit comes too early with either value
 			// on Melia. One value that appears to work well is 300ms,
 			// so we'll use that for now.
+			// 
+			// Update: I don't know what changed, but testing this again
+			// a while later, the Time value found in the ByTool data,
+			// 70ms, now seems to work perfectly. It also fits the packet
+			// logs, so we'll switch to that.
 
-			var hitTime = TimeSpan.FromMilliseconds(300);
-			var skillHitDelay = TimeSpan.Zero;
-			var damageDelay = TimeSpan.FromMilliseconds(270);
+			var attackTime = TimeSpan.FromMilliseconds(70);
+			var aniTime = TimeSpan.FromMilliseconds(270);
+			var hitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitTime);
+			await Task.Delay(attackTime);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -78,7 +83,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 				hits.Add(skillHit);
 			}
 
