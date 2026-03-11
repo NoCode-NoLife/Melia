@@ -1341,6 +1341,34 @@ namespace Melia.Shared.Game.Const
 		Vanquisher3_1 = 125016,
 		/// <summary>[Arts] Dance Macabre: Exploit Weakness</summary>
 		Vanquisher6_1 = 125017,
+		/// <summary>Toucher</summary>
+		Escrimeur100 = 125018,
+		/// <summary>Ttaque Enchainee: Enhance</summary>
+		Escrimeur1 = 125019,
+		/// <summary>Set Eclair: Enhance</summary>
+		Escrimeur2 = 125020,
+		/// <summary>Grand Fente: Enhance</summary>
+		Escrimeur3 = 125021,
+		/// <summary>Avant Garde: Enhance</summary>
+		Escrimeur4 = 125022,
+		/// <summary>Rafale: Enhance</summary>
+		Escrimeur5 = 125023,
+		/// <summary>Pasata Soto</summary>
+		Escrimeur6 = 125024,
+		/// <summary>[Arts] Ttaque Enchainee: Enhanced Upgrade</summary>
+		Escrimeur101 = 125025,
+		/// <summary>[Arts] Set Eclair: Enhanced Upgrade</summary>
+		Escrimeur102 = 125026,
+		/// <summary>[Arts] Grand Fente: Enhanced Upgrade</summary>
+		Escrimeur103 = 125027,
+		/// <summary>[Arts] Rafale: Enhanced Upgrade</summary>
+		Escrimeur104 = 125028,
+		/// <summary>[Arts] Pasata Soto: Enhanced Upgrade</summary>
+		Escrimeur105 = 125029,
+		/// <summary>[Arts] Ttaque Enchainee: Ouvert</summary>
+		Escrimeur106 = 125030,
+		/// <summary>[Arts] Pasata Soto: Aller</summary>
+		Escrimeur107 = 125031,
 		/// <summary>Energy Bolt: Enhance</summary>
 		Wizard11 = 201001,
 		/// <summary>Energy Bolt: Enhance 2</summary>

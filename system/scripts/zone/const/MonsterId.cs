@@ -6636,6 +6636,7 @@ public static class MonsterId
 	public const int Katyn_Tombstone4 = 160288;
 	public const int Katyn_Tombstone5 = 160289;
 	public const int Gacha_Machine_Sliver = 160290;
+	public const int D_Thron_19_HiddenTrigger = 160291;
 	public const int E_Statue_Zemina = 161000;
 	public const int Npc_Kupole_Velcoffer = 161001;
 	public const int Npc_Teliavelis = 161002;

@@ -10368,6 +10368,30 @@
 		public const string EVENT_2602_NEWYEAR_SHOP_01 = "EVENT_2602_NEWYEAR_SHOP_01";
 		public const string HaveEmoticon_186 = "HaveEmoticon_186";
 		public const string GuildDignityBuffOption2 = "GuildDignityBuffOption2";
+		public const string GEM_Escrimeur_PassataSotto_cabinet = "GEM_Escrimeur_PassataSotto_cabinet";
+		public const string GEM_Escrimeur_AvantGarde_cabinet = "GEM_Escrimeur_AvantGarde_cabinet";
+		public const string GEM_Escrimeur_GrandFente_cabinet = "GEM_Escrimeur_GrandFente_cabinet";
+		public const string GEM_Kneller_DeeperResonance_Scout_cabinet = "GEM_Kneller_DeeperResonance_Scout_cabinet";
+		public const string UnlockQuest_Char5_24 = "UnlockQuest_Char5_24";
+		public const string GEM_Kneller_DeathKnell_Scout_cabinet = "GEM_Kneller_DeathKnell_Scout_cabinet";
+		public const string GEM_Kneller_PassingBell_Scout_cabinet = "GEM_Kneller_PassingBell_Scout_cabinet";
+		public const string GEM_Escrimeur_SeptEclairs_cabinet = "GEM_Escrimeur_SeptEclairs_cabinet";
+		public const string GEM_Kneller_ResonantPulse_Scout_cabinet = "GEM_Kneller_ResonantPulse_Scout_cabinet";
+		public const string GEM_Escrimeur_Rafale_cabinet = "GEM_Escrimeur_Rafale_cabinet";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_111 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_111";
+		public const string GEM_Kneller_GraveHand_Scout_cabinet = "GEM_Kneller_GraveHand_Scout_cabinet";
+		public const string GEM_Kneller_MourningChime_Scout_cabinet = "GEM_Kneller_MourningChime_Scout_cabinet";
+		public const string UnlockQuest_Char1_30 = "UnlockQuest_Char1_30";
+		public const string GEM_Escrimeur_AttaqueEnchainee_cabinet = "GEM_Escrimeur_AttaqueEnchainee_cabinet";
+		public const string GEM_Kneller_RestingGround_Scout_cabinet = "GEM_Kneller_RestingGround_Scout_cabinet";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_03 = "AchieveReward_EVENT_202603_PAPAYA_RAID_03";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_05 = "AchieveReward_EVENT_202603_PAPAYA_RAID_05";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_02 = "AchieveReward_EVENT_202603_PAPAYA_RAID_02";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_04 = "AchieveReward_EVENT_202603_PAPAYA_RAID_04";
+		public const string TSF04_134_1_cabinet = "TSF04_134_1_cabinet";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_01 = "AchieveReward_EVENT_202603_PAPAYA_RAID_01";
+		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_06 = "AchieveReward_EVENT_202603_PAPAYA_RAID_06";
+		public const string TSF04_134_1_cabinet_upgrade = "TSF04_134_1_cabinet_upgrade";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -23254,6 +23278,8 @@
 		public const string HiddenJob_Char4_28 = "HiddenJob_Char4_28";
 		public const string HiddenJob_Char2_30 = "HiddenJob_Char2_30";
 		public const string Hide_3521 = "Hide_3521";
+		public const string HiddenJob_Char1_30 = "HiddenJob_Char1_30";
+		public const string HiddenJob_Char5_24 = "HiddenJob_Char5_24";
 
 		// SessionObject
 		public const string PosX = "PosX";

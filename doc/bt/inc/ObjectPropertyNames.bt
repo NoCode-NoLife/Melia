@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i402595
+//   Version: i402912
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32870,6 +32870,32 @@ string getPropertyName(int id)
         case 118644: return "HaveEmoticon_186";
         case 118645: return "GuildDressRoomItem";
         case 118646: return "GuildDignityBuffOption2";
+        case 118647: return "GEM_Escrimeur_PassataSotto_cabinet";
+        case 118648: return "GEM_Escrimeur_AvantGarde_cabinet";
+        case 118649: return "GEM_Escrimeur_GrandFente_cabinet";
+        case 118650: return "GEM_Kneller_DeeperResonance_Scout_cabinet";
+        case 118651: return "UnlockQuest_Char5_24";
+        case 118652: return "GEM_Kneller_DeathKnell_Scout_cabinet";
+        case 118653: return "GEM_Kneller_PassingBell_Scout_cabinet";
+        case 118654: return "GEM_Escrimeur_SeptEclairs_cabinet";
+        case 118655: return "GEM_Kneller_ResonantPulse_Scout_cabinet";
+        case 118656: return "GEM_Escrimeur_Rafale_cabinet";
+        case 118657: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_111";
+        case 118658: return "GEM_Kneller_GraveHand_Scout_cabinet";
+        case 118659: return "GEM_Kneller_MourningChime_Scout_cabinet";
+        case 118660: return "UnlockQuest_Char1_30";
+        case 118661: return "GEM_Escrimeur_AttaqueEnchainee_cabinet";
+        case 118662: return "GEM_Kneller_RestingGround_Scout_cabinet";
+        case 118663: return "HiddenJob_Char1_30";
+        case 118664: return "HiddenJob_Char5_24";
+        case 118665: return "AchieveReward_EVENT_202603_PAPAYA_RAID_03";
+        case 118666: return "AchieveReward_EVENT_202603_PAPAYA_RAID_05";
+        case 118667: return "AchieveReward_EVENT_202603_PAPAYA_RAID_02";
+        case 118668: return "AchieveReward_EVENT_202603_PAPAYA_RAID_04";
+        case 118669: return "TSF04_134_1_cabinet";
+        case 118670: return "AchieveReward_EVENT_202603_PAPAYA_RAID_01";
+        case 118671: return "AchieveReward_EVENT_202603_PAPAYA_RAID_06";
+        case 118672: return "TSF04_134_1_cabinet_upgrade";
         default: return "Unknown";
     }
 }

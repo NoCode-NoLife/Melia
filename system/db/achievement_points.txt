@@ -905,6 +905,7 @@
 { id: 60107, className: "WeeklyRankClass_108", name: "Hermit", useDaily: false, useWeekly: false },
 { id: 60108, className: "WeeklyRankClass_109", name: "Grimmark", useDaily: false, useWeekly: false },
 { id: 60109, className: "WeeklyRankClass_110", name: "Kneller", useDaily: false, useWeekly: false },
+{ id: 60110, className: "WeeklyRankClass_111", name: "Escrimeur", useDaily: false, useWeekly: false },
 { id: 70000, className: "Achieve_Solo_dungeon_1", name: "Clear Bernice Dungeon specific stage 1 time", useDaily: false, useWeekly: false },
 { id: 70001, className: "Achieve_Solo_dungeon_st80", name: "Bernice Dungeon stage 80 Total Clear", useDaily: false, useWeekly: false },
 { id: 70002, className: "Achieve_Ancient_Solo_dungeon_1", name: "Clear a Particular Stage of Assister Dungeon", useDaily: false, useWeekly: false },

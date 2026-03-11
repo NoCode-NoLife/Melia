@@ -486,6 +486,22 @@
 { category: "Grimmark", classId: 202, abilityId: 900317, jobId: 1029, className: "Grimmark10", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_ChainOfThirst_Scout", argNum: 1 } },
 { category: "Grimmark", classId: 109, abilityId: 900318, jobId: 1029, className: "Grimmark11", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Grimmark_HunterMark_Scout", argNum: 1 } },
 
+// Escrimeur
+//---------------------------------------------------------------------------
+{ category: "Escrimeur", classId: 101, abilityId: 125019, jobId: 1030, className: "Escrimeur1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_AttaqueEnchainee", argNum: 1 } },
+{ category: "Escrimeur", classId: 102, abilityId: 125020, jobId: 1030, className: "Escrimeur2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_SeptEclairs", argNum: 1 } },
+{ category: "Escrimeur", classId: 103, abilityId: 125021, jobId: 1030, className: "Escrimeur3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_GrandFente", argNum: 1 } },
+{ category: "Escrimeur", classId: 104, abilityId: 125022, jobId: 1030, className: "Escrimeur4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_AvantGarde", argNum: 1 } },
+{ category: "Escrimeur", classId: 105, abilityId: 125023, jobId: 1030, className: "Escrimeur5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_Rafale", argNum: 1 } },
+{ category: "Escrimeur", classId: 106, abilityId: 125024, jobId: 1030, className: "Escrimeur6", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_PassataSotto", argNum: 1 } },
+{ category: "Escrimeur", classId: 1001, abilityId: 125025, jobId: 1030, className: "Escrimeur101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Escrimeur1", argNum: 65 } },
+{ category: "Escrimeur", classId: 1002, abilityId: 125026, jobId: 1030, className: "Escrimeur102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Escrimeur2", argNum: 65 } },
+{ category: "Escrimeur", classId: 1003, abilityId: 125027, jobId: 1030, className: "Escrimeur103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Escrimeur3", argNum: 65 } },
+{ category: "Escrimeur", classId: 1004, abilityId: 125028, jobId: 1030, className: "Escrimeur104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Escrimeur5", argNum: 65 } },
+{ category: "Escrimeur", classId: 1005, abilityId: 125029, jobId: 1030, className: "Escrimeur105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Escrimeur6", argNum: 65 } },
+{ category: "Escrimeur", classId: 201, abilityId: 125030, jobId: 1030, className: "Escrimeur106", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_AttaqueEnchainee", argNum: 1 } },
+{ category: "Escrimeur", classId: 202, abilityId: 125031, jobId: 1030, className: "Escrimeur107", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Escrimeur_PassataSotto", argNum: 1 } },
+
 // Wizard
 //---------------------------------------------------------------------------
 { category: "Wizard", classId: 1, abilityId: 10033, jobId: 2001, className: "StaffMastery_Splash", maxLevel: 1, priceTimeScript: 'ABIL_COMMON_PRICE_1LV', unlockScript: { name: "UNLOCK_BASE_LEVEL", argStr: "", argNum: 1 } },
