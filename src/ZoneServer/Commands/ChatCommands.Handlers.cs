@@ -5,12 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Melia.Shared.Data.Database;
+using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
-using Melia.Shared.Game.Const;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting;
+using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
@@ -21,10 +23,6 @@ using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
-using System.Threading.Tasks;
-using Melia.Zone.World.Gacha;
-using System.Net.Http.Headers;
-using Melia.Zone.Scripting;
 
 namespace Melia.Zone.Commands
 {
@@ -108,6 +106,8 @@ namespace Melia.Zone.Commands
 			this.Add("feature", "<feature name> <enabled>", "Toggles a feature.", this.HandleFeature);
 			this.Add("resetcd", "", "Resets all skill cooldowns.", this.HandleResetSkillCooldown);
 			this.Add("nosave", "[enabled]", "Toggles whether the character will be saved on logout.", this.HandleNoSave);
+			this.Add("callmonster", "", "Instructs nearest monster to move to character.", this.HandleCallMonster);
+			this.Add("sendmonster", "<x> [y] <z>", "Instructs nearest monster to walk to given position.", this.HandleSendMonster);
 
 			// Aliases
 			this.AddAlias("iteminfo", "ii");
@@ -2460,6 +2460,115 @@ namespace Melia.Zone.Commands
 				target.ServerMessage(Localization.Get("Your TP were modified by {0} ({1} -> {2})."), sender.TeamName, oldValue, newValue);
 
 			Send.ZC_NORMAL.AccountProperties(target);
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Makes nearest monster move to the target character's position.
+		/// Useful for debugging and testing.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleCallMonster(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			var dest = sender.Position;
+
+			var monsters = target.Map.GetMonsters().OfType<ICombatEntity>().OrderBy(a => sender.Position.Get2DDistance(a.Position));
+
+			foreach (var monster in monsters)
+			{
+				if (monster.Components.TryGet<MovementComponent>(out var movement))
+				{
+					var ai = monster.Components.Get<AiComponent>();
+
+					ai?.Script.Suspend();
+					movement.Stop();
+					var moveTime = movement.MoveTo(dest);
+					ai?.Script.Suspend(moveTime);
+
+					sender.ServerMessage(Localization.Get("Called monster to your position. Move time: {1}"), monster.Name, moveTime);
+					return CommandResult.Okay;
+				}
+			}
+
+			sender.ServerMessage(Localization.Get("No suitable monsters found."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Makes nearest monster move to a given position.
+		/// Useful for debugging and testing.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleSendMonster(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 2)
+				return CommandResult.InvalidArgument;
+
+			float x, y, z;
+
+			if (args.Count < 3)
+			{
+				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+					return CommandResult.InvalidArgument;
+
+				y = 0;
+			}
+			else
+			{
+				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out y))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out z))
+					return CommandResult.InvalidArgument;
+			}
+
+			var dest = new Position(x, y, z);
+
+			if (!target.Map.Ground.TryGetHeightAt(dest, out var height))
+			{
+				sender.ServerMessage(Localization.Get("Destination '{0}' is not a valid position."), dest);
+				return CommandResult.Okay;
+			}
+
+			dest.Y = height;
+
+			var monsters = target.Map.GetMonsters().OfType<ICombatEntity>().OrderBy(a => sender.Position.Get2DDistance(a.Position));
+
+			foreach (var monster in monsters)
+			{
+				if (monster.Components.TryGet<MovementComponent>(out var movement))
+				{
+					var ai = monster.Components.Get<AiComponent>();
+
+					ai?.Script.Suspend();
+					movement.Stop();
+					var moveTime = movement.MoveTo(dest);
+					ai?.Script.Suspend(moveTime);
+
+					sender.ServerMessage(Localization.Get("Sent monster to position {1}. Move time: {2}"), monster.Name, dest, moveTime);
+					return CommandResult.Okay;
+				}
+			}
+
+			sender.ServerMessage(Localization.Get("No suitable monsters found."));
 
 			return CommandResult.Okay;
 		}

@@ -25,6 +25,7 @@ namespace Melia.Zone.Scripting.AI
 
 		private DateTime _lastPlayerSeenTime;
 		private readonly TimeSpan _inactivityDelay = TimeSpan.FromSeconds(2);
+		private DateTime _suspensionEnd = DateTime.MinValue;
 
 		private TendencyType _tendency;
 		private float _viewRange = 300;
@@ -62,6 +63,13 @@ namespace Melia.Zone.Scripting.AI
 		/// was named.
 		/// </summary>
 		public string CurrentRoutine { get; private set; }
+
+		/// <summary>
+		/// Returns true if the AI execution is suspended, meaning it
+		/// won't execute its routine or react to events until the
+		/// suspension ends.
+		/// </summary>
+		public bool IsSuspended => DateTime.Now < _suspensionEnd;
 
 		/// <summary>
 		/// Initializes AI for the given entity, setting the initial
@@ -114,10 +122,33 @@ namespace Melia.Zone.Scripting.AI
 			if (!this.CheckAnyPlayersOnMap())
 				return;
 
+			if (this.IsSuspended)
+				return;
+
 			this.UpdateHate(elapsed);
 			this.HandleEventAlerts();
 			this.ExecuteDuringActions();
 			this.Heartbeat();
+		}
+
+		/// <summary>
+		/// Suspends the AI, during which it won't execute its routine or
+		/// react to events.
+		/// </summary>
+		public void Suspend()
+		{
+			_suspensionEnd = DateTime.MaxValue;
+		}
+
+		/// <summary>
+		/// Suspends the AI for the given duration, during which it won't
+		/// execute its routine or react to events. A duration of 0
+		/// effectively cancels the suspension.
+		/// </summary>
+		/// <param name="duration"></param>
+		public void Suspend(TimeSpan duration)
+		{
+			_suspensionEnd = DateTime.Now + duration;
 		}
 
 		/// <summary>
