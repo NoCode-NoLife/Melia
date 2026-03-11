@@ -63,8 +63,8 @@ namespace Melia.Zone.Commands
 			this.Add("autoloot", "", "Toggles autolooting.", this.HandleAutoloot);
 
 			// GMs
-			this.Add("jump", "<x> <y> <z>", "Teleports to given location on the same map.", this.HandleJump);
-			this.Add("warp", "<map id> <x> <y> <z>", "Warps to another map.", this.HandleWarp);
+			this.Add("jump", "<x> [y] <z>", "Teleports to given location on the same map.", this.HandleJump);
+			this.Add("warp", "<map id> <x> [y] <z>", "Warps to another map.", this.HandleWarp);
 			this.Add("item", "<item id> [amount]", "Spawns item.", this.HandleItem);
 			this.Add("silver", "<modifier>", "Spawns silver.", this.HandleSilver);
 			this.Add("spawn", "<monster id|class name> [amount=1] ['ai'=BasicMonster] ['tendency'=peaceful] ['hp'=amount]", "Spawns monster.", this.HandleSpawn);
@@ -307,19 +307,43 @@ namespace Melia.Zone.Commands
 
 				newPos = rndPos;
 			}
-			else if (args.Count < 3)
+			else if (args.Count < 2)
 			{
 				return CommandResult.InvalidArgument;
 			}
+			else if (args.Count < 3)
+			{
+				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				newPos = new Position(x, 0, z);
+			}
 			else
 			{
-				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out var x) || !float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var y) || !float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+				if (!float.TryParse(args.Get(0), NumberStyles.Float, CultureInfo.InvariantCulture, out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var y))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
 					return CommandResult.InvalidArgument;
 
 				newPos = new Position(x, y, z);
 			}
 
+			if (!target.Map.Ground.TryGetHeightAt(newPos, out var height))
+			{
+				sender.ServerMessage(Localization.Get("Invalid position."));
+				return CommandResult.Okay;
+			}
+
+			newPos.Y = height;
 			target.Position = newPos;
+
 			Send.ZC_SET_POS(target);
 
 			if (sender == target)
@@ -419,13 +443,23 @@ namespace Melia.Zone.Commands
 
 			// Get target position
 			Position targetPos;
-			if (args.Count < 4)
+			if (args.Count < 3)
 			{
 				if (!map.Ground.TryGetRandomPosition(out targetPos))
 				{
 					sender.ServerMessage(Localization.Get("Random position warp failed."));
 					return CommandResult.Okay;
 				}
+			}
+			else if (args.Count < 4)
+			{
+				if (!float.TryParse(args.Get(1), NumberStyles.Float, CultureInfo.InvariantCulture, out var x))
+					return CommandResult.InvalidArgument;
+
+				if (!float.TryParse(args.Get(2), NumberStyles.Float, CultureInfo.InvariantCulture, out var z))
+					return CommandResult.InvalidArgument;
+
+				targetPos = new Position(x, 0, z);
 			}
 			else
 			{
@@ -440,6 +474,14 @@ namespace Melia.Zone.Commands
 
 				targetPos = new Position(x, y, z);
 			}
+
+			if (!target.Map.Ground.TryGetHeightAt(targetPos, out var height))
+			{
+				sender.ServerMessage(Localization.Get("Invalid position."));
+				return CommandResult.Okay;
+			}
+
+			targetPos.Y = height;
 
 			// Warp
 			try
