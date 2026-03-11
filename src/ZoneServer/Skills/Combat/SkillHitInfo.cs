@@ -39,11 +39,20 @@ namespace Melia.Zone.Skills.Combat
 		/// <summary>
 		/// Gets or sets the delay before the damage is shown.
 		/// </summary>
+		/// <remarks>
+		/// This value appears to come from the HitList in the ByTool
+		/// data, where it's called AniTime.
+		/// </remarks>
 		public TimeSpan DamageDelay { get; set; }
 
 		/// <summary>
 		/// Gets or sets the skill's hit delay, which affects the animations.
 		/// </summary>
+		/// <remarks>
+		/// This value appears to come from the skill data, where it's
+		/// called DefaultHitDelay. More data might potentially go into
+		/// the final value.
+		/// </remarks>
 		public TimeSpan SkillHitDelay { get; set; }
 
 		/// <summary>
