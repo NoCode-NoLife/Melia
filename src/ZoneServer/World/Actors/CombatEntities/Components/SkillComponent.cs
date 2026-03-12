@@ -4,22 +4,24 @@ using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Network;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.Characters;
+using Melia.Zone.World.Actors.Characters.Components;
 using Yggdrasil.Scheduling;
 
-namespace Melia.Zone.World.Actors.Characters.Components
+namespace Melia.Zone.World.Actors.CombatEntities.Components
 {
 	/// <summary>
-	/// Character skills.
+	/// Skill manager, keeping references to the entity's skills.
 	/// </summary>
-	public class SkillComponent : CharacterComponent, IUpdateable
+	public class SkillComponent : CombatEntityComponent, IUpdateable
 	{
 		private readonly Dictionary<SkillId, Skill> _skills = new();
 
 		/// <summary>
-		/// Creates new instance for character.
+		/// Creates new instance for entity.
 		/// </summary>
-		/// <param name="character"></param>
-		public SkillComponent(Character character) : base(character)
+		/// <param name="entity"></param>
+		public SkillComponent(ICombatEntity entity) : base(entity)
 		{
 		}
 
@@ -47,7 +49,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		public void Add(Skill skill)
 		{
 			this.AddSilent(skill);
-			Send.ZC_SKILL_ADD(this.Character, skill);
+
+			if (this.Entity is Character character)
+				Send.ZC_SKILL_ADD(character, skill);
 		}
 
 		/// <summary>
@@ -73,7 +77,8 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			if (!this.RemoveSilent(skillId))
 				return false;
 
-			Send.ZC_SKILL_REMOVE(this.Character, skillId);
+			if (this.Entity is Character character)
+				Send.ZC_SKILL_REMOVE(character, skillId);
 
 			return true;
 		}
@@ -166,30 +171,37 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
-		/// Returns the max level the character can currently reach on the
+		/// Returns the max level the entity can currently reach on the
 		/// given skill.
 		/// </summary>
-		/// <param name="character"></param>
+		/// <remarks>
+		/// Due to skill max levels being tied to jobs and job levels,
+		/// this method can only return a correct value if the entity has
+		/// jobs. For others, such as monster, it will always return 0.
+		/// </remarks>
 		/// <param name="skillId"></param>
 		/// <returns></returns>
 		public int GetMaxLevel(SkillId skillId)
 		{
-			// I don't like this, but I don't have a better idea for
-			// handling it right now. A skill's max level could technically
-			// be different for each job if a skill can be obtained on
-			// more than one, so we have to go through all jobs to find the
-			// "max max".
-
 			var maxLevel = 0;
 
-			foreach (var job in this.Character.Jobs.GetList())
+			if (this.Entity.Components.TryGet<JobComponent>(out var jobComponent))
 			{
-				var skillTreeDataList = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Level).Where(a => a.SkillId == skillId);
-				foreach (var data in skillTreeDataList)
+				// I don't like this, but I don't have a better idea for
+				// handling it right now. A skill's max level could
+				// technically be different for each job if a skill can be
+				// obtained on more than one, so we have to go through all
+				// jobs to find the "max max".
+
+				foreach (var job in jobComponent.GetList())
 				{
-					var jobsMaxLevel = data.MaxLevel;
-					if (jobsMaxLevel > maxLevel)
-						maxLevel = jobsMaxLevel;
+					var skillTreeDataList = ZoneServer.Instance.Data.SkillTreeDb.FindSkills(job.Id, job.Level).Where(a => a.SkillId == skillId);
+					foreach (var data in skillTreeDataList)
+					{
+						var jobsMaxLevel = data.MaxLevel;
+						if (jobsMaxLevel > maxLevel)
+							maxLevel = jobsMaxLevel;
+					}
 				}
 			}
 
