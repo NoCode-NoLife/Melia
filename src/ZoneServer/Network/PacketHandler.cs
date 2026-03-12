@@ -1091,6 +1091,7 @@ namespace Melia.Zone.Network
 							return;
 						}
 
+						skill.PrepareCancellation();
 						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 					}
@@ -1103,6 +1104,7 @@ namespace Melia.Zone.Network
 							return;
 						}
 
+						skill.PrepareCancellation();
 						handler.Handle(skill, character, originPos, farPos, targets);
 						break;
 					}
@@ -1177,6 +1179,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				skill.PrepareCancellation();
 				handler.Handle(skill, character, target);
 			}
 			catch (ArgumentException ex)
@@ -1225,6 +1228,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				skill.PrepareCancellation();
 				handler.Handle(skill, character, null);
 			}
 			catch (ArgumentException ex)
@@ -1304,7 +1308,6 @@ namespace Melia.Zone.Network
 					character.TurnTowards(direction);
 
 				skill.PrepareCancellation();
-
 				handler.Handle(skill, character, originPos, farPos, target);
 			}
 			catch (ArgumentException ex)
@@ -1354,6 +1357,7 @@ namespace Melia.Zone.Network
 					return;
 				}
 
+				skill.PrepareCancellation();
 				handler.Handle(skill, character, originPos, direction);
 			}
 			catch (ArgumentException ex)

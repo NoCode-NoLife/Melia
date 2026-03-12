@@ -288,6 +288,7 @@ namespace Melia.Zone.Scripting.AI
 				yield break;
 			}
 
+			skill.PrepareCancellation();
 			handler.Handle(skill, this.Entity, target);
 
 			var useTime = skill.Properties.ShootTime;
