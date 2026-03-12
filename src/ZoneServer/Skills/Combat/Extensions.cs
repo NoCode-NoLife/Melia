@@ -51,7 +51,7 @@ namespace Melia.Zone.Skills.Combat
 
 		/// <summary>
 		/// Iterates over targets in a random order and returns them up
-		/// to the the max amount.
+		/// to the max amount.
 		/// </summary>
 		/// <param name="targets"></param>
 		/// <param name="maxAmount"></param>
@@ -65,7 +65,7 @@ namespace Melia.Zone.Skills.Combat
 		}
 
 		/// <summary>
-		/// Iterates over targets and returns them up to the the max amount.
+		/// Iterates over targets and returns them up to the max amount.
 		/// </summary>
 		/// <param name="targets"></param>
 		/// <param name="maxAmount"></param>
