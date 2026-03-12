@@ -511,6 +511,23 @@ namespace Melia.Zone.Skills
 		}
 
 		/// <summary>
+		/// Returns a task that waits for the given amount of milliseconds.
+		/// </summary>
+		/// <remarks>
+		/// Uses Task.Delay with the skill's current cancellation token to
+		/// stop execution if the skill gets cancelled. If the skill's
+		/// cancellation should not matter to the waiting task, either
+		/// pass cancellable as false or use Task.Delay directly.
+		/// </remarks>
+		/// <param name="milliseconds">Time to wait before returning.</param>
+		/// <param name="cancellable">
+		/// If true, the waiting task will be cancelled with the skill.
+		/// </param>
+		/// <returns></returns>
+		public async Task Wait(int milliseconds, bool cancellable = true)
+			=> await this.Wait(TimeSpan.FromMilliseconds(milliseconds), cancellable);
+
+		/// <summary>
 		/// Returns a task that waits for the given amount of time.
 		/// </summary>
 		/// <remarks>
@@ -531,6 +548,24 @@ namespace Melia.Zone.Skills
 
 			var token = cancellable ? _cts.Token : CancellationToken.None;
 			await Task.Delay(time, token);
+		}
+
+		/// <summary>
+		/// Returns a task that waits for the given task to finish.
+		/// </summary>
+		/// <remarks>
+		/// Waits for the task to finish and then checks whether the skill
+		/// got cancelled during that time. If so, the task will be
+		/// cancelled as well.
+		/// </remarks>
+		/// <param name="toBeAwaited">Task to await.</param>
+		/// <param name="cancellable">
+		/// <returns></returns>
+		public async Task Wait(Task toBeAwaited)
+		{
+			var token = _cts.Token;
+			await toBeAwaited;
+			token.ThrowIfCancellationRequested();
 		}
 	}
 }
