@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Combat
 		/// This value appears to come from the HitList in the ByTool
 		/// data, where it's called AniTime.
 		/// </remarks>
-		public TimeSpan DamageDelay { get; set; }
+		public TimeSpan AniTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the skill's hit delay, which affects the animations.
@@ -53,7 +53,7 @@ namespace Melia.Zone.Skills.Combat
 		/// called DefaultHitDelay. More data might potentially go into
 		/// the final value.
 		/// </remarks>
-		public TimeSpan SkillHitDelay { get; set; }
+		public TimeSpan HitDelay { get; set; }
 
 		/// <summary>
 		/// Gets or sets the hit effect displayed on the target.
@@ -90,17 +90,17 @@ namespace Melia.Zone.Skills.Combat
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="result"></param>
-		/// <param name="damageDelay"></param>
-		/// <param name="skillHitDelay"></param>
-		public SkillHitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult result, TimeSpan damageDelay, TimeSpan skillHitDelay)
+		/// <param name="aniTime"></param>
+		/// <param name="hitDelay"></param>
+		public SkillHitInfo(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillHitResult result, TimeSpan aniTime, TimeSpan hitDelay)
 		{
 			this.Attacker = attacker;
 			this.Target = target;
 			this.Skill = skill;
 			this.HitResult = result;
 			this.HitInfo = new HitInfo(attacker, target, skill, result.Damage, result.Result);
-			this.DamageDelay = damageDelay;
-			this.SkillHitDelay = skillHitDelay;
+			this.AniTime = aniTime;
+			this.HitDelay = hitDelay;
 			this.HitEffect = result.Effect;
 			this.HitCount = result.HitCount;
 
