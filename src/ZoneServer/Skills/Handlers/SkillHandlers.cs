@@ -7,7 +7,6 @@ using Melia.Zone.Scripting;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Skills.Handlers
 {
@@ -93,7 +92,7 @@ namespace Melia.Zone.Skills.Handlers
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, attackerSkill, modifier, skillHitResult) =>
 				{
-					if (attacker.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(skillId, out var skill))
+					if (attacker.TryGetSkill(skillId, out var skill))
 						func(skill, attacker, target, attackerSkill, modifier, skillHitResult);
 
 					return 0;
@@ -104,7 +103,7 @@ namespace Melia.Zone.Skills.Handlers
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, attackerSkill, modifier, skillHitResult) =>
 				{
-					if (target.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(skillId, out var skill))
+					if (target.TryGetSkill(skillId, out var skill))
 						func(skill, attacker, target, attackerSkill, modifier, skillHitResult);
 
 					return 0;

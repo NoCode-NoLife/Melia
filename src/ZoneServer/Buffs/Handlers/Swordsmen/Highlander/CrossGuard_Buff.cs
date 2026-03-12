@@ -4,7 +4,6 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Highlander
 {
@@ -61,7 +60,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Highlander
 
 			target.StartBuff(BuffId.CrossGuard_Damage_Buff, buff.NumArg1, 0, TimeSpan.FromSeconds(DebuffDuration), target);
 
-			if (target.Components.TryGet<SkillComponent>(out var skills) && skills.TryGet(SkillId.Highlander_CrossGuard, out var crossGuardSkill))
+			if (target.TryGetSkill(SkillId.Highlander_CrossGuard, out var crossGuardSkill))
 				crossGuardSkill.StartCooldown(TimeSpan.FromSeconds(15));
 		}
 	}
