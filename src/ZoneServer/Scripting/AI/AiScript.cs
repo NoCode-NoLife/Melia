@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Shared.World;
+using Melia.Zone.Skills;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -44,8 +45,9 @@ namespace Melia.Zone.Scripting.AI
 		private readonly float _extraWanderRangeRate = 0.25f;
 
 		private readonly Dictionary<string, List<Action>> _duringActions = new();
-
 		private readonly Queue<IAiEventAlert> _eventAlerts = new();
+
+		private readonly List<RandomSkill> _randomSkills = new();
 
 		/// <summary>
 		/// Returns the entity that this script is controlling.
@@ -87,6 +89,7 @@ namespace Melia.Zone.Scripting.AI
 			if (ZoneServer.Instance.Data.FactionDb.TryFind(this.Entity.Faction, out var factionData))
 				this.HatesFaction(factionData.Hostile);
 
+			this.InitSkills();
 			this.Setup();
 
 			_initiated = true;
@@ -487,6 +490,36 @@ namespace Melia.Zone.Scripting.AI
 		}
 
 		/// <summary>
+		/// Initializes the list of skills the AI can use.
+		/// </summary>
+		private void InitSkills()
+		{
+			// Add skill component and skills for monsters upon
+			// initialization. We could do this automatically for all
+			// monsters, but they only need it if they have an AI.
+
+			if (!this.Entity.Components.Has<SkillComponent>())
+				this.Entity.Components.Add(new SkillComponent(this.Entity));
+
+			if (this.Entity is Mob monster)
+			{
+				for (var i = 0; i < monster.Data.Skills.Count; i++)
+				{
+					var skillData = monster.Data.Skills[i];
+					var skillId = skillData.SkillId;
+
+					// We'll assume the first skill is the basic attack and
+					// give it a 70% chance to be used by default.
+					var probability = 100;
+					if (i == 0)
+						probability = 100 * Math.Max(1, monster.Data.Skills.Count - 1) * 3;
+
+					this.SetRandomSkill(skillId, probability);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Executed once during the AI's first tick.
 		/// </summary>
 		protected virtual void Setup()
@@ -637,6 +670,46 @@ namespace Melia.Zone.Scripting.AI
 		protected void SetWanderRange(float range)
 		{
 			_wanderRange = range;
+		}
+
+		/// <summary>
+		/// Sets the probability for the AI to use the given skill when it
+		/// decides to use a random skill.
+		/// </summary>
+		/// <remarks>
+		/// By default, the AI will have an equal probability of 100 to
+		/// use any of its skills, with the exception of the first skill,
+		/// which is usually the basic attack and will have a much higher
+		/// chance to be used. Setting a skill's probability overwrites
+		/// the default probability.
+		///
+		/// For example, if the AI has 4 skills, with the default
+		/// probabilities of 900 and three times 100, and you set the
+		/// second skill's probability to 200, the chance for it to be
+		/// used is raised from 100/1200 (8.3%) to 200/1300 (15.4%). A
+		/// probability of 0 will effectively prevent the AI from using
+		/// the skill.
+		///
+		/// If a random skill is defined that the AI doesn't have yet, it
+		/// will be added at level 1.
+		/// </remarks>
+		/// <param name="skillId"></param>
+		/// <param name="probability"></param>
+		protected void SetRandomSkill(SkillId skillId, double probability)
+		{
+			var rndSkill = new RandomSkill(skillId, (float)probability);
+
+			_randomSkills.RemoveAll(a => a.SkillId == skillId);
+			_randomSkills.Add(rndSkill);
+
+			if (this.Entity.Components.TryGet<SkillComponent>(out var skillComponent))
+			{
+				if (!skillComponent.TryGet(skillId, out var skill))
+				{
+					skill = new Skill(this.Entity, skillId, 1);
+					skillComponent.AddSilent(skill);
+				}
+			}
 		}
 
 		/// <summary>
