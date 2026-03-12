@@ -21,7 +21,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Scout
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="dir"></param>
-		/// <exception cref="NotImplementedException"></exception>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Direction dir)
 		{
 			if (!caster.TrySpendSp(skill))

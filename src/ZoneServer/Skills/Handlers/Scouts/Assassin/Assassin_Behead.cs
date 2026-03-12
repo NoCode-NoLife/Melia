@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -118,7 +118,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			var delayBetweenHits = TimeSpan.FromMilliseconds(330);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -148,7 +148,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			await Task.Delay(delayBetweenHits);
+			await skill.Wait(delayBetweenHits);
 			hits.Clear();
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);

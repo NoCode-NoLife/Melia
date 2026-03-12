@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			var splashArea = new Circle(farPos, SplashRadius);
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 				Send.ZC_NORMAL.SkillProjectile(caster, "I_arrow013_mash_yellow#Dummy_Force", 0.6f, "F_explosion092_hit", 0.6f, targetPos, 30, 0.2f, 0, 0);
 
 				if (i < TotalHits - 1)
-					await Task.Delay(DelayBetweenHits);
+					await skill.Wait(DelayBetweenHits);
 			}
 
 			Send.ZC_SKILL_DISABLE(caster);

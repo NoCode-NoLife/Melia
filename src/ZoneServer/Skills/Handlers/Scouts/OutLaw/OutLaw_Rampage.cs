@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -152,7 +152,10 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 				hits.Clear();
 
 				if (i < 8)
-					await Task.Delay(DelaysBetweenHits[i % DelaysBetweenHits.Length]);
+				{
+					var delay = DelaysBetweenHits[i % DelaysBetweenHits.Length];
+					await skill.Wait(delay);
+				}
 			}
 
 			caster.StartBuff(BuffId.Rampage_After_Buff, skill.Level, 0, TimeSpan.FromSeconds(5), caster);

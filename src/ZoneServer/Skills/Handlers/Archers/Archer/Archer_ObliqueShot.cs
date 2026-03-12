@@ -56,14 +56,12 @@ namespace Melia.Zone.Skills.Handlers.Archers.Archer
 
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
-			// Random chance to apply Slow debuff	
 			if (RandomProvider.Next(100) < 50)
 			{
 				var duration = TimeSpan.FromSeconds(7);
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
-			// Bounce shot
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTarget))
 			{
 				// On officials, the bounce shot plays before the original target

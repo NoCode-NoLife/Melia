@@ -87,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 
 			var splashArea = new Circle(targetPos.GetRelative2D(caster.Direction, 15f), 30);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -103,7 +103,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			var skillHitDelay = TimeSpan.Zero;
 			var afterLandingDelay = TimeSpan.FromMilliseconds(400);
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -128,7 +128,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 
 			// This skill leaves you immobile for significant time after the
 			// animation ends, seems to require an extra cast cancel
-			await Task.Delay(afterLandingDelay);
+			await skill.Wait(afterLandingDelay);
 			Send.ZC_SKILL_CAST_CANCEL(caster);
 		}
 	}

@@ -50,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Direction, Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			CallSafe(this.CreateAttackArea(skill, caster, farPos, caster.Direction));
+			skill.Run(this.CreateAttackArea(skill, caster, farPos, caster.Direction));
 		}
 
 		/// <summary>
@@ -70,14 +70,14 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			var circle2 = new Circle(pos2, 50);
 			var circle3 = new Circle(pos3, 50);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(100));
+			await skill.Wait(100);
 
 			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos1, 70f, 0.3f, 0, 600);
 			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos2, 70f, 0.3f, 0, 600);
 			Send.ZC_NORMAL.SkillProjectile(caster, "E_scout_TreGranata#Dummy_R_HAND", 0.75f, "F_explosion125_explosion2", 2.5f, pos3, 70f, 0.3f, 0, 600);
 			Send.ZC_NORMAL.SkillProjectile(caster, "", 0.75f, "", 2.5f, pos2, 70f, 0.3f, 0, 600);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(400));
+			await skill.Wait(400);
 
 			var pad1 = new Pad(PadName.Arditi_TreGranata, caster, skill, circle1);
 			pad1.Position = pos1;

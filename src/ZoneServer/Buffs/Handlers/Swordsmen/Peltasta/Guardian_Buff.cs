@@ -76,6 +76,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta
 
 			// Peltasta39 turns this into a damage reflect instead,
 			// though the damage taken isn't reduced.
+			// TODO: Do this from a hit event instead of during calculations.
 			if (target.IsAbilityActive(AbilityId.Peltasta39))
 				CallSafe(this.ReflectDamage(attacker, target, reflectedDamage));
 		}

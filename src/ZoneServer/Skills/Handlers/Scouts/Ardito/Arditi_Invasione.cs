@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(farPos), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -59,14 +59,14 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		{
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				target.StartBuff(BuffId.DecreaseHeal_Debuff, skill.Level, this.GetHealingReduction(skill), TimeSpan.FromSeconds(3), caster);
-				CallSafe(this.ExecuteHit(skill, caster, target));
+				skill.Run(this.ExecuteHit(skill, caster, target));
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(125));
+			await skill.Wait(125);
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}

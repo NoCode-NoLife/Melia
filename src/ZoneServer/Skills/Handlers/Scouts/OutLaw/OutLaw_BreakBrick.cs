@@ -52,13 +52,13 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			// Outlaw26 is a totally different attack
 			if (caster.IsAbilityActive(AbilityId.Outlaw26))
 			{
-				// This should set the overheat max to 1
+				// TODO: This should set the overheat max to 1
 
-				CallSafe(this.ShatterAttack(skill, caster, farPos));
+				skill.Run(this.ShatterAttack(skill, caster, farPos));
 			}
 			else
 			{
-				CallSafe(this.Attack(skill, caster, splashArea, farPos));
+				skill.Run(this.Attack(skill, caster, splashArea, farPos));
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			// the stun and makes the attack a forced critical
 			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && rnd.Next(5) == 1;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -147,7 +147,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			// stun and forces a critical
 			var outlaw4Activates = caster.IsAbilityActive(AbilityId.Outlaw4) && rnd.Next(5) == 1;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			// This attack uses 3 hitboxes of different shapes, which all hit simultaneously
 

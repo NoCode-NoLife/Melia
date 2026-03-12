@@ -30,6 +30,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			if (!caster.TrySpendSp(skill))
@@ -48,7 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -65,7 +66,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			var delayBetweenHits = TimeSpan.FromMilliseconds(250);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -88,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			await Task.Delay(delayBetweenHits);
+			await skill.Wait(delayBetweenHits);
 			hits.Clear();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))

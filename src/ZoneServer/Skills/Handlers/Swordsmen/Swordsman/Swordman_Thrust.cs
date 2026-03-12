@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			var aniTime = TimeSpan.FromMilliseconds(270);
 			var hitDelay = TimeSpan.Zero;
 
-			await Task.Delay(attackTime);
+			await skill.Wait(attackTime);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();

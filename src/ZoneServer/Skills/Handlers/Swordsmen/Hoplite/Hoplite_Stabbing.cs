@@ -10,9 +10,7 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Yggdrasil.Util;
-using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
@@ -51,7 +49,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -70,7 +68,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			var skillHitDelay = TimeSpan.Zero;
 			var delayBeforeLoop = TimeSpan.FromMilliseconds(210);
 			var delayBetweenHits = TimeSpan.FromMilliseconds(140);
-			await Task.Delay(hitDelay);
+
+			await skill.Wait(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -97,7 +96,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
 
-			await Task.Delay(delayBeforeLoop);
+			await skill.Wait(delayBeforeLoop);
 
 			for (var i = 0; i < 15; i++)
 			{
@@ -132,7 +131,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 				hits.Clear();
 
 				if (i < 14)
-					await Task.Delay(delayBetweenHits);
+					await skill.Wait(delayBetweenHits);
 			}
 		}
 	}

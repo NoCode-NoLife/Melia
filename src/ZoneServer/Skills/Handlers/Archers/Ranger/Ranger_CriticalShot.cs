@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var hitDelay = TimeSpan.FromMilliseconds(600);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -81,7 +81,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 
 			skill.IncreaseOverheat();
-			CallSafe(Activate(skill, caster, target));
+			skill.Run(Activate(skill, caster, target));
 		}
 
 		/// <summary>
@@ -108,7 +108,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			foreach (var target in targets)
 			{
 				if (!target.IsDead)
-					CallSafe(Activate(skill, caster, target));
+					skill.Run(Activate(skill, caster, target));
 			}
 		}
 

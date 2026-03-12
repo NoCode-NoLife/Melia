@@ -35,13 +35,9 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			// Uses a totally different buff if Outlaw19 is active
 			if (caster.IsAbilityActive(AbilityId.Outlaw19))
-			{
 				caster.StartBuff(BuffId.BullyPainBarrier_Buff, skill.Level, 0, TimeSpan.FromSeconds(20), caster);
-			}
 			else
-			{
 				caster.StartBuff(BuffId.Bully_Buff, skill.Level, 0, TimeSpan.FromSeconds(60), caster);
-			}
 
 			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
 		}

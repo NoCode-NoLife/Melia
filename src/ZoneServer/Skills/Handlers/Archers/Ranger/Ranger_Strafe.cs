@@ -47,7 +47,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 			}
 
-			CallSafe(this.Attack(skill, caster, target));
+			skill.Run(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -73,7 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			caster.Position = targetPos;
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 1.5f, 0.1f, 1f, 0.2f, 1f, 3);
 
-			await Task.Delay(jumpDelay);
+			await skill.Wait(jumpDelay);
 
 			// Now fire the arrow
 			var modifier = SkillModifier.Default;
@@ -89,7 +89,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			Send.ZC_NORMAL.PlayForceEffect(hit.ForceId, caster, caster, target, "I_arrow009_red", 0.2f, "arrow_cast", "F_hit_good", 1, "arrow_blow", "SLOW", 800);
 			Send.ZC_HIT_INFO(caster, target, hit);
 
-			await Task.Delay(animationDelay);
+			await skill.Wait(animationDelay, false);
 
 			caster.TurnTowards(target);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, target.Position, null);

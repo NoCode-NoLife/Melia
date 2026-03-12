@@ -53,7 +53,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, ForceId.GetNew(), null);
 
-			CallSafe(this.CreateAttackArea(skill, caster, farPos));
+			skill.Run(this.CreateAttackArea(skill, caster, farPos));
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="farPos"></param>
 		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
 		{
-			await Task.Delay(600);
+			await skill.Wait(600);
 
 			var pad = new Pad(PadName.Archer_VerminPot, caster, skill, new Circle(farPos, 55));
 			pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);

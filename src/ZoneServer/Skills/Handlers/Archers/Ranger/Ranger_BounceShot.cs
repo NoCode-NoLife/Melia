@@ -52,7 +52,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 			}
 
-			CallSafe(this.Attack(skill, caster, target));
+			skill.Run(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -110,7 +110,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			{
 				Send.ZC_SKILL_FORCE_TARGET_DUMMY(caster, target, skill, SkillId.Archer_HighAnchoring2, skillHit.ForceId, null);
 
-				await Task.Delay(damageDelay);
+				await skill.Wait(damageDelay);
 				bounceHitDelay = TimeSpan.FromMilliseconds(400);
 
 				var hit = new HitInfo(caster, target, skill, skillHitResult, HitResultType.SilentHit);
@@ -133,7 +133,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, duration, caster);
 			}
 
-			await Task.Delay(bounceHitDelay);
+			await skill.Wait(bounceHitDelay, false);
 
 			if (this.TryGetBounceTarget(caster, target, skill, out var bounceTargets))
 			{

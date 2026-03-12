@@ -58,7 +58,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, skillHit);
 
 			if (!target.IsDead && skillHitResult.Result != HitResultType.Dodge)
-				CallSafe(this.PlaceBomb(skill, caster, target, skillHitResult));
+				skill.Run(this.PlaceBomb(skill, caster, target, skillHitResult));
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			// We delay the debuff to sync with the animation
 			var bombDelay = TimeSpan.FromMilliseconds(500);
 
-			await Task.Delay(bombDelay);
+			await skill.Wait(bombDelay, false);
 
 			var bombSize = 0.75f;
 			var bombDamageMultiplier = 2f;

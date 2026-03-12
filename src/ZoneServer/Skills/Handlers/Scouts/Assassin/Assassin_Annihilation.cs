@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 				// we actually have to wait for the last hit here as well
 				// due to the animation cancel and cloaking effect
 				if (i < 7)
-					await Task.Delay(delayBetweenHits);
+					await skill.Wait(delayBetweenHits);
 			}
 
 			// Have to send this to make you reappear afterwards			

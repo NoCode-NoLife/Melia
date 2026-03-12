@@ -65,8 +65,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 				}
 			}
 
-			// This buff is not mentioned in the description, but the skill_bytool
-			// data includes it.
+			// This buff is not mentioned in the description, but the
+			// skill_bytool data includes it.
 			caster.StartBuff(BuffId.Warcry_Buff, skill.Level, targets.Count, TimeSpan.FromSeconds(10), caster);
 		}
 	}

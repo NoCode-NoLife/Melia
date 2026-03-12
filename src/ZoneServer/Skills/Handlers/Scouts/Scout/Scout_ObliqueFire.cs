@@ -50,7 +50,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Scout
 
 			caster.StartBuff(BuffId.ObliqueFire_Buff, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
-			CallSafe(this.Attack(skill, caster, target));
+			skill.Run(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Scout
 			var forceId = ForceId.GetNew();
 			Send.ZC_SKILL_FORCE_TARGET(caster, target, skill, forceId, null);
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var applyDebuff = caster.Components.Get<BuffComponent>().GetOverbuffCount(BuffId.ObliqueFire_Buff) > 3;
 			if (applyDebuff)

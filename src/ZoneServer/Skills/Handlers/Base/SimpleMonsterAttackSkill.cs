@@ -26,7 +26,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, ICombatEntity target)
 		{
-			CallSafe(this.Attack(skill, caster, target));
+			skill.Run(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -58,8 +58,7 @@ namespace Melia.Zone.Skills.Handlers.Base
 
 			Debug.ShowShape(caster.Map, splashArea, edgePoints: false, duration: damageDelay + TimeSpan.FromSeconds(3));
 
-			if (hitDelay > TimeSpan.Zero)
-				await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			// Check if attacker is still able to fight after the delay.
 			// Update: This check was primarily added to see if the caster

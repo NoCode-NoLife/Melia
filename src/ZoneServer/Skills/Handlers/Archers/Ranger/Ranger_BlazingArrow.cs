@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				return;
 			}
 
-			CallSafe(this.Attack(skill, caster, target));
+			skill.Run(this.Attack(skill, caster, target));
 		}
 
 		/// <summary>
@@ -82,7 +82,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			caster.Position = targetPos;
 			Send.ZC_NORMAL.LeapJump(caster, targetPos, 2f, 0.1f, 1f, 0.2f, 1f, 3);
 
-			await Task.Delay(jumpDelay);
+			await skill.Wait(jumpDelay);
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 			target.TakeDamage(skillHitResult.Damage, caster);
@@ -106,7 +106,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				target.StartBuff(BuffId.Freeze, skill.Level, 0, duration, caster);
 			}
 
-			await Task.Delay(animationDelay);
+			await skill.Wait(animationDelay, false);
 
 			Ranger_CriticalShot.TryActivateDoubleTake(skill, caster, target);
 			Ranger_CriticalShot.TryReduceCooldown(skill, caster, skillHitResult);

@@ -62,7 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, caster.Direction));
+			skill.Run(this.Attack(skill, caster, new Circle(targetPos, 15f), chainPos, caster.Direction));
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var rotateDelay = TimeSpan.FromMilliseconds(370);
 			var hitDelay = TimeSpan.FromMilliseconds(200);
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -97,7 +97,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_NORMAL.PlayEffect(target, "F_hit_bad", 0.7f);
 			Send.ZC_ATTACH_TO_OBJ(target, caster, "Bone_chain13", "ChainTest", TimeSpan.Zero, 100, null, 0, 0, 0);
 
-			await Task.Delay(rotateDelay);
+			await skill.Wait(rotateDelay);
 
 			var rotationCount = 9;
 			var rotationDuration = 0.29f;
@@ -106,7 +106,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_NORMAL.SpinObject(caster, 0, rotationCount, rotationDuration, 1);
 			Send.ZC_NORMAL.AttachEffect(target, new AttachableEffect("I_smoke004", 1.5f));
 
-			await Task.Delay(rotationTime + rotateDelay);
+			await skill.Wait(rotationTime + rotateDelay);
 
 			Send.ZC_NORMAL.SpinObject(caster, 0, 0, 0, 0);
 			Send.ZC_PLAY_ANI(caster, "idle1");
@@ -130,7 +130,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_NORMAL.LeapJump(target, targetPos, 0.1f, 0.1f, 1f, 0.2f, 1f, 30);
 
 			var flyTime = TimeSpan.FromMilliseconds(300);
-			await Task.Delay(flyTime);
+			await skill.Wait(flyTime);
 
 			Send.ZC_NORMAL.PlayEffect(target, "F_burstup022_smoke", 0.7f);
 		}

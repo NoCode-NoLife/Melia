@@ -41,7 +41,6 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			var splashParam = skill.GetSplashParameters(caster, originPos, farPos, length: 50, width: 50, angle: 0);
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
-			// Attack targets
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var damageDelay = TimeSpan.FromMilliseconds(200);
 

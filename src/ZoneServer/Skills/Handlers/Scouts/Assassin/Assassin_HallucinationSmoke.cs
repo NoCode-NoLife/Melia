@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.SetPad(skill, caster));
+			skill.Run(this.SetPad(skill, caster));
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			var initialDelay = TimeSpan.FromMilliseconds(300);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(initialDelay);
+			await skill.Wait(initialDelay);
 
 			var pad = new Pad(PadName.Assassin_HallucinationSmoke, caster, skill, new Circle(caster.Position, 50));
 			pad.Position = caster.Position;

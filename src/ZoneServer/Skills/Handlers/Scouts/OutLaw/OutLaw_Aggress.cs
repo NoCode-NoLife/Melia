@@ -73,9 +73,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			// Outlaw14 adds a massive speed buff
 			if (caster.TryGetActiveAbilityLevel(AbilityId.Outlaw14, out var getawayLevel))
-			{
 				caster.StartBuff(BuffId.Aggress_Buff, skill.Level, 0, TimeSpan.FromSeconds(getawayLevel), caster);
-			}
 		}
 	}
 }

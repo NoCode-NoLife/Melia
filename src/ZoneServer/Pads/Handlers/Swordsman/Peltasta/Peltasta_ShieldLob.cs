@@ -49,7 +49,7 @@ namespace Melia.Zone.Pads.Handlers.Swordsman.Peltasta
 			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
 			shieldMonster.Position = pad.Position;
 			shieldMonster.Direction = pad.Direction;
-			shieldMonster.AttachEffect("I_light004_violet", 1.5f);
+			shieldMonster.AttachEffect(new AttachableEffect("I_light004_violet", 1.5f));
 			creator.Map.AddMonster(shieldMonster);
 
 			pad.Variables.Set("shieldMonster", shieldMonster);

@@ -46,7 +46,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea, farPos));
+			skill.Run(this.Attack(skill, caster, splashArea, farPos));
 		}
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			var skillHitDelay = TimeSpan.Zero;
 			var hitDelay = TimeSpan.FromMilliseconds(250);
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var hits = new List<SkillHitInfo>();
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);

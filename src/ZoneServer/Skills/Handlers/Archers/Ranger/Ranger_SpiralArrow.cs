@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 				Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 				Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-				CallSafe(this.MultiAttack(skill, caster, splashArea));
+				skill.Run(this.MultiAttack(skill, caster, splashArea));
 			}
 			else
 			{
@@ -149,7 +149,7 @@ namespace Melia.Zone.Skills.Handlers.Archers.Ranger
 			var damageDelay = TimeSpan.FromMilliseconds(100);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var results = new List<SkillHitResult>();

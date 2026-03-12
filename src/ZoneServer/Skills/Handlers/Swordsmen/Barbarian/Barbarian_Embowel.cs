@@ -53,7 +53,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 			var jumpDelay = TimeSpan.FromMilliseconds(675);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -112,7 +112,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			await Task.Delay(jumpDelay);
+			await skill.Wait(jumpDelay);
 
 			foreach (var target in hits.Select(a => a.Target))
 				target.RemoveState(StateType.Stunned);

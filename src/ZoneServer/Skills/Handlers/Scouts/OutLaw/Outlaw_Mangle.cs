@@ -45,7 +45,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -86,7 +86,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
-			await Task.Delay(hitDelay1);
+
+			await skill.Wait(hitDelay1);
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -110,7 +111,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
-			await Task.Delay(hitDelay2);
+
+			await skill.Wait(hitDelay2);
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
@@ -129,7 +131,8 @@ namespace Melia.Zone.Skills.Handlers.Scouts.OutLaw
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 			hits.Clear();
-			await Task.Delay(hitDelay3);
+
+			await skill.Wait(hitDelay3);
 
 			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 

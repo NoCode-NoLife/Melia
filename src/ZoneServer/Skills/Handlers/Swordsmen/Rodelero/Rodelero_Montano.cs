@@ -48,7 +48,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, splashArea));
+			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 
 		/// <summary>
@@ -64,7 +64,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 			var spinDuration = TimeSpan.FromMilliseconds(300);
 			var skillHitDelay = TimeSpan.Zero;
 
-			await Task.Delay(hitDelay);
+			await skill.Wait(hitDelay);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -91,12 +91,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			await Task.Delay(damageDelay);
+			await skill.Wait(damageDelay);
 
 			foreach (var target in hitTargets)
 				Send.ZC_NORMAL.SpinObject(target, 0, 5, 0.2f, 1);
 
-			await Task.Delay(spinDuration);
+			await skill.Wait(spinDuration);
 
 			// TODO: Is there any way to stop the spin without sending this packet?
 			foreach (var target in hitTargets)

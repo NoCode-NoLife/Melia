@@ -40,6 +40,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 		/// <param name="caster"></param>
 		/// <param name="originPos"></param>
 		/// <param name="farPos"></param>
+		/// <param name="target"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
 			Send.ZC_SKILL_CAST_CANCEL(caster);

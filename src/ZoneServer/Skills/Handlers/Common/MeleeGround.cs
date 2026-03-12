@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			CallSafe(this.Attack(skill, caster, originPos, farPos, targets));
+			skill.Run(this.Attack(skill, caster, originPos, farPos, targets));
 		}
 
 		/// <summary>
@@ -74,8 +74,7 @@ namespace Melia.Zone.Skills.Handlers.Common
 			damageDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
 			skillHitDelay /= skill.Properties.GetFloat(PropertyName.SklSpdRate);
 
-			if (skillHitDelay > TimeSpan.Zero)
-				await Task.Delay(skillHitDelay);
+			await skill.Wait(skillHitDelay);
 
 			var hits = new List<SkillHitInfo>();
 			var rnd = RandomProvider.Get();

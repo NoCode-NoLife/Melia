@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, 0, originPos, caster.Position.GetDirection(castPosition), Position.Zero);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, ForceId.GetNew(), null);
 
-			CallSafe(this.Attack(skill, caster, originPos, farPos, castPosition));
+			skill.Run(this.Attack(skill, caster, originPos, farPos, castPosition));
 		}
 
 		/// <summary>
@@ -69,7 +69,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 		/// <param name="farPos"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, Position originPos, Position farPos, Position castPosition)
 		{
-			await Task.Delay(TimeSpan.FromMilliseconds(200));
+			await skill.Wait(200);
 
 			Send.ZC_NORMAL.SkillProjectile(caster, "I_archer_Lachrymator_force_mash_short#Dummy_R_HAND", 0.6f, "F_scout_Granata_explosion", 3, castPosition, 70f, 0.3f, 0, 600);
 
@@ -77,7 +77,7 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
-			await Task.Delay(TimeSpan.FromMilliseconds(300));
+			await skill.Wait(300);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
