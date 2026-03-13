@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -8,7 +9,7 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 {
 	/// <summary>
-	/// Handler for the Frenzy Buff, which increases attack speed
+	/// Handler for the Frenzy Buff, which increases attack speed,
 	/// damage dealt, and damage received as long as you keep
 	/// attacking the same target.
 	/// </summary>
@@ -21,7 +22,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 	/// frenzy is the target.
 	/// </remarks>
 	[BuffHandler(BuffId.Frenzy_Buff)]
-	public class Frenzy_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class Frenzy_Buff : BuffHandler
 	{
 		private const float ASpdBonusBase = 150;
 		private const float ASpdBonusPerStack = 10;
@@ -49,8 +50,12 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			RemovePropertyModifier(buff, buff.Target, PropertyName.ASPD_BM);
 		}
 
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Frenzy_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!target.TryGetBuff(BuffId.Frenzy_Buff, out var buff))
+				return;
+
 			// The user takes 0.5% more damage per stack of Frenzy. The damage
 			// increase part can be found in the Franzy skill handler.
 			modifier.DamageMultiplier += 0.005f * buff.OverbuffCounter;

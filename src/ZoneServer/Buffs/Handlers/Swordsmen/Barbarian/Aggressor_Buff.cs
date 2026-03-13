@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -17,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.Aggressor_Buff)]
-	public class Aggressor_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
+	public class Aggressor_Buff : BuffHandler
 	{
 		public const float CritHrRateBase = 0.1f;
 		public const float CritDrRateBase = 0.1f;
@@ -55,8 +56,12 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Aggressor_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!attacker.TryGetBuff(BuffId.Aggressor_Buff, out var buff))
+				return;
+
 			if (!Feature.IsEnabled("CleaveApplyAggressor"))
 				modifier.ForcedHit = true;
 		}

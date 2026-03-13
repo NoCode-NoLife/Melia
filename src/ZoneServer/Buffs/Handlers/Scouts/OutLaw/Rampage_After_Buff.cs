@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -15,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.Rampage_After_Buff)]
-	public class Rampage_After_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class Rampage_After_Buff : BuffHandler
 	{
 		private const float DamageBonus = 0.5f;
 		private const float DamagePenalty = 0.5f;
@@ -28,24 +29,19 @@ namespace Melia.Zone.Buffs.Handlers.Scouts.OutLaw
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Rampage_After_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			modifier.FinalDamageMultiplier += DamageBonus;
-		}
+			if (attacker.IsBuffActive(BuffId.Rampage_After_Buff))
+			{
+				modifier.FinalDamageMultiplier += DamageBonus;
+			}
 
-		/// <summary>
-		/// Adds the damage penalty and prevents evasion.
-		/// </summary>
-		/// <param name="buff"></param>
-		/// <param name="attacker"></param>
-		/// <param name="target"></param>
-		/// <param name="skill"></param>
-		/// <param name="modifier"></param>
-		/// <param name="skillHitResult"></param>
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
-		{
-			modifier.FinalDamageMultiplier += DamagePenalty;
-			modifier.ForcedHit = true;
+			if (target.IsBuffActive(BuffId.Rampage_After_Buff))
+			{
+				modifier.FinalDamageMultiplier += DamagePenalty;
+				modifier.ForcedHit = true;
+			}
 		}
 	}
 }

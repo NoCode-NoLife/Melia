@@ -101,6 +101,7 @@ namespace Melia.Zone.Buffs
 				});
 			}
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			if (handler is IBuffCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + buffId, beforeCalcAttackHandler.OnAttackBeforeCalc);
 			if (handler is IBuffCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + buffId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
 
@@ -112,6 +113,7 @@ namespace Melia.Zone.Buffs
 
 			if (handler is IBuffCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerAttackFunc("SCR_Combat_AfterBonuses_Attack_" + buffId, afterBonusesAttackHandler.OnAttackAfterBonuses);
 			if (handler is IBuffCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_AfterBonuses_Defense_" + buffId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
+#pragma warning restore CS0618 // Type or member is obsolete
 		}
 
 		private delegate void CombatCalcHookFunction(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);

@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -14,19 +15,22 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Highlander
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.CrossGuard_Damage_Buff)]
-	public class CrossGuard_Damage_Buff : BuffHandler, IBuffCombatAttackBeforeCalcHandler
+	public class CrossGuard_Damage_Buff : BuffHandler
 	{
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.CrossGuard_Damage_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!attacker.TryGetBuff(BuffId.CrossGuard_Damage_Buff, out var buff))
+				return;
+
 			var skillLevel = buff.NumArg1;
 			var multiplierIncrease = skillLevel * 0.05f;
 

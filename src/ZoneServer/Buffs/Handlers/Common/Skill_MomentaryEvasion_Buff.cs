@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -15,19 +16,22 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	/// evade for a duration.
 	/// </remarks>
 	[BuffHandler(BuffId.Skill_MomentaryEvasion_Buff)]
-	public class Skill_MomentaryEvasion_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class Skill_MomentaryEvasion_Buff : BuffHandler
 	{
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Skill_MomentaryEvasion_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!target.TryGetBuff(BuffId.Skill_MomentaryEvasion_Buff, out var buff))
+				return;
+
 			modifier.ForcedEvade = true;
 		}
 	}

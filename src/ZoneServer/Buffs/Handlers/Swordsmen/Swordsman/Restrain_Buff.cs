@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -17,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	/// NumArg2: Stun Chance
 	/// </remarks>
 	[BuffHandler(BuffId.Restrain_Buff)]
-	public class Restrain_Buff : BuffHandler, IBuffCombatAttackAfterCalcHandler
+	public class Restrain_Buff : BuffHandler
 	{
 		private const float MaxHpDropBase = 50f;
 		private const float MaxHpDropPerLevel = 28f;
@@ -49,14 +50,17 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.AfterCalc, BuffId.Restrain_Buff)]
+		public void OnAfterCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!attacker.TryGetBuff(BuffId.Restrain_Buff, out var buff))
+				return;
+
 			if (!skill.IsNormalAttack)
 				return;
 

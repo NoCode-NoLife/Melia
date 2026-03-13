@@ -1,5 +1,6 @@
 ﻿using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -10,19 +11,22 @@ namespace Melia.Zone.Buffs.Handlers.Wizards.Wizard
 	/// Handler for the Reflect Shield buff.
 	/// </summary>
 	[BuffHandler(BuffId.ReflectShield_Buff)]
-	public class ReflectShield_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class ReflectShield_Buff : BuffHandler
 	{
 		/// <summary>
 		/// Applies the buff's effects during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.ReflectShield_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!target.TryGetBuff(BuffId.ReflectShield_Buff, out var buff))
+				return;
+
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = skillLevel * 3 / 100f;
 

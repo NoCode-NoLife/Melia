@@ -1,6 +1,7 @@
 ﻿using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -17,7 +18,7 @@ namespace Melia.Zone.Buffs.Handlers.Common
 	/// an extra effect if it was.
 	/// </remarks>
 	[BuffHandler(BuffId.Skill_MomentaryBlock_Buff)]
-	public class Skill_MomentaryBlock_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class Skill_MomentaryBlock_Buff : BuffHandler
 	{
 		private const string VarName = "Melia.BlockedAttack";
 
@@ -46,14 +47,17 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Skill_MomentaryBlock_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!target.TryGetBuff(BuffId.Skill_MomentaryBlock_Buff, out var buff))
+				return;
+
 			// Don't let magic or unblockable attacks trigger the buff's effect.
 			// While we check for magic before a forced block as well, we don't
 			// want to flag the buff as having blocked something.

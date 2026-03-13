@@ -1,6 +1,7 @@
 using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs.Base;
+using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
@@ -15,7 +16,7 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 	/// NumArg2: None
 	/// </remarks>
 	[BuffHandler(BuffId.Zhendu_Buff)]
-	public class Zhendu_Buff : BuffHandler, IBuffCombatDefenseBeforeCalcHandler
+	public class Zhendu_Buff : BuffHandler
 	{
 		private readonly static SkillId[] WugushiSkills =
 		[
@@ -31,14 +32,17 @@ namespace Melia.Zone.Buffs.Handlers.Archers.Wugushi
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
-		/// <param name="buff"></param>
 		/// <param name="attacker"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		public void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Zhendu_Buff)]
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			if (!target.TryGetBuff(BuffId.Zhendu_Buff, out var buff))
+				return;
+
 			var isWugushiSkill = WugushiSkills.Contains(skill.Id);
 			if (!isWugushiSkill)
 				return;
