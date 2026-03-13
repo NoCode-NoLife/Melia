@@ -10,6 +10,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	/// <summary>
 	/// Handler for the Bear buff.
 	/// </summary>
+	/// <remarks>
+	/// NumArg1: Skill Level
+	/// NumArg2: None
+	/// </remarks>
 	[BuffHandler(BuffId.Bear_Buff)]
 	public class Bear_Buff : BuffHandler
 	{
@@ -30,9 +34,9 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 			var skillLevel = buff.NumArg1;
 			var multiplierReduction = skillLevel * 0.02f;
 
-			// We originally reduced the damage directly from inside the combat
-			// calculations, on AfterBonuses, but setting the multiplier seems
-			// much easier. Is this correct? Who knows.
+			// We originally reduced the damage directly from inside the
+			// combat calculations, on AfterBonuses, but setting the
+			// multiplier seems much easier. Is this correct? Who knows.
 
 			modifier.DamageMultiplier -= multiplierReduction;
 		}

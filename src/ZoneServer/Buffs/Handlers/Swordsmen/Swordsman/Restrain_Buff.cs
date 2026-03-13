@@ -15,7 +15,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
-	/// NumArg2: Stun Chance
+	/// NumArg2: Stun Chance (%)
 	/// </remarks>
 	[BuffHandler(BuffId.Restrain_Buff)]
 	public class Restrain_Buff : BuffHandler
@@ -24,6 +24,11 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 		private const float MaxHpDropPerLevel = 28f;
 		private static readonly TimeSpan StunDuration = TimeSpan.FromSeconds(3);
 
+		/// <summary>
+		/// Called every time the buff is activated, including overbuff.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="activationType"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var penalty = this.GetMaxHpPenalty(buff);
@@ -31,6 +36,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 			AddPropertyModifier(buff, buff.Target, PropertyName.MHP_BM, -penalty);
 		}
 
+		/// <summary>
+		/// Called when the buff expires or is removed.
+		/// </summary>
+		/// <param name="buff"></param>
 		public override void OnEnd(Buff buff)
 		{
 			RemovePropertyModifier(buff, buff.Target, PropertyName.MHP_BM);
@@ -58,6 +67,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 		[CombatCalcModifier(CombatCalcPhase.AfterCalc, BuffId.Restrain_Buff)]
 		public void OnAfterCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			// TODO: Move to a hit event handler, that is to be added,
+			// to ensure this happens on actual hits and not during
+			// calculations.
+
 			if (!attacker.TryGetBuff(BuffId.Restrain_Buff, out var buff))
 				return;
 

@@ -265,7 +265,7 @@ namespace Melia.Zone.Scripting.AI
 			// Hate increases 500% faster if entity has the Liberate buff.
 			// This means instant aggro from aggressive monsters and a
 			// higher chance to keep it.
-			if (entity.Components.Get<BuffComponent>().Has(BuffId.Liberate_Buff))
+			if (entity.IsBuffActive(BuffId.Liberate_Buff))
 				amount *= 5;
 
 			// Increase the hate level at the normal rate up to the

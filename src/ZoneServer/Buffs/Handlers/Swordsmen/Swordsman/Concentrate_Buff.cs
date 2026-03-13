@@ -8,7 +8,8 @@ using Melia.Zone.World.Actors;
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 {
 	/// <summary>
-	/// Handle for the Concentrate Buff.
+	/// Handle for the Concentrate Buff, which increases the damage of a
+	/// certain number of attacks from the user.
 	/// </summary>
 	/// <remarks>
 	/// NumArg1: Skill Level
@@ -19,6 +20,11 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 	{
 		private const string HitsVarName = "Melia.HitsLeft";
 
+		/// <summary>
+		/// Called every time the buff is activated, including overbuff.
+		/// </summary>
+		/// <param name="buff"></param>
+		/// <param name="activationType"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
 			var skillLevel = buff.NumArg1;
@@ -39,6 +45,10 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Swordsman
 		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, BuffId.Concentrate_Buff)]
 		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
+			// TODO: Move to a hit event handler, that is to be added,
+			// to ensure this happens on actual hits and not during
+			// calculations.
+
 			if (!attacker.TryGetBuff(BuffId.Concentrate_Buff, out var buff))
 				return;
 
