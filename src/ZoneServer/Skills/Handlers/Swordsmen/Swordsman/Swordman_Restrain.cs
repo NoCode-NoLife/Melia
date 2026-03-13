@@ -34,14 +34,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var target = caster;
-
 			var duration = TimeSpan.FromSeconds(30 + 3 * skill.Level);
 			var stunChance = StunChancePerLevel * skill.Level;
 
-			target.StartBuff(BuffId.Restrain_Buff, skill.Level, stunChance, duration, caster);
+			caster.StartBuff(BuffId.Restrain_Buff, skill.Level, stunChance, duration, caster);
 
-			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
+			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
 		}
 	}
 }

@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
@@ -60,13 +59,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 		/// <param name="splashArea"></param>
 		private async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(100);
-			var damageDelay1 = TimeSpan.FromMilliseconds(50);
-			var damageDelay2 = TimeSpan.FromMilliseconds(100);
-			var delayBetweenHits = TimeSpan.FromMilliseconds(250);
-			var skillHitDelay = TimeSpan.Zero;
+			var attackTime1 = TimeSpan.FromMilliseconds(100);
+			var attackTime2 = TimeSpan.FromMilliseconds(250);
+			var aniTime1 = TimeSpan.FromMilliseconds(50);
+			var aniTime2 = TimeSpan.FromMilliseconds(100);
+			var hitDelay = skill.Properties.HitDelay;
 
-			await skill.Wait(hitDelay);
+			await skill.Wait(attackTime1);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -79,17 +78,21 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 					modifier.DamageMultiplier = BleedDamageMultiplier;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay1, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime1, hitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
+				skillHit.ApplyDamage();
+				skillHit.ApplyKnockBack();
 
 				hits.Add(skillHit);
 			}
 
 			Send.ZC_SKILL_HIT_INFO(caster, hits);
 
-			await skill.Wait(delayBetweenHits);
+			await skill.Wait(attackTime2);
+
+			targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			hits.Clear();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
@@ -100,10 +103,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 					modifier.DamageMultiplier = BleedDamageMultiplier;
 
 				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay2, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime2, hitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
+				skillHit.ApplyDamage();
+				skillHit.ApplyKnockBack();
 
 				hits.Add(skillHit);
 			}

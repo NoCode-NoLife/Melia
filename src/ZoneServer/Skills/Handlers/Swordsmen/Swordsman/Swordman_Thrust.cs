@@ -10,7 +10,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
@@ -71,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 
 			var attackTime = TimeSpan.FromMilliseconds(70);
 			var aniTime = TimeSpan.FromMilliseconds(270);
-			var hitDelay = TimeSpan.Zero;
+			var hitDelay = skill.Properties.HitDelay;
 
 			await skill.Wait(attackTime);
 
@@ -81,9 +80,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
-
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
+
+				skillHit.ApplyDamage();
+				skillHit.ApplyKnockBack();
+
 				hits.Add(skillHit);
 			}
 

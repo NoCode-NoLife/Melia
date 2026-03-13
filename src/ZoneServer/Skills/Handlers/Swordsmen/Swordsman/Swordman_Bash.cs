@@ -56,11 +56,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 		/// <param name="splashArea"></param>
 		private static async Task Attack(Skill skill, ICombatEntity caster, ISplashArea splashArea)
 		{
-			var hitDelay = TimeSpan.FromMilliseconds(50);
-			var damageDelay = TimeSpan.FromMilliseconds(280);
-			var skillHitDelay = TimeSpan.Zero;
+			var attackTime = TimeSpan.FromMilliseconds(50);
+			var aniTime = TimeSpan.FromMilliseconds(280);
+			var hitDelay = skill.Properties.HitDelay;
 
-			await skill.Wait(hitDelay);
+			await skill.Wait(attackTime);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 			var hits = new List<SkillHitInfo>();
@@ -68,10 +68,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
-				target.TakeDamage(skillHitResult.Damage, caster);
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
+
+				skillHit.ApplyDamage();
+				skillHit.ApplyKnockBack();
+
 				hits.Add(skillHit);
 			}
 

@@ -1,11 +1,10 @@
 ﻿using System;
-using Melia.Shared.L10N;
 using Melia.Shared.Game.Const;
+using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 
 namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 {
@@ -34,10 +33,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			target = caster;
-
-			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.Bear_Buff, skill.Level, 0, duration, caster);
+			caster.StartBuff(BuffId.Bear_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster);
 
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, originPos, null);
 		}
