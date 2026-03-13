@@ -3,6 +3,8 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Scripting.ScriptableEvents;
+using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
 
@@ -62,6 +64,27 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			//	value /= 2;
 
 			return TimeSpan.FromMilliseconds(value);
+		}
+
+		/// <summary>
+		/// Disables knockback during combat calculation if the target has
+		/// the Pain Barrier buff active.
+		/// </summary>
+		/// <param name="attacker"></param>
+		/// <param name="target"></param>
+		/// <param name="skill"></param>
+		/// <param name="modifier"></param>
+		/// <param name="skillHitResult"></param>
+		[CombatCalcModifier(CombatCalcPhase.AfterCalc, BuffId.PainBarrier_Buff)]
+		public static void OnAfterCalc(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+		{
+			// R1 appears to solve this by checking an array of knock back
+			// immunity conditions and setting the KDArmor property to
+			// 9999 to prevent knock backs. TIL: There's a KDArmor
+			// property. Do I care? Not particularly.
+
+			if (target.IsBuffActive(BuffId.PainBarrier_Buff))
+				skillHitResult.KnockBack.Type = KnockBackType.None;
 		}
 	}
 }
