@@ -21,10 +21,10 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 		/// <param name="attackerSkill"></param>
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
-		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Hoplite_SharpSpear)]
-		public void OnAttackAfterBonuses(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		[CombatCalcModifier(CombatCalcPhase.AfterBonuses, SkillId.Hoplite_SharpSpear)]
+		public void OnAfterBonuses(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
-			if (!attacker.TryGetSkill(attackerSkill.Id, out var skill))
+			if (!attacker.TryGetSkill(SkillId.Hoplite_SharpSpear, out var skill))
 				return;
 
 			var isCrit = skillHitResult.Result == HitResultType.Crit;

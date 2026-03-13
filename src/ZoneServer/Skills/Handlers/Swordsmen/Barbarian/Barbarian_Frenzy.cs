@@ -22,7 +22,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Barbarian_Frenzy)]
-		public void OnAttackBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			// You lose Frenzy if you attack a different target, unless Barbarian22
 			// is active.

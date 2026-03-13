@@ -22,7 +22,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 		/// <param name="modifier"></param>
 		/// <param name="skillHitResult"></param>
 		[CombatCalcModifier(CombatCalcPhase.BeforeCalc, SkillId.Highlander_Defiance)]
-		public void OnAttackBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
+		public void OnBeforeCalc(ICombatEntity attacker, ICombatEntity target, Skill attackerSkill, SkillModifier modifier, SkillHitResult skillHitResult)
 		{
 			if (target.Rank != MonsterRank.Boss)
 				return;
