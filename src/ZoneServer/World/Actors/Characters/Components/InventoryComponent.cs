@@ -111,6 +111,18 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Returns the number of equipped items with the given armor
+		/// material type.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public int CountEquipMaterial(ArmorMaterialType type)
+		{
+			lock (_syncLock)
+				return _equip.Values.Where(a => a.Data.Material == type).Sum(a => a.Amount);
+		}
+
+		/// <summary>
 		/// Returns a dictionary with all items, Key being their inventory
 		/// index.
 		/// </summary>
