@@ -69,6 +69,16 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 
+				// Ability "Bash: Knockdown"
+				if (caster.TryGetAbility(AbilityId.Blow, out var ability))
+				{
+					// TODO: Confirm knock down parameters.
+
+					skillHitResult.KnockBack.Type = KnockBackType.KnockDown;
+					skillHitResult.KnockBack.Velocity = 150;
+					skillHitResult.KnockBack.VAngle = 70;
+				}
+
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 				skillHit.HitEffect = HitEffect.Impact;
 
