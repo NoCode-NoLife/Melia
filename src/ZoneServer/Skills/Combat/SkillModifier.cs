@@ -70,10 +70,21 @@ namespace Melia.Zone.Skills.Combat
 		/// Gets or sets the minimum critical chance.
 		/// </summary>
 		/// <remarks>
-		/// If set, this value acts as the minimum possible chance for a crit
-		/// to occur.  It's in percent, so 20 = 20% crit rate minimum.
+		/// If set, this value acts as the minimum possible chance for a
+		/// crit to occur. It's in percent, so 20 = 20% crit rate
+		/// minimum. The default is 0.
 		/// </remarks>
 		public float MinCritChance { get; set; } = 0;
+
+		/// <summary>
+		/// Gets or sets the maximum critical chance.
+		/// </summary>
+		/// <remarks>
+		/// If set, this value acts as the maximum possible chance for a
+		/// crit to occur. It's in percent, so 20 = 20% crit rate
+		/// maximum. The default is 100.
+		/// </remarks>
+		public float MaxCritChance { get; set; } = 100;
 
 		/// <summary>
 		/// Gets or sets the crit chance multiplier.
@@ -85,6 +96,30 @@ namespace Melia.Zone.Skills.Combat
 		/// 10 * 1.5 + 20 = 35%.
 		/// </remarks>
 		public float CritChanceMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the crit hit rate multiplier, affecting the
+		/// property CRTHR.
+		/// </summary>
+		/// <remarks>
+		/// The multiplier gets applied to the crit hit rate directly
+		/// before it's used, and before other bonuses and multipliers
+		/// are applied. It's 1 by default, meaning no change to the
+		/// crit hit rate.
+		/// </remarks>
+		public float CritHitRateMultiplier { get; set; } = 1;
+
+		/// <summary>
+		/// Gets or sets the crit dodge rate multiplier, affecting the
+		/// property CRTDR.
+		/// </summary>
+		/// <remarks>
+		/// The multiplier gets applied to the crit dodge rate directly
+		/// before it's used, and before other bonuses and multipliers
+		/// are applied. It's 1 by default, meaning no change to the
+		/// crit dodge rate.
+		/// </remarks>
+		public float CritDodgeRateMultiplier { get; set; } = 1;
 
 		/// <summary>
 		/// Gets or sets flat crit chance bonus.
