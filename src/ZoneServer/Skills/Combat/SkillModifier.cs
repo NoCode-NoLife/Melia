@@ -59,9 +59,10 @@ namespace Melia.Zone.Skills.Combat
 		/// defense, crit, and other modifiers are applied.
 		/// </summary>
 		/// <remarks>
-		/// This multiplier applies directly to damage, so a value of 1.02 will
-		/// increase the damage by 2%. It's applied just before BonusDamage,
-		/// and before defense, crits, etc. are calculated.
+		/// This multiplier applies directly to damage, meaning that a
+		/// value of 1.02 will increase the damage by 2%. It's applied
+		/// just before BonusDamage, and before defense, crits, etc. are
+		/// calculated. The default value is 1, meaning no change to damage.
 		/// </remarks>
 		public float DamageMultiplier { get; set; } = 1;
 
