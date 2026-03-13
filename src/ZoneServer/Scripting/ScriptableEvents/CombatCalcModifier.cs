@@ -77,6 +77,16 @@ namespace Melia.Zone.Scripting.ScriptableEvents
 			: this(phase, identifier.ToString())
 		{
 		}
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="phase"></param>
+		/// <param name="identifier"></param>
+		public CombatCalcModifierAttribute(string phase, AbilityId identifier)
+			: this(phase, identifier.ToString())
+		{
+		}
 	}
 
 	public static class CombatCalcPhase
