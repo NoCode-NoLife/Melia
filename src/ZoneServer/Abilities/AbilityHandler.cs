@@ -1,4 +1,5 @@
-﻿using Melia.Zone.Skills;
+﻿using System;
+using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
 
@@ -17,15 +18,15 @@ namespace Melia.Zone.Abilities
 	{
 	}
 
-	public interface IAbilityCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface IAbilityCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface IAbilityCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface IAbilityCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface IAbilityCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface IAbilityCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
 
-	public interface IAbilityCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	public interface IAbilityCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
+	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IAbilityCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Ability ability, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
 }
