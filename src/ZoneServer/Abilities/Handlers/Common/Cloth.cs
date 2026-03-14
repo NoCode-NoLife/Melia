@@ -28,6 +28,13 @@ namespace Melia.Zone.Abilities.Handlers.Common
 		{
 			if (target.IsAbilityActive(AbilityId.Cloth) && target.Components.TryGet<InventoryComponent>(out var inventory))
 			{
+				// Is this correct or should it be solved during calculation
+				// via SCR_AttackTypeMultiplier? That function handles armor
+				// type multipliers for monsters, but we are using type
+				// None for players and the multipliers and checks don't
+				// match up with the ability descriptions. So we'll assume,
+				// for now, that these armor abilities are separate.
+
 				var count = inventory.CountEquipMaterial(ArmorMaterialType.Cloth);
 
 				if (count >= 4 && attackerSkill.Data.HitType == SkillHitType.Magic)
