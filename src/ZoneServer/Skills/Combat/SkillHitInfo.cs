@@ -141,6 +141,12 @@ namespace Melia.Zone.Skills.Combat
 				if (result.KnockBack.Type == KnockBackType.None)
 					return;
 
+				// Since we currently don't know exactly what the various
+				// knock back types do, we're gonna limit automatic knock
+				// back setup to those we do know.
+				if (result.KnockBack.Type != KnockBackType.KnockBack && result.KnockBack.Type != KnockBackType.KnockDown)
+					return;
+
 				var type = result.KnockBack.Type;
 				var velocity = result.KnockBack.Velocity;
 				var vAngle = result.KnockBack.VAngle;
