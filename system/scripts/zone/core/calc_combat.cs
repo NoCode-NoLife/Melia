@@ -115,6 +115,7 @@ public class CombatCalculationsScript : GeneralScript
 		// meaningless.
 		var defPropertyName = skill.Data.ClassType != SkillClassType.Magic ? PropertyName.DEF : PropertyName.MDEF;
 		var def = target.Properties.GetFloat(defPropertyName);
+		def += modifier.DefenseBonus;
 		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
 		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 

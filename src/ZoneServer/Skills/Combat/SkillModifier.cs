@@ -46,6 +46,15 @@ namespace Melia.Zone.Skills.Combat
 		public float BlockPenetrationMultiplier { get; set; } = 1;
 
 		/// <summary>
+		/// Gets or sets defense bonus for DEF and MDEF.
+		/// </summary>
+		/// <remarks>
+		/// A flat amount of defense benefitting the target, directly
+		/// reducing the incoming damage.
+		/// </remarks>
+		public float DefenseBonus { get; set; }
+
+		/// <summary>
 		/// Gets or sets percentage-based defense penetration for DEF and MDEF.
 		/// </summary>
 		/// <remarks>
