@@ -251,7 +251,7 @@ namespace Melia.Zone.World.Actors.Characters.Components
 			ability.Active = !ability.Active;
 
 			Send.ZC_OBJECT_PROPERTY(this.Character.Connection, ability);
-			Send.ZC_ADDON_MSG(this.Character, AddonMessage.RESET_ABILITY_ACTIVE, 0, "Swordman28");
+			Send.ZC_ADDON_MSG(this.Character, AddonMessage.RESET_ABILITY_ACTIVE, 0, className);
 
 			return true;
 		}
