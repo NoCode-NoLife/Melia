@@ -34,6 +34,19 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
+			caster.StartBuff(BuffId.Liberate_Buff, skill.Level, 0, GetDuration(caster), caster);
+
+			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
+		}
+
+		/// <summary>
+		/// Returns the duration of the buff for the caster, affected by
+		/// factors such as active abilities.
+		/// </summary>
+		/// <param name="caster"></param>
+		/// <returns></returns>
+		public static TimeSpan GetDuration(ICombatEntity caster)
+		{
 			var duration = TimeSpan.FromSeconds(30);
 
 			// Ability "Liberate: Awaken"
@@ -41,9 +54,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			if (caster.TryGetActiveAbility(AbilityId.Swordman31, out var ability))
 				duration = TimeSpan.FromSeconds(12);
 
-			caster.StartBuff(BuffId.Liberate_Buff, skill.Level, 0, duration, caster);
+			// Ability "Liberate: Fortitude"
+			// Reduces the duration to 6 seconds
+			if (caster.TryGetActiveAbility(AbilityId.Swordman32, out ability))
+				duration = TimeSpan.FromSeconds(6);
 
-			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
+			return duration;
 		}
 
 		/// <summary>
@@ -61,7 +77,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			// Ability "Liberate: Awaken"
 			// Increases damage to enemies by 50%
 			if (attacker.IsAbilityActive(AbilityId.Swordman31))
-				modifier.DamageMultiplier += 0.5f;
+				modifier.DamageMultiplier += 0.50f;
+
+			// Ability "Liberate: Fortitude"
+			// Increases damage reduction by 50%
+			if (target.IsAbilityActive(AbilityId.Swordman32))
+				modifier.DamageMultiplier -= 0.50f;
 		}
 	}
 }
