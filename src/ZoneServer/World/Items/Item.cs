@@ -153,17 +153,17 @@ namespace Melia.Zone.World.Items
 		/// </summary>
 		protected virtual void LoadDataProperties()
 		{
-			if (this.Data.MinAtk != 0) this.Properties.SetFloat("MINATK", this.Data.MinAtk);
-			if (this.Data.MaxAtk != 0) this.Properties.SetFloat("MAXATK", this.Data.MaxAtk);
-			if (this.Data.MAtk != 0) this.Properties.SetFloat("MATK", this.Data.MAtk);
-			if (this.Data.PAtk != 0) this.Properties.SetFloat("PATK", this.Data.PAtk);
-			if (this.Data.AddMinAtk != 0) this.Properties.SetFloat("ADD_MINATK", this.Data.AddMinAtk);
-			if (this.Data.AddMaxAtk != 0) this.Properties.SetFloat("ADD_MAXATK", this.Data.AddMaxAtk);
-			if (this.Data.AddMAtk != 0) this.Properties.SetFloat("ADD_MATK", this.Data.AddMAtk);
-			if (this.Data.Def != 0) this.Properties.SetFloat("DEF", this.Data.Def);
-			if (this.Data.MDef != 0) this.Properties.SetFloat("MDEF", this.Data.MDef);
-			if (this.Data.AddDef != 0) this.Properties.SetFloat("ADD_DEF", this.Data.AddDef);
-			if (this.Data.AddMDef != 0) this.Properties.SetFloat("ADD_MDEF", this.Data.AddMDef);
+			if (this.Data.MinAtk != 0) this.Properties.SetFloat(PropertyName.MINATK, this.Data.MinAtk);
+			if (this.Data.MaxAtk != 0) this.Properties.SetFloat(PropertyName.MAXATK, this.Data.MaxAtk);
+			if (this.Data.MAtk != 0) this.Properties.SetFloat(PropertyName.MATK, this.Data.MAtk);
+			if (this.Data.PAtk != 0) this.Properties.SetFloat(PropertyName.PATK, this.Data.PAtk);
+			if (this.Data.AddMinAtk != 0) this.Properties.SetFloat(PropertyName.ADD_MINATK, this.Data.AddMinAtk);
+			if (this.Data.AddMaxAtk != 0) this.Properties.SetFloat(PropertyName.ADD_MAXATK, this.Data.AddMaxAtk);
+			if (this.Data.AddMAtk != 0) this.Properties.SetFloat(PropertyName.ADD_MATK, this.Data.AddMAtk);
+			if (this.Data.Def != 0) this.Properties.SetFloat(PropertyName.DEF, this.Data.Def);
+			if (this.Data.MDef != 0) this.Properties.SetFloat(PropertyName.MDEF, this.Data.MDef);
+			if (this.Data.AddDef != 0) this.Properties.SetFloat(PropertyName.ADD_DEF, this.Data.AddDef);
+			if (this.Data.AddMDef != 0) this.Properties.SetFloat(PropertyName.ADD_MDEF, this.Data.AddMDef);
 		}
 
 		/// <summary>
