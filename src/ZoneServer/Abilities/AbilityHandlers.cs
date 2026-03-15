@@ -84,7 +84,7 @@ namespace Melia.Zone.Abilities
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
 				{
-					if (attacker.TryGetAbility(abilityId, out var ability) && ability.Active)
+					if (attacker.TryGetActiveAbility(abilityId, out var ability))
 						func(ability, attacker, target, skill, modifier, skillHitResult);
 
 					return 0;
@@ -95,7 +95,7 @@ namespace Melia.Zone.Abilities
 			{
 				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
 				{
-					if (target.TryGetAbility(abilityId, out var ability))
+					if (target.TryGetActiveAbility(abilityId, out var ability))
 						func(ability, attacker, target, skill, modifier, skillHitResult);
 
 					return 0;

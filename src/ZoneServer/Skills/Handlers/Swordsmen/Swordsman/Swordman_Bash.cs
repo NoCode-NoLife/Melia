@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 				var skillHitResult = SCR_SkillHit(caster, target, skill);
 
 				// Ability "Bash: Knockdown"
-				if (caster.TryGetAbility(AbilityId.Blow, out var ability))
+				if (caster.IsAbilityActive(AbilityId.Blow))
 				{
 					// TODO: Confirm knock down parameters.
 

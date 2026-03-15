@@ -453,6 +453,28 @@ namespace Melia.Zone.World.Actors
 		}
 
 		/// <summary>
+		/// Returns the ability with the given id via out if the entity
+		/// has it and it's toggled on. Returns false if the entity
+		/// doesn't have the ability or it's off.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="abilityId"></param>
+		/// <param name="ability"></param>
+		/// <returns></returns>
+		public static bool TryGetActiveAbility(this ICombatEntity entity, AbilityId abilityId, out Ability ability)
+		{
+			ability = null;
+
+			if (!entity.Components.TryGet<AbilityComponent>(out var abilities))
+				return false;
+
+			if (!abilities.TryGetActive(abilityId, out ability))
+				return false;
+
+			return ability.Active;
+		}
+
+		/// <summary>
 		/// Returns true if the entity has the given ability and it's toggled on.
 		/// Returns the ability's level via out if it's active.
 		/// </summary>
@@ -464,14 +486,10 @@ namespace Melia.Zone.World.Actors
 		{
 			level = 0;
 
-			if (!entity.Components.TryGet<AbilityComponent>(out var abilities))
-				return false;
+			if (entity.TryGetActiveAbility(abilityId, out var ability))
+				level = ability.Level;
 
-			if (!abilities.TryGetActive(abilityId, out var ability))
-				return false;
-
-			level = ability.Level;
-			return ability.Active;
+			return level != 0;
 		}
 
 		/// <summary>
