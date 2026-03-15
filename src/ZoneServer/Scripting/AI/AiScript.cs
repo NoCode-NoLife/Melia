@@ -262,11 +262,24 @@ namespace Melia.Zone.Scripting.AI
 		{
 			var handle = entity.Handle;
 
+			// TODO: Add a general system for adding hate bonuses.
+			var hateBonus = 0;
+
 			// Hate increases 500% faster if entity has the Liberate buff.
 			// This means instant aggro from aggressive monsters and a
 			// higher chance to keep it.
 			if (entity.IsBuffActive(BuffId.Liberate_Buff))
-				amount *= 5;
+				hateBonus += 5;
+
+			// Ability "Provoke"
+			// Increases threat by 1500% per attribute level
+			// This... seems like an insane amount, but that's what the
+			// ability says, so who am I to question it?
+			if (entity.TryGetActiveAbility(AbilityId.Swordman28, out var provoke))
+				hateBonus += provoke.Level * 15;
+
+			if (hateBonus > 0)
+				amount *= hateBonus;
 
 			// Increase the hate level at the normal rate up to the
 			// min aggro level. Once we reach that point we lower
