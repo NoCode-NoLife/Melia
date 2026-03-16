@@ -1204,15 +1204,12 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			// Get all spawners in the world
-			var spawners = ZoneServer.Instance.World.GetSpawners()
-				.OfType<MonsterSpawner>();
+			var spawners = ZoneServer.Instance.World.GetSpawners().OfType<MonsterSpawner>();
 
-			var results = new List<(MonsterData Monster, Map Map, MonsterSpawner Spawner)>();
+			var spawnLocations = new List<(MonsterData Monster, Map Map, MonsterSpawner Spawner)>();
 
 			foreach (var monster in monsters)
 			{
-				// Find all spawners that spawn this monster
 				foreach (var spawner in spawners)
 				{
 					if (spawner is MonsterSpawner monsterSpawner)
@@ -1231,45 +1228,45 @@ namespace Melia.Zone.Commands
 							if (!ZoneServer.Instance.World.TryGetMap(area.Map.Id, out var map))
 								continue;
 
-							results.Add((monster, map, monsterSpawner));
+							spawnLocations.Add((monster, map, monsterSpawner));
 						}
 					}
 				}
 			}
 
-			if (results.Count == 0)
+			if (spawnLocations.Count == 0)
 			{
 				sender.ServerMessage(Localization.Get("No spawn locations found for '{0}'."), search);
 				return CommandResult.Okay;
 			}
 
-			// Order results by map name
-			results = results.OrderBy(x => x.Map.ClassName).ToList();
+			spawnLocations = spawnLocations.OrderBy(x => x.Map.ClassName).ToList();
 
-			// Display results
-			foreach (var result in results)
+			for (var i = 0; i < spawnLocations.Count; i++)
 			{
-				var spawner = result.Spawner;
+				var spawnLocation = spawnLocations[i];
+
+				var spawner = spawnLocation.Spawner;
 				var respawnInfo = "";
 
-				// Add respawn time info if it exists
 				if (spawner.MinRespawnDelay != TimeSpan.Zero || spawner.MaxRespawnDelay != TimeSpan.Zero)
 				{
 					if (spawner.MinRespawnDelay == spawner.MaxRespawnDelay)
-						respawnInfo = $" [Delay: {spawner.MinRespawnDelay.TotalSeconds:0}s]";
+						respawnInfo = string.Format(Localization.Get(" [Delay: {0:0}s]"), spawner.MinRespawnDelay.TotalSeconds);
 					else
-						respawnInfo = $" [Delay: {spawner.MinRespawnDelay.TotalSeconds:0}s~{spawner.MaxRespawnDelay.TotalSeconds:0}s]";
+						respawnInfo = string.Format(Localization.Get(" [Delay: {0:0}s~{1:0}s]"), spawner.MinRespawnDelay.TotalSeconds, spawner.MaxRespawnDelay.TotalSeconds);
 				}
 
 				var response = string.Format(
-					"{0} ({1}) - {2} ({3}) - Quantity: {4}~{5}{6}",
-					result.Monster.Name,
-					result.Monster.ClassName,
-					result.Map?.Data?.Name ?? "Unknown",
-					result.Map.ClassName,
+					Localization.Get("({7}) {0} ({1}) - {2} ({3}) - Quantity: {4}~{5}{6}"),
+					spawnLocation.Monster.Name,
+					spawnLocation.Monster.ClassName,
+					spawnLocation.Map?.Data?.Name ?? Localization.Get("Unknown"),
+					spawnLocation.Map.ClassName,
 					spawner.MinAmount,
 					spawner.MaxAmount,
-					respawnInfo
+					respawnInfo,
+					i + 1
 				);
 
 				sender.ServerMessage(response);
