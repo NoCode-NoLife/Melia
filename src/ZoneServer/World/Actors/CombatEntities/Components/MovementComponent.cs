@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
+using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors.Characters;
@@ -533,10 +534,16 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
 
 			foreach (var triggerArea in enteredTriggerAreas)
-				triggerArea.EnterFunc?.Invoke(new TriggerActorArgs(TriggerType.Enter, triggerArea, this.Entity));
+			{
+				if (triggerArea.EnterFunc != null)
+					TaskHelper.CallSafe(triggerArea.EnterFunc(new TriggerActorArgs(TriggerType.Enter, triggerArea, this.Entity)));
+			}
 
 			foreach (var triggerArea in leftTriggerAreas)
-				triggerArea.LeaveFunc?.Invoke(new TriggerActorArgs(TriggerType.Leave, triggerArea, this.Entity));
+			{
+				if (triggerArea.LeaveFunc != null)
+					TaskHelper.CallSafe(triggerArea.LeaveFunc(new TriggerActorArgs(TriggerType.Leave, triggerArea, this.Entity)));
+			}
 
 			_triggerAreas = triggerAreas;
 		}
