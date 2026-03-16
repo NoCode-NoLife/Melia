@@ -45,6 +45,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Swordsman
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
+			// TODO: Log and implement ability "[Arts] Thrust: Charge"
+
 			skill.Run(this.Attack(skill, caster, splashArea));
 		}
 

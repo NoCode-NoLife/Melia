@@ -6,7 +6,6 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
-using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.World.Actors;
@@ -42,21 +41,28 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			var splashArea = skill.GetSplashArea(SplashType.Circle, splashParam);
 
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
-			var damageDelay = TimeSpan.FromMilliseconds(200);
+
+			var aniTime = TimeSpan.FromMilliseconds(200);
+			var hitDelay = skill.Properties.HitDelay;
 
 			var skillHits = new List<SkillHitInfo>();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
-				var targetLethargic = target.IsBuffActive(BuffId.Lethargy_Debuff);
+				var modifier = SkillModifier.Default;
 
-				var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHitIf(2, targetLethargic));
+				// Buff "Lethargy"
+				// Hits twice against enemies under the effect of [Lethargy]
+				if (target.IsBuffActive(BuffId.Lethargy_Debuff))
+					modifier.HitCount = 2;
+
+				var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
 
 				// Ability "Earthquake: Remove Knockdown"
 				if (caster.IsAbilityActive(AbilityId.Wizard23))
 					skillHitResult.KnockBack.Type = KnockBackType.None;
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, TimeSpan.Zero);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 
 				skillHit.ApplyDamage();
 				skillHit.ApplyKnockBack();

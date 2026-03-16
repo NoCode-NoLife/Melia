@@ -47,8 +47,8 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 				return;
 			}
 
-			var damageDelay = TimeSpan.FromMilliseconds(550);
-			var skillHitDelay = TimeSpan.FromMilliseconds(100);
+			var aniTime = TimeSpan.FromMilliseconds(50);
+			var hitDelay = skill.Properties.HitDelay;
 
 			var splashArea = new Circle(designatedTarget.Position, skill.Properties.GetFloat(PropertyName.SplRange));
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
@@ -59,8 +59,9 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			{
 				var skillHitResult = SCR_SkillHit(caster, target, skill, SkillModifier.MultiHit(2));
 
-				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
-				
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
+				skillHit.HitEffect = HitEffect.ImpactHard;
+
 				skillHit.ApplyDamage();
 				skillHit.ApplyKnockBack();
 

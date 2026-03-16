@@ -32,12 +32,9 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
-			var target = caster;
+			caster.StartBuff(BuffId.ReflectShield_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster);
 
-			var duration = TimeSpan.FromMinutes(30);
-			target.StartBuff(BuffId.ReflectShield_Buff, skill.Level, 0, duration, caster);
-
-			Send.ZC_SKILL_MELEE_TARGET(caster, skill, target, null);
+			Send.ZC_SKILL_MELEE_TARGET(caster, skill, caster, null);
 
 			// Packet logs show an empty hit being sent here, but it doesn't
 			// appear to be necessary.
