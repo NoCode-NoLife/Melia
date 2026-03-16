@@ -18,13 +18,12 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
+using Melia.Zone.World.Spawning;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
 using Yggdrasil.Network.Communication;
 using Yggdrasil.Util;
 using Yggdrasil.Util.Commands;
-using Melia.Zone.World.Maps;
-using Melia.Zone.World.Spawning;
 
 namespace Melia.Zone.Commands
 {
@@ -1196,7 +1195,6 @@ namespace Melia.Zone.Commands
 
 			var search = string.Join(" ", args.GetAll()).ToLower();
 
-			// Find the monster data that matches the search term
 			var monsters = ZoneServer.Instance.Data.MonsterDb.FindAllPreferExact(search);
 			if (monsters.Count == 0)
 			{
@@ -1204,33 +1202,23 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			var spawners = ZoneServer.Instance.World.GetSpawners().OfType<MonsterSpawner>();
-
-			var spawnLocations = new List<(MonsterData Monster, Map Map, MonsterSpawner Spawner)>();
+			var allSpawners = ZoneServer.Instance.World.GetSpawners().OfType<MonsterSpawner>();
+			var spawnLocations = new List<(MonsterSpawner Spawner, IList<SpawnArea> Areas)>();
 
 			foreach (var monster in monsters)
 			{
+				var spawners = allSpawners.Where(a => a.MonsterData.Id == monster.Id);
+
 				foreach (var spawner in spawners)
 				{
-					if (spawner is MonsterSpawner monsterSpawner)
-					{
-						// Skip if this spawner doesn't spawn our monster
-						if (!ZoneServer.Instance.Data.MonsterDb.TryFind(monsterSpawner.MonsterData.Id, out var spawnerMonster) ||
-							spawnerMonster.Id != monster.Id)
-							continue;
+					if (!ZoneServer.Instance.World.TryGetSpawnAreas(spawner.SpawnPointsIdent, out var spawnAreas))
+						continue;
 
-						// Get the map from the spawn areas
-						if (!ZoneServer.Instance.World.TryGetSpawnAreas(spawner.SpawnPointsIdent, out var spawnAreas))
-							continue;
+					var areas = spawnAreas.GetAll();
+					if (!areas.Any())
+						continue;
 
-						foreach (var area in spawnAreas.GetAll())
-						{
-							if (!ZoneServer.Instance.World.TryGetMap(area.Map.Id, out var map))
-								continue;
-
-							spawnLocations.Add((monster, map, monsterSpawner));
-						}
-					}
+					spawnLocations.Add((spawner, areas));
 				}
 			}
 
@@ -1240,36 +1228,63 @@ namespace Melia.Zone.Commands
 				return CommandResult.Okay;
 			}
 
-			spawnLocations = spawnLocations.OrderBy(x => x.Map.ClassName).ToList();
+			var monsterGroups = spawnLocations.GroupBy(a => a.Spawner.MonsterData.Id);
+			var groupCount = monsterGroups.Count();
 
-			for (var i = 0; i < spawnLocations.Count; i++)
+			var sb = new StringBuilder();
+			var i = 1;
+
+			foreach (var monsterGroup in monsterGroups)
 			{
-				var spawnLocation = spawnLocations[i];
+				var first = monsterGroup.First();
 
-				var spawner = spawnLocation.Spawner;
-				var respawnInfo = "";
+				sb.AppendLine(Localization.Get("Result {0}/{1}:"), i++, groupCount);
+				sb.AppendLine(Localization.Get("--- {0} ({1}) ---"), first.Spawner.MonsterData.Name, first.Spawner.MonsterData.ClassName);
 
-				if (spawner.MinRespawnDelay != TimeSpan.Zero || spawner.MaxRespawnDelay != TimeSpan.Zero)
+				foreach (var spawnLocation in monsterGroup)
 				{
-					if (spawner.MinRespawnDelay == spawner.MaxRespawnDelay)
-						respawnInfo = string.Format(Localization.Get(" [Delay: {0:0}s]"), spawner.MinRespawnDelay.TotalSeconds);
+					var spawner = spawnLocation.Spawner;
+					var areaGroups = spawnLocation.Areas.GroupBy(a => a.Map.Id);
+
+					if (spawner.MinAmount == spawner.MaxAmount)
+						sb.AppendFormat(Localization.Get("{0} spawn"), spawner.MinAmount);
 					else
-						respawnInfo = string.Format(Localization.Get(" [Delay: {0:0}s~{1:0}s]"), spawner.MinRespawnDelay.TotalSeconds, spawner.MaxRespawnDelay.TotalSeconds);
+						sb.AppendFormat(Localization.Get("{0}~{1} spawn"), spawner.MinAmount, spawner.MaxAmount);
+
+					if (spawner.MinRespawnDelay != TimeSpan.Zero || spawner.MaxRespawnDelay != TimeSpan.Zero)
+					{
+						static string timeSpanToString(TimeSpan timeSpan)
+						{
+							if (timeSpan.TotalSeconds < 60)
+								return string.Format(Localization.Get("{0:0}s"), timeSpan.TotalSeconds);
+							else if (timeSpan.TotalMinutes < 60)
+								return string.Format(Localization.Get("{0:0}m"), timeSpan.TotalMinutes);
+							else if (timeSpan.TotalHours < 24)
+								return string.Format(Localization.Get("{0:0}h"), timeSpan.TotalHours);
+							else
+								return string.Format(Localization.Get("{0:0}d"), timeSpan.TotalDays);
+						}
+
+						if (spawner.MinRespawnDelay == spawner.MaxRespawnDelay)
+							sb.AppendFormat(Localization.Get(" every {0}"), timeSpanToString(spawner.MinRespawnDelay));
+						else
+							sb.AppendFormat(Localization.Get(" every {0}~{1}"), timeSpanToString(spawner.MinRespawnDelay), timeSpanToString(spawner.MaxRespawnDelay));
+					}
+
+					sb.AppendLine(Localization.Get(" across:"));
+
+					foreach (var areaGroup in areaGroups)
+					{
+						var area = areaGroup.First();
+						var name = area.Map.Data.Name;
+						var className = area.Map.ClassName;
+
+						sb.AppendLine(Localization.Get("    - {0} ({1})"), name, className);
+					}
 				}
 
-				var response = string.Format(
-					Localization.Get("({7}) {0} ({1}) - {2} ({3}) - Quantity: {4}~{5}{6}"),
-					spawnLocation.Monster.Name,
-					spawnLocation.Monster.ClassName,
-					spawnLocation.Map?.Data?.Name ?? Localization.Get("Unknown"),
-					spawnLocation.Map.ClassName,
-					spawner.MinAmount,
-					spawner.MaxAmount,
-					respawnInfo,
-					i + 1
-				);
-
-				sender.ServerMessage(response);
+				sender.ServerMessage(sb.ToString());
+				sb.Clear();
 			}
 
 			return CommandResult.Okay;

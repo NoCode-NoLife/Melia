@@ -245,7 +245,7 @@ namespace Melia.Zone.World
 		/// if it exists in the world. Returns true if found, false otherwise.
 		/// </summary>
 		/// <param name="identifier"></param>
-		/// <param name="spawner"></param>
+		/// <param name="spawnAreas"></param>
 		/// <returns></returns>
 		public bool TryGetSpawnAreas(string identifier, out SpawnAreaCollection spawnAreas)
 		{

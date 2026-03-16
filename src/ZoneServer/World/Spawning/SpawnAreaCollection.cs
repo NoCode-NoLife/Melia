@@ -16,8 +16,8 @@ namespace Melia.Zone.World.Spawning
 	{
 		private static int Ids;
 
-		private readonly Random _rnd = new Random(RandomProvider.GetSeed());
-		private readonly List<SpawnArea> _spawnAreas = new List<SpawnArea>();
+		private readonly Random _rnd = new(RandomProvider.GetSeed());
+		private readonly List<SpawnArea> _spawnAreas = new();
 
 		/// <summary>
 		/// Returns the unique id of this spawn area collection.

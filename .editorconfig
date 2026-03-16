@@ -191,3 +191,6 @@ dotnet_diagnostic.CA1825.severity = none
 # CA1859: Use concrete types when possible for improved performance
 # Note: While well-intentioned, sometimes you do want that suboptimal type.
 dotnet_diagnostic.CA1859.severity = none
+
+# IDE0042: Deconstruct variable declaration
+dotnet_diagnostic.IDE0042.severity = none
