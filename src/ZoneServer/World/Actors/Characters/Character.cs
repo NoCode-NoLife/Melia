@@ -1121,6 +1121,8 @@ namespace Melia.Zone.World.Actors.Characters
 			if (args.Length > 0)
 				format = string.Format(format, args);
 
+			format = format.Replace(Environment.NewLine, "{nl}");
+
 			// Since there doesn't seem to be a way to send custom system
 			// messages, we're abusing clientmessage 21254, which has the
 			// format "X:Y", where we replace X and Y with a prefix and

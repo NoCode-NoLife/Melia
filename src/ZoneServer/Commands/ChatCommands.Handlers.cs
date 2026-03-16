@@ -2122,8 +2122,6 @@ namespace Melia.Zone.Commands
 				sb.AppendLine("   Exp: {0} / {1} ({2:0.0}%)", exp, maxExp, percent);
 			}
 
-			sender.ServerMessage(sb.ToString().Replace(Environment.NewLine, "{nl}"));
-
 			return CommandResult.Okay;
 		}
 
