@@ -58,7 +58,11 @@ namespace Melia.Zone.World.Maps.Pathfinding
 			start.Y = startHeight;
 			destination.Y = destinationHeight;
 
-			if (!_ground.IsValidCirclePosition(start, actorRadius) || !_ground.IsValidCirclePosition(destination, actorRadius))
+			// We'll skip the start position check, since an actor
+			// might've accidentally slipped or spawned partially into
+			// a wall, at which point they would be unable to get out
+			// of that situation.
+			if (/*!_ground.IsValidCirclePosition(start, actorRadius) ||*/ !_ground.IsValidCirclePosition(destination, actorRadius))
 				return false;
 
 			if (_ground.GetLastValidCirclePosition(start, actorRadius, destination) == destination)
