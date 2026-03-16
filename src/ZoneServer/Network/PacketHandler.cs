@@ -1283,15 +1283,14 @@ namespace Melia.Zone.Network
 					return;
 				}
 
-				// The client sends a handle even if you target a friendly
-				// monster, such as an NPC. We'll ignore that case for
-				// now and leave target as null, under the assumption
-				// that you never use skills on non-combatants.
+				// The client sends a handle regardless of who you're
+				// targetting, including friendlies and NPCs. The latter
+				// we're going to exclude for now, under the assumption
+				// that you never use skills on "non-combatants."
+				// We probably want a more sophisticated target check
+				// down the line, based on the skill's target options.
 				if (actor is ICombatEntity ce)
-				{
-					if (character.CanTarget(ce))
-						target = ce;
-				}
+					target = ce;
 			}
 
 			// Try to use skill
