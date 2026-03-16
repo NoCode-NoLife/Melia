@@ -54,6 +54,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 			var targets = caster.Map.GetAttackableEntitiesIn(caster, splashArea);
 
 			var skillHits = new List<SkillHitInfo>();
+			var sharedForceId = ForceId.GetNew();
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
 			{
@@ -61,6 +62,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Wizard
 
 				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 				skillHit.HitEffect = HitEffect.ImpactHard;
+				skillHit.ForceId = sharedForceId;
 
 				skillHit.ApplyDamage();
 				skillHit.ApplyKnockBack();
