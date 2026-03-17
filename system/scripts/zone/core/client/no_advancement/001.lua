@@ -2,9 +2,9 @@ Melia.Override("ON_CHANGE_JOB_BUTTON", function(original, frame, msg, name, rang
 	frame:ShowWindow(0)
 end)
 
-Melia.Override("CHANGEJOB_OPEN", function(original, frame)
-	original(frame)
-
+Melia.Hook("CHANGEJOB_OPEN", function(original, result, frame)
 	local class_select = GET_CHILD_RECURSIVELY(frame, "class_select")
 	class_select:ShowWindow(0)
+
+	return result
 end)
