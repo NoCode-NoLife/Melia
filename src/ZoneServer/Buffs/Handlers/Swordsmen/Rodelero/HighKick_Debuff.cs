@@ -33,7 +33,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 			if (!target.TryGetBuff(BuffId.HighKick_Debuff, out var buff))
 				return;
 
-			if (skill.IsNormalAttack && modifier.AttackType == SkillAttackType.Strike)
+			if (modifier.AttackType == SkillAttackType.Strike)
 				modifier.DamageMultiplier += 0.10f;
 		}
 	}
