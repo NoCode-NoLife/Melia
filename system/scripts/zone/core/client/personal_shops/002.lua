@@ -1,5 +1,5 @@
 -- Create system button to toggle buy-in shop creation window.
-Melia.Ui.SysMenu.AddButton("BtnBuyInShop", "sysmenu_wugushi", "Create Buy-in Shop", "M_TOGGLE_PERSONAL_SHOP()")
+--Melia.Ui.SysMenu.AddButton("BtnBuyInShop", "sysmenu_wugushi", "Create Buy-in Shop", "M_TOGGLE_PERSONAL_SHOP()")
 
 function M_TOGGLE_PERSONAL_SHOP()
 
