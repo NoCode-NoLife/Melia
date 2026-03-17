@@ -44,7 +44,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			if (!attacker.TryGetBuff(BuffId.Savagery_Buff, out var buff))
 				return;
 
-			if (skill.Data.AttackType == SkillAttackType.Aries || (attacker.IsAbilityActive(AbilityId.Barbarian6) && skill.Data.AttackType == SkillAttackType.Slash))
+			if (modifier.AttackType == SkillAttackType.Aries || (attacker.IsAbilityActive(AbilityId.Barbarian6) && modifier.AttackType == SkillAttackType.Slash))
 				modifier.HitCount++;
 		}
 	}

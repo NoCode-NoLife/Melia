@@ -5,7 +5,6 @@ using Melia.Zone.Scripting.ScriptableEvents;
 using Melia.Zone.Skills;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters.Components;
 
 namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 {
@@ -20,8 +19,6 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 	[BuffHandler(BuffId.HighKick_Debuff)]
 	public class HighKick_Debuff : BuffHandler
 	{
-		public const float StrikeDamageIncrease = 0.1f;
-
 		/// <summary>
 		/// Applies the buff's effect during the combat calculations.
 		/// </summary>
@@ -36,26 +33,8 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Rodelero
 			if (!target.TryGetBuff(BuffId.HighKick_Debuff, out var buff))
 				return;
 
-			if (skill.IsNormalAttack && IsStrike(attacker, skill))
-				modifier.DamageMultiplier += StrikeDamageIncrease;
-		}
-
-		/// <summary>
-		/// Returns true if the skill attack is classified as a strike.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="attacker"></param>
-		/// <returns></returns>
-		private static bool IsStrike(ICombatEntity attacker, Skill skill)
-		{
-			if (skill.Data.AttackType == SkillAttackType.Strike)
-				return true;
-
-			var weaponAttackType = attacker.Components.Get<InventoryComponent>()?.GetItem(EquipSlot.RightHand)?.Data.AttackType;
-			if (weaponAttackType == SkillAttackType.Strike)
-				return true;
-
-			return false;
+			if (skill.IsNormalAttack && modifier.AttackType == SkillAttackType.Strike)
+				modifier.DamageMultiplier += 0.10f;
 		}
 	}
 }

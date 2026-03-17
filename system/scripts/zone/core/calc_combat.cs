@@ -386,18 +386,8 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_AttackTypeMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		var attackType = skill.Data.AttackType;
+		var attackType = modifier.AttackType;
 		var targetArmor = target.ArmorMaterial;
-
-		// Use the right-hand weapon's attack type if a weapon is equipped.
-		// This doesn't necessarily take into account off-hand attacks,
-		// but it's currently unclear if/how those would be handled.
-		if (attacker.Components.TryGet<InventoryComponent>(out var inventory))
-		{
-			var rhItem = inventory.GetEquip(EquipSlot.RightHand);
-			if (rhItem is not DummyEquipItem)
-				attackType = rhItem.Data.AttackType;
-		}
 
 		if (Feature.IsEnabled("AttackTypeBonusRevamp2"))
 		{
@@ -536,6 +526,13 @@ public class CombatCalculationsScript : GeneralScript
 		result.KnockBack.Velocity = skill.Data.KnockDownVelocity;
 		result.KnockBack.VAngle = skill.Data.KnockDownVAngle;
 
+		// The attack type is apparently determined by the skill and the
+		// equipped weapon. If the skill id is in the typical basic skill
+		// range, its attack type is overwritten by the weapon's.
+		modifier.AttackType = skill.Data.AttackType;
+		if (skill.Id < (SkillId)100000 && attacker.TryGetItem(EquipSlot.RightHand, out var rhWeapon))
+			modifier.AttackType = rhWeapon.Data.AttackType;
+
 		result.Damage = SCR_CalculateDamage(attacker, target, skill, modifier, result);
 
 		if (!attacker.CanDamage(target))
@@ -561,7 +558,7 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GetDodgeChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		if (skill.Data.AttackType == SkillAttackType.Magic)
+		if (modifier.AttackType == SkillAttackType.Magic)
 			return 0;
 
 		if (modifier.ForcedHit)
@@ -601,7 +598,7 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GetBlockChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		if (skill.Data.AttackType == SkillAttackType.Magic)
+		if (modifier.AttackType == SkillAttackType.Magic)
 			return 0;
 
 		if (modifier.Unblockable)
@@ -653,7 +650,7 @@ public class CombatCalculationsScript : GeneralScript
 	[ScriptableFunction]
 	public float SCR_GetCritChance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
-		if (skill.Data.AttackType == SkillAttackType.Magic)
+		if (modifier.AttackType == SkillAttackType.Magic)
 			return 0;
 
 		if (modifier.ForcedCritical)

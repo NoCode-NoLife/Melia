@@ -199,6 +199,22 @@ namespace Melia.Zone.Skills.Combat
 		public bool ForcedCritical { get; set; }
 
 		/// <summary>
+		/// Gets or sets the type of the attack.
+		/// </summary>
+		/// <remarks>
+		/// By default, this is set to the attack type of the skill at the
+		/// beginning of the calculations, and certain skills may overwrite
+		/// it with the main weapon's attack type.
+		/// 
+		/// This property should be used to check the attack type for
+		/// buffs or other effects that depend on the type of attack.
+		/// 
+		/// A modification of this property may affect any number of
+		/// effects and shouldn't be done lightly.
+		/// </remarks>
+		public SkillAttackType AttackType { get; set; } = SkillAttackType.None;
+
+		/// <summary>
 		/// Gets or sets the attack's attribute.
 		/// </summary>
 		/// <remarks>

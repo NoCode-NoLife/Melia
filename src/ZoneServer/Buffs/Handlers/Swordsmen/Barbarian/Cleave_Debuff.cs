@@ -33,7 +33,7 @@ namespace Melia.Zone.Buffs.Handlers.Swordsmen.Barbarian
 			if (!target.TryGetBuff(BuffId.Cleave_Debuff, out var buff))
 				return;
 
-			if (skill.Data.AttackType == SkillAttackType.Slash)
+			if (modifier.AttackType == SkillAttackType.Slash)
 				modifier.DamageMultiplier += 0.2f;
 		}
 	}
