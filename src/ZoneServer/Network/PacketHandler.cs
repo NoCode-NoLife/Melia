@@ -3037,7 +3037,7 @@ namespace Melia.Zone.Network
 			}
 
 			var availableOptions = (ResurrectOptions)options;
-			if ((availableOptions & option) != 0)
+			if ((availableOptions & option) == 0)
 			{
 				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character with an unavailable option ('{1}' not in '{2}').", conn.Account.Name, option, availableOptions);
 				return;
