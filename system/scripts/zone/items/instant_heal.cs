@@ -8,14 +8,15 @@ using System;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors.Characters;
-using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Items;
+using Yggdrasil.Extensions;
 using Yggdrasil.Util;
 
 public class InstantHealItemScript : GeneralScript
 {
 	/// <summary>
-	/// Instantly restores HP. Supports HP potion bonus modifiers (HPPotion_BM).
+	/// Instantly restores HP. Supports HP potion bonus modifiers
+	/// (HPPotion_BM).
 	/// </summary>
 	/// <param name="character">The character that used the item.</param>
 	/// <param name="item">The item that was used.</param>
@@ -26,21 +27,28 @@ public class InstantHealItemScript : GeneralScript
 	[ScriptableFunction]
 	public ItemUseResult SCR_USE_ITEM_AddHP1(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
-		var hpHeal = (int)numArg1;
-		if (numArg2 != 0)
-			hpHeal = RandomProvider.Get().Next((int)numArg1, (int)numArg2);
+		var minAmount = numArg1;
+		var maxAmount = Math.Max(minAmount, numArg2);
 
-		if (character.Properties.TryGetFloat(PropertyName.HPPotion_BM, out var hpPotionBM) && hpPotionBM > 0)
-			hpHeal = (int)MathF.Floor(hpHeal * (1 + hpPotionBM / 100));
+		var healAmount = minAmount;
 
-		character.Heal(hpHeal, 0);
+		if (maxAmount > minAmount)
+		{
+			var rnd = RandomProvider.Get();
+			healAmount = rnd.Between(minAmount, maxAmount);
+		}
+
+		if (character.Properties.TryGetFloat(PropertyName.HPPotion_BM, out var byBuff) && byBuff > 0)
+			healAmount *= 1 + (byBuff / 100f);
+
+		character.Heal(healAmount, 0);
 
 		return ItemUseResult.Okay;
 	}
 
 	/// <summary>
-	/// Instantly restores SP. Supports SP potion bonus modifiers (SPPotion_BM).
-	/// Curse debuffs prevent SP recovery.
+	/// Instantly restores SP. Supports SP potion bonus modifiers
+	/// (SPPotion_BM).
 	/// </summary>
 	/// <param name="character">The character that used the item.</param>
 	/// <param name="item">The item that was used.</param>
@@ -51,20 +59,28 @@ public class InstantHealItemScript : GeneralScript
 	[ScriptableFunction]
 	public ItemUseResult SCR_USE_ITEM_AddSP1(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
-		var spHeal = (int)numArg1;
-		if (numArg2 != 0)
-			spHeal = RandomProvider.Get().Next((int)numArg1, (int)numArg2);
+		var minAmount = numArg1;
+		var maxAmount = Math.Max(minAmount, numArg2);
 
-		if (character.Properties.TryGetFloat(PropertyName.SPPotion_BM, out var spPotionBM) && spPotionBM > 0)
-			spHeal = (int)MathF.Floor(spHeal * (1 + spPotionBM / 100));
+		var healAmount = minAmount;
 
-		character.Heal(0, spHeal);
+		if (maxAmount > minAmount)
+		{
+			var rnd = RandomProvider.Get();
+			healAmount = rnd.Between(minAmount, maxAmount);
+		}
+
+		if (character.Properties.TryGetFloat(PropertyName.SPPotion_BM, out var byBuff) && byBuff > 0)
+			healAmount *= 1 + (byBuff / 100f);
+
+		character.Heal(0, healAmount);
 
 		return ItemUseResult.Okay;
 	}
 
 	/// <summary>
-	/// Instantly restores stamina. Supports stamina potion bonus modifiers (STAPotion_BM).
+	/// Instantly restores stamina. Supports stamina potion bonus
+	/// modifiers (STAPotion_BM).
 	/// </summary>
 	/// <param name="character">The character that used the item.</param>
 	/// <param name="item">The item that was used.</param>
@@ -75,22 +91,29 @@ public class InstantHealItemScript : GeneralScript
 	[ScriptableFunction]
 	public ItemUseResult SCR_USE_ITEM_AddSTA1(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
-		var stamina = (int)numArg1 * 1000;
-		var staminaMax = (int)numArg2 * 1000;
-		if (staminaMax != 0)
-			stamina = RandomProvider.Get().Next(stamina, staminaMax);
+		var minAmount = numArg1;
+		var maxAmount = Math.Max(minAmount, numArg2);
+
+		var healAmount = minAmount;
+
+		if (maxAmount > minAmount)
+		{
+			var rnd = RandomProvider.Get();
+			healAmount = rnd.Between(minAmount, maxAmount);
+		}
 
 		if (character.Properties.TryGetFloat(PropertyName.STAPotion_BM, out var staminaPotionBM) && staminaPotionBM > 0)
-			stamina = (int)MathF.Floor(stamina * (1 + staminaPotionBM / 100));
+			healAmount *= 1 + (staminaPotionBM / 100f);
 
-		character.ModifyStamina(stamina);
+		character.ModifyStamina((int)(healAmount * 1000));
 
 		return ItemUseResult.Okay;
 	}
 
 	/// <summary>
-	/// Instantly restores both HP and SP. Supports both HP and SP potion bonus modifiers.
-	/// Curse debuffs prevent SP recovery.
+	/// Instantly restores both HP and SP, with SP receiving half the
+	/// amount of healing. Supports both HP and SP potion bonus modifiers
+	/// (HPPotion_BM, SPPotion_BM).
 	/// </summary>
 	/// <param name="character">The character that used the item.</param>
 	/// <param name="item">The item that was used.</param>
@@ -101,16 +124,29 @@ public class InstantHealItemScript : GeneralScript
 	[ScriptableFunction]
 	public ItemUseResult SCR_USE_ITEM_AddHPSP1(Character character, Item item, string strArg, float numArg1, float numArg2)
 	{
-		var hpPoint = RandomProvider.Get().Next((int)numArg1, (int)numArg2);
-		var spPoint = RandomProvider.Get().Next((int)numArg1, (int)numArg2) / 2;
+		var minAmount = numArg1;
+		var maxAmount = Math.Max(minAmount, numArg2);
 
-		if (character.Properties.TryGetFloat(PropertyName.SPPotion_BM, out var spPotionBM) && spPotionBM > 0)
-			spPoint = (int)MathF.Floor(spPoint * (1 + spPotionBM / 100));
+		var hpHealAmount = minAmount;
+		var spHealAmount = minAmount;
+
+		if (maxAmount > minAmount)
+		{
+			var rnd = RandomProvider.Get();
+
+			hpHealAmount = rnd.Between(minAmount, maxAmount);
+			spHealAmount = rnd.Between(minAmount, maxAmount);
+		}
+
+		spHealAmount /= 2;
 
 		if (character.Properties.TryGetFloat(PropertyName.HPPotion_BM, out var hpPotionBM) && hpPotionBM > 0)
-			hpPoint = (int)MathF.Floor(hpPoint * (1 + hpPotionBM / 100));
+			hpHealAmount *= 1 + (hpPotionBM / 100f);
 
-		character.Heal(hpPoint, spPoint);
+		if (character.Properties.TryGetFloat(PropertyName.SPPotion_BM, out var spPotionBM) && spPotionBM > 0)
+			spHealAmount *= 1 + (spPotionBM / 100f);
+
+		character.Heal(hpHealAmount, spHealAmount);
 
 		return ItemUseResult.Okay;
 	}

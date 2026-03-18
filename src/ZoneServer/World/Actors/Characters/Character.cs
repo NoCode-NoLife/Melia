@@ -810,13 +810,10 @@ namespace Melia.Zone.World.Actors.Characters
 			PiercingHeart_Debuff.TryApply(this, ref hpAmount);
 
 			this.ModifyHpSafe(hpAmount, out var hp, out var priority);
-			if (hpAmount > 0)
-			{
-				Send.ZC_HEAL_INFO(this, hpAmount, this.Hp, HealType.Hp);
-			}
 			this.Properties.Modify(PropertyName.SP, spAmount);
-			if (spAmount > 0)
-				Send.ZC_HEAL_INFO(this, spAmount, this.Sp, HealType.Sp);
+
+			if (hpAmount > 0) Send.ZC_HEAL_INFO(this, hpAmount, this.MaxHp, HealType.Hp);
+			if (spAmount > 0) Send.ZC_HEAL_INFO(this, spAmount, this.MaxSp, HealType.Sp);
 
 			Send.ZC_UPDATE_ALL_STATUS(this, priority);
 		}
