@@ -1525,11 +1525,8 @@ namespace Melia.Zone.Commands
 		/// <returns></returns>
 		private CommandResult HandleHeal(Character sender, Character target, string message, string command, Arguments args)
 		{
-			if (args.Count > 3)
-				return CommandResult.InvalidArgument;
-
 			if (target.IsDead)
-				return CommandResult.Okay;
+				target.Resurrect(ResurrectOptions.TryAgain);
 
 			if (args.Count == 0)
 			{
