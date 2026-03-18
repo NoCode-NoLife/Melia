@@ -83,7 +83,7 @@ namespace Melia.Zone.Commands
 			this.Add("recallmap", "[map id/name]", "Warps all characters on given map back.", this.HandleRecallMap);
 			this.Add("recallall", "", "Warps all characters on the server back.", this.HandleRecallAll);
 			this.Add("heal", "[hp] [sp] [stamina]", "Heals the character's HP, SP, and Stamina.", this.HandleHeal);
-			this.Add("alive", "", "Revives the character if dead, or fully heals if alive.", this.HandleAlive);
+			this.Add("alive", "", "Revives the character if dead, or kills it if alive.", this.HandleAlive);
 			this.Add("clearinv", "", "Removes all items from inventory.", this.HandleClearInventory);
 			this.Add("addjob", "<job id> [circle]", "Adds a job to character.", this.HandleAddJob);
 			this.Add("removejob", "<job id>", "Removes a job from character.", this.HandleRemoveJob);
@@ -1623,7 +1623,7 @@ namespace Melia.Zone.Commands
 		}
 
 		/// <summary>
-		/// Revives the character if dead, or fully heals if alive.
+		/// Revives the character if dead, or kills it if alive
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="target"></param>
@@ -1644,13 +1644,11 @@ namespace Melia.Zone.Commands
 			}
 			else
 			{
-				target.ModifyHp(target.MaxHp);
-				target.ModifySp(target.MaxSp);
-				target.ModifyStamina(target.MaxStamina);
+				sender.Kill(target);
 
-				sender.ServerMessage(Localization.Get("Healed HP, SP, and Stamina to maximum."));
+				sender.ServerMessage(Localization.Get("Killed."));
 				if (sender != target)
-					target.ServerMessage(Localization.Get("Your HP, SP, and Stamina were fully restored by {0}."), sender.TeamName);
+					target.ServerMessage(Localization.Get("You were killed by {0}."), sender.TeamName);
 			}
 
 			return CommandResult.Okay;
