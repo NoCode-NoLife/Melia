@@ -1536,7 +1536,7 @@ namespace Melia.Zone.Commands
 			//   stamina without specifying HP and SP like so:
 			//   >heal sp:10
 
-			// Fully heal HP, SP and Stamina if no arguments are given
+			// Fully heal if no arguments are given
 			if (args.Count == 0)
 			{
 				target.ModifyHp(target.MaxHp);
@@ -1619,20 +1619,26 @@ namespace Melia.Zone.Commands
 		/// <param name="command"></param>
 		/// <param name="args"></param>
 		/// <returns></returns>
-		private CommandResult HandleAlive(Character sender, Character target, string message, string command, Arguments
-		args)
+		private CommandResult HandleAlive(Character sender, Character target, string message, string command, Arguments args)
 		{
 			if (target.IsDead)
 			{
-				// Revive in place like soul crystal
 				target.Resurrect(ResurrectOptions.TryAgain);
+
+				sender.ServerMessage(Localization.Get("Revived."));
+				if (sender != target)
+					target.ServerMessage(Localization.Get("You were revived by {0}."), sender.TeamName);
+
 			}
 			else
 			{
-				// Fully heal HP, SP and Stamina
 				target.ModifyHp(target.MaxHp);
 				target.ModifySp(target.MaxSp);
 				target.ModifyStamina(target.MaxStamina);
+
+				sender.ServerMessage(Localization.Get("Healed HP, SP, and Stamina to maximum."));
+				if (sender != target)
+					target.ServerMessage(Localization.Get("Your HP, SP, and Stamina were fully restored by {0}."), sender.TeamName);
 			}
 
 			return CommandResult.Okay;
