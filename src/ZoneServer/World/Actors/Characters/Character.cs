@@ -535,13 +535,15 @@ namespace Melia.Zone.World.Actors.Characters
 				if (_resurrectDialogTimer <= TimeSpan.Zero)
 				{
 					// TODO: Get a list of the appropriate resurrection
-					//   options and save them, to sanity check the coming
-					//   resurrection request.
+					// options based on the current environment, such as
+					// maps, PvP modes, etc.
 
 					var options = ResurrectOptions.NearestRevivalPoint;
 
 					if (ZoneServer.Instance.Conf.World.ResurrectCityOption)
 						options |= ResurrectOptions.NearestCity;
+
+					this.Variables.Perm.SetInt("Melia.ResurrectOptions", (int)options);
 
 					Send.ZC_RESURRECT_DIALOG(this, options);
 					_resurrectDialogTimer = ResurrectDialogDelay;

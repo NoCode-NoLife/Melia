@@ -23,6 +23,7 @@ using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Items;
 using Melia.Zone.World.Maps;
 using Melia.Zone.World.Storage;
+using Microsoft.CodeAnalysis;
 using Yggdrasil.Logging;
 
 namespace Melia.Zone.Network
@@ -3029,8 +3030,18 @@ namespace Melia.Zone.Network
 				return;
 			}
 
-			// TODO: Check if the option is valid and can be used by the
-			// player.
+			if (!character.Variables.Perm.TryGetInt("Melia.ResurrectOptions", out var options))
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character while no options were set.", conn.Account.Name);
+				return;
+			}
+
+			var availableOptions = (ResurrectOptions)options;
+			if ((availableOptions & option) != 0)
+			{
+				Log.Warning("CZ_RESURRECT: User '{0}' tried to revive their character with an unavailable option ('{1}' not in '{2}').", conn.Account.Name, option, availableOptions);
+				return;
+			}
 
 			character.Resurrect(option);
 		}
