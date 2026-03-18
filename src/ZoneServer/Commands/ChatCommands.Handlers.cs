@@ -1531,12 +1531,6 @@ namespace Melia.Zone.Commands
 			if (target.IsDead)
 				return CommandResult.Okay;
 
-			// TODO: Maybe refactor to take indexed arguments, named
-			//   ones, or combinations, so you can, for example, heal
-			//   stamina without specifying HP and SP like so:
-			//   >heal sp:10
-
-			// Fully heal if no arguments are given
 			if (args.Count == 0)
 			{
 				target.ModifyHp(target.MaxHp);
@@ -1546,66 +1540,84 @@ namespace Melia.Zone.Commands
 				sender.ServerMessage(Localization.Get("Healed HP, SP and Stamina."));
 				if (sender != target)
 					target.ServerMessage(Localization.Get("Your HP, SP and Stamina were healed by {0}."), sender.TeamName);
+
+				return CommandResult.Okay;
 			}
-			// Modify only HP if one argument is given
-			else if (args.Count == 1)
+
+			var hpModify = 0f;
+			var spModify = 0f;
+			var stModify = 0f;
+
+			if (args.IndexedCount >= 1)
 			{
-				if (!int.TryParse(args.Get(0), out var hpAmount))
+				if (!float.TryParse(args.Get(0), CultureInfo.InvariantCulture, out hpModify))
 					return CommandResult.InvalidArgument;
-
-				target.ModifyHp(hpAmount);
-
-				sender.ServerMessage(Localization.Get("Healed HP by {0} points."), hpAmount);
-				if (sender != target)
-					target.ServerMessage(Localization.Get("{0} healed your HP by {1} points."), sender.TeamName, hpAmount);
 			}
-			// Modify HP and SP if two arguments are given
-			else if (args.Count == 2)
+
+			if (args.IndexedCount >= 2)
 			{
-				if (!int.TryParse(args.Get(0), out var hpAmount))
+				if (!float.TryParse(args.Get(1), CultureInfo.InvariantCulture, out spModify))
 					return CommandResult.InvalidArgument;
-
-				if (!int.TryParse(args.Get(1), out var spAmount))
-					return CommandResult.InvalidArgument;
-
-				target.ModifyHp(hpAmount);
-				target.ModifySp(spAmount);
-
-				sender.ServerMessage(Localization.Get("Healed HP by {0} and SP by {1} points."), hpAmount, spAmount);
-				if (sender != target)
-					target.ServerMessage(Localization.Get("{0} healed your HP by {1} and your SP by {2} points."), sender.TeamName, hpAmount, spAmount);
 			}
-			// Modify HP, SP, and Stamina if three arguments are given
-			else if (args.Count >= 3)
+
+			if (args.IndexedCount >= 3)
 			{
-				if (!int.TryParse(args.Get(0), out var hpAmount))
+				if (!float.TryParse(args.Get(2), CultureInfo.InvariantCulture, out stModify))
 					return CommandResult.InvalidArgument;
+			}
 
-				if (!int.TryParse(args.Get(1), out var spAmount))
+			if (args.TryGet("hp", out var hpArg))
+			{
+				if (!float.TryParse(hpArg, CultureInfo.InvariantCulture, out hpModify))
 					return CommandResult.InvalidArgument;
+			}
 
-				if (!int.TryParse(args.Get(2), out var staminaAmount))
+			if (args.TryGet("sp", out var spArg))
+			{
+				if (!float.TryParse(spArg, CultureInfo.InvariantCulture, out spModify))
 					return CommandResult.InvalidArgument;
+			}
 
+			if (args.TryGet("stamina", out var stArg))
+			{
+				if (!float.TryParse(stArg, CultureInfo.InvariantCulture, out stModify))
+					return CommandResult.InvalidArgument;
+			}
+
+			if (hpModify != 0)
+				target.ModifyHp(hpModify);
+
+			if (spModify != 0)
+				target.ModifySp(spModify);
+
+			if (stModify != 0)
+			{
 				// Adjust Stamina to match the game's display value, since
 				// most users of this command wouldn't be aware of this
 				// property's value being 1000 times larger than displayed.
-				staminaAmount *= 1000;
+				stModify *= 1000;
 
-				target.ModifyHp(hpAmount);
-				target.ModifySp(spAmount);
-				target.ModifyStamina(staminaAmount);
-
-				sender.ServerMessage(Localization.Get("Healed HP by {0}, SP by {1}, and Stamina by {2} points."), hpAmount, spAmount, staminaAmount);
-				if (sender != target)
-					target.ServerMessage(Localization.Get("{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points."), sender.TeamName, hpAmount, spAmount, staminaAmount);
+				target.ModifyStamina((int)stModify);
 			}
+
+			var modifiedStats = new List<string>();
+			var modifiedStr = "";
+
+			if (hpModify != 0) modifiedStats.Add(string.Format(Localization.Get("HP by {0}"), hpModify));
+			if (spModify != 0) modifiedStats.Add(string.Format(Localization.Get("SP by {0}"), spModify));
+			if (stModify != 0) modifiedStats.Add(string.Format(Localization.Get("Stamina by {0:0}"), stModify / 1000));
+
+			if (modifiedStats.Count == 1)
+				modifiedStr = modifiedStats[0];
+			else if (modifiedStats.Count == 2)
+				modifiedStr = string.Format(Localization.Get("{0} and {1}"), modifiedStats[0], modifiedStats[1]);
+			else if (modifiedStats.Count == 3)
+				modifiedStr = string.Format(Localization.Get("{0}, {1}, and {2}"), modifiedStats[0], modifiedStats[1], modifiedStats[2]);
+
+			sender.ServerMessage(Localization.Get("Healed {0} points."), modifiedStr);
 
 			if (target.Hp == 0)
-			{
-				// Commit sudoku
 				sender.Kill(target);
-			}
 
 			return CommandResult.Okay;
 		}
