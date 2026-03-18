@@ -3029,6 +3029,9 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			// TODO: Check if the option is valid and can be used by the
+			// player.
+
 			character.Resurrect(option);
 		}
 

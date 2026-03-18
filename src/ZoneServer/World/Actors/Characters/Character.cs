@@ -1383,6 +1383,11 @@ namespace Melia.Zone.World.Actors.Characters
 					this.Warp(location);
 					break;
 				}
+				case ResurrectOptions.TryAgain:
+				{
+					// No warping.
+					break;
+				}
 			}
 
 			Send.ZC_RESURRECT_SAVE_POINT_ACK(this);
