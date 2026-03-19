@@ -343,6 +343,25 @@ namespace Melia.Zone
 			this.IesMods.Add("SharedConst", 10004, "Value", this.Conf.World.StorageExtCost); // WAREHOUSE_EXTEND_PRICE
 			this.IesMods.Add("SharedConst", 10010, "Value", this.Conf.World.StorageMaxExtensions); // WAREHOUSE_MAX_COUNT
 			this.IesMods.Add("SharedConst", 100050, "Value", this.Conf.World.JobMaxRank); // JOB_CHANGE_MAX_RANK
+
+			// Goddess Bills - Paper currency items for trading
+			// Adds custom names and descriptions for paper currency items
+			// used with the Silver Exchanger NPC.
+			if (this.Conf.World.GoddessBillsEnabled)
+			{
+				this.IesMods.Add("Item", 900426, "Name", "Goddess Bill (500,000)");
+				this.IesMods.Add("Item", 900426, "Desc", "A high-value paper bill worth 500,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+				this.IesMods.Add("Item", 900269, "Name", "Goddess Bill (100,000)");
+				this.IesMods.Add("Item", 900269, "Desc", "A paper bill worth 100,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+				this.IesMods.Add("Item", 900268, "Name", "Goddess Bill (50,000)");
+				this.IesMods.Add("Item", 900268, "Desc", "A paper bill worth 50,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+				this.IesMods.Add("Item", 900267, "Name", "Goddess Bill (10,000)");
+				this.IesMods.Add("Item", 900267, "Desc", "A paper bill worth 10,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+				this.IesMods.Add("Item", 900266, "Name", "Goddess Bill (5,000)");
+				this.IesMods.Add("Item", 900266, "Desc", "A paper bill worth 5,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+				this.IesMods.Add("Item", 900265, "Name", "Goddess Bill (1,000)");
+				this.IesMods.Add("Item", 900265, "Desc", "A paper bill worth 1,000 silver. Can be exchanged back to silver at any Silver Exchanger NPC.");
+			}
 		}
 
 		/// <summary>
