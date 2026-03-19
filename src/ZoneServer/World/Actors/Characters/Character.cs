@@ -372,6 +372,11 @@ namespace Melia.Zone.World.Actors.Characters
 		public QuestComponent Quests { get; }
 
 		/// <summary>
+		/// Returns the character's time action component.
+		/// </summary>
+		public TimeActionComponent TimeActions { get; }
+
+		/// <summary>
 		/// Returns the character's collection manager.
 		/// </summary>
 		public CollectionComponent Collections { get; }
@@ -434,7 +439,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Components.Add(new RecoveryComponent(this));
 			this.Components.Add(new CombatComponent(this));
 			this.Components.Add(new CooldownComponent(this));
-			this.Components.Add(new TimeActionComponent(this));
+			this.Components.Add(this.TimeActions = new TimeActionComponent(this));
 			this.Components.Add(new StateLockComponent(this));
 			this.Components.Add(this.Quests = new QuestComponent(this));
 			this.Components.Add(this.Collections = new CollectionComponent(this));
