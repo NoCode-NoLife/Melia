@@ -11745,6 +11745,7 @@
 { classId: 102574, className: "AnotherRequestProcessing", text: "Waiting for another guild member’s request. Please try again later." },
 { classId: 102575, className: "GrowthGuildFeatureLimit", text: "ToS Support Guild cannot use this function." },
 { classId: 102576, className: "GuildDignityEffect", text: "Dignity of Guild" },
+{ classId: 102577, className: "GuildEventRecruitingStartLimit", text: "Your level does not meet the requirement to proceed with the guild quest." },
 { classId: 103001, className: "THSword", text: "Two-handed Sword" },
 { classId: 103002, className: "Sword", text: "One-handed Sword" },
 { classId: 103003, className: "EquipAll", text: "All Equipment" },

@@ -2642,4 +2642,8 @@
 { jobId: 5024, riding: false, rightHand: "Pistol", leftHand: "None", stanceId: 10041 },
 { jobId: 5024, riding: false, rightHand: "Dagger", leftHand: "None", stanceId: 10042 },
 { jobId: 5024, riding: false, rightHand: "Artefact", leftHand: "None", stanceId: 10020 },
+{ jobId: 5023, riding: false, rightHand: "Artefact", leftHand: "None", stanceId: 10020 },
+{ jobId: 5022, riding: false, rightHand: "Artefact", leftHand: "None", stanceId: 10020 },
+{ jobId: 5019, riding: false, rightHand: "Artefact", leftHand: "None", stanceId: 10020 },
+{ jobId: 5020, riding: false, rightHand: "Artefact", leftHand: "None", stanceId: 10020 },
 ]

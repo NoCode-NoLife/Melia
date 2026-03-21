@@ -20805,6 +20805,14 @@ public static class ItemId
 	public const int Special_Gift_Box_Leticia_2602 = 11205578;
 	public const int Leticia_KnellerT_Unlockbox = 11205579;
 	public const int Special_Gift_Box_Leticia_2603 = 11205580;
+	public const int I202603_Package01 = 11205587;
+	public const int I202603_Package02 = 11205588;
+	public const int I202603_Package03 = 11205589;
+	public const int I202603_Package04 = 11205590;
+	public const int I202603_Package05 = 11205591;
+	public const int I202603_Package06 = 11205592;
+	public const int I202603_Package07 = 11205593;
+	public const int I202603_Package08 = 11205594;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
