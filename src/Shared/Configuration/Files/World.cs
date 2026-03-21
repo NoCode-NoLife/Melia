@@ -123,7 +123,7 @@ namespace Melia.Shared.Configuration.Files
 
 			this.StorageFee = this.GetInt("storage_fee", 20);
 			this.StorageExtCost = this.GetInt("storage_ext_cost", 20);
-			this.StorageDefaultSize = this.GetInt("storage_default_size", 60);
+			this.StorageDefaultSize = this.GetInt("storage_default_size", 110);
 			this.StorageMaxSize = this.GetInt("storage_max_size", 110);
 			this.StorageMultiStack = this.GetBool("storage_multi_stack", true);
 
