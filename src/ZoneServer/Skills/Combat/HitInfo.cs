@@ -1,8 +1,6 @@
 ﻿using System;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 
 namespace Melia.Zone.Skills.Combat
 {
