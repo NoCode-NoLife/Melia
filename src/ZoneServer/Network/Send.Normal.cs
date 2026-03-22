@@ -392,33 +392,33 @@ namespace Melia.Zone.Network
 			/// <summary>
 			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
-			/// <param name="caster"></param>
-			/// <param name="pad"></param>
-			/// <param name="padName"></param>
-			/// <param name="f1"></param>
-			/// <param name="f2"></param>
-			/// <param name="f3"></param>
-			/// <param name="isVisible"></param>
-			public static void PadUpdate(ICombatEntity caster, Pad pad, string padName, float f1, float f2, float f3, bool isVisible)
+			/// <param name="caster">The pad's creator.</param>
+			/// <param name="pad">The pad to update.</param>
+			/// <param name="padName">Name of the pad, used to reference client-sided pad data.</param>
+			/// <param name="angle">Pos.Angle value found in bytool data.</param>
+			/// <param name="dist">Pos.Dist value found in bytool data.</param>
+			/// <param name="f3">Unknown floating point value found in packet logs.</param>
+			/// <param name="isVisible">Whether to display or hide the pad.</param>
+			public static void PadUpdate(ICombatEntity caster, Pad pad, string padName, float angle, float dist, float f3, bool isVisible)
 			{
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
-				packet.PutInt(caster.Handle);
+				packet.PutInt(pad.Creator.Handle);
 				packet.AddStringId(padName);
 				packet.PutInt((int)pad.Skill.Id);
 				packet.PutInt(pad.Skill.Level);
 				packet.PutPosition(pad.Position);
 				packet.PutDirection(pad.Direction);
-				packet.PutFloat(f1);
-				packet.PutFloat(f2);
+				packet.PutFloat(angle);
+				packet.PutFloat(dist);
 				packet.PutInt(pad.Handle);
 				packet.PutInt(isVisible ? 1 : 0); // Possibly a bool with a 3 byte gap
 				packet.PutEmptyBin(13);
 				packet.PutFloat(f3);
 				packet.PutEmptyBin(16);
 
-				caster.Map.Broadcast(packet, caster);
+				pad.Map.Broadcast(packet, pad);
 			}
 
 			/// <summary>

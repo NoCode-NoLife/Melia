@@ -478,14 +478,14 @@ switch (type)
     // SKL_RUN_SCRIPT or MONSKL_CRE_PAD
     case 0x59:
         int handle;
-        int packetString; // 570003 or 390162 (Packet String)
-        int skillId; // 20002 or 163853
-        int i1; // count? 1
-        position targetPosition;
-        direction targetDirection;
-        float f1; // 0
-        float f2; // duration? 0
-        int skillHandle; // 109539
+        int packetString;
+        int skillId;
+        int skillLevel;
+        position position;
+        direction direction;
+        float angle;
+        float dist;
+        int padHandle;
         int i4; // 1
         byte bin1[13]; // 0s
         float f3; // 20 or 50
@@ -618,8 +618,8 @@ switch (type)
     case 0x89:
         int handle;
         position pos;
-        float f1; // 200
-        float f2; // 5
+        float angle; // 200
+        float dist; // 5
         int i1; // 963
         int i2; // 0
         float f3; // 0.5
