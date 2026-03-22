@@ -10,7 +10,7 @@ namespace Melia.Shared.ObjectProperties
 	/// </summary>
 	public class Properties : VariableContainer<string>
 	{
-		private readonly Dictionary<string, List<string>> _maxProperties = new Dictionary<string, List<string>>();
+		private readonly Dictionary<string, List<string>> _maxProperties = new();
 		private readonly bool _checkNamespaceValidity;
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Melia.Shared.ObjectProperties
 		/// <exception cref="ArgumentException"></exception>
 		public override TVariable Create<TVariable>(TVariable variable)
 		{
-			if (!(variable is IProperty))
+			if (variable is not IProperty)
 				throw new ArgumentException($"The given variable '{variable.Ident}' is not a property.");
 
 			if (_checkNamespaceValidity)
@@ -396,7 +396,7 @@ namespace Melia.Shared.ObjectProperties
 
 			foreach (var propertyName in propertyNames)
 			{
-				if (!this.TryGet(propertyName, out var property) || !(property is FloatProperty floatProperty))
+				if (!this.TryGet(propertyName, out var property) || property is not FloatProperty floatProperty)
 					continue;
 
 				floatProperty.MaxValue = maxProperty.Value;
