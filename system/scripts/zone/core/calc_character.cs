@@ -640,7 +640,7 @@ public class CharacterCalculationsScript : GeneralScript
 		var defaultTime = 20000;
 
 		// Item.RHPTIME doesn't exist?
-		var byItems = 0; ; // TimeSpan.FromMilliseconds(character.Inventory.GetEquipProperties("RHPTIME"));
+		var byItems = 0; // TimeSpan.FromMilliseconds(character.Inventory.GetEquipProperties("RHPTIME"));
 		var byBuffs = properties.GetFloat(PropertyName.RHPTIME_BM);
 
 		var value = defaultTime - byItems - byBuffs;
@@ -684,7 +684,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		var baseValue = 20000;
 
-		var byItems = 0; ; // TimeSpan.FromMilliseconds(character.Inventory.GetEquipProperties("RSPTIME"));
+		var byItems = 0; // TimeSpan.FromMilliseconds(character.Inventory.GetEquipProperties("RSPTIME"));
 		var byBuffs = properties.GetFloat(PropertyName.RSPTIME_BM);
 
 		var value = baseValue - byItems - byBuffs;
