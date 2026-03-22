@@ -386,6 +386,9 @@ namespace Melia.Zone.World.Actors.Characters.Components
 				//   for the moment, in case all this doesn't work out the
 				//   way I expect it to.
 
+				if (this.Rank == 0)
+					throw new InvalidOperationException("The job needs to be added to a character before the level can be determined.");
+
 				var jobId = this.Id;
 				var rank = this.Rank;
 				var totalExp = this.TotalExp;

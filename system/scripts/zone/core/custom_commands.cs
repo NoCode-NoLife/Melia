@@ -126,11 +126,11 @@ public class CustomCommandFunctionsScript : GeneralScript
 
 		var newJob = new Job(character, jobId, skillPoints: 1);
 
-		Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
-		Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
-
 		character.JobId = jobId;
 		character.Jobs.Add(newJob);
+
+		Send.ZC_PC(character, PcUpdateType.Job, (int)newJob.Id, newJob.Level);
+		Send.ZC_NORMAL.PlayEffect(character, "F_pc_class_change");
 
 		// Should the event happen regardless of how the job
 		// change happened? Should this code be cleaned up to
