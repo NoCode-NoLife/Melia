@@ -389,7 +389,7 @@ namespace Melia.Zone.Network
 				character.Connection.Send(packet);
 			}
 
-			/// <Summary>
+			/// <summary>
 			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
 			/// <param name="caster"></param>
