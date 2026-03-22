@@ -1913,6 +1913,14 @@ namespace Melia.Zone.Network
 		/// Informs players about a hit that occured, and about the target's
 		/// new hp, after damage was applied.
 		/// </summary>
+		/// <param name="hitInfo"></param>
+		public static void ZC_HIT_INFO(HitInfo hitInfo)
+			=> ZC_HIT_INFO(hitInfo.Attacker, hitInfo.Target, hitInfo);
+
+		/// <summary>
+		/// Informs players about a hit that occured, and about the target's
+		/// new hp, after damage was applied.
+		/// </summary>
 		/// <param name="attacker"></param>
 		/// <param name="hits"></param>
 		public static void ZC_SKILL_HIT_INFO(IActor attacker, params SkillHitInfo[] hits)
