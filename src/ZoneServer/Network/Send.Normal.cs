@@ -675,6 +675,25 @@ namespace Melia.Zone.Network
 			/// in the right place.
 			/// </remarks>
 			/// <param name="entity"></param>
+			/// <param name="target"></param>
+			/// <param name="originPos"></param>
+			/// <param name="farPos"></param>
+			public static void UpdateSkillEffect(ICombatEntity entity, ICombatEntity target, Position originPos, Position farPos)
+				=> UpdateSkillEffect(entity, target?.Handle ?? 0, originPos, entity.Direction, farPos);
+
+			/// <summary>
+			/// Appears to update information about a skill effect on the
+			/// clients in range of entity.
+			/// </summary>
+			/// <remarks>
+			/// Observed updating the origin position of the Earthquake
+			/// effect. Once the packet was sent once, the dust cloud
+			/// effect would always appear at the same location, even
+			/// when the packet was no longer sent. Only if it was
+			/// sent did the location update and the effect appeared
+			/// in the right place.
+			/// </remarks>
+			/// <param name="entity"></param>
 			/// <param name="targetHandle"></param>
 			/// <param name="originPos"></param>
 			/// <param name="direction"></param>
