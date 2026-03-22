@@ -321,6 +321,16 @@ namespace Melia.Zone.World.Actors.Components
 
 			_destroyed = true;
 
+			// Should we raise Left here? To me, this would be more
+			// intuitive than having to potentially duplicate code in the
+			// Destroyed subscribers, but there might be edge cases where
+			// this is not desired. The official pads also duplicate the
+			// relevant code, so we might want to play it safe and not
+			// do this. Still...
+			//var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area, this.IsValidTriggerer);
+			//foreach (var actor in nowInside)
+			//	this.Left?.Invoke(this, new TriggerActorArgs(TriggerType.Leave, this.Owner, actor));
+
 			this.Destroyed?.Invoke(this, new TriggerArgs(TriggerType.Destroy, this.Owner));
 		}
 
