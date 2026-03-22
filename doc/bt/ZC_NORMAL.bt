@@ -481,8 +481,8 @@ switch (type)
         int packetString;
         int skillId;
         int skillLevel;
-        position position;
-        direction direction;
+        position pos;
+        direction dir;
         float angle;
         float dist;
         int padHandle;
