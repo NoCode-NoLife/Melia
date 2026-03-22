@@ -1,12 +1,11 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
+using Melia.Zone.Buffs;
 using Melia.Zone.Network;
-using Yggdrasil.Util;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Items;
-using Melia.Zone.Buffs;
-using Melia.Shared.Data.Database;
+using Yggdrasil.Util;
 
 namespace Melia.Zone.World.Actors.Characters
 {
@@ -141,6 +140,15 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.Guardable, "SCR_Get_Character_Guardable");
 			this.Create(PropertyName.LootingChance, "SCR_Get_Character_LootingChance");
 
+			this.Create(PropertyName.ResFire, "SCR_GET_RES_FIRE");
+			this.Create(PropertyName.ResIce, "SCR_GET_RES_ICE");
+			this.Create(PropertyName.ResLightning, "SCR_GET_RES_LIGHTNING");
+			this.Create(PropertyName.ResEarth, "SCR_GET_RES_EARTH");
+			this.Create(PropertyName.ResPoison, "SCR_GET_RES_POISON");
+			this.Create(PropertyName.ResHoly, "SCR_GET_RES_HOLY");
+			this.Create(PropertyName.ResDark, "SCR_GET_RES_DARK");
+			this.Create(PropertyName.ResSoul, "SCR_GET_RES_SOUL");
+
 			// TODO: Update damage bonus properties based on equipment and
 			//   other potential factors.
 			this.Create(new RFloatProperty(PropertyName.Attribute, () => (int)AttributeType.None));
@@ -199,6 +207,14 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate(PropertyName.MaxWeight, [PropertyName.CON, PropertyName.STR, PropertyName.MaxWeight_BM, PropertyName.MaxWeight_Bonus]);
 			this.AutoUpdate(PropertyName.MovingShot, [PropertyName.MovingShot_BM, PropertyName.MovingShotable]);
 			this.AutoUpdate(PropertyName.LootingChance, [PropertyName.LootingChance_BM]);
+			this.AutoUpdate(PropertyName.ResFire, [PropertyName.ResFire_BM]);
+			this.AutoUpdate(PropertyName.ResIce, [PropertyName.ResIce_BM]);
+			this.AutoUpdate(PropertyName.ResLightning, [PropertyName.ResLightning_BM]);
+			this.AutoUpdate(PropertyName.ResEarth, [PropertyName.ResEarth_BM]);
+			this.AutoUpdate(PropertyName.ResPoison, [PropertyName.ResPoison_BM]);
+			this.AutoUpdate(PropertyName.ResHoly, [PropertyName.ResHoly_BM]);
+			this.AutoUpdate(PropertyName.ResDark, [PropertyName.ResDark_BM]);
+			this.AutoUpdate(PropertyName.ResSoul, [PropertyName.ResSoul_BM]);
 
 			this.AutoUpdateMax(PropertyName.HP, PropertyName.MHP);
 			this.AutoUpdateMax(PropertyName.SP, PropertyName.MSP);

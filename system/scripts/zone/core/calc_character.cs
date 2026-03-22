@@ -1500,4 +1500,132 @@ public class CharacterCalculationsScript : GeneralScript
 
 		return (int)value;
 	}
+
+	/// <summary>
+	/// Returns the character's fire resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_FIRE(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_FIRE);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResFire_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's ice resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_ICE(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_ICE);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResIce_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's lightning resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_LIGHTNING(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_LIGHTNING);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResLightning_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's earth resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_EARTH(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_EARTH);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResEarth_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's poison resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_POISON(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_POISON);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResPoison_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's holy resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_HOLY(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_HOLY);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResHoly_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's dark resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_DARK(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_DARK);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResDark_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the character's soul resistance.
+	/// </summary>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_RES_SOUL(Character character)
+	{
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.RES_SOUL);
+		var byBuff = character.Properties.GetFloat(PropertyName.ResSoul_BM);
+
+		var value = byItem + byBuff;
+
+		return (int)value;
+	}
 }

@@ -461,4 +461,144 @@ public class MonsterCalculationsFunctionsScript : GeneralScript
 
 		return (int)value;
 	}
+
+	/// <summary>
+	/// Returns the monster's fire defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_FIRE_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Fire_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Fire_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's ice defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_ICE_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Ice_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Ice_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's lightning defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_LIGHTNING_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Lightning_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Lightning_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's earth defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_EARTH_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Earth_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Earth_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's poison defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_POISON_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Poison_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Poison_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's holy defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_HOLY_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Holy_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Holy_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
+
+	/// <summary>
+	/// Returns the monster's dark defense.
+	/// </summary>
+	/// <param name="monster"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_GET_MON_DARK_DEF(Mob monster)
+	{
+		var properties = monster.Properties;
+
+		var baseValue = 0f;
+		if (monster.Properties.Overrides.TryGetFloat(PropertyName.Dark_Def, out var overrideValue))
+			baseValue = overrideValue;
+
+		var byBuffs = properties.GetFloat(PropertyName.Dark_Def_BM);
+		var value = baseValue + byBuffs;
+
+		return (int)value;
+	}
 }
