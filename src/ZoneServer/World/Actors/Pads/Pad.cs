@@ -1,4 +1,5 @@
 ﻿using System;
+using Melia.Zone.Network;
 using Melia.Zone.Pads;
 using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills;
@@ -44,6 +45,38 @@ namespace Melia.Zone.World.Actors.Pads
 		public IShapeF Area { get; }
 
 		/// <summary>
+		/// Gets or sets the pad's "angle".
+		/// </summary>
+		/// <remarks>
+		/// It's currently unknown what exactly this property does. It can
+		/// be found in pad-related packets and in the skill bytool data
+		/// (element "Pos", argument "Angle"), but it doesn't appear to
+		/// have any effect on the pad or its visuals.
+		/// </remarks>
+		public float Angle { get; set; }
+
+		/// <summary>
+		/// Gets or sets the pad's "distance".
+		/// </summary>
+		/// <remarks>
+		/// It's currently unknown what exactly this property does. It can
+		/// be found in pad-related packets and in the skill bytool data
+		/// (element "Pos", argument "Dist"), but it doesn't appear to
+		/// have any effect on the pad or its visuals.
+		/// </remarks>
+		public float Distance { get; set; }
+
+		/// <summary>
+		/// Gets or sets the pad's unknown f3 value.
+		/// </summary>
+		/// <remarks>
+		/// It's currently unknown what exactly this property does. It can
+		/// be found in pad-related packets, but it doesn't appear to have
+		/// any effect on the pad or its visuals.
+		/// </remarks>
+		public float UnkF3 { get; set; }
+
+		/// <summary>
 		/// Returns the pad's movement component.
 		/// </summary>
 		public PadMovementComponent Movement { get; }
@@ -71,25 +104,16 @@ namespace Melia.Zone.World.Actors.Pads
 		/// <summary>
 		/// Creates a new pad.
 		/// </summary>
-		/// <param name="creator"></param>
-		/// <param name="skill"></param>
-		/// <param name="triggerArea"></param>
-		public Pad(IActor creator, Skill skill, IShapeF triggerArea)
-			: this(null, creator, skill, triggerArea)
-		{
-		}
-
-		/// <summary>
-		/// Creates a new pad.
-		/// </summary>
-		/// <param name="name">
-		/// If not null, a pad handler with the given name will be looked up.
-		/// And its methods will be registered as trigger events. The given
-		/// handler must exist. Use null if no handler is needed.
-		/// </param>
-		/// <param name="creator"></param>
-		/// <param name="skill"></param>
-		/// <param name="triggerArea"></param>
+		/// <remarks>
+		/// We currently allow null names for pads, in which case no
+		/// handler will be registered, but this might change in the
+		/// future. If at all possible, the official name of the pad
+		/// should be used.
+		/// </remarks>
+		/// <param name="name">The name of the pad, as defined in the client and the PadName enum.</param>
+		/// <param name="creator">The actor that created the pad.</param>
+		/// <param name="skill">The skill that created the pad.</param>
+		/// <param name="triggerArea">The area that defines the pad's trigger zone.</param>
 		/// <exception cref="ArgumentException">
 		/// Thrown if a handler with the given name does not exist.
 		/// </exception>
@@ -111,6 +135,38 @@ namespace Melia.Zone.World.Actors.Pads
 		}
 
 		/// <summary>
+		/// Creates a new pad.
+		/// </summary>
+		/// <remarks>
+		/// This factory method will replace the Pad constructor in the
+		/// future and should be used in favor of it going forward. With
+		/// its options
+		/// </remarks>
+		/// <param name="name">The name of the pad, as defined in the client and the PadName enum.</param>
+		/// <param name="creator">The actor that created the pad.</param>
+		/// <param name="skill">The skill that created the pad.</param>
+		/// <param name="triggerArea">The area that defines the pad's trigger zone.</param>
+		/// <param name="options">Options that define additional properties for the pad.</param>
+		/// <exception cref="ArgumentException">
+		/// Thrown if a handler with the given name does not exist.
+		/// </exception>
+		public static Pad Create(string name, IActor creator, Skill skill, IShapeF triggerArea, PadOptions options)
+		{
+			var pad = new Pad(name, creator, skill, triggerArea);
+
+			pad.Angle = options.Angle;
+			pad.Distance = options.Distance;
+			pad.Trigger.LifeTime = options.LifeTime;
+			pad.Trigger.MaxActorCount = options.MaxActorCount;
+			pad.Trigger.MaxUseCount = options.MaxUseCount;
+
+			pad.Trigger.Subscribe(TriggerType.Create, pad.UpdatePadShow);
+			pad.Trigger.Subscribe(TriggerType.Destroy, pad.UpdatePadHide);
+
+			return pad;
+		}
+
+		/// <summary>
 		/// Looks up the handler for the given name and registers its methods
 		/// as trigger events.
 		/// </summary>
@@ -125,6 +181,26 @@ namespace Melia.Zone.World.Actors.Pads
 			if (handler is IEnterPadHandler enter) this.Trigger.Subscribe(TriggerType.Enter, enter.Entered);
 			if (handler is ILeavePadHandler leave) this.Trigger.Subscribe(TriggerType.Leave, leave.Left);
 			if (handler is IUpdatePadHandler update) this.Trigger.Subscribe(TriggerType.Update, update.Updated);
+		}
+
+		/// <summary>
+		/// Called when the pad and its trigger are created.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void UpdatePadShow(object sender, TriggerArgs e)
+		{
+			Send.ZC_NORMAL.PadUpdate(this, true);
+		}
+
+		/// <summary>
+		/// Called when the pad and its trigger are destroyed.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void UpdatePadHide(object sender, TriggerArgs e)
+		{
+			Send.ZC_NORMAL.PadUpdate(this, false);
 		}
 
 		/// <summary>
