@@ -124,7 +124,12 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 			var targets = pad.Trigger.GetAttackableEntities(caster);
 
 			foreach (var target in targets.Limit(pad.Trigger.MaxActorCount))
+			{
+				if (target.MoveType == MoveType.Flying)
+					continue;
+
 				target.TakeSkillHit(caster, skill);
+			}
 		}
 	}
 }
