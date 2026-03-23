@@ -417,16 +417,13 @@ namespace Melia.Zone.World
 
 					foreach (var partyCharacter in partyCharacters)
 					{
-						var (penalizedExp, penalizedClassExp) = this.ApplyLevelPenalty(
-							exp,
-							classExp,
-							partyCharacter.Level,
-							highestLevel
-						);
+						var levelDifference = highestLevel - partyCharacter.Level;
+						if (levelDifference >= ZoneServer.Instance.Conf.World.PartyLevelPenaltyThreshold3)
+							continue;
 
 						partyCharacter?.GiveExp(
-							penalizedExp,
-							penalizedClassExp,
+							exp,
+							classExp,
 							(partyCharacter.ObjectId == killer.ObjectId) ? monster : null
 						);
 					}
@@ -435,6 +432,11 @@ namespace Melia.Zone.World
 				case PartyExpDistribution.ByLevel:
 				{
 					var averageLevel = partyCharacters.Average(a => a.Level);
+
+					if (exp > 0)
+						exp = Math.Max(0, exp / partyCharacters.Length);
+					if (classExp > 0)
+						classExp = Math.Max(0, classExp / partyCharacters.Length);
 
 					foreach (var partyCharacter in partyCharacters)
 					{
