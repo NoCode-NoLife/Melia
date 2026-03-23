@@ -253,18 +253,15 @@ public class CombatCalculationsScript : GeneralScript
 		if (skill.Data.ClassType == SkillClassType.Magic)
 			return 0;
 
-		if (attacker is not Character character)
-			return 0;
-
-		var weapon = character.Inventory.GetEquip(EquipSlot.RightHand);
-
-		var targetSize = SizeType.M;
-		if (target is Mob mob)
-			targetSize = mob.Data.Size;
-
-		if (targetSize == SizeType.S) return weapon.Data.SmallSizeBonus;
-		if (targetSize == SizeType.M) return weapon.Data.MediumSizeBonus;
-		if (targetSize == SizeType.L) return weapon.Data.LargeSizeBonus;
+		if (attacker.TryGetItem(EquipSlot.RightHand, out var weapon))
+		{
+			switch (target.EffectiveSize)
+			{
+				case SizeType.S: return weapon.Data.SmallSizeBonus;
+				case SizeType.M: return weapon.Data.MediumSizeBonus;
+				case SizeType.L: return weapon.Data.LargeSizeBonus;
+			}
+		}
 
 		return 0;
 	}
