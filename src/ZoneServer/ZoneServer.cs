@@ -125,7 +125,7 @@ namespace Melia.Zone
 			this.StartAcceptor();
 
 			ConsoleUtil.RunningTitle();
-			new ConsoleCommands().Wait();
+			new ZoneConsoleCommands().Wait();
 		}
 
 		/// <summary>
