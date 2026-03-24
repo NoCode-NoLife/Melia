@@ -773,6 +773,12 @@ namespace Melia.Zone.World.Maps
 			lock (_pads)
 				_pads[pad.Handle] = pad;
 
+			// TODO: Add a way to partially update visibility.
+			// Even when we add structures to not have to iterate every
+			// actor to check visibility anymore, this would still be
+			// inefficient. We know that a new pad was added, and we
+			// should be able to simply insert it into the characters'
+			// visible actors. Same for monsters.
 			this.UpdateVisibility();
 
 			// Notify the pad about its new map after adding it, so potential
