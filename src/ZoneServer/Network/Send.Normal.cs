@@ -439,8 +439,8 @@ namespace Melia.Zone.Network
 				packet.PutFloat(angle);
 				packet.PutFloat(dist);
 				packet.PutInt(pad.Handle);
-				packet.PutInt(isVisible ? 1 : 0); // Possibly a bool with a 3 byte gap
-				packet.PutEmptyBin(13);
+				packet.PutByte(isVisible);
+				packet.PutEmptyBin(16);
 				packet.PutFloat(f3);
 				packet.PutEmptyBin(16);
 

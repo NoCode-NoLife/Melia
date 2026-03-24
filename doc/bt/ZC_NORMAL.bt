@@ -486,8 +486,8 @@ switch (type)
         float angle;
         float dist;
         int padHandle;
-        int i4; // 1
-        byte bin1[13]; // 0s
+        byte isVisible;
+        byte bin1[16]; // 0s
         float f3; // 20 or 50
         byte bin2[16]; // 0s
         break;
