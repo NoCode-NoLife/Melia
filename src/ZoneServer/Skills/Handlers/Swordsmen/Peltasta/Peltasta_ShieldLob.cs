@@ -126,10 +126,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 		public void Destroyed(object sender, PadTriggerArgs args)
 		{
 			var pad = args.Trigger;
-			var creator = args.Creator;
 
 			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
-			creator.Map.RemoveMonster(shieldMonster);
+			pad.Map.RemoveMonster(shieldMonster);
 		}
 
 		/// <summary>
