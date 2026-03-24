@@ -28,4 +28,11 @@ typedef struct
 
     int genType;
 }
-MONSTER;
+MONSTER <read=readMONSTER>;
+
+string readMONSTER(MONSTER &value)
+{
+    string result;
+    SPrintf(result, "ClassId: %d", value.monsterId);
+    return result;
+}
