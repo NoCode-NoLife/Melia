@@ -49,6 +49,12 @@ namespace Melia.Zone.World.Actors.Pads
 		public TimeSpan LifeTime { get; set; } = TimeSpan.MaxValue;
 
 		/// <summary>
+		/// Gets or sets the pad's update interval, which is the time
+		/// between update events.
+		/// </summary>
+		public TimeSpan UpdateInterval { get; set; } = TimeSpan.FromSeconds(1);
+
+		/// <summary>
 		/// Gets or sets the maximum number of actors that can trigger the
 		/// pad.
 		/// </summary>

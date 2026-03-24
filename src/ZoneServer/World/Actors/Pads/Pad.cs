@@ -1,7 +1,7 @@
 ﻿using System;
+using Melia.Shared.World;
 using Melia.Zone.Network;
 using Melia.Zone.Pads;
-using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
@@ -117,7 +117,7 @@ namespace Melia.Zone.World.Actors.Pads
 		/// <exception cref="ArgumentException">
 		/// Thrown if a handler with the given name does not exist.
 		/// </exception>
-		public Pad(string name, IActor creator, Skill skill, IShapeF triggerArea)
+		private Pad(string name, IActor creator, Skill skill, IShapeF triggerArea)
 		{
 			this.Name = name;
 			this.Creator = creator;
@@ -158,6 +158,7 @@ namespace Melia.Zone.World.Actors.Pads
 			pad.Angle = options.Angle;
 			pad.Distance = options.Distance;
 			pad.Trigger.LifeTime = options.LifeTime;
+			pad.Trigger.UpdateInterval = options.UpdateInterval;
 			pad.Trigger.MaxActorCount = options.MaxActorCount;
 			pad.Trigger.MaxUseCount = options.MaxUseCount;
 
