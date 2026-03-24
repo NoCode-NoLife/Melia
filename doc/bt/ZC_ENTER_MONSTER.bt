@@ -42,25 +42,54 @@ float walkSpeed;
 //------------------------
 MONSTER monster;
 
-// ?
-//------------------------
-int i1;
-int i2;
+if (LOG_DATE >= 20251019) // i398XXX
+{
+    // ?
+    //------------------------
+    int i1;
+    int i2;
 
-// MONSTER_APPEARANCE
-//------------------------
-char displayName[256];
-char uniqueName[256];
-char dialogName[256];
-char enterName[256];
-char leaveName[256];
-
-short propertiesSize;
-int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
-int ownerHandle;
-
-short i6;
-byte b7;
+    // MONSTER_APPEARANCE
+    //------------------------
+    char displayName[256];
+    char uniqueName[256];
+    char dialogName[256];
+    char enterName[256];
+    char leaveName[256];
+    
+    short propertiesSize;
+    int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
+    int ownerHandle;
+    
+    short i6;
+    byte b7;
+}
+else
+{
+    int namesSize; // 5
+    
+    byte b2;
+    byte b4;
+    byte b5;
+    byte b6;
+    
+    int namesSize; // aka size of "MonsterAppearance", 5 length-prefixed strings
+    short propertiesSize;
+    
+    int associatedHandle; // 77153? seems to be used what caused this monster to be spawned
+    int ownerHandle;
+    
+    short i6;
+    byte b7;
+    
+    // MONSTER_APPEARANCE
+    //------------------------
+    lpString name;
+    lpString uniqueName;
+    lpString dialogName;
+    lpString warpName; // ?
+    lpString str3;
+}
 
 // Properties
 //------------------------
