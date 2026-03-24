@@ -129,9 +129,6 @@ namespace Melia.Zone.World.Actors.Pads
 
 			this.Components.Add(this.Movement = new PadMovementComponent(this));
 			this.Components.Add(this.Trigger = new TriggerComponent(this, triggerArea));
-
-			if (name != null)
-				this.RegisterHandler(name);
 		}
 
 		/// <summary>
@@ -164,6 +161,9 @@ namespace Melia.Zone.World.Actors.Pads
 
 			pad.Trigger.Subscribe(TriggerType.Create, pad.UpdatePadShow);
 			pad.Trigger.Subscribe(TriggerType.Destroy, pad.UpdatePadHide);
+
+			if (name != null)
+				pad.RegisterHandler(name);
 
 			return pad;
 		}
