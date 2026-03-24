@@ -34,10 +34,17 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
+
 			caster.StartBuff(BuffId.Zhendu_Buff, skill.Level, 0, TimeSpan.FromMinutes(30), caster, skill.Id);
 
-			var pad = new Pad(PadName.Archer_Zhendu, caster, skill, new Square(caster.Position, caster.Direction, 1, 1));
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(1);
+			var pad = Pad.Create(PadName.Archer_Zhendu, caster, skill, caster.Position, new Square(caster.Position, caster.Direction, 1, 1), new PadOptions
+			{
+				LifeTime = TimeSpan.FromSeconds(1),
+
+				Angle = 0.6774842f,
+				Distance = 0.4766329f,
+				UnkF3 = 150,
+			});
 
 			caster.Map.AddPad(pad);
 

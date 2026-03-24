@@ -1,8 +1,9 @@
 ﻿using System;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
-using Melia.Zone.Buffs;
 using Melia.Zone.Network;
+using Melia.Zone.Pads;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -19,8 +20,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 	[SkillHandler(SkillId.Rodelero_ShieldCharge)]
 	public class Rodelero_ShieldCharge : IDynamicCasted
 	{
-		private readonly static TimeSpan DebuffDuration = TimeSpan.FromSeconds(10);
-
 		/// <summary>
 		/// Called when the user starts casting the skill.
 		/// </summary>
@@ -39,16 +38,18 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 
 			caster.StartBuff(BuffId.ShieldCharge_Buff);
 
-			var pad = new Pad(PadName.Rodelero_ShieldCharge, caster, skill, new Square(caster.Position, caster.Direction, 20, 20));
-			pad.Position = caster.Position;
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(5);
-			pad.Trigger.MaxActorCount = 3;
+			// TODO: This update interval is impractically low. We need an
+			// option to just use the creator's position instead of the
+			// pad's position for collisions.
 
-			// TODO: This update interval is impractically low. We need an option
-			//   to just use the creator's position instead of the pad's position
-			//   for collisions.
-			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(50);
-			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
+			var pad = Pad.Create(PadName.Rodelero_ShieldCharge, caster, skill, caster.Position, new Square(caster.Position, caster.Direction, 20, 20), new PadOptions
+			{
+				LifeTime = TimeSpan.FromSeconds(5),
+				UpdateInterval = TimeSpan.FromMilliseconds(50),
+				MaxActorCount = 3,
+
+				UnkF3 = 150,
+			});
 
 			caster.Map.AddPad(pad);
 		}
@@ -62,47 +63,53 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 		{
 			caster.StopBuff(BuffId.ShieldCharge_Buff);
 		}
+	}
 
+	/// <summary>
+	/// Handler for the Rodelero_ShieldCharge pad, creates and disables the effect.
+	/// </summary>
+	[PadHandler(PadName.Rodelero_ShieldCharge)]
+	public class Rodelero_ShieldCharge_Pad : IUpdatePadHandler
+	{
 		/// <summary>
-		/// Called when an actor enters the area of the attack.
+		/// Called in regular intervals while the pad is on a map.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnTriggerUpdate(object sender, PadTriggerArgs args)
+		public void Updated(object sender, PadTriggerArgs args)
 		{
 			var pad = args.Trigger;
 			var caster = args.Creator;
 			var skill = args.Skill;
 
+			if (!caster.IsBuffActive(BuffId.ShieldCharge_Buff))
+			{
+				pad.Destroy();
+				return;
+			}
+
+			pad.Position = caster.Position;
+
 			var targets = pad.Trigger.GetAttackableEntities(caster);
 
 			foreach (var target in targets.LimitBySDR(caster, skill))
-				this.Attack(skill, caster, target);
-		}
+			{
+				var damageDelay = TimeSpan.Zero;
+				var skillHitDelay = TimeSpan.Zero;
 
-		/// <summary>
-		/// Attacks the target one time.
-		/// </summary>
-		/// <param name="skill"></param>
-		/// <param name="caster"></param>
-		/// <param name="target"></param>
-		private void Attack(Skill skill, ICombatEntity caster, ICombatEntity target)
-		{
-			var damageDelay = TimeSpan.Zero;
-			var skillHitDelay = TimeSpan.Zero;
+				var skillHitResult = SCR_SkillHit(caster, target, skill);
+				target.TakeDamage(skillHitResult.Damage, caster);
 
-			var skillHitResult = SCR_SkillHit(caster, target, skill);
-			target.TakeDamage(skillHitResult.Damage, caster);
+				var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
 
-			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+				skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
+				skillHit.ApplyKnockBack(target);
 
-			skillHit.KnockBackInfo = new KnockBackInfo(caster.Position, target.Position, skill);
-			skillHit.ApplyKnockBack(target);
+				if (caster.IsBuffActive(BuffId.DashRun))
+					target.StartBuff(BuffId.Common_Slow, skill.Level, 0, TimeSpan.FromSeconds(10), caster);
 
-			if (caster.IsBuffActive(BuffId.DashRun))
-				target.StartBuff(BuffId.Common_Slow, skill.Level, 0, DebuffDuration, caster);
-
-			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
+				Send.ZC_SKILL_HIT_INFO(caster, skillHit);
+			}
 		}
 	}
 }

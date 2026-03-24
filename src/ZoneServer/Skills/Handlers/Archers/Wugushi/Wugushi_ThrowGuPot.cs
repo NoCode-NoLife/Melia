@@ -4,6 +4,8 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Pads;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -66,22 +68,33 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		{
 			await skill.Wait(600);
 
-			var pad = new Pad(PadName.Archer_VerminPot, caster, skill, new Circle(farPos, 55));
-			pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(15);
-			pad.Trigger.MaxActorCount = 6;
-			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(250);
-			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
+			var pad = Pad.Create(PadName.Archer_VerminPot, caster, skill, farPos, new Circle(farPos, 55), new PadOptions
+			{
+				LifeTime = TimeSpan.FromSeconds(15),
+				UpdateInterval = TimeSpan.FromMilliseconds(250),
+				MaxActorCount = 6,
+
+				Angle = -0.2758004f,
+				Distance = 70.14826f,
+				UnkF3 = 50,
+			});
 
 			caster.Map.AddPad(pad);
 		}
+	}
 
+	/// <summary>
+	/// Handler for the Poison Pot pad.
+	/// </summary>
+	[PadHandler(PadName.Archer_VerminPot)]
+	public class Archer_VerminPot : IUpdatePadHandler
+	{
 		/// <summary>
-		/// Called when an actor enters the area of the skill's attack effect.
+		/// Applies the pad's effect in regular intervals.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnTriggerUpdate(object sender, PadTriggerArgs args)
+		public void Updated(object sender, PadTriggerArgs args)
 		{
 			var pad = args.Trigger;
 			var caster = args.Creator;

@@ -4,6 +4,8 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Pads;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -58,7 +60,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 		/// <param name="skill"></param>
 		/// <param name="caster"></param>
 		/// <param name="farPos"></param>
-		/// <param name="direction"></param>
 		private async Task CreateAttackArea(Skill skill, ICombatEntity caster, Position farPos)
 		{
 			await skill.Wait(200);
@@ -67,22 +68,33 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 
 			await skill.Wait(600);
 
-			var pad = new Pad(PadName.Archer_JincanGu_Abil, caster, skill, new Circle(farPos, 100));
-			pad.Position = new Position(pad.Trigger.Area.Center.X, caster.Position.Y, pad.Trigger.Area.Center.Y);
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(10);
-			pad.Trigger.MaxActorCount = 10;
-			pad.Trigger.UpdateInterval = TimeSpan.FromMilliseconds(250);
-			pad.Trigger.Subscribe(TriggerType.Update, this.OnTriggerUpdate);
+			var pad = Pad.Create(PadName.Archer_JincanGu_Abil, caster, skill, farPos, new Circle(farPos, 100), new PadOptions
+			{
+				LifeTime = TimeSpan.FromSeconds(10),
+				UpdateInterval = TimeSpan.FromMilliseconds(250),
+				MaxActorCount = 10,
+
+				Angle = -0.2067194f,
+				Distance = 81.61429f,
+				UnkF3 = 100,
+			});
 
 			caster.Map.AddPad(pad);
 		}
+	}
 
+	/// <summary>
+	/// Handler for the Golden Frog pad.
+	/// </summary>
+	[PadHandler(PadName.Archer_JincanGu_Abil)]
+	public class Archer_JincanGu_Abil : IUpdatePadHandler
+	{
 		/// <summary>
-		/// Called when an actor enters the area of the skill's effect.
+		/// Applies the effect of the pad in regular intervals.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void OnTriggerUpdate(object sender, PadTriggerArgs args)
+		public void Updated(object sender, PadTriggerArgs args)
 		{
 			var pad = args.Trigger;
 			var caster = args.Creator;

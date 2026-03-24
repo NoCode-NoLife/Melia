@@ -45,13 +45,14 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 
 			var pad = Pad.Create(PadName.Pyromancer_FlameGround, caster, skill, caster.Position, new Circle(caster.Position, 100), new PadOptions
 			{
-				// These are the packet values, but I don't see any visual
-				// difference. Do we need those?
-				//Angle = -2.5515406f,
-				//Distance = 0.9648186f,
-				//UnkF3 = 100f,
 				LifeTime = TimeSpan.FromMilliseconds(8100),
 				MaxActorCount = 10,
+
+				// These are the packet values, but I don't see any visual
+				// difference. Do we need those?
+				Angle = -2.5515406f,
+				Distance = 0.9648186f,
+				UnkF3 = 100,
 			});
 
 			caster.Map.AddPad(pad);

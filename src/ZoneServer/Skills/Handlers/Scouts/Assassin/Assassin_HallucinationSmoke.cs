@@ -4,6 +4,8 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Pads;
+using Melia.Zone.Pads.Handlers;
 using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
@@ -55,25 +57,35 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 		private async Task SetPad(Skill skill, ICombatEntity caster)
 		{
 			var initialDelay = TimeSpan.FromMilliseconds(300);
-			var skillHitDelay = TimeSpan.Zero;
 
 			await skill.Wait(initialDelay);
 
-			var pad = new Pad(PadName.Assassin_HallucinationSmoke, caster, skill, new Circle(caster.Position, 50));
-			pad.Position = caster.Position;
-			pad.Trigger.MaxActorCount = 8;
-			pad.Trigger.LifeTime = TimeSpan.FromSeconds(skill.Level + 5);
-			pad.Trigger.Subscribe(TriggerType.Enter, this.ApplyDebuff);
+			var pad = Pad.Create(PadName.Assassin_HallucinationSmoke, caster, skill, caster.Position, new Circle(caster.Position, 50), new PadOptions
+			{
+				LifeTime = TimeSpan.FromSeconds(skill.Level + 5),
+				MaxActorCount = 8,
+
+				Angle = -0.7853982f,
+				UnkF3 = 30,
+			});
 
 			caster.Map.AddPad(pad);
 		}
+	}
 
+	/// <summary>
+	/// Handler for the Assassin HallucinationSmoke pad, which displays a
+	/// smoke cloud.
+	/// </summary>
+	[PadHandler(PadName.Assassin_HallucinationSmoke)]
+	public class Assassin_HallucinationSmoke_Pad : IEnterPadHandler
+	{
 		/// <summary>
-		/// Called by the pad when anything enters the smoke
+		/// Called by the pad when anything enters the smoke.
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="args"></param>
-		private void ApplyDebuff(object sender, PadTriggerActorArgs args)
+		public void Entered(object sender, PadTriggerActorArgs args)
 		{
 			var pad = args.Trigger;
 			var creator = args.Creator;
