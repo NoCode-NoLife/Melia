@@ -134,11 +134,6 @@ namespace Melia.Zone.World.Actors.Pads
 		/// <summary>
 		/// Creates a new pad.
 		/// </summary>
-		/// <remarks>
-		/// This factory method will replace the Pad constructor in the
-		/// future and should be used in favor of it going forward. With
-		/// its options
-		/// </remarks>
 		/// <param name="name">The name of the pad, as defined in the client and the PadName enum.</param>
 		/// <param name="creator">The actor that created the pad.</param>
 		/// <param name="skill">The skill that created the pad.</param>
@@ -158,9 +153,6 @@ namespace Melia.Zone.World.Actors.Pads
 			pad.Trigger.UpdateInterval = options.UpdateInterval;
 			pad.Trigger.MaxActorCount = options.MaxActorCount;
 			pad.Trigger.MaxUseCount = options.MaxUseCount;
-
-			pad.Trigger.Subscribe(TriggerType.Create, pad.UpdatePadShow);
-			pad.Trigger.Subscribe(TriggerType.Destroy, pad.UpdatePadHide);
 
 			if (name != null)
 				pad.RegisterHandler(name);
@@ -183,26 +175,6 @@ namespace Melia.Zone.World.Actors.Pads
 			if (handler is IEnterPadHandler enter) this.Trigger.Subscribe(TriggerType.Enter, enter.Entered);
 			if (handler is ILeavePadHandler leave) this.Trigger.Subscribe(TriggerType.Leave, leave.Left);
 			if (handler is IUpdatePadHandler update) this.Trigger.Subscribe(TriggerType.Update, update.Updated);
-		}
-
-		/// <summary>
-		/// Called when the pad and its trigger are created.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void UpdatePadShow(object sender, TriggerArgs e)
-		{
-			Send.ZC_NORMAL.PadUpdate(this, true);
-		}
-
-		/// <summary>
-		/// Called when the pad and its trigger are destroyed.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void UpdatePadHide(object sender, TriggerArgs e)
-		{
-			Send.ZC_NORMAL.PadUpdate(this, false);
 		}
 
 		/// <summary>

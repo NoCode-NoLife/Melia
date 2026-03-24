@@ -9,6 +9,7 @@ using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
+using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.Network
 {
@@ -395,11 +396,21 @@ namespace Melia.Zone.Network
 			/// <param name="pad">The pad to update.</param>
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
 			public static void PadUpdate(Pad pad, bool isVisible)
-				=> PadUpdate(pad.Creator, pad, pad.Name, pad.Angle, pad.Distance, pad.UnkF3, isVisible);
+				=> PadUpdate(pad.Map, pad.Creator, pad, pad.Name, pad.Angle, pad.Distance, pad.UnkF3, isVisible);
 
 			/// <summary>
 			/// Used to show complex visual effects related to skills, called Pads.
 			/// </summary>
+			/// <param name="receiver">The character to send the packet to.</param>
+			/// <param name="pad">The pad to update.</param>
+			/// <param name="isVisible">Whether to display or hide the pad.</param>
+			public static void PadUpdate(Character receiver, Pad pad, bool isVisible)
+				=> PadUpdate(receiver, pad.Creator, pad, pad.Name, pad.Angle, pad.Distance, pad.UnkF3, isVisible);
+
+			/// <summary>
+			/// Used to show complex visual effects related to skills, called Pads.
+			/// </summary>
+			/// <param name="receiver">Receiver to send the packet to (Character or Map).</param>
 			/// <param name="caster">The pad's creator.</param>
 			/// <param name="pad">The pad to update.</param>
 			/// <param name="padName">Name of the pad, used to reference client-sided pad data.</param>
@@ -407,10 +418,14 @@ namespace Melia.Zone.Network
 			/// <param name="dist">Pos.Dist value found in bytool data.</param>
 			/// <param name="f3">Unknown floating point value found in packet logs.</param>
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
-			public static void PadUpdate(IActor caster, Pad pad, string padName, float angle, float dist, float f3, bool isVisible)
+			public static void PadUpdate(object receiver, IActor caster, Pad pad, string padName, float angle, float dist, float f3, bool isVisible)
 			{
 				// TODO: Remove this overload once we confirmed that the
 				// shorter one does the job and we updated all calls.
+
+				// TODO: Create a proper way to send a packet to different
+				// kinds of receivers instead of using an object parameter
+				// and checking its type.
 
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
@@ -429,7 +444,12 @@ namespace Melia.Zone.Network
 				packet.PutFloat(f3);
 				packet.PutEmptyBin(16);
 
-				pad.Map.Broadcast(packet, pad);
+				if (receiver is Character character)
+					character.Connection.Send(packet);
+				else if (receiver is Map map)
+					map.Broadcast(packet, pad);
+				else
+					throw new InvalidCastException("Receiver must be either a Character or a Map.");
 			}
 
 			/// <summary>

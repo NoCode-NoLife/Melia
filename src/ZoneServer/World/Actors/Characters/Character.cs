@@ -17,6 +17,7 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
+using Melia.Zone.World.Actors.Pads;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -38,8 +39,10 @@ namespace Melia.Zone.World.Actors.Characters
 
 		private List<IMonster> _prevVisibleMonsters = [];
 		private List<Character> _prevVisibleCharacters = [];
+		private List<Pad> _prevVisiblePads = [];
 		private List<IMonster> _currentlyVisibleMonsters = [];
 		private List<Character> _currentlyVisibleCharacters = [];
+		private List<Pad> _currentlyVisiblePads = [];
 		private readonly HashSet<IActor> _visibilitySet = [];
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
@@ -973,11 +976,14 @@ namespace Melia.Zone.World.Actors.Characters
 			{
 				var curVisibleMonsters = _currentlyVisibleMonsters;
 				var curVisibleCharacters = _currentlyVisibleCharacters;
+				var curVisiblePads = _currentlyVisiblePads;
 				var prevVisibleMonsters = _prevVisibleMonsters;
 				var prevVisibleCharacters = _prevVisibleCharacters;
+				var prevVisiblePads = _prevVisiblePads;
 
 				this.Map.GetVisibleMonsters(this, curVisibleMonsters);
 				this.Map.GetVisibleCharacters(this, curVisibleCharacters);
+				this.Map.GetVisiblePads(this, curVisiblePads);
 
 				// Monsters
 				// ----------------------------------------------------------
@@ -1083,15 +1089,45 @@ namespace Melia.Zone.World.Actors.Characters
 					Send.ZC_LEAVE(this.Connection, character);
 				}
 
+				// Pads
+				// ----------------------------------------------------------
+
+				_visibilitySet.Clear();
+				foreach (var actor in prevVisiblePads)
+					_visibilitySet.Add(actor);
+
+				foreach (var pad in curVisiblePads)
+				{
+					if (_visibilitySet.Contains(pad))
+						continue;
+
+					Send.ZC_NORMAL.PadUpdate(this, pad, true);
+				}
+
+				_visibilitySet.Clear();
+				foreach (var actor in curVisiblePads)
+					_visibilitySet.Add(actor);
+
+				foreach (var pad in prevVisiblePads)
+				{
+					if (_visibilitySet.Contains(pad))
+						continue;
+
+					Send.ZC_NORMAL.PadUpdate(this, pad, false);
+				}
+
 				// Prepare lists for next run
 				_currentlyVisibleMonsters = prevVisibleMonsters;
 				_currentlyVisibleCharacters = prevVisibleCharacters;
+				_currentlyVisiblePads = prevVisiblePads;
 
 				_prevVisibleMonsters = curVisibleMonsters;
 				_prevVisibleCharacters = curVisibleCharacters;
+				_prevVisiblePads = curVisiblePads;
 
 				_currentlyVisibleMonsters.Clear();
 				_currentlyVisibleCharacters.Clear();
+				_currentlyVisiblePads.Clear();
 				_visibilitySet.Clear();
 			}
 		}

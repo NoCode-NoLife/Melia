@@ -773,6 +773,8 @@ namespace Melia.Zone.World.Maps
 			lock (_pads)
 				_pads[pad.Handle] = pad;
 
+			this.UpdateVisibility();
+
 			// Notify the pad about its new map after adding it, so potential
 			// events can reference the map.
 			// It would be kinda nice if the pad could manage this by itself,
@@ -795,6 +797,27 @@ namespace Melia.Zone.World.Maps
 				_pads.Remove(pad.Handle);
 
 			pad.Map = null;
+			this.UpdateVisibility();
+		}
+
+		/// <summary>
+		/// Adds all pads in visible range of character to the result
+		/// list.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="result"></param>
+		public void GetVisiblePads(Character character, List<Pad> result)
+		{
+			lock (_pads)
+			{
+				foreach (var pad in _pads.Values)
+				{
+					if (!character.Position.InRange2D(pad.Position, VisibleRange))
+						continue;
+
+					result.Add(pad);
+				}
+			}
 		}
 
 		/// <summary>
