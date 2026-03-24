@@ -199,7 +199,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void RemoveNonNearbyHate(TimeSpan elapsed, IEnumerable<ICombatEntity> potentialEnemies)
+		private void RemoveNonNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
 		{
 			_hateLevelsToRemove.Clear();
 
@@ -228,7 +228,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		/// <param name="elapsed"></param>
 		/// <param name="potentialEnemies"></param>
-		private void IncreaseNearbyHate(TimeSpan elapsed, IEnumerable<ICombatEntity> potentialEnemies)
+		private void IncreaseNearbyHate(TimeSpan elapsed, List<ICombatEntity> potentialEnemies)
 		{
 			// Only increase hate for nearby enemies if the AI has
 			// aggressive tendencies
@@ -236,10 +236,11 @@ namespace Melia.Zone.Scripting.AI
 				return;
 
 			// Increase hate for enemies that the entity is hostile towards
-			var potentialEnemiesInRange = potentialEnemies.Where(a => a.Position.InRange2D(this.Entity.Position, _hateRange));
-
-			foreach (var potentialEnemy in potentialEnemiesInRange)
+			foreach (var potentialEnemy in potentialEnemies)
 			{
+				if (!potentialEnemy.Position.InRange2D(this.Entity.Position, _hateRange))
+					continue;
+
 				if (!this.IsHostileTowards(potentialEnemy))
 					continue;
 

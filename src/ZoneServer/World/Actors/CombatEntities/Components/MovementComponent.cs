@@ -23,7 +23,9 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		private double _moveX, _moveZ;
 		private TimeSpan _moveTime;
 
-		private ITriggerableArea[] _triggerAreas = [];
+		private List<ITriggerableArea> _prevTriggerAreas = [];
+		private List<ITriggerableArea> _curTriggerAreas = [];
+		private HashSet<ITriggerableArea> _triggerSet = [];
 
 		/// <summary>
 		/// Returns the entity's current destination, if it's moving to
@@ -383,8 +385,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			// a fan of either option we'll keep our own implementation.
 			// Eventually we'll make it configurable. -- exec
 
-			var warpNpc = this.Entity.Map.GetNearbyWarp(prevPos);
-			if (warpNpc == null)
+			if (!this.Entity.Map.TryGetNearbyWarp(prevPos, out var warpNpc))
 				return;
 
 			// Wait 1s to see if the character actually wants to warp
@@ -524,28 +525,45 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 			//   with any trigger areas. Not overly complicated, but
 			//   support needs to be added to the shape classes first.
 
-			var prevTriggerAreas = _triggerAreas;
-			var triggerAreas = this.Entity.Map.GetTriggerableAreasAt(this.Entity.Position);
+			var prevTriggerAreas = _prevTriggerAreas;
+			var curTriggerAreas = _curTriggerAreas;
 
-			if (prevTriggerAreas.Length == 0 && triggerAreas.Length == 0)
+			this.Entity.Map.GetTriggerableAreasAt(this.Entity.Position, curTriggerAreas);
+
+			if (prevTriggerAreas.Count == 0 && curTriggerAreas.Count == 0)
 				return;
 
-			var enteredTriggerAreas = triggerAreas.Except(prevTriggerAreas);
-			var leftTriggerAreas = prevTriggerAreas.Except(triggerAreas);
+			_triggerSet.Clear();
+			foreach (var area in prevTriggerAreas)
+				_triggerSet.Add(area);
 
-			foreach (var triggerArea in enteredTriggerAreas)
+			foreach (var triggerArea in curTriggerAreas)
 			{
+				if (_triggerSet.Contains(triggerArea))
+					continue;
+
 				if (triggerArea.EnterFunc != null)
 					TaskHelper.CallSafe(triggerArea.EnterFunc(new TriggerActorArgs(TriggerType.Enter, triggerArea, this.Entity)));
 			}
 
-			foreach (var triggerArea in leftTriggerAreas)
+			_triggerSet.Clear();
+			foreach (var area in curTriggerAreas)
+				_triggerSet.Add(area);
+
+			foreach (var triggerArea in prevTriggerAreas)
 			{
+				if (_triggerSet.Contains(triggerArea))
+					continue;
+
 				if (triggerArea.LeaveFunc != null)
 					TaskHelper.CallSafe(triggerArea.LeaveFunc(new TriggerActorArgs(TriggerType.Leave, triggerArea, this.Entity)));
 			}
 
-			_triggerAreas = triggerAreas;
+			_prevTriggerAreas = curTriggerAreas;
+			_curTriggerAreas = prevTriggerAreas;
+
+			_curTriggerAreas.Clear();
+			_triggerSet.Clear();
 		}
 	}
 

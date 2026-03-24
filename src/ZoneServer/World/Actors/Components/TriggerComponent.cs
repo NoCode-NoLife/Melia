@@ -25,7 +25,10 @@ namespace Melia.Zone.World.Actors.Components
 
 		private readonly object _syncLock = new();
 
-		private List<IActor> _actorsInside = new();
+		private List<IActor> _prevActorsInside = [];
+		private List<IActor> _curActorsInside = [];
+		private readonly HashSet<IActor> _actorSet = [];
+
 		private int _actorCount = 0;
 		private int _maxActorCount = short.MaxValue;
 		private int _useCount;
@@ -157,7 +160,7 @@ namespace Melia.Zone.World.Actors.Components
 		public List<IActor> GetActors()
 		{
 			lock (_syncLock)
-				return _actorsInside.ToList();
+				return _prevActorsInside.ToList();
 		}
 
 		/// <summary>
@@ -168,8 +171,18 @@ namespace Melia.Zone.World.Actors.Components
 		/// <returns></returns>
 		public List<TActor> GetActors<TActor>() where TActor : IActor
 		{
+			var result = new List<TActor>();
+
 			lock (_syncLock)
-				return _actorsInside.OfType<TActor>().ToList();
+			{
+				foreach (var actor in _prevActorsInside)
+				{
+					if (actor is TActor typedActor)
+						result.Add(typedActor);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -180,8 +193,18 @@ namespace Melia.Zone.World.Actors.Components
 		/// <returns></returns>
 		public List<ICombatEntity> GetAttackableEntities(ICombatEntity attacker)
 		{
+			var result = new List<ICombatEntity>();
+
 			lock (_syncLock)
-				return _actorsInside.OfType<ICombatEntity>().Where(attacker.CanDamage).ToList();
+			{
+				foreach (var actor in _prevActorsInside)
+				{
+					if (actor is ICombatEntity entity && attacker.CanDamage(entity))
+						result.Add(entity);
+				}
+			}
+
+			return result;
 		}
 
 		/// <summary>
@@ -190,48 +213,97 @@ namespace Melia.Zone.World.Actors.Components
 		/// <param name="elapsed"></param>
 		public void Update(TimeSpan elapsed)
 		{
-			// Make sure the elapsed time is not the full update time if we run
-			// for the first time, since the component might not have been around
-			// for the full update interval, which would mess with the update time
-			// calculations. We probably want to standardize this in some say,
-			// since this is generally what we would want to know. TODO.
+			// Make sure the elapsed time is not the full update time if
+			// we run for the first time, since the component might not
+			// have been around for the full update interval, which would
+			// mess with the update time calculations. We probably want to
+			// standardize this in some say, since this is generally what
+			// we would want to know. TODO.
 			if (!_elapsedInitalized)
 			{
 				elapsed = Math2.Max(TimeSpan.Zero, DateTime.Now - _creationTime);
 				_elapsedInitalized = true;
 			}
 
-			// There are two approaches to checking actors inside a trigger.
-			// We can do it from the trigger, which means every trigger needs
-			// to check all actors, or we can do it from the actors (and their
-			// movement components for example), where every actor needs to
-			// check all triggers. Which one is more performant somewhat
-			// depends on the environment, though there will usually be
-			// less triggers than actors, so the latter should perform
-			// better. For simplicity we'll keep it here for the moment
-			// though.
-
 			this.Area.UpdatePosition(this.Owner.Position);
 
-			var nowInside = this.Owner.Map.GetActorsIn<IActor>(this.Area, this.IsValidTriggerer);
+			this.UpdateActors();
+			this.UpdateTimers(elapsed);
+		}
+
+		/// <summary>
+		/// Updates the list of actors inside the trigger and raises
+		/// relevant events.
+		/// </summary>
+		private void UpdateActors()
+		{
+			// There are two approaches to checking actors inside a
+			// trigger. We can do it from the trigger, which means every
+			// trigger needs to check all actors, or we can do it from the
+			// actors (and their movement components for example), where
+			// every actor needs to check all triggers. Which one is more
+			// performant somewhat depends on the environment, though
+			// there will usually be less triggers than actors, so the
+			// latter should perform better. For simplicity we'll keep it
+			// here for the moment though.
 
 			lock (_syncLock)
 			{
-				var wereInside = _actorsInside;
+				var prevActorsInside = _prevActorsInside;
+				var curActorsInside = _curActorsInside;
 
-				var entered = nowInside.Except(wereInside);
-				var left = wereInside.Except(nowInside);
+				this.Owner.Map.GetActorsIn<IActor>(this.Area, curActorsInside);
 
-				foreach (var actor in entered)
+				if (prevActorsInside.Count == 0 && curActorsInside.Count == 0)
+					return;
+
+				_actorSet.Clear();
+				foreach (var actor in prevActorsInside)
+					_actorSet.Add(actor);
+
+				foreach (var actor in curActorsInside)
+				{
+					if (_actorSet.Contains(actor))
+						continue;
+
+					if (!this.IsValidTriggerer(actor))
+						continue;
+
 					this.Entered?.Invoke(this, new TriggerActorArgs(TriggerType.Enter, this.Owner, actor));
+				}
 
-				foreach (var actor in left)
+				_actorSet.Clear();
+				foreach (var actor in curActorsInside)
+					_actorSet.Add(actor);
+
+				foreach (var actor in prevActorsInside)
+				{
+					if (_actorSet.Contains(actor))
+						continue;
+
+					if (!this.IsValidTriggerer(actor))
+						continue;
+
 					this.Left?.Invoke(this, new TriggerActorArgs(TriggerType.Leave, this.Owner, actor));
+				}
 
-				_actorsInside = nowInside;
-				this.ActorCount = nowInside.Count;
+				_prevActorsInside = curActorsInside;
+				_curActorsInside = prevActorsInside;
+
+				_curActorsInside.Clear();
+				_actorSet.Clear();
+
+				this.ActorCount = _prevActorsInside.Count;
 			}
+		}
 
+		/// <summary>
+		/// Updates the update and lifetime timers and triggers relevant
+		/// events.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		private void UpdateTimers(TimeSpan elapsed)
+		{
 			_updateTimer += elapsed;
 
 			if (_updateTimer >= this.UpdateInterval)

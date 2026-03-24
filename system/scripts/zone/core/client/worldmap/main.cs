@@ -60,7 +60,7 @@ public class WorldMapClientScript : ClientScript
 
 	private void SendIcons(Character character)
 	{
-		var warps = character.Map.GetMonsters(a => a is WarpMonster);
+		var warps = character.Map.GetMonsters(static a => a is WarpMonster);
 		var table = new LuaTable();
 
 		foreach (WarpMonster warp in warps)

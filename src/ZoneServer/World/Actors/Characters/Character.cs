@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
@@ -9,7 +10,6 @@ using Melia.Shared.Scripting;
 using Melia.Shared.World;
 using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
-using Melia.Zone.Database;
 using Melia.Zone.Events.Arguments;
 using Melia.Zone.Network;
 using Melia.Zone.Scripting.AI;
@@ -17,7 +17,6 @@ using Melia.Zone.World.Actors.Characters.Components;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
-using Melia.Zone.World.Items;
 using Melia.Zone.World.Storage;
 using Yggdrasil.Composition;
 using Yggdrasil.Logging;
@@ -36,8 +35,12 @@ namespace Melia.Zone.World.Actors.Characters
 
 		private readonly object _lookAroundLock = new();
 		private readonly object _hpLock = new();
-		private IMonster[] _visibleMonsters = [];
-		private Character[] _visibleCharacters = [];
+
+		private List<IMonster> _prevVisibleMonsters = [];
+		private List<Character> _prevVisibleCharacters = [];
+		private List<IMonster> _currentlyVisibleMonsters = [];
+		private List<Character> _currentlyVisibleCharacters = [];
+		private readonly HashSet<IActor> _visibilitySet = [];
 
 		private readonly static TimeSpan ResurrectDialogDelay = TimeSpan.FromSeconds(2);
 		private TimeSpan _resurrectDialogTimer = ResurrectDialogDelay;
@@ -968,21 +971,30 @@ namespace Melia.Zone.World.Actors.Characters
 
 			lock (_lookAroundLock)
 			{
-				// Get lists
-				var currentlyVisibleMonsters = this.Map.GetVisibleMonsters(this);
-				var currentlyVisibleCharacters = this.Map.GetVisibleCharacters(this);
+				var curVisibleMonsters = _currentlyVisibleMonsters;
+				var curVisibleCharacters = _currentlyVisibleCharacters;
+				var prevVisibleMonsters = _prevVisibleMonsters;
+				var prevVisibleCharacters = _prevVisibleCharacters;
 
-				// Appears
-				var appearMonsters = currentlyVisibleMonsters.Except(_visibleMonsters);
-				var appearCharacters = currentlyVisibleCharacters.Except(_visibleCharacters);
-
-				// Disappears
-				var disappearMonsters = _visibleMonsters.Except(currentlyVisibleMonsters);
-				var disappearCharacters = _visibleCharacters.Except(currentlyVisibleCharacters);
+				this.Map.GetVisibleMonsters(this, curVisibleMonsters);
+				this.Map.GetVisibleCharacters(this, curVisibleCharacters);
 
 				// Monsters
-				foreach (var monster in appearMonsters)
+				// ----------------------------------------------------------
+
+				// Create a list of the previously visible actors, then
+				// iterate over the currently visible ones and skip
+				// those that were already visible.
+
+				_visibilitySet.Clear();
+				foreach (var actor in prevVisibleMonsters)
+					_visibilitySet.Add(actor);
+
+				foreach (var monster in curVisibleMonsters)
 				{
+					if (_visibilitySet.Contains(monster))
+						continue;
+
 					Send.ZC_ENTER_MONSTER(this.Connection, monster);
 
 					if (!monster.AttachableEffects.IsEmpty)
@@ -1016,12 +1028,34 @@ namespace Melia.Zone.World.Actors.Characters
 					}
 				}
 
-				foreach (var monster in disappearMonsters)
+				// Create a list of the currently visible actors, then
+				// iterate over the previously visible ones and skip
+				// those that are still visible.
+
+				_visibilitySet.Clear();
+				foreach (var actor in curVisibleMonsters)
+					_visibilitySet.Add(actor);
+
+				foreach (var monster in prevVisibleMonsters)
+				{
+					if (_visibilitySet.Contains(monster))
+						continue;
+
 					Send.ZC_LEAVE(this.Connection, monster);
+				}
 
 				// Characters
-				foreach (var character in appearCharacters)
+				// ----------------------------------------------------------
+
+				_visibilitySet.Clear();
+				foreach (var actor in prevVisibleCharacters)
+					_visibilitySet.Add(actor);
+
+				foreach (var character in curVisibleCharacters)
 				{
+					if (_visibilitySet.Contains(character))
+						continue;
+
 					Send.ZC_ENTER_PC(this.Connection, character);
 
 					Send.ZC_SEND_APPLY_HUD_SKIN_OTHER(this.Connection, character);
@@ -1037,12 +1071,28 @@ namespace Melia.Zone.World.Actors.Characters
 						Send.ZC_BUFF_LIST(this.Connection, character);
 				}
 
-				foreach (var character in disappearCharacters)
-					Send.ZC_LEAVE(this.Connection, character);
+				_visibilitySet.Clear();
+				foreach (var actor in curVisibleCharacters)
+					_visibilitySet.Add(actor);
 
-				// Save lists for next run
-				_visibleMonsters = currentlyVisibleMonsters;
-				_visibleCharacters = currentlyVisibleCharacters;
+				foreach (var character in prevVisibleCharacters)
+				{
+					if (_visibilitySet.Contains(character))
+						continue;
+
+					Send.ZC_LEAVE(this.Connection, character);
+				}
+
+				// Prepare lists for next run
+				_currentlyVisibleMonsters = prevVisibleMonsters;
+				_currentlyVisibleCharacters = prevVisibleCharacters;
+
+				_prevVisibleMonsters = curVisibleMonsters;
+				_prevVisibleCharacters = curVisibleCharacters;
+
+				_currentlyVisibleMonsters.Clear();
+				_currentlyVisibleCharacters.Clear();
+				_visibilitySet.Clear();
 			}
 		}
 
@@ -1064,14 +1114,17 @@ namespace Melia.Zone.World.Actors.Characters
 
 			lock (_lookAroundLock)
 			{
-				foreach (var monster in _visibleMonsters)
+				foreach (var monster in _prevVisibleMonsters)
 					Send.ZC_LEAVE(this.Connection, monster);
 
-				foreach (var character in _visibleCharacters)
+				foreach (var character in _prevVisibleCharacters)
 					Send.ZC_LEAVE(this.Connection, character);
 
-				_visibleMonsters = [];
-				_visibleCharacters = [];
+				_prevVisibleMonsters.Clear();
+				_prevVisibleCharacters.Clear();
+				_currentlyVisibleMonsters.Clear();
+				_currentlyVisibleCharacters.Clear();
+				_visibilitySet.Clear();
 			}
 		}
 
