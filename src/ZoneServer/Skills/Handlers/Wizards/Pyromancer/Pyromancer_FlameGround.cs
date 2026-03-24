@@ -43,7 +43,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 			Send.ZC_NORMAL.UpdateSkillEffect(caster, target, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			var pad = Pad.Create(PadName.Pyromancer_FlameGround, caster, skill, new Circle(caster.Position, 100), new PadOptions
+			var pad = Pad.Create(PadName.Pyromancer_FlameGround, caster, skill, caster.Position, new Circle(caster.Position, 100), new PadOptions
 			{
 				// These are the packet values, but I don't see any visual
 				// difference. Do we need those?

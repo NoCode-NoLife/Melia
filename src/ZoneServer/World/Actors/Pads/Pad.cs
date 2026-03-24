@@ -150,9 +150,10 @@ namespace Melia.Zone.World.Actors.Pads
 		/// <exception cref="ArgumentException">
 		/// Thrown if a handler with the given name does not exist.
 		/// </exception>
-		public static Pad Create(string name, IActor creator, Skill skill, IShapeF triggerArea, PadOptions options)
+		public static Pad Create(string name, IActor creator, Skill skill, Position position, IShapeF triggerArea, PadOptions options)
 		{
 			var pad = new Pad(name, creator, skill, triggerArea);
+			pad.Position = position;
 
 			pad.Angle = options.Angle;
 			pad.Distance = options.Distance;
