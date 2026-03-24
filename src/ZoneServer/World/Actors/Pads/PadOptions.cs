@@ -57,7 +57,6 @@ namespace Melia.Zone.World.Actors.Pads
 		/// included here for convenience. Its value is typically found in
 		/// the pad data, as a parameter of "PAD_CONCURRENT_USE_COUNT".
 		/// </remarks>
-		/// </summary>
 		public int MaxActorCount { get; set; } = short.MaxValue;
 
 		/// <summary>
