@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
 using Melia.Shared.Util;
 using Melia.Shared.World;
 using Melia.Zone.Abilities.Handlers.Swordsmen.Peltasta;
-using Melia.Zone.Buffs.Handlers.Swordsmen.Peltasta;
 using Melia.Zone.Network;
 using Melia.Zone.Pads;
 using Melia.Zone.Pads.Handlers;
@@ -50,9 +49,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			Send.ZC_SKILL_READY(caster, skill, originPos, farPos);
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
-			var pad = Pad.Create(PadName.Peltasta_ShieldLob, caster, skill, caster.Position.GetRelative2D(caster.Direction, 25), new Circle(caster.Position, 40), new PadOptions
+			var padPos = caster.Position.GetRelative2D(caster.Direction, 25);
+
+			var pad = Pad.Create(PadName.Peltasta_ShieldLob, caster, skill, padPos, new Circle(padPos, 40), new PadOptions
 			{
-				Angle = -0.7853982f,
+				Angle = 2.356195f,
 				Distance = 0,
 				UnkF3 = 30,
 			});
@@ -89,11 +90,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			//if (creator.Map.IsPvp)
 			//	pad.Trigger.ActorMaxCount = 4;
 
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Peltasta_ShieldLob2", -0.7853982f, 0, 30, true);
-
-			// TODO: Add a way to more easily create and manage monsters spawned
-			//   by pads? Does this happen so often that we'll need it? Let's wait
-			//   and see for now.
+			// TODO: Add a way to more easily create and manage monsters
+			// spawned by pads? Does this happen so often that we'll need
+			// it? Let's wait and see for now.
 
 			var shieldMonster = new Mob(57001, MonsterType.Friendly);
 			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
@@ -104,12 +103,11 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 
 			pad.Variables.Set("shieldMonster", shieldMonster);
 
-			if (creator is Character character)
+			if (creator.TryGetItem(EquipSlot.LeftHand, out var lhItem))
 			{
 				// Check item type for shield? Though it will be funny when
 				// someone manages to throw something else, and it's only
 				// a visual effect anyway.
-				var lhItem = character.Inventory.GetItem(EquipSlot.LeftHand).Data;
 				Send.ZC_NORMAL.PadSetModel(shieldMonster, "warrior_f_", lhItem.Id);
 			}
 
@@ -131,8 +129,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			var creator = args.Creator;
 
 			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
-
-			Send.ZC_NORMAL.PadUpdate(creator, pad, "Peltasta_ShieldLob2", 0, 145.8735f, 30, false);
 			creator.Map.RemoveMonster(shieldMonster);
 		}
 
