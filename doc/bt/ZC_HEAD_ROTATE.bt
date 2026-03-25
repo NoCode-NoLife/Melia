@@ -3,12 +3,13 @@
 //
 //      File: ZC_HEAD_ROTATE.bt
 //   Authors: exec
-//   Version: i11XXX
+//   Version: i403202
 //   Purpose: 
 //  Category: 
 // File Mask: 
 //  ID Bytes: 
 //   History: 
+//   - i403202: b1 added
 //------------------------------------------------
 
 #include "inc/common.bt"
@@ -17,3 +18,4 @@ ServerHeaderFixed header;
 
 int handle;
 direction dir;
+byte b1;

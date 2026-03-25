@@ -1582,6 +1582,12 @@ namespace Melia.Zone.Network
 			packet.PutFloat(entity.Direction.Cos);
 			packet.PutFloat(entity.Direction.Sin);
 
+			// [i403202] ?
+			{
+				// Rotation doesn't change if != 0?
+				packet.PutByte(0);
+			}
+
 			entity.Map.Broadcast(packet, entity);
 		}
 

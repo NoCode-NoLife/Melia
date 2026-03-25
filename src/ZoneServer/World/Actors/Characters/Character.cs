@@ -1179,8 +1179,7 @@ namespace Melia.Zone.World.Actors.Characters
 		/// <summary>
 		/// Sets direction and updates clients.
 		/// </summary>
-		/// <param name="d1"></param>
-		/// <param name="d2"></param>
+		/// <param name="dir"></param>
 		public void RotateHead(Direction dir)
 		{
 			if (this.HeadDirection != dir)
