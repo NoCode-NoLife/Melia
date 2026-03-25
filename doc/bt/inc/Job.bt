@@ -16,8 +16,7 @@ typedef struct
     short jobId;
     short level;
     int i1;
-    int totalExp;
-    int i2;
+    int64 totalExp;
     byte unusedSkillPoints;
     ushort s2;
     byte bin1[4];
@@ -25,4 +24,11 @@ typedef struct
     FILETIME advancedDate;
     int64 l2;
 }
-Job;
+Job <read=readJob>;
+
+string readJob(Job &value)
+{
+    local string result;
+    SPrintf(result, "Id: %d, Level: %d", value.jobId, value.level);
+    return result;
+}
