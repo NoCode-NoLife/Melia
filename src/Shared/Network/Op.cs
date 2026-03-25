@@ -154,7 +154,7 @@ namespace Melia.Shared.Network
 		public const int CZ_INTE_WARP = 0xC48; // Size: 26
 		public const int ZC_ROTATE = 0xC49; // Size: 28
 		public const int ZC_ROTATE_RESERVED = 0xC4A; // Size: 22
-		public const int ZC_HEAD_ROTATE = 0xC4B; // Size: 22
+		public const int ZC_HEAD_ROTATE = 0xC4B; // Size: 23
 		public const int ZC_TARGET_ROTATE = 0xC4C; // Size: 22
 		public const int ZC_QUICK_ROTATE = 0xC4D; // Size: 22
 		public const int ZC_POSE = 0xC4E; // Size: 39
@@ -1418,7 +1418,7 @@ namespace Melia.Shared.Network
 			Sizes[CZ_INTE_WARP] = 26;
 			Sizes[ZC_ROTATE] = 28;
 			Sizes[ZC_ROTATE_RESERVED] = 22;
-			Sizes[ZC_HEAD_ROTATE] = 22;
+			Sizes[ZC_HEAD_ROTATE] = 23;
 			Sizes[ZC_TARGET_ROTATE] = 22;
 			Sizes[ZC_QUICK_ROTATE] = 22;
 			Sizes[ZC_POSE] = 39;
