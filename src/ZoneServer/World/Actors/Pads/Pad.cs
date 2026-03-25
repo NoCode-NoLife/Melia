@@ -149,6 +149,7 @@ namespace Melia.Zone.World.Actors.Pads
 
 			pad.Angle = options.Angle;
 			pad.Distance = options.Distance;
+			pad.UnkF3 = options.UnkF3;
 			pad.Trigger.LifeTime = options.LifeTime;
 			pad.Trigger.UpdateInterval = options.UpdateInterval;
 			pad.Trigger.MaxActorCount = options.MaxActorCount;
