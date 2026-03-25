@@ -61,7 +61,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Barbarian
 				LifeTime = TimeSpan.FromMilliseconds(3500),
 				UpdateInterval = updateInverval,
 				MaxActorCount = 6,
-				UnkF3 = 150,
 			});
 
 			caster.Map.AddPad(pad);

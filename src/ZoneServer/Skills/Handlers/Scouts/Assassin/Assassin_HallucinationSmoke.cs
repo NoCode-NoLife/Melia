@@ -64,9 +64,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Assassin
 			{
 				LifeTime = TimeSpan.FromSeconds(skill.Level + 5),
 				MaxActorCount = 8,
-
-				Angle = -0.7853982f,
-				UnkF3 = 30,
 			});
 
 			caster.Map.AddPad(pad);

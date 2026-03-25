@@ -47,8 +47,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 				LifeTime = TimeSpan.FromSeconds(5),
 				UpdateInterval = TimeSpan.FromMilliseconds(50),
 				MaxActorCount = 3,
-
-				UnkF3 = 150,
 			});
 
 			caster.Map.AddPad(pad);

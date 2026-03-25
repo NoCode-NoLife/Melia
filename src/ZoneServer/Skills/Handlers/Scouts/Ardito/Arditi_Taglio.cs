@@ -61,10 +61,6 @@ namespace Melia.Zone.Skills.Handlers.Scouts.Ardito
 				LifeTime = TimeSpan.FromSeconds(maxCastingTime),
 				UpdateInterval = TimeSpan.FromMilliseconds(250),
 				MaxActorCount = 10,
-
-				Angle = 0,
-				Distance = 0,
-				UnkF3 = 150,
 			});
 
 			caster.Map.AddPad(pad);

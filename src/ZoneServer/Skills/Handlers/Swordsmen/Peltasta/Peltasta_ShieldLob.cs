@@ -51,12 +51,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 
 			var padPos = caster.Position.GetRelative2D(caster.Direction, 25);
 
-			var pad = Pad.Create(PadName.Peltasta_ShieldLob, caster, skill, padPos, new Circle(padPos, 40), new PadOptions
-			{
-				Angle = 2.356195f,
-				Distance = 0,
-				UnkF3 = 30,
-			});
+			var pad = Pad.Create(PadName.Peltasta_ShieldLob, caster, skill, padPos, new Circle(padPos, 40), PadOptions.Default);
 
 			caster.Map.AddPad(pad);
 		}

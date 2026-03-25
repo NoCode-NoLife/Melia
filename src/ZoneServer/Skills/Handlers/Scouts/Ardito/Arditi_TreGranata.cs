@@ -82,14 +82,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 			{
 				LifeTime = TimeSpan.FromSeconds(10),
 				MaxActorCount = 15,
-				UnkF3 = 150,
 			});
 
 			var pad2 = Pad.Create(PadName.Arditi_TreGranata, caster, skill, pos2, new Circle(pos2, 50), new PadOptions
 			{
 				LifeTime = TimeSpan.FromSeconds(10),
 				MaxActorCount = 15,
-				UnkF3 = 150,
 			});
 
 			var pad3 = Pad.Create(PadName.Arditi_TreGranata, caster, skill, pos3, new Circle(pos3, 50), new PadOptions
@@ -97,14 +95,12 @@ namespace Melia.Zone.Skills.Handlers.Ardito
 				LifeTime = TimeSpan.FromSeconds(10),
 				UpdateInterval = TimeSpan.FromSeconds(1),
 				MaxActorCount = 15,
-				UnkF3 = 150,
 			});
 
 			var pad4 = Pad.Create(PadName.Arditi_TreGranata_DamagePad, caster, skill, pos4, new Square(pos4, caster.Direction, 150, 50), new PadOptions
 			{
 				LifeTime = TimeSpan.FromSeconds(10),
 				UpdateInterval = TimeSpan.FromSeconds(1),
-				UnkF3 = 150,
 			});
 
 			caster.Map.AddPad(pad1);

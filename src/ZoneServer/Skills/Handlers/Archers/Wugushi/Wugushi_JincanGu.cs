@@ -73,10 +73,6 @@ namespace Melia.Zone.Skills.Handlers.Archers.Wugushi
 				LifeTime = TimeSpan.FromSeconds(10),
 				UpdateInterval = TimeSpan.FromMilliseconds(250),
 				MaxActorCount = 10,
-
-				Angle = -0.2067194f,
-				Distance = 81.61429f,
-				UnkF3 = 100,
 			});
 
 			caster.Map.AddPad(pad);

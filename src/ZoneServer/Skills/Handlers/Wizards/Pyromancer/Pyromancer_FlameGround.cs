@@ -47,12 +47,6 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 			{
 				LifeTime = TimeSpan.FromMilliseconds(8100),
 				MaxActorCount = 10,
-
-				// These are the packet values, but I don't see any visual
-				// difference. Do we need those?
-				Angle = -2.5515406f,
-				Distance = 0.9648186f,
-				UnkF3 = 100,
 			});
 
 			caster.Map.AddPad(pad);

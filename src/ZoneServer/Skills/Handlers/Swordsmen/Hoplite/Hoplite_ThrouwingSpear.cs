@@ -136,10 +136,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Hoplite
 			{
 				LifeTime = TimeSpan.FromSeconds(2),
 				MaxActorCount = 8,
-
-				Angle = -0.7853982f,
-				Distance = 0,
-				UnkF3 = 30,
 			});
 
 			caster.Map.AddPad(pad);
