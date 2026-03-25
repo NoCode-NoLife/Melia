@@ -1,0 +1,28 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: Job.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    short jobId;
+    short level;
+    int i1;
+    int totalExp;
+    int i2;
+    byte unusedSkillPoints;
+    ushort s2;
+    byte bin1[4];
+    byte b1;
+    FILETIME advancedDate;
+    int64 l2;
+}
+Job;

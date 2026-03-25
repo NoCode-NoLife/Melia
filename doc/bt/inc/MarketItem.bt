@@ -1,0 +1,27 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: MarketItem.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int64 worldId;
+    int itemId;
+    int i1;
+    int itemAmount;
+    byte bin[33];
+    FILETIME time;
+    lpString marketStatus;
+    short propSize;
+    getProperties(propSize);
+    int i2;
+}
+MarketItem <optimize=false>;

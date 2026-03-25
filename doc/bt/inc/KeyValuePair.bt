@@ -1,0 +1,26 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: KeyValuePair.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    lpString key;
+    lpString value;
+}
+KeyValuePair <optimize=false, read=readKeyValuePair>;
+
+string readKeyValuePair(KeyValuePair &kv)
+{
+    local string result;
+    SPrintf(result, "%s: %s", kv.key, kv.value);
+    return result;
+}

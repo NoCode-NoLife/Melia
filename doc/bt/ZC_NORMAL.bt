@@ -29,67 +29,6 @@
 
 #include "inc/common.bt"
 
-typedef struct
-{
-    short size;
-    if(size > 0)
-        getProperties(size);
-}
-AccountProperties <optimize=false>;
-
-typedef struct
-{
-    int skillId;
-    short propCount;
-    getProperties(propCount);
-} SkillProps <read=skillPropertyRead, optimize=false>;
-
-string skillPropertyRead(SkillProps &p)
-{
-    local char ret[];
-
-    SPrintf(ret, "Skill Id: %d : Property Size %d",   p.skillId, p.propCount);
-
-    return ret;
-}
-
-typedef struct
-{
-    short jobId;
-    short level;
-    int i1;
-    int totalExp;
-    int i2;
-    byte unusedSkillPoints;
-    ushort s2;
-    byte bin1[4];
-    byte b1;
-    FILETIME advancedDate;
-    int64 l2;
-}
-Job;
-
-typedef struct
-{
-    lpString key1;
-    lpString value1;
-}
-KeyValuePair <optimize=false>;
-
-typedef struct
-{
-    int64 worldId;
-    int itemId;
-    int i1;
-    int itemAmount;
-    byte bin[33];
-    FILETIME time;
-    lpString marketStatus;
-    short propSize;
-    getProperties(propSize);
-    int i2;
-} MarketItem <optimize=false>;
-
 ServerHeaderDynamic header;
 
 int type;

@@ -1,0 +1,27 @@
+//--------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: SkillProps.bt
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef struct
+{
+    int skillId;
+    short propCount;
+    getProperties(propCount);
+}
+SkillProps <read=skillPropertyRead, optimize=false>;
+
+string skillPropertyRead(SkillProps &p)
+{
+    local char ret[];
+    SPrintf(ret, "Skill Id: %d : Property Size %d",   p.skillId, p.propCount);
+    return ret;
+}

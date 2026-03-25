@@ -55,3 +55,8 @@
 #include "inc/TxItemType.bt"
 #include "inc/WorldId.bt"
 #include "inc/AccountPrivilege.bt"
+#include "inc/AccountProperties.bt"
+#include "inc/Job.bt"
+#include "inc/KeyValuePair.bt"
+#include "inc/MarketItem.bt"
+#include "inc/SkillProps.bt"
