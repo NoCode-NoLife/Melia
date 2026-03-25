@@ -1,0 +1,526 @@
+//------------------------------------------------
+//--- 010 Editor v8.0 Binary Template
+//
+//      File: NormalOp.bt
+//   Authors: exec
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+typedef int NormalOp <read = readNormalOp>;
+
+string readNormalOp(NormalOp& value)
+{
+    string result = NormalOpToStr(value);
+
+    if (Strlen(result) > 0)
+        SPrintf(result, "%s (%d, 0x%02X)", result, value, value);
+    else
+        SPrintf(result, "[Undefined] (%d, 0x%02X)", value, value);
+
+    return result;
+}
+
+
+// The hackiest and only way I could find to do versioned enumeration
+// that is easy to maintain and expand. Surprisingly performant,
+// even with hundreds of entries.
+//
+// Instructions:
+// 1. If entirely new ops are added, add a new ENUM_VALUE line in the list
+//    below at the appropriate location and add a version/date check.
+// 2. If ops are removed, don't remove them, but add a version/date check.
+// 3. If you rename ops, aka changing the string, update the potential
+//    checks in the ZC_NORMAL template.
+// 4. If you need to document a new op that is currently "Unknown", and
+//    no descriptive name could be ascertained yet, give it a temporary,
+//    best guess name based on how it's used and use that name in both
+//    this list and the ZC_NORMAL template.
+// 5. We're assuming that the ops are a continuous list of values, but
+//    should there be actual gaps, use an EQ line to start a new range.
+//    ENUM_VALUE "SomeOp13" END;        // 0x13
+//    ENUM_VALUE "Foobar" EQ 0x100 END; // 0x100
+//    ENUM_VALUE "Barfoo" END;          // 0x101
+
+
+#define START_ENUM local int __value = -1; local string __name = ""
+#define ENUM_SET __value = -1 + 
+#define ENUM_SHIFT __value +=
+#define ENUM_VALUE __name = 
+#define EQ ; __value = -1 + 
+#define END ; __value++; if (value == __value) return __name
+#define END_ENUM return "";
+
+string NormalOpToStr(NormalOp& value)
+{
+    START_ENUM;
+
+    ENUM_VALUE "TimeActionStart" END;
+    ENUM_VALUE "TimeActionEnd" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "MonsterGenType" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SkillProjectile" END;
+    ENUM_VALUE "SkillProjectile2" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SkillItemToss" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UnkJaguarSkill" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PlayEffect_0F" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "AttachEffect" END;
+    ENUM_VALUE "ClearEffects" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PlayEffect" END;
+    ENUM_VALUE "PlayForceEffect" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UpdateSkillEffect" END;
+    ENUM_VALUE "SetMonsterColor" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SkillCallLuaFunc" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SetSkillProperties" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "FadeOut" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "BarrackSlotCount" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "AttackCancel" END;
+    ENUM_VALUE "Skill_42" END;
+    ENUM_VALUE "Skill_43" END;
+    ENUM_VALUE "Skill_44" END;
+    ENUM_VALUE "Skill_45" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "AccountProperties" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UnkDynamicCastStart" END;
+    ENUM_VALUE "UnkDynamicCastEnd" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PadUpdate" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PadSetMonsterAltitude" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "ParticleEffect" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PadMoveTo" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Cutscene" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SetSkillSpeed" END;
+    ENUM_VALUE "SetHitDelay" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SkillCancelCancel" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SpinObject" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "OpenBook" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_A1" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "LeapJump" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_DA" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "ItemCollectionList" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UnlockCollection" END;
+    ENUM_VALUE "UpdateCollection" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PlayTextEffect" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_E4" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_EF" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "ChannelTraffic" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SetGreetingMessage" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unk13E" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SetSessionKey" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    if (LOG_DATE >= 20260226)
+    {
+        // [i402363]
+		// Noticed a shift by +2 in ItemDrop and UpdateSkillUI
+		// Exact placement unknown
+        ENUM_VALUE "Unknown" END;
+        ENUM_VALUE "Unknown" END;
+    }
+    ENUM_VALUE "ItemDrop" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "NGSCallback" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "HeadgearVisibilityUpdate" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UpdateSkillUI" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "AdventureBook" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_19B" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "PadSetModel" END;
+    ENUM_VALUE "WigVisibilityUpdate" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown_1B4" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "ActorRotate" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "SubWeaponVisibilityUpdate" END;
+
+    END_ENUM;
+}
