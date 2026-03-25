@@ -14,28 +14,30 @@ namespace Melia.Zone.World.Actors.Pads
 		public static PadOptions Default => new();
 
 		/// <summary>
-		/// Gets or sets the pad's "angle".
+		/// Gets or sets the pad's first numeric argument, which is
+		/// typically used for the pad's "angle".
 		/// </summary>
 		/// <remarks>
-		/// See Pad.Angle for more details.
+		/// See <see cref="Pad.NumArg1"/> for more details.
 		/// </remarks>
-		public float Angle { get; set; } = 0;
+		public float NumArg1 { get; set; } = 0;
 
 		/// <summary>
-		/// Gets or sets the pad's "distance".
+		/// Gets or sets the pad's second numeric argument, which is
+		/// typically used as "distance".
 		/// </summary>
 		/// <remarks>
-		/// See Pad.Distance for more details.
+		/// See <see cref="Pad.NumArg2 "/> for more details.
 		/// </remarks>
-		public float Distance { get; set; } = 0;
+		public float NumArg2 { get; set; } = 0;
 
 		/// <summary>
-		/// Gets or sets the pad's "f3" value.
+		/// Gets or sets the pad's third numeric argument.
 		/// </summary>
 		/// <remarks>
-		/// See Pad.UnkF3 for more details.
+		/// See <see cref="Pad.NumArg3"/> for more details.
 		/// </remarks>
-		public float UnkF3 { get; set; } = 0;
+		public float NumArg3 { get; set; } = 0;
 
 		/// <summary>
 		/// Gets or sets the pad's lifetime, after which it will be

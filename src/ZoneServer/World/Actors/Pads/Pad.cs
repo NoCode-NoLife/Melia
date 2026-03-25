@@ -45,36 +45,46 @@ namespace Melia.Zone.World.Actors.Pads
 		public IShapeF Area { get; }
 
 		/// <summary>
-		/// Gets or sets the pad's "angle".
+		/// Gets or sets the pad's first numeric argument, which is
+		/// typically used for the pad's "angle".
 		/// </summary>
 		/// <remarks>
 		/// It's currently unknown what exactly this property does. It can
 		/// be found in pad-related packets and in the skill bytool data
 		/// (element "Pos", argument "Angle"), but it doesn't appear to
 		/// have any effect on the pad or its visuals.
+		///
+		/// Initially we called this property "Angle" due to the bytool
+		/// data, but it's been reportedly found to contain different
+		/// values in some cases, like Centurion skills.
 		/// </remarks>
-		public float Angle { get; set; }
+		public float NumArg1 { get; set; }
 
 		/// <summary>
-		/// Gets or sets the pad's "distance".
+		/// Gets or sets the pad's second numeric argument, which is
+		/// typically used as "distance".
 		/// </summary>
 		/// <remarks>
 		/// It's currently unknown what exactly this property does. It can
 		/// be found in pad-related packets and in the skill bytool data
 		/// (element "Pos", argument "Dist"), but it doesn't appear to
 		/// have any effect on the pad or its visuals.
+		///
+		/// Initially we called this property "Distance" due to the bytool
+		/// data, but it's been reportedly found to contain different
+		/// values in some cases, like Centurion skills.
 		/// </remarks>
-		public float Distance { get; set; }
+		public float NumArg2 { get; set; }
 
 		/// <summary>
-		/// Gets or sets the pad's unknown f3 value.
+		/// Gets or sets the pad's third numeric argument.
 		/// </summary>
 		/// <remarks>
 		/// It's currently unknown what exactly this property does. It can
 		/// be found in pad-related packets, but it doesn't appear to have
 		/// any effect on the pad or its visuals.
 		/// </remarks>
-		public float UnkF3 { get; set; }
+		public float NumArg3 { get; set; }
 
 		/// <summary>
 		/// Returns the pad's movement component.
@@ -147,9 +157,9 @@ namespace Melia.Zone.World.Actors.Pads
 			var pad = new Pad(name, creator, skill, triggerArea);
 			pad.Position = position;
 
-			pad.Angle = options.Angle;
-			pad.Distance = options.Distance;
-			pad.UnkF3 = options.UnkF3;
+			pad.NumArg1 = options.NumArg1;
+			pad.NumArg2 = options.NumArg2;
+			pad.NumArg3 = options.NumArg3;
 			pad.Trigger.LifeTime = options.LifeTime;
 			pad.Trigger.UpdateInterval = options.UpdateInterval;
 			pad.Trigger.MaxActorCount = options.MaxActorCount;

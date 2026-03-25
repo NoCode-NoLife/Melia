@@ -317,12 +317,12 @@ switch (NormalOpToStr(type))
         int skillLevel;
         position pos;
         direction dir;
-        float angle;
-        float dist;
+        float numArg1;
+        float numArg2;
         int padHandle;
         byte isVisible;
         byte bin1[16]; // 0s
-        float f3; // 20 or 50
+        float numArg3; // 20 or 50
         byte bin2[16]; // 0s
         break;
     }
