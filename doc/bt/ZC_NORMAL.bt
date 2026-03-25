@@ -363,6 +363,29 @@ switch (NormalOpToStr(type))
         break;
     }
 
+    case "ItemCollectionList":
+    {
+        if (!checkCompression())
+        {
+            int64 characterId;
+            int collectionCount;
+            local int j;
+            for (j = 0; j < collectionCount; j++)
+            {
+                short collectionId;
+                int itemCount;
+                local int i;
+                for (i = 0; i < itemCount; i++)
+                {
+                    int itemId;
+                    int64 worldId;
+                    short s1;
+                }
+            }
+        }
+        break;
+    }
+
     case "PlayTextEffect":
     {
         int targetHandle;
@@ -374,6 +397,12 @@ switch (NormalOpToStr(type))
             char argStr[argStrLen]; // defaults to "None"
         int idSpace; // packet string
         int classId;
+        break;
+    }
+
+    case "Unknown_E4":
+    {
+        int i1;
         break;
     }
 
@@ -403,10 +432,31 @@ switch (NormalOpToStr(type))
         break;
     }
 
+    case "AdventureBook":
+    {
+        lpString str1; // AdventureBook
+        lpString str2; // Initialization_point
+
+        // [i354444] Added
+        {
+            int i1; // -1
+            int i2; //  0
+            int i3; //  0
+            byte b1; // 1
+        }
+        break;
+    }
+
     case "PadSetModel":
     {
         int actorHandle;
         lpString str1;
+        int i1;
+        break;
+    }
+
+    case "Unknown_1B4":
+    {
         int i1;
         break;
     }
