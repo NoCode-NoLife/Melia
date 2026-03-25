@@ -2468,12 +2468,10 @@ namespace Melia.Zone.Network
 			if (character.JobClass != JobClass.Swordsman && !Feature.IsEnabled("DashingForAll"))
 				return;
 
-			// For some reason this packet is sent multiple times while
-			// the character is dashing, which is a potential problem if
-			// DashRun gets stacked and started again, but the buff manager
-			// should handle it. Alternatively, we could also add a check
-			// here, to see if DashRun is already active. What's better
-			// is TBD.
+			// No dashing while sitting... should we have a dash lock?
+			if (character.IsSitting)
+				return;
+
 			character.StartBuff(BuffId.DashRun);
 		}
 

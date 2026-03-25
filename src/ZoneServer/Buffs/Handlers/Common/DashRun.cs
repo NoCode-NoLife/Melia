@@ -5,7 +5,6 @@ using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
-using Yggdrasil.Logging;
 
 namespace Melia.Zone.Buffs.Handlers.Common
 {
@@ -21,6 +20,9 @@ namespace Melia.Zone.Buffs.Handlers.Common
 		/// <param name="buff"></param>
 		public override void OnActivate(Buff buff, ActivationType activationType)
 		{
+			if (activationType != ActivationType.Start)
+				return;
+
 			var target = (Character)buff.Target;
 			var speedBonus = this.GetSpeedBonus(target);
 
