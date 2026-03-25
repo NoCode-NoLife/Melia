@@ -5048,6 +5048,7 @@ public static class ItemId
 	public const int DRESS_ROOM_COLLECT_29 = 11039029;
 	public const int DRESS_ROOM_COLLECT_30 = 11039030;
 	public const int DRESS_ROOM_COLLECT_31 = 11039031;
+	public const int DRESS_ROOM_COLLECT_32 = 11039032;
 	public const int COLLECT_326 = 11220000;
 	public const int COLLECT_327 = 11220001;
 	public const int COLLECT_328 = 11220002;
@@ -19896,6 +19897,10 @@ public static class ItemId
 	public const int Costume_Ep17bunnygambler01_F = 11101096;
 	public const int Costume_Ep17bunnygambler02_M = 11101097;
 	public const int Costume_Ep17bunnygambler02_F = 11101098;
+	public const int Costume_Ep18onsenyukata_M = 11101099;
+	public const int Costume_Ep18onsenyukata_F = 11101100;
+	public const int Costume_Ep18onsenyukata_Af_M = 11101101;
+	public const int Costume_Ep18onsenyukata_Af_F = 11101102;
 	public const int EP15_Helmet_Ep15snowknight01 = 11103001;
 	public const int Helmet_Nightrabbit = 11103002;
 	public const int Helmet_M_Ep15explorer15 = 11103003;
@@ -19914,6 +19919,8 @@ public static class ItemId
 	public const int Helmet_Ep16statue02_M = 11103016;
 	public const int Helmet_Ep16statue02_F = 11103017;
 	public const int Sniego_Helmet_Papaya = 11103018;
+	public const int Helmet_Onsenyukata_M = 11103019;
+	public const int Helmet_Onsenyukata_F = 11103020;
 	public const int Wing_Guiltynelaima_1 = 11105001;
 	public const int Wing_Guiltynelaima_2 = 11105002;
 	public const int Wing_Squirrel = 11105003;
@@ -20805,6 +20812,8 @@ public static class ItemId
 	public const int Special_Gift_Box_Leticia_2602 = 11205578;
 	public const int Leticia_KnellerT_Unlockbox = 11205579;
 	public const int Special_Gift_Box_Leticia_2603 = 11205580;
+	public const int Certificate_RidePet_HinokiBath = 11205585;
+	public const int Selectbox_Ep18onsenyukata = 11205586;
 	public const int I202603_Package01 = 11205587;
 	public const int I202603_Package02 = 11205588;
 	public const int I202603_Package03 = 11205589;

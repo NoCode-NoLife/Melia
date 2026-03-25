@@ -3384,6 +3384,7 @@ public static class MonsterId
 	public const int RidePet_Chariot_White = 65034;
 	public const int RidePet_Ninetail = 65035;
 	public const int RidePet_Armadillo2 = 65036;
+	public const int RidePet_HinokiBath = 65037;
 	public const int Ep17_1_Rockoff = 71012;
 	public const int Ep17_1_Tala_Sorcerer = 71013;
 	public const int Ep17_1_Flak_Green = 71014;

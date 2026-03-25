@@ -10392,6 +10392,29 @@
 		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_01 = "AchieveReward_EVENT_202603_PAPAYA_RAID_01";
 		public const string AchieveReward_EVENT_202603_PAPAYA_RAID_06 = "AchieveReward_EVENT_202603_PAPAYA_RAID_06";
 		public const string TSF04_134_1_cabinet_upgrade = "TSF04_134_1_cabinet_upgrade";
+		public const string ContentsTotalShop_EP18_3 = "ContentsTotalShop_EP18_3";
+		public const string ContentsTotalShop_EP18_1 = "ContentsTotalShop_EP18_1";
+		public const string dress_costume_ep18onsenyukata_m = "dress_costume_ep18onsenyukata_m";
+		public const string ep18onsenyukata_theme = "ep18onsenyukata_theme";
+		public const string ContentsTotalShop_EP18_2 = "ContentsTotalShop_EP18_2";
+		public const string ContentsTotalShop_EP18_4 = "ContentsTotalShop_EP18_4";
+		public const string CollectionDressRoomRead_183 = "CollectionDressRoomRead_183";
+		public const string CollectionDressRoomRead_184 = "CollectionDressRoomRead_184";
+		public const string dress_costume_ep18onsenyukata_f = "dress_costume_ep18onsenyukata_f";
+		public const string EVENT_POPOBOOST_2603 = "EVENT_POPOBOOST_2603";
+		public const string HaveEmoticon_187 = "HaveEmoticon_187";
+		public const string HaveEmoticon_188 = "HaveEmoticon_188";
+		public const string UnlockQuest_Char3_30 = "UnlockQuest_Char3_30";
+		public const string SanctuartyResonance_Zawra_EnableEntryCount = "SanctuartyResonance_Zawra_EnableEntryCount";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_112 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_112";
+		public const string UnlockQuest_Char5_25 = "UnlockQuest_Char5_25";
+		public const string GEM_Commodore_AntiBoarding_Archer_cabinet = "GEM_Commodore_AntiBoarding_Archer_cabinet";
+		public const string GEM_Commodore_AnchorStrike_Archer_cabinet = "GEM_Commodore_AnchorStrike_Archer_cabinet";
+		public const string GEM_Commodore_ArtillerySupport_Archer_cabinet = "GEM_Commodore_ArtillerySupport_Archer_cabinet";
+		public const string TSF04_135_1_cabinet = "TSF04_135_1_cabinet";
+		public const string GEM_Commodore_AnnihilationBombardment_Archer_cabinet = "GEM_Commodore_AnnihilationBombardment_Archer_cabinet";
+		public const string GEM_Commodore_ArmorPiercingShot_Archer_cabinet = "GEM_Commodore_ArmorPiercingShot_Archer_cabinet";
+		public const string TSF04_135_1_cabinet_upgrade = "TSF04_135_1_cabinet_upgrade";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -23280,6 +23303,10 @@
 		public const string Hide_3521 = "Hide_3521";
 		public const string HiddenJob_Char1_30 = "HiddenJob_Char1_30";
 		public const string HiddenJob_Char5_24 = "HiddenJob_Char5_24";
+		public const string EVENT_POPOBOOST_MAX_GEARSCORE_2603 = "EVENT_POPOBOOST_MAX_GEARSCORE_2603";
+		public const string popoboost_participate_2603 = "popoboost_participate_2603";
+		public const string HiddenJob_Char5_25 = "HiddenJob_Char5_25";
+		public const string HiddenJob_Char3_30 = "HiddenJob_Char3_30";
 
 		// SessionObject
 		public const string PosX = "PosX";

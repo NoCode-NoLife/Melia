@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i403038
+//   Version: i403202
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32896,6 +32896,35 @@ string getPropertyName(int id)
         case 118670: return "AchieveReward_EVENT_202603_PAPAYA_RAID_01";
         case 118671: return "AchieveReward_EVENT_202603_PAPAYA_RAID_06";
         case 118672: return "TSF04_134_1_cabinet_upgrade";
+        case 118673: return "ContentsTotalShop_EP18_3";
+        case 118674: return "ContentsTotalShop_EP18_1";
+        case 118675: return "dress_costume_ep18onsenyukata_m";
+        case 118676: return "ep18onsenyukata_theme";
+        case 118677: return "ContentsTotalShop_EP18_2";
+        case 118678: return "ContentsTotalShop_EP18_4";
+        case 118679: return "CollectionDressRoomRead_183";
+        case 118680: return "CollectionDressRoomRead_184";
+        case 118681: return "dress_costume_ep18onsenyukata_f";
+        case 118682: return "EVENT_POPOBOOST_2603";
+        case 118683: return "HaveEmoticon_187";
+        case 118684: return "HaveEmoticon_188";
+        case 118685: return "HaveEmoticon_187";
+        case 118686: return "HaveEmoticon_188";
+        case 118687: return "EVENT_POPOBOOST_MAX_GEARSCORE_2603";
+        case 118688: return "popoboost_participate_2603";
+        case 118689: return "HiddenJob_Char5_25";
+        case 118690: return "HiddenJob_Char3_30";
+        case 118691: return "UnlockQuest_Char3_30";
+        case 118692: return "SanctuartyResonance_Zawra_EnableEntryCount";
+        case 118693: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_112";
+        case 118694: return "UnlockQuest_Char5_25";
+        case 118695: return "GEM_Commodore_AntiBoarding_Archer_cabinet";
+        case 118696: return "GEM_Commodore_AnchorStrike_Archer_cabinet";
+        case 118697: return "GEM_Commodore_ArtillerySupport_Archer_cabinet";
+        case 118698: return "TSF04_135_1_cabinet";
+        case 118699: return "GEM_Commodore_AnnihilationBombardment_Archer_cabinet";
+        case 118700: return "GEM_Commodore_ArmorPiercingShot_Archer_cabinet";
+        case 118701: return "TSF04_135_1_cabinet_upgrade";
         default: return "Unknown";
     }
 }
