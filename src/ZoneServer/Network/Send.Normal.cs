@@ -391,53 +391,45 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
-			/// Used to show complex visual effects related to skills, called Pads.
+			/// Makes pad appear or disappear on clients around it.
 			/// </summary>
 			/// <param name="pad">The pad to update.</param>
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
 			public static void PadUpdate(Pad pad, bool isVisible)
-				=> PadUpdate(new SightBroadcastSender(pad), pad.Creator, pad, pad.Name, pad.NumArg1, pad.NumArg2, pad.NumArg3, isVisible);
+				=> PadUpdate(new SightBroadcastSender(pad), pad, isVisible);
 
 			/// <summary>
-			/// Used to show complex visual effects related to skills, called Pads.
+			/// Makes pad appear or disappear on the character's client.
 			/// </summary>
 			/// <param name="receiver">The character to send the packet to.</param>
 			/// <param name="pad">The pad to update.</param>
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
 			public static void PadUpdate(Character receiver, Pad pad, bool isVisible)
-				=> PadUpdate(new SingleConnectionSender(receiver), pad.Creator, pad, pad.Name, pad.NumArg1, pad.NumArg2, pad.NumArg3, isVisible);
+				=> PadUpdate(new SingleConnectionSender(receiver), pad, isVisible);
 
 			/// <summary>
-			/// Used to show complex visual effects related to skills, called Pads.
+			/// Sends pad visibility update packet via the sender.
 			/// </summary>
 			/// <param name="sender">Sender that handles the packet.</param>
-			/// <param name="caster">The pad's creator.</param>
 			/// <param name="pad">The pad to update.</param>
-			/// <param name="padName">Name of the pad, used to reference client-sided pad data.</param>
-			/// <param name="numArg1">Typically Pos.Angle value found in bytool data.</param>
-			/// <param name="numArg2">Typically Pos.Dist value found in bytool data.</param>
-			/// <param name="numArg3">Unknown floating point value found in packet logs.</param>
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
-			public static void PadUpdate(ISender sender, IActor caster, Pad pad, string padName, float numArg1, float numArg2, float numArg3, bool isVisible)
+			public static void PadUpdate(ISender sender, Pad pad, bool isVisible)
 			{
-				// TODO: Remove this overload once we confirmed that the
-				// shorter one does the job and we updated all calls.
-
 				var packet = new Packet(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
 				packet.PutInt(pad.Creator.Handle);
-				packet.AddStringId(padName);
+				packet.AddStringId(pad.Name);
 				packet.PutInt((int)pad.Skill.Id);
 				packet.PutInt(pad.Skill.Level);
 				packet.PutPosition(pad.Position);
 				packet.PutDirection(pad.Direction);
-				packet.PutFloat(numArg1);
-				packet.PutFloat(numArg2);
+				packet.PutFloat(pad.NumArg1);
+				packet.PutFloat(pad.NumArg2);
 				packet.PutInt(pad.Handle);
 				packet.PutByte(isVisible);
 				packet.PutEmptyBin(16);
-				packet.PutFloat(numArg3);
+				packet.PutFloat(pad.NumArg3);
 				packet.PutEmptyBin(16);
 
 				sender.Send(packet);
