@@ -24,9 +24,9 @@ namespace Melia.Zone.Scripting.AI
 
 		private int _masterHandle;
 
-		private DateTime _lastPlayerSeenTime;
 		private readonly TimeSpan _inactivityDelay = TimeSpan.FromSeconds(2);
-		private DateTime _suspensionEnd = DateTime.MinValue;
+		private TimeSpan _inactivityTime = TimeSpan.Zero;
+		private TimeSpan _suspensionTime = TimeSpan.Zero;
 
 		private TendencyType _tendency;
 		private float _viewRange = 300;
@@ -71,7 +71,7 @@ namespace Melia.Zone.Scripting.AI
 		/// won't execute its routine or react to events until the
 		/// suspension ends.
 		/// </summary>
-		public bool IsSuspended => DateTime.Now < _suspensionEnd;
+		public bool IsSuspended => _suspensionTime > TimeSpan.Zero;
 
 		/// <summary>
 		/// Initializes AI for the given entity, setting the initial
@@ -119,13 +119,13 @@ namespace Melia.Zone.Scripting.AI
 			if (!_initiated)
 				throw new InvalidOperationException("AI has not been initiated.");
 
+			if (this.CheckSuspension(elapsed))
+				return;
+
+			if (!this.CheckAnyPlayersOnMap(elapsed))
+				return;
+
 			if (this.Entity.IsDead)
-				return;
-
-			if (!this.CheckAnyPlayersOnMap())
-				return;
-
-			if (this.IsSuspended)
 				return;
 
 			this.UpdateHate(elapsed);
@@ -140,7 +140,7 @@ namespace Melia.Zone.Scripting.AI
 		/// </summary>
 		public void Suspend()
 		{
-			_suspensionEnd = DateTime.MaxValue;
+			_suspensionTime = TimeSpan.MaxValue;
 		}
 
 		/// <summary>
@@ -151,35 +151,56 @@ namespace Melia.Zone.Scripting.AI
 		/// <param name="duration"></param>
 		public void Suspend(TimeSpan duration)
 		{
-			_suspensionEnd = DateTime.Now + duration;
+			_suspensionTime = duration;
 		}
 
 		/// <summary>
-		/// Returns true if there are any players on the entity's map.
+		/// Returns true if the AI is currently suspended. If it is,
+		/// it reduces the suspension time based on the elapsed time.
+		/// </summary>
+		/// <param name="elapsed"></param>
+		/// <returns></returns>
+		public bool CheckSuspension(TimeSpan elapsed)
+		{
+			if (_suspensionTime <= TimeSpan.Zero)
+				return false;
+
+			if (_suspensionTime == TimeSpan.MaxValue)
+				return true;
+
+			_suspensionTime = Math2.Max(TimeSpan.Zero, _suspensionTime - elapsed);
+			return true;
+		}
+
+		/// <summary>
+		/// Returns true if there was any recent player presence on the
+		/// map.
 		/// </summary>
 		/// <remarks>
-		/// This method keeps returning true for a short time after the last
-		/// player left the map so the AI can react to players leaving.
+		/// This method keeps returning true for a short time after the
+		/// last player left the map so the AI can react to players
+		/// leaving.
 		/// </remarks>
+		/// <param name="elapsed"></param>
 		/// <returns></returns>
-		private bool CheckAnyPlayersOnMap()
+		private bool CheckAnyPlayersOnMap(TimeSpan elapsed)
 		{
 			var playerCount = this.Entity.Map.CharacterCount;
 
 			if (playerCount > 0)
 			{
-				_lastPlayerSeenTime = DateTime.Now;
+				_inactivityTime = TimeSpan.Zero;
 				return true;
 			}
 
-			if (playerCount == 0)
-			{
-				var inactivityStart = _lastPlayerSeenTime + _inactivityDelay;
-				if (DateTime.Now < inactivityStart)
-					return true;
-			}
+			if (_inactivityTime >= _inactivityDelay)
+				return false;
 
-			return false;
+			_inactivityTime += elapsed;
+			if (_inactivityTime >= _inactivityDelay)
+				return false;
+
+			return true;
 		}
 
 		/// <summary>
