@@ -50,6 +50,10 @@ namespace Melia.Shared.Configuration.Files
 		// misc.conf
 		public bool ResurrectCityOption { get; protected set; }
 
+		// monsters.conf
+		public TimeSpan DefaultMinRespawn { get; protected set; }
+		public TimeSpan DefaultMaxRespawn { get; protected set; }
+
 		// quests.conf
 		public bool DisplayQuestObjectives { get; protected set; }
 
@@ -143,6 +147,9 @@ namespace Melia.Shared.Configuration.Files
 			this.NoAdvancement = this.GetBool("no_advancement", false);
 
 			this.ResurrectCityOption = this.GetBool("resurrect_city_option", true);
+
+			this.DefaultMinRespawn = TimeSpan.FromSeconds(this.GetInt("default_min_respawn", 30));
+			this.DefaultMaxRespawn = TimeSpan.FromSeconds(this.GetInt("default_max_respawn", 60));
 
 			this.DisplayQuestObjectives = this.GetBool("display_quest_objectives", true);
 
