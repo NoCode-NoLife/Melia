@@ -969,7 +969,7 @@ public class CharacterCalculationsScript : GeneralScript
 		value += byBuffs + byRateBuffs;
 
 		var max = SCR_Get_Character_MAXMATK(character);
-		return (float)Math2.Clamp(1, max, value);
+		return (int)Math2.Clamp(1, max, value);
 	}
 
 	/// <summary>
@@ -1008,7 +1008,7 @@ public class CharacterCalculationsScript : GeneralScript
 
 		value += byBuffs + byRateBuffs;
 
-		return (float)Math.Max(1, value);
+		return (int)Math.Max(1, value);
 	}
 
 	/// <summary>
