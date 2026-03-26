@@ -57,7 +57,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 	/// Handler for the pad created by the Pyromancer Flame Ground skill.
 	/// </summary>
 	[PadHandler(PadName.Pyromancer_FlameGround)]
-	public class Pyromancer_FlameGround_Pad : IPadHandler, IEnterPadHandler, ILeavePadHandler, IDestroyPadHandler, IUpdatePadHandler
+	public class Pyromancer_FlameGround_Pad : IEnterPadHandler, ILeavePadHandler, IDestroyPadHandler, IUpdatePadHandler
 	{
 		/// <summary>
 		/// Handles actors entering the pad.

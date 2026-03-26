@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Melia.Shared.Game.Const;
 using Melia.Shared.L10N;
@@ -13,7 +12,6 @@ using Melia.Zone.Skills.Combat;
 using Melia.Zone.Skills.Handlers.Base;
 using Melia.Zone.Skills.SplashAreas;
 using Melia.Zone.World.Actors;
-using Melia.Zone.World.Actors.Characters;
 using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads;
@@ -50,7 +48,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			Send.ZC_SKILL_MELEE_GROUND(caster, skill, farPos, null);
 
 			var padPos = caster.Position.GetRelative2D(caster.Direction, 25);
-
 			var pad = Pad.Create(PadName.Peltasta_ShieldLob, caster, skill, padPos, new Circle(padPos, 40), PadOptions.Default);
 
 			caster.Map.AddPad(pad);
@@ -62,7 +59,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 	/// caster's shield, that flies forward and then back, Captain America
 	/// style.
 	/// </summary>
-	[PadHandler("Peltasta_ShieldLob")]
+	[PadHandler(PadName.Peltasta_ShieldLob)]
 	public class Peltasta_ShieldLob_Pad : ICreatePadHandler, IDestroyPadHandler, IEnterPadHandler
 	{
 		private const float ShieldFlyDistance = 100;
@@ -122,8 +119,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 		{
 			var pad = args.Trigger;
 
-			var shieldMonster = pad.Variables.Get<Mob>("shieldMonster");
-			pad.Map.RemoveMonster(shieldMonster);
+			if (pad.Variables.TryGet<Mob>("shieldMonster", out var shieldMonster))
+				pad.Map.RemoveMonster(shieldMonster);
 		}
 
 		/// <summary>
@@ -142,8 +139,8 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 		}
 
 		/// <summary>
-		/// Makes shield fly a certain distance forward, in the direction the
-		/// creator is facing.
+		/// Makes shield fly a certain distance forward, in the direction
+		/// the creator is facing.
 		/// </summary>
 		/// <param name="pad"></param>
 		/// <param name="creator"></param>
@@ -210,14 +207,13 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			if (!caster.CanDamage(target))
 				return;
 
-			var damageDelay = TimeSpan.FromMilliseconds(100);
-			var skillHitDelay = TimeSpan.Zero;
+			var aniTime = TimeSpan.FromMilliseconds(100);
+			var hitDelay = TimeSpan.Zero;
 
 			var modifier = SkillModifier.MultiHit(4);
 			modifier.BonusPAtk = Peltasta38.GetBonusPAtk(caster);
 
-			// Increase damage by 10% if target is under the effect of
-			// Swashbuckling from the caster
+			// Debuff: "Threat", Increases damage by 10%
 			if (target.TryGetBuff(BuffId.SwashBuckling_Debuff, out var swashBuckingDebuff))
 			{
 				if (swashBuckingDebuff.Caster == caster)
@@ -225,10 +221,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			}
 
 			var skillHitResult = SCR_SkillHit(caster, target, skill, modifier);
-			target.TakeDamage(skillHitResult.Damage, caster);
 
-			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, damageDelay, skillHitDelay);
+			var skillHit = new SkillHitInfo(caster, target, skill, skillHitResult, aniTime, hitDelay);
 			skillHit.HitEffect = HitEffect.Impact;
+
+			skillHit.ApplyDamage();
+			skillHit.ApplyKnockBack();
 
 			Send.ZC_SKILL_HIT_INFO(caster, skillHit);
 		}
