@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using Melia.Shared.Game.Const;
 using Melia.Shared.World;
-using Melia.Zone.Network;
 using Melia.Zone.Pads;
 using Melia.Zone.Skills;
+using Melia.Zone.World.Actors.CombatEntities.Components;
 using Melia.Zone.World.Actors.Components;
 using Melia.Zone.World.Actors.Monsters;
 using Melia.Zone.World.Actors.Pads.Components;
@@ -24,6 +26,8 @@ namespace Melia.Zone.World.Actors.Pads
 	/// </remarks>
 	public class Pad : Actor, IUpdateable
 	{
+		private readonly List<Mob> _associatedMonsters = new();
+
 		/// <summary>
 		/// Gets or sets the pad's name.
 		/// </summary>
@@ -168,6 +172,8 @@ namespace Melia.Zone.World.Actors.Pads
 			if (name != null)
 				pad.RegisterHandler(name);
 
+			pad.Trigger.Subscribe(TriggerType.Destroy, pad.OnDestroyed);
+
 			return pad;
 		}
 
@@ -205,6 +211,63 @@ namespace Melia.Zone.World.Actors.Pads
 		public void Destroy()
 		{
 			this.Map?.RemovePad(this);
+		}
+
+		/// <summary>
+		/// Called when the pad is destroyed.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void OnDestroyed(object sender, TriggerArgs e)
+		{
+			foreach (var monster in _associatedMonsters)
+				monster.Map?.RemoveMonster(monster);
+		}
+
+		/// <summary>
+		/// Spawns a monster at the pad's position and associates it with
+		/// the pad, meaning it will be automatically removed when the pad
+		/// is destroyed.
+		/// </summary>
+		/// <param name="monsterId"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public Mob SpawnMonster(int monsterId, MonsterType type)
+		{
+			var monster = this.CreateMonster(monsterId, type);
+			this.Map.AddMonster(monster);
+
+			return monster;
+		}
+
+		/// <summary>
+		/// Creates a monster at the pad's position without adding it to
+		/// the map and associates it with the pad, meaning it will be
+		/// automatically removed when the pad is destroyed.
+		/// </summary>
+		/// <param name="monsterId"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		public Mob CreateMonster(int monsterId, MonsterType type)
+		{
+			var monster = new Mob(monsterId, type);
+			monster.Components.Add(new MovementComponent(monster));
+			monster.Position = this.Position;
+			monster.Direction = this.Direction;
+
+			this.AssociateMonster(monster);
+
+			return monster;
+		}
+
+		/// <summary>
+		/// Associates the given monster with the pad, meaning it will be
+		/// automatically removed when the pad is destroyed.
+		/// </summary>
+		/// <param name="monster"></param>
+		public void AssociateMonster(Mob monster)
+		{
+			_associatedMonsters.Add(monster);
 		}
 	}
 }

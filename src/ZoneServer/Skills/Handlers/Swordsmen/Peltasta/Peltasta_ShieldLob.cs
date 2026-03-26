@@ -60,7 +60,7 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 	/// style.
 	/// </summary>
 	[PadHandler(PadName.Peltasta_ShieldLob)]
-	public class Peltasta_ShieldLob_Pad : ICreatePadHandler, IDestroyPadHandler, IEnterPadHandler
+	public class Peltasta_ShieldLob_Pad : ICreatePadHandler, IEnterPadHandler
 	{
 		private const float ShieldFlyDistance = 100;
 		private const float ShieldFlySpeedForward = 150;
@@ -82,18 +82,9 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			//if (creator.Map.IsPvp)
 			//	pad.Trigger.ActorMaxCount = 4;
 
-			// TODO: Add a way to more easily create and manage monsters
-			// spawned by pads? Does this happen so often that we'll need
-			// it? Let's wait and see for now.
-
-			var shieldMonster = new Mob(57001, MonsterType.Friendly);
-			shieldMonster.Components.Add(new MovementComponent(shieldMonster));
-			shieldMonster.Position = pad.Position;
-			shieldMonster.Direction = pad.Direction;
+			var shieldMonster = pad.CreateMonster(57001, MonsterType.Friendly);
 			shieldMonster.AttachEffect(new AttachableEffect("I_light004_violet", 1.5f));
-			creator.Map.AddMonster(shieldMonster);
-
-			pad.Variables.Set("shieldMonster", shieldMonster);
+			pad.Map.AddMonster(shieldMonster);
 
 			if (creator.TryGetItem(EquipSlot.LeftHand, out var lhItem))
 			{
@@ -108,19 +99,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Peltasta
 			Send.ZC_NORMAL.PadSetMonsterAltitude(pad, shieldMonster, 22);
 
 			TaskHelper.CallSafe(this.FlyShieldFly(pad, creator));
-		}
-
-		/// <summary>
-		/// Called when the pad is destroyed.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="args"></param>
-		public void Destroyed(object sender, PadTriggerArgs args)
-		{
-			var pad = args.Trigger;
-
-			if (pad.Variables.TryGet<Mob>("shieldMonster", out var shieldMonster))
-				pad.Map.RemoveMonster(shieldMonster);
 		}
 
 		/// <summary>
