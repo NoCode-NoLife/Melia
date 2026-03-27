@@ -90,8 +90,13 @@ namespace Melia.Shared.Network
 		{
 			serverInfo = null;
 
+			// We need to filter for ServerStatus.Online both here and in
+			// GetZoneServers, so the channel list, our list, and the
+			// selected channels match up. Alternatively, we could show
+			// channels even if they're offline.
+
 			var zoneServers = _servers.Where(a => a.Type == ServerType.Zone);
-			var mapServers = zoneServers.Where(a => a.MapIds.Contains(mapId));
+			var mapServers = zoneServers.Where(a => a.Status == ServerStatus.Online && a.MapIds.Contains(mapId));
 
 			if (index < 0 || index > _servers.Count - 1)
 				return false;
