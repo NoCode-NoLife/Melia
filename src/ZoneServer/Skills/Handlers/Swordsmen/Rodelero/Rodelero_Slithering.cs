@@ -30,6 +30,12 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 		/// <param name="caster"></param>
 		public void StartDynamicCast(Skill skill, ICombatEntity caster)
 		{
+			if (!caster.TrySpendSp(skill))
+			{
+				caster.ServerMessage(Localization.Get("Not enough SP."));
+				return;
+			}
+
 			Send.ZC_PLAY_SOUND(caster, "voice_archer_camouflage_shot");
 			caster.StartBuff(BuffId.Slithering_Buff, skill.Level, 0, TimeSpan.Zero, caster);
 		}
@@ -54,12 +60,6 @@ namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
 		/// <param name="farPos"></param>
 		public void Handle(Skill skill, ICombatEntity caster, Position originPos, Position farPos, ICombatEntity target)
 		{
-			if (!caster.TrySpendSp(skill))
-			{
-				caster.ServerMessage(Localization.Get("Not enough SP."));
-				return;
-			}
-
 			skill.IncreaseOverheat();
 			caster.SetAttackState(true);
 
