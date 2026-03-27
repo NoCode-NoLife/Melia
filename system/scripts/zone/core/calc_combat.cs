@@ -81,7 +81,7 @@ public class CombatCalculationsScript : GeneralScript
 		var SCR_HitCountMultiplier = ScriptableFunctions.Combat.Get("SCR_HitCountMultiplier");
 		var SCR_SizeTypeBonus = ScriptableFunctions.Combat.Get("SCR_SizeTypeBonus");
 		var SCR_AttributeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeMultiplier");
-		var SCR_AttributeResistanceMultiplier = ScriptableFunctions.Combat.Get("SCR_AttributeResistanceMultiplier");
+		var SCR_AttributeResistance = ScriptableFunctions.Combat.Get("SCR_AttributeResistance");
 		var SCR_AttackTypeMultiplier = ScriptableFunctions.Combat.Get("SCR_AttackTypeMultiplier");
 		var SCR_RaceMultiplier = ScriptableFunctions.Combat.Get("SCR_RaceMultiplier");
 		var SCR_Combat_BeforeCalc = ScriptableFunctions.Combat.Get("SCR_Combat_BeforeCalc");
@@ -118,6 +118,10 @@ public class CombatCalculationsScript : GeneralScript
 		var def = target.Properties.GetFloat(defPropertyName);
 		def += modifier.DefenseBonus;
 		def -= Math2.Clamp(0, def, def * modifier.DefensePenetrationRate);
+
+		var attributeDefense = SCR_AttributeResistance(attacker, target, skill, modifier, skillHitResult);
+		def += attributeDefense;
+
 		skillHitResult.Damage = Math.Max(1, skillHitResult.Damage - def);
 
 		// Apply the skill factor, raising the damage based on the skill's
@@ -158,12 +162,6 @@ public class CombatCalculationsScript : GeneralScript
 		if (attrMultiplier != 1)
 		{
 			skillHitResult.Damage *= attrMultiplier;
-		}
-
-		var attrResistanceMultiplier = SCR_AttributeResistanceMultiplier(attacker, target, skill, modifier, skillHitResult);
-		if (attrResistanceMultiplier != 1)
-		{
-			skillHitResult.Damage *= attrResistanceMultiplier;
 		}
 
 		var atkTypeMultiplier = SCR_AttackTypeMultiplier(attacker, target, skill, modifier, skillHitResult);
@@ -378,8 +376,8 @@ public class CombatCalculationsScript : GeneralScript
 	}
 
 	/// <summary>
-	/// Returns a damage multiplier for the skill used on the target,
-	/// based on its attribute resistance.
+	/// Returns a flat defense bonus the target may have against the
+	/// attack's attribute.
 	/// </summary>
 	/// <param name="attacker"></param>
 	/// <param name="target"></param>
@@ -387,7 +385,7 @@ public class CombatCalculationsScript : GeneralScript
 	/// <param name="skillHitResult"></param>
 	/// <returns></returns>
 	[ScriptableFunction]
-	public float SCR_AttributeResistanceMultiplier(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
+	public float SCR_AttributeResistance(ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 	{
 		if (skill.Data.ClassType != SkillClassType.Magic)
 			return 1;
@@ -463,7 +461,7 @@ public class CombatCalculationsScript : GeneralScript
 		if (monsterPropertyName != null)
 			resistance += target.Properties.GetFloat(monsterPropertyName);
 
-		return 1 - (resistance / 100f);
+		return resistance;
 	}
 
 	/// <summary>
