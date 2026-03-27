@@ -125,6 +125,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.Create(PropertyName.BLK_BREAK, "SCR_Get_Character_BLK_BREAK");
 			this.Create(PropertyName.SR, "SCR_Get_Character_SR");
 			this.Create(PropertyName.SDR, "SCR_Get_Character_SDR");
+			this.Create(PropertyName.HEAL_PWR, "SCR_Get_Character_HEAL_PWR");
 
 			this.Create(PropertyName.MaxWeight, "SCR_Get_Character_MaxWeight");
 			this.Create(PropertyName.NowWeight, "SCR_Get_Character_NowWeight");
@@ -197,6 +198,7 @@ namespace Melia.Zone.World.Actors.Characters
 			this.AutoUpdate(PropertyName.BLK_BREAK, [PropertyName.Lv, PropertyName.DEX, PropertyName.BLK_BREAK_BM, PropertyName.BLK_BREAK_RATE_BM]);
 			this.AutoUpdate(PropertyName.SR, [PropertyName.SR_BM]);
 			this.AutoUpdate(PropertyName.SDR, [PropertyName.FixedMinSDR_BM, PropertyName.SDR_BM]);
+			this.AutoUpdate(PropertyName.HEAL_PWR, [PropertyName.Lv, PropertyName.MNA, PropertyName.MINPATK, PropertyName.MAXPATK, PropertyName.MINMATK, PropertyName.MAXMATK]);
 			this.AutoUpdate(PropertyName.MaxSta, [PropertyName.CON, PropertyName.MAXSTA_Bonus, PropertyName.MaxSta_BM]);
 			this.AutoUpdate(PropertyName.Sta_Run, [PropertyName.DashRun]);
 			this.AutoUpdate(PropertyName.Sta_Recover, [PropertyName.REST_BM, PropertyName.RSta_BM]);

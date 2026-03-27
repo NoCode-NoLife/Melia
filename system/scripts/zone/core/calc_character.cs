@@ -1628,4 +1628,76 @@ public class CharacterCalculationsScript : GeneralScript
 
 		return (int)value;
 	}
+
+	/// <summary>
+	/// Returns the character's heal power.
+	/// </summary>
+	/// <remarks>
+	/// Listed as "Healing" in the stats window.
+	/// </remarks>
+	/// <param name="character"></param>
+	/// <returns></returns>
+	[ScriptableFunction]
+	public float SCR_Get_Character_HEAL_PWR(Character character)
+	{
+		var properties = character.Properties;
+
+		var defaultValue = 20f;
+
+		var level = properties.GetFloat(PropertyName.Lv, 1);
+		var stat = properties.GetFloat(PropertyName.MNA, 1);
+
+		var byLevel = level * 2.5f;
+		var byStat = stat * 1f;
+
+		var byItem = character.Inventory.GetEquipProperties(PropertyName.HEAL_PWR);
+		var byBuff = properties.GetFloat(PropertyName.HEAL_PWR_BM, 0);
+
+		var value = (float)Math.Floor(defaultValue + byLevel + byStat) + byItem + byBuff;
+
+		var avgPatk = (properties.GetFloat(PropertyName.MINPATK) + properties.GetFloat(PropertyName.MAXPATK)) / 2f;
+		var avgMatk = (properties.GetFloat(PropertyName.MINMATK) + properties.GetFloat(PropertyName.MAXMATK)) / 2f;
+		var atk = Math.Max(avgPatk, avgMatk);
+
+		var byAttack = atk / 4f;
+		value = (float)Math.Floor((value * 0.4f) + (byAttack * 0.6f));
+
+		var byRateBuff = properties.GetFloat(PropertyName.HEAL_PWR_RATE_BM, 0);
+		value *= (1f + byRateBuff);
+
+		var byExProperties = 0f;
+
+		// byExProperties += ABIL_MACE_ADDHEAL
+		// byExProperties += ITEM_Cleric_PatronSaint_HwpRate / 1000f
+		// byExProperties += ITEM_goddess_seal_lv1 / 1000f
+		// byExProperties += ITEM_goddess_seal_def_lv2 / 1000f
+
+		value *= (1f + byExProperties);
+
+		//if (character.IsInPvp)
+		//{
+		//	var byPvp = 0.5f; // TODO: Get actual PvP reduction ratio
+		//	value *= (1f - byPvp);
+		//}
+
+		// This one's weird. The HEAL_PWR property appears in the stat
+		// list as "Healing", but the value the client displays is not the
+		// one we send. Instead, it applies additional shenanigans on top
+		// of the value, from the UI code, resulting in a number that's
+		// higher than ours. If the stats then change, and the preview
+		// takes over, it displays the actual value, which matches ours.
+		// 
+		// The line below could be used to compensate for this difference,
+		// displaying the correct value, but then the preview doesn't
+		// match up, displaying the compensated value as the old and
+		// the actual one as the new value.
+		// 
+		// Since neither of these options are great, I guess we'll live
+		// with the presumed default behavior for now. If anyone knows
+		// what's going on here, let us know.
+
+		//value = (value - (byAttack * 0.6f)) * 0.4f + byAttack * 0.6f;
+
+		return (int)Math.Max(1, value);
+	}
 }
