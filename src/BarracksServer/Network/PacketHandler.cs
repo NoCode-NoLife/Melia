@@ -584,10 +584,11 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Sent upon login. Asserts that the client IPF files are correct.
+		/// Sent upon login. Asserts that IPF files checksum is correct,
+		/// indicating that the data has not been tempered with.
 		/// </summary>
 		/// <remarks>
-		/// This must be configured in the login configuration file to be enabled.
+		/// This must be enabled in the barracks configuration file.
 		/// </remarks>
 		[PacketHandler(Op.CB_CHECK_CLIENT_INTEGRITY)]
 		public void CB_CHECK_CLIENT_INTEGRITY(IBarracksConnection conn, Packet packet)
@@ -598,8 +599,9 @@ namespace Melia.Barracks.Network
 				return;
 
 			var serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum;
+			var autoUpdateEnabled = BarracksServer.Instance.Conf.Barracks.IpfChecksumAutoUpdate;
 
-			if (conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
+			if (autoUpdateEnabled && conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
 			{
 				Log.Info("Updating IPF checksum to '{0}' based on user '{1}'s request.", clientChecksum, conn.Account.Name);
 

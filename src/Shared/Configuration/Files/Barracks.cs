@@ -20,6 +20,12 @@ namespace Melia.Shared.Configuration.Files
 		public string IpfChecksum { get; set; }
 
 		/// <summary>
+		/// If true, the server updates the user barracks conf file with
+		/// the checksum sent by the first high ranking GM that logs in.
+		/// </summary>
+		public bool IpfChecksumAutoUpdate { get; set; }
+
+		/// <summary>
 		/// Map new players start on.
 		/// </summary>
 		public string StartMap { get; private set; }
@@ -49,6 +55,7 @@ namespace Melia.Shared.Configuration.Files
 
 			this.IpfChecksum = this.GetString("ipf_checksum", "");
 			this.VerifyIpf = this.GetBool("ipf_verifying", false);
+			this.IpfChecksumAutoUpdate = this.GetBool("ipf_checksum_auto_update", false);
 
 			this.StartMap = this.GetString("start_map", "f_siauliai_west");
 			this.StartPosition = this.GetPosition("start_position", new Position(-628, 260, -1025));
