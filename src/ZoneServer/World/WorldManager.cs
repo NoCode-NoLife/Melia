@@ -344,6 +344,16 @@ namespace Melia.Zone.World
 		}
 
 		/// <summary>
+		/// Returns all monsters that are currently spawned on this
+		/// server, including NPCs.
+		/// </summary>
+		public IMonster[] GetMonsters()
+		{
+			lock (_mapsLock)
+				return _mapsId.Values.SelectMany(a => a.GetMonsters()).ToArray();
+		}
+
+		/// <summary>
 		/// Returns the total number of player characters across all maps.
 		/// </summary>
 		/// <returns></returns>
