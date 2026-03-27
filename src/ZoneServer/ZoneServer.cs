@@ -119,6 +119,7 @@ namespace Melia.Zone
 			this.InitWorld();
 			this.LoadScripts("zone");
 			this.LoadIesMods();
+			this.PrepareWorld();
 			this.StartWorld();
 
 			this.StartCommunicator();
@@ -302,6 +303,24 @@ namespace Melia.Zone
 			Log.Info("Initializing world...");
 			this.World.Initialize();
 			Log.Info("  done loading {0} maps.", this.World.Count);
+		}
+
+		/// <summary>
+		/// Prepares world before it's started.
+		/// </summary>
+		private void PrepareWorld()
+		{
+			Log.Info("Prepairing world...");
+
+			// Removes spawners that have no spawn areas, as they would
+			// unnecessarily consume resources. This may happen naturally
+			// if the server loads spawners for maps it doesn't serve.
+			var spawners = this.World.GetSpawners();
+			foreach (var spawner in spawners)
+			{
+				if (!this.World.TryGetSpawnAreas(spawner.SpawnPointsIdent, out var areas) || areas.Count == 0)
+					this.World.RemoveSpawner(spawner);
+			}
 		}
 
 		/// <summary>

@@ -273,6 +273,7 @@ namespace Melia.Shared
 				}
 				else if (serverType == ServerType.Web)
 				{
+					this.LoadDb(this.Data.MapDb, "db/maps.txt");
 					this.LoadDb(this.Data.ServerDb, "db/servers.txt");
 				}
 

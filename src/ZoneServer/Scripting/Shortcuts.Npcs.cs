@@ -45,7 +45,8 @@ namespace Melia.Zone.Scripting
 		}
 
 		/// <summary>
-		/// Adds new NPC to the world.
+		/// Adds new NPC to the world. May return null if the map isn't
+		/// served by the server.
 		/// </summary>
 		/// <param name="monsterId"></param>
 		/// <param name="name"></param>
@@ -58,8 +59,15 @@ namespace Melia.Zone.Scripting
 		/// <exception cref="ArgumentException"></exception>
 		public static Npc AddNpc(int monsterId, string name, string uniqueName, string map, double x, double z, double direction, DialogFunc dialog = null)
 		{
+			// Throw if the map doesn't exist at all, ignore if the server
+			// just doesn't doesn't serve it.
 			if (!ZoneServer.Instance.World.TryGetMap(map, out var mapObj))
-				throw new ArgumentException($"Map '{map}' not found.");
+			{
+				if (!ZoneServer.Instance.Data.MapDb.Contains(map))
+					throw new ArgumentException($"Map '{map}' not found.");
+
+				return null;
+			}
 
 			if (ZoneServer.Instance.World.TryGetMonster(a => a.UniqueName == uniqueName, out _))
 				throw new ArgumentException($"An NPC with the unique name '{uniqueName}' already exists.");

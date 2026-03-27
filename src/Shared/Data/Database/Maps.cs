@@ -27,6 +27,14 @@ namespace Melia.Shared.Data.Database
 		private readonly Dictionary<string, MapData> _nameIndex = new();
 
 		/// <summary>
+		/// Returns true if a map with the given name exists.
+		/// </summary>
+		/// <param name="className"></param>
+		/// <returns></returns>
+		public bool Contains(string className)
+			=> _nameIndex.ContainsKey(className.ToLowerInvariant());
+
+		/// <summary>
 		/// Returns the map entry with given class name, or null if there was
 		/// not matching entry.
 		/// </summary>

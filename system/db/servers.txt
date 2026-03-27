@@ -10,7 +10,11 @@
 // The example entries are only suitable for playing on the hosting machine.
 // To enable connections over the network or internet, override this data
 // (ideally from the user folder) to assign your network/public IP to the
-// server IPs and ensure that the respective ports are opened.
+// server IPs and make sure that the respective ports are open.
+// 
+// To limit the maps one zone server loads, replace "all" with a list of
+// the maps to load. For example:
+//     [...] port: 7002, maps: ["f_siauliai_west", "c_Klaipe"] },
 //---------------------------------------------------------------------------
 
 [

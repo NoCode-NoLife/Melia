@@ -24,7 +24,8 @@ namespace Melia.Zone.Scripting
 
 		/// <summary>
 		/// Adds a spawn area to the collection with the given identifier,
-		/// creating it if it doesn't exist yet.
+		/// creating it if it doesn't exist yet. Returns null if the map
+		/// is not loaded on this server.
 		/// </summary>
 		/// <param name="identifier">Spawn area collection identifier.</param>
 		/// <param name="mapClassName">Class name of the map to spawn monsters one.</param>
@@ -32,10 +33,23 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static SpawnArea AddSpawnPoint(string identifier, string mapClassName, IShapeF area)
 		{
+			// Add the spawn area collection regardless of whether the map
+			// is served, so we can reference its existence and whether
+			// areas were added to it.
 			if (!ZoneServer.Instance.World.TryGetSpawnAreas(identifier, out var spc))
 			{
 				spc = new SpawnAreaCollection(identifier);
 				ZoneServer.Instance.World.AddSpawnAreas(spc);
+			}
+
+			// Throw if the map doesn't exist at all, ignore if the server
+			// just doesn't doesn't serve it.
+			if (!ZoneServer.Instance.World.MapExists(mapClassName))
+			{
+				if (!ZoneServer.Instance.Data.MapDb.Contains(mapClassName))
+					throw new ArgumentException($"Map '{mapClassName}' not found.");
+
+				return null;
 			}
 
 			return spc.AddSpawnPoint(mapClassName, area);
@@ -169,6 +183,12 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static MonsterSpawner AddSpawner(string identifier, int monsterClassId, int min, int max, TimeSpan? initialSpawn, TimeSpan? minRespawn, TimeSpan? maxRespawn, TendencyType tendency)
 		{
+			// We have to let the creation of the spawner go through, even
+			// if no spawn areas exist yet, because spawners and spawn
+			// areas can be defined in any order. The spawner will then
+			// simply not spawn anything if no spawn areas are added or
+			// the map isn't being served.
+
 			var initialSpawnTime = initialSpawn ?? TimeSpan.Zero;
 			var minRespawnTime = minRespawn ?? ZoneServer.Instance.Conf.World.DefaultMinRespawn;
 			var maxRespawnTime = maxRespawn ?? ZoneServer.Instance.Conf.World.DefaultMaxRespawn;
@@ -193,8 +213,15 @@ namespace Melia.Zone.Scripting
 		/// <returns></returns>
 		public static void AddPropertyOverrides(string mapClassName, int monsterClassId, PropertyOverrides propertyOverrides)
 		{
+			// Throw if the map doesn't exist at all, ignore if the server
+			// just doesn't doesn't serve it.
 			if (!ZoneServer.Instance.World.TryGetMap(mapClassName, out var map))
-				throw new ArgumentException($"Map '{mapClassName}' not found.");
+			{
+				if (!ZoneServer.Instance.Data.MapDb.Contains(mapClassName))
+					throw new ArgumentException($"Map '{mapClassName}' not found.");
+
+				return;
+			}
 
 			map.AddPropertyOverrides(monsterClassId, propertyOverrides);
 		}

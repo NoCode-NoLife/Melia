@@ -113,6 +113,10 @@ namespace Melia.Zone.World
 		{
 			foreach (var entry in ZoneServer.Instance.Data.MapDb.Entries.Values)
 			{
+				var servingMap = Array.IndexOf(ZoneServer.Instance.ServerInfo.MapIds, entry.Id) >= 0;
+				if (!servingMap)
+					continue;
+
 				var map = new Map(entry.Id, entry.ClassName);
 				_mapsId.Add(map.Id, map);
 				_mapsName.Add(map.ClassName, map);
@@ -162,6 +166,17 @@ namespace Melia.Zone.World
 				_mapsName.TryGetValue(mapClassName, out result);
 
 			return result;
+		}
+
+		/// <summary>
+		/// Returns true if a map with the given name exists.
+		/// </summary>
+		/// <param name="mapClassName"></param>
+		/// <returns></returns>
+		public bool MapExists(string mapClassName)
+		{
+			lock (_mapsLock)
+				return _mapsName.ContainsKey(mapClassName);
 		}
 
 		/// <summary>
@@ -224,6 +239,19 @@ namespace Melia.Zone.World
 			{
 				_spawners.Add(spawner.Id, spawner);
 				this.Heartbeat.Add(spawner);
+			}
+		}
+
+		/// <summary>
+		/// Removes the spawner from the world.
+		/// </summary>
+		/// <param name="spawner"></param>
+		public void RemoveSpawner(MonsterSpawner spawner)
+		{
+			lock (_spawners)
+			{
+				_spawners.Remove(spawner.Id);
+				this.Heartbeat.Remove(spawner);
 			}
 		}
 

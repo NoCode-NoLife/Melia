@@ -30,6 +30,11 @@ namespace Melia.Zone.World.Spawning
 		public string Identifier { get; }
 
 		/// <summary>
+		/// Returns the number of spawn areas in this collection.
+		/// </summary>
+		public int Count { get { lock (_spawnAreas) return _spawnAreas.Count; } }
+
+		/// <summary>
 		/// Creates an empty spawn area collection.
 		/// </summary>
 		/// <param name="identifier"></param>
