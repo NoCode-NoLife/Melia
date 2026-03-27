@@ -91,6 +91,13 @@ namespace Melia.Zone.Skills.SplashAreas
 			=> _baseOuter.GetOutlines();
 
 		/// <summary>
+		/// Returns the axis-aligned bounding box that contains the shape.
+		/// </summary>
+		/// <returns></returns>
+		public BoundingBoxF GetBounds()
+			=> _baseOuter.GetBounds();
+
+		/// <summary>
 		/// Returns a random point inside the circle.
 		/// </summary>
 		/// <param name="rnd"></param>
