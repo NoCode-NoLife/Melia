@@ -81,6 +81,20 @@ namespace Melia.Shared.Network
 			=> _servers.ToArray();
 
 		/// <summary>
+		/// Returns true if there's any zone servers online that serve the
+		/// given map.
+		/// </summary>
+		/// <param name="mapId"></param>
+		/// <returns></returns>
+		public bool IsBeingServed(int mapId)
+		{
+			var zoneServers = _servers.Where(a => a.Type == ServerType.Zone);
+			var mapServers = zoneServers.Where(a => a.Status == ServerStatus.Online && a.MapIds.Contains(mapId));
+
+			return mapServers.Any();
+		}
+
+		/// <summary>
 		/// Returns the zone server with the given index that serves the
 		/// given map via out. Returns false if no matching server was found.
 		/// </summary>

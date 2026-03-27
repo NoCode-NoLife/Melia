@@ -650,19 +650,24 @@ namespace Melia.Zone.World.Actors.Characters
 			if (!ZoneServer.Instance.Data.MapDb.TryFind(mapId, out var map))
 				throw new ArgumentException("Map '" + mapId + "' not found in data.");
 
-			this.Position = pos;
-
 			if (this.MapId == mapId)
 			{
+				this.Position = pos;
 				Send.ZC_SET_POS(this);
+				return;
 			}
-			else
-			{
-				this.MapId = mapId;
-				_warping = true;
 
-				Send.ZC_MOVE_ZONE(this.Connection);
+			if (!ZoneServer.Instance.ServerList.IsBeingServed(mapId))
+			{
+				this.MsgBox(Localization.Get("The map is currently unavailable. Please try again later."));
+				return;
 			}
+
+			this.MapId = mapId;
+			this.Position = pos;
+			_warping = true;
+
+			Send.ZC_MOVE_ZONE(this.Connection);
 		}
 
 		/// <summary>
