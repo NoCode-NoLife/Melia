@@ -164,6 +164,14 @@ namespace Melia.Zone.World.Items
 			if (this.Data.MDef != 0) this.Properties.SetFloat(PropertyName.MDEF, this.Data.MDef);
 			if (this.Data.AddDef != 0) this.Properties.SetFloat(PropertyName.ADD_DEF, this.Data.AddDef);
 			if (this.Data.AddMDef != 0) this.Properties.SetFloat(PropertyName.ADD_MDEF, this.Data.AddMDef);
+			if (this.Data.FireResistence != 0) this.Properties.SetFloat(PropertyName.RES_FIRE, this.Data.FireResistence);
+			if (this.Data.IceResistence != 0) this.Properties.SetFloat(PropertyName.RES_ICE, this.Data.IceResistence);
+			if (this.Data.LightningResistence != 0) this.Properties.SetFloat(PropertyName.RES_LIGHTNING, this.Data.LightningResistence);
+			if (this.Data.EarthResistence != 0) this.Properties.SetFloat(PropertyName.RES_EARTH, this.Data.EarthResistence);
+			if (this.Data.PoisonResistence != 0) this.Properties.SetFloat(PropertyName.RES_POISON, this.Data.PoisonResistence);
+			if (this.Data.HolyResistence != 0) this.Properties.SetFloat(PropertyName.RES_HOLY, this.Data.HolyResistence);
+			if (this.Data.DarkResistence != 0) this.Properties.SetFloat(PropertyName.RES_DARK, this.Data.DarkResistence);
+			if (this.Data.SoulResistence != 0) this.Properties.SetFloat(PropertyName.RES_SOUL, this.Data.SoulResistence);
 		}
 
 		/// <summary>
