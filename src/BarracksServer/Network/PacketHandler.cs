@@ -599,7 +599,7 @@ namespace Melia.Barracks.Network
 
 			var serverChecksum = BarracksServer.Instance.Conf.Barracks.IpfChecksum;
 
-			if (conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
+			if (BarracksServer.Instance.Conf.Barracks.IpfChecksumAutoUpdate && conn.Account.Authority >= 99 && !clientChecksum.Equals(serverChecksum, StringComparison.InvariantCultureIgnoreCase))
 			{
 				Log.Info("Updating IPF checksum to '{0}' based on user '{1}'s request.", clientChecksum, conn.Account.Name);
 
