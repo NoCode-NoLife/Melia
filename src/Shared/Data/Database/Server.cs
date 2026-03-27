@@ -76,7 +76,34 @@ namespace Melia.Shared.Data.Database
 
 					if (serverEntry["maps"].Type == JTokenType.Array)
 					{
-						serverData.MapIds = serverEntry.ReadArray<int>("maps");
+						var mapList = new List<int>();
+
+						foreach (var map in serverEntry["maps"])
+						{
+							var mapId = -1;
+
+							if (map.Type == JTokenType.Integer)
+							{
+								mapId = (int)map;
+							}
+							else if (map.Type == JTokenType.String)
+							{
+								var mapClassName = (string)map;
+
+								if (!_mapDb.TryFind(mapClassName, out var mapData))
+									throw new DatabaseErrorException($"Map with classname {mapClassName} not found for {serverData.Type}:{serverData.Id}.");
+
+								mapId = mapData.Id;
+							}
+							else
+							{
+								throw new DatabaseErrorException($"Invalid map id found on {serverData.Type}:{serverData.Id}. Expected string or integer.");
+							}
+
+							mapList.Add(mapId);
+						}
+
+						serverData.MapIds = mapList.ToArray();
 					}
 					else if ((string)serverEntry["maps"] == "all")
 					{
