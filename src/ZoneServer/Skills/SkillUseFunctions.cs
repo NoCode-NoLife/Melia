@@ -37,7 +37,7 @@ namespace Melia.Zone.Skills
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="skillHitInfo"></param>
+		/// <param name="skillHitResult"></param>
 		/// <returns></returns>
 		/// <exception cref="ArgumentException">
 		/// Thrown if the skill use function with the given name was not
@@ -55,10 +55,10 @@ namespace Melia.Zone.Skills
 		/// Returns a random attack value between the min and max values
 		/// for the type that matches the given skill (PATK or MATK).
 		/// </summary>
-		/// <param name="attacker"></param>
+		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="skillHitInfo"></param>
+		/// <param name="skillHitResult"></param>
 		/// <returns></returns>
 		public static float SCR_GetRandomAtk(ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 			=> Call("SCR_GetRandomAtk", caster, target, skill, modifier, skillHitResult);
@@ -70,7 +70,7 @@ namespace Melia.Zone.Skills
 		/// <param name="caster"></param>
 		/// <param name="target"></param>
 		/// <param name="skill"></param>
-		/// <param name="skillHitInfo"></param>
+		/// <param name="skillHitResult"></param>
 		/// <returns></returns>
 		public static float SCR_CalculateDamage(ICombatEntity caster, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult)
 			=> Call("SCR_CalculateDamage", caster, target, skill, modifier, skillHitResult);

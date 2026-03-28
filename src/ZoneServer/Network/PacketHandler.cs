@@ -1421,8 +1421,8 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool
-		/// starts.
+		/// Sent when character is using the ground position selection
+		/// tool, like for certain skills.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1431,11 +1431,12 @@ namespace Melia.Zone.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			// TODO: keep track of state?
+			// TODO: Keep track of state?
 		}
 
 		/// <summary>
-		/// Sent when character is using the ground position selection tool ends
+		/// Sent when character stops using the ground position selection
+		/// tool, like at the end of selecting a destination for a skill.
 		/// </summary>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
@@ -1444,7 +1445,7 @@ namespace Melia.Zone.Network
 		{
 			var character = conn.SelectedCharacter;
 
-			// TODO: keep track of state?
+			// TODO: Keep track of state?
 		}
 
 		/// <summary>
