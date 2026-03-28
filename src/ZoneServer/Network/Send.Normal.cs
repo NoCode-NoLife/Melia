@@ -729,6 +729,28 @@ namespace Melia.Zone.Network
 			}
 
 			/// <summary>
+			/// Seen being used with the Firewall skill, purpose unknown.
+			/// Potentially effect related. (Effect + Scale)
+			/// </summary>
+			/// <param name="caster"></param>
+			/// <param name="pad"></param>
+			/// <param name="packetString"></param>
+			/// <param name="f1"></param>
+			/// <param name="i1"></param>
+			public static void UnkFirewall(IActor caster, Pad pad, string packetString, float f1, int i1)
+			{
+				var packet = new Packet(Op.ZC_NORMAL);
+				packet.PutInt(NormalOp.Zone.UnkFirewall);
+
+				packet.PutInt(pad.Handle);
+				packet.AddStringId(packetString);
+				packet.PutFloat(f1);
+				packet.PutInt(i1);
+
+				caster.Map.Broadcast(packet);
+			}
+
+			/// <summary>
 			/// Makes actor spin on clients near it.
 			/// </summary>
 			/// <param name="actor"></param>

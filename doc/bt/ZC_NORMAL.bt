@@ -353,6 +353,15 @@ switch (NormalOpToStr(type))
         break;
     }
 
+    case "UnkFirewall":
+    {
+        int padHandle;
+        int packetStringId;
+        float f1; // scale?
+        int i3;
+        break;
+    }
+
     case "SpinObject":
     {
         int handle;

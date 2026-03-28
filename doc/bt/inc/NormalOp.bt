@@ -188,7 +188,7 @@ string NormalOpToStr(NormalOp& value)
     ENUM_VALUE "Unknown" END;
     ENUM_VALUE "Unknown" END;
     ENUM_VALUE "Unknown" END;
-    ENUM_VALUE "Unknown" END;
+    ENUM_VALUE "UnkFirewall" END;
     ENUM_VALUE "Unknown" END;
     ENUM_VALUE "Unknown" END;
     ENUM_VALUE "Unknown" END;
