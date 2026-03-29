@@ -21,7 +21,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 	/// to stop and damage enemies.
 	/// </summary>
 	[SkillHandler(SkillId.Pyromancer_FireWall)]
-	public class Firewall : IDynamicCasted, IGroundSkillHandler
+	public class Pyromancer_FireWall : IDynamicCasted, IGroundSkillHandler
 	{
 		private const int MaxCastDistance = 210;
 		private const int FirewallPadSize = 15;
