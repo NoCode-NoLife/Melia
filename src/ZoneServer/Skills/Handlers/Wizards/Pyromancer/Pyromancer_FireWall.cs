@@ -195,6 +195,7 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 		/// <param name="caster"></param>
 		private void ApplyBuff(Pad pad, ICombatEntity caster, ICombatEntity target)
 		{
+			// Ability "Fire Wall: Additional Damage Buff"
 			if (!caster.TryGetActiveAbilityLevel(AbilityId.Pyromancer2, out var abilityLevel))
 				return;
 
