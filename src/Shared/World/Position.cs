@@ -62,7 +62,10 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public readonly double Get2DDistance(Position otherPos)
 		{
-			return Math.Sqrt(Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2));
+			var dx = X - otherPos.X;
+			var dz = Z - otherPos.Z;
+
+			return Math.Sqrt((dx * dx) + (dz * dz));
 		}
 
 		/// <summary>
@@ -72,7 +75,11 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public readonly double Get3DDistance(Position otherPos)
 		{
-			return Math.Sqrt(Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2));
+			var dx = X - otherPos.X;
+			var dy = Y - otherPos.Y;
+			var dz = Z - otherPos.Z;
+
+			return Math.Sqrt((dx * dx) + (dy * dy) + (dz * dz));
 		}
 
 		/// <summary>
@@ -82,7 +89,10 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public readonly bool InRange2D(Position otherPos, float range)
 		{
-			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
+			var dx = X - otherPos.X;
+			var dz = Z - otherPos.Z;
+
+			return ((dx * dx) + (dz * dz) <= (range * range));
 		}
 
 		/// <summary>
@@ -92,7 +102,11 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public readonly bool InRange3D(Position otherPos, float range)
 		{
-			return (Math.Pow(X - otherPos.X, 2) + Math.Pow(Y - otherPos.Y, 2) + Math.Pow(Z - otherPos.Z, 2) <= Math.Pow(range, 2));
+			var dx = X - otherPos.X;
+			var dy = Y - otherPos.Y;
+			var dz = Z - otherPos.Z;
+
+			return ((dx * dx) + (dy * dy) + (dz * dz) <= (range * range));
 		}
 
 		/// <summary>
@@ -216,17 +230,18 @@ namespace Melia.Shared.World
 			if (this == other)
 				return this;
 
-			var deltaX = (double)other.X - this.X;
-			var deltaY = (double)other.Y - this.Y;
-			var deltaZ = (double)other.Z - this.Z;
+			var deltaX = other.X - this.X;
+			var deltaY = other.Y - this.Y;
+			var deltaZ = other.Z - this.Z;
 
-			var deltaXYZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2) + Math.Pow(deltaZ, 2));
+			var deltaXYZ = MathF.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
+			var ratio = distance / deltaXYZ;
 
-			var newX = other.X + (distance / deltaXYZ) * (deltaX);
-			var newY = other.Y + (distance / deltaXYZ) * (deltaY);
-			var newZ = other.Z + (distance / deltaXYZ) * (deltaZ);
+			var newX = this.X + (ratio * deltaX);
+			var newY = this.Y + (ratio * deltaY);
+			var newZ = this.Z + (ratio * deltaZ);
 
-			return new Position((float)newX, (float)newY, (float)newZ);
+			return new Position(newX, newY, newZ);
 		}
 
 		/// <summary>
@@ -240,12 +255,13 @@ namespace Melia.Shared.World
 			var deltaX = direction.Cos;
 			var deltaZ = direction.Sin;
 
-			var deltaXZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaZ, 2));
+			var deltaXZ = MathF.Sqrt((deltaX * deltaX) + (deltaZ * deltaZ));
+			var ratio = distance / deltaXZ;
 
-			var newX = this.X + (distance / deltaXZ) * (deltaX);
-			var newZ = this.Z + (distance / deltaXZ) * (deltaZ);
+			var newX = this.X + (ratio * deltaX);
+			var newZ = this.Z + (ratio * deltaZ);
 
-			return new Position((float)newX, this.Y, (float)newZ);
+			return new Position(newX, this.Y, newZ);
 		}
 
 		/// <summary>
@@ -281,15 +297,16 @@ namespace Melia.Shared.World
 			if (this == other)
 				return this;
 
-			var deltaX = (double)other.X - this.X;
-			var deltaZ = (double)other.Z - this.Z;
+			var deltaX = other.X - this.X;
+			var deltaZ = other.Z - this.Z;
 
-			var deltaXZ = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaZ, 2));
+			var deltaXZ = MathF.Sqrt((deltaX * deltaX) + (deltaZ * deltaZ));
+			var ratio = distance / deltaXZ;
 
-			var newX = this.X + (distance / deltaXZ) * (deltaX);
-			var newZ = this.Z + (distance / deltaXZ) * (deltaZ);
+			var newX = this.X + (ratio * deltaX);
+			var newZ = this.Z + (ratio * deltaZ);
 
-			return new Position((float)newX, this.Y, (float)newZ);
+			return new Position(newX, this.Y, newZ);
 		}
 
 		/// <summary>
@@ -299,12 +316,12 @@ namespace Melia.Shared.World
 		/// <returns></returns>
 		public readonly Direction GetDirection(Position otherPos)
 		{
-			var radianAngle = Math.Atan2(otherPos.Z - Z, otherPos.X - X);
+			var radianAngle = MathF.Atan2(otherPos.Z - Z, otherPos.X - X);
 
-			var cos = Math.Cos(radianAngle);
-			var sin = Math.Sin(radianAngle);
+			var cos = MathF.Cos(radianAngle);
+			var sin = MathF.Sin(radianAngle);
 
-			return new Direction((float)cos, (float)sin);
+			return new Direction(cos, sin);
 		}
 
 		/// <summary>
