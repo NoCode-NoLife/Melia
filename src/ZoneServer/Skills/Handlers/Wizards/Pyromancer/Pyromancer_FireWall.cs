@@ -172,6 +172,8 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 		/// <param name="args"></param>
 		public void Entered(object sender, PadTriggerActorArgs args)
 		{
+			this.ApplyBuff(args.Trigger, args.Creator, args.Initiator);
+			this.ApplyDebuff(args.Trigger, args.Creator);
 			this.DealDamage(args.Trigger, args.Creator, args.Skill);
 		}
 
@@ -182,7 +184,38 @@ namespace Melia.Zone.Skills.Handlers.Wizards.Pyromancer
 		/// <param name="args"></param>
 		public void Updated(object sender, PadTriggerArgs args)
 		{
+			this.ApplyDebuff(args.Trigger, args.Creator);
 			this.DealDamage(args.Trigger, args.Creator, args.Skill);
+		}
+
+		/// <summary>
+		/// Applies buff to friends entering the pad.
+		/// </summary>
+		/// <param name="pad"></param>
+		/// <param name="caster"></param>
+		private void ApplyBuff(Pad pad, ICombatEntity caster, ICombatEntity target)
+		{
+			if (!caster.TryGetActiveAbilityLevel(AbilityId.Pyromancer2, out var abilityLevel))
+				return;
+
+			// TODO: Add a simpler relationship check
+			var isFriend = target == caster /*|| target.IsPartyMember(caster)*/;
+			if (!isFriend)
+				return;
+
+			target.StartBuff(BuffId.FireWall_Buff, abilityLevel, 0, TimeSpan.FromSeconds(5), caster);
+		}
+
+		/// <summary>
+		/// Applies debuff to enemies currently on the pad.
+		/// </summary>
+		/// <param name="pad"></param>
+		/// <param name="caster"></param>
+		private void ApplyDebuff(Pad pad, ICombatEntity caster)
+		{
+			var targets = pad.Trigger.GetAttackableEntities(caster);
+			foreach (var target in targets)
+				target.StartBuff(BuffId.FireWall_Debuff, TimeSpan.FromSeconds(10));
 		}
 
 		/// <summary>
