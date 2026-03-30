@@ -44,20 +44,19 @@ namespace Melia.Shared.Network
 		}
 
 		/// <summary>
-		/// Wraps packet body in frame.
+		/// Calculates the size of the packet when framed.
 		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="packet"></param>
 		/// <returns></returns>
-		public byte[] Frame(Packet packet)
+		/// <exception cref="ArgumentException"></exception>
+		public void GetPacketSize(Packet packet, out int tableSize, out int packetSize)
 		{
 			var op = packet.Op;
 
 			// Get size from table
-			var tableSize = Op.GetSize(op);
+			tableSize = Op.GetSize(op);
 			if (tableSize == -1)
-				throw new ArgumentException("Size for op '" + packet.Op.ToString("X4") + "' unknown.");
-
-			int packetSize;
+				throw new ArgumentException("Size for op '" + op.ToString("X4") + "' unknown.");
 
 			// Check table length
 			if (tableSize == DynamicPacketSize)
@@ -76,7 +75,7 @@ namespace Melia.Shared.Network
 				if (packetSize > tableSize)
 				{
 					Log.Warning("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})", op, fixHeaderSize, tableSize, Op.GetName(op));
-					throw new Exception("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})");
+					throw new ArgumentException("Packet is bigger than specified in the packet size table. (op: {3} ({0:X4}), size: {1}, expected: {2})");
 				}
 
 				// If the packet is smaller than the table size we might
@@ -89,22 +88,30 @@ namespace Melia.Shared.Network
 					packetSize = tableSize;
 				}
 			}
+		}
 
-			// Create packet
-			var buffer = new byte[packetSize];
-			Buffer.BlockCopy(BitConverter.GetBytes((short)op), 0, buffer, 0, sizeof(short));
-			Buffer.BlockCopy(BitConverter.GetBytes(-1), 0, buffer, sizeof(short), sizeof(int)); // checksum?
+		/// <summary>
+		/// Wraps packet body in frame and writes it to buffer.
+		/// </summary>
+		/// <param name="packet"></param>
+		/// <param name="tableSize"></param>
+		/// <param name="packetSize"></param>
+		/// <param name="buffer"></param>
+		public void Frame(Packet packet, int tableSize, int packetSize, byte[] buffer)
+		{
+			var op = packet.Op;
+
+			BitConverter.TryWriteBytes(buffer.AsSpan(0), (short)op);
+			BitConverter.TryWriteBytes(buffer.AsSpan(sizeof(short)), -1); // checksum?
 
 			var offset = (sizeof(short) + sizeof(int) + sizeof(int));
 			if (tableSize == 0)
 			{
-				Buffer.BlockCopy(BitConverter.GetBytes((short)packetSize), 0, buffer, offset, sizeof(short));
+				BitConverter.TryWriteBytes(buffer.AsSpan(offset), (short)packetSize);
 				offset += sizeof(short);
 			}
 
 			packet.Build(ref buffer, offset);
-
-			return buffer;
 		}
 
 		/// <summary>

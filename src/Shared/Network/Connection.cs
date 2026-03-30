@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Melia.Shared.Network.Crypto;
@@ -117,16 +118,16 @@ namespace Melia.Shared.Network
 		/// <param name="packet"></param>
 		public void Send(Packet packet)
 		{
-			var buffer = _framer.Frame(packet);
+			_framer.GetPacketSize(packet, out var tableSize, out var packetSize);
 
-			var op = packet.Op;
+			var buffer = ArrayPool<byte>.Shared.Rent(packetSize);
+			_framer.Frame(packet, tableSize, packetSize, buffer);
 
-			var tableSize = Op.GetSize(op);
-			if (tableSize != TosFramer.DynamicPacketSize && buffer.Length != tableSize)
+			if (tableSize != TosFramer.DynamicPacketSize && packetSize != tableSize)
 			{
 				var name = Op.GetName(packet.Op);
 
-				Log.Warning("Connection.Send: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", op, name, buffer.Length, tableSize);
+				Log.Warning("Connection.Send: Invalid packet size for '{0:X4}' ({1}) ({2} != {3}).", packet.Op, name, packetSize, tableSize);
 
 				// We can't send a packet that's not the correct size, as
 				// that will mess up the data stream, at which point we might
@@ -135,21 +136,35 @@ namespace Melia.Shared.Network
 				// fixed of course, but at least you're not kicked every
 				// time you haven't updated some packet for a new version
 				// yet.
-				var newBuffer = new byte[tableSize];
-				var copySize = Math.Min(buffer.Length, tableSize);
+				var newBuffer = ArrayPool<byte>.Shared.Rent(tableSize);
+				var copySize = Math.Min(packetSize, tableSize);
 				Buffer.BlockCopy(buffer, 0, newBuffer, 0, copySize);
 
+				ArrayPool<byte>.Shared.Return(buffer);
+
 				buffer = newBuffer;
+				packetSize = tableSize;
 			}
 
 			try
 			{
-				this.Send(buffer);
+				this.Send(buffer, packetSize);
 			}
 			catch (SocketException)
 			{
 				this.Close();
 			}
+		}
+
+		/// <summary>
+		/// Called after data sent is no longer needed by the connection.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="length"></param>
+		/// <param name="type"></param>
+		protected override void PostSend(byte[] data, int length, PostSendType type)
+		{
+			ArrayPool<byte>.Shared.Return(data);
 		}
 
 		/// <summary>
