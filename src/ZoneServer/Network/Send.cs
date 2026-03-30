@@ -209,18 +209,6 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Broadcasts ZC_ENTER_MONSTER on monster's map, making it appear.
-		/// </summary>
-		/// <param name="monster"></param>
-		public static void ZC_ENTER_MONSTER(IMonster monster)
-		{
-			var packet = new Packet(Op.ZC_ENTER_MONSTER);
-			packet.AddMonster(monster);
-
-			monster.Map.Broadcast(packet, monster);
-		}
-
-		/// <summary>
 		/// Cancels ongoing skill animations.
 		/// </summary>
 		/// <param name="entity"></param>
@@ -236,16 +224,18 @@ namespace Melia.Zone.Network
 		}
 
 		/// <summary>
-		/// Sends ZC_ENTER_MONSTER to connection, making it appear.
+		/// Makes monster appear on character's client.
 		/// </summary>
-		/// <param name="conn"></param>
+		/// <param name="character"></param>
 		/// <param name="monster"></param>
-		public static void ZC_ENTER_MONSTER(IZoneConnection conn, IMonster monster)
+		public static void ZC_ENTER_MONSTER(Character character, IMonster monster)
 		{
-			var packet = new Packet(Op.ZC_ENTER_MONSTER);
-			packet.AddMonster(monster);
+			var relation = character.GetRelation(monster);
 
-			conn.Send(packet);
+			var packet = new Packet(Op.ZC_ENTER_MONSTER);
+			packet.AddMonster(monster, relation);
+
+			character.Connection.Send(packet);
 		}
 
 		/// <summary>
@@ -4602,6 +4592,22 @@ namespace Melia.Zone.Network
 			packet.PutInt(numArg5);
 
 			toActor.Map.Broadcast(packet);
+		}
+
+		/// <summary>
+		/// Changes the relation of the actor to the character.
+		/// </summary>
+		/// <param name="character"></param>
+		/// <param name="actor"></param>
+		/// <param name="relation"></param>
+		public static void ZC_CHANGE_RELATION(Character character, IActor actor, RelationType relation)
+		{
+			var packet = new Packet(Op.ZC_CHANGE_RELATION);
+
+			packet.PutInt(actor.Handle);
+			packet.PutByte((byte)relation);
+
+			character.Connection.Send(packet);
 		}
 	}
 }

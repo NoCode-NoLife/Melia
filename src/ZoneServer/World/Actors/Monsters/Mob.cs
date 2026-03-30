@@ -74,11 +74,6 @@ namespace Melia.Zone.World.Actors.Monsters
 			= ZoneServer.Instance.World.CreateGenType();
 
 		/// <summary>
-		/// Gets or sets what kind of "monster" the mob is.
-		/// </summary>
-		public MonsterType MonsterType { get; set; }
-
-		/// <summary>
 		/// Gets or sets monster's name, leave empty for default.
 		/// </summary>
 		public override string Name { get; set; }
@@ -212,12 +207,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		public event Action<ICombatEntity, ICombatEntity> Died;
 
 		/// <summary>
-		/// Creates new NPC.
+		/// Creates new mob.
 		/// </summary>
-		public Mob(int id, MonsterType type) : base()
+		public Mob(int id) : base()
 		{
 			this.Id = id;
-			this.MonsterType = type;
 
 			this.Components.Add(this.Buffs = new BuffComponent(this));
 			this.Components.Add(new CombatComponent(this));
@@ -302,7 +296,7 @@ namespace Melia.Zone.World.Actors.Monsters
 
 			var beneficiary = this.GetKillBeneficiary(killer);
 
-			if (this.MonsterType == MonsterType.Mob && beneficiary != null)
+			if (beneficiary != null)
 			{
 				this.GetExpToGive(out var exp, out var jobExp);
 

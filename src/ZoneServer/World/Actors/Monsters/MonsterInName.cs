@@ -16,11 +16,6 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int Id { get; }
 
 		/// <summary>
-		/// Returns the monster's type.
-		/// </summary>
-		public MonsterType MonsterType => MonsterType.NPC;
-
-		/// <summary>
 		/// Returns the monster's race.
 		/// </summary>
 		public RaceType Race => RaceType.None;

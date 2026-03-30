@@ -52,7 +52,7 @@ public class SummoningItemScripts : GeneralScript
 			}
 		}
 
-		var monster = CreateMonster(monsterData.Id, MonsterType.NPC, "BasicMonster", character);
+		var monster = CreateMonster(monsterData.Id, FactionType.Law, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
 		character.Map.AddMonster(monster);
 
@@ -75,7 +75,7 @@ public class SummoningItemScripts : GeneralScript
 			return ItemUseResult.Fail;
 		}
 
-		var monster = CreateMonster(monsterData.Id, MonsterType.Mob, "BasicMonster", character);
+		var monster = CreateMonster(monsterData.Id, FactionType.Chaos, "BasicMonster", character);
 		character.Map.AddMonster(monster);
 
 		var worldconf = ZoneServer.Instance.Conf.World;
@@ -113,7 +113,7 @@ public class SummoningItemScripts : GeneralScript
 			}
 		}
 
-		var monster = CreateMonster(monsterClassId, MonsterType.NPC, "BasicMonster", character);
+		var monster = CreateMonster(monsterClassId, FactionType.Law, "BasicMonster", character);
 		monster.Components.Get<AiComponent>()?.Script.SetMaster(character);
 
 		if (character.Variables.Perm.TryGet<DateTime>("Melia.BlueOrbSummon.DisappearTime", out disappearTime))
@@ -155,18 +155,19 @@ public class SummoningItemScripts : GeneralScript
 	/// Creates the monster with the given parameters but doesn't spawn it.
 	/// </summary>
 	/// <param name="monsterClassId">The id of the monster to spawn.</param>
-	/// <param name="monsterType">The monster's type.</param>
+	/// <param name="faction">The monster's faction.</param>
 	/// <param name="aiName">The name of the AI to use for the monster.</param>
 	/// <param name="itemUser">The character that spawned the monster, used as reference for position and property overrides.</param>
 	/// <returns></returns>
-	private static Mob CreateMonster(int monsterClassId, MonsterType monsterType, string aiName, Character itemUser)
+	private static Mob CreateMonster(int monsterClassId, FactionType faction, string aiName, Character itemUser)
 	{
 		var pos = GetRandomSpawnPosition(itemUser);
 
-		var monster = new Mob(monsterClassId, monsterType);
+		var monster = new Mob(monsterClassId);
+		monster.Faction = faction;
 		monster.Position = itemUser.Position;
 
-		if (!ZoneServer.Instance.Conf.World.BlueOrbPetSystem || monsterType == MonsterType.Mob)
+		if (!ZoneServer.Instance.Conf.World.BlueOrbPetSystem || faction == FactionType.Chaos)
 			monster.DisappearTime = DateTime.Now + TimeSpan.FromSeconds(180);
 
 		if (itemUser.Map.TryGetPropertyOverrides(monsterClassId, out var propertyOverrides))

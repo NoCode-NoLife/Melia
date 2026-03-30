@@ -80,7 +80,7 @@ public class CampfireActionScript : GeneralScript
 
 	private static void CreateCampfire(Character creator, Position pos)
 	{
-		var campfire = new Mob(CampfireMonsterId, MonsterType.NPC);
+		var campfire = new Mob(CampfireMonsterId);
 		campfire.Faction = FactionType.Neutral;
 		campfire.Position = pos;
 		campfire.Direction = creator.Direction;

@@ -22,11 +22,6 @@ namespace Melia.Zone.World.Actors.Monsters
 	public interface IMonsterBase : IActor, IMonsterAppearance, IMonsterAppearanceBase
 	{
 		/// <summary>
-		/// Returns the monster's type.
-		/// </summary>
-		MonsterType MonsterType { get; }
-
-		/// <summary>
 		/// Returns the monster's race.
 		/// </summary>
 		RaceType Race { get; }

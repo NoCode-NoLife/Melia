@@ -25,13 +25,21 @@
 
 ServerHeaderDynamic header;
 
+typedef enum <byte>
+{
+    Friend,
+    Enemy,
+    Neutral,
+}
+Relation;
+
 // MONSTER_BASE
 //------------------------
 int handle;
 position pos;
 direction dir;
-byte type; // 0~2,  0: friendly?, 1: monster, 2: NPC
-byte fromGround; // bool?
+Relation relation;
+byte fromGround; // true = appears from ground
 int hp, maxHp;
 short s1;
 short s2;

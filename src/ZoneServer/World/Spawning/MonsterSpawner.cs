@@ -180,7 +180,7 @@ namespace Melia.Zone.World.Spawning
 				if (!_spawnAreas.TryGetRandomLocation(out var map, out var pos))
 					return;
 
-				var monster = new Mob(_monsterData.Id, MonsterType.Mob);
+				var monster = new Mob(_monsterData.Id);
 				monster.Position = pos;
 				monster.FromGround = true;
 				monster.Tendency = this.Tendency;

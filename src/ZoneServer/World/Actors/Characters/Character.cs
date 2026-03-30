@@ -1006,7 +1006,7 @@ namespace Melia.Zone.World.Actors.Characters
 					if (_visibilitySet.Contains(monster))
 						continue;
 
-					Send.ZC_ENTER_MONSTER(this.Connection, monster);
+					Send.ZC_ENTER_MONSTER(this, monster);
 
 					if (!monster.AttachableEffects.IsEmpty)
 					{
@@ -1595,10 +1595,7 @@ namespace Melia.Zone.World.Actors.Characters
 			if (entity.IsDead)
 				return false;
 
-			// For now, let's specify that characters can attack actual
-			// monsters.
-			var isHostileMonster = (entity is IMonster monster && monster.MonsterType == MonsterType.Mob);
-			if (!isHostileMonster)
+			if (!this.IsHostileFaction(entity))
 				return false;
 
 			return true;

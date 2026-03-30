@@ -781,5 +781,27 @@ namespace Melia.Zone.World.Actors
 		/// <returns></returns>
 		public static bool IsStateActive(this ICombatEntity entity, string stateType)
 			=> entity.Components.Get<StateLockComponent>()?.IsStateActive(stateType) ?? false;
+
+		/// <summary>
+		/// Returns the relation to the other entity.
+		/// </summary>
+		/// <param name="entity"></param>
+		/// <param name="otherEntity"></param>
+		/// <returns></returns>
+		public static RelationType GetRelation(this ICombatEntity entity, IActor otherEntity)
+		{
+			// Returns friend for self, so we can use one general check
+			// for self+friendlies
+			if (entity == otherEntity)
+				return RelationType.Friend;
+
+			//if (IsPartyMember || IsFollower || ...)
+			//	return RelationType.Friend;
+
+			if (otherEntity is ICombatEntity ce && entity.IsHostileFaction(ce))
+				return RelationType.Enemy;
+
+			return RelationType.Neutral;
+		}
 	}
 }
