@@ -182,7 +182,7 @@ namespace Melia.Zone.Commands
 			if (sender == target)
 				sender.ServerMessage(Localization.Get("You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)"), target.Map.ClassName, target.Map.Id, target.Position, target.Direction.DegreeAngle);
 			else
-				sender.ServerMessage(Localization.Get("{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)"), target.Map.ClassName, target.Map.Id, target.Position, target.TeamName, target.Direction.DegreeAngle);
+				sender.ServerMessage(Localization.Get("{4} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)"), target.Map.ClassName, target.Map.Id, target.Position, target.Direction.DegreeAngle, target.TeamName);
 
 			return CommandResult.Okay;
 		}
