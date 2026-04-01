@@ -13,7 +13,7 @@ using Melia.Zone.World.Actors;
 using static Melia.Shared.Util.TaskHelper;
 using static Melia.Zone.Skills.SkillUseFunctions;
 
-namespace Melia.Zone.Skills.Handlers.Swordsmen.Highlander
+namespace Melia.Zone.Skills.Handlers.Swordsmen.Rodelero
 {
 	/// <summary>
 	/// Handler for the Rodelero skill Slithering.
