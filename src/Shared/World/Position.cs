@@ -237,9 +237,9 @@ namespace Melia.Shared.World
 			var deltaXYZ = MathF.Sqrt((deltaX * deltaX) + (deltaY * deltaY) + (deltaZ * deltaZ));
 			var ratio = distance / deltaXYZ;
 
-			var newX = this.X + (ratio * deltaX);
-			var newY = this.Y + (ratio * deltaY);
-			var newZ = this.Z + (ratio * deltaZ);
+			var newX = other.X + (ratio * deltaX);
+			var newY = other.Y + (ratio * deltaY);
+			var newZ = other.Z + (ratio * deltaZ);
 
 			return new Position(newX, newY, newZ);
 		}
@@ -303,8 +303,8 @@ namespace Melia.Shared.World
 			var deltaXZ = MathF.Sqrt((deltaX * deltaX) + (deltaZ * deltaZ));
 			var ratio = distance / deltaXZ;
 
-			var newX = this.X + (ratio * deltaX);
-			var newZ = this.Z + (ratio * deltaZ);
+			var newX = other.X + (ratio * deltaX);
+			var newZ = other.Z + (ratio * deltaZ);
 
 			return new Position(newX, this.Y, newZ);
 		}
