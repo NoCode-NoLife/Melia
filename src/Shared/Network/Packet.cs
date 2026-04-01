@@ -3,16 +3,46 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
+using Microsoft.Extensions.ObjectPool;
 using Yggdrasil.Util;
 
 namespace Melia.Shared.Network
 {
-	public class Packet
+	/// <summary>
+	/// A packet reader/writer for composing or reading data sent between
+	/// client and server.
+	/// </summary>
+	public class Packet : IDisposable
 	{
+		private static readonly ObjectPool<Packet> Pool = new DefaultObjectPool<Packet>(new PacketPoolPolicy(), 5000);
+
+		private class PacketPoolPolicy : IPooledObjectPolicy<Packet>
+		{
+			public Packet Create()
+			{
+				return new Packet();
+			}
+
+			public bool Return(Packet packet)
+			{
+				// The vast majority of packets are small and we shouldn't
+				// need larger ones on constant standby.
+				if (packet._buffer.Length >= 1024)
+				{
+					packet._buffer.Dispose();
+					return false;
+				}
+
+				packet.Reset();
+				return true;
+			}
+		}
+
 		private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 
-		private readonly BufferReaderWriter _buffer;
-		private readonly int _bodyStart;
+		private BufferReaderWriter _buffer;
+		private int _bodyStart;
+		private bool _disposed;
 
 		/// <summary>
 		/// Returns the length of the packet's buffer.
@@ -25,41 +55,106 @@ namespace Melia.Shared.Network
 		public int Op { get; protected set; }
 
 		/// <summary>
-		/// Creates packet from buffer coming from client.
+		/// Creates a new instance. Used only internally for the object
+		/// pool, use <see cref="Packet.Rent"/> to get a packet instance.
+		/// </summary>
+		private Packet()
+		{
+		}
+		static int _rentCount;
+		/// <summary>
+		/// Returns a packet instance from the internal pool for the given
+		/// op, ready to be written to.
+		/// </summary>
+		/// <param name="op"></param>
+		/// <returns></returns>
+		public static Packet Rent(int op)
+		{
+			var packet = Pool.Get();
+			packet._disposed = false;
+
+			if (packet._buffer == null)
+			{
+				packet._buffer = new BufferReaderWriter(BufferReaderWriter.DefaultSize);
+				packet._buffer.Endianness = Endianness.LittleEndian;
+			}
+			else
+			{
+				packet._buffer.Reuse(BufferReaderWriter.DefaultSize);
+			}
+
+			packet.Op = op;
+			packet._bodyStart = 0;
+
+			return packet;
+		}
+
+		/// <summary>
+		/// Returns a packet instance from the internal pool for the given
+		/// buffer, ready to be read from.
 		/// </summary>
 		/// <param name="buffer"></param>
-		public Packet(byte[] buffer)
+		/// <returns></returns>
+		public static Packet Rent(byte[] buffer)
 		{
-			_buffer = new BufferReaderWriter(buffer);
-			_buffer.Endianness = Endianness.LittleEndian;
+			var packet = Pool.Get();
+			packet._disposed = false;
 
-			this.Op = this.GetShort();
-			var index = this.GetInt();
-			var checksum = this.GetInt();
+			if (packet._buffer == null)
+			{
+				packet._buffer = new BufferReaderWriter(buffer);
+				packet._buffer.Endianness = Endianness.LittleEndian;
+			}
+			else
+			{
+				packet._buffer.Reuse(buffer);
+			}
+
+			packet.Op = packet.GetShort();
+			var index = packet.GetInt();
+			var checksum = packet.GetInt();
 
 			// [i339427]
 			// Unknown values that appeared in the header of
 			// all client packets at some point.
 			// Social server packets don't have the extra bin
 			// so we can skip reading it.
-			if (this.Op < Network.Op.CS_LOGIN)
-				this.GetBin(12);
+			if (packet.Op < Network.Op.CS_LOGIN)
+				packet.GetBin(12);
 
-			_bodyStart = _buffer.Index;
+			packet._bodyStart = packet._buffer.Index;
+
+			return packet;
 		}
 
 		/// <summary>
-		/// Creates new packet with given op.
+		/// Disposes the packet, returning it to the internal pool.
 		/// </summary>
-		/// <param name="op"></param>
-		public Packet(int op)
+		public void Dispose()
 		{
-			this.Op = op;
+			if (_disposed)
+				return;
 
-			_buffer = new BufferReaderWriter();
-			_buffer.Endianness = Endianness.LittleEndian;
+			_disposed = true;
+			Pool.Return(this);
+		}
 
-			_bodyStart = 0;
+		/// <summary>
+		/// Throws an exception if the packet has been disposed.
+		/// </summary>
+		/// <exception cref="ObjectDisposedException"></exception>
+		private void AssertNotDisposed()
+		{
+			if (_disposed)
+				throw new PacketDisposedException(this);
+		}
+
+		/// <summary>
+		/// Resets the packet's state, preparing it for reuse.
+		/// </summary>
+		private void Reset()
+		{
+			this.Op = 0;
 		}
 
 		/// <summary>
@@ -68,6 +163,7 @@ namespace Melia.Shared.Network
 		/// </summary>
 		public void Rewind()
 		{
+			this.AssertNotDisposed();
 			_buffer.Seek(_bodyStart, SeekOrigin.Begin);
 		}
 
@@ -78,56 +174,80 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		/// <returns></returns>
 		public int GetByteLength(string val)
-			=> DefaultEncoding.GetByteCount(val);
+		{
+			this.AssertNotDisposed();
+			return DefaultEncoding.GetByteCount(val);
+		}
 
 		/// <summary>
 		/// Reads byte from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public byte GetByte()
-			=> _buffer.ReadByte();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadByte();
+		}
 
 		/// <summary>
 		/// Reads byte from buffer and returns it as bool (true != 0).
 		/// </summary>
 		/// <returns></returns>
 		public bool GetBool()
-			=> this.GetByte() != 0;
+		{
+			this.AssertNotDisposed();
+			return this.GetByte() != 0;
+		}
 
 		/// <summary>
 		/// Reads short from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public short GetShort()
-			=> _buffer.ReadInt16();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadInt16();
+		}
 
 		/// <summary>
 		/// Reads int from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public int GetInt()
-			=> _buffer.ReadInt32();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadInt32();
+		}
 
 		/// <summary>
 		/// Reads unsigned int from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public uint GetUInt()
-			=> _buffer.ReadUInt32();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadUInt32();
+		}
 
 		/// <summary>
 		/// Reads long from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public long GetLong()
-			=> _buffer.ReadInt64();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadInt64();
+		}
 
 		/// <summary>
 		/// Reads float from buffer.
 		/// </summary>
 		/// <returns></returns>
 		public float GetFloat()
-			=> _buffer.ReadFloat();
+		{
+			this.AssertNotDisposed();
+			return _buffer.ReadFloat();
+		}
 
 		/// <summary>
 		/// Reads given number of bytes from buffer and returns them as
@@ -137,10 +257,12 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public string GetString(int length)
 		{
+			this.AssertNotDisposed();
+
 			var bytes = _buffer.Read(length);
 			var val = DefaultEncoding.GetString(bytes);
 
-			// Relatively fast way to get rid of null bytes.
+			// Relatively fast way to get rid of null bytes
 			var nullIndex = val.IndexOf((char)0);
 			if (nullIndex != -1)
 				val = val.Substring(0, nullIndex);
@@ -155,6 +277,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public string GetLpString()
 		{
+			this.AssertNotDisposed();
+
 			var length = this.GetShort();
 			return this.GetString(length);
 		}
@@ -162,10 +286,11 @@ namespace Melia.Shared.Network
 		/// <summary>
 		/// Reads null-terminated string from buffer and returns it as UTF8.
 		/// </summary>
-		/// <param name="length"></param>
 		/// <returns></returns>
 		public string GetString()
 		{
+			this.AssertNotDisposed();
+
 			var index = _buffer.IndexOf(0);
 			if (index == -1)
 				throw new Exception("String not null-terminated.");
@@ -184,29 +309,10 @@ namespace Melia.Shared.Network
 		/// </summary>
 		/// <returns>DateTime</returns>
 		public DateTime GetDate()
-			=> DateTime.FromFileTime(this.GetLong());
-
-		/// <summary>
-		/// Reads struct from buffer.
-		/// </summary>
-		/// <typeparam name="TStruct"></typeparam>
-		/// <returns></returns>
-		//public TStruct GetStruct<TStruct>() where TStruct : new()
-		//{
-		//	var type = typeof(TStruct);
-		//	if (!type.IsValueType || type.IsPrimitive)
-		//		throw new Exception("GetObj can only marshal to structs.");
-
-		//	var size = Marshal.SizeOf(typeof(TStruct));
-		//	var buffer = this.GetBin(size);
-
-		//	var intPtr = Marshal.AllocHGlobal(buffer.Length);
-		//	Marshal.Copy(buffer, 0, intPtr, buffer.Length);
-		//	var val = Marshal.PtrToStructure(intPtr, typeof(TStruct));
-		//	Marshal.FreeHGlobal(intPtr);
-
-		//	return (TStruct)val;
-		//}
+		{
+			this.AssertNotDisposed();
+			return DateTime.FromFileTime(this.GetLong());
+		}
 
 		/// <summary>
 		/// Reads given amount of bytes from buffer.
@@ -214,23 +320,33 @@ namespace Melia.Shared.Network
 		/// <param name="length"></param>
 		/// <returns></returns>
 		public byte[] GetBin(int length)
-			=> _buffer.Read(length);
+		{
+			this.AssertNotDisposed();
+			return _buffer.Read(length);
+		}
 
 		/// <summary>
-		/// Reads given amount of bytes from buffer and returns them as hex string.
+		/// Reads given amount of bytes from buffer and returns them as
+		/// hex string.
 		/// </summary>
 		/// <param name="length"></param>
 		/// <returns></returns>
 		public string GetBinAsHex(int length)
-			=> Hex.ToString(this.GetBin(length), HexStringOptions.None);
+		{
+			this.AssertNotDisposed();
+			return Hex.ToString(this.GetBin(length), HexStringOptions.None);
+		}
 
 		/// <summary>
-		/// Reads a binary value from packet, decompresses it, and returns it.
+		/// Reads a binary value from packet, decompresses it, and returns
+		/// it.
 		/// </summary>
 		/// <param name="length"></param>
 		/// <returns></returns>
 		public byte[] GetCompressedBin(int length)
 		{
+			this.AssertNotDisposed();
+
 			var buffer = this.GetBin(length);
 
 			using (var msIn = new MemoryStream(buffer))
@@ -253,6 +369,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public TListItem[] GetList<TListItem>(int count, Func<TListItem> getter)
 		{
+			this.AssertNotDisposed();
+
 			var result = new TListItem[count];
 
 			for (var i = 0; i < count; i++)
@@ -266,56 +384,80 @@ namespace Melia.Shared.Network
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutByte(byte val)
-			=> _buffer.WriteByte(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteByte(val);
+		}
 
 		/// <summary>
 		/// Writes value as byte (0|1) to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutByte(bool val)
-			=> this.PutByte(val ? (byte)1 : (byte)0);
+		{
+			this.AssertNotDisposed();
+			this.PutByte(val ? (byte)1 : (byte)0);
+		}
 
 		/// <summary>
 		/// Writes short to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutShort(int val)
-			=> _buffer.WriteInt16((short)val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteInt16((short)val);
+		}
 
 		/// <summary>
 		/// Writes int to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutInt(int val)
-			=> _buffer.WriteInt32(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteInt32(val);
+		}
 
 		/// <summary>
 		/// Writes uint to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutUInt(uint val)
-			=> this.PutInt((int)val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteUInt32(val);
+		}
 
 		/// <summary>
 		/// Writes long to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutLong(long val)
-			=> _buffer.WriteInt64(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteInt64(val);
+		}
 
 		/// <summary>
 		/// Writes float to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutFloat(float val)
-			=> _buffer.WriteFloat(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteFloat(val);
+		}
 
 		/// <summary>
 		/// Writes double to buffer.
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutDouble(double val)
-			=> _buffer.WriteDouble(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.WriteDouble(val);
+		}
 
 		/// <summary>
 		/// Writes fixed-sized string to packet, padding it with zeroes
@@ -341,6 +483,8 @@ namespace Melia.Shared.Network
 		/// </exception>
 		public void PutString(string val, int byteLength)
 		{
+			this.AssertNotDisposed();
+
 			var bytes = DefaultEncoding.GetBytes(val ?? "");
 
 			if (bytes.Length > byteLength)
@@ -361,11 +505,13 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutString(string val)
 		{
+			this.AssertNotDisposed();
+
 			if (val == null)
 				val = "";
 
 			// Append terminator
-			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
+			if (val == "" || (val.Length > 0 && val[^1] != '\0'))
 				val += '\0';
 
 			var bytes = DefaultEncoding.GetBytes(val);
@@ -379,6 +525,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutRawString(string val)
 		{
+			this.AssertNotDisposed();
+
 			var bytes = DefaultEncoding.GetBytes(val ?? "");
 			this.PutBin(bytes);
 		}
@@ -390,11 +538,13 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutLpString(string val)
 		{
+			this.AssertNotDisposed();
+
 			if (val == null)
 				val = "";
 
 			// Append terminator
-			if (val == "" || (val.Length > 0 && val[val.Length - 1] != '\0'))
+			if (val == "" || (val.Length > 0 && val[^1] != '\0'))
 				val += '\0';
 
 			var bytes = DefaultEncoding.GetBytes(val);
@@ -407,7 +557,10 @@ namespace Melia.Shared.Network
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutBin(params byte[] val)
-			=> _buffer.Write(val);
+		{
+			this.AssertNotDisposed();
+			_buffer.Write(val);
+		}
 
 		/// <summary>
 		/// Writes bytes parsed from given hex string to buffer.
@@ -415,6 +568,8 @@ namespace Melia.Shared.Network
 		/// <param name="hex"></param>
 		public void PutBinFromHex(string hex)
 		{
+			this.AssertNotDisposed();
+
 			if (hex == null)
 				throw new ArgumentNullException(nameof(hex));
 
@@ -428,10 +583,13 @@ namespace Melia.Shared.Network
 		/// <param name="amount"></param>
 		public void PutEmptyBin(int amount)
 		{
+			this.AssertNotDisposed();
+
 			if (amount <= 0)
 				return;
 
-			this.PutBin(new byte[amount]);
+			for (var i = 0; i < amount; i++)
+				_buffer.WriteByte(0);
 		}
 
 		/// <summary>
@@ -443,7 +601,10 @@ namespace Melia.Shared.Network
 		/// </remarks>
 		/// <param name="amount"></param>
 		public void PutGap(int amount)
-			=> this.PutEmptyBin(amount);
+		{
+			this.AssertNotDisposed();
+			this.PutEmptyBin(amount);
+		}
 
 		/// <summary>
 		/// Writes struct to buffer.
@@ -451,6 +612,8 @@ namespace Melia.Shared.Network
 		/// <param name="val"></param>
 		public void PutBin(object val)
 		{
+			this.AssertNotDisposed();
+
 			var type = val.GetType();
 			if (!type.IsValueType || type.IsPrimitive)
 				throw new Exception("PutBin only takes byte[] and structs.");
@@ -471,7 +634,10 @@ namespace Melia.Shared.Network
 		/// </summary>
 		/// <param name="val"></param>
 		public void PutDate(DateTime val)
-			=> this.PutLong(val.ToFileTime());
+		{
+			this.AssertNotDisposed();
+			this.PutLong(val.ToFileTime());
+		}
 
 		/// <summary>
 		/// Writes date into packet as a series of shorts.
@@ -479,6 +645,8 @@ namespace Melia.Shared.Network
 		/// <param name="dateTime"></param>
 		public void PutShortDate(DateTime dateTime)
 		{
+			this.AssertNotDisposed();
+
 			this.PutShort(dateTime.Year);
 			this.PutShort(dateTime.Month);
 			this.PutShort((short)dateTime.DayOfWeek);
@@ -497,6 +665,8 @@ namespace Melia.Shared.Network
 		/// <param name="length">Number of bytes to use from the array.</param>
 		public void PutCompressedBin(byte[] value, int length)
 		{
+			this.AssertNotDisposed();
+
 			using (var ms = new MemoryStream())
 			{
 				using (var ds = new DeflateStream(ms, CompressionMode.Compress))
@@ -519,6 +689,8 @@ namespace Melia.Shared.Network
 		/// <param name="zlibPacketFunc"></param>
 		public void Zlib(bool compress, Action<Packet> zlibPacketFunc)
 		{
+			this.AssertNotDisposed();
+
 			// If uncompressed, empty zlib header, followed by the raw data.
 			if (compress == false)
 			{
@@ -530,7 +702,7 @@ namespace Melia.Shared.Network
 			// after compressing it.
 			else
 			{
-				var zlibPacket = new Packet(this.Op);
+				using var zlibPacket = Packet.Rent(this.Op);
 				zlibPacketFunc(zlibPacket);
 
 				var buffer = zlibPacket._buffer.Copy();
@@ -549,7 +721,9 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public byte[] CompressData(Action<Packet> packetFunc)
 		{
-			var subPacket = new Packet(this.Op);
+			this.AssertNotDisposed();
+
+			using var subPacket = Packet.Rent(this.Op);
 			packetFunc(subPacket);
 
 			var buffer = subPacket._buffer.Copy();
@@ -573,6 +747,8 @@ namespace Melia.Shared.Network
 		/// <param name="packetFunc"></param>
 		public void UncompressData(int compressedSize, Action<Packet> packetFunc)
 		{
+			this.AssertNotDisposed();
+
 			var compressed = this.GetBin(compressedSize);
 
 			byte[] uncompressed;
@@ -585,7 +761,7 @@ namespace Melia.Shared.Network
 				uncompressed = msOut.ToArray();
 			}
 
-			var packet = new Packet(this.Op);
+			using var packet = Packet.Rent(this.Op);
 			packet.PutBin(uncompressed);
 			packet.Rewind();
 
@@ -598,6 +774,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public byte[] Build()
 		{
+			this.AssertNotDisposed();
+
 			var buffer = new byte[this.Length];
 			this.Build(ref buffer, 0);
 
@@ -611,7 +789,10 @@ namespace Melia.Shared.Network
 		/// <param name="offset"></param>
 		/// <returns></returns>
 		public void Build(ref byte[] buffer, int offset)
-			=> _buffer.CopyTo(buffer, offset);
+		{
+			this.AssertNotDisposed();
+			_buffer.CopyTo(buffer, offset);
+		}
 
 		/// <summary>
 		/// Returns buffer as formatted hex string.
@@ -619,6 +800,8 @@ namespace Melia.Shared.Network
 		/// <returns></returns>
 		public override string ToString()
 		{
+			this.AssertNotDisposed();
+
 			var sb = new StringBuilder();
 			var buffer = _buffer.Copy();
 			var length = this.Length;
@@ -638,6 +821,36 @@ namespace Melia.Shared.Network
 			sb.AppendLine(spacer);
 
 			return sb.ToString().Trim();
+		}
+	}
+
+	/// <summary>
+	/// Custom exception for disposed packets.
+	/// </summary>
+	/// <remarks>
+	/// This exception is thrown when an operation is attempted on a
+	/// packet that has already been disposed. It's important for us to
+	/// distinguish this from a regular ObjectDisposedException, because
+	/// ObjectDisposedException will be thrown and swallowed by the
+	/// network handling in certain circumstances.
+	/// </remarks>
+	public class PacketDisposedException : Exception
+	{
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="obj"></param>
+		public PacketDisposedException(object obj)
+			: base($"Packet '{obj}' has been disposed and cannot be used.")
+		{
+		}
+
+		/// <summary>
+		/// Creates new instance.
+		/// </summary>
+		/// <param name="message"></param>
+		public PacketDisposedException(string message) : base(message)
+		{
 		}
 	}
 }

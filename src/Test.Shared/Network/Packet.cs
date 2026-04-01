@@ -10,7 +10,7 @@ namespace Melia.Test.Shared.Network
 		[Fact]
 		public void Write()
 		{
-			var packet = new Packet(1001);
+			using var packet = Packet.Rent(1001);
 			packet.PutByte(1);
 			packet.PutShort(2);
 			packet.PutInt(3);
@@ -29,7 +29,7 @@ namespace Melia.Test.Shared.Network
 		[Fact]
 		public void WriteNtString()
 		{
-			var packet = new Packet(1001);
+			using var packet = Packet.Rent(1001);
 			packet.PutString("foo");
 
 			var bytes = packet.Build();
@@ -41,38 +41,38 @@ namespace Melia.Test.Shared.Network
 		[Fact]
 		public void WritePaddedString()
 		{
-			var packet = new Packet(1001);
-			packet.PutString("foo", 6);
+			using var packet1 = Packet.Rent(1001);
+			packet1.PutString("foo", 6);
 
-			var bytes = packet.Build();
+			var bytes = packet1.Build();
 			var expected = Hex.ToByteArray("66 6F 6F 00 00 00");
 			Assert.Equal(expected, bytes);
 
-			packet = new Packet(1001);
-			packet.PutString("foo", 4);
+			using var packet2 = Packet.Rent(1001);
+			packet2.PutString("foo", 4);
 
-			bytes = packet.Build();
+			bytes = packet2.Build();
 			expected = Hex.ToByteArray("66 6F 6F 00");
 			Assert.Equal(expected, bytes);
 
-			packet = new Packet(1001);
-			packet.PutString("foo", 3);
+			using var packet3 = Packet.Rent(1001);
+			packet3.PutString("foo", 3);
 
-			bytes = packet.Build();
+			bytes = packet3.Build();
 			expected = Hex.ToByteArray("66 6F 6F");
 			Assert.Equal(expected, bytes);
 
-			packet = new Packet(1001);
-			Assert.Throws<ArgumentException>(() => packet.PutString("foo", 2));
+			using var packet4 = Packet.Rent(1001);
+			Assert.Throws<ArgumentException>(() => packet4.PutString("foo", 2));
 		}
 
 		[Fact]
 		public void WriteRawString()
 		{
-			var packet1 = new Packet(1001);
+			using var packet1 = Packet.Rent(1001);
 			packet1.PutString("foo", 3);
 
-			var packet2 = new Packet(1001);
+			using var packet2 = Packet.Rent(1001);
 			packet2.PutRawString("foo");
 
 			var bytes1 = packet1.Build();
