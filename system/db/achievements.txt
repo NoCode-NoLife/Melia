@@ -426,6 +426,7 @@
 { id: 2519, className: "EVENT_202603_PAPAYA_RAID_04", category: "Event", name: "", point: "Event_202603_Raid_Total", count: 160, repeatable: false, account: false },
 { id: 2520, className: "EVENT_202603_PAPAYA_RAID_05", category: "Event", name: "", point: "Event_202603_Raid_Total", count: 200, repeatable: false, account: false },
 { id: 2521, className: "EVENT_202603_PAPAYA_RAID_06", category: "Event", name: "", point: "Event_202603_Raid_Total", count: 240, repeatable: false, account: false },
+{ id: 2522, className: "plate_achieve_Ancient_Dragon", category: "Event", name: "Ancient Dragon", point: "plate_achieve_Ancient_Dragon", count: 1, repeatable: false, account: false },
 { id: 3001, className: "Pardoner10", category: "Skills", name: "Philanthropist", point: "PardonerAbility", count: 10, repeatable: false, account: false },
 { id: 3002, className: "Pardoner50", category: "Skills", name: "Regular Pardoner", point: "PardonerAbility", count: 50, repeatable: false, account: false },
 { id: 3003, className: "Pardoner100", category: "Skills", name: "Senior Pardoner", point: "PardonerAbility", count: 100, repeatable: false, account: false },

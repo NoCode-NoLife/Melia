@@ -624,6 +624,7 @@
 { id: 6393, className: "plate_achieve_grimmark", name: "Title - Howling Runner", useDaily: false, useWeekly: false },
 { id: 6394, className: "plate_achieve_Merry_Xmas", name: "Title - Merry X", useDaily: false, useWeekly: false },
 { id: 6396, className: "plate_achieve_kneller", name: "Title - Echoing Dirge", useDaily: false, useWeekly: false },
+{ id: 6399, className: "plate_achieve_Ancient_Dragon", name: "Title - Ancient Dragon", useDaily: false, useWeekly: false },
 { id: 7001, className: "PardonerAbility", name: "Contribution Level", useDaily: false, useWeekly: false },
 { id: 7002, className: "TaxAbility", name: "The Level of Tax Payment", useDaily: false, useWeekly: false },
 { id: 8001, className: "FreeDungeon_under_68_1", name: "Sicarius Gimmick", useDaily: false, useWeekly: false },

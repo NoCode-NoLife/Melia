@@ -1663,4 +1663,5 @@
 { id: 13004, className: "Kneller_RestingGround", isOverheat: false, overheatResetTime: 0 },
 { id: 13005, className: "Kneller_ResonantPulse", isOverheat: false, overheatResetTime: 0 },
 { id: 13006, className: "Kneller_DeathKnell", isOverheat: false, overheatResetTime: 0 },
+{ id: 30000, className: "RAID_POTION_TP", isOverheat: false, overheatResetTime: 6000 },
 ]

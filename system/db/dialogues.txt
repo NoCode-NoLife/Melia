@@ -18929,6 +18929,7 @@
 { classId: 5651700, className: "EVENT_2602_NEWYEAR_NPC" },
 { classId: 5651701, className: "W_2602_NEWYEAR_DLG_INTRO" },
 { classId: 5651702, className: "W_2602_NEWYEAR_DLG_GUIDE" },
+{ classId: 5651703, className: "EVENT_TREEDAY_2604_DLG1" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

@@ -1663,5 +1663,6 @@ namespace Melia.Shared.Game.Const
 		Kneller_RestingGround = 13004,
 		Kneller_ResonantPulse = 13005,
 		Kneller_DeathKnell = 13006,
+		RAID_POTION_TP = 30000,
 	}
 }
