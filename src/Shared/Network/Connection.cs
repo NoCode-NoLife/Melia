@@ -90,7 +90,7 @@ namespace Melia.Shared.Network
 		{
 			_crypto.Decrypt(buffer, 0, buffer.Length);
 
-			var packet = new Packet(buffer);
+			using var packet = Packet.Rent(buffer);
 
 			// Check login state
 			if (packet.Op != Op.CB_LOGIN && packet.Op != Op.CB_LOGIN_BY_PASSPORT && packet.Op != Op.CS_LOGIN && packet.Op != Op.CZ_CONNECT)

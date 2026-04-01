@@ -23,7 +23,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_LOGIN_PACKET_RECEIVED(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_LOGIN_PACKET_RECEIVED);
+			using var packet = Packet.Rent(Op.BC_LOGIN_PACKET_RECEIVED);
 			conn.Send(packet);
 		}
 
@@ -33,7 +33,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_LOGINOK(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_LOGINOK);
+			using var packet = Packet.Rent(Op.BC_LOGINOK);
 			packet.PutShort(1001); // Server Group Id
 			packet.PutLong(conn.Account.Id);
 			packet.PutString(conn.Account.Name, 33);
@@ -52,7 +52,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_LOGOUTOK(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_LOGOUTOK);
+			using var packet = Packet.Rent(Op.BC_LOGOUTOK);
 			conn.Send(packet);
 		}
 
@@ -65,7 +65,7 @@ namespace Melia.Barracks.Network
 		{
 			var characterCount = characters.Count();
 
-			var packet = new Packet(Op.BC_SPLIT_COMMANDER_INFO_LIST);
+			using var packet = Packet.Rent(Op.BC_SPLIT_COMMANDER_INFO_LIST);
 			packet.PutInt(characterCount);
 			packet.PutLong(conn.Account.Id);
 
@@ -91,7 +91,7 @@ namespace Melia.Barracks.Network
 			var layerCharacterCount = layerCharacters.Count();
 			var availableThemas = conn.Account.Themas;
 
-			var packet = new Packet(Op.BC_COMMANDER_LIST);
+			using var packet = Packet.Rent(Op.BC_COMMANDER_LIST);
 
 			packet.PutLong(conn.Account.Id);
 			packet.PutByte(0);
@@ -129,7 +129,7 @@ namespace Melia.Barracks.Network
 		{
 			var characterCount = conn.Account.CharacterCount;
 
-			var packet = new Packet(Op.BC_COMMANDER_CREATE_SLOTID);
+			using var packet = Packet.Rent(Op.BC_COMMANDER_CREATE_SLOTID);
 			packet.PutByte((byte)characterCount);
 
 			conn.Send(packet);
@@ -142,7 +142,7 @@ namespace Melia.Barracks.Network
 		/// <param name="character"></param>
 		public static void BC_COMMANDER_CREATE(IBarracksConnection conn, Character character)
 		{
-			var packet = new Packet(Op.BC_COMMANDER_CREATE);
+			using var packet = Packet.Rent(Op.BC_COMMANDER_CREATE);
 			packet.AddAppearanceBarrackPc(character);
 
 			conn.Send(packet);
@@ -157,13 +157,13 @@ namespace Melia.Barracks.Network
 		/// <param name="message"></param>
 		public static void BC_BARRACKNAME_CHECK_RESULT(IBarracksConnection conn, TeamNameChangeResult result, string teamName, string message)
 		{
-			var response = new Packet(Op.BC_BARRACKNAME_CHECK_RESULT);
+			using var packet = Packet.Rent(Op.BC_BARRACKNAME_CHECK_RESULT);
 
-			response.PutInt((int)result);
-			response.PutString(message, 256);
-			response.PutString(teamName, 64);
+			packet.PutInt((int)result);
+			packet.PutString(message, 256);
+			packet.PutString(teamName, 64);
 
-			conn.Send(response);
+			conn.Send(packet);
 		}
 
 		/// <summary>
@@ -174,7 +174,7 @@ namespace Melia.Barracks.Network
 		/// <param name="teamName"></param>
 		public static void BC_BARRACKNAME_CHANGE(IBarracksConnection conn, TeamNameChangeResult result, string teamName)
 		{
-			var packet = new Packet(Op.BC_BARRACKNAME_CHANGE);
+			using var packet = Packet.Rent(Op.BC_BARRACKNAME_CHANGE);
 			packet.PutInt(1);
 			packet.PutByte((byte)result);
 			packet.PutString(teamName, 64);
@@ -206,7 +206,7 @@ namespace Melia.Barracks.Network
 		/// <param name="msg"></param>
 		public static void BC_MESSAGE(IBarracksConnection conn, MsgType msgType, string msg)
 		{
-			var packet = new Packet(Op.BC_MESSAGE);
+			using var packet = Packet.Rent(Op.BC_MESSAGE);
 			packet.PutByte((byte)msgType);
 
 			if (msg != null)
@@ -225,7 +225,7 @@ namespace Melia.Barracks.Network
 		/// <param name="index"></param>
 		public static void BC_COMMANDER_DESTROY(IBarracksConnection conn, byte index)
 		{
-			var packet = new Packet(Op.BC_COMMANDER_DESTROY);
+			using var packet = Packet.Rent(Op.BC_COMMANDER_DESTROY);
 			packet.PutByte(index);
 
 			conn.Send(packet);
@@ -241,7 +241,7 @@ namespace Melia.Barracks.Network
 		/// <param name="port"></param>
 		public static void BC_START_GAMEOK(IBarracksConnection conn, Character character, int channelId, string ip, int port)
 		{
-			var packet = new Packet(Op.BC_START_GAMEOK);
+			using var packet = Packet.Rent(Op.BC_START_GAMEOK);
 
 			packet.PutInt(0); // Zone ID.
 			packet.PutInt(IPAddress.Parse(ip).ToInt32());
@@ -269,7 +269,7 @@ namespace Melia.Barracks.Network
 			var chatServer = socialServers.FirstOrDefault(a => a.Id == 1) ?? new() { Ip = "127.0.0.1", Port = 9001 };
 			var relationServer = socialServers.FirstOrDefault(a => a.Id == 2) ?? new() { Ip = "127.0.0.1", Port = 9002 };
 
-			var packet = new Packet(Op.BC_SERVER_ENTRY);
+			using var packet = Packet.Rent(Op.BC_SERVER_ENTRY);
 
 			packet.PutInt(IPAddress.Parse(chatServer.Ip).ToInt32());
 			packet.PutInt(IPAddress.Parse(relationServer.Ip).ToInt32());
@@ -289,7 +289,7 @@ namespace Melia.Barracks.Network
 			var propertyList = account.Properties.GetAll();
 			var size = propertyList.GetByteCount();
 
-			var packet = new Packet(Op.BC_ACCOUNT_PROP);
+			using var packet = Packet.Rent(Op.BC_ACCOUNT_PROP);
 
 			packet.PutLong(account.Id);
 			packet.PutShort(size);
@@ -304,7 +304,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_DISCONNECT_PACKET_LOG_COUNT(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_DISCONNECT_PACKET_LOG_COUNT);
+			using var packet = Packet.Rent(Op.BC_DISCONNECT_PACKET_LOG_COUNT);
 			packet.PutInt(0x1E);
 
 			conn.Send(packet);
@@ -316,7 +316,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_LAYER_CHANGE_SYSTEM_MESSAGE(IBarracksConnection conn, int targetLayer, string script = "MoveBarrackLayer{target}")
 		{
-			var packet = new Packet(Op.BC_LAYER_CHANGE_SYSTEM_MESSAGE);
+			using var packet = Packet.Rent(Op.BC_LAYER_CHANGE_SYSTEM_MESSAGE);
 			packet.PutInt(targetLayer);
 			packet.PutString(script, 64);
 
@@ -329,7 +329,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_RETURN_PC_MARKET_REGISTERED(IBarracksConnection conn, long characterId, bool hasMarketItems = false)
 		{
-			var packet = new Packet(Op.BC_RETURN_PC_MARKET_REGISTERED);
+			using var packet = Packet.Rent(Op.BC_RETURN_PC_MARKET_REGISTERED);
 			packet.PutLong(characterId);
 			packet.PutShort(hasMarketItems ? 1 : 0); // Has Items in Registered in Market
 
@@ -342,7 +342,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_CHARACTER_SLOT_SWAP_SUCCESS(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_CHARACTER_SLOT_SWAP_SUCCESS);
+			using var packet = Packet.Rent(Op.BC_CHARACTER_SLOT_SWAP_SUCCESS);
 			conn.Send(packet);
 		}
 
@@ -352,7 +352,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_CHARACTER_SLOT_SWAP_FAIL(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_CHARACTER_SLOT_SWAP_FAIL);
+			using var packet = Packet.Rent(Op.BC_CHARACTER_SLOT_SWAP_FAIL);
 			conn.Send(packet);
 		}
 
@@ -362,7 +362,7 @@ namespace Melia.Barracks.Network
 		/// <param name="conn"></param>
 		public static void BC_IES_MODIFY_LIST(IBarracksConnection conn)
 		{
-			var packet = new Packet(Op.BC_IES_MODIFY_LIST);
+			using var packet = Packet.Rent(Op.BC_IES_MODIFY_LIST);
 			packet.AddIesModList(BarracksServer.Instance.IesMods);
 
 			conn.Send(packet);
@@ -375,7 +375,7 @@ namespace Melia.Barracks.Network
 		/// <param name="price"></param>
 		public static void BC_REQ_SLOT_PRICE(IBarracksConnection conn, int price)
 		{
-			var packet = new Packet(Op.BC_REQ_SLOT_PRICE);
+			using var packet = Packet.Rent(Op.BC_REQ_SLOT_PRICE);
 			packet.PutInt(price);
 
 			conn.Send(packet);

@@ -23,7 +23,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void LoginSuccess(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LoginSuccess);
 
 				conn.Send(packet);
@@ -38,7 +38,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void Unknown_01(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.Unknown_01);
 				packet.PutInt(3);
 
@@ -55,7 +55,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void Unknown_02(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.Unknown_02);
 
 				conn.Send(packet);
@@ -69,7 +69,7 @@ namespace Melia.Social.Network
 			/// <param name="chatMessage"></param>
 			public static void AddMessage(ISocialConnection conn, ChatRoom chatRoom, ChatMessage chatMessage)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.AddMessage);
 
 				packet.PutLong(chatRoom.Id); // Chat Id
@@ -97,7 +97,7 @@ namespace Melia.Social.Network
 			/// <param name="chatMessages"></param>
 			public static void MessageList(ISocialConnection conn, ChatRoom chatRoom, IEnumerable<ChatMessage> chatMessages)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.MessageList);
 
 				packet.PutLong(chatRoom.Id);
@@ -121,7 +121,7 @@ namespace Melia.Social.Network
 			/// <param name="chatRoom"></param>
 			public static void CreateRoom(ISocialConnection conn, ChatRoom chatRoom)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.CreateRoom);
 
 				packet.PutLong(chatRoom.Id);
@@ -155,7 +155,7 @@ namespace Melia.Social.Network
 				if (!SocialServer.Instance.Data.SystemMessageDb.TryFind(clientMessage, out var systemMessageId))
 					throw new ArgumentException($"System message '{clientMessage}' not found.");
 
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.SystemMessage);
 
 				packet.PutInt(systemMessageId.ClassId);
@@ -171,7 +171,7 @@ namespace Melia.Social.Network
 			/// <param name="friend"></param>
 			public static void FriendInfo(ISocialConnection conn, Friend friend)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.FriendInfo);
 
 				packet.PutByte((byte)friend.State);
@@ -198,7 +198,7 @@ namespace Melia.Social.Network
 			/// <param name="friends"></param>
 			public static void FriendInfo(ISocialConnection conn, FriendState state, IEnumerable<Friend> friends)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.FriendInfo);
 
 				packet.PutByte((byte)state);
@@ -218,7 +218,7 @@ namespace Melia.Social.Network
 			/// <param name="friend"></param>
 			public static void FriendResponse(ISocialConnection conn, Friend friend)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.FriendResponse);
 
 				packet.PutByte((byte)friend.State);
@@ -233,7 +233,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void PartyMemberUpdate(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.PartyMemberUpdate);
 
 				// Dummy data for a buff update, check SC_NORMAL template
@@ -258,7 +258,7 @@ namespace Melia.Social.Network
 			/// <param name="accountId"></param>
 			public static void FriendRequested(ISocialConnection conn, long accountId)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.FriendRequested);
 				packet.PutLong(accountId);
 
@@ -272,7 +272,7 @@ namespace Melia.Social.Network
 			/// <param name="accountId"></param>
 			public static void FriendBlocked(ISocialConnection conn, long accountId)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.FriendBlocked);
 				packet.PutLong(accountId);
 
@@ -285,7 +285,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void Unknown_19(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.Unknown_19);
 
 				packet.PutLong(conn.User.Id);
@@ -305,7 +305,7 @@ namespace Melia.Social.Network
 			/// <param name="count"></param>
 			public static void LikeCount(ISocialConnection conn, long accountId, int count)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LikeCount);
 
 				packet.PutLong(accountId);
@@ -322,7 +322,7 @@ namespace Melia.Social.Network
 			/// <param name="teamName"></param>
 			public static void LikeSuccess(ISocialConnection conn, long accountId, string teamName)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LikeSuccess);
 
 				packet.PutLong(accountId);
@@ -339,7 +339,7 @@ namespace Melia.Social.Network
 			/// <param name="teamName"></param>
 			public static void UnlikeSuccess(ISocialConnection conn, long accountId, string teamName)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.UnlikeSuccess);
 
 				packet.PutLong(accountId);
@@ -354,7 +354,7 @@ namespace Melia.Social.Network
 			/// <param name="conn"></param>
 			public static void LikeFailed(ISocialConnection conn)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LikeFailed);
 
 				conn.Send(packet);
@@ -368,7 +368,7 @@ namespace Melia.Social.Network
 			{
 				var likes = conn.User.SentLikes;
 
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LikedList);
 
 				packet.PutInt(likes.Count);
@@ -387,7 +387,7 @@ namespace Melia.Social.Network
 			{
 				var likes = conn.User.ReceivedLikes;
 
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.LikedMeList);
 
 				packet.PutInt(likes.Count);
@@ -409,7 +409,7 @@ namespace Melia.Social.Network
 			/// <param name="messageText"></param>
 			public static void Shout(SocialUser sender, string messageText)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Social.Shout);
 
 				packet.PutLpString(sender.TeamName);

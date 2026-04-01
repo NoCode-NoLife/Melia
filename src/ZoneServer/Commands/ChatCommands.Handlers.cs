@@ -2399,7 +2399,7 @@ namespace Melia.Zone.Commands
 
 			// Create auto seller packet from arguments and have the
 			// channel handle it as if the client had sent it.
-			var packet = new Packet(Op.CZ_REGISTER_AUTOSELLER);
+			using var packet = Packet.Rent(Op.CZ_REGISTER_AUTOSELLER);
 			packet.PutString(title, 64);
 			packet.PutInt(items.Count);
 			packet.PutInt(270065); // PersonalShop

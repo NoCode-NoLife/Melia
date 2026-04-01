@@ -13,7 +13,7 @@ namespace Melia.Social.Network
 			/// <param name="user"></param>
 			public static void Unknown_01(SocialUser user)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Integrate.Unknown_01);
 
 				packet.PutLong(user.Id);
@@ -28,7 +28,7 @@ namespace Melia.Social.Network
 			/// <param name="user"></param>
 			public static void Unknown_14(SocialUser user)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Integrate.Unknown_14);
 
 				packet.PutLong(user.Id);
@@ -43,7 +43,7 @@ namespace Melia.Social.Network
 			/// <param name="user"></param>
 			public static void Unknown_19(SocialUser user)
 			{
-				var packet = new Packet(Op.SC_NORMAL);
+				using var packet = Packet.Rent(Op.SC_NORMAL);
 				packet.PutInt(NormalOp.Integrate.Unknown_19);
 
 				packet.PutLong(user.Id);

@@ -55,7 +55,7 @@ namespace Melia.Social.Network
 		/// <param name="buffer"></param>
 		protected override void OnMessageReceived(byte[] buffer)
 		{
-			var packet = new Packet(buffer);
+			using var packet = Packet.Rent(buffer);
 
 			if (packet.Op != Op.CS_LOGIN && !this.LoggedIn)
 			{

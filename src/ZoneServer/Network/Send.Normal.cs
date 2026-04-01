@@ -24,7 +24,7 @@ namespace Melia.Zone.Network
 			/// <param name="count"></param>
 			public static void BarrackSlotCount(IZoneConnection conn, int count)
 			{
-				var packet = new Packet(Op.BC_NORMAL);
+				using var packet = Packet.Rent(Op.BC_NORMAL);
 				packet.PutInt(NormalOp.Zone.BarrackSlotCount);
 				packet.PutInt(count);
 
@@ -58,7 +58,7 @@ namespace Melia.Zone.Network
 			/// <param name="effect"></param>
 			public static void AttachEffect(IActor actor, AttachableEffect effect)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
@@ -81,7 +81,7 @@ namespace Melia.Zone.Network
 			/// <param name="effect"></param>
 			public static void AttachEffect(IZoneConnection conn, IActor actor, AttachableEffect effect)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttachEffect);
 
 				packet.PutInt(actor.Handle);
@@ -102,7 +102,7 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			public static void ClearEffects(IActor actor)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ClearEffects);
 				packet.PutInt(actor.Handle);
 
@@ -118,7 +118,7 @@ namespace Melia.Zone.Network
 			/// <param name="location"></param>
 			public static void PlayEffect(IActor actor, string effectName, float scale = 1, EffectLocation location = EffectLocation.Bottom)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayEffect);
 
 				packet.PutInt(actor.Handle);
@@ -194,7 +194,7 @@ namespace Melia.Zone.Network
 					argStr = "CUSTOM:" + argStr;
 				}
 
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayTextEffect);
 
 				packet.PutInt(actor.Handle);
@@ -230,7 +230,7 @@ namespace Melia.Zone.Network
 			/// <param name="f4"></param>
 			public static void SkillProjectile(ICombatEntity entity, string packetString1, float scale1, string packetString2, float scale2, Position position, float f1, float f2, float f3, float f4)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillProjectile);
 
 				packet.PutInt(entity.Handle);
@@ -269,7 +269,7 @@ namespace Melia.Zone.Network
 			/// <param name="itemStayTime"></param>
 			public static void SkillItemToss(IActor character, string str, string str2, Position position, string effectName, float scale, float tossScale, float hangScale, float speed, float startAngle, float endAngle, float f7, float itemScale, TimeSpan itemStayTime)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillItemToss);
 
 				packet.PutInt(character.Handle);
@@ -310,7 +310,7 @@ namespace Melia.Zone.Network
 			/// </exception>
 			public static void PlayForceEffect(int forceId, IActor caster, IActor source, IActor target, string effect1, float effect1Scale, string effect2, string effect3, float effect3Scale, string effect4, string effect5, float speed)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PlayForceEffect);
 
 				packet.PutInt(forceId);
@@ -346,7 +346,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void AttackCancel(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AttackCancel);
 				packet.PutInt(character.Handle);
 
@@ -361,7 +361,7 @@ namespace Melia.Zone.Network
 			/// <param name="skillId"></param>
 			public static void UnkDynamicCastStart(Character character, SkillId skillId)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastStart);
 
 				packet.PutInt(character.Handle);
@@ -379,7 +379,7 @@ namespace Melia.Zone.Network
 			/// <param name="value"></param>
 			public static void UnkDynamicCastEnd(Character character, SkillId skillId, float value)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkDynamicCastEnd);
 
 				packet.PutInt(character.Handle);
@@ -415,7 +415,7 @@ namespace Melia.Zone.Network
 			/// <param name="isVisible">Whether to display or hide the pad.</param>
 			public static void PadUpdate(ISender sender, Pad pad, bool isVisible)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadUpdate);
 
 				packet.PutInt(pad.Creator.Handle);
@@ -446,7 +446,7 @@ namespace Melia.Zone.Network
 			/// <param name="altitude"></param>
 			public static void PadSetMonsterAltitude(Pad pad, IActor actor, float altitude)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadSetMonsterAltitude);
 
 				packet.PutInt(pad.Handle);
@@ -466,7 +466,7 @@ namespace Melia.Zone.Network
 			/// <param name="movementSpeed"></param>
 			public static void PadMoveTo(Pad pad, Position dest, float movementSpeed)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadMoveTo);
 
 				packet.PutInt(pad.Handle);
@@ -491,7 +491,7 @@ namespace Melia.Zone.Network
 			/// <param name="angleZ"></param>
 			public static void ActorRotate(IActor actor, float angleX, float angleY, float angleZ)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ActorRotate);
 
 				packet.PutInt(actor.Handle);
@@ -510,7 +510,7 @@ namespace Melia.Zone.Network
 			/// <param name="value"></param>
 			public static void SetSkillSpeed(Character character, int skillId, float value)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SetSkillSpeed);
 
 				packet.PutInt(skillId);
@@ -526,7 +526,7 @@ namespace Melia.Zone.Network
 			/// <param name="skillId"></param>
 			public static void SetHitDelay(Character character, int skillId, float value)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SetHitDelay);
 
 				packet.PutInt(skillId);
@@ -543,7 +543,7 @@ namespace Melia.Zone.Network
 			/// <param name="skillId"></param>
 			public static void SkillCancelCancel(IActor actor, SkillId skillId)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SkillCancelCancel);
 
 				packet.PutInt(actor.Handle);
@@ -558,7 +558,7 @@ namespace Melia.Zone.Network
 			/// <param name="conn"></param>
 			public static void AdventureBook(IZoneConnection conn)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AdventureBook);
 
 				packet.PutLpString("AdventureBook");
@@ -581,7 +581,7 @@ namespace Melia.Zone.Network
 			/// <param name="conn"></param>
 			public static void SetSessionKey(IZoneConnection conn)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SetSessionKey);
 				packet.PutLpString(conn.SessionKey);
 
@@ -595,7 +595,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void HeadgearVisibilityUpdate(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.HeadgearVisibilityUpdate);
 
 				packet.PutInt(character.Handle);
@@ -618,7 +618,7 @@ namespace Melia.Zone.Network
 			/// <param name="itemId"></param>
 			public static void PadSetModel(IActor actor, string str, int itemId)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.PadSetModel);
 
 				packet.PutInt(actor.Handle);
@@ -635,7 +635,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void WigVisibilityUpdate(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.WigVisibilityUpdate);
 
 				packet.PutInt(character.Handle);
@@ -651,7 +651,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void SubWeaponVisibilityUpdate(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SubWeaponVisibilityUpdate);
 
 				packet.PutInt(character.Handle);
@@ -668,7 +668,7 @@ namespace Melia.Zone.Network
 			/// <param name="enable"></param>
 			public static void ParticleEffect(Character character, int actorId, int enable)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ParticleEffect);
 				packet.PutInt(actorId);
 				packet.PutInt(enable);
@@ -714,7 +714,7 @@ namespace Melia.Zone.Network
 			/// <param name="farPos"></param>
 			public static void UpdateSkillEffect(ICombatEntity entity, int targetHandle, Position originPos, Direction direction, Position farPos)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateSkillEffect);
 
 				packet.PutInt(entity.Handle);
@@ -739,7 +739,7 @@ namespace Melia.Zone.Network
 			/// <param name="i1"></param>
 			public static void UnkFirewall(IActor caster, Pad pad, string packetString, float f1, int i1)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnkFirewall);
 
 				packet.PutInt(pad.Handle);
@@ -760,7 +760,7 @@ namespace Melia.Zone.Network
 			/// <param name="velocityChangeTerm"></param>
 			public static void SpinObject(IActor actor, float spinDelay, float spinCount, float rotationsPerSecond, float velocityChangeTerm)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SpinObject);
 
 				packet.PutInt(actor.Handle);
@@ -778,7 +778,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_A1(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_A1);
 				packet.PutLong(4);
 
@@ -791,7 +791,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_DA(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_DA);
 				packet.Zlib(true, zpacket =>
 				{
@@ -808,7 +808,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_E4(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_E4);
 				packet.PutInt(0);
 
@@ -821,7 +821,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void SetGreetingMessage(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.SetGreetingMessage);
 
 				packet.PutLong(character.ObjectId);
@@ -837,7 +837,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_1B4(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_1B4);
 				packet.PutInt(0);
 
@@ -854,7 +854,7 @@ namespace Melia.Zone.Network
 				var properties = account.Properties.GetAll();
 				var propertySize = properties.GetByteCount();
 
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.AccountProperties);
 
 				packet.PutLong(account.Id);
@@ -871,7 +871,7 @@ namespace Melia.Zone.Network
 			/// <param name="duration"></param>
 			public static void FadeOut(IMonster monster, TimeSpan duration)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.FadeOut);
 
 				packet.PutInt(monster.Map.Id);
@@ -899,7 +899,7 @@ namespace Melia.Zone.Network
 				// But since we won't usually use such small and high values,
 				// it will probably be fine.
 
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ItemDrop);
 
 				packet.PutInt(monster.Handle);
@@ -915,7 +915,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_EF(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_EF);
 
 				packet.PutLong(character.ObjectId);
@@ -1126,7 +1126,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void Unknown_19B(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unknown_19B);
 				packet.PutLong(1);
 				packet.PutByte(0);
@@ -1138,7 +1138,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void ChannelTraffic(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ChannelTraffic);
 
 				packet.Zlib(true, zpacket =>
@@ -1185,7 +1185,7 @@ namespace Melia.Zone.Network
 
 				var jobs = character.Jobs.GetList();
 
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateSkillUI);
 				packet.PutLong(character.ObjectId);
 
@@ -1215,7 +1215,7 @@ namespace Melia.Zone.Network
 			/// <param name="hideUi">Whether to hide the UI while active.</param>
 			public static void Cutscene(Character character, bool active, bool movable, bool hideUi)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Cutscene);
 
 				packet.PutByte(active);
@@ -1238,7 +1238,7 @@ namespace Melia.Zone.Network
 			/// <param name="jumpHeight"></param>
 			public static void LeapJump(ICombatEntity entity, Position targetPos, float f1, float f2, float f3, float f4, float f5, float jumpHeight)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.LeapJump);
 
 				packet.PutInt(entity.Handle);
@@ -1261,7 +1261,7 @@ namespace Melia.Zone.Network
 			/// <param name="b1"></param>
 			public static void Unk13E(ICombatEntity entity, bool b1)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Unk13E);
 
 				packet.PutInt(entity.Handle);
@@ -1278,7 +1278,7 @@ namespace Melia.Zone.Network
 			/// <param name="timeAction"></param>
 			public static void TimeActionStart(Character character, TimeAction timeAction)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.TimeActionStart);
 
 				packet.PutInt(character.Handle);
@@ -1298,7 +1298,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void TimeActionEnd(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.TimeActionEnd);
 
 				packet.PutInt(character.Handle);
@@ -1314,7 +1314,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void ItemCollectionList(Character character)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.ItemCollectionList);
 
 				packet.Zlib(true, zpacket =>
@@ -1347,7 +1347,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void UnlockCollection(Character character, int collectionId)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UnlockCollection);
 
 				packet.PutLong(character.ObjectId);
@@ -1363,7 +1363,7 @@ namespace Melia.Zone.Network
 			/// <param name="character"></param>
 			public static void UpdateCollection(Character character, int collectionId, int itemId)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.UpdateCollection);
 
 				packet.PutLong(character.ObjectId);
@@ -1382,7 +1382,7 @@ namespace Melia.Zone.Network
 			/// <param name="skillHandle"></param>
 			public static void Skill_42(IActor actor, SkillId skillId, Direction direction, int skillHandle)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_42);
 
 				packet.PutInt(actor.Handle);
@@ -1409,7 +1409,7 @@ namespace Melia.Zone.Network
 			/// <param name="actor"></param>
 			public static void Skill_43(IActor actor)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.Skill_43);
 
 				packet.PutInt(actor.Handle);
@@ -1423,7 +1423,7 @@ namespace Melia.Zone.Network
 			/// <param name="bookName"></param>
 			public static void OpenBook(Character character, string bookName)
 			{
-				var packet = new Packet(Op.ZC_NORMAL);
+				using var packet = Packet.Rent(Op.ZC_NORMAL);
 				packet.PutInt(NormalOp.Zone.OpenBook);
 
 				packet.PutInt(character.Handle);

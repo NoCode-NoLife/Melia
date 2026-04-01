@@ -10,7 +10,7 @@ namespace Melia.Social.Network
 		/// <param name="conn"></param>
 		public static void SC_LOGIN_OK(ISocialConnection conn)
 		{
-			var packet = new Packet(Op.SC_LOGIN_OK);
+			using var packet = Packet.Rent(Op.SC_LOGIN_OK);
 
 			conn.Send(packet);
 		}
