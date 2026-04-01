@@ -46,6 +46,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		int Hp { get; }
 
 		/// <summary>
+		/// Returns the monster's current shield.
+		/// </summary>
+		int Shield { get; }
+
+		/// <summary>
+		/// Returns the monster's max shield.
+		/// </summary>
+		int MaxShield { get; }
+
+		/// <summary>
 		/// Returns a reference to the monster's properties.
 		/// </summary>
 		Properties Properties { get; }

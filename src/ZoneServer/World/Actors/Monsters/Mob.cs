@@ -137,6 +137,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => (int)this.Properties.GetFloat(PropertyName.MHP);
 
 		/// <summary>
+		/// Returns the mob's current shield.
+		/// </summary>
+		public int Shield => (int)this.Properties.GetFloat(PropertyName.Shield);
+
+		/// <summary>
+		/// Returns the mob's maximum shield.
+		/// </summary>
+		public int MaxShield => (int)this.Properties.GetFloat(PropertyName.MShield);
+
+		/// <summary>
 		/// At this time the monster will be removed from the map.
 		/// </summary>
 		public DateTime DisappearTime { get; set; } = DateTime.MaxValue;

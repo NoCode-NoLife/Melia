@@ -27,16 +27,24 @@ namespace Melia.Zone.Network.Helpers
 			packet.PutByte(monster.FromGround);
 			packet.PutInt(monster.Hp);
 			packet.PutInt(monster.MaxHp);
-			packet.PutShort(0);
 
-			// [i11025 (2016-02-26)] ?
+			// These values presumably went from two bytes, to two shorts,
+			// to two ints over the years. They seem to represent the
+			// monster's current and max shield, displayed as a green
+			// bar below their HP.
 			{
-				packet.PutShort(16832);
-			}
+				//packet.PutShort(0);
+				//// [i11025 (2016-02-26)] ?
+				//{
+				//	packet.PutShort(16832);
+				//}
+				//// [i364857 (2022-10-22)] ?
+				//{
+				//	packet.PutInt(0); // 0 | 1098907648
+				//}
 
-			// [i364857 (2022-10-22)] ?
-			{
-				packet.PutInt(0); // 0 | 1098907648
+				packet.PutInt(monster.Shield);
+				packet.PutInt(monster.MaxShield);
 			}
 
 			packet.PutFloat(monster.Properties.GetFloat(PropertyName.MSPD));

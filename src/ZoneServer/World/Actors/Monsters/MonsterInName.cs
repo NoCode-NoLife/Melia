@@ -36,6 +36,16 @@ namespace Melia.Zone.World.Actors.Monsters
 		public int MaxHp => 100;
 
 		/// <summary>
+		/// Returns the monster's current shield.
+		/// </summary>
+		public int Shield => 0;
+
+		/// <summary>
+		/// Returns the monster's maximum shield.
+		/// </summary>
+		public int MaxShield => 0;
+
+		/// <summary>
 		/// Returns the monster's level.
 		/// </summary>
 		public int Level => 1;
