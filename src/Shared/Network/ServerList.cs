@@ -112,7 +112,7 @@ namespace Melia.Shared.Network
 			var zoneServers = _servers.Where(a => a.Type == ServerType.Zone);
 			var mapServers = zoneServers.Where(a => a.Status == ServerStatus.Online && a.MapIds.Contains(mapId));
 
-			if (index < 0 || index > _servers.Count - 1)
+			if (index < 0 || index > mapServers.Count() - 1)
 				return false;
 
 			serverInfo = mapServers.ElementAt(index);
