@@ -494,7 +494,13 @@ namespace Melia.Barracks.Network
 			// Get zone server info
 			if (!BarracksServer.Instance.ServerList.TryGetZoneServer(character.MapId, channelId, out var zoneServerInfo))
 			{
-				Log.Error("CB_START_GAME: Zone server serving map '{0}' with index '{1}' not found.", character.MapId, channelId);
+				// The client will send this packet with index 0 even if
+				// no channels are available, so we're not going to log an
+				// error.
+
+				//Log.Error("CB_START_GAME: Zone server serving map '{0}' with index '{1}' not found.", character.MapId, channelId);
+				Send.BC_MESSAGE(conn, MsgType.Text, Localization.Get("This channel appears to be offline. Please choose another or try again later."));
+				Send.BC_NORMAL.StartGameFailed(conn);
 				return;
 			}
 
