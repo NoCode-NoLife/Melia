@@ -259,7 +259,7 @@ namespace Melia.Shared.Network
 		{
 			this.AssertNotDisposed();
 
-			var bytes = _buffer.Read(length);
+			var bytes = _buffer.ReadAsSpan(length);
 			var val = DefaultEncoding.GetString(bytes);
 
 			// Relatively fast way to get rid of null bytes
@@ -334,7 +334,11 @@ namespace Melia.Shared.Network
 		public string GetBinAsHex(int length)
 		{
 			this.AssertNotDisposed();
-			return Hex.ToString(this.GetBin(length), HexStringOptions.None);
+
+			var bytes = _buffer.ReadAsSpan(length);
+			var hex = Hex.ToString(bytes, HexStringOptions.None);
+
+			return hex;
 		}
 
 		/// <summary>
@@ -347,9 +351,9 @@ namespace Melia.Shared.Network
 		{
 			this.AssertNotDisposed();
 
-			var buffer = this.GetBin(length);
+			var bytes = _buffer.Read(length);
 
-			using (var msIn = new MemoryStream(buffer))
+			using (var msIn = new MemoryStream(bytes))
 			using (var msOut = new MemoryStream())
 			{
 				using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
