@@ -25,6 +25,6 @@
     <PackageReference Include="EmbedIO" Version="3.5.2" />
     <PackageReference Include="ExecTails.Yggdrasil" Version="1.7.3" />
     <PackageReference Include="ExecTails.Yggdrasil.Data.JSON" Version="1.0.1" />
-    <PackageReference Include="ExecTails.Yggdrasil.Db.MySql" Version="1.0.2" />
+    <PackageReference Include="ExecTails.Yggdrasil.Db.MySql" Version="1.1.2" />
   </ItemGroup>
 </Project>

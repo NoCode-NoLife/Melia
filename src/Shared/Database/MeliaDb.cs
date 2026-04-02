@@ -254,20 +254,23 @@ namespace Melia.Shared.Database
 					cmd.ExecuteNonQuery();
 				}
 
-				foreach (var property in properties.GetAll())
+				using (var cmd = new BatchedInsertCommand(databaseName, conn, trans))
 				{
-					var typeStr = property is FloatProperty ? "f" : "s";
-					var valueStr = property.Serialize();
-
-					using (var cmd = new InsertCommand("INSERT INTO `" + databaseName + "` {parameters}", conn, trans))
+					foreach (var property in properties.GetAll())
 					{
+						var typeStr = property is FloatProperty ? "f" : "s";
+						var valueStr = property.Serialize();
+
 						cmd.Set(idName, id);
 						cmd.Set("name", property.Ident);
 						cmd.Set("type", typeStr);
 						cmd.Set("value", valueStr);
 
-						cmd.Execute();
+						cmd.AddRow();
+						cmd.ExecuteOn(200);
 					}
+
+					cmd.Execute();
 				}
 
 				trans.Commit();
