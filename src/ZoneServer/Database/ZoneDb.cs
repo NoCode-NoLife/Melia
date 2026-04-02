@@ -19,6 +19,7 @@ using Melia.Zone.World.Maps;
 using Melia.Zone.World.Quests;
 using Melia.Zone.World.Storage;
 using MySqlConnector;
+using Yggdrasil.Db.MySql.SimpleCommands;
 using Yggdrasil.Logging;
 using Yggdrasil.Util;
 
@@ -37,7 +38,7 @@ namespace Melia.Zone.Database
 				throw new ArgumentNullException(nameof(account));
 
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {parameters} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", account.Id);
 				cmd.Set("settings", account.Settings.ToString());
@@ -375,7 +376,7 @@ namespace Melia.Zone.Database
 						var typeStr = property is FloatProperty ? "f" : "s";
 						var valueStr = property.Serialize();
 
-						using (var cmd = new InsertCommand("INSERT INTO `session_objects_properties` {0}", conn, trans))
+						using (var cmd = new InsertCommand("INSERT INTO `session_objects_properties` {parameters}", conn, trans))
 						{
 							cmd.Set("characterId", character.DbId);
 							cmd.Set("sessionObjectId", sessionObject.Id);
@@ -403,7 +404,7 @@ namespace Melia.Zone.Database
 				return;
 
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `characters` SET {0} WHERE `characterId` = @characterId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `characters` SET {parameters} WHERE `characterId` = @characterId", conn))
 			{
 				cmd.AddParameter("@characterId", character.DbId);
 				cmd.Set("name", character.Name);
@@ -460,7 +461,7 @@ namespace Melia.Zone.Database
 				var skills = character.Skills.GetList();
 				foreach (var skill in skills)
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `skills` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `skills` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", skill.Id);
@@ -493,7 +494,7 @@ namespace Melia.Zone.Database
 				var abilities = character.Abilities.GetList();
 				foreach (var ability in abilities)
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `abilities` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `abilities` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("id", ability.Id);
@@ -529,7 +530,7 @@ namespace Melia.Zone.Database
 
 				foreach (var job in jobs)
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `jobs` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `jobs` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("jobId", job.Id);
@@ -611,7 +612,7 @@ namespace Melia.Zone.Database
 					// TODO: Add generic item load and save methods, for
 					//   other item collections to use, such as warehouse.
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {parameters}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -621,7 +622,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
@@ -639,7 +640,7 @@ namespace Melia.Zone.Database
 				{
 					var newId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {parameters}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -649,7 +650,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `inventory` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `inventory` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("itemId", newId);
@@ -729,7 +730,7 @@ namespace Melia.Zone.Database
 				{
 					var newId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `items` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `items` {parameters}", conn, trans))
 					{
 						cmd.Set("itemId", item.Value.Id);
 						cmd.Set("amount", item.Value.Amount);
@@ -739,7 +740,7 @@ namespace Melia.Zone.Database
 						newId = cmd.LastId;
 					}
 
-					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {parameters}", conn, trans))
 					{
 						cmd.Set(idFieldName, id);
 						cmd.Set("itemId", newId);
@@ -796,7 +797,7 @@ namespace Melia.Zone.Database
 
 				foreach (var macro in account.GetChatMacros().OrderBy(x => x.Index))
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `chatmacros` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `chatmacros` {parameters}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("index", macro.Index);
@@ -854,7 +855,7 @@ namespace Melia.Zone.Database
 
 				foreach (var revealedMap in account.GetRevealedMaps())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `revealedmaps` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `revealedmaps` {parameters}", conn, trans))
 					{
 						cmd.Set("accountId", account.Id);
 						cmd.Set("map", revealedMap.MapId);
@@ -893,7 +894,7 @@ namespace Melia.Zone.Database
 
 					var lastId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `buffs` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `buffs` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("classId", buff.Id);
@@ -975,7 +976,7 @@ namespace Melia.Zone.Database
 
 				foreach (var cooldown in character.Components.Get<CooldownComponent>().GetAll())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `cooldowns` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `cooldowns` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("classId", cooldown.Id);
@@ -1055,7 +1056,7 @@ namespace Melia.Zone.Database
 				{
 					var questDbId = 0L;
 
-					using (var cmd = new InsertCommand("INSERT INTO `quests` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `quests` {parameters}", conn, trans))
 					{
 						cmd.Set("characterId", character.DbId);
 						cmd.Set("classId", quest.Data.Id.Value);
@@ -1071,7 +1072,7 @@ namespace Melia.Zone.Database
 
 					foreach (var progress in quest.Progresses)
 					{
-						using (var cmd = new InsertCommand("INSERT INTO `quests_progress` {0}", conn, trans))
+						using (var cmd = new InsertCommand("INSERT INTO `quests_progress` {parameters}", conn, trans))
 						{
 							cmd.Set("questId", questDbId);
 							cmd.Set("characterId", character.DbId);
@@ -1206,7 +1207,7 @@ namespace Melia.Zone.Database
 
 				foreach (var collection in character.Collections.GetList())
 				{
-					using (var cmd = new InsertCommand("INSERT INTO `collections` {0}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `collections` {parameters}", conn, trans))
 					{
 						cmd.Set("accountId", character.AccountId);
 						cmd.Set("collectionId", collection.Id);
@@ -1218,7 +1219,7 @@ namespace Melia.Zone.Database
 
 					foreach (var itemId in collection.GetRegisteredItems())
 					{
-						using (var cmd = new InsertCommand("INSERT INTO `collection_items` {0}", conn, trans))
+						using (var cmd = new InsertCommand("INSERT INTO `collection_items` {parameters}", conn, trans))
 						{
 							cmd.Set("accountId", character.AccountId);
 							cmd.Set("collectionId", collection.Id);

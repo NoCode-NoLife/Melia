@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.ObjectProperties;
 using MySqlConnector;
+using Yggdrasil.Db.MySql.SimpleCommands;
 using Yggdrasil.Logging;
 using Yggdrasil.Security.Hashing;
 using Yggdrasil.Util;
@@ -97,7 +98,7 @@ namespace Melia.Shared.Database
 			password = BCrypt.HashPassword(password, BCrypt.GenerateSalt());
 
 			using (var conn = this.GetConnection())
-			using (var cmd = new InsertCommand("INSERT INTO `accounts` {0}", conn))
+			using (var cmd = new InsertCommand("INSERT INTO `accounts` {parameters}", conn))
 			{
 				cmd.Set("name", name);
 				cmd.Set("password", password);
@@ -161,7 +162,7 @@ namespace Melia.Shared.Database
 		public bool UpdateTeamName(long accountId, string teamName)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {parameters} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", accountId);
 				cmd.Set("teamName", teamName);
@@ -258,7 +259,7 @@ namespace Melia.Shared.Database
 					var typeStr = property is FloatProperty ? "f" : "s";
 					var valueStr = property.Serialize();
 
-					using (var cmd = new InsertCommand($"INSERT INTO `{databaseName}` {{0}}", conn, trans))
+					using (var cmd = new InsertCommand("INSERT INTO `" + databaseName + "` {parameters}", conn, trans))
 					{
 						cmd.Set(idName, id);
 						cmd.Set("name", property.Ident);
@@ -282,7 +283,7 @@ namespace Melia.Shared.Database
 		public void UpdateLoginState(long accountId, long characterDbId, LoginState state)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {parameters} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", accountId);
 				cmd.Set("loginState", (int)state);
@@ -300,7 +301,7 @@ namespace Melia.Shared.Database
 		public void UpdateSessionKey(long accountId, string sessionKey)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {0} WHERE `accountId` = @accountId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `accounts` SET {parameters} WHERE `accountId` = @accountId", conn))
 			{
 				cmd.AddParameter("@accountId", accountId);
 				cmd.Set("sessionKey", sessionKey);
@@ -421,7 +422,7 @@ namespace Melia.Shared.Database
 				throw new ArgumentException("Invalid IP address mask.", nameof(ipMask));
 
 			using (var conn = this.GetConnection())
-			using (var cmd = new InsertCommand("INSERT INTO `ip_bans` {0}", conn))
+			using (var cmd = new InsertCommand("INSERT INTO `ip_bans` {parameters}", conn))
 			{
 				cmd.Set("ip", ipMask);
 				cmd.Set("fromDate", from);
@@ -515,7 +516,7 @@ namespace Melia.Shared.Database
 				}
 
 				// Save
-				using (var cmd = new InsertCommand($"INSERT INTO `{tableName}` {{0}}", conn, trans))
+				using (var cmd = new InsertCommand("INSERT INTO `" + tableName + "` {parameters}", conn, trans))
 				{
 					if (checkOwner)
 						cmd.Set(ownerField, ownerId);

@@ -5,6 +5,7 @@ using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Social.World;
 using MySqlConnector;
+using Yggdrasil.Db.MySql.SimpleCommands;
 
 namespace Melia.Social.Database
 {
@@ -109,7 +110,7 @@ namespace Melia.Social.Database
 				newUser.Name = account.Name;
 				newUser.TeamName = account.TeamName;
 
-				using (var cmd = new InsertCommand("INSERT IGNORE INTO `social_users` {0}", conn))
+				using (var cmd = new InsertCommand("INSERT IGNORE INTO `social_users` {parameters}", conn))
 				{
 					cmd.Set("userId", newUser.Id);
 					cmd.Set("accountId", newUser.AccountId);
@@ -161,7 +162,7 @@ namespace Melia.Social.Database
 		public void UpdateLastSocialLogin(SocialUser user)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `social_users` SET {0} WHERE `userId` = @userId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `social_users` SET {parameters} WHERE `userId` = @userId", conn))
 			{
 				cmd.AddParameter("@userId", user.Id);
 				cmd.Set("lastLogin", user.LastLogin);
@@ -268,7 +269,7 @@ namespace Melia.Social.Database
 			using (var conn = this.GetConnection())
 			using (var trans = conn.BeginTransaction())
 			{
-				using (var cmd = new InsertCommand("INSERT INTO `friends` {0}", conn, trans))
+				using (var cmd = new InsertCommand("INSERT INTO `friends` {parameters}", conn, trans))
 				{
 					cmd.Set("userId", userId);
 					cmd.Set("friendUserId", friend.UserId);
@@ -307,7 +308,7 @@ namespace Melia.Social.Database
 		public void SaveFriend(Friend friend)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new UpdateCommand("UPDATE `friends` SET {0} WHERE `friendId` = @friendId", conn))
+			using (var cmd = new UpdateCommand("UPDATE `friends` SET {parameters} WHERE `friendId` = @friendId", conn))
 			{
 				cmd.AddParameter("@friendId", friend.Id);
 
@@ -408,7 +409,7 @@ namespace Melia.Social.Database
 		public void AddLike(Like like)
 		{
 			using (var conn = this.GetConnection())
-			using (var cmd = new InsertCommand("INSERT INTO `likes` {0}", conn))
+			using (var cmd = new InsertCommand("INSERT INTO `likes` {parameters}", conn))
 			{
 				cmd.Set("receiverId", like.ReceiverId);
 				cmd.Set("receiverName", like.ReceiverName);
