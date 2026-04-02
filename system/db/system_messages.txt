@@ -10999,7 +10999,7 @@
 { classId: 92278, className: "Raid_DespairIsland_UnActiveObjectMsg", text: "Not active." },
 { classId: 92279, className: "GACHA_SITEM_GET_ALLMSG_PAPAYA", text: "{s24}Congratulations!{nl}{PC} has obtained a(n) {ITEMNAME}{nl}from Papaya Cube!" },
 { classId: 92280, className: "GACHA_SITEM_GET_ALLMSG_COUNT_PAPAYA", text: "{s24}Congratulations!{nl}{PC} has obtained a(n) {ITEMNAME} x{COUNT}{nl}from Papaya Cube!" },
-{ classId: 92281, className: "AetherConvertTo", text: "{@st66}사용 시 선택한 에테르 젬으로 변환됩니다.{/}" },
+{ classId: 92281, className: "AetherConvertTo", text: "{@st66}Use to change it to the selected Aether Gem.{/}" },
 { classId: 92282, className: "GlobalBuffUse_ALLMSG2", text: "{s40}[Arbor Day] The kingdom has been graced by the Tree’s blessing." },
 { classId: 92283, className: "EP16_2_SELECT_OK_MSG", text: "Telling the story" },
 { classId: 92284, className: "EP16_2_FANLIB_48_3_MQ3_GET_MSG", text: "Obtain Vaivora's Holy Water" },
