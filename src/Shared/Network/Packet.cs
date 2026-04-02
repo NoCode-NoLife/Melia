@@ -61,7 +61,7 @@ namespace Melia.Shared.Network
 		private Packet()
 		{
 		}
-		static int _rentCount;
+
 		/// <summary>
 		/// Returns a packet instance from the internal pool for the given
 		/// op, ready to be written to.
