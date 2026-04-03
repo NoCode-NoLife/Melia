@@ -212,6 +212,9 @@ public class CombatCalculationsScript : GeneralScript
 		if (target is Mob mob && ScriptableFunctions.Combat.TryGet("SCR_CalculateDamage_Monster_" + mob.Data.ClassName, out var mobCalcFunc))
 			mobCalcFunc(attacker, target, skill, modifier, skillHitResult);
 
+		if (skillHitResult.Damage < 0)
+			skillHitResult.Damage = 0;
+
 		return (int)skillHitResult.Damage;
 	}
 
