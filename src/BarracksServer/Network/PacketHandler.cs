@@ -1011,5 +1011,20 @@ namespace Melia.Barracks.Network
 
 			Send.BC_REQ_SLOT_PRICE(conn, price);
 		}
+
+		/// <summary>
+		/// Request for latest barracks and character data. Sent when
+		/// selecting a different language.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CB_RELOAD_BARRACK_CAHR_INFO)]
+		public void CB_RELOAD_BARRACK_CAHR_INFO(IBarracksConnection conn, Packet packet)
+		{
+			Send.BC_NORMAL.SetBarrack(conn, conn.Account.SelectedBarrack);
+			Send.BC_COMMANDER_LIST(conn);
+			Send.BC_NORMAL.CharacterInfo(conn);
+			Send.BC_NORMAL.TeamUI(conn);
+		}
 	}
 }
