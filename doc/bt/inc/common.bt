@@ -22,6 +22,7 @@
 
 #include "inc/LpString.bt"
 #include "inc/Bool.bt"
+#include "inc/Language.bt"
 #include "inc/Property.bt"
 #include "inc/MsgParameter.bt"
 #include "inc/Position.bt"
