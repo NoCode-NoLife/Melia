@@ -19,7 +19,7 @@ namespace Melia.Shared.Configuration.Files
 		{
 			this.Include(filePath);
 
-			this.Language = this.GetString("language", "en-US");
+			this.Language = this.GetString("language", "English");
 			this.Culture = this.GetString("culture", "en-US");
 			this.CultureUi = this.GetString("culture_ui", "en-US");
 		}

@@ -1,17 +1,22 @@
-Melia Localization
+Localization
 =============================================================================
 
-Localization in Melia is done through a "gettext"-like system, which is
-commonly used for this type of work in many areas. The server reads the
-".po" file specified in the configuration from the localization folder
-and uses the translated lines. If a line is not translated, it uses the
+Server
+-----------------------------------------------------------------------------
+
+Localization on the server is done through a "gettext"-like system, which
+is commonly used for this type of work in many areas. The server reads the
+".po" file specified in the configuration from the localization folder and
+uses the translated lines. If a line is not translated, it uses the
 original, English version instead.
 
-Since we frequently add and change lines in both the core and NPCs, the
+Since we frequently add and change lines in both the core and scripts, the
 files that come with Melia might not always be up-to-date, and we might
 also not be able to support all languages ourselves. You can edit and
 generate new files from the source files yourself though using various
 tools. We recommand the free "Poedit": http://poedit.net/
+
+### Guide
 
 Here's a short description on how to create a new translation using Poedit.
 
@@ -51,3 +56,28 @@ After creating a ".po" file once you can simply open it with Poedit again,
 fix translations, or update the catalogue, which makes it read the source
 again, adding new lines to it for you to translate while keeping what you've
 done so far.
+
+Client
+-----------------------------------------------------------------------------
+
+The client has its own, separate localization system that operates on key-
+value pairs. It primarily uses Korean lines to look up a common key, and
+that key is used to look up the localized string in turn.
+
+Example from `UI.tsv`:
+```
+UI_20150317_000755    {@st43}{b}Select Language{/}    {@st43}언어 선택{/}
+
+Key: UI_20150317_000755
+English: {@st43}{b}Select Language{/}
+Korean: {@st43}언어 선택{/}
+```
+
+Interplay
+-----------------------------------------------------------------------------
+
+While the game is usually localized entirely on the client, we would not
+be able to use custom lines on the server if we were to rely on the client
+alone. As such, client and server localization are handled separately. The
+server will do its best to adher to the client's selection though, loading
+the localization selected by the player if it's available.
