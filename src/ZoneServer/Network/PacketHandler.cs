@@ -3150,5 +3150,22 @@ namespace Melia.Zone.Network
 
 			character.StopBuff(buffId);
 		}
+
+		/// <summary>
+		/// Sends or requests PVP-related information. One of the packets
+		/// sent when changing languages.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="packet"></param>
+		[PacketHandler(Op.CZ_PVP_COMMAND)]
+		public void CZ_PVP_COMMAND(IZoneConnection conn, Packet packet)
+		{
+			var commandType = packet.GetInt();
+			var i1 = packet.GetInt();
+			var i2 = packet.GetInt();
+			var b1 = packet.GetByte();
+
+			// ...
+		}
 	}
 }
