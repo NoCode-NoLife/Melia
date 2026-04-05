@@ -170,7 +170,7 @@ namespace Melia.Zone
 
 			try
 			{
-				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.Ip, barracksServerInfo.InterPort);
+				this.Communicator.Connect("Coordinator", authentication, barracksServerInfo.InterHost, barracksServerInfo.InterPort);
 
 				this.Communicator.Subscribe("Coordinator", "ServerUpdates");
 				this.Communicator.Subscribe("Coordinator", "AllServers");

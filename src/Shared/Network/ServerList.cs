@@ -159,6 +159,11 @@ namespace Melia.Shared.Network
 		public int Port { get; set; }
 
 		/// <summary>
+		/// Returns the server's internal host address.
+		/// </summary>
+		public string InterHost { get; set; }
+
+		/// <summary>
 		/// Returns the port the server is listening on internally.
 		/// </summary>
 		public int InterPort { get; set; }
@@ -201,6 +206,7 @@ namespace Melia.Shared.Network
 			this.Id = data.Id;
 			this.Ip = data.Ip;
 			this.Port = data.Port;
+			this.InterHost = data.InterHost;
 			this.InterPort = data.InterPort;
 			this.MapIds = data.MapIds;
 		}
