@@ -878,14 +878,33 @@ namespace Melia.Barracks.Network
 		}
 
 		/// <summary>
-		/// Sent upon login, to inform the server about the selected language.
+		/// Sent upon login, to inform the server about the selected
+		/// language.
 		/// </summary>
+		/// <remarks>
+		/// This packet is only sent if the selected language is part of
+		/// the internally supported languages, which are the ones defined
+		/// in the <see cref="Language"/> enum. Other languages can be
+		/// selected, since every language found in "languageData" is
+		/// displayed as an option, but they will not trigger this packet
+		/// or CZ_SELECTED_LANGUAGE. This includes Chinese, which doesn't
+		/// appear to send it either, and Korean, which is filtered out
+		/// as an option on the client-side.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CB_SELECTED_LANGUAGE)]
 		public void CB_SELECTED_LANGUAGE(IBarracksConnection conn, Packet packet)
 		{
-			var language = packet.GetShort();
+			var language = (Language)packet.GetShort();
+
+			if (!Enum.IsDefined(typeof(Language), language))
+			{
+				Log.Warning("CB_SELECTED_LANGUAGE: Invalid language '{0}' received from '{1}'.", language, conn.Account.Name);
+				return;
+			}
+
+			conn.Account.Language = language.ToString();
 		}
 
 		/// <summary>

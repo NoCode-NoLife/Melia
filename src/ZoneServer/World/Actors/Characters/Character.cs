@@ -408,11 +408,31 @@ namespace Melia.Zone.World.Actors.Characters
 		public PCEtc Etc { get; }
 
 		/// <summary>
-		/// Gets or sets the player's localizer.
+		/// Gets or sets the player's selected language.
+		/// </summary>
+		public string SelectedLanguage
+		{
+			get => _selectedLanguage;
+			set
+			{
+				_selectedLanguage = value;
+				this.Localizer = ZoneServer.Instance.MultiLocalization.Get(value);
+			}
+		}
+		private string _selectedLanguage;
+
+		/// <summary>
+		/// Returns the localizer for the player's selected language.
 		/// </summary>
 		public Localizer Localizer
 		{
-			get => _localizer ?? ZoneServer.Instance.MultiLocalization.GetDefault();
+			get
+			{
+				if (_localizer == null)
+					_localizer = ZoneServer.Instance.MultiLocalization.GetDefault();
+
+				return _localizer;
+			}
 			private set => _localizer = value;
 		}
 		private Localizer _localizer;

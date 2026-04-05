@@ -46,6 +46,7 @@ namespace Melia.Zone.Database
 				cmd.Set("medals", account.Medals);
 				cmd.Set("giftMedals", account.GiftMedals);
 				cmd.Set("premiumMedals", account.PremiumMedals);
+				cmd.Set("language", account.Language);
 
 				if (cmd.Execute() == 0)
 					return false;
@@ -87,6 +88,7 @@ namespace Melia.Zone.Database
 					account.GiftMedals = reader.GetInt32("giftMedals");
 					account.PremiumMedals = reader.GetInt32("premiumMedals");
 					account.Premium.Token.Expiration = reader.GetDateTimeSafe("premiumTokenExpiration");
+					account.Language = reader.GetStringSafe("language");
 				}
 			}
 

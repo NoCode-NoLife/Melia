@@ -106,6 +106,11 @@ namespace Melia.Barracks.Database
 		public int TeamExp { get; set; }
 
 		/// <summary>
+		/// Gets or sets the selected language for the account.
+		/// </summary>
+		public string Language { get; set; } = "English";
+
+		/// <summary>
 		/// Gets or sets the account's mail box.
 		/// </summary>
 		public Mailbox Mailbox { get; } = new Mailbox();

@@ -109,6 +109,7 @@ namespace Melia.Zone.Network
 			}
 
 			character.Connection = conn;
+			character.SelectedLanguage = conn.Account.Language;
 			conn.SelectedCharacter = character;
 
 			ZoneServer.Instance.ServerEvents.PlayerLoggedIn.Raise(new PlayerEventArgs(character));
@@ -2761,15 +2762,25 @@ namespace Melia.Zone.Network
 		/// <summary>
 		/// Sent when selecting a new language.
 		/// </summary>
+		/// <remarks>
+		/// See handler for CB_SELECTED_LANGUAGE for more information on
+		/// how language selection works.
+		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
 		[PacketHandler(Op.CZ_SELECTED_LANGUAGE)]
 		public void CZ_SELECTED_LANGUAGE(IZoneConnection conn, Packet packet)
 		{
-			var language = packet.GetShort();
+			var language = (Language)packet.GetShort();
 
-			// 0 = English, 1 = German, 2 = Portugese,
-			// 4 = Indonesian, 5 = Russian, 6 = Thai
+			if (!Enum.IsDefined(typeof(Language), language))
+			{
+				Log.Warning("CZ_SELECTED_LANGUAGE: Invalid language '{0}' received from '{1}'.", language, conn.Account.Name);
+				return;
+			}
+
+			conn.Account.Language = language.ToString();
+			conn.SelectedCharacter.SelectedLanguage = conn.Account.Language;
 		}
 
 		/// <summary>
