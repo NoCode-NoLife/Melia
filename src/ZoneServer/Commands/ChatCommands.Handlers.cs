@@ -59,6 +59,7 @@ namespace Melia.Zone.Commands
 			this.Add("time", "", "Displays the current server and game time.", this.HandleTime);
 			this.Add("main", "", "Displays invite for global main chat.", this.HandleMainChat);
 			this.Add("help", "[command]", "Displays available commands or information about a certain command.", this.HandleHelp);
+			this.Add("language", "<language>", "Sets the server-side language.", this.HandleLanguage);
 
 			// VIP
 			this.Add("autoloot", "", "Toggles autolooting.", this.HandleAutoloot);
@@ -2776,6 +2777,33 @@ namespace Melia.Zone.Commands
 			}
 
 			sender.ServerMessage(Localization.Get("No suitable monsters found."));
+
+			return CommandResult.Okay;
+		}
+
+		/// <summary>
+		/// Changes the target's account's language.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="target"></param>
+		/// <param name="message"></param>
+		/// <param name="commandName"></param>
+		/// <param name="args"></param>
+		/// <returns></returns>
+		private CommandResult HandleLanguage(Character sender, Character target, string message, string commandName, Arguments args)
+		{
+			if (args.Count < 1)
+			{
+				sender.ServerMessage(Localization.Get("Current language: {0}"), target.Connection.Account.Language);
+				return CommandResult.Okay;
+			}
+
+			var language = args.Get(0);
+
+			target.Connection.Account.Language = args.Get(0);
+			target.SelectedLanguage = language;
+
+			sender.ServerMessage(Localization.Get("Changed language to '{0}'."), language);
 
 			return CommandResult.Okay;
 		}

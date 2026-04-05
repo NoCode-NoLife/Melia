@@ -890,6 +890,9 @@ namespace Melia.Barracks.Network
 		/// or CZ_SELECTED_LANGUAGE. This includes Chinese, which doesn't
 		/// appear to send it either, and Korean, which is filtered out
 		/// as an option on the client-side.
+		/// 
+		/// To support languages that the client doesn't handle normally,
+		/// use the command >language.
 		/// </remarks>
 		/// <param name="conn"></param>
 		/// <param name="packet"></param>
