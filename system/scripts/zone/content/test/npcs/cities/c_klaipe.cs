@@ -56,13 +56,15 @@ public class CKlaipeNpcTestScript : GeneralScript
 
 		AddNpc(20104, "[Accessory Merchant] Ronesa", "Ronesa", "c_Klaipe", 269, -611, 90.0, async dialog =>
 		{
-			dialog.SetTitle("Ronesa");
+			dialog.PlayerLocalization(out var L, out var LN);
+
+			dialog.SetTitle(L("Ronesa"));
 			dialog.SetPortrait("Dlg_port_KLAPEDA_ACCESSORY");
 
 			if (await dialog.Hooks("BeforeDialog"))
-				await dialog.Msg("While you're here, do you need anything?{nl}I've got some hard-to-find stuff.");
+				await dialog.Msg(L("While you're here, do you need anything?{nl}I've got some hard-to-find stuff."));
 			else
-				await dialog.Msg("Welcome.{nl}Only hard-to-find stuff here.");
+				await dialog.Msg(L("Welcome.{nl}Only hard-to-find stuff here."));
 
 			await dialog.OpenShop("Klapeda_Accessory");
 		});

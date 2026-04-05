@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2025-06-03 12:06+0200\n"
-"PO-Revision-Date: 2025-06-03 12:07+0200\n"
+"POT-Creation-Date: 2026-04-05 11:45+0200\n"
+"PO-Revision-Date: 2026-04-05 11:46+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -29,15 +29,16 @@ msgstr ""
 msgid "This job has been disabled on this server."
 msgstr "Dieser Job wurde auf diesem Server deaktiviert."
 
-#: src/BarracksServer/Network/PacketHandler.cs:503
+#: src/BarracksServer/Network/PacketHandler.cs:502
+#: src/BarracksServer/Network/PacketHandler.cs:509
 msgid ""
 "This channel appears to be offline. Please choose another or try again later."
 msgstr ""
 "Der Channel ist augenscheinlich nicht erreichbar. Bitte wähle einen anderen "
 "oder versuche es später noch einmal."
 
-#: src/BarracksServer/Network/PacketHandler.cs:753
-#: src/BarracksServer/Network/PacketHandler.cs:809
+#: src/BarracksServer/Network/PacketHandler.cs:774
+#: src/BarracksServer/Network/PacketHandler.cs:830
 msgid "Mail has expired, can't receive items."
 msgstr ""
 "Die Items konnten nicht abgerufen werde, da die Mail ist abgelaufen ist."
@@ -69,689 +70,823 @@ msgstr "{0} ist beigetreten."
 msgid "{0} has left."
 msgstr "{0} ist gegangen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:128
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:139
 msgid "Saved first position. Go to second position and use the command again."
 msgstr ""
 "Die erste Position wurde gespeichert. Gehe zur zweiten Position und verwende "
 "den Befehl noch einmal."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:138
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:149
 #, csharp-format
 msgid "Distance: {0:0.##} (2D), {1:0.##} (3D)"
 msgstr "Distanz: {0:0.##} (2D), {1:0.##} (3D)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:173
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:184
 #, csharp-format
 msgid "You are here: {0} ({1}), {2} (Direction: {3:0.#####}°)"
 msgstr "Du bist hier: {0} ({1}), {2} (Richtung: {3:0.#####}°)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:175
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:186
 #, csharp-format
-msgid "{3} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)"
-msgstr "{3} ist hier: {0} ({1}), {2} (Richtung: {3:0.#####}°)"
+msgid "{4} is here: {0} ({1}), {2} (Direction: {3:0.#####}°)"
+msgstr "{4} ist hier: {0} ({1}), {2} (Richtung: {3:0.#####}°)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:193
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:204
 #, csharp-format
 msgid "Server Time: {0:yyyy-MM-dd HH:mm}"
 msgstr "Server Zeit: {0:yyyy-MM-dd HH:mm}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:194
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:205
 #, csharp-format
 msgid "Game Time: {0:y-M-dd HH:mm} ({1})"
 msgstr "Spielwelt Zeit: {0:y-M-dd HH:mm} ({1})"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:221
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:232
 msgid "Command not found or not available."
 msgstr "Der Befehl existiert nicht oder kann nicht verwendet werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:227
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:238
 #, csharp-format
 msgid "Name: {0}"
 msgstr "Name: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:229
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:240
 #, csharp-format
 msgid "Aliases: {0}"
 msgstr "Alias: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:230
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:241
 #, csharp-format
 msgid "Description: {0}"
 msgstr "Beschreibung: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:231
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:242
 #, csharp-format
 msgid "Arguments: {0}"
 msgstr "Argumente: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:249
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:260
 msgid "No commands found."
 msgstr "Keine Befehle gefunden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:255
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:266
 msgid "Available commands:"
 msgstr "Verfügbare Befehle:"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:297
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:308
 msgid "Jump to random position failed."
 msgstr "Der Sprung zu einer zufälligen Position ist fehlgeschlagen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:320
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:444
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1160
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:344
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:484
+msgid "Invalid position."
+msgstr "Ungültiger Ort."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:355
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:497
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1326
 #, csharp-format
 msgid "You were warped to {0}."
 msgstr "Du wurdest nach {0} gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:324
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:448
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1164
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:359
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:501
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1330
 #, csharp-format
 msgid "You were warped to {0} by {1}."
 msgstr "Du wurdest von {0} nach {1} gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:325
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:449
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1165
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1204
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:360
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:502
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1331
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1370
 msgid "Target was warped."
 msgstr "Der Charakter wurde gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:344
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:379
 msgid "Only premium token users are allowed to use this feature."
 msgstr "Nur Premium Token Nutzer dürfen dieses Feature nutzen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:356
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:391
 msgid "Error: The destination does not appear to exist."
 msgstr "Fehler: Der Zielort scheint nicht zu existieren."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:369
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:404
 msgid "Error: The destination does not appear to be available."
 msgstr "Fehler: Der Zielort scheint nicht verfügbar zu sein."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:399
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:409
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:434
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:444
 msgid "Map not found."
 msgstr "Die konnte nicht gefunden werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:419
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:454
 msgid "Random position warp failed."
 msgstr "Der Warp zu einer zufälligen Position ist fehlgeschlagen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:481
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:534
 #, csharp-format
 msgid "Item '{0}' not found."
 msgstr "Item '{0}' nicht gefunden.."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:490
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:543
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2597
 msgid "Item not found."
 msgstr "Item nicht gefunden.."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:506
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:559
 msgid "Item created."
 msgstr "Item erstellt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:508
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:561
 #, csharp-format
 msgid "An item was added to your inventory by {0}."
 msgstr "Deinem Inventar wurde von {0} ein Item hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:538
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:591
 #, csharp-format
 msgid "{0:n0} silver were added to your inventory."
 msgstr "{0:n0} Silber wurden deinem Inventar hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:542
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:595
 #, csharp-format
 msgid "{0:n0} silver were added to target's inventory."
 msgstr "{0:n0} Silber wurden dem Inventar hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:543
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:596
 #, csharp-format
 msgid "{0} added {1:n0} silver to your inventory."
 msgstr "{0} hat deinem Inventar {1:n0} Silber hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:555
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:608
 #, csharp-format
 msgid "{0:n0} silver were removed from your inventory."
 msgstr "{0:n0} wurden aus deinem Inventar entfernt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:559
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:612
 #, csharp-format
 msgid "{0:n0} silver were removed from target's inventory."
 msgstr "{0:n0} Silber wurden aus dem Inventar entfernt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:560
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:613
 #, csharp-format
 msgid "{0} removed {1:n0} silver from your inventory."
 msgstr "{0} hat aus deinem Inventar {1:n0} Silber entfernt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:587
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:640
 msgid "Monster not found by id."
 msgstr "Das Monster konnte nicht anhand seiner id gefunden werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:598
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:651
 msgid "Monster not found by name."
 msgstr "Das Monster konnte nicht anhand seines Namens gefunden werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:657
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:710
 msgid "Invalid HP amount."
 msgstr "Ungültige HP Menge."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:672
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:725
 msgid "Monsters were spawned."
 msgstr "Monster wurden gespawnt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:674
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:727
 #, csharp-format
 msgid "Monsters were spawned at your location by {0}."
 msgstr "Monster wurden von {0} in deiner Nähe gespawnt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:705
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:758
 #, csharp-format
 msgid "Added {0} hats to your inventory."
 msgstr "Es wurden {0} Hüte deinem Inventar hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:709
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:762
 #, csharp-format
 msgid "{1} added {0} hats to your inventory."
 msgstr "Es wurden von {0} {1} Hüte deinem Inventar hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:710
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:763
 #, csharp-format
 msgid "Added {0} hats to target's inventory."
 msgstr "Es wurden dem Inventar {0} Hüte hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:739
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:792
 msgid "Name already exists."
 msgstr "Der Name wird bereits verwendet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:746
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:799
 msgid "Name changed."
 msgstr "Der Name wurde geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:748
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:801
 #, csharp-format
 msgid "Your name was changed by {0}."
 msgstr "Dein Name wurde von {0} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:764
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:817
 msgid "Reloading scripts..."
 msgstr "Die Scripts werden neu geladen..."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:769
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:789
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:809
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:822
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:842
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:862
 msgid "Done."
 msgstr "Fertiggestellt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:785
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:838
 msgid "Reloading configuration..."
 msgstr "Die Konfiguration wird neu geladen..."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:805
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:858
 msgid "Reloading data..."
 msgstr "Die Daten werden neu geladen..."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:837
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:890
 msgid "Your level was changed."
 msgstr "Dein Level wurde geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:841
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:894
 #, csharp-format
 msgid "Your level was changed by {0}."
 msgstr "Dein Level wurde von {0} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:842
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:895
 msgid "The target's level was changed."
 msgstr "Das Level wurde geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:868
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:921
 msgid "Your current job's level can't be increased any further."
 msgstr "Dein derzeitiges Job Level kann nicht mehr weiter erhöht werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:870
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:923
 msgid "The level of the target's current job can't be increased any further."
 msgstr "Das derzeitige Job Level kann nicht mehr weiter erhöht werden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:876
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:929
 #, csharp-format
 msgid "Your job level was increased by {0} level."
 msgid_plural "Your job level was increased by {0} levels."
 msgstr[0] "Dein Job Level wurde um {0} Level erhöht."
 msgstr[1] "Dein Job Level wurde um {0} Level erhöht."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:880
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:933
 #, csharp-format
 msgid "Your job level was increased by {0} by {1} level."
 msgid_plural "Your job level was increased by {0} by {1} levels."
 msgstr[0] "Dein Job Level wurde von {0} um {1} Level erhöht."
 msgstr[1] "Dein Job Level wurde von {0} um {1} Level erhöht."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:881
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:934
 #, csharp-format
 msgid "The target's job level was increased by {0} level."
 msgid_plural "The target's job level was increased by {0} levels."
 msgstr[0] "Das Job Level wurde um {0} Level erhöht."
 msgstr[1] "Das Job Level wurde um {0} Level erhöht."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:913
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:966
 msgid "Your speed was changed."
 msgstr "Deine Geschwindigkeit wurde geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:917
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:970
 #, csharp-format
 msgid "Your speed was changed by {0}."
 msgstr "Deine Geschwindigkeit wurde von {0} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:918
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:971
 msgid "Target's speed was changed."
 msgstr "Die Geschwindigkeit wurde geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:943
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1070
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:996
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1123
 #, csharp-format
 msgid "No items found for '{0}'."
 msgstr "Keine passenden Items gefunden für '{0}'."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:949
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:988
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1078
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1002
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1041
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1131
 #, csharp-format
 msgid "Results: {0} (Max. {1} shown)"
 msgstr "Ergebnisse: {0} (Max. {1} angezeigt)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:953
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1006
 #, csharp-format
 msgid "{0}: {1}, Category: {2}"
 msgstr "{0}: {1}, Kategorie: {2}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:982
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1035
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1203
 #, csharp-format
 msgid "No monsters found for '{0}'."
 msgstr "Keine passenden Monster gefunden für '{0}'."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:995
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1048
 #, csharp-format
 msgid "{{nl}}----- {0} ({1}, {2}) -----{{nl}}"
 msgstr "{{nl}}----- {0} ({1}, {2}) -----{{nl}}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:996
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1049
 #, csharp-format
 msgid "{0} / {1} / {2} / {3}{{nl}}"
 msgstr "{0} / {1} / {2} / {3}{{nl}}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:997
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1050
 #, csharp-format
 msgid "HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"
 msgstr "HP: {0}  SP: {1}  EXP: {2}  CEXP: {3}{{nl}}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:998
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1051
 #, csharp-format
 msgid "Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"
 msgstr "Atk: {0}~{1}  MAtk: {2}~{3}  Def: {4}  MDef: {5}{{nl}}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1002
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1055
 msgid "Drops:"
 msgstr "Drops:"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1029
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1082
 #, csharp-format
 msgid "{{nl}}- {0} {1} ({2:0.####}% -> {3:0.####}%)"
 msgstr "{{nl}}- {0} {1} ({2:0.####}% -> {3:0.####}%)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1031
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1084
 #, csharp-format
 msgid "{{nl}}- {0}~{1} {2} ({3:0.####}% -> {4:0.####}%)"
 msgstr "{{nl}}- {0}~{1} {2} ({3:0.####}% -> {4:0.####}%)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1035
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1088
 #, csharp-format
 msgid "{{nl}}- {0} ({1:0.####}% -> {2:0.####}%)"
 msgstr "{{nl}}- {0} ({1:0.####}% -> {2:0.####}%)"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1041
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1094
 msgid "This monster has no drops."
 msgstr "Dieses Monster hat keine Drops."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1085
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1138
 #, csharp-format
 msgid "{{nl}}----- {0} -----{{nl}}"
 msgstr "{{nl}}----- {0} -----{{nl}}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1091
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1144
 msgid "Too many enemies drop this."
 msgstr "Zu viele Gegner droppen dieses Item."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1095
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1148
 msgid "This item is not dropped by any monsters."
 msgstr "Dieses Item wird von keinen Monstern gedroppt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1112
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1165
 #, csharp-format
 msgid "Listing up to {0} best sources of this item:"
 msgstr "Die {0} besten Quellen für dieses Item:"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1120
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1173
 #, csharp-format
 msgid "{{nl}}{0} ({1}, {2}) - {3:0.####}%"
 msgstr "{{nl}}{0} ({1}, {2}) - {3:0.####}%"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1143
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1229
+#, csharp-format
+msgid "No spawn locations found for '{0}'."
+msgstr "Kein Spawn gefunden für '{0}'."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1243
+#, csharp-format
+msgid "Result {0}/{1}:"
+msgstr "Ergebnis {0}/{1}:"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1244
+#, csharp-format
+msgid "--- {0} ({1}) ---"
+msgstr "--- {0} ({1}) ---"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1252
+#, csharp-format
+msgid "{0} spawn"
+msgstr "{0} erscheinen"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1254
+#, csharp-format
+msgid "{0}~{1} spawn"
+msgstr "{0}~{1} erscheinen"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1261
+#, csharp-format
+msgid "{0:0}s"
+msgstr "{0:0}s"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1263
+#, csharp-format
+msgid "{0:0}m"
+msgstr "{0:0}m"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1265
+#, csharp-format
+msgid "{0:0}h"
+msgstr "{0:0}h"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1267
+#, csharp-format
+msgid "{0:0}d"
+msgstr "{0:0}d"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1271
+#, csharp-format
+msgid " every {0}"
+msgstr " alle {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1273
+#, csharp-format
+msgid " every {0}~{1}"
+msgstr " alle {0}~{1}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1276
+msgid " across:"
+msgstr " in:"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1284
+#, csharp-format
+msgid "    - {0} ({1})"
+msgstr "    - {0} ({1})"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1309
 #, csharp-format
 msgid "Destinations: {0}"
 msgstr "Zielort: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1154
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1320
 msgid "Unknown destination."
 msgstr "Unbekanntes Ziel."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1192
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1232
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1358
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1398
 msgid "Character not found."
 msgstr "Ziel Charakter nicht gefunden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1200
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1238
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1336
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1366
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1404
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1502
 #, csharp-format
 msgid "You've been warped to {0}'s location."
 msgstr "Du wurdest zu {0}s Aufenthaltsort gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1205
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1371
 #, csharp-format
 msgid "You've been warped to {0}'s location by {1}."
 msgstr "Du wurdest von {0} zu {1}s Aufenthaltsort gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1239
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1405
 msgid "Character was warped."
 msgstr "Der Charakter wurde gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1241
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1407
 #, csharp-format
 msgid "{0} was warped to your location by {1}."
 msgstr "{0} wurde von {1} zu dir gewarpt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1276
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1442
 msgid "Unknown map."
 msgstr "Unbekannte Map."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1286
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1314
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1452
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1480
 msgid "No players found."
 msgstr "Keine Spieler gefunden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1341
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1507
 #, csharp-format
 msgid "You have called {0} characters to your location."
 msgstr "Du hast {0} Charaktere zu dir gerufen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1345
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1511
 #, csharp-format
 msgid "You have called {0} characters to target's location."
 msgstr "Du hast {0} Charaktere zum Ziel gerufen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1346
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1512
 #, csharp-format
 msgid "{1} called {0} characters to your location."
 msgstr "{0} hat {1} Charaktere zu dir gerufen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1377
-msgid "Healed HP and SP."
-msgstr "HP und SP wurden geheilt."
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1538
+msgid "Healed HP, SP and Stamina."
+msgstr "HP, SP und Stamina wurden geheilt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1379
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1540
 #, csharp-format
-msgid "Your HP and SP were healed by {0}."
-msgstr "Deine HP und SP wurden von {0} geheilt."
+msgid "Your HP, SP and Stamina were healed by {0}."
+msgstr "Deine HP, SP und Stamina wurden von {0} geheilt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1389
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1604
 #, csharp-format
-msgid "Healed HP by {0} points."
-msgstr "HP wurden um {0} Punkte geheilt."
+msgid "HP by {0}"
+msgstr "HP um  {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1391
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1605
 #, csharp-format
-msgid "{0} healed your HP by {1} points."
-msgstr "{0} hat deine HP um {1} Punkte geheilt."
+msgid "SP by {0}"
+msgstr "SP um  {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1405
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1606
 #, csharp-format
-msgid "Healed HP by {0} and SP by {1} points."
-msgstr "Deine HP wurden um {0} und deine SP um {1} Punkte geheilt."
+msgid "Stamina by {0:0}"
+msgstr "Stamina um {0:0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1407
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1611
 #, csharp-format
-msgid "{0} healed your HP by {1} and your SP by {2} points."
-msgstr "{0} hat deine HP um {1} und deine SP um {2} Punkte geheilt."
+msgid "{0} and {1}"
+msgstr "{0} und {1}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1430
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1613
 #, csharp-format
-msgid "Healed HP by {0}, SP by {1}, and Stamina by {2} points."
-msgstr ""
-"Deine HP wurden um {0}, deine SP um {1} und dein Stamina um {2} Punkte "
-"geheilt."
+msgid "{0}, {1}, and {2}"
+msgstr "{0}, {1} und {2}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1432
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1615
 #, csharp-format
-msgid "{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points."
-msgstr ""
-"{0} hat deine HP um {1}, deine SP um {2} und dein Stamina um {3} Punkte "
-"geheilt."
+msgid "Healed {0} points."
+msgstr "{0} geheilt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1451
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1638
+msgid "Revived."
+msgstr "Wiederbelebt."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1640
+#, csharp-format
+msgid "You were revived by {0}."
+msgstr "Du wurdest von {0} wiederbelebt."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1647
+msgid "Killed."
+msgstr "Getötet."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1649
+#, csharp-format
+msgid "You were killed by {0}."
+msgstr "Du wurdest von {0} getötet."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1668
 msgid "Inventory cleared."
 msgstr "Inventar geleert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1453
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1670
 #, csharp-format
 msgid "Your inventory was cleared by {0}."
 msgstr "Deine Inventar wurde von {0} geleert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1478
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1700
 #, csharp-format
 msgid "Job data for '{0}' not found."
 msgstr "Job Daten für '{0}' nicht gefunden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1495
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1717
 msgid "The job exists already, at an equal or higher circle."
 msgstr "Dieser Job existiert bereits mit einem gleichen oder höheren Circle."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1508
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1730
 #, csharp-format
 msgid "Job '{0}' was added at circle '{1}'."
 msgstr "Job '{0}' wurde mit Circle '{1}' hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1510
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1732
 #, csharp-format
 msgid "Job '{0}' was added to your character at circle '{1}' by {2}."
 msgstr "Job '{0}' wurde von {2} mit Circle '{1}' hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1536
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1758
 msgid "You can't remove the last remaining job."
 msgstr "Du kannst den letzten verbleibenden Job nicht entfernen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1542
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1583
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1764
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1809
 msgid "The job doesn't exist."
 msgstr "Der Job existiert nicht."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1548
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1770
 #, csharp-format
 msgid "Job '{0}' was removed. Login again to see the change."
 msgstr ""
 "Job '{0}' wurde entfernt. Logge dich erneut ein um die Änderung zu sehen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1552
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1774
 #, csharp-format
 msgid "Job '{0}' was removed by {1}. Login again to see the change."
 msgstr ""
 "Job '{0}' wurde von {1} entfernt. Logge dich erneut ein um die Änderung zu "
 "sehen."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1553
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1775
 #, csharp-format
 msgid "Job '{0}' was removed from target."
 msgstr "Job '{0}' wurde entfernt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1589
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1815
 #, csharp-format
 msgid "Modified {0}'s skill points by {1:+0;-0;0}."
 msgstr "{0}s Skill Points wurden um {1:+0;-0;0} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1593
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1819
 #, csharp-format
 msgid "Modified target {0}'s skill points by {1:+0;-0;0}."
 msgstr "{0}s Skill Points wurden um {1:+0;-0;0} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1594
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1820
 #, csharp-format
 msgid "Your {0}'s skill points were modified by {1}."
 msgstr "Deine {0} Skill Points wurden von {1} geändert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1628
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1854
 #, csharp-format
 msgid "Added {0} stat points."
 msgstr "Es wurden {0} Stat Points hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1630
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1856
 #, csharp-format
 msgid "{1} added {0} stat points to your character."
 msgstr "{1} hat {0} Stat Points zu deinem Charakter hinzugefügt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1649
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1877
+msgid "The ability points were modified."
+msgstr "Deine Ability Points wurden geändert."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1879
+#, csharp-format
+msgid "Your ability points were modified by {0}."
+msgstr "Deine Ability Points wurden von {0} geändert."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1898
 msgid "Opened personal storage."
 msgstr "Personal Storage wurde geöffnet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1651
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1900
 #, csharp-format
 msgid "Your personal storage was opened by '{0}'"
 msgstr "Dein Personal Storage wurde von '{0}' geöffnet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1655
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1904
 msgid "Already browsing personal storage."
 msgstr "Der Personal Storage ist bereits geöffnet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1695
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1944
 msgid "Autoloot is now active."
 msgstr "Autoloot ist jetzt aktiv."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1697
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1946
 msgid "Autoloot is now inactive."
 msgstr "Autoloot ist nicht länger aktiv."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1699
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1948
 #, csharp-format
 msgid "Autoloot is now active for items up to a drop chance of {0}%."
 msgstr "Autoloot ist jetzt für Items mit einer Drop Chance bis {0}% aktiv."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1724
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1973
 msgid "Disabled AI."
 msgstr "KI wurde deaktiviert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1730
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1979
 msgid "No AI active."
 msgstr "Keine KI aktiv."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1746
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1995
 #, csharp-format
 msgid "Enabled '{0}' AI."
 msgstr "KI '{0}' wurde aktiviert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1904
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2153
 #, csharp-format
 msgid "Feature '{0}' not found."
 msgstr "Feature '{0}' nicht gefunden."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1911
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2160
 #, csharp-format
 msgid "Enabled feature '{0}'."
 msgstr "Feature '{0}' wurde aktiviert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1913
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2162
 #, csharp-format
 msgid "Disabled feature '{0}'."
 msgstr "Feature '{0}' wurde deaktiviert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1935
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2180
+#, csharp-format
+msgid "{0}'s Jobs ({1})"
+msgstr "{0}s Jobs ({1})"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2213
 msgid "Skill cooldowns reset."
 msgstr "Skill Cooldowns wurden zurückgesetzt."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1988
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2266
 msgid "Request for kicking all players sent."
 msgstr "Kick Anfrage für all Spieler gesendet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:1995
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2273
 #, csharp-format
 msgid "Request for kicking players on map '{0}' sent."
 msgstr "Kick Anfrage für Spieler auf Map '{0}' gesendet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2002
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2280
 #, csharp-format
 msgid "Request for kicking player '{0}' sent."
 msgstr "Kick Anfrage für Spieler '{0}' gesendet."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2178
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2456
 msgid "The camera was fixed in place."
 msgstr "Die Kamera wurde fixiert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2183
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2461
 msgid "The camera was unfixed."
 msgstr "Die Kamera ist nicht länger fixiert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2205
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2483
 #, csharp-format
 msgid "Unfixed time of day, it's now '{0}'."
 msgstr "Die Tageszeit ist nicht länger fixiert, es ist jetzt '{0}'."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2215
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2493
 msgid "Invalid time of day."
 msgstr "Ungültige Tageszeit."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2220
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2498
 #, csharp-format
 msgid "Fixed time of day to '{0}'."
 msgstr "Tageszeit wurde auf '{0}' fixiert."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2240
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2518
 msgid "The character is currently set to *not* be saved on logout."
 msgstr ""
 "Es ist derzeit festgelegt, dass der Charakter beim Logout *nicht* "
 "gespeichert wird."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2242
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2520
 msgid "The character is currently set to be saved on logout."
 msgstr ""
 "Es ist derzeit festgelegt, dass der Charakter beim Logout gespeichert wird."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2253
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2531
 msgid "The character was set to *not* be saved on logout."
 msgstr ""
 "Es war festgelegt, dass der Charakter beim Logout *nicht* gespeichert wird."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2255
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2533
 msgid "The character was set to be saved on logout."
 msgstr ""
 "Es war festgelegt, dass der Charakter beim Logout *nicht* gespeichert wird."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2274
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2552
 msgid "This action requires a Megaphone."
 msgstr "Diese Aktion erfordert eine Megaphone."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2316
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2615
+#: src/ZoneServer/Network/PacketHandler.cs:804
+msgid "This item has not been implemented yet."
+msgstr "Diese Item wurde noch nicht implementiert."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2654
 #, csharp-format
 msgid "Current TP: {0}"
 msgstr "Derzeitige TP: {0}"
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2327
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2665
 #, csharp-format
 msgid "Modified TP ({1} -> {2})."
 msgstr "TP geändert ({1} -> {2})."
 
-#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2330
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2668
 #, csharp-format
 msgid "Your TP were modified by {0} ({1} -> {2})."
 msgstr "Deine TP wurden von {0} geändert ({1} -> {2})."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2702
+#, csharp-format
+msgid "Called monster to your position. Move time: {1}"
+msgstr "Das Monster wurde zu deiner Position gerufen. Dauer: {1}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2707
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2779
+msgid "No suitable monsters found."
+msgstr "Keine passenden Monster gefunden."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2755
+#, csharp-format
+msgid "Destination '{0}' is not a valid position."
+msgstr "Ziel '{0}' ist keine gültige Position."
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2774
+#, csharp-format
+msgid "Sent monster to position {1}. Move time: {2}"
+msgstr "Das Monster wurde zur Position {1} geschickt. Dauer: {2}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2797
+#, csharp-format
+msgid "Current language: {0}"
+msgstr "Derzeitige Sprache: {0}"
+
+#: src/ZoneServer/Commands/ChatCommands.Handlers.cs:2808
+#, csharp-format
+msgid "Changed language to '{0}'."
+msgstr "Sprache geändert zu '{0}'."
 
 #: src/ZoneServer/Commands/ChatCommands.Manager.cs:70
 #, csharp-format
@@ -779,59 +914,59 @@ msgstr "Kein Ziel festgelegt."
 msgid "Target character not found."
 msgstr "Ziel Charakter nicht gefunden."
 
-#: src/ZoneServer/Network/PacketHandler.cs:287
+#: src/ZoneServer/Network/PacketHandler.cs:289
 msgid "You are not allowed to speak right now."
 msgstr "Du bist derzeit nicht berechtigt zu sprechen."
 
-#: src/ZoneServer/Network/PacketHandler.cs:802
-msgid "This item has not been implemented yet."
-msgstr "Diese Item wurde noch nicht implementiert."
-
-#: src/ZoneServer/Network/PacketHandler.cs:812
+#: src/ZoneServer/Network/PacketHandler.cs:814
 msgid "Item usage failed."
 msgstr "Verwendung des Items fehlgeschlagen."
 
-#: src/ZoneServer/Network/PacketHandler.cs:837
-#: src/ZoneServer/Network/PacketHandler.cs:2307
-#: src/ZoneServer/Network/PacketHandler.cs:2350
-#: src/ZoneServer/Network/PacketHandler.cs:2357
+#: src/ZoneServer/Network/PacketHandler.cs:839
+#: src/ZoneServer/Network/PacketHandler.cs:2341
+#: src/ZoneServer/Network/PacketHandler.cs:2384
+#: src/ZoneServer/Network/PacketHandler.cs:2391
 msgid "Apologies, something went wrong there. Please report this issue."
 msgstr ""
 "Entschuldigung, da ist etwas schiefgelaufen. Bitte melde dieses Problem."
 
-#: src/ZoneServer/Network/PacketHandler.cs:1053
-#: src/ZoneServer/Network/PacketHandler.cs:1145
-#: src/ZoneServer/Network/PacketHandler.cs:1258
-#: src/ZoneServer/Network/PacketHandler.cs:1328
+#: src/ZoneServer/Network/PacketHandler.cs:1055
+#: src/ZoneServer/Network/PacketHandler.cs:1153
+#: src/ZoneServer/Network/PacketHandler.cs:1274
+#: src/ZoneServer/Network/PacketHandler.cs:1348
 msgid "You may not use this yet."
 msgstr "Du kannst dies noch nicht benutzen."
 
-#: src/ZoneServer/Network/PacketHandler.cs:1085
-#: src/ZoneServer/Network/PacketHandler.cs:1097
-#: src/ZoneServer/Network/PacketHandler.cs:1165
-#: src/ZoneServer/Network/PacketHandler.cs:1213
-#: src/ZoneServer/Network/PacketHandler.cs:1285
-#: src/ZoneServer/Network/PacketHandler.cs:1337
+#: src/ZoneServer/Network/PacketHandler.cs:1091
+#: src/ZoneServer/Network/PacketHandler.cs:1104
+#: src/ZoneServer/Network/PacketHandler.cs:1179
+#: src/ZoneServer/Network/PacketHandler.cs:1228
+#: src/ZoneServer/Network/PacketHandler.cs:1304
+#: src/ZoneServer/Network/PacketHandler.cs:1357
 msgid "This skill has not been implemented yet."
 msgstr "Dieser Skill wurde noch nicht implementiert."
 
-#: src/ZoneServer/Network/PacketHandler.cs:1474
-#: src/ZoneServer/Network/PacketHandler.cs:1534
+#: src/ZoneServer/Network/PacketHandler.cs:1171
+msgid "The target can't be attacked in its current state."
+msgstr "Das Zielt kann derzeit nicht angegriffen werden."
+
+#: src/ZoneServer/Network/PacketHandler.cs:1496
+#: src/ZoneServer/Network/PacketHandler.cs:1556
 msgid "Team storage has not been implemented yet."
 msgstr "Team Storage wurde noch nicht implementiert."
 
-#: src/ZoneServer/Network/PacketHandler.cs:1592
+#: src/ZoneServer/Network/PacketHandler.cs:1614
 msgid ""
 "Something went wrong while extending the storage, please report this issue."
 msgstr ""
 "Etwas ist während des Erweiterns des Storage schief gelaufen, bitte melde "
 "dieses Problem."
 
-#: src/ZoneServer/Network/PacketHandler.cs:2315
+#: src/ZoneServer/Network/PacketHandler.cs:2349
 msgid "This action has not been implemented yet."
 msgstr "Diese Aktion wurde noch nicht implementiert."
 
-#: src/ZoneServer/Network/PacketHandler.cs:2653
+#: src/ZoneServer/Network/PacketHandler.cs:2687
 msgid "You don't have enough points."
 msgstr "Du hast nicht genug Punkte."
 
@@ -929,15 +1064,15 @@ msgstr "({0} sieht dich Erwartungsvoll an.)"
 #: src/ZoneServer/Skills/Handlers/Archers/Ranger/Ranger_Strafe.cs:30
 #: src/ZoneServer/Skills/Handlers/Archers/Ranger/Ranger_TimeBombArrow.cs:29
 #: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_CrescendoBane.cs:28
-#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_JincanGu.cs:35
+#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_JincanGu.cs:37
 #: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_LatentVenom.cs:29
-#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_ThrowGuPot.cs:36
+#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_ThrowGuPot.cs:38
 #: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_WideMiasma.cs:33
 #: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_WugongGu.cs:29
 #: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_Zhendu.cs:31
-#: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Cure.cs:33
+#: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Cure.cs:36
 #: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Fade.cs:29
-#: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Heal.cs:37
+#: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Heal.cs:40
 #: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_PatronSaint.cs:28
 #: src/ZoneServer/Skills/Handlers/Clerics/Cleric/Cleric_Smite.cs:35
 #: src/ZoneServer/Skills/Handlers/Common/MeleeGround.cs:37
@@ -946,11 +1081,11 @@ msgstr "({0} sieht dich Erwartungsvoll an.)"
 #: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Invasione.cs:35
 #: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Recupero.cs:34
 #: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Ritirarsi.cs:34
-#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Taglio.cs:32
-#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_TreGranata.cs:36
+#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Taglio.cs:34
+#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_TreGranata.cs:38
 #: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_Annihilation.cs:35
 #: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_Behead.cs:39
-#: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_HallucinationSmoke.cs:36
+#: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_HallucinationSmoke.cs:38
 #: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_Hasisas.cs:32
 #: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_InstantaneousAcceleration.cs:36
 #: src/ZoneServer/Skills/Handlers/Scouts/Assassin/Assassin_PiercingHeart.cs:35
@@ -961,16 +1096,16 @@ msgstr "({0} sieht dich Erwartungsvoll an.)"
 #: src/ZoneServer/Skills/Handlers/Scouts/OutLaw/OutLaw_Rampage.cs:52
 #: src/ZoneServer/Skills/Handlers/Scouts/OutLaw/OutLaw_SprinkleSands.cs:36
 #: src/ZoneServer/Skills/Handlers/Scouts/OutLaw/Outlaw_Mangle.cs:35
-#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_Cloaking.cs:29
+#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_Cloaking.cs:28
 #: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_DaggerSlash.cs:36
-#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_DoubleAttack.cs:28
-#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_FreeStep.cs:28
+#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_DoubleAttack.cs:29
+#: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_FreeStep.cs:29
 #: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_ObliqueFire.cs:30
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Aggressor.cs:31
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Cleave.cs:37
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Embowel.cs:40
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_GiantSwing.cs:55
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Pouncing.cs:32
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Pouncing.cs:34
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Savagery.cs:30
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_Seism.cs:36
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Barbarian/Barbarian_StompingKick.cs:37
@@ -997,37 +1132,39 @@ msgstr "({0} sieht dich Erwartungsvoll an.)"
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_LongStride.cs:75
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_Pierce.cs:35
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_SpearLunge.cs:35
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_Stabbing.cs:40
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_Stabbing.cs:38
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_SynchroThrusting.cs:39
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_ThrouwingSpear.cs:59
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Hoplite/Hoplite_ThrouwingSpear.cs:61
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_Guardian.cs:30
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_HardShield.cs:30
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_HighGuard.cs:35
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_Langort.cs:40
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_RimBlow.cs:40
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_ShieldLob.cs:35
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_ShieldLob.cs:39
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_SwashBuckling.cs:33
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_UmboBlow.cs:42
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Peltasta/Peltasta_UmboThrust.cs:38
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_HighKick.cs:37
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_Montano.cs:38
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShieldBash.cs:39
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShieldCharge.cs:33
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShieldCharge.cs:32
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShieldPush.cs:40
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShieldShoving.cs:38
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_ShootingStar.cs:36
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_Slithering.cs:59
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_Slithering.cs:35
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Rodelero/Rodelero_TargeSmash.cs:40
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Bash.cs:35
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Bash.cs:34
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Bear.cs:29
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Concentrate.cs:31
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_DoubleSlash.cs:37
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_GungHo.cs:28
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Liberate.cs:28
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_PainBarrier.cs:28
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_PommelBeat.cs:39
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Liberate.cs:30
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_PainBarrier.cs:30
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_PommelBeat.cs:38
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Restrain.cs:30
-#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Thrust.cs:35
+#: src/ZoneServer/Skills/Handlers/Swordsmen/Swordsman/Swordman_Thrust.cs:34
+#: src/ZoneServer/Skills/Handlers/Wizards/Pyromancer/Pyromancer_FireWall.cs:62
+#: src/ZoneServer/Skills/Handlers/Wizards/Pyromancer/Pyromancer_FlameGround.cs:36
 #: src/ZoneServer/Skills/Handlers/Wizards/Wizard/Wizard_EarthQuake.cs:33
 #: src/ZoneServer/Skills/Handlers/Wizards/Wizard/Wizard_EnergyBolt.cs:30
 #: src/ZoneServer/Skills/Handlers/Wizards/Wizard/Wizard_Lethargy.cs:42
@@ -1047,13 +1184,14 @@ msgstr "Nicht genug SP."
 #: src/ZoneServer/Skills/Handlers/Archers/Ranger/Ranger_SpiralArrow.cs:97
 #: src/ZoneServer/Skills/Handlers/Archers/Ranger/Ranger_Strafe.cs:45
 #: src/ZoneServer/Skills/Handlers/Archers/Ranger/Ranger_TimeBombArrow.cs:45
-#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_JincanGu.cs:41
-#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_ThrowGuPot.cs:42
+#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_JincanGu.cs:43
+#: src/ZoneServer/Skills/Handlers/Archers/Wugushi/Wugushi_ThrowGuPot.cs:44
 #: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Granata.cs:46
 #: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_Ritirarsi.cs:40
-#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_TreGranata.cs:42
+#: src/ZoneServer/Skills/Handlers/Scouts/Ardito/Arditi_TreGranata.cs:44
 #: src/ZoneServer/Skills/Handlers/Scouts/Scout/Scout_ObliqueFire.cs:46
 #: src/ZoneServer/Skills/Handlers/Swordsmen/Doppelsoeldner/Doppelsoeldner_Punish.cs:45
+#: src/ZoneServer/Skills/Handlers/Wizards/Pyromancer/Pyromancer_FireWall.cs:71
 #: src/ZoneServer/Skills/Handlers/Wizards/Wizard/Wizard_EnergyBolt.cs:46
 #: src/ZoneServer/Skills/Handlers/Wizards/Wizard/Wizard_Lethargy.cs:36
 msgid "Too far away."
@@ -1086,6 +1224,11 @@ msgstr "Ungültiger Zielort."
 msgid "Too far."
 msgstr "Zu weit weg."
 
+#: src/ZoneServer/World/Actors/Characters/Character.cs:682
+msgid "The map is currently unavailable. Please try again later."
+msgstr ""
+"Die Map ist derzeit nicht verfügbar. Bitte versuche es später noch einmal."
+
 #: src/ZoneServer/World/Quests/Rewards/ExpReward.cs:52
 #, csharp-format
 msgid "{0} EXP, {1} Job EXP"
@@ -1103,10 +1246,25 @@ msgstr[1] "{1}x {0}"
 msgid "{0} Silver"
 msgstr "{0} Silber"
 
-#: src/ZoneServer/ZoneServer.cs:260
+#: src/ZoneServer/ZoneServer.cs:261
 #, csharp-format
 msgid "You were kicked by {0}."
 msgstr "Du wurdest von {0} gekickt."
+
+#: system/scripts/zone/content/test/npcs/cities/c_klaipe.cs:61
+msgid "Ronesa"
+msgstr "Ronesa"
+
+#: system/scripts/zone/content/test/npcs/cities/c_klaipe.cs:65
+msgid ""
+"While you're here, do you need anything?{nl}I've got some hard-to-find stuff."
+msgstr ""
+"Wo du schon hier bist, brauchst du noch etwas?{nl}Hier gibt's nur seltene "
+"Sachen."
+
+#: system/scripts/zone/content/test/npcs/cities/c_klaipe.cs:67
+msgid "Welcome.{nl}Only hard-to-find stuff here."
+msgstr "Willkommen.{nl}Hier gibt's nur seltene Sachen."
 
 #: system/scripts/zone/core/client/worldmap/main.cs:70
 #, csharp-format
@@ -1209,6 +1367,30 @@ msgstr "Das Rufen des Monsters ist fehlgeschlagen."
 #: system/scripts/zone/items/summoning.cs:49
 msgid "This monster is already summoned."
 msgstr "Dieses Monster wurde bereits gerufen."
+
+#, csharp-format
+#~ msgid "{0} healed your HP by {1} points."
+#~ msgstr "{0} hat deine HP um {1} Punkte geheilt."
+
+#, csharp-format
+#~ msgid "Healed HP by {0} and SP by {1} points."
+#~ msgstr "Deine HP wurden um {0} und deine SP um {1} Punkte geheilt."
+
+#, csharp-format
+#~ msgid "{0} healed your HP by {1} and your SP by {2} points."
+#~ msgstr "{0} hat deine HP um {1} und deine SP um {2} Punkte geheilt."
+
+#, csharp-format
+#~ msgid "Healed HP by {0}, SP by {1}, and Stamina by {2} points."
+#~ msgstr ""
+#~ "Deine HP wurden um {0}, deine SP um {1} und dein Stamina um {2} Punkte "
+#~ "geheilt."
+
+#, csharp-format
+#~ msgid "{0} healed your HP by {1}, SP by {2}, and Stamina by {3} points."
+#~ msgstr ""
+#~ "{0} hat deine HP um {1}, deine SP um {2} und dein Stamina um {3} Punkte "
+#~ "geheilt."
 
 #~ msgid "This item has not been fully implemented yet."
 #~ msgstr "Dieses Item wurde noch nicht vollständig implementiert."
