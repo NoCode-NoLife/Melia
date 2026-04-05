@@ -913,6 +913,12 @@ namespace Melia.Zone.Network
 				return;
 			}
 
+			if (conn.CurrentDialog.State != DialogState.Waiting)
+			{
+				Log.Debug("CZ_DIALOG_SELECT: User '{0}' is not currently selecting an option.", conn.Account.Name);
+				return;
+			}
+
 			// Resume dialog with the option as a string. We use a string
 			// because we can use one method for both selections and inputs
 			// this way.
