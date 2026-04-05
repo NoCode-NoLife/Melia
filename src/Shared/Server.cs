@@ -158,7 +158,7 @@ namespace Melia.Shared
 			// US english.
 			if (!this.MultiLocalization.Contains(serverLanguage))
 			{
-				if (serverLanguage != "en-US")
+				if (serverLanguage != "English")
 					Log.Warning("Localization file '{0}.po' not found.", serverLanguage);
 			}
 			else
@@ -166,7 +166,7 @@ namespace Melia.Shared
 				this.MultiLocalization.SetDefault(serverLanguage);
 			}
 
-			Melia.Shared.L10N.Localization.SetLocalizer(this.MultiLocalization.GetDefault());
+			Localization.SetLocalizer(this.MultiLocalization.GetDefault());
 		}
 
 		/// <summary>
