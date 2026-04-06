@@ -66,6 +66,7 @@ namespace Melia.Shared.Configuration.Files
 		public float MonsterSkillSpeedRate { get; protected set; }
 		public float MonsterSkillDelayRate { get; protected set; }
 		public bool FreezeAffectsElement { get; protected set; }
+		public float MaxDamageCap { get; protected set; }
 
 		// storage.conf
 		public int StorageFee { get; protected set; }
@@ -161,6 +162,7 @@ namespace Melia.Shared.Configuration.Files
 			this.MonsterSkillSpeedRate = this.GetFloat("monster_skill_speed_rate", 1);
 			this.MonsterSkillDelayRate = this.GetFloat("monster_skill_delay_rate", 1);
 			this.FreezeAffectsElement = this.GetBool("freeze_affects_element", false);
+			this.MaxDamageCap = this.GetFloat("max_damage_cap", 200_000_000);
 
 			this.BlueOrbFollowWarp = this.GetBool("blue_orb_follow_warp", false);
 			this.BlueOrbPetSystem = this.GetBool("blue_orb_pet_system", false);

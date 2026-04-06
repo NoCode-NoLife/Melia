@@ -212,8 +212,10 @@ public class CombatCalculationsScript : GeneralScript
 		if (target is Mob mob && ScriptableFunctions.Combat.TryGet("SCR_CalculateDamage_Monster_" + mob.Data.ClassName, out var mobCalcFunc))
 			mobCalcFunc(attacker, target, skill, modifier, skillHitResult);
 
-		if (skillHitResult.Damage < 0)
-			skillHitResult.Damage = 0;
+		var minCap = 0;
+		var maxCap = ZoneServer.Instance.Conf.World.MaxDamageCap;
+
+		skillHitResult.Damage = Math2.Clamp(minCap, maxCap, skillHitResult.Damage);
 
 		return (int)skillHitResult.Damage;
 	}
