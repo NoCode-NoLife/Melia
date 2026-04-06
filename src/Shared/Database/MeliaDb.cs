@@ -22,13 +22,14 @@ namespace Melia.Shared.Database
 		/// Sets connection string and calls TestConnection.
 		/// </summary>
 		/// <param name="host"></param>
+		/// <param name="port"></param>
 		/// <param name="user"></param>
 		/// <param name="pass"></param>
 		/// <param name="db"></param>
 		/// <exception cref="Exception">Thrown if connection couldn't be established.</exception>
-		public void Init(string host, string user, string pass, string db)
+		public void Init(string host, int port, string user, string pass, string db)
 		{
-			_connectionString = string.Format("server={0}; database={1}; uid={2}; password={3}; charset=utf8; pooling=true; min pool size=0; max pool size=100;", host, db, user, pass);
+			_connectionString = $"server={host}; port={port}; database={db}; uid={user}; password={pass}; charset=utf8; pooling=true; min pool size=0; max pool size=100;";
 			this.TestConnection();
 		}
 

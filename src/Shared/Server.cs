@@ -181,7 +181,7 @@ namespace Melia.Shared
 			try
 			{
 				Log.Info("Initializing database...");
-				db.Init(conf.Database.Host, conf.Database.User, conf.Database.Pass, conf.Database.Db);
+				db.Init(conf.Database.Host, conf.Database.Port, conf.Database.User, conf.Database.Pass, conf.Database.Db);
 			}
 			catch (Exception ex)
 			{
