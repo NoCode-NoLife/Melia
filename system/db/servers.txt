@@ -19,7 +19,7 @@
 
 [
 { groupId: 1001, name: "Melia", servers: [
-	{ type: "Barracks", id: 1, ip: "127.0.0.1", port: 2000, interPort: "127.0.0.1", interPort: 6001 },
+	{ type: "Barracks", id: 1, ip: "127.0.0.1", port: 2000, interHost: "127.0.0.1", interPort: 6001 },
 	{ type: "Web", id: 1, ip: "127.0.0.1", port: 80 },
 	{ type: "Social", id: 1, ip: "127.0.0.1", port: 9001 },
 	{ type: "Social", id: 2, ip: "127.0.0.1", port: 9002 },
