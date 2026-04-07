@@ -60,12 +60,43 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		/// dummy items.
 		/// </summary>
 		/// <returns></returns>
-		public int[] GetActualEquipIds()
+		public IReadOnlyList<int> GetActualEquipIds()
+		{
+			// TODO: Cache.
+
+			var result = new List<int>();
+
+			lock (_syncLock)
+			{
+				foreach (var (slot, equip) in _equip)
+				{
+					var isNonDummyEquip = (int)slot <= InventoryDefaults.EquipSlotCount && equip is not DummyEquipItem;
+					if (isNonDummyEquip)
+						result.Add(equip.Id);
+				}
+			}
+
+			return result;
+		}
+
+		/// <summary>
+		/// Adds the ids of the equipped items, excluding dummy items, to
+		/// the given collection.
+		/// </summary>
+		/// <param name="result"></param>
+		public void GetActualEquipIds(ICollection<int> result)
 		{
 			// TODO: Cache.
 
 			lock (_syncLock)
-				return _equip.Where(a => (int)a.Key <= InventoryDefaults.EquipSlotCount && a.Value is not DummyEquipItem).Select(a => a.Value.Id).ToArray();
+			{
+				foreach (var (slot, equip) in _equip)
+				{
+					var isNonDummyEquip = (int)slot <= InventoryDefaults.EquipSlotCount && equip is not DummyEquipItem;
+					if (isNonDummyEquip)
+						result.Add(equip.Id);
+				}
+			}
 		}
 
 		/// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
@@ -6,6 +7,7 @@ using Melia.Shared.Game.Const;
 using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Base;
 using Melia.Zone.Network;
+using Melia.Zone.Skills;
 using Yggdrasil.Extensions;
 using Yggdrasil.Scheduling;
 using Yggdrasil.Util;
@@ -270,7 +272,7 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		/// Returns buff with given class name, or null if it didn't
 		/// exist.
 		/// </summary>
-		/// <param name="buffId"></param>
+		/// <param name="buffClassName"></param>
 		/// <returns></returns>
 		public Buff Get(string buffClassName)
 		{
@@ -279,13 +281,39 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
-		/// Returns a list with all buffs.
+		/// Returns a list of all buffs.
 		/// </summary>
 		/// <returns></returns>
 		public List<Buff> GetList()
 		{
 			lock (_buffs)
 				return _buffs.Values.ToList();
+		}
+
+		/// <summary>
+		/// Adds the selected element of all buffs that match the
+		/// predicate to the given list.
+		/// </summary>
+		/// <remarks>
+		/// Use static lamda expressions to avoid unnecessary allocations.
+		/// </remarks>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		public void GetList<TResult>(ICollection<TResult> list, Func<Buff, bool> predicate, Func<Buff, TResult> selector)
+		{
+			lock (_buffs)
+			{
+				foreach (var buff in _buffs.Values)
+				{
+					if (predicate(buff))
+					{
+						var item = selector(buff);
+						list.Add(item);
+					}
+				}
+			}
 		}
 
 		/// <summary>

@@ -6,7 +6,6 @@
 //---------------------------------------------------------------------------
 
 using System.Collections.Generic;
-using System.Linq;
 using Melia.Shared.Game.Const;
 using Melia.Zone.Scripting;
 using Melia.Zone.Skills;
@@ -117,10 +116,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 		var buffIds = new HashSet<BuffId>();
 
 		if (attacker.Components.TryGet<BuffComponent>(out var buffs))
-			buffIds.UnionWith(buffs.GetList().Select(b => b.Id));
+			buffs.GetList(buffIds, static a => true, a => a.Id);
 
 		if (target.Components.TryGet<BuffComponent>(out buffs))
-			buffIds.UnionWith(buffs.GetList().Select(b => b.Id));
+			buffs.GetList(buffIds, static a => true, a => a.Id);
+
+		if (buffIds.Count == 0)
+			return;
 
 		foreach (var buffId in buffIds)
 		{
@@ -145,10 +147,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 		var skillIds = new HashSet<SkillId>();
 
 		if (attacker.Components.TryGet<SkillComponent>(out var skills))
-			skillIds.UnionWith(skills.GetList(a => a.IsPassive).Select(s => s.Id));
+			skills.GetList(skillIds, static a => a.IsPassive, static a => a.Id);
 
 		if (target.Components.TryGet<SkillComponent>(out skills))
-			skillIds.UnionWith(skills.GetList(a => a.IsPassive).Select(s => s.Id));
+			skills.GetList(skillIds, static a => a.IsPassive, static a => a.Id);
+
+		if (skillIds.Count == 0)
+			return;
 
 		foreach (var skillId in skillIds)
 		{
@@ -173,10 +178,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 		var abilityIds = new HashSet<AbilityId>();
 
 		if (attacker.Components.TryGet<AbilityComponent>(out var abilities))
-			abilityIds.UnionWith(abilities.GetList(a => a.Active).Select(a => a.Id));
+			abilities.GetList(abilityIds, static a => a.Active, static a => a.Id);
 
 		if (target.Components.TryGet<AbilityComponent>(out abilities))
-			abilityIds.UnionWith(abilities.GetList(a => a.Active).Select(a => a.Id));
+			abilities.GetList(abilityIds, static a => a.Active, static a => a.Id);
+
+		if (abilityIds.Count == 0)
+			return;
 
 		foreach (var abilityId in abilityIds)
 		{
@@ -201,10 +209,13 @@ public class CombatModifierCalculationsScript : GeneralScript
 		var equipIds = new HashSet<int>();
 
 		if (attacker.Components.TryGet<InventoryComponent>(out var inventory))
-			equipIds.UnionWith(inventory.GetActualEquipIds());
+			inventory.GetActualEquipIds(equipIds);
 
 		if (target.Components.TryGet<InventoryComponent>(out inventory))
-			equipIds.UnionWith(inventory.GetActualEquipIds());
+			inventory.GetActualEquipIds(equipIds);
+
+		if (equipIds.Count == 0)
+			return;
 
 		foreach (var equipId in equipIds)
 		{

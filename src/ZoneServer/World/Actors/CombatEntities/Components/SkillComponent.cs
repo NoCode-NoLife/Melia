@@ -145,6 +145,32 @@ namespace Melia.Zone.World.Actors.CombatEntities.Components
 		}
 
 		/// <summary>
+		/// Adds the selected element of all skills that match the
+		/// predicate to the given list.
+		/// </summary>
+		/// <remarks>
+		/// Use static lamda expressions to avoid unnecessary allocations.
+		/// </remarks>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		public void GetList<TResult>(ICollection<TResult> list, Func<Skill, bool> predicate, Func<Skill, TResult> selector)
+		{
+			lock (_skills)
+			{
+				foreach (var skill in _skills.Values)
+				{
+					if (predicate(skill))
+					{
+						var item = selector(skill);
+						list.Add(item);
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// Returns true if the skill exists.
 		/// </summary>
 		/// <param name="skillId"></param>

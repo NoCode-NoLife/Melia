@@ -84,6 +84,32 @@ namespace Melia.Zone.World.Actors.Characters.Components
 		}
 
 		/// <summary>
+		/// Adds the selected element of all abilities that match the
+		/// predicate to the given list.
+		/// </summary>
+		/// <remarks>
+		/// Use static lamda expressions to avoid unnecessary allocations.
+		/// </remarks>
+		/// <typeparam name="TResult"></typeparam>
+		/// <param name="list"></param>
+		/// <param name="predicate"></param>
+		/// <param name="selector"></param>
+		public void GetList<TResult>(ICollection<TResult> list, Func<Ability, bool> predicate, Func<Ability, TResult> selector)
+		{
+			lock (_abilities)
+			{
+				foreach (var ability in _abilities.Values)
+				{
+					if (predicate(ability))
+					{
+						var item = selector(ability);
+						list.Add(item);
+					}
+				}
+			}
+		}
+
+		/// <summary>
 		/// Returns the level of the given ability. Returns 0 if the
 		/// character doesn't have the ability.
 		/// </summary>
