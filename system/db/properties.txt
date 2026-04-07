@@ -10412,6 +10412,11 @@
 	{ namespace: "Account", name: "GEM_Commodore_AnnihilationBombardment_Archer_cabinet", type: "Number", id: 118699 },
 	{ namespace: "Account", name: "GEM_Commodore_ArmorPiercingShot_Archer_cabinet", type: "Number", id: 118700 },
 	{ namespace: "Account", name: "TSF04_135_1_cabinet_upgrade", type: "Number", id: 118701 },
+	{ namespace: "Account", name: "GEM_Commodore_ArmorPiercingShot_Scout_cabinet", type: "Number", id: 118702 },
+	{ namespace: "Account", name: "GEM_Commodore_AnchorStrike_Scout_cabinet", type: "Number", id: 118703 },
+	{ namespace: "Account", name: "GEM_Commodore_AntiBoarding_Scout_cabinet", type: "Number", id: 118704 },
+	{ namespace: "Account", name: "GEM_Commodore_ArtillerySupport_Scout_cabinet", type: "Number", id: 118705 },
+	{ namespace: "Account", name: "GEM_Commodore_AnnihilationBombardment_Scout_cabinet", type: "Number", id: 118706 },
 ]},
 { namespace: "Guild", properties: [
 	{ namespace: "Guild", name: "MaxCount", type: "Number", id: 7691 },

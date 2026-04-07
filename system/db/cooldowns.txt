@@ -1663,5 +1663,11 @@
 { id: 13004, className: "Kneller_RestingGround", isOverheat: false, overheatResetTime: 0 },
 { id: 13005, className: "Kneller_ResonantPulse", isOverheat: false, overheatResetTime: 0 },
 { id: 13006, className: "Kneller_DeathKnell", isOverheat: false, overheatResetTime: 0 },
+{ id: 14001, className: "Commodore_TargetingSight", isOverheat: false, overheatResetTime: 0 },
+{ id: 14002, className: "Commodore_ArtillerySupport", isOverheat: false, overheatResetTime: 0 },
+{ id: 14003, className: "Commodore_AnchorStrike", isOverheat: false, overheatResetTime: 0 },
+{ id: 14004, className: "Commodore_AntiBoarding", isOverheat: false, overheatResetTime: 0 },
+{ id: 14005, className: "Commodore_ArmorPiercingShot", isOverheat: false, overheatResetTime: 0 },
+{ id: 14006, className: "Commodore_AnnihilationBombardment", isOverheat: false, overheatResetTime: 0 },
 { id: 30000, className: "RAID_POTION_TP", isOverheat: false, overheatResetTime: 6000 },
 ]

@@ -10415,6 +10415,11 @@
 		public const string GEM_Commodore_AnnihilationBombardment_Archer_cabinet = "GEM_Commodore_AnnihilationBombardment_Archer_cabinet";
 		public const string GEM_Commodore_ArmorPiercingShot_Archer_cabinet = "GEM_Commodore_ArmorPiercingShot_Archer_cabinet";
 		public const string TSF04_135_1_cabinet_upgrade = "TSF04_135_1_cabinet_upgrade";
+		public const string GEM_Commodore_ArmorPiercingShot_Scout_cabinet = "GEM_Commodore_ArmorPiercingShot_Scout_cabinet";
+		public const string GEM_Commodore_AnchorStrike_Scout_cabinet = "GEM_Commodore_AnchorStrike_Scout_cabinet";
+		public const string GEM_Commodore_AntiBoarding_Scout_cabinet = "GEM_Commodore_AntiBoarding_Scout_cabinet";
+		public const string GEM_Commodore_ArtillerySupport_Scout_cabinet = "GEM_Commodore_ArtillerySupport_Scout_cabinet";
+		public const string GEM_Commodore_AnnihilationBombardment_Scout_cabinet = "GEM_Commodore_AnnihilationBombardment_Scout_cabinet";
 
 		// Guild
 		public const string MaxCount = "MaxCount";

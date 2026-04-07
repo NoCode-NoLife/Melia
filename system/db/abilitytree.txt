@@ -1357,6 +1357,22 @@
 { category: "BlitzHunter", classId: 203, abilityId: 321309, jobId: 3110, className: "BlitzHunter9", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_Blitzkrieg_Archer", argNum: 1 } },
 { category: "BlitzHunter", classId: 107, abilityId: 321310, jobId: 3110, className: "BlitzHunter10", maxLevel: 1, priceTimeScript: 'ABIL_ABOVE_NORMAL_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "BlitzHunter_VoltChain_Archer", argNum: 1 } },
 
+// Commodore
+//---------------------------------------------------------------------------
+{ category: "Commodore", classId: 101, abilityId: 321402, jobId: 3113, className: "Commodore1", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_ArtillerySupport_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 102, abilityId: 321403, jobId: 3113, className: "Commodore2", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_AnchorStrike_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 103, abilityId: 321404, jobId: 3113, className: "Commodore3", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_AntiBoarding_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 104, abilityId: 321405, jobId: 3113, className: "Commodore4", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_ArmorPiercingShot_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 105, abilityId: 321406, jobId: 3113, className: "Commodore5", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_AnnihilationBombardment_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 1001, abilityId: 321407, jobId: 3113, className: "Commodore101", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Commodore1", argNum: 65 } },
+{ category: "Commodore", classId: 1002, abilityId: 321408, jobId: 3113, className: "Commodore102", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Commodore2", argNum: 65 } },
+{ category: "Commodore", classId: 1003, abilityId: 321409, jobId: 3113, className: "Commodore103", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Commodore3", argNum: 65 } },
+{ category: "Commodore", classId: 1004, abilityId: 321410, jobId: 3113, className: "Commodore104", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Commodore4", argNum: 65 } },
+{ category: "Commodore", classId: 1005, abilityId: 321411, jobId: 3113, className: "Commodore105", maxLevel: 30, priceTimeScript: 'HIDDENABIL_PRICE_COND_REINFORCE', unlockScript: { name: "UNLOCK_ABIL_OTHERABILITY", argStr: "Commodore5", argNum: 65 } },
+{ category: "Commodore", classId: 201, abilityId: 321412, jobId: 3113, className: "Commodore6", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_AntiBoarding_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 202, abilityId: 321413, jobId: 3113, className: "Commodore7", maxLevel: 1, priceTimeScript: 'HIDDENABIL_PRICE_COND_JOBLEVEL', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_ArmorPiercingShot_Archer", argNum: 1 } },
+{ category: "Commodore", classId: 106, abilityId: 321414, jobId: 3113, className: "Commodore8", maxLevel: 1, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Commodore_TargetingSight_Archer", argNum: 1 } },
+
 // Cleric
 //---------------------------------------------------------------------------
 { category: "Cleric", classId: 201, abilityId: 401001, jobId: 4001, className: "Cleric11", maxLevel: 100, priceTimeScript: 'ABIL_REINFORCE_PRICE', unlockScript: { name: "UNLOCK_ABIL_SKILL", argStr: "Cleric_Cure", argNum: 1 } },

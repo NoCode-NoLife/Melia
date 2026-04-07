@@ -1663,6 +1663,12 @@ namespace Melia.Shared.Game.Const
 		Kneller_RestingGround = 13004,
 		Kneller_ResonantPulse = 13005,
 		Kneller_DeathKnell = 13006,
+		Commodore_TargetingSight = 14001,
+		Commodore_ArtillerySupport = 14002,
+		Commodore_AnchorStrike = 14003,
+		Commodore_AntiBoarding = 14004,
+		Commodore_ArmorPiercingShot = 14005,
+		Commodore_AnnihilationBombardment = 14006,
 		RAID_POTION_TP = 30000,
 	}
 }

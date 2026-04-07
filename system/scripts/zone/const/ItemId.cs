@@ -269,6 +269,10 @@ public static class ItemId
 	public const int TSF04_134_1_Lv2 = 11002259;
 	public const int TSF04_134_1_Lv3 = 11002260;
 	public const int TSF04_134_1_Lv4 = 11002261;
+	public const int TSF04_135_1 = 11002262;
+	public const int TSF04_135_1_Lv2 = 11002263;
+	public const int TSF04_135_1_Lv3 = 11002264;
+	public const int TSF04_135_1_Lv4 = 11002265;
 	public const int EP13_Galimybe_TOP = 11003061;
 	public const int GrowthVision_Armor = 11003062;
 	public const int SWD04_126_Lv2 = 11050000;
@@ -4294,6 +4298,9 @@ public static class ItemId
 	public const int Hat_Kneller_F = 11108056;
 	public const int Costume_Char1_30 = 11108057;
 	public const int Costume_Char5_24 = 11108058;
+	public const int Costume_Char3_30 = 11108059;
+	public const int Costume_Char5_25 = 11108060;
+	public const int Hat_Commodore = 11108061;
 	public const int SHD02_101_16 = 11109009;
 	public const int SHD02_102_16 = 11109010;
 	public const int SHD02_103_16 = 11109011;
@@ -9915,6 +9922,7 @@ public static class ItemId
 	public const int Item_Achieve_Plate_Grimmark = 11030505;
 	public const int Item_Achieve_Plate_Kneller = 11030506;
 	public const int Item_Achieve_Plate_Escrimeur = 11030507;
+	public const int Item_Achieve_Plate_Commodore = 11030508;
 	public const int UnknownSantuaryDEFpotion = 11035357;
 	public const int BerniceDEFpotion = 11035358;
 	public const int VasilissaAutoSoloHEALpotion = 11035359;
@@ -10034,6 +10042,7 @@ public static class ItemId
 	public const int Plate_Shade_Of_The_Decennial_Tree = 11205527;
 	public const int Plate_Achieve_Merry_Xmas = 11205532;
 	public const int Plate_Achieve_Kneller = 11205571;
+	public const int Plate_Achieve_Commodore = 11205584;
 	public const int Plate_Achieve_Ancient_Dragon = 11205601;
 	public const int Moru_Goddess_Event_9th = 11210041;
 
@@ -12057,6 +12066,16 @@ public static class ItemId
 	public const int GEM_Kneller_RestingGround_Scout = 745083;
 	public const int GEM_Kneller_ResonantPulse_Scout = 745084;
 	public const int GEM_Kneller_DeathKnell_Scout = 745085;
+	public const int GEM_Commodore_ArtillerySupport_Archer = 745086;
+	public const int GEM_Commodore_ArmorPiercingShot_Archer = 745087;
+	public const int GEM_Commodore_AntiBoarding_Archer = 745088;
+	public const int GEM_Commodore_AnchorStrike_Archer = 745089;
+	public const int GEM_Commodore_AnnihilationBombardment_Archer = 745090;
+	public const int GEM_Commodore_ArtillerySupport_Scout = 745091;
+	public const int GEM_Commodore_ArmorPiercingShot_Scout = 745092;
+	public const int GEM_Commodore_AntiBoarding_Scout = 745093;
+	public const int GEM_Commodore_AnchorStrike_Scout = 745094;
+	public const int GEM_Commodore_AnnihilationBombardment_Scout = 745095;
 
 	// Gem_High_Color
 	//-----------------------------------------------------------------------
@@ -16149,6 +16168,10 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char1_30_NoTrade = 494495;
 	public const int HiddenJobUnlock_Char5_24 = 494497;
 	public const int HiddenJobUnlock_Char5_24_NoTrade = 494498;
+	public const int HiddenJobUnlock_Char3_30 = 494499;
+	public const int HiddenJobUnlock_Char3_30_NoTrade = 494500;
+	public const int HiddenJobUnlock_Char5_25 = 494501;
+	public const int HiddenJobUnlock_Char5_25_NoTrade = 494502;
 	public const int EmoticonItem_2603_Popo = 494503;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
@@ -17688,6 +17711,10 @@ public static class ItemId
 	public const int Premium_AbillityArts_Char1_30_1d = 2021284;
 	public const int Premium_AbillityArts_Char5_24 = 2021285;
 	public const int Premium_AbillityArts_Char5_24_1d = 2021286;
+	public const int Premium_AbillityArts_Char3_30 = 2021287;
+	public const int Premium_AbillityArts_Char3_30_1d = 2021288;
+	public const int Premium_AbillityArts_Char5_25 = 2021289;
+	public const int Premium_AbillityArts_Char5_25_1d = 2021290;
 	public const int GLOBAL_Steam_Lucky_Shard_Package = 2500000;
 	public const int GLOBAL_Steam_Feeling_Lucky_Package = 2500001;
 	public const int GLOBAL_Steam_Lucky_Sub_Box = 2500002;
@@ -20009,6 +20036,7 @@ public static class ItemId
 	public const int Helmet_Santapopolion_M = 11108050;
 	public const int Helmet_Santapopolion_F = 11108051;
 	public const int Wing_Kneller = 11108054;
+	public const int Wing_Commodore = 11108062;
 	public const int Unlock_Earring_Belonging_Scroll = 11200002;
 	public const int Ticket_Earring_Raid_1d = 11200003;
 	public const int Ticket_Earring_Raid = 11200004;
@@ -20839,6 +20867,8 @@ public static class ItemId
 	public const int Special_Gift_Box_Leticia_2602 = 11205578;
 	public const int Leticia_KnellerT_Unlockbox = 11205579;
 	public const int Special_Gift_Box_Leticia_2603 = 11205580;
+	public const int Selectbox_Commodore = 11205582;
+	public const int Leticia_Commodore_Unlockbox = 11205583;
 	public const int Certificate_RidePet_HinokiBath = 11205585;
 	public const int Selectbox_Ep18onsenyukata = 11205586;
 	public const int I202603_Package01 = 11205587;
@@ -20861,6 +20891,7 @@ public static class ItemId
 	public const int I202604_Package06 = 11205609;
 	public const int I202604_Package07 = 11205610;
 	public const int I202604_Package08 = 11205611;
+	public const int Special_Gift_Box_Leticia_2604 = 11205612;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
@@ -25479,6 +25510,7 @@ public static class ItemId
 	public const int AETHERBLADER_BLADE_BLUE = 121135;
 	public const int AETHERBLADER_BLADE_YELLOW = 121136;
 	public const int GRIMMARK_STAKE = 121137;
+	public const int COMMODORE_MUSKET = 121138;
 	public const int TSW01_999 = 121999;
 	public const int TSW02_101 = 122101;
 	public const int TSW02_102 = 122102;

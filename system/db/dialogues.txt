@@ -17448,6 +17448,7 @@
 { classId: 4900005, className: "MASTER_HERMIT_NPC_basic1", image: "hermit_master" },
 { classId: 4900006, className: "MASTER_GRIMMARK_NPC_basic1", image: "grimmark_master" },
 { classId: 4900007, className: "MASTER_KNELLER_NPC_basic1", image: "kneller_master" },
+{ classId: 4900008, className: "MASTER_COMMODORE_NPC_basic1", image: "commodore_master" },
 { classId: 5000000, className: "SIAULIAI_46_1_MQ_05_DLG01", image: "Austeja2" },
 { classId: 5000010, className: "SIAULIAI_46_4_MQ_01_select" },
 { classId: 5000011, className: "SIAULIAI_46_4_MQ_01_add" },

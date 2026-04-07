@@ -215,6 +215,11 @@ namespace Melia.Shared.Game.Const
 		public const string Clown_FatalRoulette_Abil = "Clown_FatalRoulette_Abil";
 		public const string Clown_Knife = "Clown_Knife";
 		public const string Colimencia_circlewave = "Colimencia_circlewave";
+		public const string Commodore_AnchorStrike = "Commodore_AnchorStrike";
+		public const string Commodore_AnnihilationBombardment = "Commodore_AnnihilationBombardment";
+		public const string Commodore_ArmorPiercingShot = "Commodore_ArmorPiercingShot";
+		public const string Commodore_TargetingSight = "Commodore_TargetingSight";
+		public const string Commodore_TargetingSight_Sound = "Commodore_TargetingSight_Sound";
 		public const string Corsair_Bombardments = "Corsair_Bombardments";
 		public const string Corsair_JollyRoger = "Corsair_JollyRoger";
 		public const string counterspell_abil_pad = "counterspell_abil_pad";

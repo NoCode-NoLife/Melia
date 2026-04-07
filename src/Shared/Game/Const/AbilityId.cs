@@ -3951,6 +3951,34 @@ namespace Melia.Shared.Game.Const
 		BlitzHunter9 = 321309,
 		/// <summary>Volt Chain: Boss Hunter</summary>
 		BlitzHunter10 = 321310,
+		/// <summary>Command of Admiral</summary>
+		Commodore100 = 321401,
+		/// <summary>Artillery Support: Enhance</summary>
+		Commodore1 = 321402,
+		/// <summary>Anchor Strike: Enhance</summary>
+		Commodore2 = 321403,
+		/// <summary>Keelbreak: Enhance</summary>
+		Commodore3 = 321404,
+		/// <summary>Ironpiercer: Enhance</summary>
+		Commodore4 = 321405,
+		/// <summary>Doom Barrage: Enhance</summary>
+		Commodore5 = 321406,
+		/// <summary>[Arts] Artillery Support: Enhanced Upgrade</summary>
+		Commodore101 = 321407,
+		/// <summary>[Arts] Anchor Strike: Enhanced Upgrade</summary>
+		Commodore102 = 321408,
+		/// <summary>[Arts] Keelbreak: Enhanced Upgrade</summary>
+		Commodore103 = 321409,
+		/// <summary>[Arts] Ironpiercer: Enhanced Upgrade</summary>
+		Commodore104 = 321410,
+		/// <summary>[Arts] Doom Barrage: Enhanced Upgrade</summary>
+		Commodore105 = 321411,
+		/// <summary>[Arts] Keelbreak: Zero-In</summary>
+		Commodore6 = 321412,
+		/// <summary>[Arts] Ironpiercer: Shrapnel Burst</summary>
+		Commodore7 = 321413,
+		/// <summary>Deadeye Mark: Lock On</summary>
+		Commodore8 = 321414,
 		/// <summary>Cure: Enhance</summary>
 		Cleric11 = 401001,
 		/// <summary>Cure: Enhance 2</summary>

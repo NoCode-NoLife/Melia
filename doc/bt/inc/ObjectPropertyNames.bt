@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i403415
+//   Version: i403565
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32925,6 +32925,11 @@ string getPropertyName(int id)
         case 118699: return "GEM_Commodore_AnnihilationBombardment_Archer_cabinet";
         case 118700: return "GEM_Commodore_ArmorPiercingShot_Archer_cabinet";
         case 118701: return "TSF04_135_1_cabinet_upgrade";
+        case 118702: return "GEM_Commodore_ArmorPiercingShot_Scout_cabinet";
+        case 118703: return "GEM_Commodore_AnchorStrike_Scout_cabinet";
+        case 118704: return "GEM_Commodore_AntiBoarding_Scout_cabinet";
+        case 118705: return "GEM_Commodore_ArtillerySupport_Scout_cabinet";
+        case 118706: return "GEM_Commodore_AnnihilationBombardment_Scout_cabinet";
         default: return "Unknown";
     }
 }

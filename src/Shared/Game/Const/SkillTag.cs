@@ -9,6 +9,7 @@ namespace Melia.Shared.Game.Const
 		public const string BasicSkill = "BasicSkill";
 		public const string Channeling = "channeling";
 		public const string CloseQuarterSkill = "CloseQuarterSkill";
+		public const string CommandSkill = "CommandSkill";
 		public const string DefenderConditionBlindNo20 = "DefenderConditionBlind#20";
 		public const string DefenderConditionBlindNo25 = "DefenderConditionBlind#25";
 		public const string DefenderConditionBlindNo30 = "DefenderConditionBlind#30";
