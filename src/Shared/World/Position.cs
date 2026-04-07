@@ -171,33 +171,6 @@ namespace Melia.Shared.World
 
 		/// <summary>
 		/// Returns position on the line between this position and the
-		/// given one.
-		/// </summary>
-		/// <remarks>
-		/// Example: When you knock someone back, they get pushed in the
-		/// opposite direction. The other position would be the enemy,
-		/// the distance the amount how far to push them away. A negative
-		/// distance will return a position between you two.
-		/// </remarks>
-		/// <param name="other"></param>
-		/// <param name="distance"></param>
-		/// <returns></returns>
-		[Obsolete("Use GetRelative3D instead.")]
-		public readonly Position GetRelative(Position other, float distance)
-			=> this.GetRelative3D(other, distance);
-
-		/// <summary>
-		/// Returns position in direction and distance.
-		/// </summary>
-		/// <param name="direction"></param>
-		/// <param name="distance"></param>
-		/// <returns></returns>
-		[Obsolete("Use GetRelative2D instead.")]
-		public readonly Position GetRelative(Direction direction, float distance)
-			=> this.GetRelative2D(direction, distance);
-
-		/// <summary>
-		/// Returns position on the line between this position and the
 		/// given one in 3D space.
 		/// </summary>
 		/// <remarks>

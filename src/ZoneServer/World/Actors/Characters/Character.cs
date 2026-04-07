@@ -1588,15 +1588,6 @@ namespace Melia.Zone.World.Actors.Characters
 		}
 
 		/// <summary>
-		/// Returns true if the given entity can be attacked by this one.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <returns></returns>
-		[Obsolete("Use CanTarget and CanDamage instead.")]
-		public bool CanAttack(ICombatEntity entity)
-			=> this.CanDamage(entity);
-
-		/// <summary>
 		/// Returns true if the character can hit the entity in a general
 		/// sense.
 		/// </summary>

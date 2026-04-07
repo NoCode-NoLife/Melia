@@ -301,12 +301,6 @@ namespace Melia.Zone.World.Actors.Components
 		public const string Attack = nameof(Attack);
 
 		/// <summary>
-		/// Prevents other actors from attacking this one.
-		/// </summary>
-		[Obsolete("User GetTargeted and GetDamaged instead.")]
-		public const string GetHit = nameof(GetHit);
-
-		/// <summary>
 		/// Prevents other actors from targeting this one.
 		/// </summary>
 		/// <remarks>

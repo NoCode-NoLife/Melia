@@ -18,16 +18,6 @@ namespace Melia.Zone.Buffs.Base
 		}
 
 		/// <summary>
-		/// Callback for when the buff is started or overbuffed. Not called
-		/// once the max overbuff count is reached.
-		/// </summary>
-		/// <param name="buff"></param>
-		[Obsolete("Use OnActivate instead.")]
-		public virtual void OnStart(Buff buff)
-		{
-		}
-
-		/// <summary>
 		/// Callback for when the buff is activated, either by starting or
 		/// overbuffing it. Not called once the max overbuff count is reached.
 		/// </summary>

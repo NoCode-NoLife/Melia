@@ -35,26 +35,6 @@ namespace Melia.Zone.Network
 			/// Attaches effect to actor on clients in range.
 			/// </summary>
 			/// <param name="actor"></param>
-			/// <param name="effectName"></param>
-			/// <param name="scale"></param>
-			[Obsolete("Use AttachableEffect overload instead.")]
-			public static void AttachEffect(IActor actor, string effectName, float scale = 1)
-				=> AttachEffect(actor, new AttachableEffect(effectName, scale));
-
-			/// <summary>
-			/// Attaches effect to actor on client.
-			/// </summary>
-			/// <param name="actor"></param>
-			/// <param name="effectName"></param>
-			/// <param name="scale"></param>
-			[Obsolete("Use AttachableEffect overload instead.")]
-			public static void AttachEffect(IZoneConnection conn, IActor actor, string effectName, float scale = 1)
-				=> AttachEffect(conn, actor, new AttachableEffect(effectName, scale));
-
-			/// <summary>
-			/// Attaches effect to actor on clients in range.
-			/// </summary>
-			/// <param name="actor"></param>
 			/// <param name="effect"></param>
 			public static void AttachEffect(IActor actor, AttachableEffect effect)
 			{

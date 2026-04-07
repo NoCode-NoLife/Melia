@@ -87,16 +87,6 @@ namespace Melia.Zone.World.Actors
 		/// Attaches an effect to the actor that is displayed alongside it
 		/// and updates clients.
 		/// </summary>
-		/// <param name="packetString"></param>
-		/// <param name="scale"></param>
-		[Obsolete("User AttachableEffect overload instead.")]
-		public void AttachEffect(string packetString, float scale = 1)
-			=> this.AttachEffect(new AttachableEffect(packetString, scale));
-
-		/// <summary>
-		/// Attaches an effect to the actor that is displayed alongside it
-		/// and updates clients.
-		/// </summary>
 		/// <param name="effect"></param>
 		public void AttachEffect(AttachableEffect effect)
 		{

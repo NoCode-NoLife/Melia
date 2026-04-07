@@ -229,13 +229,8 @@ namespace Melia.Zone.Buffs
 		{
 			this.RefreshDuration();
 
-#pragma warning disable CS0618
-			// Temporarily call OnStart for backwards compatibility until users
-			// had time to update their buff handlers.
-			this.Handler?.OnStart(this);
 			this.Handler?.OnActivate(this, activationType);
 			this.Handler?.OnExtend(this);
-#pragma warning restore CS0618
 		}
 
 		/// <summary>

@@ -147,14 +147,6 @@ namespace Melia.Zone.Scripting
 		protected abstract void Load();
 
 		/// <summary>
-		/// Sets the quest's id.
-		/// </summary>
-		/// <param name="id"></param>
-		[Obsolete("Use SetId(string, int) instead.")]
-		protected void SetId(long id)
-			=> this.SetId(null, id);
-
-		/// <summary>
 		/// Sets the quest's namespace and id.
 		/// </summary>
 		/// <remarks>
