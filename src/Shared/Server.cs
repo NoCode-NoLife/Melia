@@ -19,6 +19,7 @@ using Melia.Shared.Database;
 using Melia.Shared.Game.Properties;
 using Melia.Shared.L10N;
 using Melia.Shared.Network;
+using Microsoft.Extensions.ObjectPool;
 using Yggdrasil.Data;
 using Yggdrasil.Extensions;
 using Yggdrasil.Logging;
@@ -392,12 +393,13 @@ namespace Melia.Shared
 
 				this.ScriptLoader = new ScriptLoader(cachePath);
 
-				// Required for HTTP stuff that might be used in scripts.
-				// To make this more flexible, we could potentially add
-				// a way for scripts to specify their own references.
+				// Required for HTTP and other stuff that might be used in
+				// scripts. To make this more flexible, we could potentially
+				// add a way for scripts to specify their own references.
 				this.ScriptLoader.References.Add(typeof(JsonSerializer).Assembly.Location);
 				this.ScriptLoader.References.Add(typeof(HttpClient).Assembly.Location);
 				this.ScriptLoader.References.Add(typeof(Uri).Assembly.Location);
+				this.ScriptLoader.References.Add(typeof(DefaultObjectPool<>).Assembly.Location);
 
 				this.ScriptLoader.LoadFromListFile(listFilePath, userPath, systemPath);
 
