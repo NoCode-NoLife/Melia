@@ -63,60 +63,8 @@ namespace Melia.Zone.Buffs
 			lock (_buffHandlers)
 				_buffHandlers[buffId] = handler;
 
-			this.LoadCombatEvents(buffId, handler);
 			ScriptableFunctions.Load(handler);
 		}
-
-		/// <summary>
-		/// Sets up events for the combat events/hooks the handler implements.
-		/// </summary>
-		/// <param name="buffId"></param>
-		/// <param name="handler"></param>
-		private void LoadCombatEvents(BuffId buffId, IBuffHandler handler)
-		{
-			// Implement hooks via scriptable functions that call the given
-			// handler for now. In terms of performance this isn't the absolute
-			// best solution, but it is very flexible, and using scriptable
-			// functions is idiomatic inside our combat scripting system.
-
-			void registerAttackFunc(string name, CombatCalcHookFunction func)
-			{
-				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
-				{
-					if (attacker.TryGetBuff(buffId, out var buff))
-						func(buff, attacker, target, skill, modifier, skillHitResult);
-
-					return 0;
-				});
-			}
-
-			void registerDefenseFunc(string name, CombatCalcHookFunction func)
-			{
-				ScriptableFunctions.Combat.Register(name, (attacker, target, skill, modifier, skillHitResult) =>
-				{
-					if (target.TryGetBuff(buffId, out var buff))
-						func(buff, attacker, target, skill, modifier, skillHitResult);
-
-					return 0;
-				});
-			}
-
-#pragma warning disable CS0618 // Type or member is obsolete
-			if (handler is IBuffCombatAttackBeforeCalcHandler beforeCalcAttackHandler) registerAttackFunc("SCR_Combat_BeforeCalc_Attack_" + buffId, beforeCalcAttackHandler.OnAttackBeforeCalc);
-			if (handler is IBuffCombatDefenseBeforeCalcHandler beforeCalcDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeCalc_Defense_" + buffId, beforeCalcDefenseHandler.OnDefenseBeforeCalc);
-
-			if (handler is IBuffCombatAttackAfterCalcHandler afterCalcAttackHandler) registerAttackFunc("SCR_Combat_AfterCalc_Attack_" + buffId, afterCalcAttackHandler.OnAttackAfterCalc);
-			if (handler is IBuffCombatDefenseAfterCalcHandler afterCalcDefenseHandler) registerDefenseFunc("SCR_Combat_AfterCalc_Defense_" + buffId, afterCalcDefenseHandler.OnDefenseAfterCalc);
-
-			if (handler is IBuffCombatAttackBeforeBonusesHandler beforeBonusesAttackHandler) registerAttackFunc("SCR_Combat_BeforeBonuses_Attack_" + buffId, beforeBonusesAttackHandler.OnAttackBeforeBonuses);
-			if (handler is IBuffCombatDefenseBeforeBonusesHandler beforeBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_BeforeBonuses_Defense_" + buffId, beforeBonusesDefenseHandler.OnDefenseBeforeBonuses);
-
-			if (handler is IBuffCombatAttackAfterBonusesHandler afterBonusesAttackHandler) registerAttackFunc("SCR_Combat_AfterBonuses_Attack_" + buffId, afterBonusesAttackHandler.OnAttackAfterBonuses);
-			if (handler is IBuffCombatDefenseAfterBonusesHandler afterBonusesDefenseHandler) registerDefenseFunc("SCR_Combat_AfterBonuses_Defense_" + buffId, afterBonusesDefenseHandler.OnDefenseAfterBonuses);
-#pragma warning restore CS0618 // Type or member is obsolete
-		}
-
-		private delegate void CombatCalcHookFunction(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult);
 
 		/// <summary>
 		/// Returns true if a handler was registered for the given buff.

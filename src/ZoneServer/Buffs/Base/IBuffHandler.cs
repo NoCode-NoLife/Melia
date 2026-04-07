@@ -61,16 +61,4 @@ namespace Melia.Zone.Buffs.Base
 		Start,
 		Overbuff,
 	}
-
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatAttackBeforeCalcHandler { void OnAttackBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatDefenseBeforeCalcHandler { void OnDefenseBeforeCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatAttackAfterCalcHandler { void OnAttackAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatDefenseAfterCalcHandler { void OnDefenseAfterCalc(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatAttackBeforeBonusesHandler { void OnAttackBeforeBonuses(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatDefenseBeforeBonusesHandler { void OnDefenseBeforeBonuses(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatAttackAfterBonusesHandler { void OnAttackAfterBonuses(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
-	[Obsolete("Use CombatCalcModifierAttribute instead.")] public interface IBuffCombatDefenseAfterBonusesHandler { void OnDefenseAfterBonuses(Buff buff, ICombatEntity attacker, ICombatEntity target, Skill skill, SkillModifier modifier, SkillHitResult skillHitResult); }
 }
