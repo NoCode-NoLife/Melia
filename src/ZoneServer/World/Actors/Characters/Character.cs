@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Melia.Shared.Data.Database;
@@ -29,7 +30,7 @@ namespace Melia.Zone.World.Actors.Characters
 	/// <summary>
 	/// Represents a player character.
 	/// </summary>
-	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable
+	public class Character : Actor, IActor, ICombatEntity, ICommander, IPropertyObject, IUpdateable, IEffectTarget
 	{
 		private bool _warping;
 		private int _destinationChannelId;
@@ -346,6 +347,11 @@ namespace Melia.Zone.World.Actors.Characters
 		/// account's authority.
 		/// </summary>
 		public PermissionLevel PermissionLevel => this.Connection?.Account?.PermissionLevel ?? PermissionLevel.User;
+
+		/// <summary>
+		/// Returns a list of effects that are attached to the actor.
+		/// </summary>
+		public ConcurrentBag<AttachableEffect> AttachableEffects { get; } = new();
 
 		/// <summary>
 		/// Returns the character's component collection.

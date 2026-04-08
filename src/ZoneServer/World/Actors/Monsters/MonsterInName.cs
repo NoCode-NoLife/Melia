@@ -1,6 +1,7 @@
 ﻿using System;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
+using System.Collections.Concurrent;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -108,6 +109,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// leaves the monster's trigger area.
 		/// </summary>
 		public string LeaveName { get; set; }
+
+		/// <summary>
+		/// Returns a list of effects that are attached to the actor.
+		/// </summary>
+		public ConcurrentBag<AttachableEffect> AttachableEffects { get; } = new();
 
 		/// <summary>
 		/// Initializes the monster's properties.

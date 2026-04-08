@@ -1,8 +1,6 @@
 ﻿using System;
-using Melia.Shared.ObjectProperties;
 using Melia.Shared.Game.Const;
-using Melia.Shared.World;
-using Melia.Zone.World.Maps;
+using Melia.Shared.ObjectProperties;
 
 namespace Melia.Zone.World.Actors.Monsters
 {
@@ -10,7 +8,7 @@ namespace Melia.Zone.World.Actors.Monsters
 	/// Represents a "monster" in the world, or in other words, an entity
 	/// that is not a player, but can exist on a map.
 	/// </summary>
-	public interface IMonster : IMonsterBase
+	public interface IMonster : IMonsterBase, IEffectTarget
 	{
 		/// <summary>
 		/// Gets or sets the time the actor will be removed from the

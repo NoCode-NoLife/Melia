@@ -5,7 +5,6 @@ using Melia.Shared.Data.Database;
 using Melia.Shared.Game.Const;
 using Melia.Shared.ObjectProperties;
 using Melia.Shared.World;
-using Melia.Zone.Buffs;
 using Melia.Zone.Buffs.Handlers.Common;
 using Melia.Zone.Buffs.Handlers.Scouts.Assassin;
 using Melia.Zone.Events.Arguments;
@@ -52,6 +51,11 @@ namespace Melia.Zone.World.Actors.Monsters
 		/// Gets or sets the monster's tendency
 		/// </summary>
 		public TendencyType Tendency { get; set; } = TendencyType.Peaceful;
+
+		/// <summary>
+		/// Returns a list of effects that are attached to the actor.
+		/// </summary>
+		public ConcurrentBag<AttachableEffect> AttachableEffects { get; } = new();
 
 		/// <summary>
 		/// Monster ID in database.

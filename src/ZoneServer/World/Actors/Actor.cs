@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using Melia.Shared.Game.Const;
-using Melia.Shared.World;
-using Melia.Zone.Network;
+﻿using Melia.Shared.World;
 using Melia.Zone.World.Maps;
 
 namespace Melia.Zone.World.Actors
 {
 	/// <summary>
-	/// An object that can be placed on a map.
+	/// An actor that can exist on a map and be identified by a handle.
 	/// </summary>
 	public interface IActor
 	{
@@ -36,23 +32,13 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction the actor is facing.
 		/// </summary>
 		Direction Direction { get; set; }
-
-		/// <summary>
-		/// Returns a list of effects that are attached to the actor.
-		/// </summary>
-		ConcurrentBag<AttachableEffect> AttachableEffects { get; }
 	}
 
 	/// <summary>
-	/// An object that can be placed on a map.
+	/// An actor that can exist on a map and be identified by a handle.
 	/// </summary>
 	public abstract class Actor : IActor
 	{
-		/// <summary>
-		/// Returns a list of effects that are attached to the actor.
-		/// </summary>
-		public ConcurrentBag<AttachableEffect> AttachableEffects { get; } = new ConcurrentBag<AttachableEffect>();
-
 		/// <summary>
 		/// Returns the actor's unique handle.
 		/// </summary>
@@ -82,93 +68,5 @@ namespace Melia.Zone.World.Actors
 		/// Returns the direction the actor is facing.
 		/// </summary>
 		public Direction Direction { get; set; }
-
-		/// <summary>
-		/// Attaches an effect to the actor that is displayed alongside it
-		/// and updates clients.
-		/// </summary>
-		/// <param name="effect"></param>
-		public void AttachEffect(AttachableEffect effect)
-		{
-			this.AttachableEffects.Add(effect);
-
-			if (this.Map != Map.Limbo)
-				Send.ZC_NORMAL.AttachEffect(this, effect);
-		}
-
-		/// <summary>
-		/// Removes all attached effects and updates clients.
-		/// </summary>
-		public void ClearEffects()
-		{
-			this.AttachableEffects.Clear();
-
-			if (this.Map != Map.Limbo)
-				Send.ZC_NORMAL.ClearEffects(this);
-		}
-	}
-
-	/// <summary>
-	/// An effect that can be attached to an actor.
-	/// </summary>
-	public class AttachableEffect
-	{
-		/// <summary>
-		/// Returns the name of the effect in form of a packet string.
-		/// </summary>
-		public string PacketString { get; }
-
-		/// <summary>
-		/// Returns the effect's size multiplier.
-		/// </summary>
-		public float Scale { get; }
-
-		/// <summary>
-		/// Gets or sets the base location the effect appears at, such as
-		/// "Top" to display it above an NPC.
-		/// </summary>
-		public EffectLocation Location { get; set; }
-
-		/// <summary>
-		/// Gets or sets the offset the effect appears at, relative to the
-		/// base location.
-		/// </summary>
-		public Position Offset { get; set; }
-
-		/// <summary>
-		/// Creates a new attachable effect.
-		/// </summary>
-		/// <param name="packetString"></param>
-		/// <param name="scale"></param>
-		public AttachableEffect(string packetString, float scale)
-			: this(packetString, scale, EffectLocation.Bottom, Position.Zero)
-		{
-		}
-
-		/// <summary>
-		/// Creates a new attachable effect.
-		/// </summary>
-		/// <param name="packetString"></param>
-		/// <param name="scale"></param>
-		/// <param name="location"></param>
-		public AttachableEffect(string packetString, float scale, EffectLocation location)
-			: this(packetString, scale, location, Position.Zero)
-		{
-		}
-
-		/// <summary>
-		/// Creates a new attachable effect.
-		/// </summary>
-		/// <param name="packetString"></param>
-		/// <param name="scale"></param>
-		/// <param name="location"></param>
-		/// <param name="offset"></param>
-		public AttachableEffect(string packetString, float scale, EffectLocation location, Position offset)
-		{
-			this.PacketString = packetString;
-			this.Scale = scale;
-			this.Location = location;
-			this.Offset = offset;
-		}
 	}
 }
