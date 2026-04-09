@@ -41,7 +41,7 @@ namespace Melia.Shared.Network
 					return ResolveResult.Fail;
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				ip = null;
 				return ResolveResult.Error;

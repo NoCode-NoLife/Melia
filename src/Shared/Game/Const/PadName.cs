@@ -1,3 +1,5 @@
+#pragma warning disable IDE1006 // Naming Styles
+
 namespace Melia.Shared.Game.Const
 {
 	/// <summary>
@@ -1044,3 +1046,5 @@ namespace Melia.Shared.Game.Const
 		public const string zombie_wall = "zombie_wall";
 	}
 }
+
+#pragma warning restore IDE1006 // Naming Styles
