@@ -35,5 +35,21 @@ namespace Melia.Zone.Network.Helpers
 			var id = packetString.GetStringId();
 			packet.PutInt(id);
 		}
+
+		/// <summary>
+		/// Reads an integer from the packet and returns the corresponding
+		/// packet string. Returns null if the packet string couldn't be
+		/// found.
+		/// </summary>
+		/// <param name="packet"></param>
+		public static string GetStringFromId(this Packet packet)
+		{
+			var id = packet.GetInt();
+
+			if (id == 0 || !ZoneServer.Instance.Data.PacketStringDb.TryFind(id, out var data))
+				return null;
+
+			return data.Name;
+		}
 	}
 }

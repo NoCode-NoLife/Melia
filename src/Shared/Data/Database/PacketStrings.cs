@@ -17,6 +17,28 @@ namespace Melia.Shared.Data.Database
 	public class PacketStringDb : DatabaseJsonIndexed<string, PacketStringData>
 	{
 		/// <summary>
+		/// Returns the packet string data for the given id via out.
+		/// Returns false if no entry with the given id was found.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="data"></param>
+		/// <returns></returns>
+		public bool TryFind(int id, out PacketStringData data)
+		{
+			foreach (var entry in this.Entries)
+			{
+				if (entry.Value.Id == id)
+				{
+					data = entry.Value;
+					return true;
+				}
+			}
+
+			data = null;
+			return false;
+		}
+
+		/// <summary>
 		/// Reads given entry and adds it to the database.
 		/// </summary>
 		/// <param name="entry"></param>

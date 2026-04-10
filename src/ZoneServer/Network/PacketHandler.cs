@@ -2799,7 +2799,7 @@ namespace Melia.Zone.Network
 		{
 			var shopName = packet.GetString(64);
 			var itemCount = packet.GetInt();
-			var group = packet.GetInt();
+			var group = packet.GetStringFromId();
 			var i1 = packet.GetInt();
 
 			// for itemCount
@@ -2809,7 +2809,7 @@ namespace Melia.Zone.Network
 			//   byte unk1[264]
 
 			var character = conn.SelectedCharacter;
-			character.MsgBox("This feature has not been implemented yet.");
+			character.MsgBox(Localization.Get("This feature has not been implemented yet."));
 
 			Log.Debug("CZ_REGISTER_AUTOSELLER: {0}, {1} item(s)", shopName, itemCount);
 		}

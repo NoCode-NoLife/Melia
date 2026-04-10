@@ -11,6 +11,7 @@ using Melia.Shared.Network;
 using Melia.Shared.Network.Inter.Messages;
 using Melia.Shared.World;
 using Melia.Zone.Network;
+using Melia.Zone.Network.Helpers;
 using Melia.Zone.Scripting;
 using Melia.Zone.World.Actors;
 using Melia.Zone.World.Actors.Characters;
@@ -2403,7 +2404,7 @@ namespace Melia.Zone.Commands
 			using var packet = Packet.Rent(Op.CZ_REGISTER_AUTOSELLER);
 			packet.PutString(title, 64);
 			packet.PutInt(items.Count);
-			packet.PutInt(270065); // PersonalShop
+			packet.AddStringId("PersonalShop");
 			packet.PutInt(0);
 
 			foreach (var item in items)
