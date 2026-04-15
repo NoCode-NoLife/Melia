@@ -9999,6 +9999,8 @@ public static class ItemId
 	public const int Goddess_EP17_2_Raid_PowerUp_Potion2 = 11200505;
 	public const int Goddess_EP18_1_Raid_PowerUp_Potion1 = 11200506;
 	public const int Goddess_EP18_1_Raid_PowerUp_Potion2 = 11200507;
+	public const int Goddess_EP17_2_Raid_PowerUp_Potion1_NoTrade = 11200515;
+	public const int Goddess_EP17_2_Raid_PowerUp_Potion2_NoTrade = 11200516;
 	public const int QuestReward_RepairPotion_520 = 11201231;
 	public const int Secret_Medicine_Str_520 = 11201259;
 	public const int Secret_Medicine_Int_520 = 11201260;
@@ -17409,6 +17411,7 @@ public static class ItemId
 	public const int Balloon_Skin_Capybara_30d = 1250077;
 	public const int Gesture_Sodapop = 1250078;
 	public const int Balloon_Skin_Snigo_30d = 1250079;
+	public const int Gesture_Bunny = 1250080;
 	public const int GLOBAL_STEAM_REWARD_1 = 2000001;
 	public const int GLOBAL_Transcend_Scroll_9_440 = 2000004;
 	public const int PCbang_Legend_ExpPotion_Team_Trade = 2000007;
@@ -20892,6 +20895,7 @@ public static class ItemId
 	public const int I202604_Package07 = 11205610;
 	public const int I202604_Package08 = 11205611;
 	public const int Special_Gift_Box_Leticia_2604 = 11205612;
+	public const int Selectbox_Tosw3years = 11205613;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;

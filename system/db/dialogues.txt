@@ -18931,6 +18931,8 @@
 { classId: 5651701, className: "W_2602_NEWYEAR_DLG_INTRO" },
 { classId: 5651702, className: "W_2602_NEWYEAR_DLG_GUIDE" },
 { classId: 5651703, className: "EVENT_TREEDAY_2604_DLG1" },
+{ classId: 5651704, className: "EVENT_YEARS_2604_DLG1" },
+{ classId: 5651705, className: "W_2604_YEARS_DLG_GUIDE" },
 { classId: 6000001, className: "REPUTATION_NO_BASIC" },
 { classId: 6000002, className: "REPUTATION_POSSIBLEQUEST" },
 { classId: 6000003, className: "REPUTATION_QUEST_BOARD_DLG1" },

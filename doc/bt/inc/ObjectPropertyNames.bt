@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i403565
+//   Version: i403778
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32930,6 +32930,30 @@ string getPropertyName(int id)
         case 118704: return "GEM_Commodore_AntiBoarding_Scout_cabinet";
         case 118705: return "GEM_Commodore_ArtillerySupport_Scout_cabinet";
         case 118706: return "GEM_Commodore_AnnihilationBombardment_Scout_cabinet";
+        case 118707: return "EVENT_2604_YEARS_SHOP_01";
+        case 118708: return "EVENT_2604_YEARS_SHOP_20";
+        case 118709: return "EVENT_2604_YEARS_SHOP_12";
+        case 118710: return "EVENT_2604_YEARS_MAX_COIN_COUNT";
+        case 118711: return "EVENT_2604_YEARS_SHOP_02";
+        case 118712: return "EVENT_2604_YEARS_WEEK_COIN_COUNT";
+        case 118713: return "EVENT_2604_YEARS_SHOP_15";
+        case 118714: return "EVENT_2604_YEARS_SHOP_06";
+        case 118715: return "EVENT_2604_YEARS_SHOP_18";
+        case 118716: return "EVENT_2604_YEARS_SHOP_07";
+        case 118717: return "EVENT_2604_YEARS_SHOP_10";
+        case 118718: return "EVENT_2604_YEARS_SHOP_05";
+        case 118719: return "EVENT_2604_YEARS_SHOP_17";
+        case 118720: return "EVENT_2604_YEARS_SHOP_03";
+        case 118721: return "EVENT_2604_YEARS_SHOP_04";
+        case 118722: return "EVENT_2604_YEARS_SHOP_22";
+        case 118723: return "EVENT_2604_YEARS_SHOP_21";
+        case 118724: return "EVENT_2604_YEARS_SHOP_16";
+        case 118725: return "EVENT_2604_YEARS_SHOP_14";
+        case 118726: return "EVENT_2604_YEARS_SHOP_19";
+        case 118727: return "EVENT_2604_YEARS_SHOP_09";
+        case 118728: return "EVENT_2604_YEARS_SHOP_11";
+        case 118729: return "EVENT_2604_YEARS_SHOP_13";
+        case 118730: return "EVENT_2604_YEARS_SHOP_08";
         default: return "Unknown";
     }
 }

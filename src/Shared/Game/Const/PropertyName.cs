@@ -10420,6 +10420,30 @@
 		public const string GEM_Commodore_AntiBoarding_Scout_cabinet = "GEM_Commodore_AntiBoarding_Scout_cabinet";
 		public const string GEM_Commodore_ArtillerySupport_Scout_cabinet = "GEM_Commodore_ArtillerySupport_Scout_cabinet";
 		public const string GEM_Commodore_AnnihilationBombardment_Scout_cabinet = "GEM_Commodore_AnnihilationBombardment_Scout_cabinet";
+		public const string EVENT_2604_YEARS_SHOP_01 = "EVENT_2604_YEARS_SHOP_01";
+		public const string EVENT_2604_YEARS_SHOP_20 = "EVENT_2604_YEARS_SHOP_20";
+		public const string EVENT_2604_YEARS_SHOP_12 = "EVENT_2604_YEARS_SHOP_12";
+		public const string EVENT_2604_YEARS_MAX_COIN_COUNT = "EVENT_2604_YEARS_MAX_COIN_COUNT";
+		public const string EVENT_2604_YEARS_SHOP_02 = "EVENT_2604_YEARS_SHOP_02";
+		public const string EVENT_2604_YEARS_WEEK_COIN_COUNT = "EVENT_2604_YEARS_WEEK_COIN_COUNT";
+		public const string EVENT_2604_YEARS_SHOP_15 = "EVENT_2604_YEARS_SHOP_15";
+		public const string EVENT_2604_YEARS_SHOP_06 = "EVENT_2604_YEARS_SHOP_06";
+		public const string EVENT_2604_YEARS_SHOP_18 = "EVENT_2604_YEARS_SHOP_18";
+		public const string EVENT_2604_YEARS_SHOP_07 = "EVENT_2604_YEARS_SHOP_07";
+		public const string EVENT_2604_YEARS_SHOP_10 = "EVENT_2604_YEARS_SHOP_10";
+		public const string EVENT_2604_YEARS_SHOP_05 = "EVENT_2604_YEARS_SHOP_05";
+		public const string EVENT_2604_YEARS_SHOP_17 = "EVENT_2604_YEARS_SHOP_17";
+		public const string EVENT_2604_YEARS_SHOP_03 = "EVENT_2604_YEARS_SHOP_03";
+		public const string EVENT_2604_YEARS_SHOP_04 = "EVENT_2604_YEARS_SHOP_04";
+		public const string EVENT_2604_YEARS_SHOP_22 = "EVENT_2604_YEARS_SHOP_22";
+		public const string EVENT_2604_YEARS_SHOP_21 = "EVENT_2604_YEARS_SHOP_21";
+		public const string EVENT_2604_YEARS_SHOP_16 = "EVENT_2604_YEARS_SHOP_16";
+		public const string EVENT_2604_YEARS_SHOP_14 = "EVENT_2604_YEARS_SHOP_14";
+		public const string EVENT_2604_YEARS_SHOP_19 = "EVENT_2604_YEARS_SHOP_19";
+		public const string EVENT_2604_YEARS_SHOP_09 = "EVENT_2604_YEARS_SHOP_09";
+		public const string EVENT_2604_YEARS_SHOP_11 = "EVENT_2604_YEARS_SHOP_11";
+		public const string EVENT_2604_YEARS_SHOP_13 = "EVENT_2604_YEARS_SHOP_13";
+		public const string EVENT_2604_YEARS_SHOP_08 = "EVENT_2604_YEARS_SHOP_08";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
