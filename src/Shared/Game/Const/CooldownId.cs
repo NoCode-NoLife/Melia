@@ -1669,6 +1669,12 @@ namespace Melia.Shared.Game.Const
 		Commodore_AntiBoarding = 14004,
 		Commodore_ArmorPiercingShot = 14005,
 		Commodore_AnnihilationBombardment = 14006,
+		Incendiar_FlareBlast = 15001,
+		Incendiar_BlazingEruption = 15002,
+		Incendiar_Gehenna = 15003,
+		Incendiar_VolcanicGeyser = 15004,
+		Incendiar_Inferno = 15005,
+		Incendiar_DiesIrae = 15006,
 		RAID_POTION_TP = 30000,
 	}
 }

@@ -486,6 +486,14 @@ namespace Melia.Shared.Game.Const
 		public const string Illusionist_IllusionSword_return = "Illusionist_IllusionSword_return";
 		public const string Illusionist_Nightmare_Casting_Pad = "Illusionist_Nightmare_Casting_Pad";
 		public const string Illusionist_Nightmare_Default_Pad = "Illusionist_Nightmare_Default_Pad";
+		public const string Incendiar_BlazingEruption = "Incendiar_BlazingEruption";
+		public const string Incendiar_BlazingEruption_Field = "Incendiar_BlazingEruption_Field";
+		public const string Incendiar_DiesIrae = "Incendiar_DiesIrae";
+		public const string Incendiar_DiesIrae_Sound = "Incendiar_DiesIrae_Sound";
+		public const string Incendiar_Gehenna = "Incendiar_Gehenna";
+		public const string Incendiar_Gehenna_Sound = "Incendiar_Gehenna_Sound";
+		public const string Incendiar_VolcanicGeyser = "Incendiar_VolcanicGeyser";
+		public const string Incendiar_VolcanicGeyser_Arts = "Incendiar_VolcanicGeyser_Arts";
 		public const string indunTheEnd = "indunTheEnd";
 		public const string Inquisitor_BreakingWheel = "Inquisitor_BreakingWheel";
 		public const string Inquisitor_BreakingWheel_2 = "Inquisitor_BreakingWheel_2";

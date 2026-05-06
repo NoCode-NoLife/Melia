@@ -1669,5 +1669,11 @@
 { id: 14004, className: "Commodore_AntiBoarding", isOverheat: false, overheatResetTime: 0 },
 { id: 14005, className: "Commodore_ArmorPiercingShot", isOverheat: false, overheatResetTime: 0 },
 { id: 14006, className: "Commodore_AnnihilationBombardment", isOverheat: false, overheatResetTime: 0 },
+{ id: 15001, className: "Incendiar_FlareBlast", isOverheat: false, overheatResetTime: 0 },
+{ id: 15002, className: "Incendiar_BlazingEruption", isOverheat: false, overheatResetTime: 0 },
+{ id: 15003, className: "Incendiar_Gehenna", isOverheat: false, overheatResetTime: 0 },
+{ id: 15004, className: "Incendiar_VolcanicGeyser", isOverheat: false, overheatResetTime: 0 },
+{ id: 15005, className: "Incendiar_Inferno", isOverheat: false, overheatResetTime: 0 },
+{ id: 15006, className: "Incendiar_DiesIrae", isOverheat: false, overheatResetTime: 0 },
 { id: 30000, className: "RAID_POTION_TP", isOverheat: false, overheatResetTime: 6000 },
 ]

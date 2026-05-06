@@ -10444,6 +10444,23 @@
 		public const string EVENT_2604_YEARS_SHOP_11 = "EVENT_2604_YEARS_SHOP_11";
 		public const string EVENT_2604_YEARS_SHOP_13 = "EVENT_2604_YEARS_SHOP_13";
 		public const string EVENT_2604_YEARS_SHOP_08 = "EVENT_2604_YEARS_SHOP_08";
+		public const string GEM_Incendiar_FlareBlast_cabinet = "GEM_Incendiar_FlareBlast_cabinet";
+		public const string TSF04_136_1_cabinet_upgrade = "TSF04_136_1_cabinet_upgrade";
+		public const string AchieveReward_WEEKLY_BOSS_RANK_CLASS_113 = "AchieveReward_WEEKLY_BOSS_RANK_CLASS_113";
+		public const string GEM_Incendiar_Gehenna_cabinet = "GEM_Incendiar_Gehenna_cabinet";
+		public const string UnlockQuest_Char2_31 = "UnlockQuest_Char2_31";
+		public const string GEM_Incendiar_BlazingEruption_cabinet = "GEM_Incendiar_BlazingEruption_cabinet";
+		public const string GEM_Incendiar_VolcanicGeyser_cabinet = "GEM_Incendiar_VolcanicGeyser_cabinet";
+		public const string GEM_Incendiar_Inferno_cabinet = "GEM_Incendiar_Inferno_cabinet";
+		public const string GEM_Incendiar_DiesIrae_cabinet = "GEM_Incendiar_DiesIrae_cabinet";
+		public const string TSF04_136_1_cabinet = "TSF04_136_1_cabinet";
+		public const string UnlockQuest_Char1_31 = "UnlockQuest_Char1_31";
+		public const string GEM_Commodore_TargetingSight_Swordman_cabinet = "GEM_Commodore_TargetingSight_Swordman_cabinet";
+		public const string GEM_Commodore_AntiBoarding_Swordman_cabinet = "GEM_Commodore_AntiBoarding_Swordman_cabinet";
+		public const string GEM_Commodore_ArtillerySupport_Swordman_cabinet = "GEM_Commodore_ArtillerySupport_Swordman_cabinet";
+		public const string GEM_Commodore_AnchorStrike_Swordman_cabinet = "GEM_Commodore_AnchorStrike_Swordman_cabinet";
+		public const string GEM_Commodore_AnnihilationBombardment_Swordman_cabinet = "GEM_Commodore_AnnihilationBombardment_Swordman_cabinet";
+		public const string GEM_Commodore_ArmorPiercingShot_Swordman_cabinet = "GEM_Commodore_ArmorPiercingShot_Swordman_cabinet";
 
 		// Guild
 		public const string MaxCount = "MaxCount";
@@ -23336,6 +23353,9 @@
 		public const string popoboost_participate_2603 = "popoboost_participate_2603";
 		public const string HiddenJob_Char5_25 = "HiddenJob_Char5_25";
 		public const string HiddenJob_Char3_30 = "HiddenJob_Char3_30";
+		public const string Pose_umauma = "Pose_umauma";
+		public const string HiddenJob_Char2_31 = "HiddenJob_Char2_31";
+		public const string HiddenJob_Char1_31 = "HiddenJob_Char1_31";
 
 		// SessionObject
 		public const string PosX = "PosX";

@@ -1203,6 +1203,7 @@
 { id: 160110, className: "WEEKLY_BOSS_RANK_CLASS_110", category: "Ranking", name: "Kneller", point: "WeeklyRankClass_110", count: 1, repeatable: false, account: false },
 { id: 160111, className: "WEEKLY_BOSS_RANK_CLASS_111", category: "Ranking", name: "Eskrimer", point: "WeeklyRankClass_111", count: 1, repeatable: false, account: false },
 { id: 160112, className: "WEEKLY_BOSS_RANK_CLASS_112", category: "Ranking", name: "Commodore", point: "WeeklyRankClass_112", count: 1, repeatable: false, account: false },
+{ id: 160113, className: "WEEKLY_BOSS_RANK_CLASS_113", category: "Ranking", name: "Incendier", point: "WeeklyRankClass_113", count: 1, repeatable: false, account: false },
 { id: 170001, className: "Relic_First", category: "Res Sacrae", name: "The Ruler of Relic", point: "Relic_First", count: 1, repeatable: false, account: false },
 { id: 170002, className: "Relic_Lv10", category: "Res Sacrae", name: "Relic Trailblazer", point: "Relic_Lv10", count: 1, repeatable: false, account: false },
 { id: 180001, className: "PilgrimRank_1", category: "Ranking", name: "Revival Judgment", point: "PilgrimRank_1", count: 1, repeatable: false, account: false },

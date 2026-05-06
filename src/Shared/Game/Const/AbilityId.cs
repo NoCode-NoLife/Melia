@@ -2505,6 +2505,32 @@ namespace Melia.Shared.Game.Const
 		Hermit11 = 221120,
 		/// <summary>[Arts] Eclipse: Total Eclipse</summary>
 		Hermit12 = 221121,
+		/// <summary>Flare Blast: Enhance</summary>
+		Incendiar1 = 221201,
+		/// <summary>Blazing Eruption: Enhance</summary>
+		Incendiar2 = 221202,
+		/// <summary>Gehenna: Enhance</summary>
+		Incendiar3 = 221203,
+		/// <summary>Volcanic Geyser: Enhance</summary>
+		Incendiar4 = 221204,
+		/// <summary>Inferno: Enhance</summary>
+		Incendiar5 = 221205,
+		/// <summary>Gehenna: Fusion</summary>
+		Incendiar6 = 221206,
+		/// <summary>Ignition Point</summary>
+		Incendiar100 = 221207,
+		/// <summary>[Arts] Flare Blast: Enhanced Upgrade</summary>
+		Incendiar101 = 221208,
+		/// <summary>[Arts] Blazing Eruption: Enhanced Upgrade</summary>
+		Incendiar102 = 221209,
+		/// <summary>[Arts] Gehenna: Enhanced Upgrade</summary>
+		Incendiar103 = 221210,
+		/// <summary>[Arts] Volcanic Geyser: Enhanced Upgrade</summary>
+		Incendiar104 = 221211,
+		/// <summary>[Arts] Inferno: Enhanced Upgrade</summary>
+		Incendiar105 = 221212,
+		/// <summary>[Arts] Volcanic Geyser: Pyroclastic Flow</summary>
+		Incendiar7 = 221213,
 		/// <summary>Multi Shot: Enhance</summary>
 		Archer11 = 301001,
 		/// <summary>Multi Shot: Enhance 2</summary>

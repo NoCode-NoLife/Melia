@@ -63,6 +63,8 @@ public class CharacterInitializationScript : GeneralScript
 		props.SetFloat("UnlockQuest_Char4_28", 1); // Kneller [C]
 		props.SetFloat("UnlockQuest_Char5_24", 1); // Kneller [T]
 		props.SetFloat("UnlockQuest_Char1_30", 1); // Eskrimer
+		props.SetFloat("UnlockQuest_Char1_31", 1); // Commodore [S]
+		props.SetFloat("UnlockQuest_Char2_31", 1); // Incendier
 	}
 
 	private static void InitCharacter(Character character)

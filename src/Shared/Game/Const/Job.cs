@@ -32,6 +32,7 @@ namespace Melia.Shared.Game.Const
 		BonemancerS = 1028,
 		GrimmarkS = 1029,
 		Eskrimer = 1030,
+		CommodoreS = 1031,
 
 		// Wizard
 		Wizard = 2001,
@@ -60,6 +61,7 @@ namespace Melia.Shared.Game.Const
 		AetherBladerW = 2028,
 		HermitW = 2029,
 		KnellerW = 2030,
+		Incendier = 2031,
 
 		// Archer
 		Archer = 3001,

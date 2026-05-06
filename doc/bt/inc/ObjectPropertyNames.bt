@@ -3,7 +3,7 @@
 //
 //      File: ObjectPropertyNames
 //   Authors: 
-//   Version: i403778
+//   Version: i404112
 //   Purpose: 
 //  Category: 
 // File Mask: 
@@ -32954,6 +32954,26 @@ string getPropertyName(int id)
         case 118728: return "EVENT_2604_YEARS_SHOP_11";
         case 118729: return "EVENT_2604_YEARS_SHOP_13";
         case 118730: return "EVENT_2604_YEARS_SHOP_08";
+        case 118731: return "Pose_umauma";
+        case 118732: return "HiddenJob_Char2_31";
+        case 118733: return "GEM_Incendiar_FlareBlast_cabinet";
+        case 118734: return "TSF04_136_1_cabinet_upgrade";
+        case 118735: return "AchieveReward_WEEKLY_BOSS_RANK_CLASS_113";
+        case 118736: return "GEM_Incendiar_Gehenna_cabinet";
+        case 118737: return "UnlockQuest_Char2_31";
+        case 118738: return "GEM_Incendiar_BlazingEruption_cabinet";
+        case 118739: return "GEM_Incendiar_VolcanicGeyser_cabinet";
+        case 118740: return "GEM_Incendiar_Inferno_cabinet";
+        case 118741: return "GEM_Incendiar_DiesIrae_cabinet";
+        case 118742: return "TSF04_136_1_cabinet";
+        case 118743: return "HiddenJob_Char1_31";
+        case 118744: return "UnlockQuest_Char1_31";
+        case 118745: return "GEM_Commodore_TargetingSight_Swordman_cabinet";
+        case 118746: return "GEM_Commodore_AntiBoarding_Swordman_cabinet";
+        case 118747: return "GEM_Commodore_ArtillerySupport_Swordman_cabinet";
+        case 118748: return "GEM_Commodore_AnchorStrike_Swordman_cabinet";
+        case 118749: return "GEM_Commodore_AnnihilationBombardment_Swordman_cabinet";
+        case 118750: return "GEM_Commodore_ArmorPiercingShot_Swordman_cabinet";
         default: return "Unknown";
     }
 }

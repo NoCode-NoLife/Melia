@@ -273,6 +273,10 @@ public static class ItemId
 	public const int TSF04_135_1_Lv2 = 11002263;
 	public const int TSF04_135_1_Lv3 = 11002264;
 	public const int TSF04_135_1_Lv4 = 11002265;
+	public const int TSF04_136_1 = 11002266;
+	public const int TSF04_136_1_Lv2 = 11002267;
+	public const int TSF04_136_1_Lv3 = 11002268;
+	public const int TSF04_136_1_Lv4 = 11002269;
 	public const int EP13_Galimybe_TOP = 11003061;
 	public const int GrowthVision_Armor = 11003062;
 	public const int SWD04_126_Lv2 = 11050000;
@@ -4301,6 +4305,8 @@ public static class ItemId
 	public const int Costume_Char3_30 = 11108059;
 	public const int Costume_Char5_25 = 11108060;
 	public const int Hat_Commodore = 11108061;
+	public const int Costume_Char2_31 = 11108063;
+	public const int Costume_Char1_31 = 11108064;
 	public const int SHD02_101_16 = 11109009;
 	public const int SHD02_102_16 = 11109010;
 	public const int SHD02_103_16 = 11109011;
@@ -9923,6 +9929,7 @@ public static class ItemId
 	public const int Item_Achieve_Plate_Kneller = 11030506;
 	public const int Item_Achieve_Plate_Escrimeur = 11030507;
 	public const int Item_Achieve_Plate_Commodore = 11030508;
+	public const int Item_Achieve_Plate_Incendiar = 11030509;
 	public const int UnknownSantuaryDEFpotion = 11035357;
 	public const int BerniceDEFpotion = 11035358;
 	public const int VasilissaAutoSoloHEALpotion = 11035359;
@@ -12078,6 +12085,17 @@ public static class ItemId
 	public const int GEM_Commodore_AntiBoarding_Scout = 745093;
 	public const int GEM_Commodore_AnchorStrike_Scout = 745094;
 	public const int GEM_Commodore_AnnihilationBombardment_Scout = 745095;
+	public const int GEM_Incendiar_FlareBlast = 745096;
+	public const int GEM_Incendiar_BlazingEruption = 745097;
+	public const int GEM_Incendiar_Gehenna = 745098;
+	public const int GEM_Incendiar_VolcanicGeyser = 745099;
+	public const int GEM_Incendiar_Inferno = 745100;
+	public const int GEM_Incendiar_DiesIrae = 745101;
+	public const int GEM_Commodore_ArtillerySupport_Swordman = 745103;
+	public const int GEM_Commodore_ArmorPiercingShot_Swordman = 745104;
+	public const int GEM_Commodore_AntiBoarding_Swordman = 745105;
+	public const int GEM_Commodore_AnchorStrike_Swordman = 745106;
+	public const int GEM_Commodore_AnnihilationBombardment_Swordman = 745107;
 
 	// Gem_High_Color
 	//-----------------------------------------------------------------------
@@ -16175,6 +16193,10 @@ public static class ItemId
 	public const int HiddenJobUnlock_Char5_25 = 494501;
 	public const int HiddenJobUnlock_Char5_25_NoTrade = 494502;
 	public const int EmoticonItem_2603_Popo = 494503;
+	public const int HiddenJobUnlock_Char2_31 = 494504;
+	public const int HiddenJobUnlock_Char2_31_NoTrade = 494505;
+	public const int HiddenJobUnlock_Char1_31 = 494506;
+	public const int HiddenJobUnlock_Char1_31_NoTrade = 494507;
 	public const int Alice_Pack_2016 = 495076;
 	public const int Vakarine_Box_01 = 495087;
 	public const int Vakarine_Box_02 = 495088;
@@ -17718,6 +17740,10 @@ public static class ItemId
 	public const int Premium_AbillityArts_Char3_30_1d = 2021288;
 	public const int Premium_AbillityArts_Char5_25 = 2021289;
 	public const int Premium_AbillityArts_Char5_25_1d = 2021290;
+	public const int Premium_AbillityArts_Char2_31 = 2021291;
+	public const int Premium_AbillityArts_Char2_31_1d = 2021292;
+	public const int Premium_AbillityArts_Char1_31 = 2021293;
+	public const int Premium_AbillityArts_Char1_31_1d = 2021294;
 	public const int GLOBAL_Steam_Lucky_Shard_Package = 2500000;
 	public const int GLOBAL_Steam_Feeling_Lucky_Package = 2500001;
 	public const int GLOBAL_Steam_Lucky_Sub_Box = 2500002;
@@ -20896,6 +20922,16 @@ public static class ItemId
 	public const int I202604_Package08 = 11205611;
 	public const int Special_Gift_Box_Leticia_2604 = 11205612;
 	public const int Selectbox_Tosw3years = 11205613;
+	public const int I202605_Package01 = 11205614;
+	public const int I202605_Package02 = 11205615;
+	public const int I202605_Package03 = 11205616;
+	public const int I202605_Package04 = 11205617;
+	public const int I202605_Package05 = 11205618;
+	public const int I202605_Package06 = 11205619;
+	public const int I202605_Package07 = 11205620;
+	public const int I202605_Package08 = 11205621;
+	public const int Leticia_CommodoreS_Unlockbox = 11205622;
+	public const int Special_Gift_Box_Leticia_2605 = 11205623;
 	public const int SeasonChallenge_CountUp_Step1 = 11210000;
 	public const int SeasonChallenge_CountUp_Step1_NoTrade = 11210001;
 	public const int SeasonChallenge_CountUp_Step2 = 11210002;
