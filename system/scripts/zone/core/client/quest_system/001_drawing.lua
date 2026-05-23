@@ -4,19 +4,9 @@ function M_QUESTS_DRAW_LIST(frame, quests)
 	
 	frame:DeleteAllControl()
 
-	local filters = GET_QUEST_MODE_OPTION()
-
 	for i = 1, #quests do
 		local quest = quests[i]
-
-		local filtered = filters[quest.Type] == false
-		if quest.Tracked and filters["Chase"] ~= true then
-			filtered = true
-		end
-
-		if not filtered then
-			y = y + M_QUESTS_DRAW_QUEST(frame, quest, i, x, y)
-		end
+		y = y + M_QUESTS_DRAW_QUEST(frame, quest, i, x, y)
 	end
 
 	frame:Invalidate()

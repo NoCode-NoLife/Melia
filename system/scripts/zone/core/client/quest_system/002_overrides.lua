@@ -3,7 +3,18 @@ Melia.Override("QUEST_UPDATE_ALL", function(original, frame)
 end)
 
 Melia.Override("QUESTINFOSET_2_QUEST_ANGLE", function(original, frame, msg, argStr, argNum)
-	-- do nothing
+	-- Block the original function completely - it tries to hide/show the chase window
+	-- during movement which causes flickering. We manage visibility ourselves.
+	-- Do nothing here.
+end)
+
+Melia.Override("CHASEINFO_CLOSE_FRAME", function(original)
+	-- Block the game from closing questinfoset_2 during dash/skills
+	-- The original function closes chaseinfo, achieveinfoset, and questinfoset_2
+	-- We manage questinfoset_2 visibility ourselves, so only close the others
+	ui.CloseFrame("chaseinfo")
+	ui.CloseFrame("achieveinfoset")
+	-- Don't close questinfoset_2 - we manage it ourselves
 end)
 
 Melia.Override("QUEST_TAB_CHANGE", function(original, frame, argStr, argNum)
@@ -20,6 +31,8 @@ Melia.Override("QUEST_TAB_CHANGE", function(original, frame, argStr, argNum)
 end)
 
 Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr, argNum)
+	-- TODO: Filter
+
 	AUTO_CAST(control)
 
 	if control:GetName() == "mode_all_check" then
@@ -33,7 +46,6 @@ Melia.Override("QUEST_FILTER_UPDATE", function(original, frame, control, argStr,
 			end
 		end
 	end
-
 	UPDATE_QUEST_FILTER_ALLCHECK()
 	SET_QUEST_MODE_OPTION(GET_QUEST_FILTER_OPTION_LIST())
 

@@ -32,17 +32,16 @@ function M_QUESTS_DETAILS_ADD_OBJECTIVES(frame, x, y, quest)
 			end
 
 			local lblDesc = frame:CreateOrGetControl("richtext", "QuestObjectiveDesc" .. tostring(i), x + offsetX + chkComplete:GetWidth() + checkSpacing, y + height + 3, width, 10)
-			--lblDesc:EnableHitTest(0)
 			lblDesc:SetTextFixWidth(1)
-
 			if not objective.Unlocked then
 				lblDesc:SetText(string.format("{@st68}?{/}"))
 				lblDesc:SetTextTooltip("{@st59}Continue the quest to reveal this objective.{/}")
-			elseif objective.TargetCount <= 1 then
-				lblDesc:SetText(string.format("{@st68}%s{/}", objective.Text))
 			else
-				lblDesc:SetText(string.format("{@st68}%s (%d/%d){/}", objective.Text, objective.Count, objective.TargetCount))
-			end
+				local t=objective.Text
+                if objective.TargetCount>1 then t=t.." ("..objective.Count.."/"..objective.TargetCount..")" end
+                if objective.Monsters and #objective.Monsters>0 then t=t.."{nl}• "..table.concat(objective.Monsters,"{nl}• ") end
+                lblDesc:SetText(string.format("{@st68}%s{/}",t))
+            end
 
 			height = height + lblDesc:GetHeight() + 10
 		end

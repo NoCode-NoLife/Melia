@@ -439,6 +439,21 @@ namespace Melia.Zone.Scripting.Dialogues
 		}
 
 		/// <summary>
+		/// Displays a Yes/No dialog and returns true if the user selects Yes.
+		/// </summary>
+		/// <param name="text">The question to ask the user</param>
+		/// <returns>True if Yes was selected, false otherwise</returns>
+		public async Task<bool> YesNo(string text)
+		{
+			// The keys "1" and "2" are what the client sends back for the first and second option respectively.
+			// Using the integer Select method and checking the result is the most direct way.
+			var result = await this.Select(text, "Yes", "No");
+
+			// result will be 1 for "Yes", 2 for "No", and 0 if the dialog was closed/cancelled.
+			return result == 1;
+		}
+
+		/// <summary>
 		/// Sends dialog input message, showing a message and a text field
 		/// for the user to put in a string.
 		/// </summary>
